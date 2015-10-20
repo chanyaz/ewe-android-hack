@@ -212,6 +212,11 @@
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Selecteer betalingsmethode</string>
 
+    <!-- Hotels V2 slide to reserve -->
+    <string name="hotelsv2_slide_reserve">Swipe om te reserveren</string>
+    <!-- Hotels V2 slide to purchase -->
+    <string name="hotelsv2_slide_purchase">Swipe om te kopen</string>
+
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
     <string name="pick_up_time_error">Pas de ophaal- of inlevertijden aan</string>
@@ -221,7 +226,7 @@
     <string name="date_out_of_range">Kies een datum die minder ver in de toekomst ligt.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Verleng de huurperiode voor deze reservering.</string>
-    <!-- Shown to user when they try to book something already booked -->
+    <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">Ben je er nog? Je sessie is verlopen. probeer opnieuw te zoeken.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">Wacht even. Het lijkt erop dat je deze reis al hebt geboekt. Controleer je reizen of je e-mailadres.</string>
@@ -610,7 +615,7 @@
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">We konden je huidige locatie voor lokale activiteiten niet bepalen.</string> 
     <!-- GT current location search error -->
-    <string name="error_gt_current_location_search_message">We konden je huidige locatie voor lokaal transport niet bepalen.</string> 
+    <string name="error_gt_current_location_search_message">We konden je huidige locatie voor lokaal transport niet vinden.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Fout</string>
     <!-- Text for error toolbar-->
@@ -658,7 +663,7 @@
     <!-- LX No Activities for Current location -->
     <string name="lx_error_current_location_no_results">We konden geen lokale activiteiten vinden. Zoek opnieuw met andere zoekcriteria</string>
     <!-- LX No Activities for Current location -->
-    <string name="gt_error_current_location_no_results">We konden geen lokaal transport vinden. Zoek opnieuw met andere zoekcriteria.</string>
+    <string name="gt_error_current_location_no_results">We konden geen lokaal transport vinden. Zoek opnieuw met andere zoekcriteria</string>
 
     <!-- Ground Transport bags text-->
     <string name="lx_ground_transport_bags_text">%1$sStuks bagage</string>
@@ -835,7 +840,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">Betaal nu</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">Nu te betalen</string>
+    <string name="room_rate_pay_later_due_now">{amount} nu te betalen</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/nacht</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -2569,6 +2574,8 @@
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">Vanaf %s</string>
     <string name="From_x_per_night_template">Vanaf %s/nacht</string>
+    <!-- Button text prompting the user to search this area on the map -->
+    <string name="Search_this_area">In deze buurt zoeken</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2675,6 +2682,15 @@
     <string name="AmenityExtendedParking">Langer parkeren</string>
     <!-- Free parking amenity -->
     <string name="AmenityFreeParking">Gratis parkeren</string>
+
+    <!-- Hotel Filter Amenities -->
+    <!-- Free internet -->
+    <string name="FilterFreeInternet">Gratis internet</string>
+    <!-- Free breakfast -->
+    <string name="FilterFreeBreakfast">Gratis ontbijt</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="FilterFreeAirportShuttle">Gratis luchthavenshuttle</string>
+
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
@@ -2810,7 +2826,8 @@
     <string name="not_included_in_the_price">Niet inbegrepen bij de prijs</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">Kamer bekijken</string>
-
+    <!-- Book Room button text -->
+    <string name="book_room_button_text">Boeken</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Delen via</string>
     <!-- Renovation Notice -->
@@ -3716,9 +3733,11 @@
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 jaar oud)</string>
 
-    <!-- Filters Strings -->
+    <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Buurten</string>
     <string name="amenities">Voorzieningen</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Sterrenclassificatie</string>
+    <string name="show_more">MEER TONEN</string>
+    <string name="show_less">MINDER TONEN</string>
 </resources>

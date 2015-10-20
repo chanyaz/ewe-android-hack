@@ -29,7 +29,7 @@
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
-    <string name="cars_calendar_start_date_label">Välj datum för återresa</string>
+    <string name="cars_calendar_start_date_label">Nästa: Välj datum för återresa</string>
     <!-- Tooltip description when both start and end dates are selected -->
     <string name="cars_calendar_end_date_label">Dra för att ändra</string>
     <!-- SeekBar tooltip description for pick up time-->
@@ -212,6 +212,11 @@
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Välj betalningstyp</string>
 
+    <!-- Hotels V2 slide to reserve -->
+    <string name="hotelsv2_slide_reserve">Dra för att boka</string>
+    <!-- Hotels V2 slide to purchase -->
+    <string name="hotelsv2_slide_purchase">Dra för att köpa</string>
+
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
     <string name="pick_up_time_error">Ändra dina tider för hämtning eller avlämning.</string>
@@ -221,7 +226,7 @@
     <string name="date_out_of_range">Datumet är för sent, välj ett tidigare datum.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Förläng bokningen.</string>
-    <!-- Shown to user when they try to book something already booked -->
+    <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">Är du kvar? Sessionen har gått ut. Försök med din sökning igen.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">Hmm. Det verkar som om du redan har bokat den här resan. Kontrollera dina resor eller din e-post.</string>
@@ -835,7 +840,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">Betala nu</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">Betalas nu</string>
+    <string name="room_rate_pay_later_due_now">{amount} betalas nu</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/natt</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -2569,6 +2574,8 @@
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">Från %s</string>
     <string name="From_x_per_night_template">Från %s/natt</string>
+    <!-- Button text prompting the user to search this area on the map -->
+    <string name="Search_this_area">Sök det här området</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2675,6 +2682,15 @@
     <string name="AmenityExtendedParking">Utökad parkering</string>
     <!-- Free parking amenity -->
     <string name="AmenityFreeParking">Gratis parkering</string>
+
+    <!-- Hotel Filter Amenities -->
+    <!-- Free internet -->
+    <string name="FilterFreeInternet">Gratis internet</string>
+    <!-- Free breakfast -->
+    <string name="FilterFreeBreakfast">Frukost ingår</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="FilterFreeAirportShuttle">Flygplatstransfer ingår</string>
+
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
@@ -2810,7 +2826,8 @@
     <string name="not_included_in_the_price">Ingår inte i priset</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">Se rum</string>
-
+    <!-- Book Room button text -->
+    <string name="book_room_button_text">Boka</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Dela via</string>
     <!-- Renovation Notice -->
@@ -3716,9 +3733,11 @@
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 år)</string>
 
-    <!-- Filters Strings -->
+    <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Områden</string>
     <string name="amenities">Bekvämligheter</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Antal stjärnor</string>
+    <string name="show_more">VISA MER</string>
+    <string name="show_less">VISA MINDRE</string>
 </resources>
