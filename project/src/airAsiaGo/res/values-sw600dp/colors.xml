@@ -13,5 +13,7 @@
     <color name="tablet_hotel_sort_filter_area_price">@color/aag_primary_color</color>
     <color name="tablet_hotel_sort_filter_area_price_disabled">#FC8D83</color>
     <color name="tablet_hotel_filter_count_ring_color">@color/aag_primary_color</color>
+    <color name="details_ring_blue">@color/aag_secondary_color</color>
+    <color name="hotel_details_user_rating_text">@color/aag_secondary_color</color>
 
 </resources>
