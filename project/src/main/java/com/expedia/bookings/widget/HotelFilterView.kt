@@ -199,6 +199,10 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             }
         }
 
+        vm.filteredZeroResultObservable.subscribe {
+            dynamicFeedbackWidget.animateDynamicFeedbackWidget()
+        }
+
         filterHotelName.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable) {
             }
