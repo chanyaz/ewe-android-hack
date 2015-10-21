@@ -138,6 +138,18 @@ public class DummyFiletoHandleKotlinLintError {
 		R.dimen.hotel_free_cancellation_etp_drawable_padding,
 		R.drawable.smaller_details_info,
 		R.string.zero_reviews,
-		R.drawable.google_search
+		R.drawable.google_search,
+		R.drawable.no_hotel_error,
+		R.string.reservation_already_exists_new_hotels,
+		R.string.search_again,
+		R.string.phone_number_field_text,
+		R.string.first_name_field_text,
+		R.string.last_name_field_text,
+		R.string.edit_guest_details,
+		R.string.error_hotel_unhandled,
+		R.string.hotel_duplicate_trip_text,
+		R.string.hotel_payment_failed_text,
+		R.string.session_timeout,
+		R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE
 	};
 }

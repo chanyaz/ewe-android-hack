@@ -18,7 +18,7 @@ public class HotelCreateTripTest extends HotelTestCase {
 		pickRoom("error_expired_product_key_createtrip");
 		Common.delay(5);
 		screenshot("Hotel_Product_Key_Expiry_Error");
-		ErrorScreen.clickOnPickANewHotel();
+		ErrorScreen.clickOnSearchAgain();
 		// Search Screen
 		HotelScreen.searchButton().check(matches(isDisplayed()));
 	}

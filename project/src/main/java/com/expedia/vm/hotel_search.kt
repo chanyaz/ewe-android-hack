@@ -310,55 +310,67 @@ public class HotelErrorViewModel(private val context: Context) {
                     HotelV2Tracking().trackHotelsV2NoResult()
                 }
                 ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS -> {
-                    imageObservable.onNext(R.drawable.error_default)
-                    errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_input))
+                    imageObservable.onNext(R.drawable.error_payment)
+                    errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
                     buttonTextObservable.onNext(context.getString(R.string.edit_payment))
-                    titleObservable.onNext(context.getString(R.string.Checkout))
+                    titleObservable.onNext(context.getString(R.string.hotel_payment_failed_text))
                     subTitleObservable.onNext("")
                     HotelV2Tracking().trackHotelsV2CardError()
                 }
                 ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS -> {
                     imageObservable.onNext(R.drawable.error_default)
-                    errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_input))
-                    buttonTextObservable.onNext(context.getString(R.string.edit_current_traveler))
-                    titleObservable.onNext(context.getString(R.string.Checkout))
+                    val field = error.errorInfo.field
+                    if (field == "phone") {
+                        errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE, context.getString(R.string.phone_number_field_text)))
+                    } else if ( field == "mainMobileTraveler.firstName") {
+                        errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE, context.getString(R.string.first_name_field_text)))
+                    } else if (field == "mainMobileTraveler.lastName" ) {
+                        errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE, context.getString(R.string.last_name_field_text)))
+                    } else {
+                        errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_input))
+                    }
+                    buttonTextObservable.onNext(context.getString(R.string.edit_guest_details))
+                    titleObservable.onNext(context.getString(R.string.hotel_payment_failed_text))
                     subTitleObservable.onNext("")
                     HotelV2Tracking().trackHotelsV2TravelerError()
                 }
                 ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY -> {
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.error_hotel_no_longer_available))
-                    buttonTextObservable.onNext(context.getString(R.string.pick_new_hotel))
+                    buttonTextObservable.onNext(context.getString(R.string.search_again))
                     HotelV2Tracking().trackHotelsV2ProductExpiredError()
                 }
                 ApiError.Code.PAYMENT_FAILED -> {
-                    imageObservable.onNext(R.drawable.error_default)
+                    imageObservable.onNext(R.drawable.error_payment)
                     errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
                     buttonTextObservable.onNext(context.getString(R.string.edit_payment))
-                    titleObservable.onNext(context.getString(R.string.Checkout))
+                    titleObservable.onNext(context.getString(R.string.hotel_payment_failed_text))
                     subTitleObservable.onNext("")
                     HotelV2Tracking().trackHotelsV2PaymentFailedError()
                 }
                 ApiError.Code.TRIP_ALREADY_BOOKED -> {
-                    imageObservable.onNext(R.drawable.error_default)
-                    errorMessageObservable.onNext(context.getString(R.string.reservation_already_exists))
-                    buttonTextObservable.onNext(context.getString(R.string.itinerary))
-                    titleObservable.onNext(context.getString(R.string.Checkout))
+                    imageObservable.onNext(R.drawable.error_trip_booked)
+                    errorMessageObservable.onNext(context.getString(R.string.reservation_already_exists_new_hotels))
+                    buttonTextObservable.onNext(context.getString(R.string.my_trips))
+                    titleObservable.onNext(context.getString(R.string.booking_complete))
                     subTitleObservable.onNext("")
                     HotelV2Tracking().trackHotelsV2TripAlreadyBookedError()
                 }
                 ApiError.Code.HOTEL_CHECKOUT_UNKNOWN -> {
-                    imageObservable.onNext(R.drawable.error_default)
-                    errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
+                    imageObservable.onNext(R.drawable.no_hotel_error)
+                    errorMessageObservable.onNext(context.getString(R.string.error_hotel_unhandled))
                     buttonTextObservable.onNext(context.getString(R.string.retry))
-                    titleObservable.onNext(context.getString(R.string.Checkout))
+                    titleObservable.onNext(context.getString(R.string.hotel_payment_failed_text))
                     subTitleObservable.onNext("")
                     HotelV2Tracking().trackHotelsV2UnknownError()
                 }
                 ApiError.Code.SESSION_TIMEOUT -> {
-                    imageObservable.onNext(R.drawable.error_default)
+                    imageObservable.onNext(R.drawable.error_timeout)
                     errorMessageObservable.onNext(context.getString(R.string.error_hotel_no_longer_available))
-                    buttonTextObservable.onNext(context.getString(R.string.pick_new_hotel))
+                    buttonTextObservable.onNext(context.getString(R.string.search_again))
+                    titleObservable.onNext(context.getString(R.string.session_timeout))
+                    subTitleObservable.onNext("")
+                    buttonTextObservable.onNext(context.getString(R.string.search_again))
                     HotelV2Tracking().trackHotelsV2SessionTimeOutError()
                 }
                 else -> {

@@ -13,19 +13,19 @@ public class ErrorScreen {
 	}
 
 	public static void clickOnEditTravellerInfo() {
-		onView(withText(R.string.edit_current_traveler)).perform(click());
+		onView(withText(R.string.edit_guest_details)).perform(click());
 	}
 
 	public static void clickOnRetry() {
 		onView(withText(R.string.retry)).perform(click());
 	}
 
-	public static void clickOnPickANewHotel() {
-		onView(withText(R.string.pick_new_hotel)).perform(click());
+	public static void clickOnSearchAgain() {
+		onView(withText(R.string.search_again)).perform(click());
 	}
 
 	public static void clickOnItinerary() {
-		onView(withText(R.string.itinerary)).perform(click());
+		onView(withText(R.string.my_trips)).perform(click());
 	}
 
 }
