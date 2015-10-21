@@ -197,6 +197,8 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_CHECKOUT_PRICE_CHANGE = "App.Hotels.CKO.PriceChange";
 	private static final String HOTELSV2_CHECKOUT_TRAVELER_INFO = "App.Hotels.Checkout.Traveler.Edit.Info";
 	private static final String HOTELSV2_CHECKOUT_PAYMENT_INFO = "App.Hotels.Checkout.Payment.Select";
+	private static final String HOTELSV2_CHECKOUT_GOOGLE_WALLET = "App.Hotels.CKO.Payment.GoogleWallet";
+	private static final String HOTELSV2_CHECKOUT_SELECT_STORED_CARD = "App.Hotels.CKO.Payment.StoredCard";
 	private static final String HOTELSV2_CHECKOUT_EDIT_PAYMENT = "App.Hotels.Checkout.Payment.Edit.Card";
 	private static final String HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE = "App.Hotels.Checkout.SlideToPurchase";
 	private static final String HOTELSV2_CHECKOUT_ERROR = "App.Hotels.Checkout.Error";
@@ -647,6 +649,18 @@ public class OmnitureTracking {
 
 	}
 
+	public static void trackHotelV2GoogleWalletClick() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_GOOGLE_WALLET + "\" click...");
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_GOOGLE_WALLET);
+		s.trackLink(null, "o", "Hotel Checkout", null, null);
+	}
+
+	public static void trackHotelV2StoredCardSelect() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_SELECT_STORED_CARD + "\" click...");
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_SELECT_STORED_CARD);
+		s.trackLink(null, "o", "Hotel Checkout", null, null);
+	}
+
 	public static void trackHotelV2PaymentEdit() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_EDIT_PAYMENT + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
@@ -683,7 +697,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackHotelV2CheckoutErrorRetry() {
-		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_DIRECTIONS + "\" click...");
+		Log.d(TAG, "Tracking \"" + "App.Hotels.CKO.Error.Retry" + "\" click...");
 		ADMS_Measurement s = createTrackLinkEvent("App.Hotels.CKO.Error.Retry");
 		s.trackLink(null, "o", "Hotel Checkout", null, null);
 	}
