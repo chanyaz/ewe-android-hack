@@ -62,12 +62,15 @@
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_logo_flights</item>
         <item name="skin_hotelLoginActionBarIcon">@drawable/ic_logo_vsc</item>
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_log_in_vsc</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_logo_vsc</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen</item>
         <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text</item>
         <item name="skin_launchCirclePlaceholderDrawable">@drawable/launch_circle_placeholder</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
+        <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
+        <item name="skin_flightLineColor">@color/flight_trip</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
@@ -174,6 +177,8 @@
         <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
         <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
         <item name="skin_actionbarTabletTitleColor">@color/actionbarTabletTitleColor</item>
+        <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
+        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
@@ -181,4 +186,22 @@
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowActionBarOverlay">true</item>
     </style>
+
+    <style name="TerminalMapActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:displayOptions">showHome|useLogo</item>
+        <item name="android:background">@drawable/bg_action_bar_vsc</item>
+    </style>
+
+    <style name="TerminalMapTheme" parent="@android:style/Theme.Holo">
+        <item name="android:logo">@drawable/ic_logo_vsc</item>
+        <item name="android:actionBarStyle">@style/TerminalMapActionBar</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
+        <item name="android:windowBackground">@android:color/white</item>
+
+        <!-- PopupMenu -->
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
+        <item name="skin_terminalChooserTextColor">@color/itin_white_text</item>
+
+    </style>
+
 </resources>
