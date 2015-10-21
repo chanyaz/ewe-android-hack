@@ -36,7 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#EEEEEE"
-        android:visibility="gone"/>
+        android:visibility="invisible"/>
 
     <com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter
         android:id="@+id/hotel_checkout_presenter"
