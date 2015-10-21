@@ -171,7 +171,7 @@ public class PaymentWidget extends ExpandableCardView {
 		inflater.inflate(R.layout.payment_widget, this);
 		ButterKnife.inject(this);
 
-		creditCardPostalCode.setOnEditorActionListener(new android.widget.TextView.OnEditorActionListener() {
+		creditCardName.setOnEditorActionListener(new android.widget.TextView.OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(android.widget.TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_DONE) {
