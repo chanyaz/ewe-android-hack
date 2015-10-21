@@ -26,4 +26,19 @@
     <color name="acct__btn_sign_in_text_vsc">#FFFFFF</color>
     <color name="acct__bg_input_text_error_vsc">#FFFFFF</color>
     <color name="acct__bg_input_text_good_vsc">#EEEEEE</color>
+    <color name="launch_actionbar_bg_color">#EDEDED</color>
+    <color name="hotel_lob_btn">#70BB00</color>
+    <color name="lx_lob_btn">#A1006B</color>
+    <color name="flights_lob_btn">#0088CE</color>
+    <color name="action_bar_selected_tab_underline_color">#585858</color>
+    <color name="actionbar_tab_text_selected">#585858</color>
+    <color name="actionbar_tab_text_unselected">#8C585858</color>
+    <color name="launch_lob_bg">#E0DFDC</color>
+
+    <!-- LX colors -->
+    <color name="lx_primary_color">@color/lx_lob_btn</color>
+    <color name="lx_secondary_color_disabled">@color/lx_lob_btn</color>
+    <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
+    <color name="lx_ripple_color">#AC7299</color>
+
 </resources>
