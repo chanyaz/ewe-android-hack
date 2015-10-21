@@ -76,8 +76,18 @@ public class HotelsABTest extends PhoneTestCase {
 		suggestion.latLong = new LatLong(0, 0);
 		collectionLocation.location = suggestion;
 		Events.post(new Events.LaunchCollectionItemSelected(collectionLocation, null));
-		// Assert that the search screen with city name selected is displayed.
-		EspressoUtils.assertViewWithTextIsDisplayed(R.id.hotel_location, city);
+		// Assert that the results screen is displayed
+		HotelScreen.waitForResultsDisplayed();
+		Common.pressBack();
+		// Assert that the search screen is displayed with the correct search params
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.hotel_location, "San Francisco");
+		EspressoUtils.assertViewWithTextIsDisplayed("2 Guests");
+		LocalDate checkIn = LocalDate.now().plusDays(1);
+		LocalDate checkOut = LocalDate.now().plusDays(2);
+		String expectedCheckInDate = DateUtils.localDateToMMMd(checkIn);
+		String expectedCheckoutDate = DateUtils.localDateToMMMd(checkOut);
+		String expected = expectedCheckInDate + " - " + expectedCheckoutDate + " (1 night)";
+		EspressoUtils.assertViewWithTextIsDisplayed(expected);
 	}
 
 	public void testSeeMore() {
@@ -117,7 +127,10 @@ public class HotelsABTest extends PhoneTestCase {
 		EspressoUtils.assertViewIsDisplayed(R.id.air_attach_banner);
 
 		LaunchScreen.clickOnAirAttachBanner();
-
+		// Assert that the results screen is displayed
+		HotelScreen.waitForResultsDisplayed();
+		Common.pressBack();
+		// Assert that the search screen is displayed with the correct search params
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.hotel_location, "San Francisco");
 		EspressoUtils.assertViewWithTextIsDisplayed("2 Guests");
 		String expectedCheckInDate = DateUtils.localDateToMMMd(checkIn);

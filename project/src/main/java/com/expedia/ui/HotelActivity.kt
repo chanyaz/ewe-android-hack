@@ -118,9 +118,7 @@ public class HotelActivity : AppCompatActivity() {
         val dates = Pair (hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
         hotelPresenter.searchPresenter.searchViewModel.datesObserver.onNext(dates)
         hotelPresenter.searchPresenter.calendar.setSelectedDates(hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
-        if (isCurrentLocationSearch || "HOTEL".equals(hotelSearchParams?.suggestion?.type)) {
-            hotelPresenter.searchObserver.onNext(hotelSearchParams)
-        }
+        hotelPresenter.searchObserver.onNext(hotelSearchParams)
     }
 
 }
