@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.util.AttributeSet
@@ -45,6 +46,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val loadingOverlay: LoadingOverlayWidget by bindView(R.id.details_loading_overlay)
     val ANIMATION_DURATION = 400
     val geoCodeSearchModel = GeocodeSearchModel(context)
+    private var checkoutDialog = ProgressDialog(context)
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
@@ -77,6 +79,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 alertDialog.show()
             }
         }
+        checkoutDialog.setMessage(resources.getString(R.string.booking_loading))
+        checkoutDialog.isIndeterminate = true
     }
 
     override fun onFinishInflate() {
@@ -145,17 +149,25 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         resultsPresenter.searchOverlaySubject.subscribe(searchResultsOverlayObserver)
 
         checkoutPresenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
+            checkoutDialog.dismiss()
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         })
 
         checkoutPresenter.hotelCheckoutViewModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
-        checkoutPresenter.hotelCheckoutViewModel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+        checkoutPresenter.hotelCheckoutViewModel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+            checkoutDialog.dismiss()
+            show(errorPresenter)
+        }
+        checkoutPresenter.hotelCheckoutViewModel.checkoutParams.subscribe {
+            checkoutDialog.show()
+        }
 
         checkoutPresenter.hotelCheckoutWidget.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
         checkoutPresenter.hotelCheckoutWidget.viewmodel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
 
         checkoutPresenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(checkoutPresenter.hotelCheckoutWidget.createTripResponseListener)
         checkoutPresenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(endlessObserver { createTripResponse ->
+            checkoutDialog.dismiss()
             show(checkoutPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
             checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_BACKSTACK)
         })
