@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="tablet_results_search_done">#608405</color>
+    <color name="tablet_results_search_done">@color/aag_primary_color</color>
     <color name="tablet_results_calendar_dates">@color/aag_primary_color</color>
     <color name="launch_pin_detail_button_text">#ffffff</color>
     <color name="hotel_room_rate_select_room_button">#e4822a</color>
