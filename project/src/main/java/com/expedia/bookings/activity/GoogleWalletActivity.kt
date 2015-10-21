@@ -6,14 +6,18 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.WalletUtils
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.wallet.*
+import com.google.android.gms.wallet.FullWallet
+import com.google.android.gms.wallet.FullWalletRequest
+import com.google.android.gms.wallet.MaskedWallet
+import com.google.android.gms.wallet.MaskedWalletRequest
+import com.google.android.gms.wallet.Wallet
+import com.google.android.gms.wallet.WalletConstants
 import java.math.BigDecimal
 import kotlin.properties.Delegates
 
@@ -40,8 +44,12 @@ public class GoogleWalletActivity : AppCompatActivity() {
         googleApiClient.connect();
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super<AppCompatActivity>.onActivityResult(requestCode, resultCode, data)
+        if  (resultCode == Activity.RESULT_CANCELED || data == null) {
+            finish()
+            return
+        }
         when (requestCode) {
             REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET -> when (resultCode) {
                 Activity.RESULT_OK -> {

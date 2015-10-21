@@ -13,9 +13,14 @@ import android.widget.LinearLayout;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.TripBucketItemHotelV2;
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
+import com.expedia.bookings.data.hotels.HotelOffersResponse;
+import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.utils.Ui;
@@ -95,6 +100,18 @@ public class PaymentWidgetFlowTest {
 
 			}
 		};
+
+		HotelCreateTripResponse response = new HotelCreateTripResponse();
+		response.newHotelProductResponse = new HotelCreateTripResponse.HotelProductResponse();
+		response.newHotelProductResponse.hotelRoomResponse = new HotelOffersResponse.HotelRoomResponse();
+		response.newHotelProductResponse.hotelRoomResponse.rateInfo = new HotelOffersResponse.RateInfo();
+		response.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo = new HotelRate();
+		response.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.total = 100;
+		response.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode = "USD";
+		response.newHotelProductResponse.hotelRoomResponse.supplierType = "MERCHANT";
+		TripBucketItemHotelV2 trip = new TripBucketItemHotelV2(response);
+		Db.getTripBucket().clear(LineOfBusiness.HOTELSV2);
+		Db.getTripBucket().add(trip);
 	}
 
 	@Test
@@ -130,7 +147,22 @@ public class PaymentWidgetFlowTest {
 
 		//Payment options appear on new hotels
 		assertEquals(View.VISIBLE, paymentOptions.getVisibility());
-		assertEquals(View.VISIBLE, walletOption.getVisibility());
+
+		HotelCreateTripResponse response = new HotelCreateTripResponse();
+		response.newHotelProductResponse = new HotelCreateTripResponse.HotelProductResponse();
+		response.newHotelProductResponse.hotelRoomResponse = new HotelOffersResponse.HotelRoomResponse();
+		response.newHotelProductResponse.hotelRoomResponse.rateInfo = new HotelOffersResponse.RateInfo();
+		response.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo = new HotelRate();
+		response.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.total = 1801;
+		response.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode = "USD";
+		response.newHotelProductResponse.hotelRoomResponse.supplierType = "MERCHANT";
+		TripBucketItemHotelV2 trip = new TripBucketItemHotelV2(response);
+		Db.getTripBucket().clear(LineOfBusiness.HOTELSV2);
+		Db.getTripBucket().add(trip);
+
+		paymentWidget.setExpanded(true);
+		//Payment options dont appear if google wallet is not supported
+		assertEquals(View.GONE, paymentOptions.getVisibility());
 	}
 
 	@Test
