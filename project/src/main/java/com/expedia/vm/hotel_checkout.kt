@@ -322,10 +322,13 @@ class HotelBreakDownViewModel(val context: Context, val hotelCheckoutSummaryView
 
             // Taxes & Fees
             val surchargeTotal = it.surchargeTotalForEntireStay.value
-            if (!surchargeTotal.isZero) {
-                val taxStatusType = it.taxStatusType.value
-                val surcharge = if (taxStatusType != null && taxStatusType.equals("UNKNOWN")) context.getString(R.string.unknown) else if (surchargeTotal.isZero) context.getString(R.string.included) else surchargeTotal.formattedMoney
-                breakdowns.add(Breakdown(context.getString(R.string.taxes_and_fees), surcharge, false))
+            val taxStatusType = it.taxStatusType.value
+            if (taxStatusType != null && taxStatusType.equals("UNKNOWN")) {
+                breakdowns.add(Breakdown(context.getString(R.string.taxes_and_fees), context.getString(R.string.unknown), false))
+            } else if (taxStatusType.equals("INCLUDED")) {
+                breakdowns.add(Breakdown(context.getString(R.string.taxes_and_fees), context.getString(R.string.included), false))
+            } else if (!surchargeTotal.isZero) {
+                breakdowns.add(Breakdown(context.getString(R.string.taxes_and_fees), surchargeTotal.formattedMoney, false))
             }
 
             // Extra guest fees
