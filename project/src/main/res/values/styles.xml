@@ -21,8 +21,8 @@
 
     <style name="Widget.ShareView.Invisible" parent="Widget.ShareView.Dark.Simple">
         <item name="sv_favoriteDisplayed">false</item>
-        <item name="sv_buttonDrawable">@null</item>
-        <item name="sv_buttonBackground">@null</item>
+        <item name="sv_buttonDrawable">@android:color/transparent</item>
+        <item name="sv_buttonBackground">@android:color/transparent</item>
     </style>
 
     <style name="NumberPickerButton">

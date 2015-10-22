@@ -42,8 +42,20 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.*
-import com.expedia.util.*
+import com.expedia.bookings.widget.FilterButtonWithCountWidget
+import com.expedia.bookings.widget.HotelCarouselRecycler
+import com.expedia.bookings.widget.HotelFilterView
+import com.expedia.bookings.widget.HotelListAdapter
+import com.expedia.bookings.widget.HotelListRecyclerView
+import com.expedia.bookings.widget.HotelMapCarouselAdapter
+import com.expedia.bookings.widget.MapLoadingOverlayWidget
+import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.createHotelMarkerIcon
+import com.expedia.util.endlessObserver
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeInverseVisibility
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.HotelResultsMapViewModel
 import com.expedia.vm.HotelResultsViewModel
@@ -126,7 +138,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             mapViewModel.mapBoundsSubject.onNext(latLng)
             fab.isEnabled = true
         }
-        
+
         vm.titleSubject.subscribe {
             toolbar.title = it
         }
@@ -211,15 +223,10 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    val filterObserver: Observer<List<Hotel>> = endlessObserver {
-        if (it == filterView.viewmodel.originalResponse?.hotelList) {
-            adapter.resultsSubject.onNext(filterView.viewmodel.originalResponse!!)
-            mapViewModel.hotelResultsSubject.onNext(filterView.viewmodel.originalResponse!!)
-        } else {
-            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(emptyList())
-            adapter.resultsSubject.onNext(filterView.viewmodel.filteredResponse)
-            mapViewModel.hotelResultsSubject.onNext(filterView.viewmodel.filteredResponse)
-        }
+    val filterObserver: Observer<HotelSearchResponse> = endlessObserver { response ->
+        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(response.hotelList)
+        adapter.resultsSubject.onNext(response)
+        mapViewModel.hotelResultsSubject.onNext(response)
 
         if (previousWasList) {
             show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
@@ -244,8 +251,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         headerClickedSubject.subscribe(mapSelectedObserver)
         adapter = HotelListAdapter(hotelSelectedSubject, headerClickedSubject)
         recyclerView.adapter = adapter
-        filterView.subscribe(filterObserver)
-        filterView.viewmodel = HotelFilterViewModel(getContext())
+        filterView.viewmodel = HotelFilterViewModel()
+        filterView.viewmodel.filterObservable.subscribe(filterObserver)
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon

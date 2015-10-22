@@ -2,6 +2,7 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.graphics.PorterDuff
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
@@ -22,8 +23,8 @@ import android.widget.LinearLayout
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.ImageView
+import com.expedia.android.rangeseekbar.RangeSeekBar
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.Strings
@@ -40,7 +41,6 @@ import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.HotelFilterViewModel.Sort
 import rx.Observer
 import java.util.ArrayList
-import kotlin.properties.Delegates
 
 public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.filter_toolbar)
@@ -61,38 +61,38 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val sortByButtonGroup: Spinner by bindView(R.id.sort_by_selection_spinner)
     val filterHotelName: TextView by bindView(R.id.filter_hotel_name_edit_text)
     val clearNameButton: ImageView by bindView(R.id.clear_search_button)
-    val dynamicFeedbackWidget : DynamicFeedbackWidget by bindView(R.id.dynamic_feedback_container)
-    val dynamicFeedbackClearButton : TextView by bindView(R.id.dynamic_feedback_clear_button)
+    val dynamicFeedbackWidget: DynamicFeedbackWidget by bindView(R.id.dynamic_feedback_container)
+    val dynamicFeedbackClearButton: TextView by bindView(R.id.dynamic_feedback_clear_button)
     val filterContainer: ViewGroup by bindView(R.id.filter_container)
     val doneButton: Button by lazy {
-        val button = LayoutInflater.from(getContext()).inflate(R.layout.toolbar_checkmark_item, null) as Button
-        val icon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate()
-        icon.setColorFilter(getResources().getColor(R.color.lx_actionbar_text_color), PorterDuff.Mode.SRC_IN)
+        val button = LayoutInflater.from(context).inflate(R.layout.toolbar_checkmark_item, null) as Button
+        button.setTextColor(resources.getColor(R.color.cars_actionbar_text_color))
+        button.setText(R.string.done)
+
+        val icon = ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp).mutate()
+        icon.setColorFilter(ContextCompat.getColor(context, R.color.cars_actionbar_text_color), PorterDuff.Mode.SRC_IN)
         button.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
-        toolbar.getMenu().findItem(R.id.apply_check).setActionView(button)
+
         button
     }
     val toolbarDropshadow: View by bindView(R.id.toolbar_dropshadow)
-    val priceRangeBar : ViewGroup by bindView(R.id.price_range_bar)
+    val priceRangeBar: FilterRangeSeekBar by bindView(R.id.price_range_bar)
+    val priceRangeMinText: TextView by bindView(R.id.price_range_min_text)
+    val priceRangeMaxText: TextView by bindView(R.id.price_range_max_text)
     val neighborhoodLabel: TextView by bindView(R.id.neighborhood_label)
     val neighborhoodContainer: LinearLayout by bindView(R.id.neighborhoods)
-    val neighborhoodMoreLessLabel : TextView by bindView(R.id.show_more_less_text)
-    val neighborhoodMoreLessIcon : ImageButton by bindView(R.id.show_more_less_icon)
-    val neighborhoodMoreLessView : RelativeLayout by bindView(R.id.collapsed_container)
+    val neighborhoodMoreLessLabel: TextView by bindView(R.id.show_more_less_text)
+    val neighborhoodMoreLessIcon: ImageButton by bindView(R.id.show_more_less_icon)
+    val neighborhoodMoreLessView: RelativeLayout by bindView(R.id.collapsed_container)
 
     val amenityLabel: TextView by bindView(R.id.amenity_label)
     val amenityContainer: GridLayout by bindView(R.id.amenities_container)
 
-    var filterObserver: Observer<List<Hotel>> by Delegates.notNull()
     val rowHeight = resources.getDimensionPixelSize(R.dimen.hotel_neighborhood_height)
     val ANIMATION_DURATION = 500L
 
-    fun subscribe(filterObserver: Observer<List<Hotel>>) {
-        this.filterObserver = filterObserver
-    }
-
-    val sortByObserver: Observer<Boolean> = endlessObserver{ isCurrentLocationSearch ->
-        var sortOptions: ArrayList<String> = getResources().getStringArray(R.array.sort_options_material_hotels).toArrayList()
+    val sortByObserver: Observer<Boolean> = endlessObserver { isCurrentLocationSearch ->
+        var sortOptions: ArrayList<String> = resources.getStringArray(R.array.sort_options_material_hotels).toArrayList()
 
         if (isCurrentLocationSearch) {
             sortOptions.add(getContext().getString(R.string.distance))
@@ -101,25 +101,15 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         val adapter = ArrayAdapter(getContext(), R.layout.spinner_sort_item, sortOptions)
         adapter.setDropDownViewResource(R.layout.spinner_sort_dropdown_item)
 
-        sortByButtonGroup.setAdapter(adapter)
+        sortByButtonGroup.adapter = adapter
     }
 
     var viewmodel: HotelFilterViewModel by notNullAndObservable { vm ->
-        val min = 20
-        val max = 1000
-        val hotelPriceRange : RangeSeekBar<Int> = RangeSeekBar(min, max, context)
-        hotelPriceRange.setOnRangeSeekBarChangeListener(object: RangeSeekBar.OnRangeSeekBarChangeListener<Int> {
-            override fun onRangeSeekBarValuesChanged(bar: RangeSeekBar<*>, minValue: Int, maxValue: Int) {
-                HotelV2Tracking().trackHotelV2SortPriceSlider()
-            }
-        })
-        priceRangeBar.addView(hotelPriceRange);
-
         doneButton.subscribeOnClick(vm.doneObservable)
         filterVipContainer.setOnClickListener {
             clearHotelNameFocus()
-            filterHotelVip.setChecked(!filterHotelVip.isChecked())
-            vm.vipFilteredObserver.onNext(filterHotelVip.isChecked())
+            filterHotelVip.isChecked = !filterHotelVip.isChecked
+            vm.vipFilteredObserver.onNext(filterHotelVip.isChecked)
         }
 
         filterStarOne.subscribeOnClick(vm.oneStarFilterObserver)
@@ -130,31 +120,48 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
         dynamicFeedbackClearButton.subscribeOnClick(vm.clearObservable)
 
-        vm.filterObservable.subscribe(filterObserver)
-
         vm.finishClear.subscribe {
             //check if filterHotelName is empty to avoid calling handleFiltering
             if (filterHotelName.text.length() > 0) filterHotelName.text = ""
             resetStars()
 
-            filterHotelVip.setChecked(false)
+            filterHotelVip.isChecked = false
 
-            for (i in 0.. amenityContainer.childCount - 1) {
+            for (i in 0..amenityContainer.childCount - 1) {
                 val v = amenityContainer.getChildAt(i)
                 if (v is HotelAmenityFilter && v.isSelected) {
                     v.isSelected = false
-                    v.changeColor(getResources().getColor(R.color.hotelsv2_checkout_text_color))
+                    v.changeColor(resources.getColor(R.color.hotelsv2_checkout_text_color))
                 }
             }
 
-            for (i in 0 .. neighborhoodContainer.getChildCount() -1){
+            for (i in 0..neighborhoodContainer.childCount - 1) {
                 val v = neighborhoodContainer.getChildAt(i)
                 if (v is HotelsNeighborhoodFilter) {
-                    v.neighborhoodCheckBox.setChecked(false)
+                    v.neighborhoodCheckBox.isChecked = false
                 }
             }
 
             dynamicFeedbackWidget.hideDynamicFeedback()
+        }
+
+        vm.newPriceRangeObservable.subscribe { priceRange ->
+            priceRangeBar.setUpperLimit(priceRange.notches)
+            priceRangeMinText.text = priceRange.defaultMinPriceText
+            priceRangeMaxText.text = priceRange.defaultMaxPriceTest
+
+            priceRangeBar.setOnRangeSeekBarChangeListener(object : RangeSeekBar.OnRangeSeekBarChangeListener {
+                override fun onRangeSeekBarDragChanged(bar: RangeSeekBar?, minValue: Int, maxValue: Int) {
+                    priceRangeMinText.text = priceRange.formatValue(minValue)
+                    priceRangeMaxText.text = priceRange.formatValue(maxValue)
+                }
+
+                override fun onRangeSeekBarValuesChanged(bar: RangeSeekBar?, minValue: Int, maxValue: Int) {
+                    priceRangeMinText.text = priceRange.formatValue(minValue)
+                    priceRangeMaxText.text = priceRange.formatValue(maxValue)
+                    vm.priceRangeChangedObserver.onNext(priceRange.update(minValue, maxValue))
+                }
+            })
         }
 
         vm.hotelStarRatingBar.subscribe {
@@ -184,7 +191,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
                 starSelection(filterStarFive, ratingFiveBackground, 5)
             }
 
-            if(it <= 5) {
+            if (it <= 5) {
                 HotelV2Tracking().trackLinkHotelV2RefineRating(it.toString())
             }
         }
@@ -214,7 +221,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                clearNameButton.setVisibility(if (Strings.isEmpty(s)) View.GONE else View.VISIBLE)
+                clearNameButton.visibility = if (Strings.isEmpty(s)) View.GONE else View.VISIBLE
                 vm.filterHotelNameObserver.onNext(s)
             }
         })
@@ -226,10 +233,10 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         clearNameButton.setOnClickListener { view ->
-            filterHotelName.setText(null)
+            filterHotelName.text = null
         }
 
-        sortByButtonGroup.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+        sortByButtonGroup.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 val sort = Sort.values()[position]
                 vm.userFilterChoices.userSort = sort
@@ -238,10 +245,10 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             override fun onNothingSelected(p0: AdapterView<*>?) {
             }
 
-        })
+        }
 
         sortByButtonGroup.setOnTouchListener { view, event ->
-            if (event.action == MotionEvent.ACTION_DOWN){
+            if (event.action == MotionEvent.ACTION_DOWN) {
                 clearHotelNameFocus()
             }
             false
@@ -269,13 +276,13 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             }
         }
 
-        neighborhoodMoreLessView.subscribeOnClick(vm.neighborhoodMoreLessObserverable)
+        neighborhoodMoreLessView.subscribeOnClick(vm.neighborhoodMoreLessObservable)
 
         vm.sortContainerObservable.subscribe { showSort ->
             sortContainer.visibility = if (showSort) View.VISIBLE else View.GONE
         }
 
-        vm.neighborhoodExpandObserable.subscribe { isSectionExpanded ->
+        vm.neighborhoodExpandObservable.subscribe { isSectionExpanded ->
             if (isSectionExpanded) {
                 AnimUtils.rotate(neighborhoodMoreLessIcon)
                 neighborhoodMoreLessLabel.text = resources.getString(R.string.show_less)
@@ -304,7 +311,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         vm.amenityMapObservable.subscribe { amenityMap ->
-            if (!amenityMap.isEmpty()){
+            if (!amenityMap.isEmpty()) {
                 amenityLabel.visibility = View.VISIBLE
                 FilterAmenity.addAmenityFilters(amenityContainer, amenityMap, vm)
             }
@@ -332,7 +339,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     init {
         View.inflate(getContext(), R.layout.widget_hotel_filter, this)
 
-        if(PointOfSale.getPointOfSale().supportsVipAccess()){
+        if (PointOfSale.getPointOfSale().supportsVipAccess()) {
             filterVipContainer.visibility = View.VISIBLE
             filterVipBadge.visibility = View.VISIBLE
         }
@@ -345,24 +352,23 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
-            val color = getContext().getResources().getColor(R.color.hotels_primary_color)
-            val statusBar = Ui.setUpStatusBar(getContext(), toolbar, filterContainer, color)
+            val color = ContextCompat.getColor(context, R.color.hotels_primary_color)
+            val statusBar = Ui.setUpStatusBar(context, toolbar, filterContainer, color)
             addView(statusBar)
         }
 
         toolbar.inflateMenu(R.menu.cars_lx_filter_menu)
-        toolbar.setTitle(getResources().getString(R.string.Sort_and_Filter))
-        toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
-        toolbar.setTitleTextColor(getResources().getColor(R.color.cars_actionbar_text_color))
+        toolbar.title = resources.getString(R.string.Sort_and_Filter)
+        toolbar.setTitleTextAppearance(context, R.style.CarsToolbarTitleTextAppearance)
+        toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.cars_actionbar_text_color))
 
-        doneButton.setText(R.string.done)
-        doneButton.setTextColor(getResources().getColor(R.color.cars_actionbar_text_color))
+        toolbar.menu.findItem(R.id.apply_check).setActionView(doneButton)
 
-        filterContainer.getViewTreeObserver().addOnScrollChangedListener(object : ViewTreeObserver.OnScrollChangedListener {
+        filterContainer.viewTreeObserver.addOnScrollChangedListener(object : ViewTreeObserver.OnScrollChangedListener {
             override fun onScrollChanged() {
-                val scrollY = filterContainer.getScrollY()
+                val scrollY = filterContainer.scrollY
                 val ratio = (scrollY).toFloat() / 100
-                toolbarDropshadow.setAlpha(ratio)
+                toolbarDropshadow.alpha = ratio
             }
         })
 
@@ -377,14 +383,14 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         starSelection(filterStarFive, ratingFiveBackground, 5)
     }
 
-    fun starSelection(star: ImageButton, background : View, value : Int) {
+    fun starSelection(star: ImageButton, background: View, value: Int) {
         clearHotelNameFocus()
         if (value < 0) {
-            star.setColorFilter(getResources().getColor(android.R.color.white))
-            background.setBackgroundColor(getResources().getColor(R.color.hotels_primary_color))
+            star.setColorFilter(resources.getColor(android.R.color.white))
+            background.setBackgroundColor(resources.getColor(R.color.hotels_primary_color))
         } else {
-            star.setColorFilter(getResources().getColor(R.color.hotels_primary_color))
-            background.setBackgroundColor(getResources().getColor(android.R.color.white))
+            star.setColorFilter(resources.getColor(R.color.hotels_primary_color))
+            background.setBackgroundColor(resources.getColor(android.R.color.white))
         }
     }
 
