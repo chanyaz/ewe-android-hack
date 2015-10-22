@@ -663,6 +663,10 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
                 searchMenuItem.setVisible(forward)
                 filterMenuItem.setVisible(!forward)
+                //When we are about to show the menu filter item, ensure that it is of sufficient height
+                if (filterMenuItem.actionView.height != toolbar.height) {
+                    filterMenuItem.actionView.layoutParams.height = toolbar.measuredHeight
+                }
 
                 recyclerView.visibility = if (forward) View.VISIBLE else View.INVISIBLE
 
