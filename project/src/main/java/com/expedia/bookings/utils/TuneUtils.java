@@ -206,7 +206,7 @@ public class TuneUtils {
 				.withRevenue(totalPrice)
 				.withCurrencyCode(currency)
 				.withAttribute2(isUserLoggedIn())
-				.withContentType(hotelProductResponse.localizedHotelName)
+				.withContentType(hotelProductResponse.getHotelName())
 				.withContentId(hotelProductResponse.hotelId)
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(checkInDate.toDate())

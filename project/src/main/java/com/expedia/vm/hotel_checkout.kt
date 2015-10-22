@@ -243,7 +243,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             isResortCase.onNext(Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
             isPayLaterOrResortCase.onNext(isPayLater.value || isResortCase.value)
             priceAdjustments.onNext(rate.getPriceAdjustments())
-            hotelName.onNext(it.localizedHotelName)
+            hotelName.onNext(it.getHotelName())
             checkInDate.onNext(it.checkInDate)
             checkInOutDatesFormatted.onNext(DateFormatUtils.formatHotelsV2DateRange(context, it.checkInDate, it.checkOutDate))
             address.onNext(it.hotelAddress)
