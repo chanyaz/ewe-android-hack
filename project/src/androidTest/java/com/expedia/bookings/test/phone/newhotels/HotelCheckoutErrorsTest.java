@@ -59,8 +59,8 @@ public class HotelCheckoutErrorsTest extends HotelTestCase {
 	public void testUnknownCheckoutError() throws Throwable {
 		moveToCheckout("error_checkout_unknown");
 		ErrorScreen.clickOnRetry();
-		// Checkout Summary Screen
-		assertViewIsDisplayed(R.id.summary_container);
+		Common.delay(1);
+		assertViewIsDisplayed(R.id.slide_to_purchase_widget);
 	}
 
 	public void testSessionTimeoutError() throws Throwable {

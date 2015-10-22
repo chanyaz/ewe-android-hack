@@ -136,12 +136,14 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
     // output
     val legalTextInformation = BehaviorSubject.create<SpannableStringBuilder>()
     val disclaimerText = BehaviorSubject.create<Spanned>()
+    val disclaimerVisibility = BehaviorSubject.create<Boolean>()
     val slideToText = BehaviorSubject.create<String>()
     val totalPriceCharged = BehaviorSubject.create<String>()
     val resetMenuButton = BehaviorSubject.create<Unit>()
 
     init {
         newRateObserver.subscribe {
+            disclaimerVisibility.onNext(false)
             val room = it.hotelRoomResponse
             if (room.isPayLater) {
                 slideToText.onNext(context.getString(R.string.hotelsv2_slide_reserve))
@@ -156,14 +158,17 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
 
                 val text = Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, resortFees, tripTotal));
                 disclaimerText.onNext(text)
+                disclaimerVisibility.onNext(true)
             } else if (room.isPayLater) {
                 if (room.rateInfo.chargeableRateInfo.depositAmountToShowUsers != null) {
                     val deposit = room.rateInfo.chargeableRateInfo.depositAmountToShowUsers
                     val text = Html.fromHtml(context.getString(R.string.pay_later_deposit_disclaimer_TEMPLATE, deposit))
                     disclaimerText.onNext(text)
+                    disclaimerVisibility.onNext(true)
                 } else {
                     val text = Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal))
                     disclaimerText.onNext(text)
+                    disclaimerVisibility.onNext(true)
                 }
             }
 
