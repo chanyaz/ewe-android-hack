@@ -63,6 +63,7 @@
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="skin_launchCirclePlaceholderDrawable">@drawable/launch_circle_placeholder</item>
+        <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_aag</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
