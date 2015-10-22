@@ -17,6 +17,7 @@ public class HotelCheckoutResponse extends BaseApiResponse {
 		public String email;
 		public String tripId;
 		public String supplierType;
+		public String travelRecordLocator;
 	}
 
 	public static class CheckoutResponse {

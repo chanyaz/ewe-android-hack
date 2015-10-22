@@ -14,6 +14,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
@@ -206,6 +207,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             resultsPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
             searchPresenter.animationFinalize()
             resultsPresenter.animationFinalize(forward)
+            if (!forward) HotelV2Tracking().trackHotelV2SearchBox()
         }
     }
 
@@ -243,9 +245,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             loadingOverlay.setVisibility(View.GONE)
             if (forward) {
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
-            }
-            if (!forward) {
+            } else {
                 resultsPresenter.recyclerView.adapter.notifyDataSetChanged()
+                HotelV2Tracking().trackHotelsV2Search(hotelSearchParams, resultsPresenter.viewmodel.hotelResultsObservable.value)
             }
         }
     }
@@ -293,6 +295,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             errorPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
             searchPresenter.animationFinalize()
             errorPresenter.animationFinalize()
+            if (!forward) HotelV2Tracking().trackHotelV2SearchBox()
         }
     }
 
@@ -304,16 +307,29 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             }
             loadingOverlay.visibility = View.GONE
+            if (!forward) HotelV2Tracking().trackHotelV2SearchBox()
         }
     }
     private val resultsToError = ScaleTransition(this, HotelResultsPresenter::class.java, HotelErrorPresenter::class.java)
-    private val detailsToCheckout = ScaleTransition(this, HotelDetailPresenter::class.java, HotelCheckoutPresenter::class.java)
+
+    private val detailsToCheckout = object: ScaleTransition(this, HotelDetailPresenter::class.java, HotelCheckoutPresenter::class.java) {
+        override fun finalizeTransition(forward: Boolean) {
+            super.finalizeTransition(forward)
+            if (!forward) {
+                trackHotelDetail()
+            }
+        }
+
+    }
+
     private val checkoutToConfirmation = ScaleTransition(this, HotelCheckoutPresenter::class.java, HotelConfirmationPresenter::class.java)
     private val detailsToReview = object: ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             if (forward) {
                 reviewsView.transitionFinished()
+            } else {
+                trackHotelDetail()
             }
         }
     }
@@ -390,6 +406,12 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     val searchResultsOverlayObserver: Observer<Unit> = endlessObserver { params ->
         show(searchPresenter)
+    }
+
+    private fun trackHotelDetail() {
+        val hotelOffersResponse = detailPresenter.hotelDetailView.viewmodel.hotelOffersResponse
+        val hasEtpOffer = detailPresenter.hotelDetailView.viewmodel.hasEtpOffer(hotelOffersResponse)
+        HotelV2Tracking().trackPageLoadHotelV2Infosite(hotelOffersResponse, hotelSearchParams, hasEtpOffer, hotelSearchParams.suggestion.isCurrentLocationSearch)
     }
 
 }

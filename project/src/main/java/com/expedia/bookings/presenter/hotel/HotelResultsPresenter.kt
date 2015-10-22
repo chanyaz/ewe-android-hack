@@ -312,6 +312,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             hotel ->
             val marker = markers.filter { it.title == hotel.hotelId }.first()
             mapViewModel.carouselSwipedObservable.onNext(marker)
+            HotelV2Tracking().trackHotelV2CarouselScroll()
         }
 
         inflateAndSetupToolbarMenu()

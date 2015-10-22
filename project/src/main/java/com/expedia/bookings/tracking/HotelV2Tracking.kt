@@ -86,6 +86,10 @@ class HotelV2Tracking {
         OmnitureTracking.trackHotelV2AreaSearchClick()
     }
 
+    fun trackHotelV2CarouselScroll() {
+        OmnitureTracking.trackHotelV2CarouselScroll()
+    }
+
     fun trackPageLoadHotelV2Infosite(hotelOffersResponse: HotelOffersResponse, searchParams: HotelSearchParams, isETPEligible: Boolean, isCurrentLocationSearch: Boolean) {
         OmnitureTracking.trackPageLoadHotelV2Infosite(hotelOffersResponse, isETPEligible, isCurrentLocationSearch)
         TuneUtils.trackHotelV2InfoSite(hotelOffersResponse)

@@ -35,7 +35,7 @@ public class HotelResultsViewModel(private val context: Context, private val hot
     // Outputs
     private val hotelDownloadsObservable = PublishSubject.create<Observable<HotelSearchResponse>>()
     private val hotelDownloadResultsObservable = Observable.concat(hotelDownloadsObservable)
-    val hotelResultsObservable = PublishSubject.create<HotelSearchResponse>()
+    val hotelResultsObservable = BehaviorSubject.create<HotelSearchResponse>()
     val mapResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val errorObservable = PublishSubject.create<ApiError>()
 

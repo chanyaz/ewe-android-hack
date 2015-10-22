@@ -321,7 +321,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         }
     })
 
-    private fun hasEtpOffer(response: HotelOffersResponse): Boolean {
+    fun hasEtpOffer(response: HotelOffersResponse): Boolean {
         return response.hotelRoomResponse
                 .any { it.payLaterOffer != null }
     }
