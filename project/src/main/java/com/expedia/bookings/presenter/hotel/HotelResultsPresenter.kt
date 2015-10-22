@@ -454,7 +454,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             if (newState == RecyclerView.SCROLL_STATE_IDLE && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
                 //view has passed threshold, show map
                 show(ResultsMap())
-            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset > halfway && isHeaderVisible()) {
+            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset > halfway && isHeaderVisible() && !currentState.equals(ResultsList::class.java.name)) {
                 //view is between threshold and halfway, reset the list
                 show(ResultsList())
                 resetListOffset()
@@ -517,7 +517,10 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
                 // Filter button translation
                 if (currentState != RecyclerView.SCROLL_STATE_SETTLING && currentState != RecyclerView.SCROLL_STATE_IDLE) {
-                    if (scrolledDistance > 0) {
+                    if (topOffset > halfway) {
+                        filterBtnWithCountWidget.translationY = 0f
+                        fab.translationY = 0f
+                    } else if (scrolledDistance > 0) {
                         scrolledDistance = Math.min(heightOfButton, scrolledDistance + dy)
                         filterBtnWithCountWidget.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
                         fab.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
