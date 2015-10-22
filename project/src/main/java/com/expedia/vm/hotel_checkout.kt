@@ -325,7 +325,7 @@ class HotelBreakDownViewModel(val context: Context, val hotelCheckoutSummaryView
             val taxStatusType = it.taxStatusType.value
             if (taxStatusType != null && taxStatusType.equals("UNKNOWN")) {
                 breakdowns.add(Breakdown(context.getString(R.string.taxes_and_fees), context.getString(R.string.unknown), false))
-            } else if (taxStatusType.equals("INCLUDED")) {
+            } else if (taxStatusType != null && taxStatusType.equals("INCLUDED")) {
                 breakdowns.add(Breakdown(context.getString(R.string.taxes_and_fees), context.getString(R.string.included), false))
             } else if (!surchargeTotal.isZero) {
                 breakdowns.add(Breakdown(context.getString(R.string.taxes_and_fees), surchargeTotal.formattedMoney, false))

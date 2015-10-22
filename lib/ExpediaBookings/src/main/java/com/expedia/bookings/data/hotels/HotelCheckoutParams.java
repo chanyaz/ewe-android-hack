@@ -23,6 +23,7 @@ public class HotelCheckoutParams {
 	@NotNull public String cvv;
 	@NotNull public String tealeafTransactionId;
 	public boolean suppressFinalBooking = true;
+	public boolean storeCreditCardInUserProfile = false;
 	public String expirationDateYear;
 	public String expirationDateMonth;
 	public String storedCreditCardId;
@@ -36,7 +37,7 @@ public class HotelCheckoutParams {
 		queryMap.put("expectedTotalFare", expectedTotalFare);
 		queryMap.put("expectedFareCurrencyCode", expectedFareCurrencyCode);
 		queryMap.put("sendEmailConfirmation", false);
-		queryMap.put("storeCreditCardInUserProfile", false);
+		queryMap.put("storeCreditCardInUserProfile", storeCreditCardInUserProfile);
 		queryMap.put("suppressFinalBooking", suppressFinalBooking);
 		queryMap.put("abacusUserGuid", abacusUserGuid);
 		queryMap.put("firstName", firstName);
