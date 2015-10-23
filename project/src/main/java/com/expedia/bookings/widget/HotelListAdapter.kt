@@ -9,8 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RatingBar
-import android.graphics.PorterDuff
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoHelper
@@ -18,6 +16,7 @@ import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelV2Tracking
@@ -30,10 +29,10 @@ import com.expedia.util.subscribeImageDrawable
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelResultsPricingStructureHeaderViewModel
 import com.squareup.picasso.Picasso
-import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
+import kotlin.properties.Delegates
 
 public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW = 0
@@ -146,7 +145,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         val guestRatingRecommendedText: TextView by root.bindView(R.id.guest_rating_recommended_text)
         val noGuestRating: TextView by root.bindView(R.id.no_guest_rating)
         val topAmenityTitle: TextView by root.bindView(R.id.top_amenity_title)
-        val starRating: StarRatingBar by root.bindView(R.id.hotel_rating_bar)
+        var ratingBar: StarRatingBar by Delegates.notNull()
         val discountPercentage: TextView by root.bindView(R.id.discount_percentage)
         val hotelAmenityOrDistanceFromLocation: TextView by root.bindView(R.id.hotel_amenity_or_distance_from_location)
 
@@ -162,6 +161,14 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
 
         init {
             itemView.setOnClickListener(this)
+
+            if (shouldShowCircleForRatings()) {
+                ratingBar = root.findViewById(R.id.circle_rating_bar) as StarRatingBar
+            } else {
+                ratingBar = root.findViewById(R.id.star_rating_bar) as StarRatingBar
+            }
+            ratingBar.visibility = View.VISIBLE
+
         }
 
         public fun bind(viewModel: HotelViewModel) {
@@ -200,7 +207,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             viewModel.ratingAmenityContainerVisibilityObservable.subscribeVisibility(ratingAmenityContainer)
 
             viewModel.hotelStarRatingObservable.subscribe {
-                starRating.setRating(it)
+                ratingBar.setRating(it)
             }
 
             viewModel.adImpressionObservable.subscribe {
@@ -248,10 +255,9 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
                 val colorArrayFull = intArrayOf(startColor, endColor,
                         startColor)
 
-                if( vipMessage.getVisibility() == View.VISIBLE ) {
+                if ( vipMessage.getVisibility() == View.VISIBLE ) {
                     drawable.setGradient(colorArrayFull, null)
-                }
-                else {
+                } else {
                     drawable.setGradient(colorArrayBottom, DEFAULT_GRADIENT_POSITIONS)
                 }
                 imageView.setImageDrawable(drawable)

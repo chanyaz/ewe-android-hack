@@ -6,8 +6,8 @@
         android:id="@+id/detail_container"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:scrollbars="none"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:scrollbars="none">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -37,32 +37,32 @@
 
                 </com.expedia.bookings.widget.FrameLayout>
 
-            <LinearLayout
-                android:id="@+id/hotel_gallery_description_container"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_gravity="bottom"
-                android:layout_marginTop="-50dp"
-                android:background="#191919"
-                android:orientation="vertical">
-
-                <View
-                    android:id="@+id/hotel_gallery_indicator"
+                <LinearLayout
+                    android:id="@+id/hotel_gallery_description_container"
                     android:layout_width="match_parent"
-                    android:layout_height="2dp"
-                    android:background="@color/hotels_primary_color" />
+                    android:layout_height="50dp"
+                    android:layout_gravity="bottom"
+                    android:layout_marginTop="-50dp"
+                    android:background="#191919"
+                    android:orientation="vertical">
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/hotel_gallery_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="2dp"
-                    android:paddingLeft="23dp"
-                    android:textColor="#FFFFFF"
-                    android:textSize="15sp" />
+                    <View
+                        android:id="@+id/hotel_gallery_indicator"
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:background="@color/hotels_primary_color" />
 
-            </LinearLayout>
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/hotel_gallery_description"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="2dp"
+                        android:paddingLeft="23dp"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -307,7 +307,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:visibility="gone"
-                        android:weightSum="2" >
+                        android:weightSum="2">
 
                         <com.expedia.bookings.widget.TextView
                             style="@style/HotelDetailsInfoSmallCenter"
@@ -323,8 +323,8 @@
                             android:background="@color/hotel_detail_divider" />
 
                         <com.expedia.bookings.widget.TextView
-                            style="@style/ETPInfoTextSmallCenter"
                             android:id="@+id/etp_info_text_small"
+                            style="@style/ETPInfoTextSmallCenter"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -530,10 +530,10 @@
                         android:id="@+id/radius_pay_options"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
                         android:layout_marginLeft="11dp"
                         android:layout_marginRight="11dp"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
                         app:cardCornerRadius="3dp"
                         app:cardElevation="1dp">
 
@@ -613,7 +613,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/book_by_phone_container"
-                    android:background="#EEEEEE"/>
+                    android:background="#EEEEEE" />
 
             </RelativeLayout>
 
@@ -629,10 +629,10 @@
         android:layout_gravity="bottom" />
 
     <LinearLayout
+        android:id="@+id/sticky_select_room_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:id="@+id/sticky_select_room_container"
         android:layout_gravity="bottom"
         android:orientation="vertical">
 
@@ -709,9 +709,19 @@
                         android:id="@+id/hotel_star_rating_bar"
                         android:layout_width="200dp"
                         android:layout_height="14dp"
+                        android:visibility="gone"
+                        app:star_color="#F1B906"
                         app:star_drawable="@drawable/detail_star"
-                        app:star_spacing="4dp"
-                        app:star_color="#F1B906" />
+                        app:star_spacing="4dp" />
+
+                    <com.expedia.bookings.widget.StarRatingBar
+                        android:id="@+id/hotel_circle_rating_bar"
+                        android:layout_width="200dp"
+                        android:layout_height="14dp"
+                        android:visibility="gone"
+                        app:star_color="#F1B906"
+                        app:star_drawable="@drawable/circle_details"
+                        app:star_spacing="4dp" />
 
                 </LinearLayout>
 

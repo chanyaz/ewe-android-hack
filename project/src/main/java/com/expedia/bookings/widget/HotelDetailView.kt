@@ -7,7 +7,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PointF
 import android.graphics.PorterDuff
-import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.Toolbar
 import android.text.Html
 import android.util.AttributeSet
@@ -20,13 +19,13 @@ import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
-import android.widget.RatingBar
 import android.widget.Space
 import android.widget.TableLayout
 import android.widget.TableRow
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
@@ -78,7 +77,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle: TextView by bindView(R.id.hotel_name_text)
-    val toolBarRating: StarRatingBar by bindView(R.id.hotel_star_rating_bar)
+    var toolBarRating: StarRatingBar by Delegates.notNull()
     val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     var navIcon: ArrowXDrawable
 
@@ -93,16 +92,15 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val searchInfo: TextView by bindView(R.id.hotel_search_info)
     val ratingContainer: LinearLayout by bindView(R.id.rating_container)
     val selectRoomButton: Button by bindView(R.id.select_room_button)
-    val stickySelectRoomContainer : ViewGroup by bindView(R.id.sticky_select_room_container)
+    val stickySelectRoomContainer: ViewGroup by bindView(R.id.sticky_select_room_container)
     val stickySelectRoomButton: Button by bindView(R.id.sticky_select_room)
-    val stickySelectRoomShadow: View by bindView(R.id.sticky_select_room_shadow)
     val userRating: TextView by bindView(R.id.user_rating)
     val noGuestRating: TextView by bindView(R.id.no_guest_rating)
     val userRatingRecommendationText: TextView by bindView(R.id.user_rating_recommendation_text)
     val numberOfReviews: TextView by bindView(R.id.number_of_reviews)
-    val readMoreView : ImageButton by bindView(R.id.read_more)
+    val readMoreView: ImageButton by bindView(R.id.read_more)
     val hotelDescription: TextView by bindView(R.id.body_text)
-    val hotelDescriptionContainer : ViewGroup by bindView(R.id.hotel_description_container)
+    val hotelDescriptionContainer: ViewGroup by bindView(R.id.hotel_description_container)
     val mapView: MapView by bindView(R.id.map_view)
     val mapClickContainer: FrameLayout by bindView(R.id.map_click_container)
     val gradientHeight = context.getResources().getDimension(R.dimen.hotel_detail_gradient_height)
@@ -123,7 +121,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val freeCancellationAndETPMessaging: ViewGroup by bindView(R.id.free_cancellation_etp_messaging)
     val etpContainer: HotelEtpStickyHeaderLayout by bindView(R.id.etp_placeholder)
     val etpContainerDropShadow: View by bindView(R.id.pay_later_drop_shadow)
-    val renovationContainer : ViewGroup by bindView(R.id.renovation_container)
+    val renovationContainer: ViewGroup by bindView(R.id.renovation_container)
     val payByPhoneTextView: TextView by bindView(R.id.book_by_phone_text)
     val payByPhoneContainer: ViewGroup by bindView(R.id.book_by_phone_container)
     val space: Space by bindView(R.id.spacer)
@@ -133,12 +131,12 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val hotelGalleryDescription: TextView by bindView(R.id.hotel_gallery_description)
 
     val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
-    val amenityDivider : View by bindView(R.id.etp_and_free_cancellation_divider)
+    val amenityDivider: View by bindView(R.id.etp_and_free_cancellation_divider)
 
     val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
     val commonAmenityText: TextView by bindView(R.id.common_amenities_text)
-    val commonAmenityDivider : View by bindView(R.id.common_amenities_divider)
-    var googleMap : GoogleMap? = null
+    val commonAmenityDivider: View by bindView(R.id.common_amenities_divider)
+    var googleMap: GoogleMap? = null
     val roomContainer: TableLayout by bindView(R.id.room_container)
     val propertyTextContainer: TableLayout by bindView(R.id.property_info_container)
 
@@ -147,14 +145,14 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var statusBarHeight = 0
     var toolBarHeight = 0
     val toolBarBackground: View by bindView(R.id.toolbar_background)
-    val toolBarGradient : View by bindView(R.id.hotel_details_gradient)
+    val toolBarGradient: View by bindView(R.id.hotel_details_gradient)
     var hotelLatLng: DoubleArray by Delegates.notNull()
     var offset: Float by Delegates.notNull()
     var priceContainerLocation = IntArray(2)
     var urgencyContainerLocation = IntArray(2)
     var roomContainerPosition = IntArray(2)
-    var resortInAnimator : ObjectAnimator by Delegates.notNull()
-    var resortOutAnimator : ObjectAnimator by Delegates.notNull()
+    var resortInAnimator: ObjectAnimator by Delegates.notNull()
+    var resortOutAnimator: ObjectAnimator by Delegates.notNull()
 
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
         detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
@@ -216,7 +214,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.isUserRatingAvailableObservable.map { !it }.subscribeVisibility(noGuestRating)
         vm.numberOfReviewsObservable.subscribeText(numberOfReviews)
         vm.hotelLatLngObservable.subscribe {
-            values -> hotelLatLng = values
+            values ->
+            hotelLatLng = values
             googleMap?.clear()
             addMarker()
             googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hotelLatLng[0], hotelLatLng[1]), MAP_ZOOM_LEVEL))
@@ -236,7 +235,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.promoMessageObservable.subscribeText(promoMessage)
         Observable.zip(vm.hasDiscountPercentageObservable, vm.hasVipAccessObservable, vm.promoMessageObservable,
                 {
-                    hasDiscount, hasVipAccess, promoMessage -> hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage)
+                    hasDiscount, hasVipAccess, promoMessage ->
+                    hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage)
                 }).subscribeVisibility(hotelMessagingContainer)
 
         val rowTopConstraintViewObservable: Observable<View> = vm.hasETPObservable.map { hasETP ->
@@ -288,8 +288,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                 .subscribe { showBestPriceGuarantee ->
                     if (showBestPriceGuarantee) {
                         bestPriceGuarantee.visibility = View.VISIBLE
-                    }
-                    else {
+                    } else {
                         bestPriceGuarantee.visibility = View.GONE
                     }
                 }
@@ -314,8 +313,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             if (it) {
                 ratingContainer.subscribeOnClick(vm.reviewsClickedSubject)
                 ratingContainer.background = resources.getDrawable(R.drawable.hotel_detail_ripple)
-            }
-            else {
+            } else {
                 ratingContainer.unsubscribeOnClick()
                 ratingContainer.background = null
             }
@@ -355,10 +353,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         }
 
-        vm.sectionImageObservable.subscribe{isExpanded ->
+        vm.sectionImageObservable.subscribe { isExpanded ->
             if (isExpanded) AnimUtils.rotate(readMoreView) else AnimUtils.reverseRotate(readMoreView)
         }
-        vm.galleryClickedSubject.subscribe { detailContainer.animateScrollY(detailContainer.getScrollY(), -initialScrollTop,500) }
+        vm.galleryClickedSubject.subscribe { detailContainer.animateScrollY(detailContainer.getScrollY(), -initialScrollTop, 500) }
         hotelDescriptionContainer.subscribeOnClick(vm.hotelDescriptionContainerObserver)
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
         resortFeeWidget.subscribeOnClick(vm.resortFeeContainerClickObserver)
@@ -512,7 +510,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         strikeThroughPrice.alpha = ratio
     }
 
-    fun urgencyViewAlpha(ratio : Float) {
+    fun urgencyViewAlpha(ratio: Float) {
         discountPercentage.alpha = ratio
         vipAccessMessage.alpha = ratio
         promoMessage.alpha = ratio
@@ -592,6 +590,14 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         toolbar.setBackgroundColor(getResources().getColor(android.R.color.transparent))
         toolBarBackground.getLayoutParams().height += statusBarHeight
         toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
+
+        if (shouldShowCircleForRatings()) {
+            toolBarRating = findViewById(R.id.hotel_circle_rating_bar) as StarRatingBar
+        } else {
+            toolBarRating = findViewById(R.id.hotel_star_rating_bar) as StarRatingBar
+        }
+        toolBarRating.visibility = View.VISIBLE
+
         offset = statusBarHeight.toFloat() + toolBarHeight
 
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)

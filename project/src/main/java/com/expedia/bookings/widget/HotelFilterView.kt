@@ -28,6 +28,7 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
@@ -40,7 +41,6 @@ import com.expedia.vm.HotelFilterViewModel.Sort
 import rx.Observer
 import java.util.ArrayList
 import kotlin.properties.Delegates
-
 
 public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.filter_toolbar)
@@ -63,7 +63,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val dynamicFeedbackWidget : DynamicFeedbackWidget by bindView(R.id.dynamic_feedback_container)
     val dynamicFeedbackClearButton : TextView by bindView(R.id.dynamic_feedback_clear_button)
     val filterContainer: ViewGroup by bindView(R.id.filter_container)
-    val doneButton:Button by lazy {
+    val doneButton: Button by lazy {
         val button = LayoutInflater.from(getContext()).inflate(R.layout.toolbar_checkmark_item, null) as Button
         val icon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate()
         icon.setColorFilter(getResources().getColor(R.color.lx_actionbar_text_color), PorterDuff.Mode.SRC_IN)
@@ -332,6 +332,10 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             filterVipBadge.visibility = View.VISIBLE
         }
 
+        if (shouldShowCircleForRatings()) {
+            setCircleDrawableForRatingBtnBackground()
+        }
+
         dynamicFeedbackWidget.hideDynamicFeedback()
 
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
@@ -382,5 +386,13 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     private fun clearHotelNameFocus() {
         filterHotelName.clearFocus()
         com.mobiata.android.util.Ui.hideKeyboard(this)
+    }
+
+    private fun setCircleDrawableForRatingBtnBackground() {
+        filterStarOne.setImageDrawable(resources.getDrawable(R.drawable.btn_filter_rating_one_circle));
+        filterStarTwo.setImageDrawable(resources.getDrawable(R.drawable.btn_filter_rating_two_circle));
+        filterStarThree.setImageDrawable(resources.getDrawable(R.drawable.btn_filter_rating_three_circle));
+        filterStarFour.setImageDrawable(resources.getDrawable(R.drawable.btn_filter_rating_four_circle));
+        filterStarFive.setImageDrawable(resources.getDrawable(R.drawable.btn_filter_rating_five_circle));
     }
 }

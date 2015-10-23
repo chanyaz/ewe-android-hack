@@ -153,6 +153,11 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.session_timeout,
 		R.string.e3_error_checkout_invalid_traveler_info_TEMPLATE,
 		R.drawable.price_change_decrease,
-		R.drawable.price_change_increase
+		R.drawable.price_change_increase,
+		R.drawable.btn_filter_rating_five_circle,
+		R.drawable.btn_filter_rating_four_circle,
+		R.drawable.btn_filter_rating_one_circle,
+		R.drawable.btn_filter_rating_three_circle,
+		R.drawable.btn_filter_rating_two_circle
 	};
 }

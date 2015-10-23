@@ -32,7 +32,7 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 		assertViewIsDisplayedAtPosition(2, R.id.hotel_name_text_view);
 		assertViewIsDisplayedAtPosition(2, R.id.price_per_night);
 		assertViewIsDisplayedAtPosition(2, R.id.background);
-		assertViewIsDisplayedAtPosition(2, R.id.hotel_rating_bar);
+		assertViewIsDisplayedAtPosition(2, R.id.star_rating_bar);
 		assertViewIsDisplayedAtPosition(2, R.id.guest_rating);
 		assertViewNotDisplayedAtPosition(2, R.id.discount_percentage);
 		assertViewNotDisplayedAtPosition(2, R.id.strike_through_price);

@@ -7,12 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.RatingBar
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
@@ -20,8 +20,8 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
 import com.mobiata.android.text.StrikethroughTagHandler
 import com.expedia.util.subscribeVisibility
-import rx.Observable
 import rx.subjects.PublishSubject
+import kotlin.properties.Delegates
 
 public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -62,7 +62,18 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
         val hotelStrikeThroughPrice: TextView by bindView(R.id.hotel_strike_through_price)
         val hotelGuestRating: TextView by bindView(R.id.hotel_guest_rating)
         val hotelGuestRecommend: TextView by bindView(R.id.hotel_guest_recommend)
-        val hotelPreviewRating: StarRatingBar by bindView(R.id.hotel_preview_rating)
+        var hotelPreviewRating: StarRatingBar by Delegates.notNull()
+
+        init {
+
+            if (shouldShowCircleForRatings()) {
+                hotelPreviewRating = root.findViewById(R.id.hotel_preview_circle_rating) as StarRatingBar
+            } else {
+                hotelPreviewRating = root.findViewById(R.id.hotel_preview_star_rating) as StarRatingBar
+            }
+            hotelPreviewRating.visibility = View.VISIBLE
+
+        }
 
         public fun bind(viewModel: HotelViewModel) {
             viewModel.hotelLargeThumbnailUrlObservable.subscribe {
