@@ -15,5 +15,6 @@
     <color name="tablet_hotel_filter_count_ring_color">@color/aag_primary_color</color>
     <color name="details_ring_blue">@color/aag_secondary_color</color>
     <color name="hotel_details_user_rating_text">@color/aag_secondary_color</color>
+    <color name="tablet_hotel_coupon_text_color">@color/aag_primary_color</color>
 
 </resources>
