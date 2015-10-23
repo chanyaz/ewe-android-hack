@@ -135,6 +135,7 @@
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
         <item name="skin_launchTabIndicatorColor">@color/action_bar_selected_tab_underline_color</item>
         <item name="skin_launchActionBarBackgroundColor">@color/launch_actionbar_bg_color</item>
+        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
     </style>
 
     <style name="LaunchActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
@@ -180,6 +181,7 @@
         <item name="skin_actionbarTabletTitleColor">@color/actionbarTabletTitleColor</item>
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
+        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
