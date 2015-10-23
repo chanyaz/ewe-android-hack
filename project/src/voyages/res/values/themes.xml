@@ -71,6 +71,7 @@
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
+        <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_vsc</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
