@@ -220,6 +220,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         if (previousWasList) {
             show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
+            resetListOffset()
         } else {
             show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
         }
