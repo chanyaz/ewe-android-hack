@@ -29,6 +29,7 @@ public class HotelCheckoutParams {
 	public String storedCreditCardId;
 	public String creditCardNumber;
 	public String postalCode;
+	public String emailOptIn;
 
 	@NotNull
 	public Map<String, Object> toQueryMap() {
@@ -56,6 +57,7 @@ public class HotelCheckoutParams {
 		queryMap.put("expirationDateMonth", expirationDateMonth);
 		queryMap.put("postalCode", postalCode);
 		queryMap.put("tealeafTransactionId", tealeafTransactionId);
+		queryMap.put("emailOptIn", emailOptIn);
 
 		return queryMap;
 	}

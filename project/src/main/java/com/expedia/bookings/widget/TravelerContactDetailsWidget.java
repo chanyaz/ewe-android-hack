@@ -6,21 +6,27 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.enums.MerchandiseSpam;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.tracking.HotelV2Tracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -69,6 +75,12 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	@InjectView(R.id.traveler_button)
 	TravelerButton travelerButton;
 
+	@InjectView(R.id.merchandise_guest_opt_checkbox)
+	CheckBox merchandiseOptCheckBox;
+
+	public Boolean emailOptIn;
+	MerchandiseSpam emailOptInStatus;
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -102,7 +114,49 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 				InvalidCharacterHelper.showInvalidCharacterPopup(activity.getSupportFragmentManager(), mode);
 			}
 		});
+
 		bind();
+	}
+
+	public void setUPEMailOptCheckBox(MerchandiseSpam value) {
+		emailOptInStatus = value;
+		if (lineOfBusiness == LineOfBusiness.HOTELSV2 && !User.isLoggedIn(getContext())) {
+			if (emailOptInStatus != null) {
+				switch (emailOptInStatus) {
+				case ALWAYS:
+					//default value
+					emailOptIn = true;
+					break;
+				case CONSENT_TO_OPT_IN:
+					//default value
+					emailOptIn = false;
+					merchandiseOptCheckBox.setText(Phrase.from(getContext(), R.string.hotel_checkout_merchandise_guest_opt_in_TEMPLATE).put("brand", BuildConfig.brand).format());
+					initUsers();
+					break;
+				case CONSENT_TO_OPT_OUT:
+					//default value
+					emailOptIn = true;
+					merchandiseOptCheckBox.setText(Phrase.from(getContext(), R.string.hotel_checkout_merchandise_guest_opt_out_TEMPLATE).put("brand", BuildConfig.brand).format());
+					initUsers();
+					break;
+				}
+			}
+		}
+	}
+
+	private void initUsers() {
+		merchandiseOptCheckBox.setVisibility(View.VISIBLE);
+		merchandiseOptCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+				if (emailOptInStatus.equals(MerchandiseSpam.CONSENT_TO_OPT_IN)) {
+					emailOptIn = isChecked;
+				}
+				else if (emailOptInStatus.equals(MerchandiseSpam.CONSENT_TO_OPT_OUT)) {
+					emailOptIn = !isChecked;
+				}
+			}
+		});
 	}
 
 	public void setEnterDetailsText(String text) {
@@ -269,7 +323,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	}
 
 	public boolean isFilled() {
-		return !firstName.getText().toString().isEmpty() || !lastName.getText().toString().isEmpty() || !phoneNumber.getText().toString().isEmpty() ;
+		return !firstName.getText().toString().isEmpty() || !lastName.getText().toString().isEmpty() || !phoneNumber.getText().toString().isEmpty();
 	}
 
 	public void setInvalid(String field) {

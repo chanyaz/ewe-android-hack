@@ -330,6 +330,7 @@
     "tealeafTransactionId": "tealeafHotel:${productKey}",
     "tripId": "${productKey}",
     "userId": 4019550,
+    "guestUserPromoEmailOptInStatus": "ALWAYS",
     "validFormsOfPayment": [
         {
             "name": "AmericanExpress"
