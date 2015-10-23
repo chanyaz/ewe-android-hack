@@ -3764,4 +3764,7 @@
     <string name="star_rating">Star Rating</string>
     <string name="show_more">SHOW MORE</string>
     <string name="show_less">SHOW LESS</string>
+
+    <!-- Hotel V2 Coupon related -->
+    <string name="applied_coupon_message">Coupon applied: You saved %1$s!</string>
 </resources>

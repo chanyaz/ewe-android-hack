@@ -1,6 +1,5 @@
 package com.expedia.vm
 
-
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.cars.ApiError
@@ -12,15 +11,17 @@ import com.expedia.util.endlessObserver
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.HashMap
 
 class HotelCouponViewModel(val context: Context, val hotelServices: HotelServices) {
 
     val applyObservable = PublishSubject.create<String>()
+    val removeObservable = PublishSubject.create<Unit>()
     val couponObservable = PublishSubject.create<HotelCreateTripResponse>()
     val errorObservable = PublishSubject.create<ApiError>()
     val errorMessageObservable = PublishSubject.create<String>()
+    val discountObservable = PublishSubject.create<String>()
     val couponParamsObservable = BehaviorSubject.create<HotelApplyCouponParams>()
+    val hasDiscountObservable = BehaviorSubject.create<Boolean>()
 
     private val createTripDownloadsObservable = PublishSubject.create<Observable<HotelCreateTripResponse>>()
     private val createTripObservable = Observable.concat(createTripDownloadsObservable)
@@ -31,16 +32,24 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
             val observable = hotelServices.applyCoupon(params)
             createTripDownloadsObservable.onNext(observable)
         }
+
         createTripObservable.subscribe(endlessObserver { trip ->
             if (trip.hasErrors()) {
                 val errorType = trip.firstError.errorInfo.couponErrorType
                 val stringId = couponErrorMap.get(errorType) ?: R.string.coupon_error_fallback
                 val text = context.resources.getString(stringId)
 
+                hasDiscountObservable.onNext(false)
                 errorMessageObservable.onNext(text)
                 errorObservable.onNext(trip.firstError)
                 HotelV2Tracking().trackHotelV2CouponFail(couponParamsObservable.value.couponCode, trip.firstError.errorCode.toString())
             } else {
+                val couponRate = trip.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getPriceAdjustments()
+                val hasDiscount = couponRate != null && !couponRate.isZero
+                if (hasDiscount) {
+                    discountObservable.onNext(couponRate.formattedMoney)
+                }
+                hasDiscountObservable.onNext(hasDiscount)
                 couponObservable.onNext(trip)
                 HotelV2Tracking().trackHotelV2CouponSuccess(couponParamsObservable.value.couponCode)
             }

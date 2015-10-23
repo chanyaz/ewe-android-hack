@@ -18,6 +18,35 @@
         app:textStyle="normal" />
 
     <LinearLayout
+        android:id="@+id/applied"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/applied_coupon_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:padding="16dp"
+            android:text="@string/applied_coupon_message"
+            android:textSize="15sp"
+            app:textStyle="normal" />
+
+        <ImageView
+            android:id="@+id/remove_coupon_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/bg_clickable_row"
+            android:padding="16dp"
+            android:src="@drawable/widget_close" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/expanded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
