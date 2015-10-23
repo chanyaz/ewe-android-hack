@@ -463,9 +463,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             if (newState == RecyclerView.SCROLL_STATE_IDLE && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
                 //view has passed threshold, show map
                 show(ResultsMap())
-            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset > halfway && isHeaderVisible() && !currentState.equals(ResultsList::class.java.name)) {
-                //view is between threshold and halfway, reset the list
-                show(ResultsList())
+            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset > halfway && isHeaderVisible()) {
                 resetListOffset()
             }
 
@@ -500,7 +498,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             adjustGoogleMapLogo()
 
             if (currentState == RecyclerView.SCROLL_STATE_SETTLING && topOffset < threshold && topOffset > halfway && isHeaderVisible()) {
-                show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
                 recyclerView.translationY = 0f
                 resetListOffset()
             } else if (currentState == RecyclerView.SCROLL_STATE_SETTLING && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
@@ -692,6 +689,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                     adjustGoogleMapLogo()
                 }
                 else {
+                    fab.translationY = - (mapCarouselContainer.height.toFloat() - resources.getDimension(R.dimen.hotel_filter_height).toInt())
                     mapView.translationY = 0f
                     recyclerView.translationY = screenHeight.toFloat()
                     googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height)
