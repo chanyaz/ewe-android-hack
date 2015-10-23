@@ -19,6 +19,11 @@
     <color name="actionbar_menu_text_color">@color/vsc_primary_color</color>
     <color name="hotel_sale_text_color">@color/vsc_primary_color</color>
 
+    <!-- Popular Hotels Tonight Discount strips-->
+    <color name="launch_mobile_exclusive">#DE0058</color>
+    <color name="launch_discount">#E05206</color>
+    <color name="launch_tonight_only">#72098A</color>
+
     <color name="tablet_book_button_text_color">@color/action_bar_bg_color</color>
     <color name="tablet_price_expanded_bucket_text_color">@color/action_bar_bg_color</color>
 
