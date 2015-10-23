@@ -268,4 +268,8 @@ public class HotelScreen {
 	public static ViewInteraction selectRoomButton() throws Throwable {
 		return onView(withId(R.id.select_room_button));
 	}
+
+	public static void clickVIPAccess() {
+		onView(withId(R.id.vip_access_message)).perform(click());
+	}
 }

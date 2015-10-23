@@ -127,6 +127,7 @@
             "url": "/hotels/1000000/20000/12600/12539/12539_115_l.jpg"
         }
     ],
+    "isVipAccess": true,
     "shortDescription": "The Serrano Hotel is steps away from Union Square, perfectly positioned in the Theater District of San Francisco, 2 blocks from the Powell Street cable car.",
     "signedMapUrl": "http://maps.googleapis.com/maps/api/staticmap?client=gme-expedia&center=37.78458,-122.40854&maptype=mobile&zoom=16&size=480x400&sensor=false&hl=false&signature=LYrk5MKD7KH2jhIXDQXAMCmf4xE=",
     "telesalesNumber": "1-800-766-6658",

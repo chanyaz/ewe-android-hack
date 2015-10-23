@@ -22,6 +22,7 @@ import android.widget.LinearLayout
 import android.widget.Space
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.RelativeLayout
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -105,7 +106,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val mapClickContainer: FrameLayout by bindView(R.id.map_click_container)
     val gradientHeight = context.getResources().getDimension(R.dimen.hotel_detail_gradient_height)
 
-    val hotelMessagingContainer: LinearLayout by bindView(R.id.promo_messaging_container)
+    val hotelMessagingContainer: RelativeLayout by bindView(R.id.promo_messaging_container)
     val discountPercentage: TextView by bindView(R.id.discount_percentage)
     val vipAccessMessage: TextView by bindView(R.id.vip_access_message)
     val promoMessage: TextView by bindView(R.id.promo_text)
@@ -231,6 +232,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.discountPercentageObservable.subscribeText(discountPercentage)
         vm.discountPercentageBackgroundObservable.subscribeBackgroundResource(discountPercentage)
         vm.hasDiscountPercentageObservable.subscribeVisibility(discountPercentage)
+        vipAccessMessage.subscribeOnClick(vm.vipAccessInfoObservable)
         vm.hasVipAccessObservable.subscribeVisibility(vipAccessMessage)
         vm.promoMessageObservable.subscribeText(promoMessage)
         Observable.zip(vm.hasDiscountPercentageObservable, vm.hasVipAccessObservable, vm.promoMessageObservable,

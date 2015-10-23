@@ -158,6 +158,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.btn_filter_rating_four_circle,
 		R.drawable.btn_filter_rating_one_circle,
 		R.drawable.btn_filter_rating_three_circle,
-		R.drawable.btn_filter_rating_two_circle
+		R.drawable.btn_filter_rating_two_circle,
+		R.layout.widget_vip_access_info
 	};
 }
