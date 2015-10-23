@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import android.app.AlertDialog;
+import java.math.BigDecimal;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,7 +28,10 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.TripBucketItemCar;
+import com.expedia.bookings.data.TripBucketItemHotelV2;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.hotels.HotelOffersResponse;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -48,6 +52,7 @@ import butterknife.OnClick;
 
 public class PaymentWidget extends ExpandableCardView {
 	public static final int REQUEST_CODE_GOOGLE_WALLET_ACTIVITY = 1989;
+	public static final int GOOGLE_WALLET_UPPER_LIMIT = 1800;
 
 	private boolean isZipValidationRequired;
 
@@ -171,7 +176,7 @@ public class PaymentWidget extends ExpandableCardView {
 		inflater.inflate(R.layout.payment_widget, this);
 		ButterKnife.inject(this);
 
-		creditCardPostalCode.setOnEditorActionListener(new android.widget.TextView.OnEditorActionListener() {
+		creditCardName.setOnEditorActionListener(new android.widget.TextView.OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(android.widget.TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -313,7 +318,7 @@ public class PaymentWidget extends ExpandableCardView {
 		super.setExpanded(expand, animate);
 
 		if (expand) {
-			if (lineOfBusiness == LineOfBusiness.HOTELSV2 && !goToCreditCardDetails()) {
+			if (isWalletSupported() && !goToCreditCardDetails()) {
 				cardInfoContainer.setVisibility(GONE);
 				paymentOptionsContainer.setVisibility(VISIBLE);
 				billingInfoContainer.setVisibility(GONE);
@@ -344,6 +349,19 @@ public class PaymentWidget extends ExpandableCardView {
 				mToolbarListener.setActionBarTitle(getActionBarTitle());
 			}
 		}
+	}
+
+	private boolean isWalletSupported() {
+		boolean isHotelsV2 = lineOfBusiness == LineOfBusiness.HOTELSV2;
+		if (isHotelsV2) {
+			TripBucketItemHotelV2 trip = Db.getTripBucket().getHotelV2();
+			if (trip != null) {
+				HotelOffersResponse.HotelRoomResponse room = trip.mHotelTripResponse.newHotelProductResponse.hotelRoomResponse;
+				boolean isWithinLimit = room.rateInfo.chargeableRateInfo.getDisplayTotalPrice().amount.compareTo(new BigDecimal(GOOGLE_WALLET_UPPER_LIMIT)) != 1;
+				return PointOfSale.getPointOfSale().supportsGoogleWallet() && isWithinLimit && room.isMerchant();
+			}
+		}
+		return false;
 	}
 
 	private boolean goToCreditCardDetails() {

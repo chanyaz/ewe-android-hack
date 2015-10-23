@@ -27,7 +27,7 @@ public class HotelCheckoutErrorsTest extends HotelTestCase {
 		verifyPriceChange("Price changed from $2,394.88");
 		Espresso.pressBack();
 		pickRoom("hotel_price_change_checkout");
-		checkout();
+		checkout(false);
 		slideToPurchase();
 		enterCVV();
 		//Checkout Price Change
@@ -81,7 +81,7 @@ public class HotelCheckoutErrorsTest extends HotelTestCase {
 		doSearch();
 		selectHotel(hotelName);
 		selectRoom();
-		checkout();
+		checkout(true);
 		slideToPurchase();
 		enterCVV();
 		Common.delay(2);

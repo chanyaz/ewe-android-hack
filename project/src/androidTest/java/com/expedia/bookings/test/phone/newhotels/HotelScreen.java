@@ -236,11 +236,16 @@ public class HotelScreen {
 		HotelScreen.clickAddRoom();
 	}
 
-	public static void checkout() throws Throwable {
+	public static void checkout(boolean walletSupported) throws Throwable {
 		CheckoutViewModel.waitForCheckout();
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.enterTravelerInfo();
-		CheckoutViewModel.enterPaymentInfoHotels();
+		if (walletSupported) {
+			CheckoutViewModel.enterPaymentInfoHotels();
+		}
+		else {
+			CheckoutViewModel.enterPaymentInfo();
+		}
 		CheckoutViewModel.pressClose();
 	}
 
