@@ -448,11 +448,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             currentState = newState
 
-            val view = recyclerView.getChildAt(1)
+            val view = recyclerView.findViewHolderForAdapterPosition(1)
             val topOffset = if (view == null) {
                 0
             } else {
-                view.top
+                view.itemView.top
             }
 
             if (newState == RecyclerView.SCROLL_STATE_IDLE && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
@@ -485,11 +485,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             val y = mapView.translationY + (-dy * halfway / (recyclerView.height - halfway))
             mapView.translationY = y
 
-            val view = recyclerView.getChildAt(1)
+            val view = recyclerView.findViewHolderForAdapterPosition(1)
             val topOffset = if (view == null) {
                 0
             } else {
-                view.top
+                view.itemView.top
             }
 
             adjustGoogleMapLogo()
