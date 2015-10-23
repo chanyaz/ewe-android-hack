@@ -20,6 +20,7 @@ import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelCheckoutViewModel
 import com.expedia.vm.HotelCreateTripViewModel
 import org.joda.time.format.ISODateTimeFormat
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -86,7 +87,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         val dtf = ISODateTimeFormat.date()
 
         hotelCheckoutParams.tripId = Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId
-        hotelCheckoutParams.expectedTotalFare = "" + java.lang.String.format("%.2f", hotelRate.total) // TODO - We should be using BigDecimal
+        hotelCheckoutParams.expectedTotalFare = java.lang.String.format(Locale.ENGLISH, "%.2f", hotelRate.total)
         hotelCheckoutParams.expectedFareCurrencyCode = "" + hotelRate.currencyCode
         val primaryTraveler = hotelCheckoutWidget.mainContactInfoCardView.sectionTravelerInfo.getTraveler()
         val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.getBillingInfo()

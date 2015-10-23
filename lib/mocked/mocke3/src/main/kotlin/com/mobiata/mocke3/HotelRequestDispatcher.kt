@@ -42,10 +42,15 @@ public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
 
             HotelRequestMatcher.isHotelCheckoutRequest(urlPath) -> {
                 val tripId = params.get("tripId") ?: throw RuntimeException("tripId required")
+                val expectedTotalFare = params.get("expectedTotalFare") ?: throw RuntimeException("expectedTotalFare required")
                 val tealeafTransactionId = params.get("tealeafTransactionId") ?: throw RuntimeException("tealeafTransactionId required")
 
                 if ("tealeafHotel:" + tripId != tealeafTransactionId) {
                     throw RuntimeException("tripId must match tealeafTransactionId got: $tealeafTransactionId")
+                }
+
+                if (!HotelRequestMatcher.isExpectedFareFormatDecimal(expectedTotalFare)) {
+                    throw RuntimeException("expectedTotalFare must be in decimal format")
                 }
 
                 val isHotelCouponError = HotelRequestMatcher.doesItMatch("^hotel_coupon_errors$", tripId)
@@ -99,6 +104,10 @@ class HotelRequestMatcher() {
 
         fun isHotelSearchRequest(urlPath: String): Boolean {
             return doesItMatch("^/m/api/hotel/search.*$", urlPath)
+        }
+
+        fun isExpectedFareFormatDecimal(number: String) : Boolean {
+            return doesItMatch("\\d*\\.\\d\\d", number)
         }
 
         fun doesItMatch(regExp: String, str: String): Boolean {

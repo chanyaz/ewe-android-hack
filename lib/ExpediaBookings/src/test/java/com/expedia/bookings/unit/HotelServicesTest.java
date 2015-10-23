@@ -3,6 +3,7 @@ package com.expedia.bookings.unit;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -11,8 +12,10 @@ import org.junit.Test;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams;
+import com.expedia.bookings.data.hotels.HotelCheckoutParams;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
+import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.services.HotelServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
@@ -59,7 +62,7 @@ public class HotelServicesTest {
 		NearbyHotelParams params = new NearbyHotelParams("", "", "", "", "", "", "");
 
 		service.nearbyHotels(params, observer);
-		observer.awaitTerminalEvent();
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoValues();
 		observer.assertError(RetrofitError.class);
@@ -75,11 +78,49 @@ public class HotelServicesTest {
 		NearbyHotelParams params = new NearbyHotelParams("", "", "", "", "", "", "");
 
 		service.nearbyHotels(params, observer);
-		observer.awaitTerminalEvent();
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
 		observer.assertCompleted();
 		observer.assertValueCount(1);
+	}
+
+	@Test
+	public void testCheckoutWorks() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
+		HotelCheckoutParams params = new HotelCheckoutParams();
+		params.tripId = "happypath_0";
+		params.expectedTotalFare = "12123.33";
+		params.tealeafTransactionId = "tealeafHotel:happypath_0";
+
+		service.checkout(params, observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+	}
+
+	@Test
+	public void testCheckoutFailed() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
+		HotelCheckoutParams params = new HotelCheckoutParams();
+		params.tripId = "happypath_0";
+		params.expectedTotalFare = "12,33";
+		params.tealeafTransactionId = "tealeafHotel:happypath_0";
+
+		service.checkout(params, observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNotCompleted();
 	}
 
 	@Test
@@ -90,7 +131,7 @@ public class HotelServicesTest {
 		givenCouponParams("hotel_coupon_errors_expired");
 
 		service.applyCoupon(couponParams).subscribe(observer);
-		observer.awaitTerminalEvent();
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 		observer.assertCompleted();
 		ApiError apiError = observer.getOnNextEvents().get(0).getFirstError();
 		assertEquals(ApiError.Code.APPLY_COUPON_ERROR, apiError.errorCode);
