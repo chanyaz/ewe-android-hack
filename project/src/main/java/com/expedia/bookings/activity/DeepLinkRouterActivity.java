@@ -438,7 +438,9 @@ public class DeepLinkRouterActivity extends Activity {
 				params.setSearchType(SearchType.HOTEL);
 				String hotelId = data.getQueryParameter("hotelId");
 				params.setQuery(getString(R.string.search_hotel_id_TEMPLATE, hotelId));
+				params.hotelId = hotelId;
 				params.setRegionId(hotelId);
+
 				Log.d(TAG, "Setting hotel search id: " + params.getRegionId());
 			}
 			else if (queryData.contains("latitude") && queryData.contains("longitude")) {
