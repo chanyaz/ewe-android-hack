@@ -63,6 +63,7 @@
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="skin_launchCirclePlaceholderDrawable">@drawable/launch_circle_placeholder</item>
+        <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_aag</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.AirAsiaGo">
@@ -143,6 +144,7 @@
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
         <item name="skin_launchTabIndicatorColor">@color/action_bar_selected_tab_underline_color</item>
         <item name="skin_launchActionBarBackgroundColor">@color/launch_actionbar_bg_color</item>
+        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
     </style>
 
     <style name="LaunchActionBarTabAirAsiaGoStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
