@@ -249,7 +249,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 suggestionViewModel.queryObserver.onNext(s.toString())
-                clearLocationButton.visibility = if (Strings.isEmpty(s)) View.INVISIBLE else View.VISIBLE
+                clearLocationButton.visibility = if (Strings.isEmpty(s) || !searchLocationEditText.hasFocus()) View.INVISIBLE else View.VISIBLE
             }
         })
 
@@ -276,6 +276,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             selectDate.setChecked(false)
             selectTraveler.setChecked(false)
             show(HotelParamsSuggestion(), Presenter.FLAG_CLEAR_TOP)
+            searchLocationEditText.requestFocus()
             com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
             AnimUtils.doTheHarlemShake(searchLocationEditText)
         }
