@@ -2,6 +2,7 @@ package com.expedia.bookings.utils;
 
 import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.DateTime;
 
@@ -260,10 +261,16 @@ public class HotelUtils {
 	}
 
 	// Distance formatting
+	public static boolean isDistanceUnitInMiles() {
+		if (Locale.getDefault().getCountry().toLowerCase(Locale.ENGLISH).equals("us")) {
+			return true;
+		}
+		return false;
+	}
 
 	public static String formatDistanceForNearby(Resources resources, Hotel offer, boolean abbreviated) {
-		boolean isMiles = offer.distanceUnit.equals("Miles");
-		double distance = Double.valueOf(isMiles ? offer.proximityDistanceInMiles : offer.proximityDistanceInKiloMeters);
+		boolean isMiles = isDistanceUnitInMiles();
+		double distance = isMiles ? offer.proximityDistanceInMiles : offer.proximityDistanceInKiloMeters;
 		NumberFormat nf = NumberFormat.getInstance();
 		nf.setMaximumFractionDigits(1);
 
