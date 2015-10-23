@@ -58,10 +58,10 @@
         <item name="skin_HotelCheckout_CreditCardEditTextStyle">@style/CreditCardEditText</item>
         <item name="skin_HotelCheckout_PostalCodeSectionStyle">@style/PostalCodeSection</item>
         <item name="skin_HotelCheckout_couponEditTextStyle">@style/CouponEditText</item>
-        <item name="skin_hotelRulesActionBarLogo">@drawable/ic_logo_vsc</item>
-        <item name="skin_flightRulesActionBarLogo">@drawable/ic_logo_flights</item>
-        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_logo_vsc</item>
-        <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights</item>
+        <item name="skin_hotelRulesActionBarLogo">@drawable/ic_ab_vsc_logo</item>
+        <item name="skin_flightRulesActionBarLogo">@drawable/ic_ab_vsc_logo</item>
+        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_ab_vsc_logo</item>
+        <item name="skin_flightLoginActionBarIcon">@drawable/ic_ab_vsc_logo</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_logo_vsc</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
