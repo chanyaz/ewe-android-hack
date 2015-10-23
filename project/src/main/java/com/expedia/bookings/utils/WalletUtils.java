@@ -649,10 +649,10 @@ public class WalletUtils {
 		Cart.Builder cartBuilder = Cart.newBuilder();
 		cartBuilder.setCurrencyCode(total.getCurrency());
 		cartBuilder.setTotalPrice(WalletUtils.formatAmount(total));
-		cartBuilder.addLineItem(WalletUtils.createLineItem(nightlyRate, hotel.newHotelProductResponse.localizedHotelName, LineItem.Role.REGULAR));
+		cartBuilder.addLineItem(WalletUtils.createLineItem(nightlyRate, hotel.newHotelProductResponse.getHotelName(), LineItem.Role.REGULAR));
 
 		if (discount != null) {
-			cartBuilder.addLineItem(WalletUtils.createLineItem(discount, hotel.newHotelProductResponse.localizedHotelName, LineItem.Role.REGULAR));
+			cartBuilder.addLineItem(WalletUtils.createLineItem(discount, hotel.newHotelProductResponse.getHotelName(), LineItem.Role.REGULAR));
 		}
 		if (surcharge != null) {
 			cartBuilder.addLineItem(WalletUtils.createLineItem(surcharge, context.getString(R.string.taxes_and_fees),

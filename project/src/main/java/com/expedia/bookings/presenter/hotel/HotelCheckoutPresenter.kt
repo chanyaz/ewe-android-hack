@@ -108,6 +108,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
             hotelCheckoutParams.expirationDateMonth = JodaUtils.format(billingInfo.getExpirationDate(), "MM")
             hotelCheckoutParams.nameOnCard = billingInfo.getNameOnCard()
             hotelCheckoutParams.postalCode = billingInfo.getLocation().getPostalCode()
+            hotelCheckoutParams.storeCreditCardInUserProfile = billingInfo.saveCardToExpediaAccount
         } else {
             hotelCheckoutParams.storedCreditCardId = billingInfo.getStoredCard().getId()
             hotelCheckoutParams.nameOnCard = billingInfo.getFirstName() + " " + billingInfo.getLastName()

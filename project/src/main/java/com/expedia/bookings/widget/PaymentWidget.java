@@ -1,6 +1,8 @@
 package com.expedia.bookings.widget;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -13,6 +15,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.GoogleWalletActivity;
@@ -37,6 +40,7 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -293,7 +297,8 @@ public class PaymentWidget extends ExpandableCardView {
 			FontCache.setTypeface(cardInfoExpiration, FontCache.Font.ROBOTO_REGULAR);
 		}
 		else {
-			cardInfoIcon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.cars_checkout_cc_default_icon));
+			cardInfoIcon.setImageDrawable(
+				getContext().getResources().getDrawable(R.drawable.cars_checkout_cc_default_icon));
 			storedCardImageView.setImageDrawable(
 				getContext().getResources().getDrawable(R.drawable.cars_checkout_cc_default_icon));
 		}
@@ -413,7 +418,12 @@ public class PaymentWidget extends ExpandableCardView {
 		boolean billingIsValid = !hasStoredCard && sectionBillingInfo.performValidation();
 		boolean postalIsValid = !hasStoredCard && sectionLocation.performValidation();
 		if (hasStoredCard || (billingIsValid && postalIsValid)) {
-			setExpanded(false);
+			if (shouldShowSaveDialog()) {
+				showSaveBillingInfoDialog();
+			}
+			else {
+				setExpanded(false);
+			}
 		}
 	}
 
@@ -523,5 +533,36 @@ public class PaymentWidget extends ExpandableCardView {
 	
 	private boolean hasStoredCard() {
 		return sectionBillingInfo.getBillingInfo() != null && sectionBillingInfo.getBillingInfo().hasStoredCard();
+	}
+
+	private boolean shouldShowSaveDialog() {
+		return lineOfBusiness == LineOfBusiness.HOTELSV2 && User.isLoggedIn(getContext()) && !sectionBillingInfo.getBillingInfo().getSaveCardToExpediaAccount() && workingBillingInfoChanged();
+	}
+
+	private void showSaveBillingInfoDialog() {
+		AlertDialog dialog = new AlertDialog.Builder(getContext())
+			.setTitle(R.string.save_billing_info)
+			.setCancelable(false)
+			.setMessage(Phrase.from(getContext(), R.string.save_billing_info_message_TEMPLATE).put("brand", BuildConfig.brand).format())
+			.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					sectionBillingInfo.getBillingInfo().setSaveCardToExpediaAccount(true);
+					setExpanded(false);
+				}
+			}).setNegativeButton(R.string.no_thanks, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					sectionBillingInfo.getBillingInfo().setSaveCardToExpediaAccount(false);
+					setExpanded(false);
+				}
+			}).create();
+		dialog.show();
+	}
+
+	private boolean workingBillingInfoChanged() {
+		if (sectionBillingInfo.getBillingInfo() != null) {
+			return Db.getWorkingBillingInfoManager().getWorkingBillingInfo()
+				.compareTo(sectionBillingInfo.getBillingInfo()) != 0;
+		}
+		return false;
 	}
 }
