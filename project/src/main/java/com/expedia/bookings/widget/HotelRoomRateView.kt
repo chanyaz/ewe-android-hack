@@ -14,6 +14,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.widget.ImageView
+import android.widget.FrameLayout
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.ToggleButton
@@ -26,11 +27,11 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeText
 import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
-import com.expedia.util.subscribeInverseVisibility
 import com.expedia.vm.HotelRoomRateViewModel
 import com.mobiata.android.util.AndroidUtils
 import rx.Observer
@@ -50,11 +51,13 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
     private val collapsedBedType: TextView by bindView(R.id.collapsed_bed_type_text_view)
     private val collapsedUrgency: TextView by bindView(R.id.collapsed_urgency_text_view)
     private val expandedBedType: TextView by bindView(R.id.expanded_bed_type_text_view)
+    private val strikeThroughPrice: TextView by bindView(R.id.strike_through_price)
     private val dailyPricePerNight: TextView by bindView(R.id.daily_price_per_night)
-    private val totalPricePerNight: TextView by bindView(R.id.total_price_per_night)
     private val perNight: TextView by bindView(R.id.per_night)
-    private val viewRoom: ToggleButton by bindView (R.id.view_room_button)
+    private val viewRoom: ToggleButton by bindView(R.id.view_room_button)
+    private val roomHeaderImageContainer: FrameLayout by bindView(R.id.room_header_image_container)
     private val roomHeaderImage: ImageView by bindView(R.id.room_header_image)
+    private val roomDiscountPercentage: TextView by bindView(R.id.discount_percentage)
     private val roomInfoDescriptionText: TextView by bindView(R.id.room_info_description_text)
     private val roomInfoContainer: RelativeLayout by bindView(R.id.room_info_container)
     private val expandedAmenity: TextView by bindView(R.id.expanded_amenity_text_view)
@@ -76,7 +79,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
 
     var viewmodel: HotelRoomRateViewModel by notNullAndObservable { vm ->
         val viewsToHideInExpandedState = arrayOf(collapsedBedType, collapsedUrgency)
-        val viewsToShowInExpandedState = arrayOf(expandedBedType, expandedAmenity, freeCancellation, totalPricePerNight, roomInfoContainer)
+        val viewsToShowInExpandedState = arrayOf(expandedBedType, expandedAmenity, freeCancellation, strikeThroughPrice, roomInfoContainer)
 
         expandedAmenity.visibility = View.GONE
         viewRoom.subscribeOnCheckChanged(vm.expandCollapseRoomRate)
@@ -92,22 +95,21 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
         })
 
         roomInfoContainer.subscribeOnClick(vm.expandCollapseRoomRateInfoDescription)
-
-        vm.pricePerNightObservable.subscribeText(totalPricePerNight)
         vm.roomRateInfoTextObservable.subscribeText(roomInfoDescriptionText)
         vm.roomTypeObservable.subscribeText(roomType)
+        vm.discountPercentage.subscribeTextAndVisibility(roomDiscountPercentage)
         vm.collapsedBedTypeObservable.subscribeText(collapsedBedType)
         vm.expandedBedTypeObservable.subscribeText(expandedBedType)
-        vm.onlyShowTotalPrice.subscribeInverseVisibility(totalPricePerNight)
-        vm.perNightObservable.map { it && !vm.onlyShowTotalPrice.value }.subscribeVisibility(perNight)
+        vm.perNightPriceVisibleObservable.map { it && !vm.onlyShowTotalPrice.value }.subscribeVisibility(perNight)
         vm.expandedAmenityObservable.subscribe { text ->
             expandedAmenity.visibility = View.VISIBLE
             expandedAmenity.text = text
         }
         vm.collapsedUrgencyObservable.subscribeText(collapsedUrgency)
         vm.expandedMessageObservable.subscribe { expandedMessagePair ->
+            val drawable = context.resources.getDrawable(expandedMessagePair.second, context.theme)
             freeCancellation.text = expandedMessagePair.first
-            freeCancellation.setCompoundDrawablesWithIntrinsicBounds(expandedMessagePair.second, null, null, null)
+            freeCancellation.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
         }
         vm.dailyPricePerNightObservable.subscribeText(dailyPricePerNight)
         vm.viewRoomObservable.subscribe {
@@ -115,6 +117,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
         }
         vm.roomInfoVisibiltyObservable.subscribeVisibility(roomInfoContainer)
         vm.roomInfoVisibiltyObservable.subscribeVisibility(roomInfoDivider)
+        vm.strikeThroughPriceObservable.subscribeTextAndVisibility(strikeThroughPrice)
 
         fun AlphaAnimation.commonSetup() {
             this.interpolator = AccelerateDecelerateInterpolator()
@@ -145,17 +148,13 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             val anim = AlphaAnimation(1f, 0f)
             anim.commonSetup()
             anim.setAnimationListener(object : Animation.AnimationListener {
-                override fun onAnimationStart(animation: Animation?) {
-                    if (view.id == R.id.total_price_per_night) view.visibility = View.GONE
-                }
+                override fun onAnimationStart(animation: Animation?) {}
 
                 override fun onAnimationEnd(animation: Animation?) {
-                    //ignore
+                    if (view.id == R.id.strike_through_price) view.visibility = View.GONE
                 }
 
-                override fun onAnimationRepeat(animation: Animation?) {
-                    //ignore
-                }
+                override fun onAnimationRepeat(animation: Animation?) {}
             })
             return anim
         }
@@ -175,13 +174,10 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
                 it.startAnimation(newAlphaOneToZeroAnimation(it))
             }
             viewsToShowInExpandedState.forEach {
-                if (it.id == R.id.expanded_amenity_text_view && Strings.isEmpty((it as TextView).text)) {
+                if (it is TextView && Strings.isEmpty(it.text)) {
                     it.visibility = View.GONE
                 } else {
-                    val canShowView = !(it.id == R.id.total_price_per_night && vm.onlyShowTotalPrice.value)
-                    if (canShowView) {
-                        it.startAnimation(newAlphaZeroToOneAnimation(it))
-                    }
+                    it.startAnimation(newAlphaZeroToOneAnimation(it))
                 }
             }
 
@@ -201,7 +197,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             topMarginForView(roomDivider, resources.getDimension(R.dimen.launch_tile_margin_top).toInt())
 
             val resizeAnimator = ResizeHeightAnimator(if (animate) ANIMATION_DURATION else 0)
-            resizeAnimator.addViewSpec(roomHeaderImage, roomHeaderImageHeight)
+            resizeAnimator.addViewSpec(roomHeaderImageContainer, roomHeaderImageHeight)
             resizeAnimator.addViewSpec(roomInfoHeader, roomInfoHeaderTextHeight)
             resizeAnimator.addViewSpec(roomInfoDivider, roomInfoDividerHeight)
             if (roomInfoDescriptionText.visibility == View.VISIBLE) {
@@ -253,7 +249,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             (row.background as TransitionDrawable).startTransition(ANIMATION_DURATION.toInt())
 
             val resizeAnimator = ResizeHeightAnimator(if (animate) ANIMATION_DURATION else 0)
-            resizeAnimator.addViewSpec(roomHeaderImage, 0)
+            resizeAnimator.addViewSpec(roomHeaderImageContainer, 0)
             resizeAnimator.addViewSpec(roomInfoHeader, 0)
             resizeAnimator.addViewSpec(roomInfoDivider, 0)
             if (roomInfoDescriptionText.visibility == View.VISIBLE) {

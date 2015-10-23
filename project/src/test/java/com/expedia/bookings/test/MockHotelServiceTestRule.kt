@@ -2,11 +2,15 @@ package com.expedia.bookings.test
 
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.services.HotelServices
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import com.squareup.okhttp.OkHttpClient
 import com.squareup.okhttp.mockwebserver.MockWebServer
+import org.joda.time.LocalDate
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
@@ -47,6 +51,19 @@ public class MockHotelServiceTestRule : TestRule {
 
     fun getHappyCreateTripResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("happypath_0")
+    }
+
+    fun getHappyOfferResponse(): HotelOffersResponse {
+        return getOfferResponse("happypath")
+    }
+
+    private fun getOfferResponse(responseFileName: String): HotelOffersResponse {
+        val hotelSearchParams = HotelSearchParams(SuggestionV4(), LocalDate(), LocalDate(), 1, emptyList())
+        val observer = TestSubscriber<HotelOffersResponse>()
+        service.details(hotelSearchParams, responseFileName, observer)
+        observer.awaitTerminalEvent()
+        observer.assertCompleted()
+        return observer.onNextEvents.get(0)
     }
 
     private fun getCreateTripResponse(responseFileName: String): HotelCreateTripResponse {
