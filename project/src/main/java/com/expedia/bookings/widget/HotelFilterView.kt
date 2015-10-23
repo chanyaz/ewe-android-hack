@@ -32,11 +32,11 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.HotelFilterViewModel.Sort
-import com.mobiata.android.Log
 import rx.Observer
 import java.util.ArrayList
 import kotlin.properties.Delegates
@@ -83,6 +83,8 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val amenityContainer: GridLayout by bindView(R.id.amenities_container)
 
     var filterObserver: Observer<List<Hotel>> by Delegates.notNull()
+    val rowHeight = resources.getDimensionPixelSize(R.dimen.hotel_neighborhood_height)
+    val ANIMATION_DURATION = 500L
 
     fun subscribe(filterObserver: Observer<List<Hotel>>) {
         this.filterObserver = filterObserver
@@ -253,14 +255,13 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
                 }
 
                 for (i in 1..list.size() - 1) {
-                    val neighborhoodView = LayoutInflater.from(getContext()).inflate(R.layout.section_hotel_neighborhood_row, null) as HotelsNeighborhoodFilter
+                    val neighborhoodView = LayoutInflater.from(getContext()).inflate(R.layout.section_hotel_neighborhood_row, neighborhoodContainer, false) as HotelsNeighborhoodFilter
                     neighborhoodView.bind(list.get(i), vm)
                     neighborhoodView.subscribeOnClick(neighborhoodView.checkObserver)
                     neighborhoodContainer.addView(neighborhoodView)
-                    if (i > 3 && i < list.size()){
-                        neighborhoodView.visibility = View.GONE
-                    }
                 }
+
+                setupNeighBourhoodView()
             } else {
                 neighborhoodLabel.visibility = View.GONE
                 neighborhoodMoreLessView.visibility = View.GONE
@@ -272,7 +273,8 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.neighborhoodExpandObserable.subscribe { isSectionExpanded ->
             if (isSectionExpanded) {
                 AnimUtils.rotate(neighborhoodMoreLessIcon)
-                neighborhoodMoreLessLabel.text = getContext().getString(R.string.show_less)
+                neighborhoodMoreLessLabel.text = resources.getString(R.string.show_less)
+
                 for (i in 3..neighborhoodContainer.getChildCount() - 1) {
                     val v = neighborhoodContainer.getChildAt(i)
                     if (v is HotelsNeighborhoodFilter) {
@@ -280,15 +282,12 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
                     }
                 }
 
+                val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
+                resizeAnimator.addViewSpec(neighborhoodContainer, rowHeight * neighborhoodContainer.childCount)
+                resizeAnimator.start()
+
             } else {
-                AnimUtils.reverseRotate(neighborhoodMoreLessIcon)
-                neighborhoodMoreLessLabel.text = getContext().getString(R.string.show_more)
-                for (i in 3 .. neighborhoodContainer.getChildCount() -1){
-                    val v = neighborhoodContainer.getChildAt(i)
-                    if (v is HotelsNeighborhoodFilter) {
-                        v.visibility = View.GONE
-                    }
-                }
+                setupNeighBourhoodView()
             }
         }
 
@@ -303,6 +302,23 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             if (!amenityMap.isEmpty()){
                 amenityLabel.visibility = View.VISIBLE
                 FilterAmenity.addAmenityFilters(amenityContainer, amenityMap, vm)
+            }
+        }
+
+    }
+
+    private fun setupNeighBourhoodView() {
+        AnimUtils.reverseRotate(neighborhoodMoreLessIcon)
+        neighborhoodMoreLessLabel.text = resources.getString(R.string.show_more)
+
+        val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
+        resizeAnimator.addViewSpec(neighborhoodContainer, rowHeight * 3)
+        resizeAnimator.start()
+
+        for (i in 3..neighborhoodContainer.getChildCount() - 1) {
+            val v = neighborhoodContainer.getChildAt(i)
+            if (v is HotelsNeighborhoodFilter) {
+                v.visibility = View.GONE
             }
         }
 

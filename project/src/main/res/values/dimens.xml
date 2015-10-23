@@ -370,6 +370,8 @@
     <dimen name="hotel_detail_divider_margin">10dp</dimen>
     <!-- hotel filter toolbar height -->
     <dimen name="hotel_filter_height">58dp</dimen>
+    <!-- hotel filter neighborhood height -->
+    <dimen name="hotel_neighborhood_height">40dp</dimen>
 
     <!-- hotel V2 drawable padding for Free cancellation/ETP -->
     <dimen name="hotel_free_cancellation_etp_drawable_padding">10dp</dimen>
