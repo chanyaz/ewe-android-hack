@@ -180,6 +180,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_SEARCH_MAP_TAP_PIN = "App.Hotels.Search.TapPin";
 	private static final String HOTELSV2_SEARCH_MAP_TAP_CAROUSAL = "App.Hotels.Search.Expand.Hotel";
 	private static final String HOTELSV2_SEARCH_THIS_AREA = "App.Hotels.Search.AreaSearch";
+	private static final String HOTELSV2_CAROUSEL_SCROLL = "App.Hotels.Search.ShowNext";
 	private static final String HOTELSV2_DETAILS_PAGE = "App.Hotels.Infosite";
 	private static final String HOTELSV2_DETAILS_ETP = "App.Hotels.IS.Select.";
 	private static final String HOTELSV2_DETAIL_VIEW_ROOM = "App.Hotels.IS.ViewRoom";
@@ -329,7 +330,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackHotelV2SortBy(String type) {
-		String pageName = HOTELSV2_SORT + "." + type;
+		String pageName = HOTELSV2_SORT + type;
 		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(pageName);
@@ -386,6 +387,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 
 		s.setAppState(HOTELSV2_SEARCH_MAP);
+		s.setEvar(18, HOTELSV2_SEARCH_MAP);
 
 		// LOB Search
 		s.setEvar(2, "D=c2");
@@ -424,13 +426,20 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Search Results Map View", null, null);
 	}
 
+	public static void trackHotelV2CarouselScroll() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CAROUSEL_SCROLL + "\" scroll...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CAROUSEL_SCROLL);
+		s.trackLink(null, "o", "Search Results Map View", null, null);
+	}
+
 	public static void trackPageLoadHotelV2Infosite(HotelOffersResponse hotelOffersResponse, boolean isETPEligible,
 		boolean isCurrentLocationSearch) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAILS_PAGE + "\" pageload");
 
 		ADMS_Measurement s = getFreshTrackingObject();
 
-		final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-mm-dd");
+		final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
 
 		LocalDate checkInDate = dtf.parseDateTime(hotelOffersResponse.checkInDate).toLocalDate();
 		LocalDate checkOutDate = dtf.parseDateTime(hotelOffersResponse.checkOutDate).toLocalDate();
@@ -524,6 +533,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 
 		s.setAppState(HOTELSV2_REVIEWS);
+		s.setEvar(18, HOTELSV2_REVIEWS);
 
 		// LOB Search
 		s.setEvar(2, "D=c2");
@@ -546,6 +556,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 
 		s.setAppState(HOTELSV2_ETP_INFO);
+		s.setEvar(18, HOTELSV2_ETP_INFO);
 
 		// LOB Search
 		s.setEvar(2, "D=c2");
@@ -718,8 +729,8 @@ public class OmnitureTracking {
 
 		// Unique confirmation id
 		// 14103: Remove timestamp from the purchaseID variable
-		s.setProp(71, hotelCheckoutResponse.checkoutResponse.bookingResponse.itineraryNumber);
-		s.setProp(72, hotelCheckoutResponse.checkoutResponse.bookingResponse.tripId);
+		s.setProp(71, hotelCheckoutResponse.checkoutResponse.bookingResponse.travelRecordLocator);
+		s.setProp(72, hotelCheckoutResponse.orderId);
 		s.setPurchaseID("onum" + hotelCheckoutResponse.orderId);
 
 		int numNights = JodaUtils.daysBetween(checkInDate,checkOutDate);
