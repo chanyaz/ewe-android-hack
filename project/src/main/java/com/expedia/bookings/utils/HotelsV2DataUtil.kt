@@ -1,6 +1,5 @@
 package com.expedia.bookings.utils
 
-import com.expedia.bookings.data
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.services.LocalDateTypeAdapter
@@ -27,13 +26,14 @@ public class HotelsV2DataUtil {
             return null
         }
 
-        public fun getHotelV2SearchParams(params: data.HotelSearchParams): HotelSearchParams {
+        public fun getHotelV2SearchParams(params: com.expedia.bookings.data.HotelSearchParams): HotelSearchParams {
             val suggestionV4 = SuggestionV4()
             suggestionV4.hotelId = params.hotelId
             suggestionV4.gaiaId = params.getRegionId()
             suggestionV4.coordinates = SuggestionV4.LatLng()
             suggestionV4.coordinates.lat = params.searchLatitude
             suggestionV4.coordinates.lng = params.searchLongitude
+
             suggestionV4.type = params.searchType.name()
             val regionNames = SuggestionV4.RegionNames()
             regionNames.displayName = params.getQuery()
@@ -46,7 +46,10 @@ public class HotelsV2DataUtil {
                     childList.add(childTraveler.get(index).getAge())
                 }
             }
-            val v2params = HotelSearchParams(suggestionV4, params.getCheckInDate(), params.getCheckOutDate(), params.getNumAdults(), childList)
+            val hasValidDates = JodaUtils.isBeforeOrEquals(LocalDate.now(), params.getCheckInDate())
+            val checkInDate = if (hasValidDates) params.getCheckInDate() else LocalDate.now()
+            val checkOutDate = if (hasValidDates) params.getCheckOutDate() else LocalDate.now().plusDays(1)
+            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.getNumAdults(), childList)
             return v2params
         }
 
