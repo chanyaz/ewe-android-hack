@@ -48,6 +48,14 @@ public class HotelScreen {
 		return onView(withId(R.id.hotel_location_autocomplete));
 	}
 
+	public static ViewInteraction filterHotelName() {
+		return onView(allOf(withId(R.id.filter_hotel_name_edit_text), hasSibling(withId(R.id.hotel_name))));
+	}
+
+	public static ViewInteraction doneButton() {
+		return onView(allOf(withId(R.id.search_btn), isDescendantOfA(withId(R.id.filter_toolbar))));
+	}
+
 	public static ViewInteraction clearButton() {
 		return onView(withId(R.id.clear_location_button));
 	}
@@ -126,6 +134,15 @@ public class HotelScreen {
 		return onView(withId(R.id.list_view));
 	}
 
+	public static ViewInteraction hotelResultsMap() {
+		return onView(allOf(withId(R.id.map_view), hasSibling(withId(R.id.hotel_carousel_container))));
+	}
+
+	public static ViewInteraction mapfab() {
+		return onView(withId(R.id.fab));
+	}
+
+
 	public static ViewInteraction hotelSuggestionList() {
 		return onView(withId(R.id.drop_down_list));
 	}
@@ -136,6 +153,28 @@ public class HotelScreen {
 
 	public static void selectHotelWithName(String name) {
 		hotelResultsList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(name)), click()));
+	}
+
+	public static void clickSortFilter() {
+		onView(withId(R.id.sort_filter_button_container)).perform(click());
+	}
+
+	public static ViewInteraction filterVip() {
+		return onView(withId(R.id.filter_hotel_vip));
+	}
+
+	public static ViewInteraction clearFilter() {
+		return onView(
+			allOf(withId(R.id.dynamic_feedback_clear_button), isDescendantOfA(withId(R.id.dynamic_feedback_container))));
+	}
+
+	public static ViewInteraction filterResultsSnackBar() {
+		return onView(withId(R.id.dynamic_feedback_container));
+	}
+
+	public static ViewInteraction filterResultsSnackBarCounter() {
+		return onView(allOf(withId(R.id.dynamic_feedback_counter),
+			isDescendantOfA(withId(R.id.dynamic_feedback_container))));
 	}
 
 	public static ViewInteraction addRoom() {
@@ -179,6 +218,10 @@ public class HotelScreen {
 
 	public static void waitForResultsDisplayed() {
 		hotelResultsList().perform(ViewActions.waitForViewToDisplay());
+	}
+
+	public static void waitForMapDisplayed() {
+		hotelResultsMap().perform(ViewActions.waitForViewToDisplay());
 	}
 
 	public static void waitForDetailsDisplayed() {
@@ -234,6 +277,10 @@ public class HotelScreen {
 	public static void pickRoom(String name) {
 		HotelScreen.clickViewRoom(name);
 		HotelScreen.clickAddRoom();
+	}
+
+	public static void sortFilter() {
+		HotelScreen.clickSortFilter();
 	}
 
 	public static void checkout(boolean walletSupported) throws Throwable {

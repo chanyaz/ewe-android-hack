@@ -1,5 +1,7 @@
 package com.expedia.bookings.bitmaps;
 
+import org.jetbrains.annotations.Nullable;
+
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
@@ -27,13 +29,13 @@ public class PicassoTarget implements Target {
 	}
 
 	@Override
-	public void onBitmapFailed(Drawable errorDrawable) {
+	public void onBitmapFailed(@Nullable Drawable errorDrawable) {
 		if (mCallBack != null) {
 			mCallBack.onError();
 		}
 	}
 
 	@Override
-	public void onPrepareLoad(Drawable placeHolderDrawable) {
+	public void onPrepareLoad(@Nullable Drawable placeHolderDrawable) {
 	}
 }

@@ -260,12 +260,12 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
                 imageView.setImageDrawable(drawable)
             }
 
-            override fun onBitmapFailed(errorDrawable: Drawable) {
+            override fun onBitmapFailed(errorDrawable: Drawable?) {
                 super.onBitmapFailed(errorDrawable)
                 imageView.setImageDrawable(errorDrawable)
             }
 
-            override fun onPrepareLoad(placeHolderDrawable: Drawable) {
+            override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
                 super.onPrepareLoad(placeHolderDrawable)
                 imageView.setImageDrawable(placeHolderDrawable)
             }
