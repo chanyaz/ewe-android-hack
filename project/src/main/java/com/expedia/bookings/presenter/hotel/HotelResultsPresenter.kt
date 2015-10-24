@@ -38,6 +38,7 @@ import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.*
@@ -411,7 +412,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         //If the user moves the map at all, make sure the button is showing.
         googleMap?.setOnCameraChangeListener { position ->
-            showSearchThisArea()
+            if (Strings.equals(currentState, ResultsMap::class.java.name)) {
+                showSearchThisArea()
+            }
         }
 
         googleMap?.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
@@ -445,11 +448,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             currentState = newState
 
-            val view = recyclerView.getChildAt(1)
+            val view = recyclerView.findViewHolderForAdapterPosition(1)
             val topOffset = if (view == null) {
                 0
             } else {
-                view.top
+                view.itemView.top
             }
 
             if (newState == RecyclerView.SCROLL_STATE_IDLE && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
@@ -482,11 +485,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             val y = mapView.translationY + (-dy * halfway / (recyclerView.height - halfway))
             mapView.translationY = y
 
-            val view = recyclerView.getChildAt(1)
+            val view = recyclerView.findViewHolderForAdapterPosition(1)
             val topOffset = if (view == null) {
                 0
             } else {
-                view.top
+                view.itemView.top
             }
 
             adjustGoogleMapLogo()

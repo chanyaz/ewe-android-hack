@@ -33,22 +33,6 @@
                     android:layout_height="134dp"
                     android:scaleType="centerCrop" />
 
-                <View
-                    android:id="@+id/gradient_top"
-                    android:layout_width="match_parent"
-                    android:layout_height="67dp"
-                    android:layout_gravity="top"
-                    android:background="@drawable/hotel_result_list_gradient_top"
-                    android:scaleType="centerCrop" />
-
-                <View
-                    android:id="@+id/gradient_bottom"
-                    android:layout_width="match_parent"
-                    android:layout_height="67dp"
-                    android:layout_gravity="bottom"
-                    android:background="@drawable/hotel_result_list_gradient_bottom"
-                    android:scaleType="centerCrop" />
-
                 <LinearLayout
                     android:id="@+id/urgency_message_layout"
                     style="@style/UrgencyMessage"

@@ -155,8 +155,6 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         val vipMessage: TextView by root.bindView(R.id.vip_message)
         val airAttachDiscount: TextView by root.bindView(R.id.air_attach_discount)
         val airAttachContainer: LinearLayout by root.bindView(R.id.air_attach_layout)
-        val gradientTop: View by root.bindView(R.id.gradient_top)
-        val gradientBottom: View by root.bindView(R.id.gradient_bottom)
         val ratingAmenityContainer: View by root.bindView(R.id.rating_amenity_container)
 
         init {
@@ -172,15 +170,6 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         }
 
         public fun bind(viewModel: HotelViewModel) {
-            viewModel.hotelLargeThumbnailUrlObservable.subscribe { url ->
-                PicassoHelper.Builder(itemView.context)
-                        .setPlaceholder(R.drawable.results_list_placeholder)
-                        .setError(R.drawable.results_list_placeholder)
-                        .setTarget(target).setTag(PICASSO_TAG)
-                        .build()
-                        .load(HotelMedia(url).getBestUrls(width))
-            }
-
             viewModel.hotelNameObservable.subscribeText(hotelName)
             viewModel.pricePerNightObservable.subscribeText(pricePerNight)
             viewModel.hotelGuestRatingObservable.subscribeText(guestRating)
@@ -201,7 +190,6 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             viewModel.urgencyMessageBackgroundObservable.subscribeBackgroundColor(urgencyMessageContainer)
             viewModel.urgencyMessageBoxObservable.subscribeText(urgencyMessageBox)
             viewModel.vipMessageVisibilityObservable.subscribeVisibility(vipMessage)
-            viewModel.vipMessageVisibilityObservable.subscribeVisibility(gradientTop)
             viewModel.airAttachVisibilityObservable.subscribeVisibility(airAttachContainer)
             viewModel.hotelDiscountPercentageObservable.subscribeText(airAttachDiscount)
             viewModel.ratingAmenityContainerVisibilityObservable.subscribeVisibility(ratingAmenityContainer)
@@ -213,6 +201,15 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             viewModel.adImpressionObservable.subscribe {
                 AdImpressionTracking.trackAdClickOrImpression(itemView.context, it, null)
                 viewModel.setImpressionTracked(true)
+            }
+
+            viewModel.hotelLargeThumbnailUrlObservable.subscribe { url ->
+                PicassoHelper.Builder(itemView.context)
+                        .setPlaceholder(R.drawable.results_list_placeholder)
+                        .setError(R.drawable.results_list_placeholder)
+                        .setTarget(target).setTag(PICASSO_TAG)
+                        .build()
+                        .load(HotelMedia(url).getBestUrls(width))
             }
         }
 
@@ -255,14 +252,12 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
                 val colorArrayFull = intArrayOf(startColor, endColor,
                         startColor)
 
-                if ( vipMessage.getVisibility() == View.VISIBLE ) {
+                if (vipMessage.visibility == View.VISIBLE ) {
                     drawable.setGradient(colorArrayFull, null)
                 } else {
                     drawable.setGradient(colorArrayBottom, DEFAULT_GRADIENT_POSITIONS)
                 }
                 imageView.setImageDrawable(drawable)
-                gradientTop.setVisibility(View.VISIBLE)
-                gradientBottom.setVisibility(View.VISIBLE)
             }
 
             override fun onBitmapFailed(errorDrawable: Drawable) {
