@@ -10,6 +10,7 @@
         android:minHeight="120dp">
 
         <ImageView
+            android:id="@+id/hotel_checkout_room_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/hotel_info_section"

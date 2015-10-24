@@ -41,6 +41,7 @@ public class HotelCreateTripResponse extends BaseApiResponse {
 		public HotelOffersResponse.HotelRoomResponse hotelRoomResponse;
 		public String supplierType;
 		public List<HotelOffersResponse.HotelAmenities> accessibilityAmenities;
+		public String largeThumbnailUrl;
 
 		boolean isVipAccess;
 		String tealeafTransactionId;

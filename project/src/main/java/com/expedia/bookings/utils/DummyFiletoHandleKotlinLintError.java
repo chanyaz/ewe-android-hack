@@ -158,7 +158,9 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.btn_filter_rating_four_circle,
 		R.drawable.btn_filter_rating_one_circle,
 		R.drawable.btn_filter_rating_three_circle,
+		R.layout.widget_vip_access_info,
 		R.drawable.btn_filter_rating_two_circle,
-		R.layout.widget_vip_access_info
+		R.string.zero_reviews,
+		R.dimen.hotel_checkout_image_corner_radius
 	};
 }
