@@ -20,6 +20,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.vm.HotelCouponViewModel
+import com.mobiata.android.util.Ui
 import kotlin.properties.Delegates
 
 /**
@@ -89,6 +90,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
         showProgress(false)
 
         removeCoupon.setOnClickListener {
+            resetFields()
             viewmodel.removeObservable.onNext(Unit)
             viewmodel.hasDiscountObservable.onNext(false)
             HotelV2Tracking().trackHotelV2CouponRemove(couponCode.text.toString())
@@ -114,7 +116,10 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
                 mToolbarListener.showRightActionButton(false)
             }
             HotelV2Tracking().trackHotelV2ExpandCoupon()
+            couponCode.requestFocus()
+            Ui.showKeyboard(couponCode, null)
         } else {
+            resetFields()
             setBackgroundResource(R.drawable.card_background)
             expanded.setVisibility(View.GONE)
             if (viewmodel.hasDiscountObservable.value != null && viewmodel.hasDiscountObservable.value) {
@@ -148,6 +153,15 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
         return true;
     }
 
+    override fun onClick(v: View) {
+        if (applied.visibility == View.VISIBLE) {
+            return
+        }
+        else if (!isExpanded) {
+            isExpanded = true
+        }
+    }
+
     private fun showProgress(show: Boolean) {
         progress.setVisibility(if (show) { View.VISIBLE } else { View.INVISIBLE })
     }
@@ -158,5 +172,10 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
 
     override fun getMenuButtonTitle(): String? {
        return getResources().getString(R.string.coupon_submit_button)
+    }
+
+    private fun resetFields() {
+        couponCode.setText(null)
+        error.setText(null)
     }
 }
