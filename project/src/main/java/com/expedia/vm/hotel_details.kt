@@ -19,6 +19,7 @@ import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
@@ -27,13 +28,15 @@ import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.endlessObserver
 import com.mobiata.android.FormatUtils
 import com.mobiata.android.SocialUtils
+import com.mobiata.android.text.StrikethroughTagHandler
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
-import java.util.*
+import java.util.ArrayList
+import java.util.Locale
 import kotlin.properties.Delegates
 
 class HotelDetailViewModel(val context: Context, val hotelServices: HotelServices, val roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
@@ -419,23 +422,22 @@ val ROOMS_LEFT_CUTOFF = 5
 public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, val amenity: String, val rowIndex: Int, val hotelDetailViewModel: HotelDetailViewModel) {
 
     //Output
-    val rateObservable = BehaviorSubject.create(hotelRoomResponse)
     val roomBackgroundViewObservable = BehaviorSubject.create<Drawable>()
     val roomSelectedObservable = BehaviorSubject.create<HotelOffersResponse.HotelRoomResponse>()
     val roomTypeObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomTypeDescription)
     val collapsedBedTypeObservable = BehaviorSubject.create<String>()
     val expandedBedTypeObservable = BehaviorSubject.create<String>()
     val expandedAmenityObservable = BehaviorSubject.create<String>()
-    val expandedMessageObservable = BehaviorSubject.create<Pair<String, Drawable>>()
+    val expandedMessageObservable = BehaviorSubject.create<Pair<String, @DrawableRes Int>>()
     val collapsedUrgencyObservable = BehaviorSubject.create<String>()
     val currencyCode = hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode
 
     val dailyPrice = Money(BigDecimal(hotelRoomResponse.rateInfo.chargeableRateInfo.priceToShowUsers.toDouble()), currencyCode)
-    var dailyPricePerNightObservable = BehaviorSubject.create<String>()
-    var perNightObservable = BehaviorSubject.create<Boolean>()
+    val strikeThroughPriceObservable = BehaviorSubject.create<CharSequence>()
+    val dailyPricePerNightObservable = BehaviorSubject.create<String>()
+    val perNightPriceVisibleObservable = BehaviorSubject.create<Boolean>()
 
     val onlyShowTotalPrice = BehaviorSubject.create<Boolean>()
-    val pricePerNightObservable = BehaviorSubject.create<String>()
     val roomHeaderImageObservable = BehaviorSubject.create<String>(Images.getMediaHost() + hotelRoomResponse.roomThumbnailUrl)
     val viewRoomObservable = BehaviorSubject.create<Unit>()
     val roomRateInfoTextObservable = BehaviorSubject.create<String>(hotelRoomResponse.roomLongDescription)
@@ -445,6 +447,7 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
     val collapseRoomObservable = BehaviorSubject.create<Boolean>()
     val expandedMeasurementsDone = PublishSubject.create<Unit>()
     val roomInfoExpandCollapseObservable = PublishSubject.create<Unit>()
+    val discountPercentage = BehaviorSubject.create<String>()
 
     val expandCollapseRoomRateInfoDescription: Observer<Unit> = endlessObserver {
         roomInfoExpandCollapseObservable.onNext(Unit)
@@ -471,9 +474,8 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
         val depositAmountMoney = Money(BigDecimal(depositAmount), currencyCode)
         val payLaterText = Phrase.from(context, R.string.room_rate_pay_later_due_now).put("amount", depositAmountMoney.formattedMoney).format().toString()
         dailyPricePerNightObservable.onNext(payLaterText)
-        perNightObservable.onNext(false)
-        // show price per night
-        pricePerNightObservable.onNext(makePriceToShowCustomer())
+        perNightPriceVisibleObservable.onNext(false)
+        strikeThroughPriceObservable.onNext(makePriceToShowCustomer())
     }
 
     fun makePriceToShowCustomer(): String {
@@ -483,34 +485,38 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
     }
 
     init {
-        onlyShowTotalPrice.onNext(hotelRoomResponse.rateInfo.chargeableRateInfo.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
+        val rateInfo = hotelRoomResponse.rateInfo
+        val chargeableRateInfo = rateInfo.chargeableRateInfo
+        val discountPercent = HotelUtils.getDiscountPercent(chargeableRateInfo)
+        val isPayLater = hotelRoomResponse.isPayLater
 
-        //show total price per night
-        pricePerNightObservable.onNext(context.resources.getString(R.string.cars_total_template, Money.getFormattedMoneyFromAmountAndCurrencyCode(BigDecimal(hotelRoomResponse.rateInfo.chargeableRateInfo.total.toDouble()), currencyCode, Money.F_NO_DECIMAL)))
-        dailyPricePerNightObservable.onNext(dailyPrice.formattedMoney)
-        perNightObservable.onNext(true)
-        rateObservable.subscribe { hotelRoom ->
-            val bedTypes = (hotelRoom.bedTypes ?: emptyList()).map { it.description }.join("")
-            collapsedBedTypeObservable.onNext(bedTypes)
-            expandedBedTypeObservable.onNext(bedTypes)
-            var expandedPair: Pair<String, Drawable>
-            if (hotelRoom.hasFreeCancellation) {
-                expandedPair = Pair(context.getResources().getString(R.string.free_cancellation), context.getResources().getDrawable(R.drawable.room_checkmark))
-            } else {
-                expandedPair = Pair(context.getResources().getString(R.string.non_refundable), context.getResources().getDrawable(R.drawable.room_non_refundable))
+        if (discountPercent >= 9.5) { // discount is 10% or better
+            discountPercentage.onNext(context.resources.getString(R.string.percent_off_TEMPLATE, discountPercent))
+            if (!isPayLater) {
+                val strikeThroughPriceToShowUsers = Money(BigDecimal(chargeableRateInfo.strikethroughPriceToShowUsers.toDouble()), currencyCode).formattedMoney
+                strikeThroughPriceObservable.onNext(Html.fromHtml(context.resources.getString(R.string.strike_template, strikeThroughPriceToShowUsers), null, StrikethroughTagHandler()))
             }
-
-            expandedMessageObservable.onNext(expandedPair)
-
-            val roomLeft = hotelRoom.currentAllotment.toInt()
-            if (hotelRoom.currentAllotment != null && roomLeft > 0 && roomLeft <= ROOMS_LEFT_CUTOFF) {
-                collapsedUrgencyObservable.onNext(context.getResources().getQuantityString(R.plurals.num_rooms_left, roomLeft, roomLeft))
-            } else {
-                collapsedUrgencyObservable.onNext(expandedPair.first)
-            }
-
         }
+        onlyShowTotalPrice.onNext(chargeableRateInfo.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
+        dailyPricePerNightObservable.onNext(dailyPrice.formattedMoney)
+        perNightPriceVisibleObservable.onNext(true)
 
+        val bedTypes = (hotelRoomResponse.bedTypes ?: emptyList()).map { it.description }.join("")
+        collapsedBedTypeObservable.onNext(bedTypes)
+        expandedBedTypeObservable.onNext(bedTypes)
+        var expandedPair: Pair<String, @DrawableRes Int>
+        if (hotelRoomResponse.hasFreeCancellation) {
+            expandedPair = Pair(context.resources.getString(R.string.free_cancellation), R.drawable.room_checkmark)
+        } else {
+            expandedPair = Pair(context.resources.getString(R.string.non_refundable), R.drawable.room_non_refundable)
+        }
+        expandedMessageObservable.onNext(expandedPair)
+        val roomLeft = hotelRoomResponse.currentAllotment.toInt()
+        if (hotelRoomResponse.currentAllotment != null && roomLeft > 0 && roomLeft <= ROOMS_LEFT_CUTOFF) {
+            collapsedUrgencyObservable.onNext(context.resources.getQuantityString(R.plurals.num_rooms_left, roomLeft, roomLeft))
+        } else {
+            collapsedUrgencyObservable.onNext(expandedPair.first)
+        }
         if (Strings.isNotEmpty(amenity)) expandedAmenityObservable.onNext(amenity)
     }
 }
