@@ -300,4 +300,9 @@ public class HotelUtils {
 		}
 		return false;
 	}
+
+	public static String formattedReviewCount(int numberOfReviews) {
+		NumberFormat nf = NumberFormat.getInstance();
+		return nf.format(numberOfReviews);
+	}
 }

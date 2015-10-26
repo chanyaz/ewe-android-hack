@@ -220,11 +220,20 @@
                     android:id="@+id/room_info_header_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawableRight="@drawable/read_more"
+                    android:paddingTop="2dp"
                     android:text="@string/room_information"
                     android:textColor="#808080"
                     android:textSize="13sp"
                     app:textStyle="medium" />
+
+                <ImageView
+                    android:id="@+id/room_info_chevron"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/read_more"/>
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/room_info_description_text"

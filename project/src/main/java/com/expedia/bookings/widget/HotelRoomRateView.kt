@@ -23,6 +23,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
@@ -60,6 +61,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
     private val roomHeaderImage: ImageView by bindView(R.id.room_header_image)
     private val roomDiscountPercentage: TextView by bindView(R.id.discount_percentage)
     private val roomInfoDescriptionText: TextView by bindView(R.id.room_info_description_text)
+    private val roomInfoChevron: ImageView by bindView(R.id.room_info_chevron)
     private val roomInfoContainer: RelativeLayout by bindView(R.id.room_info_container)
     private val expandedAmenity: TextView by bindView(R.id.expanded_amenity_text_view)
     private val freeCancellation: TextView by bindView(R.id.expanded_free_cancellation_text_view)
@@ -71,6 +73,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
     private var roomHeaderImageHeight = -1
     private var roomInfoDividerHeight = -1
     private var roomInfoDescriptionTextHeight = -1
+    private var roomInfoChevronHeight = -1
     private var toggleCollapsed = 0
     private var toggleExpanded = 0
     private var roomContainerTopBottomPadding = 0
@@ -90,7 +93,15 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
         vm.roomSelectedObservable.subscribe(selectedRoomObserver)
 
         Observable.combineLatest(vm.roomInfoExpandCollapseObservable, vm.expandedMeasurementsDone) { visibility, unit -> visibility }.subscribe({ visibility ->
-            roomInfoDescriptionText.visibility = if (roomInfoDescriptionText.getVisibility() == View.VISIBLE) View.GONE else View.VISIBLE
+            val shouldExpand = roomInfoDescriptionText.visibility == View.GONE
+            if (shouldExpand) {
+                roomInfoDescriptionText.visibility = View.VISIBLE
+                AnimUtils.rotate(roomInfoChevron)
+            }
+            else {
+                roomInfoDescriptionText.visibility = View.GONE
+                AnimUtils.reverseRotate(roomInfoChevron)
+            }
             //track only when expand the room info
             if (roomInfoDescriptionText.visibility == View.VISIBLE) HotelV2Tracking().trackLinkHotelV2RoomInfoClick()
         })
@@ -201,6 +212,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             resizeAnimator.addViewSpec(roomHeaderImageContainer, roomHeaderImageHeight)
             resizeAnimator.addViewSpec(roomInfoHeader, roomInfoHeaderTextHeight)
             resizeAnimator.addViewSpec(roomInfoDivider, roomInfoDividerHeight)
+            resizeAnimator.addViewSpec(roomInfoChevron, roomInfoChevronHeight)
             if (roomInfoDescriptionText.visibility == View.VISIBLE) {
                 resizeAnimator.addViewSpec(roomInfoDescriptionText, roomInfoDescriptionTextHeight)
             }
@@ -253,6 +265,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             resizeAnimator.addViewSpec(roomHeaderImageContainer, 0)
             resizeAnimator.addViewSpec(roomInfoHeader, 0)
             resizeAnimator.addViewSpec(roomInfoDivider, 0)
+            resizeAnimator.addViewSpec(roomInfoChevron, 0)
             if (roomInfoDescriptionText.visibility == View.VISIBLE) {
                 resizeAnimator.addViewSpec(roomInfoDescriptionText, 0)
             }
@@ -292,6 +305,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
                 roomInfoHeaderTextHeight = roomInfoHeader.height;
                 roomInfoDividerHeight = roomInfoDivider.height;
                 roomInfoDescriptionTextHeight = roomInfoDescriptionText.height;
+                roomInfoChevronHeight = roomInfoChevron.height
 
                 row.viewTreeObserver.removeOnGlobalLayoutListener(this)
 

@@ -5,6 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.utils.HotelUtils
 import com.expedia.util.endlessObserver
 import rx.Observer
 import rx.subjects.BehaviorSubject
@@ -17,7 +18,7 @@ class HotelReviewsViewModel(val context: Context) {
 
     var hotelObserver: Observer<HotelOffersResponse> = endlessObserver { hotel ->
         toolbarTitleObservable.onNext(hotel.hotelName)
-        toolbarSubtitleObservable.onNext(context.getResources().getString(R.string.n_reviews_TEMPLATE, hotel.totalReviews))
+        toolbarSubtitleObservable.onNext(context.getResources().getString(R.string.n_reviews_TEMPLATE, HotelUtils.formattedReviewCount(hotel.totalReviews)))
         hotelReviewsObservable.onNext(hotel.hotelId)
         HotelV2Tracking().trackHotelV2Reviews()
     }
