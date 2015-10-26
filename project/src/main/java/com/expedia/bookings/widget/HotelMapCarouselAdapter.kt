@@ -29,6 +29,11 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
         return hotels.size()
     }
 
+    public fun setItems(newHotels: List<Hotel>) {
+        hotels = newHotels
+        notifyDataSetChanged()
+    }
+
     override fun onBindViewHolder(given: RecyclerView.ViewHolder?, position: Int) {
         val holder: HotelViewHolder = given as HotelViewHolder
         val viewModel = HotelViewModel(holder.itemView.context, hotels.get(position))
