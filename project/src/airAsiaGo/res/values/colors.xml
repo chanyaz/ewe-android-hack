@@ -35,6 +35,11 @@
     <color name="lx_lob_btn">@color/aag_primary_color</color>
     <color name="flights_lob_btn">@color/aag_primary_color</color>
 
+    <!-- Popular Hotels Tonight Discount strips-->
+    <color name="launch_mobile_exclusive">#F8A424</color>
+    <color name="launch_discount">#E31F0E</color>
+    <color name="launch_tonight_only">#333333</color>
+
     <!-- LX colors -->
     <color name="lx_primary_color">@color/aag_primary_color</color>
     <color name="lx_secondary_color_disabled">@color/aag_primary_color</color>
