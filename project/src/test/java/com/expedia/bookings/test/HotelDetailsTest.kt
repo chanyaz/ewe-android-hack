@@ -22,6 +22,7 @@ import org.robolectric.Robolectric
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 public class HotelDetailsTest {
@@ -33,6 +34,10 @@ public class HotelDetailsTest {
     private var activity: Activity by Delegates.notNull()
     private var offers : HotelOffersResponse by Delegates.notNull()
 
+    lateinit private var checkIn: LocalDate
+    lateinit private var checkOut: LocalDate
+    lateinit private var searchParams: HotelSearchParams
+
     @Before
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
@@ -41,27 +46,13 @@ public class HotelDetailsTest {
         hotelDetailView.viewmodel = vm
 
         offers = HotelOffersResponse()
+        offers.hotelCity = "San Francisco"
+        offers.hotelStateProvince = "CA"
+        offers.hotelCountry = "US of A"
+        offers.checkInDate = LocalDate.now().toString()
+        offers.checkOutDate = LocalDate.now().plusDays(2).toString()
         offers.hotelGuestRating = 5.0
         offers.hotelStarRating = 5.0
-    }
-
-    private fun makeHotel() : HotelOffersResponse.HotelRoomResponse {
-        var hotel = HotelOffersResponse.HotelRoomResponse()
-        var valueAdds = ArrayList<HotelOffersResponse.ValueAdds>()
-        var valueAdd = HotelOffersResponse.ValueAdds()
-        valueAdd.description = "Value Add"
-        valueAdds.add(valueAdd)
-        hotel.valueAdds = valueAdds
-
-        var bedTypes = ArrayList<HotelOffersResponse.BedTypes>()
-        var bedType = HotelOffersResponse.BedTypes()
-        bedType.id = "1"
-        bedType.description = "King Bed"
-        bedTypes.add(bedType)
-        hotel.bedTypes = bedTypes
-
-        hotel.currentAllotment = "1"
-        return hotel
     }
 
     @Test
@@ -112,21 +103,10 @@ public class HotelDetailsTest {
 
         offers.hotelRoomResponse = rooms
 
-        val checkIn = LocalDate.now();
-        val checkOut = checkIn.plusDays(1)
-        val suggestion = SuggestionV4()
-        suggestion.gaiaId = ""
-        val searchBuilder = HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
-                .suggestion(suggestion)
-                .adults(2)
-                .children(listOf(10,10,10))
-                .checkIn(checkIn)
-                .checkOut(checkOut)
+        givenHotelSearchParams()
 
-        val searchParams = searchBuilder.build();
 
         vm.hotelOffersSubject.onNext(offers)
-        vm.paramsSubject.onNext(searchParams)
 
         val string = Phrase.from(activity, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
                 DateUtils.localDateToMMMd(checkIn)).put("enddate",
@@ -309,5 +289,124 @@ public class HotelDetailsTest {
         vm.hotelOffersSubject.onNext(offers)
 
         assertEquals(View.GONE, hotelDetailView.strikeThroughPrice.getVisibility())
+    }
+
+    @Test
+    fun testResortFeeIncludedInPrice() {
+        var hotel = makeHotel()
+
+        var lowRateInfo = HotelRate()
+        lowRateInfo.totalMandatoryFees = 12.5f
+        lowRateInfo.discountPercent = 0f
+        lowRateInfo.currencyCode = "USD"
+        lowRateInfo.resortFeeInclusion = true
+        lowRateInfo.showResortFeeMessage = true
+
+        var rateInfo = HotelOffersResponse.RateInfo()
+        rateInfo.chargeableRateInfo = lowRateInfo
+        hotel.rateInfo = rateInfo
+
+        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        rooms.add(hotel)
+
+        offers.hotelRoomResponse = rooms
+
+        givenHotelSearchParams()
+
+        vm.hotelOffersSubject.onNext(offers)
+        vm.addViewsAfterTransition()
+
+        assertEquals("Included in the price", vm.hotelResortFeeIncludedTextObservable.value)
+        assertEquals("$12.50", vm.hotelResortFeeObservable.value)
+    }
+
+    @Test
+    fun testResortFeeNotIncludedInPrice() {
+        var hotel = makeHotel()
+
+        var lowRateInfo = HotelRate()
+        lowRateInfo.totalMandatoryFees = 12.5f
+        lowRateInfo.discountPercent = 0f
+        lowRateInfo.currencyCode = "USD"
+        lowRateInfo.resortFeeInclusion = false
+        lowRateInfo.showResortFeeMessage = true
+
+        var rateInfo = HotelOffersResponse.RateInfo()
+        rateInfo.chargeableRateInfo = lowRateInfo
+        hotel.rateInfo = rateInfo
+
+        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        rooms.add(hotel)
+
+        offers.hotelRoomResponse = rooms
+
+        givenHotelSearchParams()
+
+        vm.hotelOffersSubject.onNext(offers)
+        vm.addViewsAfterTransition()
+
+        assertEquals("Not included in the price", vm.hotelResortFeeIncludedTextObservable.value)
+        assertEquals("$12.50", vm.hotelResortFeeObservable.value)
+    }
+
+    @Test
+    fun testNoResortFee() {
+        var hotel = makeHotel()
+
+        var lowRateInfo = HotelRate()
+        lowRateInfo.totalMandatoryFees = 12.5f
+        lowRateInfo.discountPercent = 0f
+        lowRateInfo.currencyCode = "USD"
+        lowRateInfo.showResortFeeMessage = false
+
+        var rateInfo = HotelOffersResponse.RateInfo()
+        rateInfo.chargeableRateInfo = lowRateInfo
+        hotel.rateInfo = rateInfo
+
+        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        rooms.add(hotel)
+
+        offers.hotelRoomResponse = rooms
+
+        givenHotelSearchParams()
+
+        vm.hotelOffersSubject.onNext(offers)
+        vm.addViewsAfterTransition()
+
+        assertNull(vm.hotelResortFeeIncludedTextObservable.value)
+        assertNull(vm.hotelResortFeeObservable.value)
+    }
+
+    private fun givenHotelSearchParams() {
+        checkIn = LocalDate.now();
+        checkOut = checkIn.plusDays(1)
+        val suggestion = SuggestionV4()
+        suggestion.gaiaId = ""
+        searchParams = HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+                .suggestion(suggestion)
+                .adults(2)
+                .children(listOf(10,10,10))
+                .checkIn(checkIn)
+                .checkOut(checkOut).build()
+        vm.paramsSubject.onNext(searchParams)
+    }
+
+    private fun makeHotel() : HotelOffersResponse.HotelRoomResponse {
+        var hotel = HotelOffersResponse.HotelRoomResponse()
+        var valueAdds = ArrayList<HotelOffersResponse.ValueAdds>()
+        var valueAdd = HotelOffersResponse.ValueAdds()
+        valueAdd.description = "Value Add"
+        valueAdds.add(valueAdd)
+        hotel.valueAdds = valueAdds
+
+        var bedTypes = ArrayList<HotelOffersResponse.BedTypes>()
+        var bedType = HotelOffersResponse.BedTypes()
+        bedType.id = "1"
+        bedType.description = "King Bed"
+        bedTypes.add(bedType)
+        hotel.bedTypes = bedTypes
+
+        hotel.currentAllotment = "1"
+        return hotel
     }
 }

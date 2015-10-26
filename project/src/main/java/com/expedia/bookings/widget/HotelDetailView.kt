@@ -197,6 +197,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         vm.renovationObservable.subscribe { renovationContainer.setVisibility(View.VISIBLE) }
         vm.hotelResortFeeObservable.subscribeText(resortFeeWidget.resortFeeText)
+        vm.hotelResortFeeIncludedTextObservable.subscribeText(resortFeeWidget.feesIncludedNotIncluded)
 
         vm.sectionBodyObservable.subscribeText(hotelDescription)
         vm.hotelNameObservable.subscribeText(toolbarTitle)

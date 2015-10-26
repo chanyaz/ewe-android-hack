@@ -12,6 +12,7 @@ import rx.Observer
 class ResortFeeWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     val resortFeeText: TextView by bindView(R.id.resort_fees_text)
+    val feesIncludedNotIncluded: TextView by bindView(R.id.fees_included_not_included_label)
 
     init {
         View.inflate(getContext(), R.layout.resort_fee_widget, this)
