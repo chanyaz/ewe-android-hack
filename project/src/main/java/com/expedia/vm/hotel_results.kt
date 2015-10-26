@@ -28,6 +28,7 @@ import kotlin.properties.Delegates
 
 public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices) {
 
+
     // Inputs
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
     val locationParamsSubject = PublishSubject.create<SuggestionV4>()
@@ -49,7 +50,7 @@ public class HotelResultsViewModel(private val context: Context, private val hot
 
         locationParamsSubject.subscribe(endlessObserver { suggestion ->
             val cachedParams: HotelSearchParams? = paramsSubject.value
-            val params = HotelSearchParams.Builder()
+            val params = HotelSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
                     .suggestion(suggestion)
                     .checkIn(cachedParams?.checkIn)
                     .checkOut(cachedParams?.checkOut)

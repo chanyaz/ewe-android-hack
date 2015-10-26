@@ -1,7 +1,9 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Rect
@@ -75,6 +77,19 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
     val searchContainer: ViewGroup by bindView(R.id.search_container)
     val searchParamsContainer: ViewGroup by bindView(R.id.search_params_container)
+
+    val maxHotelStay = context.resources.getInteger(R.integer.calendar_max_days_hotel_stay)
+    val dialog: AlertDialog by lazy {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(R.string.search_error)
+        builder.setMessage(context.getString(R.string.hotel_search_range_error_TEMPLATE, maxHotelStay))
+        builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface, which: Int) {
+                dialog.dismiss()
+            }
+        })
+        builder.create()
+    }
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle by lazy { toolbar.getChildAt(0) }
@@ -162,7 +177,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         suggestionRecyclerView.addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25f, resources.displayMetrics).toInt(), false))
         val maxDate = LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range))
         calendar.setSelectableDateRange(LocalDate.now(), maxDate)
-        calendar.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_days_hotel_stay))
+        calendar.setMaxSelectableDateRange(resources.getInteger(R.integer.calendar_max_selectable_date_range))
         calendar.setDateChangedListener { start, end ->
             if (JodaUtils.isEqual(start, end)) {
                 if (!JodaUtils.isEqual(end, maxDate)) {
@@ -286,6 +301,9 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             } else {
                 AnimUtils.doTheHarlemShake(selectDate)
             }
+        }
+        vm.errorMaxDatesObservable.subscribe {
+            dialog.show()
         }
         vm.searchParamsObservable.subscribe {
             calendar.hideToolTip()

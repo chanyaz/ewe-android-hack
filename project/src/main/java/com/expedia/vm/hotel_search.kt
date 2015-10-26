@@ -25,7 +25,7 @@ import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 class HotelSearchViewModel(val context: Context) {
-    private val paramsBuilder = HotelSearchParams.Builder()
+    private val paramsBuilder = HotelSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
 
     // Outputs
     val searchParamsObservable = PublishSubject.create<HotelSearchParams>()
@@ -37,6 +37,7 @@ class HotelSearchViewModel(val context: Context) {
     val searchButtonObservable = PublishSubject.create<Boolean>()
     val errorNoOriginObservable = PublishSubject.create<Unit>()
     val errorNoDatesObservable = PublishSubject.create<Unit>()
+    val errorMaxDatesObservable = PublishSubject.create<Unit>()
     val enableDateObservable = PublishSubject.create<Boolean>()
     val enableTravelerObservable = PublishSubject.create<Boolean>()
 
@@ -90,7 +91,11 @@ class HotelSearchViewModel(val context: Context) {
 
     val searchObserver = endlessObserver<Unit> {
         if (paramsBuilder.areRequiredParamsFilled()) {
-            searchParamsObservable.onNext(paramsBuilder.build())
+            if (!paramsBuilder.hasValidDates()) {
+                errorMaxDatesObservable.onNext(Unit)
+            } else {
+                searchParamsObservable.onNext(paramsBuilder.build())
+            }
         } else {
             if (!paramsBuilder.hasOrigin()) {
                 errorNoOriginObservable.onNext(Unit)

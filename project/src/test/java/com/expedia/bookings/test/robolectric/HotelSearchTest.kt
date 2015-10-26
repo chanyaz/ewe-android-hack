@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
+import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.vm.HotelSearchViewModel
@@ -16,10 +17,11 @@ import kotlin.properties.Delegates
 public class HotelSearchTest {
     public var vm: HotelSearchViewModel by Delegates.notNull()
     private var LOTS_MORE: Long = 100
+    var activity : Activity by Delegates.notNull()
 
     @Before
     fun before() {
-        val activity = Robolectric.buildActivity(javaClass<Activity>()).create().get()
+        activity = Robolectric.buildActivity(javaClass<Activity>()).create().get()
         vm = HotelSearchViewModel(activity)
     }
 
@@ -37,12 +39,12 @@ public class HotelSearchTest {
         // Selecting only start date should search with end date as the next day
         vm.datesObserver.onNext(Pair(LocalDate.now(), null))
         vm.searchObserver.onNext(Unit)
-        expected.add(HotelSearchParams.Builder().suggestion(suggestion).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(1)).build())
+        expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).suggestion(suggestion).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(1)).build())
 
         // Select both start date and end date and search
         vm.datesObserver.onNext(Pair(LocalDate.now(), LocalDate.now().plusDays(3)))
         vm.searchObserver.onNext(Unit)
-        expected.add(HotelSearchParams.Builder().suggestion(suggestion).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(3)).build())
+        expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay)).suggestion(suggestion).checkIn(LocalDate.now()).checkOut(LocalDate.now().plusDays(3)).build())
 
         // When neither start date nor end date are selected, search should not fire anything
         vm.datesObserver.onNext(Pair(null, null))

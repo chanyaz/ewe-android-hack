@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.hotels
 
+import org.joda.time.Days
 import org.joda.time.LocalDate
 import java.util.HashMap
 
@@ -16,7 +17,7 @@ public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: L
         return sb.toString()
     }
 
-    class Builder {
+    class Builder(val maxStay: Int) {
         private var suggestion: SuggestionV4? = null
         private var checkIn: LocalDate? = null
         private var checkOut: LocalDate? = null
@@ -67,6 +68,11 @@ public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: L
         public fun hasOrigin(): Boolean {
             return suggestion != null
         }
+
+        public fun hasValidDates(): Boolean {
+            return Days.daysBetween(checkIn, checkOut).days <= maxStay
+        }
+
     }
 
     public fun toQueryMap(): Map<String, Any> {
