@@ -204,7 +204,7 @@
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_google_wallet_label">Google Wallet</string>
     <!-- Text for enter guest details line 1 -->
-    <string name="checkout_hotelsv2_enter_guest_details_line1">Gästedetails</string>
+    <string name="checkout_hotelsv2_enter_guest_details_line1">Angaben zum Gast</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Bitte geben Sie Ihre Daten ein</string>
     <!-- Text for enter payment details line 1 -->
@@ -228,14 +228,18 @@
     <string name="reservation_time_too_short">Bitte wählen Sie einen längeren Buchungszeitraum.</string>
     <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">Sind Sie noch da? Ihre Sitzung ist abgelaufen. Bitte suchen Sie erneut.</string>
+    <!-- Shown to user when they try to book something already booked in new Hotels -->
+    <string name="reservation_already_exists_new_hotels">Die Buchung ist abgeschlossen. Bitte prüfen Sie Ihre Reisen oder Ihre E-Mails.</string>
     <!-- Shown to user when they try to book something already booked -->
-    <string name="reservation_already_exists">Es sieht so aus, als hätten Sie diese Reise schon einmal gebucht. Bitte überprüfen Sie Ihre Reisen oder E-Mails.</string>
+    <string name="reservation_already_exists">Hmm. Es sieht so aus, als hätten Sie diese Reise schon gebucht. Bitte prüfen Sie Ihre Reisen oder Ihre E-Mails.</string>
     <!-- Show to user when the price of a car they are trying to book has changed -->
     <string name="reservation_price_change">Ihr Mietwagenpreis hat sich geändert. Bitte bestätigen Sie den neuen Preis, bevor Sie fortfahren.</string>
     <!-- Show to user when the their traveler information is invalid -->
     <string name="reservation_invalid_name">In Namen sind Zahlen oder Sonderzeichen nicht möglich.</string>
     <!-- Show to user when their phone number is invalid -->
     <string name="reservation_invalid_phone">Telefonnummern müssen zwischen 4 und 20 Stellen haben.</string>
+    <!-- Error button text indicating that the user should search again -->
+    <string name= "search_again">Neue Suche</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Leider konnte Ihre Zahlung nicht abgeschlossen werden. Überprüfen Sie bitte Ihre Zahlungsdetails und versuchen Sie es noch einmal.</string>
@@ -2029,6 +2033,12 @@
     <string name="email_address_hint">E-Mail-Adresse</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">Tel.-Nr.</string>
+    <!-- phone number -->
+    <string name="phone_number_field_text">Telefonnummer</string>
+    <!-- first name -->
+    <string name="first_name_field_text">Vorname</string>
+    <!-- last name -->
+    <string name="last_name_field_text">Nachname</string>
     <!-- Cardholder -->
     <string name="cardholder">Karteninhaber</string>
     <!-- email disclaimer -->
@@ -2143,6 +2153,8 @@
     <string name="select_a_different_traveler">Wählen Sie einen anderen Reisenden aus</string>
     <!-- Enter a new traveler -->
     <string name="enter_new_traveler">Geben Sie einen neuen Reisenden ein</string>
+    <!-- Edit current traveler details -->
+    <string name="edit_guest_details">Angaben zum Gast ändern</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Daten der Reisenden ändern</string>
     <!-- prefers seat template -->
@@ -2331,6 +2343,14 @@
     <string name="error_hotel_no_longer_available">Ihre Vorreservierung für dieses Zimmer ist leider abgelaufen.</string>
     <!-- Button label imploring users to pick a new hotel room due to unavailability -->
     <string name="pick_new_hotel">Neues Hotel aussuchen</string>
+    <!-- Text for hotel error unknown -->
+    <string name="error_hotel_unhandled">Leider können wir Ihre Buchung derzeit nicht bearbeiten. Bitte versuchen Sie es erneut.</string>
+    <!-- Text for hotel error toolbar duplicate trip-->
+    <string name="hotel_duplicate_trip_text">Doppelt gebuchte Reise</string>
+    <!-- Text for hotel error toolbar payment failed-->
+    <string name="hotel_payment_failed_text">Bezahlung fehlgeschlagen</string>
+    <!-- Text for error toolbar session expired-->
+    <string name="session_timeout">Sitzung abgelaufen</string>
 
     <!-- Credit card input section -->
     <string name="one">1</string>
@@ -2735,6 +2755,8 @@
         <item quantity="many">%d Bewertungen ansehen</item>
         <item quantity="other">%d Bewertungen ansehen</item>
     </plurals>
+
+    <string name="zero_reviews">0 Bewertungen</string>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -3130,6 +3152,8 @@
     <string name="e3_error_checkout_payment_failed">Leider können wir Ihre Zahlung nicht bearbeiten. Bitte prüfen Sie Ihre Daten erneut.</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
     <string name="e3_error_checkout_invalid_expiration">Das Ablaufdatum der Kreditkarte ist ungültig.</string>
+    <!-- Error message displayed when the traveler information is invalid -->
+    <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">Bitte geben Sie einen gültigen Wert für %1$s ein.</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->

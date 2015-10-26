@@ -228,6 +228,8 @@
     <string name="reservation_time_too_short">請延長您的預訂時間。</string>
     <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">還在嗎？您的工作階段已經逾時。請再次嘗試搜尋。</string>
+    <!-- Shown to user when they try to book something already booked in new Hotels -->
+    <string name="reservation_already_exists_new_hotels">此預訂已完成。請檢查您的行程或電子郵件。</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">不好意思，您似乎已經預訂好這個行程。請檢查您的行程或電子郵件。</string>
     <!-- Show to user when the price of a car they are trying to book has changed -->
@@ -236,6 +238,8 @@
     <string name="reservation_invalid_name">姓名不能包含數字或特殊字元。</string>
     <!-- Show to user when their phone number is invalid -->
     <string name="reservation_invalid_phone">電話號碼長度必須介於 4 至 20 個數字之間。</string>
+    <!-- Error button text indicating that the user should search again -->
+    <string name= "search_again">重新搜尋</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">不好意思…您的付款並未成功。請再次檢查您的付款詳細資料，然後再試一次。</string>
@@ -2029,6 +2033,12 @@
     <string name="email_address_hint">電子郵件地址</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">電話號碼</string>
+    <!-- phone number -->
+    <string name="phone_number_field_text">電話號碼</string>
+    <!-- first name -->
+    <string name="first_name_field_text">名字</string>
+    <!-- last name -->
+    <string name="last_name_field_text">姓氏</string>
     <!-- Cardholder -->
     <string name="cardholder">持卡人</string>
     <!-- email disclaimer -->
@@ -2143,6 +2153,8 @@
     <string name="select_a_different_traveler">選擇另一位旅客</string>
     <!-- Enter a new traveler -->
     <string name="enter_new_traveler">輸入新旅客</string>
+    <!-- Edit current traveler details -->
+    <string name="edit_guest_details">編輯旅客資訊</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">修改旅客資訊</string>
     <!-- prefers seat template -->
@@ -2330,6 +2342,14 @@
     <string name="error_hotel_no_longer_available">很抱歉，這間客房的保留期限已過。</string>
     <!-- Button label imploring users to pick a new hotel room due to unavailability -->
     <string name="pick_new_hotel">選擇新的飯店</string>
+    <!-- Text for hotel error unknown -->
+    <string name="error_hotel_unhandled">很抱歉，我們目前無法處理您的訂單。請再試一次。</string>
+    <!-- Text for hotel error toolbar duplicate trip-->
+    <string name="hotel_duplicate_trip_text">行程重複</string>
+    <!-- Text for hotel error toolbar payment failed-->
+    <string name="hotel_payment_failed_text">付款失敗</string>
+    <!-- Text for error toolbar session expired-->
+    <string name="session_timeout">工作階段逾時</string>
 
     <!-- Credit card input section -->
     <string name="one">1</string>
@@ -2732,8 +2752,10 @@
         <item quantity="one">查看 %d 則評語</item>
         <item quantity="two">查看 %d 則評語</item>
         <item quantity="many">查看 %d 則評語</item>
-        <item quantity="other">查看 %d 則評語</item>
+        <item quantity="other">查看 %d 則評論</item>
     </plurals>
+
+    <string name="zero_reviews">0 則評論</string>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -3129,6 +3151,8 @@
     <string name="e3_error_checkout_payment_failed">很抱歉，我們無法處理您的付款。請確認您已輸入正確的資料。</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
     <string name="e3_error_checkout_invalid_expiration">信用卡到期日無效。</string>
+    <!-- Error message displayed when the traveler information is invalid -->
+    <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">請輸入有效的%1$s</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->

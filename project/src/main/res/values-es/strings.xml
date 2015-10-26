@@ -228,6 +228,8 @@
     <string name="reservation_time_too_short">Aumenta la duración de tu reservación.</string>
     <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">¿Sigues ahí? Tu sesión ha finalizado. Intenta tu búsqueda de nuevo.</string>
+    <!-- Shown to user when they try to book something already booked in new Hotels -->
+    <string name="reservation_already_exists_new_hotels">Se completó esta reservación. Revisa tus viajes o correo electrónico.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">Mmm. Parece que ya reservaste este viaje. Revisa tus viajes o correo electrónico.</string>
     <!-- Show to user when the price of a car they are trying to book has changed -->
@@ -236,6 +238,8 @@
     <string name="reservation_invalid_name">Los nombres no deben incluir números ni caracteres especiales.</string>
     <!-- Show to user when their phone number is invalid -->
     <string name="reservation_invalid_phone">El número de teléfono debe tener entre 4 y 20 dígitos.</string>
+    <!-- Error button text indicating that the user should search again -->
+    <string name= "search_again">Buscar de nuevo</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Tu pago no fue procesado. Verifica los detalles de tu pago e inténtalo de nuevo.</string>
@@ -840,7 +844,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">Pagar ahora</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">{amount}Monto a pagar ahora</string>
+    <string name="room_rate_pay_later_due_now">{amount} a pagar ahora</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/noche</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -2029,6 +2033,12 @@
     <string name="email_address_hint">Dirección de correo electrónico</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">Teléfono</string>
+    <!-- phone number -->
+    <string name="phone_number_field_text">teléfono</string>
+    <!-- first name -->
+    <string name="first_name_field_text">nombre</string>
+    <!-- last name -->
+    <string name="last_name_field_text">apellido</string>
     <!-- Cardholder -->
     <string name="cardholder">Titular de la tarjeta</string>
     <!-- email disclaimer -->
@@ -2143,6 +2153,8 @@
     <string name="select_a_different_traveler">Selecciona un pasajero diferente</string>
     <!-- Enter a new traveler -->
     <string name="enter_new_traveler">Ingresa un nuevo pasajero</string>
+    <!-- Edit current traveler details -->
+    <string name="edit_guest_details">Edita la información del huésped</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Ingresa la información del pasajero</string>
     <!-- prefers seat template -->
@@ -2330,6 +2342,14 @@
     <string name="error_hotel_no_longer_available">Lo sentimos, tu reservación de esta habitación caducó</string>
     <!-- Button label imploring users to pick a new hotel room due to unavailability -->
     <string name="pick_new_hotel">Elige un nuevo hotel</string>
+    <!-- Text for hotel error unknown -->
+    <string name="error_hotel_unhandled">Lo sentimos, aparentemente no podemos procesar tu compra por el momento. Inténtalo de nuevo.</string>
+    <!-- Text for hotel error toolbar duplicate trip-->
+    <string name="hotel_duplicate_trip_text">Viaje duplicado</string>
+    <!-- Text for hotel error toolbar payment failed-->
+    <string name="hotel_payment_failed_text">El pago ha fallado</string>
+    <!-- Text for error toolbar session expired-->
+    <string name="session_timeout">Tiempo límite de sesión</string>
 
     <!-- Credit card input section -->
     <string name="one">1</string>
@@ -2734,6 +2754,8 @@
         <item quantity="many">Ver %d reseñas</item>
         <item quantity="other">Ver %d reseñas</item>
     </plurals>
+
+    <string name="zero_reviews">0 reseñas</string>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -3129,6 +3151,8 @@
     <string name="e3_error_checkout_payment_failed">Lo sentimos pero no pudimos procesar tu pago. Favor de verificar que la información ingresada sea la correcta.</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
     <string name="e3_error_checkout_invalid_expiration">La fecha de vencimiento de la tarjeta de crédito no es válida.</string>
+    <!-- Error message displayed when the traveler information is invalid -->
+    <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">Ingresá un %1$s válido</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
@@ -3738,6 +3762,6 @@
     <string name="amenities">Amenidades</string>
     <string name="plus_vip">+VIP</string>
     <string name="star_rating">Clasificación por estrellas</string>
-    <string name="show_more">Mostrar más</string>
-    <string name="show_less">Mostrar menos</string>
+    <string name="show_more">MOSTRAR MÁS</string>
+    <string name="show_less">MOSTRAR MENOS</string>
 </resources>

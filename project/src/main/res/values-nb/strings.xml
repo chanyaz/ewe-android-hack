@@ -228,6 +228,8 @@
     <string name="reservation_time_too_short">Vennligst øk bestillingens varighet.</string>
     <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">Er du fremdeles der? Du har vært inaktiv i for lang tid. Prøv å søke på nytt.</string>
+    <!-- Shown to user when they try to book something already booked in new Hotels -->
+    <string name="reservation_already_exists_new_hotels">Bestillingen er fullført. Kontroller reisene dine eller innboksen din.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">Hm… Det ser ut til at du allerede har bestilt denne reisen. Kontroller reisene dine eller innboksen din.</string>
     <!-- Show to user when the price of a car they are trying to book has changed -->
@@ -236,6 +238,8 @@
     <string name="reservation_invalid_name">Navnene kan ikke inneholde sifre eller spesialtegn.</string>
     <!-- Show to user when their phone number is invalid -->
     <string name="reservation_invalid_phone">Telefonnummeret ditt må bestå av mellom 4 og 20 sifre.</string>
+    <!-- Error button text indicating that the user should search again -->
+    <string name= "search_again">Søk på nytt</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Hm… Betalingen din mislyktes. Kontroller at betalingsopplysningene er korrekte og prøv på nytt.</string>
@@ -1509,7 +1513,7 @@
     <string name="share_template_short_car_type_premium_elite">Jeg har leid en premium elite-bil</string>
     <string name="share_template_short_car_type_luxury_elite">Jeg har leid en luksuriøs elite-bil</string>
     <string name="share_template_short_car_type_economy">Jeg har leid en økonomi-bil</string>
-    <string name="share_template_short_car_type_economy_elite">Jeg har leid en rimelig elite-bil</string>
+    <string name="share_template_short_car_type_economy_elite">Jeg har leid en økonomi-elite-bil</string>
     <string name="share_template_short_car_type_oversize">Jeg har leid en stor bil</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">fra %1$s-%2$s</string>
@@ -2029,8 +2033,14 @@
     <string name="email_address_hint">E-postadresse</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">Telefonnummer</string>
+    <!-- phone number -->
+    <string name="phone_number_field_text">telefonnummer</string>
+    <!-- first name -->
+    <string name="first_name_field_text">fornavn</string>
+    <!-- last name -->
+    <string name="last_name_field_text">etternavn</string>
     <!-- Cardholder -->
-    <string name="cardholder">Kortholder</string>
+    <string name="cardholder">Kortinnehaver</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">E-postbekreftelsen vil bli sendt hit</string>
     <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
@@ -2143,6 +2153,8 @@
     <string name="select_a_different_traveler">Velg en annen reisende</string>
     <!-- Enter a new traveler -->
     <string name="enter_new_traveler">Legg inn en ny reisende</string>
+    <!-- Edit current traveler details -->
+    <string name="edit_guest_details">Rediger gjestens detaljer</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Rediger den reisendes informasjon</string>
     <!-- prefers seat template -->
@@ -2330,6 +2342,14 @@
     <string name="error_hotel_no_longer_available">Beklager, du kan ikke lenger holde av dette rommet</string>
     <!-- Button label imploring users to pick a new hotel room due to unavailability -->
     <string name="pick_new_hotel">Velg et nytt hotell</string>
+    <!-- Text for hotel error unknown -->
+    <string name="error_hotel_unhandled">Vi kan dessverre ikke behandle din bestilling akkurat nå. Prøv på nytt.</string>
+    <!-- Text for hotel error toolbar duplicate trip-->
+    <string name="hotel_duplicate_trip_text">Duplisert reise</string>
+    <!-- Text for hotel error toolbar payment failed-->
+    <string name="hotel_payment_failed_text">Betaling mislyktes</string>
+    <!-- Text for error toolbar session expired-->
+    <string name="session_timeout">Økten er utløpt</string>
 
     <!-- Credit card input section -->
     <string name="one">1</string>
@@ -2734,6 +2754,8 @@
         <item quantity="many">Vis %d anmeldelser</item>
         <item quantity="other">Vis %d anmeldelser</item>
     </plurals>
+
+    <string name="zero_reviews">0 anmeldelser</string>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -3129,6 +3151,8 @@
     <string name="e3_error_checkout_payment_failed">Beklager, vi kunne ikke behandle betalingen din. Kontroller at opplysningene du oppga er korrekte.</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
     <string name="e3_error_checkout_invalid_expiration">Ugyldig utløpsdato for kredittkortet.</string>
+    <!-- Error message displayed when the traveler information is invalid -->
+    <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">Oppgi et gyldig %1$s</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
