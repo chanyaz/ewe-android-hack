@@ -60,7 +60,7 @@ public class TuneUtils {
 		mobileAppTracker.setDebugMode(false);
 		mobileAppTracker.setDeferredDeeplink(Boolean.TRUE, DEEEPLINK_TIMEOUT);
 
-		MATEvent launchEvent = new MATEvent("launch")
+		MATEvent launchEvent = new MATEvent("Custom_Open")
 			.withAttribute1(getTuid())
 			.withAttribute3(getMembershipTier())
 			.withAttribute2(isUserLoggedIn());
