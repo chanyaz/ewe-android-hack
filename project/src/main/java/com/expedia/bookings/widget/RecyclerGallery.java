@@ -61,6 +61,11 @@ public class RecyclerGallery extends RecyclerView {
 	private boolean mUserPresent = true;
 	private boolean mScrolling = false;
 	private boolean mRegisteredReceiver = false;
+	private IImageViewBitmapLoadedListener imageViewBitmapLoadedListener;
+
+	public void addImageViewCreatedListener(IImageViewBitmapLoadedListener imageViewBitmapLoadedListener) {
+		this.imageViewBitmapLoadedListener = imageViewBitmapLoadedListener;
+	}
 
 	private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
 		@Override
@@ -247,6 +252,9 @@ public class RecyclerGallery extends RecyclerView {
 						else {
 							mImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 						}
+					}
+					if (imageViewBitmapLoadedListener != null) {
+						imageViewBitmapLoadedListener.onImageViewBitmapLoaded((HotelDetailsGalleryImageView) mImageView);
 					}
 				}
 
@@ -447,4 +455,7 @@ public class RecyclerGallery extends RecyclerView {
 		mScrollListener = listener;
 	}
 
+	public interface IImageViewBitmapLoadedListener {
+		void onImageViewBitmapLoaded(HotelDetailsGalleryImageView hotelDetailsGalleryImageView);
+	}
 }

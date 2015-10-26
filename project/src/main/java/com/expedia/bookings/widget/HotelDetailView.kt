@@ -5,7 +5,6 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
-import android.graphics.PointF
 import android.graphics.PorterDuff
 import android.support.v7.widget.Toolbar
 import android.text.Html
@@ -19,10 +18,10 @@ import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.Space
 import android.widget.TableLayout
 import android.widget.TableRow
-import android.widget.RelativeLayout
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -73,7 +72,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val screenSize by lazy { Ui.getScreenSize(context) }
 
     var initialScrollTop = 0
-    var galleryScroll: GalleryScrollView.SegmentedLinearInterpolator? = null
     var galleryHeight = 0
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
@@ -154,6 +152,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var roomContainerPosition = IntArray(2)
     var resortInAnimator: ObjectAnimator by Delegates.notNull()
     var resortOutAnimator: ObjectAnimator by Delegates.notNull()
+    var hotelDetailsGalleryImageViews = ArrayList<HotelDetailsGalleryImageView>()
 
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
         detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
@@ -464,7 +463,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     private fun setViewVisibilities() {
         var yoffset = detailContainer.scrollY
-        doCounterscroll()
+        updateGalleryChildrenHeights()
         mapView.translationY = yoffset * 0.15f
         priceContainer.getLocationOnScreen(priceContainerLocation)
         hotelMessagingContainer.getLocationOnScreen(urgencyContainerLocation)
@@ -628,18 +627,22 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         FontCache.setTypeface(payNowButton, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(payLaterButton, FontCache.Font.ROBOTO_REGULAR)
         resetGallery()
-    }
 
-    public fun doCounterscroll() {
-        val t = detailContainer.getScrollY()
-        galleryCounterscroll(t)
+        gallery.addImageViewCreatedListener(object : RecyclerGallery.IImageViewBitmapLoadedListener {
+            override fun onImageViewBitmapLoaded(hotelDetailsGalleryImageView: HotelDetailsGalleryImageView) {
+                if (!hotelDetailsGalleryImageViews.contains(hotelDetailsGalleryImageView)) {
+                    hotelDetailsGalleryImageViews.add(hotelDetailsGalleryImageView)
+                }
+                hotelDetailsGalleryImageView.setIntermediateValue(height - initialScrollTop, height,
+                        detailContainer.scrollY.toFloat() / initialScrollTop)
+            }
+        })
     }
 
     public fun resetGallery() {
         viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 viewTreeObserver.removeOnGlobalLayoutListener(this)
-                galleryScroll = null
                 val lp = galleryContainer.layoutParams
                 lp.height = height
                 galleryContainer.layoutParams = lp
@@ -655,32 +658,18 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         })
     }
 
-    private fun galleryCounterscroll(parentScroll: Int) {
-        // Setup interpolator for Gallery counterscroll (if needed)
-        if (galleryScroll == null) {
-            val screenHeight = getHeight()
-            val p1 = PointF(0f, (screenHeight - galleryHeight / 2).toFloat())
-            val p2 = PointF(galleryHeight.toFloat(), (screenHeight - galleryHeight).toFloat())
-            val p3 = PointF(screenHeight.toFloat(), ((screenHeight - galleryHeight ) / 2).toFloat())
-            galleryScroll = GalleryScrollView.SegmentedLinearInterpolator(p1, p2, p3)
+    private fun updateGalleryChildrenHeights() {
+        for (hotelDetailsGalleryImageView in hotelDetailsGalleryImageViews) {
+            hotelDetailsGalleryImageView.setIntermediateValue(height - initialScrollTop, height,
+                    detailContainer.scrollY.toFloat() / initialScrollTop)
         }
-
-        // The number of y-pixels available to the gallery
-        val availableHeight = getHeight() - parentScroll
-
-        val counterscroll = galleryScroll?.get(availableHeight.toFloat())?.toInt()
-
-        galleryContainer.setPivotX((getWidth() / 2).toFloat())
-        galleryContainer.setPivotY(counterscroll!!.toFloat())
-
-        galleryContainer.scrollTo(0, -counterscroll!!)
     }
 
-    public fun updateGallery(toFullScreen: Boolean){
+    public fun updateGallery(toFullScreen: Boolean) {
         if (detailContainer.isFlinging) {
             return
         }
-        
+
         val fromY = detailContainer.scrollY
         val threshold = initialScrollTop / 2
         //In case of slow scrolling, if gallery view is expanding more than halfway then scrollTo full screen else scrollTo initialScroollTop
