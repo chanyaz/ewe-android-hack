@@ -48,15 +48,13 @@ public abstract class ConfirmationFragment extends Fragment {
 		if (ProductFlavorFeatureConfiguration.getInstance().wantsOtherAppsCrossSellInConfirmationScreen()) {
 			ProductFlavorFeatureConfiguration.getInstance().setupOtherAppsCrossSellInConfirmationScreen(getActivity(), v);
 		}
-		else {
-			Ui.setOnClickListener(v, R.id.call_action_text_view, new OnClickListener() {
+		Ui.setOnClickListener(v, R.id.call_action_text_view, new OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					String phoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser());
 					SocialUtils.call(getActivity(), phoneNumber);
 				}
 			});
-		}
 
 		return v;
 	}

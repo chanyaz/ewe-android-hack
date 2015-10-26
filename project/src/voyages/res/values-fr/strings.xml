@@ -42,8 +42,6 @@
     <string name="booking_complete">Confirmation</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
     <string name="actions">Pour vous accompagner</string>
-    <!-- Button label for VSC support webpage link -->
-    <string name="vsc_customer_support">Nous contacter</string>
 
     <!-- Credit card input section -->
     <string name="book">Payer</string>

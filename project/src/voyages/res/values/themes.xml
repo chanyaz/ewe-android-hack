@@ -34,7 +34,7 @@
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/rainbow_bar</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_vsc</item>
         <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_vsc</item>
-        <item name="skin_hotelConfirmationCallActionDrawable">@null</item>
+        <item name="skin_hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_log_out_vsc</item>
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in_vsc</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_vsc</item>
