@@ -351,6 +351,9 @@ public class PaymentWidget extends ExpandableCardView {
 			}
 		}
 		else {
+			if (!isWalletSupported() && sectionBillingInfo.getBillingInfo().isUsingGoogleWallet()) {
+				reset();
+			}
 			cardInfoContainer.setVisibility(VISIBLE);
 			paymentOptionsContainer.setVisibility(GONE);
 			billingInfoContainer.setVisibility(GONE);
