@@ -30,6 +30,7 @@ class HotelFilterViewModel(val context: Context) {
     val finishClear = BehaviorSubject.create<Unit>()
     val filterCountObservable = BehaviorSubject.create<Int>()
     val neighborhoodExpandObserable = BehaviorSubject.create<Boolean>()
+    val sortContainerObservable = BehaviorSubject.create<Boolean>()
 
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false)
 

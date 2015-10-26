@@ -72,6 +72,12 @@
                             android:visibility="gone"/>
                     </RelativeLayout>
 
+                <LinearLayout
+                    android:id="@+id/sort_hotel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
                     <com.expedia.bookings.widget.TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -99,22 +105,23 @@
 
                     </android.support.v7.widget.CardView>
 
-                </LinearLayout>
-
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1px"
-                    android:layout_marginBottom="15dp"
                     android:layout_marginTop="15dp"
                     android:layout_weight="1"
                     android:background="@color/lx_sort_filter_pressed_row_color" />
+                </LinearLayout>
+                </LinearLayout>
+
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="vertical"
+                    android:paddingTop="15dp"
                     android:paddingLeft="@dimen/lx_sort_filter_padding"
                     android:paddingRight="@dimen/lx_sort_filter_padding">
 

@@ -57,6 +57,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val ratingThreeBackground: View by bindView(R.id.rating_three_background)
     val ratingFourBackground: View by bindView(R.id.rating_four_background)
     val ratingFiveBackground: View by bindView(R.id.rating_five_background)
+    val sortContainer: LinearLayout by bindView(R.id.sort_hotel)
     val sortByButtonGroup: Spinner by bindView(R.id.sort_by_selection_spinner)
     val filterHotelName: TextView by bindView(R.id.filter_hotel_name_edit_text)
     val clearNameButton: ImageView by bindView(R.id.clear_search_button)
@@ -269,6 +270,10 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         neighborhoodMoreLessView.subscribeOnClick(vm.neighborhoodMoreLessObserverable)
+
+        vm.sortContainerObservable.subscribe { showSort ->
+            sortContainer.visibility = if (showSort) View.VISIBLE else View.GONE
+        }
 
         vm.neighborhoodExpandObserable.subscribe { isSectionExpanded ->
             if (isSectionExpanded) {
