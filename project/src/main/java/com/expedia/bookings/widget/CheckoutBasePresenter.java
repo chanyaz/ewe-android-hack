@@ -312,12 +312,12 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		animator.start();
 
 		if (visible) {
-			scrollView.post(new Runnable() {
+			scrollView.postDelayed(new Runnable() {
 				@Override
 				public void run() {
 					scrollView.fullScroll(ScrollView.FOCUS_DOWN);
 				}
-			});
+			}, 100);
 			if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
 				new HotelV2Tracking().trackHotelV2SlideToPurchase(Strings.capitalizeFirstLetter(paymentInfoCardView.getCardType().toString()));
 			}
@@ -329,7 +329,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 
 	public void checkoutFormWasUpdated() {
-		if (mainContactInfoCardView.isComplete() && paymentInfoCardView.isComplete()) {
+		if (isCheckoutFormComplete()) {
 			animateInSlideToPurchase(true);
 		}
 		else {
@@ -401,13 +401,23 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 	};
 
-	protected void updateSpacerHeight() {
-		float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
-		int bottom = (disclaimerText.getVisibility() == View.VISIBLE) ? disclaimerText.getBottom()
-			: legalInformationText.getBottom();
-		if (scrollViewActualHeight - bottom < slideToContainer.getHeight()) {
+	private void updateSpacerHeight() {
+		if (isCheckoutFormComplete()) {
+			float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
+			int bottom = (disclaimerText.getVisibility() == View.VISIBLE) ? disclaimerText.getBottom()
+				: legalInformationText.getBottom();
+			if (scrollViewActualHeight - bottom < slideToContainer.getHeight()) {
+				ViewGroup.LayoutParams params = space.getLayoutParams();
+				params.height = slideToContainer.getVisibility() == VISIBLE ? slideToContainer.getHeight() : 0;
+				space.setLayoutParams(params);
+			}
+		}
+		else { // not complete. Provide enough space for sign in button to be anchored at top of viewable area
+			int summaryHeight = summaryContainer.getHeight();
+			int scrollViewContentHeight = scrollView.getChildAt(0).getHeight() - space.getHeight();
+			int remainingHeight = scrollView.getHeight() - scrollViewContentHeight;
 			ViewGroup.LayoutParams params = space.getLayoutParams();
-			params.height = slideToContainer.getVisibility() == VISIBLE ? slideToContainer.getHeight() : 0;
+			params.height = summaryHeight + remainingHeight;
 			space.setLayoutParams(params);
 		}
 	}
@@ -561,5 +571,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@Override
 	public void expanded(ExpandableCardView view) {
 		acceptTermsWidget.setAlpha(0f);
+	}
+
+	public boolean isCheckoutFormComplete() {
+		return mainContactInfoCardView.isComplete() && paymentInfoCardView.isComplete();
 	}
 }

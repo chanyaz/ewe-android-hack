@@ -29,6 +29,7 @@ import com.expedia.bookings.widget.HotelCheckoutSummaryWidget
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelCheckoutOverviewViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.expedia.vm.HotelCouponViewModel
@@ -51,15 +52,11 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     }
     var vm: HotelCheckoutOverviewViewModel by notNullAndObservable {
         vm.slideToText.subscribe { slideWidget.setText(it) }
-        vm.legalTextInformation.subscribe { legalInformationText.text = it }
-        vm.disclaimerText.subscribe {
-            disclaimerText.text = it
-            disclaimerText.visibility = View.VISIBLE
-        }
-
+        vm.legalTextInformation.subscribeText(legalInformationText)
+        vm.disclaimerVisibility.subscribeVisibility(disclaimerText)
+        vm.disclaimerText.subscribeText(disclaimerText)
         vm.totalPriceCharged.subscribeText(sliderTotalText)
         vm.resetMenuButton.subscribe { resetMenuButton() }
-
     }
 
     val hotelServices: HotelServices by lazy() {
@@ -170,23 +167,8 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         onLoginSuccessful()
     }
 
-    override fun updateSpacerHeight() {
-        scrollView.getViewTreeObserver().addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                scrollView.getViewTreeObserver().removeOnGlobalLayoutListener(this)
-                val summaryHeight = hotelCheckoutSummaryWidget.getHeight()
-                val scrollViewContentHeight = scrollView.getChildAt(0).getHeight() - space.getHeight()
-                var remainingHeight = scrollView.getHeight() - scrollViewContentHeight
-                val params = space.getLayoutParams()
-                params.height = summaryHeight + remainingHeight
-                space.setLayoutParams(params)
-            }
-        })
-    }
-
     override fun checkoutFormWasUpdated() {
-        if (mainContactInfoCardView.isComplete() && paymentInfoCardView.isComplete()) {
-
+        if (isCheckoutFormComplete) {
             if (PointOfSale.getPointOfSale(getContext()).requiresRulesRestrictionsCheckbox() && !acceptTermsWidget.vm.acceptedTermsObservable.value) {
                 acceptTermsWidget.vm.acceptedTermsObservable.subscribe(object : Observer<Boolean> {
                     override fun onCompleted() { }
