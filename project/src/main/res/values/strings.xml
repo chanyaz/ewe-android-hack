@@ -1820,6 +1820,8 @@
     <string name="loading_flight_details">Checking for price changes…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Price changed from %1$s</string>
+    <!-- Price dropped from -->
+    <string name="price_dropped_from_TEMPLATE">Price dropped from %1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">This airline charges a fee of &lt;b&gt;%1$s&lt;/b&gt; (included in the total) to use this card.</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->

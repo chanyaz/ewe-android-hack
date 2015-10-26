@@ -115,7 +115,7 @@ public class HotelCheckoutSummaryViewModelTest {
         setup()
 
         sut.tripResponseObserver.onNext(createTripResponse)
-        assertEquals("Price changed from $2,394.88", sut.priceChangeMessage.value)
+        assertEquals("Price dropped from $2,394.88", sut.priceChangeMessage.value)
         assertEquals(R.drawable.price_change_decrease, sut.priceChangeIconResourceId.value)
         assertTrue(sut.isPriceChange.value)
     }
