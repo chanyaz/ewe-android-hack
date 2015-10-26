@@ -45,9 +45,7 @@ public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager,
 
     private fun addReviews(reviewSort: ReviewSort, reviews: List<Review>) {
         val hotelReviewsView = viewPager.findViewWithTag(reviewSort) as HotelReviewsPageView
-        hotelReviewsView.viewModel = HotelReviewsPageViewModel()
-        hotelReviewsView.viewModel.reviewObserver.onNext(reviews)
-
+        hotelReviewsView.viewModel.reviewsObserver.onNext(reviews)
         val reviewsTable = hotelReviewsView.reviewsTable
         reviews.forEachIndexed { index, review ->
             val hotelReviewRowViewModel = HotelReviewRowViewModel(context)
@@ -76,7 +74,7 @@ public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager,
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any? {
         val hotelReviewsView = HotelReviewsPageView(context)
-
+        hotelReviewsView.viewModel = HotelReviewsPageViewModel()
         hotelReviewsView.reviewsScrollviewContainer.addOnScrollListener { scrollView, x1, y1, x2, y2 ->
             val view = scrollView.getChildAt(scrollView.childCount - 1)
             val diff = (view.bottom - (scrollView.height + scrollView.scrollY));
