@@ -24,6 +24,7 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
+import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelV2Tracking
@@ -79,6 +80,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var navIcon: ArrowXDrawable
 
     val gallery: RecyclerGallery by bindView(R.id.images_gallery)
+
     val galleryContainer: FrameLayout by bindView(R.id.gallery_container)
 
     val priceContainer: ViewGroup by bindView(R.id.price_widget)
@@ -126,7 +128,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val hotelGalleryDescriptionContainer: LinearLayout by bindView(R.id.hotel_gallery_description_container)
     val hotelGalleryIndicator: View by bindView(R.id.hotel_gallery_indicator)
     val hotelGalleryDescription: TextView by bindView(R.id.hotel_gallery_description)
-
     val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
     val amenityDivider: View by bindView(R.id.etp_and_free_cancellation_divider)
 
@@ -138,7 +139,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val propertyTextContainer: TableLayout by bindView(R.id.property_info_container)
 
     val detailContainer: NewHotelDetailsScrollView by bindView(R.id.detail_container)
-    val mainContainer: ViewGroup by bindView(R.id.main_container)
     var statusBarHeight = 0
     var toolBarHeight = 0
     val toolBarBackground: View by bindView(R.id.toolbar_background)

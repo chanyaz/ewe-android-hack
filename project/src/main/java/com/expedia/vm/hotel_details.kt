@@ -96,10 +96,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
     override fun onGalleryItemScrolled(position: Int) {
         val havePhotoWithIndex = CollectionUtils.isNotEmpty(hotelOffersResponse.photos) && (position < hotelOffersResponse.photos.count())
-        if(havePhotoWithIndex && hotelOffersResponse.photos[position].displayText != null)
-            galleryItemChangeObservable.onNext(Pair(position,hotelOffersResponse.photos.get(position).displayText))
+        if (havePhotoWithIndex && hotelOffersResponse.photos[position].displayText != null)
+            galleryItemChangeObservable.onNext(Pair(position, hotelOffersResponse.photos.get(position).displayText))
         else
-            galleryItemChangeObservable.onNext(Pair(position,""))
+            galleryItemChangeObservable.onNext(Pair(position, ""))
     }
 
     val hotelOffersSubject = BehaviorSubject.create<HotelOffersResponse>()
@@ -112,7 +112,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val sectionBodyObservable = BehaviorSubject.create<String>()
     val sectionImageObservable = BehaviorSubject.create<Boolean>()
     val showBookByPhoneObservable = BehaviorSubject.create<Boolean>()
-    val galleryObservable = BehaviorSubject.create<List<HotelMedia>>()
+    val galleryObservable = BehaviorSubject.create<ArrayList<HotelMedia>>()
 
     val commonAmenityTextObservable = BehaviorSubject.create<String>()
 
@@ -249,7 +249,17 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
     private val offersObserver = endlessObserver<HotelOffersResponse> { response ->
         hotelOffersResponse = response
-        galleryObservable.onNext(Images.getHotelImages(hotelOffersResponse))
+        var galleryUrls = ArrayList<HotelMedia>()
+
+        if (Images.getHotelImages(hotelOffersResponse).isNotEmpty()) {
+            galleryUrls.addAll(Images.getHotelImages(hotelOffersResponse).toArrayList())
+        } else {
+            var placeHolder = HotelMedia()
+            placeHolder.setIsPlaceholder(true)
+            galleryUrls.add(placeHolder)
+        }
+        galleryObservable.onNext(galleryUrls)
+
         val amenityList = arrayListOf<Amenity>()
         if (response.hotelAmenities != null) {
             amenityList.addAll(Amenity.amenitiesToShow(response.hotelAmenities))
@@ -275,7 +285,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             onlyShowTotalPrice.onNext(firstHotelRoomResponse.rateInfo.chargeableRateInfo.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
             pricePerNightObservable.onNext(dailyPrice.getFormattedMoney(Money.F_NO_DECIMAL))
             totalPriceObservable.onNext(totalPrice.getFormattedMoney(Money.F_NO_DECIMAL))
-            discountPercentageBackgroundObservable.onNext(if(rate.isAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
+            discountPercentageBackgroundObservable.onNext(if (rate.isAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
         }
 
         userRatingObservable.onNext(response.hotelGuestRating.toString())
@@ -528,7 +538,8 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
         val discountPercent = HotelUtils.getDiscountPercent(chargeableRateInfo)
         val isPayLater = hotelRoomResponse.isPayLater
 
-        if (discountPercent >= 9.5) { // discount is 10% or better
+        if (discountPercent >= 9.5) {
+            // discount is 10% or better
             discountPercentage.onNext(context.resources.getString(R.string.percent_off_TEMPLATE, discountPercent))
             if (!isPayLater) {
                 val strikeThroughPriceToShowUsers = Money(BigDecimal(chargeableRateInfo.strikethroughPriceToShowUsers.toDouble()), currencyCode).formattedMoney

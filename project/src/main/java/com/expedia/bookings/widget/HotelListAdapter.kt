@@ -166,7 +166,6 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
                 ratingBar = root.findViewById(R.id.star_rating_bar) as StarRatingBar
             }
             ratingBar.visibility = View.VISIBLE
-
         }
 
         public fun bind(viewModel: HotelViewModel) {
@@ -206,7 +205,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             viewModel.hotelLargeThumbnailUrlObservable.subscribe { url ->
                 PicassoHelper.Builder(itemView.context)
                         .setPlaceholder(R.drawable.results_list_placeholder)
-                        .setError(R.drawable.results_list_placeholder)
+                        .setError(R.drawable.room_fallback)
                         .setTarget(target).setTag(PICASSO_TAG)
                         .build()
                         .load(HotelMedia(url).getBestUrls(width))

@@ -26,6 +26,7 @@ import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.IMedia;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -209,7 +210,7 @@ public class RecyclerGallery extends RecyclerView {
 				imageWidth = screen.x;
 
 				mLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-					(int)(getContext().getResources().getDimension(R.dimen.car_details_image_size)) );
+					(int) (getContext().getResources().getDimension(R.dimen.car_details_image_size)));
 			}
 			else {
 				imageWidth = screen.x * 0.60f;
@@ -234,7 +235,7 @@ public class RecyclerGallery extends RecyclerView {
 			@Override
 			public void onClick(View v) {
 
-				if (mListener != null ) {
+				if (mListener != null) {
 					mListener.onGalleryItemClicked(mMedia.get(getAdapterPosition()));
 				}
 			}
@@ -280,7 +281,7 @@ public class RecyclerGallery extends RecyclerView {
 
 		@Override
 		public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-			int viewType) {
+															 int viewType) {
 			View root = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.gallery_image, parent, false);
 			ImageView imageView = Ui.findView(root, R.id.gallery_item_image_view);
@@ -292,8 +293,13 @@ public class RecyclerGallery extends RecyclerView {
 		@Override
 		public void onBindViewHolder(final ViewHolder holder, int position) {
 			IMedia media = mMedia.get(position);
-			media.loadImage(holder.mImageView, holder.callback,
-				mMode == MODE_CENTER ? Ui.obtainThemeResID(getContext(), R.attr.skin_HotelRowThumbPlaceHolderDrawable) : 0);
+			if (media.isPlaceHolder()) {
+				new PicassoHelper.Builder(holder.mImageView).setTarget(holder.callback).build().load(R.drawable.room_fallback);
+			}
+			else {
+				media.loadImage(holder.mImageView, holder.callback,
+					mMode == MODE_CENTER ? Ui.obtainThemeResID(getContext(), R.attr.skin_HotelRowThumbPlaceHolderDrawable) : 0);
+			}
 		}
 
 		@Override
