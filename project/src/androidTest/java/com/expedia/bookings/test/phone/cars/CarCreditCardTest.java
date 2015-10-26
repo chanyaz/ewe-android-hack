@@ -14,19 +14,20 @@ import com.google.gson.Gson;
 import com.mobiata.android.util.IoUtils;
 
 import static android.support.test.espresso.action.ViewActions.clearText;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 
 public class CarCreditCardTest extends CarTestCase {
 
 	public void testPaymentInfo() throws Throwable {
 		goToCheckout();
 		screenshot("Car Checkout");
-		verifiyInvalidCardMessaging();
+		verifyInvalidCardMessaging();
 		screenshot("Car Payment Info");
-		verifiyCreditCardCleared();
+		verifyCreditCardCleared();
 	}
 
-	private void verifiyInvalidCardMessaging() throws Throwable {
-		EspressoUtils.assertViewIsDisplayed(R.id.payment_info_card_view);
+	private void verifyInvalidCardMessaging() throws Throwable {
+		CheckoutViewModel.paymentInfo().perform(waitForViewToDisplay());
 		Common.delay(1);
 		CheckoutViewModel.clickPaymentInfo();
 		Common.delay(1);
@@ -45,7 +46,7 @@ public class CarCreditCardTest extends CarTestCase {
 		CheckoutViewModel.clickDone();
 	}
 
-	private void verifiyCreditCardCleared() throws Throwable {
+	private void verifyCreditCardCleared() throws Throwable {
 		Common.pressBack();
 		Common.delay(1);
 		goToCheckout();
@@ -62,7 +63,9 @@ public class CarCreditCardTest extends CarTestCase {
 		String offerStr = IoUtils.convertStreamToString(
 			getInstrumentation().getContext().getAssets().open(createFileName));
 		searchCarOffer = gson.fromJson(offerStr, SearchCarOffer.class);
-		Events.post(new Events.CarsShowCheckout(searchCarOffer.productKey, searchCarOffer.fare.total, searchCarOffer.isInsuranceIncluded, new LatLng(searchCarOffer.pickUpLocation.latitude, searchCarOffer.pickUpLocation.longitude)));
+		Events.post(new Events.CarsShowCheckout(searchCarOffer.productKey, searchCarOffer.fare.total,
+			searchCarOffer.isInsuranceIncluded,
+			new LatLng(searchCarOffer.pickUpLocation.latitude, searchCarOffer.pickUpLocation.longitude)));
 	}
 
 }

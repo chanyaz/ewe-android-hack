@@ -1,6 +1,6 @@
 package com.expedia.bookings.test.phone.pagemodels.common;
 
-import android.app.Instrumentation;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
@@ -108,10 +108,12 @@ public class CheckoutViewModel {
 	}
 
 	public static void clickStoredTravelerButton() {
+		Espresso.closeSoftKeyboard();
 		onView(withId(R.id.select_traveler_button)).perform(click());
 	}
 
-	public static void selectStoredTraveler(Instrumentation instrumentation, String travelername) throws Throwable {
+	public static void selectStoredTraveler(String travelername) throws Throwable {
+		Espresso.closeSoftKeyboard();
 		onView(withText(travelername))
 			.inRoot(withDecorView(
 				not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))))
@@ -119,10 +121,12 @@ public class CheckoutViewModel {
 	}
 
 	public static void clickStoredCardButton() {
+		Espresso.closeSoftKeyboard();
 		onView(withId(R.id.select_payment_button)).perform(click());
 	}
 
-	public static void selectStoredCard(Instrumentation instrumentation, String cardname) throws Throwable {
+	public static void selectStoredCard(String cardname) throws Throwable {
+		Espresso.closeSoftKeyboard();
 		onView(withText(cardname))
 			.inRoot(withDecorView(
 				not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))))

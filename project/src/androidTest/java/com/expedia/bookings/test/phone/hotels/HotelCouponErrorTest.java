@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import android.support.test.espresso.Espresso;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
@@ -63,6 +64,7 @@ public class HotelCouponErrorTest extends PhoneTestCase {
 			HotelsCheckoutScreen.couponButton().perform(waitFor(isEnabled(), 5, TimeUnit.SECONDS), click());
 
 			// Coupon Dialog
+			Common.delay(1);
 			onView(withId(android.R.id.button1)).check(matches(not(isEnabled())));
 			onView(withId(R.id.coupon_edit_text)).check(matches(withText(isEmptyOrNullString())));
 			onView(withId(R.id.coupon_edit_text)).perform(typeText(data.coupon));
