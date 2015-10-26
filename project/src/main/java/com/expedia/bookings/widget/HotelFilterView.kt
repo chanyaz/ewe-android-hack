@@ -251,7 +251,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             neighborhoodContainer.removeAllViews()
             if (list != null && list.size() > 1) {
                 neighborhoodLabel.visibility = View.VISIBLE
-                if (list.size() > 3) {
+                if (list.size() > 4) {
                     neighborhoodMoreLessView.visibility = View.VISIBLE
                 }
 
