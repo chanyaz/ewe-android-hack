@@ -6,6 +6,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.TransitionDrawable
+import android.support.v4.content.ContextCompat
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -107,7 +108,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
         }
         vm.collapsedUrgencyObservable.subscribeText(collapsedUrgency)
         vm.expandedMessageObservable.subscribe { expandedMessagePair ->
-            val drawable = context.resources.getDrawable(expandedMessagePair.second, context.theme)
+            val drawable = ContextCompat.getDrawable(context, expandedMessagePair.second)
             freeCancellation.text = expandedMessagePair.first
             freeCancellation.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
         }
