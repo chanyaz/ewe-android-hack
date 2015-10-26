@@ -230,7 +230,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
         numberOfReviewsObservable.onNext(
                 if (hotelOffersResponse.totalReviews > 0)
-                    context.resources.getQuantityString(R.plurals.hotel_number_of_reviews, hotelOffersResponse.totalReviews, hotelOffersResponse.totalReviews)
+                    context.resources.getQuantityString(R.plurals.hotel_number_of_reviews, hotelOffersResponse.totalReviews, HotelUtils.formattedReviewCount(hotelOffersResponse.totalReviews))
                 else context.resources.getString(R.string.zero_reviews))
 
         val chargeableRateInfo = response.hotelRoomResponse.first()?.rateInfo?.chargeableRateInfo
