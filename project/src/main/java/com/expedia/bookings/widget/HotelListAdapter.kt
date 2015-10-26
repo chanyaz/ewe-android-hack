@@ -133,7 +133,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
     public inner class HotelViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHolder(root), HeaderBitmapDrawable.CallbackListener, View.OnClickListener {
 
         val PICASSO_TAG = "HOTEL_RESULTS_LIST"
-        val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .5f, 1f)
+        val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .25f, .3f, 1f)
 
         val resources = root.resources
 
@@ -239,21 +239,21 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
                 super.onBitmapLoaded(bitmap, from)
 
                 val palette = Palette.generate(bitmap)
-                val color = palette.getVibrantColor(R.color.transparent_dark)
+                val color = palette.getDarkVibrantColor(R.color.transparent_dark)
 
-                val fullColorBuilder = ColorBuilder(color).darkenBy(0.3f);
+                val fullColorBuilder = ColorBuilder(color).darkenBy(.6f).setSaturation(.8f);
                 val startColor = fullColorBuilder.setAlpha(154).build()
                 val endColor = fullColorBuilder.setAlpha(0).build()
 
                 val drawable = HeaderBitmapDrawable()
                 drawable.setBitmap(bitmap)
-                val colorArrayBottom = intArrayOf(0, endColor,
+                val colorArrayBottom = intArrayOf(0, 0, endColor,
                         startColor)
-                val colorArrayFull = intArrayOf(startColor, endColor,
+                val colorArrayFull = intArrayOf(startColor, 0, endColor,
                         startColor)
 
                 if (vipMessage.visibility == View.VISIBLE ) {
-                    drawable.setGradient(colorArrayFull, null)
+                    drawable.setGradient(colorArrayFull, DEFAULT_GRADIENT_POSITIONS)
                 } else {
                     drawable.setGradient(colorArrayBottom, DEFAULT_GRADIENT_POSITIONS)
                 }
