@@ -11,6 +11,7 @@ import android.graphics.Rect
 import android.graphics.drawable.TransitionDrawable
 import android.location.Location
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -123,6 +124,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         vm.mapResultsObservable.subscribe {
             val latLng = googleMap?.projection?.visibleRegion?.latLngBounds?.center
             mapViewModel.mapBoundsSubject.onNext(latLng)
+            fab.isEnabled = true
         }
         
         vm.titleSubject.subscribe {
@@ -228,7 +230,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     init {
         View.inflate(getContext(), R.layout.widget_hotel_results, this)
-
+        ViewCompat.setElevation(loadingOverlay, context.resources.getDimension(R.dimen.launch_tile_margin_side))
         headerClickedSubject.subscribe(mapSelectedObserver)
         adapter = HotelListAdapter(hotelSelectedSubject, headerClickedSubject)
         recyclerView.adapter = adapter
@@ -357,6 +359,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         //We don't want to show the searchThisArea button unless the map has just moved.
         searchThisArea.visibility = View.GONE
         searchThisArea.setOnClickListener({ view ->
+            fab.isEnabled = false
             hideSearchThisArea()
             doAreaSearch()
             HotelV2Tracking().trackHotelsV2SearchAreaClick()
