@@ -386,6 +386,10 @@ class HotelFilterViewModel(val context: Context) {
         if (userFilterChoices.price != null) count++
         return count
     }
+
+    fun isFilteredToZeroResults(): Boolean {
+        return didFilter && filteredResponse.hotelList.isEmpty()
+    }
 }
 
 
