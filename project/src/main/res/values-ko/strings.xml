@@ -228,6 +228,8 @@
     <string name="reservation_time_too_short">예약 기간을 늘려주세요.</string>
     <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">아직 계시나요? 세션이 초과되었습니다. 다시 검색해 주세요.</string>
+    <!-- Shown to user when they try to book something already booked in new Hotels -->
+    <string name="reservation_already_exists_new_hotels">이 예약이 완료되었습니다. 여행 일정 또는 이메일을 확인해 보세요.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">잠시만요, 이 여행은 이미 예약하신 것 같네요. 여행 일정 또는 이메일을 확인해 보세요.</string>
     <!-- Show to user when the price of a car they are trying to book has changed -->
@@ -235,7 +237,9 @@
     <!-- Show to user when the their traveler information is invalid -->
     <string name="reservation_invalid_name">이름에는 숫자나 특수 문자가 포함되면 안 됩니다.</string>
     <!-- Show to user when their phone number is invalid -->
-    <string name="reservation_invalid_phone">전화번호는 4 ~ 20자 길이여야 합니다.</string>
+    <string name="reservation_invalid_phone">전화번호는 4~20자 길이여야 합니다.</string>
+    <!-- Error button text indicating that the user should search again -->
+    <string name= "search_again">다시 검색</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">잠시만요… 결제가 제대로 되지 않았어요. 결제 세부 정보를 확인하고 다시 시도해 주세요.</string>
@@ -2029,6 +2033,12 @@
     <string name="email_address_hint">이메일 주소</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">전화번호</string>
+    <!-- phone number -->
+    <string name="phone_number_field_text">전화번호</string>
+    <!-- first name -->
+    <string name="first_name_field_text">이름</string>
+    <!-- last name -->
+    <string name="last_name_field_text">성</string>
     <!-- Cardholder -->
     <string name="cardholder">카드 소유자 이름</string>
     <!-- email disclaimer -->
@@ -2143,6 +2153,8 @@
     <string name="select_a_different_traveler">다른 여행객 선택</string>
     <!-- Enter a new traveler -->
     <string name="enter_new_traveler">새 여행객 입력</string>
+    <!-- Edit current traveler details -->
+    <string name="edit_guest_details">숙박객 정보 수정</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">여행객 정보 수정</string>
     <!-- prefers seat template -->
@@ -2330,6 +2342,14 @@
     <string name="error_hotel_no_longer_available">죄송스럽게도 이 객실에 대한 고객님의 확보가 만료되었습니다.</string>
     <!-- Button label imploring users to pick a new hotel room due to unavailability -->
     <string name="pick_new_hotel">새 호텔 선택</string>
+    <!-- Text for hotel error unknown -->
+    <string name="error_hotel_unhandled">죄송합니다. 지금 고객님의 주문을 처리해 드릴 수 없습니다. 다시 시도해 주세요.</string>
+    <!-- Text for hotel error toolbar duplicate trip-->
+    <string name="hotel_duplicate_trip_text">중복된 여행</string>
+    <!-- Text for hotel error toolbar payment failed-->
+    <string name="hotel_payment_failed_text">결제 실패함</string>
+    <!-- Text for error toolbar session expired-->
+    <string name="session_timeout">세션 시간 초과</string>
 
     <!-- Credit card input section -->
     <string name="one">1</string>
@@ -2734,6 +2754,8 @@
         <item quantity="many">%d개 이용 후기 보기</item>
         <item quantity="other">%d개 이용 후기 보기</item>
     </plurals>
+
+    <string name="zero_reviews">0개 이용 후기</string>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -2827,7 +2849,7 @@
     <!-- View Room button text -->
     <string name="view_room_button_text">객실 보기</string>
     <!-- Book Room button text -->
-    <string name="book_room_button_text">예약</string>
+    <string name="book_room_button_text">예약하기</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">다음을 통해 공유:</string>
     <!-- Renovation Notice -->
@@ -3129,6 +3151,8 @@
     <string name="e3_error_checkout_payment_failed">죄송합니다. 고객님의 결제를 처리할 수 없습니다. 입력하신 정보가 올바른지 확인해 주세요.</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
     <string name="e3_error_checkout_invalid_expiration">신용카드 만료일이 올바르지 않습니다.</string>
+    <!-- Error message displayed when the traveler information is invalid -->
+    <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">유효한 %1$s을(를) 입력해 주세요.</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->

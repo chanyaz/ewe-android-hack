@@ -228,6 +228,8 @@
     <string name="reservation_time_too_short">Harap tambahkan durasi penyewaan.</string>
     <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">Halo? Anda masih di sana? Waktu Anda sudah habis. Coba lagi pencarian Anda.</string>
+    <!-- Shown to user when they try to book something already booked in new Hotels -->
+    <string name="reservation_already_exists_new_hotels">Pemesanan ini telah selesai. Harap periksa lagi perjalanan atau email Anda.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">Hmm. Sepertinya Anda sudah pernah memesan perjalanan ini. Harap periksa lagi perjalanan atau email Anda.</string>
     <!-- Show to user when the price of a car they are trying to book has changed -->
@@ -236,6 +238,8 @@
     <string name="reservation_invalid_name">Nama tidak bisa diisi dengan angka atau karakter spesial.</string>
     <!-- Show to user when their phone number is invalid -->
     <string name="reservation_invalid_phone">Nomor telepon harus terdiri dari 4-20 karakter.</string>
+    <!-- Error button text indicating that the user should search again -->
+    <string name= "search_again">Cari Lagi</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Hmm… pembayaran Anda tidak berhasil. Harap periksa kembali rincian pembayaran, lalu cobalah lagi.</string>
@@ -2029,6 +2033,12 @@
     <string name="email_address_hint">Alamat Email</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">Nomor Telepon</string>
+    <!-- phone number -->
+    <string name="phone_number_field_text">nomor telepon</string>
+    <!-- first name -->
+    <string name="first_name_field_text">nama depan</string>
+    <!-- last name -->
+    <string name="last_name_field_text">nama belakang</string>
     <!-- Cardholder -->
     <string name="cardholder">Pemilik Kartu</string>
     <!-- email disclaimer -->
@@ -2143,6 +2153,8 @@
     <string name="select_a_different_traveler">Pilih traveler yang lain</string>
     <!-- Enter a new traveler -->
     <string name="enter_new_traveler">Masukkan traveler baru</string>
+    <!-- Edit current traveler details -->
+    <string name="edit_guest_details">Ubah Rincian Tamu</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Ubah Informasi Traveler</string>
     <!-- prefers seat template -->
@@ -2330,6 +2342,14 @@
     <string name="error_hotel_no_longer_available">Maaf, waktu Anda untuk menahan kamar ini telah berakhir</string>
     <!-- Button label imploring users to pick a new hotel room due to unavailability -->
     <string name="pick_new_hotel">Pilih Hotel Baru</string>
+    <!-- Text for hotel error unknown -->
+    <string name="error_hotel_unhandled">Maaf, sepertinya kami tidak bisa memproses pemesanan Anda sekarang. Silakan coba lagi.</string>
+    <!-- Text for hotel error toolbar duplicate trip-->
+    <string name="hotel_duplicate_trip_text">Ulangi Perjalanan</string>
+    <!-- Text for hotel error toolbar payment failed-->
+    <string name="hotel_payment_failed_text">Pembayaran Tidak Berhasil</string>
+    <!-- Text for error toolbar session expired-->
+    <string name="session_timeout">Waktu Habis</string>
 
     <!-- Credit card input section -->
     <string name="one">1</string>
@@ -2734,6 +2754,8 @@
         <item quantity="many">Baca %d Ulasan</item>
         <item quantity="other">Baca %d Ulasan</item>
     </plurals>
+
+    <string name="zero_reviews">0 Ulasan</string>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -2827,7 +2849,7 @@
     <!-- View Room button text -->
     <string name="view_room_button_text">Lihat Kamar</string>
     <!-- Book Room button text -->
-    <string name="book_room_button_text">Pesan</string>
+    <string name="book_room_button_text">Buku</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Bagikan lewat</string>
     <!-- Renovation Notice -->
@@ -3129,6 +3151,8 @@
     <string name="e3_error_checkout_payment_failed">Maaf, kami tidak berhasil memproses pembayaran Anda. Pastikan informasi yang Anda masukkan sudah benar.</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
     <string name="e3_error_checkout_invalid_expiration">Tanggal kedaluwarsa kartu kredit tidak valid.</string>
+    <!-- Error message displayed when the traveler information is invalid -->
+    <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">Harap masukkan %1$s yang valid</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
