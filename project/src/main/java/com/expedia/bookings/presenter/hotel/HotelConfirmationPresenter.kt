@@ -19,8 +19,9 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget
 import com.expedia.bookings.widget.OptimizedImageView
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeText
 import com.expedia.util.subscribeOnClick
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelConfirmationViewModel
 import com.squareup.phrase.Phrase
 import javax.inject.Inject
@@ -62,6 +63,8 @@ public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) :
         super.onFinishInflate()
         Ui.getApplication(getContext()).hotelComponent().inject(this);
 
+        hotelConfirmationViewModel.showCarCrossSell.subscribeVisibility(addCarBtn)
+        hotelConfirmationViewModel.showFlightCrossSell.subscribeVisibility(addFlightBtn)
         addFlightBtn.subscribeOnClick(hotelConfirmationViewModel.getAddFlightBtnObserver(getContext()))
         addCarBtn.subscribeOnClick(hotelConfirmationViewModel.getAddCarBtnObserver(getContext()))
         addToCalendarBtn.subscribeOnClick(hotelConfirmationViewModel.getAddToCalendarBtnObserver(getContext()))
