@@ -122,6 +122,8 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 			addView(Ui.setUpStatusBar(getContext(), toolbar, mainContainer, color));
 		}
 
+		updateActionBar();
+
 	}
 
 	private void syncBookButtonState() {
@@ -168,8 +170,6 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 
 	public void setCvvErrorMode(boolean enabled) {
 		mCVVTextView.setCvvErrorMode(enabled);
-
-		updateActionBar();
 	}
 
 	public void bind(BillingInfo billingInfo) {
@@ -262,13 +262,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 			return;
 		}
 
-		CreditCardType cardType = getCurrentCCType();
-		toolbar.setSubtitle(
-			cardType == CreditCardType.AMERICAN_EXPRESS
-				? R.string.See_front_of_card
-				: R.string.See_back_of_card
-		);
-
+		toolbar.setSubtitle(R.string.cvv_enter_security_code);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
