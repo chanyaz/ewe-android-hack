@@ -24,6 +24,7 @@
     <color name="launch_discount">#E05206</color>
     <color name="launch_tonight_only">#72098A</color>
 
+    <color name="tablet_confirmation_action_color">@color/vsc_secondary_color</color>
     <color name="tablet_book_button_text_color">@color/action_bar_bg_color</color>
     <color name="tablet_price_expanded_bucket_text_color">@color/action_bar_bg_color</color>
 
