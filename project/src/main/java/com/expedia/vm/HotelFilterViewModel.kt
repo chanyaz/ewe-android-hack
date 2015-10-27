@@ -30,6 +30,7 @@ class HotelFilterViewModel(val context: Context) {
     val finishClear = BehaviorSubject.create<Unit>()
     val filterCountObservable = BehaviorSubject.create<Int>()
     val neighborhoodExpandObserable = BehaviorSubject.create<Boolean>()
+    val sortContainerObservable = BehaviorSubject.create<Boolean>()
 
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false)
 
@@ -52,7 +53,8 @@ class HotelFilterViewModel(val context: Context) {
 
     init {
         doneObservable.subscribe { params ->
-            if (userFilterChoices.userSort != previousSort) {
+            //if previousSort and userSort is both by popular(default), no need to call sort method. Otherwise, always do sort.
+            if (userFilterChoices.userSort != Sort.POPULAR || previousSort != Sort.POPULAR) {
                 previousSort = userFilterChoices.userSort
                 sortObserver.onNext(userFilterChoices.userSort)
                 HotelV2Tracking().trackHotelV2SortBy(Strings.capitalizeFirstLetter(userFilterChoices.userSort.toString()))

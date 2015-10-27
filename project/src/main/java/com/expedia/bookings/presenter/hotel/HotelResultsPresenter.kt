@@ -380,14 +380,15 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         show(ResultsList())
 
         filterBtn.setOnClickListener { view ->
-            if (filterView.visibility != View.VISIBLE) {
-                filterView.visibility = View.VISIBLE
-                show(ResultsFilter())
-            }
+            show(ResultsFilter())
+            filterView.viewmodel.sortContainerObservable.onNext(false)
+            filterView.toolbar.setTitle(getResources().getString(R.string.filter))
         }
 
         filterBtnWithCountWidget.setOnClickListener {
             show(ResultsFilter())
+            filterView.viewmodel.sortContainerObservable.onNext(true)
+            filterView.toolbar.setTitle(getResources().getString(R.string.Sort_and_Filter))
         }
 
         searchMenuItem.setOnMenuItemClickListener(object : MenuItem.OnMenuItemClickListener {
