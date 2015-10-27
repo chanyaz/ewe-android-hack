@@ -2751,10 +2751,10 @@
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
         <item quantity="zero">ไม่มีรีวิว</item>
-        <item quantity="one">ดู %d รีวิว</item>
-        <item quantity="two">ดู %d รีวิว</item>
-        <item quantity="many">ดู %d รีวิว</item>
-        <item quantity="other">ดู %d รีวิว</item>
+        <item quantity="one">ดู %s รีวิว</item>
+        <item quantity="two">ดู %s รีวิว</item>
+        <item quantity="many">ดู %s รีวิว</item>
+        <item quantity="other">ดู %s รีวิว</item>
     </plurals>
 
     <string name="zero_reviews">0 รีวิว</string>

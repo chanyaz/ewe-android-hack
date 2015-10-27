@@ -2749,10 +2749,10 @@
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
         <item quantity="zero">Tidak Ada Ulasan</item>
-        <item quantity="one">Baca %d Ulasan</item>
-        <item quantity="two">Baca %d Ulasan</item>
-        <item quantity="many">Baca %d Ulasan</item>
-        <item quantity="other">Baca %d Ulasan</item>
+        <item quantity="one">Baca %s Ulasan</item>
+        <item quantity="two">Baca %s Ulasan</item>
+        <item quantity="many">Baca %s Ulasan</item>
+        <item quantity="other">Baca %s Ulasan</item>
     </plurals>
 
     <string name="zero_reviews">0 Ulasan</string>

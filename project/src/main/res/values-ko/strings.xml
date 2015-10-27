@@ -2749,10 +2749,10 @@
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
         <item quantity="zero">이용 후기 없음</item>
-        <item quantity="one">%d개 이용 후기 보기</item>
-        <item quantity="two">%d개 이용 후기 보기</item>
-        <item quantity="many">%d개 이용 후기 보기</item>
-        <item quantity="other">%d개 이용 후기 보기</item>
+        <item quantity="one">%s개 이용 후기 보기</item>
+        <item quantity="two">%s개 이용 후기 보기</item>
+        <item quantity="many">%s개 이용 후기 보기</item>
+        <item quantity="other">%s개 이용 후기 보기</item>
     </plurals>
 
     <string name="zero_reviews">0개 이용 후기</string>

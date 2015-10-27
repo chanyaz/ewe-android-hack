@@ -2749,10 +2749,10 @@
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
         <item quantity="zero">Không có nhận xét</item>
-        <item quantity="one">Xem %d nhận xét</item>
-        <item quantity="two">Xem %d nhận xét</item>
-        <item quantity="many">Xem %d nhận xét</item>
-        <item quantity="other">Xem %d nhận xét</item>
+        <item quantity="one">Xem %s nhận xét</item>
+        <item quantity="two">Xem %s nhận xét</item>
+        <item quantity="many">Xem %s nhận xét</item>
+        <item quantity="other">Xem %s nhận xét</item>
     </plurals>
 
     <string name="zero_reviews">0 nhận xét</string>
