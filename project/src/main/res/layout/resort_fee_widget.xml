@@ -35,9 +35,9 @@
                 app:textStyle="medium" />
 
             <com.expedia.bookings.widget.TextView
+                android:id="@+id/fees_included_not_included_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/not_included_in_the_price"
                 android:textColor="@color/hotelsv2_checkout_text_color"
                 android:textSize="11sp"
                 app:textStyle="normal" />

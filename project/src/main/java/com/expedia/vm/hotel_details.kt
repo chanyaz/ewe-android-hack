@@ -91,6 +91,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val hotelRoomRateViewModelsObservable = BehaviorSubject.create<List<com.expedia.vm.HotelRoomRateViewModel>>()
 
     val hotelResortFeeObservable = BehaviorSubject.create<String>(null)
+    val hotelResortFeeIncludedTextObservable = BehaviorSubject.create<String>()
     val hotelNameObservable = BehaviorSubject.create<String>()
     val hotelRatingObservable = BehaviorSubject.create<Float>()
     val hotelRatingObservableVisibility = BehaviorSubject.create<Boolean>()
@@ -185,6 +186,8 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             val rate = hotelOffersResponse.hotelRoomResponse.get(0).rateInfo.chargeableRateInfo
             val hotelResortFee = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), rate.currencyCode)
             hotelResortFeeObservable.onNext(hotelResortFee.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL))
+            val includedNotIncludedStrId = if (rate.resortFeeInclusion) R.string.included_in_the_price else R.string.not_included_in_the_price
+            hotelResortFeeIncludedTextObservable.onNext(context.resources.getString(includedNotIncludedStrId))
         }
 
         showBookByPhoneObservable.onNext(isAvailable() && (hotelOffersResponse.deskTopOverrideNumber != null && !hotelOffersResponse.deskTopOverrideNumber)
