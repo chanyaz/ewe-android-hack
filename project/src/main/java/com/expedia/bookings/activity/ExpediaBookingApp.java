@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
+import android.os.Build;
 import android.support.multidex.MultiDexApplication;
 import android.text.format.DateUtils;
 
@@ -121,8 +122,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			StethoShim.install(this);
 			startupTimer.addSplit("Stetho init");
 
-			LeakCanary.install(this);
-			startupTimer.addSplit("LeakCanary init");
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+				LeakCanary.install(this);
+				startupTimer.addSplit("LeakCanary init");
+			}
 		}
 
 		mAppComponent = DaggerAppComponent.builder()
