@@ -180,9 +180,10 @@
                 android:id="@+id/amount_due_today_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:drawablePadding="6dp"
+                android:drawableRight="@drawable/ic_checkout_info"
                 android:textColor="@color/hotelsv2_checkout_text_color"
                 android:textSize="16sp"
-                android:drawableRight="@drawable/ic_checkout_info"
                 app:textStyle="medium" />
 
             <com.expedia.bookings.widget.TextView

@@ -229,7 +229,12 @@ public class PaymentWidget extends ExpandableCardView {
 			StoredCreditCard card = sectionBillingInfo.getBillingInfo().getStoredCard();
 			String cardName = card.getDescription();
 			CreditCardType cardType = card.getType();
-			bindCard(cardType, cardName, null);
+			if (card.isGoogleWallet()) {
+				bindCard(cardType, cardName, getResources().getString(R.string.checkout_payment_option_google_wallet_label));
+			}
+			else {
+				bindCard(cardType, cardName, getResources().getString(R.string.checkout_payment_line2_storedcc));
+			}
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.COMPLETE);
 		}
 		// Card info user entered is valid
@@ -238,7 +243,7 @@ public class PaymentWidget extends ExpandableCardView {
 			String cardNumber = NumberMaskFormatter.obscureCreditCardNumber(info.getNumber());
 			CreditCardType cardType = info.getCardType();
 			String expiration = JodaUtils.format(info.getExpirationDate(), "MM/yy");
-			bindCard(cardType, cardNumber, expiration);
+			bindCard(cardType, cardNumber, getResources().getString(R.string.selected_card_template, expiration));
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.COMPLETE);
 			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(info);
 		}
@@ -292,7 +297,7 @@ public class PaymentWidget extends ExpandableCardView {
 		cardInfoName.setText(cardNumber);
 		storedCardName.setText(cardNumber);
 		if (!TextUtils.isEmpty(cardExpiration)) {
-			cardInfoExpiration.setText(getResources().getString(R.string.selected_card_template, cardExpiration));
+			cardInfoExpiration.setText(cardExpiration);
 			cardInfoExpiration.setVisibility(VISIBLE);
 			FontCache.setTypeface(cardInfoExpiration, FontCache.Font.ROBOTO_REGULAR);
 		}
