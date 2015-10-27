@@ -142,7 +142,9 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         acceptTermsWidget.vm.resetAcceptedTerms()
         HotelV2Tracking().trackPageLoadHotelV2CheckoutInfo(trip.newHotelProductResponse, hotelSearchParams)
 
-        emailOptInStatus.onNext(MerchandiseSpam.valueOf(trip.guestUserPromoEmailOptInStatus))
+        if (trip.guestUserPromoEmailOptInStatus != null) {
+            emailOptInStatus.onNext(MerchandiseSpam.valueOf(trip.guestUserPromoEmailOptInStatus))
+        }
     }
 
     override fun showProgress(show: Boolean) {
@@ -175,7 +177,8 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         if (isCheckoutFormComplete) {
             if (PointOfSale.getPointOfSale(getContext()).requiresRulesRestrictionsCheckbox() && !acceptTermsWidget.vm.acceptedTermsObservable.value) {
                 acceptTermsWidget.vm.acceptedTermsObservable.subscribe(object : Observer<Boolean> {
-                    override fun onCompleted() { }
+                    override fun onCompleted() {
+                    }
 
                     override fun onError(e: Throwable) {
                         throw OnErrorNotImplementedException(e)
