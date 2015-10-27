@@ -2,7 +2,9 @@ package com.expedia.bookings.unit;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
@@ -29,7 +31,8 @@ import retrofit.RetrofitError;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class HotelServicesTest {
 	@Rule
@@ -145,5 +148,59 @@ public class HotelServicesTest {
 
 	private void givenCouponParams(String mockFileName) {
 		couponParams = new HotelApplyCouponParams("58b6be8a-d533-4eb0-aaa6-0228e000056c", mockFileName);
+	}
+
+	@Test
+	public void testSponsoredOrderingWhenHotelCountIsMoreThan50AndHasSponsoredItems() throws Throwable {
+		testSponsoredOrdering(createDummyList(100, true), true);
+	}
+
+	@Test
+	public void testSponsoredOrderingWhenHotelCountIsLessThan50AndHasSponsoredItems() throws Throwable {
+		testSponsoredOrdering(createDummyList(20, true), true);
+	}
+
+	@Test
+	public void testSponsoredOrderingWhenNoSponsoredItems() throws Throwable {
+		testSponsoredOrdering(createDummyList(100, false), false);
+	}
+
+	private void testSponsoredOrdering(List<Hotel> hotelList, boolean haveSponsoredItems) throws Throwable {
+		List<Hotel> updatedHotelList = HotelServices.Companion.putSponsoredItemsInCorrectPlaces(hotelList);
+		for (int index = 0; index < updatedHotelList.size(); index++) {
+			if (haveSponsoredItems && (index == 0 || index == 50 || index == 51)) {
+				assertTrue(isHotelSponsored(updatedHotelList.get(index)));
+			}
+			else {
+				assertTrue(!isHotelSponsored(updatedHotelList.get(index)));
+			}
+		}
+	}
+
+	private List<Hotel> createDummyList(int hotelCount, boolean keepSponsoredItems) {
+		List<Hotel> hotelList = new ArrayList<>();
+		for (int index = 0; index < hotelCount; index++) {
+			Hotel hotel = new Hotel();
+			hotel.hotelId = "Normal";
+			hotelList.add(hotel);
+		}
+		if (keepSponsoredItems) {
+			Random random = new Random();
+			setHotelAsSponsored(hotelList.get(random.nextInt(hotelCount)));
+			if (hotelCount >= 50) {
+				setHotelAsSponsored(hotelList.get(random.nextInt(hotelCount)));
+				setHotelAsSponsored(hotelList.get(random.nextInt(hotelCount)));
+			}
+		}
+		return hotelList;
+	}
+
+	private void setHotelAsSponsored(Hotel hotel) {
+		hotel.isSponsoredListing = true;
+		hotel.hotelId = "Sponsored";
+	}
+
+	private boolean isHotelSponsored(Hotel hotel) {
+		return hotel.isSponsoredListing && hotel.hotelId.equals("Sponsored");
 	}
 }

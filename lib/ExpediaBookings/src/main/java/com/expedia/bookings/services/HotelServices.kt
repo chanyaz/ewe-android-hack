@@ -76,13 +76,7 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 			    }
 		     }
 
-                    val (sponsored, nonSponsored) = response.hotelList.partition { it.isSponsoredListing }
-                    val firstChunk = sponsored.take(1)
-                    val secondChunk = nonSponsored.take(49)
-                    val thirdChunk = sponsored.drop(1)
-                    val rest = nonSponsored.drop(49)
-
-                    response.hotelList = firstChunk + secondChunk + thirdChunk + rest
+					response.hotelList = putSponsoredItemsInCorrectPlaces(response.hotelList)
                 }
     }
 
@@ -124,5 +118,16 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 			}
 		}
 		return HotelRate.UserPriceType.UNKNOWN
+	}
+
+	companion object {
+		fun putSponsoredItemsInCorrectPlaces(hotelList: List<Hotel>): List<Hotel> {
+			val (sponsored, nonSponsored) = hotelList.partition { it.isSponsoredListing }
+			val firstChunk = sponsored.take(1)
+			val secondChunk = nonSponsored.take(49)
+			val thirdChunk = sponsored.drop(1)
+			val rest = nonSponsored.drop(49)
+			return firstChunk + secondChunk + thirdChunk + rest
+		}
 	}
 }
