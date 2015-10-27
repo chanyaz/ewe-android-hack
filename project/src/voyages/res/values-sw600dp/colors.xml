@@ -18,5 +18,6 @@
     <color name="details_ring_blue">@color/vsc_secondary_color</color>
     <color name="hotel_details_user_rating_text">@color/vsc_secondary_color</color>
     <color name="tablet_hotel_coupon_text_color">@color/vsc_primary_color</color>
-
+    <color name="tablet_search_result_error_button_pressed">#9CD5F2</color>
+    <color name="tablet_search_result_error_button">#0088CE</color>
 </resources>
