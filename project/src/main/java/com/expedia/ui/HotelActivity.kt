@@ -122,7 +122,11 @@ public class HotelActivity : AppCompatActivity() {
             if (isCurrentLocationSearch) {
                 hotelSearchParams?.suggestion?.regionNames?.displayName = resources.getString(R.string.current_location)
                 hotelSearchParams?.suggestion?.regionNames?.shortName = resources.getString(R.string.current_location)
-                CurrentLocationObservable.create(this).subscribe(generateLocationServiceCallback(hotelSearchParams))
+                if (hotelSearchParams?.suggestion?.coordinates?.lat == 0.0 || hotelSearchParams?.suggestion?.coordinates?.lng == 0.0)
+                    CurrentLocationObservable.create(this).subscribe(generateLocationServiceCallback(hotelSearchParams))
+                else {
+                    startCurrentLocationSearch(hotelSearchParams)
+                }
             } else {
                 hotelPresenter.searchPresenter.searchViewModel.suggestionObserver.onNext(hotelSearchParams?.suggestion)
                 if (hotelSearchParams.suggestion.hotelId == null) {
@@ -166,6 +170,12 @@ public class HotelActivity : AppCompatActivity() {
         }
     }
 
+    private fun startCurrentLocationSearch(hotelSearchParams: com.expedia.bookings.data.hotels.HotelSearchParams?) {
+        hotelPresenter.searchPresenter.searchViewModel.suggestionObserver.onNext(hotelSearchParams?.suggestion)
+        hotelPresenter.searchObserver.onNext(hotelSearchParams)
+        setUpDeepLinkSearch(hotelSearchParams, true)
+    }
+
     private fun generateLocationServiceCallback(hotelSearchParams: com.expedia.bookings.data.hotels.HotelSearchParams?): Observer<Location> {
         return object : Observer<Location> {
             override fun onNext(location: Location) {
@@ -173,9 +183,7 @@ public class HotelActivity : AppCompatActivity() {
                 coordinate.lat = location.latitude
                 coordinate.lng = location.longitude
                 hotelSearchParams?.suggestion?.coordinates = coordinate
-                hotelPresenter.searchPresenter.searchViewModel.suggestionObserver.onNext(hotelSearchParams?.suggestion)
-                hotelPresenter.searchObserver.onNext(hotelSearchParams)
-                setUpDeepLinkSearch(hotelSearchParams, true)
+                startCurrentLocationSearch(hotelSearchParams)
             }
 
             override fun onCompleted() {
