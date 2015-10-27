@@ -2749,10 +2749,10 @@
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
         <item quantity="zero">レビューなし</item>
-        <item quantity="one">%d 件のレビューを表示</item>
-        <item quantity="two">%d 件のレビューを表示</item>
-        <item quantity="many">%d 件のレビューを表示</item>
-        <item quantity="other">%d 件のレビューを表示</item>
+        <item quantity="one">%s 件のレビューを表示</item>
+        <item quantity="two">%s 件のレビューを表示</item>
+        <item quantity="many">%s 件のレビューを表示</item>
+        <item quantity="other">%s 件のレビューを表示</item>
     </plurals>
 
     <string name="zero_reviews">0 件のレビュー</string>

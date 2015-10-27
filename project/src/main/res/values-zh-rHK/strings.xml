@@ -2749,10 +2749,10 @@
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
         <item quantity="zero">沒有評價</item>
-        <item quantity="one">查看 %d 篇評價</item>
-        <item quantity="two">查看 %d 篇評價</item>
-        <item quantity="many">查看 %d 篇評價</item>
-        <item quantity="other">查看 %d 篇評價</item>
+        <item quantity="one">查看 %s 篇評價</item>
+        <item quantity="two">查看 %s 篇評價</item>
+        <item quantity="many">查看 %s 篇評價</item>
+        <item quantity="other">查看 %s 篇評價</item>
     </plurals>
 
     <string name="zero_reviews">0 篇評價</string>

@@ -2749,10 +2749,10 @@
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
         <item quantity="zero">Ingen anmeldelser</item>
-        <item quantity="one">Vis %d anmeldelse</item>
-        <item quantity="two">Vis %d anmeldelser</item>
-        <item quantity="many">Vis %d anmeldelser</item>
-        <item quantity="other">Vis %d anmeldelser</item>
+        <item quantity="one">Vis %s anmeldelse</item>
+        <item quantity="two">Vis %s anmeldelser</item>
+        <item quantity="many">Vis %s anmeldelser</item>
+        <item quantity="other">Vis %s anmeldelser</item>
     </plurals>
 
     <string name="zero_reviews">0 anmeldelser</string>

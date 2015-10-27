@@ -2749,10 +2749,10 @@
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
         <item quantity="zero">Inga recensioner</item>
-        <item quantity="one">Se %d recension</item>
-        <item quantity="two">Se %d recensioner</item>
-        <item quantity="many">Se %d recensioner</item>
-        <item quantity="other">Se %d recensioner</item>
+        <item quantity="one">Se %s recension</item>
+        <item quantity="two">Se %s recensioner</item>
+        <item quantity="many">Se %s recensioner</item>
+        <item quantity="other">Se %s recensioner</item>
     </plurals>
 
     <string name="zero_reviews">0 recensioner</string>

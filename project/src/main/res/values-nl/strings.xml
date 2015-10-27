@@ -2749,10 +2749,10 @@
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
         <item quantity="zero">Geen beoordelingen</item>
-        <item quantity="one">Zie %d beoordeling</item>
-        <item quantity="two">Zie %d beoordelingen</item>
-        <item quantity="many">Zie %d beoordelingen</item>
-        <item quantity="other">Zie %d beoordelingen</item>
+        <item quantity="one">Zie %s beoordeling</item>
+        <item quantity="two">Zie %s beoordelingen</item>
+        <item quantity="many">Zie %s beoordelingen</item>
+        <item quantity="other">Zie %s beoordelingen</item>
     </plurals>
 
     <string name="zero_reviews">0 beoordelingen</string>

@@ -2750,10 +2750,10 @@
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
         <item quantity="zero">Ohne Bewertungen</item>
-        <item quantity="one">%d Bewertung ansehen</item>
-        <item quantity="two">%d Bewertungen ansehen</item>
-        <item quantity="many">%d Bewertungen ansehen</item>
-        <item quantity="other">%d Bewertungen ansehen</item>
+        <item quantity="one">%s Bewertung ansehen</item>
+        <item quantity="two">%s Bewertungen ansehen</item>
+        <item quantity="many">%s Bewertungen ansehen</item>
+        <item quantity="other">%s Bewertungen ansehen</item>
     </plurals>
 
     <string name="zero_reviews">0 Bewertungen</string>

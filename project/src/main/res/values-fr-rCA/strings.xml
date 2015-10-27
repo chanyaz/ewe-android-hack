@@ -2749,10 +2749,10 @@
     <!-- HOtel V2A number of reviews -->
     <plurals name="hotel_number_of_reviews">
         <item quantity="zero">Aucune évaluation</item>
-        <item quantity="one">Afficher %d évaluation</item>
-        <item quantity="two">Afficher %d évaluations</item>
-        <item quantity="many">Afficher %d évaluations</item>
-        <item quantity="other">Afficher %d évaluations</item>
+        <item quantity="one">Afficher %s évaluation</item>
+        <item quantity="two">Afficher %s évaluations</item>
+        <item quantity="many">Afficher %s évaluations</item>
+        <item quantity="other">Afficher %s évaluations</item>
     </plurals>
 
     <string name="zero_reviews">0 évaluation</string>
