@@ -94,12 +94,38 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
 
         Observable.combineLatest(vm.roomInfoExpandCollapseObservable, vm.expandedMeasurementsDone) { visibility, unit -> visibility }.subscribe({ visibility ->
             val shouldExpand = roomInfoDescriptionText.visibility == View.GONE
+            val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
+            val lp = roomInfoChevron.layoutParams as RelativeLayout.LayoutParams
             if (shouldExpand) {
                 roomInfoDescriptionText.visibility = View.VISIBLE
+                lp.addRule(RelativeLayout.BELOW, R.id.room_info_description_text)
+                roomInfoChevron.layoutParams = lp
+                resizeAnimator.addViewSpec(roomInfoDescriptionText, roomInfoDescriptionTextHeight)
+                resizeAnimator.start()
                 AnimUtils.rotate(roomInfoChevron)
             }
             else {
-                roomInfoDescriptionText.visibility = View.GONE
+                lp.removeRule(RelativeLayout.BELOW)
+                roomInfoChevron.layoutParams = lp
+                resizeAnimator.addViewSpec(roomInfoDescriptionText, 0)
+                resizeAnimator.addListener(object : Animator.AnimatorListener {
+                    override fun onAnimationEnd(p0: Animator?) {
+                        roomInfoDescriptionText.visibility = View.GONE
+                    }
+
+                    override fun onAnimationStart(p0: Animator?) {
+                        // ignore
+                    }
+
+                    override fun onAnimationRepeat(p0: Animator?) {
+                        // ignore
+                    }
+
+                    override fun onAnimationCancel(p0: Animator?) {
+                        // ignore
+                    }
+                })
+                resizeAnimator.start()
                 AnimUtils.reverseRotate(roomInfoChevron)
             }
             //track only when expand the room info
