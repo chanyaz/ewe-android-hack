@@ -8,6 +8,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelCheckoutParams
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.enums.MerchandiseSpam
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.services.HotelServices
@@ -44,6 +45,9 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         addTransition(checkoutToCvv)
         addDefaultTransition(defaultCheckoutTransition)
         hotelCheckoutWidget.slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
+        hotelCheckoutWidget.emailOptInStatus.subscribe { status ->
+            hotelCheckoutWidget.mainContactInfoCardView.setUPEMailOptCheckBox(status)
+        }
         hotelCheckoutWidget.viewmodel = HotelCreateTripViewModel(hotelServices)
         cvv.setCVVEntryListener(this)
     }
@@ -52,7 +56,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         Db.getTripBucket().clearHotelV2()
         show(hotelCheckoutWidget)
         hotelCheckoutWidget.showCheckout(offer)
-   }
+    }
 
     private val defaultCheckoutTransition = object : Presenter.DefaultTransition(HotelCheckoutMainViewPresenter::class.java.name) {
         override fun finalizeTransition(forward: Boolean) {
@@ -106,6 +110,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         hotelCheckoutParams.checkInDate = dtf.print(Db.getHotelSearch().getSearchParams().getCheckInDate())
         hotelCheckoutParams.checkOutDate = dtf.print(Db.getHotelSearch().getSearchParams().getCheckOutDate())
         hotelCheckoutParams.cvv = cvv
+        hotelCheckoutParams.emailOptIn = hotelCheckoutWidget.mainContactInfoCardView.emailOptIn.toString()
 
         if (billingInfo.getStoredCard() == null || billingInfo.getStoredCard().isGoogleWallet()) {
             hotelCheckoutParams.creditCardNumber = billingInfo.getNumber()
