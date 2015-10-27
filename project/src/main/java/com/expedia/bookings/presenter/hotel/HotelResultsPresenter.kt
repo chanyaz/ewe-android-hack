@@ -228,6 +228,15 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
+    override fun back(): Boolean {
+        if (ResultsFilter().javaClass.name == currentState && filterView.viewmodel.isFilteredToZeroResults()) {
+            filterView.dynamicFeedbackWidget.animateDynamicFeedbackWidget()
+            return true
+        }
+        filterView.viewmodel.doneObservable.onNext(Unit)
+        return super.back()
+    }
+
     init {
         View.inflate(getContext(), R.layout.widget_hotel_results, this)
         ViewCompat.setElevation(loadingOverlay, context.resources.getDimension(R.dimen.launch_tile_margin_side))
