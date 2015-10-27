@@ -274,6 +274,20 @@ public class PaymentWidget extends ExpandableCardView {
 		sectionLocation.resetValidation();
 	}
 
+
+	public void selectFirstAvailableCard() {
+		Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
+		StoredCreditCard currentCC = Db.getBillingInfo().getStoredCard();
+		if (currentCC != null) {
+			BookingInfoUtils.resetPreviousCreditCardSelectState(getContext(), currentCC);
+		}
+		StoredCreditCard card = Db.getUser().getStoredCreditCards().get(0);
+		Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(
+			card);
+		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+		paymentButtonListener.onStoredCreditCardChosen(card);
+	}
+
 	private void bindCard(CreditCardType cardType, String cardNumber, String cardExpiration) {
 		cardInfoName.setText(cardNumber);
 		storedCardName.setText(cardNumber);
@@ -332,16 +346,9 @@ public class PaymentWidget extends ExpandableCardView {
 			}
 		}
 		else {
-			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
-				cardInfoContainer.setVisibility(VISIBLE);
-				paymentOptionsContainer.setVisibility(GONE);
-				billingInfoContainer.setVisibility(GONE);
-			}
-			else {
-				cardInfoContainer.setVisibility(VISIBLE);
-				paymentOptionsContainer.setVisibility(GONE);
-				billingInfoContainer.setVisibility(GONE);
-			}
+			cardInfoContainer.setVisibility(VISIBLE);
+			paymentOptionsContainer.setVisibility(GONE);
+			billingInfoContainer.setVisibility(GONE);
 			bind();
 			Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 			paymentButton.dismissPopup();
