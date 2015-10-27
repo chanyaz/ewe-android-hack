@@ -63,10 +63,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 searchObserver.onNext(newHotelSearchParams)
             }
 
-            if (geoResults.count() == 1) {
-                triggerNewSearch(0) // search with the only lat/long we got back
-            }
-            else if (geoResults.count() > 1) {
+            if (geoResults.count() > 0) {
                 val freeformLocations = StrUtils.formatAddresses(geoResults)
                 val builder = AlertDialog.Builder(context)
                 builder.setTitle(R.string.ChooseLocation)
