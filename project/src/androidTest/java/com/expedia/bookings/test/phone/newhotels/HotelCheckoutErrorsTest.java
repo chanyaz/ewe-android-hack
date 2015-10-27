@@ -24,7 +24,7 @@ public class HotelCheckoutErrorsTest extends HotelTestCase {
 		selectHotel("hotel_price_change");
 		selectRoom();
 		//Create Trip Price Change
-		verifyPriceChange("Price changed from $2,394.88");
+		verifyPriceChange("Price dropped from $2,394.88");
 		Espresso.pressBack();
 		pickRoom("hotel_price_change_checkout");
 		checkout(false);

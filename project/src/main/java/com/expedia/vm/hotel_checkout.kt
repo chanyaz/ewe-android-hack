@@ -227,14 +227,20 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
                 val newPrice = tripResponse.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()
                 val priceChange = (originalPrice - newPrice)
 
-                priceChangeMessage.onNext(context.getString(R.string.price_changed_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
                 isPriceChange.onNext(hasPriceChange)
                 if (newPrice > originalPrice) {
                     priceChangeIconResourceId.onNext(R.drawable.price_change_increase)
+                    priceChangeMessage.onNext(context.getString(R.string.price_changed_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
                 }
                 else if (newPrice < originalPrice) {
+                    priceChangeMessage.onNext(context.getString(R.string.price_dropped_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
                     priceChangeIconResourceId.onNext(R.drawable.price_change_decrease)
                 }
+                else { // API could return price change error with no difference in price (see: hotel_price_change_checkout.json)
+                    priceChangeIconResourceId.onNext(R.drawable.price_change_decrease)
+                    priceChangeMessage.onNext(context.getString(R.string.price_changed_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
+                }
+
 
                 HotelV2Tracking().trackPriceChange(priceChange.toString())
             }
