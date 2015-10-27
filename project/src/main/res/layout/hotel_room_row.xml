@@ -240,6 +240,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/room_info_header_text"
+                    android:lineSpacingExtra="2dp"
                     android:paddingTop="8dp"
                     android:textColor="@color/hotelsv2_checkout_text_color"
                     android:textSize="11sp" />
