@@ -125,7 +125,7 @@ public class EndpointProvider {
 		return ESS_PRODUCTION_ENDPOINT;
 	}
 
-	private static final String TEST_REVIEWS_BASE_URL = "https://test.reviewsvc.expedia.com/";
+	private static final String TEST_REVIEWS_BASE_URL = "https://reviewsvc.ewetest.expedia.com/";
 	private static final String PROD_REVIEWS_BASE_URL = "https://reviewsvc.expedia.com/";
 
 	public String getReviewsEndpointUrl() {
