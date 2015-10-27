@@ -216,6 +216,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             adapter.resultsSubject.onNext(filterView.viewmodel.originalResponse!!)
             mapViewModel.hotelResultsSubject.onNext(filterView.viewmodel.originalResponse!!)
         } else {
+            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(emptyList())
             adapter.resultsSubject.onNext(filterView.viewmodel.filteredResponse)
             mapViewModel.hotelResultsSubject.onNext(filterView.viewmodel.filteredResponse)
         }
@@ -252,6 +253,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
         toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
 
+        mapCarouselRecycler.adapter = HotelMapCarouselAdapter(emptyList(), hotelSelectedSubject)
+
         mapViewModel.newBoundsObservable.subscribe {
             googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * 50), object : GoogleMap.CancelableCallback {
                 override fun onFinish() {
@@ -284,7 +287,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         mapViewModel.sortedHotelsObservable.subscribe {
             val hotels = it
-            mapCarouselRecycler.adapter = HotelMapCarouselAdapter(it, hotelSelectedSubject)
+            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(it)
             val marker = markers.filter { it.title == hotels.first().hotelId }.first()
             val prevMarker = mapViewModel.selectMarker.value
             if (prevMarker != null) mapViewModel.unselectedMarker.onNext(prevMarker)

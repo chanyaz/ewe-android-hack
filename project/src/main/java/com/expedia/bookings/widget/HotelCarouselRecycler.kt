@@ -33,8 +33,9 @@ public class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : Recy
         }
 
         val adapter = adapter as HotelMapCarouselAdapter
-        mapSubject.onNext(adapter.hotels.get(position))
-
+        if (adapter.hotels.isNotEmpty()) {
+            mapSubject.onNext(adapter.hotels.get(position))
+        }
         return true
     }
 
