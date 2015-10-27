@@ -18,6 +18,7 @@ import com.expedia.bookings.extension.isAirAttached
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.Amenity
+import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
@@ -45,12 +46,12 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         galleryClickedSubject.onNext(Unit)
     }
 
-    override fun onGalleryItemScrolled(position: Int){
-        if(hotelOffersResponse.photos.get(position).displayText !=null )
+    override fun onGalleryItemScrolled(position: Int) {
+        val havePhotoWithIndex = CollectionUtils.isNotEmpty(hotelOffersResponse.photos) && (position < hotelOffersResponse.photos.count())
+        if(havePhotoWithIndex && hotelOffersResponse.photos[position].displayText != null)
             galleryItemChangeObservable.onNext(Pair(position,hotelOffersResponse.photos.get(position).displayText))
         else
             galleryItemChangeObservable.onNext(Pair(position,""))
-
     }
 
     val hotelOffersSubject = BehaviorSubject.create<HotelOffersResponse>()
