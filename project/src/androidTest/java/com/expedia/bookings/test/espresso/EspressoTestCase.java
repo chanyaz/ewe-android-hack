@@ -45,15 +45,17 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	}
 
 	public void screenshot(String tag) throws Throwable {
-		final String cleanTag = tag.replace(" ", "_");
-		try {
-			// Wait just a little for frames to settle
-			Thread.sleep(200);
+		if (TestConfiguration.exists()) {
+			final String cleanTag = tag.replace(" ", "_");
+			try {
+				// Wait just a little for frames to settle
+				Thread.sleep(200);
+			}
+			catch (Exception e) {
+				// ignore
+			}
+			SpoonScreenshotUtils.screenshot(cleanTag, getInstrumentation());
 		}
-		catch (Exception e) {
-			// ignore
-		}
-		SpoonScreenshotUtils.screenshot(cleanTag, getInstrumentation());
 	}
 
 	public Locale getLocale() {
