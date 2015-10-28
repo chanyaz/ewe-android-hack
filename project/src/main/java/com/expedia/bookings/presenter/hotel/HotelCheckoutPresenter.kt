@@ -8,7 +8,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelCheckoutParams
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.enums.MerchandiseSpam
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.services.HotelServices
@@ -110,7 +109,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         hotelCheckoutParams.checkInDate = dtf.print(Db.getHotelSearch().getSearchParams().getCheckInDate())
         hotelCheckoutParams.checkOutDate = dtf.print(Db.getHotelSearch().getSearchParams().getCheckOutDate())
         hotelCheckoutParams.cvv = cvv
-        hotelCheckoutParams.emailOptIn = hotelCheckoutWidget.mainContactInfoCardView.emailOptIn.toString()
+        hotelCheckoutParams.emailOptIn = hotelCheckoutWidget.mainContactInfoCardView.emailOptIn?.toString() ?: ""
 
         if (billingInfo.getStoredCard() == null || billingInfo.getStoredCard().isGoogleWallet()) {
             hotelCheckoutParams.creditCardNumber = billingInfo.getNumber()
