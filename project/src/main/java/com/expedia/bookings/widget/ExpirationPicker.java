@@ -96,6 +96,7 @@ public class ExpirationPicker extends LinearLayout {
 
 	@Override
 	public Parcelable onSaveInstanceState() {
+		super.onSaveInstanceState();
 		Bundle bundle = new Bundle();
 		bundle.putInt(TAG_CURRENT_MONTH, mCurrentMonth);
 		bundle.putInt(TAG_CURRENT_YEAR, mCurrentYear);
