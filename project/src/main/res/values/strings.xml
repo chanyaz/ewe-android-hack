@@ -2389,6 +2389,8 @@
     <string name="See_back_of_card">See back of card</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">See front of card</string>
+    <!-- Hint on CVV widget title for where to look for CVV code -->
+    <string name="cvv_enter_security_code">Enter Security Code</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
