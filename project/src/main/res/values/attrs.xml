@@ -117,11 +117,6 @@
         <attr name="waypointTextTopMargin" format="dimension" />
     </declare-styleable>
 
-    <!-- CheckBoxPreference -->
-    <declare-styleable name="CheckBoxPreference">
-        <attr name="id" format="reference" />
-    </declare-styleable>
-
     <!-- ParallaxContainer -->
     <declare-styleable name="ParallaxContainer">
         <attr name="offsetTop" format="dimension" />

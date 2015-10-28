@@ -11,13 +11,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Point;
-import android.os.Build;
 import android.support.multidex.MultiDexApplication;
 import android.text.format.DateUtils;
 
 import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
+import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.dagger.AppComponent;
 import com.expedia.bookings.dagger.AppModule;
@@ -122,7 +122,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			StethoShim.install(this);
 			startupTimer.addSplit("Stetho init");
 
-			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+			if (SettingUtils.get(this, getString(R.string.preference_enable_leakcanary), false)) {
 				LeakCanary.install(this);
 				startupTimer.addSplit("LeakCanary init");
 			}

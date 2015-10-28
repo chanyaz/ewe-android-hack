@@ -672,15 +672,6 @@ public class ExpediaServices implements DownloadListener {
 		}
 		rh.setNumNights(params.getStayDuration());
 
-		if (BuildConfig.DEBUG) {
-			boolean disabled = SettingUtils
-				.get(mContext, mContext.getString(R.string.preference_disable_domain_v2_hotel_search), false);
-
-			if (!disabled) {
-				query.add(new BasicNameValuePair("forceV2Search", "true"));
-			}
-		}
-
 		return doE3Request("m/api/hotel/search", query, rh, 0);
 	}
 
