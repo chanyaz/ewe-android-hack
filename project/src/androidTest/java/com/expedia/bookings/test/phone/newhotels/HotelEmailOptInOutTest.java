@@ -6,7 +6,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 
-import static com.expedia.bookings.test.phone.newhotels.HotelScreen.doSearch;
+import static com.expedia.bookings.test.phone.newhotels.HotelScreen.doGenericSearch;
 import static com.expedia.bookings.test.phone.newhotels.HotelScreen.pickRoom;
 import static com.expedia.bookings.test.phone.newhotels.HotelScreen.selectHotel;
 import static com.expedia.bookings.test.phone.newhotels.HotelScreen.selectRoom;
@@ -14,7 +14,7 @@ import static com.expedia.bookings.test.phone.newhotels.HotelScreen.selectRoom;
 public class HotelEmailOptInOutTest extends HotelTestCase {
 
 	public void goToCheckout(String room) throws Throwable {
-		doSearch();
+		doGenericSearch();
 		selectHotel("hotel_email_opt_in");
 		pickRoom(room);
 		CheckoutViewModel.waitForCheckout();
@@ -24,7 +24,7 @@ public class HotelEmailOptInOutTest extends HotelTestCase {
 
 	//test ALWAYS
 	public void testEmailOptInAlways() throws Throwable {
-		doSearch();
+		doGenericSearch();
 		selectHotel("hotel_email_opt_in");
 		selectRoom();
 		CheckoutViewModel.waitForCheckout();

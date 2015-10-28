@@ -9,7 +9,7 @@ import com.expedia.bookings.test.espresso.HotelTestCase;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static com.expedia.bookings.test.phone.newhotels.HotelScreen.checkout;
-import static com.expedia.bookings.test.phone.newhotels.HotelScreen.doSearch;
+import static com.expedia.bookings.test.phone.newhotels.HotelScreen.doGenericSearch;
 import static com.expedia.bookings.test.phone.newhotels.HotelScreen.enterCVV;
 import static com.expedia.bookings.test.phone.newhotels.HotelScreen.pickRoom;
 import static com.expedia.bookings.test.phone.newhotels.HotelScreen.selectHotel;
@@ -20,7 +20,7 @@ import static com.expedia.bookings.test.phone.newhotels.HotelScreen.verifyPriceC
 public class HotelCheckoutErrorsTest extends HotelTestCase {
 
 	public void testPriceChange() throws Throwable {
-		doSearch();
+		doGenericSearch();
 		selectHotel("hotel_price_change");
 		selectRoom();
 		//Create Trip Price Change
@@ -78,7 +78,7 @@ public class HotelCheckoutErrorsTest extends HotelTestCase {
 	}
 
 	private void moveToCheckout(String hotelName) throws Throwable {
-		doSearch();
+		doGenericSearch();
 		selectHotel(hotelName);
 		selectRoom();
 		checkout(true);

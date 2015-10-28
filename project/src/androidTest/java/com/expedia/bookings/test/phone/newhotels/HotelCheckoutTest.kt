@@ -7,7 +7,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.HotelTestCase
-import com.expedia.bookings.test.phone.newhotels.HotelScreen.doSearch
+import com.expedia.bookings.test.phone.newhotels.HotelScreen.doGenericSearch
 import com.expedia.bookings.test.phone.newhotels.HotelScreen.selectHotel
 import com.expedia.bookings.test.phone.newhotels.HotelScreen.selectRoom
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
@@ -18,7 +18,7 @@ import junit.framework.Assert.assertEquals
 public class HotelCheckoutTest: HotelTestCase() {
 
     fun testCardNumberClearedAfterCreateTrip() {
-        doSearch()
+        doGenericSearch()
         selectHotel("happypath")
         selectRoom()
         checkout()
@@ -45,7 +45,7 @@ public class HotelCheckoutTest: HotelTestCase() {
     }
 
     fun testTealeafIDClearedAfterSignIn() {
-        doSearch()
+        doGenericSearch()
         selectHotel("tealeaf_id")
         selectRoom()
         assertEquals(Db.getTripBucket().hotelV2.mHotelTripResponse.tealeafTransactionId, "tealeafHotel:tealeaf_id")

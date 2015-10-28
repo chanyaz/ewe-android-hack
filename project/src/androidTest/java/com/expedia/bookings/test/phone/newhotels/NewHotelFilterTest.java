@@ -14,7 +14,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.phone.newhotels.HotelScreen.doSearch;
+import static com.expedia.bookings.test.phone.newhotels.HotelScreen.doGenericSearch;
 import static com.expedia.bookings.test.phone.newhotels.HotelScreen.doneButton;
 import static com.expedia.bookings.test.phone.newhotels.HotelScreen.filterHotelName;
 import static com.expedia.bookings.test.phone.newhotels.HotelScreen.filterResultsSnackBar;
@@ -27,7 +27,7 @@ public class NewHotelFilterTest extends HotelTestCase {
 
 	//clear filter, all select item deselected
 	public void testClearFilter() throws Throwable {
-		doSearch();
+		doGenericSearch();
 		sortFilter();
 
 		filterHotelName().perform(typeText("Hilton"));
@@ -40,7 +40,7 @@ public class NewHotelFilterTest extends HotelTestCase {
 	}
 
 	public void testFilterSnackBar() throws Throwable {
-		doSearch();
+		doGenericSearch();
 		sortFilter();
 		//initially, results snack bar hides
 		filterResultsSnackBar().check(matches(not(isDisplayed())));
@@ -61,7 +61,7 @@ public class NewHotelFilterTest extends HotelTestCase {
 
 	public void testFilterReturnToResult() throws Throwable {
 		//zero results, done button is disabled
-		doSearch();
+		doGenericSearch();
 		sortFilter();
 		filterHotelName().perform(typeText("Hilton"));
 		Common.closeSoftKeyboard(filterHotelName());
@@ -73,12 +73,12 @@ public class NewHotelFilterTest extends HotelTestCase {
 		HotelScreen.clearFilter().perform(click());
 		onView(withId(R.id.rating_four_background)).perform(click());
 		doneButton().perform(click());
-		HotelScreen.waitForResultsDisplayed();
+		HotelScreen.waitForResultsLoaded();
 
 		Common.delay(2);
 //		from map to filter, return to result map
 		HotelScreen.hotelResultsList().perform(RecyclerViewActions.scrollToPosition(4));
-		HotelScreen.mapfab().perform(click());
+		HotelScreen.mapFab().perform(click());
 		Common.delay(2);
 		onView(withId(R.id.filter_count_text)).perform(click());
 

@@ -8,11 +8,9 @@ import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
 import android.graphics.Rect;
-import android.support.test.espresso.Espresso;
 import android.support.test.espresso.PerformException;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
-import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.CoordinatesProvider;
 import android.support.test.espresso.action.GeneralLocation;
 import android.support.test.espresso.action.GeneralSwipeAction;
@@ -42,10 +40,6 @@ import com.mobiata.android.widget.CalendarDatePicker;
 
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withChild;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
-import static com.expedia.bookings.test.phone.lx.LXScreen.recyclerView;
-import static org.hamcrest.Matchers.allOf;
 
 public final class ViewActions {
 
@@ -391,12 +385,17 @@ public final class ViewActions {
 			public void perform(UiController uiController, View view) {
 				AdapterView av = (AdapterView) view;
 				AdapterView.OnItemClickListener listener = av.getOnItemClickListener();
+				if (listener == null) {
+					throw new PerformException.Builder()
+						.withActionDescription("AdapterView OnItemClickListener was null")
+						.withViewDescription(HumanReadables.describe(view))
+						.build();
+				}
 				listener.onItemClick(av, null, position, position);
 			}
 
 			@Override
 			public String getDescription() {
-
 				return "Click etp room item";
 			}
 		};
@@ -448,13 +447,13 @@ public final class ViewActions {
 
 				final long endTime = System.currentTimeMillis() + timeout;
 				do {
+					Log.v("waitFor", "Waiting for " + SLEEP_UI_MS + "ms");
+					uiController.loopMainThreadForAtLeast(SLEEP_UI_MS);
+
 					if (what.matches(view)) {
 						Log.v("waitFor", "Matched");
 						return;
 					}
-
-					Log.v("waitFor", "Waiting for " + SLEEP_UI_MS + "ms");
-					uiController.loopMainThreadForAtLeast(SLEEP_UI_MS);
 				}
 				while (System.currentTimeMillis() <= endTime);
 
@@ -525,15 +524,8 @@ public final class ViewActions {
 
 					uiController.loopMainThreadUntilIdle();
 					uiController.loopMainThreadForAtLeast(100);
-					return;
 				}
 			}
 		};
-	}
-
-	public static ViewInteraction recyclerItemView(Matcher<View> identifyingMatcher, int recyclerViewId) {
-		Matcher<View> itemView = allOf(withParent(recyclerView(recyclerViewId)),
-			withChild(identifyingMatcher));
-		return Espresso.onView(itemView);
 	}
 }

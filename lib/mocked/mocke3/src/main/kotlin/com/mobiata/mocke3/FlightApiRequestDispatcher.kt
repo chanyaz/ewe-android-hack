@@ -1,6 +1,5 @@
 package com.mobiata.mocke3
 
-import com.squareup.okhttp.mockwebserver.Dispatcher
 import com.squareup.okhttp.mockwebserver.MockResponse
 import com.squareup.okhttp.mockwebserver.RecordedRequest
 import java.util.Calendar
@@ -10,7 +9,7 @@ import java.util.regex.Pattern
 public class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
     override fun dispatch(request: RecordedRequest): MockResponse {
-        val urlPath = request.getPath()
+        val urlPath = request.path
         val params = parseRequest(request)
 
         if (!FlightApiRequestMatcher.isFlightApiRequest(urlPath)) {
@@ -38,19 +37,19 @@ class FlightApiMockResponseGenerator() {
 
             val departCalTakeoff = parseYearMonthDay(departureDate, 10, 0)
             val departCalLanding = parseYearMonthDay(departureDate, 12 + 4, 0)
-            params.put("departingFlightTakeoffTimeEpochSeconds", "" + (departCalTakeoff.getTimeInMillis() / 1000))
-            params.put("departingFlightLandingTimeEpochSeconds", "" + (departCalLanding.getTimeInMillis() / 1000))
+            params.put("departingFlightTakeoffTimeEpochSeconds", "" + (departCalTakeoff.timeInMillis / 1000))
+            params.put("departingFlightLandingTimeEpochSeconds", "" + (departCalLanding.timeInMillis / 1000))
 
             if (isReturnFlightSearch) {
                 val returnDate = params.get("returnDate")
                 val returnCalTakeoff = parseYearMonthDay(returnDate, 10, 0)
                 val returnCalLanding = parseYearMonthDay(returnDate, 12 + 4, 0)
-                params.put("returnFlightTakeoffTimeEpochSeconds", "" + (returnCalTakeoff.getTimeInMillis() / 1000))
-                params.put("returnFlightLandingTimeEpochSeconds", "" + (returnCalLanding.getTimeInMillis() / 1000))
+                params.put("returnFlightTakeoffTimeEpochSeconds", "" + (returnCalTakeoff.timeInMillis / 1000))
+                params.put("returnFlightLandingTimeEpochSeconds", "" + (returnCalLanding.timeInMillis / 1000))
             }
-            params.put("tzOffsetSeconds", "" + (departCalTakeoff.getTimeZone().getOffset(departCalTakeoff.getTimeInMillis()) / 1000))
+            params.put("tzOffsetSeconds", "" + (departCalTakeoff.timeZone.getOffset(departCalTakeoff.timeInMillis) / 1000))
 
-            return "api/flight/search/" + filename + ".json"
+            return "api/flight/search/$filename.json"
         }
 
         fun getCheckoutResponseFilePath(params: MutableMap<String, String>): String {
@@ -65,10 +64,10 @@ class FlightApiMockResponseGenerator() {
 
             if (isRequestingAirAttachMockResponse) {
                 val c = Calendar.getInstance()
-                c.setTime(Date())
+                c.time = Date()
                 c.add(Calendar.DATE, 10)
-                val millisFromEpoch = (c.getTimeInMillis() / 1000)
-                val tzOffsetSeconds = (c.getTimeZone().getOffset(c.getTimeInMillis()) / 1000)
+                val millisFromEpoch = (c.timeInMillis / 1000)
+                val tzOffsetSeconds = (c.timeZone.getOffset(c.timeInMillis) / 1000)
                 params.put("airAttachEpochSeconds", "" + millisFromEpoch)
                 params.put("airAttachTimeZoneOffsetSeconds", "" + tzOffsetSeconds)
             }

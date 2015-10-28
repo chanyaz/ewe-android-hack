@@ -15,12 +15,12 @@ class DispatcherUtilitiesTest {
 
 	@Test fun emptyResponse() {
 		val empty = makeEmptyResponse()
-		assertEquals("HTTP/1.1 200 OK", empty.getStatus())
+		assertEquals("HTTP/1.1 200 OK", empty.status)
 	}
 
 	@Test fun response404() {
 		val response404 = make404()
-		assertEquals("HTTP/1.1 404 OK", response404.getStatus())
+		assertEquals("HTTP/1.1 404 OK", response404.status)
 	}
 
     @Test fun parseRequestWorks() {

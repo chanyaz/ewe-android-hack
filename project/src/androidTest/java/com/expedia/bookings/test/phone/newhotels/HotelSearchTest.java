@@ -58,7 +58,7 @@ public class HotelSearchTest extends HotelTestCase {
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		HotelScreen.selectDates(startDate, null);
 		HotelScreen.searchButton().perform(click());
-		HotelScreen.waitForDetailsDisplayed();
+		HotelScreen.waitForDetailsLoaded();
 		HotelScreen.selectRoomButton().check(matches((isDisplayed())));
 	}
 }

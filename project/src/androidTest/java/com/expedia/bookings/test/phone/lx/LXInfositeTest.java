@@ -23,7 +23,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.isEmpty;
-import static com.expedia.bookings.test.espresso.CustomMatchers.withAtleastChildCount;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withAtLeastChildCount;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withChildCount;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withDateCaptionAtIndex;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withOneEnabled;
@@ -109,7 +109,7 @@ public class LXInfositeTest extends LxTestCase {
 		LXInfositeScreen.detailsDateContainer().check(matches(withOneEnabled()));
 		screenshot("LX validated offers strip");
 
-		onView(withId(R.id.offers)).check(matches(withAtleastChildCount(1)));
+		onView(withId(R.id.offers)).check(matches(withAtLeastChildCount(1)));
 
 		TicketSummaryDataModel ticketSummary = new TicketSummaryDataModel();
 		LXInfositeScreen.offersWidgetContainer().perform(scrollTo());

@@ -66,7 +66,7 @@ public class NewHotelPhoneHappyPathTest extends HotelTestCase {
 
 	private void selectHotel() throws Throwable {
 		screenshot("Hotel_Search_Results");
-		HotelScreen.selectHotel(2);
+		HotelScreen.selectHotel("happypath");
 		Common.delay(1);
 	}
 

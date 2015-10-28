@@ -29,7 +29,7 @@ public class HotelSearchPresenterTest extends HotelTestCase {
 		HotelScreen.selectDates(startDate, null);
 		//Search button will be enabled
 		HotelScreen.searchButton().perform(click());
-		HotelScreen.waitForResultsDisplayed();
+		HotelScreen.waitForResultsLoaded();
 	}
 
 	public void testChildAgeLabel() throws Throwable {
@@ -71,7 +71,7 @@ public class HotelSearchPresenterTest extends HotelTestCase {
 		// TODO : activity is removed on back press.
 		HotelScreen.location().perform(typeText("SFO"));
 		HotelScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		HotelScreen.showCalendar();
+		HotelScreen.assertCalendarShown();
 	}
 
 }

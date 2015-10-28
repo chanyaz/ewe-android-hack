@@ -191,7 +191,6 @@ public class CheckoutViewModel {
 
 	private static void enterPaymentDetails() {
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
-		//Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();
