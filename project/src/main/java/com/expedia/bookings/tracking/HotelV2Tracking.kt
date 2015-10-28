@@ -248,6 +248,10 @@ class HotelV2Tracking {
         OmnitureTracking.trackHotelV2ConfirmationDirection()
     }
 
+    fun trackHotelV2CallCustomerSupport() {
+        OmnitureTracking.trackHotelV2CallCustomerSupport()
+    }
+
     fun trackHotelV2CrossSellCar() {
         trackHotelV2ConfirmationCrossSell("Cars")
     }

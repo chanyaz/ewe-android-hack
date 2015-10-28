@@ -7,6 +7,7 @@ import android.graphics.PorterDuff
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.otto.Events
@@ -21,6 +22,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelConfirmationViewModel
+import com.squareup.phrase.Phrase
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -35,6 +37,7 @@ public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) :
     val backgroundImageView: OptimizedImageView by bindView(R.id.background_image_view)
     val directionsToHotelBtn: TextView by bindView(R.id.direction_action_textView)
     val addToCalendarBtn: TextView by bindView(R.id.calendar_action_textView)
+    val callSupportBtn: TextView by bindView(R.id.call_support_action_textView)
     val addCarBtn: TextView by bindView(R.id.add_car_textView)
     val addFlightBtn: TextView by bindView(R.id.add_flight_textView)
     val sendToEmailTextView: TextView by bindView(R.id.email_text)
@@ -51,6 +54,8 @@ public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) :
         dressAction(res, addToCalendarBtn, R.drawable.add_to_calendar)
         dressAction(res, addCarBtn, R.drawable.hotel_car)
         dressAction(res, addFlightBtn, R.drawable.car_flights)
+        dressAction(res, callSupportBtn, R.drawable.hotel_phone)
+        callSupportBtn.text = Phrase.from(context, R.string.call_customer_support_TEMPLATE).put("brand", BuildConfig.brand).format()
     }
 
     override fun onFinishInflate() {
@@ -60,6 +65,7 @@ public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) :
         addFlightBtn.subscribeOnClick(hotelConfirmationViewModel.getAddFlightBtnObserver(getContext()))
         addCarBtn.subscribeOnClick(hotelConfirmationViewModel.getAddCarBtnObserver(getContext()))
         addToCalendarBtn.subscribeOnClick(hotelConfirmationViewModel.getAddToCalendarBtnObserver(getContext()))
+        callSupportBtn.subscribeOnClick(hotelConfirmationViewModel.getCallSupportBtnObserver(getContext()))
         directionsToHotelBtn.subscribeOnClick(hotelConfirmationViewModel.getDirectionsToHotelBtnObserver(getContext()))
 
         hotelConfirmationViewModel.itineraryNumberLabel.subscribeText(itinNumberTextView)

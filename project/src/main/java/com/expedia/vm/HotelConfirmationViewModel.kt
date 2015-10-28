@@ -8,6 +8,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelV2Tracking
@@ -15,6 +16,7 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.NavUtils
+import com.mobiata.android.SocialUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import rx.Observable
@@ -144,6 +146,23 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
                 val date = if (checkIn) checkInDate.getValue() else checkOutDate.getValue()
 
                 return AddToCalendarUtils.generateHotelAddToCalendarIntent(context, property, date, checkIn, null, itineraryNumber.getValue())
+            }
+        }
+    }
+
+    fun getCallSupportBtnObserver(context: Context): Observer<Unit> {
+        return object: Observer<Unit> {
+            override fun onNext(t: Unit?) {
+                val phoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser())
+                SocialUtils.call(context, phoneNumber)
+                HotelV2Tracking().trackHotelV2CallCustomerSupport()
+            }
+
+            override fun onCompleted() {
+            }
+
+            override fun onError(e: Throwable?) {
+                throw OnErrorNotImplementedException(e)
             }
         }
     }
