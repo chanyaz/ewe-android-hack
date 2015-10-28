@@ -93,6 +93,7 @@ public class HotelMedia implements JSONable, IMedia {
 
 	private String mBaseUrl;
 	private Size mOriginalType;
+	private boolean mIsPlaceholder;
 
 	public HotelMedia() {
 		// Default constructor
@@ -102,9 +103,19 @@ public class HotelMedia implements JSONable, IMedia {
 		setUrl(url);
 	}
 
+	public void setIsPlaceholder(boolean isPlaceholder) {
+		mIsPlaceholder = isPlaceholder;
+	}
+
+	@Override
+	public boolean isPlaceHolder() {
+		return mIsPlaceholder;
+	}
+
 	public String getOriginalUrl() {
 		return getUrl(mOriginalType);
 	}
+
 
 	/**
 	 * Returns the url for a specific resolution of this Media.
@@ -168,8 +179,8 @@ public class HotelMedia implements JSONable, IMedia {
 	private List<String> getBestUrls(int count, int width) {
 		int i = getBestIndex(width);
 		return getUrls(count, i,
-				i + 1, i - 1, i + 2, i - 2, i + 3, i - 3, i + 4, i - 4,
-				i + 5, i - 5, i + 6, i - 6, i + 7, i - 7, i + 8, i - 8);
+			i + 1, i - 1, i + 2, i - 2, i + 3, i - 3, i + 4, i - 4,
+			i + 5, i - 5, i + 6, i - 6, i + 7, i - 7, i + 8, i - 8);
 	}
 
 	public List<String> getBestUrls(int width) {
