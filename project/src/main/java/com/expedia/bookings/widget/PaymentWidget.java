@@ -391,7 +391,8 @@ public class PaymentWidget extends ExpandableCardView {
 		cardInfoContainer.setVisibility(GONE);
 		paymentOptionsContainer.setVisibility(GONE);
 		billingInfoContainer.setVisibility(VISIBLE);
-		paymentButton.setVisibility(User.isLoggedIn(getContext()) ? VISIBLE : GONE);
+		paymentButton.setVisibility(
+			User.isLoggedIn(getContext()) && !Db.getUser().getStoredCreditCards().isEmpty() ? VISIBLE : GONE);
 		storedCardContainer.setVisibility(hasStoredCard ? VISIBLE : GONE);
 		sectionBillingInfo.setVisibility(hasStoredCard ? GONE : VISIBLE);
 		if (hasStoredCard) {
