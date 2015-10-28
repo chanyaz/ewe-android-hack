@@ -141,6 +141,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         detailPresenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(detailPresenter.hotelRenovationObserver)
         detailPresenter.hotelDetailView.viewmodel.hotelPayLaterInfoObservable.subscribe(detailPresenter.hotelPayLaterInfoObserver)
         detailPresenter.hotelDetailView.viewmodel.vipAccessInfoObservable.subscribe(detailPresenter.hotelVIPAccessInfoObserver)
+        detailPresenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(detailPresenter.hotelDetailsEmbeddedMapClickObserver)
+        detailPresenter.hotelMapView.viewmodel = HotelMapViewModel(context, detailPresenter.hotelDetailView.viewmodel.scrollToRoom)
+
         resultsPresenter.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
         resultsPresenter.viewmodel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
 
@@ -374,6 +377,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val downloadListener: Observer<HotelOffersResponse> = endlessObserver { response ->
         loadingOverlay.animate(false)
         detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(response)
+        detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(response)
         show(detailPresenter)
         detailPresenter.showDefault()
     }
@@ -408,5 +412,4 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         val hasEtpOffer = detailPresenter.hotelDetailView.viewmodel.hasEtpOffer(hotelOffersResponse)
         HotelV2Tracking().trackPageLoadHotelV2Infosite(hotelOffersResponse, hotelSearchParams, hasEtpOffer, hotelSearchParams.suggestion.isCurrentLocationSearch)
     }
-
 }

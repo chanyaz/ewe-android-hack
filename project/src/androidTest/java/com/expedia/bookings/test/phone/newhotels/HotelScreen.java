@@ -319,4 +319,12 @@ public class HotelScreen {
 	public static void clickVIPAccess() {
 		onView(withId(R.id.vip_access_message)).perform(click());
 	}
+
+	public static void clickDetailsMiniMap() {
+		onView(withId(R.id.map_click_container)).perform(scrollTo(), click());
+	}
+
+	public static void clickSelectARoomInFullMap() {
+		onView(withId(R.id.map_view_select_room_container)).perform(click());
+	}
 }

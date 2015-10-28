@@ -33,8 +33,12 @@ public class HotelActivity : AppCompatActivity() {
         findViewById(R.id.hotel_presenter) as HotelPresenter
     }
 
-    val mapView: MapView by lazy {
+    val resultsMapView: MapView by lazy {
         hotelPresenter.findViewById(R.id.widget_hotel_results).findViewById(R.id.map_view) as MapView
+    }
+
+    val detailsMapView: MapView by lazy {
+        hotelPresenter.findViewById(R.id.hotel_map_view).findViewById(R.id.detailed_map_view) as MapView
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +46,8 @@ public class HotelActivity : AppCompatActivity() {
         Ui.getApplication(this).defaultHotelComponents()
         setContentView(R.layout.activity_hotel)
         Ui.showTransparentStatusBar(this)
-        mapView.onCreate(savedInstanceState)
+        resultsMapView.onCreate(savedInstanceState)
+        detailsMapView.onCreate(savedInstanceState)
         if (savedInstanceState == null) {
             OmnitureTracking.trackHotelsABTest()
         }
@@ -59,7 +64,8 @@ public class HotelActivity : AppCompatActivity() {
     }
 
     override fun onPause() {
-        mapView.onPause()
+        resultsMapView.onPause()
+        detailsMapView.onPause()
         super.onPause()
 
         if (isFinishing()) {
@@ -68,7 +74,8 @@ public class HotelActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        mapView.onResume()
+        resultsMapView.onResume()
+        detailsMapView.onResume()
         super.onResume()
     }
 
@@ -91,17 +98,20 @@ public class HotelActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
-        mapView.onDestroy()
+        resultsMapView.onDestroy()
+        detailsMapView.onDestroy()
         super.onDestroy()
     }
 
     override fun onLowMemory() {
-        mapView.onLowMemory()
+        resultsMapView.onLowMemory()
+        detailsMapView.onLowMemory()
         super.onLowMemory()
     }
 
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
-        mapView.onSaveInstanceState(outState)
+        resultsMapView.onSaveInstanceState(outState)
+        detailsMapView.onSaveInstanceState(outState)
         super.onSaveInstanceState(outState, outPersistentState)
     }
 

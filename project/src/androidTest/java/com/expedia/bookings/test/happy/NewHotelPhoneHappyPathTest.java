@@ -23,12 +23,21 @@ public class NewHotelPhoneHappyPathTest extends HotelTestCase {
 		doSearch();
 		selectHotel();
 		reviews();
+		launchFullMap();
 		selectRoom();
 		checkout();
 		slideToPurchase();
 		enterCVV();
 		confirmation();
 		verifyTravelAdTracking();
+	}
+
+	private void launchFullMap() throws Throwable {
+		Common.delay(1);
+		HotelScreen.clickDetailsMiniMap();
+		Common.delay(1);
+		screenshot("Hotel_Detail_Map");
+		HotelScreen.clickSelectARoomInFullMap();
 	}
 
 	private void reviews() throws Throwable {

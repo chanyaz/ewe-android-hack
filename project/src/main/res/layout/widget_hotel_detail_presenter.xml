@@ -24,4 +24,10 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
+    <com.expedia.bookings.widget.HotelMapView
+        android:id="@+id/hotel_map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
 </merge>
