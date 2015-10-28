@@ -199,7 +199,22 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.hotelResortFeeObservable.subscribeText(resortFeeWidget.resortFeeText)
         vm.hotelResortFeeIncludedTextObservable.subscribeText(resortFeeWidget.feesIncludedNotIncluded)
 
-        vm.sectionBodyObservable.subscribeText(hotelDescription)
+        vm.sectionBodyObservable.subscribe {
+            hotelDescription.text = it
+            hotelDescription.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    hotelDescription.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    if (hotelDescription.lineCount <= HOTEL_DESC_COLLAPSE_LINES) {
+                        readMoreView.visibility = View.GONE
+                        hotelDescriptionContainer.isClickable = false
+                    } else {
+                        readMoreView.visibility = View.VISIBLE
+                        hotelDescriptionContainer.isClickable = true
+                        hotelDescriptionContainer.subscribeOnClick(vm.hotelDescriptionContainerObserver)
+                    }
+                }
+            })
+        }
         vm.hotelNameObservable.subscribeText(toolbarTitle)
         vm.hotelRatingObservable.subscribeRating(toolBarRating)
         vm.hotelRatingObservableVisibility.subscribeVisibility(toolBarRating)
@@ -359,7 +374,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             if (isExpanded) AnimUtils.rotate(readMoreView) else AnimUtils.reverseRotate(readMoreView)
         }
         vm.galleryClickedSubject.subscribe { detailContainer.animateScrollY(detailContainer.getScrollY(), -initialScrollTop, 500) }
-        hotelDescriptionContainer.subscribeOnClick(vm.hotelDescriptionContainerObserver)
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
         resortFeeWidget.subscribeOnClick(vm.resortFeeContainerClickObserver)
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
