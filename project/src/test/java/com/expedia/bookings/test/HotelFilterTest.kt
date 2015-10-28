@@ -8,7 +8,6 @@ import com.expedia.vm.HotelFilterViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RuntimeEnvironment
 import kotlin.properties.Delegates
 import kotlin.test.assertTrue
 import java.util.ArrayList
@@ -20,8 +19,7 @@ public class HotelFilterTest {
 
     @Before
     fun before() {
-        val context = RuntimeEnvironment.application
-        vm = HotelFilterViewModel(context)
+        vm = HotelFilterViewModel()
     }
 
     @Test
@@ -58,7 +56,8 @@ public class HotelFilterTest {
 
     @Test
     fun clearFilters() {
-        vm.originalResponse = fakeFilteredResponse()
+        val ogResponse = fakeFilteredResponse()
+        vm.originalResponse = ogResponse
 
         val str = "Hilton"
         vm.filterHotelNameObserver.onNext(str)
@@ -73,12 +72,13 @@ public class HotelFilterTest {
 
         vm.clearObservable.onNext(Unit)
 
-        assertEquals(null, vm.userFilterChoices.name)
+        assertTrue(vm.userFilterChoices.name.isBlank())
         assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
         assertEquals(false, vm.userFilterChoices.isVipOnlyAccess)
         assertTrue(vm.userFilterChoices.neighborhoods.isEmpty())
-        assertTrue(vm.filteredResponse.hotelList.isEmpty())
-
+        assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
+        assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
+        assertEquals(ogResponse.hotelList.size(), vm.filteredResponse.hotelList.size())
     }
 
     @Test
@@ -86,20 +86,19 @@ public class HotelFilterTest {
         vm.originalResponse = fakeFilteredResponse()
         var str = "Hil"
         vm.filterHotelNameObserver.onNext(str)
-        assertTrue(vm.filteredResponse.hotelList.size() == 1)
+        assertEquals(1, vm.filteredResponse.hotelList.size())
 
         str = ""
         vm.filterHotelNameObserver.onNext(str)
-        assertTrue(vm.filteredResponse.hotelList.size() == 2)
+        assertEquals(2, vm.filteredResponse.hotelList.size())
 
         vm.userFilterChoices.hotelStarRating.three = false
         vm.threeStarFilterObserver.onNext(Unit)
-        assertTrue(vm.filteredResponse.hotelList.size() == 1)
+        assertEquals(1, vm.filteredResponse.hotelList.size())
 
         vm.clearObservable.onNext(Unit)
         vm.vipFilteredObserver.onNext(true)
-        assertTrue(vm.filteredResponse.hotelList.size() == 1)
-
+        assertEquals(1, vm.filteredResponse.hotelList.size())
     }
 
     @Test
@@ -107,7 +106,7 @@ public class HotelFilterTest {
         var amenityId = 16
         vm.originalResponse = fakeFilteredResponse()
         vm.selectAmenity.onNext(amenityId)
-        assertTrue(vm.filteredResponse.hotelList.size() == 1)
+        assertEquals(1, vm.filteredResponse.hotelList.size())
     }
 
     @Test
@@ -115,7 +114,7 @@ public class HotelFilterTest {
         var region = "Civic Center"
         vm.originalResponse = fakeFilteredResponse()
         vm.selectNeighborhood.onNext(region)
-        assertEquals(region, vm.filteredResponse.hotelList.elementAt(0).locationDescription)
+        assertEquals(region, vm.filteredResponse.hotelList.first().locationDescription)
         assertTrue(vm.filteredResponse.hotelList.size() == 1)
 
         vm.selectNeighborhood.onNext(region)
@@ -130,7 +129,6 @@ public class HotelFilterTest {
 
     @Test
     fun sortByPopular() {
-        vm.didFilter = true
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortObserver.onNext(HotelFilterViewModel.Sort.POPULAR)
 
@@ -142,53 +140,49 @@ public class HotelFilterTest {
     }
 
     @Test
-    fun sortByPrice(){
-        vm.didFilter = true
+    fun sortByPrice() {
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortObserver.onNext(HotelFilterViewModel.Sort.PRICE)
 
         for (i in 1..vm.filteredResponse.hotelList.size() - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).lowRateInfo.priceToShowUsers
             val previous = vm.filteredResponse.hotelList.elementAt(i-1).lowRateInfo.priceToShowUsers
-            assertTrue(current >= previous)
+            assertTrue(current >= previous, "Expected $current >= $previous")
         }
     }
 
     @Test
-    fun sortByDeals(){
-        vm.didFilter = true
+    fun sortByDeals() {
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortObserver.onNext(HotelFilterViewModel.Sort.DEALS)
         for (i in 1..vm.filteredResponse.hotelList.size() - 1) {
             val currentDeals = vm.filteredResponse.hotelList.elementAt(i).lowRateInfo.discountPercent
             val previousDeals = vm.filteredResponse.hotelList.elementAt(i-1).lowRateInfo.discountPercent
-            assertTrue(currentDeals >= previousDeals)
+            assertTrue(currentDeals >= previousDeals, "Expected $currentDeals >= $previousDeals")
         }
     }
 
     @Test
-    fun sortByRating(){
-        vm.didFilter = true
+    fun sortByRating() {
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortObserver.onNext(HotelFilterViewModel.Sort.RATING)
 
         for (i in 1..vm.filteredResponse.hotelList.size() - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).hotelGuestRating
             val previous = vm.filteredResponse.hotelList.elementAt(i-1).hotelGuestRating
-            assertTrue(current <= previous)
+            assertTrue(current <= previous, "Expected $current <= $previous")
         }
     }
 
     @Test
-    fun sortByDistance(){
-        vm.didFilter = true
+    fun sortByDistance() {
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortObserver.onNext(HotelFilterViewModel.Sort.DISTANCE)
 
         for (i in 1..vm.filteredResponse.hotelList.size() - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).proximityDistanceInMiles
             val previous = vm.filteredResponse.hotelList.elementAt(i-1).proximityDistanceInMiles
-            assertTrue(current >= previous)
+            assertTrue(current >= previous, "Expected $current >= $previous")
         }
     }
 
@@ -238,13 +232,18 @@ public class HotelFilterTest {
     }
 
     private fun fakeFilteredResponse() : HotelSearchResponse {
-        var filteredResponse = HotelSearchResponse()
-        filteredResponse.hotelList = ArrayList<Hotel>()
+        val response = HotelSearchResponse()
+        response.priceOptions = listOf(HotelSearchResponse.PriceOption(), HotelSearchResponse.PriceOption())
+        response.priceOptions[0].minPrice = 0
+        response.priceOptions[1].minPrice = 300
+
+        response.hotelList = ArrayList<Hotel>()
 
         val  hotel1 = Hotel()
         hotel1.sortIndex = "1"
         hotel1.localizedName = "Hilton"
         hotel1.lowRateInfo = HotelRate()
+        hotel1.lowRateInfo.total = 100.0f
         hotel1.lowRateInfo.priceToShowUsers = 100.0f
         hotel1.lowRateInfo.currencyCode = "USD"
         hotel1.lowRateInfo.discountPercent = -10f
@@ -253,6 +252,7 @@ public class HotelFilterTest {
         hotel1.locationDescription = "Civic Center"
         hotel1.hotelStarRating = 5f
         hotel1.isVipAccess = true
+        hotel1.rateCurrencyCode = "USD"
         var amenities1 = ArrayList<Hotel.HotelAmenity>()
         var amenity1 = Hotel.HotelAmenity()
         amenity1.id = "4"
@@ -264,7 +264,8 @@ public class HotelFilterTest {
         hotel2.sortIndex = "2"
         hotel2.localizedName = "Double Tree"
         hotel2.lowRateInfo = HotelRate()
-        hotel2.lowRateInfo.priceToShowUsers = 200.0f
+        hotel2.lowRateInfo.total = 200.0f
+        hotel1.lowRateInfo.priceToShowUsers = 200.0f
         hotel2.lowRateInfo.currencyCode = "USD"
         hotel2.lowRateInfo.discountPercent = -15f
         hotel2.hotelGuestRating = 5f
@@ -272,15 +273,16 @@ public class HotelFilterTest {
         hotel2.locationDescription = "Fisherman's Wharf"
         hotel2.hotelStarRating = 3.5f
         hotel2.isVipAccess = false
+        hotel2.rateCurrencyCode = "USD"
         var amenities2 = ArrayList<Hotel.HotelAmenity>()
         var amenity2 = Hotel.HotelAmenity()
         amenity2.id = "1"
         amenities2.add(amenity2)
         hotel2.amenities = amenities2
 
-        filteredResponse.hotelList.add(hotel1)
-        filteredResponse.hotelList.add(hotel2)
+        response.hotelList.add(hotel1)
+        response.hotelList.add(hotel2)
 
-        return filteredResponse
+        return response
     }
 }

@@ -1,6 +1,6 @@
 package com.expedia.vm
 
-import android.content.Context
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.tracking.HotelV2Tracking
@@ -16,38 +16,78 @@ import java.util.Comparator
 import java.util.HashSet
 import java.util.regex.Pattern
 
-class HotelFilterViewModel(val context: Context) {
+class HotelFilterViewModel() {
     val doneObservable = PublishSubject.create<Unit>()
     val doneButtonEnableObservable = PublishSubject.create<Boolean>()
     val clearObservable = PublishSubject.create<Unit>()
-    val filterObservable = PublishSubject.create<List<Hotel>>()
+    val filterObservable = PublishSubject.create<HotelSearchResponse>()
 
-    var originalResponse : HotelSearchResponse? = null
-    var filteredResponse : HotelSearchResponse = HotelSearchResponse()
+    var originalResponse: HotelSearchResponse? = null
+    var filteredResponse: HotelSearchResponse = HotelSearchResponse()
 
     val hotelStarRatingBar = BehaviorSubject.create<Int>()
     val updateDynamicFeedbackWidget = BehaviorSubject.create<Int>()
     val finishClear = BehaviorSubject.create<Unit>()
     val filterCountObservable = BehaviorSubject.create<Int>()
-    val neighborhoodExpandObserable = BehaviorSubject.create<Boolean>()
+    val neighborhoodExpandObservable = BehaviorSubject.create<Boolean>()
     val sortContainerObservable = BehaviorSubject.create<Boolean>()
 
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false)
 
     data class UserFilterChoices(var userSort: Sort = Sort.POPULAR,
-                                 var isVipOnlyAccess: Boolean? = false,
+                                 var isVipOnlyAccess: Boolean = false,
                                  var hotelStarRating: StarRatings = StarRatings(),
-                                 var name: String? = null,
-                                 var price: Float? = null,
+                                 var name: String = "",
+                                 var minPrice: Int = 0,
+                                 var maxPrice: Int = 0,
                                  var amenity: HashSet<Int> = HashSet<Int>(),
-                                 var neighborhoods: HashSet<String> = HashSet<String>())
+                                 var neighborhoods: HashSet<String> = HashSet<String>()) {
+
+        fun filterCount(): Int {
+            var count = 0
+            if (hotelStarRating.one) count++
+            if (hotelStarRating.two) count++
+            if (hotelStarRating.three) count++
+            if (hotelStarRating.four) count++
+            if (hotelStarRating.five) count++
+            if (isVipOnlyAccess == true) count++
+            if (name.isNotEmpty()) count++
+            if (neighborhoods.isNotEmpty()) count += neighborhoods.size()
+            if (amenity.isNotEmpty()) count += amenity.size()
+            if (minPrice != 0 || maxPrice != 0) count++
+            return count
+        }
+    }
+
+    data class PriceRange(val currencyCode: String, val minPrice: Int, val maxPrice: Int) {
+        val notches = 30
+        val defaultMinPriceText = formatValue(toValue(minPrice))
+        val defaultMaxPriceTest = formatValue(toValue(maxPrice))
+
+        private fun toValue(price: Int): Int = (((price.toFloat() - minPrice) / maxPrice) * notches).toInt()
+        private fun toPrice(value: Int): Int = ((value.toFloat() / notches) * (maxPrice - minPrice) + minPrice).toInt()
+        fun formatValue(value: Int): String {
+            val price = toPrice(value)
+            val str = Money(toPrice(value), currencyCode).getFormattedMoney(Money.F_NO_DECIMAL)
+            if (price == maxPrice) {
+                return str + "+"
+            } else {
+                return str
+            }
+        }
+
+        fun update(minValue: Int, maxValue: Int): Pair<Int, Int> {
+            val newMaxPrice = toPrice(maxValue)
+            return Pair(toPrice(minValue), if (newMaxPrice == maxPrice) 0 else newMaxPrice)
+        }
+    }
 
     val userFilterChoices = UserFilterChoices()
     val neighborhoodListObservable = PublishSubject.create<List<HotelSearchResponse.Neighborhood>>()
     val amenityOptionsObservable = PublishSubject.create<Map<String, HotelSearchResponse.AmenityOptions>>()
+    val newPriceRangeObservable = PublishSubject.create<PriceRange>()
     val amenityMapObservable = BehaviorSubject.create<Map<FilterAmenity, Int>>()
     val filteredZeroResultObservable = PublishSubject.create<Unit>()
-    var didFilter = false
     var previousSort = Sort.POPULAR
     var isNeighborhoodExpanded = false
 
@@ -60,69 +100,60 @@ class HotelFilterViewModel(val context: Context) {
                 HotelV2Tracking().trackHotelV2SortBy(Strings.capitalizeFirstLetter(userFilterChoices.userSort.toString()))
             }
 
-            if (!didFilter) {
-                filterObservable.onNext(originalResponse?.hotelList)
-            } else if (filteredResponse.hotelList.isNotEmpty()) {
+            if (filteredResponse.hotelList != null && filteredResponse.hotelList.isNotEmpty()) {
                 filteredResponse.isFilteredResponse = true
-                filterObservable.onNext(filteredResponse.hotelList)
+                filterObservable.onNext(filteredResponse)
             } else {
                 filteredZeroResultObservable.onNext(Unit)
             }
         }
 
-        clearObservable.subscribe {params ->
-            if (filteredResponse.hotelList != null) {
-                resetUserFilters()
-                filteredResponse.hotelList.clear()
-                doneButtonEnableObservable.onNext(true)
-                filterCountObservable.onNext(0)
-                finishClear.onNext(Unit)
-                didFilter = false
-                HotelV2Tracking().trackLinkHotelV2ClearFilter()
-            }
+        clearObservable.subscribe { params ->
+            resetUserFilters()
+            filteredResponse.hotelList = originalResponse?.hotelList.orEmpty()
+            doneButtonEnableObservable.onNext(true)
+            filterCountObservable.onNext(userFilterChoices.filterCount())
+            finishClear.onNext(Unit)
+            sendNewPriceRange()
+            HotelV2Tracking().trackLinkHotelV2ClearFilter()
         }
     }
 
     fun handleFiltering() {
-        if (filteredResponse.hotelList == null) {
-            filteredResponse.hotelList = ArrayList<Hotel>()
-        } else {
-            filteredResponse.hotelList.clear()
-        }
+        filteredResponse.hotelList = originalResponse?.hotelList.orEmpty().filter { hotel -> isAllowed(hotel) }
 
-        for (hotel in originalResponse?.hotelList.orEmpty()) {
-            processFilters(hotel)
-        }
-
-        val filterCount = getFilterCount()
+        val filterCount = userFilterChoices.filterCount()
         val dynamicFeedbackWidgetCount = if (filterCount > 0) filteredResponse.hotelList.size() else -1
         updateDynamicFeedbackWidget.onNext(dynamicFeedbackWidgetCount)
         doneButtonEnableObservable.onNext(filteredResponse.hotelList.size() > 0)
         filterCountObservable.onNext(filterCount)
-        didFilter = true
     }
 
     fun resetUserFilters() {
         userFilterChoices.isVipOnlyAccess = false
         userFilterChoices.hotelStarRating = StarRatings()
-        userFilterChoices.name = null
-        userFilterChoices.price = null
+        userFilterChoices.name = ""
+        userFilterChoices.minPrice = 0
+        userFilterChoices.maxPrice = 0
         userFilterChoices.amenity = HashSet<Int>()
         userFilterChoices.neighborhoods = HashSet<String>()
     }
 
-    fun processFilters(hotel : Hotel) {
-        if (filterIsVipAccess(hotel) && filterHotelStarRating(hotel) && filterName(hotel) && filterPrice(hotel) && filterAmenity(hotel) && filterNeighborhood(hotel)) {
-            filteredResponse.hotelList.add(hotel)
-        }
+    fun isAllowed(hotel: Hotel): Boolean {
+        return filterIsVipAccess(hotel)
+                && filterHotelStarRating(hotel)
+                && filterName(hotel)
+                && filterPriceRange(hotel)
+                && filterAmenity(hotel)
+                && filterNeighborhood(hotel)
     }
 
-    fun filterIsVipAccess(hotel : Hotel) : Boolean {
+    fun filterIsVipAccess(hotel: Hotel): Boolean {
         if (userFilterChoices.isVipOnlyAccess == false) return true
         return userFilterChoices.isVipOnlyAccess == hotel.isVipAccess
     }
 
-    fun filterHotelStarRating(hotel: Hotel) : Boolean {
+    fun filterHotelStarRating(hotel: Hotel): Boolean {
         if (!userFilterChoices.hotelStarRating.one &&
                 !userFilterChoices.hotelStarRating.two &&
                 !userFilterChoices.hotelStarRating.three &&
@@ -135,21 +166,19 @@ class HotelFilterViewModel(val context: Context) {
                 (5.0f == Math.floor(hotel.hotelStarRating.toDouble()).toFloat() && userFilterChoices.hotelStarRating.five)
     }
 
-    fun filterName(hotel: Hotel) : Boolean {
-        if (userFilterChoices.name.isNullOrEmpty()) return true
-        var namePattern: Pattern? = null
-        if (userFilterChoices.name != null) {
-            namePattern = Pattern.compile(".*" + userFilterChoices.name + ".*", Pattern.CASE_INSENSITIVE)
-        }
-        return namePattern == null || namePattern.matcher(hotel.localizedName).find()
+    fun filterName(hotel: Hotel): Boolean {
+        val name = userFilterChoices.name
+        if (name.isBlank()) return true
+        val namePattern = Pattern.compile(".*" + userFilterChoices.name + ".*", Pattern.CASE_INSENSITIVE)
+        return namePattern.matcher(hotel.localizedName).find()
     }
 
-    fun filterPrice(hotel: Hotel) : Boolean {
-        if (userFilterChoices.price == null) return true
-        return userFilterChoices.price == hotel.lowRateInfo.priceToShowUsers
+    fun filterPriceRange(hotel: Hotel): Boolean {
+        return userFilterChoices.minPrice <= hotel.lowRateInfo.priceToShowUsers &&
+                (userFilterChoices.maxPrice == 0 || hotel.lowRateInfo.priceToShowUsers <= userFilterChoices.maxPrice)
     }
 
-    fun filterAmenity(hotel: Hotel) : Boolean {
+    fun filterAmenity(hotel: Hotel): Boolean {
         if (userFilterChoices.amenity.isEmpty()) return true
         if (hotel.amenities == null) return false
         if (hotel.amenityFilterIdList == null) {
@@ -157,14 +186,14 @@ class HotelFilterViewModel(val context: Context) {
         }
 
         for (i in userFilterChoices.amenity) {
-            if (!hotel.amenityFilterIdList.contains(i)){
+            if (!hotel.amenityFilterIdList.contains(i)) {
                 return false
             }
         }
         return true
     }
 
-    private fun mapAmenitiesToFilterId(amenities: List<Hotel.HotelAmenity>) : List<Int> {
+    private fun mapAmenitiesToFilterId(amenities: List<Hotel.HotelAmenity>): List<Int> {
         var list = ArrayList<Int>()
         for (amenity in amenities) {
             list.add(FilterAmenity.amenityIdToFilterId(amenity.id.toInt()))
@@ -172,7 +201,7 @@ class HotelFilterViewModel(val context: Context) {
         return list
     }
 
-    fun filterNeighborhood(hotel: Hotel) : Boolean {
+    fun filterNeighborhood(hotel: Hotel): Boolean {
         if (userFilterChoices.neighborhoods.isEmpty()) return true
         return userFilterChoices.neighborhoods.contains(hotel.locationDescription)
     }
@@ -243,6 +272,13 @@ class HotelFilterViewModel(val context: Context) {
         handleFiltering()
     }
 
+    val priceRangeChangedObserver = endlessObserver<Pair<Int, Int>> { p ->
+        userFilterChoices.minPrice = p.first
+        userFilterChoices.maxPrice = p.second
+        HotelV2Tracking().trackHotelV2SortPriceSlider()
+        handleFiltering()
+    }
+
     var trackingDone = false
 
     val filterHotelNameObserver = endlessObserver<CharSequence> { s ->
@@ -252,19 +288,32 @@ class HotelFilterViewModel(val context: Context) {
             trackingDone = true
             HotelV2Tracking().trackLinkHotelV2FilterByName()
         }
-        if(s.length() == 0) trackingDone = false
+        if (s.length() == 0) trackingDone = false
     }
 
-    fun setHotelList(response : HotelSearchResponse) {
+    fun setHotelList(response: HotelSearchResponse) {
         originalResponse = response
         neighborhoodListObservable.onNext(response.allNeighborhoodsInSearchRegion)
+        filteredResponse.hotelList = ArrayList(response.hotelList)
         filteredResponse.userPriceType = response.userPriceType
-//        hide amenities
-//        if (response.amenityFilterOptions != null) {
-//            amenityOptionsObservable.onNext(response.amenityFilterOptions)
-//        }
+        //hide amenities
+        //if (response.amenityFilterOptions != null) {
+        //  amenityOptionsObservable.onNext(response.amenityFilterOptions)
+        //}
+
+        sendNewPriceRange()
         isNeighborhoodExpanded = false
         previousSort = Sort.POPULAR
+    }
+
+    private fun sendNewPriceRange() {
+        val response = originalResponse
+        if (response != null) {
+            val min = response.priceOptions.first().minPrice
+            val max = response.priceOptions.last().minPrice
+            val currency = response.hotelList.orEmpty().first().rateCurrencyCode
+            newPriceRangeObservable.onNext(PriceRange(currency, min, max))
+        }
     }
 
     public enum class Sort {
@@ -276,14 +325,14 @@ class HotelFilterViewModel(val context: Context) {
     }
 
     val sortObserver = endlessObserver<Sort> { sort ->
-        var preSortHotelList = if (!didFilter) originalResponse?.hotelList else filteredResponse.hotelList
+        val hotels: List<Hotel> = filteredResponse.hotelList
 
         when (sort) {
-            Sort.POPULAR -> Collections.sort(preSortHotelList, popular_comparator)
-            Sort.PRICE -> Collections.sort(preSortHotelList, price_comparator)
-            Sort.RATING -> Collections.sort(preSortHotelList, rating_comparator_fallback_price)
-            Sort.DEALS -> Collections.sort(preSortHotelList, deals_comparator)
-            Sort.DISTANCE -> Collections.sort(preSortHotelList, distance_comparator_fallback_name)
+            Sort.POPULAR -> Collections.sort(hotels, popular_comparator)
+            Sort.PRICE -> Collections.sort(hotels, price_comparator)
+            Sort.RATING -> Collections.sort(hotels, rating_comparator_fallback_price)
+            Sort.DEALS -> Collections.sort(hotels, deals_comparator)
+            Sort.DISTANCE -> Collections.sort(hotels, distance_comparator_fallback_name)
         }
     }
 
@@ -365,33 +414,17 @@ class HotelFilterViewModel(val context: Context) {
         handleFiltering()
     }
 
-    val neighborhoodMoreLessObserverable: Observer<Unit> = endlessObserver {
+    val neighborhoodMoreLessObservable: Observer<Unit> = endlessObserver {
         if (!isNeighborhoodExpanded) {
             isNeighborhoodExpanded = true
         } else {
             isNeighborhoodExpanded = false
         }
-        neighborhoodExpandObserable.onNext(isNeighborhoodExpanded)
-    }
-
-    fun getFilterCount() : Int {
-        var count = 0
-        if (userFilterChoices.hotelStarRating.one) count++
-        if (userFilterChoices.hotelStarRating.two) count++
-        if (userFilterChoices.hotelStarRating.three) count++
-        if (userFilterChoices.hotelStarRating.four) count++
-        if (userFilterChoices.hotelStarRating.five) count++
-        if (userFilterChoices.isVipOnlyAccess == true) count++
-        if (!userFilterChoices.name.isNullOrEmpty()) count++
-        if (userFilterChoices.neighborhoods.isNotEmpty()) count += userFilterChoices.neighborhoods.size()
-        if (userFilterChoices.amenity.isNotEmpty()) count += userFilterChoices.amenity.size()
-        if (userFilterChoices.price != null) count++
-        return count
+        neighborhoodExpandObservable.onNext(isNeighborhoodExpanded)
     }
 
     fun isFilteredToZeroResults(): Boolean {
-        return didFilter && filteredResponse.hotelList.isEmpty()
+        return userFilterChoices.filterCount() > 0 && filteredResponse.hotelList.isEmpty()
     }
 }
-
 
