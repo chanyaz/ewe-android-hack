@@ -7,6 +7,9 @@ This is the code base that builds:
  * [Hôtel Voyages-sncf](https://play.google.com/store/apps/details?id=com.expedia.bookings.vsc)
  * [Travelocity Hotels & Flights](https://play.google.com/store/apps/details?id=com.travelocity.android)
  * [AirAsiaGo](https://play.google.com/store/apps/details?id=com.airasiago.android)
+ * [Wotif](https://play.google.com/store/apps/details?id=com.wotif.android)
+ * [Lastminute AU & NZ](https://play.google.com/store/apps/details?id=com.lastminute.android)
+ * [Expedia for Samsung](#)
 
 Building
 ========
