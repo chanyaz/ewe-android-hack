@@ -116,8 +116,8 @@ class HotelV2Tracking {
         OmnitureTracking.trackLinkHotelV2RoomInfoClick()
     }
 
-    fun trackLinkHotelV2DetailMapClick() {
-        OmnitureTracking.trackLinkHotelV2DetailMapClick()
+    fun trackHotelV2DetailMapView() {
+        OmnitureTracking.trackHotelV2DetailMapView()
     }
 
     fun trackLinkHotelV2DetailBookPhoneClick() {
@@ -126,6 +126,10 @@ class HotelV2Tracking {
 
     fun trackLinkHotelV2DetailSelectRoom() {
         OmnitureTracking.trackLinkHotelV2DetailSelectRoom()
+    }
+
+    fun trackLinkHotelV2MapSelectRoom() {
+        OmnitureTracking.trackLinkHotelV2MapSelectRoom()
     }
 
     fun trackHotelV2Reviews() {

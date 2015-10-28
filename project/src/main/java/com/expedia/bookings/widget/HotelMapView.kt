@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -90,6 +91,7 @@ public class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(c
         selectRoomContainer.subscribeOnClick(endlessObserver<Unit> {
             (context as Activity).onBackPressed()
             vm.selectARoomObserver.onNext(Unit)
+            HotelV2Tracking().trackLinkHotelV2MapSelectRoom()
         })
 
         mapView.getMapAsync(this);
