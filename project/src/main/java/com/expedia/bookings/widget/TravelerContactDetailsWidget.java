@@ -20,6 +20,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.enums.MerchandiseSpam;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.tracking.HotelV2Tracking;
@@ -85,7 +86,12 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		LayoutInflater inflater = LayoutInflater.from(getContext());
-		inflater.inflate(R.layout.traveler_contact_details_widget, this);
+		if (PointOfSale.getPointOfSale().showLastNameFirst()) {
+			inflater.inflate(R.layout.traveler_contact_details_widget_reversed, this);
+		}
+		else {
+			inflater.inflate(R.layout.traveler_contact_details_widget, this);
+		}
 		ButterKnife.inject(this);
 
 		phoneSpinner.selectPOSCountry();
@@ -114,7 +120,6 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 				InvalidCharacterHelper.showInvalidCharacterPopup(activity.getSupportFragmentManager(), mode);
 			}
 		});
-
 		bind();
 	}
 
@@ -252,8 +257,6 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			else {
 				travelerButton.setVisibility(GONE);
 			}
-			firstName.requestFocus();
-			Ui.showKeyboard(firstName, null);
 			bind();
 			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
 				new HotelV2Tracking().trackHotelV2CheckoutTraveler();
@@ -262,6 +265,14 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 				OmnitureTracking.trackCheckoutTraveler(lineOfBusiness);
 			}
 
+			if (PointOfSale.getPointOfSale().showLastNameFirst()) {
+				lastName.requestFocus();
+				Ui.showKeyboard(lastName, null);
+			}
+			else {
+				firstName.requestFocus();
+				Ui.showKeyboard(firstName, null);
+			}
 		}
 		else {
 			bind();
