@@ -12,7 +12,6 @@ import org.joda.time.format.DateTimeFormatter;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.NinePatchDrawable;
@@ -288,7 +287,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 	}
 
 	public void drawSliderTooltip(CarTimeSlider seekBar) {
-
+		calendar.hideToolTip();
 		String title = seekBar.calculateProgress(seekBar.getProgress());
 		String subtitle = seekBar.getId() == R.id.pickup_time_seek_bar ? getContext().getResources()
 				.getString(R.string.cars_time_slider_pick_up_label)
@@ -324,45 +323,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		String title = end == null ? df.print(start) : df.print(start) + " - " + df.print(end);
 		String subtitle = end == null ? getContext().getResources().getString(R.string.cars_calendar_start_date_label)
 				: getContext().getResources().getString(R.string.cars_calendar_end_date_label);
-		pickupTimePopup.setText(title);
-		popupLabel.setText(subtitle);
-
-		final boolean animate = pickupTimePopupContainer.getVisibility() == GONE;
-
-		pickupTimePopupContainer.setVisibility(View.INVISIBLE);
-		ViewTreeObserver vto = pickupTimePopupContainer.getViewTreeObserver();
-		vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				pickupTimePopupContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-				RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(
-						RelativeLayout.LayoutParams.WRAP_CONTENT,
-						RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-				Point point = lastStart != start ? monthView.getStartDayCoordinates()
-						: lastEnd != end ? monthView.getEndDayCoordinates() : monthView.getStartDayCoordinates();
-				lastStart = start;
-				lastEnd = end;
-
-				int min = calendar.getRight() - pickupTimePopupContainer.getMeasuredWidth();
-				int max = point.x - (pickupTimePopupContainer.getMeasuredWidth() / 2);
-
-				int x = Math.min(min, Math.max(0, max));
-				int y = point.y + calendar.getTop() - (int) monthView.getRadius() - 10;
-
-				LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) pickupTimePopupTail.getLayoutParams();
-				lp.gravity = x == 0 ? Gravity.LEFT : x == min ? Gravity.RIGHT : Gravity.CENTER;
-				pickupTimePopupTail.setLayoutParams(lp);
-
-				p.setMargins(x, y, 0, 0);
-				pickupTimePopupContainer.setLayoutParams(p);
-				pickupTimePopupContainer.setVisibility(View.VISIBLE);
-				if (animate) {
-					animateToolTip(pickupTimePopupContainer);
-				}
-			}
-		});
-
+		calendar.setToolTipText(title, subtitle, true);
 	}
 
 	private void animateToolTip(View v) {

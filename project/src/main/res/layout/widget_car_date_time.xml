@@ -14,7 +14,7 @@
         android:paddingBottom="8dp"
         app:calendarBaseColor="@color/cars_valid_days_calendar"
         app:calendarDaySelectionFillColor="@android:color/white"
-        app:calendarDaysOfWeekColor="?attr/skin_carsPrimaryColor"
+        app:calendarDaysOfWeekColor="?attr/skin_carsTooltipColor"
         app:calendarHeaderTextColor="?attr/skin_carsPrimaryColor"
         app:calendarHeaderTextSize="16dp"
         app:calendarHighlightColor="?attr/skin_carsPrimaryColor"
@@ -23,6 +23,9 @@
         app:calendarLayout="@layout/calendar_cars_lx_layout"
         app:calendarSecondaryColor="@color/cars_valid_days_calendar"
         app:calendarTodayColor="?attr/skin_carsPrimaryColor"
+        app:calendarToolTipBackground="@drawable/toolbar_bg"
+        app:calendarToolTipEnabled="true"
+        app:calendarToolTipTailDrawable="@drawable/toolbar_arrow"
         app:calendarWeekSelectionColor="?attr/skin_carsPrimaryColor" />
 
     <View
