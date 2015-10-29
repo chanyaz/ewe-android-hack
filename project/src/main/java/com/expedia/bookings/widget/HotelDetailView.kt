@@ -541,7 +541,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     }
 
     public fun showToolbarGradient() {
-        priceContainer.getLocationOnScreen(priceContainerLocation)
+        if (hotelMessagingContainer.visibility == View.VISIBLE)
+            hotelMessagingContainer.getLocationOnScreen(priceContainerLocation)
+        else
+            priceContainer.getLocationOnScreen(priceContainerLocation)
 
         if (priceContainerLocation[1] < gradientHeight) {
             toolBarGradient.translationY = (-(gradientHeight - priceContainerLocation[1]))
