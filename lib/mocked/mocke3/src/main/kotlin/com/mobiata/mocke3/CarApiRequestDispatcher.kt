@@ -30,7 +30,7 @@ public class CarApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatche
                 return when (productKey) {
                     "CreateTripPriceChange" -> getMockResponse("m/api/cars/trip/create/price_change.json")
 
-                    else -> getMockResponse("m/api/cars/trip/create/" + productKey + ".json", params)
+                    else -> getMockResponse("m/api/cars/trip/create/$productKey.json", params)
                 }
             }
 

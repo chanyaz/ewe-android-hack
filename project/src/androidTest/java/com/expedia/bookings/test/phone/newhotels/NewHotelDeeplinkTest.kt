@@ -47,7 +47,7 @@ public class NewHotelDeepLinkTest: HotelTestCase() {
         Common.getApplication().startActivity(intent)
 
         Common.delay(3)
-        HotelScreen.waitForDetailsDisplayed()
+        HotelScreen.waitForDetailsLoaded()
     }
 
 }

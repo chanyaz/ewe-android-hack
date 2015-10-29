@@ -117,7 +117,7 @@ public class LXResultsPresenterTest {
 		onView(withId(R.id.lx_search_results_list)).perform(LXScreen.setLXActivities(activities));
 		onView(withId(R.id.lx_search_results_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0,
 			LXScreen.performViewHolderComparison(title, price.getFormattedMoney(),
-				originalPrice.getFormattedMoney(), duration, categoriesList)));
+				originalPrice.getFormattedMoney(), duration)));
 
 	}
 

@@ -24,7 +24,6 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.TabletViewActions;
-import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.widget.LXResultsListAdapter;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -159,8 +158,9 @@ public class LXScreen {
 	}
 
 	public static ViewInteraction resultsPresenterToolbarNavigation() {
-		return onView(allOf(withParent(withParent(withId(R.id.search_list_presenter))), withParent(withId(R.id.toolbar)),
-			isAssignableFrom(ImageButton.class)));
+		return onView(
+			allOf(withParent(withParent(withId(R.id.search_list_presenter))), withParent(withId(R.id.toolbar)),
+				isAssignableFrom(ImageButton.class)));
 	}
 
 	public static ViewInteraction searchButton() {
@@ -196,8 +196,8 @@ public class LXScreen {
 		};
 	}
 
-	public static ViewAction performViewHolderComparison(final String title, final String price, final String originalPrice, final String duration,
-		final List<String> categoriesList) {
+	public static ViewAction performViewHolderComparison(final String title, final String price,
+		final String originalPrice, final String duration) {
 		return new ViewAction() {
 			@Override
 			public Matcher<View> getConstraints() {
@@ -239,10 +239,6 @@ public class LXScreen {
 
 	public static ViewInteraction checkoutGroupText() {
 		return onView(withId(R.id.lx_group_text));
-	}
-
-	public static ViewInteraction checkoutOfferDate() {
-		return onView(withId(R.id.lx_offer_date));
 	}
 
 	public static ViewInteraction checkoutOfferLocation() {
@@ -344,9 +340,7 @@ public class LXScreen {
 	}
 
 	public static ViewInteraction getTile(String activityTitle) {
-		return ViewActions.recyclerItemView(
-			withChild(withChild(withText(activityTitle))),
-			R.id.lx_search_results_list);
+		return resultsListItemView(withChild(withChild(withText(activityTitle))));
 	}
 
 	public static Matcher<View> withResults(final int expectedResultsCount) {
@@ -364,6 +358,9 @@ public class LXScreen {
 	}
 
 	public static ViewInteraction resultsListItemView(Matcher<View> identifyingMatcher) {
-		return ViewActions.recyclerItemView(identifyingMatcher, R.id.lx_search_results_list);
+		Matcher<View> itemView = allOf(withParent(recyclerView(R.id.lx_search_results_list)),
+			withChild(identifyingMatcher));
+		return onView(itemView);
 	}
+
 }

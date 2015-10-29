@@ -322,6 +322,7 @@
                         android:weightSum="2">
 
                         <com.expedia.bookings.widget.TextView
+                            android:id="@+id/free_cancellation_small"
                             style="@style/HotelDetailsInfoSmallCenter"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"

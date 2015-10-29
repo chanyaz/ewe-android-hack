@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.newhotels;
 
+import java.util.concurrent.TimeUnit;
+
 import org.hamcrest.Matcher;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -10,7 +12,6 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.view.View;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.espresso.TabletViewActions;
 import com.expedia.bookings.test.espresso.ViewActions;
@@ -33,6 +34,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.not;
 
 public class HotelScreen {
 
@@ -68,8 +70,16 @@ public class HotelScreen {
 		return onView(withId(R.id.etp_info_text));
 	}
 
+	public static ViewInteraction etpInfoTextSmall() {
+		return onView(withId(R.id.etp_info_text_small));
+	}
+
 	public static ViewInteraction freeCancellation() {
 		return onView(withId(R.id.free_cancellation));
+	}
+
+	public static ViewInteraction freeCancellationSmall() {
+		return onView(withId(R.id.free_cancellation_small));
 	}
 
 	public static ViewInteraction horizontalDividerBwEtpAndFreeCancellation() {
@@ -109,8 +119,11 @@ public class HotelScreen {
 	}
 
 	public static void selectLocation(String hotel) throws Throwable {
-		Common.delay(1);
-		hotelSuggestionList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(hotel)), click()));
+		hotelSuggestionList().perform(ViewActions.waitForViewToDisplay());
+		final Matcher<View> viewMatcher = hasDescendant(withText(hotel));
+
+		hotelSuggestionList().perform(ViewActions.waitFor(viewMatcher, 10, TimeUnit.SECONDS));
+		hotelSuggestionList().perform(RecyclerViewActions.actionOnItem(viewMatcher, click()));
 	}
 
 	public static ViewInteraction suggestionMatches(Matcher<View> matcher, int position) throws Throwable {
@@ -138,21 +151,12 @@ public class HotelScreen {
 		return onView(allOf(withId(R.id.map_view), hasSibling(withId(R.id.hotel_carousel_container))));
 	}
 
-	public static ViewInteraction mapfab() {
+	public static ViewInteraction mapFab() {
 		return onView(withId(R.id.fab));
 	}
 
-
 	public static ViewInteraction hotelSuggestionList() {
 		return onView(withId(R.id.drop_down_list));
-	}
-
-	public static void selectHotel(int position) {
-		hotelResultsList().perform(RecyclerViewActions.actionOnItemAtPosition(position, click()));
-	}
-
-	public static void selectHotelWithName(String name) {
-		hotelResultsList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(name)), click()));
 	}
 
 	public static void clickSortFilter() {
@@ -165,7 +169,8 @@ public class HotelScreen {
 
 	public static ViewInteraction clearFilter() {
 		return onView(
-			allOf(withId(R.id.dynamic_feedback_clear_button), isDescendantOfA(withId(R.id.dynamic_feedback_container))));
+			allOf(withId(R.id.dynamic_feedback_clear_button),
+				isDescendantOfA(withId(R.id.dynamic_feedback_container))));
 	}
 
 	public static ViewInteraction filterResultsSnackBar() {
@@ -197,10 +202,12 @@ public class HotelScreen {
 	}
 
 	public static void clickAddRoom() {
+		waitForDetailsLoaded();
 		addRoom().perform(scrollTo(), click());
 	}
 
 	public static void clickViewRoom(String roomName) {
+		waitForDetailsLoaded();
 		viewRoom(roomName).perform(scrollTo(), click());
 	}
 
@@ -216,23 +223,23 @@ public class HotelScreen {
 		onView(withId(R.id.rating_container)).perform(scrollTo(), click());
 	}
 
-	public static void waitForResultsDisplayed() {
+	public static void waitForResultsLoaded() {
 		hotelResultsList().perform(ViewActions.waitForViewToDisplay());
+		Matcher<View> pshMatcher = hasDescendant(
+			allOf(withId(R.id.pricing_structure_header), not(withText(R.string.progress_searching_hotels_hundreds)),
+				isDisplayed()));
+		hotelResultsList().perform(ViewActions.waitFor(pshMatcher, 10, TimeUnit.SECONDS));
 	}
 
 	public static void waitForMapDisplayed() {
 		hotelResultsMap().perform(ViewActions.waitForViewToDisplay());
 	}
 
-	public static void waitForDetailsDisplayed() {
-		onView(withId(R.id.rating_container)).perform(ViewActions.waitForViewToDisplay());
+	public static void waitForDetailsLoaded() {
+		onView(withId(R.id.hotel_detail)).perform(ViewActions.waitForViewToDisplay());
 	}
 
-	public static ViewInteraction resultsListItemView(Matcher<View> identifyingMatcher) {
-		return ViewActions.recyclerItemView(identifyingMatcher, R.id.list_view);
-	}
-
-	public static void showCalendar() {
+	public static void assertCalendarShown() {
 		calendar().check(matches((isDisplayed())));
 	}
 
@@ -252,7 +259,7 @@ public class HotelScreen {
 		return onView(withId(R.id.children_age_label));
 	}
 
-	public static void doSearch() throws Throwable {
+	public static void doGenericSearch() throws Throwable {
 		final LocalDate start = DateTime.now().toLocalDate();
 		final LocalDate end = start.plusDays(3);
 
@@ -262,12 +269,18 @@ public class HotelScreen {
 		HotelScreen.selectDates(start, end);
 
 		HotelScreen.clickSearchButton();
-		HotelScreen.waitForResultsDisplayed();
+		HotelScreen.waitForResultsLoaded();
+	}
+
+	public static void selectHotel(int position) {
+		waitForResultsLoaded();
+		hotelResultsList().perform(RecyclerViewActions.actionOnItemAtPosition(position, click()));
 	}
 
 	public static void selectHotel(String name) throws Throwable {
-		HotelScreen.selectHotelWithName(name);
-		HotelScreen.waitForDetailsDisplayed();
+		waitForResultsLoaded();
+		hotelResultsList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(name)), click()));
+		HotelScreen.waitForDetailsLoaded();
 	}
 
 	public static void selectRoom() throws Throwable {
@@ -280,6 +293,7 @@ public class HotelScreen {
 	}
 
 	public static void sortFilter() {
+		waitForResultsLoaded();
 		HotelScreen.clickSortFilter();
 	}
 

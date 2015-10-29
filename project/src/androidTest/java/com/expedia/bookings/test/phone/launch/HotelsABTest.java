@@ -77,7 +77,7 @@ public class HotelsABTest extends PhoneTestCase {
 		collectionLocation.location = suggestion;
 		Events.post(new Events.LaunchCollectionItemSelected(collectionLocation, null));
 		// Assert that the results screen is displayed
-		HotelScreen.waitForResultsDisplayed();
+		HotelScreen.waitForResultsLoaded();
 		Common.pressBack();
 		// Assert that the search screen is displayed with the correct search params
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.hotel_location, "San Francisco");
@@ -98,7 +98,7 @@ public class HotelsABTest extends PhoneTestCase {
 		collectionLocation.location = suggestion;
 		Events.post(new Events.LaunchCollectionItemSelected(collectionLocation, null));
 		// Assert that the results screen is displayed
-		HotelScreen.waitForResultsDisplayed();
+		HotelScreen.waitForResultsLoaded();
 	}
 
 	public void testPopularHotelSelection() {
@@ -108,7 +108,7 @@ public class HotelsABTest extends PhoneTestCase {
 		Events.post(new Events.LaunchListItemSelected(hotel));
 		Common.delay(2);
 		// Assert that the details screen is displayed
-		HotelScreen.waitForDetailsDisplayed();
+		HotelScreen.waitForDetailsLoaded();
 	}
 
 
@@ -128,7 +128,7 @@ public class HotelsABTest extends PhoneTestCase {
 
 		LaunchScreen.clickOnAirAttachBanner();
 		// Assert that the results screen is displayed
-		HotelScreen.waitForResultsDisplayed();
+		HotelScreen.waitForResultsLoaded();
 		Common.pressBack();
 		// Assert that the search screen is displayed with the correct search params
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.hotel_location, "San Francisco");

@@ -12,7 +12,7 @@ public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
 
     override fun dispatch(request: RecordedRequest): MockResponse {
 
-        val urlPath = request.getPath()
+        val urlPath = request.path
         val params = parseRequest(request)
 
         if (!HotelRequestMatcher.isHotelRequest(urlPath) && !HotelRequestMatcher.isCouponRequest(urlPath)) {
@@ -40,7 +40,7 @@ public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
                     fileName = "tealeaf_id_signed_in"
                 }
                 injectDates(params)
-                return getMockResponse("m/api/hotel/trip/create/" + fileName + ".json", params)
+                return getMockResponse("m/api/hotel/trip/create/$fileName.json", params)
             }
 
             HotelRequestMatcher.isCouponCall(urlPath) -> getMockResponse("api/m/trip/coupon/" + params.get("coupon.code") + ".json", params)
@@ -61,7 +61,7 @@ public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
                 val isHotelCouponError = HotelRequestMatcher.doesItMatch("^hotel_coupon_errors$", tripId)
                 val fileName = if (!isHotelCouponError) tripId else "hotel_coupon_errors"
 
-                return getMockResponse("m/api/hotel/trip/checkout/" + fileName + ".json", params)
+                return getMockResponse("m/api/hotel/trip/checkout/$fileName.json", params)
             }
 
             else -> make404()
