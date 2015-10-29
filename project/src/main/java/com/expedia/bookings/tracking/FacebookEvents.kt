@@ -30,6 +30,7 @@ import com.expedia.bookings.data.lx.LXSearchParams
 import com.expedia.bookings.data.lx.LXSearchResponse
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
@@ -73,6 +74,20 @@ fun track(event: String, parameters: Bundle) {
 }
 
 class FacebookEvents() {
+    companion object {
+        public fun activateAppIfEnabledInConfig(context: Context) {
+            if (ProductFlavorFeatureConfiguration.getInstance().isFacebookTrackingEnabled()) {
+                AppEventsLogger.activateApp(context)
+            }
+        }
+
+        public fun deactivateAppIfEnabledInConfig(context: Context) {
+            if (ProductFlavorFeatureConfiguration.getInstance().isFacebookTrackingEnabled()) {
+                AppEventsLogger.deactivateApp(context)
+            }
+        }
+    }
+
     fun trackHotelSearch(search: HotelSearch) {
         val searchParams = search.getSearchParams()
         val location = search.getSearchResponse().getProperty(0).getLocation()

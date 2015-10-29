@@ -20,6 +20,7 @@ import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.TuneUtils;
 import com.facebook.AppEventsLogger;
@@ -27,9 +28,11 @@ import com.mobiata.android.Log;
 
 public class AdTracker {
 	public static void init(Context context) {
-		TrackingPackage.setContext(context.getApplicationContext());
-		TrackingPackage.setFacebookLogger(AppEventsLogger.newLogger(context));
-		TrackingPackage.setContext(context);
+
+		if (ProductFlavorFeatureConfiguration.getInstance().isFacebookTrackingEnabled()) {
+			TrackingPackage.setContext(context);
+			TrackingPackage.setFacebookLogger(AppEventsLogger.newLogger(context));
+		}
 	}
 
 	public static void trackFirstLaunch() {

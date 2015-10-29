@@ -139,7 +139,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public List<BasicNameValuePair> getAdditionalParamsForReviewsRequest() {
 		List<BasicNameValuePair> additionalParamsForReviewsRequest = new ArrayList<>();
 		additionalParamsForReviewsRequest.add(new BasicNameValuePair("caller", "Wotif"));
-		additionalParamsForReviewsRequest.add(new BasicNameValuePair("locale", PointOfSale.getPointOfSale().getLocaleIdentifier()));
+		additionalParamsForReviewsRequest.add(
+			new BasicNameValuePair("locale", PointOfSale.getPointOfSale().getLocaleIdentifier()));
 		return additionalParamsForReviewsRequest;
 	}
 
@@ -288,5 +289,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public int getFlightSearchProgressImageResId() {
 		return R.drawable.search_progress_static_flight_wotif;
+	}
+
+	@Override
+	public boolean isFacebookTrackingEnabled() {
+		return true;
 	}
 }

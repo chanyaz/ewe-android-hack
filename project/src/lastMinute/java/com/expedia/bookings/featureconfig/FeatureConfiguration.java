@@ -140,7 +140,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public List<BasicNameValuePair> getAdditionalParamsForReviewsRequest() {
 		List<BasicNameValuePair> additionalParamsForReviewsRequest = new ArrayList<BasicNameValuePair>();
 		additionalParamsForReviewsRequest.add(new BasicNameValuePair("caller", "LastMinute"));
-		additionalParamsForReviewsRequest.add(new BasicNameValuePair("locale", PointOfSale.getPointOfSale().getLocaleIdentifier()));
+		additionalParamsForReviewsRequest.add(
+			new BasicNameValuePair("locale", PointOfSale.getPointOfSale().getLocaleIdentifier()));
 		return additionalParamsForReviewsRequest;
 	}
 
@@ -289,6 +290,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public int getFlightSearchProgressImageResId() {
 		return 0;
+	}
+
+	@Override
+	public boolean isFacebookTrackingEnabled() {
+		return true;
 	}
 }
 

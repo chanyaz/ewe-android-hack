@@ -114,4 +114,6 @@ public interface IProductFlavorFeatureConfiguration {
 	 * return 0 to enable Plane window view animation on flight search loading screen, currently its enabled only for Samsung and Expedia
 	 */
 	int getFlightSearchProgressImageResId();
+
+	boolean isFacebookTrackingEnabled();
 }

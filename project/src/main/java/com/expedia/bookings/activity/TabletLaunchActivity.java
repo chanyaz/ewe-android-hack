@@ -29,12 +29,12 @@ import com.expedia.bookings.interfaces.IMeasurementListener;
 import com.expedia.bookings.interfaces.IMeasurementProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.FacebookEvents;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
-import com.facebook.AppEventsLogger;
 import com.squareup.phrase.Phrase;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
@@ -91,7 +91,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	@Override
 	protected void onResume() {
 		super.onResume();
-		AppEventsLogger.activateApp(this);
+		FacebookEvents.Companion.activateAppIfEnabledInConfig(this);
 		Events.register(this);
 		Sp.loadSearchParamsFromDisk(this);
 		LaunchDb.getCollections(this);
@@ -101,7 +101,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	@Override
 	protected void onPause() {
 		super.onPause();
-		AppEventsLogger.deactivateApp(this);
+		FacebookEvents.Companion.deactivateAppIfEnabledInConfig(this);
 		Events.unregister(this);
 	}
 
