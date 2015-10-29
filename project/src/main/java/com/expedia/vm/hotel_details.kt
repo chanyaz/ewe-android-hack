@@ -238,6 +238,9 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             hotelResortFeeObservable.onNext(hotelResortFee.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL))
             val includedNotIncludedStrId = if (rate.resortFeeInclusion) R.string.included_in_the_price else R.string.not_included_in_the_price
             hotelResortFeeIncludedTextObservable.onNext(context.resources.getString(includedNotIncludedStrId))
+        } else {
+            hotelResortFeeObservable.onNext(null)
+            hotelResortFeeIncludedTextObservable.onNext(null)
         }
 
         showBookByPhoneObservable.onNext(isAvailable() && (hotelOffersResponse.deskTopOverrideNumber != null && !hotelOffersResponse.deskTopOverrideNumber)
