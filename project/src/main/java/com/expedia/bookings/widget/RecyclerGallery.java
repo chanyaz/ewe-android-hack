@@ -382,6 +382,7 @@ public class RecyclerGallery extends RecyclerView {
 
 	public void startFlipping() {
 		mStarted = true;
+		mScrolling = false;
 		updateRunning();
 	}
 
