@@ -286,4 +286,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public int getFlightSearchProgressImageResId() {
 		return 0;
 	}
+
+	@Override
+	public boolean isFacebookTrackingEnabled() {
+		return true;
+	}
 }

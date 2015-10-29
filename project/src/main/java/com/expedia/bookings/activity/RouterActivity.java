@@ -8,10 +8,10 @@ import android.os.Bundle;
 
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.tracking.AdTracker;
+import com.expedia.bookings.tracking.FacebookEvents;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.NavUtils;
-import com.facebook.AppEventsLogger;
 
 /**
  * This is a routing Activity that points users towards either the phone or
@@ -62,7 +62,7 @@ public class RouterActivity extends Activity {
 	 * This is asynchronous, and after we get a success message back from FB this call no longer does anything at all.
 	 */
 	private void facebookInstallTracking() {
-		AppEventsLogger.activateApp(this);
+		FacebookEvents.Companion.activateAppIfEnabledInConfig(this);
 	}
 
 	private static final String COOKIE_FILE_V2 = "cookies-2.dat";
