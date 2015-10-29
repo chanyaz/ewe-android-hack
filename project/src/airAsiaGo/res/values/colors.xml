@@ -44,7 +44,7 @@
     <color name="lx_primary_color">@color/aag_primary_color</color>
     <color name="lx_secondary_color_disabled">@color/aag_primary_color</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
-    <color name="lx_ripple_color">#8b1a10 </color>
+    <color name="lx_ripple_color">#8b1a10</color>
 
     <!--Account Lib Colors -->
     <color name="acct__btn_sign_in_text_aag">#FFFFFF</color>
