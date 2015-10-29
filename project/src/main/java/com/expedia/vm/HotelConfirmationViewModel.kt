@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder
@@ -41,6 +42,8 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
     val addFlightBtnText = BehaviorSubject.create<String>()
     val customerEmail = BehaviorSubject.create<String>()
     val hotelLocation = BehaviorSubject.create<Location>()
+    val showFlightCrossSell = BehaviorSubject.create<Boolean>()
+    val showCarCrossSell = BehaviorSubject.create<Boolean>()
 
     val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
 
@@ -66,6 +69,14 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
             addFlightBtnText.onNext(context.getResources().getString(com.expedia.bookings.R.string.flights_to_TEMPLATE, product.hotelCity))
             customerEmail.onNext(hotelCheckoutResponse.checkoutResponse.bookingResponse.email)
 
+            // disabled for now. See mingle: #5574
+//            val pointOfSale = PointOfSale.getPointOfSale(context)
+//            val showHotelCrossSell = pointOfSale.showHotelCrossSell()
+//            showFlightCrossSell.onNext(showHotelCrossSell && pointOfSale.supports(LineOfBusiness.FLIGHTS))
+//            showCarCrossSell.onNext(showHotelCrossSell && pointOfSale.supports(LineOfBusiness.CARS))
+            showFlightCrossSell.onNext(false)
+            showCarCrossSell.onNext(false)
+
             location.setCity(product.hotelCity)
             location.setCountryCode(product.hotelCountry)
             location.setStateCode(product.hotelStateProvince)
@@ -74,6 +85,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
             AdImpressionTracking.trackAdConversion(context, hotelCheckoutResponse.checkoutResponse.bookingResponse.tripId)
             HotelV2Tracking().trackHotelV2PurchaseConfirmation(hotelCheckoutResponse)
         })
+
     }
 
     fun getAddFlightBtnObserver(context: Context): Observer<Unit> {
