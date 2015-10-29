@@ -68,6 +68,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var bottomMargin = 0
     val ANIMATION_DURATION = 200L
     var resortViewHeight = 0
+    var selectRoomContainerHeight = 0
     val screenSize by lazy { Ui.getScreenSize(context) }
 
     var initialScrollTop = 0
@@ -148,8 +149,12 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var priceContainerLocation = IntArray(2)
     var urgencyContainerLocation = IntArray(2)
     var roomContainerPosition = IntArray(2)
+
     var resortInAnimator: ObjectAnimator by Delegates.notNull()
     var resortOutAnimator: ObjectAnimator by Delegates.notNull()
+    var selectRoomInAnimator: ObjectAnimator by Delegates.notNull()
+    var selectRoomOutAnimator: ObjectAnimator by Delegates.notNull()
+
     var hotelDetailsGalleryImageViews = ArrayList<HotelDetailsGalleryImageView>()
 
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
@@ -408,9 +413,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     private fun hideResortandSelectRoom() {
         stickySelectRoomContainer.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         bottomMargin = (stickySelectRoomContainer.measuredHeight - resources.getDimension(R.dimen.breakdown_text_margin)).toInt()
-
         resortFeeWidget.animate().translationY(resortViewHeight.toFloat()).setInterpolator(LinearInterpolator()).setDuration(ANIMATION_DURATION).start()
-        stickySelectRoomContainer.animate().translationY(bottomMargin.toFloat()).setInterpolator(DecelerateInterpolator()).start()
+        stickySelectRoomContainer.animate().translationY(selectRoomContainerHeight.toFloat()).setInterpolator(DecelerateInterpolator()).start()
     }
 
     fun spaceAboveSelectARoom() {
@@ -566,11 +570,12 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         if (etpContainer.visibility == View.VISIBLE) {
             selectRoomButtonOffset = (offset + (etpContainer.height) / 2)
         }
+        val showStickySelectRoom = roomContainerPosition[1] + roomContainer.height < selectRoomButtonOffset
 
-        if (roomContainerPosition[1] + roomContainer.height < selectRoomButtonOffset ) {
-            stickySelectRoomContainer.animate().translationY(0f).setInterpolator(LinearInterpolator()).setDuration(ANIMATION_DURATION).start()
-        } else {
-            stickySelectRoomContainer.animate().translationY((stickySelectRoomContainer.height).toFloat()).setInterpolator(LinearInterpolator()).setDuration(ANIMATION_DURATION).start()
+        if (showStickySelectRoom && !selectRoomInAnimator.isRunning && stickySelectRoomContainer.translationY != 0f) {
+            selectRoomInAnimator.start()
+        } else if (!showStickySelectRoom && !selectRoomOutAnimator.isRunning && stickySelectRoomContainer.translationY != selectRoomContainerHeight.toFloat()) {
+            selectRoomOutAnimator.start()
         }
     }
 
@@ -645,6 +650,12 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         resortViewHeight = resortFeeWidget.measuredHeight
         resortInAnimator = ObjectAnimator.ofFloat(resortFeeWidget, "translationY", resortViewHeight.toFloat(), 0f).setDuration(ANIMATION_DURATION)
         resortOutAnimator = ObjectAnimator.ofFloat(resortFeeWidget, "translationY", 0f, resortViewHeight.toFloat()).setDuration(ANIMATION_DURATION)
+
+        stickySelectRoomContainer.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        selectRoomContainerHeight = stickySelectRoomContainer.measuredHeight
+        selectRoomInAnimator = ObjectAnimator.ofFloat(stickySelectRoomContainer, "translationY", selectRoomContainerHeight.toFloat(), 0f).setDuration(ANIMATION_DURATION)
+        selectRoomOutAnimator = ObjectAnimator.ofFloat(stickySelectRoomContainer, "translationY", 0f, selectRoomContainerHeight.toFloat()).setDuration(ANIMATION_DURATION)
+
         hideResortandSelectRoom()
 
         FontCache.setTypeface(payNowButton, FontCache.Font.ROBOTO_REGULAR)
