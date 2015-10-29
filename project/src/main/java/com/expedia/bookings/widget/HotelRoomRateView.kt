@@ -105,7 +105,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
                 AnimUtils.rotate(roomInfoChevron)
             }
             else {
-                lp.removeRule(RelativeLayout.BELOW)
+                lp.addRule(RelativeLayout.BELOW, 0)
                 roomInfoChevron.layoutParams = lp
                 resizeAnimator.addViewSpec(roomInfoDescriptionText, 0)
                 resizeAnimator.addListener(object : Animator.AnimatorListener {
