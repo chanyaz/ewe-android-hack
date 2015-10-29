@@ -443,6 +443,12 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             payLaterButton.unsubscribeOnClick()
             payNowButton.subscribeOnClick(payNowObserver)
         }
+
+        // Scroll to the top room in case of change in ETP selection
+        val etpLocation = etpContainer.y + etpContainer.height
+        val offsetToETP = if (commonAmenityText.visibility == View.VISIBLE) commonAmenityText.y else roomContainer.y
+        val offset = offsetToETP - etpLocation
+        detailContainer.smoothScrollBy(0, offset.toInt())
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
