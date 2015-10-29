@@ -438,13 +438,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             uiSettings.isIndoorLevelPickerEnabled = false
         }
 
-        //If the user moves the map at all, make sure the button is showing.
-        googleMap?.setOnCameraChangeListener { position ->
-            if (Strings.equals(currentState, ResultsMap::class.java.name)) {
-                showSearchThisArea()
-            }
-        }
-
         googleMap?.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
             override fun onMarkerClick(marker: Marker): Boolean {
                 mapViewModel.carouselSwipedObservable.onNext(marker)
@@ -726,8 +719,15 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 mapCarouselContainer.visibility = View.VISIBLE
                 if (forward) {
                     mapCarouselContainer.translationX = 0f
+                    googleMap?.setOnCameraChangeListener(null)
                     hideSearchThisArea(duration.toLong())
                 } else {
+                    //If the user moves the map at all, make sure the button is showing.
+                    googleMap?.setOnCameraChangeListener { position ->
+                        if (Strings.equals(currentState, ResultsMap::class.java.name)) {
+                            showSearchThisArea()
+                        }
+                    }
                     mapCarouselContainer.translationX = screenWidth
                 }
             }
