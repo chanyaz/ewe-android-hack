@@ -357,7 +357,7 @@ public class PaymentWidget extends ExpandableCardView {
 			}
 		}
 		else {
-			if (!WalletUtils.isWalletSupported(lineOfBusiness) && sectionBillingInfo.getBillingInfo().isUsingGoogleWallet()) {
+			if (!WalletUtils.isWalletSupported(lineOfBusiness) && sectionBillingInfo.getBillingInfo() != null && sectionBillingInfo.getBillingInfo().isUsingGoogleWallet()) {
 				reset();
 			}
 			cardInfoContainer.setVisibility(VISIBLE);
