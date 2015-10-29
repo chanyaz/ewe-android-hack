@@ -103,6 +103,8 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
                 resizeAnimator.addViewSpec(roomInfoDescriptionText, roomInfoDescriptionTextHeight)
                 resizeAnimator.start()
                 AnimUtils.rotate(roomInfoChevron)
+                //track only when expand the room info
+                HotelV2Tracking().trackLinkHotelV2RoomInfoClick()
             }
             else {
                 lp.addRule(RelativeLayout.BELOW, 0)
@@ -128,8 +130,6 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
                 resizeAnimator.start()
                 AnimUtils.reverseRotate(roomInfoChevron)
             }
-            //track only when expand the room info
-            if (roomInfoDescriptionText.visibility == View.VISIBLE) HotelV2Tracking().trackLinkHotelV2RoomInfoClick()
         })
 
         roomInfoContainer.subscribeOnClick(vm.expandCollapseRoomRateInfoDescription)
