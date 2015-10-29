@@ -8,6 +8,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.VisibilityTransition
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelDetailView
@@ -88,6 +89,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
 
     val hotelDetailsEmbeddedMapClickObserver = endlessObserver<Unit> {
         show(hotelMapView)
+        HotelV2Tracking().trackHotelV2DetailMapView()
     }
 
     val detailToPayLaterInfo = object : VisibilityTransition(this, HotelDetailView::class.java, PayLaterInfoWidget::class.java) {

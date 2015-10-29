@@ -349,10 +349,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         etpInfoTextSmall.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
         galleryContainer.subscribeOnClick(vm.galleryClickedSubject)
 
-        vm.mapClickedSubject.subscribe {
-            HotelV2Tracking().trackLinkHotelV2DetailMapClick()
-        }
-
         vm.propertyInfoListObservable.subscribe { infoList ->
             propertyTextContainer.removeAllViews()
             for (info in infoList) {
@@ -604,7 +600,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         })
 
         smoothScrollAnimation.start()
-        HotelV2Tracking().trackLinkHotelV2DetailSelectRoom()
     }
 
 
@@ -644,8 +639,14 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         val phoneIconDrawable = getResources().getDrawable(R.drawable.detail_phone).mutate()
         phoneIconDrawable.setColorFilter(getResources().getColor(R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
         payByPhoneTextView.setCompoundDrawablesWithIntrinsicBounds(phoneIconDrawable, null, null, null)
-        selectRoomButton.setOnClickListener { scrollToRoom(true) }
-        stickySelectRoomButton.setOnClickListener { scrollToRoom(true) }
+        selectRoomButton.setOnClickListener {
+            scrollToRoom(true)
+            HotelV2Tracking().trackLinkHotelV2DetailSelectRoom()
+        }
+        stickySelectRoomButton.setOnClickListener {
+            scrollToRoom(true)
+            HotelV2Tracking().trackLinkHotelV2DetailSelectRoom()
+        }
         resortFeeWidget.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         resortViewHeight = resortFeeWidget.measuredHeight
         resortInAnimator = ObjectAnimator.ofFloat(resortFeeWidget, "translationY", resortViewHeight.toFloat(), 0f).setDuration(ANIMATION_DURATION)

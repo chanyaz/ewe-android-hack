@@ -188,9 +188,10 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_DETAILS_ETP = "App.Hotels.IS.Select.";
 	private static final String HOTELSV2_DETAIL_VIEW_ROOM = "App.Hotels.IS.ViewRoom";
 	private static final String HOTELSV2_DETAIL_ROOM_INFO = "App.Hotels.IS.MoreRoomInfo";
-	private static final String HOTELSV2_DETAIL_MAP_CLICK = "App.Hotels.Infosite.MapView";
+	private static final String HOTELSV2_DETAIL_MAP_VIEW = "App.Hotels.Infosite.Map";
 	private static final String HOTELSV2_DETAIL_BOOK_PHONE = "App.Hotels.Infosite.BookPhone";
 	private static final String HOTELSV2_DETAIL_SELECT_ROOM = "App.Hotels.Infosite.SelectRoom";
+	private static final String HOTELSV2_MAP_SELECT_ROOM = "App.Hotels.IS.Map.SelectRoom";
 	private static final String HOTELSV2_REVIEWS = "App.Hotels.Reviews";
 
 	private static final String HOTELSV2_ETP_INFO = "App.Hotels.ETPInfo";
@@ -509,11 +510,20 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Room Info", null, null);
 	}
 
-	public static void trackLinkHotelV2DetailMapClick() {
-		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_MAP_CLICK + "\" click...");
+	public static void trackHotelV2DetailMapView() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_MAP_VIEW + "\" pageLoad...");
 
-		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_MAP_CLICK);
-		s.trackLink(null, "o", "Hotel Infosite", null, null);
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(HOTELSV2_DETAIL_MAP_VIEW);
+		s.setEvar(18, HOTELSV2_DETAIL_MAP_VIEW);
+
+		// LOB Search
+		s.setEvar(2, "D=c2");
+		s.setProp(2, HOTELV2_LOB);
+
+		// Send the tracking data
+		s.track();
 	}
 
 	public static void trackLinkHotelV2DetailBookPhoneClick() {
@@ -529,6 +539,13 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_SELECT_ROOM);
 		s.trackLink(null, "o", "Hotel Infosite", null, null);
+	}
+
+	public static void trackLinkHotelV2MapSelectRoom() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_MAP_SELECT_ROOM + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_MAP_SELECT_ROOM);
+		s.trackLink(null, "o", "Infosite Map", null, null);
 	}
 
 	public static void trackHotelV2Reviews() {
