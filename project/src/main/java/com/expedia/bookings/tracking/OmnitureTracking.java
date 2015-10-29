@@ -17,13 +17,16 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
 
@@ -3784,11 +3787,16 @@ public class OmnitureTracking {
 			break;
 		}
 
-		// User location
-		android.location.Location bestLastLocation = LocationServices.getLastBestLocation(sContext, 0);
-		if (bestLastLocation != null) {
-			s.setProp(40, bestLastLocation.getLatitude() + "," + bestLastLocation.getLongitude() + "|"
-				+ bestLastLocation.getAccuracy());
+		int permissionCheck = ContextCompat.checkSelfPermission(sContext,
+			Manifest.permission.ACCESS_FINE_LOCATION);
+
+		if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+			// User location
+			android.location.Location bestLastLocation = LocationServices.getLastBestLocation(sContext, 0);
+			if (bestLastLocation != null) {
+				s.setProp(40, bestLastLocation.getLatitude() + "," + bestLastLocation.getLongitude() + "|"
+					+ bestLastLocation.getAccuracy());
+			}
 		}
 	}
 

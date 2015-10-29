@@ -5,14 +5,18 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +47,7 @@ import rx.Observer;
 import rx.Subscription;
 
 public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
-
+	private static final int MY_PERMISSIONS_REQUEST_LOCATION = 7;
 	private Subscription locSubscription;
 	private Subscription abacusSubscription;
 	private boolean wasOffline;
@@ -58,6 +62,16 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.widget_phone_launch, container, false);
 		ButterKnife.inject(this, view);
+
+		int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
+			Manifest.permission.ACCESS_FINE_LOCATION);
+
+		if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+
+			ActivityCompat.requestPermissions(getActivity(),
+				new String[] { Manifest.permission.ACCESS_FINE_LOCATION },
+				MY_PERMISSIONS_REQUEST_LOCATION);
+		}
 		return view;
 	}
 
@@ -104,7 +118,11 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		else {
 			boolean isUserBucketedForTest = Db.getAbacusResponse()
 				.isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchScreenTest);
-			if (isUserBucketedForTest) {
+
+			int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
+				Manifest.permission.ACCESS_FINE_LOCATION);
+
+			if (isUserBucketedForTest || permissionCheck != PackageManager.PERMISSION_GRANTED) {
 				// show collection data to users irrespective of location Abacus A/B test
 				Events.post(new Events.LaunchLocationFetchError());
 			}
@@ -275,6 +293,25 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 						String.valueOf(key),
 						AbacusUtils.ABTEST_IGNORE_DEBUG));
 			}
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode,
+		String[] permissions, int[] grantResults) {
+		switch (requestCode) {
+		case MY_PERMISSIONS_REQUEST_LOCATION: {
+			// If request is cancelled, the result arrays are empty.
+			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+				// permission granted! Do stuff?
+			}
+			else {
+				// permission denied, boo! Disable the
+				// functionality that depends on this permission.
+			}
+			return;
+		}
+
 		}
 	}
 
