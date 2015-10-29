@@ -41,6 +41,8 @@ import com.mobiata.android.Log
 import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.ISODateTimeFormat
+import java.math.BigDecimal
+import java.util.Currency
 
 private val TAG = "FacebookTracking"
 private var context: Context? = null
@@ -198,7 +200,7 @@ class FacebookEvents() {
             parameters.putInt("Num_Rooms", 1)
             parameters.putString("Currency", getLowestRate(property)?.getDisplayPrice()?.currencyCode ?: "")
             parameters.putString("ContentType", "product")
-
+            facebookLogger?.logPurchase(rate.getTotalAmountAfterTax()?.amount ?: BigDecimal(0), Currency.getInstance(rate.getTotalAmountAfterTax()?.currencyCode));
             track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
         }
     }
@@ -218,7 +220,7 @@ class FacebookEvents() {
         parameters.putInt("Num_Rooms", 1)
         parameters.putString("Currency", hotelCheckoutResponse.currencyCode ?: "")
         parameters.putString("ContentType", "product")
-
+        facebookLogger?.logPurchase(BigDecimal(hotelCheckoutResponse.totalCharges) ?: BigDecimal(0), Currency.getInstance(hotelCheckoutResponse.currencyCode));
         track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
     }
 
@@ -293,7 +295,7 @@ class FacebookEvents() {
         parameters.putString("Content_ID", flightTrip.getLegs().get(0).getFirstAirlineCode())
         parameters.putString("Currency", money.getCurrency())
         parameters.putString("ContentType", "product")
-
+        facebookLogger?.logPurchase(money.amount, Currency.getInstance(money.currencyCode));
         track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
     }
 
@@ -359,7 +361,7 @@ class FacebookEvents() {
         parameters.putString("Booking_Value", grandTotal.getAmount().toString())
         parameters.putString("Currency", grandTotal.currencyCode)
         parameters.putString("ContentType", "product")
-
+        facebookLogger?.logPurchase(grandTotal.getAmount(), Currency.getInstance(grandTotal.currencyCode));
         track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
     }
 
@@ -417,7 +419,7 @@ class FacebookEvents() {
         parameters.putString("Booking_Value", totalPrice.getAmount().toString())
         parameters.putInt("Num_People", ticketCount)
         parameters.putInt("Number_Children", childTicketCount)
-
+        facebookLogger?.logPurchase(totalPrice.getAmount(), Currency.getInstance(totalPrice.currencyCode));
         track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
     }
 
