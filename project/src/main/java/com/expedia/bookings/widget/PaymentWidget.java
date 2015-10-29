@@ -366,9 +366,6 @@ public class PaymentWidget extends ExpandableCardView {
 			bind();
 			Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 			paymentButton.dismissPopup();
-			if (mToolbarListener != null) {
-				mToolbarListener.setActionBarTitle(getActionBarTitle());
-			}
 		}
 	}
 
