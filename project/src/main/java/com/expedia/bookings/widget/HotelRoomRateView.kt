@@ -83,7 +83,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
 
     var viewmodel: HotelRoomRateViewModel by notNullAndObservable { vm ->
         val viewsToHideInExpandedState = arrayOf(collapsedBedType, collapsedUrgency)
-        val viewsToShowInExpandedState = arrayOf(expandedBedType, expandedAmenity, freeCancellation, strikeThroughPrice, roomInfoContainer)
+        val viewsToShowInExpandedState = arrayOf(expandedBedType, expandedAmenity, freeCancellation, strikeThroughPrice)
 
         expandedAmenity.visibility = View.GONE
         viewRoom.subscribeOnCheckChanged(vm.expandCollapseRoomRate)
