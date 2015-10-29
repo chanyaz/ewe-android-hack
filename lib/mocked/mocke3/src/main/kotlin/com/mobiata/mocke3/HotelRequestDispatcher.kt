@@ -8,6 +8,8 @@ import java.util.regex.Pattern
 
 public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
+    private var createTripRequestCount = 0
+
     override fun dispatch(request: RecordedRequest): MockResponse {
 
         val urlPath = request.getPath()
@@ -33,7 +35,10 @@ public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
             HotelRequestMatcher.isHotelCreateTripRequest(urlPath) -> {
                 val productKey = params.get("productKey") ?: return make404()
                 val isHotelCouponError = HotelRequestMatcher.doesItMatch("^hotel_coupon_errors$", productKey)
-                val fileName = if (!isHotelCouponError) productKey else "hotel_coupon_errors"
+                var fileName = if (!isHotelCouponError) productKey else "hotel_coupon_errors"
+                if (productKey == "tealeaf_id" && createTripRequestCount++ == 1) {
+                    fileName = "tealeaf_id_signed_in"
+                }
                 injectDates(params)
                 return getMockResponse("m/api/hotel/trip/create/" + fileName + ".json", params)
             }
