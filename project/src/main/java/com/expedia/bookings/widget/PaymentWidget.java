@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget;
 
 import android.app.AlertDialog;
-import java.math.BigDecimal;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,10 +27,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.TripBucketItemCar;
-import com.expedia.bookings.data.TripBucketItemHotelV2;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.hotels.HotelOffersResponse;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -44,6 +40,7 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.WalletUtils;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
@@ -52,7 +49,6 @@ import butterknife.OnClick;
 
 public class PaymentWidget extends ExpandableCardView {
 	public static final int REQUEST_CODE_GOOGLE_WALLET_ACTIVITY = 1989;
-	public static final int GOOGLE_WALLET_UPPER_LIMIT = 1800;
 
 	private boolean isZipValidationRequired;
 
@@ -225,7 +221,17 @@ public class PaymentWidget extends ExpandableCardView {
 		boolean isBillingInfoValid = isFilled && sectionBillingInfo.performValidation();
 		boolean isPostalCodeValid = isFilled && sectionLocation.performValidation();
 		// User is logged in and has a stored card
-		if (hasStoredCard) {
+		if (!WalletUtils.isWalletSupported(lineOfBusiness) && sectionBillingInfo.getBillingInfo() != null && sectionBillingInfo.getBillingInfo().isUsingGoogleWallet()) {
+			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+				bindCard(null, getResources().getString(R.string.checkout_hotelsv2_enter_payment_details_line1), "");
+			}
+			else {
+				bindCard(null, getResources().getString(R.string.enter_payment_details), "");
+			}
+			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
+			reset();
+		}
+		else if (hasStoredCard) {
 			StoredCreditCard card = sectionBillingInfo.getBillingInfo().getStoredCard();
 			String cardName = card.getDescription();
 			CreditCardType cardType = card.getType();
@@ -337,7 +343,7 @@ public class PaymentWidget extends ExpandableCardView {
 		super.setExpanded(expand, animate);
 
 		if (expand) {
-			if (isWalletSupported() && !goToCreditCardDetails()) {
+			if (WalletUtils.isWalletSupported(lineOfBusiness) && !goToCreditCardDetails()) {
 				cardInfoContainer.setVisibility(GONE);
 				paymentOptionsContainer.setVisibility(VISIBLE);
 				billingInfoContainer.setVisibility(GONE);
@@ -351,6 +357,9 @@ public class PaymentWidget extends ExpandableCardView {
 			}
 		}
 		else {
+			if (!WalletUtils.isWalletSupported(lineOfBusiness) && sectionBillingInfo.getBillingInfo().isUsingGoogleWallet()) {
+				reset();
+			}
 			cardInfoContainer.setVisibility(VISIBLE);
 			paymentOptionsContainer.setVisibility(GONE);
 			billingInfoContainer.setVisibility(GONE);
@@ -361,19 +370,6 @@ public class PaymentWidget extends ExpandableCardView {
 				mToolbarListener.setActionBarTitle(getActionBarTitle());
 			}
 		}
-	}
-
-	private boolean isWalletSupported() {
-		boolean isHotelsV2 = lineOfBusiness == LineOfBusiness.HOTELSV2;
-		if (isHotelsV2) {
-			TripBucketItemHotelV2 trip = Db.getTripBucket().getHotelV2();
-			if (trip != null) {
-				HotelOffersResponse.HotelRoomResponse room = trip.mHotelTripResponse.newHotelProductResponse.hotelRoomResponse;
-				boolean isWithinLimit = room.rateInfo.chargeableRateInfo.getDisplayTotalPrice().amount.compareTo(new BigDecimal(GOOGLE_WALLET_UPPER_LIMIT)) != 1;
-				return PointOfSale.getPointOfSale().supportsGoogleWallet() && isWithinLimit && room.isMerchant();
-			}
-		}
-		return false;
 	}
 
 	private boolean goToCreditCardDetails() {

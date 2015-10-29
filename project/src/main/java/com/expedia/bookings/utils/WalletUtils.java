@@ -18,6 +18,7 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
@@ -28,8 +29,11 @@ import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.data.TripBucketItemHotelV2;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
+import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelRate;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.google.android.gms.wallet.Address;
 import com.google.android.gms.wallet.Cart;
@@ -65,6 +69,7 @@ public class WalletUtils {
 	private static final DecimalFormat MONEY_FORMAT = new DecimalFormat("0.00");
 
 	private static final String WALLET_COUPON_CODE = "MOBILEWALLET50B";
+	public static final int GOOGLE_WALLET_UPPER_LIMIT = 1800;
 
 	// Force the separator to be '.', since that's the format that Google Wallet requires
 	static {
@@ -709,5 +714,18 @@ public class WalletUtils {
 				LineItem.Role.TAX));
 
 		return cartBuilder.build();
+	}
+
+	public static boolean isWalletSupported(LineOfBusiness lob) {
+		boolean isHotelsV2 = lob == LineOfBusiness.HOTELSV2;
+		if (isHotelsV2) {
+			TripBucketItemHotelV2 trip = Db.getTripBucket().getHotelV2();
+			if (trip != null) {
+				HotelOffersResponse.HotelRoomResponse room = trip.mHotelTripResponse.newHotelProductResponse.hotelRoomResponse;
+				boolean isWithinLimit = room.rateInfo.chargeableRateInfo.getDisplayTotalPrice().amount.compareTo(new BigDecimal(GOOGLE_WALLET_UPPER_LIMIT)) != 1;
+				return PointOfSale.getPointOfSale().supportsGoogleWallet() && isWithinLimit && room.isMerchant();
+			}
+		}
+		return false;
 	}
 }
