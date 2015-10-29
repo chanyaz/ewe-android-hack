@@ -119,6 +119,15 @@
                     android:text="@string/add_to_calendar"
                     android:textColor="@color/cars_confirmation_action_text_color" />
 
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/call_support_action_textView"
+                    style="@style/CarsBookingButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:drawableLeft="@drawable/hotel_phone"
+                    android:textColor="@color/cars_confirmation_action_text_color" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="15dp"
