@@ -306,7 +306,11 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         hasDiscountPercentageObservable.onNext(chargeableRateInfo?.isDiscountTenPercentOrBetter())
         hasVipAccessObservable.onNext(response.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess())
         promoMessageObservable.onNext(getPromoText(firstHotelRoomResponse))
-        strikeThroughPriceObservable.onNext(priceFormatter(context.resources, chargeableRateInfo, true))
+        val priceToShowUsers = chargeableRateInfo?.priceToShowUsers ?: 0f
+        val strikethroughPriceToShowUsers = chargeableRateInfo?.strikethroughPriceToShowUsers ?: 0f
+        if (priceToShowUsers < strikethroughPriceToShowUsers) {
+            strikeThroughPriceObservable.onNext(priceFormatter(context.resources, chargeableRateInfo, true))
+        }
 
         hasFreeCancellationObservable.onNext(hasFreeCancellation(response))
         hasBestPriceGuaranteeObservable.onNext(PointOfSale.getPointOfSale().displayBestPriceGuarantee())
@@ -521,12 +525,17 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
     }
 
     val payLaterObserver: Observer<Unit> = endlessObserver {
-        val depositAmount = hotelRoomResponse.payLaterOffer?.rateInfo?.chargeableRateInfo?.depositAmountToShowUsers?.toDouble() ?: 0.0
+        val chargeableRateInfo = hotelRoomResponse.payLaterOffer?.rateInfo?.chargeableRateInfo
+        val depositAmount = chargeableRateInfo?.depositAmountToShowUsers?.toDouble() ?: 0.0
         val depositAmountMoney = Money(BigDecimal(depositAmount), currencyCode)
+        val priceToShowUsers = chargeableRateInfo?.priceToShowUsers?.toDouble() ?: 0.0
+        val strikethroughPriceToShowUsers = chargeableRateInfo?.strikethroughPriceToShowUsers?.toDouble() ?: 0.0
         val payLaterText = Phrase.from(context, R.string.room_rate_pay_later_due_now).put("amount", depositAmountMoney.formattedMoney).format().toString()
         dailyPricePerNightObservable.onNext(payLaterText)
         perNightPriceVisibleObservable.onNext(false)
-        strikeThroughPriceObservable.onNext(makePriceToShowCustomer())
+        if (priceToShowUsers < strikethroughPriceToShowUsers) {
+            strikeThroughPriceObservable.onNext(makePriceToShowCustomer())
+        }
     }
 
     fun makePriceToShowCustomer(): String {
@@ -544,7 +553,7 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
         if (discountPercent >= 9.5) {
             // discount is 10% or better
             discountPercentage.onNext(context.resources.getString(R.string.percent_off_TEMPLATE, discountPercent))
-            if (!isPayLater) {
+            if (!isPayLater && (chargeableRateInfo.priceToShowUsers < chargeableRateInfo.strikethroughPriceToShowUsers)) {
                 val strikeThroughPriceToShowUsers = Money(BigDecimal(chargeableRateInfo.strikethroughPriceToShowUsers.toDouble()), currencyCode).formattedMoney
                 strikeThroughPriceObservable.onNext(Html.fromHtml(context.resources.getString(R.string.strike_template, strikeThroughPriceToShowUsers), null, StrikethroughTagHandler()))
             }

@@ -24,7 +24,7 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     val hotelNameObservable = BehaviorSubject.create(hotel.localizedName)
     val hotelPriceObservable = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false))
     val hotelStrikeThroughPriceObservable = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, true))
-    val hotelStrikeThroughPriceVisibilityObservable = Observable.zip(hotelPriceObservable, hotelStrikeThroughPriceObservable, { hotelPrice, hotelStrikeThroughPrice -> hotelPrice.toString() != hotelStrikeThroughPrice.toString() })
+    val hotelStrikeThroughPriceVisibilityObservable = BehaviorSubject.create<Boolean>()
     val hasDiscountObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isDiscountTenPercentOrBetter()  && !hotel.lowRateInfo.airAttached)
     val hotelGuestRatingObservable = BehaviorSubject.create(hotel.hotelGuestRating.toString())
     val isHotelGuestRatingAvailableObservable = BehaviorSubject.create<Boolean>(hotel.hotelGuestRating > 0)
@@ -53,6 +53,10 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
         if (hotel.isSponsoredListing && !hotel.hasShownImpression) {
             adImpressionObservable.onNext(hotel.impressionTrackingUrl)
         }
+        val lowRateInfo = hotel.lowRateInfo
+        val strikethroughPriceToShowUsers = lowRateInfo.strikethroughPriceToShowUsers
+        val priceToShowUsers = lowRateInfo.priceToShowUsers
+        hotelStrikeThroughPriceVisibilityObservable.onNext(priceToShowUsers < strikethroughPriceToShowUsers)
 
         val hasDistance = hotel.proximityDistanceInMiles > 0
         val distance = if (hasDistance) HotelUtils.formatDistanceForNearby(resources, hotel, true) else ""

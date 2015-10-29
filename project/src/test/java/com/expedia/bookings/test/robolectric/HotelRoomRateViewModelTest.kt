@@ -11,6 +11,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import java.text.DecimalFormat
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
@@ -38,8 +39,8 @@ public class HotelRoomRateViewModelTest {
         setupSystemUnderTest()
 
         assertEquals("-20%", sut.discountPercentage.value)
-        assertEquals("$109", sut.strikeThroughPriceObservable.value.toString())
         assertFalse(sut.onlyShowTotalPrice.value)
+        assertNull(sut.strikeThroughPriceObservable.value)
         assertEquals("$109", sut.dailyPricePerNightObservable.value)
         assertTrue(sut.perNightPriceVisibleObservable.value)
         assertEquals("One King Bed", sut.collapsedBedTypeObservable.value)
@@ -76,6 +77,21 @@ public class HotelRoomRateViewModelTest {
 
         assertNull(sut.discountPercentage.value)
         assertNull(sut.strikeThroughPriceObservable.value)
+    }
+
+    @Test
+    fun showStrikeThroughPrice() {
+        val chargeableRateInfo = hotelRoomResponse.rateInfo.chargeableRateInfo
+        val newValidStrikeThroughPrice = chargeableRateInfo.priceToShowUsers + 10f
+        val df = DecimalFormat("#")
+        givenWeHaveValidStrikeThroughPrice(newValidStrikeThroughPrice)
+        setupSystemUnderTest()
+
+        assertEquals("$" + df.format(newValidStrikeThroughPrice).toString(), sut.strikeThroughPriceObservable.value.toString())
+    }
+
+    private fun givenWeHaveValidStrikeThroughPrice(strikeThroughPrice: Float) {
+        hotelRoomResponse.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = strikeThroughPrice
     }
 
     private fun givenDiscountLessThanTenPercent() {
