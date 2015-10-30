@@ -1,18 +1,25 @@
 package com.expedia.bookings.test.phone.pagemodels.common;
 
+import java.util.concurrent.TimeUnit;
+
+import org.hamcrest.Matcher;
+
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
+import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.ViewActions;
-import com.expedia.bookings.test.espresso.Common;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -205,6 +212,7 @@ public class CheckoutViewModel {
 	}
 
 	public static void waitForCheckout() {
-		onView(withId(R.id.menu_done)).perform(ViewActions.waitForViewToDisplay());
+		Matcher<View> displayedAndFilled = allOf(isDisplayed(), CustomMatchers.withAtLeastChildCount(1));
+		onView(withId(R.id.summary_container)).perform(ViewActions.waitFor(displayedAndFilled, 10, TimeUnit.SECONDS));
 	}
 }
