@@ -2,8 +2,11 @@ package com.expedia.ui;
 
 import org.joda.time.LocalDate;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 
@@ -56,6 +59,15 @@ public class LXBaseActivity extends AppCompatActivity {
 	}
 
 	private void triggerCurrentLocationSuggestions() {
+		int permissionCheck = ContextCompat.checkSelfPermission(this,
+			Manifest.permission.ACCESS_FINE_LOCATION);
+
+		if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+			// If no permission on LX, we should go to the search screen instead of results
+			Events.post(new Events.LXNewSearch(null, LocalDate.now(), LocalDate.now().plusDays(getResources().getInteger(R.integer.lx_default_search_range))));
+			return;
+		}
+
 		Events.post(new Events.LXShowLoadingAnimation());
 		LXSearchParams currentLocationSearchParams = new LXSearchParams()
 			.startDate(LocalDate.now())
