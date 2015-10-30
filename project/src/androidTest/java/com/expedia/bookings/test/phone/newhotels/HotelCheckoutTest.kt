@@ -12,8 +12,7 @@ import com.expedia.bookings.test.phone.newhotels.HotelScreen.selectHotel
 import com.expedia.bookings.test.phone.newhotels.HotelScreen.selectRoom
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen
-import junit.framework.Assert.assertEquals
-
+import org.junit.Assert
 
 public class HotelCheckoutTest: HotelTestCase() {
 
@@ -48,9 +47,9 @@ public class HotelCheckoutTest: HotelTestCase() {
         doGenericSearch()
         selectHotel("tealeaf_id")
         selectRoom()
-        assertEquals(Db.getTripBucket().hotelV2.mHotelTripResponse.tealeafTransactionId, "tealeafHotel:tealeaf_id")
+        Assert.assertEquals(Db.getTripBucket().hotelV2.mHotelTripResponse.tealeafTransactionId, "tealeafHotel:tealeaf_id")
         signIn()
-        assertEquals(Db.getTripBucket().hotelV2.mHotelTripResponse.tealeafTransactionId, "tealeafHotel:tealeaf_id_signed_in")
+        Assert.assertEquals(Db.getTripBucket().hotelV2.mHotelTripResponse.tealeafTransactionId, "tealeafHotel:tealeaf_id_signed_in")
     }
 
     private fun signIn() {

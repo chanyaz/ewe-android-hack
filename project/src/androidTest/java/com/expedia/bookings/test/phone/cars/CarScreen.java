@@ -29,6 +29,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.setVisibility;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -41,10 +42,6 @@ public final class CarScreen {
 		EspressoUtils.assertViewIsDisplayed(R.id.search_container);
 	}
 
-	public static void didNotshowCalendar() {
-		calendar().check(matches(not(isDisplayed())));
-	}
-
 	public static void showCalendar() {
 		calendar().check(matches((isDisplayed())));
 	}
@@ -55,6 +52,10 @@ public final class CarScreen {
 
 	public static ViewInteraction pickupLocation() {
 		return onView(withId(R.id.pickup_location));
+	}
+
+	public static void waitForSearchScreen() {
+		pickupLocation().perform(waitForViewToDisplay());
 	}
 
 	public static ViewInteraction searchFilter() {
@@ -74,8 +75,7 @@ public final class CarScreen {
 			.perform(click());
 	}
 
-	public static void selectAirport(String airportCode,
-		String displayName) throws Throwable {
+	public static void selectAirport(String airportCode, String displayName) throws Throwable {
 		pickupLocation().perform(typeText(airportCode));
 		selectPickupLocation(displayName);
 	}

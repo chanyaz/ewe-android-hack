@@ -12,8 +12,8 @@ repositories {
 
 dependencies {
     compile 'joda-time:joda-time:2.8.1'
-    compile 'com.squareup.okhttp:okhttp:2.4.0'
-    compile 'com.squareup.okio:okio:1.5.0'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
+    compile 'com.squareup.okio:okio:1.6.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'io.reactivex:rxjava:1.0.14'
     compile 'org.json:json:20140107'
