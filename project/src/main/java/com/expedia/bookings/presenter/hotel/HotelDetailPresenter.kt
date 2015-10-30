@@ -7,7 +7,6 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
-import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.bindView
@@ -62,7 +61,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         }
     }
 
-    val detailToDescription = object : VisibilityTransition(this, HotelDetailView::class.java, SpecialNoticeWidget::class.java) {
+    val detailToDescription = object : ScaleTransition(this, HotelDetailView::class.java, SpecialNoticeWidget::class.java) {
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             hotelRenovationDesc.visibility = if (forward) View.VISIBLE else View.GONE
@@ -75,7 +74,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         show(hotelRenovationDesc)
     }
 
-    val detailToVIPAccessInfo = object : VisibilityTransition(this, HotelDetailView::class.java, VIPAccessInfoWidget::class.java) {
+    val detailToVIPAccessInfo = object : ScaleTransition(this, HotelDetailView::class.java, VIPAccessInfoWidget::class.java) {
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             hotelVIPAccessInfo.visibility = if (forward) View.VISIBLE else View.GONE
@@ -92,7 +91,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         HotelV2Tracking().trackHotelV2DetailMapView()
     }
 
-    val detailToPayLaterInfo = object : VisibilityTransition(this, HotelDetailView::class.java, PayLaterInfoWidget::class.java) {
+    val detailToPayLaterInfo = object : ScaleTransition(this, HotelDetailView::class.java, PayLaterInfoWidget::class.java) {
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             hotelPayLaterInfo.visibility = if (forward) View.VISIBLE else View.GONE
