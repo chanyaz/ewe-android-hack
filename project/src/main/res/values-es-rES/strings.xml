@@ -211,6 +211,8 @@
     <string name="checkout_hotelsv2_enter_payment_details_line1">Datos de pago</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Selecciona el tipo de pago</string>
+    <!-- Label to indicate that the user has selected a stored credit card -->
+    <string name="checkout_payment_line2_storedcc">Tarjeta de crédito guardada</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Desliza para reservar</string>
@@ -231,7 +233,7 @@
     <!-- Shown to user when they try to book something already booked in new Hotels -->
     <string name="reservation_already_exists_new_hotels">La reserva se ha realizado. Comprueba la sección Tus viajes o tu correo electrónico.</string>
     <!-- Shown to user when they try to book something already booked -->
-    <string name="reservation_already_exists">Vaya. Parece que ya has reservado este viaje. Comprueba la sección Viajes o tu correo electrónico.</string>
+    <string name="reservation_already_exists">Vaya. Parece que ya has reservado este viaje. Comprueba la sección Tus viajes o tu correo electrónico.</string>
     <!-- Show to user when the price of a car they are trying to book has changed -->
     <string name="reservation_price_change">El precio de tu coche de alquiler ha cambiado. Confirma el nuevo precio para continuar.</string>
     <!-- Show to user when the their traveler information is invalid -->
@@ -1820,6 +1822,8 @@
     <string name="loading_flight_details">Comprobando cambios en el precio…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">El precio ha cambiado, ahora es %1$s</string>
+    <!-- Price dropped from -->
+    <string name="price_dropped_from_TEMPLATE">El precio ha bajado desde %1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">Esta línea aérea aplica una tasa de &lt;b&gt;%1$s&lt;/b&gt; (incluida en el total) por usar esta tarjeta.</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
@@ -2385,6 +2389,8 @@
     <string name="See_back_of_card">Ver el reverso de la tarjeta</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">Ver la parte frontal de la tarjeta</string>
+    <!-- Hint on CVV widget title for where to look for CVV code -->
+    <string name="cvv_enter_security_code">Código de seguridad</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -3765,4 +3771,7 @@
     <string name="star_rating">Clasificación</string>
     <string name="show_more">VER MÁS</string>
     <string name="show_less">VER MENOS</string>
+
+    <!-- Hotel V2 Coupon related -->
+    <string name="applied_coupon_message">Se ha aplicado el cupón: ¡te has ahorrado %1$s!</string>
 </resources>

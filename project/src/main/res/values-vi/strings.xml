@@ -211,6 +211,8 @@
     <string name="checkout_hotelsv2_enter_payment_details_line1">Chi tiết thanh toán</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Chọn loại thanh toán</string>
+    <!-- Label to indicate that the user has selected a stored credit card -->
+    <string name="checkout_payment_line2_storedcc">Thẻ tín dụng đã lưu</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Kéo để đặt</string>
@@ -1820,6 +1822,8 @@
     <string name="loading_flight_details">Đang kiểm tra thay đổi giá…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Giá thay đổi từ %1$s</string>
+    <!-- Price dropped from -->
+    <string name="price_dropped_from_TEMPLATE">Giá giảm từ %1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">Hãng hàng không này thu phí &lt;b&gt;%1$s&lt;/b&gt; (đã bao gồm trong tổng giá) khi khách sử dụng thẻ này.</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
@@ -2385,6 +2389,8 @@
     <string name="See_back_of_card">Xem mặt sau thẻ</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">Xem mặt trước thẻ</string>
+    <!-- Hint on CVV widget title for where to look for CVV code -->
+    <string name="cvv_enter_security_code">Nhập mã bảo mật</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -3764,4 +3770,7 @@
     <string name="star_rating">Xếp hạng sao</string>
     <string name="show_more">HIỂN THỊ THÊM</string>
     <string name="show_less">HIỂN THỊ ÍT HƠN</string>
+
+    <!-- Hotel V2 Coupon related -->
+    <string name="applied_coupon_message">Áp dụng coupon: Tiết kiệm được %1$s!</string>
 </resources>

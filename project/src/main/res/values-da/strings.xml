@@ -211,6 +211,8 @@
     <string name="checkout_hotelsv2_enter_payment_details_line1">Betalingsoplysninger</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Vælg betalingstype</string>
+    <!-- Label to indicate that the user has selected a stored credit card -->
+    <string name="checkout_payment_line2_storedcc">Gemt kreditkort</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Skub for at reservere</string>
@@ -1820,6 +1822,8 @@
     <string name="loading_flight_details">Kontrollerer prisændringer…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Prisen er blevet ændret fra %1$s</string>
+    <!-- Price dropped from -->
+    <string name="price_dropped_from_TEMPLATE">Prisen er faldet fra %1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">Flyselskabet opkræver et gebyr på &lt;b&gt;%1$s&lt;/b&gt; (inkluderet i den samlede pris) for at anvende dette kort.</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
@@ -2293,7 +2297,7 @@
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
-    <string name="title_invalid_security_code">Ugyldig sikkerhedskode</string>
+    <string name="title_invalid_security_code">Ugyldige kontrolcifre</string>
     <!-- Button label for cancelling on error -->
     <string name="cancel">Annuller</string>
     <!-- Button label for accepting an error and moving forward -->
@@ -2366,7 +2370,7 @@
 
     <!-- Highlight view stuff -->
     <!-- Asks for a security code (CVV code or credit card code) for a card.  %s is the card name, E.g., "Security code for Dan's Platinum VISA" -->
-    <string name="security_code_TEMPLATE">Sikkerhedskode for &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="security_code_TEMPLATE">Kontrolcifre for &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Name for a generic card.  %s is the last four digits of the card, e.g. "card ending in 1234" -->
     <string name="card_ending_TEMPLATE">kort, der ender med %s</string>
     <!-- Name for a generic card. $1%s is the name of the card, and $2%s is the last 4 digits; e.g. "VISA ending in 1234" -->
@@ -2385,6 +2389,8 @@
     <string name="See_back_of_card">Se bagsiden af kortet</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">Se forsiden af kortet</string>
+    <!-- Hint on CVV widget title for where to look for CVV code -->
+    <string name="cvv_enter_security_code">Indtast kontrolcifre</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -3764,4 +3770,7 @@
     <string name="star_rating">Antal stjerner</string>
     <string name="show_more">VIS MERE</string>
     <string name="show_less">VIS MINDRE</string>
+
+    <!-- Hotel V2 Coupon related -->
+    <string name="applied_coupon_message">Kupon indløst: Du har sparet %1$s!</string>
 </resources>

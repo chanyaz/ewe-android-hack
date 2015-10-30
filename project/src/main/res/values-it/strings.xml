@@ -211,6 +211,8 @@
     <string name="checkout_hotelsv2_enter_payment_details_line1">Dettagli di pagamento</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Seleziona la tipologia di pagamento</string>
+    <!-- Label to indicate that the user has selected a stored credit card -->
+    <string name="checkout_payment_line2_storedcc">Carta di credito salvata</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Procedi alla prenotazione</string>
@@ -1820,6 +1822,8 @@
     <string name="loading_flight_details">Verifica modifiche prezzo in corso…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Il prezzo è diverso da %1$s</string>
+    <!-- Price dropped from -->
+    <string name="price_dropped_from_TEMPLATE">Il prezzo è diminuito di %1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">Questa compagnia aerea addebita una commissione di &lt;b&gt;%1$s&lt;/b&gt; (inclusa nel totale) per l\&apos;utilizzo di questa carta.</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
@@ -2385,6 +2389,8 @@
     <string name="See_back_of_card">Controlla sul retro della carta di credito</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">Controlla la parte anteriore della carta di credito</string>
+    <!-- Hint on CVV widget title for where to look for CVV code -->
+    <string name="cvv_enter_security_code">Inserisci il codice di sicurezza</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -3764,4 +3770,7 @@
     <string name="star_rating">Numero stelle</string>
     <string name="show_more">MOSTRA ALTRO</string>
     <string name="show_less">MOSTRA MENO</string>
+
+    <!-- Hotel V2 Coupon related -->
+    <string name="applied_coupon_message">Coupon applicato: hai risparmiato %1$s!</string>
 </resources>

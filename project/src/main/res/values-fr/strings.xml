@@ -211,6 +211,8 @@
     <string name="checkout_hotelsv2_enter_payment_details_line1">Informations de paiement</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Sélectionnez un type de paiement</string>
+    <!-- Label to indicate that the user has selected a stored credit card -->
+    <string name="checkout_payment_line2_storedcc">Carte de paiement enregistrée</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Faites glisser pour réserver</string>
@@ -1820,6 +1822,8 @@
     <string name="loading_flight_details">Nous vérifions le prix…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Le prix a changé et n\&apos;est plus de %1$s</string>
+    <!-- Price dropped from -->
+    <string name="price_dropped_from_TEMPLATE">Le prix a baissé de %1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">Cette compagnie applique des frais de &lt;b&gt;%1$s&lt;/b&gt; (inclus dans le total) si vous utilisez cette carte.</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
@@ -2347,7 +2351,7 @@
     <!-- Text for hotel error toolbar duplicate trip-->
     <string name="hotel_duplicate_trip_text">Voyage en double</string>
     <!-- Text for hotel error toolbar payment failed-->
-    <string name="hotel_payment_failed_text">Échec du paiement</string>
+    <string name="hotel_payment_failed_text">Paiement non réussi</string>
     <!-- Text for error toolbar session expired-->
     <string name="session_timeout">Expiration de la session</string>
 
@@ -2385,6 +2389,8 @@
     <string name="See_back_of_card">Voir au verso de la carte</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">Voir au recto de la carte</string>
+    <!-- Hint on CVV widget title for where to look for CVV code -->
+    <string name="cvv_enter_security_code">Saisissez le cryptogramme</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -2639,7 +2645,7 @@
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">sur 5 - avis clients</string>
     <!-- new material Hotel results cell discount percentage -->
-    <string name="hotel_discount_percent_Template">{discount} %</string>
+    <string name="hotel_discount_percent_Template">{discount}%</string>
 
     <!-- Amenity strings -->
     <!-- Label to show amenities -->
@@ -2818,7 +2824,7 @@
 
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
-        <item quantity="zero">Plus de chambre disponible sur notre app !</item>
+        <item quantity="zero">Plus de chambres disponibles sur notre app !</item>
         <item quantity="one">Il reste 1 chambre disponible sur notre app !</item>
         <item quantity="two">Il reste %d chambres disponibles sur notre app !</item>
         <item quantity="many">Il reste %d chambres disponibles sur notre app !</item>
@@ -2849,7 +2855,7 @@
     <!-- View Room button text -->
     <string name="view_room_button_text">Voir la chambre</string>
     <!-- Book Room button text -->
-    <string name="book_room_button_text">Réserver</string>
+    <string name="book_room_button_text">Livre</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Partager via</string>
     <!-- Renovation Notice -->
@@ -3152,7 +3158,7 @@
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
     <string name="e3_error_checkout_invalid_expiration">Date d\&apos;expiration de la carte invalide.</string>
     <!-- Error message displayed when the traveler information is invalid -->
-    <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">Veuillez saisir un %1$s valide</string>
+    <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">%1$s non valide</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
@@ -3764,4 +3770,7 @@
     <string name="star_rating">Nombre d\&apos;étoiles</string>
     <string name="show_more">AFFICHER PLUS</string>
     <string name="show_less">AFFICHER MOINS</string>
+
+    <!-- Hotel V2 Coupon related -->
+    <string name="applied_coupon_message">La réduction a été appliquée : vous avez économisé %1$s !</string>
 </resources>

@@ -211,6 +211,8 @@
     <string name="checkout_hotelsv2_enter_payment_details_line1">결제 정보</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">결제 유형 선택</string>
+    <!-- Label to indicate that the user has selected a stored credit card -->
+    <string name="checkout_payment_line2_storedcc">저장된 신용카드</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">밀어서 예약하기</string>
@@ -1819,7 +1821,9 @@
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">가격 변동 확인 중…</string>
     <!-- Price changed from -->
-    <string name="price_changed_from_TEMPLATE">기존 요금 %1$s에서 요금 변경됨</string>
+    <string name="price_changed_from_TEMPLATE">요금이 %1$s에서 변경됨</string>
+    <!-- Price dropped from -->
+    <string name="price_dropped_from_TEMPLATE">요금이 %1$s에서 인하됨</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">이 항공사는 이 신용카드 사용에 대해 &lt;b&gt;%1$s&lt;/b&gt;(총액에 포함됨)의 수수료를 부과합니다.</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
@@ -2385,6 +2389,8 @@
     <string name="See_back_of_card">카드 뒷면을 확인하세요.</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">카드 앞면을 확인하세요.</string>
+    <!-- Hint on CVV widget title for where to look for CVV code -->
+    <string name="cvv_enter_security_code">CVC 번호를 입력하세요.</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -3764,4 +3770,7 @@
     <string name="star_rating">호텔 등급</string>
     <string name="show_more">자세히 보기</string>
     <string name="show_less">간단히 보기</string>
+
+    <!-- Hotel V2 Coupon related -->
+    <string name="applied_coupon_message">쿠폰 적용됨: %1$s 할인받으셨습니다!</string>
 </resources>
