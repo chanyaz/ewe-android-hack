@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
@@ -232,6 +233,28 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				scrollView.scrollTo(0, scrollTo);
 			}
 		});
+		scrollAnimation.addListener(new ValueAnimator.AnimatorListener() {
+			@Override
+			public void onAnimationStart(Animator animator) {
+				listenToScroll = false;
+			}
+
+			@Override
+			public void onAnimationEnd(Animator animator) {
+				menuDone.setVisible(false);
+				listenToScroll = true;
+			}
+
+			@Override
+			public void onAnimationCancel(Animator animator) {
+
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator animator) {
+
+			}
+		});
 
 		scrollView.postDelayed(new Runnable() {
 			@Override
@@ -245,6 +268,15 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		@Override
 		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
 			if (listenToScroll) {
+				View lastChildView = scrollView.getChildAt(scrollView.getChildCount() - 1);
+				int diff = (lastChildView.getBottom()) - (scrollView.getHeight() + scrollView.getScrollY());
+
+				// if diff is zero, then the bottom has been reached
+				if (diff == 0) {
+					menuDone.setVisible(false);
+					return;
+				}
+
 				int top = loginWidget.getTop() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, getResources().getDisplayMetrics());
 				if (y >= top) {
 					menuDone.setVisible(false);

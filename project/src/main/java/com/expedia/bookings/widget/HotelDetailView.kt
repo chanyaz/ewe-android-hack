@@ -24,7 +24,6 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
-import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelV2Tracking
@@ -444,11 +443,13 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             payNowButton.subscribeOnClick(payNowObserver)
         }
 
-        // Scroll to the top room in case of change in ETP selection
-        val etpLocation = etpContainer.y + etpContainer.height
-        val offsetToETP = if (commonAmenityText.visibility == View.VISIBLE) commonAmenityText.y else roomContainer.y
-        val offset = offsetToETP - etpLocation
-        detailContainer.smoothScrollBy(0, offset.toInt())
+        // Scroll to the top room in case of change in ETP selection when ETP container is sticked
+        if(etpContainerDropShadow.visibility == View.VISIBLE) {
+            val etpLocation = etpContainer.y + etpContainer.height
+            val offsetToETP = if (commonAmenityText.visibility == View.VISIBLE) commonAmenityText.y else roomContainer.y
+            val offset = offsetToETP - etpLocation
+            detailContainer.smoothScrollBy(0, offset.toInt())
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -541,7 +542,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     }
 
     public fun showToolbarGradient() {
-        priceContainer.getLocationOnScreen(priceContainerLocation)
+        if (hotelMessagingContainer.visibility == View.VISIBLE)
+            hotelMessagingContainer.getLocationOnScreen(priceContainerLocation)
+        else
+            priceContainer.getLocationOnScreen(priceContainerLocation)
 
         if (priceContainerLocation[1] < gradientHeight) {
             toolBarGradient.translationY = (-(gradientHeight - priceContainerLocation[1]))

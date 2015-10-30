@@ -179,7 +179,6 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(guestRating)
             viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(guestRatingRecommendedText)
             viewModel.isHotelGuestRatingAvailableObservable.map { !it }.subscribeVisibility(noGuestRating)
-            viewModel.hasDiscountObservable.subscribeVisibility(strikeThroughPricePerNight)
             viewModel.hasDiscountObservable.subscribeVisibility(discountPercentage)
             viewModel.distanceFromCurrentLocationObservable.subscribeText(hotelAmenityOrDistanceFromLocation)
             viewModel.topAmenityVisibilityObservable.subscribeVisibility(topAmenityTitle)
