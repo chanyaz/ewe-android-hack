@@ -271,6 +271,9 @@ public class HotelErrorViewModel(private val context: Context) {
                 ApiError.Code.HOTEL_SEARCH_NO_RESULTS -> {
                     searchErrorObservable.onNext(Unit)
                 }
+                ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS -> {
+                    searchErrorObservable.onNext(Unit)
+                }
                 ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS -> {
                     checkoutCardErrorObservable.onNext(Unit)
                     HotelV2Tracking().trackHotelsV2CheckoutErrorRetry()
@@ -312,6 +315,13 @@ public class HotelErrorViewModel(private val context: Context) {
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.error_car_search_message))
                     buttonTextObservable.onNext(context.getString(R.string.edit_search))
+                    HotelV2Tracking().trackHotelsV2NoResult()
+                }
+                ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS -> {
+                    imageObservable.onNext(R.drawable.error_default)
+                    errorMessageObservable.onNext(context.getString(R.string.error_car_search_message))
+                    buttonTextObservable.onNext(context.getString(R.string.edit_search))
+                    titleObservable.onNext(context.getString(R.string.visible_map_area))
                     HotelV2Tracking().trackHotelsV2NoResult()
                 }
                 ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS -> {

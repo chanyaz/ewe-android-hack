@@ -361,6 +361,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}
 			summaryContainer.setVisibility(VISIBLE);
 			slideToContainer.setVisibility(INVISIBLE);
+
 			updateSpacerHeight();
 		}
 	};
@@ -396,30 +397,42 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			else {
 				animateInSlideToPurchase(false);
 			}
+
 			updateSpacerHeight();
 			listenToScroll = true;
 		}
 	};
 
 	private void updateSpacerHeight() {
-		if (isCheckoutFormComplete()) {
-			float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
-			int bottom = (disclaimerText.getVisibility() == View.VISIBLE) ? disclaimerText.getBottom()
-				: legalInformationText.getBottom();
-			if (scrollViewActualHeight - bottom < slideToContainer.getHeight()) {
-				ViewGroup.LayoutParams params = space.getLayoutParams();
-				params.height = slideToContainer.getVisibility() == VISIBLE ? slideToContainer.getHeight() : 0;
-				space.setLayoutParams(params);
+		postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				if (isCheckoutFormComplete()) {
+					float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
+					int bottom = (disclaimerText.getVisibility() == View.VISIBLE) ? disclaimerText.getBottom()
+						: legalInformationText.getBottom();
+					if (scrollViewActualHeight - bottom < slideToContainer.getHeight()) {
+						ViewGroup.LayoutParams params = space.getLayoutParams();
+						params.height = slideToContainer.getVisibility() == VISIBLE ? slideToContainer.getHeight() : 0;
+
+						if (slideToContainer.getVisibility() == VISIBLE || acceptTermsWidget.getVisibility() == VISIBLE) {
+							params.height = Math.max(slideToContainer.getHeight(), acceptTermsWidget.getHeight());
+						}
+						else {
+							params.height = 0;
+						}
+						space.setLayoutParams(params);
+					}
+				}
+				else {
+					// if not complete, provide enough space for sign in button to be anchored at top of viewable area
+					int remainingHeight = scrollView.getChildAt(0).getHeight() - space.getHeight() - summaryContainer.getHeight();
+					ViewGroup.LayoutParams params = space.getLayoutParams();
+					params.height = scrollView.getHeight() - remainingHeight - Ui.getToolbarSize(getContext());
+					space.setLayoutParams(params);
+				}
 			}
-		}
-		else { // not complete. Provide enough space for sign in button to be anchored at top of viewable area
-			int summaryHeight = summaryContainer.getHeight();
-			int scrollViewContentHeight = scrollView.getChildAt(0).getHeight() - space.getHeight();
-			int remainingHeight = scrollView.getHeight() - scrollViewContentHeight;
-			ViewGroup.LayoutParams params = space.getLayoutParams();
-			params.height = summaryHeight + remainingHeight;
-			space.setLayoutParams(params);
-		}
+		}, 100L);
 	}
 
 	private Transition defaultToCheckoutFailed = new Transition(CheckoutDefault.class, CheckoutFailed.class) {
@@ -480,6 +493,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void finalizeTransition(boolean forward) {
 			if (forward) {
 				slideToContainer.setVisibility(INVISIBLE);
+				acceptTermsWidget.setVisibility(INVISIBLE);
 				// Space to avoid keyboard hiding the view behind.
 				int spacerHeight = (int) getResources().getDimension(R.dimen.car_expanded_space_height);
 				ViewGroup.LayoutParams params = space.getLayoutParams();
