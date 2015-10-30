@@ -6,12 +6,13 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="@dimen/hotel_special_and_etp_margin"
+        android:background="#EEEEEE"
         android:orientation="vertical">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="@dimen/hotel_special_and_etp_margin"
             android:layout_weight="1"
             android:fillViewport="true">
 
