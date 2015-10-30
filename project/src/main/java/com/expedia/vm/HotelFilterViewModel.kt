@@ -3,6 +3,7 @@ package com.expedia.vm
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.Strings
@@ -334,6 +335,7 @@ class HotelFilterViewModel() {
             Sort.DEALS -> Collections.sort(hotels, deals_comparator)
             Sort.DISTANCE -> Collections.sort(hotels, distance_comparator_fallback_name)
         }
+        filteredResponse.hotelList = HotelServices.putSponsoredItemsInCorrectPlaces(hotels)
     }
 
     private val popular_comparator: Comparator<Hotel> = object : Comparator<Hotel> {
