@@ -340,4 +340,5 @@
 
     <attr name="skin_errorWidgetEditButtonStyle" format="reference" />
 
+    <attr name="skin_rippleDrawable" format="reference" />
 </resources>

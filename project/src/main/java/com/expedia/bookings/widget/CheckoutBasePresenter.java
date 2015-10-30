@@ -41,6 +41,7 @@ import com.mobiata.android.Log;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Observer;
 
 public abstract class CheckoutBasePresenter extends Presenter implements SlideToWidgetLL.ISlideToListener,
 	UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener, ExpandableCardView.IExpandedListener {
@@ -362,9 +363,30 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	public void checkoutFormWasUpdated() {
 		if (isCheckoutFormComplete()) {
-			animateInSlideToPurchase(true);
+			if (PointOfSale.getPointOfSale(getContext()).requiresRulesRestrictionsCheckbox() && !acceptTermsWidget
+				.getVm().getAcceptedTermsObservable().getValue()) {
+				acceptTermsWidget.getVm().getAcceptedTermsObservable().subscribe(new Observer<Boolean>() {
+					@Override
+					public void onCompleted() {
+					}
+
+					@Override
+					public void onError(Throwable e) {
+					}
+
+					@Override
+					public void onNext(Boolean b) {
+						animateInSlideToPurchase(true);
+					}
+				});
+				acceptTermsWidget.setVisibility(VISIBLE);
+			}
+			else {
+				animateInSlideToPurchase(true);
+			}
 		}
 		else {
+			acceptTermsWidget.setVisibility(INVISIBLE);
 			animateInSlideToPurchase(false);
 		}
 	}

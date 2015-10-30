@@ -48,6 +48,7 @@
         <item name="skin_lxErrorNoResultsText">@string/lx_error_current_location_no_results</item>
         <item name="skin_lxErrorCurrentLocationText">@string/error_lx_current_location_search_message</item>
         <item name="skin_lxErrorWidgetDrawable">@drawable/error_lx</item>
+        <item name="skin_rippleDrawable">@drawable/lx_button_ripple</item>
     </style>
 
     <style name="V2.Theme.LX.Transport" parent="V2.Theme.LX">

@@ -34,6 +34,7 @@
         <item name="skin_hotelFilterBackground">@color/hotel_filter_background_color</item>
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_hotels</item>
         <item name="skin_errorWidgetEditButtonStyle">@style/HotelButton</item>
+        <item name="skin_rippleDrawable">@drawable/hotel_select_room_ripple</item>
     </style>
 
     <!--
