@@ -325,11 +325,13 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		CurrencyUtils.initMap(this);
 		startupTimer.addSplit("Currency Utils init");
 
-		AbacusEvaluateQuery query = new AbacusEvaluateQuery(generateAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
-		query.addExperiments(AbacusUtils.getActiveTests());
-		mAppComponent.abacus().downloadBucket(query, abacusSubscriber);
-		startupTimer.addSplit("Abacus Guid init");
-
+		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
+			AbacusEvaluateQuery query = new AbacusEvaluateQuery(generateAbacusGuid(),
+				PointOfSale.getPointOfSale().getTpid(), 0);
+			query.addExperiments(AbacusUtils.getActiveTests());
+			mAppComponent.abacus().downloadBucket(query, abacusSubscriber);
+			startupTimer.addSplit("Abacus Guid init");
+		}
 		startupTimer.dumpToLog();
 	}
 

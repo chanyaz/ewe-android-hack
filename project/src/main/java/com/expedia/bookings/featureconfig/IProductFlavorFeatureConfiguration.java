@@ -116,4 +116,6 @@ public interface IProductFlavorFeatureConfiguration {
 	int getFlightSearchProgressImageResId();
 
 	boolean isFacebookTrackingEnabled();
+
+	boolean isAbacusTestEnabled();
 }

@@ -1581,6 +1581,9 @@ public class OmnitureTracking {
 	}
 
 	private static void trackAbacusTest(ADMS_Measurement s, int testKey) {
+		if (!ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
+			return;
+		}
 		AbacusTest test = Db.getAbacusResponse().testForKey(testKey);
 
 		if (test == null) {
