@@ -11,9 +11,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
+import java.text.DecimalFormat
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 public class HotelDetailViewModelTest {
@@ -41,35 +44,21 @@ public class HotelDetailViewModelTest {
         offer2.hotelRoomResponse = makeHotel()
     }
 
-    private fun makeHotel() : ArrayList<HotelOffersResponse.HotelRoomResponse> {
-        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+    @Test fun strikeThroughPriceShouldShow() {
+        val chargeableRateInfo = offer1.hotelRoomResponse.get(0).rateInfo.chargeableRateInfo
+        val df = DecimalFormat("#")
+        chargeableRateInfo.priceToShowUsers = 110f
+        chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers + 10f
+        vm.hotelOffersSubject.onNext(offer1)
+        assertEquals("$" + df.format(chargeableRateInfo.strikethroughPriceToShowUsers), vm.strikeThroughPriceObservable.value)
+    }
 
-        var hotel = HotelOffersResponse.HotelRoomResponse()
-        var valueAdds = ArrayList<HotelOffersResponse.ValueAdds>()
-        var valueAdd = HotelOffersResponse.ValueAdds()
-        valueAdd.description = "Value Add"
-        valueAdds.add(valueAdd)
-        hotel.valueAdds = valueAdds
-
-        var bedTypes = ArrayList<HotelOffersResponse.BedTypes>()
-        var bedType = HotelOffersResponse.BedTypes()
-        bedType.id = "1"
-        bedType.description = "King Bed"
-        bedTypes.add(bedType)
-        hotel.bedTypes = bedTypes
-
-        hotel.currentAllotment = "1"
-
-        var lowRateInfo = HotelRate()
-        lowRateInfo.discountPercent = -20f
-        lowRateInfo.currencyCode = "USD"
-
-        var rateInfo = HotelOffersResponse.RateInfo()
-        rateInfo.chargeableRateInfo = lowRateInfo
-        hotel.rateInfo = rateInfo
-
-        rooms.add(hotel)
-        return rooms
+    @Test fun strikeThroughPriceShouldNotShow() {
+        val chargeableRateInfo = offer1.hotelRoomResponse.get(0).rateInfo.chargeableRateInfo
+        chargeableRateInfo.priceToShowUsers = 110f
+        chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers - 10f
+        vm.hotelOffersSubject.onNext(offer1)
+        assertNull(vm.strikeThroughPriceObservable.value)
     }
 
     @Test fun reviewsClicking() {
@@ -102,5 +91,36 @@ public class HotelDetailViewModelTest {
         testSub.awaitTerminalEvent(10, TimeUnit.SECONDS)
         testSub.assertCompleted()
         testSub.assertReceivedOnNext(expected)
+    }
+
+    private fun makeHotel() : ArrayList<HotelOffersResponse.HotelRoomResponse> {
+        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+
+        var hotel = HotelOffersResponse.HotelRoomResponse()
+        var valueAdds = ArrayList<HotelOffersResponse.ValueAdds>()
+        var valueAdd = HotelOffersResponse.ValueAdds()
+        valueAdd.description = "Value Add"
+        valueAdds.add(valueAdd)
+        hotel.valueAdds = valueAdds
+
+        var bedTypes = ArrayList<HotelOffersResponse.BedTypes>()
+        var bedType = HotelOffersResponse.BedTypes()
+        bedType.id = "1"
+        bedType.description = "King Bed"
+        bedTypes.add(bedType)
+        hotel.bedTypes = bedTypes
+
+        hotel.currentAllotment = "1"
+
+        var lowRateInfo = HotelRate()
+        lowRateInfo.discountPercent = -20f
+        lowRateInfo.currencyCode = "USD"
+
+        var rateInfo = HotelOffersResponse.RateInfo()
+        rateInfo.chargeableRateInfo = lowRateInfo
+        hotel.rateInfo = rateInfo
+
+        rooms.add(hotel)
+        return rooms
     }
 }
