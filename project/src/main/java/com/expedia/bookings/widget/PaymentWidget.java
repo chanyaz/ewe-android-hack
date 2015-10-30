@@ -560,7 +560,9 @@ public class PaymentWidget extends ExpandableCardView {
 	}
 
 	private boolean shouldShowSaveDialog() {
-		return lineOfBusiness == LineOfBusiness.HOTELSV2 && User.isLoggedIn(getContext()) && !sectionBillingInfo.getBillingInfo().getSaveCardToExpediaAccount() && workingBillingInfoChanged();
+		return lineOfBusiness == LineOfBusiness.HOTELSV2 && User.isLoggedIn(getContext()) && !sectionBillingInfo
+			.getBillingInfo().getSaveCardToExpediaAccount() && workingBillingInfoChanged()
+			&& Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() == null;
 	}
 
 	private void showSaveBillingInfoDialog() {
