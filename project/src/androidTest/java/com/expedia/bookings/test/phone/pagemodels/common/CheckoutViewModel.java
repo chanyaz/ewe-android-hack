@@ -214,5 +214,6 @@ public class CheckoutViewModel {
 	public static void waitForCheckout() {
 		Matcher<View> displayedAndFilled = allOf(isDisplayed(), CustomMatchers.withAtLeastChildCount(1));
 		onView(withId(R.id.summary_container)).perform(ViewActions.waitFor(displayedAndFilled, 10, TimeUnit.SECONDS));
+		onView(withId(R.id.hint_container)).perform(ViewActions.waitForViewToDisplay());
 	}
 }

@@ -86,12 +86,13 @@ public class Common {
 	}
 
 	public static void delay(int seconds) {
-		seconds = seconds * 1000;
-		try {
-			Thread.sleep(seconds);
-		}
-		catch (InterruptedException e) {
-			//ignore
+		while (seconds-- > 0) {
+			try {
+				Thread.sleep(1000);
+			}
+			catch (InterruptedException e) {
+				//ignore
+			}
 		}
 	}
 }

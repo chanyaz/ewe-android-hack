@@ -7,9 +7,9 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.app.Activity;
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,8 +21,8 @@ import com.expedia.bookings.activity.RestrictedProfileActivity;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.tracking.AdTracker;
+import com.expedia.bookings.utils.Strings;
 import com.facebook.Session;
 import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
@@ -38,17 +38,14 @@ public class User implements JSONable {
 
 	static final String SAVED_INFO_FILENAME = "user.dat";
 
-	// For backwards compatibility - not being used in the future
-	static final String IS_USER_LOGGED_IN_FILE = "is_user_logged_in.boolean";
-
 	// Kind of pointless when this is just stored as a static field, but at least protects
 	// against someone getting the plaintext file but not the app itself.
 	static final String PASSWORD = "M2MBDdEjbFTXTgNynBY2uvMPcUd8g3k9";
 
 	private Traveler mPrimaryTraveler;
-	private List<Traveler> mAssociatedTravelers = new ArrayList<Traveler>();
+	private List<Traveler> mAssociatedTravelers = new ArrayList<>();
 
-	private List<StoredCreditCard> mStoredCreditCards = new ArrayList<StoredCreditCard>();
+	private List<StoredCreditCard> mStoredCreditCards = new ArrayList<>();
 
 	private static final String[] ADDRESS_LINE_KEYS = new String[] { "firstAddressLine", "secondAddressLine" };
 
@@ -84,10 +81,6 @@ public class User implements JSONable {
 		return mAssociatedTravelers;
 	}
 
-	public boolean isRewardsUser() {
-		return mPrimaryTraveler != null && mPrimaryTraveler.isLoyaltyMember();
-	}
-
 	public String getTuidString() {
 		if (this.getPrimaryTraveler() != null && this.getPrimaryTraveler().getTuid() != null
 				&& this.getPrimaryTraveler().getTuid() >= 0) {
@@ -113,40 +106,27 @@ public class User implements JSONable {
 	 * @return true if a user is logged in, false otherwise.
 	 */
 	public static boolean isLoggedIn(Context context) {
-		if (isLoggedInOnDisk(context)) {
-			return isLoggedInToAccountManager(context);
-		}
-		return false;
+		return isLoggedInOnDisk(context) && isLoggedInToAccountManager(context);
 	}
 
 	/**
 	 * Does the app think we are logged in (regardless of AccountManager state)?
-	 * 
+	 *
 	 * NOTE: This is not for general use, please use User.isLoggedIn();
-	 * 
+	 *
 	 * @param context
 	 * @return
 	 */
 	public static boolean isLoggedInOnDisk(Context context) {
-		boolean isLoggedIn = false;
-		File file;
-
-		// Existence of the saved info indicates being logged in
-		file = context.getFileStreamPath(SAVED_INFO_FILENAME);
-		isLoggedIn |= file != null && file.exists();
-
-		// Backwards compatible method for checking logged in state
-		file = context.getFileStreamPath(IS_USER_LOGGED_IN_FILE);
-		isLoggedIn |= file != null && file.exists();
-
-		return isLoggedIn;
+		File file = context.getFileStreamPath(SAVED_INFO_FILENAME);
+		return file != null && file.exists();
 	}
 
 	/**
 	 * Does the account manager think we are logged in (regardless of App state)?
-	 * 
+	 *
 	 * NOTE: This is not for general use, please use User.isLoggedIn();
-	 * 
+	 *
 	 * @param context
 	 * @return
 	 */
@@ -165,7 +145,7 @@ public class User implements JSONable {
 
 	/**
 	 * Log out the current user and clean up user related state
-	 * 
+	 *
 	 * @param context
 	 */
 	public static void signOut(Context context) {
@@ -186,7 +166,7 @@ public class User implements JSONable {
 
 	/**
 	 * Clear all User state that indicates the user is in some way logged in.
-	 * 
+	 *
 	 * @param context
 	 */
 	private static void performSignOutCriticalActions(Context context) {
@@ -219,7 +199,7 @@ public class User implements JSONable {
 
 	/**
 	 * Clear all (global) data that depends on the User being logged in.
-	 * 
+	 *
 	 * @param context
 	 */
 	private static void performSignOutCleanupActions(Context context) {
@@ -274,7 +254,7 @@ public class User implements JSONable {
 			if (accounts == null || accounts.length == 0) {
 				manager.addAccount(accountType, tokenType, null, options, activityContext, null, null);
 			}
-			else if (accounts != null && accounts.length >= 1) {
+			else if (accounts.length >= 1) {
 				Account activeAccount = accounts[0];
 				if (activeAccount != null) {
 					manager.getAuthToken(activeAccount, accountType, options, activityContext, null, null);
@@ -292,23 +272,21 @@ public class User implements JSONable {
 	/**
 	 * This will remove the Expedia account from AccountManager, and will invalidate the token
 	 * for the supplied user.
-	 * 
+	 *
 	 * @param context
 	 */
 	private static void removeUserFromAccountManager(Context context, User usr) {
-		if (context != null) {
-			String accountType = context.getString(R.string.expedia_account_type_identifier);
-			String contentAuthority = context.getString(R.string.authority_account_sync);
-			AccountManager manager = AccountManager.get(context);
-			Account[] accounts = manager.getAccountsByType(accountType);
-			if (accounts.length > 0) {
-				Account account = accounts[0];
-				ContentResolver.setIsSyncable(account, contentAuthority, 0);
-				manager.removeAccount(account, null, null);
-			}
-			if (usr != null) {
-				manager.invalidateAuthToken(accountType, usr.getTuidString());
-			}
+		String accountType = context.getString(R.string.expedia_account_type_identifier);
+		String contentAuthority = context.getString(R.string.authority_account_sync);
+		AccountManager manager = AccountManager.get(context);
+		Account[] accounts = manager.getAccountsByType(accountType);
+		if (accounts.length > 0) {
+			Account account = accounts[0];
+			ContentResolver.setIsSyncable(account, contentAuthority, 0);
+			manager.removeAccount(account, null, null);
+		}
+		if (usr != null) {
+			manager.invalidateAuthToken(accountType, usr.getTuidString());
 		}
 	}
 
@@ -327,8 +305,8 @@ public class User implements JSONable {
 			//We are adding a new user to account manager, so we clobber ALL old accountmanager expedia accounts.
 			Account[] accounts = manager.getAccountsByType(accountType);
 			if (accounts != null && accounts.length > 0) {
-				for (int i = 0; i < accounts.length; i++) {
-					manager.removeAccount(accounts[i], null, null);
+				for (Account account : accounts) {
+					manager.removeAccount(account, null, null);
 				}
 			}
 
@@ -398,21 +376,8 @@ public class User implements JSONable {
 	 * @return true if successfully deleted
 	 */
 	private static boolean delete(Context context) {
-		boolean success = true;
-
-		// Backwards compatible delete
-		File fOld = context.getFileStreamPath(IS_USER_LOGGED_IN_FILE);
-		if (fOld.exists()) {
-			success &= fOld.delete();
-		}
-
-		// Check that the saved user file exists before trying to delete
-		File f = context.getFileStreamPath(SAVED_INFO_FILENAME);
-		if (f.exists()) {
-			success &= f.delete();
-		}
-
-		return success;
+		File file = context.getFileStreamPath(SAVED_INFO_FILENAME);
+		return file.exists() && file.delete();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -467,7 +432,7 @@ public class User implements JSONable {
 				loc.setPostalCode(addr.optString("postalCode", null));
 				loc.setCountryCode(addr.optString("countryAlpha3Code", null));
 
-				List<String> addrLines = new ArrayList<String>();
+				List<String> addrLines = new ArrayList<>();
 				for (String key : ADDRESS_LINE_KEYS) {
 					String line = addr.optString(key, null);
 					if (line != null) {
