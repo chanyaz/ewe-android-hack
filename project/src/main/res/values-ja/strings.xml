@@ -211,6 +211,8 @@
     <string name="checkout_hotelsv2_enter_payment_details_line1">支払い情報の詳細</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">支払いタイプを選択してください</string>
+    <!-- Label to indicate that the user has selected a stored credit card -->
+    <string name="checkout_payment_line2_storedcc">保存済みのクレジット カード</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">スライドして予約</string>
@@ -617,7 +619,7 @@
     <!-- LX search error -->
     <string name="error_lx_search_message">検索結果はありません。条件を変更して再検索してください。</string>
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">現在地を特定できないため、周辺のアクティビティを検索できませんでした。</string> 
+    <string name="error_lx_current_location_search_message">現在地を特定できないため、周辺のオプショナル ツアーを検索できませんでした。</string> 
     <!-- GT current location search error -->
     <string name="error_gt_current_location_search_message">現在地を特定できないため、周辺の交通機関を検索できませんでした。</string> 
     <!-- Text for generic error toolbar-->
@@ -653,7 +655,7 @@
     <!-- Card brand not supported (e.g. "Visa not accepted") -->
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s利用不可</string>
     <!-- LX Error Activity Price Changed -->
-    <string name="lx_error_price_changed">申し訳ありません。このアクティビティの料金が変更されました。もう一度ご予約ください。</string>
+    <string name="lx_error_price_changed">申し訳ありません。このオプショナル ツアーの料金が変更されました。もう一度ご予約ください。</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">チケット送信先 :</string>
     <!-- LX reservation confirmation text -->
@@ -665,7 +667,7 @@
     <!-- Current location failed toolbar text -->
     <string name="lx_error_current_location_toolbar_text">もう一度お試しください</string>
     <!-- LX No Activities for Current location -->
-    <string name="lx_error_current_location_no_results">周辺のアクティビティはありません。条件を変更して再検索してください。</string>
+    <string name="lx_error_current_location_no_results">周辺のオプショナル ツアーはありません。条件を変更して再検索してください。</string>
     <!-- LX No Activities for Current location -->
     <string name="gt_error_current_location_no_results">周辺の交通機関を検索できませんでした。条件を変更して再検索してください。</string>
 
@@ -1032,7 +1034,7 @@
     <!-- Notification text for car drop off -->
     <string name="Your_rental_is_due_returned">お使いのレンタカーを 2 時間以内に返却してください。</string>
     <!-- Notification title for activity start -->
-    <string name="Activity_starting_soon">アクティビティーがまもなく開始します</string>
+    <string name="Activity_starting_soon">オプショナル ツアーがまもなく開始します</string>
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">%sのチケットは明日から使用できます。</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
@@ -1118,9 +1120,9 @@
     <!-- Default (fallback) itin card title for CRUISE -->
     <string name="Cruise">クルーズ</string>
     <!-- Default (fallback) itin card title for ACTIVITY -->
-    <string name="Activity">アクティビティ</string>
+    <string name="Activity">オプショナル ツアー</string>
     <!-- Activity information -->
-    <string name="activity_information">アクティビティ情報</string>
+    <string name="activity_information">オプショナル ツアー情報</string>
     <!-- Depart (TZ) template -->
     <string name="depart_tz_TEMPLATE">往路 (行き) 出発日 (%1$s)</string>
     <!-- Arrive (TZ) template -->
@@ -1280,7 +1282,7 @@
     <!-- Button label to search for an activity in the hotel city. %1$s is the city, e.g. "Washington, DC" -->
     <string name="add_lx_TEMPLATE">%1$s の現地ツアーを検索</string>
     <!-- Button label to search for an activity in the hotel city. Used only when we don't know the destination city. -->
-    <string name="add_lx_fallback">現地オプショナルツアーを検索</string>
+    <string name="add_lx_fallback">現地オプショナル ツアーを検索</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -1357,9 +1359,9 @@
     <string name="car_category_result_oversize">大型</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア 自動車</string>
-    <string name="car_type_three_door">3 ドア 自動車</string>
-    <string name="car_type_four_door">4 ドア 自動車</string>
+    <string name="car_type_two_door">2 ドア自動車</string>
+    <string name="car_type_three_door">3 ドア自動車</string>
+    <string name="car_type_four_door">4 ドア自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -1419,7 +1421,7 @@
     <string name="itin_card_details_bed_type">ベッドタイプ</string>
     <string name="toast_copied_to_clipboard">クリップボードにコピーしました。</string>
     <string name="itin_card_details_reload">情報をリロード</string>
-    <string name="itin_card_details_reload_activity">アクティビティ情報をリロード</string>
+    <string name="itin_card_details_reload_activity">オプショナル ツアー情報をリロード</string>
     <string name="itin_card_details_reload_car">レンタカー情報をリロード</string>
     <string name="itin_card_details_reload_flight">フライト情報をリロード</string>
     <string name="itin_card_details_reload_hotel">ホテル情報をリロード</string>
@@ -1820,6 +1822,8 @@
     <string name="loading_flight_details">料金の変更を確認中…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">料金が %1$s に変更されました</string>
+    <!-- Price dropped from -->
+    <string name="price_dropped_from_TEMPLATE">料金が %1$s から減額されました</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">この航空会社では、このクレジットカードをご利用いただく場合は手数料として &lt;b&gt;%1$s&lt;/b&gt; (合計料金に含む) が課金されます。</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
@@ -2385,6 +2389,8 @@
     <string name="See_back_of_card">クレジットカードの裏面をご参照ください</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">クレジットカードの表面をご参照ください</string>
+    <!-- Hint on CVV widget title for where to look for CVV code -->
+    <string name="cvv_enter_security_code">CVV 番号を入力</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -2701,15 +2707,15 @@
     <!-- Extended parking amenity -->
     <string name="AmenityExtendedParking">パーキング延長利用</string>
     <!-- Free parking amenity -->
-    <string name="AmenityFreeParking">無料パーキング</string>
+    <string name="AmenityFreeParking">パーキング無料</string>
 
     <!-- Hotel Filter Amenities -->
     <!-- Free internet -->
-    <string name="FilterFreeInternet">無料インターネット</string>
+    <string name="FilterFreeInternet">インターネット無料</string>
     <!-- Free breakfast -->
-    <string name="FilterFreeBreakfast">朝食付き</string>
+    <string name="FilterFreeBreakfast">朝食無料</string>
     <!-- Free airport shuttle amenity -->
-    <string name="FilterFreeAirportShuttle">無料空港送迎シャトル</string>
+    <string name="FilterFreeAirportShuttle">空港送迎シャトル無料</string>
 
 
     <!-- User Reviews list strings -->
@@ -3764,4 +3770,7 @@
     <string name="star_rating">星評価</string>
     <string name="show_more">すべて表示</string>
     <string name="show_less">一部のみ表示</string>
+
+    <!-- Hotel V2 Coupon related -->
+    <string name="applied_coupon_message">クーポンが適用されました : %1$s お得です !</string>
 </resources>

@@ -11,18 +11,26 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelErrorPresenter
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.util.endlessObserver
-import com.expedia.vm.*
+import com.expedia.vm.GeocodeSearchModel
+import com.expedia.vm.HotelDetailViewModel
+import com.expedia.vm.HotelErrorViewModel
+import com.expedia.vm.HotelMapViewModel
+import com.expedia.vm.HotelResultsViewModel
+import com.expedia.vm.HotelReviewsViewModel
+import com.expedia.vm.HotelSearchViewModel
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.exceptions.OnErrorNotImplementedException
@@ -146,6 +154,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
         resultsPresenter.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
         resultsPresenter.viewmodel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+        resultsPresenter.viewmodel.showHotelSearchViewObservable.subscribe { show(searchPresenter) }
 
         resultsPresenter.searchOverlaySubject.subscribe(searchResultsOverlayObserver)
 
@@ -159,12 +168,25 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             checkoutDialog.dismiss()
             show(errorPresenter)
         }
+        checkoutPresenter.hotelCheckoutViewModel.noResponseObservable.subscribe {
+            val retryFun = fun() { checkoutPresenter.hotelCheckoutWidget.slideAllTheWayObservable.onNext(Unit) }
+            val cancelFun = fun() { show(detailPresenter) }
+            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+        }
         checkoutPresenter.hotelCheckoutViewModel.checkoutParams.subscribe {
             checkoutDialog.show()
+        }
+        checkoutPresenter.hotelCheckoutWidget.slideAllTheWayObservable.subscribe {
+            checkoutDialog.hide()
         }
 
         checkoutPresenter.hotelCheckoutWidget.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
         checkoutPresenter.hotelCheckoutWidget.viewmodel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+        checkoutPresenter.hotelCheckoutWidget.viewmodel.noResponseObservable.subscribe {
+            val retryFun = fun() { checkoutPresenter.hotelCheckoutWidget.doCreateTrip() }
+            val cancelFun = fun() { show(detailPresenter) }
+            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+        }
 
         checkoutPresenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(checkoutPresenter.hotelCheckoutWidget.createTripResponseListener)
         checkoutPresenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(endlessObserver { createTripResponse ->
@@ -189,6 +211,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            loadingOverlay.visibility = View.GONE
             searchPresenter.setVisibility(View.VISIBLE)
             resultsPresenter.setVisibility(View.VISIBLE)
             searchPresenter.animationStart(!forward)
@@ -313,6 +336,11 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private val resultsToError = ScaleTransition(this, HotelResultsPresenter::class.java, HotelErrorPresenter::class.java)
 
     private val detailsToCheckout = object: ScaleTransition(this, HotelDetailPresenter::class.java, HotelCheckoutPresenter::class.java) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            checkoutDialog.hide()
+        }
+
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             if (!forward) {
@@ -392,7 +420,22 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(hotelSearchParams)
 
         val subject = PublishSubject.create<HotelOffersResponse>()
-        subject.subscribe { downloadListener.onNext(it) }
+        subject.subscribe(object: Observer<HotelOffersResponse> {
+            override fun onNext(t: HotelOffersResponse?) {
+                downloadListener.onNext(t)
+            }
+
+            override fun onCompleted() {}
+
+            override fun onError(e: Throwable?) {
+                if (RetrofitUtils.isNetworkError(e)) {
+                    val retryFun = fun() { showDetails(hotelId) }
+                    val cancelFun = fun() { show(searchPresenter) }
+                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                }
+            }
+
+        })
         hotelServices.details(hotelSearchParams, hotelId, subject)
     }
 

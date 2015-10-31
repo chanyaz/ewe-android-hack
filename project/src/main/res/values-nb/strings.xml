@@ -211,6 +211,8 @@
     <string name="checkout_hotelsv2_enter_payment_details_line1">Betalingsdetaljer</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Velg betalingstype</string>
+    <!-- Label to indicate that the user has selected a stored credit card -->
+    <string name="checkout_payment_line2_storedcc">Lagret kort</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Sveip for å bestille</string>
@@ -1819,7 +1821,9 @@
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">Sjekker eventuelle prisendringer…</string>
     <!-- Price changed from -->
-    <string name="price_changed_from_TEMPLATE">Pris endret fra %1$s</string>
+    <string name="price_changed_from_TEMPLATE">Prisen er endret fra %1$s</string>
+    <!-- Price dropped from -->
+    <string name="price_dropped_from_TEMPLATE">Prisen har gått ned fra %1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">Dette flyselskapet krever et gebyr på &lt;b&gt;%1$s&lt;/b&gt; (inkludert i det totale beløpet) for bruk av dette kortet.</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
@@ -2385,6 +2389,8 @@
     <string name="See_back_of_card">Se baksiden av kortet</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">Se foran på kortet</string>
+    <!-- Hint on CVV widget title for where to look for CVV code -->
+    <string name="cvv_enter_security_code">Angi sikkerhetskode</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -3764,4 +3770,7 @@
     <string name="star_rating">Stjernerangering</string>
     <string name="show_more">VIS MER</string>
     <string name="show_less">VIS MINDRE</string>
+
+    <!-- Hotel V2 Coupon related -->
+    <string name="applied_coupon_message">Kupongen er lagt til: Du sparer %1$s!</string>
 </resources>

@@ -211,6 +211,8 @@
     <string name="checkout_hotelsv2_enter_payment_details_line1">Détails du paiement</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Sélectionnez le type de paiement</string>
+    <!-- Label to indicate that the user has selected a stored credit card -->
+    <string name="checkout_payment_line2_storedcc">Carte de crédit sauvegardée</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Glisser pour réserver</string>
@@ -229,7 +231,7 @@
     <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">Toujours là? Votre session est expirée. Veuillez recommencer votre recherche.</string>
     <!-- Shown to user when they try to book something already booked in new Hotels -->
-    <string name="reservation_already_exists_new_hotels">Cette réservation est terminée. Veuillez consulter vos voyages ou vos courriels.</string>
+    <string name="reservation_already_exists_new_hotels">Cette réservation est terminée. Veuillez vérifier vos voyages ou vos courriels.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">Hum. Il semble que vous avez déjà réservé ce voyage. Veuillez vérifier vos voyages ou vos courriels.</string>
     <!-- Show to user when the price of a car they are trying to book has changed -->
@@ -1820,6 +1822,8 @@
     <string name="loading_flight_details">Vérification des changements de prix…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Prix modifié de %1$s</string>
+    <!-- Price dropped from -->
+    <string name="price_dropped_from_TEMPLATE">Le prix a chuté de %1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">Cette compagnie aérienne applique des frais de &lt;b&gt;%1$s&lt;/b&gt; (compris dans le total) pour l\&apos;utilisation de cette carte.</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
@@ -2362,7 +2366,7 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
     <string name="zero">0</string>
-    <string name="book">Livre</string>
+    <string name="book">Réserver</string>
 
     <!-- Highlight view stuff -->
     <!-- Asks for a security code (CVV code or credit card code) for a card.  %s is the card name, E.g., "Security code for Dan's Platinum VISA" -->
@@ -2385,6 +2389,8 @@
     <string name="See_back_of_card">Voir le verso de la carte</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">Voir le recto de la carte</string>
+    <!-- Hint on CVV widget title for where to look for CVV code -->
+    <string name="cvv_enter_security_code">Entrer le code de sécurité</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -2611,7 +2617,7 @@
     <!-- Label for button that lets the user complete the booking through the normal flow -->
     <string name="book_now">Réserver maintenant</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
-    <string name="book_now_ab_test">Sélectionner une chambre</string>
+    <string name="book_now_ab_test">Choisir</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">Réserver par téléphone</string>
     <!-- Hotel Details Fragment -->
@@ -2639,7 +2645,7 @@
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">sur 5 – évaluation de client</string>
     <!-- new material Hotel results cell discount percentage -->
-    <string name="hotel_discount_percent_Template">{discount}%</string>
+    <string name="hotel_discount_percent_Template">{discount} %</string>
 
     <!-- Amenity strings -->
     <!-- Label to show amenities -->
@@ -2835,7 +2841,7 @@
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
     <string name="common_value_add_template">Toutes les chambres comprennent %s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
-    <string name="select_a_room_instruction">Sélectionner une chambre</string>
+    <string name="select_a_room_instruction">Choisir</string>
     <!-- The text we use when the search date it tonight -->
     <string name="Tonight">Ce soir</string>
     <!-- The text we use when the search date it tonight -->
@@ -2940,7 +2946,7 @@
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_promo_code">Entrez le code de votre bon de réduction ou promotion</string>
     <!-- Title on dialog imploring users to enter coupons -->
-    <string name="enter_coupon_code">Entrer le code du bon de réduction</string>
+    <string name="enter_coupon_code">Entrer le bon de réduction</string>
     <!-- Message shown when applying coupon (in progress) -->
     <string name="applying_coupon">Application du bon de réduction…</string>
     <!-- Message shown when a coupon was successfully applied -->
@@ -3764,4 +3770,7 @@
     <string name="star_rating">Nombre d\&apos;étoiles</string>
     <string name="show_more">AFFICHER PLUS</string>
     <string name="show_less">AFFICHER MOINS</string>
+
+    <!-- Hotel V2 Coupon related -->
+    <string name="applied_coupon_message">Bon utilisé : vous avez économisé %1$s!</string>
 </resources>

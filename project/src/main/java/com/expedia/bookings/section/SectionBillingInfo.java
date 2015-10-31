@@ -705,12 +705,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected void onHasFieldAndData(EditText field, BillingInfo data) {
-			if (!TextUtils.isEmpty(data.getFirstName())) {
-				field.setText(data.getFirstName());
-			}
-			else {
-				field.setText("");
-			}
+			String postalCode = (data.getLocation() != null) ? data.getLocation().getPostalCode() : "";
+			field.setText(!TextUtils.isEmpty(postalCode) ? postalCode : "");
 		}
 
 		@Override

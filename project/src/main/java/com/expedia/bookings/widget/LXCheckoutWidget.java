@@ -95,6 +95,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		slideWidget.resetSlider();
 
 		sliderTotalText.setText(getResources().getString(R.string.your_card_will_be_charged_TEMPLATE, newPrice.getFormattedMoney()));
+		acceptTermsWidget.getVm().resetAcceptedTerms();
 
 		mainContactInfoCardView.setExpanded(false);
 		paymentInfoCardView.setExpanded(false);

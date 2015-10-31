@@ -211,6 +211,8 @@
     <string name="checkout_hotelsv2_enter_payment_details_line1">付款詳細資訊</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">選擇付款類型</string>
+    <!-- Label to indicate that the user has selected a stored credit card -->
+    <string name="checkout_payment_line2_storedcc">已儲存的信用卡</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">滑動以預訂</string>
@@ -1820,6 +1822,8 @@
     <string name="loading_flight_details">正在查詢價格變動…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">變更前價格：%1$s</string>
+    <!-- Price dropped from -->
+    <string name="price_dropped_from_TEMPLATE">降價前價格：%1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">使用此信用卡，航空公司將收取 &lt;b&gt;%1$s&lt;/b&gt; 的費用 (已包含在總價中)。</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
@@ -2343,7 +2347,7 @@
     <!-- Button label imploring users to pick a new hotel room due to unavailability -->
     <string name="pick_new_hotel">選擇新的飯店</string>
     <!-- Text for hotel error unknown -->
-    <string name="error_hotel_unhandled">很抱歉，我們目前無法處理您的訂單。請再試一次。</string>
+    <string name="error_hotel_unhandled">很抱歉，我們目前無法處理您的預訂。請再試一次。</string>
     <!-- Text for hotel error toolbar duplicate trip-->
     <string name="hotel_duplicate_trip_text">行程重複</string>
     <!-- Text for hotel error toolbar payment failed-->
@@ -2385,6 +2389,8 @@
     <string name="See_back_of_card">請查看卡片背面</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">請查看卡片正面</string>
+    <!-- Hint on CVV widget title for where to look for CVV code -->
+    <string name="cvv_enter_security_code">輸入信用卡安全碼</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -2752,7 +2758,7 @@
         <item quantity="one">查看 %s 則評語</item>
         <item quantity="two">查看 %s 則評語</item>
         <item quantity="many">查看 %s 則評語</item>
-        <item quantity="other">查看 %s 則評論</item>
+        <item quantity="other">查看 %s 則評語</item>
     </plurals>
 
     <string name="zero_reviews">0 則評論</string>
@@ -3764,4 +3770,7 @@
     <string name="star_rating">星級評等</string>
     <string name="show_more">顯示更多</string>
     <string name="show_less">隱藏部分內容</string>
+
+    <!-- Hotel V2 Coupon related -->
+    <string name="applied_coupon_message">已使用優惠券：您省了 %1$s！</string>
 </resources>

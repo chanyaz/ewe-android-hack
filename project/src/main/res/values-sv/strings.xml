@@ -211,6 +211,8 @@
     <string name="checkout_hotelsv2_enter_payment_details_line1">Betalningsuppgifter</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Välj betalningstyp</string>
+    <!-- Label to indicate that the user has selected a stored credit card -->
+    <string name="checkout_payment_line2_storedcc">Sparat kreditkort</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Dra för att boka</string>
@@ -1820,6 +1822,8 @@
     <string name="loading_flight_details">Kollar efter prisändringar</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Pris ändrades från %1$s</string>
+    <!-- Price dropped from -->
+    <string name="price_dropped_from_TEMPLATE">Pris sjönk från %1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">Flygbolaget tar ut en avgift på &lt;b&gt;%1$s&lt;/b&gt; (inkluderas i totalbeloppet) för att använda det här kortet.</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
@@ -2385,6 +2389,8 @@
     <string name="See_back_of_card">Se kortets baksida</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">Se kortets framsida</string>
+    <!-- Hint on CVV widget title for where to look for CVV code -->
+    <string name="cvv_enter_security_code">Ange säkerhetskod</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -3764,4 +3770,7 @@
     <string name="star_rating">Antal stjärnor</string>
     <string name="show_more">VISA MER</string>
     <string name="show_less">VISA MINDRE</string>
+
+    <!-- Hotel V2 Coupon related -->
+    <string name="applied_coupon_message">Kupong tillämpad - du sparade %1$s!</string>
 </resources>

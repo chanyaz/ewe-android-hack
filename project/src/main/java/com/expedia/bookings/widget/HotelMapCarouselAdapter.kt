@@ -77,7 +77,6 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
                 hotelPreviewRating = root.findViewById(R.id.hotel_preview_star_rating) as StarRatingBar
             }
             hotelPreviewRating.visibility = View.VISIBLE
-
         }
 
         public fun bind(viewModel: HotelViewModel) {
@@ -91,7 +90,14 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
             viewModel.hotelNameObservable.subscribeText(hotelPreviewText)
 
             viewModel.hotelPreviewRatingObservable.subscribe {
-                hotelPreviewRating.setRating(it)
+                //show hotel rating if we can show at least half star or circle.
+                if(it >= 0.5f) {
+                    hotelPreviewRating.setRating(it)
+                    hotelPreviewRating.visibility = View.VISIBLE
+                } else {
+                    hotelPreviewRating.visibility = View.GONE
+                }
+
             }
 
             viewModel.hotelStrikeThroughPriceVisibilityObservable.subscribeVisibility(hotelStrikeThroughPrice)

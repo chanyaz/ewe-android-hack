@@ -173,29 +173,4 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     @Subscribe fun onLogin(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccessful()
     }
-
-    override fun checkoutFormWasUpdated() {
-        if (isCheckoutFormComplete) {
-            if (PointOfSale.getPointOfSale(getContext()).requiresRulesRestrictionsCheckbox() && !acceptTermsWidget.vm.acceptedTermsObservable.value) {
-                acceptTermsWidget.vm.acceptedTermsObservable.subscribe(object : Observer<Boolean> {
-                    override fun onCompleted() {
-                    }
-
-                    override fun onError(e: Throwable) {
-                        throw OnErrorNotImplementedException(e)
-                    }
-
-                    override fun onNext(accepted: Boolean) {
-                        animateInSlideToPurchase(true)
-                    }
-                })
-                acceptTermsWidget.visibility = View.VISIBLE
-            } else {
-                animateInSlideToPurchase(true)
-            }
-        } else {
-            acceptTermsWidget.visibility = View.INVISIBLE
-            animateInSlideToPurchase(false)
-        }
-    }
 }

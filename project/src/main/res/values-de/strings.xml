@@ -211,6 +211,8 @@
     <string name="checkout_hotelsv2_enter_payment_details_line1">Zahlungsinformationen</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Bitte wählen Sie eine Zahlungsart aus</string>
+    <!-- Label to indicate that the user has selected a stored credit card -->
+    <string name="checkout_payment_line2_storedcc">Hinterlegte Kreditkarte</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Zum Buchen wischen</string>
@@ -1820,6 +1822,8 @@
     <string name="loading_flight_details">Es wird nach Preisänderungen gesucht…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Der Preis hat sich geändert (jetzt: %1$s)</string>
+    <!-- Price dropped from -->
+    <string name="price_dropped_from_TEMPLATE">Der Preis ist von %1$s gesunken</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">Die Fluglinie berechnet eine Gebühr in Höhe von &lt;b&gt;%1$s&lt;/b&gt; für die Verwendung dieser Karte (im Gesamtpreis enthalten).</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
@@ -2386,6 +2390,8 @@
     <string name="See_back_of_card">Siehe Rückseite der Karte</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">Siehe Vorderseite der Karte</string>
+    <!-- Hint on CVV widget title for where to look for CVV code -->
+    <string name="cvv_enter_security_code">Prüfnummer eingeben</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -3765,4 +3771,7 @@
     <string name="star_rating">Beurteilung</string>
     <string name="show_more">MEHR ANZEIGEN</string>
     <string name="show_less">WENIGER ANZEIGEN</string>
+
+    <!-- Hotel V2 Coupon related -->
+    <string name="applied_coupon_message">Gutschein eingelöst: Sie sparen %1$s!</string>
 </resources>

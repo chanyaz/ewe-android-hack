@@ -211,6 +211,8 @@
     <string name="checkout_hotelsv2_enter_payment_details_line1">Detalhes de pagamento</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Selecione um método de pagamento</string>
+    <!-- Label to indicate that the user has selected a stored credit card -->
+    <string name="checkout_payment_line2_storedcc">Cartão de crédito salvo</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Deslize para reservar</string>
@@ -1820,6 +1822,8 @@
     <string name="loading_flight_details">Verificando alteração de preço…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">O preço mudou para %1$s</string>
+    <!-- Price dropped from -->
+    <string name="price_dropped_from_TEMPLATE">O preço caiu de %1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">Esta companhia aérea cobra uma taxa de &lt;b&gt;%1$s&lt;/b&gt; (incluída no total) para a utilização deste cartão.</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
@@ -2385,6 +2389,8 @@
     <string name="See_back_of_card">Ver verso do cartão</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">Ver frente do cartão</string>
+    <!-- Hint on CVV widget title for where to look for CVV code -->
+    <string name="cvv_enter_security_code">Insira o CVV</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -3764,4 +3770,7 @@
     <string name="star_rating">Classificação por estrelas</string>
     <string name="show_more">MOSTRAR MAIS</string>
     <string name="show_less">MOSTRAR MENOS</string>
+
+    <!-- Hotel V2 Coupon related -->
+    <string name="applied_coupon_message">Cupom utilizado: você economizou %1$s!</string>
 </resources>

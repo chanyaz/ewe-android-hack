@@ -211,6 +211,8 @@
     <string name="checkout_hotelsv2_enter_payment_details_line1">Payment Details</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Select Payment Type</string>
+    <!-- Label to indicate that the user has selected a stored credit card -->
+    <string name="checkout_payment_line2_storedcc">Stored Credit Card</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Slide to reserve</string>
@@ -1820,6 +1822,8 @@
     <string name="loading_flight_details">Checking for price changes…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">Price changed from %1$s</string>
+    <!-- Price dropped from -->
+    <string name="price_dropped_from_TEMPLATE">Price dropped from %1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">This airline charges a fee of &lt;b&gt;%1$s&lt;/b&gt; (included in the total) to use this card.</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
@@ -2385,6 +2389,8 @@
     <string name="See_back_of_card">See back of card</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">See front of card</string>
+    <!-- Hint on CVV widget title for where to look for CVV code -->
+    <string name="cvv_enter_security_code">Enter Security Code</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -3764,4 +3770,7 @@
     <string name="star_rating">Star Rating</string>
     <string name="show_more">SHOW MORE</string>
     <string name="show_less">SHOW LESS</string>
+
+    <!-- Hotel V2 Coupon related -->
+    <string name="applied_coupon_message">Coupon applied: You saved %1$s!</string>
 </resources>

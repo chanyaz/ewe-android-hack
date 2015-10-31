@@ -10,10 +10,12 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.widget.createHotelMarkerIcon
 import com.expedia.util.endlessObserver
@@ -21,27 +23,24 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.squareup.phrase.Phrase
-import rx.Observable
+import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices) {
 
-
     // Inputs
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
     val locationParamsSubject = PublishSubject.create<SuggestionV4>()
 
     // Outputs
-    private val hotelDownloadsObservable = PublishSubject.create<Observable<HotelSearchResponse>>()
-    private val hotelDownloadResultsObservable = Observable.concat(hotelDownloadsObservable)
     val hotelResultsObservable = BehaviorSubject.create<HotelSearchResponse>()
     val mapResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val errorObservable = PublishSubject.create<ApiError>()
-
     val titleSubject = BehaviorSubject.create<String>()
     val subtitleSubject = PublishSubject.create<CharSequence>()
+    val showHotelSearchViewObservable = PublishSubject.create<Unit>()
 
     init {
         paramsSubject.subscribe(endlessObserver { params ->
@@ -59,25 +58,6 @@ public class HotelResultsViewModel(private val context: Context, private val hot
                     .build()
             doSearch(params)
         })
-
-        hotelDownloadResultsObservable.subscribe {
-            if (it.hasErrors()) {
-                errorObservable.onNext(it.firstError)
-            } else if (it.hotelList.isEmpty()) {
-                var error: ApiError
-                if (titleSubject.value == context.getString(R.string.visible_map_area)) {
-                    error = ApiError(ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS)
-                } else {
-                    error = ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS)
-                }
-                errorObservable.onNext(error)
-            } else if (titleSubject.value == context.getString(R.string.visible_map_area)) {
-                mapResultsObservable.onNext(it)
-            } else {
-                hotelResultsObservable.onNext(it)
-                HotelV2Tracking().trackHotelsV2Search(paramsSubject.value, it)
-            }
-        }
 
         hotelResultsObservable.subscribe {
             AdImpressionTracking.trackAdClickOrImpression(context, it.pageViewBeaconPixelUrl, null)
@@ -97,7 +77,36 @@ public class HotelResultsViewModel(private val context: Context, private val hot
                 .put("guests", StrUtils.formatGuestString(context, params.guests()))
                 .format())
 
-        hotelDownloadsObservable.onNext(hotelServices.regionSearch(params))
+        hotelServices.regionSearch(params).subscribe(object: Observer<HotelSearchResponse> {
+            override fun onNext(it: HotelSearchResponse) {
+                if (it.hasErrors()) {
+                    errorObservable.onNext(it.firstError)
+                } else if (it.hotelList.isEmpty()) {
+                    var error: ApiError
+                    if (titleSubject.value == context.getString(R.string.visible_map_area)) {
+                        error = ApiError(ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS)
+                    } else {
+                        error = ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS)
+                    }
+                    errorObservable.onNext(error)
+                } else if (titleSubject.value == context.getString(R.string.visible_map_area)) {
+                    mapResultsObservable.onNext(it)
+                } else {
+                    hotelResultsObservable.onNext(it)
+                    HotelV2Tracking().trackHotelsV2Search(paramsSubject.value, it)
+                }
+            }
+
+            override fun onCompleted() {}
+
+            override fun onError(e: Throwable?) {
+                if (RetrofitUtils.isNetworkError(e)) {
+                    val retryFun = fun() { doSearch(paramsSubject.value) }
+                    val cancelFun = fun() { showHotelSearchViewObservable.onNext(Unit) }
+                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                }
+            }
+        })
     }
 }
 

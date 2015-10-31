@@ -33,6 +33,7 @@ import java.math.BigDecimal
 
 public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
     val errorObservable = PublishSubject.create<ApiError>()
+    val noResponseObservable = PublishSubject.create<Throwable>()
 
     val checkoutParams = PublishSubject.create<HotelCheckoutParams>()
 
@@ -81,7 +82,7 @@ public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
                 }
 
                 override fun onError(e: Throwable) {
-                    throw OnErrorNotImplementedException(e)
+                    noResponseObservable.onNext(e)
                 }
 
                 override fun onCompleted() {
@@ -95,9 +96,8 @@ public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
 public class HotelCreateTripViewModel(val hotelServices: HotelServices) {
 
     val errorObservable = PublishSubject.create<ApiError>()
-
+    val noResponseObservable = PublishSubject.create<Unit>()
     val tripParams = PublishSubject.create<HotelCreateTripParams>()
-
     val tripResponseObservable = BehaviorSubject.create<HotelCreateTripResponse>()
 
     init {
@@ -119,7 +119,9 @@ public class HotelCreateTripViewModel(val hotelServices: HotelServices) {
                 }
 
                 override fun onError(e: Throwable) {
-                    throw OnErrorNotImplementedException(e)
+                    if (com.expedia.bookings.utils.RetrofitUtils.isNetworkError(e)) {
+                        noResponseObservable.onNext(Unit)
+                    }
                 }
 
                 override fun onCompleted() {

@@ -22,7 +22,6 @@ import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
-import kotlin.properties.Delegates
 
 public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
