@@ -9,23 +9,18 @@ import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.HotelSearchParams
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.hotel.HotelPresenter
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.HotelsV2DataUtil
-import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.vm.HotelTravelerParams
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
-import org.joda.time.LocalDate
 import rx.Observer
-import java.util.*
-import kotlin.properties.Delegates
 
 public class HotelActivity : AppCompatActivity() {
 
@@ -54,6 +49,8 @@ public class HotelActivity : AppCompatActivity() {
 
         if (getIntent().hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
             handleNavigationViaDeepLink()
+        } else {
+            hotelPresenter.defaultTransitionObserver.onNext(Screen.SEARCH)
         }
     }
 
@@ -149,6 +146,7 @@ public class HotelActivity : AppCompatActivity() {
                     }
                 }
                 setUpDeepLinkSearch(hotelSearchParams, isCurrentLocationSearch)
+                hotelPresenter.defaultTransitionObserver.onNext(Screen.DETAILS)
             }
 
         }
@@ -168,6 +166,7 @@ public class HotelActivity : AppCompatActivity() {
     private fun generateSuggestionServiceCallback(hotelSearchParams: com.expedia.bookings.data.hotels.HotelSearchParams): Observer<List<SuggestionV4>> {
         return object : Observer<List<SuggestionV4>> {
             override fun onNext(essSuggestions: List<SuggestionV4>) {
+                hotelPresenter.defaultTransitionObserver.onNext(Screen.RESULTS)
                 hotelSearchParams.suggestion.gaiaId = essSuggestions.first().gaiaId
                 setUpDeepLinkSearch(hotelSearchParams, false)
             }
@@ -176,12 +175,14 @@ public class HotelActivity : AppCompatActivity() {
             }
 
             override fun onError(e: Throwable?) {
+                hotelPresenter.defaultTransitionObserver.onNext(Screen.SEARCH)
                 Log.e("Hotel Suggestions Error", e)
             }
         }
     }
 
     private fun startCurrentLocationSearch(hotelSearchParams: com.expedia.bookings.data.hotels.HotelSearchParams?) {
+        hotelPresenter.defaultTransitionObserver.onNext(Screen.RESULTS)
         hotelPresenter.searchPresenter.searchViewModel.suggestionObserver.onNext(hotelSearchParams?.suggestion)
         hotelPresenter.searchObserver.onNext(hotelSearchParams)
         setUpDeepLinkSearch(hotelSearchParams, true)
@@ -202,9 +203,18 @@ public class HotelActivity : AppCompatActivity() {
             }
 
             override fun onError(e: Throwable?) {
+                hotelPresenter.defaultTransitionObserver.onNext(Screen.SEARCH)
             }
         }
     }
+
+    // Showing different presenter based on deeplink
+    public enum class Screen{
+        SEARCH,
+        DETAILS,
+        RESULTS
+    }
+
 
 }
 
