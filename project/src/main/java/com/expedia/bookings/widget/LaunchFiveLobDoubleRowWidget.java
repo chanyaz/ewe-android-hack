@@ -34,9 +34,6 @@ public class LaunchFiveLobDoubleRowWidget extends RelativeLayout {
 	@InjectView(R.id.lob_bottom_row)
 	FrameLayout bottomRow;
 
-	@InjectView(R.id.lob_top_row_bg)
-	View topRowBg;
-
 	@InjectView(R.id.lob_bottom_row_bg)
 	View bottomRowBg;
 
@@ -65,7 +62,6 @@ public class LaunchFiveLobDoubleRowWidget extends RelativeLayout {
 		f = 0.64f + (((f - 0.6f) / (1 - 0.6f)) * 0.36f);
 		hotelsBtn.scaleTo(f);
 		flightsBtn.scaleTo(f);
-		topRowBg.setScaleY(f);
 		bottomRowBg.setScaleY(f);
 		divider.setTranslationY((f * origHeight) - origHeight);
 		bottomRow.setTranslationY((f * origHeight) - origHeight);
@@ -79,7 +75,6 @@ public class LaunchFiveLobDoubleRowWidget extends RelativeLayout {
 			carsBtn.transformToNoDataState();
 			lxBtn.transformToNoDataState();
 			transportBtn.transformToNoDataState();
-			topRowBg.setScaleY(1.0f);
 			bottomRowBg.setScaleY(1.0f);
 			divider.setTranslationY(0.0f);
 			bottomRow.setTranslationY(0.0f);
@@ -107,7 +102,6 @@ public class LaunchFiveLobDoubleRowWidget extends RelativeLayout {
 	@Override
 	protected void onMeasure(int w, int h) {
 		super.onMeasure(w, h);
-		topRowBg.setPivotY(-topRowBg.getTop());
 		bottomRowBg.setPivotY(-bottomRowBg.getTop());
 		origHeight = getResources().getDimension(R.dimen.launch_lob_double_row_height);
 		bottomRowOrigHeight = getResources().getDimension(R.dimen.launch_five_lob_double_row_height);
