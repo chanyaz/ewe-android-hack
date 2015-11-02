@@ -468,7 +468,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="1px"
                     android:layout_below="@+id/common_amenities_text"
-                    android:layout_marginBottom="10dp"
                     android:background="@color/hotel_detail_divider"
                     android:visibility="gone"/>
 

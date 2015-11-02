@@ -443,10 +443,6 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
                 hotelRoomRateViewModel.collapseRoomObservable.onNext(false)
             }
 
-            //Hide all Room Info Description Texts
-            for (hotelRoomRateViewModel in hotelRoomRateViewModels) {
-                hotelRoomRateViewModel.roomInfoExpandCollapseObservable.onNext(Unit)
-            }
         }
 
         rowExpandingObservable.subscribe { indexOfRowBeingExpanded ->
