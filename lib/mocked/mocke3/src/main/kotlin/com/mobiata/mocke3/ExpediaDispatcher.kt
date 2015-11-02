@@ -9,6 +9,7 @@ import org.joda.time.DateTimeZone
 // Mocks out various mobile Expedia APIs
 public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
 
+    private var lastSignInEmail: String = ""
     private val travelAdRequests = hashMapOf<String, Int>()
     private val hotelRequestDispatcher = HotelRequestDispatcher(fileOpener)
     private val flightApiRequestDispatcher = FlightApiRequestDispatcher(fileOpener)
@@ -214,8 +215,12 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
     private fun dispatchSignIn(request: RecordedRequest): MockResponse {
         // TODO Handle the case when there's no email parameter in 2nd sign-in request
         val params = parseRequest(request)
-        params.put("email", "qa-ehcc@mobiata.com")
-        return makeResponse("api/user/sign-in/login.json", params)
+        lastSignInEmail = params.get("email") ?: lastSignInEmail
+        params.put("email", lastSignInEmail)
+        return when (lastSignInEmail) {
+            "singlecard@mobiata.com" -> makeResponse("api/user/sign-in/singlecard@mobiata.com.json", params)
+            else -> makeResponse("api/user/sign-in/qa-ehcc@mobiata.com.json", params)
+        }
     }
 
     private fun dispatchStaticContent(request: RecordedRequest): MockResponse {

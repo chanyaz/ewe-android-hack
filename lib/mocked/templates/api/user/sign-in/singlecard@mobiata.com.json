@@ -1,0 +1,57 @@
+{
+  "tuid": 673093611,
+  "expUserId": 45313772,
+  "email": "singlecard@mobiata.com",
+  "firstName": "single",
+  "middleName": "",
+  "lastName": "card",
+  "success": true,
+  "detailedStatus": "Success",
+  "detailedStatusMsg": "Already logged in",
+  "phoneNumbers": [
+    {
+      "number": "6200790",
+      "areaCode": "614",
+      "category": "PRIMARY",
+      "countryCode": "1",
+      "extensionNumber": ""
+    }
+  ],
+  "storedCreditCards": [
+    {
+      "description": "Visa 1111",
+      "paymentsInstrumentsId": "1BF5D57F-EB48-485D-B5CC-E3086FAA56B1",
+      "creditCardType": "Visa",
+      "nameOnCard": "adnskld dnalskdna",
+      "expired": "false",
+      "expirationDate": "2015-10"
+    }
+  ],
+  "loyaltyMembershipNumber": "312172038",
+  "loyaltyMemebershipActive": true,
+  "loyaltyPointsAvailable": 1802,
+  "loyaltyPointsPending": 0,
+  "loyaltyMemebershipName": "REWARDS",
+  "membershipTierName": "Blue",
+  "loyaltyTierCredits": {
+    "m_pointsAmount": 0,
+    "m_grossBookingValue": {
+      "amount": 901.06,
+      "currency": {
+        "currencyCode": "USD"
+      },
+      "uCurrency": {
+        "isoCode": "USD"
+      }
+    },
+    "m_roomNights": 6,
+    "thisClass": {}
+  },
+  "isSmokingPreferred": false,
+  "tsaDetails": {
+    "gender": "Unknown"
+  },
+  "seatPreference": "ANY",
+  "specialAssistance": "NONE",
+  "activityId": "66a68efa-a527-495c-95cb-e57f320d8a4f"
+}

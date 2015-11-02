@@ -11,7 +11,8 @@ import com.expedia.bookings.test.phone.newhotels.HotelScreen.doGenericSearch
 import com.expedia.bookings.test.phone.newhotels.HotelScreen.selectHotel
 import com.expedia.bookings.test.phone.newhotels.HotelScreen.selectRoom
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
-import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen
+import com.expedia.bookings.test.phone.newhotels.HotelScreen.signIn
+import com.expedia.bookings.test.phone.newhotels.HotelScreen.clickSignIn
 import org.junit.Assert
 
 public class HotelCheckoutTest: HotelTestCase() {
@@ -48,16 +49,9 @@ public class HotelCheckoutTest: HotelTestCase() {
         selectHotel("tealeaf_id")
         selectRoom()
         Assert.assertEquals(Db.getTripBucket().hotelV2.mHotelTripResponse.tealeafTransactionId, "tealeafHotel:tealeaf_id")
+        clickSignIn()
         signIn()
         Assert.assertEquals(Db.getTripBucket().hotelV2.mHotelTripResponse.tealeafTransactionId, "tealeafHotel:tealeaf_id_signed_in")
     }
-
-    private fun signIn() {
-        HotelScreen.clickSignIn()
-        LogInScreen.typeTextEmailEditText("user@gmail.com")
-        LogInScreen.typeTextPasswordEditText("password")
-        LogInScreen.clickOnLoginButton()
-
-    }
-
+    
 }

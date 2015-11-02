@@ -17,6 +17,7 @@ import com.expedia.bookings.test.espresso.TabletViewActions;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -341,9 +342,19 @@ public class HotelScreen {
 	public static void clickSelectARoomInFullMap() {
 		onView(withId(R.id.map_view_select_room_container)).perform(click());
 	}
-	
+
 
 	public static void clickSignIn() {
 		onView(withId(R.id.login_text_view)).perform(click());
+	}
+
+	public static void signIn() {
+		signIn("user@gmail.com");
+	}
+	
+	public static void signIn(String username) {
+		LogInScreen.typeTextEmailEditText(username);
+		LogInScreen.typeTextPasswordEditText("password");
+		LogInScreen.clickOnLoginButton();
 	}
 }
