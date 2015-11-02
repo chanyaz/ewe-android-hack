@@ -4,6 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -194,6 +197,11 @@ public class PaymentWidget extends ExpandableCardView {
 			}
 		});
 		sectionBillingInfo.addChangeListener(mValidFormsOfPaymentListener);
+
+		Drawable icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_hotel_credit_card).mutate();
+		icon.setColorFilter(ContextCompat.getColor(getContext(), R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN);
+		paymentOptionCreditDebitCard.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+
 	}
 
 	public void setLineOfBusiness(LineOfBusiness lineOfBusiness) {
