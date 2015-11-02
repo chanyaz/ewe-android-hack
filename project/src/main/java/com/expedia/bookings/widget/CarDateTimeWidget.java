@@ -37,6 +37,7 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.time.widget.CalendarPicker;
 import com.mobiata.android.time.widget.DaysOfWeekView;
 import com.mobiata.android.time.widget.MonthView;
+import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -171,6 +172,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 	@Override
 	public void onYearMonthDisplayed(YearMonth yearMonth) {
 		pickupTimePopupContainer.setVisibility(View.GONE);
+		calendar.hideToolTip();
 	}
 
 	public void buildParams(final LocalDate start, final LocalDate end) {
@@ -306,11 +308,11 @@ public class CarDateTimeWidget extends RelativeLayout implements
 			public void onGlobalLayout() {
 				pickupTimePopupContainer.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				RelativeLayout.LayoutParams p = new RelativeLayout.LayoutParams(
-						RelativeLayout.LayoutParams.WRAP_CONTENT,
-						RelativeLayout.LayoutParams.WRAP_CONTENT);
+					RelativeLayout.LayoutParams.WRAP_CONTENT,
+					RelativeLayout.LayoutParams.WRAP_CONTENT);
 
 				p.setMargins(x - pickupTimePopupContainer.getMeasuredWidth() / 2,
-						y - pickupTimePopupContainer.getMeasuredHeight(), 0, 0);
+					y - pickupTimePopupContainer.getMeasuredHeight(), 0, 0);
 				LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) pickupTimePopupTail.getLayoutParams();
 				lp.gravity = Gravity.CENTER;
 				pickupTimePopupTail.setLayoutParams(lp);
@@ -339,5 +341,10 @@ public class CarDateTimeWidget extends RelativeLayout implements
 
 	public void setDropoffTime(DateTime endDateTime) {
 		dropoffTimeSeekBar.setProgress(endDateTime);
+	}
+
+	@Subscribe
+	public void onNewCarSearchParams(Events.CarsNewSearchParams event) {
+		calendar.hideToolTip();
 	}
 }
