@@ -78,6 +78,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 val dialogItemClickListener = object : DialogInterface.OnClickListener {
                     override fun onClick(dialog: DialogInterface?, which: Int) {
                         triggerNewSearch(which)
+                        HotelV2Tracking().trackGeoSuggestionClick()
                     }
                 }
                 builder.setItems(freeformLocations, dialogItemClickListener)
