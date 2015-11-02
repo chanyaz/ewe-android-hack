@@ -11,6 +11,7 @@ import android.graphics.Rect
 import android.graphics.drawable.TransitionDrawable
 import android.location.Location
 import android.support.design.widget.FloatingActionButton
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
@@ -367,13 +368,10 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
 
         //Fetch, color, and slightly resize the searchThisArea location pin drawable
-        val areaSearchDrawables = searchThisArea.compoundDrawables
-        areaSearchDrawables[0]?.setColorFilter(res.getColor(R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
-        val bounds = areaSearchDrawables[0]?.bounds
-        if (bounds != null) {
-            areaSearchDrawables[0]?.bounds = Rect(bounds.left, bounds.top, (bounds.right * 1.1).toInt(), (bounds.bottom * 1.1).toInt())
-        }
-        searchThisArea.setCompoundDrawables(areaSearchDrawables[0], areaSearchDrawables[1], areaSearchDrawables[2], areaSearchDrawables[3])
+        val icon = ContextCompat.getDrawable(context, R.drawable.ic_material_location_pin).mutate()
+        icon.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
+        icon.bounds = Rect(icon.bounds.left, icon.bounds.top, (icon.bounds.right * 1.1).toInt(), (icon.bounds.bottom * 1.1).toInt())
+        searchThisArea.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null)
 
         //We don't want to show the searchThisArea button unless the map has just moved.
         searchThisArea.visibility = View.GONE
