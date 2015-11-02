@@ -111,6 +111,7 @@
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
+        <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
         <item name="android:actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
 
