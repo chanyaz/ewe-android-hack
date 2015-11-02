@@ -84,7 +84,6 @@
         android:layout_marginBottom="106dp"
         android:layout_marginStart="16dp"
         android:background="@drawable/hotel_select_room_button_selector"
-        android:drawableLeft="@drawable/ic_material_location_pin"
         android:drawablePadding="8dp"
         android:minHeight="0dp"
         android:paddingBottom="8dp"
