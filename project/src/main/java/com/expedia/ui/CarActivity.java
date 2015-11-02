@@ -53,6 +53,12 @@ public class CarActivity extends AppCompatActivity {
 	}
 
 	@Override
+	protected void onDestroy() {
+		Ui.getApplication(this).setCarComponent(null);
+		super.onDestroy();
+	}
+
+	@Override
 	protected void onPause() {
 		super.onPause();
 		Events.unregister(this);

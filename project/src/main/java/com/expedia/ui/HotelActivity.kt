@@ -100,6 +100,7 @@ public class HotelActivity : AppCompatActivity() {
     override fun onDestroy() {
         resultsMapView.onDestroy()
         detailsMapView.onDestroy()
+        Ui.getApplication(this).setHotelComponent(null)
         super.onDestroy()
     }
 
