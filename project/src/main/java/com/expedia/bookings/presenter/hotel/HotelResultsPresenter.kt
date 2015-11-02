@@ -518,6 +518,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 show(ResultsMap())
             }
 
+            if (dy > 0) {
+                scrolledDistance = Math.min(heightOfButton, scrolledDistance + dy)
+            } else {
+                scrolledDistance = Math.max(0, scrolledDistance + dy)
+            }
 
             if (!mapTransitionRunning) {
                 if (!fabShouldBeHiddenOnList() && fab.visibility != View.VISIBLE) {
@@ -541,15 +546,14 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                         filterBtnWithCountWidget.translationY = 0f
                         fab.translationY = 0f
                     } else if (scrolledDistance > 0) {
-                        scrolledDistance = Math.min(heightOfButton, scrolledDistance + dy)
                         filterBtnWithCountWidget.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
                         fab.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
                     } else {
-                        scrolledDistance = Math.max(0, scrolledDistance + dy)
                         filterBtnWithCountWidget.translationY = Math.min(scrolledDistance, 0).toFloat()
                         fab.translationY = Math.min(scrolledDistance, 0).toFloat()
                     }
                 }
+
             }
         }
 
@@ -701,12 +705,14 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                     recyclerView.translationY = 0f
                     mapView.translationY = -halfway.toFloat()
                     adjustGoogleMapLogo()
+                    filterBtnWithCountWidget.translationY = 0f
                 }
                 else {
                     fab.translationY = - (mapCarouselContainer.height.toFloat() - resources.getDimension(R.dimen.hotel_filter_height).toInt())
                     mapView.translationY = 0f
                     recyclerView.translationY = screenHeight.toFloat()
                     googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height)
+                    filterBtnWithCountWidget.translationY = resources.getDimension(R.dimen.hotel_filter_height)
                 }
             }
         }
