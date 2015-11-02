@@ -169,6 +169,7 @@ public class OmnitureTracking {
 
 	private static final String HOTELV2_LOB = "hotels";
 	private static final String HOTELSV2_SEARCH_BOX = "App.Hotels.Dest-Search";
+	private static final String HOTELSV2_GEO_SUGGESTION_CLICK = "App.Hotels.DS.DestSuggest";
 	private static final String HOTELSV2_TRAVELER = "App.Hotels.Traveler.";
 	private static final String HOTELSV2_RESULT = "App.Hotels.Search";
 	private static final String HOTELSV2_NO_RESULT = "App.Hotels.Search.NoResults";
@@ -242,6 +243,12 @@ public class OmnitureTracking {
 		s.setProp(16, HOTELSV2_TRAVELER + text);
 		s.trackLink(null, "o", HOTELSV2_TRAVELER_LINK_NAME, null, null);
 
+	}
+
+	public static void trackGeoSuggestionClick() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_GEO_SUGGESTION_CLICK + "\" click...");
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_GEO_SUGGESTION_CLICK);
+		s.trackLink(null, "o", "Search Results Update", null, null);
 	}
 
 	public static void internalTrackHotelsV2Search(com.expedia.bookings.data.hotels.HotelSearchParams searchParams,

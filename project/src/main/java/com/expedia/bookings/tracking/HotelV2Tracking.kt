@@ -18,6 +18,10 @@ class HotelV2Tracking {
         OmnitureTracking.trackTravelerPickerClick(text)
     }
 
+    fun trackGeoSuggestionClick() {
+        OmnitureTracking.trackGeoSuggestionClick()
+    }
+
     fun trackHotelsV2Search(searchParams: HotelSearchParams, searchResponse: HotelSearchResponse) {
         OmnitureTracking.internalTrackHotelsV2Search(searchParams, searchResponse)
         LeanPlumUtils.trackHotelV2Search(searchParams, searchResponse)

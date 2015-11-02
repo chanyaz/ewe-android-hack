@@ -116,7 +116,6 @@ class HotelFilterViewModel() {
             filterCountObservable.onNext(userFilterChoices.filterCount())
             finishClear.onNext(Unit)
             sendNewPriceRange()
-            HotelV2Tracking().trackLinkHotelV2ClearFilter()
         }
     }
 

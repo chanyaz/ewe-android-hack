@@ -118,7 +118,10 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         filterStarFour.subscribeOnClick(vm.fourStarFilterObserver)
         filterStarFive.subscribeOnClick(vm.fiveStarFilterObserver)
 
-        dynamicFeedbackClearButton.subscribeOnClick(vm.clearObservable)
+        dynamicFeedbackClearButton.setOnClickListener {
+            vm.clearObservable.onNext(Unit)
+            HotelV2Tracking().trackLinkHotelV2ClearFilter()
+        }
 
         vm.finishClear.subscribe {
             //check if filterHotelName is empty to avoid calling handleFiltering
