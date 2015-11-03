@@ -223,6 +223,22 @@ public class HotelMedia implements JSONable, IMedia {
 	}
 
 	@Override
+	public void loadErrorImage(final ImageView imageView, final PicassoTarget target, final int fallbackId) {
+		imageView.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+			@Override
+			public boolean onPreDraw() {
+				imageView.getViewTreeObserver().removeOnPreDrawListener(this);
+				new PicassoHelper.Builder(imageView.getContext())
+					.setTarget(target)
+					.build()
+					.load(fallbackId);
+				return true;
+			}
+		});
+	}
+
+
+	@Override
 	public void preloadImage(Context context) {
 		new PicassoHelper.Builder(context).build().load(getHighResUrls());
 	}
@@ -322,7 +338,7 @@ public class HotelMedia implements JSONable, IMedia {
 	 */
 	public void fillImageView(final ImageView view, final int width, final int placeholderResId,
 		final PicassoTarget target) {
-		new PicassoHelper.Builder(view).setPlaceholder(placeholderResId).setTarget(target).build()
+		new PicassoHelper.Builder(view.getContext()).setPlaceholder(placeholderResId).setTarget(target).build()
 			.load(getBestUrls(width));
 	}
 

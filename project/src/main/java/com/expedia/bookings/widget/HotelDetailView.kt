@@ -163,11 +163,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
         detailContainer.setOnTouchListener(touchListener)
         vm.galleryObservable.subscribe { galleryUrls ->
+            gallery.setOnItemClickListener(vm)
+            gallery.setOnItemChangeListener(vm)
             gallery.setDataSource(galleryUrls)
             gallery.scrollToPosition(0)
-            gallery.setOnItemClickListener(vm)
             gallery.startFlipping()
-            gallery.setOnItemChangeListener(vm)
 
             val galleryItemCount = gallery.adapter.itemCount
             if (galleryItemCount > 0) {
@@ -618,6 +618,15 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     init {
         View.inflate(getContext(), R.layout.widget_hotel_detail, this)
+        gallery.addImageViewCreatedListener(object : RecyclerGallery.IImageViewBitmapLoadedListener {
+            override fun onImageViewBitmapLoaded(hotelDetailsGalleryImageView: HotelDetailsGalleryImageView) {
+                if (!hotelDetailsGalleryImageViews.contains(hotelDetailsGalleryImageView)) {
+                    hotelDetailsGalleryImageViews.add(hotelDetailsGalleryImageView)
+                }
+                hotelDetailsGalleryImageView.setIntermediateValue(height - initialScrollTop, height,
+                        detailContainer.scrollY.toFloat() / initialScrollTop)
+            }
+        })
         statusBarHeight = Ui.getStatusBarHeight(getContext())
         toolBarHeight = Ui.getToolbarSize(getContext())
         if (statusBarHeight > 0) {
@@ -676,15 +685,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         FontCache.setTypeface(payLaterButton, FontCache.Font.ROBOTO_REGULAR)
         resetGallery()
 
-        gallery.addImageViewCreatedListener(object : RecyclerGallery.IImageViewBitmapLoadedListener {
-            override fun onImageViewBitmapLoaded(hotelDetailsGalleryImageView: HotelDetailsGalleryImageView) {
-                if (!hotelDetailsGalleryImageViews.contains(hotelDetailsGalleryImageView)) {
-                    hotelDetailsGalleryImageViews.add(hotelDetailsGalleryImageView)
-                }
-                hotelDetailsGalleryImageView.setIntermediateValue(height - initialScrollTop, height,
-                        detailContainer.scrollY.toFloat() / initialScrollTop)
-            }
-        })
     }
 
     public fun resetGallery() {

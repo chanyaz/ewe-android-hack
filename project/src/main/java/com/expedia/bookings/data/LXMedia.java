@@ -29,6 +29,11 @@ public class LXMedia implements IMedia {
 	}
 
 	@Override
+	public void loadErrorImage(ImageView imageView, PicassoTarget target, int fallbackId) {
+
+	}
+
+	@Override
 	public boolean isPlaceHolder() {
 		return false;
 	}
