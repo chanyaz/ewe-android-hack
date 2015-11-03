@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.HotelRulesActivity
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.User
@@ -21,6 +22,7 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.CouponWidget
@@ -108,10 +110,44 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
             }
         })
         if (User.isLoggedIn(getContext())) {
+            if (!hasSomeManuallyEnteredData(paymentInfoCardView.sectionBillingInfo.billingInfo) && Db.getUser().getStoredCreditCards().size() == 1) {
+                paymentInfoCardView.sectionBillingInfo.bind(Db.getBillingInfo())
+                paymentInfoCardView.selectFirstAvailableCard()
+            }
             loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness())
         } else {
             loginWidget.bind(false, false, null, getLineOfBusiness())
         }
+    }
+
+    private fun hasSomeManuallyEnteredData(info: BillingInfo?): Boolean {
+        if (info == null) {
+            return false
+        }
+
+        if (info.location == null) {
+            return false
+        }
+        //Checkout the major fields, if any of them have data, then we know some data has been manually entered
+        if (!Strings.isEmpty(info.location.streetAddressString)) {
+            return true
+        }
+        if (!Strings.isEmpty(info.location.city)) {
+            return true
+        }
+        if (!Strings.isEmpty(info.location.postalCode)) {
+            return true
+        }
+        if (!Strings.isEmpty(info.location.stateCode)) {
+            return true
+        }
+        if (!Strings.isEmpty(info.nameOnCard)) {
+            return true
+        }
+        if (!Strings.isEmpty(info.number)) {
+            return true
+        }
+        return false
     }
 
     fun showCheckout(offer: HotelOffersResponse.HotelRoomResponse) {

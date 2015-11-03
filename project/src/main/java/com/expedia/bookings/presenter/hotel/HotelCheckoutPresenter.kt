@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelCheckoutParams
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.presenter.Presenter
@@ -60,10 +59,6 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
     private val defaultCheckoutTransition = object : Presenter.DefaultTransition(HotelCheckoutMainViewPresenter::class.java.name) {
         override fun finalizeTransition(forward: Boolean) {
             hotelCheckoutWidget.setVisibility(View.VISIBLE)
-            if (User.isLoggedIn(getContext()) && hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.billingInfo == null && Db.getUser().getStoredCreditCards().size() == 1) {
-                hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.bind(Db.getBillingInfo())
-                hotelCheckoutWidget.paymentInfoCardView.selectFirstAvailableCard()
-            }
             cvv.setVisibility(View.GONE)
         }
     }
