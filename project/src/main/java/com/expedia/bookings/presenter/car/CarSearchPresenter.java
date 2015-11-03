@@ -270,6 +270,7 @@ public class CarSearchPresenter extends Presenter
 			public void onClick(View v) {
 				if (isSearchFormFilled()) {
 					Ui.hideKeyboard(CarSearchPresenter.this);
+					calendarContainer.hideToolTip();
 					Events.post(new Events.CarsNewSearchParams(carSearchParams));
 				}
 			}
@@ -337,6 +338,12 @@ public class CarSearchPresenter extends Presenter
 			suggestionAdapter.cleanup();
 		}
 		super.onDetachedFromWindow();
+	}
+
+	@Override
+	public boolean back() {
+		calendarContainer.hideToolTip();
+		return super.back();
 	}
 
 	@OnClick(R.id.select_date)
