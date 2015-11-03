@@ -195,9 +195,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             checkoutDialog.hide()
         }
 
-        checkoutPresenter.hotelCheckoutWidget.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
-        checkoutPresenter.hotelCheckoutWidget.viewmodel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
-        checkoutPresenter.hotelCheckoutWidget.viewmodel.noResponseObservable.subscribe {
+        checkoutPresenter.hotelCheckoutWidget.createTripViewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
+        checkoutPresenter.hotelCheckoutWidget.createTripViewmodel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+        checkoutPresenter.hotelCheckoutWidget.createTripViewmodel.noResponseObservable.subscribe {
             val retryFun = fun() { checkoutPresenter.hotelCheckoutWidget.doCreateTrip() }
             val cancelFun = fun() { show(detailPresenter) }
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)

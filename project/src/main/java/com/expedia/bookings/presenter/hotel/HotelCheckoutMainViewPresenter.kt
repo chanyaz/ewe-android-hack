@@ -48,15 +48,16 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
     val couponCardView = CouponWidget(context, attr)
 
-    var viewmodel: HotelCreateTripViewModel by notNullAndObservable {
-        viewmodel.tripResponseObservable.subscribe(createTripResponseListener)
+    var createTripViewmodel: HotelCreateTripViewModel by notNullAndObservable {
+        createTripViewmodel.tripResponseObservable.subscribe(createTripResponseListener)
     }
-    var vm: HotelCheckoutOverviewViewModel by notNullAndObservable {
-        vm.slideToText.subscribe { slideWidget.setText(it) }
-        vm.legalTextInformation.subscribeText(legalInformationText)
-        vm.disclaimerText.subscribeTextAndVisibility(disclaimerText)
-        vm.totalPriceCharged.subscribeText(sliderTotalText)
-        vm.resetMenuButton.subscribe { resetMenuButton() }
+
+    var checkoutOverviewViewModel: HotelCheckoutOverviewViewModel by notNullAndObservable {
+        checkoutOverviewViewModel.slideToText.subscribe { slideWidget.setText(it) }
+        checkoutOverviewViewModel.legalTextInformation.subscribeText(legalInformationText)
+        checkoutOverviewViewModel.disclaimerText.subscribeTextAndVisibility(disclaimerText)
+        checkoutOverviewViewModel.totalPriceCharged.subscribeText(sliderTotalText)
+        checkoutOverviewViewModel.resetMenuButton.subscribe { resetMenuButton() }
     }
 
     val hotelServices: HotelServices by lazy() {
@@ -160,7 +161,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         val numberOfAdults = hotelSearchParams.adults
         val childAges = hotelSearchParams.children
         val qualifyAirAttach = false
-        viewmodel.tripParams.onNext(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges))
+        createTripViewmodel.tripParams.onNext(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges))
     }
 
     val createTripResponseListener: Observer<HotelCreateTripResponse> = endlessObserver { trip ->
@@ -168,8 +169,8 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         Db.getTripBucket().add(TripBucketItemHotelV2(trip))
         hotelCheckoutSummaryWidget.viewModel.tripResponseObserver.onNext(trip)
         hotelCheckoutSummaryWidget.viewModel.guestCountObserver.onNext(hotelSearchParams.adults + hotelSearchParams.children.size())
-        vm = HotelCheckoutOverviewViewModel(getContext())
-        vm.newRateObserver.onNext(trip.newHotelProductResponse)
+        checkoutOverviewViewModel = HotelCheckoutOverviewViewModel(getContext())
+        checkoutOverviewViewModel.newRateObserver.onNext(trip.newHotelProductResponse)
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
         acceptTermsWidget.vm.resetAcceptedTerms()

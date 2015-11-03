@@ -46,7 +46,8 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         hotelCheckoutWidget.emailOptInStatus.subscribe { status ->
             hotelCheckoutWidget.mainContactInfoCardView.setUPEMailOptCheckBox(status)
         }
-        hotelCheckoutWidget.viewmodel = HotelCreateTripViewModel(hotelServices)
+        hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(hotelServices)
+
         cvv.setCVVEntryListener(this)
     }
 
