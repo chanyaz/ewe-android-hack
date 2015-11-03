@@ -37,7 +37,6 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.time.widget.CalendarPicker;
 import com.mobiata.android.time.widget.DaysOfWeekView;
 import com.mobiata.android.time.widget.MonthView;
-import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -343,8 +342,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		dropoffTimeSeekBar.setProgress(endDateTime);
 	}
 
-	@Subscribe
-	public void onNewCarSearchParams(Events.CarsNewSearchParams event) {
+	public void hideToolTip() {
 		calendar.hideToolTip();
 	}
 }
