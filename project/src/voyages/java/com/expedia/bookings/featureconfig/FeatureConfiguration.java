@@ -41,7 +41,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getAppNameForMobiataPushNameHeader() {
-		return null;
+		return "VSCBookings";
 	}
 
 	@Override
