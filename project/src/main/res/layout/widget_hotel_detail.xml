@@ -561,38 +561,61 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <Button
-                                android:id="@+id/radius_pay_now"
+                            <com.expedia.bookings.widget.FrameLayout
+                                android:id="@+id/radius_pay_now_container"
                                 android:layout_width="0dp"
                                 android:layout_height="40dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/hotel_pay_now_later_button_selector"
-                                android:contentDescription="@string/cd_pay_now"
-                                android:drawableLeft="@drawable/sliding_radio_selector_left"
-                                android:drawablePadding="-40dp"
-                                android:paddingLeft="30dp"
-                                android:text="@string/room_rate_pay_now"
-                                android:textAllCaps="false"
-                                android:textColor="@color/sliding_group_text"/>
+                                android:focusable="true"
+                                android:clickable="true">
+
+                                <com.expedia.bookings.widget.TextView
+                                    android:id="@+id/radius_pay_now"
+                                    android:duplicateParentState="true"
+                                    android:background="@android:color/transparent"
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:contentDescription="@string/cd_pay_now"
+                                    android:drawableLeft="@drawable/sliding_radio_selector_left"
+                                    android:drawablePadding="6dp"
+                                    android:text="@string/room_rate_pay_now"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/sliding_group_text" />
+                            </com.expedia.bookings.widget.FrameLayout>
 
                             <View
                                 android:layout_width="1px"
                                 android:layout_height="match_parent"
                                 android:background="@color/divider_grey"/>
 
-                            <Button
-                                android:id="@+id/radius_pay_later"
+                            <com.expedia.bookings.widget.FrameLayout
+                                android:id="@+id/radius_pay_later_container"
                                 android:layout_width="0dp"
                                 android:layout_height="40dp"
                                 android:layout_weight="1"
                                 android:background="@drawable/hotel_pay_now_later_button_selector"
+                                android:focusable="true"
+                                android:clickable="true">
+
+                            <com.expedia.bookings.widget.TextView
+                                android:id="@+id/radius_pay_later"
+                                android:duplicateParentState="true"
+                                android:background="@android:color/transparent"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
                                 android:contentDescription="@string/cd_pay_later"
                                 android:drawableLeft="@drawable/sliding_radio_selector_left"
-                                android:drawablePadding="-40dp"
-                                android:paddingLeft="30dp"
+                                android:drawablePadding="6dp"
                                 android:text="@string/room_rate_pay_later"
                                 android:textAllCaps="false"
                                 android:textColor="@color/sliding_group_text"/>
+                            </com.expedia.bookings.widget.FrameLayout>
+
                         </LinearLayout>
                     </android.support.v7.widget.CardView>
 
