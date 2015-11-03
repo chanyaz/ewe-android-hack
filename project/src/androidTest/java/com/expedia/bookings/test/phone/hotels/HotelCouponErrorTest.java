@@ -54,8 +54,8 @@ public class HotelCouponErrorTest extends PhoneTestCase {
 		tests.add(new TestData("hotel_coupon_errors_not_redeemed", "Sorry, but we're having a problem. Please try again."));
 		tests.add(new TestData("hotel_coupon_errors_price_change", "The booking cost changed, so we didn't apply the coupon. Please review and try again."));
 		tests.add(new TestData("hotel_coupon_errors_service_down", "Sorry, but we cannot process coupons currently. Please try again."));
-		tests.add(new TestData("hotel_coupon_errors_unrecognized", "Sorry, but this isn't a valid coupon code."));
-		tests.add(new TestData("hotel_coupon_errors_not_active", "Sorry, but this coupon is no longer active."));
+		tests.add(new TestData("hotel_coupon_errors_unrecognized", "Sorry, but this isn't a known coupon code."));
+		tests.add(new TestData("hotel_coupon_errors_not_active", "Sorry, but this coupon has expired."));
 		tests.add(new TestData("hotel_coupon_errors_not_exists", "Sorry, but this isn't a known coupon code."));
 		tests.add(new TestData("hotel_coupon_errors_not_configured", "Sorry, but this isn't a known coupon code."));
 		tests.add(new TestData("hotel_coupon_errors_product_missing", "Sorry, but the coupon cannot be applied to this booking."));

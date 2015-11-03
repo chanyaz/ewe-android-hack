@@ -26,7 +26,6 @@ import com.mobiata.android.util.AndroidUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
 import rx.Observer
-import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
@@ -66,7 +65,7 @@ public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
                             ApiError.Code.TRIP_ALREADY_BOOKED -> {
                                 errorObservable.onNext(checkout.firstError)
                             }
-                            ApiError.Code.SESSION_TIMEOUT ->{
+                            ApiError.Code.SESSION_TIMEOUT -> {
                                 errorObservable.onNext(checkout.firstError)
                             }
                             ApiError.Code.PAYMENT_FAILED -> {
@@ -110,7 +109,7 @@ public class HotelCreateTripViewModel(val hotelServices: HotelServices) {
                         } else {
                             errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
                         }
-                    }else {
+                    } else {
                         // TODO: Move away from using DB. observers should react on fresh createTrip response
                         Db.getTripBucket().add(TripBucketItemHotelV2(t))
                         // TODO: populate hotelCreateTripResponseData with response data
@@ -138,14 +137,13 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
     // output
     val legalTextInformation = BehaviorSubject.create<SpannableStringBuilder>()
     val disclaimerText = BehaviorSubject.create<Spanned>()
-    val disclaimerVisibility = BehaviorSubject.create<Boolean>()
     val slideToText = BehaviorSubject.create<String>()
     val totalPriceCharged = BehaviorSubject.create<String>()
     val resetMenuButton = BehaviorSubject.create<Unit>()
 
     init {
         newRateObserver.subscribe {
-            disclaimerVisibility.onNext(false)
+            disclaimerText.onNext(Html.fromHtml(""))
             val room = it.hotelRoomResponse
             if (room.isPayLater) {
                 slideToText.onNext(context.getString(R.string.hotelsv2_slide_reserve))
@@ -160,17 +158,14 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
 
                 val text = Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, resortFees, tripTotal));
                 disclaimerText.onNext(text)
-                disclaimerVisibility.onNext(true)
             } else if (room.isPayLater) {
                 if (room.rateInfo.chargeableRateInfo.depositAmountToShowUsers != null) {
                     val deposit = room.rateInfo.chargeableRateInfo.depositAmountToShowUsers
                     val text = Html.fromHtml(context.getString(R.string.pay_later_deposit_disclaimer_TEMPLATE, deposit))
                     disclaimerText.onNext(text)
-                    disclaimerVisibility.onNext(true)
                 } else {
                     val text = Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal))
                     disclaimerText.onNext(text)
-                    disclaimerVisibility.onNext(true)
                 }
             }
 
@@ -223,7 +218,8 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             // detect price change between old and new offers
             val originalRoomResponse = tripResponse.originalHotelProductResponse.hotelRoomResponse
             val hasPriceChange = originalRoomResponse != null
-            if (hasPriceChange) { // potential price change
+            if (hasPriceChange) {
+                // potential price change
                 val currencyCode = originalRoomResponse.rateInfo.chargeableRateInfo.currencyCode
                 val originalPrice = originalRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()
                 val newPrice = tripResponse.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()
@@ -233,12 +229,11 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
                 if (newPrice > originalPrice) {
                     priceChangeIconResourceId.onNext(R.drawable.price_change_increase)
                     priceChangeMessage.onNext(context.getString(R.string.price_changed_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
-                }
-                else if (newPrice < originalPrice) {
+                } else if (newPrice < originalPrice) {
                     priceChangeMessage.onNext(context.getString(R.string.price_dropped_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
                     priceChangeIconResourceId.onNext(R.drawable.price_change_decrease)
-                }
-                else { // API could return price change error with no difference in price (see: hotel_price_change_checkout.json)
+                } else {
+                    // API could return price change error with no difference in price (see: hotel_price_change_checkout.json)
                     priceChangeIconResourceId.onNext(R.drawable.price_change_decrease)
                     priceChangeMessage.onNext(context.getString(R.string.price_changed_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
                 }
@@ -291,7 +286,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
     }
 }
 
-public fun getDueNowAmount(response: HotelCreateTripResponse.HotelProductResponse) : String {
+public fun getDueNowAmount(response: HotelCreateTripResponse.HotelProductResponse): String {
     val room = response.hotelRoomResponse
     val rate = room.rateInfo.chargeableRateInfo
     val isPayLater = room.isPayLater

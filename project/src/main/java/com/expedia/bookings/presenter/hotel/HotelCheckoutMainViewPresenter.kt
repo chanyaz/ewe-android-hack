@@ -5,7 +5,6 @@ import android.content.Intent
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
-import android.view.ViewTreeObserver
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.HotelRulesActivity
@@ -17,7 +16,6 @@ import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.enums.MerchandiseSpam
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
@@ -30,14 +28,13 @@ import com.expedia.bookings.widget.HotelCheckoutSummaryWidget
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.HotelCheckoutOverviewViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.expedia.vm.HotelCouponViewModel
 import com.expedia.vm.HotelCreateTripViewModel
 import com.squareup.otto.Subscribe
 import rx.Observer
-import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
@@ -55,8 +52,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     var vm: HotelCheckoutOverviewViewModel by notNullAndObservable {
         vm.slideToText.subscribe { slideWidget.setText(it) }
         vm.legalTextInformation.subscribeText(legalInformationText)
-        vm.disclaimerVisibility.subscribeVisibility(disclaimerText)
-        vm.disclaimerText.subscribeText(disclaimerText)
+        vm.disclaimerText.subscribeTextAndVisibility(disclaimerText)
         vm.totalPriceCharged.subscribeText(sliderTotalText)
         vm.resetMenuButton.subscribe { resetMenuButton() }
     }

@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.text.Html
 import android.util.AttributeSet
@@ -109,8 +110,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val vipAccessMessage: TextView by bindView(R.id.vip_access_message)
     val promoMessage: TextView by bindView(R.id.promo_text)
 
-    val payNowButton: Button by bindView(R.id.radius_pay_now)
-    val payLaterButton: Button by bindView(R.id.radius_pay_later)
+    val payLaterButtonContainer: FrameLayout by bindView(R.id.radius_pay_later_container)
+    val payNowButtonContainer: FrameLayout by bindView(R.id.radius_pay_now_container)
+    val payNowButton: TextView by bindView(R.id.radius_pay_now)
+    val payLaterButton: TextView by bindView(R.id.radius_pay_later)
     val etpAndFreeCancellationMessagingContainer: View by bindView(R.id.etp_and_free_cancellation_messaging_container)
     val etpInfoText: TextView by bindView(R.id.etp_info_text)
     val etpInfoTextSmall: TextView by bindView(R.id.etp_info_text_small)
@@ -433,14 +436,20 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     }
 
     fun payNowLaterSelectionChanged(payNowSelected: Boolean) {
-        payNowButton.setSelected(payNowSelected)
-        payLaterButton.setSelected(!payNowSelected)
+        payNowButtonContainer.isSelected = payNowSelected
+        payLaterButtonContainer.isSelected = !payNowSelected
+        
+        val checkMarkIcon = ContextCompat.getDrawable(context, R.drawable.sliding_radio_selector_left)
         if (payNowSelected) {
-            payNowButton.unsubscribeOnClick()
-            payLaterButton.subscribeOnClick(payLaterObserver)
+            payNowButton.setCompoundDrawablesWithIntrinsicBounds(checkMarkIcon, null, null, null)
+            payLaterButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+            payNowButtonContainer.unsubscribeOnClick()
+            payLaterButtonContainer.subscribeOnClick(payLaterObserver)
         } else {
-            payLaterButton.unsubscribeOnClick()
-            payNowButton.subscribeOnClick(payNowObserver)
+            payNowButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+            payLaterButton.setCompoundDrawablesWithIntrinsicBounds(checkMarkIcon, null, null, null)
+            payLaterButtonContainer.unsubscribeOnClick()
+            payNowButtonContainer.subscribeOnClick(payNowObserver)
         }
 
         // Scroll to the top room in case of change in ETP selection when ETP container is sticked

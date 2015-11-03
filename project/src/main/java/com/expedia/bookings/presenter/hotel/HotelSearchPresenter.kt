@@ -487,4 +487,9 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         traveler.setVisibility(View.GONE)
         calendar.hideToolTip()
     }
+
+    override fun back(): Boolean {
+        calendar.hideToolTip()
+        return super.back()
+    }
 }
