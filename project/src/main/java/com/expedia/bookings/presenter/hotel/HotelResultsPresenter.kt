@@ -296,6 +296,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         mapViewModel.sortedHotelsObservable.subscribe {
             val hotels = it
             (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(it)
+            mapCarouselRecycler.scrollToPosition(0)
             val marker = markers.filter { it.title == hotels.first().hotelId }.first()
             val prevMarker = mapViewModel.selectMarker.value
             if (prevMarker != null) mapViewModel.unselectedMarker.onNext(prevMarker)
