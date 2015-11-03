@@ -282,12 +282,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
         val firstHotelRoomResponse = response.hotelRoomResponse.first()
         if (firstHotelRoomResponse != null) {
-            val rate = firstHotelRoomResponse.rateInfo.chargeableRateInfo;
-            val dailyPrice = Money(BigDecimal(rate.averageRate.toDouble()), rate.currencyCode)
-            val totalPrice = Money(BigDecimal(rate.total.toDouble()), rate.currencyCode)
+            val rate = firstHotelRoomResponse.rateInfo.chargeableRateInfo
             onlyShowTotalPrice.onNext(firstHotelRoomResponse.rateInfo.chargeableRateInfo.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
-            pricePerNightObservable.onNext(dailyPrice.getFormattedMoney(Money.F_NO_DECIMAL))
-            totalPriceObservable.onNext(totalPrice.getFormattedMoney(Money.F_NO_DECIMAL))
+            pricePerNightObservable.onNext(Money(BigDecimal(rate.averageRate.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
+            totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             discountPercentageBackgroundObservable.onNext(if (rate.isAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
         }
 

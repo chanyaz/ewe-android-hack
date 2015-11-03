@@ -21,12 +21,17 @@ import kotlin.test.assertNull
 @RunWith(RobolectricRunner::class)
 public class HotelDetailViewModelTest {
 
+    // TODO: Improve HotelDetailViewModel test coverage
+    //  -- TODO: Use MockHotelServiceTestRule (It provides helper functions to grab hotel responses. We shouldn't be creating mock hotel objects (see: makeHotel())
+
     public var service: HotelServicesRule = HotelServicesRule()
     @Rule get
 
-    var vm: HotelDetailViewModel by Delegates.notNull()
-    var offer1: HotelOffersResponse by Delegates.notNull()
-    var offer2: HotelOffersResponse by Delegates.notNull()
+    private lateinit var vm: HotelDetailViewModel
+    private lateinit var offer1: HotelOffersResponse
+    private lateinit var offer2: HotelOffersResponse
+
+    private val expectedTotalPriceWithMandatoryFees = 42f
 
     @Before fun before() {
         vm = HotelDetailViewModel(RuntimeEnvironment.application, service.hotelServices(), endlessObserver { /*ignore*/ })
@@ -59,6 +64,13 @@ public class HotelDetailViewModelTest {
         chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers - 10f
         vm.hotelOffersSubject.onNext(offer1)
         assertNull(vm.strikeThroughPriceObservable.value)
+    }
+
+    @Test fun priceShownToCustomerIncludesCustomerFees() {
+        vm.hotelOffersSubject.onNext(offer2)
+        val df = DecimalFormat("#")
+        val expectedPrice = "$" + df.format(expectedTotalPriceWithMandatoryFees)
+        assertEquals(expectedPrice, vm.totalPriceObservable.value)
     }
 
     @Test fun reviewsClicking() {
@@ -118,6 +130,7 @@ public class HotelDetailViewModelTest {
 
         var rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
+        rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees = expectedTotalPriceWithMandatoryFees
         hotel.rateInfo = rateInfo
 
         rooms.add(hotel)
