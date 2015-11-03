@@ -277,11 +277,6 @@ public class HotelScreen {
 		HotelScreen.waitForResultsLoaded();
 	}
 
-	public static void selectHotel(int position) {
-		waitForResultsLoaded();
-		hotelResultsList().perform(RecyclerViewActions.actionOnItemAtPosition(position, click()));
-	}
-
 	public static void selectHotel(String name) throws Throwable {
 		waitForResultsLoaded();
 		hotelResultsList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(name)), click()));

@@ -5,12 +5,15 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.test.HotelServicesRule
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDetailViewModel
+import com.expedia.vm.HotelRoomRateViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
+import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import java.text.DecimalFormat
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
@@ -27,9 +30,10 @@ public class HotelDetailViewModelTest {
     public var service: HotelServicesRule = HotelServicesRule()
     @Rule get
 
-    private lateinit var vm: HotelDetailViewModel
-    private lateinit var offer1: HotelOffersResponse
-    private lateinit var offer2: HotelOffersResponse
+    private var vm: HotelDetailViewModel by Delegates.notNull()
+    private var offer1: HotelOffersResponse by Delegates.notNull()
+    private var offer2: HotelOffersResponse by Delegates.notNull()
+    private var offer3: HotelOffersResponse by Delegates.notNull()
 
     private val expectedTotalPriceWithMandatoryFees = 42f
 
@@ -37,16 +41,25 @@ public class HotelDetailViewModelTest {
         vm = HotelDetailViewModel(RuntimeEnvironment.application, service.hotelServices(), endlessObserver { /*ignore*/ })
 
         offer1 = HotelOffersResponse()
+        offer1.hotelId = "hotel1"
         offer1.hotelName = "hotel1"
         offer1.latitude = 1.0
         offer1.longitude = 2.0
         offer1.hotelRoomResponse = makeHotel()
 
         offer2 = HotelOffersResponse()
+        offer1.hotelId = "hotel2"
         offer2.hotelName = "hotel2"
         offer2.latitude = 100.0
         offer2.longitude = 150.0
         offer2.hotelRoomResponse = makeHotel()
+
+        offer3 = HotelOffersResponse()
+        offer1.hotelId = "hotel3"
+        offer3.hotelName = "hotel3"
+        offer3.latitude = 101.0
+        offer3.longitude = 152.0
+        offer3.hotelRoomResponse = emptyList()
     }
 
     @Test fun strikeThroughPriceShouldShow() {
@@ -103,6 +116,61 @@ public class HotelDetailViewModelTest {
         testSub.awaitTerminalEvent(10, TimeUnit.SECONDS)
         testSub.assertCompleted()
         testSub.assertReceivedOnNext(expected)
+    }
+
+    @Test fun expandNextAvailableRoomOnSoldOut() {
+        vm.hotelOffersSubject.onNext(offer1)
+
+        val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>()
+        (1..3).forEach {
+            hotelRoomRateViewModels.add(HotelRoomRateViewModel(RuntimeEnvironment.application, offer1.hotelId, offer1.hotelRoomResponse.first(), "", it, PublishSubject.create()))
+        }
+        vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
+
+        val expandRoom0TestSubscriber = TestSubscriber.create<Boolean>()
+        hotelRoomRateViewModels.get(0).expandRoomObservable.subscribe(expandRoom0TestSubscriber)
+        val expandRoom1TestSubscriber = TestSubscriber.create<Boolean>()
+        hotelRoomRateViewModels.get(1).expandRoomObservable.subscribe(expandRoom1TestSubscriber)
+        val expandRoom2TestSubscriber = TestSubscriber.create<Boolean>()
+        hotelRoomRateViewModels.get(2).expandRoomObservable.subscribe(expandRoom2TestSubscriber)
+
+        vm.rowExpandingObservable.onNext(0)
+        vm.selectedRoomSoldOut.onNext(Unit)
+
+        vm.rowExpandingObservable.onNext(1)
+        vm.selectedRoomSoldOut.onNext(Unit)
+
+        expandRoom0TestSubscriber.assertNoValues()
+        expandRoom1TestSubscriber.assertValues(false)
+        expandRoom2TestSubscriber.assertValues(false)
+    }
+
+    @Test fun allRoomsSoldOutSignal() {
+        vm.hotelOffersSubject.onNext(offer1)
+
+        val hotelSoldOutTestSubscriber = TestSubscriber.create<Boolean>()
+        vm.hotelSoldOut.subscribe(hotelSoldOutTestSubscriber)
+
+        val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>()
+        (1..20).forEach {
+            hotelRoomRateViewModels.add(HotelRoomRateViewModel(RuntimeEnvironment.application, offer1.hotelId, offer1.hotelRoomResponse.first(), "", it, PublishSubject.create()))
+        }
+        vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
+
+        hotelRoomRateViewModels.forEach {
+            it.roomSoldOut.onNext(true)
+        }
+
+        hotelSoldOutTestSubscriber.assertValues(false, false, true)
+    }
+
+    @Test fun hotelSoldOutSignal() {
+        val hotelSoldOutTestSubscriber = TestSubscriber.create<Boolean>()
+        vm.hotelSoldOut.subscribe(hotelSoldOutTestSubscriber)
+
+        vm.hotelOffersSubject.onNext(offer3)
+
+        hotelSoldOutTestSubscriber.assertValues(false, false, true)
     }
 
     private fun makeHotel() : ArrayList<HotelOffersResponse.HotelRoomResponse> {

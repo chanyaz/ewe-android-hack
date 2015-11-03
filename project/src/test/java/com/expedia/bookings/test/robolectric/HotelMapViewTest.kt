@@ -14,6 +14,8 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
+import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
@@ -31,7 +33,7 @@ public class HotelMapViewTest {
     @Before fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         hotelMapView = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_map_widget, null) as HotelMapView
-        hotelMapView.viewmodel = HotelMapViewModel(RuntimeEnvironment.application, selectARoomTestSubscriber)
+        hotelMapView.viewmodel = HotelMapViewModel(RuntimeEnvironment.application, selectARoomTestSubscriber, PublishSubject.create<Boolean>())
     }
 
     @Test fun testSelectARoomClicked() {
@@ -95,6 +97,25 @@ public class HotelMapViewTest {
         assertEquals("$284", hotelMapView.selectRoomStrikethroughPrice.text.toString())
     }
 
+    @Test fun testMapViewWhenRoomOffersAreNotAvailable() {
+        hotelMapView.viewmodel = HotelMapViewModel(RuntimeEnvironment.application, selectARoomTestSubscriber, BehaviorSubject.create<Boolean>(true))
+        givenHotelOffersResponseWhenRoomOffersAreNotAvailable()
+        hotelMapView.viewmodel.offersObserver.onNext(hotelOffersResponse)
+
+        assertEquals(View.VISIBLE, hotelMapView.toolBarTitle.visibility)
+        assertEquals(View.VISIBLE, hotelMapView.toolBarRating.visibility)
+        assertEquals(View.VISIBLE, hotelMapView.mapView.visibility)
+        assertEquals(View.GONE, hotelMapView.selectRoomContainer.visibility)
+        assertEquals(View.GONE, hotelMapView.selectRoomPrice.visibility)
+        assertEquals(View.GONE, hotelMapView.selectRoomStrikethroughPrice.visibility)
+
+        assertEquals("room_offers_not_available", hotelMapView.toolBarTitle.text)
+        assertEquals(4f, hotelMapView.toolBarRating.getRating())
+        assertEquals("Select a Room", hotelMapView.selectRoomLabel.text)
+        assertEquals("", hotelMapView.selectRoomPrice.text.toString())
+        assertEquals("", hotelMapView.selectRoomStrikethroughPrice.text.toString())
+    }
+
     private fun givenHotelOffersResponseWhenHotelStarRatingIsZero() {
         hotelOffersResponse = mockHotelServiceTestRule.getZeroStarRatingHotelOffersResponse()
     }
@@ -105,5 +126,9 @@ public class HotelMapViewTest {
 
     private fun givenHotelOffersResponseWhenStrikethroughPriceAndPriceAreDifferent() {
         hotelOffersResponse = mockHotelServiceTestRule.getAirAttachedHotelOffersResponse()
+    }
+
+    private fun givenHotelOffersResponseWhenRoomOffersAreNotAvailable() {
+        hotelOffersResponse = mockHotelServiceTestRule.getRoomOffersNotAvailableHotelOffersResponse()
     }
 }

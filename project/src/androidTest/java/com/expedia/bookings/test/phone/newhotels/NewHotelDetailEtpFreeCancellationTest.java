@@ -68,6 +68,7 @@ public class NewHotelDetailEtpFreeCancellationTest extends HotelTestCase {
 
 	private void assertViewsBasedOnETPAndFreeCancellation(boolean hasETP, boolean hasFreeCancellation)
 		throws Throwable {
+		Common.delay(1);
 		//resort fees view not displayed,it is only displayed when you scroll down
 		HotelScreen.resortFeesText().check(matches(not(isDisplayed())));
 

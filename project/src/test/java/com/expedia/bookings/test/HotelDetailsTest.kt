@@ -23,6 +23,7 @@ import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
+import org.junit.Assert
 
 @RunWith(RobolectricRunner::class)
 public class HotelDetailsTest {
@@ -46,6 +47,7 @@ public class HotelDetailsTest {
         hotelDetailView.viewmodel = vm
 
         offers = HotelOffersResponse()
+        offers.hotelId = "happyPath"
         offers.hotelCity = "San Francisco"
         offers.hotelStateProvince = "CA"
         offers.hotelCountry = "US of A"
@@ -53,6 +55,9 @@ public class HotelDetailsTest {
         offers.checkOutDate = LocalDate.now().plusDays(2).toString()
         offers.hotelGuestRating = 5.0
         offers.hotelStarRating = 5.0
+        offers.deskTopOverrideNumber = false
+        offers.telesalesNumber = "1-800-766-6658"
+
     }
 
     @Test
@@ -377,6 +382,122 @@ public class HotelDetailsTest {
         assertNull(vm.hotelResortFeeObservable.value)
     }
 
+    @Test
+    fun testNotSoldOutVisibility() {
+        var hotel = makeHotel()
+
+        var lowRateInfo = HotelRate()
+        lowRateInfo.discountPercent = -20f
+        lowRateInfo.strikethroughPriceToShowUsers = 100f
+        lowRateInfo.currencyCode = "USD"
+
+        var rateInfo = HotelOffersResponse.RateInfo()
+        rateInfo.chargeableRateInfo = lowRateInfo
+        hotel.rateInfo = rateInfo
+
+        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        rooms.add(hotel)
+
+        offers.hotelRoomResponse = rooms
+
+        givenHotelSearchParams()
+
+        vm.hotelOffersSubject.onNext(offers)
+        vm.addViewsAfterTransition()
+
+        testDefaultDetailView()
+    }
+
+    @Test
+    fun testSoldOutReverseVisibility() {
+        var hotel = makeHotel()
+
+        var lowRateInfo = HotelRate()
+        lowRateInfo.totalMandatoryFees = 12.5f
+        lowRateInfo.discountPercent = -20f
+        lowRateInfo.currencyCode = "USD"
+        lowRateInfo.showResortFeeMessage = false
+
+        var rateInfo = HotelOffersResponse.RateInfo()
+        rateInfo.chargeableRateInfo = lowRateInfo
+        hotel.rateInfo = rateInfo
+
+        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        rooms.add(hotel)
+
+        offers.hotelRoomResponse = rooms
+
+        givenHotelSearchParams()
+
+        vm.hotelOffersSubject.onNext(offers)
+        vm.addViewsAfterTransition()
+
+        vm.hotelSoldOut.onNext(true)
+
+        vm.hotelSoldOut.onNext(false)
+
+        testDefaultDetailView()
+    }
+
+    @Test
+    fun testSoldOutVisibility() {
+
+        var hotel = makeHotel()
+
+        var lowRateInfo = HotelRate()
+        lowRateInfo.discountPercent = -20f
+        lowRateInfo.currencyCode = "USD"
+
+        var rateInfo = HotelOffersResponse.RateInfo()
+        rateInfo.chargeableRateInfo = lowRateInfo
+        hotel.rateInfo = rateInfo
+
+        var rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        rooms.add(hotel)
+
+        offers.hotelRoomResponse = rooms
+
+        givenHotelSearchParams()
+
+        vm.hotelOffersSubject.onNext(offers)
+        vm.addViewsAfterTransition()
+
+        vm.hotelSoldOut.onNext(true)
+
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.changeDatesButton.getVisibility())
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.detailsSoldOut.getVisibility())
+        Assert.assertEquals(activity.getResources().getColor(android.R.color.white), hotelDetailView.toolBarRating.getStarColor())
+        Assert.assertEquals(View.GONE, hotelDetailView.selectRoomButton.getVisibility())
+        Assert.assertEquals(View.GONE, hotelDetailView.roomContainer.getVisibility())
+        Assert.assertEquals(View.GONE, hotelDetailView.price.getVisibility())
+        Assert.assertEquals(View.GONE, hotelDetailView.strikeThroughPrice.getVisibility())
+        Assert.assertEquals(View.GONE, hotelDetailView.payByPhoneContainer.getVisibility())
+        Assert.assertEquals(View.GONE, hotelDetailView.hotelMessagingContainer.getVisibility())
+        Assert.assertEquals(View.GONE, hotelDetailView.etpContainer.getVisibility())
+        Assert.assertEquals(View.GONE, hotelDetailView.etpAndFreeCancellationMessagingContainer.getVisibility())
+        hotelDetailView.hotelDetailsGalleryImageViews.forEach { galleryImageView -> Assert.assertNotNull(galleryImageView.colorFilter) }
+        Assert.assertEquals(View.GONE, hotelDetailView.stickySelectRoomContainer.getVisibility())
+
+    }
+
+    private fun testDefaultDetailView() {
+        Assert.assertEquals(View.GONE, hotelDetailView.changeDatesButton.getVisibility())
+        Assert.assertEquals(View.GONE, hotelDetailView.detailsSoldOut.getVisibility())
+        Assert.assertEquals(activity.getResources().getColor(R.color.hotelsv2_detail_star_color), hotelDetailView.toolBarRating.getStarColor())
+        hotelDetailView.hotelDetailsGalleryImageViews.forEach { galleryImageView -> Assert.assertNull(galleryImageView.colorFilter) }
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.selectRoomButton.getVisibility())
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.roomContainer.getVisibility())
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.price.getVisibility())
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.stickySelectRoomContainer.getVisibility())
+
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.strikeThroughPrice.getVisibility())
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.payByPhoneContainer.getVisibility())
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.getVisibility())
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.etpContainer.getVisibility())
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.etpAndFreeCancellationMessagingContainer.getVisibility())
+
+    }
+
     private fun givenHotelSearchParams() {
         checkIn = LocalDate.now();
         checkOut = checkIn.plusDays(1)
@@ -407,6 +528,8 @@ public class HotelDetailsTest {
         hotel.bedTypes = bedTypes
 
         hotel.currentAllotment = "1"
+        hotel.payLaterOffer = hotel
+
         return hotel
     }
 }

@@ -12,6 +12,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import java.text.DecimalFormat
+import rx.observers.TestSubscriber
+import rx.subjects.BehaviorSubject
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
@@ -26,17 +28,19 @@ public class HotelRoomRateViewModelTest {
     lateinit private var sut: HotelRoomRateViewModel
     lateinit private var mockHotelDetailViewModel: HotelDetailViewModel
     lateinit private var hotelRoomResponse: HotelOffersResponse.HotelRoomResponse
+    lateinit private var hotelOfferResponse: HotelOffersResponse
 
     private var expectedAmenity = ""
 
     @Before
     fun before() {
-        hotelRoomResponse = mockHotelServiceTestRule.getHappyOfferResponse().hotelRoomResponse.first()
+        hotelOfferResponse = mockHotelServiceTestRule.getHappyOfferResponse()
+        hotelRoomResponse = hotelOfferResponse.hotelRoomResponse.first()
     }
 
     @Test
     fun happy() {
-        setupSystemUnderTest()
+        setupNonSoldOutRoomUnderTest()
 
         assertEquals("-20%", sut.discountPercentage.value)
         assertFalse(sut.onlyShowTotalPrice.value)
@@ -56,7 +60,7 @@ public class HotelRoomRateViewModelTest {
     @Test
     fun hasFreeCancellation() {
         givenOfferHasFreeCancellation()
-        setupSystemUnderTest()
+        setupNonSoldOutRoomUnderTest()
 
         assertEquals("Free Cancellation", sut.expandedMessageObservable.value.first)
         assertEquals(R.drawable.room_checkmark, sut.expandedMessageObservable.value.second)
@@ -65,7 +69,7 @@ public class HotelRoomRateViewModelTest {
     @Test
     fun payLaterOfferDontShowStrikeThroughPrice() {
         givenOfferIsPayLater()
-        setupSystemUnderTest()
+        setupNonSoldOutRoomUnderTest()
 
         assertNull(sut.strikeThroughPriceObservable.value)
     }
@@ -73,7 +77,7 @@ public class HotelRoomRateViewModelTest {
     @Test
     fun discountLessThanTenPercentDontShow() {
         givenDiscountLessThanTenPercent()
-        setupSystemUnderTest()
+        setupNonSoldOutRoomUnderTest()
 
         assertNull(sut.discountPercentage.value)
         assertNull(sut.strikeThroughPriceObservable.value)
@@ -85,13 +89,24 @@ public class HotelRoomRateViewModelTest {
         val newValidStrikeThroughPrice = chargeableRateInfo.priceToShowUsers + 10f
         val df = DecimalFormat("#")
         givenWeHaveValidStrikeThroughPrice(newValidStrikeThroughPrice)
-        setupSystemUnderTest()
+        setupNonSoldOutRoomUnderTest()
 
         assertEquals("$" + df.format(newValidStrikeThroughPrice).toString(), sut.strikeThroughPriceObservable.value.toString())
     }
 
     private fun givenWeHaveValidStrikeThroughPrice(strikeThroughPrice: Float) {
         hotelRoomResponse.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = strikeThroughPrice
+    }
+
+    @Test
+    fun soldOutButtonLabelEmitsOnSoldOut() {
+        setupSoldOutRoomUnderTest()
+
+        sut.roomSoldOut.onNext(true)
+
+        val testSubscriber = TestSubscriber.create<CharSequence>()
+        sut.soldOutButtonLabelObservable.subscribe(testSubscriber)
+        testSubscriber.assertValue("Sold Out")
     }
 
     private fun givenDiscountLessThanTenPercent() {
@@ -106,11 +121,19 @@ public class HotelRoomRateViewModelTest {
         hotelRoomResponse.hasFreeCancellation = true
     }
 
-    private fun setupSystemUnderTest() {
+    private fun setupNonSoldOutRoomUnderTest() {
         val rowIndex = 0
         expectedAmenity = "Free wifi"
         mockHotelDetailViewModel = HotelDetailViewModel(context, mockHotelServiceTestRule.service, endlessObserver { /*ignore*/ })
 
-        sut = HotelRoomRateViewModel(context, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel)
+        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable)
+    }
+
+    private fun setupSoldOutRoomUnderTest() {
+        val rowIndex = 0
+        expectedAmenity = "Free wifi"
+        mockHotelDetailViewModel = HotelDetailViewModel(context, mockHotelServiceTestRule.service, endlessObserver { /*ignore*/ })
+
+        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable)
     }
 }
