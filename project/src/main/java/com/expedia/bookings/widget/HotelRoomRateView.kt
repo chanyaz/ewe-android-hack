@@ -68,12 +68,14 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
     private val roomInfoHeader: TextView by bindView(R.id.room_info_header_text)
     private val roomInfoDivider: View by bindView(R.id.room_info_divider)
     private val roomDivider: View by bindView(R.id.row_divider)
+    private val spaceAboveRoomInfo: View by bindView(R.id.space_above_room_info)
 
     private var roomInfoHeaderTextHeight = -1
     private var roomHeaderImageHeight = -1
     private var roomInfoDividerHeight = -1
     private var roomInfoDescriptionTextHeight = -1
     private var roomInfoChevronHeight = -1
+    private var spaceAboveRoomInfoHeight = -1
     private var toggleCollapsed = 0
     private var toggleExpanded = 0
     private var roomContainerTopBottomPadding = 0
@@ -239,6 +241,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             resizeAnimator.addViewSpec(roomInfoHeader, roomInfoHeaderTextHeight)
             resizeAnimator.addViewSpec(roomInfoDivider, roomInfoDividerHeight)
             resizeAnimator.addViewSpec(roomInfoChevron, roomInfoChevronHeight)
+            resizeAnimator.addViewSpec(spaceAboveRoomInfo, spaceAboveRoomInfoHeight)
             if (roomInfoDescriptionText.visibility == View.VISIBLE) {
                 resizeAnimator.addViewSpec(roomInfoDescriptionText, roomInfoDescriptionTextHeight)
             }
@@ -292,6 +295,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             resizeAnimator.addViewSpec(roomInfoHeader, 0)
             resizeAnimator.addViewSpec(roomInfoDivider, 0)
             resizeAnimator.addViewSpec(roomInfoChevron, 0)
+            resizeAnimator.addViewSpec(spaceAboveRoomInfo, 0)
             if (roomInfoDescriptionText.visibility == View.VISIBLE) {
                 resizeAnimator.addViewSpec(roomInfoDescriptionText, 0)
             }
@@ -332,6 +336,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
                 roomInfoDividerHeight = roomInfoDivider.height;
                 roomInfoDescriptionTextHeight = roomInfoDescriptionText.height;
                 roomInfoChevronHeight = roomInfoChevron.height
+                spaceAboveRoomInfoHeight = spaceAboveRoomInfo.height
 
                 row.viewTreeObserver.removeOnGlobalLayoutListener(this)
 
