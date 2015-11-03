@@ -47,6 +47,7 @@ public class Hotel {
 	public boolean isShowEtpChoice;
 
 	public transient List<Integer> amenityFilterIdList;
+	public transient boolean isSoldOut = false;
 
 	public static class HotelAmenity {
 		public String id;

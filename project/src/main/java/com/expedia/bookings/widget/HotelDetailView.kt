@@ -5,6 +5,7 @@ import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
+import android.graphics.ColorMatrixColorFilter
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
@@ -34,16 +35,21 @@ import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.FontCache
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.publishOnClick
+import com.expedia.util.subscribeBackground
+import com.expedia.util.subscribeBackgroundColor
 import com.expedia.util.subscribeBackgroundResource
+import com.expedia.util.subscribeGalleryColorFilter
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeRating
+import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
@@ -91,10 +97,13 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val strikeThroughPrice: TextView by bindView(R.id.strike_through_price)
     val price: TextView by bindView(R.id.price)
     val perNight: TextView by bindView(R.id.per_night)
+    val detailsSoldOut: TextView by bindView(R.id.details_sold_out)
+    val priceWidget: View by bindView(R.id.price_widget)
 
     val searchInfo: TextView by bindView(R.id.hotel_search_info)
     val ratingContainer: LinearLayout by bindView(R.id.rating_container)
     val selectRoomButton: Button by bindView(R.id.select_room_button)
+    val changeDatesButton: Button by bindView(R.id.change_dates_button)
     val stickySelectRoomContainer: ViewGroup by bindView(R.id.sticky_select_room_container)
     val stickySelectRoomButton: Button by bindView(R.id.sticky_select_room)
     val userRating: TextView by bindView(R.id.user_rating)
@@ -166,6 +175,20 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
         detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
         detailContainer.setOnTouchListener(touchListener)
+
+        vm.toolBarRatingColor.subscribeStarColor(toolBarRating)
+        vm.galleryColorFilter.subscribeGalleryColorFilter(gallery)
+
+        vm.hotelSoldOut.subscribeVisibility(changeDatesButton)
+        vm.hotelSoldOut.subscribeInverseVisibility(selectRoomButton)
+        vm.hotelSoldOut.subscribeVisibility(detailsSoldOut)
+        vm.hotelSoldOut.subscribeInverseVisibility(price)
+        vm.hotelSoldOut.subscribeInverseVisibility(roomContainer)
+        vm.hotelSoldOut.subscribeInverseVisibility(etpContainerDropShadow)
+        vm.hotelSoldOut.subscribeInverseVisibility(stickySelectRoomContainer)
+
+        changeDatesButton.publishOnClick(vm.changeDates)
+
         vm.galleryObservable.subscribe { galleryUrls ->
             gallery.setOnItemClickListener(vm)
             gallery.setOnItemChangeListener(vm)
@@ -182,9 +205,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             }
         }
 
-        vm.scrollToRoom.subscribe {
-            scrollToRoom(false)
-        }
+        vm.hotelSoldOut.filter { it }.subscribe { resetGallery() }
+        vm.priceWidgetBackground.subscribeBackgroundColor(priceWidget)
+
+        vm.scrollToRoom.subscribe { scrollToRoom(false) }
 
         vm.noAmenityObservable.subscribe {
             amenityContainer.visibility = View.GONE
@@ -234,12 +258,13 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.hotelRatingObservable.subscribeRating(toolBarRating)
         vm.hotelRatingObservableVisibility.subscribeVisibility(toolBarRating)
         vm.strikeThroughPriceObservable.subscribeText(strikeThroughPrice)
-        vm.hasDiscountPercentageObservable.subscribeVisibility(strikeThroughPrice)
+        vm.strikeThroughPriceVisibility.subscribeVisibility(strikeThroughPrice)
         vm.pricePerNightObservable.subscribeText(price)
         vm.searchInfoObservable.subscribeText(searchInfo)
         vm.userRatingObservable.subscribeText(userRating)
         vm.roomPriceToShowCustomer.subscribeText(price)
-        vm.onlyShowTotalPrice.subscribeInverseVisibility(perNight)
+        vm.perNightVisibility.subscribeInverseVisibility(perNight)
+
         vm.isUserRatingAvailableObservable.subscribeVisibility(userRating)
         vm.isUserRatingAvailableObservable.subscribeVisibility(userRatingRecommendationText)
         vm.isUserRatingAvailableObservable.map { !it }.subscribeVisibility(noGuestRating)
@@ -251,25 +276,17 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             addMarker()
             googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hotelLatLng[0], hotelLatLng[1]), MAP_ZOOM_LEVEL))
         }
-        vm.showBookByPhoneObservable.subscribe { showPayByPhone ->
-            if (showPayByPhone) {
-                payByPhoneContainer.visibility = View.VISIBLE
-            } else {
-                payByPhoneContainer.visibility = View.GONE
-            }
-            spaceAboveSelectARoom();
-        }
+
+        vm.payByPhoneContainerVisibility.subscribe { spaceAboveSelectARoom() }
+        vm.payByPhoneContainerVisibility.subscribeVisibility(payByPhoneContainer)
         vm.discountPercentageObservable.subscribeText(discountPercentage)
         vm.discountPercentageBackgroundObservable.subscribeBackgroundResource(discountPercentage)
         vm.hasDiscountPercentageObservable.subscribeVisibility(discountPercentage)
         vipAccessMessage.subscribeOnClick(vm.vipAccessInfoObservable)
         vm.hasVipAccessObservable.subscribeVisibility(vipAccessMessage)
         vm.promoMessageObservable.subscribeText(promoMessage)
-        Observable.zip(vm.hasDiscountPercentageObservable, vm.hasVipAccessObservable, vm.promoMessageObservable,
-                {
-                    hasDiscount, hasVipAccess, promoMessage ->
-                    hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage)
-                }).subscribeVisibility(hotelMessagingContainer)
+
+        vm.hotelMessagingContainerVisibility.subscribeVisibility(hotelMessagingContainer)
 
         val rowTopConstraintViewObservable: Observable<View> = vm.hasETPObservable.map { hasETP ->
             when {
@@ -289,12 +306,16 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             roomContainerAlphaOneToZeroAnimation.setAnimationListener(object: Animation.AnimationListener {
                 override fun onAnimationEnd(p0: Animation?) {
                     roomContainer.removeAllViews()
+                    if (CollectionUtils.isEmpty(roomList.first)) {
+                        return
+                    }
                     roomList.first.forEachIndexed { roomResponseIndex, room ->
                         val view = HotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex)
-                        view.viewmodel = HotelRoomRateViewModel(getContext(), roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), roomResponseIndex, vm)
+                	view.viewmodel = HotelRoomRateViewModel(getContext(), vm.hotelOffersResponse.hotelId, roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), roomResponseIndex, vm.rowExpandingObservable)
                         roomContainer.addView(view)
                         hotelRoomRateViewModels.add(view.viewmodel)
                     }
+                    vm.lastExpandedRowObservable.onNext(-1)
                     vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
                     roomContainer.startAnimation(roomContainerAlphaZeroToOneAnimation)
                 }
@@ -309,42 +330,30 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             })
 
             roomContainer.startAnimation(roomContainerAlphaOneToZeroAnimation)
-
-            //setting first room in expanded state as some etp hotel offers are less compared to pay now offers
-            vm.lastExpandedRowObservable.onNext(0)
-
         }
 
         vm.hasETPObservable.subscribeVisibility(etpInfoText)
         vm.hasFreeCancellationObservable.subscribeVisibility(freeCancellation)
 
-        vm.hasETPObservable.subscribe { visible ->
-            if (visible) {
-                payNowLaterSelectionChanged(true)
-            }
-            etpContainer.visibility = if (visible) View.VISIBLE else View.GONE
-        }
+       vm.etpContainerVisibility.subscribeVisibility(etpContainer)
+       vm.etpContainerVisibility.subscribeVisibility(etpContainerDropShadow)
+       vm.hasETPObservable.filter { it == true }.subscribe { payNowLaterSelectionChanged(true) }
 
-        Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, { hasETP, hasFreeCancellation -> hasETP && hasFreeCancellation })
-                .subscribe { showETPAndFreeCancellation ->
-                    if (showETPAndFreeCancellation) {
-                        freeCancellationAndETPMessaging.visibility = View.VISIBLE
-                        singleMessageContainer.visibility = View.GONE
-                    } else {
-                        freeCancellationAndETPMessaging.visibility = View.GONE
-                        singleMessageContainer.visibility = View.VISIBLE
-                    }
-                }
-        Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hasBestPriceGuaranteeObservable, { hasETP, hasFreeCancellation, hasBestPriceGuarantee -> hasETP || hasFreeCancellation || hasBestPriceGuarantee })
+        Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hotelSoldOut -> hasETP && hasFreeCancellation && !hotelSoldOut }
+                .distinctUntilChanged()
+                .subscribeVisibility(freeCancellationAndETPMessaging)
+
+        Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hotelSoldOut -> !(hasETP && hasFreeCancellation) && !hotelSoldOut }
+                .distinctUntilChanged()
+                .subscribeVisibility(singleMessageContainer)
+
+        Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hasBestPriceGuaranteeObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hasBestPriceGuarantee, hotelSoldOut -> (hasETP || hasFreeCancellation || hasBestPriceGuarantee) && !hotelSoldOut }
+                .distinctUntilChanged()
                 .subscribeVisibility(etpAndFreeCancellationMessagingContainer)
-        Observable.zip(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hasBestPriceGuaranteeObservable, vm.isUserRatingAvailableObservable, { hasETP, hasFreeCancellation, hasBestPriceGuarantee, hasUserReviews -> !hasETP && !hasFreeCancellation && hasBestPriceGuarantee && !hasUserReviews })
-                .subscribe { showBestPriceGuarantee ->
-                    if (showBestPriceGuarantee) {
-                        bestPriceGuarantee.visibility = View.VISIBLE
-                    } else {
-                        bestPriceGuarantee.visibility = View.GONE
-                    }
-                }
+
+        Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hasBestPriceGuaranteeObservable, vm.isUserRatingAvailableObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hasBestPriceGuarantee, hasUserReviews, hotelSoldOut -> !hasETP && !hasFreeCancellation && hasBestPriceGuarantee && !hasUserReviews && !hotelSoldOut }
+                .distinctUntilChanged()
+                .subscribeVisibility(bestPriceGuarantee)
 
         vm.etpRoomResponseListObservable.subscribe { etpRoomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
             val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(etpRoomList.first.size())
@@ -359,11 +368,12 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                     roomContainer.removeAllViews()
                     etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
                         val view = HotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex)
-                        view.viewmodel = HotelRoomRateViewModel(getContext(), etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), roomResponseIndex, vm)
+                	    view.viewmodel = HotelRoomRateViewModel(getContext(), vm.hotelOffersResponse.hotelId, etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), roomResponseIndex, vm.rowExpandingObservable)
                         view.viewmodel.payLaterObserver.onNext(Unit)
                         roomContainer.addView(view)
                         hotelRoomRateViewModels.add(view.viewmodel)
                     }
+                    vm.lastExpandedRowObservable.onNext(-1)
                     vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
                     roomContainer.startAnimation(roomContainerAlphaZeroToOneAnimation)
                 }
@@ -378,20 +388,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             })
 
             roomContainer.startAnimation(roomContainerAlphaOneToZeroAnimation)
-
-            //setting first room in expanded state as some etp hotel offers are less compared to pay now offers
-            vm.lastExpandedRowObservable.onNext(0)
         }
 
-        vm.isUserRatingAvailableObservable.subscribe {
-            if (it) {
-                ratingContainer.subscribeOnClick(vm.reviewsClickedSubject)
-                ratingContainer.background = resources.getDrawable(R.drawable.hotel_detail_ripple)
-            } else {
-                ratingContainer.unsubscribeOnClick()
-                ratingContainer.background = null
-            }
-        }
+        vm.ratingContainerBackground.subscribeBackground(ratingContainer)
+        vm.isUserRatingAvailableObservable.filter { it }.subscribe { ratingContainer.subscribeOnClick(vm.reviewsClickedSubject) }
+        vm.isUserRatingAvailableObservable.filter { !it }.subscribe { ratingContainer.unsubscribeOnClick() }
 
         etpInfoText.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
         etpInfoTextSmall.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
@@ -399,11 +400,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         vm.propertyInfoListObservable.subscribe { infoList ->
             propertyTextContainer.removeAllViews()
-            for (info in infoList) {
-                val view = HotelInfoView(getContext())
-                view.setText(info.name, info.content)
-                propertyTextContainer.addView(view)
-            }
+            infoList.forEach { propertyTextContainer.addView(HotelInfoView(context).setText(it.name, it.content)) }
         }
 
         vm.sectionImageObservable.subscribe { isExpanded ->
@@ -730,7 +727,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         FontCache.setTypeface(payNowButton, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(payLaterButton, FontCache.Font.ROBOTO_REGULAR)
         resetGallery()
-
     }
 
     public fun resetGallery() {
@@ -746,6 +742,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
                 detailContainer.post {
                     detailContainer.scrollTo(0, initialScrollTop)
+                    gallery.scrollToPosition(0)
                     showToolbarGradient()
                 }
             }
@@ -776,5 +773,13 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     public fun getArrowRotationRatio(scrollY: Int): Float {
         return scrollY.toFloat() / (initialScrollTop)
+    }
+
+    companion object {
+        val zeroSaturationColorMatrixColorFilter: ColorMatrixColorFilter by lazy {
+            val colorMatrix = android.graphics.ColorMatrix()
+            colorMatrix.setSaturation(0f)
+            ColorMatrixColorFilter(colorMatrix)
+        }
     }
 }

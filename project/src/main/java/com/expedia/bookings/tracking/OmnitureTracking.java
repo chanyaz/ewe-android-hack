@@ -83,6 +83,7 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.services.HotelCheckoutResponse;
+import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -932,11 +933,11 @@ public class OmnitureTracking {
 	}
 
 	private static String internalGenerateHotelV2DRRString(HotelOffersResponse hotelOffersResponse) {
-		StringBuilder sb = new StringBuilder("Hotels | ");
-		int discountPercent = (int) Math.abs(hotelOffersResponse.hotelRoomResponse
-			.get(0).rateInfo.chargeableRateInfo.discountPercent);
-		if (hotelOffersResponse != null) {
-			if (hotelOffersResponse.hotelRoomResponse.get(0).isDiscountRestrictedToCurrentSourceType) {
+		if (hotelOffersResponse != null && CollectionUtils.isNotEmpty(hotelOffersResponse.hotelRoomResponse)) {
+			StringBuilder sb = new StringBuilder("Hotels | ");
+			HotelOffersResponse.HotelRoomResponse firstRoomDetails = hotelOffersResponse.hotelRoomResponse.get(0);
+			int discountPercent = (int) Math.abs(firstRoomDetails.rateInfo.chargeableRateInfo.discountPercent);
+			if (firstRoomDetails.isDiscountRestrictedToCurrentSourceType) {
 				sb.append("Mobile Exclusive");
 				if (discountPercent > 0) {
 					sb.append(": ");
@@ -944,7 +945,8 @@ public class OmnitureTracking {
 				}
 			}
 			if (discountPercent > 0) {
-				sb.append(discountPercent + "% OFF");
+				sb.append(discountPercent);
+				sb.append("% OFF");
 			}
 			return sb.toString();
 		}

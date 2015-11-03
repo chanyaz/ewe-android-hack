@@ -165,6 +165,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.price_dropped_from_TEMPLATE,
 		R.drawable.btn_filter_rating_two_circle,
 		R.layout.widget_hotel_map,
-		R.drawable.ic_material_location_pin
+		R.drawable.ic_material_location_pin,
+		R.color.hotel_sold_out_color,
+		R.raw.air_attach_curve
 	};
 }

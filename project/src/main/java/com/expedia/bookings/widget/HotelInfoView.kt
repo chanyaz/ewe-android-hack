@@ -18,9 +18,9 @@ public class HotelInfoView(context: Context) : LinearLayout(context) {
         View.inflate(getContext(), R.layout.widget_hotel_info, this)
     }
 
-    fun setText(header: String, info: String) {
+    fun setText(header: String, info: String): HotelInfoView {
         infoHeader.text = Html.fromHtml(header).toString()
         infoText.text = Html.fromHtml(StrUtils.getFormattedContent(context, info))
+        return this
     }
-
 }

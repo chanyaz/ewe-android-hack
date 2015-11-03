@@ -1,8 +1,10 @@
 package com.expedia.util
 
+import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.Drawable
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.ImageView
@@ -10,6 +12,7 @@ import android.widget.RadioGroup
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.ToggleButton
+import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.StarRatingBar
 import com.google.android.gms.maps.GoogleMap
 import rx.Observable
@@ -61,16 +64,6 @@ public fun View.publishOnClick(publishSubject: PublishSubject<Unit>) {
     }
 }
 
-public fun RadioGroup.subscribeOnCheckedChange(observer: Observer<Int>) {
-    this.setOnCheckedChangeListener { radioGroup, checkedId ->
-        observer.onNext(checkedId)
-    }
-}
-
-public fun RadioGroup.unsubscribeOnCheckedChange() {
-    this.setOnCheckedChangeListener(null)
-}
-
 public fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView) {
     this.subscribe { textview.text = it }
 }
@@ -88,6 +81,10 @@ public fun Observable<Drawable>.subscribeImageDrawable(imageView: ImageView) {
 
 public fun Observable<Int>.subscribeBackgroundColor(view: View) {
     this.subscribe { color -> view.setBackgroundColor(color) }
+}
+
+public fun Observable<Drawable?>.subscribeBackground(view: View) {
+    this.subscribe { drawable -> view.background = drawable }
 }
 
 public fun Observable<Float>.subscribeRating(ratingBar: RatingBar) {
@@ -124,4 +121,24 @@ public fun Observable<Boolean>.subscribeVisibility(drawable: Drawable, inverse: 
     this.subscribe { visible ->
         drawable.mutate().alpha = if (if (inverse) !visible else visible) 255 else 0
     }
+}
+
+public fun Observable<Int>.subscribeStarColor(starRatingBar: StarRatingBar) {
+    this.subscribe { starRatingBar.setStarColor(it) }
+}
+
+public fun Observable<ColorMatrixColorFilter?>.subscribeGalleryColorFilter(recyclerGallery: RecyclerGallery) {
+    this.subscribe { recyclerGallery.setColorFilter(it) }
+}
+
+public fun Observable<ColorMatrixColorFilter?>.subscribeGalleryColorFilter(imageView: ImageView) {
+    this.subscribe { imageView.colorFilter = it }
+}
+
+public fun Observable<Boolean>.subscribeEnabled(view: View) {
+    this.subscribe { view.isEnabled = it }
+}
+
+public fun Observable<Boolean>.subscribeChecked(toggleButton: ToggleButton) {
+    this.subscribe { toggleButton.isChecked = it }
 }

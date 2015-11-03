@@ -29,11 +29,14 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeChecked
+import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
+import com.expedia.util.subscribeToggleButton
 import com.expedia.vm.HotelRoomRateViewModel
 import com.mobiata.android.util.AndroidUtils
 import rx.Observer
@@ -56,7 +59,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
     private val strikeThroughPrice: TextView by bindView(R.id.strike_through_price)
     private val dailyPricePerNight: TextView by bindView(R.id.daily_price_per_night)
     private val perNight: TextView by bindView(R.id.per_night)
-    private val viewRoom: ToggleButton by bindView(R.id.view_room_button)
+    val viewRoom: ToggleButton by bindView(R.id.view_room_button)
     private val roomHeaderImageContainer: FrameLayout by bindView(R.id.room_header_image_container)
     private val roomHeaderImage: ImageView by bindView(R.id.room_header_image)
     private val roomDiscountPercentage: TextView by bindView(R.id.discount_percentage)
@@ -87,6 +90,10 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
         val viewsToHideInExpandedState = arrayOf(collapsedBedType, collapsedUrgency)
         val viewsToShowInExpandedState = arrayOf(expandedBedType, expandedAmenity, freeCancellation, strikeThroughPrice)
 
+        vm.roomSoldOut.filter { it }.map { false }.subscribeChecked(viewRoom)
+        vm.roomSoldOut.filter { it }.map { false }.subscribeEnabled(viewRoom)
+        vm.soldOutButtonLabelObservable.subscribeToggleButton(viewRoom)
+
         expandedAmenity.visibility = View.GONE
         viewRoom.subscribeOnCheckChanged(vm.expandCollapseRoomRate)
         row.setOnClickListener {
@@ -107,8 +114,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
                 AnimUtils.rotate(roomInfoChevron)
                 //track only when expand the room info
                 HotelV2Tracking().trackLinkHotelV2RoomInfoClick()
-            }
-            else {
+            } else {
                 lp.addRule(RelativeLayout.BELOW, 0)
                 roomInfoChevron.layoutParams = lp
                 resizeAnimator.addViewSpec(roomInfoDescriptionText, 0)
@@ -188,20 +194,29 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             val anim = AlphaAnimation(1f, 0f)
             anim.commonSetup()
             anim.setAnimationListener(object : Animation.AnimationListener {
-                override fun onAnimationStart(animation: Animation?) {}
+                override fun onAnimationStart(animation: Animation?) {
+                }
 
                 override fun onAnimationEnd(animation: Animation?) {
                     if (view.id == R.id.strike_through_price) view.visibility = View.GONE
                     if (view.id == R.id.expanded_free_cancellation_text_view) view.visibility = View.GONE
                 }
 
-                override fun onAnimationRepeat(animation: Animation?) {}
+                override fun onAnimationRepeat(animation: Animation?) {
+                }
             })
             return anim
         }
 
+        Observable.combineLatest(vm.expandRoomObservable, vm.expandedMeasurementsDone) { animate, unit ->
+            animate
+        }.filter {
+            //Sold Out Room cannot be expanded!
+            !vm.roomSoldOut.value
+        }.subscribe { animate ->
+            //let the observable know that I am expanding
+            viewmodel.rowExpanding.onNext(viewmodel.rowIndex)
 
-        Observable.combineLatest(vm.expandRoomObservable, vm.expandedMeasurementsDone) { animate, unit -> animate }.subscribe { animate ->
             viewRoom.isChecked = true
 
             val imageUrl: String? = vm.roomHeaderImageObservable.value
@@ -270,7 +285,9 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             resizeAnimator.start()
         }
 
-        Observable.combineLatest(vm.collapseRoomObservable, vm.expandedMeasurementsDone) { animate, unit -> animate }.subscribe { animate ->
+        Observable.combineLatest(vm.collapseRoomObservable, vm.expandedMeasurementsDone) { animate, unit ->
+            animate
+        }.subscribe { animate ->
             viewRoom.isChecked = false
 
             viewsToHideInExpandedState.forEach {
@@ -286,7 +303,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
 
             row.isEnabled = true
             viewRoom.setPadding(toggleCollapsed, 0, toggleCollapsed, 0)
-            roomInfoContainer.setPadding(0, 0, 0 ,0)
+            roomInfoContainer.setPadding(0, 0, 0, 0)
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
             dailyPricePerNight.setTextColor(resources.getColor(R.color.hotel_cell_disabled_text))
             perNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)

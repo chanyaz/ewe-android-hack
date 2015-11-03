@@ -134,8 +134,8 @@ class FacebookEvents() {
         val parameters = Bundle()
         addCommonHotelV2Params(parameters, searchParams, hotelOffersResponse.locationId ?: "", location)
 
-        val dailyPrice: String? = hotelOffersResponse.hotelRoomResponse.first().rateInfo.chargeableRateInfo.averageRate.toString()
-        val currencyCode: String? = hotelOffersResponse.hotelRoomResponse.first().rateInfo.chargeableRateInfo.currencyCode
+        val dailyPrice: String? = hotelOffersResponse.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo?.averageRate.toString()
+        val currencyCode: String? = hotelOffersResponse.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo?.currencyCode
 
         parameters.putString("Room_Value", dailyPrice ?: "")
         parameters.putString("Currency", currencyCode ?: "")

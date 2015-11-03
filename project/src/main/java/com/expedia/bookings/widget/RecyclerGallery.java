@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -62,6 +63,11 @@ public class RecyclerGallery extends RecyclerView {
 	private boolean mScrolling = false;
 	private boolean mRegisteredReceiver = false;
 	private IImageViewBitmapLoadedListener imageViewBitmapLoadedListener;
+
+	private ColorFilter mColorFilter = null;
+	public void setColorFilter(ColorFilter colorFilter) {
+		mColorFilter = colorFilter;
+	}
 
 	public void addImageViewCreatedListener(IImageViewBitmapLoadedListener imageViewBitmapLoadedListener) {
 		this.imageViewBitmapLoadedListener = imageViewBitmapLoadedListener;
@@ -248,6 +254,8 @@ public class RecyclerGallery extends RecyclerView {
 					}
 					mImageView.setBackgroundColor(Color.TRANSPARENT);
 					mImageView.setImageBitmap(bitmap);
+					mImageView.setColorFilter(mColorFilter);
+
 					if (imageViewBitmapLoadedListener != null) {
 						imageViewBitmapLoadedListener.onImageViewBitmapLoaded((HotelDetailsGalleryImageView) mImageView);
 					}
@@ -268,7 +276,6 @@ public class RecyclerGallery extends RecyclerView {
 						mImageView.setBackgroundColor(getResources().getColor(R.color.placeholder_background_color));
 						mImageView.setImageDrawable(placeHolderDrawable);
 					}
-
 				}
 			};
 		}

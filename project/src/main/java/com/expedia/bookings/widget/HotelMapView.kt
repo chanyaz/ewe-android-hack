@@ -15,6 +15,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeRating
 import com.expedia.util.subscribeText
@@ -75,6 +76,8 @@ public class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(c
         vm.strikethroughPrice.subscribeText(selectRoomStrikethroughPrice)
         vm.strikethroughPriceVisibility.subscribeVisibility(selectRoomStrikethroughPrice)
         vm.fromPrice.subscribeText(selectRoomPrice)
+        vm.fromPriceVisibility.subscribeVisibility(selectRoomPrice)
+        vm.selectARoomInvisibility.subscribeInverseVisibility(selectRoomContainer)
 
         Observable.combineLatest(mapReady, vm.resetCameraPosition, vm.hotelLatLng) {
             googleMap, unit, hotelLatLng -> object {

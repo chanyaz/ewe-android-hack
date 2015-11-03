@@ -27,6 +27,9 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeBackgroundColor
 import com.expedia.util.subscribeImageDrawable
 import com.expedia.util.subscribeVisibility
+import com.expedia.util.endlessObserver
+import com.expedia.util.subscribeGalleryColorFilter
+import com.expedia.util.subscribeStarColor
 import com.expedia.vm.HotelResultsPricingStructureHeaderViewModel
 import com.squareup.picasso.Picasso
 import rx.subjects.BehaviorSubject
@@ -43,6 +46,13 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
     var loading = true
     val loadingSubject = BehaviorSubject.create<Unit>()
     val resultsSubject = PublishSubject.create<HotelSearchResponse>()
+    val hotelSoldOut = endlessObserver<String> { soldOutHotelId ->
+        hotelListItemsMetadata.firstOrNull { it.hotelId == soldOutHotelId }?.hotelSoldOut?.onNext(true)
+        hotels.firstOrNull { it.hotelId == soldOutHotelId }?.isSoldOut = true
+    }
+
+    private data class HotelListItemMetadata(val hotelId: String, val hotelSoldOut: BehaviorSubject<Boolean>)
+    private val hotelListItemsMetadata: MutableList<HotelListItemMetadata> = ArrayList()
 
     private var hotels: List<Hotel> = emptyList()
 
@@ -54,6 +64,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         resultsSubject.subscribe { response ->
             loading = false
             hotels = ArrayList(response.hotelList)
+            hotelListItemsMetadata.clear()
             notifyDataSetChanged()
         }
         loadingSubject.subscribe {
@@ -126,6 +137,11 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
         if (holder.itemViewType == LOADING_VIEW) {
             (holder as LoadingViewHolder).cancelAnimation()
+        } else if(holder.itemViewType == HOTEL_VIEW) {
+            val hotelItemIndex = hotelListItemsMetadata.indexOfFirst { it.hotelId == (holder as HotelViewHolder).hotelId }
+            if (hotelItemIndex != -1) {
+                hotelListItemsMetadata.remove(hotelItemIndex)
+            }
         }
         super.onViewRecycled(holder)
     }
@@ -137,6 +153,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
 
         val resources = root.resources
 
+        var hotelId: String by Delegates.notNull()
         val imageView: ImageView by root.bindView(R.id.background)
         val hotelName: TextView by root.bindView(R.id.hotel_name_text_view)
         val pricePerNight: TextView by root.bindView(R.id.price_per_night)
@@ -169,6 +186,9 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         }
 
         public fun bind(viewModel: HotelViewModel) {
+            hotelId = viewModel.hotelId
+            hotelListItemsMetadata.add(HotelListItemMetadata(viewModel.hotelId, viewModel.soldOut))
+
             viewModel.hotelNameObservable.subscribeText(hotelName)
             viewModel.pricePerNightObservable.subscribeText(pricePerNight)
             viewModel.hotelGuestRatingObservable.subscribeText(guestRating)
@@ -184,6 +204,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             viewModel.topAmenityVisibilityObservable.subscribeVisibility(topAmenityTitle)
             viewModel.topAmenityTitleObservable.subscribeText(topAmenityTitle)
             viewModel.urgencyIconObservable.subscribeImageDrawable(urgencyIcon)
+            viewModel.urgencyIconVisibilityObservable.subscribeVisibility(urgencyIcon)
             viewModel.urgencyMessageVisibilityObservable.subscribeVisibility(urgencyMessageContainer)
             viewModel.urgencyMessageBackgroundObservable.subscribeBackgroundColor(urgencyMessageContainer)
             viewModel.urgencyMessageBoxObservable.subscribeText(urgencyMessageBox)
@@ -191,6 +212,9 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             viewModel.airAttachVisibilityObservable.subscribeVisibility(airAttachContainer)
             viewModel.hotelDiscountPercentageObservable.subscribeText(airAttachDiscount)
             viewModel.ratingAmenityContainerVisibilityObservable.subscribeVisibility(ratingAmenityContainer)
+
+            viewModel.toolBarRatingColor.subscribeStarColor(ratingBar)
+            viewModel.imageColorFilter.subscribeGalleryColorFilter(imageView)
 
             viewModel.hotelStarRatingObservable.subscribe {
                 ratingBar.setRating(it)
