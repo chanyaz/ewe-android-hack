@@ -15,9 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/hotel_room_list_container_margin"
             android:layout_marginRight="@dimen/hotel_room_list_container_margin"
-            android:background="@drawable/hotel_detail_ripple"
             android:orientation="vertical">
-
 
             <FrameLayout
                 android:id="@+id/room_header_image_container"
@@ -53,6 +51,7 @@
                 android:id="@+id/collapsed_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/hotel_detail_ripple"
                 android:layout_below="@+id/room_header_image">
 
                 <com.expedia.bookings.widget.TextView

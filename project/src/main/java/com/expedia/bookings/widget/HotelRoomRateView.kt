@@ -72,6 +72,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
     private val roomInfoDivider: View by bindView(R.id.room_info_divider)
     private val roomDivider: View by bindView(R.id.row_divider)
     private val spaceAboveRoomInfo: View by bindView(R.id.space_above_room_info)
+    private val collapsedContainer: RelativeLayout by bindView(R.id.collapsed_container)
 
     private var roomInfoHeaderTextHeight = -1
     private var roomHeaderImageHeight = -1
@@ -244,6 +245,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             viewRoom.setPadding(toggleExpanded, 0, toggleExpanded, 0)
             roomInfoContainer.setPadding(roomContainerLeftRightPadding, roomContainerTopBottomPadding, roomContainerLeftRightPadding, roomContainerTopBottomPadding)
             row.isEnabled = false
+            collapsedContainer.setBackgroundColor(Color.WHITE)
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
             dailyPricePerNight.setTextColor(resources.getColor(R.color.hotels_primary_color))
             perNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
@@ -302,6 +304,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             }
 
             row.isEnabled = true
+            collapsedContainer.background = ContextCompat.getDrawable(context, R.drawable.hotel_detail_ripple)
             viewRoom.setPadding(toggleCollapsed, 0, toggleCollapsed, 0)
             roomInfoContainer.setPadding(0, 0, 0, 0)
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
