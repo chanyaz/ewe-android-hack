@@ -22,6 +22,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.LaunchDb;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.TabletLaunchControllerFragment;
 import com.expedia.bookings.fragment.base.MeasurableFragmentListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -135,6 +136,12 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			}
 		}
 
+		if (BuildConfig.RELEASE) {
+			MenuItem settingsBtn = menu.findItem(R.id.menu_settings);
+			if (settingsBtn != null) {
+				settingsBtn.setVisible(ProductFlavorFeatureConfiguration.getInstance().isSettingsInMenuVisible());
+			}
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 
