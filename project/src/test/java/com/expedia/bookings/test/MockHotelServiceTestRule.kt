@@ -53,6 +53,14 @@ public class MockHotelServiceTestRule : TestRule {
         return getCreateTripResponse("happypath_0")
     }
 
+    fun getProductKeyExpiredResponse(): HotelCreateTripResponse {
+        return getCreateTripResponse("error_expired_product_key_createtrip")
+    }
+
+    fun getUnknownErrorResponse(): HotelCreateTripResponse {
+        return getCreateTripResponse("error_unknown_createtrip")
+    }
+
     fun getHappyOfferResponse(): HotelOffersResponse {
         return getOfferResponse("happypath")
     }

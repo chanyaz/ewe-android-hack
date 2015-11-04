@@ -20,6 +20,7 @@ import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.mobiata.android.util.AndroidUtils
@@ -92,41 +93,48 @@ public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
     }
 }
 
-public class HotelCreateTripViewModel(val hotelServices: HotelServices) {
+open class HotelCreateTripViewModel(val hotelServices: HotelServices) {
 
+    // input
+    val tripParams = PublishSubject.create<HotelCreateTripParams>()
+
+    // output
     val errorObservable = PublishSubject.create<ApiError>()
     val noResponseObservable = PublishSubject.create<Unit>()
-    val tripParams = PublishSubject.create<HotelCreateTripParams>()
     val tripResponseObservable = BehaviorSubject.create<HotelCreateTripResponse>()
 
     init {
         tripParams.subscribe { params ->
-            hotelServices.createTrip(params, object : Observer<HotelCreateTripResponse> {
-                override fun onNext(t: HotelCreateTripResponse) {
-                    if (t.hasErrors()) {
-                        if (t.firstError.errorInfo.field == "productKey") {
-                            errorObservable.onNext(ApiError(ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY))
-                        } else {
-                            errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
-                        }
+            hotelServices.createTrip(params, getCreateTripResponseObserver())
+        }
+    }
+
+    open fun getCreateTripResponseObserver(): Observer<HotelCreateTripResponse> {
+        return object: Observer<HotelCreateTripResponse> {
+            override fun onNext(t: HotelCreateTripResponse) {
+                if (t.hasErrors()) {
+                    if (t.firstError.errorInfo.field == "productKey") {
+                        errorObservable.onNext(ApiError(ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY))
                     } else {
-                        // TODO: Move away from using DB. observers should react on fresh createTrip response
-                        Db.getTripBucket().add(TripBucketItemHotelV2(t))
-                        // TODO: populate hotelCreateTripResponseData with response data
-                        tripResponseObservable.onNext(t)
+                        errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
                     }
+                } else {
+                    // TODO: Move away from using DB. observers should react on fresh createTrip response
+                    Db.getTripBucket().add(TripBucketItemHotelV2(t))
+                    // TODO: populate hotelCreateTripResponseData with response data
+                    tripResponseObservable.onNext(t)
                 }
+            }
 
-                override fun onError(e: Throwable) {
-                    if (com.expedia.bookings.utils.RetrofitUtils.isNetworkError(e)) {
-                        noResponseObservable.onNext(Unit)
-                    }
+            override fun onError(e: Throwable) {
+                if (RetrofitUtils.isNetworkError(e)) {
+                    noResponseObservable.onNext(Unit)
                 }
+            }
 
-                override fun onCompleted() {
-                    // ignore
-                }
-            })
+            override fun onCompleted() {
+                // ignore
+            }
         }
     }
 }
