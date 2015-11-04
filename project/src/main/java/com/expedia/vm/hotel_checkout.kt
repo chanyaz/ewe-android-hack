@@ -31,64 +31,70 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 
-public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
-    val errorObservable = PublishSubject.create<ApiError>()
-    val noResponseObservable = PublishSubject.create<Throwable>()
+open public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
 
+    // inputs
     val checkoutParams = PublishSubject.create<HotelCheckoutParams>()
 
+    // outputs
+    val errorObservable = PublishSubject.create<ApiError>()
+    val noResponseObservable = PublishSubject.create<Throwable>()
     val checkoutResponseObservable = BehaviorSubject.create<HotelCheckoutResponse>()
     val priceChangeResponseObservable = BehaviorSubject.create<HotelCreateTripResponse>()
 
     init {
         checkoutParams.subscribe { params ->
-            hotelServices.checkout(params, object : Observer<HotelCheckoutResponse> {
-                override fun onNext(checkout: HotelCheckoutResponse) {
-                    if (checkout.hasErrors()) {
-                        when (checkout.firstError.errorCode) {
-                            ApiError.Code.PRICE_CHANGE -> {
-                                val hotelCreateTripResponse = Db.getTripBucket().getHotelV2().updateHotelProducts(checkout.checkoutResponse.jsonPriceChangeResponse)
-                                priceChangeResponseObservable.onNext(hotelCreateTripResponse)
-                            }
-                            ApiError.Code.INVALID_INPUT -> {
-                                val field = checkout.firstError.errorInfo.field
-                                if (field == "mainMobileTraveler.lastName" ||
-                                        field == "mainMobileTraveler.firstName" ||
-                                        field == "phone") {
-                                    val apiError = ApiError(ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS)
-                                    apiError.errorInfo = ApiError.ErrorInfo()
-                                    apiError.errorInfo.field = field
-                                    errorObservable.onNext(apiError)
-                                } else {
-                                    errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS))
-                                }
-                            }
-                            ApiError.Code.TRIP_ALREADY_BOOKED -> {
-                                errorObservable.onNext(checkout.firstError)
-                            }
-                            ApiError.Code.SESSION_TIMEOUT -> {
-                                errorObservable.onNext(checkout.firstError)
-                            }
-                            ApiError.Code.PAYMENT_FAILED -> {
-                                errorObservable.onNext(checkout.firstError)
-                            }
-                            else -> {
-                                errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_UNKNOWN))
+            hotelServices.checkout(params, getCheckoutResponseObserver())
+        }
+    }
+
+    open fun getCheckoutResponseObserver(): Observer<HotelCheckoutResponse> {
+        return object : Observer<HotelCheckoutResponse> {
+            override fun onNext(checkout: HotelCheckoutResponse) {
+                if (checkout.hasErrors()) {
+                    when (checkout.firstError.errorCode) {
+                        ApiError.Code.PRICE_CHANGE -> {
+                            val hotelCreateTripResponse = Db.getTripBucket().hotelV2.updateHotelProducts(checkout.checkoutResponse.jsonPriceChangeResponse)
+                            priceChangeResponseObservable.onNext(hotelCreateTripResponse)
+                        }
+                        ApiError.Code.INVALID_INPUT -> {
+                            val field = checkout.firstError.errorInfo.field
+                            if (field == "mainMobileTraveler.lastName" ||
+                                    field == "mainMobileTraveler.firstName" ||
+                                    field == "phone") {
+                                val apiError = ApiError(ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS)
+                                apiError.errorInfo = ApiError.ErrorInfo()
+                                apiError.errorInfo.field = field
+                                errorObservable.onNext(apiError)
+                            } else {
+                                errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS))
                             }
                         }
-                    } else {
-                        checkoutResponseObservable.onNext(checkout)
+                        ApiError.Code.TRIP_ALREADY_BOOKED -> {
+                            errorObservable.onNext(checkout.firstError)
+                        }
+                        ApiError.Code.SESSION_TIMEOUT -> {
+                            errorObservable.onNext(checkout.firstError)
+                        }
+                        ApiError.Code.PAYMENT_FAILED -> {
+                            errorObservable.onNext(checkout.firstError)
+                        }
+                        else -> {
+                            errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_UNKNOWN))
+                        }
                     }
+                } else {
+                    checkoutResponseObservable.onNext(checkout)
                 }
+            }
 
-                override fun onError(e: Throwable) {
-                    noResponseObservable.onNext(e)
-                }
+            override fun onError(e: Throwable) {
+                noResponseObservable.onNext(e)
+            }
 
-                override fun onCompleted() {
-                    // ignore
-                }
-            })
+            override fun onCompleted() {
+                // ignore
+            }
         }
     }
 }
