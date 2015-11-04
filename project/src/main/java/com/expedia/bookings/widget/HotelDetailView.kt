@@ -498,8 +498,14 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         updateGalleryChildrenHeights()
         miniMapView.translationY = yoffset * 0.15f
         transparentViewOverMiniMap.translationY = miniMapView.translationY
+
         priceContainer.getLocationOnScreen(priceContainerLocation)
+        var ratio = (priceContainerLocation[1] - (offset / 2)) / offset
+        priceViewAlpha(ratio * 1.5f)
+
         hotelMessagingContainer.getLocationOnScreen(urgencyContainerLocation)
+        var urgencyRatio = (urgencyContainerLocation[1] - (offset / 2)) / offset
+        urgencyViewAlpha(urgencyRatio * 1.5f)
 
         if (priceContainerLocation[1] + priceContainer.height <= offset) {
             toolBarBackground.alpha = 1.0f
@@ -510,12 +516,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         showToolbarGradient()
-
-        var ratio = (priceContainerLocation[1] - (offset / 2)) / offset
-        priceViewAlpha(ratio * 1.5f)
-
-        var urgencyRatio = (urgencyContainerLocation[1] - (offset / 2)) / offset
-        urgencyViewAlpha(urgencyRatio * 1.5f)
 
         val shouldShowResortFee = shouldShowResortView()
         if (shouldShowResortFee && !resortInAnimator.isRunning && resortFeeWidget.translationY != 0f) {
