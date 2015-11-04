@@ -117,6 +117,7 @@ public class OmnitureTracking {
 	public static void init(ExpediaBookingApp app) {
 		Log.d(TAG, "init");
 		sContext = app.getApplicationContext();
+		ADMS_Measurement.sharedInstance(sContext);
 		app.registerActivityLifecycleCallbacks(sOmnitureActivityCallbacks);
 		sMarketingDate = SettingUtils.get(sContext, sContext.getString(R.string.preference_marketing_date), sMarketingDate);
 	}
