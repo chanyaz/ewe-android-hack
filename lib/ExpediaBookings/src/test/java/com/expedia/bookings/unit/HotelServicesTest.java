@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import org.joda.time.LocalDate;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -16,7 +18,10 @@ import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams;
 import com.expedia.bookings.data.hotels.HotelCheckoutParams;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
+import com.expedia.bookings.data.hotels.HotelOffersResponse;
+import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
+import com.expedia.bookings.data.hotels.SuggestionV4;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.services.HotelServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
@@ -31,7 +36,6 @@ import retrofit.RetrofitError;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 public class HotelServicesTest {
@@ -89,6 +93,48 @@ public class HotelServicesTest {
 	}
 
 	@Test
+	public void testMockDetailsWithoutOffersWorks() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<HotelOffersResponse> observer = new TestSubscriber<>();
+		HotelSearchParams params = new HotelSearchParams(new SuggestionV4(), LocalDate.now().plusDays(5), LocalDate.now().plusDays(15), 2, new ArrayList<Integer>());
+
+		service.info(params, "happy", observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+
+		Assert.assertNull(observer.getOnNextEvents().get(0).hotelRoomResponse);
+		Assert.assertNotNull(observer.getOnNextEvents().get(0).checkInDate);
+		Assert.assertNotNull(observer.getOnNextEvents().get(0).checkOutDate);
+	}
+
+	@Test
+	public void testMockDetailsWithOffersWorks() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<HotelOffersResponse> observer = new TestSubscriber<>();
+		HotelSearchParams params = new HotelSearchParams(new SuggestionV4(), LocalDate.now().plusDays(5), LocalDate.now().plusDays(15), 2, new ArrayList<Integer>());
+
+		service.offers(params, "happypath", observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+
+		Assert.assertNotNull(observer.getOnNextEvents().get(0).hotelRoomResponse);
+		Assert.assertNotNull(observer.getOnNextEvents().get(0).checkInDate);
+		Assert.assertNotNull(observer.getOnNextEvents().get(0).checkOutDate);
+	}
+
+	@Test
 	public void testCheckoutWorks() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
@@ -137,7 +183,7 @@ public class HotelServicesTest {
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 		observer.assertCompleted();
 		ApiError apiError = observer.getOnNextEvents().get(0).getFirstError();
-		assertEquals(ApiError.Code.APPLY_COUPON_ERROR, apiError.errorCode);
+		Assert.assertEquals(ApiError.Code.APPLY_COUPON_ERROR, apiError.errorCode);
 	}
 
 	private void givenServerUsingMockResponses() throws IOException {

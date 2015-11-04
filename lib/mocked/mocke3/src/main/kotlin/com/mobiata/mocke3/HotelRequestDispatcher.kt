@@ -22,6 +22,8 @@ public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
         return when {
             HotelRequestMatcher.isHotelSearchRequest(urlPath) -> getMockResponse("m/api/hotel/search/happy.json")
 
+            HotelRequestMatcher.isHotelInfoRequest(urlPath) -> getMockResponse("m/api/hotel/info/" + params.get("hotelId") + ".json", params)
+
             HotelRequestMatcher.isHotelOffersRequest(urlPath) -> getMockResponse("m/api/hotel/offers/" + params.get("hotelId") + ".json", params)
 
             HotelRequestMatcher.isHotelProductRequest(urlPath) -> {
@@ -93,6 +95,10 @@ class HotelRequestMatcher() {
 
         fun isHotelProductRequest(urlPath: String): Boolean {
             return doesItMatch("^/m/api/hotel/product.*$", urlPath)
+        }
+
+        fun isHotelInfoRequest(urlPath: String): Boolean {
+            return doesItMatch("^/m/api/hotel/info.*$", urlPath)
         }
 
         fun isHotelOffersRequest(urlPath: String): Boolean {

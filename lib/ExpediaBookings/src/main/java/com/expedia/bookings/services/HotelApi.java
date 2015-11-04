@@ -30,6 +30,10 @@ public interface HotelApi {
 	Observable<HotelSearchResponse> search(
 		@FieldMap Map<String, Object> queryParams);
 
+	@GET("/m/api/hotel/info")
+	Observable<HotelOffersResponse> info(
+		@Query("hotelId") String propertyId);
+
 	@GET("/m/api/hotel/offers")
 	Observable<HotelOffersResponse> offers(
 		@Query("checkInDate") String checkInDate,
