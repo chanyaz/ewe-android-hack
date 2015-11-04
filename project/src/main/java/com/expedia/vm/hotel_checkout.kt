@@ -218,6 +218,8 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             // detect price change between old and new offers
             val originalRoomResponse = tripResponse.originalHotelProductResponse.hotelRoomResponse
             val hasPriceChange = originalRoomResponse != null
+            isPriceChange.onNext(hasPriceChange)
+
             if (hasPriceChange) {
                 // potential price change
                 val currencyCode = originalRoomResponse.rateInfo.chargeableRateInfo.currencyCode
@@ -225,7 +227,6 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
                 val newPrice = tripResponse.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()
                 val priceChange = (originalPrice - newPrice)
 
-                isPriceChange.onNext(hasPriceChange)
                 if (newPrice > originalPrice) {
                     priceChangeIconResourceId.onNext(R.drawable.price_change_increase)
                     priceChangeMessage.onNext(context.getString(R.string.price_changed_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
