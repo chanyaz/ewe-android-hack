@@ -5,8 +5,10 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.view.View
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TableLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeVisibility
@@ -18,6 +20,7 @@ public class HotelReviewsPageView(context: Context) : LinearLayout(context) {
     val summaryContainer: LinearLayout by bindView(R.id.summary_container)
     val messageProgressLoading: MessageProgressView by bindView(R.id.message_progress_loading)
     val reviewsScrollviewContainer: ScrollView by bindView(R.id.reviews_scrollview_container)
+    val bottomProgressBar: ProgressBar by bindView(R.id.more_reviews_progressbar)
     val animation: ObjectAnimator
 
     var viewModel: HotelReviewsPageViewModel by notNullAndObservable { vm ->
@@ -28,6 +31,11 @@ public class HotelReviewsPageView(context: Context) : LinearLayout(context) {
             val anim = ObjectAnimator.ofFloat(messageProgressLoading, "progress", 1f)
             anim.setDuration((1500 * (1f - messageProgressLoading.progress)).toLong())
             anim.start()
+        }
+        if (ExpediaBookingApp.isAutomation()) {
+            bottomProgressBar.visibility = View.GONE
+        } else {
+            vm.moreReviewsAvailableObservable.subscribeVisibility(bottomProgressBar)
         }
     }
 

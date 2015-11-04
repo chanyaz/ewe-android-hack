@@ -46,6 +46,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/hotel_review_background_color" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/hotel_review_background_color">
+
+                <ProgressBar
+                    android:id="@+id/more_reviews_progressbar"
+                    style="?android:attr/android:progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    android:padding="20dp" />
+
+            </FrameLayout>
+
+
         </LinearLayout>
     </com.expedia.bookings.widget.ScrollView>
 </FrameLayout>
