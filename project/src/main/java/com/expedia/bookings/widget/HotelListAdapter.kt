@@ -207,7 +207,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
                         .setError(R.drawable.room_fallback)
                         .setTarget(target).setTag(PICASSO_TAG)
                         .build()
-                        .load(HotelMedia(url).getBestUrls(width))
+                        .load(HotelMedia(url).getBestUrls(width/2))
             }
         }
 

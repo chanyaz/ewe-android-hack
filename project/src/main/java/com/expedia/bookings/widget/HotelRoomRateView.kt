@@ -205,7 +205,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
 
             val imageUrl: String? = vm.roomHeaderImageObservable.value
             if (imageUrl != null && imageUrl.isNotBlank()) {
-                val drawable = Images.makeHotelBitmapDrawable(getContext(), emptyPicassoCallback, roomHeaderImage.maxWidth, imageUrl, PICASSO_HOTEL_ROOM, R.drawable.room_fallback)
+                val drawable = Images.makeHotelBitmapDrawable(getContext(), emptyPicassoCallback, roomHeaderImage.maxWidth/2, imageUrl, PICASSO_HOTEL_ROOM, R.drawable.room_fallback)
                 drawable.setCornerMode(HeaderBitmapDrawable.CornerMode.TOP)
                 roomHeaderImage.setImageDrawable(drawable)
             }
