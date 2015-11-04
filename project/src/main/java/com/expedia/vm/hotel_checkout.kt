@@ -151,16 +151,15 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
                 slideToText.onNext(context.getString(R.string.hotelsv2_slide_purchase))
             }
 
+            val currencyCode = room.rateInfo.chargeableRateInfo.currencyCode
             val tripTotal = room.rateInfo.chargeableRateInfo.displayTotalPrice.formattedMoney
             if (room.rateInfo.chargeableRateInfo.showResortFeeMessage) {
-                val resortFees = Money(BigDecimal(room.rateInfo.chargeableRateInfo.totalMandatoryFees.toDouble()),
-                        room.rateInfo.chargeableRateInfo.currencyCode).formattedMoney
-
+                val resortFees = Money(BigDecimal(room.rateInfo.chargeableRateInfo.totalMandatoryFees.toDouble()), currencyCode).formattedMoney
                 val text = Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, resortFees, tripTotal));
                 disclaimerText.onNext(text)
             } else if (room.isPayLater) {
                 if (room.rateInfo.chargeableRateInfo.depositAmountToShowUsers != null) {
-                    val deposit = room.rateInfo.chargeableRateInfo.depositAmountToShowUsers
+                    val deposit = Money(BigDecimal(room.rateInfo.chargeableRateInfo.depositAmountToShowUsers), currencyCode).formattedMoney
                     val text = Html.fromHtml(context.getString(R.string.pay_later_deposit_disclaimer_TEMPLATE, deposit))
                     disclaimerText.onNext(text)
                 } else {
