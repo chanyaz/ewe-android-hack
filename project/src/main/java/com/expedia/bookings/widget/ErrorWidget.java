@@ -120,6 +120,9 @@ public class ErrorWidget extends FrameLayout {
 			else if (error.errorInfo.field.equals("mainMobileTraveler.phone")) {
 				message = getResources().getString(R.string.reservation_invalid_phone);
 			}
+			else if (error.errorInfo.field.equals("creditCardNumber")) {
+				message = getResources().getString(R.string.reservation_payment_failed);
+			}
 			bindText(R.drawable.error_default,
 				message,
 				R.string.cars_invalid_input_text,

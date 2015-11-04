@@ -192,6 +192,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
 
                 override fun onAnimationEnd(animation: Animation?) {
                     if (view.id == R.id.strike_through_price) view.visibility = View.GONE
+                    if (view.id == R.id.expanded_free_cancellation_text_view) view.visibility = View.GONE
                 }
 
                 override fun onAnimationRepeat(animation: Animation?) {}
