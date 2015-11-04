@@ -588,7 +588,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             } else {
                 fab.visibility = View.INVISIBLE
             }
-            filterView.visibility = View.GONE
+            filterView.visibility = View.INVISIBLE
         }
     }
 
@@ -839,6 +839,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     private val mapFilterTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsFilter::class.java, DecelerateInterpolator(), 500) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            filterView.visibility = View.VISIBLE
             if (forward) {
                 fab.visibility = View.GONE
                 searchThisArea.visibility = View.GONE
