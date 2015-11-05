@@ -15,7 +15,8 @@ build() {
         "assembleVoyagesDebug" \
         "assembleWotifDebug" \
         "assembleLastMinuteDebug" \
-        "assembleSamsungDebug"
+        "assembleSamsungDebug" \
+        "assembleOrbitzDebug"
 }
 
 # Retry once because of current kotlin compilation issue. The 2nd time should work

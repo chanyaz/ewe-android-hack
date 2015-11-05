@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">Orbitz</string>
+
+    <!-- Email addresses -->
+    <string name="email_app_support">Expedia-Android@mobiata.com</string>
+    <!-- App Support URL -->
+    <string name="app_support_url">http://www.mobiata.com/support/expedia-android</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Orbitz</string>
+
+    <!-- Tune SDK Key -->
+    <string name="tune_sdk_app_advertiser_id">159126</string>
+    <string name="tune_sdk_app_conversion_key">3670b78dab0046d263b4fb15329d5129</string>
+
+</resources>
