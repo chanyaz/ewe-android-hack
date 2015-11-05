@@ -112,6 +112,10 @@ class HotelV2Tracking {
         OmnitureTracking.trackLinkHotelV2EtpClick(payType)
     }
 
+    fun trackLinkHotelV2AirAttachEligible(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, hotelId: String) {
+        OmnitureTracking.trackLinkHotelV2AirAttachEligible(hotelRoomResponse, hotelId)
+    }
+
     fun trackLinkHotelV2ViewRoomClick() {
         OmnitureTracking.trackLinkHotelV2ViewRoomClick()
     }
