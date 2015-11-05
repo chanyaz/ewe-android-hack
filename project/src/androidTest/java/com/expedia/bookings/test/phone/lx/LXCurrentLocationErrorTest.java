@@ -20,6 +20,7 @@ public class LXCurrentLocationErrorTest extends LxTestCase {
 
 	@Override
 	public void runTest() throws Throwable {
+		Common.delay(3);
 		String testMethodName = getClass().getMethod(getName(), (Class[]) null).toString();
 		LXFakeCurrentLocationSuggestionModule module;
 		ApiError apiError;
