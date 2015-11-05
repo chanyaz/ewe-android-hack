@@ -129,6 +129,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val mapViewModel = HotelResultsMapViewModel(resources, lastBestLocationSafe())
     var markers = arrayListOf<Marker>()
 
+    private val ANIMATION_DURATION_FILTER = 500
+
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe(listResultsObserver)
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
@@ -810,7 +812,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    private val listFilterTransition = object : Presenter.Transition(ResultsList::class.java, ResultsFilter::class.java, DecelerateInterpolator(), 500) {
+    private val listFilterTransition = object : Presenter.Transition(ResultsList::class.java, ResultsFilter::class.java, DecelerateInterpolator(2f), ANIMATION_DURATION_FILTER) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             filterView.visibility = View.VISIBLE
@@ -836,7 +838,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    private val mapFilterTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsFilter::class.java, DecelerateInterpolator(), 500) {
+    private val mapFilterTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsFilter::class.java, DecelerateInterpolator(2f), ANIMATION_DURATION_FILTER) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             filterView.visibility = View.VISIBLE
