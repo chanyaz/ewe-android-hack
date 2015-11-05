@@ -261,6 +261,7 @@
 
         <activity
             android:name="com.expedia.ui.CarActivity"
+            android:launchMode="singleTask"
             android:taskAffinity="com.expedia.bookings.activity.CarActivity"
             android:screenOrientation="portrait"
             android:label="Cars"
@@ -272,6 +273,7 @@
 
         <activity
             android:name="com.expedia.ui.LXBaseActivity"
+            android:launchMode="singleTask"
             android:taskAffinity="com.expedia.bookings.activity.LXBaseActivity"
             android:screenOrientation="portrait"
             android:label="Activities"

@@ -9,9 +9,9 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.test.espresso.AbacusTestUtils
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
-import com.expedia.bookings.test.espresso.HotelTestCase
+import com.expedia.bookings.test.espresso.PhoneTestCase
 
-public class NewHotelDeepLinkTest: HotelTestCase() {
+public class NewHotelDeepLinkTest: PhoneTestCase() {
 
     @Throws(Throwable::class)
     override fun runTest() {

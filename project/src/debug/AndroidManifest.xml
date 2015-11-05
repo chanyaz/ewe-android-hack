@@ -14,6 +14,7 @@
 
         <activity
             android:name="com.expedia.ui.HotelActivity"
+            android:launchMode="singleTask"
             android:taskAffinity="com.expedia.bookings.ui.HotelActivity"
             android:label="New Hotels"
             android:screenOrientation="portrait"
