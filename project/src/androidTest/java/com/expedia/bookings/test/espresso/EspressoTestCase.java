@@ -2,6 +2,7 @@ package com.expedia.bookings.test.espresso;
 
 import java.util.Locale;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.test.ActivityInstrumentationTestCase2;
@@ -17,6 +18,8 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 	public EspressoTestCase(Class cls) {
 		super(cls);
 	}
+
+	private static final int MAX_ACTIVITY_DESTROY_WAIT_TIME = 10;
 
 	protected Resources mRes;
 	protected String mLanguage;
@@ -64,5 +67,23 @@ public class EspressoTestCase extends ActivityInstrumentationTestCase2 {
 
 	public String getPOS(Locale locale) {
 		return locale.getDisplayCountry(new Locale("en", "US")).replace(" ", "_").toUpperCase();
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		Activity a = getActivity();
+		int currentWaitTime = 0;
+		if (a != null) {
+			a.finish();
+		}
+		while (!a.isDestroyed()) {
+			Common.delay(1);
+			if (currentWaitTime++ > MAX_ACTIVITY_DESTROY_WAIT_TIME) {
+				throw new RuntimeException("The activity: " + a.getLocalClassName() + " could not be destroyed within "
+					+ MAX_ACTIVITY_DESTROY_WAIT_TIME + "seconds.");
+			}
+		}
+		setActivity(null);
+		super.tearDown();
 	}
 }
