@@ -3,6 +3,34 @@
         {
             "id": 6139039,
             "name": "San Francisco (QSF-All Airports)"
+        },
+        {
+            "name": "Civic Center",
+            "id": 6005901
+        },
+        {
+            "name": "Financial District - Ferry Building",
+            "id": 6056710
+        },
+        {
+            "name": "Fisherman's Wharf",
+            "id": 800128
+        },
+        {
+            "name": "Marina District",
+            "id": 130032
+        },
+        {
+            "name": "San Francisco International Airport (SFO)",
+            "id": 800127
+        },
+        {
+            "name": "South of Market",
+            "id": 160166
+        },
+        {
+            "name": "Union Square",
+            "id": 800129
         }
     ],
     "hotelList": [

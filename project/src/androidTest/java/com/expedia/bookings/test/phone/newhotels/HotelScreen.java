@@ -240,6 +240,10 @@ public class HotelScreen {
 		onView(withId(R.id.hotel_detail)).perform(ViewActions.waitForViewToDisplay());
 	}
 
+	public static void waitForFilterDisplayed() {
+		onView(withId(R.id.filter_view)).perform(ViewActions.waitForViewToDisplay());
+	}
+
 	public static void assertCalendarShown() {
 		calendar().check(matches((isDisplayed())));
 	}
@@ -295,7 +299,8 @@ public class HotelScreen {
 
 	public static void sortFilter() {
 		waitForResultsLoaded();
-		HotelScreen.clickSortFilter();
+		clickSortFilter();
+		waitForFilterDisplayed();
 	}
 
 	public static void checkout(boolean walletSupported) throws Throwable {
