@@ -67,7 +67,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 val geoLocation = geoResults.get(selectedResultIndex)
                 newHotelSearchParams.suggestion.coordinates.lat = geoLocation.latitude
                 newHotelSearchParams.suggestion.coordinates.lng = geoLocation.longitude
-                newHotelSearchParams.suggestion.type = ""
+                newHotelSearchParams.suggestion.type = "GOOGLE_SUGGESTION_SEARCH"
                 // trigger search with selected geoLocation
                 searchObserver.onNext(newHotelSearchParams)
             }
