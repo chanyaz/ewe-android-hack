@@ -16,7 +16,6 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget
 import com.expedia.bookings.widget.OptimizedImageView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeOnClick
@@ -75,7 +74,7 @@ public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) :
         hotelConfirmationViewModel.formattedCheckInOutDate.subscribeText(checkInOutDateTextView)
         hotelConfirmationViewModel.bigImageUrl.subscribe { value ->
             PicassoHelper.Builder(backgroundImageView)
-                    .setError(com.expedia.bookings.R.drawable.cars_fallback)
+                    .setError(com.expedia.bookings.R.drawable.room_fallback)
                     .fade()
                     .fit()
                     .centerCrop()
@@ -102,7 +101,7 @@ public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) :
         toolbar.setPadding(0, paddingTop, 0, 0)
     }
 
-    private fun dressAction(res: Resources, textView: widget.TextView, drawableResId: Int) {
+    private fun dressAction(res: Resources, textView: TextView, drawableResId: Int) {
         val drawable = res.getDrawable(drawableResId)
         drawable.setColorFilter(res.getColor(R.color.cars_confirmation_icon_color), PorterDuff.Mode.SRC_IN)
         textView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
