@@ -23,6 +23,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelErrorPresenter
 import com.expedia.bookings.widget.LoadingOverlayWidget
+import com.expedia.ui.HotelActivity.Screen
 import com.expedia.util.endlessObserver
 import com.expedia.vm.GeocodeSearchModel
 import com.expedia.vm.HotelDetailViewModel
@@ -66,7 +67,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 val geoLocation = geoResults.get(selectedResultIndex)
                 newHotelSearchParams.suggestion.coordinates.lat = geoLocation.latitude
                 newHotelSearchParams.suggestion.coordinates.lng = geoLocation.longitude
-                newHotelSearchParams.suggestion.type = ""
+                newHotelSearchParams.suggestion.type = "GOOGLE_SUGGESTION_SEARCH"
                 // trigger search with selected geoLocation
                 searchObserver.onNext(newHotelSearchParams)
             }
@@ -90,6 +91,21 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         checkoutDialog.isIndeterminate = true
     }
 
+    val defaultTransitionObserver: Observer<Screen> = endlessObserver {
+        when (it) {
+            Screen.DETAILS -> {
+                addDefaultTransition(defaultDetailsTransition)
+            }
+            Screen.RESULTS -> {
+                addDefaultTransition(defaultResultsTransition)
+            }
+            else -> {
+                addDefaultTransition(defaultSearchTransition)
+                show(searchPresenter)
+            }
+        }
+    }
+
     override fun onFinishInflate() {
         super.onFinishInflate()
 
@@ -102,8 +118,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         addTransition(resultsToError)
         addTransition(searchToError)
         addTransition(checkoutToError)
-        addDefaultTransition(defaultTransition)
-        show(searchPresenter)
         searchPresenter.searchViewModel = HotelSearchViewModel(getContext())
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
 
@@ -199,12 +213,47 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         loadingOverlay.setBackground(R.color.hotels_primary_color)
     }
 
-    private val defaultTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.getName()) {
+    private val defaultSearchTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.getName()) {
         override fun finalizeTransition(forward: Boolean) {
             searchPresenter.setVisibility(View.VISIBLE)
             resultsPresenter.setVisibility(View.GONE)
             detailPresenter.setVisibility(View.INVISIBLE)
             loadingOverlay.setVisibility(View.GONE)
+        }
+    }
+
+    private val defaultDetailsTransition = object : Presenter.DefaultTransition(HotelDetailPresenter::class.java.getName()) {
+        override fun finalizeTransition(forward: Boolean) {
+            super.finalizeTransition(forward)
+            loadingOverlay.visibility = View.GONE
+            detailPresenter.visibility = View.VISIBLE
+            if (forward) {
+                detailPresenter.hotelDetailView.resetGallery()
+                detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
+                backStack.push(searchPresenter)
+            }
+        }
+    }
+
+    private val defaultResultsTransition = object : Presenter.DefaultTransition(HotelResultsPresenter::class.java.getName()) {
+
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            loadingOverlay.visibility = View.GONE
+            resultsPresenter.visibility = View.VISIBLE
+            resultsPresenter.animationStart()
+        }
+
+        override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
+            resultsPresenter.animationUpdate(f, !forward)
+        }
+
+        override fun finalizeTransition(forward: Boolean) {
+            super.finalizeTransition(forward)
+            resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
+            resultsPresenter.animationFinalize(forward)
+            backStack.push(searchPresenter)
         }
     }
 

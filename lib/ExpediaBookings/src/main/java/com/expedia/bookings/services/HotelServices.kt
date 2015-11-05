@@ -69,7 +69,7 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
                         it.score = it.hotels.map { 1 }.sum()
                     }
 
-		     if (!params.suggestion.isCurrentLocationSearch) {
+		     if (!params.suggestion.isCurrentLocationSearch || params.suggestion.isGoogleSuggestionSearch) {
 			     response.hotelList.forEach { hotel ->
 				     hotel.proximityDistanceInMiles = 0.0
 			    }

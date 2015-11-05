@@ -213,10 +213,15 @@ public class CarCheckoutPresenter extends Presenter {
 
 	@Subscribe
 	public void showInvalidInput(Events.CarsInvalidInput event) {
-		show(checkout, FLAG_CLEAR_TOP);
-		checkout.slideWidget.resetSlider();
-		checkout.mainContactInfoCardView.setExpanded(true, true);
-		checkout.mainContactInfoCardView.setInvalid(event.field);
+		if (event.field.equalsIgnoreCase("creditCardNumber")) {
+			Events.post(new Events.CarsPaymentFailed());
+		}
+		else {
+			show(checkout, FLAG_CLEAR_TOP);
+			checkout.slideWidget.resetSlider();
+			checkout.mainContactInfoCardView.setExpanded(true, true);
+			checkout.mainContactInfoCardView.setInvalid(event.field);
+		}
 	}
 
 	@Subscribe

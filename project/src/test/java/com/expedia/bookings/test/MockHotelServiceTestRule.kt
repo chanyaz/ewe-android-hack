@@ -1,10 +1,12 @@
 package com.expedia.bookings.test
 
+import com.expedia.bookings.data.hotels.HotelCheckoutParams
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
@@ -53,6 +55,14 @@ public class MockHotelServiceTestRule : TestRule {
         return getCreateTripResponse("happypath_0")
     }
 
+    fun getProductKeyExpiredResponse(): HotelCreateTripResponse {
+        return getCreateTripResponse("error_expired_product_key_createtrip")
+    }
+
+    fun getUnknownErrorResponse(): HotelCreateTripResponse {
+        return getCreateTripResponse("error_unknown_createtrip")
+    }
+
     fun getHappyOfferResponse(): HotelOffersResponse {
         return getOfferResponse("happypath")
     }
@@ -66,10 +76,55 @@ public class MockHotelServiceTestRule : TestRule {
         return observer.onNextEvents.get(0)
     }
 
+    fun getHappyCheckoutResponse(): HotelCheckoutResponse {
+        return getCheckoutTripResponse("happypath_0")
+    }
+
+    fun getUnknownErrorCheckoutResponse(): HotelCheckoutResponse {
+        return getCheckoutTripResponse("error_checkout_unknown")
+    }
+
+    fun getInvalidTravelerInputCheckoutResponse(): HotelCheckoutResponse {
+        return getCheckoutTripResponse("error_checkout_traveller_info")
+    }
+
+    fun getInvalidCardNumberInputCheckoutResponse(): HotelCheckoutResponse {
+        return getCheckoutTripResponse("error_checkout_card")
+    }
+
+    fun getPaymentFailedCheckoutResponse(): HotelCheckoutResponse {
+        return getCheckoutTripResponse("error_checkout_card_limit_exceeded_0")
+    }
+
+    fun getSessionTimeoutCheckoutResponse(): HotelCheckoutResponse {
+        return getCheckoutTripResponse("error_checkout_session_timeout_0")
+    }
+
+    fun getTripAlreadyBookedCheckoutResponse(): HotelCheckoutResponse {
+        return getCheckoutTripResponse("error_checkout_trip_already_booked")
+    }
+
+    fun getPriceChangeCheckoutResponse(): HotelCheckoutResponse {
+        return getCheckoutTripResponse("hotel_price_change_checkout")
+    }
+
     private fun getCreateTripResponse(responseFileName: String): HotelCreateTripResponse {
         val productKey = responseFileName
         val observer = TestSubscriber<HotelCreateTripResponse>()
         service.createTrip(HotelCreateTripParams(productKey, false, 1, emptyList()), observer)
+        observer.awaitTerminalEvent()
+        observer.assertCompleted()
+        return observer.onNextEvents.get(0)
+    }
+
+    private fun getCheckoutTripResponse(responseFileName: String): HotelCheckoutResponse {
+        val tripId = responseFileName
+        val observer = TestSubscriber<HotelCheckoutResponse>()
+        val checkoutParams = HotelCheckoutParams()
+        checkoutParams.tripId = tripId
+        checkoutParams.expectedTotalFare = "42.00"
+        checkoutParams.tealeafTransactionId = "tealeafHotel:" + checkoutParams.tripId
+        service.checkout(checkoutParams, observer)
         observer.awaitTerminalEvent()
         observer.assertCompleted()
         return observer.onNextEvents.get(0)

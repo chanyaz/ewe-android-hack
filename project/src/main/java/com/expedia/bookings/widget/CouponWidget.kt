@@ -5,8 +5,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.Gravity
+import android.view.KeyEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -86,6 +88,14 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
             (progress as ProgressBar).setIndeterminate(true)
         }
         couponCode.addTextChangedListener(textWatcher)
+        couponCode.setOnEditorActionListener(object : android.widget.TextView.OnEditorActionListener {
+            override fun onEditorAction(textView: android.widget.TextView, actionId: Int, event: KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_DONE && textView.text.length() > 3) {
+                    onMenuButtonPressed()
+                }
+                return false
+            }
+        })
         expanded.addView(progress)
         showProgress(false)
 

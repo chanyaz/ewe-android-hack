@@ -108,7 +108,7 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
                     .setError(R.drawable.room_fallback)
                     .setTarget(target).setTag(PICASSO_HOTEL_IMAGE)
                     .build()
-                    .load(HotelMedia(Images.getMediaHost() + it).getBestUrls(width))
+                    .load(HotelMedia(Images.getMediaHost() + it).getBestUrls(width/2))
         }
         breakdown.viewmodel = HotelBreakDownViewModel(context, viewModel)
     }

@@ -5,15 +5,15 @@ import android.content.Intent
 import android.net.Uri
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelV2Tracking
-import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.NavUtils
@@ -69,6 +69,10 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
             addFlightBtnText.onNext(context.getResources().getString(com.expedia.bookings.R.string.flights_to_TEMPLATE, product.hotelCity))
             customerEmail.onNext(hotelCheckoutResponse.checkoutResponse.bookingResponse.email)
 
+            // Adding the guest trip in itin
+            if(!User.isLoggedIn(context)) {
+                ItineraryManager.getInstance().addGuestTrip(hotelCheckoutResponse.checkoutResponse.bookingResponse.email, itinNumber)
+            }
             // disabled for now. See mingle: #5574
 //            val pointOfSale = PointOfSale.getPointOfSale(context)
 //            val showHotelCrossSell = pointOfSale.showHotelCrossSell()

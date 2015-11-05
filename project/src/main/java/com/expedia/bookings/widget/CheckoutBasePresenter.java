@@ -430,8 +430,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					hintContainer.setVisibility(forward ? User.isLoggedIn(getContext()) ? GONE : VISIBLE : INVISIBLE);
 				}
 				else if (v == paymentInfoCardView) {
-					paymentInfoCardView
-						.setVisibility(forward && paymentInfoCardView.isCreditCardRequired() ? VISIBLE : INVISIBLE);
+					if (paymentInfoCardView.isCreditCardRequired()) {
+						paymentInfoCardView
+							.setVisibility(forward ? VISIBLE : INVISIBLE);
+					}
 				}
 				else {
 					v.setVisibility(forward ? VISIBLE : INVISIBLE);
@@ -461,7 +463,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				if (isCheckoutFormComplete()) {
+				if (getLineOfBusiness() != LineOfBusiness.HOTELSV2 || isCheckoutFormComplete()) {
 					float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
 					int bottom = (disclaimerText.getVisibility() == View.VISIBLE) ? disclaimerText.getBottom()
 						: legalInformationText.getBottom();
@@ -486,7 +488,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					space.setLayoutParams(params);
 				}
 			}
-		}, 100L);
+		}, 300L);
 	}
 
 	private Transition defaultToCheckoutFailed = new Transition(CheckoutDefault.class, CheckoutFailed.class) {
@@ -557,8 +559,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			else {
 				checkoutFormWasUpdated();
 				updateSpacerHeight();
-			}
-			if (!forward) {
 				scrollToEnterDetails();
 			}
 		}

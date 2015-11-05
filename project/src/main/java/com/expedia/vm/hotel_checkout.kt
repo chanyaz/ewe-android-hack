@@ -20,6 +20,7 @@ import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.mobiata.android.util.AndroidUtils
@@ -30,103 +31,116 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 
-public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
-    val errorObservable = PublishSubject.create<ApiError>()
-    val noResponseObservable = PublishSubject.create<Throwable>()
+open public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
 
+    // inputs
     val checkoutParams = PublishSubject.create<HotelCheckoutParams>()
 
+    // outputs
+    val errorObservable = PublishSubject.create<ApiError>()
+    val noResponseObservable = PublishSubject.create<Throwable>()
     val checkoutResponseObservable = BehaviorSubject.create<HotelCheckoutResponse>()
     val priceChangeResponseObservable = BehaviorSubject.create<HotelCreateTripResponse>()
 
     init {
         checkoutParams.subscribe { params ->
-            hotelServices.checkout(params, object : Observer<HotelCheckoutResponse> {
-                override fun onNext(checkout: HotelCheckoutResponse) {
-                    if (checkout.hasErrors()) {
-                        when (checkout.firstError.errorCode) {
-                            ApiError.Code.PRICE_CHANGE -> {
-                                val hotelCreateTripResponse = Db.getTripBucket().getHotelV2().updateHotelProducts(checkout.checkoutResponse.jsonPriceChangeResponse)
-                                priceChangeResponseObservable.onNext(hotelCreateTripResponse)
-                            }
-                            ApiError.Code.INVALID_INPUT -> {
-                                val field = checkout.firstError.errorInfo.field
-                                if (field == "mainMobileTraveler.lastName" ||
-                                        field == "mainMobileTraveler.firstName" ||
-                                        field == "phone") {
-                                    val apiError = ApiError(ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS)
-                                    apiError.errorInfo = ApiError.ErrorInfo()
-                                    apiError.errorInfo.field = field
-                                    errorObservable.onNext(apiError)
-                                } else {
-                                    errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS))
-                                }
-                            }
-                            ApiError.Code.TRIP_ALREADY_BOOKED -> {
-                                errorObservable.onNext(checkout.firstError)
-                            }
-                            ApiError.Code.SESSION_TIMEOUT -> {
-                                errorObservable.onNext(checkout.firstError)
-                            }
-                            ApiError.Code.PAYMENT_FAILED -> {
-                                errorObservable.onNext(checkout.firstError)
-                            }
-                            else -> {
-                                errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_UNKNOWN))
+            hotelServices.checkout(params, getCheckoutResponseObserver())
+        }
+    }
+
+    open fun getCheckoutResponseObserver(): Observer<HotelCheckoutResponse> {
+        return object : Observer<HotelCheckoutResponse> {
+            override fun onNext(checkout: HotelCheckoutResponse) {
+                if (checkout.hasErrors()) {
+                    when (checkout.firstError.errorCode) {
+                        ApiError.Code.PRICE_CHANGE -> {
+                            val hotelCreateTripResponse = Db.getTripBucket().hotelV2.updateHotelProducts(checkout.checkoutResponse.jsonPriceChangeResponse)
+                            priceChangeResponseObservable.onNext(hotelCreateTripResponse)
+                        }
+                        ApiError.Code.INVALID_INPUT -> {
+                            val field = checkout.firstError.errorInfo.field
+                            if (field == "mainMobileTraveler.lastName" ||
+                                    field == "mainMobileTraveler.firstName" ||
+                                    field == "phone") {
+                                val apiError = ApiError(ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS)
+                                apiError.errorInfo = ApiError.ErrorInfo()
+                                apiError.errorInfo.field = field
+                                errorObservable.onNext(apiError)
+                            } else {
+                                errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS))
                             }
                         }
-                    } else {
-                        checkoutResponseObservable.onNext(checkout)
+                        ApiError.Code.TRIP_ALREADY_BOOKED -> {
+                            errorObservable.onNext(checkout.firstError)
+                        }
+                        ApiError.Code.SESSION_TIMEOUT -> {
+                            errorObservable.onNext(checkout.firstError)
+                        }
+                        ApiError.Code.PAYMENT_FAILED -> {
+                            errorObservable.onNext(checkout.firstError)
+                        }
+                        else -> {
+                            errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_UNKNOWN))
+                        }
                     }
+                } else {
+                    checkoutResponseObservable.onNext(checkout)
                 }
+            }
 
-                override fun onError(e: Throwable) {
-                    noResponseObservable.onNext(e)
-                }
+            override fun onError(e: Throwable) {
+                noResponseObservable.onNext(e)
+            }
 
-                override fun onCompleted() {
-                    // ignore
-                }
-            })
+            override fun onCompleted() {
+                // ignore
+            }
         }
     }
 }
 
-public class HotelCreateTripViewModel(val hotelServices: HotelServices) {
+open class HotelCreateTripViewModel(val hotelServices: HotelServices) {
 
+    // input
+    val tripParams = PublishSubject.create<HotelCreateTripParams>()
+
+    // output
     val errorObservable = PublishSubject.create<ApiError>()
     val noResponseObservable = PublishSubject.create<Unit>()
-    val tripParams = PublishSubject.create<HotelCreateTripParams>()
     val tripResponseObservable = BehaviorSubject.create<HotelCreateTripResponse>()
 
     init {
         tripParams.subscribe { params ->
-            hotelServices.createTrip(params, object : Observer<HotelCreateTripResponse> {
-                override fun onNext(t: HotelCreateTripResponse) {
-                    if (t.hasErrors()) {
-                        if (t.firstError.errorInfo.field == "productKey") {
-                            errorObservable.onNext(ApiError(ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY))
-                        } else {
-                            errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
-                        }
+            hotelServices.createTrip(params, getCreateTripResponseObserver())
+        }
+    }
+
+    open fun getCreateTripResponseObserver(): Observer<HotelCreateTripResponse> {
+        return object: Observer<HotelCreateTripResponse> {
+            override fun onNext(t: HotelCreateTripResponse) {
+                if (t.hasErrors()) {
+                    if (t.firstError.errorInfo.field == "productKey") {
+                        errorObservable.onNext(ApiError(ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY))
                     } else {
-                        // TODO: Move away from using DB. observers should react on fresh createTrip response
-                        Db.getTripBucket().add(TripBucketItemHotelV2(t))
-                        // TODO: populate hotelCreateTripResponseData with response data
-                        tripResponseObservable.onNext(t)
+                        errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
                     }
+                } else {
+                    // TODO: Move away from using DB. observers should react on fresh createTrip response
+                    Db.getTripBucket().add(TripBucketItemHotelV2(t))
+                    // TODO: populate hotelCreateTripResponseData with response data
+                    tripResponseObservable.onNext(t)
                 }
+            }
 
-                override fun onError(e: Throwable) {
-                    if (com.expedia.bookings.utils.RetrofitUtils.isNetworkError(e)) {
-                        noResponseObservable.onNext(Unit)
-                    }
+            override fun onError(e: Throwable) {
+                if (RetrofitUtils.isNetworkError(e)) {
+                    noResponseObservable.onNext(Unit)
                 }
+            }
 
-                override fun onCompleted() {
-                    // ignore
-                }
-            })
+            override fun onCompleted() {
+                // ignore
+            }
         }
     }
 }
@@ -151,16 +165,15 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
                 slideToText.onNext(context.getString(R.string.hotelsv2_slide_purchase))
             }
 
+            val currencyCode = room.rateInfo.chargeableRateInfo.currencyCode
             val tripTotal = room.rateInfo.chargeableRateInfo.displayTotalPrice.formattedMoney
             if (room.rateInfo.chargeableRateInfo.showResortFeeMessage) {
-                val resortFees = Money(BigDecimal(room.rateInfo.chargeableRateInfo.totalMandatoryFees.toDouble()),
-                        room.rateInfo.chargeableRateInfo.currencyCode).formattedMoney
-
+                val resortFees = Money(BigDecimal(room.rateInfo.chargeableRateInfo.totalMandatoryFees.toDouble()), currencyCode).formattedMoney
                 val text = Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, resortFees, tripTotal));
                 disclaimerText.onNext(text)
             } else if (room.isPayLater) {
                 if (room.rateInfo.chargeableRateInfo.depositAmountToShowUsers != null) {
-                    val deposit = room.rateInfo.chargeableRateInfo.depositAmountToShowUsers
+                    val deposit = Money(BigDecimal(room.rateInfo.chargeableRateInfo.depositAmountToShowUsers), currencyCode).formattedMoney
                     val text = Html.fromHtml(context.getString(R.string.pay_later_deposit_disclaimer_TEMPLATE, deposit))
                     disclaimerText.onNext(text)
                 } else {
@@ -218,6 +231,8 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             // detect price change between old and new offers
             val originalRoomResponse = tripResponse.originalHotelProductResponse.hotelRoomResponse
             val hasPriceChange = originalRoomResponse != null
+            isPriceChange.onNext(hasPriceChange)
+
             if (hasPriceChange) {
                 // potential price change
                 val currencyCode = originalRoomResponse.rateInfo.chargeableRateInfo.currencyCode
@@ -225,7 +240,6 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
                 val newPrice = tripResponse.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.totalPriceWithMandatoryFees.toDouble()
                 val priceChange = (originalPrice - newPrice)
 
-                isPriceChange.onNext(hasPriceChange)
                 if (newPrice > originalPrice) {
                     priceChangeIconResourceId.onNext(R.drawable.price_change_increase)
                     priceChangeMessage.onNext(context.getString(R.string.price_changed_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))

@@ -67,4 +67,8 @@ public class SuggestionV4 {
 	public boolean isCurrentLocationSearch() {
 		return Strings.isEmpty(gaiaId) && !isSearchThisArea;
 	}
+
+	public boolean isGoogleSuggestionSearch() {
+		return type.equals("GOOGLE_SUGGESTION_SEARCH");
+	}
 }

@@ -192,6 +192,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
 
                 override fun onAnimationEnd(animation: Animation?) {
                     if (view.id == R.id.strike_through_price) view.visibility = View.GONE
+                    if (view.id == R.id.expanded_free_cancellation_text_view) view.visibility = View.GONE
                 }
 
                 override fun onAnimationRepeat(animation: Animation?) {}
@@ -205,7 +206,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
 
             val imageUrl: String? = vm.roomHeaderImageObservable.value
             if (imageUrl != null && imageUrl.isNotBlank()) {
-                val drawable = Images.makeHotelBitmapDrawable(getContext(), emptyPicassoCallback, roomHeaderImage.maxWidth, imageUrl, PICASSO_HOTEL_ROOM, R.drawable.room_fallback)
+                val drawable = Images.makeHotelBitmapDrawable(getContext(), emptyPicassoCallback, roomHeaderImage.maxWidth/2, imageUrl, PICASSO_HOTEL_ROOM, R.drawable.room_fallback)
                 drawable.setCornerMode(HeaderBitmapDrawable.CornerMode.TOP)
                 roomHeaderImage.setImageDrawable(drawable)
             }
