@@ -244,12 +244,7 @@ public class RecyclerGallery extends RecyclerView {
 				public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 					super.onBitmapLoaded(bitmap, from);
 					if (mMode == MODE_FILL) {
-						if (bitmap.getWidth() >= bitmap.getHeight()) {
-							mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-						}
-						else {
-							mImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-						}
+						mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 					}
 					mImageView.setBackgroundColor(Color.TRANSPARENT);
 					mImageView.setImageBitmap(bitmap);
