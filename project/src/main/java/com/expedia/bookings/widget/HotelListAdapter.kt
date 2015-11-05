@@ -11,6 +11,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.larvalabs.svgandroid.widget.SVGView
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelMedia
@@ -171,11 +172,16 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         val urgencyMessageBox: TextView by root.bindView(R.id.urgency_message)
         val vipMessage: TextView by root.bindView(R.id.vip_message)
         val airAttachDiscount: TextView by root.bindView(R.id.air_attach_discount)
+        val airAttachSVG: SVGView by root.bindView(R.id.air_attach_curve)
         val airAttachContainer: LinearLayout by root.bindView(R.id.air_attach_layout)
         val ratingAmenityContainer: View by root.bindView(R.id.rating_amenity_container)
 
         init {
             itemView.setOnClickListener(this)
+
+            if (!ExpediaBookingApp.isAutomation()) {
+                airAttachSVG.setSVG(R.raw.air_attach_curve)
+            }
 
             if (shouldShowCircleForRatings()) {
                 ratingBar = root.findViewById(R.id.circle_rating_bar) as StarRatingBar

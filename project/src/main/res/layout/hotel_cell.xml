@@ -174,9 +174,7 @@
                             android:id="@+id/air_attach_curve"
                             android:layout_width="2dp"
                             android:layout_height="match_parent"
-                            android:paddingTop="2dp"
-                            app:src="@raw/air_attach_curve"/>
-
+                            android:paddingTop="2dp"/>
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/air_attach_discount"
