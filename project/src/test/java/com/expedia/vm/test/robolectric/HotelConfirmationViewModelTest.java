@@ -5,10 +5,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.robolectric.RuntimeEnvironment;
+import org.robolectric.Robolectric;
 import org.robolectric.Shadows;
 import org.robolectric.shadows.ShadowApplication;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -51,11 +52,13 @@ public class HotelConfirmationViewModelTest {
 	}
 
 	private Context getContext() {
-		return RuntimeEnvironment.application;
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		return activity;
 	}
 
 	@Test
 	public void addToCalendarBtnObserver() {
+		boolean isCheckIn = true;
 		givenHotelName();
 		givenItineraryNumber();
 		givenHotelLocation();
@@ -64,12 +67,22 @@ public class HotelConfirmationViewModelTest {
 
 		vm.getAddToCalendarBtnObserver(getContext()).onNext(null);
 
-		Intent checkOutIntent = shadowApplication.getNextStartedActivity();
+		Intent checkInIntentToAssert = shadowApplication.getNextStartedActivity();
+		AddToCalendarUtilsTests.makeAddToCalendarIntentAssertions(checkInIntentToAssert, isCheckIn, hotelName, hotelAddress, "", itineraryNumber,checkInDate);
+	}
+
+	@Test
+	public void addCheckOutEventToCalendar() {
 		boolean isCheckIn = false;
-		AddToCalendarUtilsTests.makeAddToCalendarIntentAssertions(checkOutIntent, isCheckIn, hotelName, hotelAddress, "", itineraryNumber,checkInDate);
+		givenHotelName();
+		givenItineraryNumber();
+		givenHotelLocation();
+		givenCheckInDate();
+		givenCheckOutDate();
+
+		vm.showAddToCalendarIntent(isCheckIn, getContext());
 
 		Intent checkInIntent = shadowApplication.getNextStartedActivity();
-		isCheckIn = true;
 		AddToCalendarUtilsTests.makeAddToCalendarIntentAssertions(checkInIntent, isCheckIn, hotelName, hotelAddress, "", itineraryNumber, checkInDate);
 	}
 

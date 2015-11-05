@@ -1,13 +1,14 @@
 package com.expedia.vm
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Property
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
@@ -142,9 +143,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
     fun getAddToCalendarBtnObserver(context: Context): Observer<Unit> {
         return object: Observer<Unit> {
             override fun onNext(t: Unit?) {
-                // Go in reverse order, so that "check in" is shown to the user first
-                context.startActivity(generateHotelCalendarIntent(false))
-                context.startActivity(generateHotelCalendarIntent(true))
+                showAddToCalendarIntent(checkIn = true, context = context)
                 HotelV2Tracking().trackHotelV2ConfirmationCalendar()
             }
 
@@ -154,16 +153,21 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
             override fun onError(e: Throwable?) {
                 throw OnErrorNotImplementedException(e)
             }
-
-            private fun generateHotelCalendarIntent(checkIn: Boolean): Intent {
-                val property = Property()
-                property.setName(hotelName.getValue())
-                property.setLocation(hotelLocation.getValue())
-                val date = if (checkIn) checkInDate.getValue() else checkOutDate.getValue()
-
-                return AddToCalendarUtils.generateHotelAddToCalendarIntent(context, property, date, checkIn, null, itineraryNumber.getValue())
-            }
         }
+    }
+
+    fun showAddToCalendarIntent(checkIn: Boolean, context: Context) {
+        fun generateHotelCalendarIntent(checkIn: Boolean): Intent {
+            val property = Property()
+            property.name = hotelName.value
+            property.location = hotelLocation.value
+            val date = if (checkIn) checkInDate.value else checkOutDate.value
+            return AddToCalendarUtils.generateHotelAddToCalendarIntent(context, property, date, checkIn, null, itineraryNumber.value)
+        }
+
+        val requestCode = if (checkIn) AddToCalendarUtils.requestCodeAddCheckInToCalendarActivity else 0
+        // #see HotelActivity.onActivityResult() fall callback action
+        (context as Activity).startActivityForResult(generateHotelCalendarIntent(checkIn), requestCode, null)
     }
 
     fun getCallSupportBtnObserver(context: Context): Observer<Unit> {

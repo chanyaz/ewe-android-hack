@@ -13,6 +13,7 @@ import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.hotel.HotelPresenter
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.Ui
@@ -90,6 +91,10 @@ public class HotelActivity : AppCompatActivity() {
                     }
                     return
                 }
+            }
+
+            AddToCalendarUtils.requestCodeAddCheckInToCalendarActivity -> { // show add to calendar for checkOut date
+                hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.showAddToCalendarIntent(false, this)
             }
         }
     }
