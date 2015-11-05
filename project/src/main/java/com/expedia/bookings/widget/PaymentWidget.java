@@ -159,7 +159,6 @@ public class PaymentWidget extends ExpandableCardView {
 	@OnClick(R.id.payment_option_credit_debit)
 	public void creditCardClicked() {
 		showCreditCardDetails();
-		mToolbarListener.setActionBarTitle(getActionBarTitle());
 	}
 
 	@OnClick(R.id.payment_option_google_wallet)
@@ -347,7 +346,6 @@ public class PaymentWidget extends ExpandableCardView {
 		if (!isCreditCardRequired) {
 			return;
 		}
-
 		super.setExpanded(expand, animate);
 
 		if (expand) {
@@ -375,6 +373,7 @@ public class PaymentWidget extends ExpandableCardView {
 			Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 			paymentButton.dismissPopup();
 		}
+		mToolbarListener.setActionBarTitle(getActionBarTitle());
 	}
 
 	private boolean goToCreditCardDetails() {
@@ -419,6 +418,7 @@ public class PaymentWidget extends ExpandableCardView {
 				OmnitureTracking.trackCheckoutPayment(lineOfBusiness);
 			}
 		}
+		mToolbarListener.setActionBarTitle(getActionBarTitle());
 	}
 
 	@Override
