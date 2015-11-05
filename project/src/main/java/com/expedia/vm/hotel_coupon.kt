@@ -20,12 +20,13 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val removeObservable = PublishSubject.create<Unit>()
     val couponObservable = PublishSubject.create<HotelCreateTripResponse>()
     val errorObservable = PublishSubject.create<ApiError>()
+    val errorShowDialogObservable = PublishSubject.create<ApiError>()
     val errorMessageObservable = PublishSubject.create<String>()
     val discountObservable = PublishSubject.create<String>()
     val couponParamsObservable = BehaviorSubject.create<HotelApplyCouponParams>()
     val hasDiscountObservable = BehaviorSubject.create<Boolean>()
 
-    private val createTripDownloadsObservable = PublishSubject.create<Observable<HotelCreateTripResponse>>()
+    val createTripDownloadsObservable = PublishSubject.create<Observable<HotelCreateTripResponse>>()
     private val createTripObservable = Observable.concat(createTripDownloadsObservable)
 
     init {
@@ -40,10 +41,13 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
                 val errorType = trip.firstError.errorInfo.couponErrorType
                 val stringId = couponErrorMap.get(errorType) ?: R.string.coupon_error_fallback
                 val text = context.resources.getString(stringId)
-
                 hasDiscountObservable.onNext(false)
+
                 errorMessageObservable.onNext(text)
                 errorObservable.onNext(trip.firstError)
+                if (couponParamsObservable.value.isFromNotSignedInToSignedIn) {
+                    errorShowDialogObservable.onNext(trip.firstError)
+                }
                 HotelV2Tracking().trackHotelV2CouponFail(couponParamsObservable.value.couponCode, trip.firstError.errorCode.toString())
             } else {
                 val couponRate = trip.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getPriceAdjustments()

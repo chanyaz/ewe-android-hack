@@ -39,6 +39,8 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
     val removeCoupon: ImageView by bindView(R.id.remove_coupon_button)
     var progress: View by Delegates.notNull()
 
+    var removingCoupon: Boolean = false
+
     var viewmodel: HotelCouponViewModel by notNullAndObservable {
         viewmodel.errorMessageObservable.subscribeText(error)
         viewmodel.applyObservable.subscribe {
@@ -47,12 +49,17 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
         }
         viewmodel.errorObservable.subscribe {
             showProgress(false)
-            showError(true)
+            if (viewmodel.hasDiscountObservable.value != null && viewmodel.hasDiscountObservable.value) {
+                setExpanded(false)
+            } else {
+                showError(true)
+            }
         }
         viewmodel.couponObservable.subscribe {
             showProgress(false)
             showError(false)
             setExpanded(false)
+            removingCoupon = false
         }
         viewmodel.discountObservable.subscribe {
             appliedCouponMessage.text = context.getString(R.string.applied_coupon_message, it)
@@ -101,6 +108,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
 
         removeCoupon.setOnClickListener {
             resetFields()
+            removingCoupon = true
             viewmodel.removeObservable.onNext(Unit)
             viewmodel.hasDiscountObservable.onNext(false)
             HotelV2Tracking().trackHotelV2CouponRemove(couponCode.text.toString())
@@ -148,7 +156,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
     }
 
     override fun onMenuButtonPressed() {
-        viewmodel.couponParamsObservable.onNext(HotelApplyCouponParams(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId, couponCode.getText().toString()))
+        viewmodel.couponParamsObservable.onNext(HotelApplyCouponParams(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId, couponCode.getText().toString(), false))
     }
 
     override fun onLogin() {
