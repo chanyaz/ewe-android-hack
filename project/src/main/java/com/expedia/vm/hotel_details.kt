@@ -512,6 +512,10 @@ public class HotelRoomRateViewModel(val context: Context, val hotelRoomResponse:
             roomSelectedObservable.onNext(hotelRoomResponse)
             //don't change the state of toggle button
             viewRoomObservable.onNext(Unit)
+
+            if (hotelRoomResponse.rateInfo.chargeableRateInfo.airAttached) {
+                HotelV2Tracking().trackLinkHotelV2AirAttachEligible(hotelRoomResponse, hotelDetailViewModel.hotelOffersResponse.hotelId)
+            }
         } else {
             // expand row
             expandRoomObservable.onNext(true)

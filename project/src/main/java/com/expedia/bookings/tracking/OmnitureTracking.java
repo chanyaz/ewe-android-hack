@@ -488,6 +488,15 @@ public class OmnitureTracking {
 
 		if (hotelOffersResponse.hotelRoomResponse != null) {
 			addHotelV2Products(s, hotelOffersResponse.hotelRoomResponse.get(0), hotelOffersResponse.hotelId);
+			if (hotelOffersResponse.hotelRoomResponse.get(0).rateInfo.chargeableRateInfo.airAttached) {
+				String products = s.getProducts();
+				products += " ;;;;eVar66=Flight:Hotel Infosite X-Sell";
+				s.setProducts(products);
+
+				String event = s.getEvents();
+				event += ",event57";
+				s.setEvents(event);
+			}
 		}
 		// Send the tracking data
 		s.track();
@@ -502,6 +511,20 @@ public class OmnitureTracking {
 		s.setProp(16, pageName);
 		s.setEvar(52, payType);
 		s.trackLink(null, "o", "ETP Selection", null, null);
+	}
+
+	public static void trackLinkHotelV2AirAttachEligible(HotelOffersResponse.HotelRoomResponse hotelRoomResponse, String hotelId) {
+		String pageName = HOTELSV2_DETAILS_PAGE;
+		Log.d(TAG, "Tracking \"" + pageName + "\" air attach...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvents("event58");
+
+		addHotelV2Products(s, hotelRoomResponse, hotelId);
+		s.setEvar(28, AIR_ATTACH_HOTEL_ADD);
+		s.setProp(16, AIR_ATTACH_HOTEL_ADD);
+		s.trackLink(null, "o", "Hotel Infosite", null, null);
+
 	}
 
 	public static void trackLinkHotelV2ViewRoomClick() {
