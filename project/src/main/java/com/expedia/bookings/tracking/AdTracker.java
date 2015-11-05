@@ -241,12 +241,13 @@ public class AdTracker {
 		new FacebookEvents().trackCarDetail(searchParams, searchCarOffer);
 	}
 
-	public static void trackLXBooked(String lxActivityLocation, Money totalPrice, Money ticketPrice, String lxActivityStartDate,
+	public static void trackLXBooked(String lxActivityLocation, Money totalPrice, Money ticketPrice,
+		String lxActivityStartDate,
 		List<String> lxActivityCategories, String orderId, String lxActivityTitle, String activityId,
 		LocalDate startDate, String regionId, int selectedTicketCount, int selectedChildTicketCount) {
 		LeanPlumUtils.trackLXBooked(lxActivityLocation, totalPrice, lxActivityStartDate, lxActivityCategories);
 		TuneUtils.trackLXConfirmation(lxActivityLocation, totalPrice, ticketPrice, lxActivityStartDate,
-			orderId, lxActivityTitle);
+			orderId, lxActivityTitle, selectedTicketCount, selectedChildTicketCount);
 		new FacebookEvents().trackLXConfirmation(activityId, lxActivityLocation, startDate, regionId, totalPrice,
 			selectedTicketCount, selectedChildTicketCount);
 	}

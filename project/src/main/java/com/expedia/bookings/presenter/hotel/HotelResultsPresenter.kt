@@ -156,14 +156,14 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.suggestion.coordinates.lat, params.suggestion.coordinates.lng), 14.0f))
             }
             show(ResultsList())
-            filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch)
+            filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch && !params.suggestion.isGoogleSuggestionSearch)
             filterView.viewmodel.clearObservable.onNext(Unit)
         }
 
         vm.locationParamsSubject.subscribe { params ->
             loadingOverlay.animate(true)
             loadingOverlay.visibility = View.VISIBLE
-            filterView.sortByObserver.onNext(params.isCurrentLocationSearch)
+            filterView.sortByObserver.onNext(params.isCurrentLocationSearch && !params.isGoogleSuggestionSearch)
             filterView.viewmodel.clearObservable.onNext(Unit)
         }
     }
