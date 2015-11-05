@@ -2964,7 +2964,7 @@
     <!-- Error when applying coupon - the coupon isn't known -->
     <string name="coupon_error_unknown">ขออภัย ระบบไม่พบรหัสคูปองนี้</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">ขออภัย รหัสคูปองนี้ไม่ถูกต้อง</string>
+    <string name="coupon_error_unrecognized">ขออภัย ระบบไม่พบรหัสคูปองนี้</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">ขออภัย คูปองนี้หมดอายุแล้ว</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -3004,7 +3004,7 @@
     <!-- Error when applying coupon - Pay Later Hotel -->
     <string name="coupon_error_pay_later_hotel">คูปองใช้กับห้องพักแบบจ่ายทีหลังไม่ได้ โปรดเลือกห้องพักแบบจ่ายตอนนี้</string>
     <!-- Error when applying coupon - Not Active -->
-    <string name="coupon_error_not_active">ขออภัย คูปองนี้ไม่สามารถใช้งานได้แล้ว</string>
+    <string name="coupon_error_not_active">ขออภัย คูปองนี้หมดอายุแล้ว</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -3772,6 +3772,7 @@
     <string name="star_rating">ระดับดาว</string>
     <string name="show_more">แสดงเพิ่มเติม</string>
     <string name="show_less">แสดงน้อยลง</string>
+    <string name="price_range">ช่วงราคา</string>
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">ใช้คูปองแล้ว: คุณประหยัดไป %1$s!</string>

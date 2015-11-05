@@ -2962,7 +2962,7 @@
     <!-- Error when applying coupon - the coupon isn't known -->
     <string name="coupon_error_unknown">Impossibile riconoscere il coupon.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Siamo spiacenti, ma questo coupon non è valido.</string>
+    <string name="coupon_error_unrecognized">Impossibile riconoscere il coupon.</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Siamo spiacenti, ma questo coupon è scaduto.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -3002,7 +3002,7 @@
     <!-- Error when applying coupon - Pay Later Hotel -->
     <string name="coupon_error_pay_later_hotel">Non è possibile utilizzare i coupon per la prenotazione delle camere di tipo "Paga in hotel". Seleziona una camera di tipo "Paga ora".</string>
     <!-- Error when applying coupon - Not Active -->
-    <string name="coupon_error_not_active">Siamo spiacenti, ma questo coupon non è più valido.</string>
+    <string name="coupon_error_not_active">Siamo spiacenti, ma questo coupon è scaduto.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -3770,6 +3770,7 @@
     <string name="star_rating">Numero stelle</string>
     <string name="show_more">MOSTRA ALTRO</string>
     <string name="show_less">MOSTRA MENO</string>
+    <string name="price_range">Fascia di prezzo</string>
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Coupon applicato: hai risparmiato %1$s!</string>

@@ -2962,7 +2962,7 @@
     <!-- Error when applying coupon - the coupon isn't known -->
     <string name="coupon_error_unknown">Sorry, maar dit is geen gekende couponcode.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Sorry, maar dit is geen geldige couponcode.</string>
+    <string name="coupon_error_unrecognized">Sorry, maar dit is geen gekende couponcode.</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Sorry, maar deze coupon is verlopen.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -3002,7 +3002,7 @@
     <!-- Error when applying coupon - Pay Later Hotel -->
     <string name="coupon_error_pay_later_hotel">Coupons kunnen niet gebruikt worden als je in het hotel betaalt. Kies een kamer die je betaalt bij het boeken.</string>
     <!-- Error when applying coupon - Not Active -->
-    <string name="coupon_error_not_active">Sorry, maar deze coupon is niet meer geldig.</string>
+    <string name="coupon_error_not_active">Sorry, maar deze coupon is verlopen.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -3770,6 +3770,7 @@
     <string name="star_rating">Sterrenclassificatie</string>
     <string name="show_more">MEER TONEN</string>
     <string name="show_less">MINDER TONEN</string>
+    <string name="price_range">Prijs</string>
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Coupon toegepast: je bespaart %1$s!</string>

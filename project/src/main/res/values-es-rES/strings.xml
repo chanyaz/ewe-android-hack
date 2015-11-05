@@ -2962,7 +2962,7 @@
     <!-- Error when applying coupon - the coupon isn't known -->
     <string name="coupon_error_unknown">Lo sentimos, pero este código de descuento no existe.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Lo sentimos, pero este código de descuento no es válido.</string>
+    <string name="coupon_error_unrecognized">Lo sentimos, pero este código de descuento no existe.</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Lo sentimos, pero este código de descuento ha caducado..</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -3003,7 +3003,7 @@
     <string name="coupon_error_pay_later_hotel">No es posible aplicar cupones de descuento en reservas del tipo "Pagar más tarde", selecciona la opción "Pagar ahora".
 </string>
     <!-- Error when applying coupon - Not Active -->
-    <string name="coupon_error_not_active">Este cupón ya no está activo.</string>
+    <string name="coupon_error_not_active">Lo sentimos, pero este código de descuento ha caducado.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -3771,6 +3771,7 @@
     <string name="star_rating">Clasificación</string>
     <string name="show_more">VER MÁS</string>
     <string name="show_less">VER MENOS</string>
+    <string name="price_range">Intervalo de precios</string>
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Se ha aplicado el cupón: ¡te has ahorrado %1$s!</string>

@@ -2962,7 +2962,7 @@
     <!-- Error when applying coupon - the coupon isn't known -->
     <string name="coupon_error_unknown">Maaf, kami tidak bisa mengenali kode kupon ini.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Maaf, kupon ini tidak valid.</string>
+    <string name="coupon_error_unrecognized">Maaf, kami tidak bisa mengenali kode kupon ini.</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Maaf, tapi kode kupon ini telah kedaluwarsa.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -3002,7 +3002,7 @@
     <!-- Error when applying coupon - Pay Later Hotel -->
     <string name="coupon_error_pay_later_hotel">Kupon tidak bisa digunakan untuk kamar dengan kategori harga Bayar Belakangan, silakan pilih kategori harga Bayar Sekarang.</string>
     <!-- Error when applying coupon - Not Active -->
-    <string name="coupon_error_not_active">Maaf, kupon ini tidak berlaku lagi.</string>
+    <string name="coupon_error_not_active">Maaf, tapi kode kupon ini telah kedaluwarsa.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -3770,6 +3770,7 @@
     <string name="star_rating">Peringkat Bintang</string>
     <string name="show_more">BUKA LAINNYA</string>
     <string name="show_less">TUTUP LAINNYA</string>
+    <string name="price_range">Kisaran Harga</string>
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Penggunaan kupon: Anda hemat %1$s!</string>

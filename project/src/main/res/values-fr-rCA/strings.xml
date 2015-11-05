@@ -2366,7 +2366,7 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
     <string name="zero">0</string>
-    <string name="book">Réserver</string>
+    <string name="book">Livre</string>
 
     <!-- Highlight view stuff -->
     <!-- Asks for a security code (CVV code or credit card code) for a card.  %s is the card name, E.g., "Security code for Dan's Platinum VISA" -->
@@ -2855,7 +2855,7 @@
     <!-- View Room button text -->
     <string name="view_room_button_text">Afficher la chambre</string>
     <!-- Book Room button text -->
-    <string name="book_room_button_text">Réserver</string>
+    <string name="book_room_button_text">Livre</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Partager sur</string>
     <!-- Renovation Notice -->
@@ -2962,7 +2962,7 @@
     <!-- Error when applying coupon - the coupon isn't known -->
     <string name="coupon_error_unknown">Désolé, le code de ce bon de réduction est inconnu.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Désolé! Ce code de bon de réduction n\&apos;est pas valide.</string>
+    <string name="coupon_error_unrecognized">Désolé, le code de ce bon de réduction est inconnu.</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Désolé, ce bon de réduction est expiré.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -3002,7 +3002,7 @@
     <!-- Error when applying coupon - Pay Later Hotel -->
     <string name="coupon_error_pay_later_hotel">Les bons de réduction ne peuvent pas être utilisé pour réserver une chambre de type « Payer plus tard ». Veuillez sélectionner une chambre de type « Payer maintenant ».</string>
     <!-- Error when applying coupon - Not Active -->
-    <string name="coupon_error_not_active">Désolé! Ce bon de réduction n\&apos;est plus actif.</string>
+    <string name="coupon_error_not_active">Désolé, ce bon de réduction est expiré.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -3770,6 +3770,7 @@
     <string name="star_rating">Nombre d\&apos;étoiles</string>
     <string name="show_more">AFFICHER PLUS</string>
     <string name="show_less">AFFICHER MOINS</string>
+    <string name="price_range">Gamme de prix</string>
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Bon utilisé : vous avez économisé %1$s!</string>

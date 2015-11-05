@@ -2962,7 +2962,7 @@
     <!-- Error when applying coupon - the coupon isn't known -->
     <string name="coupon_error_unknown">很抱歉，这不是已知的优惠券代码。</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">很抱歉，此优惠代码无效。</string>
+    <string name="coupon_error_unrecognized">很抱歉，这不是已知的优惠券代码。</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">很抱歉，该优惠券已过期。</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -3002,7 +3002,7 @@
     <!-- Error when applying coupon - Pay Later Hotel -->
     <string name="coupon_error_pay_later_hotel">“到店付款”客房不能使用优惠券，请选择“立即付款”客房。</string>
     <!-- Error when applying coupon - Not Active -->
-    <string name="coupon_error_not_active">很抱歉，该优惠券已失效。</string>
+    <string name="coupon_error_not_active">很抱歉，该优惠券已过期。</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -3770,6 +3770,7 @@
     <string name="star_rating">星级</string>
     <string name="show_more">显示更多</string>
     <string name="show_less">隐藏信息</string>
+    <string name="price_range">价格范围</string>
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">使用优惠券：您节省了 %1$s！</string>
