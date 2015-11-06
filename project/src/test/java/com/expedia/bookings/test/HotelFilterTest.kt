@@ -67,6 +67,9 @@ public class HotelFilterTest {
 
         vm.vipFilteredObserver.onNext(true)
 
+        vm.userFilterChoices.minPrice = 20
+        vm.userFilterChoices.maxPrice = 50
+
         var region = "Civic Center"
         vm.selectNeighborhood.onNext(region)
 
@@ -78,6 +81,8 @@ public class HotelFilterTest {
         assertTrue(vm.userFilterChoices.neighborhoods.isEmpty())
         assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
         assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
+        assertEquals(0, vm.userFilterChoices.minPrice)
+        assertEquals(0, vm.userFilterChoices.maxPrice)
         assertEquals(ogResponse.hotelList.size(), vm.filteredResponse.hotelList.size())
     }
 
@@ -87,6 +92,10 @@ public class HotelFilterTest {
         var str = "Hil"
         vm.filterHotelNameObserver.onNext(str)
         assertEquals(1, vm.filteredResponse.hotelList.size())
+
+        str = "junk"
+        vm.filterHotelNameObserver.onNext(str)
+        assertEquals(0, vm.filteredResponse.hotelList.size())
 
         str = ""
         vm.filterHotelNameObserver.onNext(str)
