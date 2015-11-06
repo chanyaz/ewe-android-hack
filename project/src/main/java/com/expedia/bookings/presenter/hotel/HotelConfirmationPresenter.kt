@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
@@ -14,6 +15,7 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.OptimizedImageView
@@ -73,13 +75,17 @@ public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) :
         hotelConfirmationViewModel.itineraryNumberLabel.subscribeText(itinNumberTextView)
         hotelConfirmationViewModel.formattedCheckInOutDate.subscribeText(checkInOutDateTextView)
         hotelConfirmationViewModel.bigImageUrl.subscribe { value ->
-            PicassoHelper.Builder(backgroundImageView)
-                    .setError(com.expedia.bookings.R.drawable.room_fallback)
-                    .fade()
-                    .fit()
-                    .centerCrop()
-                    .build()
-                    .load(value)
+            if (!Strings.isEmpty(value)) {
+                PicassoHelper.Builder(backgroundImageView)
+                        .setError(R.drawable.room_fallback)
+                        .fade()
+                        .fit()
+                        .centerCrop()
+                        .build()
+                        .load(value)
+            } else {
+                backgroundImageView.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.room_fallback))
+            }
         }
         hotelConfirmationViewModel.hotelName.subscribeText(hotelNameTextView)
         hotelConfirmationViewModel.addressLineOne.subscribeText(addressL1TextView)
