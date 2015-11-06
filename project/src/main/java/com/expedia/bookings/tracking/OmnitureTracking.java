@@ -490,7 +490,7 @@ public class OmnitureTracking {
 			addHotelV2Products(s, hotelOffersResponse.hotelRoomResponse.get(0), hotelOffersResponse.hotelId);
 			if (hotelOffersResponse.hotelRoomResponse.get(0).rateInfo.chargeableRateInfo.airAttached) {
 				String products = s.getProducts();
-				products += " ;;;;eVar66=Flight:Hotel Infosite X-Sell";
+				products += ";;;;eVar66=Flight:Hotel Infosite X-Sell";
 				s.setProducts(products);
 
 				String event = s.getEvents();
