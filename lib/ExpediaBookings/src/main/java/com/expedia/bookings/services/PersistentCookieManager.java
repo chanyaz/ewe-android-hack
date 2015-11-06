@@ -27,7 +27,7 @@ public class PersistentCookieManager extends CookieManager {
 	private Gson gson;
 
 	public PersistentCookieManager(File storage) {
-		super(null /*default*/, CookiePolicy.ACCEPT_ORIGINAL_SERVER);
+		super(new SecureCookieStore(), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
 
 		this.storage = storage;
 		//Gson doesn't use class constructors by default so it may not call vital init code.
