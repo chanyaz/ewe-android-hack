@@ -2962,7 +2962,7 @@
     <!-- Error when applying coupon - the coupon isn't known -->
     <string name="coupon_error_unknown">Sorry, but this isn\&apos;t a known voucher code.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Sorry, but this isn\&apos;t a valid coupon code.</string>
+    <string name="coupon_error_unrecognized">Sorry, but this isn\&apos;t a known voucher code.</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Sorry, but this voucher has expired.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -3002,7 +3002,7 @@
     <!-- Error when applying coupon - Pay Later Hotel -->
     <string name="coupon_error_pay_later_hotel">Vouchers cannot be applied to Pay Later rooms, please select a Pay Now room.</string>
     <!-- Error when applying coupon - Not Active -->
-    <string name="coupon_error_not_active">Sorry, but this voucher is no longer active.</string>
+    <string name="coupon_error_not_active">Sorry, but this voucher has expired.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -3770,6 +3770,7 @@
     <string name="star_rating">Star Rating</string>
     <string name="show_more">SHOW MORE</string>
     <string name="show_less">SHOW LESS</string>
+    <string name="price_range">Price Range</string>
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Coupon applied: You saved %1$s!</string>

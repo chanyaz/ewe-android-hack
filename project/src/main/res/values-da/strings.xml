@@ -2962,7 +2962,7 @@
     <!-- Error when applying coupon - the coupon isn't known -->
     <string name="coupon_error_unknown">Beklager, vi kan ikke genkende denne kuponkode.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Beklager, men dette er ikke en gyldig kuponkode.</string>
+    <string name="coupon_error_unrecognized">Beklager, vi kan ikke genkende denne kuponkode.</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Beklager, men denne kupon er udløbet.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -3002,7 +3002,7 @@
     <!-- Error when applying coupon - Pay Later Hotel -->
     <string name="coupon_error_pay_later_hotel">Kuponen kan ikke anvendes til hotelværelser, der betales senere. Vælg venligst betalingsmuligheden \&apos;Betal nu\&apos;.</string>
     <!-- Error when applying coupon - Not Active -->
-    <string name="coupon_error_not_active">Beklager, men denne kupon er ikke længere aktiv.</string>
+    <string name="coupon_error_not_active">Beklager, men denne kupon er udløbet.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -3770,6 +3770,7 @@
     <string name="star_rating">Antal stjerner</string>
     <string name="show_more">VIS MERE</string>
     <string name="show_less">VIS MINDRE</string>
+    <string name="price_range">Prisinterval</string>
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Kupon indløst: Du har sparet %1$s!</string>

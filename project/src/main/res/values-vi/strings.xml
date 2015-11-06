@@ -2962,7 +2962,7 @@
     <!-- Error when applying coupon - the coupon isn't known -->
     <string name="coupon_error_unknown">Rất tiếc, không nhận ra mã coupon này.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Rất tiếc, mã coupon này không hợp lệ.</string>
+    <string name="coupon_error_unrecognized">Rất tiếc, không nhận ra mã coupon này.</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Rất tiếc, coupon này đã hết hạn.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -3002,7 +3002,7 @@
     <!-- Error when applying coupon - Pay Later Hotel -->
     <string name="coupon_error_pay_later_hotel">Không thể áp dụng coupon với phòng Thanh toán Sau, vui lòng chọn phòng Thanh toán Ngay.</string>
     <!-- Error when applying coupon - Not Active -->
-    <string name="coupon_error_not_active">Rất tiếc, coupon này đã hết hạn sử dụng.</string>
+    <string name="coupon_error_not_active">Rất tiếc, coupon này đã hết hạn.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -3770,6 +3770,7 @@
     <string name="star_rating">Xếp hạng sao</string>
     <string name="show_more">HIỂN THỊ THÊM</string>
     <string name="show_less">HIỂN THỊ ÍT HƠN</string>
+    <string name="price_range">Khoảng giá</string>
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Áp dụng coupon: Tiết kiệm được %1$s!</string>

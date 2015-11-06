@@ -47,7 +47,7 @@
     <!-- Cars weekly price templates-->
     <string name="cars_weekly_text">1 週間 :</string>
     <!-- Cars weekly price templates-->
-    <string name="cars_monthly_text">1 ヶ月 :</string>
+    <string name="cars_monthly_text">1 か月 :</string>
     <!-- Cars price templates-->
     <string name="cars_total_template">合計 : %s</string>
     <!-- Slide to reserve -->
@@ -187,7 +187,7 @@
     <!-- Error message for some missing checkout params -->
     <string name="error_missing_checkout_params">チェックアウト パラメーターが見つかりません。</string>
     <!--Adding hotel from Car Confirmation -->
-    <string name="successful_checkout_cross_sell_hotel">%1$s のホテル</string>
+    <string name="successful_checkout_cross_sell_hotel">%1$sのホテル</string>
     <!--Adding flight from Car Confirmation -->
     <string name="successful_checkout_cross_sell_flight">%1$sへのフライト</string>
     <!-- Car confirmation screen label -->
@@ -1280,7 +1280,7 @@
     <string name="add_hotel_air_attach">ホテルを追加する</string>
 
     <!-- Button label to search for an activity in the hotel city. %1$s is the city, e.g. "Washington, DC" -->
-    <string name="add_lx_TEMPLATE">%1$s の現地ツアーを検索</string>
+    <string name="add_lx_TEMPLATE">%1$sの現地ツアーを検索</string>
     <!-- Button label to search for an activity in the hotel city. Used only when we don't know the destination city. -->
     <string name="add_lx_fallback">現地オプショナル ツアーを検索</string>
 
@@ -1359,9 +1359,9 @@
     <string name="car_category_result_oversize">大型</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア自動車</string>
-    <string name="car_type_three_door">3 ドア自動車</string>
-    <string name="car_type_four_door">4 ドア自動車</string>
+    <string name="car_type_two_door">2 ドア 自動車</string>
+    <string name="car_type_three_door">3 ドア 自動車</string>
+    <string name="car_type_four_door">4 ドア 自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -1721,7 +1721,7 @@
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">手荷物料金情報</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
-    <string name="layover_duration_location_TEMPLATE">%2$s で &lt;b&gt;%1$s&lt;/b&gt; の乗り継ぎ</string>
+    <string name="layover_duration_location_TEMPLATE">%2$sで &lt;b&gt;%1$s&lt;/b&gt; の乗り継ぎ</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class and %4$s is the plane.  For example: "4h 10m - Economy (K), Boeing 747." -->
     <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)、%4$s。</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class. For example: "4h 10m - Economy (K)" -->
@@ -2962,7 +2962,7 @@
     <!-- Error when applying coupon - the coupon isn't known -->
     <string name="coupon_error_unknown">申し訳ありません。このクーポン コードは存在しません。</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">申し訳ありません。このクーポン コードは無効です。</string>
+    <string name="coupon_error_unrecognized">申し訳ありません。このクーポン コードは存在しません。</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">申し訳ありません。このクーポンの有効期限が過ぎています。</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -3002,7 +3002,7 @@
     <!-- Error when applying coupon - Pay Later Hotel -->
     <string name="coupon_error_pay_later_hotel">後からお支払いの場合は、クーポンを利用することができません。今すぐお支払いを選択してください。</string>
     <!-- Error when applying coupon - Not Active -->
-    <string name="coupon_error_not_active">申し訳ありません。このクーポンは利用期間が過ぎています。</string>
+    <string name="coupon_error_not_active">申し訳ありません。このクーポンの有効期限が過ぎています。</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -3770,6 +3770,7 @@
     <string name="star_rating">星評価</string>
     <string name="show_more">すべて表示</string>
     <string name="show_less">一部のみ表示</string>
+    <string name="price_range">価格帯</string>
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">クーポンが適用されました : %1$s お得です !</string>
