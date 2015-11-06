@@ -485,7 +485,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
 
             // Filter button translation
-            if (!mapTransitionRunning && newState == RecyclerView.SCROLL_STATE_IDLE) {
+            if (!mapTransitionRunning && newState == RecyclerView.SCROLL_STATE_IDLE && !getCurrentState().equals(ResultsMap::class.java.name)) {
                 if (scrolledDistance > heightOfButton / 2) {
                     filterBtnWithCountWidget.animate().translationY(heightOfButton.toFloat()).setInterpolator(DecelerateInterpolator()).start()
                     fab.animate().translationY(heightOfButton.toFloat()).setInterpolator(DecelerateInterpolator()).start()
