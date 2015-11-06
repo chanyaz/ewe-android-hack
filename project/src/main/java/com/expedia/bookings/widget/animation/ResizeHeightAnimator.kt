@@ -18,8 +18,8 @@ public class ResizeHeightAnimator(animationDuration: Long) : ValueAnimator(), Va
 
     private var resizeSpecList = ArrayList<ResizeSpec>()
 
-    public fun addViewSpec(view: View, targetHeight: Int) {
-        resizeSpecList.add(ResizeSpec(view, view.height, Math.max(0, targetHeight)))
+    public fun addViewSpec(view: View, targetHeight: Int, startHeight: Int = view.height) {
+        resizeSpecList.add(ResizeSpec(view, startHeight, Math.max(0, targetHeight)))
     }
 
     init {

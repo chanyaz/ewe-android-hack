@@ -14,6 +14,8 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Button
@@ -25,6 +27,7 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelV2Tracking
@@ -158,6 +161,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var selectRoomOutAnimator: ObjectAnimator by Delegates.notNull()
 
     var hotelDetailsGalleryImageViews = ArrayList<HotelDetailsGalleryImageView>()
+    private val ANIMATION_DURATION_ROOM_CONTAINER = if (ExpediaBookingApp.isAutomation()) 0L else 250L
 
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
         detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
@@ -277,14 +281,35 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.roomResponseListObservable.subscribe { roomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
             val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(roomList.first.size())
 
-            roomContainer.removeAllViews()
-            roomList.first.forEachIndexed { roomResponseIndex, room ->
-                val view = HotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver)
-                view.viewmodel = HotelRoomRateViewModel(getContext(), roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), roomResponseIndex, vm)
-                roomContainer.addView(view)
-                hotelRoomRateViewModels.add(view.viewmodel)
-            }
-            vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
+            val roomContainerAlphaZeroToOneAnimation = AlphaAnimation(0f, 1f)
+            roomContainerAlphaZeroToOneAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
+
+            val roomContainerAlphaOneToZeroAnimation = AlphaAnimation(1f, 0f)
+            roomContainerAlphaOneToZeroAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
+            roomContainerAlphaOneToZeroAnimation.setAnimationListener(object: Animation.AnimationListener {
+                override fun onAnimationEnd(p0: Animation?) {
+                    roomContainer.removeAllViews()
+                    roomList.first.forEachIndexed { roomResponseIndex, room ->
+                        val view = HotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex)
+                        view.viewmodel = HotelRoomRateViewModel(getContext(), roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), roomResponseIndex, vm)
+                        roomContainer.addView(view)
+                        hotelRoomRateViewModels.add(view.viewmodel)
+                    }
+                    vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
+                    roomContainer.startAnimation(roomContainerAlphaZeroToOneAnimation)
+                }
+
+                override fun onAnimationStart(p0: Animation?) {
+                    //ignore
+                }
+
+                override fun onAnimationRepeat(p0: Animation?) {
+                    //ignore
+                }
+            })
+
+            roomContainer.startAnimation(roomContainerAlphaOneToZeroAnimation)
+
             //setting first room in expanded state as some etp hotel offers are less compared to pay now offers
             vm.lastExpandedRowObservable.onNext(0)
 
@@ -324,15 +349,36 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.etpRoomResponseListObservable.subscribe { etpRoomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
             val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(etpRoomList.first.size())
 
-            roomContainer.removeAllViews()
-            etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
-                val view = HotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver)
-                view.viewmodel = HotelRoomRateViewModel(getContext(), etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), roomResponseIndex, vm)
-                view.viewmodel.payLaterObserver.onNext(Unit)
-                roomContainer.addView(view)
-                hotelRoomRateViewModels.add(view.viewmodel)
-            }
-            vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
+            val roomContainerAlphaZeroToOneAnimation = AlphaAnimation(0f, 1f)
+            roomContainerAlphaZeroToOneAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
+
+            val roomContainerAlphaOneToZeroAnimation = AlphaAnimation(1f, 0f)
+            roomContainerAlphaOneToZeroAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
+            roomContainerAlphaOneToZeroAnimation.setAnimationListener(object: Animation.AnimationListener {
+                override fun onAnimationEnd(p0: Animation?) {
+                    roomContainer.removeAllViews()
+                    etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
+                        val view = HotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex)
+                        view.viewmodel = HotelRoomRateViewModel(getContext(), etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), roomResponseIndex, vm)
+                        view.viewmodel.payLaterObserver.onNext(Unit)
+                        roomContainer.addView(view)
+                        hotelRoomRateViewModels.add(view.viewmodel)
+                    }
+                    vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
+                    roomContainer.startAnimation(roomContainerAlphaZeroToOneAnimation)
+                }
+
+                override fun onAnimationStart(p0: Animation?) {
+                    //ignore
+                }
+
+                override fun onAnimationRepeat(p0: Animation?) {
+                    //ignore
+                }
+            })
+
+            roomContainer.startAnimation(roomContainerAlphaOneToZeroAnimation)
+
             //setting first room in expanded state as some etp hotel offers are less compared to pay now offers
             vm.lastExpandedRowObservable.onNext(0)
         }

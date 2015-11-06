@@ -40,7 +40,7 @@ import rx.Observer
 import rx.Observable
 import kotlin.properties.Delegates
 
-public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView, val rowTopConstraintViewObservable: Observable<View>, val selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : LinearLayout(context) {
+public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView, val rowTopConstraintViewObservable: Observable<View>, val selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>, val rowIndex: Int) : LinearLayout(context) {
 
     val PICASSO_HOTEL_ROOM = "HOTEL_ROOMS"
 
@@ -102,7 +102,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
                 roomInfoDescriptionText.visibility = View.VISIBLE
                 lp.addRule(RelativeLayout.BELOW, R.id.room_info_description_text)
                 roomInfoChevron.layoutParams = lp
-                resizeAnimator.addViewSpec(roomInfoDescriptionText, roomInfoDescriptionTextHeight)
+                resizeAnimator.addViewSpec(roomInfoDescriptionText, roomInfoDescriptionTextHeight, 0)
                 resizeAnimator.start()
                 AnimUtils.rotate(roomInfoChevron)
                 //track only when expand the room info
@@ -212,13 +212,17 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             }
 
             viewsToHideInExpandedState.forEach {
-                it.startAnimation(newAlphaOneToZeroAnimation(it))
+                val alphaAnimation = newAlphaOneToZeroAnimation(it)
+                if(!animate) alphaAnimation.duration = 0
+                it.startAnimation(alphaAnimation)
             }
             viewsToShowInExpandedState.forEach {
                 if (it is TextView && Strings.isEmpty(it.text)) {
                     it.visibility = View.GONE
                 } else {
-                    it.startAnimation(newAlphaZeroToOneAnimation(it))
+                    val alphaAnimation = newAlphaZeroToOneAnimation(it)
+                    if(!animate) alphaAnimation.duration = 0
+                    it.startAnimation(alphaAnimation)
                 }
             }
 
@@ -230,9 +234,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             perNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
             perNight.setTextColor(resources.getColor(R.color.hotels_primary_color))
 
-            if (animate) {
-                (row.background as TransitionDrawable).reverseTransition(ANIMATION_DURATION.toInt())
-            }
+            if (animate) (row.background as TransitionDrawable).startTransition(ANIMATION_DURATION.toInt())
 
             topMarginForView(row, resources.getDimension(R.dimen.launch_tile_margin_top).toInt())
             topMarginForView(roomDivider, resources.getDimension(R.dimen.launch_tile_margin_top).toInt())
@@ -243,9 +245,6 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             resizeAnimator.addViewSpec(roomInfoDivider, roomInfoDividerHeight)
             resizeAnimator.addViewSpec(roomInfoChevron, roomInfoChevronHeight)
             resizeAnimator.addViewSpec(spaceAboveRoomInfo, spaceAboveRoomInfoHeight)
-            if (roomInfoDescriptionText.visibility == View.VISIBLE) {
-                resizeAnimator.addViewSpec(roomInfoDescriptionText, roomInfoDescriptionTextHeight)
-            }
 
             if (animate) {
                 val screenHeight = AndroidUtils.getScreenSize(context).y
@@ -275,10 +274,14 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             viewRoom.isChecked = false
 
             viewsToHideInExpandedState.forEach {
-                it.startAnimation(newAlphaZeroToOneAnimation(it))
+                val alphaAnimation = newAlphaZeroToOneAnimation(it)
+                if(!animate) alphaAnimation.duration = 0
+                it.startAnimation(alphaAnimation)
             }
             viewsToShowInExpandedState.forEach {
-                it.startAnimation(newAlphaOneToZeroAnimation(it))
+                val alphaAnimation = newAlphaOneToZeroAnimation(it)
+                if(!animate) alphaAnimation.duration = 0
+                it.startAnimation(alphaAnimation)
             }
 
             row.isEnabled = true
@@ -289,7 +292,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             perNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
             perNight.setTextColor(resources.getColor(R.color.hotel_cell_disabled_text))
 
-            (row.background as TransitionDrawable).startTransition(ANIMATION_DURATION.toInt())
+            if (animate) (row.background as TransitionDrawable).reverseTransition(ANIMATION_DURATION.toInt())
 
             val resizeAnimator = ResizeHeightAnimator(if (animate) ANIMATION_DURATION else 0)
             resizeAnimator.addViewSpec(roomHeaderImageContainer, 0)
@@ -307,6 +310,8 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
             resizeAnimator.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationEnd(p0: Animator?) {
                     roomHeaderImage.setImageDrawable(null)
+                    if (roomInfoDescriptionText.visibility == View.VISIBLE)
+                        vm.roomInfoExpandCollapseObservable.onNext(Unit)
                 }
 
                 override fun onAnimationStart(p0: Animator?) {
@@ -339,6 +344,7 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
                 roomInfoChevronHeight = roomInfoChevron.height
                 spaceAboveRoomInfoHeight = spaceAboveRoomInfo.height
 
+                roomInfoDescriptionText.visibility = View.GONE
                 row.viewTreeObserver.removeOnGlobalLayoutListener(this)
 
                 viewmodel.expandedMeasurementsDone.onNext(Unit)
@@ -346,8 +352,9 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
         }
         row.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
 
-        val transitionDrawable = TransitionDrawable(arrayOf(resources.getDrawable(R.drawable.card_background), ColorDrawable(Color.parseColor("#00000000"))))
+        val transitionDrawable = TransitionDrawable(arrayOf(ColorDrawable(Color.parseColor("#00000000")), resources.getDrawable(R.drawable.card_background)))
         transitionDrawable.isCrossFadeEnabled = true
+        if(rowIndex == 0) transitionDrawable.startTransition(0)
         row.background = transitionDrawable
         toggleCollapsed = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, context.resources.displayMetrics).toInt()
         toggleExpanded = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, context.resources.displayMetrics).toInt()
