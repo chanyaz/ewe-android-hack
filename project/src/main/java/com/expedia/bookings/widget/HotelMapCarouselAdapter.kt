@@ -82,7 +82,7 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
         public fun bind(viewModel: HotelViewModel) {
             viewModel.hotelLargeThumbnailUrlObservable.subscribe {
                 PicassoHelper.Builder(hotelPreviewImage)
-                        .setError(R.drawable.cars_fallback)
+                        .setError(R.drawable.room_fallback)
                         .build()
                         .load(it)
             }
