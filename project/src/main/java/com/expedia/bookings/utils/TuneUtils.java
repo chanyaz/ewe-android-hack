@@ -705,15 +705,16 @@ public class TuneUtils {
 		}
 	}
 
-	public static void trackLXConfirmation(String lxActivityLocation, Money totalPrice, Money ticketPrice, String lxActivityStartDate,
-		String orderId, String lxActivityTitle) {
+	public static void trackLXConfirmation(String lxActivityLocation, Money totalPrice, Money ticketPrice,
+		String lxActivityStartDate,
+		String orderId, String lxActivityTitle, int selectedTicketCount, int selectedChildTicketCount) {
 		if (initialized) {
 			MATEvent event = new MATEvent("lx_confirmation");
 			MATEventItem eventItem = new MATEventItem("lx_confirmation_item");
 			double revenue = totalPrice.getAmount().doubleValue();
 			double ticketPriceAmt = ticketPrice.getAmount().doubleValue();
 
-			eventItem.withQuantity(1)
+			eventItem.withQuantity(selectedTicketCount + selectedChildTicketCount)
 				.withRevenue(revenue)
 				.withUnitPrice(ticketPriceAmt)
 				.withAttribute2(lxActivityLocation)
@@ -722,6 +723,7 @@ public class TuneUtils {
 			withTuidAndMembership(event)
 				.withAttribute2(isUserLoggedIn())
 				.withRevenue(revenue)
+				.withQuantity(1)
 				.withCurrencyCode(totalPrice.getCurrency())
 				.withAdvertiserRefId(orderId)
 				.withEventItems(Arrays.asList(eventItem))
