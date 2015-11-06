@@ -137,6 +137,7 @@ public class HotelScreen {
 	}
 
 	public static ViewInteraction searchButton() {
+		onView(withId(R.id.search_container)).perform(ViewActions.waitForViewToDisplay());
 		return onView(allOf(withId(R.id.search_btn), isDescendantOfA(hasSibling(withId(R.id.search_container)))));
 	}
 
@@ -238,6 +239,10 @@ public class HotelScreen {
 
 	public static void waitForDetailsLoaded() {
 		onView(withId(R.id.hotel_detail)).perform(ViewActions.waitForViewToDisplay());
+	}
+
+	public static void waitForErrorDisplayed() {
+		onView(withId(R.id.widget_hotel_errors)).perform(ViewActions.waitForViewToDisplay());
 	}
 
 	public static void waitForFilterDisplayed() {

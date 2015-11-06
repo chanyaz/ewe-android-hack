@@ -34,7 +34,6 @@ import com.expedia.vm.HotelPresenterViewModel
 import com.expedia.vm.HotelResultsViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
-import rx.Observable
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.exceptions.OnErrorNotImplementedException
@@ -61,6 +60,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val geoCodeSearchModel = GeocodeSearchModel(context)
     private val checkoutDialog = ProgressDialog(context)
     var viewModel : HotelPresenterViewModel by Delegates.notNull()
+    private val DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW = 100L
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
@@ -126,10 +126,28 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         searchPresenter.searchViewModel = HotelSearchViewModel(getContext())
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
 
+        //NOTE
+        //Reason for delay(XYZ, TimeUnit.ABC) to various errorObservables below:
+        //
+        //When "back" is triggered from Hotel Error Presenter, it is handled by HotelActivity, which asks the child currently on the stack to handle it.
+        //That child happens to be Hotel Error Presenter. Handling "back" ends up into one of the errorObservable subscriptions which invariably do `show (xyzPresenter, Presenter.FLAG_CLEAR_TOP)`
+        //This `show (xyzPresenter, Presenter.FLAG_CLEAR_TOP)` modifies the backstack.
+        //When the Presenter.back() resumes (with a return value of true from HotelErrorPresenter, meaning it has handled the "back"), it simply pushes the popped child.
+        //A few milliseconds later (depending on delay(XYZ, TimeUnit.ABC)), `show (xyzPresenter, Presenter.FLAG_CLEAR_TOP)` triggers fulfilling our intent to show the right child with appropriate transition.
+
+        //Note that HotelErrorPresenter.back() returns true, to ensure that Presenter.back() knows that it has handled the back, otherwise it would try to
+        //`show` the previous state on the stack by animating from the current (popped) state to the previous state, which is not required at all as our intent is to
+        //`show (xyzPresenter, Presenter.FLAG_CLEAR_TOP)` which is being done in various errorObservable subscriptions
+
         errorPresenter.viewmodel = HotelErrorViewModel(context)
-        errorPresenter.viewmodel.searchErrorObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
-        errorPresenter.viewmodel.defaultErrorObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
-        errorPresenter.viewmodel.checkoutCardErrorObservable.subscribe {
+        errorPresenter.viewmodel.searchErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+        }
+        errorPresenter.viewmodel.defaultErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+        }
+
+        errorPresenter.viewmodel.checkoutCardErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
             show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
             checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.setExpanded(true, true)
@@ -140,24 +158,30 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             NavUtils.goToItin(context)
         }
 
+        errorPresenter.viewmodel.soldOutObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+            show(detailPresenter, Presenter.FLAG_CLEAR_TOP)
+        }
+
         errorPresenter.viewmodel.checkoutPaymentFailedObservable.subscribe(errorPresenter.viewmodel.checkoutCardErrorObservable)
 
-        errorPresenter.viewmodel.sessionTimeOutObservable.subscribe { show(searchPresenter) }
+        errorPresenter.viewmodel.sessionTimeOutObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+        }
 
-        errorPresenter.viewmodel.checkoutTravellerErrorObservable.subscribe {
+        errorPresenter.viewmodel.checkoutTravellerErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
             show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
             checkoutPresenter.hotelCheckoutWidget.mainContactInfoCardView.setExpanded(true, true)
             checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
         }
 
-        errorPresenter.viewmodel.checkoutUnknownErrorObservable.subscribe {
+        errorPresenter.viewmodel.checkoutUnknownErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
             show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
             checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
         }
 
-        errorPresenter.viewmodel.productKeyExpiryObservable.subscribe {
+        errorPresenter.viewmodel.productKeyExpiryObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
             show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
         }
 
@@ -174,13 +198,12 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         detailPresenter.hotelDetailView.viewmodel.changeDates.subscribe(changeDatesObserver)
 
         resultsPresenter.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
-        resultsPresenter.viewmodel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
-        resultsPresenter.viewmodel.showHotelSearchViewObservable.subscribe { show(searchPresenter) }
+        resultsPresenter.viewmodel.errorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+        resultsPresenter.viewmodel.showHotelSearchViewObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
 
         resultsPresenter.searchOverlaySubject.subscribe(searchResultsOverlayObserver)
 
         viewModel = HotelPresenterViewModel(checkoutPresenter.hotelCheckoutWidget.createTripViewmodel, checkoutPresenter.hotelCheckoutViewModel, detailPresenter.hotelDetailView.viewmodel)
-
         viewModel.selectedRoomSoldOut.subscribe(detailPresenter.hotelDetailView.viewmodel.selectedRoomSoldOut)
         viewModel.hotelSoldOutWithHotelId.subscribe (resultsPresenter.adapter.hotelSoldOut)
 
@@ -190,7 +213,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         })
 
         checkoutPresenter.hotelCheckoutViewModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
-        checkoutPresenter.hotelCheckoutViewModel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+        checkoutPresenter.hotelCheckoutViewModel.errorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
             checkoutDialog.dismiss()
             show(errorPresenter)
         }
@@ -423,6 +446,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     private val detailsToError = ScaleTransition(this, HotelDetailPresenter::class.java, HotelErrorPresenter::class.java)
+
     private val checkoutToConfirmation = ScaleTransition(this, HotelCheckoutPresenter::class.java, HotelConfirmationPresenter::class.java)
     private val detailsToReview = object: ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {
         override fun finalizeTransition(forward: Boolean) {
