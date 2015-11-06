@@ -445,7 +445,14 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     }
 
-    private val detailsToError = ScaleTransition(this, HotelDetailPresenter::class.java, HotelErrorPresenter::class.java)
+    private val detailsToError = object: ScaleTransition(this, HotelDetailPresenter::class.java, HotelErrorPresenter::class.java){
+        override fun finalizeTransition(forward: Boolean) {
+            super.finalizeTransition(forward)
+            if (!forward) {
+                trackHotelDetail()
+            }
+        }
+    }
 
     private val checkoutToConfirmation = ScaleTransition(this, HotelCheckoutPresenter::class.java, HotelConfirmationPresenter::class.java)
     private val detailsToReview = object: ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {
@@ -572,6 +579,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private fun trackHotelDetail() {
         val hotelOffersResponse = detailPresenter.hotelDetailView.viewmodel.hotelOffersResponse
         val hasEtpOffer = detailPresenter.hotelDetailView.viewmodel.hasEtpOffer(hotelOffersResponse)
-        HotelV2Tracking().trackPageLoadHotelV2Infosite(hotelOffersResponse, hotelSearchParams, hasEtpOffer, hotelSearchParams.suggestion.isCurrentLocationSearch)
+        val hotelSoldOut = detailPresenter.hotelDetailView.viewmodel.hotelSoldOut.value
+        HotelV2Tracking().trackPageLoadHotelV2Infosite(hotelOffersResponse, hotelSearchParams, hasEtpOffer, hotelSearchParams.suggestion.isCurrentLocationSearch, hotelSoldOut, viewModel.didLastCreateTripOrCheckoutResultInRoomSoldOut.value)
     }
 }

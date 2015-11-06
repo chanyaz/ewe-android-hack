@@ -448,7 +448,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadHotelV2Infosite(HotelOffersResponse hotelOffersResponse, boolean isETPEligible,
-		boolean isCurrentLocationSearch) {
+		boolean isCurrentLocationSearch, boolean isHotelSoldOut, boolean isRoomSoldOut) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAILS_PAGE + "\" pageload");
 
 		ADMS_Measurement s = getFreshTrackingObject();
@@ -464,13 +464,24 @@ public class OmnitureTracking {
 		String drrString = internalGenerateHotelV2DRRString(hotelOffersResponse);
 		s.setEvar(9, drrString);
 
-		if (!isETPEligible) {
-			s.setEvents("event32");
+		if (isHotelSoldOut) {
+			s.setEvents("event32,event14");
+		}
+		else if (isRoomSoldOut && isETPEligible) {
+			s.setEvents("event32,event5,event17");
+			s.setEvar(52, "Pay Now");
+		}
+		else if (isRoomSoldOut) {
+			s.setEvents("event32,event17");
 			s.setEvar(52, "Non ETP");
 		}
-		else {
+		else if (isETPEligible) {
 			s.setEvents("event32,event5");
 			s.setEvar(52, "Pay Now");
+		}
+		else if (!isETPEligible) {
+			s.setEvents("event32");
+			s.setEvar(52, "Non ETP");
 		}
 
 		s.setEvar(2, HOTELV2_LOB);

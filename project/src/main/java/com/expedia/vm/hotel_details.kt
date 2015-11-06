@@ -271,8 +271,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         showBookByPhoneObservable.onNext(!hotelOffersResponse.deskTopOverrideNumber
                 && !Strings.isEmpty(hotelOffersResponse.telesalesNumber))
 
-        HotelV2Tracking().trackPageLoadHotelV2Infosite(hotelOffersResponse, paramsSubject.value, hasETPOffer, isCurrentLocationSearch)
-
+        HotelV2Tracking().trackPageLoadHotelV2Infosite(hotelOffersResponse, paramsSubject.value, hasETPOffer, isCurrentLocationSearch, hotelSoldOut.value, false)
     }
 
     private val offersObserver = endlessObserver<HotelOffersResponse> { response ->
