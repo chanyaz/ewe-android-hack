@@ -10,12 +10,12 @@ import com.expedia.bookings.utils.FontCache
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 
-fun createHotelMarkerIcon(resources: Resources, hotel: Hotel, clicked: Boolean): BitmapDescriptor {
+fun createHotelMarkerIcon(resources: Resources, hotel: Hotel, isSelected: Boolean, isAirAttached: Boolean, isSoldOut: Boolean): BitmapDescriptor {
     val markerPaddingWidth = resources.getDimensionPixelSize(R.dimen.hotel_marker_padding_width)
     val markerPaddingHeight = resources.getDimensionPixelSize(R.dimen.hotel_marker_padding_height)
 
     var bounds = Rect()
-    var text = priceFormatter(resources, hotel.lowRateInfo, false)
+    var hotelPriceText = priceFormatter(resources, hotel.lowRateInfo, false)
     var paint: Paint = Paint()
     paint.color = Color.WHITE
     paint.isAntiAlias = true
@@ -23,10 +23,9 @@ fun createHotelMarkerIcon(resources: Resources, hotel: Hotel, clicked: Boolean):
     paint.textSize = pxSize
     paint.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
     paint.style = Paint.Style.FILL
-    paint.getTextBounds(text.toString(), 0, text.length(), bounds)
+    paint.getTextBounds(hotelPriceText.toString(), 0, hotelPriceText.length(), bounds)
     
-    val isAirAttached = hotel.lowRateInfo.discountPercent < 0 && hotel.lowRateInfo.airAttached
-    var outputBitmap = getBitmap(resources, clicked, isAirAttached)
+    var outputBitmap = getBitmap(resources, isSelected, isAirAttached, isSoldOut)
     var chunk = outputBitmap.getNinePatchChunk()
 
     val drawable = NinePatchDrawable(resources, outputBitmap, chunk, Rect(), null)
@@ -37,14 +36,23 @@ fun createHotelMarkerIcon(resources: Resources, hotel: Hotel, clicked: Boolean):
     var canvas: Canvas = Canvas(bitmap)
     drawable.draw(canvas)
 
-    canvas.drawText(text.toString(), markerPaddingWidth / 2f, markerPaddingHeight / 2f + bounds.height(), paint)
+    canvas.drawText(hotelPriceText.toString(), markerPaddingWidth / 2f, markerPaddingHeight / 2f + bounds.height(), paint)
 
     return BitmapDescriptorFactory.fromBitmap(bitmap)
 
 }
 
-fun getBitmap(resources: Resources, clicked: Boolean, isAirAttach: Boolean): Bitmap {
-    if (clicked) return BitmapFactory.decodeResource(resources, R.drawable.hotel_tooltip_blue)
-    else if (isAirAttach) return  BitmapFactory.decodeResource(resources, R.drawable.hotel_tooltip_airattach)
-    else return BitmapFactory.decodeResource(resources, R.drawable.hotel_tooltip)
+fun getBitmap(resources: Resources, isSelected: Boolean, isAirAttached: Boolean, isSoldOut: Boolean): Bitmap {
+
+    val tooltipDrawable = if (isSoldOut) {
+        R.drawable.sold_out_pin
+    } else if (isAirAttached) {
+        R.drawable.hotel_tooltip_airattach
+    } else if (isSelected) {
+        R.drawable.hotel_tooltip_blue
+    } else {
+        R.drawable.hotel_tooltip
+    }
+
+    return BitmapFactory.decodeResource(resources, tooltipDrawable)
 }

@@ -16,7 +16,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.extension.isAirAttached
+import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.Amenity
@@ -317,7 +317,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             onlyShowTotalPrice.onNext(firstHotelRoomResponse.rateInfo.chargeableRateInfo.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
             pricePerNightObservable.onNext(Money(BigDecimal(rate.averageRate.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
-            discountPercentageBackgroundObservable.onNext(if (rate.isAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
+            discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
         }
 
         userRatingObservable.onNext(response.hotelGuestRating.toString())

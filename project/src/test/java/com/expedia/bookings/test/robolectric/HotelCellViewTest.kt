@@ -41,7 +41,7 @@ public class HotelCellViewTest {
         Assert.assertEquals("Sold Out", hotelViewHolder.urgencyMessageBox.text)
         Assert.assertEquals(View.GONE, hotelViewHolder.urgencyIcon.visibility)
 
-        Assert.assertEquals(activity.getResources().getColor(android.R.color.white), hotelViewHolder.ratingBar.getStarColor())
+        Assert.assertEquals(activity.getResources().getColor(R.color.hotelsv2_sold_out_hotel_gray), hotelViewHolder.ratingBar.getStarColor())
         Assert.assertNotNull(hotelViewHolder.imageView.colorFilter)
     }
 

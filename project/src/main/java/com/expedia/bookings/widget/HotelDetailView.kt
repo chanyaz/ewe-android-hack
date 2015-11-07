@@ -297,6 +297,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         vm.roomResponseListObservable.subscribe { roomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
+            if (CollectionUtils.isEmpty(roomList.first)) {
+                return@subscribe
+            }
             val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(roomList.first.size())
 
             val roomContainerAlphaZeroToOneAnimation = AlphaAnimation(0f, 1f)
@@ -307,9 +310,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             roomContainerAlphaOneToZeroAnimation.setAnimationListener(object: Animation.AnimationListener {
                 override fun onAnimationEnd(p0: Animation?) {
                     roomContainer.removeAllViews()
-                    if (CollectionUtils.isEmpty(roomList.first)) {
-                        return
-                    }
                     roomList.first.forEachIndexed { roomResponseIndex, room ->
                         val view = HotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex)
                 	view.viewmodel = HotelRoomRateViewModel(getContext(), vm.hotelOffersResponse.hotelId, roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), roomResponseIndex, vm.rowExpandingObservable)
@@ -356,6 +356,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                 .subscribeVisibility(bestPriceGuarantee)
 
         vm.etpRoomResponseListObservable.subscribe { etpRoomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
+            if (CollectionUtils.isEmpty(etpRoomList.first)) {
+                return@subscribe
+            }
             val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(etpRoomList.first.size())
 
             val roomContainerAlphaZeroToOneAnimation = AlphaAnimation(0f, 1f)

@@ -17,13 +17,28 @@ import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.endlessObserver
+import com.expedia.util.subscribeColorFilter
+import com.expedia.util.subscribeInverseVisibility
+import com.expedia.util.subscribeRating
+import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeText
 import com.mobiata.android.text.StrikethroughTagHandler
 import com.expedia.util.subscribeVisibility
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.util.*
 import kotlin.properties.Delegates
 
 public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+    val hotelSoldOut = endlessObserver<String> { soldOutHotelId ->
+        hotels.firstOrNull { it.hotelId == soldOutHotelId }?.isSoldOut = true
+        hotelListItemsMetadata.firstOrNull { it.hotelId == soldOutHotelId }?.hotelSoldOut?.onNext(true)
+    }
+
+    private data class HotelListItemMetadata(val hotelId: String, val hotelSoldOut: BehaviorSubject<Boolean>)
+    private val hotelListItemsMetadata: MutableList<HotelListItemMetadata> = ArrayList()
 
     override fun getItemCount(): Int {
         return hotels.size()
@@ -49,6 +64,14 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
         return HotelViewHolder(view as ViewGroup)
     }
 
+    override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
+        val hotelItemIndex = hotelListItemsMetadata.indexOfFirst { it.hotelId == (holder as HotelViewHolder).hotelId }
+        if (hotelItemIndex != -1) {
+            hotelListItemsMetadata.remove(hotelItemIndex)
+        }
+        super.onViewRecycled(holder)
+    }
+
     public inner class HotelViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), View.OnClickListener {
 
         val resources: Resources by lazy {
@@ -61,9 +84,11 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
             HotelV2Tracking().trackHotelV2CarouselClick()
         }
 
+        var hotelId: String by Delegates.notNull()
         val hotelPreviewImage: ImageView by bindView(R.id.hotel_preview_image)
         val hotelPreviewText: TextView by bindView(R.id.hotel_preview_text)
         val hotelPricePerNight: TextView by bindView(R.id.hotel_price_per_night)
+        val hotelSoldOut: TextView by bindView(R.id.hotel_sold_out)
         val hotelStrikeThroughPrice: TextView by bindView(R.id.hotel_strike_through_price)
         val hotelGuestRating: TextView by bindView(R.id.hotel_guest_rating)
         val hotelGuestRecommend: TextView by bindView(R.id.hotel_guest_recommend)
@@ -71,16 +96,14 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
         var hotelPreviewRating: StarRatingBar by Delegates.notNull()
 
         init {
-
-            if (shouldShowCircleForRatings()) {
-                hotelPreviewRating = root.findViewById(R.id.hotel_preview_circle_rating) as StarRatingBar
-            } else {
-                hotelPreviewRating = root.findViewById(R.id.hotel_preview_star_rating) as StarRatingBar
-            }
+            hotelPreviewRating = root.findViewById(if (shouldShowCircleForRatings()) R.id.hotel_preview_circle_rating else R.id.hotel_preview_star_rating) as StarRatingBar
             hotelPreviewRating.visibility = View.VISIBLE
         }
 
         public fun bind(viewModel: HotelViewModel) {
+            hotelId = viewModel.hotelId
+            hotelListItemsMetadata.add(HotelListItemMetadata(viewModel.hotelId, viewModel.soldOut))
+
             viewModel.hotelLargeThumbnailUrlObservable.subscribe {
                 PicassoHelper.Builder(hotelPreviewImage)
                         .setError(R.drawable.room_fallback)
@@ -89,22 +112,16 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
             }
 
             viewModel.hotelNameObservable.subscribeText(hotelPreviewText)
-
-            viewModel.hotelPreviewRatingObservable.subscribe {
-                //show hotel rating if we can show at least half star or circle.
-                if(it >= 0.5f) {
-                    hotelPreviewRating.setRating(it)
-                    hotelPreviewRating.visibility = View.VISIBLE
-                } else {
-                    hotelPreviewRating.visibility = View.GONE
-                }
-
-            }
-
-            viewModel.hotelStrikeThroughPriceVisibilityObservable.subscribeVisibility(hotelStrikeThroughPrice)
-            viewModel.hotelPriceObservable.subscribeText(hotelPricePerNight)
-            viewModel.hotelStrikeThroughPriceObservable.subscribeText(hotelStrikeThroughPrice)
+            viewModel.hotelPreviewRatingVisibility.subscribeVisibility(hotelPreviewRating)
+            viewModel.hotelPreviewRating.subscribeRating(hotelPreviewRating)
+            viewModel.toolBarRatingColor.subscribeStarColor(hotelPreviewRating)
+            viewModel.imageColorFilter.subscribeColorFilter(hotelPreviewImage)
+            viewModel.hotelStrikeThroughPriceVisibility.subscribeVisibility(hotelStrikeThroughPrice)
+            viewModel.hotelPriceFormatted.subscribeText(hotelPricePerNight)
+            viewModel.hotelStrikeThroughPriceFormatted.subscribeText(hotelStrikeThroughPrice)
             viewModel.hotelGuestRatingObservable.subscribeText(hotelGuestRating)
+            viewModel.soldOut.subscribeVisibility(hotelSoldOut)
+            viewModel.soldOut.subscribeInverseVisibility(hotelPricePerNight)
 
             viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(hotelGuestRating)
             viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(hotelGuestRecommend)

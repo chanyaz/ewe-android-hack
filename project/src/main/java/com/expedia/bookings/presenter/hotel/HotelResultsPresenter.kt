@@ -37,6 +37,7 @@ import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -78,7 +79,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     //Views
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
     val mapView: MapView by bindView(R.id.map_view)
-    val loadingOverlay : MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
+    val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
     val filterView: HotelFilterView by bindView(R.id.filter_view)
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle by lazy { toolbar.getChildAt(2) }
@@ -284,7 +285,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             googleMap?.clear()
 
             for (hotel in it) {
-                val bitmap = createHotelMarkerIcon(context.resources, hotel, false)
+                val bitmap = createHotelMarkerIcon(context.resources, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut)
                 val options = MarkerOptions()
                         .position(LatLng(hotel.latitude, hotel.longitude))
                         .icon(bitmap)
@@ -303,6 +304,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             val prevMarker = mapViewModel.selectMarker.value
             if (prevMarker != null) mapViewModel.unselectedMarker.onNext(prevMarker)
             mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
+        }
+
+        mapViewModel.soldOutHotel.subscribe { hotel ->
+            val marker = markers.filter { it.title == hotel.hotelId }.first()
+            mapViewModel.soldOutMarker.onNext(Pair(marker, hotel))
         }
 
         mapViewModel.carouselSwipedObservable.subscribe {
@@ -443,7 +449,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
         })
 
-        googleMap?.setInfoWindowAdapter(object: GoogleMap.InfoWindowAdapter {
+        googleMap?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
 
             override fun getInfoWindow(marker: Marker): View? {
                 val activity = context as AppCompatActivity
@@ -595,7 +601,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             screenHeight = if (ExpediaBookingApp.isAutomation()) { 0 } else { height }
             screenWidth = if (ExpediaBookingApp.isAutomation()) { 0f } else { width.toFloat() }
 
-            halfway =  (height / 4.1).toInt()
+            halfway = (height / 4.1).toInt()
             threshold = (height / 2.2).toInt()
 
             resetListOffset()
@@ -647,7 +653,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                     } else {
                         //Since we're not moving it manually, let's jump it to where it belongs,
                         // and let's get it showing the right thing
-                        fab.translationY = - (mapCarouselContainer.height.toFloat() - resources.getDimension(R.dimen.hotel_filter_height).toInt())
+                        fab.translationY = -(mapCarouselContainer.height.toFloat() - resources.getDimension(R.dimen.hotel_filter_height).toInt())
                         (fab.drawable as? TransitionDrawable)?.startTransition(0)
                         fab.visibility = View.VISIBLE
                         getFabAnimIn().start()
@@ -661,9 +667,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 navIcon.parameter = if (forward) Math.abs(1 - f) else f
                 if (forward) {
                     mapView.translationY = f * -halfway
-                }
-                else {
-                    mapView.translationY = (1-f) * mapTranslationStart
+                } else {
+                    mapView.translationY = (1 - f) * mapTranslationStart
                 }
 
                 if (fabShouldVisiblyMove) {
@@ -674,7 +679,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 val toolbarYTransStep = toolbarTextOrigin + (f * (toolbarTextGoal - toolbarTextOrigin))
                 toolbarTitle.translationY = toolbarYTransStep
                 toolbarSubtitle.translationY = toolbarYTransStep
-                toolbarSubtitle.alpha = if (forward) f else (1-f)
+                toolbarSubtitle.alpha = if (forward) f else (1 - f)
                 adjustGoogleMapLogo()
                 //Filter transition
                 filterBtnWithCountWidget.translationY = filterViewOrigin + (f * (filterViewGoal - filterViewOrigin))
@@ -704,9 +709,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                     mapView.translationY = -halfway.toFloat()
                     adjustGoogleMapLogo()
                     filterBtnWithCountWidget.translationY = 0f
-                }
-                else {
-                    fab.translationY = - (mapCarouselContainer.height.toFloat() - resources.getDimension(R.dimen.hotel_filter_height).toInt())
+                } else {
+                    fab.translationY = -(mapCarouselContainer.height.toFloat() - resources.getDimension(R.dimen.hotel_filter_height).toInt())
                     mapView.translationY = 0f
                     recyclerView.translationY = screenHeight.toFloat()
                     googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height)

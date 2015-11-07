@@ -23,6 +23,7 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelErrorPresenter
+import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.ui.HotelActivity.Screen
 import com.expedia.util.endlessObserver
@@ -208,7 +209,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
         viewModel = HotelPresenterViewModel(checkoutPresenter.hotelCheckoutWidget.createTripViewmodel, checkoutPresenter.hotelCheckoutViewModel, detailPresenter.hotelDetailView.viewmodel)
         viewModel.selectedRoomSoldOut.subscribe(detailPresenter.hotelDetailView.viewmodel.selectedRoomSoldOut)
+        viewModel.hotelSoldOutWithHotelId.subscribe ((resultsPresenter.mapCarouselRecycler.adapter as HotelMapCarouselAdapter).hotelSoldOut)
         viewModel.hotelSoldOutWithHotelId.subscribe (resultsPresenter.adapter.hotelSoldOut)
+        viewModel.hotelSoldOutWithHotelId.subscribe (resultsPresenter.mapViewModel.hotelSoldOutWithIdObserver)
 
         checkoutPresenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
             checkoutDialog.dismiss()

@@ -3,13 +3,14 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
+import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.extension.isAirAttached
+import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.bindView
@@ -23,18 +24,21 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     val ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY = 5
 
     val hotelId = hotel.hotelId
+    val soldOut = BehaviorSubject.create<Boolean>(hotel.isSoldOut)
+    val toolBarRatingColor = soldOut.map { if (it) ContextCompat.getColor(context, R.color.hotelsv2_sold_out_hotel_gray) else ContextCompat.getColor(context, R.color.hotelsv2_detail_star_color) }
+    val imageColorFilter = soldOut.map { if (it) HotelDetailView.zeroSaturationColorMatrixColorFilter else null }
     val hotelNameObservable = BehaviorSubject.create(hotel.localizedName)
-    val hotelPriceObservable = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false))
-    val hotelStrikeThroughPriceObservable = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, true))
-    val hotelStrikeThroughPriceVisibilityObservable = BehaviorSubject.create<Boolean>()
-    val hasDiscountObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isDiscountTenPercentOrBetter()  && !hotel.lowRateInfo.airAttached)
+    val hotelPriceFormatted = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false))
+    val hotelStrikeThroughPriceFormatted = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, true))
+    val strikethroughPriceToShowUsers = BehaviorSubject.create(hotel.lowRateInfo.strikethroughPriceToShowUsers)
+    val priceToShowUsers = BehaviorSubject.create(hotel.lowRateInfo.priceToShowUsers)
+    val hotelStrikeThroughPriceVisibility = Observable.combineLatest(strikethroughPriceToShowUsers, priceToShowUsers, soldOut) { strikethroughPriceToShowUsers, priceToShowUsers, soldOut -> !soldOut && (priceToShowUsers < strikethroughPriceToShowUsers) }
+    val hasDiscountObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isDiscountTenPercentOrBetter() && !hotel.lowRateInfo.airAttached)
     val hotelGuestRatingObservable = BehaviorSubject.create(hotel.hotelGuestRating.toString())
     val isHotelGuestRatingAvailableObservable = BehaviorSubject.create<Boolean>(hotel.hotelGuestRating > 0)
-    val hotelPreviewRatingObservable = BehaviorSubject.create<Float>(hotel.hotelStarRating)
+    val hotelPreviewRating = BehaviorSubject.create<Float>(hotel.hotelStarRating)
+    val hotelPreviewRatingVisibility = BehaviorSubject.create<Float>(hotel.hotelStarRating).map { it >= 0.5f }
     val pricePerNightObservable = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false))
-    val soldOut = BehaviorSubject.create<Boolean>(hotel.isSoldOut)
-    val toolBarRatingColor = soldOut.map { if (it) context.resources.getColor(android.R.color.white) else context.resources.getColor(R.color.hotelsv2_detail_star_color) }
-    val imageColorFilter = soldOut.map { if (it) HotelDetailView.zeroSaturationColorMatrixColorFilter else null }
 
     val fewRoomsLeftUrgency = BehaviorSubject.create<UrgencyMessage>(null)
     val tonightOnlyUrgency = BehaviorSubject.create<UrgencyMessage>(null)
@@ -48,12 +52,12 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     }
     val urgencyMessageVisibilityObservable = urgencyMessageObservable.map { if (it != null) it.visibility else false }
     val urgencyMessageBoxObservable = urgencyMessageObservable.filter { it != null }.map { it!!.message }
-    val urgencyMessageBackgroundObservable = urgencyMessageObservable.filter { it != null }.map { resources.getColor(it!!.backgroundColorId) }
-    val urgencyIconObservable = urgencyMessageObservable.filter { it != null && it.iconDrawableId != null }.map { resources.getDrawable(it!!.iconDrawableId!!) }
+    val urgencyMessageBackgroundObservable = urgencyMessageObservable.filter { it != null }.map { ContextCompat.getColor(context, it!!.backgroundColorId) }
+    val urgencyIconObservable = urgencyMessageObservable.filter { it != null && it.iconDrawableId != null }.map { ContextCompat.getDrawable(context, it!!.iconDrawableId!!) }
     val urgencyIconVisibilityObservable = urgencyMessageObservable.map { it != null && it.iconDrawableId != null }
 
     val vipMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
-    val airAttachVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isAirAttached())
+    val airAttachVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isShowAirAttached())
     val topAmenityTitleObservable = BehaviorSubject.create(getTopAmenityTitle(hotel, resources))
     val topAmenityVisibilityObservable = topAmenityTitleObservable.map { (it != "") }
 
@@ -61,21 +65,13 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     val ratingAmenityContainerVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.hotelStarRating > 0 || hotel.proximityDistanceInMiles > 0 || hotel.proximityDistanceInKiloMeters > 0)
     val hotelLargeThumbnailUrlObservable = BehaviorSubject.create(Images.getMediaHost() + hotel.largeThumbnailUrl)
     val hotelDiscountPercentageObservable = BehaviorSubject.create(Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo.discountPercent.toInt()).format().toString())
-    val distanceFromCurrentLocationObservable: BehaviorSubject<kotlin.String> = BehaviorSubject.create<String>()
+    val distanceFromCurrentLocation = BehaviorSubject.create(if (hotel.proximityDistanceInMiles > 0) HotelUtils.formatDistanceForNearby(resources, hotel, true) else "")
     val adImpressionObservable = BehaviorSubject.create<String>()
 
     init {
         if (hotel.isSponsoredListing && !hotel.hasShownImpression) {
             adImpressionObservable.onNext(hotel.impressionTrackingUrl)
         }
-        val lowRateInfo = hotel.lowRateInfo
-        val strikethroughPriceToShowUsers = lowRateInfo.strikethroughPriceToShowUsers
-        val priceToShowUsers = lowRateInfo.priceToShowUsers
-        hotelStrikeThroughPriceVisibilityObservable.onNext(priceToShowUsers < strikethroughPriceToShowUsers)
-
-        val hasDistance = hotel.proximityDistanceInMiles > 0
-        val distance = if (hasDistance) HotelUtils.formatDistanceForNearby(resources, hotel, true) else ""
-        distanceFromCurrentLocationObservable.onNext(distance)
 
         val isVipAvailable = hotel.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess() && User.isLoggedIn(context)
         val isGoldOrSivler = Db.getUser() != null && (Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.SILVER || Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.GOLD)
@@ -92,7 +88,7 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
                     resources.getString(R.string.tonight_only)))
         }
         if (hotel.isDiscountRestrictedToCurrentSourceType) {
-                mobileExclusiveUrgency.onNext(UrgencyMessage(true, R.drawable.mobile_exclusive,
+            mobileExclusiveUrgency.onNext(UrgencyMessage(true, R.drawable.mobile_exclusive,
                     R.color.hotel_mobile_exclusive_color,
                     resources.getString(R.string.mobile_exclusive)))
         }
