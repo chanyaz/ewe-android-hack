@@ -4,7 +4,9 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.support.v4.content.ContextCompat
 import android.support.v7.graphics.Palette
 import android.util.AttributeSet
 import android.view.View
@@ -25,6 +27,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelBreakDownViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.squareup.phrase.Phrase
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
 public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val viewModel: HotelCheckoutSummaryViewModel) : LinearLayout(context, attrs) {
@@ -106,35 +109,41 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
             PicassoHelper.Builder(context)
                     .setPlaceholder(R.drawable.room_fallback)
                     .setError(R.drawable.room_fallback)
-                    .setTarget(target).setTag(PICASSO_HOTEL_IMAGE)
+                    .setTarget(picassoTarget).setTag(PICASSO_HOTEL_IMAGE)
                     .build()
                     .load(HotelMedia(Images.getMediaHost() + it).getBestUrls(width/2))
         }
         breakdown.viewmodel = HotelBreakDownViewModel(context, viewModel)
     }
 
-    private val target = object : PicassoTarget() {
+    val picassoTarget = object : PicassoTarget() {
         override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
             super.onBitmapLoaded(bitmap, from)
-
-            val palette = Palette.generate(bitmap)
-            val color = palette.getDarkVibrantColor(R.color.transparent_dark)
-
-            val fullColorBuilder = ColorBuilder(color).darkenBy(0.25f);
-            val gradientColor = fullColorBuilder.setAlpha(154).build()
 
             val drawable = HeaderBitmapDrawable()
             drawable.setCornerRadius(resources.getDimensionPixelSize(R.dimen.hotel_checkout_image_corner_radius))
             drawable.setCornerMode(HeaderBitmapDrawable.CornerMode.TOP)
             drawable.setBitmap(bitmap)
-            val colorArrayBottom = intArrayOf(gradientColor, gradientColor)
-            drawable.setGradient(colorArrayBottom, floatArrayOf(0f, 1f))
-            hotelRoomImage.setImageDrawable(drawable)
-            val textColor = resources.getColor(R.color.itin_white_text);
+
+            var textColor: Int
+            if (!mIsFallbackImage) {
+                // only apply gradient treatment to hotels with images #5647
+                val palette = Palette.generate(bitmap)
+                val color = palette.getDarkVibrantColor(R.color.transparent_dark)
+                val fullColorBuilder = ColorBuilder(color).darkenBy(0.25f);
+                val gradientColor = fullColorBuilder.setAlpha(154).build()
+                val colorArrayBottom = intArrayOf(gradientColor, gradientColor)
+                drawable.setGradient(colorArrayBottom, floatArrayOf(0f, 1f))
+                textColor = ContextCompat.getColor(context, R.color.itin_white_text);
+            }
+            else {
+                textColor = ContextCompat.getColor(context, R.color.text_black)
+            }
             hotelName.setTextColor(textColor)
             date.setTextColor(textColor)
             address.setTextColor(textColor)
             cityState.setTextColor(textColor)
+            hotelRoomImage.setImageDrawable(drawable)
         }
 
         override fun onBitmapFailed(errorDrawable: Drawable?) {
@@ -143,6 +152,16 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
 
         override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
             super.onPrepareLoad(placeHolderDrawable)
+
+            if (placeHolderDrawable != null) {
+                hotelRoomImage.setImageDrawable(placeHolderDrawable)
+
+                val textColor = ContextCompat.getColor(context, R.color.text_black)
+                hotelName.setTextColor(textColor)
+                date.setTextColor(textColor)
+                address.setTextColor(textColor)
+                cityState.setTextColor(textColor)
+            }
         }
     }
 }

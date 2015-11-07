@@ -375,6 +375,7 @@ public class PicassoHelper implements Target, Callback {
 			picassoHelper.setCenterCrop(mCenterCrop);
 			picassoHelper.setPaletteTransformation(mPalette);
 			if (mTarget != null) {
+				mTarget.mIsFallbackImage = false;
 				mTarget.setCallBack(picassoHelper);
 				picassoHelper.setTarget(mTarget);
 			}
