@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Location
@@ -18,6 +19,7 @@ import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.Strings
 import com.mobiata.android.SocialUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -61,7 +63,10 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
             checkInDate.onNext(checkInLocalDate)
             checkOutDate.onNext(checkOutLocalDate)
             formattedCheckInOutDate.onNext(DateFormatUtils.formatDateRange(context, checkInLocalDate, checkOutLocalDate, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH))
-            bigImageUrl.onNext("https://media.expedia.com" + product.bigImageUrl)
+
+            if (!Strings.isEmpty(product.bigImageUrl))
+                bigImageUrl.onNext(BuildConfig.MEDIA_URL + product.bigImageUrl)
+            else bigImageUrl.onNext("")
             hotelName.onNext(product.localizedHotelName)
             addressLineOne.onNext(product.hotelAddress)
             addressLineTwo.onNext(context.getResources().getString(R.string.stay_summary_TEMPLATE, product.hotelCity, product.hotelStateProvince))
