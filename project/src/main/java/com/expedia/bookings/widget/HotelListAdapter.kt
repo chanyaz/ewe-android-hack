@@ -207,7 +207,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
                         .setError(R.drawable.room_fallback)
                         .setTarget(target).setTag(PICASSO_TAG)
                         .build()
-                        .load(HotelMedia(url).getBestUrls(width/2))
+                        .load(HotelMedia(url).getBestUrls(width / 2))
             }
         }
 
@@ -250,10 +250,12 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
                 val colorArrayFull = intArrayOf(startColor, 0, endColor,
                         startColor)
 
-                if (vipMessage.visibility == View.VISIBLE ) {
-                    drawable.setGradient(colorArrayFull, DEFAULT_GRADIENT_POSITIONS)
-                } else {
-                    drawable.setGradient(colorArrayBottom, DEFAULT_GRADIENT_POSITIONS)
+                if (!PicassoHelper.mIsFallbackImage) {
+                    if (vipMessage.visibility == View.VISIBLE ) {
+                        drawable.setGradient(colorArrayFull, DEFAULT_GRADIENT_POSITIONS)
+                    } else {
+                        drawable.setGradient(colorArrayBottom, DEFAULT_GRADIENT_POSITIONS)
+                    }
                 }
                 imageView.setImageDrawable(drawable)
             }
