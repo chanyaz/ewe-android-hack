@@ -198,7 +198,7 @@ public class HotelScreen {
 			allOf(
 				withId(R.id.view_room_button), allOf(withText("View Room")),
 				isDescendantOfA(allOf(withId(R.id.collapsed_container),
-					withChild(allOf(withId(R.id.room_type_text_view), withText(roomName))))),
+					withChild(allOf(withId(R.id.collapsed_bed_type_text_view), withText(roomName))))),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 		);
 	}
