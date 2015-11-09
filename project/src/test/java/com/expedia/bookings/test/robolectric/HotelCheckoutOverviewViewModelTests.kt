@@ -81,7 +81,7 @@ public class HotelCheckoutOverviewViewModelTest {
     private fun givenHotelHasDepositAmountToShowUsers(amountToShow: Double) {
         val df = DecimalFormat("#")
 
-        hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.depositAmountToShowUsers = df.format(amountToShow).toString()
+        hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.depositAmount = df.format(amountToShow).toString()
     }
 
     private fun givenHotelMustShowResortFee() {
