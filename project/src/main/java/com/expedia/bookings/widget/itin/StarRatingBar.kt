@@ -30,40 +30,36 @@ public class StarRatingBar(context: Context, attrs: AttributeSet) : View(context
     private var rating: Float = 0f
     private var intrinsicHeight: Int = 0
     private var intrinsicWidth: Int = 0
-
+    private var starColor: Int = 0
 
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.StarRatingBar, 0, 0)
         starSpacing = a.getDimension(R.styleable.StarRatingBar_star_spacing, -1f)
-        val starColor = a.getColor(R.styleable.StarRatingBar_star_color, Color.parseColor("#F1B906"))
+        starColor = a.getColor(R.styleable.StarRatingBar_star_color, Color.parseColor("#F1B906"))
         starDrawable = a.getDrawable(R.styleable.StarRatingBar_star_drawable)
-        intrinsicHeight = starDrawable.getIntrinsicHeight()
-        intrinsicWidth = starDrawable.getIntrinsicWidth()
+        intrinsicHeight = starDrawable.intrinsicHeight
+        intrinsicWidth = starDrawable.intrinsicWidth
         a.recycle()
-        initPaints(starColor)
+
+        starSpacingPaint = Paint()
+        starSpacingPaint.isAntiAlias = true
+        starSpacingPaint.color = Color.TRANSPARENT
+
+        starDrawable.colorFilter = PorterDuffColorFilter(starColor, PorterDuff.Mode.SRC_IN)
     }
 
     override fun onDraw(canvas: Canvas) {
         var left = 0
         for (index in 1..(Math.ceil(rating.toDouble()).toInt())) {
             drawStar(canvas, left)
-            left = left + intrinsicWidth
+            left += intrinsicWidth
             drawSpacing(canvas, left)
-            left = left + starSpacing.toInt()
+            left += starSpacing.toInt()
         }
     }
 
-    private fun initPaints(starColor:Int) {
-        starSpacingPaint = Paint()
-        starSpacingPaint.isAntiAlias = true
-        starSpacingPaint.setColor(Color.TRANSPARENT)
-
-        starDrawable.setColorFilter(PorterDuffColorFilter(starColor, PorterDuff.Mode.SRC_IN))
-    }
-
-
     private fun drawStar(canvas: Canvas, left: Int) {
-        starDrawable.setBounds(left, 0, left + starDrawable.getIntrinsicWidth(), intrinsicHeight);
+        starDrawable.setBounds(left, 0, left + starDrawable.intrinsicWidth, intrinsicHeight);
         starDrawable.draw(canvas)
     }
 
@@ -88,13 +84,26 @@ public class StarRatingBar(context: Context, attrs: AttributeSet) : View(context
         return starDrawable
     }
 
+    public fun setStarColor(color: Int) {
+        if (starColor != color) {
+            starColor = color
+            starDrawable = starDrawable.mutate()
+            starDrawable.colorFilter = PorterDuffColorFilter(starColor, PorterDuff.Mode.SRC_IN)
+            invalidate()
+        }
+    }
+
+    public fun getStarColor(): Int {
+        return starColor
+    }
+
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        var width = starDrawable.getIntrinsicWidth()
+        var width = starDrawable.intrinsicWidth
         var canvasWidth = rating * width + (Math.ceil(rating.toDouble()).toInt() - 1) * starSpacing
         if (View.MeasureSpec.UNSPECIFIED != View.MeasureSpec.getMode(widthMeasureSpec)) {
             width = Math.min(canvasWidth.toInt(), View.MeasureSpec.getSize(widthMeasureSpec))
         }
-        var height = starDrawable.getIntrinsicHeight()
+        var height = starDrawable.intrinsicHeight
         if (View.MeasureSpec.UNSPECIFIED != View.MeasureSpec.getMode(heightMeasureSpec)) {
             height = Math.min(height, View.MeasureSpec.getSize(heightMeasureSpec))
         }

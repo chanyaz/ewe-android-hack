@@ -79,6 +79,9 @@ open public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
                         ApiError.Code.PAYMENT_FAILED -> {
                             errorObservable.onNext(checkout.firstError)
                         }
+                        ApiError.Code.HOTEL_ROOM_UNAVAILABLE-> {
+                            errorObservable.onNext(checkout.firstError)
+                        }
                         else -> {
                             errorObservable.onNext(ApiError(ApiError.Code.HOTEL_CHECKOUT_UNKNOWN))
                         }
@@ -121,7 +124,9 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices) {
                 if (t.hasErrors()) {
                     if (t.firstError.errorInfo.field == "productKey") {
                         errorObservable.onNext(ApiError(ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY))
-                    } else {
+                } else if (t.firstError.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE) {
+                    errorObservable.onNext(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
+                } else {
                         errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
                     }
                 } else {

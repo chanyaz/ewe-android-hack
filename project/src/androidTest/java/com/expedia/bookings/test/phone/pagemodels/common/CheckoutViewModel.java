@@ -141,6 +141,7 @@ public class CheckoutViewModel {
 	}
 
 	public static ViewInteraction performSlideToPurchase() {
+		onView(withId(R.id.slide_to_purchase_widget)).perform(ViewActions.waitForViewToDisplay());
 		return onView(withId(R.id.slide_to_purchase_widget)).perform(ViewActions.swipeRight());
 	}
 

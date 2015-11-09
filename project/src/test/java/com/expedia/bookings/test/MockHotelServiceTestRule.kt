@@ -67,10 +67,18 @@ public class MockHotelServiceTestRule : TestRule {
         return getOfferResponse("happypath")
     }
 
+    fun getRoomSoldOutCreateTripResponse(): HotelCreateTripResponse {
+        return getCreateTripResponse("error_room_unavailable_0")
+    }
+
+    fun getRoomSoldOutCheckoutResponse(): HotelCheckoutResponse {
+        return getCheckoutTripResponse("error_room_unavailable_0")
+    }
+
     private fun getOfferResponse(responseFileName: String): HotelOffersResponse {
         val hotelSearchParams = HotelSearchParams(SuggestionV4(), LocalDate(), LocalDate(), 1, emptyList())
         val observer = TestSubscriber<HotelOffersResponse>()
-        service.details(hotelSearchParams, responseFileName, observer)
+        service.offers(hotelSearchParams, responseFileName, observer)
         observer.awaitTerminalEvent()
         observer.assertCompleted()
         return observer.onNextEvents.get(0)
@@ -130,6 +138,10 @@ public class MockHotelServiceTestRule : TestRule {
         return observer.onNextEvents.get(0)
     }
 
+    fun getRoomOffersNotAvailableHotelOffersResponse(): HotelOffersResponse {
+        return getHotelOffersResponse("room_offers_not_available")
+    }
+
     fun getAirAttachedHotelOffersResponse(): HotelOffersResponse {
         return getHotelOffersResponse("air_attached_hotel")
     }
@@ -146,7 +158,7 @@ public class MockHotelServiceTestRule : TestRule {
         var observer = TestSubscriber<HotelOffersResponse>()
         val hotelSearchParams = HotelSearchParams(SuggestionV4(), LocalDate.now().plusDays(4), LocalDate.now().plusDays(6), 2, listOf(2, 4))
 
-        service.details(hotelSearchParams, responseFileName, observer)
+        service.offers(hotelSearchParams, responseFileName, observer)
         observer.awaitTerminalEvent()
         return observer.onNextEvents.get(0)
     }

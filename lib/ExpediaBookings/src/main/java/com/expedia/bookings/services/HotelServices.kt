@@ -14,6 +14,7 @@ import com.expedia.bookings.utils.Strings
 import com.google.gson.GsonBuilder
 import com.squareup.okhttp.OkHttpClient
 import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 import retrofit.RequestInterceptor
 import retrofit.RestAdapter
 import retrofit.client.OkClient
@@ -79,9 +80,20 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
                 }
     }
 
-    public fun details(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
-        return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(),
-                hotelSearchParams.getGuestString(), hotelId)
+    public fun offers(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
+        return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(), hotelSearchParams.getGuestString(), hotelId)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .subscribe(observer)
+    }
+
+    public fun info(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
+        val yyyyMMddDateTimeFormat = DateTimeFormat.forPattern("yyyy-MM-dd")
+
+        return hotelApi.info(hotelId).doOnNext {
+            it.checkInDate = yyyyMMddDateTimeFormat.print(hotelSearchParams.checkIn)
+            it.checkOutDate = yyyyMMddDateTimeFormat.print(hotelSearchParams.checkOut)
+        }
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)

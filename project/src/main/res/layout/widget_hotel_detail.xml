@@ -66,6 +66,7 @@
 
             </LinearLayout>
 
+
             <RelativeLayout
                 android:id="@+id/main_container"
                 android:layout_width="match_parent"
@@ -142,10 +143,33 @@
                     android:paddingTop="13dp">
 
                     <com.expedia.bookings.widget.TextView
+                        android:id="@+id/details_sold_out"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:gravity="center_vertical"
+                        android:text="@string/trip_bucket_sold_out"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:visibility="gone"
+                        app:textStyle="medium"/>
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/price_per_night_strikethrough_anchor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:gravity="center_vertical"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        app:textStyle="medium"/>
+
+                    <com.expedia.bookings.widget.TextView
                         android:id="@+id/price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
+                        android:layout_toRightOf="@+id/price_per_night_strikethrough_anchor"
                         android:gravity="center_vertical"
                         android:textColor="#FFFFFF"
                         android:textSize="18sp"
@@ -178,7 +202,7 @@
                         android:id="@+id/hotel_search_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/price"
+                        android:layout_below="@+id/price_per_night_strikethrough_anchor"
                         android:textColor="#FFFFFF"
                         android:textSize="11sp"
                         app:textStyle="normal"/>
@@ -198,6 +222,23 @@
                         android:text="@string/select_a_room_instruction"
                         android:textAllCaps="false"
                         android:textAppearance="@style/HotelButtonTextAppearance"/>
+
+                    <Button
+                        android:id="@+id/change_dates_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/hotel_select_room_button_selector"
+                        android:minHeight="0dp"
+                        android:paddingBottom="5dp"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingTop="5dp"
+                        android:text="@string/change_dates"
+                        android:textAllCaps="false"
+                        android:textAppearance="@style/HotelButtonTextAppearance"
+                        android:visibility="gone"/>
 
                 </RelativeLayout>
 
@@ -475,14 +516,14 @@
                     android:id="@+id/room_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/common_amenities_divider"
-                    android:layout_marginBottom="20dp"></TableLayout>
+                    android:layout_below="@+id/common_amenities_divider"></TableLayout>
 
                 <TableLayout
                     android:id="@+id/property_info_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/room_container">
+                    android:layout_below="@id/room_container"
+                    android:layout_marginTop="20dp">
 
                 </TableLayout>
 

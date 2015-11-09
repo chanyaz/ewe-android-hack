@@ -137,6 +137,7 @@ public class HotelScreen {
 	}
 
 	public static ViewInteraction searchButton() {
+		onView(withId(R.id.search_container)).perform(ViewActions.waitForViewToDisplay());
 		return onView(allOf(withId(R.id.search_btn), isDescendantOfA(hasSibling(withId(R.id.search_container)))));
 	}
 
@@ -240,6 +241,10 @@ public class HotelScreen {
 		onView(withId(R.id.hotel_detail)).perform(ViewActions.waitForViewToDisplay());
 	}
 
+	public static void waitForErrorDisplayed() {
+		onView(withId(R.id.widget_hotel_errors)).perform(ViewActions.waitForViewToDisplay());
+	}
+
 	public static void waitForFilterDisplayed() {
 		onView(withId(R.id.filter_view)).perform(ViewActions.waitForViewToDisplay());
 	}
@@ -275,11 +280,6 @@ public class HotelScreen {
 
 		HotelScreen.clickSearchButton();
 		HotelScreen.waitForResultsLoaded();
-	}
-
-	public static void selectHotel(int position) {
-		waitForResultsLoaded();
-		hotelResultsList().perform(RecyclerViewActions.actionOnItemAtPosition(position, click()));
 	}
 
 	public static void selectHotel(String name) throws Throwable {

@@ -218,6 +218,8 @@
     <string name="hotelsv2_slide_reserve">Slide to reserve</string>
     <!-- Hotels V2 slide to purchase -->
     <string name="hotelsv2_slide_purchase">Slide to purchase</string>
+    <!-- Hotels V2 Change Dates in case of Sold Out -->
+    <string name="change_dates">Change Dates</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->

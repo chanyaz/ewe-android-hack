@@ -19,7 +19,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.vm.HotelErrorViewModel
 
-public class HotelErrorPresenter(context: Context, attr: AttributeSet) : Presenter(context, attr) {
+public class HotelErrorPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr) {
 
     val root: ViewGroup by bindView(R.id.main_container)
     val errorImage: ImageView by bindView(R.id.error_image)
@@ -60,7 +60,7 @@ public class HotelErrorPresenter(context: Context, attr: AttributeSet) : Present
 
     override fun back() : Boolean {
         viewmodel.actionObservable.onNext(Unit)
-        return false
+        return true
     }
 
     fun animationUpdate(f: Float, forward: Boolean) {

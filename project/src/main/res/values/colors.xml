@@ -106,6 +106,7 @@
     <color name="hotel_urgency_message_color">#E2934A</color>
     <color name="hotel_tonight_only_color">#4A90E2</color>
     <color name="hotel_mobile_exclusive_color">#E2624A</color>
+    <color name="hotel_sold_out_color">#8C8C8C</color>
 
     <!-- Hotel reviews colors -->
     <color name="hotel_review_background_color">#FAFAFA</color>

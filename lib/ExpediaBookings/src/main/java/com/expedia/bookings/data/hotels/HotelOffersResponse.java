@@ -5,9 +5,10 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.utils.Strings;
 
-public class HotelOffersResponse {
+public class HotelOffersResponse extends BaseApiResponse {
 
 	public String airAttachExpirationTimeSeconds;
 	public String checkInDate;
