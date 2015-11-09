@@ -69,7 +69,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean wantsCustomHandlingForLocaleConfiguration() {
-		return true;
+		return false;
 	}
 
 	@Override
