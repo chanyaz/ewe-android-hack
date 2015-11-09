@@ -13,6 +13,7 @@ import com.squareup.picasso.Target;
 public class PicassoTarget implements Target {
 
 	private Callback mCallBack;
+	public boolean mIsFallbackImage = false;
 
 	public PicassoTarget() {
 	}
