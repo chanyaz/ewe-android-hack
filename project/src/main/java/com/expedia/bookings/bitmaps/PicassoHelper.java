@@ -44,7 +44,6 @@ public class PicassoHelper implements Target, Callback {
 	private String mTag;
 
 	private static Picasso mPicasso;
-	public static boolean mIsFallbackImage = false;
 
 	public static void init(Context context, OkHttpClient client) {
 		OkHttpDownloader okHttpDownloader = new OkHttpDownloader(client);
@@ -184,10 +183,11 @@ public class PicassoHelper implements Target, Callback {
 	public void onError() {
 		FailedUrlCache.getInstance().add(getUrl());
 		boolean didRetry = retry();
-		mIsFallbackImage = false;
 		if (!didRetry) {
 			if (mErrorResId != 0) {
-				mIsFallbackImage = true;
+				if (mTarget != null) {
+					mTarget.mIsFallbackImage = true;
+				}
 				load(mErrorResId);
 			}
 		}

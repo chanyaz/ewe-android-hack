@@ -280,7 +280,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
                 val colorArrayFull = intArrayOf(startColor, 0, endColor,
                         startColor)
 
-                if (!PicassoHelper.mIsFallbackImage) {
+                if (mIsFallbackImage) {
                     if (vipMessage.visibility == View.VISIBLE ) {
                         drawable.setGradient(colorArrayFull, DEFAULT_GRADIENT_POSITIONS)
                     } else {
