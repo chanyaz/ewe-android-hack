@@ -67,6 +67,7 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
         val hotelStrikeThroughPrice: TextView by bindView(R.id.hotel_strike_through_price)
         val hotelGuestRating: TextView by bindView(R.id.hotel_guest_rating)
         val hotelGuestRecommend: TextView by bindView(R.id.hotel_guest_recommend)
+        val hotelNoGuestRating: TextView by bindView(R.id.no_guest_rating)
         var hotelPreviewRating: StarRatingBar by Delegates.notNull()
 
         init {
@@ -104,6 +105,10 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
             viewModel.hotelPriceObservable.subscribeText(hotelPricePerNight)
             viewModel.hotelStrikeThroughPriceObservable.subscribeText(hotelStrikeThroughPrice)
             viewModel.hotelGuestRatingObservable.subscribeText(hotelGuestRating)
+
+            viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(hotelGuestRating)
+            viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(hotelGuestRecommend)
+            viewModel.isHotelGuestRatingAvailableObservable.map { !it }.subscribeVisibility(hotelNoGuestRating)
 
             hotelPreviewText.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)
             hotelPricePerNight.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD)

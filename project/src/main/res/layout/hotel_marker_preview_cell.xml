@@ -96,6 +96,16 @@
                 android:textColor="#696969">
 
                 <com.expedia.bookings.widget.TextView
+                    android:id="@+id/no_guest_rating"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:layout_weight="1"
+                    android:text="@string/not_rated"
+                    android:textColor="@color/hotel_cell_gray_text"
+                    android:textSize="10sp" />
+
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/hotel_guest_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
