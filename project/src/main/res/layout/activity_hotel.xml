@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.presenter.hotel.HotelPresenter xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.presenter.hotel.HotelPresenter
     android:id="@+id/hotel_presenter"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -10,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#EEEEEE"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <com.expedia.bookings.widget.HotelErrorPresenter
         android:id="@+id/widget_hotel_errors"

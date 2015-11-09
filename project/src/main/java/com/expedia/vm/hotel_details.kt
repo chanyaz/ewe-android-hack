@@ -189,8 +189,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
     public fun addViewsAfterTransition() {
 
-        uniqueValueAddForRooms = getValueAdd(hotelOffersResponse.hotelRoomResponse)
-        roomResponseListObservable.onNext(Pair(hotelOffersResponse.hotelRoomResponse, uniqueValueAddForRooms))
+        if (hotelOffersResponse.hotelRoomResponse != null && hotelOffersResponse.hotelRoomResponse.isNotEmpty()) {
+            uniqueValueAddForRooms = getValueAdd(hotelOffersResponse.hotelRoomResponse)
+            roomResponseListObservable.onNext(Pair(hotelOffersResponse.hotelRoomResponse, uniqueValueAddForRooms))
+        }
 
         var listHotelInfo = ArrayList<HotelOffersResponse.HotelText>()
 

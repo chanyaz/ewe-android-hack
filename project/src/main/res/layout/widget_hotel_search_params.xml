@@ -20,8 +20,8 @@
             android:clipToPadding="false"
             android:orientation="vertical">
 
-            <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/location_container"
+            <RelativeLayout android:id="@+id/location_container"
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_alignParentTop="true"
@@ -37,9 +37,9 @@
                     android:layout_width="55dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:paddingTop="8dp"
-                    android:paddingBottom="8dp"
                     android:layout_marginRight="1dp"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
                     android:src="@drawable/location"
                     android:tint="#FFFFFF" />
 
@@ -119,9 +119,9 @@
                     android:gravity="left|center_vertical"
                     android:paddingLeft="20dp"
                     android:textAllCaps="false"
+                    android:textColor="@drawable/cars_text_selector"
                     android:textOff="@string/hotel_search_guest_default_text"
                     android:textOn="@string/hotel_search_guest_default_text"
-                    android:textColor="@drawable/cars_text_selector"
                     android:textSize="15sp"
                     android:textStyle="normal" />
             </LinearLayout>
@@ -153,9 +153,6 @@
             app:calendarDaySelectionFillColor="@android:color/white"
             app:calendarDaysOfWeekColor="@color/hotels_primary_color"
             app:calendarHeaderTextColor="@color/hotels_primary_color"
-            app:calendarToolTipEnabled="true"
-            app:calendarToolTipBackground="@drawable/toolbar_bg"
-            app:calendarToolTipTailDrawable="@drawable/toolbar_arrow"
             app:calendarHeaderTextSize="16dp"
             app:calendarHighlightColor="@color/hotels_primary_color"
             app:calendarHighlightInverseColor="@color/hotels_primary_color"
@@ -163,8 +160,10 @@
             app:calendarLayout="@layout/calendar_cars_lx_layout"
             app:calendarSecondaryColor="@color/cars_valid_days_calendar"
             app:calendarTodayColor="@color/hotels_primary_color"
+            app:calendarToolTipBackground="@drawable/toolbar_bg"
+            app:calendarToolTipEnabled="true"
+            app:calendarToolTipTailDrawable="@drawable/toolbar_arrow"
             app:calendarWeekSelectionColor="@color/hotels_primary_color" />
-
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

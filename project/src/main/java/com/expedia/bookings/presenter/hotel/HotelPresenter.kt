@@ -415,6 +415,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             super.startTransition(forward)
             loadingOverlay.visibility = View.GONE
             searchPresenter.animationStart(!forward)
+            searchPresenter.animationFinalize()
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
