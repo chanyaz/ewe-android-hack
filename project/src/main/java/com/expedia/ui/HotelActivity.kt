@@ -23,7 +23,7 @@ import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
 import rx.Observer
 
-public class HotelActivity : AppCompatActivity() {
+public class HotelActivity : AbstractAppCompatActivity() {
 
     val hotelPresenter: HotelPresenter by lazy {
         findViewById(R.id.hotel_presenter) as HotelPresenter
@@ -38,7 +38,7 @@ public class HotelActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super<AppCompatActivity>.onCreate(savedInstanceState)
+        super.onCreate(savedInstanceState)
         Ui.getApplication(this).defaultHotelComponents()
         setContentView(R.layout.activity_hotel)
         Ui.showTransparentStatusBar(this)
@@ -116,16 +116,6 @@ public class HotelActivity : AppCompatActivity() {
         resultsMapView.onSaveInstanceState(outState)
         detailsMapView.onSaveInstanceState(outState)
         super.onSaveInstanceState(outState, outPersistentState)
-    }
-
-    public fun clearCCNumber() {
-        try {
-            Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setNumber(null)
-            Db.getBillingInfo().setNumber(null)
-        } catch (ex: Exception) {
-            Log.e("Error clearing billingInfo card number", ex)
-        }
-
     }
 
     fun handleNavigationViaDeepLink() {
