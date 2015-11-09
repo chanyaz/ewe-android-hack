@@ -53,6 +53,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
     }
 
     private data class HotelListItemMetadata(val hotelId: String, val hotelSoldOut: BehaviorSubject<Boolean>)
+
     private val hotelListItemsMetadata: MutableList<HotelListItemMetadata> = ArrayList()
 
     private var hotels: List<Hotel> = emptyList()
@@ -138,7 +139,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
         if (holder.itemViewType == LOADING_VIEW) {
             (holder as LoadingViewHolder).cancelAnimation()
-        } else if(holder.itemViewType == HOTEL_VIEW) {
+        } else if (holder.itemViewType == HOTEL_VIEW) {
             val hotelItemIndex = hotelListItemsMetadata.indexOfFirst { it.hotelId == (holder as HotelViewHolder).hotelId }
             if (hotelItemIndex != -1) {
                 hotelListItemsMetadata.remove(hotelItemIndex)
@@ -269,7 +270,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
                 val palette = Palette.generate(bitmap)
                 val color = palette.getDarkVibrantColor(R.color.transparent_dark)
 
-                val fullColorBuilder = ColorBuilder(color).darkenBy(.6f).setSaturation(.8f);
+                val fullColorBuilder = ColorBuilder(color).darkenBy(.6f).setSaturation(if (!mIsFallbackImage) .8f else 0f);
                 val startColor = fullColorBuilder.setAlpha(154).build()
                 val endColor = fullColorBuilder.setAlpha(0).build()
 
@@ -280,12 +281,10 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
                 val colorArrayFull = intArrayOf(startColor, 0, endColor,
                         startColor)
 
-                if (mIsFallbackImage) {
-                    if (vipMessage.visibility == View.VISIBLE ) {
-                        drawable.setGradient(colorArrayFull, DEFAULT_GRADIENT_POSITIONS)
-                    } else {
-                        drawable.setGradient(colorArrayBottom, DEFAULT_GRADIENT_POSITIONS)
-                    }
+                if (vipMessage.visibility == View.VISIBLE ) {
+                    drawable.setGradient(colorArrayFull, DEFAULT_GRADIENT_POSITIONS)
+                } else {
+                    drawable.setGradient(colorArrayBottom, DEFAULT_GRADIENT_POSITIONS)
                 }
                 imageView.setImageDrawable(drawable)
             }
