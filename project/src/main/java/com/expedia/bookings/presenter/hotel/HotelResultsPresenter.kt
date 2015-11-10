@@ -401,13 +401,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         searchMenuItem.setOnMenuItemClickListener(object : MenuItem.OnMenuItemClickListener {
             override fun onMenuItemClick(menuItem: MenuItem): Boolean {
-                when (menuItem.itemId) {
-                    R.id.menu_open_search -> {
-                        searchOverlaySubject.onNext(Unit)
-                        return true
-                    }
-                }
-                return false
+                searchOverlaySubject.onNext(Unit)
+                return true
             }
         })
 
