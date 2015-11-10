@@ -193,6 +193,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             gallery.setOnItemClickListener(vm)
             gallery.setOnItemChangeListener(vm)
             gallery.setDataSource(galleryUrls)
+            gallery.setProgressBarOnImageViewsEnabled(true)
             gallery.scrollToPosition(0)
             gallery.startFlipping()
 

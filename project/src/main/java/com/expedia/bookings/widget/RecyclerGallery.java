@@ -23,7 +23,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.IMedia;
@@ -63,6 +64,11 @@ public class RecyclerGallery extends RecyclerView {
 	private boolean mScrolling = false;
 	private boolean mRegisteredReceiver = false;
 	private IImageViewBitmapLoadedListener imageViewBitmapLoadedListener;
+
+	private boolean enableProgressBarOnImageViews = false;
+	public void setProgressBarOnImageViewsEnabled(boolean enableProgressBarOnImageViews) {
+		this.enableProgressBarOnImageViews = enableProgressBarOnImageViews;
+	}
 
 	private ColorFilter mColorFilter = null;
 	public void setColorFilter(ColorFilter colorFilter) {
@@ -200,7 +206,7 @@ public class RecyclerGallery extends RecyclerView {
 
 	private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 		private List<? extends IMedia> mMedia;
-		private LinearLayout.LayoutParams mLayoutParams;
+		private FrameLayout.LayoutParams mLayoutParams;
 		private static final int MAX_IMAGES_LOADED = 5;
 
 		private RecyclerAdapter(List<? extends IMedia> media) {
@@ -214,27 +220,28 @@ public class RecyclerGallery extends RecyclerView {
 			if (mMode == MODE_FILL) {
 				imageWidth = screen.x;
 
-				mLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+				mLayoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
 					(int) (getContext().getResources().getDimension(R.dimen.car_details_image_size)));
 			}
 			else {
 				imageWidth = screen.x * 0.60f;
-				mLayoutParams = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.MATCH_PARENT,
-					LinearLayout.LayoutParams.MATCH_PARENT);
-				mLayoutParams.width = (int) imageWidth;
+				mLayoutParams = new FrameLayout.LayoutParams(
+					FrameLayout.LayoutParams.MATCH_PARENT,
+					FrameLayout.LayoutParams.MATCH_PARENT);
 			}
 			mLayoutParams.width = (int) imageWidth;
 		}
 
 		public class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
-			public ImageView mImageView;
+			private final ProgressBar progressBar;
+			public final HotelDetailsGalleryImageView mImageView;
 
-			public ViewHolder(ImageView v) {
-				super(v);
-				mImageView = v;
+			public ViewHolder(View root, HotelDetailsGalleryImageView imageView, ProgressBar progressBar) {
+				super(root);
+				mImageView = imageView;
+				this.progressBar = progressBar;
 				mImageView.setTag(callback);
-				v.setOnClickListener(this);
+				imageView.setOnClickListener(this);
 			}
 
 			@Override
@@ -253,17 +260,23 @@ public class RecyclerGallery extends RecyclerView {
 						mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 					}
 					mImageView.setBackgroundColor(Color.TRANSPARENT);
+					if (enableProgressBarOnImageViews) {
+						progressBar.setVisibility(View.GONE);
+					}
 					mImageView.setImageBitmap(bitmap);
 					mImageView.setColorFilter(mColorFilter);
 
 					if (imageViewBitmapLoadedListener != null) {
-						imageViewBitmapLoadedListener.onImageViewBitmapLoaded((HotelDetailsGalleryImageView) mImageView);
+						imageViewBitmapLoadedListener.onImageViewBitmapLoaded(mImageView);
 					}
 				}
 
 				@Override
 				public void onBitmapFailed(Drawable errorDrawable) {
 					super.onBitmapFailed(errorDrawable);
+					if (enableProgressBarOnImageViews) {
+						progressBar.setVisibility(View.GONE);
+					}
 				}
 
 				@Override
@@ -285,9 +298,10 @@ public class RecyclerGallery extends RecyclerView {
 															 int viewType) {
 			View root = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.gallery_image, parent, false);
-			ImageView imageView = Ui.findView(root, R.id.gallery_item_image_view);
+			ProgressBar progressBar = Ui.findView(root, R.id.gallery_item_progress_bar);
+			HotelDetailsGalleryImageView imageView = Ui.findView(root, R.id.gallery_item_image_view);
 			imageView.setLayoutParams(mLayoutParams);
-			ViewHolder vh = new ViewHolder(imageView);
+			ViewHolder vh = new ViewHolder(root, imageView, progressBar);
 			return vh;
 		}
 
@@ -301,6 +315,12 @@ public class RecyclerGallery extends RecyclerView {
 				media.loadImage(holder.mImageView, holder.callback,
 					mMode == MODE_CENTER ? Ui.obtainThemeResID(getContext(),
 						R.attr.skin_HotelRowThumbPlaceHolderDrawable) : 0);
+			}
+			if (enableProgressBarOnImageViews) {
+				holder.progressBar.setVisibility(View.VISIBLE);
+			}
+			if (imageViewBitmapLoadedListener != null) {
+				imageViewBitmapLoadedListener.onImageViewBitmapLoaded(holder.mImageView);
 			}
 		}
 
@@ -411,12 +431,16 @@ public class RecyclerGallery extends RecyclerView {
 	}
 
 	public void showNext() {
-		int position = mLayoutManager.findFirstVisibleItemPosition() + 1;
-		if (position >= 0 && position < mAdapter.getItemCount()) {
-			if (mScrollListener != null) {
-				mScrollListener.onGalleryItemScrolled(position);
+		RecyclerAdapter.ViewHolder viewHolder = (RecyclerAdapter.ViewHolder) findViewHolderForAdapterPosition(
+			getSelectedItem());
+		if (viewHolder.progressBar.getVisibility() == GONE) {
+			int position = mLayoutManager.findFirstVisibleItemPosition() + 1;
+			if (position >= 0 && position < mAdapter.getItemCount()) {
+				if (mScrollListener != null) {
+					mScrollListener.onGalleryItemScrolled(position);
+				}
+				smoothScrollToPosition(position);
 			}
-			smoothScrollToPosition(position);
 		}
 	}
 
