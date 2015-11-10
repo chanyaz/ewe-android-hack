@@ -642,24 +642,18 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     }
 
     public fun scrollToRoom(animate: Boolean) {
-        var rect = Rect()
+        roomContainer.getLocationOnScreen(roomContainerPosition)
 
-        if (etpContainer.visibility == View.VISIBLE) {
-            etpContainer.getGlobalVisibleRect(rect)
-        } else if (commonAmenityText.visibility == View.VISIBLE) {
-            commonAmenityText.getGlobalVisibleRect(rect)
-        } else {
-            roomContainer.getGlobalVisibleRect(rect)
-        }
-
-        var scrollToAmount = rect.top - offset
-        val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.getScrollY(), scrollToAmount.toInt())
+        var scrollToAmount = roomContainerPosition[1] - offset + detailContainer.scrollY
+        if (etpContainer.visibility == View.VISIBLE) scrollToAmount -= etpContainer.height
+        if (commonAmenityText.visibility == View.VISIBLE) scrollToAmount -= commonAmenityText.height
+        val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.scrollY, scrollToAmount.toInt())
 
         smoothScrollAnimation.setDuration(if (animate) ANIMATION_DURATION else 0)
-        smoothScrollAnimation.setInterpolator(DecelerateInterpolator())
+        smoothScrollAnimation.interpolator = (DecelerateInterpolator())
         smoothScrollAnimation.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
             override fun onAnimationUpdate(animation: ValueAnimator) {
-                val scrollTo = animation.getAnimatedValue() as Int
+                val scrollTo = animation.animatedValue as Int
                 detailContainer.scrollTo(0, scrollTo)
             }
         })
