@@ -2,6 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import android.location.Address
+import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.mobiata.android.BackgroundDownloader
 import com.mobiata.android.LocationServices
@@ -17,6 +18,7 @@ public class GeocodeSearchModel(val context: Context) {
 
     // outputs
     val geoResults = PublishSubject.create<List<Address>>()
+    val errorObservable = PublishSubject.create<ApiError>()
 
     init {
         searchObserver.subscribe { hotelSearchParams ->
@@ -40,6 +42,9 @@ public class GeocodeSearchModel(val context: Context) {
             override fun onDownload(results: List<Address>?) {
                 if (results != null && results.count() > 0) {
                     geoResults.onNext(results)
+                }
+                else {
+                    errorObservable.onNext(ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS))
                 }
             }
         }
