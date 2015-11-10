@@ -184,7 +184,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.hotelSoldOut.subscribeVisibility(detailsSoldOut)
         vm.hotelSoldOut.subscribeInverseVisibility(price)
         vm.hotelSoldOut.subscribeInverseVisibility(roomContainer)
-        vm.hotelSoldOut.subscribeInverseVisibility(etpContainerDropShadow)
         vm.hotelSoldOut.subscribeInverseVisibility(stickySelectRoomContainer)
 
         changeDatesButton.publishOnClick(vm.changeDates)
@@ -336,7 +335,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.hasFreeCancellationObservable.subscribeVisibility(freeCancellation)
 
        vm.etpContainerVisibility.subscribeVisibility(etpContainer)
-       vm.etpContainerVisibility.subscribeVisibility(etpContainerDropShadow)
        vm.hasETPObservable.filter { it == true }.subscribe { payNowLaterSelectionChanged(true) }
 
         Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hotelSoldOut -> hasETP && hasFreeCancellation && !hotelSoldOut }
@@ -449,6 +447,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         freeCancellationAndETPMessaging.visibility = View.GONE
         singleMessageContainer.visibility = View.GONE
         viewmodel.onGalleryItemScrolled(0)
+        payNowButtonContainer.unsubscribeOnClick()
+        payLaterButtonContainer.unsubscribeOnClick()
+
     }
 
     private fun hideResortandSelectRoom() {
@@ -646,6 +647,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         if (etpContainer.getVisibility() == View.VISIBLE) scrollToAmount -= etpContainer.getHeight()
         if (commonAmenityText.getVisibility() == View.VISIBLE) scrollToAmount -= (commonAmenityText.getHeight() + getResources().getDimension(R.dimen.hotel_detail_divider_margin))
         val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.getScrollY(), scrollToAmount.toInt())
+
         smoothScrollAnimation.setDuration(if (animate) ANIMATION_DURATION else 0)
         smoothScrollAnimation.setInterpolator(DecelerateInterpolator())
         smoothScrollAnimation.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
@@ -738,9 +740,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                 galleryContainer.layoutParams = lp
 
                 galleryHeight = resources.getDimensionPixelSize(R.dimen.gallery_height)
-                initialScrollTop = height - (resources.getDimensionPixelSize(R.dimen.gallery_height))
 
                 detailContainer.post {
+                    initialScrollTop = height - galleryHeight
                     detailContainer.scrollTo(0, initialScrollTop)
                     gallery.scrollToPosition(0)
                     showToolbarGradient()
