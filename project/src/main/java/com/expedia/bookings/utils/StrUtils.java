@@ -480,13 +480,20 @@ public class StrUtils {
 
 		String spannedTerms = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
 			PointOfSale.getPointOfSale().getTermsAndConditionsUrl(),
-			context.getResources().getString(R.string.info_label_terms_conditions));
+			context.getResources().getString(R.string.info_label_terms_of_use));
 		String spannedPrivacy = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(), context.getResources().getString(R.string.privacy_policy));
-		String statement = context.getResources()
-			.getString(R.string.account_creation_legal_TEMPLATE, spannedTerms, spannedPrivacy);
+			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(),
+			context.getResources().getString(R.string.privacy_policy));
+		String spannedTermsOfUse = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getLoyaltyTermsAndConditionsURL(),
+			context.getResources().getString(R.string.info_label_terms_conditions));
 
-		legalTextSpan.append(Html.fromHtml(statement));
+		String statement = context.getResources()
+			.getString(R.string.account_creation_legal_TEMPLATE, spannedTerms, spannedPrivacy, spannedTermsOfUse);
+
+		legalTextSpan.append(Html.fromHtml(Phrase.from(statement)
+			.put("brand", context.getString(R.string.brand_name))
+			.format().toString()));
 		URLSpan[] spans = legalTextSpan.getSpans(0, statement.length(), URLSpan.class);
 
 		for (final URLSpan span : spans) {

@@ -178,6 +178,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.hotel_results_presenter_stub,
 		R.layout.hotel_detail_presenter_stub,
 		R.layout.hotel_checkout_presenter_stub,
-		R.layout.test_hotel_map_widget
+		R.layout.test_hotel_map_widget,
+		R.string.info_label_terms_of_use
 	};
 }

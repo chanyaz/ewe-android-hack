@@ -3033,6 +3033,8 @@
     <string name="app_support">App Support</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Terms and Conditions</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">Terms of Use</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Privacy Policy</string>
     <!-- Copyright information -->
@@ -3754,7 +3756,7 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">By completing this booking I agree that I have read and accept the %1$s, the %2$s, and the %3$s.</string>
     <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">I have read and agree to the %1$s and the %2$s.</string>
+    <string name="account_creation_legal_TEMPLATE">I have read and agree to the %1$s and the %2$s. By joining {brand}+, I accept all %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Select each child\'s age</string>

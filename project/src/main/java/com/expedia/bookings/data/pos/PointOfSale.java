@@ -458,6 +458,9 @@ public class PointOfSale {
 		// The URL for Terms and Conditions for this POS
 		private String mTermsAndConditionsUrl;
 
+		// The URL for Loyalty Terms and Conditions for this POS
+		private String mLoyaltyTermsAndConditionsUrl;
+
 		// The URL for Terms of Booking for this POS (see GB)
 		private String mTermsOfBookingUrl;
 
@@ -679,6 +682,10 @@ public class PointOfSale {
 
 	public String getTermsAndConditionsUrl() {
 		return getPosLocale().mTermsAndConditionsUrl;
+	}
+
+	public String getLoyaltyTermsAndConditionsURL() {
+		return getPosLocale().mLoyaltyTermsAndConditionsUrl;
 	}
 
 	public String getTermsOfBookingUrl() {
@@ -1194,6 +1201,7 @@ public class PointOfSale {
 		locale.mHotelBookingStatement = data.optString("hotelBookingStatement", null);
 		locale.mFlightBookingStatement = data.optString("flightBookingStatement", null);
 		locale.mTermsAndConditionsUrl = data.optString("termsAndConditionsURL", null);
+		locale.mLoyaltyTermsAndConditionsUrl = data.optString("loyaltyTermsAndConditionsURL", null);
 		locale.mTermsOfBookingUrl = data.optString("termsOfBookingURL", null);
 		locale.mPrivacyPolicyUrl = data.optString("privacyPolicyURL", null);
 
