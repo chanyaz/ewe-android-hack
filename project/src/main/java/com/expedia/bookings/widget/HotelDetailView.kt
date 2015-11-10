@@ -7,6 +7,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.PorterDuff
+import android.graphics.Rect
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.text.Html
@@ -641,11 +642,17 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     }
 
     public fun scrollToRoom(animate: Boolean) {
-        roomContainer.getLocationOnScreen(roomContainerPosition)
+        var rect = Rect()
 
-        var scrollToAmount = roomContainerPosition[1] - offset + detailContainer.getScrollY()
-        if (etpContainer.getVisibility() == View.VISIBLE) scrollToAmount -= etpContainer.getHeight()
-        if (commonAmenityText.getVisibility() == View.VISIBLE) scrollToAmount -= (commonAmenityText.getHeight() + getResources().getDimension(R.dimen.hotel_detail_divider_margin))
+        if (etpContainer.visibility == View.VISIBLE) {
+            etpContainer.getGlobalVisibleRect(rect)
+        } else if (commonAmenityText.visibility == View.VISIBLE) {
+            commonAmenityText.getGlobalVisibleRect(rect)
+        } else {
+            roomContainer.getGlobalVisibleRect(rect)
+        }
+
+        var scrollToAmount = rect.top - offset
         val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.getScrollY(), scrollToAmount.toInt())
 
         smoothScrollAnimation.setDuration(if (animate) ANIMATION_DURATION else 0)
