@@ -94,7 +94,6 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
             progress.setLayoutParams(lp)
             (progress as ProgressBar).setIndeterminate(true)
         }
-        couponCode.addTextChangedListener(textWatcher)
         couponCode.setOnEditorActionListener(object : android.widget.TextView.OnEditorActionListener {
             override fun onEditorAction(textView: android.widget.TextView, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_DONE && textView.text.length() > 3) {
@@ -125,6 +124,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
     override fun setExpanded(expand: Boolean, animate: Boolean) {
         super.setExpanded(expand, animate)
         if (expand) {
+            couponCode.addTextChangedListener(textWatcher)
             setBackground(null)
             expanded.setVisibility(View.VISIBLE)
             unexpanded.setVisibility(View.GONE)
@@ -137,6 +137,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
             couponCode.requestFocus()
             Ui.showKeyboard(couponCode, null)
         } else {
+            couponCode.removeTextChangedListener(textWatcher)
             resetFields()
             setBackgroundResource(R.drawable.card_background)
             expanded.setVisibility(View.GONE)
