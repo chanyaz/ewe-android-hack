@@ -3,43 +3,32 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.graphics.Bitmap
 import android.util.AttributeSet
-import android.util.Log
+import android.view.View
 import android.widget.ImageView
+import android.widget.FrameLayout
+import com.expedia.bookings.R
 import com.expedia.bookings.utils.Ui
 
 public class HotelDetailsGalleryImageView(context: Context, attrs: AttributeSet) : ImageView(context, attrs) {
 
-    private var isLandscapeImage = false
-    private var actualHeight = 0
+    private var actualHeight = context.resources.getDimensionPixelSize(R.dimen.car_details_image_size)
 
     override fun setImageBitmap(bitmap: Bitmap?) {
         super.setImageBitmap(bitmap)
         if (bitmap != null) {
-            isLandscapeImage = bitmap.width > bitmap.height
             actualHeight = (bitmap.height * width ) / bitmap.width;
         }
     }
 
     fun setIntermediateValue(startHeight: Int, finalHeight: Int, value: Float) {
-        if (actualHeight != 0) {
-            val normValue = normalizeValue(1 - value)
-            setScaleType(ImageView.ScaleType.CENTER_CROP)
+        val normValue = normalizeValue(1 - value)
+        val height = (startHeight + (actualHeight - startHeight) * normValue).toInt()
 
-            val layoutParams = getLayoutParams()
-            layoutParams.height = getCalculatedHeight(startHeight, normValue)
-            setLayoutParams(layoutParams)
+        setLayoutParams(FrameLayout.LayoutParams(Ui.getScreenSize(getContext()).x, height))
 
-            var actualScrollHeight = (finalHeight - startHeight) * (1 - normValue)
-            translationY = actualScrollHeight
-            translationY += (finalHeight - actualScrollHeight - layoutParams.height) / 2
-        }
-    }
-
-    private fun getCalculatedHeight(minHeight: Int, value: Float): Int {
-        if (isLandscapeImage)
-            return (minHeight + (actualHeight - minHeight) * value).toInt()
-        else
-            return (actualHeight + (minHeight - actualHeight) * (1 - value)).toInt()
+        var actualScrollHeight = (finalHeight - startHeight) * (1 - normValue)
+        (parent as View).translationY = actualScrollHeight
+        (parent as View).translationY += (finalHeight - actualScrollHeight - layoutParams.height) / 2
     }
 
     private fun normalizeValue(value: Float): Float {
