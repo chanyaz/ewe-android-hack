@@ -27,7 +27,7 @@ public class HotelBreakDownView(context: Context, attrs: AttributeSet?) : Scroll
                 if (breakdown.isDate) {
                     linearLayout.addView(createDateRow(breakdown))
                 } else {
-                    linearLayout.addView(createRow(breakdown))
+                    linearLayout.addView(createRow(breakdown, breakdown.isDiscount))
                 }
 
             }
@@ -38,12 +38,18 @@ public class HotelBreakDownView(context: Context, attrs: AttributeSet?) : Scroll
         View.inflate(getContext(), R.layout.hotel_breakdown, this)
     }
 
-    private fun createRow(breakdown: Breakdown): View {
+    private fun createRow(breakdown: Breakdown, isDiscount: Boolean): View {
         val row = LayoutInflater.from(getContext()).inflate(R.layout.hotel_cost_summary_row, null)
         val priceDescription = row.findViewById(R.id.price_type_text_view) as TextView
         val priceValue = row.findViewById(R.id.price_text_view) as TextView
         priceDescription.setText(breakdown.title)
-        priceValue.setText(breakdown.cost)
+        if (isDiscount) {
+            priceValue.setText("(" + breakdown.cost + ")")
+            priceValue.setTextColor(getResources().getColor(R.color.hotels_primary_color))
+        }
+        else {
+            priceValue.setText(breakdown.cost)
+        }
         return row
     }
 
