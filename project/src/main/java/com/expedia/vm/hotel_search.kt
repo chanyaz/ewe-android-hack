@@ -362,8 +362,8 @@ public class HotelErrorViewModel(private val context: Context) {
                 }
                 ApiError.Code.HOTEL_ROOM_UNAVAILABLE -> {
                     imageObservable.onNext(R.drawable.error_default)
-                    errorMessageObservable.onNext(context.getString(R.string.error_no_hotel_rooms_available))
-                    buttonTextObservable.onNext(context.getString(R.string.search_again))
+                    errorMessageObservable.onNext(context.getString(R.string.error_room_sold_out))
+                    buttonTextObservable.onNext(context.getString(R.string.select_another_room))
                 }
                 ApiError.Code.PAYMENT_FAILED -> {
                     imageObservable.onNext(R.drawable.error_payment)

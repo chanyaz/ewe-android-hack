@@ -31,7 +31,7 @@ public class HotelErrorViewModelTest {
 
         soldOutObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
-        errorMessageObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.error_no_hotel_rooms_available))
-        errorButtonObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.search_again))
+        errorMessageObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.error_room_sold_out))
+        errorButtonObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.select_another_room))
     }
 }
