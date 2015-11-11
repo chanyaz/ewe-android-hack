@@ -433,7 +433,7 @@ public class RecyclerGallery extends RecyclerView {
 	public void showNext() {
 		RecyclerAdapter.ViewHolder viewHolder = (RecyclerAdapter.ViewHolder) findViewHolderForAdapterPosition(
 			getSelectedItem());
-		if (viewHolder.progressBar.getVisibility() == GONE) {
+		if (viewHolder != null && viewHolder.progressBar.getVisibility() == GONE) {
 			int position = mLayoutManager.findFirstVisibleItemPosition() + 1;
 			if (position >= 0 && position < mAdapter.getItemCount()) {
 				if (mScrollListener != null) {
