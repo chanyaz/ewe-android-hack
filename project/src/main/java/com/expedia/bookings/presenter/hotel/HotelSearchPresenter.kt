@@ -121,6 +121,9 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             calendar.setVisibility(View.VISIBLE)
             traveler.setVisibility(View.GONE)
             SuggestionV4Utils.saveSuggestionHistory(context, suggestion, SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE)
+            if (currentState == null) {
+                show(HotelParamsDefault())
+            }
             show(HotelParamsCalendar(), Presenter.FLAG_CLEAR_BACKSTACK)
         }
     }
@@ -220,6 +223,9 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
                 searchLocationEditText.clearFocus()
                 calendar.setVisibility(View.VISIBLE)
                 traveler.setVisibility(View.GONE)
+                if (currentState == null) {
+                    show(HotelParamsDefault())
+                }
                 show(HotelParamsCalendar(), Presenter.FLAG_CLEAR_BACKSTACK)
             } else {
                 vm.errorNoOriginObservable.onNext(Unit)
@@ -250,7 +256,10 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             clearLocationButton.visibility = if (Strings.isEmpty(searchLocationEditText.text)) View.INVISIBLE else View.VISIBLE
             searchLocationEditText.requestFocus()
             searchLocationEditText.setSelection(searchLocationEditText.getText().length())
-            show(HotelParamsSuggestion(), Presenter.FLAG_CLEAR_TOP)
+            if (currentState == null) {
+                show(HotelParamsDefault())
+            }
+            show(HotelParamsSuggestion(), Presenter.FLAG_CLEAR_BACKSTACK)
             com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
         }
 
@@ -290,7 +299,10 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         vm.errorNoOriginObservable.subscribe {
             selectDate.setChecked(false)
             selectTraveler.setChecked(false)
-            show(HotelParamsSuggestion(), Presenter.FLAG_CLEAR_TOP)
+            if (currentState == null) {
+                show(HotelParamsDefault())
+            }
+            show(HotelParamsSuggestion(), Presenter.FLAG_CLEAR_BACKSTACK)
             searchLocationEditText.requestFocus()
             com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
             AnimUtils.doTheHarlemShake(searchLocationEditText)
