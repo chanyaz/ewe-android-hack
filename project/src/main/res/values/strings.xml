@@ -3780,4 +3780,8 @@
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Coupon applied: You saved %1$s!</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog title -->
+    <string name="coupon_error_dialog_title">Coupon Failed</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog message -->
+    <string name="coupon_error_dialog_message">There was a problem with your coupon. Please try entering it again.</string>
 </resources>
