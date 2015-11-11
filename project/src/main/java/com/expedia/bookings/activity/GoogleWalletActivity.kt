@@ -66,6 +66,7 @@ public class GoogleWalletActivity : AppCompatActivity() {
                 Activity.RESULT_OK -> {
                     if (data.hasExtra(WalletConstants.EXTRA_FULL_WALLET)) {
                         val fullWallet: FullWallet = data.getParcelableExtra(WalletConstants.EXTRA_FULL_WALLET)
+                        Db.setFullWallet(fullWallet)
                         WalletUtils.bindWalletToBillingInfo(fullWallet, Db.getBillingInfo())
                         setResult(Activity.RESULT_OK)
                         finish()

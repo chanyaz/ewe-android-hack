@@ -162,6 +162,7 @@ public class WalletUtils {
 			billingInfo.setLocation(null);
 			billingInfo.setNameOnCard(null);
 			billingInfo.setExpirationDate(null);
+			Db.setFullWallet(null);
 		}
 	}
 
