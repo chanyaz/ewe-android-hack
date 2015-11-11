@@ -169,6 +169,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.hotel_sold_out_color,
 		R.raw.air_attach_curve,
 		R.string.select_another_room,
-		R.string.error_room_sold_out
+		R.string.error_room_sold_out,
+		R.string.coupon_error_dialog_title,
+		R.string.coupon_error_dialog_message
 	};
 }
