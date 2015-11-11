@@ -74,7 +74,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private static final String FTAG_TRAV_PICKER = "FTAG_TRAV_PICKER";
 	private static final String FTAG_WAYPOINT = "FTAG_WAYPOINT";
 	private static final String FTAG_ORIGIN_LOCATION = "FTAG_ORIGIN_LOCATION";
-	private static final String FTAG_FLIGHTS_GDE = "FTAG_FLIGHTS_GDE";
 	private static final String FTAG_REDEYE_ITEMS_DIALOG = "FTAG_REDEYE_ITEMS_DIALOG";
 	private static final String FTAG_MISMATCHED_ITEMS_DIALOG = "FTAG_MISMATCHED_ITEMS_DIALOG";
 
@@ -99,7 +98,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private TouchableFrameLayout mCalC;
 	private TouchableFrameLayout mTravC;
 	private TouchableFrameLayout mWaypointC;
-	private TouchableFrameLayout mGdeC;
 	private View mTravPickWhiteSpace;
 
 	//Search action buttons
@@ -129,7 +127,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private ResultsDatesFragment mDatesFragment;
 	private ResultsGuestPickerFragment mGuestsFragment;
 	private CurrentLocationFragment mCurrentLocationFragment;
-	private ResultsGdeFlightsFragment mGdeFragment;
 	private SimpleCallbackDialogFragment mRedeyeDialogFrag;
 	private SimpleCallbackDialogFragment mMismatchedDialogFrag;
 
@@ -168,7 +165,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mWaypointC = Ui.findView(view, R.id.waypoint_container);
 		mTravC = Ui.findView(view, R.id.traveler_container);
 		mCalC = Ui.findView(view, R.id.calendar_container);
-		mGdeC = Ui.findView(view, R.id.gde_container);
 		mTravPickWhiteSpace = Ui.findView(view, R.id.traveler_picker_port_white_space);
 
 		//Fake AB form buttons
@@ -443,13 +439,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mDatesFragment.setDates(startDate, endDate);
 			}
 
-			if (mGdeFragment != null) {
-				mGdeFragment.setGdeInfo(
-					mLocalParams.getOriginLocation(true),
-					mLocalParams.getDestinationLocation(true),
-					startDate);
-			}
-
 			if (mLocalParams.getStartDate() == null && startDate != null) {
 				showPopup = true;
 			}
@@ -477,10 +466,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	@Override
 	public void onYearMonthDisplayedChanged(YearMonth yearMonth) {
-		// Perhaps GDE is not supported in this POS
-		if (mGdeFragment != null) {
-			mGdeFragment.scrollToMonth(yearMonth);
-		}
 	}
 
 	/*
@@ -596,16 +581,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mBottomRightC.setVisibility(View.VISIBLE);
 				mBottomCenterC.setVisibility(View.VISIBLE);
 				mCalC.setVisibility(View.VISIBLE);
-				mGdeC.setVisibility(View.VISIBLE);
 
-				if (mDatesFragment == null || mDatesFragment.isDetached()
-					|| mGdeFragment == null || mGdeFragment.isDetached()) {
+				if (mDatesFragment == null || mDatesFragment.isDetached()) {
 					FragmentManager manager = getChildFragmentManager();
 					FragmentTransaction transaction = manager.beginTransaction();
 					mDatesFragment = FragmentAvailabilityUtils.setFragmentAvailability(true, FTAG_CALENDAR, manager,
 						transaction, TabletResultsSearchControllerFragment.this, R.id.calendar_container, true);
-					mGdeFragment = FragmentAvailabilityUtils.setFragmentAvailability(true, FTAG_FLIGHTS_GDE, manager,
-						transaction, TabletResultsSearchControllerFragment.this, R.id.gde_container, true);
 					transaction.commit();
 				}
 			}
@@ -704,11 +685,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 				mTravC.setTranslationX((1f - p) * mTravC.getWidth());
 				mCalC.setTranslationX(p * -mCalC.getWidth());
-				if (mGrid.isLandscape()) {
-					mGdeC.setTranslationY(p * mBottomCenterC.getHeight());
-				}
-				else {
-					mGdeC.setTranslationX(p * -mBottomCenterC.getWidth());
+				if (!mGrid.isLandscape()) {
 					mTravPickWhiteSpace.setTranslationX((1f - p) * mBottomCenterC.getWidth());
 				}
 			}
@@ -735,14 +712,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 			if (state == ResultsSearchState.TRAVELER_PICKER) {
 				bindTravBtn();
-			}
-
-			if (state.showsCalendar()) {
-				if (mGdeFragment != null) {
-					mGdeFragment.setGdeInfo(mLocalParams.getOriginLocation(true),
-						mLocalParams.getDestinationLocation(true),
-						mLocalParams.getStartDate());
-				}
 			}
 
 			if (!state.showsSearchControls() && !state.showsSearchPopup()) {
@@ -848,9 +817,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					: View.GONE
 			);
 
-			// GDE visibility should always follow the calendar visibility
-			mGdeC.setVisibility(mCalC.getVisibility());
-
 			mBottomRightC.setVisibility(
 				mCalC.getVisibility() == View.VISIBLE || mTravC.getVisibility() == View.VISIBLE
 					? View.VISIBLE
@@ -884,9 +850,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			// BottomCenterContainer houses GDE and traveler picker whitespace. So if either one of
 			// those is visible, make this one visible too.
 			mBottomCenterC.setVisibility(
-				mTravPickWhiteSpace.getVisibility() == View.VISIBLE || mGdeC.getVisibility() == View.VISIBLE
-					? View.VISIBLE
-					: View.INVISIBLE
+				mTravPickWhiteSpace.getVisibility() == View.VISIBLE ? View.VISIBLE : View.INVISIBLE
 			);
 		}
 
@@ -894,8 +858,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			//These are only altered for animations, and we dont want things to get into odd places.
 			mCalC.setTranslationX(0f);
 			mCalC.setTranslationY(0f);
-			mGdeC.setTranslationX(0f);
-			mGdeC.setTranslationY(0f);
 			mTravC.setTranslationX(0f);
 			mTravC.setTranslationY(0f);
 			mBottomRightC.setTranslationX(0f);
@@ -918,18 +880,13 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		boolean mParamFragsAvailable = !state.isUpState();
 
 		boolean mCalAvail = mParamFragsAvailable;
-		boolean mGdeAvail = mCalAvail; // GDE will display an error message if POS isn't supported
 		boolean mTravAvail = mParamFragsAvailable;
 		boolean mWaypointAvail = mParamFragsAvailable;
-		boolean mLocAvail = mGdeAvail && !mLocalParams.hasOrigin();
+		boolean mLocAvail = !mLocalParams.hasOrigin();
 
 		mDatesFragment = FragmentAvailabilityUtils
 			.setFragmentAvailability(mCalAvail, FTAG_CALENDAR, manager,
 				transaction, this, R.id.calendar_container, true);
-
-		mGdeFragment = FragmentAvailabilityUtils
-			.setFragmentAvailability(mGdeAvail, FTAG_FLIGHTS_GDE, manager,
-				transaction, this, R.id.gde_container, true);
 
 		mGuestsFragment = FragmentAvailabilityUtils
 			.setFragmentAvailability(mTravAvail, FTAG_TRAV_PICKER, manager,
@@ -960,9 +917,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		else if (tag == FTAG_ORIGIN_LOCATION) {
 			return mCurrentLocationFragment;
 		}
-		else if (tag == FTAG_FLIGHTS_GDE) {
-			return mGdeFragment;
-		}
 		return null;
 	}
 
@@ -980,9 +934,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		}
 		case FTAG_ORIGIN_LOCATION: {
 			return new CurrentLocationFragment();
-		}
-		case FTAG_FLIGHTS_GDE: {
-			return ResultsGdeFlightsFragment.newInstance();
 		}
 		}
 		return null;
@@ -1007,11 +958,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				//Will notify listener
 				((CurrentLocationFragment) frag).getCurrentLocation();
 			}
-			break;
-		}
-		case FTAG_FLIGHTS_GDE: {
-			((ResultsGdeFlightsFragment) frag).setGdeInfo(mLocalParams.getOriginLocation(true),
-				mLocalParams.getDestinationLocation(true), mLocalParams.getStartDate());
 			break;
 		}
 		}

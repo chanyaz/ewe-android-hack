@@ -159,12 +159,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.expedia.bookings.widget.TouchableFrameLayout
-            android:id="@+id/gde_container"
-            android:visibility="invisible"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
         <View
             android:id="@+id/traveler_picker_port_white_space"
             android:visibility="invisible"
