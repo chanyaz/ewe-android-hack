@@ -454,7 +454,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         viewmodel.onGalleryItemScrolled(0)
         payNowButtonContainer.unsubscribeOnClick()
         payLaterButtonContainer.unsubscribeOnClick()
-
+        gallery.setDataSource(emptyList())
+        roomContainer.removeAllViews()
     }
 
     private fun hideResortandSelectRoom() {
