@@ -27,8 +27,8 @@ public class HotelErrorPresenterTest {
         Assert.assertEquals(View.VISIBLE, hotelErrorPresenter.errorImage.visibility)
         Assert.assertEquals(View.VISIBLE, hotelErrorPresenter.errorText.visibility)
 
-        Assert.assertEquals(RuntimeEnvironment.application.getString(R.string.error_no_hotel_rooms_available), hotelErrorPresenter.errorText.text)
-        Assert.assertEquals(RuntimeEnvironment.application.getString(R.string.search_again), hotelErrorPresenter.errorButton.text)
+        Assert.assertEquals(RuntimeEnvironment.application.getString(R.string.error_room_sold_out), hotelErrorPresenter.errorText.text)
+        Assert.assertEquals(RuntimeEnvironment.application.getString(R.string.select_another_room), hotelErrorPresenter.errorButton.text)
         val errorImageShadow = org.robolectric.Shadows.shadowOf(hotelErrorPresenter.errorImage)
         Assert.assertEquals(R.drawable.error_default, errorImageShadow.imageResourceId)
     }
