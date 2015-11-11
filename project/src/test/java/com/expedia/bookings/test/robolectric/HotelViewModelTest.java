@@ -40,7 +40,7 @@ public class HotelViewModelTest {
 		setupSystemUnderTest();
 
 		String expectedDistance = "0.4 mi";
-		assertEquals(expectedDistance, vm.getDistanceFromCurrentLocationObservable().getValue());
+		assertEquals(expectedDistance, vm.getDistanceFromCurrentLocation().getValue());
 	}
 
 	@Test
@@ -49,7 +49,7 @@ public class HotelViewModelTest {
 		givenHotelWithProximityDistance(distanceInMiles);
 		setupSystemUnderTest();
 
-		assertTrue(Strings.isEmpty(vm.getDistanceFromCurrentLocationObservable().getValue()));
+		assertTrue(Strings.isEmpty(vm.getDistanceFromCurrentLocation().getValue()));
 	}
 
 	@Test

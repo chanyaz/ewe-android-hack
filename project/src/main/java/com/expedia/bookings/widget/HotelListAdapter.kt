@@ -11,7 +11,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.larvalabs.svgandroid.widget.SVGView
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelMedia
@@ -24,14 +23,16 @@ import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeBackgroundColor
-import com.expedia.util.subscribeImageDrawable
-import com.expedia.util.subscribeVisibility
 import com.expedia.util.endlessObserver
-import com.expedia.util.subscribeGalleryColorFilter
+import com.expedia.util.subscribeBackgroundColor
+import com.expedia.util.subscribeColorFilter
+import com.expedia.util.subscribeImageDrawable
 import com.expedia.util.subscribeStarColor
+import com.expedia.util.subscribeStarRating
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelResultsPricingStructureHeaderViewModel
+import com.larvalabs.svgandroid.widget.SVGView
 import com.squareup.picasso.Picasso
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -48,8 +49,8 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
     val loadingSubject = BehaviorSubject.create<Unit>()
     val resultsSubject = PublishSubject.create<HotelSearchResponse>()
     val hotelSoldOut = endlessObserver<String> { soldOutHotelId ->
-        hotelListItemsMetadata.firstOrNull { it.hotelId == soldOutHotelId }?.hotelSoldOut?.onNext(true)
         hotels.firstOrNull { it.hotelId == soldOutHotelId }?.isSoldOut = true
+        hotelListItemsMetadata.firstOrNull { it.hotelId == soldOutHotelId }?.hotelSoldOut?.onNext(true)
     }
 
     private data class HotelListItemMetadata(val hotelId: String, val hotelSoldOut: BehaviorSubject<Boolean>)
@@ -201,13 +202,13 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             viewModel.hotelGuestRatingObservable.subscribeText(guestRating)
             viewModel.topAmenityTitleObservable.subscribeText(topAmenityTitle)
             viewModel.hotelDiscountPercentageObservable.subscribeText(discountPercentage)
-            viewModel.hotelStrikeThroughPriceObservable.subscribeText(strikeThroughPricePerNight)
-            viewModel.hotelStrikeThroughPriceVisibilityObservable.subscribeVisibility(strikeThroughPricePerNight)
+            viewModel.hotelStrikeThroughPriceFormatted.subscribeText(strikeThroughPricePerNight)
+            viewModel.hotelStrikeThroughPriceVisibility.subscribeVisibility(strikeThroughPricePerNight)
             viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(guestRating)
             viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(guestRatingRecommendedText)
             viewModel.isHotelGuestRatingAvailableObservable.map { !it }.subscribeVisibility(noGuestRating)
             viewModel.hasDiscountObservable.subscribeVisibility(discountPercentage)
-            viewModel.distanceFromCurrentLocationObservable.subscribeText(hotelAmenityOrDistanceFromLocation)
+            viewModel.distanceFromCurrentLocation.subscribeText(hotelAmenityOrDistanceFromLocation)
             viewModel.topAmenityVisibilityObservable.subscribeVisibility(topAmenityTitle)
             viewModel.topAmenityTitleObservable.subscribeText(topAmenityTitle)
             viewModel.urgencyIconObservable.subscribeImageDrawable(urgencyIcon)
@@ -221,11 +222,8 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             viewModel.ratingAmenityContainerVisibilityObservable.subscribeVisibility(ratingAmenityContainer)
 
             viewModel.toolBarRatingColor.subscribeStarColor(ratingBar)
-            viewModel.imageColorFilter.subscribeGalleryColorFilter(imageView)
-
-            viewModel.hotelStarRatingObservable.subscribe {
-                ratingBar.setRating(it)
-            }
+            viewModel.imageColorFilter.subscribeColorFilter(imageView)
+            viewModel.hotelStarRatingObservable.subscribeStarRating(ratingBar)
 
             viewModel.adImpressionObservable.subscribe {
                 AdImpressionTracking.trackAdClickOrImpression(itemView.context, it, null)

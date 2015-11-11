@@ -127,11 +127,15 @@ public fun Observable<Int>.subscribeStarColor(starRatingBar: StarRatingBar) {
     this.subscribe { starRatingBar.setStarColor(it) }
 }
 
+public fun Observable<Float>.subscribeStarRating(starRatingBar: StarRatingBar) {
+    this.subscribe { starRatingBar.setRating(it) }
+}
+
 public fun Observable<ColorMatrixColorFilter?>.subscribeGalleryColorFilter(recyclerGallery: RecyclerGallery) {
     this.subscribe { recyclerGallery.setColorFilter(it) }
 }
 
-public fun Observable<ColorMatrixColorFilter?>.subscribeGalleryColorFilter(imageView: ImageView) {
+public fun Observable<ColorMatrixColorFilter?>.subscribeColorFilter(imageView: ImageView) {
     this.subscribe { imageView.colorFilter = it }
 }
 

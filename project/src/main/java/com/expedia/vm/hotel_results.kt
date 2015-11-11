@@ -11,6 +11,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelV2Tracking
@@ -153,6 +154,16 @@ public class HotelResultsMapViewModel(val resources: Resources, val currentLocat
     val sortedHotelsObservable = BehaviorSubject.create<List<Hotel>>()
     val unselectedMarker = PublishSubject.create<Pair<Marker?, Hotel>>()
     val selectMarker = BehaviorSubject.create<Pair<Marker?, Hotel>>()
+    val soldOutMarker = BehaviorSubject.create<Pair<Marker?, Hotel>>()
+    val soldOutHotel = PublishSubject.create<Hotel>()
+
+    val hotelSoldOutWithIdObserver = endlessObserver<String> { soldOutHotelId ->
+        val hotel = hotels.firstOrNull { it.hotelId == soldOutHotelId }
+        if (hotel != null) {
+            hotel.isSoldOut = true
+            soldOutHotel.onNext(hotel)
+        }
+    }
 
     init {
         markersObservable.subscribe {
@@ -201,11 +212,19 @@ public class HotelResultsMapViewModel(val resources: Resources, val currentLocat
             selectMarker.onNext(Pair(it, getHotelWithMarker(it)))
         }
 
+        soldOutMarker.subscribe {
+            if (it != null) {
+                val marker = it.first
+                val hotel = it.second
+                marker?.setIcon(createHotelMarkerIcon(resources, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
+            }
+        }
+
         unselectedMarker.subscribe {
             if (it != null) {
                 val marker = it.first
                 val hotel = it.second
-                marker?.setIcon(createHotelMarkerIcon(resources, hotel, false))
+                marker?.setIcon(createHotelMarkerIcon(resources, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
             }
         }
 
@@ -213,7 +232,7 @@ public class HotelResultsMapViewModel(val resources: Resources, val currentLocat
             if (it != null) {
                 val marker = it.first
                 val hotel = it.second
-                marker?.setIcon(createHotelMarkerIcon(resources, hotel, true))
+                marker?.setIcon(createHotelMarkerIcon(resources, hotel, true, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
                 marker?.showInfoWindow()
             }
         }

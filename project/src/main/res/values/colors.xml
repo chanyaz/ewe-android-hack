@@ -352,6 +352,9 @@
     <!-- Hotels V2 Detail star color -->
     <color name="hotelsv2_detail_star_color">#F1B906</color>
 
+    <!-- Hotels V2 Hotel Sold Out -->
+    <color name="hotelsv2_sold_out_hotel_gray">#676767</color>
+
     <!-- Signed in user tier colors -->
     <color name="sign_in_user_tier_blue">#0085c9</color>
     <color name="sign_in_user_tier_silver">#808080</color>
