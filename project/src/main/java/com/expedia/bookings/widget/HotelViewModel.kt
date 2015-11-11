@@ -77,6 +77,8 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
         val isGoldOrSivler = Db.getUser() != null && (Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.SILVER || Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.GOLD)
         vipMessageVisibilityObservable.onNext(isVipAvailable && isGoldOrSivler)
 
+
+        // NOTE: Any changes to this logic should also be made in HotelDetailViewModel.getPromoText()
         if (hotel.roomsLeftAtThisRate > 0 && hotel.roomsLeftAtThisRate <= ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY) {
             fewRoomsLeftUrgency.onNext(UrgencyMessage(true, R.drawable.urgency,
                     R.color.hotel_urgency_message_color,
