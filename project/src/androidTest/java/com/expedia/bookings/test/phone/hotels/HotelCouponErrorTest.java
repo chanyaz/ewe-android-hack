@@ -69,6 +69,7 @@ public class HotelCouponErrorTest extends PhoneTestCase {
 			onView(withId(R.id.coupon_edit_text)).check(matches(withText(isEmptyOrNullString())));
 			onView(withId(R.id.coupon_edit_text)).perform(typeText(data.coupon));
 			Espresso.closeSoftKeyboard();
+			Common.delay(2);
 			onView(withId(android.R.id.button1)).check(matches(isEnabled()));
 			onView(withId(android.R.id.button1)).perform(click());
 
