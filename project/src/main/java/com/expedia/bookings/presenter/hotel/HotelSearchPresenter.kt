@@ -128,6 +128,14 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         }
     }
 
+    override fun onVisibilityChanged(changedView: View?, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+        if (changedView == this && visibility == View.VISIBLE && !searchViewModel.originObservable.value) {
+            searchLocationEditText.requestFocus()
+            com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
+        }
+    }
+
     private val hotelSuggestionAdapter by lazy {
         val service = Ui.getApplication(getContext()).hotelComponent().suggestionsService()
         suggestionViewModel = HotelSuggestionAdapterViewModel(getContext(), service, CurrentLocationObservable.create(getContext()))
@@ -342,6 +350,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.setNavigationIcon(navIcon)
         toolbar.setNavigationOnClickListener {
+            com.mobiata.android.util.Ui.hideKeyboard(this@HotelSearchPresenter)
             val activity = getContext() as AppCompatActivity
             activity.onBackPressed()
         }

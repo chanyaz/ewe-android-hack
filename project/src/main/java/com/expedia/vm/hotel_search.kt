@@ -29,7 +29,7 @@ class HotelSearchViewModel(val context: Context) {
 
     // Outputs
     val searchParamsObservable = PublishSubject.create<HotelSearchParams>()
-    val originObservable = BehaviorSubject.create<Boolean>()
+    val originObservable = BehaviorSubject.create<Boolean>(false)
     val externalSearchParamsObservable = BehaviorSubject.create<Boolean>()
     val dateTextObservable = PublishSubject.create<CharSequence>()
     val calendarTooltipTextObservable = PublishSubject.create<Pair<String, String>>()
