@@ -468,11 +468,11 @@ public class OmnitureTracking {
 			s.setEvents("event32,event14");
 		}
 		else if (isRoomSoldOut && isETPEligible) {
-			s.setEvents("event32,event5,event17");
+			s.setEvents("event32,event5,event18");
 			s.setEvar(52, "Pay Now");
 		}
 		else if (isRoomSoldOut) {
-			s.setEvents("event32,event17");
+			s.setEvents("event32,event18");
 			s.setEvar(52, "Non ETP");
 		}
 		else if (isETPEligible) {
