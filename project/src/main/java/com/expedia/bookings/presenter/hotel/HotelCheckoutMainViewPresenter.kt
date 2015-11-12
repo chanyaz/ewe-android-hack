@@ -50,6 +50,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     var offer: HotelOffersResponse.HotelRoomResponse by Delegates.notNull()
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
     val couponCardView = CouponWidget(context, attr)
+    var hasDiscount = false
 
     var createTripViewmodel: HotelCreateTripViewModel by notNullAndObservable {
         createTripViewmodel.tripResponseObservable.subscribe(createTripResponseListener)
@@ -118,9 +119,13 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
 
         paymentInfoCardView.setCreditCardRequired(true)
         paymentInfoCardView.setExpanded(false)
-        clearCCNumber()
+
+       if(!hasDiscount && !couponCardView.removingCoupon) {
+            clearCCNumber()
+        }
 
         couponCardView.setExpanded(false)
+
         slideWidget.resetSlider()
         slideToContainer.setVisibility(View.INVISIBLE)
         legalInformationText.setOnClickListener(object : View.OnClickListener {
@@ -192,10 +197,11 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     val createTripResponseListener: Observer<HotelCreateTripResponse> = endlessObserver { trip ->
         Db.getTripBucket().clear()
         Db.getTripBucket().add(TripBucketItemHotelV2(trip))
+
         hotelCheckoutSummaryWidget.viewModel.tripResponseObserver.onNext(trip)
         hotelCheckoutSummaryWidget.viewModel.guestCountObserver.onNext(hotelSearchParams.adults + hotelSearchParams.children.size())
         val couponRate = trip.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getPriceAdjustments()
-        val hasDiscount = couponRate != null && !couponRate.isZero
+        hasDiscount = couponRate != null && !couponRate.isZero
         couponCardView.viewmodel.hasDiscountObservable.onNext(hasDiscount)
         checkoutOverviewViewModel = HotelCheckoutOverviewViewModel(getContext())
         checkoutOverviewViewModel.newRateObserver.onNext(trip.newHotelProductResponse)
