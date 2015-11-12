@@ -286,8 +286,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             })
 
         }
-        
-        mapViewModel.markersObservable.subscribe {
+
+        mapViewModel.sortedHotelsObservable.subscribe {
+            val hotels = it
             Observable.just(it).subscribeOn(Schedulers.io())
                     .map {
                         var options = ArrayList<MarkerOptions>()
@@ -314,22 +315,22 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                             val marker = googleMap?.addMarker(option)
                             if (marker != null) markers.add(marker)
                         }
+
+                        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotels)
+                        mapCarouselRecycler.scrollToPosition(0)
+                        val marker = markers.filter { it.title == hotels.first().hotelId }.first()
+                        val prevMarker = mapViewModel.selectMarker.value
+                        if (prevMarker != null) mapViewModel.unselectedMarker.onNext(prevMarker)
+                        mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
                     }
         }
 
-        mapViewModel.sortedHotelsObservable.subscribe {
-            val hotels = it
-            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(it)
-            mapCarouselRecycler.scrollToPosition(0)
-            val marker = markers.filter { it.title == hotels.first().hotelId }.first()
-            val prevMarker = mapViewModel.selectMarker.value
-            if (prevMarker != null) mapViewModel.unselectedMarker.onNext(prevMarker)
-            mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
-        }
-
         mapViewModel.soldOutHotel.subscribe { hotel ->
-            val marker = markers.filter { it.title == hotel.hotelId }.first()
-            mapViewModel.soldOutMarker.onNext(Pair(marker, hotel))
+            val markersForHotel = markers.filter { it.title == hotel.hotelId }
+            if (markersForHotel.isNotEmpty()) {
+                val marker = markersForHotel.first()
+                mapViewModel.soldOutMarker.onNext(Pair(marker, hotel))
+            }
         }
 
         mapViewModel.carouselSwipedObservable.subscribe {
@@ -366,11 +367,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         recyclerView.addOnScrollListener(scrollListener)
         recyclerView.addOnItemTouchListener(touchListener)
 
-        mapCarouselRecycler.mapSubject.subscribe {
-            hotel ->
-            val marker = markers.filter { it.title == hotel.hotelId }.first()
-            mapViewModel.carouselSwipedObservable.onNext(marker)
-            HotelV2Tracking().trackHotelV2CarouselScroll()
+        mapCarouselRecycler.mapSubject.subscribe { hotel ->
+            val markersForHotel = markers.filter { it.title == hotel.hotelId }
+            if (markersForHotel.isNotEmpty()) {
+                val marker = markersForHotel.first()
+                mapViewModel.carouselSwipedObservable.onNext(marker)
+                HotelV2Tracking().trackHotelV2CarouselScroll()
+            }
         }
 
         inflateAndSetupToolbarMenu()
