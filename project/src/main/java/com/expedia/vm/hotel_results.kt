@@ -139,7 +139,7 @@ public class HotelResultsPricingStructureHeaderViewModel(private val resources: 
 
 public class HotelResultsMapViewModel(val resources: Resources, val currentLocation: Location) {
 
-    var hotels: List<Hotel> by Delegates.notNull()
+    var hotels: List<Hotel> = emptyList()
 
     //inputs
     val hotelResultsSubject = PublishSubject.create<HotelSearchResponse>()

@@ -1,5 +1,6 @@
 package com.expedia.bookings.presenter.hotel
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
@@ -8,6 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.Hotel
@@ -529,6 +531,14 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             //Just show the Hotel Details Screen in "Sold Out" state, fields being fetched from "/info/" API
             showDetails(it.hotelId, false)
         } else if (!it.hotelOffersResponse.hasErrors()) {
+            //correct hotel name if it is a deeplink HOTEL search
+            val intent = (context as Activity).getIntent()
+            if (intent.getBooleanExtra(Codes.FROM_DEEPLINK, false)) {
+                intent.putExtra(Codes.FROM_DEEPLINK, false)
+                if (hotelSearchParams.suggestion.type == "HOTEL") {
+                    searchPresenter.searchViewModel.locationTextObservable.onNext(it.hotelOffersResponse.hotelName)
+                }
+            }
             detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(it.hotelOffersResponse)
             detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(it.hotelOffersResponse)
             show(detailPresenter)
