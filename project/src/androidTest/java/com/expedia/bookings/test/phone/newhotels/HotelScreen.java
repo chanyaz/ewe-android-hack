@@ -277,7 +277,6 @@ public class HotelScreen {
 		HotelScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
 		HotelScreen.selectDateButton().perform(click());
 		HotelScreen.selectDates(start, end);
-
 		HotelScreen.clickSearchButton();
 		HotelScreen.waitForResultsLoaded();
 	}
