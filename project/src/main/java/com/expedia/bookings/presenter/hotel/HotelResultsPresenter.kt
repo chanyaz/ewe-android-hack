@@ -70,8 +70,12 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.mobiata.android.LocationServices
 import org.joda.time.DateTime
+import rx.Observable
 import rx.Observer
+import rx.android.schedulers.AndroidSchedulers
+import rx.schedulers.Schedulers
 import rx.subjects.PublishSubject
+import java.util.ArrayList
 import kotlin.properties.Delegates
 
 public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
@@ -228,24 +232,27 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     val filterObserver: Observer<HotelSearchResponse> = endlessObserver { response ->
-        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(response.hotelList)
-        adapter.resultsSubject.onNext(response)
-        mapViewModel.hotelResultsSubject.onNext(response)
-
         if (previousWasList) {
             show(ResultsList(), Presenter.FLAG_CLEAR_TOP)
             resetListOffset()
         } else {
             show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
         }
+
+        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(response.hotelList)
+        adapter.resultsSubject.onNext(response)
+        mapViewModel.hotelResultsSubject.onNext(response)
     }
 
     override fun back(): Boolean {
-        if (ResultsFilter().javaClass.name == currentState && filterView.viewmodel.isFilteredToZeroResults()) {
-            filterView.dynamicFeedbackWidget.animateDynamicFeedbackWidget()
-            return true
+        if (ResultsFilter().javaClass.name == currentState) {
+            if (filterView.viewmodel.isFilteredToZeroResults()) {
+                filterView.dynamicFeedbackWidget.animateDynamicFeedbackWidget()
+                return true
+            } else {
+                filterView.viewmodel.doneObservable.onNext(Unit)
+            }
         }
-        filterView.viewmodel.doneObservable.onNext(Unit)
         return super.back()
     }
 
@@ -279,21 +286,35 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             })
 
         }
-
+        
         mapViewModel.markersObservable.subscribe {
-            markers.clear()
-            googleMap?.clear()
+            Observable.just(it).subscribeOn(Schedulers.io())
+                    .map {
+                        var options = ArrayList<MarkerOptions>()
+                        //createHotelMarkerIcon should run in a separate thread since its heavy and hangs on the UI thread
+                        it.forEach {
+                            hotel ->
+                            val bitmap = createHotelMarkerIcon(resources, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut)
+                            val option = MarkerOptions()
+                                    .position(LatLng(hotel.latitude, hotel.longitude))
+                                    .icon(bitmap)
+                                    .title(hotel.hotelId)
+                            options.add(option)
+                        }
+                        options
+                    }
+                    .observeOn(AndroidSchedulers.mainThread())
+                    //add the markers on the UI thread
+                    .subscribe {
+                        markers.clear()
+                        googleMap?.clear()
 
-            for (hotel in it) {
-                val bitmap = createHotelMarkerIcon(context.resources, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut)
-                val options = MarkerOptions()
-                        .position(LatLng(hotel.latitude, hotel.longitude))
-                        .icon(bitmap)
-                        .title(hotel.hotelId)
-
-                val marker = googleMap?.addMarker(options)
-                if (marker != null) markers.add(marker)
-            }
+                        it.forEach {
+                            val option = it
+                            val marker = googleMap?.addMarker(option)
+                            if (marker != null) markers.add(marker)
+                        }
+                    }
         }
 
         mapViewModel.sortedHotelsObservable.subscribe {
