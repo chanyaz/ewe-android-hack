@@ -1,6 +1,8 @@
 package com.expedia.bookings.presenter.hotel
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -8,11 +10,12 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.HotelRulesActivity
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.BillingInfo
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.hotels.HotelApplyCouponParams
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -50,6 +53,21 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
 
     var createTripViewmodel: HotelCreateTripViewModel by notNullAndObservable {
         createTripViewmodel.tripResponseObservable.subscribe(createTripResponseListener)
+        couponCardView.viewmodel.couponObservable.subscribe(createTripViewmodel.tripResponseObservable)
+        couponCardView.viewmodel.errorShowDialogObservable.subscribe {
+
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle(R.string.coupon_error_dialog_title)
+            builder.setMessage(R.string.coupon_error_dialog_message)
+            builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                    dialog.dismiss()
+                }
+            })
+            val alertDialog = builder.create()
+            alertDialog.show()
+            doCreateTrip()
+        }
     }
 
     var checkoutOverviewViewModel: HotelCheckoutOverviewViewModel by notNullAndObservable {
@@ -84,11 +102,12 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         val container = scrollView.findViewById(R.id.scroll_content) as LinearLayout
         container.addView(couponCardView, container.getChildCount() - 3)
         couponCardView.setToolbarListener(toolbarListener)
-        couponCardView.viewmodel.couponObservable.subscribe(createTripResponseListener)
+        
         couponCardView.viewmodel.removeObservable.subscribe {
             showProgress(true)
             showCheckout()
         }
+
         val params = couponCardView.getLayoutParams() as LinearLayout.LayoutParams
         params.setMargins(0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, getResources().getDisplayMetrics()).toInt(), 0, 0);
     }
@@ -161,7 +180,13 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         val numberOfAdults = hotelSearchParams.adults
         val childAges = hotelSearchParams.children
         val qualifyAirAttach = false
-        createTripViewmodel.tripParams.onNext(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges))
+        val createTrip = createTripViewmodel.tripResponseObservable.value
+        val hasCoupon = couponCardView.viewmodel.hasDiscountObservable.value != null && couponCardView.viewmodel.hasDiscountObservable.value
+        if (createTrip != null && !couponCardView.removingCoupon && hasCoupon && createTrip.coupon != null && User.isLoggedIn(context)) {
+            couponCardView.viewmodel.couponParamsObservable.onNext(HotelApplyCouponParams(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId, createTrip.coupon.code, true))
+        } else {
+            createTripViewmodel.tripParams.onNext(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges))
+        }
     }
 
     val createTripResponseListener: Observer<HotelCreateTripResponse> = endlessObserver { trip ->
@@ -169,6 +194,9 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         Db.getTripBucket().add(TripBucketItemHotelV2(trip))
         hotelCheckoutSummaryWidget.viewModel.tripResponseObserver.onNext(trip)
         hotelCheckoutSummaryWidget.viewModel.guestCountObserver.onNext(hotelSearchParams.adults + hotelSearchParams.children.size())
+        val couponRate = trip.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getPriceAdjustments()
+        val hasDiscount = couponRate != null && !couponRate.isZero
+        couponCardView.viewmodel.hasDiscountObservable.onNext(hasDiscount)
         checkoutOverviewViewModel = HotelCheckoutOverviewViewModel(getContext())
         checkoutOverviewViewModel.newRateObserver.onNext(trip.newHotelProductResponse)
         bind()

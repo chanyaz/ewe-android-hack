@@ -8,10 +8,12 @@ import org.jetbrains.annotations.NotNull;
 public class HotelApplyCouponParams {
 	public String tripId;
 	public String couponCode;
+	public boolean isFromNotSignedInToSignedIn;
 
-	public HotelApplyCouponParams(String tripId, String couponCode) {
+	public HotelApplyCouponParams(String tripId, String couponCode, boolean isFromSignIn) {
 		this.tripId = tripId;
 		this.couponCode = couponCode;
+		this.isFromNotSignedInToSignedIn = isFromSignIn;
 	}
 
 	@NotNull
@@ -19,7 +21,6 @@ public class HotelApplyCouponParams {
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("tripId", tripId);
 		params.put("coupon.code", couponCode);
-
 		return params;
 	}
 }

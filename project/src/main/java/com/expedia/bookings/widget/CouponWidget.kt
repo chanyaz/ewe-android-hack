@@ -39,6 +39,8 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
     val removeCoupon: ImageView by bindView(R.id.remove_coupon_button)
     var progress: View by Delegates.notNull()
 
+    var removingCoupon: Boolean = false
+
     var viewmodel: HotelCouponViewModel by notNullAndObservable {
         viewmodel.errorMessageObservable.subscribeText(error)
         viewmodel.applyObservable.subscribe {
@@ -47,12 +49,17 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
         }
         viewmodel.errorObservable.subscribe {
             showProgress(false)
-            showError(true)
+            if (viewmodel.hasDiscountObservable.value != null && viewmodel.hasDiscountObservable.value) {
+                setExpanded(false)
+            } else {
+                showError(true)
+            }
         }
         viewmodel.couponObservable.subscribe {
             showProgress(false)
             showError(false)
             setExpanded(false)
+            removingCoupon = false
         }
         viewmodel.discountObservable.subscribe {
             appliedCouponMessage.text = context.getString(R.string.applied_coupon_message, it)
@@ -87,7 +94,6 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
             progress.setLayoutParams(lp)
             (progress as ProgressBar).setIndeterminate(true)
         }
-        couponCode.addTextChangedListener(textWatcher)
         couponCode.setOnEditorActionListener(object : android.widget.TextView.OnEditorActionListener {
             override fun onEditorAction(textView: android.widget.TextView, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_DONE && textView.text.length() > 3) {
@@ -101,6 +107,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
 
         removeCoupon.setOnClickListener {
             resetFields()
+            removingCoupon = true
             viewmodel.removeObservable.onNext(Unit)
             viewmodel.hasDiscountObservable.onNext(false)
             HotelV2Tracking().trackHotelV2CouponRemove(couponCode.text.toString())
@@ -117,6 +124,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
     override fun setExpanded(expand: Boolean, animate: Boolean) {
         super.setExpanded(expand, animate)
         if (expand) {
+            couponCode.addTextChangedListener(textWatcher)
             setBackground(null)
             expanded.setVisibility(View.VISIBLE)
             unexpanded.setVisibility(View.GONE)
@@ -129,6 +137,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
             couponCode.requestFocus()
             Ui.showKeyboard(couponCode, null)
         } else {
+            couponCode.removeTextChangedListener(textWatcher)
             resetFields()
             setBackgroundResource(R.drawable.card_background)
             expanded.setVisibility(View.GONE)
@@ -148,7 +157,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
     }
 
     override fun onMenuButtonPressed() {
-        viewmodel.couponParamsObservable.onNext(HotelApplyCouponParams(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId, couponCode.getText().toString()))
+        viewmodel.couponParamsObservable.onNext(HotelApplyCouponParams(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId, couponCode.getText().toString(), false))
     }
 
     override fun onLogin() {

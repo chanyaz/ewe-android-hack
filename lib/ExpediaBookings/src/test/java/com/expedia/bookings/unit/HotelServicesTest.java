@@ -193,7 +193,7 @@ public class HotelServicesTest {
 	}
 
 	private void givenCouponParams(String mockFileName) {
-		couponParams = new HotelApplyCouponParams("58b6be8a-d533-4eb0-aaa6-0228e000056c", mockFileName);
+		couponParams = new HotelApplyCouponParams("58b6be8a-d533-4eb0-aaa6-0228e000056c", mockFileName, false);
 	}
 
 	@Test

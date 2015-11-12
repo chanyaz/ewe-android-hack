@@ -16,11 +16,16 @@ public class HotelCreateTripResponse extends BaseApiResponse {
 	public String tealeafTransactionId;
 	public List<ValidPayment> validFormsOfPayment;
 	public String guestUserPromoEmailOptInStatus;
+	public Coupon coupon;
 
 	public static class ExpediaRewards {
 		public String totalPointsToEarn;
 		public boolean isActiveRewardsMember;
 		public String rewardsMembershipTierName;
+	}
+
+	public static class Coupon {
+		public String code;
 	}
 
 	public static class HotelProductResponse {
