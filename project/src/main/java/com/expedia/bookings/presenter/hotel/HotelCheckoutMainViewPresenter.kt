@@ -180,7 +180,6 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         val numberOfAdults = hotelSearchParams.adults
         val childAges = hotelSearchParams.children
         val qualifyAirAttach = false
-        createTripViewmodel.tripParams.onNext(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges))
         val createTrip = createTripViewmodel.tripResponseObservable.value
         val hasCoupon = couponCardView.viewmodel.hasDiscountObservable.value != null && couponCardView.viewmodel.hasDiscountObservable.value
         if (createTrip != null && !couponCardView.removingCoupon && hasCoupon && createTrip.coupon != null && User.isLoggedIn(context)) {
