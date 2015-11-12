@@ -617,20 +617,6 @@ public class HotelRoomRateViewModel(val context: Context, val hotelId: String, v
         }
     }
 
-    val payLaterObserver: Observer<Unit> = endlessObserver {
-        val chargeableRateInfo = hotelRoomResponse.payLaterOffer?.rateInfo?.chargeableRateInfo
-        val depositAmount = chargeableRateInfo?.depositAmountToShowUsers?.toDouble() ?: 0.0
-        val depositAmountMoney = Money(BigDecimal(depositAmount), currencyCode)
-        val priceToShowUsers = chargeableRateInfo?.priceToShowUsers?.toDouble() ?: 0.0
-        val strikethroughPriceToShowUsers = chargeableRateInfo?.strikethroughPriceToShowUsers?.toDouble() ?: 0.0
-        val payLaterText = Phrase.from(context, R.string.room_rate_pay_later_due_now).put("amount", depositAmountMoney.formattedMoney).format().toString()
-        dailyPricePerNightObservable.onNext(payLaterText)
-        perNightPriceVisibleObservable.onNext(false)
-        if (priceToShowUsers < strikethroughPriceToShowUsers) {
-            strikeThroughPriceObservable.onNext(makePriceToShowCustomer())
-        }
-    }
-
     fun makePriceToShowCustomer(): String {
         val sb = StringBuilder(dailyPrice.formattedMoney)
         if (!onlyShowTotalPrice.value) sb.append(context.resources.getString(R.string.per_night))
@@ -652,8 +638,23 @@ public class HotelRoomRateViewModel(val context: Context, val hotelId: String, v
             }
         }
         onlyShowTotalPrice.onNext(chargeableRateInfo.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
-        dailyPricePerNightObservable.onNext(dailyPrice.formattedMoney)
-        perNightPriceVisibleObservable.onNext(true)
+
+        if (isPayLater) {
+            val depositAmount = chargeableRateInfo.depositAmountToShowUsers?.toDouble() ?: 0.0
+            val depositAmountMoney = Money(BigDecimal(depositAmount), currencyCode)
+            val priceToShowUsers = chargeableRateInfo.priceToShowUsers
+            val strikethroughPriceToShowUsers = chargeableRateInfo.strikethroughPriceToShowUsers
+            val payLaterText = Phrase.from(context, R.string.room_rate_pay_later_due_now).put("amount", depositAmountMoney.formattedMoney).format().toString()
+            dailyPricePerNightObservable.onNext(payLaterText)
+            perNightPriceVisibleObservable.onNext(false)
+            if (priceToShowUsers < strikethroughPriceToShowUsers) {
+                strikeThroughPriceObservable.onNext(makePriceToShowCustomer())
+            }
+        }
+        else {
+            perNightPriceVisibleObservable.onNext(true)
+            dailyPricePerNightObservable.onNext(dailyPrice.formattedMoney)
+        }
 
         val bedTypes = (hotelRoomResponse.bedTypes ?: emptyList()).map { it.description }.join("")
         collapsedBedTypeObservable.onNext(bedTypes)
