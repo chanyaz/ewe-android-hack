@@ -372,7 +372,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                     etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
                         val view = HotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex)
                 	    view.viewmodel = HotelRoomRateViewModel(getContext(), vm.hotelOffersResponse.hotelId, etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), roomResponseIndex, vm.rowExpandingObservable)
-                        view.viewmodel.payLaterObserver.onNext(Unit)
                         roomContainer.addView(view)
                         hotelRoomRateViewModels.add(view.viewmodel)
                     }
