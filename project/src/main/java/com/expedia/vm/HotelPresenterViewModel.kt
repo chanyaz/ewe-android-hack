@@ -2,7 +2,9 @@ package com.expedia.vm
 
 import com.expedia.bookings.data.cars.ApiError
 import rx.Observable
+import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.BehaviorSubject
+import java.util.concurrent.TimeUnit
 
 class HotelPresenterViewModel(createTripViewModel: HotelCreateTripViewModel, checkoutViewModel: HotelCheckoutViewModel, detailViewModel: HotelDetailViewModel) {
 
@@ -14,7 +16,7 @@ class HotelPresenterViewModel(createTripViewModel: HotelCreateTripViewModel, che
 
     val hotelSoldOutWithHotelId = Observable.switchOnNext(detailViewModel.hotelOffersSubject.map
     { hotel ->
-        detailViewModel.hotelSoldOut.filter { it == true }.map {
+        detailViewModel.hotelSoldOut.filter { it == true }.delay(100L, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).map {
             hotel.hotelId
         }
     })
