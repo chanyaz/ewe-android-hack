@@ -137,6 +137,10 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     private val ANIMATION_DURATION_FILTER = 500
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
+        vm.hotelResultsObservable.subscribe{
+            filterBtnWithCountWidget.visibility = View.VISIBLE
+            filterBtnWithCountWidget.translationY = 0f
+        }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.mapResultsObservable.subscribe(listResultsObserver)
@@ -511,7 +515,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
             // Filter button translation
             if (!mapTransitionRunning && newState == RecyclerView.SCROLL_STATE_IDLE && !getCurrentState().equals(ResultsMap::class.java.name)) {
-                if (scrolledDistance > heightOfButton / 2) {
+                if (topOffset == halfway) {
+                    filterBtnWithCountWidget.animate().translationY(0f).setInterpolator(DecelerateInterpolator()).start()
+                } else if (scrolledDistance > heightOfButton / 2) {
                     filterBtnWithCountWidget.animate().translationY(heightOfButton.toFloat()).setInterpolator(DecelerateInterpolator()).start()
                     fab.animate().translationY(heightOfButton.toFloat()).setInterpolator(DecelerateInterpolator()).start()
                 } else {
@@ -653,7 +659,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 } else {
                     toolbarTextGoal = toolbarSubtitleTop.toFloat()
                 }
-                filterViewOrigin = filterBtnWithCountWidget.translationY
                 filterViewGoal = if (forward) 0f else filterBtnWithCountWidget.height.toFloat()
                 recyclerView.visibility = View.VISIBLE
                 previousWasList = forward
