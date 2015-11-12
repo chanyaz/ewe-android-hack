@@ -7,7 +7,6 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.PorterDuff
-import android.graphics.Rect
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.text.Html
@@ -93,6 +92,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val gallery: RecyclerGallery by bindView(R.id.images_gallery)
 
     val galleryContainer: FrameLayout by bindView(R.id.gallery_container)
+    val galleryRoot: LinearLayout by bindView(R.id.gallery)
 
     val priceContainer: ViewGroup by bindView(R.id.price_widget)
     val strikeThroughPrice: TextView by bindView(R.id.strike_through_price)
@@ -545,7 +545,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     private fun setViewVisibilities() {
         var yoffset = detailContainer.scrollY
+
         updateGalleryChildrenHeights()
+        if (yoffset - initialScrollTop > 0)
+            galleryRoot.translationY = (yoffset - initialScrollTop) * 0.5f
+
         miniMapView.translationY = yoffset * 0.15f
         transparentViewOverMiniMap.translationY = miniMapView.translationY
 

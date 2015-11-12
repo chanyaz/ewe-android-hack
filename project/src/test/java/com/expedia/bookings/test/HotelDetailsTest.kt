@@ -188,7 +188,7 @@ public class HotelDetailsTest {
         var hotel = makeHotel()
         hotel.currentAllotment = "0"
         offers.isVipAccess = false
-        hotel.isSameDayDRR = true
+        hotel.isSameDayDRR = false
         hotel.isDiscountRestrictedToCurrentSourceType = true
 
         var lowRateInfo = HotelRate()

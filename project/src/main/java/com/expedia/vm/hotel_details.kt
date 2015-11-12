@@ -539,17 +539,23 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     }
 
     private fun getPromoText(roomOffer: HotelOffersResponse.HotelRoomResponse?): String {
+        // NOTE: Any changes to this logic should also be made in HotelViewModel (see: urgencyMessageObservable)
         if (roomOffer == null) {
             return ""
         }
 
-        val roomsLeft = roomOffer.currentAllotment.toInt();
-        if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF)
-            return context.getResources().getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft)
-        else if (roomOffer.isDiscountRestrictedToCurrentSourceType) return context.getResources().getString(R.string.mobile_exclusive)
-        else if (roomOffer.isSameDayDRR) return context.getResources().getString(R.string.tonight_only)
-        else return ""
-
+        val roomsLeft = roomOffer.currentAllotment.toInt()
+        return if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
+            context.resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft)
+        } else if (roomOffer.isSameDayDRR) {
+            context.resources.getString(R.string.tonight_only)
+        }
+        else if (roomOffer.isDiscountRestrictedToCurrentSourceType) {
+            context.resources.getString(R.string.mobile_exclusive)
+        }
+        else {
+            ""
+        }
     }
 
 }

@@ -45,4 +45,31 @@ public class HotelInvalidTravellerCCTest extends HotelTestCase {
 		onView(withId(R.id.edit_first_name)).perform(ViewActions.waitForViewToDisplay());
 		assertViewIsDisplayed(R.id.edit_first_name);
 	}
+/*
+	public void testPriceChange() throws Throwable {
+		doGenericSearch();
+		selectHotel("hotel_price_change");
+		selectRoom();
+		//Create Trip Price Change
+		verifyPriceChange("Price dropped from $2,394.88");
+		Espresso.pressBack();
+		pickRoom("hotel_price_change_checkout");
+		checkout(false);
+		slideToPurchase();
+		enterCVV();
+		//Checkout Price Change
+		verifyPriceChange("Price changed from $740.77");
+	}
+
+	public void testProductKeyExpiry() throws Throwable {
+		doGenericSearch();
+		selectHotel("error_create_trip");
+		pickRoom("error_expired_product_key_createtrip");
+		Common.delay(5);
+		screenshot("Hotel_Product_Key_Expiry_Error");
+		ErrorScreen.clickOnSearchAgain();
+		// Search Screen
+		HotelScreen.searchButton().check(matches(isDisplayed()));
+	}
+	*/
 }
