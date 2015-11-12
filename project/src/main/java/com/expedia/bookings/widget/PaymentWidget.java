@@ -361,6 +361,7 @@ public class PaymentWidget extends ExpandableCardView {
 			else {
 				showCreditCardDetails();
 			}
+			mToolbarListener.setActionBarTitle(getActionBarTitle());
 		}
 		else {
 			if (!WalletUtils.isWalletSupported(lineOfBusiness) && sectionBillingInfo.getBillingInfo() != null && sectionBillingInfo.getBillingInfo().isUsingGoogleWallet()) {
@@ -373,7 +374,6 @@ public class PaymentWidget extends ExpandableCardView {
 			Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 			paymentButton.dismissPopup();
 		}
-		mToolbarListener.setActionBarTitle(getActionBarTitle());
 	}
 
 	private boolean goToCreditCardDetails() {
