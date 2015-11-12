@@ -849,6 +849,8 @@
     <string name="room_rate_pay_now">Pay Now</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} Due Now</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">Due Now</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/night</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
