@@ -291,7 +291,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         }
 
-        mapViewModel.sortedHotelsObservable.subscribe {
+        mapViewModel.markersObservable.subscribe {
+            mapViewModel.selectMarker.onNext(null)
             val hotels = it
             Observable.just(it).subscribeOn(Schedulers.io())
                     .map {
@@ -323,10 +324,21 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotels)
                         mapCarouselRecycler.scrollToPosition(0)
                         val marker = markers.filter { it.title == hotels.first().hotelId }.first()
-                        val prevMarker = mapViewModel.selectMarker.value
-                        if (prevMarker != null) mapViewModel.unselectedMarker.onNext(prevMarker)
                         mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
                     }
+        }
+
+        mapViewModel.sortedHotelsObservable.subscribe {
+            val hotels = it
+            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotels)
+            mapCarouselRecycler.scrollToPosition(0)
+            val markersForHotel = markers.filter { it.title == hotels.first().hotelId }
+            if (markersForHotel.isNotEmpty()) {
+                val marker = markersForHotel.first()
+                val prevMarker = mapViewModel.selectMarker.value
+                if (prevMarker != null) mapViewModel.unselectedMarker.onNext(prevMarker)
+                mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
+            }
         }
 
         mapViewModel.soldOutHotel.subscribe { hotel ->
