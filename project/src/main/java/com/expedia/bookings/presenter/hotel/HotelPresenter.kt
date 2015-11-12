@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -21,6 +22,7 @@ import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.WalletUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelErrorPresenter
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
@@ -216,6 +218,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         checkoutPresenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
             checkoutDialog.dismiss()
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
+            WalletUtils.unbindFullWalletDataFromBillingInfo(Db.getWorkingBillingInfoManager().workingBillingInfo)
         })
 
         checkoutPresenter.hotelCheckoutViewModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)

@@ -19,6 +19,7 @@ import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.utils.LeanPlumUtils;
+import com.google.android.gms.wallet.FullWallet;
 import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -68,6 +69,9 @@ public class Db {
 
 	// The billing info.  Make sure to properly clear this out when requested
 	private BillingInfo mBillingInfo;
+
+	// Google Full Wallet
+	private FullWallet mFullWallet;
 
 	// Google Masked Wallet; kept separate from BillingInfo as it is more transient
 	private MaskedWallet mMaskedWallet;
@@ -176,6 +180,14 @@ public class Db {
 
 	public static boolean hasBillingInfo() {
 		return sDb.mBillingInfo != null;
+	}
+
+	public static FullWallet getFullWallet() {
+		return sDb.mFullWallet;
+	}
+
+	public static void setFullWallet(FullWallet mFullWallet) {
+		sDb.mFullWallet = mFullWallet;
 	}
 
 	public static void setMaskedWallet(MaskedWallet maskedWallet) {
