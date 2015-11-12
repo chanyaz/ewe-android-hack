@@ -31,11 +31,12 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import rx.Observable
 import rx.subjects.PublishSubject
+import kotlin.properties.Delegates
 
 public class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), OnMapReadyCallback {
     val MAP_ZOOM_LEVEL = 15f
 
-    val mapView: MapView by bindView(R.id.detailed_map_view)
+    var mapView: MapView by Delegates.notNull()
     val selectRoomContainer: View by bindView(R.id.map_view_select_room_container)
     val selectRoomStrikethroughPrice: TextView by bindView(R.id.map_view_select_room_strikethrough_price)
     val selectRoomPrice: TextView by bindView(R.id.map_view_select_room_price)
@@ -96,8 +97,6 @@ public class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(c
             vm.selectARoomObserver.onNext(Unit)
             HotelV2Tracking().trackLinkHotelV2MapSelectRoom()
         })
-
-        mapView.getMapAsync(this);
     }
 
     private fun addMarker(googleMap:GoogleMap, hotelLatLng: DoubleArray) {

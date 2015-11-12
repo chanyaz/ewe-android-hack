@@ -82,7 +82,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
     //Views
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
-    val mapView: MapView by bindView(R.id.map_view)
+    var mapView: MapView by Delegates.notNull()
     val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
     val filterView: HotelFilterView by bindView(R.id.filter_view)
     val toolbar: Toolbar by bindView(R.id.toolbar)
@@ -277,20 +277,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         mapCarouselRecycler.adapter = HotelMapCarouselAdapter(emptyList(), hotelSelectedSubject)
 
-        mapViewModel.newBoundsObservable.subscribe {
-            googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * 50), object : GoogleMap.CancelableCallback {
-                override fun onFinish() {
-                    val center = googleMap?.cameraPosition?.target
-                    val latLng = LatLng(center?.latitude!!, center?.longitude!!)
-                    mapViewModel.mapBoundsSubject.onNext(latLng)
-                }
-
-                override fun onCancel() {
-                }
-            })
-
-        }
-
         mapViewModel.markersObservable.subscribe {
             mapViewModel.selectMarker.onNext(null)
             val hotels = it
@@ -373,7 +359,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         addTransition(fabTransition)
         addTransition(listFilterTransition)
         addTransition(mapFilterTransition)
-        mapView.getMapAsync(this)
 
         mapCarouselContainer.visibility = View.INVISIBLE
         val screen = Ui.getScreenSize(context)
@@ -431,8 +416,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             HotelV2Tracking().trackHotelsV2SearchAreaClick()
         })
 
-        show(ResultsList())
-
         filterBtn.setOnClickListener { view ->
             show(ResultsFilter())
             filterView.viewmodel.sortContainerObservable.onNext(false)
@@ -455,6 +438,24 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         filterMenuItem.setVisible(false)
         var fabLp = fab.layoutParams as FrameLayout.LayoutParams
         fabLp.bottomMargin += resources.getDimension(R.dimen.hotel_filter_height).toInt()
+
+        mapViewModel.newBoundsObservable.subscribe {
+            googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * 50), object : GoogleMap.CancelableCallback {
+                override fun onFinish() {
+                    val center = googleMap?.cameraPosition?.target
+                    val latLng = LatLng(center?.latitude!!, center?.longitude!!)
+                    mapViewModel.mapBoundsSubject.onNext(latLng)
+                }
+
+                override fun onCancel() {
+                }
+            })
+
+        }
+    }
+
+    public fun showDefault() {
+        show(ResultsList())
     }
 
     private fun inflateAndSetupToolbarMenu() {

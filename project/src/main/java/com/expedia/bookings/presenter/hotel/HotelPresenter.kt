@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
@@ -26,6 +27,7 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.WalletUtils
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.HotelErrorPresenter
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.LoadingOverlayWidget
@@ -39,6 +41,7 @@ import com.expedia.vm.HotelPresenterViewModel
 import com.expedia.vm.HotelResultsViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
+import com.google.android.gms.maps.MapView
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.exceptions.OnErrorNotImplementedException
@@ -53,11 +56,98 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         @Inject set
 
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
+    val resultsMapView: MapView by bindView(R.id.map_view)
+    val detailsMapView: MapView by bindView(R.id.detailed_map_view)
     val searchPresenter: HotelSearchPresenter by bindView(R.id.widget_hotel_params)
     val errorPresenter: HotelErrorPresenter by bindView(R.id.widget_hotel_errors)
-    val resultsPresenter: HotelResultsPresenter by bindView(R.id.widget_hotel_results)
-    val detailPresenter: HotelDetailPresenter by bindView(R.id.widget_hotel_detail)
-    val checkoutPresenter: HotelCheckoutPresenter by bindView(R.id.hotel_checkout_presenter)
+    val resultsStub: ViewStub by bindView(R.id.results_stub)
+    val resultsPresenter: HotelResultsPresenter by lazy {
+        var presenter = resultsStub.inflate() as HotelResultsPresenter
+        var resultsStub = presenter.findViewById(R.id.stub_map) as FrameLayout
+        removeView(resultsMapView);
+        resultsStub.addView(resultsMapView)
+        presenter.mapView = resultsMapView
+        presenter.mapView.getMapAsync(presenter)
+        presenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices)
+        presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
+        presenter.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
+        presenter.viewmodel.errorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+        presenter.viewmodel.showHotelSearchViewObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
+        presenter.searchOverlaySubject.subscribe(searchResultsOverlayObserver)
+        presenter.showDefault()
+        presenter
+    }
+
+    val detailsStub: ViewStub by bindView(R.id.details_stub)
+    val detailPresenter: HotelDetailPresenter by lazy {
+        var presenter = detailsStub.inflate() as HotelDetailPresenter
+        var detailsStub = presenter.hotelMapView.findViewById(R.id.stub_map) as FrameLayout
+        removeView(detailsMapView);
+        detailsStub.addView(detailsMapView)
+        presenter.hotelMapView.mapView = detailsMapView
+        presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView);
+        presenter.hotelDetailView.viewmodel = HotelDetailViewModel(context, hotelServices, selectedRoomObserver)
+        presenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
+        presenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(presenter.hotelRenovationObserver)
+        presenter.hotelDetailView.viewmodel.hotelPayLaterInfoObservable.subscribe(presenter.hotelPayLaterInfoObserver)
+        presenter.hotelDetailView.viewmodel.vipAccessInfoObservable.subscribe(presenter.hotelVIPAccessInfoObserver)
+        presenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
+        presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut)
+        presenter.hotelDetailView.viewmodel.changeDates.subscribe(changeDatesObserver)
+
+        viewModel = HotelPresenterViewModel(checkoutPresenter.hotelCheckoutWidget.createTripViewmodel, checkoutPresenter.hotelCheckoutViewModel, presenter.hotelDetailView.viewmodel)
+        viewModel.selectedRoomSoldOut.subscribe(presenter.hotelDetailView.viewmodel.selectedRoomSoldOut)
+        viewModel.hotelSoldOutWithHotelId.subscribe ((resultsPresenter.mapCarouselRecycler.adapter as HotelMapCarouselAdapter).hotelSoldOut)
+        viewModel.hotelSoldOutWithHotelId.subscribe (resultsPresenter.adapter.hotelSoldOut)
+        viewModel.hotelSoldOutWithHotelId.subscribe (resultsPresenter.mapViewModel.hotelSoldOutWithIdObserver)
+
+        presenter
+    }
+
+    val checkoutStub: ViewStub by bindView(R.id.checkout_stub)
+    val checkoutPresenter: HotelCheckoutPresenter by lazy{
+        var presenter = checkoutStub.inflate() as HotelCheckoutPresenter
+        presenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
+            checkoutDialog.dismiss()
+            show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
+            WalletUtils.unbindFullWalletDataFromBillingInfo(Db.getWorkingBillingInfoManager().workingBillingInfo)
+        })
+
+        presenter.hotelCheckoutViewModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
+        presenter.hotelCheckoutViewModel.errorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
+            checkoutDialog.dismiss()
+            show(errorPresenter)
+        }
+        presenter.hotelCheckoutViewModel.noResponseObservable.subscribe {
+            val retryFun = fun() { presenter.hotelCheckoutWidget.slideAllTheWayObservable.onNext(Unit) }
+            val cancelFun = fun() { show(detailPresenter) }
+            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+        }
+        presenter.hotelCheckoutViewModel.checkoutParams.subscribe {
+            checkoutDialog.show()
+        }
+        presenter.hotelCheckoutWidget.slideAllTheWayObservable.subscribe {
+            checkoutDialog.hide()
+        }
+
+        presenter.hotelCheckoutWidget.createTripViewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
+        presenter.hotelCheckoutWidget.createTripViewmodel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
+        presenter.hotelCheckoutWidget.createTripViewmodel.noResponseObservable.subscribe {
+            val retryFun = fun() { presenter.hotelCheckoutWidget.doCreateTrip() }
+            val cancelFun = fun() { show(detailPresenter) }
+            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+        }
+
+        presenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(presenter.hotelCheckoutWidget.createTripResponseListener)
+        presenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(endlessObserver { createTripResponse ->
+            checkoutDialog.dismiss()
+            show(presenter, Presenter.FLAG_CLEAR_BACKSTACK)
+            presenter.show(presenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_BACKSTACK)
+        })
+
+        presenter
+    }
+
     val confirmationPresenter: HotelConfirmationPresenter by bindView(R.id.hotel_confirmation_presenter)
     val reviewsView: HotelReviewsView by bindView(R.id.hotel_reviews_presenter)
     val loadingOverlay: LoadingOverlayWidget by bindView(R.id.details_loading_overlay)
@@ -191,70 +281,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
         }
 
-        resultsPresenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices)
-        resultsPresenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
-
-        detailPresenter.hotelDetailView.viewmodel = HotelDetailViewModel(context, hotelServices, selectedRoomObserver)
-        detailPresenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
-        detailPresenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(detailPresenter.hotelRenovationObserver)
-        detailPresenter.hotelDetailView.viewmodel.hotelPayLaterInfoObservable.subscribe(detailPresenter.hotelPayLaterInfoObserver)
-        detailPresenter.hotelDetailView.viewmodel.vipAccessInfoObservable.subscribe(detailPresenter.hotelVIPAccessInfoObserver)
-        detailPresenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(detailPresenter.hotelDetailsEmbeddedMapClickObserver)
-        detailPresenter.hotelMapView.viewmodel = HotelMapViewModel(context, detailPresenter.hotelDetailView.viewmodel.scrollToRoom, detailPresenter.hotelDetailView.viewmodel.hotelSoldOut)
-        detailPresenter.hotelDetailView.viewmodel.changeDates.subscribe(changeDatesObserver)
-
         geoCodeSearchModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
         geoCodeSearchModel.errorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
-
-        resultsPresenter.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
-        resultsPresenter.viewmodel.errorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
-        resultsPresenter.viewmodel.showHotelSearchViewObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
-
-        resultsPresenter.searchOverlaySubject.subscribe(searchResultsOverlayObserver)
-
-        viewModel = HotelPresenterViewModel(checkoutPresenter.hotelCheckoutWidget.createTripViewmodel, checkoutPresenter.hotelCheckoutViewModel, detailPresenter.hotelDetailView.viewmodel)
-        viewModel.selectedRoomSoldOut.subscribe(detailPresenter.hotelDetailView.viewmodel.selectedRoomSoldOut)
-        viewModel.hotelSoldOutWithHotelId.subscribe ((resultsPresenter.mapCarouselRecycler.adapter as HotelMapCarouselAdapter).hotelSoldOut)
-        viewModel.hotelSoldOutWithHotelId.subscribe (resultsPresenter.adapter.hotelSoldOut)
-        viewModel.hotelSoldOutWithHotelId.subscribe (resultsPresenter.mapViewModel.hotelSoldOutWithIdObserver)
-
-        checkoutPresenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
-            checkoutDialog.dismiss()
-            show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
-            WalletUtils.unbindFullWalletDataFromBillingInfo(Db.getWorkingBillingInfoManager().workingBillingInfo)
-        })
-
-        checkoutPresenter.hotelCheckoutViewModel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
-        checkoutPresenter.hotelCheckoutViewModel.errorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
-            checkoutDialog.dismiss()
-            show(errorPresenter)
-        }
-        checkoutPresenter.hotelCheckoutViewModel.noResponseObservable.subscribe {
-            val retryFun = fun() { checkoutPresenter.hotelCheckoutWidget.slideAllTheWayObservable.onNext(Unit) }
-            val cancelFun = fun() { show(detailPresenter) }
-            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
-        }
-        checkoutPresenter.hotelCheckoutViewModel.checkoutParams.subscribe {
-            checkoutDialog.show()
-        }
-        checkoutPresenter.hotelCheckoutWidget.slideAllTheWayObservable.subscribe {
-            checkoutDialog.hide()
-        }
-
-        checkoutPresenter.hotelCheckoutWidget.createTripViewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
-        checkoutPresenter.hotelCheckoutWidget.createTripViewmodel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
-        checkoutPresenter.hotelCheckoutWidget.createTripViewmodel.noResponseObservable.subscribe {
-            val retryFun = fun() { checkoutPresenter.hotelCheckoutWidget.doCreateTrip() }
-            val cancelFun = fun() { show(detailPresenter) }
-            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
-        }
-
-        checkoutPresenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(checkoutPresenter.hotelCheckoutWidget.createTripResponseListener)
-        checkoutPresenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(endlessObserver { createTripResponse ->
-            checkoutDialog.dismiss()
-            show(checkoutPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
-            checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_BACKSTACK)
-        })
 
         loadingOverlay.setBackground(R.color.hotels_primary_color)
     }
@@ -262,9 +290,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private val defaultSearchTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.getName()) {
         override fun finalizeTransition(forward: Boolean) {
             searchPresenter.setVisibility(View.VISIBLE)
-            resultsPresenter.setVisibility(View.GONE)
-            detailPresenter.setVisibility(View.INVISIBLE)
-            loadingOverlay.setVisibility(View.GONE)
         }
     }
 

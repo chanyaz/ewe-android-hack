@@ -5,8 +5,11 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.HotelMapView
 import com.expedia.vm.HotelMapViewModel
+import com.google.android.gms.maps.MapView
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -32,7 +35,14 @@ public class HotelMapViewTest {
 
     @Before fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        hotelMapView = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_map_widget, null) as HotelMapView
+        val viewGroup = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_map_widget, null) as FrameLayout
+        hotelMapView = viewGroup.findViewById(R.id.hotel_map_view) as HotelMapView
+        val detailsMapView = viewGroup.findViewById(R.id.detailed_map_view) as MapView
+        var detailsStub = hotelMapView.findViewById(R.id.stub_map) as FrameLayout
+        viewGroup.removeView(detailsMapView);
+        detailsStub.addView(detailsMapView)
+        hotelMapView.mapView = detailsMapView
+        hotelMapView.mapView.getMapAsync(hotelMapView);
         hotelMapView.viewmodel = HotelMapViewModel(RuntimeEnvironment.application, selectARoomTestSubscriber, PublishSubject.create<Boolean>())
     }
 

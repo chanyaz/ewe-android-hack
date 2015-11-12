@@ -546,8 +546,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         var yoffset = detailContainer.scrollY
 
         updateGalleryChildrenHeights()
-        if (yoffset - initialScrollTop > 0)
+        if (yoffset - initialScrollTop >= 0) {
             galleryRoot.translationY = (yoffset - initialScrollTop) * 0.5f
+        } else {
+            galleryRoot.translationY = 0f
+        }
 
         miniMapView.translationY = yoffset * 0.15f
         transparentViewOverMiniMap.translationY = miniMapView.translationY
@@ -737,7 +740,13 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         FontCache.setTypeface(payNowButton, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(payLaterButton, FontCache.Font.ROBOTO_REGULAR)
-        resetGallery()
+    }
+
+    override fun onVisibilityChanged(changedView: View?, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+        if (changedView == this && visibility == View.VISIBLE) {
+            resetGallery()
+        }
     }
 
     public fun resetGallery() {
@@ -749,9 +758,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                 galleryContainer.layoutParams = lp
 
                 galleryHeight = resources.getDimensionPixelSize(R.dimen.gallery_height)
+                initialScrollTop = height - galleryHeight
 
                 detailContainer.post {
-                    initialScrollTop = height - galleryHeight
                     detailContainer.scrollTo(0, initialScrollTop)
                     gallery.scrollToPosition(0)
                     showToolbarGradient()
