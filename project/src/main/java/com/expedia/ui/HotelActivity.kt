@@ -68,6 +68,7 @@ public class HotelActivity : AbstractAppCompatActivity() {
 
         if (isFinishing()) {
             clearCCNumber()
+            clearStoredCard()
         }
     }
 
