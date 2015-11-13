@@ -340,19 +340,15 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
        vm.hasETPObservable.filter { it == true }.subscribe { payNowLaterSelectionChanged(true) }
 
         Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hotelSoldOut -> hasETP && hasFreeCancellation && !hotelSoldOut }
-                .distinctUntilChanged()
                 .subscribeVisibility(freeCancellationAndETPMessaging)
 
         Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hotelSoldOut -> !(hasETP && hasFreeCancellation) && !hotelSoldOut }
-                .distinctUntilChanged()
                 .subscribeVisibility(singleMessageContainer)
 
         Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hasBestPriceGuaranteeObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hasBestPriceGuarantee, hotelSoldOut -> (hasETP || hasFreeCancellation || hasBestPriceGuarantee) && !hotelSoldOut }
-                .distinctUntilChanged()
                 .subscribeVisibility(etpAndFreeCancellationMessagingContainer)
 
         Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hasBestPriceGuaranteeObservable, vm.isUserRatingAvailableObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hasBestPriceGuarantee, hasUserReviews, hotelSoldOut -> !hasETP && !hasFreeCancellation && hasBestPriceGuarantee && !hasUserReviews && !hotelSoldOut }
-                .distinctUntilChanged()
                 .subscribeVisibility(bestPriceGuarantee)
 
         vm.etpRoomResponseListObservable.subscribe { etpRoomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
