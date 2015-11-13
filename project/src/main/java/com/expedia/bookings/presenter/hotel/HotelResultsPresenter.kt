@@ -526,7 +526,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
 
             // Filter button translation
-            if (!mapTransitionRunning && newState == RecyclerView.SCROLL_STATE_IDLE && !getCurrentState().equals(ResultsMap::class.java.name)) {
+            if (!mapTransitionRunning && newState == RecyclerView.SCROLL_STATE_IDLE && !Strings.equals(ResultsMap::class.java.name, getCurrentState())) {
                 if (topOffset == halfway) {
                     filterBtnWithCountWidget.animate().translationY(0f).setInterpolator(DecelerateInterpolator()).start()
                 } else if (scrolledDistance > heightOfButton / 2) {
