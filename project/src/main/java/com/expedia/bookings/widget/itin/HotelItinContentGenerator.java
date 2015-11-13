@@ -255,6 +255,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		TextView tollFreePhoneNumberTextView = Ui.findView(view, R.id.toll_free_phone_number_text_view);
 		TextView roomTypeHeaderTextView = Ui.findView(view, R.id.room_type_header_text_view);
 		TextView roomTypeTextView = Ui.findView(view, R.id.room_type_text_view);
+		TextView nonPricePromotionsHeaderTextView = Ui.findView(view, R.id.non_price_promotion_header_text_view);
+		TextView nonPricePromotionsTextView = Ui.findView(view, R.id.non_price_promotion_text_view);
 		TextView bedTypeHeaderTextView = Ui.findView(view, R.id.bed_type_header_text_view);
 		TextView bedTypeTextView = Ui.findView(view, R.id.bed_type_text_view);
 		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
@@ -282,6 +284,14 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		else {
 			roomTypeHeaderTextView.setVisibility(View.GONE);
 			roomTypeTextView.setVisibility(View.GONE);
+		}
+
+		if (!TextUtils.isEmpty(itinCardData.getNonPricePromotionText()) && !isSharedItin()) {
+			nonPricePromotionsTextView.setText(itinCardData.getNonPricePromotionText());
+		}
+		else {
+			nonPricePromotionsHeaderTextView.setVisibility(View.GONE);
+			nonPricePromotionsTextView.setVisibility(View.GONE);
 		}
 
 		if (!TextUtils.isEmpty(itinCardData.getBedType())) {
