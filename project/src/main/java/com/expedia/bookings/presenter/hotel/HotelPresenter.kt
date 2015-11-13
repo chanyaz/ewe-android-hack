@@ -367,7 +367,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             super.finalizeTransition(forward)
             searchPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
             resultsPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
-            searchPresenter.animationFinalize()
+            searchPresenter.animationFinalize(forward)
             resultsPresenter.animationFinalize(forward)
             if (!forward) HotelV2Tracking().trackHotelV2SearchBox()
         }
@@ -456,7 +456,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             super.finalizeTransition(forward)
             searchPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
             errorPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
-            searchPresenter.animationFinalize()
+            searchPresenter.animationFinalize(forward)
             errorPresenter.animationFinalize()
             if (!forward) HotelV2Tracking().trackHotelV2SearchBox()
         }
@@ -467,7 +467,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             super.startTransition(forward)
             loadingOverlay.visibility = View.GONE
             searchPresenter.animationStart(!forward)
-            searchPresenter.animationFinalize()
+            searchPresenter.animationFinalize(forward)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {

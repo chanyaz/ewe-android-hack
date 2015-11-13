@@ -190,6 +190,10 @@ public class DummyFiletoHandleKotlinLintError {
 		R.dimen.lx_category_image_width,
 		R.drawable.lx_category_count_background_single_digit,
 		R.string.no_charge_text_TEMPLATE,
-		R.layout.widget_deposit_terms_info
+		R.layout.widget_deposit_terms_info,
+		R.layout.recent_search_header,
+		R.layout.recent_search_item,
+		R.layout.recent_search_view,
+		R.drawable.recent_searches
 	};
 }

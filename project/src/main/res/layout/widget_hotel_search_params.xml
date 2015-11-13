@@ -6,7 +6,7 @@
         android:id="@+id/search_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
+        android:background="#EEEEEE"
         android:clipToPadding="false"
         android:orientation="vertical"
         android:paddingTop="?attr/actionBarSize">
@@ -139,6 +139,17 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:padding="16dp"
+            android:visibility="gone" />
+
+        <com.expedia.bookings.widget.RecentSearchesWidget
+            android:id="@+id/recent_searches"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingRight="7dp"
+            android:paddingLeft="7dp"
+            android:paddingTop="0dp"
             android:visibility="gone" />
 
         <com.mobiata.android.time.widget.CalendarPicker
