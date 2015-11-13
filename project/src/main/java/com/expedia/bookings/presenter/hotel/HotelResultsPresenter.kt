@@ -14,6 +14,7 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format.DateUtils
@@ -512,17 +513,14 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             currentState = newState
 
-            val view = recyclerView.findViewHolderForAdapterPosition(1)
-            val topOffset = if (view == null) {
-                0
-            } else {
-                view.itemView.top
-            }
+            val manager = recyclerView.layoutManager as LinearLayoutManager
+            val isAtBottom = manager.findLastCompletelyVisibleItemPosition() == (recyclerView.adapter.itemCount - 1)
+            val topOffset = recyclerView.findViewHolderForAdapterPosition(1)?.itemView?.top ?: 0
 
             if (newState == RecyclerView.SCROLL_STATE_IDLE && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
                 //view has passed threshold, show map
                 show(ResultsMap())
-            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset > halfway && isHeaderVisible()) {
+            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset > halfway && isHeaderVisible() && !isAtBottom) {
                 resetListOffset()
             }
 
@@ -549,12 +547,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             val y = mapView.translationY + (-dy * halfway / (recyclerView.height - halfway))
             mapView.translationY = y
 
-            val view = recyclerView.findViewHolderForAdapterPosition(1)
-            val topOffset = if (view == null) {
-                0
-            } else {
-                view.itemView.top
-            }
+            val topOffset = recyclerView.findViewHolderForAdapterPosition(1)?.itemView?.top ?: 0
 
             adjustGoogleMapLogo()
 
