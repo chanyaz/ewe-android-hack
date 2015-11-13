@@ -150,7 +150,7 @@ public class HotelScreen {
 	}
 
 	public static ViewInteraction hotelResultsMap() {
-		return onView(allOf(withId(R.id.map_view), hasSibling(withId(R.id.hotel_carousel_container))));
+		return onView(allOf(withId(R.id.map_view)));
 	}
 
 	public static ViewInteraction mapFab() {
