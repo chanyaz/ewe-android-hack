@@ -67,11 +67,12 @@ public class HotelRoomRateViewModelTest {
     }
 
     @Test
-    fun payLaterOfferDontShowStrikeThroughPrice() {
+    fun payLaterOfferShowPerNightPrice() {
         givenOfferIsPayLater()
         setupNonSoldOutRoomUnderTest()
+     
+        assertEquals("$109/night", sut.strikeThroughPriceObservable.value)
 
-        assertNull(sut.strikeThroughPriceObservable.value)
     }
 
     @Test
