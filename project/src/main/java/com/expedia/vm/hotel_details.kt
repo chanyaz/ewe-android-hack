@@ -642,14 +642,11 @@ public class HotelRoomRateViewModel(val context: Context, val hotelId: String, v
         if (isPayLater) {
             val depositAmount = chargeableRateInfo.depositAmountToShowUsers?.toDouble() ?: 0.0
             val depositAmountMoney = Money(BigDecimal(depositAmount), currencyCode)
-            val priceToShowUsers = chargeableRateInfo.priceToShowUsers
-            val strikethroughPriceToShowUsers = chargeableRateInfo.strikethroughPriceToShowUsers
             val payLaterText = Phrase.from(context, R.string.room_rate_pay_later_due_now).put("amount", depositAmountMoney.formattedMoney).format().toString()
             dailyPricePerNightObservable.onNext(payLaterText)
             perNightPriceVisibleObservable.onNext(false)
-            if (priceToShowUsers < strikethroughPriceToShowUsers) {
-                strikeThroughPriceObservable.onNext(makePriceToShowCustomer())
-            }
+            // we show price per night in strikeThroughPriceObservable in case of pay later option
+            strikeThroughPriceObservable.onNext(makePriceToShowCustomer())
         }
         else {
             perNightPriceVisibleObservable.onNext(true)
