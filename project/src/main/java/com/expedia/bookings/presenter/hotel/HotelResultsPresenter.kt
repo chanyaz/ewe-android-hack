@@ -137,6 +137,10 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     private val ANIMATION_DURATION_FILTER = 500
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
+        vm.hotelResultsObservable.subscribe{
+            filterBtnWithCountWidget.visibility = View.VISIBLE
+            filterBtnWithCountWidget.translationY = 0f
+        }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.mapResultsObservable.subscribe(listResultsObserver)
@@ -287,7 +291,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         }
 
-        mapViewModel.sortedHotelsObservable.subscribe {
+        mapViewModel.markersObservable.subscribe {
+            mapViewModel.selectMarker.onNext(null)
             val hotels = it
             Observable.just(it).subscribeOn(Schedulers.io())
                     .map {
@@ -319,10 +324,21 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotels)
                         mapCarouselRecycler.scrollToPosition(0)
                         val marker = markers.filter { it.title == hotels.first().hotelId }.first()
-                        val prevMarker = mapViewModel.selectMarker.value
-                        if (prevMarker != null) mapViewModel.unselectedMarker.onNext(prevMarker)
                         mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
                     }
+        }
+
+        mapViewModel.sortedHotelsObservable.subscribe {
+            val hotels = it
+            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotels)
+            mapCarouselRecycler.scrollToPosition(0)
+            val markersForHotel = markers.filter { it.title == hotels.first().hotelId }
+            if (markersForHotel.isNotEmpty()) {
+                val marker = markersForHotel.first()
+                val prevMarker = mapViewModel.selectMarker.value
+                if (prevMarker != null) mapViewModel.unselectedMarker.onNext(prevMarker)
+                mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
+            }
         }
 
         mapViewModel.soldOutHotel.subscribe { hotel ->
@@ -511,7 +527,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
             // Filter button translation
             if (!mapTransitionRunning && newState == RecyclerView.SCROLL_STATE_IDLE && !getCurrentState().equals(ResultsMap::class.java.name)) {
-                if (scrolledDistance > heightOfButton / 2) {
+                if (topOffset == halfway) {
+                    filterBtnWithCountWidget.animate().translationY(0f).setInterpolator(DecelerateInterpolator()).start()
+                } else if (scrolledDistance > heightOfButton / 2) {
                     filterBtnWithCountWidget.animate().translationY(heightOfButton.toFloat()).setInterpolator(DecelerateInterpolator()).start()
                     fab.animate().translationY(heightOfButton.toFloat()).setInterpolator(DecelerateInterpolator()).start()
                 } else {
@@ -653,7 +671,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 } else {
                     toolbarTextGoal = toolbarSubtitleTop.toFloat()
                 }
-                filterViewOrigin = filterBtnWithCountWidget.translationY
                 filterViewGoal = if (forward) 0f else filterBtnWithCountWidget.height.toFloat()
                 recyclerView.visibility = View.VISIBLE
                 previousWasList = forward

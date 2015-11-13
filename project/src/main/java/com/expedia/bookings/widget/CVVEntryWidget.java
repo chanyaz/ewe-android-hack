@@ -127,10 +127,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 	}
 
 	private void syncBookButtonState() {
-	    mCreditCardInputSection.setBookButtonEnabled(mCVVTextView.getCvv().length() >= mMinCvvLen);
-		if (mBookButton != null) {
-			mBookButton.setEnabled(mCVVTextView.getCvv().length() >= mMinCvvLen);
-		}
+		enableBookButton(mCVVTextView.getCvv().length() >= mMinCvvLen);
 	}
 
 	private void syncCVVTextFilter() {
@@ -263,6 +260,13 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 		}
 
 		toolbar.setSubtitle(R.string.cvv_enter_security_code);
+	}
+
+	public void enableBookButton(boolean enabled) {
+		mCreditCardInputSection.setBookButtonEnabled(enabled);
+		if (mBookButton != null) {
+			mBookButton.setEnabled(enabled);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

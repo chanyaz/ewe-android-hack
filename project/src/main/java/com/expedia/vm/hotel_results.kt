@@ -166,9 +166,6 @@ public class HotelResultsMapViewModel(val resources: Resources, val currentLocat
     }
 
     init {
-        markersObservable.subscribe {
-            selectMarker.onNext(null)
-        }
 
         mapBoundsSubject.subscribe {
             // Map bounds has changed(Search this area or map was animated to a region),
@@ -187,6 +184,7 @@ public class HotelResultsMapViewModel(val resources: Resources, val currentLocat
                 newBoundsObservable.onNext(getMapBounds(response))
             }
             markersObservable.onNext(hotels)
+
         }
 
         mapResultsSubject.subscribe { response ->

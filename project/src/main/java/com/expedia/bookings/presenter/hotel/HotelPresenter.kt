@@ -97,6 +97,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             }
         }
         checkoutDialog.setMessage(resources.getString(R.string.booking_loading))
+        checkoutDialog.setCancelable(false)
         checkoutDialog.isIndeterminate = true
     }
 
