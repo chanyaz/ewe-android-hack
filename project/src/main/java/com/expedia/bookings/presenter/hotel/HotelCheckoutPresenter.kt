@@ -28,11 +28,11 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
     var hotelServices: HotelServices by Delegates.notNull()
         @Inject set
 
-    val hotelCheckoutWidget: HotelCheckoutMainViewPresenter by bindView(R.id.checkout)
-    val cvv: CVVEntryWidget by bindView(R.id.cvv)
-
     var hotelCheckoutViewModel: HotelCheckoutViewModel by Delegates.notNull()
         @Inject set
+
+    val hotelCheckoutWidget: HotelCheckoutMainViewPresenter by bindView(R.id.checkout)
+    val cvv: CVVEntryWidget by bindView(R.id.cvv)
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
@@ -49,6 +49,8 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(hotelServices)
 
         cvv.setCVVEntryListener(this)
+
+        hotelCheckoutViewModel.checkoutParams.subscribe { cvv.enableBookButton(false) }
     }
 
     fun showCheckout(offer: HotelOffersResponse.HotelRoomResponse) {
@@ -70,6 +72,9 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
             if (!forward) {
                 hotelCheckoutWidget.slideWidget.resetSlider()
                 hotelCheckoutWidget.checkoutFormWasUpdated()
+            }
+            else {
+                cvv.enableBookButton(true)
             }
         }
     }
