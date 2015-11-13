@@ -23,7 +23,7 @@ public class HotelCheckoutTest: HotelTestCase() {
         selectRoom()
         checkout()
 
-        CheckoutViewModel.pressClose()
+        Espresso.pressBack() // nav back to checkout
         Espresso.pressBack() // nav back to details
         selectRoom()
 
@@ -39,7 +39,6 @@ public class HotelCheckoutTest: HotelTestCase() {
 
     private fun checkout() {
         CheckoutViewModel.waitForCheckout()
-        CheckoutViewModel.clickDone()
         CheckoutViewModel.enterTravelerInfo()
         CheckoutViewModel.enterPaymentInfoHotels()
     }
