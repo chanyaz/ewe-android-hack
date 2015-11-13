@@ -218,6 +218,8 @@
     <string name="hotelsv2_slide_reserve">Sveip for å bestille</string>
     <!-- Hotels V2 slide to purchase -->
     <string name="hotelsv2_slide_purchase">Sveip for å betale</string>
+    <!-- Hotels V2 Change Dates in case of Sold Out -->
+    <string name="change_dates">Endre datoer</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -2570,6 +2572,10 @@
     <string name="please_try_a_different_location_or_date">Vennligst prøv en annen dato eller beliggenhet.</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">Ingen hotellrom tilgjengelige på appen vår</string>
+    <!-- Title displayed when room is sold out -->
+    <string name="select_another_room">Velg et annet rom</string>
+    <!-- Message displayed when room is sold out -->
+    <string name="error_room_sold_out">Dette rommet er utsolgt på vårt nettsted.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_TEMPLATE">Beklager, dette hotellet er ikke lenger tilgjengelig på {brand}.</string>
 
@@ -3774,4 +3780,8 @@
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Kupongen er lagt til: Du sparer %1$s!</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog title -->
+    <string name="coupon_error_dialog_title">Kupongen kunne ikke legges til</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog message -->
+    <string name="coupon_error_dialog_message">Det oppstod et problem med kupongen din. Prøv å angi koden på nytt.</string>
 </resources>

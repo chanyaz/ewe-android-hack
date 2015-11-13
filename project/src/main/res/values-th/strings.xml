@@ -218,6 +218,8 @@
     <string name="hotelsv2_slide_reserve">เลื่อนเพื่อจอง</string>
     <!-- Hotels V2 slide to purchase -->
     <string name="hotelsv2_slide_purchase">เลื่อนเพื่อซื้อ</string>
+    <!-- Hotels V2 Change Dates in case of Sold Out -->
+    <string name="change_dates">เปลี่ยนวันที่</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -2572,6 +2574,10 @@
     <string name="please_try_a_different_location_or_date">โปรดลองสถานที่อื่นหรือวันอื่น</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">ไม่มีห้องพักพร้อมให้บริการ</string>
+    <!-- Title displayed when room is sold out -->
+    <string name="select_another_room">โปรดเลือกห้องอื่น</string>
+    <!-- Message displayed when room is sold out -->
+    <string name="error_room_sold_out">ห้องนี้ขายหมดแล้ว</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_TEMPLATE">ขออภัย โรงแรมนี้ขายหมดแล้วบน {brand}</string>
 
@@ -3776,4 +3782,8 @@
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">ใช้คูปองแล้ว: คุณประหยัดไป %1$s!</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog title -->
+    <string name="coupon_error_dialog_title">การใช้คูปองล้มเหลว</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog message -->
+    <string name="coupon_error_dialog_message">มีปัญหากับคูปองของคุณ โปรดลองป้อนคูปองอีกครั้ง</string>
 </resources>
