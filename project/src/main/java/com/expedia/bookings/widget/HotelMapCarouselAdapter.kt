@@ -119,7 +119,7 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
             viewModel.hotelStrikeThroughPriceVisibility.subscribeVisibility(hotelStrikeThroughPrice)
             viewModel.hotelPriceFormatted.subscribeText(hotelPricePerNight)
             viewModel.hotelStrikeThroughPriceFormatted.subscribeText(hotelStrikeThroughPrice)
-            viewModel.hotelGuestRatingObservable.subscribeText(hotelGuestRating)
+            viewModel.hotelGuestRatingObservable.subscribe { hotelGuestRating.text = it.toString() }
             viewModel.soldOut.subscribeVisibility(hotelSoldOut)
             viewModel.soldOut.subscribeInverseVisibility(hotelPricePerNight)
 

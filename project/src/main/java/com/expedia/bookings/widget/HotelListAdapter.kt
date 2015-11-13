@@ -24,6 +24,8 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
+import com.expedia.util.getGuestRatingBackgroundDrawable
+import com.expedia.util.getGuestRatingRecommendedText
 import com.expedia.util.subscribeBackgroundColor
 import com.expedia.util.subscribeColorFilter
 import com.expedia.util.subscribeImageDrawable
@@ -199,7 +201,11 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
 
             viewModel.hotelNameObservable.subscribeText(hotelName)
             viewModel.pricePerNightObservable.subscribeText(pricePerNight)
-            viewModel.hotelGuestRatingObservable.subscribeText(guestRating)
+            viewModel.hotelGuestRatingObservable.subscribe { rating ->
+                guestRating.text = rating.toString()
+                guestRating.background = getGuestRatingBackgroundDrawable(rating, itemView.context)
+                guestRatingRecommendedText.text = getGuestRatingRecommendedText(rating, itemView.resources)
+            }
             viewModel.topAmenityTitleObservable.subscribeText(topAmenityTitle)
             viewModel.hotelDiscountPercentageObservable.subscribeText(discountPercentage)
             viewModel.hotelStrikeThroughPriceFormatted.subscribeText(strikeThroughPricePerNight)
