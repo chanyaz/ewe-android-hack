@@ -218,6 +218,8 @@
     <string name="hotelsv2_slide_reserve">滑動預訂</string>
     <!-- Hotels V2 slide to purchase -->
     <string name="hotelsv2_slide_purchase">滑動購買</string>
+    <!-- Hotels V2 Change Dates in case of Sold Out -->
+    <string name="change_dates">更改日期</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -2570,6 +2572,10 @@
     <string name="please_try_a_different_location_or_date">請搜尋另一個地點或日期。</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">沒有可供預訂的酒店客房</string>
+    <!-- Title displayed when room is sold out -->
+    <string name="select_another_room">選擇另一間客房</string>
+    <!-- Message displayed when room is sold out -->
+    <string name="error_room_sold_out">此客房已訂滿。</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_TEMPLATE">很抱歉，此酒店於 {brand} 已訂滿。</string>
 
@@ -3774,4 +3780,8 @@
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">已使用優惠券：節省 %1$s！</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog title -->
+    <string name="coupon_error_dialog_title">優惠券無法使用</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog message -->
+    <string name="coupon_error_dialog_message">您的優惠券出現問題。請再輸入一次。</string>
 </resources>

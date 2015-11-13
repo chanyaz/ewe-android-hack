@@ -218,6 +218,8 @@
     <string name="hotelsv2_slide_reserve">Glisser pour réserver</string>
     <!-- Hotels V2 slide to purchase -->
     <string name="hotelsv2_slide_purchase">Glisser pour acheter</string>
+    <!-- Hotels V2 Change Dates in case of Sold Out -->
+    <string name="change_dates">Modifier les dates</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -2570,6 +2572,10 @@
     <string name="please_try_a_different_location_or_date">Veuillez essayer un autre endroit ou date.</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">Aucune chambre d\&apos;hôtel disponible</string>
+    <!-- Title displayed when room is sold out -->
+    <string name="select_another_room">Sélectionner une autre chambre</string>
+    <!-- Message displayed when room is sold out -->
+    <string name="error_room_sold_out">Cette chambre n\&apos;est plus disponible.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_TEMPLATE">Nous sommes désolés, cet hôtel n\&apos;est plus disponible sur {brand}.</string>
 
@@ -3774,4 +3780,8 @@
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Bon utilisé : vous avez économisé %1$s!</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog title -->
+    <string name="coupon_error_dialog_title">Échec du bon</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog message -->
+    <string name="coupon_error_dialog_message">Un problème est survenu avec votre bon. Veuillez essayer de nouveau.</string>
 </resources>
