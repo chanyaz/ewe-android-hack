@@ -177,7 +177,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.room_rate_pay_later_due_now,
 		R.layout.hotel_results_presenter_stub,
 		R.layout.hotel_detail_presenter_stub,
-		R.layout.hotel_checkout_presenter_stub,
-		R.layout.test_hotel_map_widget
+		R.layout.hotel_checkout_presenter_stub
 	};
 }
