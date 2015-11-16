@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams
@@ -56,7 +57,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
                     discountObservable.onNext(couponRate.formattedMoney)
                 }
                 hasDiscountObservable.onNext(hasDiscount)
-
+                Db.getTripBucket().clearHotelV2()
                 Db.getTripBucket().add(TripBucketItemHotelV2(trip))
 
                 couponObservable.onNext(trip)
