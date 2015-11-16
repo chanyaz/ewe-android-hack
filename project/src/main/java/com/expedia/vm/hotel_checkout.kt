@@ -131,6 +131,7 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices) {
                     }
                 } else {
                     // TODO: Move away from using DB. observers should react on fresh createTrip response
+                    Db.getTripBucket().clearHotelV2()
                     Db.getTripBucket().add(TripBucketItemHotelV2(t))
                     // TODO: populate hotelCreateTripResponseData with response data
                     tripResponseObservable.onNext(t)

@@ -54,7 +54,6 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
     }
 
     fun showCheckout(offer: HotelOffersResponse.HotelRoomResponse) {
-        Db.getTripBucket().clearHotelV2()
         show(hotelCheckoutWidget)
         hotelCheckoutWidget.showCheckout(offer)
     }

@@ -195,7 +195,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     }
 
     val createTripResponseListener: Observer<HotelCreateTripResponse> = endlessObserver { trip ->
-        Db.getTripBucket().clear()
+        Db.getTripBucket().clearHotelV2()
         Db.getTripBucket().add(TripBucketItemHotelV2(trip))
 
         hotelCheckoutSummaryWidget.viewModel.tripResponseObserver.onNext(trip)
