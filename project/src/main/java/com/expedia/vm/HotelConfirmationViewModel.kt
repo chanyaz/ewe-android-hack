@@ -67,7 +67,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
             if (!Strings.isEmpty(product.bigImageUrl))
                 bigImageUrl.onNext(BuildConfig.MEDIA_URL + product.bigImageUrl)
             else bigImageUrl.onNext("")
-            hotelName.onNext(product.localizedHotelName)
+            hotelName.onNext(product.getHotelName())
             addressLineOne.onNext(product.hotelAddress)
             addressLineTwo.onNext(context.getResources().getString(R.string.stay_summary_TEMPLATE, product.hotelCity, product.hotelStateProvince))
             hotelCity.onNext(product.hotelCity)

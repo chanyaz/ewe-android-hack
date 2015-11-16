@@ -381,7 +381,7 @@ public class TuneUtils {
 				.withCurrencyCode(hotelCheckoutResponse.currencyCode)
 				.withAdvertiserRefId(hotelCheckoutResponse.orderId)
 				.withQuantity(stayDuration)
-				.withContentType(hotelCheckoutResponse.checkoutResponse.productResponse.localizedHotelName)
+				.withContentType(hotelCheckoutResponse.checkoutResponse.productResponse.getHotelName())
 				.withContentId(hotelCheckoutResponse.checkoutResponse.productResponse.hotelId)
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(checkInDate.toDate())
