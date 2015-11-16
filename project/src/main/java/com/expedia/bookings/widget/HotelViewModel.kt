@@ -2,7 +2,6 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.content.res.Resources
-import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
@@ -13,7 +12,6 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
-import com.expedia.bookings.utils.bindView
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.subjects.BehaviorSubject
@@ -34,7 +32,7 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     val priceToShowUsers = BehaviorSubject.create(hotel.lowRateInfo.priceToShowUsers)
     val hotelStrikeThroughPriceVisibility = Observable.combineLatest(strikethroughPriceToShowUsers, priceToShowUsers, soldOut) { strikethroughPriceToShowUsers, priceToShowUsers, soldOut -> !soldOut && (priceToShowUsers < strikethroughPriceToShowUsers) }
     val hasDiscountObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isDiscountTenPercentOrBetter() && !hotel.lowRateInfo.airAttached)
-    val hotelGuestRatingObservable = BehaviorSubject.create(hotel.hotelGuestRating.toString())
+    val hotelGuestRatingObservable = BehaviorSubject.create(hotel.hotelGuestRating)
     val isHotelGuestRatingAvailableObservable = BehaviorSubject.create<Boolean>(hotel.hotelGuestRating > 0)
     val hotelPreviewRating = BehaviorSubject.create<Float>(hotel.hotelStarRating)
     val hotelPreviewRatingVisibility = BehaviorSubject.create<Float>(hotel.hotelStarRating).map { it >= 0.5f }

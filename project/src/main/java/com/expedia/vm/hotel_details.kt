@@ -2,6 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import android.graphics.Typeface
+import android.graphics.drawable.Drawable
 import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
@@ -30,6 +31,8 @@ import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.endlessObserver
+import com.expedia.util.getGuestRatingBackgroundDrawable
+import com.expedia.util.getGuestRatingRecommendedText
 import com.mobiata.android.FormatUtils
 import com.mobiata.android.SocialUtils
 import com.mobiata.android.text.StrikethroughTagHandler
@@ -171,8 +174,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val totalPriceObservable = BehaviorSubject.create<String>()
     val pricePerNightObservable = BehaviorSubject.create<String>()
     val searchInfoObservable = BehaviorSubject.create<String>()
+    val userRatingBackgroundColorObservable = BehaviorSubject.create<Drawable>()
     val userRatingObservable = BehaviorSubject.create<String>()
     val isUserRatingAvailableObservable = BehaviorSubject.create<Boolean>()
+    val userRatingRecommendationTextObservable = BehaviorSubject.create<String>()
     val ratingContainerBackground = isUserRatingAvailableObservable.map { if (it) context.resources.getDrawable(R.drawable.hotel_detail_ripple) else null }
     val numberOfReviewsObservable = BehaviorSubject.create<String>()
     val hotelLatLngObservable = BehaviorSubject.create<DoubleArray>()
@@ -321,6 +326,8 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         }
 
         userRatingObservable.onNext(response.hotelGuestRating.toString())
+        userRatingBackgroundColorObservable.onNext(getGuestRatingBackgroundDrawable(response.hotelGuestRating.toFloat(), context))
+        userRatingRecommendationTextObservable.onNext(getGuestRatingRecommendedText(response.hotelGuestRating.toFloat(), context.resources))
         isUserRatingAvailableObservable.onNext(hotelOffersResponse.hotelGuestRating > 0)
 
         numberOfReviewsObservable.onNext(

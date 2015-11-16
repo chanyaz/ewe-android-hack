@@ -51,6 +51,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeRating
 import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.HotelDetailViewModel
@@ -262,13 +263,16 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.strikeThroughPriceVisibility.subscribeVisibility(strikeThroughPrice)
         vm.pricePerNightObservable.subscribeText(price)
         vm.searchInfoObservable.subscribeText(searchInfo)
-        vm.userRatingObservable.subscribeText(userRating)
         vm.roomPriceToShowCustomer.subscribeText(price)
         vm.perNightVisibility.subscribeInverseVisibility(perNight)
 
         vm.isUserRatingAvailableObservable.subscribeVisibility(userRating)
+        vm.userRatingObservable.subscribeText(userRating)
+        vm.userRatingBackgroundColorObservable.subscribeBackground(userRating)
         vm.isUserRatingAvailableObservable.subscribeVisibility(userRatingRecommendationText)
+        vm.userRatingRecommendationTextObservable.subscribeText(userRatingRecommendationText)
         vm.isUserRatingAvailableObservable.map { !it }.subscribeVisibility(noGuestRating)
+
         vm.numberOfReviewsObservable.subscribeText(numberOfReviews)
         vm.hotelLatLngObservable.subscribe {
             values ->
@@ -277,7 +281,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             addMarker()
             googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hotelLatLng[0], hotelLatLng[1]), MAP_ZOOM_LEVEL))
         }
-
         vm.payByPhoneContainerVisibility.subscribe { spaceAboveSelectARoom() }
         vm.payByPhoneContainerVisibility.subscribeVisibility(payByPhoneContainer)
         vm.discountPercentageObservable.subscribeText(discountPercentage)

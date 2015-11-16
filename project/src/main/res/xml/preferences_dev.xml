@@ -278,6 +278,13 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:key="8624"
             android:title="Hotels AB Test" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_hotel_review_superlatives"
+            android:entryValues="@array/abacus_hotel_review_superlatives_values"
+            android:key="8688"
+            android:title="Hotels v2 Superlative reviews" />
         
     </PreferenceCategory>
 
