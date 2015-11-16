@@ -273,12 +273,6 @@
     <string name="missing_flight_info_message_TEMPLATE">To browse flights to %s, tell us where you\'re flying from.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Please select a valid date or date range.</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">To browse flights to %s,\ntell us when you\'d like to fly.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">For flight price trends,\ntell us where you\'re flying from.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">Flight Trends give you an idea of how flight prices fluctuate over time. Since the prices shown are based on live data through real searches, some routes have less information than others.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Trip starts</string>
     <!-- Denotes the end date of the trip -->
@@ -748,10 +742,6 @@
     <string name="trip_bucket_label_flight_roundtrip">Round Trip Flight to %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Flight to %1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">Flight trends</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">When to return</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Sorry, no hotels are \n currently available.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -3033,6 +3023,8 @@
     <string name="app_support">App Support</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Terms and Conditions</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">Terms of Use</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Privacy Policy</string>
     <!-- Copyright information -->
@@ -3754,7 +3746,7 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">By completing this booking I agree that I have read and accept the %1$s, the %2$s, and the %3$s.</string>
     <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">I have read and agree to the %1$s and the %2$s.</string>
+    <string name="account_creation_legal_TEMPLATE">I have read and agree to the %1$s and the %2$s. By joining {brand}+, I accept all %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Select each child\'s age</string>

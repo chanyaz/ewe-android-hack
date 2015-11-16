@@ -45,7 +45,6 @@ import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
-import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightStatsFlightResponse;
@@ -897,60 +896,6 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Global Deals Engine API (GDE) - Flights
-	//
-	// Documentation: https://confluence/display/MTTFG/Global+Deals+Engine+-+GDE
-	//
-	// Flights: https://confluence/display/MTTFG/GDE+Flights+API+Documentation
-	//
-	// Example outgoing trip url:
-	// http://deals.expedia.com/beta/stats/flights.json?tripTo=LAS&tripFrom=LAX
-	//
-	// Example outgoing trip url from a metro code:
-	// http://deals.expedia.com/beta/stats/flights.json?tripTo=IBZ&tripFromMetroAirportCode=QSF
-	//
-	// Exmaple return trip url:
-	// http://deals.expedia.com/beta/stats/flights.json?tripTo=LAS&tripFrom=LAX&departDate=2014-10-01&key=returnDate
-
-	public FlightSearchHistogramResponse flightSearchHistogram(Location origin, Location destination,
-		LocalDate departureDate) {
-
-		// Special case (see Meeker, CO) if there's no nearby airport
-		if (TextUtils.isEmpty(origin.getDestinationId()) || TextUtils.isEmpty(destination.getDestinationId())) {
-			return null;
-		}
-
-		String endpointUrl = getGdeEndpointUrl();
-		List<BasicNameValuePair> query = generateFlightHistogramParams(origin, destination, departureDate);
-		FlightSearchHistogramResponseHandler handler
-			= new FlightSearchHistogramResponseHandler(origin, destination, departureDate);
-		return doBasicGetRequest(endpointUrl, query, handler);
-	}
-
-	public List<BasicNameValuePair> generateFlightHistogramParams(Location origin, Location destination,
-		LocalDate departureDate) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		String destKey = destination.isMetroCode() ? "tripToMetroAirportCode" : "tripTo";
-		query.add(new BasicNameValuePair(destKey, destination.getDestinationId()));
-
-		if (origin != null) {
-			String origKey = origin.isMetroCode() ? "tripFromMetroAirportCode" : "tripFrom";
-			query.add(new BasicNameValuePair(origKey, origin.getDestinationId()));
-		}
-
-		if (departureDate != null) {
-			DateTimeFormatter fmt = ISODateTimeFormat.date();
-			query.add(new BasicNameValuePair("departDate", fmt.print(departureDate)));
-			query.add(new BasicNameValuePair("key", "returnDate"));
-		}
-
-		query.add(new BasicNameValuePair("akey", "andapprm2908"));
-
-		return query;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
 	// Expedia Itinerary API
 	//
 	// Documentation: https://www.expedia.com/static/mobile/APIConsole/trip.html
@@ -1628,31 +1573,7 @@ public class ExpediaServices implements DownloadListener {
 
 		return false;
 	}
-	//////////////////////////////////////////////////////////////////////////
-	// Endpoints
 
-	/**
-	 * Returns the proper base GDE URL for the current POS. This will throw a runtime exception
-	 * if !pos.supportsGDE(), so be sure to check that before making a request.
-	 *
-	 * @return
-	 */
-	public String getGdeEndpointUrl() {
-		if (mEndpointProvider.getEndPoint() == EndPoint.CUSTOM_SERVER) {
-			String server = SettingUtils
-				.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
-			return "http://" + server;
-		}
-
-		PointOfSale pos = PointOfSale.getPointOfSale();
-		if (!pos.supportsGDE()) {
-			throw new RuntimeException("GDE not supported for pos=" + pos.getTwoLetterCountryCode());
-		}
-
-		// https not supported here
-		String url = "http://deals." + pos.getUrl() + "/beta/stats/flights.json";
-		return url;
-	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Download listener stuff

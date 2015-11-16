@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -24,7 +23,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
-import com.expedia.bookings.data.WeeklyFlightHistogram;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
@@ -484,22 +482,6 @@ public class Events {
 		public SearchSuggestionSelected(SuggestionV2 suggestion, boolean fromSavedParams) {
 			this.suggestion = suggestion;
 			this.isFromSavedParamsAndBucket = fromSavedParams;
-		}
-	}
-
-	public static class GdeItemSelected {
-		public final WeeklyFlightHistogram week;
-
-		public GdeItemSelected(WeeklyFlightHistogram week) {
-			this.week = week;
-		}
-	}
-
-	public static class GdeDataAvailable {
-		public final FlightSearchHistogramResponse response;
-
-		public GdeDataAvailable(FlightSearchHistogramResponse response) {
-			this.response = response;
 		}
 	}
 

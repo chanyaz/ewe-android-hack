@@ -21,7 +21,6 @@ import com.expedia.bookings.utils.FontCache;
 import com.mobiata.android.time.widget.CalendarPicker;
 import com.mobiata.android.time.widget.DaysOfWeekView;
 import com.mobiata.android.util.Ui;
-import com.squareup.otto.Subscribe;
 
 /**
  * One important detail
@@ -121,27 +120,6 @@ public class ResultsDatesFragment extends Fragment implements
 			return dayOfWeek.getAsShortText().toUpperCase(Locale.getDefault()).substring(0, 1);
 		}
 		return DaysOfWeekView.DayOfWeekRenderer.DEFAULT.renderDayOfWeek(dayOfWeek);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Otto event - GDE week clicked
-
-	@Subscribe
-	public void onGdeItemSelected(Events.GdeItemSelected event) {
-		mCalendarPicker.setDisplayYearMonth(new YearMonth(event.week.getWeekStart()));
-		if (mStartDate == null) {
-			setDates(new LocalDate(event.week.getWeekStart()), null);
-		}
-		else {
-			LocalDate startDate = new LocalDate(event.week.getWeekStart());
-			LocalDate endDate = new LocalDate(event.week.getWeekEnd());
-			if (mStartDate.isBefore(endDate)) {
-				setDates(mStartDate, endDate);
-			}
-			else {
-				setDates(startDate, endDate);
-			}
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
