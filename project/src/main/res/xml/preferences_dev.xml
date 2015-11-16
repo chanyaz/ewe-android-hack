@@ -285,7 +285,14 @@
             android:entryValues="@array/abacus_hotel_review_superlatives_values"
             android:key="8688"
             android:title="Hotels v2 Superlative reviews" />
-        
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="9165"
+            android:summary="Select a test group"
+            android:title="LX Category Test" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >

@@ -3,7 +3,6 @@ package com.expedia.bookings.test.phone.lx;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -22,8 +21,10 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.isEmpty;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 
 public class LxSearchResultsTest extends LxTestCase {
@@ -35,9 +36,8 @@ public class LxSearchResultsTest extends LxTestCase {
 		Events.register(searchResultsHandler);
 
 		if (getLxIdlingResource().isInSearchEditMode()) {
-			onView(Matchers
-				.allOf(withId(R.id.error_action_button), withText(
-					R.string.edit_search))).perform(click());
+			onView(allOf(withId(R.id.error_action_button), withText(R.string.edit_search),
+				withParent(withParent(withId(R.id.lx_search_error_widget))))).perform(click());
 
 			String expectedLocationDisplayName = "San Francisco, CA";
 			LXScreen.location().perform(typeText("San"));
@@ -55,23 +55,24 @@ public class LxSearchResultsTest extends LxTestCase {
 		for (LXActivity activity : mActivities) {
 			String expectedTitle = Strings.escapeQuotes(activity.title);
 			LXScreen.resultList().perform(RecyclerViewActions.scrollToPosition(currentCounter));
+			int lxSearchResultsList = R.id.lx_search_results_list;
 			if (Strings.isEmpty(activity.duration)) {
-				LXScreen.getTile(expectedTitle).check(matches(
+				LXScreen.getTile(expectedTitle, lxSearchResultsList).check(matches(
 					hasDescendant((isEmpty()))));
 			}
 			else {
-				LXScreen.getTile(expectedTitle).check(matches(
+				LXScreen.getTile(expectedTitle, lxSearchResultsList).check(matches(
 					hasDescendant(withText(containsString(activity.duration)))));
 			}
-			LXScreen.getTile(expectedTitle).check(matches(
+			LXScreen.getTile(expectedTitle, lxSearchResultsList).check(matches(
 				hasDescendant(withText(containsString(activity.price.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP))))));
 
 			// Check strikethrough price
 			if (!activity.originalPrice.getAmount().equals(BigDecimal.ZERO)) {
-				LXScreen.getTile(expectedTitle).check(matches(
+				LXScreen.getTile(expectedTitle, lxSearchResultsList).check(matches(
 						hasDescendant(withText(containsString(activity.fromOriginalPriceValue.toString().toLowerCase())))));
 			}
-			LXScreen.getTile(expectedTitle).check(matches(
+			LXScreen.getTile(expectedTitle, lxSearchResultsList).check(matches(
 				hasDescendant(withText(containsString(activity.fromPriceTicketCode.toString().toLowerCase())))));
 			currentCounter++;
 		}

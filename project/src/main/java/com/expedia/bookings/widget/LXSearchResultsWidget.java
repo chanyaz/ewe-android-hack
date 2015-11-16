@@ -79,7 +79,7 @@ public class LXSearchResultsWidget extends FrameLayout {
 		recyclerView.setVisibility(View.VISIBLE);
 		recyclerView.getLayoutManager().scrollToPosition(0);
 		errorScreen.setVisibility(View.GONE);
-		adapter.setActivities(activities);
+		adapter.setItems(activities);
 	}
 
 	@Subscribe
@@ -95,13 +95,13 @@ public class LXSearchResultsWidget extends FrameLayout {
 		recyclerView.setVisibility(View.VISIBLE);
 		errorScreen.setVisibility(View.GONE);
 		List<LXActivity> elements = createDummyListForAnimation();
-		adapter.setDummyActivities(elements);
+		adapter.setDummyItems(elements);
 	}
 
 	@Subscribe
 	public void onLXSearchFilterResultsReady(Events.LXSearchFilterResultsReady event) {
 		if (CollectionUtils.isNotEmpty(event.filteredActivities)) {
-			adapter.setActivities(event.filteredActivities);
+			adapter.setItems(event.filteredActivities);
 		}
 	}
 

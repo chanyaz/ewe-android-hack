@@ -2104,6 +2104,16 @@ public class OmnitureTracking {
 	private static final String LX_CHECKOUT_SLIDE_TO_PURCHASE = "App.LX.Checkout.SlideToPurchase";
 	private static final String LX_CHECKOUT_CVV_SCREEN = "App.LX.Checkout.Payment.CID";
 	private static final String LX_NO_SEARCH_RESULTS = "App.LX.NoResults";
+	private static final String LX_CATEGORY_TEST = "App.LX.Category";
+	private static final String LX_SEARCH_CATEGORIES = "App.LX.Search.Categories";
+
+
+	public static void trackAppLXCategoryABTest() {
+		Log.d(TAG, "Tracking \"" + LX_CATEGORY_TEST + "\" category...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXCategoryABTest);
+		s.track();
+	}
 
 	public static void trackAppLXSearch(LXSearchParams lxSearchParams,
 		LXSearchResponse lxSearchResponse) {
@@ -2118,6 +2128,34 @@ public class OmnitureTracking {
 
 		// Success event for Product Search, Local Expert Search
 		s.setEvents("event30,event56");
+
+		// prop and evar 5, 6
+		setDateValues(s, lxSearchParams.startDate, lxSearchParams.endDate);
+
+		// Freeform location
+		if (!TextUtils.isEmpty(lxSearchParams.location)) {
+			s.setEvar(48, lxSearchParams.location);
+		}
+
+		// Number of search results
+		if (lxSearchResponse.activities.size() > 0) {
+			s.setProp(1, Integer.toString(lxSearchResponse.activities.size()));
+		}
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackAppLXSearchCategories(LXSearchParams lxSearchParams,
+		LXSearchResponse lxSearchResponse) {
+		// Start actually tracking the search result change
+		Log.d(TAG, "Tracking \"" + LX_SEARCH_CATEGORIES + "\" pageLoad...");
+
+		ADMS_Measurement s = internalTrackAppLX(LX_SEARCH_CATEGORIES);
+
+		// Destination
+		s.setProp(4, lxSearchResponse.regionId);
+		s.setEvar(4, "D=c4");
 
 		// prop and evar 5, 6
 		setDateValues(s, lxSearchParams.startDate, lxSearchParams.endDate);

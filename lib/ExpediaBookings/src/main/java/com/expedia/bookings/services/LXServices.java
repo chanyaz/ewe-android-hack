@@ -28,6 +28,7 @@ import com.expedia.bookings.data.lx.LXSortFilterMetadata;
 import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Strings;
 import com.squareup.okhttp.OkHttpClient;
@@ -66,6 +67,19 @@ public class LXServices {
 		lxApi = adapter.create(LXApi.class);
 	}
 
+	public Subscription lxCategorySearch(LXSearchParams searchParams, Observer<LXSearchResponse> observer) {
+		return lxApi
+			.searchLXActivities(searchParams.location, searchParams.toServerStartDate(), searchParams.toServerEndDate())
+			.doOnNext(HANDLE_SEARCH_ERROR)
+			.doOnNext(ACTIVITIES_MONEY_TITLE)
+			.doOnNext(PUT_POPULARITY_COUNTER_FOR_SORT)
+			.doOnNext(CACHE_SEARCH_RESPONSE)
+			.doOnNext(PUT_ACTIVITIES_IN_CATEGORY)
+			.subscribeOn(subscribeOn)
+			.observeOn(observeOn)
+			.subscribe(observer);
+	}
+
 	public Subscription lxSearch(LXSearchParams searchParams, Observer<LXSearchResponse> observer) {
 		return lxSearch(searchParams)
 			.subscribe(observer);
@@ -91,6 +105,31 @@ public class LXServices {
 				errorInfo.cause = "No results from api.";
 				apiError.errorInfo = errorInfo;
 				throw apiError;
+			}
+		}
+	};
+
+	private static final Action1<LXSearchResponse> PUT_POPULARITY_COUNTER_FOR_SORT = new Action1<LXSearchResponse>() {
+		@Override
+		public void call(LXSearchResponse lxSearchResponse) {
+			int popularityForClientSort = 0;
+			for (LXActivity activity : lxSearchResponse.activities) {
+				activity.popularityForClientSort = popularityForClientSort++;
+			}
+		}
+	};
+
+	private static final Action1<LXSearchResponse> PUT_ACTIVITIES_IN_CATEGORY = new Action1<LXSearchResponse>() {
+		@Override
+		public void call(LXSearchResponse lxSearchResponse) {
+			for (Map.Entry<String, LXCategoryMetadata> filterCategory : lxSearchResponse.filterCategories.entrySet()) {
+				String categoryKey = filterCategory.getKey();
+				LXCategoryMetadata categoryValue = filterCategory.getValue();
+				for (LXActivity activity: lxSearchResponse.activities) {
+					if (CollectionUtils.isNotEmpty(activity.categories) && activity.categories.contains(categoryKey)) {
+						categoryValue.activities.add(activity);
+					}
+				}
 			}
 		}
 	};
@@ -272,6 +311,42 @@ public class LXServices {
 			}
 			return lxSearchResponse;
 		}
+	}
+
+	private class SortCategorySearchResponse implements Func2<LXCategoryMetadata, LXSortType, LXCategoryMetadata> {
+
+		@Override
+		public LXCategoryMetadata call(LXCategoryMetadata lxCategoryMetadata, LXSortType lxSortType) {
+			if (lxSortType == LXSortType.PRICE) {
+				Collections.sort(lxCategoryMetadata.activities, new Comparator<LXActivity>() {
+					@Override
+					public int compare(LXActivity lhs, LXActivity rhs) {
+						Money leftMoney = lhs.price;
+						Money rightMoney = rhs.price;
+						return leftMoney.compareTo(rightMoney);
+					}
+				});
+			}
+			else if (lxSortType == LXSortType.POPULARITY) {
+				Collections.sort(lxCategoryMetadata.activities, new Comparator<LXActivity>() {
+					@Override
+					public int compare(LXActivity lhs, LXActivity rhs) {
+						return (lhs.popularityForClientSort < rhs.popularityForClientSort) ? -1 :
+							((lhs.popularityForClientSort == rhs.popularityForClientSort) ? 0 : 1);
+					}
+				});
+			}
+			return lxCategoryMetadata;
+		}
+	}
+
+	public Subscription lxCategorySort(LXCategoryMetadata category, LXSortType lxSortType, Observer<LXCategoryMetadata> categorySortObserver) {
+
+		return (Observable.combineLatest(Observable.just(category), Observable.just(lxSortType),
+			new SortCategorySearchResponse())
+			.subscribeOn(this.subscribeOn)
+				.observeOn(this.observeOn)
+				.subscribe(categorySortObserver));
 	}
 
 	public Subscription lxSearchSortFilter(LXSearchParams lxSearchParams, LXSortFilterMetadata lxSortFilterMetadata,

@@ -268,6 +268,7 @@
     <dimen name="lx_unexpanded_space_height">190dp</dimen>
     <dimen name="lx_results_bottom_padding">58dp</dimen>
     <dimen name="gt_results_bottom_padding">0dp</dimen>
+    <dimen name="lx_category_image_width">300dp</dimen>
 
     <!-- Car Search  -->
     <dimen name="car_calendar_month_view_max_text_size">12dp</dimen>

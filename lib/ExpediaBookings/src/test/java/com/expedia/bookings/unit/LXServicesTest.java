@@ -339,6 +339,26 @@ public class LXServicesTest {
 		assertNotNull(lxCheckoutResponse.newTotalPrice);
 	}
 
+	@Test
+	public void lxCategorySearchResponse() throws Throwable {
+		givenServerUsingMockResponses();
+
+		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
+		LXSearchParams searchParams = new LXSearchParams();
+		searchParams.location = "happy";
+		searchParams.startDate = LocalDate.now();
+		searchParams.endDate = LocalDate.now().plusDays(1);
+		service.lxCategorySearch(searchParams, observer);
+		observer.awaitTerminalEvent();
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+		assertEquals(4, observer.getOnNextEvents().get(0).activities.size());
+		assertNotNull(observer.getOnNextEvents().get(0).filterCategories.get("Attractions").activities);
+		assertEquals(4, observer.getOnNextEvents().get(0).filterCategories.get("Attractions").activities.size());
+	}
+
 	private void givenServerUsingMockResponses() throws IOException {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
