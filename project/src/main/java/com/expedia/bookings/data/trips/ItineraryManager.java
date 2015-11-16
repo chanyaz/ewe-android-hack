@@ -51,10 +51,8 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.HotelCrossSellUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.model.GraphUser;
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -1340,24 +1338,15 @@ public class ItineraryManager implements JSONable {
 		}
 
 		private void reauthFacebookUser() {
-			Session session = Session.getActiveSession();
-			if (session == null) {
-				session = Session.openActiveSessionFromCache(mContext);
-			}
-			if (session != null) {
-				// make request to the /me API
-				Response rep = Request.newMeRequest(session, null).executeAndWait();
-				GraphUser user = rep.getGraphObjectAs(GraphUser.class);
-				String fbUserId = user.getId();
-
-				Session fbSession = Session.getActiveSession();
-				if (fbSession != null && !fbSession.isClosed()) {
-					FacebookLinkResponse linkResponse = mServices
-						.facebookAutoLogin(fbUserId, fbSession.getAccessToken());
-					if (linkResponse != null && linkResponse.getFacebookLinkResponseCode() != null && linkResponse
-						.isSuccess()) {
-						Log.w(LOGGING_TAG, "FB: Autologin success" + linkResponse.getFacebookLinkResponseCode().name());
-					}
+			FacebookSdk.sdkInitialize(mContext);
+			AccessToken token = AccessToken.getCurrentAccessToken();
+			if (token != null) {
+				String fbUserId = token.getUserId();
+				FacebookLinkResponse linkResponse = mServices.facebookAutoLogin(fbUserId, token.getToken());
+				if (linkResponse != null
+					&& linkResponse.getFacebookLinkResponseCode() != null
+					&& linkResponse.isSuccess()) {
+					Log.w(LOGGING_TAG, "FB: Autologin success" + linkResponse.getFacebookLinkResponseCode().name());
 				}
 			}
 		}
@@ -1960,7 +1949,7 @@ public class ItineraryManager implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mTrips = new HashMap<String, Trip>();
+		mTrips = new HashMap<>();
 		List<Trip> trips = JSONUtils.getJSONableList(obj, "trips", Trip.class);
 		for (Trip trip : trips) {
 			mTrips.put(trip.getItineraryKey(), trip);

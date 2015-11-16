@@ -10,10 +10,8 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.model.GraphUser;
+import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 
@@ -21,6 +19,7 @@ public class UserAccountRefresher {
 	public interface IUserAccountRefreshListener {
 		void onUserAccountRefreshed();
 	}
+
 	private static final String NET_AUTO_LOGIN = "NET_AUTO_LOGIN";
 	private IUserAccountRefreshListener userAccountRefreshListener;
 
@@ -30,12 +29,14 @@ public class UserAccountRefresher {
 	private long mLastRefreshedUserTimeMillis = 0L;
 
 	private Context context;
-	public UserAccountRefresher(Context context, LineOfBusiness lob, IUserAccountRefreshListener userAccountRefreshListener) {
+
+	public UserAccountRefresher(Context context, LineOfBusiness lob,
+		IUserAccountRefreshListener userAccountRefreshListener) {
 		this.context = context;
 		this.userAccountRefreshListener = userAccountRefreshListener;
 		this.keyRefreshUser = lob + "_" + "KEY_REFRESH_USER";
 	}
-	
+
 	private final BackgroundDownloader.Download<SignInResponse> mRefreshUserDownload = new BackgroundDownloader.Download<SignInResponse>() {
 		@Override
 		public SignInResponse doDownload() {
@@ -70,12 +71,11 @@ public class UserAccountRefresher {
 		if (mLastRefreshedUserTimeMillis + userRefreshInterval < System.currentTimeMillis()) {
 			Log.d("Refreshing user profile...");
 			mLastRefreshedUserTimeMillis = System.currentTimeMillis();
-			Session session = Session.getActiveSession();
-			if (session == null) {
-				session = Session.openActiveSessionFromCache(context);
-			}
-			if (session != null) {
-				fetchFacebookUserInfo(Session.getActiveSession());
+
+			FacebookSdk.sdkInitialize(context);
+			AccessToken token = AccessToken.getCurrentAccessToken();
+			if (token != null) {
+				fetchFacebookUserInfo(token);
 			}
 			else {
 				BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -98,38 +98,20 @@ public class UserAccountRefresher {
 	/**
 	 * Ok so we have a users facebook session, but we need the users information for that to be useful so lets get that
 	 *
-	 * @param session
+	 * @param token
 	 */
-	protected void fetchFacebookUserInfo(Session session) {
+	protected void fetchFacebookUserInfo(AccessToken token) {
 		Log.d("FB: fetchFacebookUserInfo");
 
-		// make request to the /me API
-		Request.newMeRequest(session, new Request.GraphUserCallback() {
-
-			// callback after Graph API response with user object
-			@Override
-			public void onCompleted(GraphUser user, Response response) {
-				Log.d("FB: user response:" + response.toString());
-				if (user != null && response.getError() == null) {
-					Log.d("FB: user response success");
-					fbUserId = user.getId();
-					BackgroundDownloader bd = BackgroundDownloader.getInstance();
-					if (!bd.isDownloading(NET_AUTO_LOGIN)) {
-						bd.startDownload(NET_AUTO_LOGIN, mFbLinkAutoLoginDownload, mFbLinkAutoLoginHandler);
-					}
-				}
-				else {
-					Log.d("FB: user response failed");
-					if (User.isLoggedIn(context)) {
-						doLogout();
-					}
-					userAccountRefreshListener.onUserAccountRefreshed();
-				}
-			}
-		}).executeAsync();
+		fbUserId = token.getUserId();
+		BackgroundDownloader bd = BackgroundDownloader.getInstance();
+		if (!bd.isDownloading(NET_AUTO_LOGIN)) {
+			bd.startDownload(NET_AUTO_LOGIN, mFbLinkAutoLoginDownload, mFbLinkAutoLoginHandler);
+		}
 	}
 
-	private final BackgroundDownloader.OnDownloadComplete<FacebookLinkResponse> mFbLinkAutoLoginHandler = new BackgroundDownloader.OnDownloadComplete<FacebookLinkResponse>() {
+	private final BackgroundDownloader.OnDownloadComplete<FacebookLinkResponse> mFbLinkAutoLoginHandler
+		= new BackgroundDownloader.OnDownloadComplete<FacebookLinkResponse>() {
 		@Override
 		public void onDownload(FacebookLinkResponse results) {
 			if (results != null && results.getFacebookLinkResponseCode() != null && results.isSuccess()) {
@@ -153,17 +135,20 @@ public class UserAccountRefresher {
 	 * This attmpts to hand our facebook info to expedia and tries to auto login based on that info.
 	 * This will only succeed if the user has at some point granted Expedia access to fbconnect.
 	 */
-	private final BackgroundDownloader.Download<FacebookLinkResponse> mFbLinkAutoLoginDownload = new BackgroundDownloader.Download<FacebookLinkResponse>() {
+	private final BackgroundDownloader.Download<FacebookLinkResponse> mFbLinkAutoLoginDownload
+		= new BackgroundDownloader.Download<FacebookLinkResponse>() {
 		@Override
 		public FacebookLinkResponse doDownload() {
+			FacebookSdk.sdkInitialize(context);
+			AccessToken token = AccessToken.getCurrentAccessToken();
+
 			Log.d("doDownload: mFbLinkAutoLoginDownload");
-			Session fbSession = Session.getActiveSession();
-			if (fbSession == null || fbSession.isClosed()) {
+			if (token == null) {
 				Log.e("fbState invalid");
 			}
 
 			ExpediaServices services = new ExpediaServices(context);
-			return services.facebookAutoLogin(fbUserId, fbSession.getAccessToken());
+			return services.facebookAutoLogin(fbUserId, token.getToken());
 		}
 	};
 }
