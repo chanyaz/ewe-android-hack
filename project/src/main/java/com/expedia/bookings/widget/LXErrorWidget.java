@@ -171,6 +171,19 @@ public class LXErrorWidget extends FrameLayout {
 			});
 			break;
 
+		case LIMITED_INVENTORY:
+			bindText(Ui.obtainThemeResID(getContext(), R.attr.skin_lxErrorWidgetDrawable),
+				R.string.lx_error_limited_inventory,
+				R.string.lx_error_text,
+				R.string.edit_search);
+			errorButton.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					((AppCompatActivity) getContext()).onBackPressed();
+				}
+			});
+			break;
+
 		case UNKNOWN_ERROR:
 		case OMS_ERROR:
 

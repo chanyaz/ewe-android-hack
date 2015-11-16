@@ -652,6 +652,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s not accepted</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">We\&apos;re sorry, but this activity\&apos;s price changed. Please try booking again.</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">Sorry, we don\&apos;t have enough tickets for the selected date. Please try a different date or select fewer tickets.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Your tickets have been sent to</string>
     <!-- LX reservation confirmation text -->
