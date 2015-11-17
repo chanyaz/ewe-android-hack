@@ -89,7 +89,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var mapView: MapView by Delegates.notNull()
     val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
     val filterView: HotelFilterView by bindView(R.id.filter_view)
-    val toolbar: Toolbar by bindView(R.id.toolbar)
+    val toolbar: Toolbar by bindView(R.id.hotel_results_toolbar)
     val toolbarTitle by lazy { toolbar.getChildAt(2) }
     val toolbarSubtitle by lazy { toolbar.getChildAt(3) }
     val recyclerTempBackground: View by bindView(R.id.recycler_view_temp_background)
