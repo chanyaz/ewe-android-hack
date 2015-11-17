@@ -1,26 +1,15 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.PorterDuff
-import android.graphics.PorterDuffXfermode
 import android.graphics.PorterDuffColorFilter
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.BitmapDrawable
-import com.mobiata.android
-import android.view.View.MeasureSpec
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
-import android.widget.RatingBar
 import com.expedia.bookings.R
-import com.mobiata.android
-import com.mobiata.android.Log
-import com.mobiata.android.graphics
 import kotlin.properties.Delegates
 
 public class StarRatingBar(context: Context, attrs: AttributeSet) : View(context, attrs) {

@@ -38,21 +38,21 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     val hotelPreviewRatingVisibility = BehaviorSubject.create<Float>(hotel.hotelStarRating).map { it >= 0.5f }
     val pricePerNightObservable = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false))
 
-    val fewRoomsLeftUrgency = BehaviorSubject.create<UrgencyMessage>(null)
-    val tonightOnlyUrgency = BehaviorSubject.create<UrgencyMessage>(null)
-    val mobileExclusiveUrgency = BehaviorSubject.create<UrgencyMessage>(null)
-    val soldOutUrgency = BehaviorSubject.create<UrgencyMessage>(null)
+    val fewRoomsLeftUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
+    val tonightOnlyUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
+    val mobileExclusiveUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
+    val soldOutUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
 
-    val urgencyMessageObservable = Observable.combineLatest(fewRoomsLeftUrgency, tonightOnlyUrgency, mobileExclusiveUrgency, soldOutUrgency) {
+    val highestPriorityUrgencyMessageObservable = Observable.combineLatest(fewRoomsLeftUrgency, tonightOnlyUrgency, mobileExclusiveUrgency, soldOutUrgency) {
         fewRoomsLeftUrgency, tonightOnlyUrgency, mobileExclusiveUrgency, soldOutUrgency ->
         //Order in list below is important as it decides the priority of messages to be displayed in the urgency banner!
         listOf(soldOutUrgency, fewRoomsLeftUrgency, tonightOnlyUrgency, mobileExclusiveUrgency).firstOrNull { it != null }
     }
-    val urgencyMessageVisibilityObservable = urgencyMessageObservable.map { if (it != null) it.visibility else false }
-    val urgencyMessageBoxObservable = urgencyMessageObservable.filter { it != null }.map { it!!.message }
-    val urgencyMessageBackgroundObservable = urgencyMessageObservable.filter { it != null }.map { ContextCompat.getColor(context, it!!.backgroundColorId) }
-    val urgencyIconObservable = urgencyMessageObservable.filter { it != null && it.iconDrawableId != null }.map { ContextCompat.getDrawable(context, it!!.iconDrawableId!!) }
-    val urgencyIconVisibilityObservable = urgencyMessageObservable.map { it != null && it.iconDrawableId != null }
+    val urgencyMessageVisibilityObservable = highestPriorityUrgencyMessageObservable.map { it != null }
+    val urgencyMessageBoxObservable = highestPriorityUrgencyMessageObservable.filter { it != null }.map { it!!.message }
+    val urgencyMessageBackgroundObservable = highestPriorityUrgencyMessageObservable.filter { it != null }.map { ContextCompat.getColor(context, it!!.backgroundColorId) }
+    val urgencyIconObservable = highestPriorityUrgencyMessageObservable.filter { it != null && it.iconDrawableId != null }.map { ContextCompat.getDrawable(context, it!!.iconDrawableId!!) }
+    val urgencyIconVisibilityObservable = highestPriorityUrgencyMessageObservable.map { it != null && it.iconDrawableId != null }
 
     val vipMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
     val airAttachVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isShowAirAttached())
@@ -78,24 +78,20 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
 
         // NOTE: Any changes to this logic should also be made in HotelDetailViewModel.getPromoText()
         if (hotel.roomsLeftAtThisRate > 0 && hotel.roomsLeftAtThisRate <= ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY) {
-            fewRoomsLeftUrgency.onNext(UrgencyMessage(true, R.drawable.urgency,
-                    R.color.hotel_urgency_message_color,
+            fewRoomsLeftUrgency.onNext(UrgencyMessage(R.drawable.urgency, R.color.hotel_urgency_message_color,
                     resources.getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate)))
         }
         if (hotel.isSameDayDRR) {
-            tonightOnlyUrgency.onNext(UrgencyMessage(true, R.drawable.tonight_only,
-                    R.color.hotel_tonight_only_color,
+            tonightOnlyUrgency.onNext(UrgencyMessage(R.drawable.tonight_only, R.color.hotel_tonight_only_color,
                     resources.getString(R.string.tonight_only)))
         }
         if (hotel.isDiscountRestrictedToCurrentSourceType) {
-            mobileExclusiveUrgency.onNext(UrgencyMessage(true, R.drawable.mobile_exclusive,
-                    R.color.hotel_mobile_exclusive_color,
+            mobileExclusiveUrgency.onNext(UrgencyMessage(R.drawable.mobile_exclusive, R.color.hotel_mobile_exclusive_color,
                     resources.getString(R.string.mobile_exclusive)))
         }
 
         soldOut.filter { it == true }.map {
-            UrgencyMessage(true, null,
-                    R.color.hotel_sold_out_color,
+            UrgencyMessage(null, R.color.hotel_sold_out_color,
                     resources.getString(R.string.trip_bucket_sold_out))
         }.subscribe(soldOutUrgency)
     }
@@ -107,7 +103,7 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
         else return ""
     }
 
-    data class UrgencyMessage(val visibility: Boolean, val iconDrawableId: Int?, val backgroundColorId: Int, val message: String)
+    data class UrgencyMessage(val iconDrawableId: Int?, val backgroundColorId: Int, val message: String)
 
     public fun setImpressionTracked(tracked: Boolean) {
         hotel.hasShownImpression = tracked

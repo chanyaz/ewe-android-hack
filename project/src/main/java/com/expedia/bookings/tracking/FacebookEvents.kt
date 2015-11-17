@@ -45,8 +45,8 @@ import java.math.BigDecimal
 import java.util.Currency
 
 private val TAG = "FacebookTracking"
-private var context: Context? = null
-private var facebookLogger: AppEventsLogger? = null
+@JvmField var facebookContext: Context? = null
+@JvmField var facebookLogger: AppEventsLogger? = null
 
 private fun track(event: String, parameters: Bundle) {
     val keys = parameters.keySet()
@@ -57,12 +57,12 @@ private fun track(event: String, parameters: Bundle) {
 
     val nullKeys = keys.filter { parameters.get(it) == null }
     if (nullKeys.size() > 0) {
-        Log.e(TAG, "${event} null values in bundle: ${nullKeys.join(", ")}")
+        Log.e(TAG, "${event} null values in bundle: ${nullKeys.joinToString(", ")}")
     }
 
     val badKeys = keys.filter { parameters.get(it) !is String && parameters.get(it) !is Int }
     if (badKeys.size() > 0) {
-        Log.e(TAG, "${event} values other than string or integer found: ${badKeys.join(", ")}")
+        Log.e(TAG, "${event} values other than string or integer found: ${badKeys.joinToString(", ")}")
     }
 
     for (key in parameters.keySet()) {
@@ -493,8 +493,8 @@ class FacebookEvents() {
         parameters.putInt("Num_People", searchParams.getNumTravelers())
         parameters.putInt("Number_Children", searchParams.getNumChildren())
         parameters.putInt("Number_Nights", searchParams.getStayDuration())
-        if (context != null) {
-            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(context)))
+        if (facebookContext != null) {
+            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
         }
         parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
         parameters.putString("POS", PointOfSale.getPointOfSale().getTwoLetterCountryCode())
@@ -516,8 +516,8 @@ class FacebookEvents() {
         parameters.putInt("Num_People", searchParams.guests())
         parameters.putInt("Number_Children", searchParams.children.size())
         parameters.putInt("Number_Nights", numOfNight)
-        if (context != null) {
-            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(context)))
+        if (facebookContext != null) {
+            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
         }
         parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
         parameters.putString("POS", PointOfSale.getPointOfSale().twoLetterCountryCode)
@@ -543,8 +543,8 @@ class FacebookEvents() {
         //ToDo API don't return number of child guest and total guests
 
         parameters.putInt("Number_Nights", numOfNight)
-        if (context != null) {
-            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(context)))
+        if (facebookContext != null) {
+            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
         }
         parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
         parameters.putString("POS", PointOfSale.getPointOfSale().twoLetterCountryCode)
@@ -568,8 +568,8 @@ class FacebookEvents() {
         parameters.putInt("Num_People", searchParams.getNumTravelers())
         parameters.putInt("Number_Children", searchParams.getNumChildren())
 
-        if (context != null) {
-            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(context)))
+        if (facebookContext != null) {
+            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
         }
         parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
         parameters.putString("POS", PointOfSale.getPointOfSale().getTwoLetterCountryCode())
@@ -607,8 +607,8 @@ class FacebookEvents() {
         parameters.putString("End_Date", dtf.print(endDate))
         parameters.putInt("Booking_Window", getBookingWindow(startDate))
 
-        if (context != null) {
-            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(context)))
+        if (facebookContext != null) {
+            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
         }
         parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
         parameters.putString("POS", PointOfSale.getPointOfSale().getTwoLetterCountryCode())
@@ -622,8 +622,8 @@ class FacebookEvents() {
         parameters.putString("Start_Date", dtf.print(startDate))
         parameters.putInt("Booking_Window", getBookingWindow(startDate))
 
-        if (context != null) {
-            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(context)))
+        if (facebookContext != null) {
+            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
         }
         parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
         parameters.putString("POS", PointOfSale.getPointOfSale().getTwoLetterCountryCode())

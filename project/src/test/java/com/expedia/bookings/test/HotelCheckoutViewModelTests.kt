@@ -156,7 +156,7 @@ public class HotelCheckoutViewModelTests {
         Db.getTripBucket().add(TripBucketItemHotelV2(happyCreateTripResponse))
     }
 
-    class TestHotelCheckoutViewModel(val testSubscriber: TestSubscriber<HotelCheckoutResponse>, hotelServices: HotelServices): HotelCheckoutViewModel(hotelServices: HotelServices) {
+    class TestHotelCheckoutViewModel(val testSubscriber: TestSubscriber<HotelCheckoutResponse>, hotelServices: HotelServices): HotelCheckoutViewModel(hotelServices) {
         override fun getCheckoutResponseObserver(): Observer<HotelCheckoutResponse> {
             return testSubscriber
         }

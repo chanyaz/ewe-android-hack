@@ -27,9 +27,8 @@ import com.mobiata.android.Log;
 
 public class AdTracker {
 	public static void init(Context context) {
-		TrackingPackage.setContext(context.getApplicationContext());
-		TrackingPackage.setFacebookLogger(AppEventsLogger.newLogger(context));
-		TrackingPackage.setContext(context);
+		FacebookEventsKt.facebookContext = context.getApplicationContext();
+		FacebookEventsKt.facebookLogger = AppEventsLogger.newLogger(context);
 	}
 
 	public static void trackFirstLaunch() {

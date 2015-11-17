@@ -19,7 +19,7 @@ public class HotelAmenityFilter(context: Context, attrs: AttributeSet) : LinearL
 
     val amenityTextView: TextView by bindView(R.id.amenity_label)
     val amenityIconView: ImageView by bindView(R.id.amenity_icon)
-    var isSelected: Boolean = false
+    var amenitySelected: Boolean = false
     var amenity: FilterAmenity ?= null
     var amenityId: Int ? = null
 
@@ -38,8 +38,8 @@ public class HotelAmenityFilter(context: Context, attrs: AttributeSet) : LinearL
     }
 
     val selectObserver : Observer<Unit> = endlessObserver {
-        isSelected = !isSelected
-        if (isSelected) {
+        amenitySelected = !amenitySelected
+        if (amenitySelected) {
             changeColor(getResources().getColor(R.color.hotels_primary_color))
         } else {
             changeColor(getResources().getColor(R.color.hotelsv2_checkout_text_color))
