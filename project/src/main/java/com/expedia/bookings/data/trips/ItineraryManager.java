@@ -36,7 +36,6 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
@@ -621,6 +620,8 @@ public class ItineraryManager implements JSONable {
 		 */
 		public void onTripUpdateFailed(Trip trip);
 
+		public void onTripFailedFetchingGuestItinerary();
+
 		/**
 		 * Notification for when a Trip has been removed, either automatically
 		 * from a logged in user account or manually for guest trips.
@@ -660,6 +661,9 @@ public class ItineraryManager implements JSONable {
 		}
 
 		public void onTripUpdateFailed(Trip trip) {
+		}
+
+		public void onTripFailedFetchingGuestItinerary() {
 		}
 
 		public void onTripRemoved(Trip trip) {
@@ -706,6 +710,13 @@ public class ItineraryManager implements JSONable {
 		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripUpdateFailed(trip);
+		}
+	}
+
+	private void onTripFailedFetchingGuestItinerary() {
+		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		for (ItinerarySyncListener listener : listeners) {
+			listener.onTripFailedFetchingGuestItinerary();
 		}
 	}
 
@@ -1181,6 +1192,9 @@ public class ItineraryManager implements JSONable {
 			case UPDATE_FAILED:
 				onTripUpdateFailed(update.mTrip);
 				break;
+			case FAILED_FETCHING_GUEST_ITINERARY:
+				onTripFailedFetchingGuestItinerary();
+				break;
 			case REMOVED:
 				onTripRemoved(update.mTrip);
 				break;
@@ -1391,6 +1405,8 @@ public class ItineraryManager implements JSONable {
 				}
 
 				if (response == null || response.hasErrors()) {
+					boolean isTripGuestAndFailedToRetrieve = false;
+
 					if (response != null && response.hasErrors()) {
 						Log.w(LOGGING_TAG, "Error updating trip " + trip.getItineraryKey() + ": "
 								+ response.gatherErrorMessage(mContext));
@@ -1399,19 +1415,24 @@ public class ItineraryManager implements JSONable {
 						// As such, we should remove it (but don't remove a trip if it's ever been loaded
 						// or it's not a guest trip).
 						if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
-							for (ServerError error : response.getErrors()) {
-								if (error.getErrorCode() == ServerError.ErrorCode.INVALID_INPUT) {
-									Log.w(LOGGING_TAG,
-											"Tried to load guest trip, but failed, so we're removing it.  Email="
-													+ trip.getGuestEmailAddress() + " itinKey="
-													+ trip.getItineraryKey());
-									mTrips.remove(trip.getItineraryKey());
-								}
+							if (response.getErrors().size() > 0) {
+								Log.w(LOGGING_TAG,
+										"Tried to load guest trip, but failed, so we're removing it.  Email="
+												+ trip.getGuestEmailAddress() + " itinKey="
+												+ trip.getItineraryKey());
+								mTrips.remove(trip.getItineraryKey());
+								isTripGuestAndFailedToRetrieve = true;
 							}
 						}
 					}
 
-					publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
+					if (isTripGuestAndFailedToRetrieve) {
+						publishProgress(new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_GUEST_ITINERARY, trip));
+					}
+					else {
+						publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
+					}
+
 
 					gatherAncillaryData = false;
 
@@ -1754,6 +1775,7 @@ public class ItineraryManager implements JSONable {
 			ADDED,
 			UPDATED,
 			UPDATE_FAILED,
+			FAILED_FETCHING_GUEST_ITINERARY,
 			REMOVED,
 			SYNC_ERROR,
 			USER_ADDED_COMPLETED_TRIP,
