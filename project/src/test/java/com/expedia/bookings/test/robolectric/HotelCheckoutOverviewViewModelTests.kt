@@ -39,7 +39,7 @@ public class HotelCheckoutOverviewViewModelTest {
         sut.newRateObserver.onNext(hotelProductResponse)
 
         assertEquals("By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, and the Privacy Policy.", sut.legalTextInformation.value.toString())
-        assertEquals("", sut.disclaimerText.value)
+        assertEquals("", sut.disclaimerText.value.toString())
         assertEquals("Slide to purchase", sut.slideToText.value)
         assertEquals("Your card will be charged $135.81", sut.totalPriceCharged.value)
         assertEquals(Unit, sut.resetMenuButton.value)
@@ -50,7 +50,7 @@ public class HotelCheckoutOverviewViewModelTest {
         givenHotelMustShowResortFee()
         sut.newRateObserver.onNext(hotelProductResponse)
 
-        assertEquals("The $0 resort fee will be collected at the hotel. The total price for your stay will be $135.81.", sut.disclaimerText.value)
+        assertEquals("The $0 resort fee will be collected at the hotel. The total price for your stay will be $135.81.", sut.disclaimerText.value.toString())
     }
 
     @Test
@@ -59,7 +59,7 @@ public class HotelCheckoutOverviewViewModelTest {
         sut.newRateObserver.onNext(hotelProductResponse)
 
         assertEquals("Slide to reserve", sut.slideToText.value)
-        assertEquals("The total for your trip will be $135.81. You'll pay the hotel the total cost of your booking (in the hotel's local currency) during your stay.", sut.disclaimerText.value)
+        assertEquals("The total for your trip will be $135.81. You'll pay the hotel the total cost of your booking (in the hotel's local currency) during your stay.", sut.disclaimerText.value.toString())
     }
 
     @Test
@@ -70,7 +70,7 @@ public class HotelCheckoutOverviewViewModelTest {
         sut.newRateObserver.onNext(hotelProductResponse)
 
         assertEquals("Slide to reserve", sut.slideToText.value)
-        assertEquals("A deposit of $42 will be collected now. You'll pay the hotel the remaining cost of your booking (in the hotel's local currency) during your stay.", sut.disclaimerText.value)
+        assertEquals("A deposit of $42 will be collected now. You'll pay the hotel the remaining cost of your booking (in the hotel's local currency) during your stay.", sut.disclaimerText.value.toString())
     }
 
     private fun givenHotelIsPayLater() {

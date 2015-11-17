@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
+import android.support.annotation.DrawableRes
 import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
@@ -164,7 +165,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val rowExpandingObservable = PublishSubject.create<Int>()
     val hotelRoomRateViewModelsObservable = BehaviorSubject.create<List<com.expedia.vm.HotelRoomRateViewModel>>()
 
-    val hotelResortFeeObservable = BehaviorSubject.create<String>(null)
+    val hotelResortFeeObservable = BehaviorSubject.create<String>(null as String?)
     val hotelResortFeeIncludedTextObservable = BehaviorSubject.create<String>()
     val hotelNameObservable = BehaviorSubject.create<String>()
     val hotelRatingObservable = BehaviorSubject.create<Float>()
@@ -660,10 +661,10 @@ public class HotelRoomRateViewModel(val context: Context, val hotelId: String, v
             dailyPricePerNightObservable.onNext(dailyPrice.formattedMoney)
         }
 
-        val bedTypes = (hotelRoomResponse.bedTypes ?: emptyList()).map { it.description }.join("")
+        val bedTypes = (hotelRoomResponse.bedTypes ?: emptyList()).map { it.description }.joinToString("")
         collapsedBedTypeObservable.onNext(bedTypes)
         expandedBedTypeObservable.onNext(bedTypes)
-        var expandedPair: Pair<String, @DrawableRes Int>
+        var expandedPair: Pair<String, Int>
         if (hotelRoomResponse.hasFreeCancellation) {
             expandedPair = Pair(context.resources.getString(R.string.free_cancellation), R.drawable.room_checkmark)
         } else {

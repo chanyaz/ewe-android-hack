@@ -132,8 +132,8 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
             for (i in 0..amenityContainer.childCount - 1) {
                 val v = amenityContainer.getChildAt(i)
-                if (v is HotelAmenityFilter && v.isSelected) {
-                    v.isSelected = false
+                if (v is HotelAmenityFilter && v.amenitySelected) {
+                    v.amenitySelected = false
                     v.changeColor(resources.getColor(R.color.hotelsv2_checkout_text_color))
                 }
             }

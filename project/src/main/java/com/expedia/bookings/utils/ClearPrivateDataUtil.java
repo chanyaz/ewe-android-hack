@@ -60,6 +60,6 @@ public class ClearPrivateDataUtil {
 		// Clear LX and cars suggestions history
 		SuggestionUtils.deleteCachedSuggestions(context);
 		// Clear new hotels suggestions history
-		new SuggestionV4Utils().deleteCachedSuggestions(context);
+		SuggestionV4Utils.deleteCachedSuggestions(context);
 	}
 }

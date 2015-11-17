@@ -3,10 +3,8 @@ package com.expedia.bookings.utils
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import android.widget
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
@@ -65,7 +63,7 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
             for (index in 0..amenityList.size() - 1) {
 
                 val amenityLayout = com.mobiata.android.util.Ui.inflate<LinearLayout>(R.layout.new_amenity_row, viewGroup, false)
-                val amenityTextView = amenityLayout.findViewById(R.id.amenity_label) as widget.TextView
+                val amenityTextView = amenityLayout.findViewById(R.id.amenity_label) as android.widget.TextView
                 val amenityIconView = amenityLayout.findViewById(R.id.amenity_icon) as ImageView
                 amenityIconView.setLayerType(View.LAYER_TYPE_HARDWARE, paint)
                 val amenityStr = viewGroup.getContext().getString(amenityList.get(index).strId)
