@@ -3,6 +3,7 @@ package com.expedia.bookings.services;
 import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
+import com.expedia.bookings.utils.Strings;
 
 public class HotelCheckoutResponse extends BaseApiResponse {
 
@@ -31,6 +32,7 @@ public class HotelCheckoutResponse extends BaseApiResponse {
 		public String checkInDate;
 		public String checkOutDate;
 		public String hotelId;
+		public String hotelName;
 		public String localizedHotelName;
 		public String hotelAddress;
 		public String hotelCity;
@@ -39,6 +41,13 @@ public class HotelCheckoutResponse extends BaseApiResponse {
 		public String hotelCountry;
 		public String regionId;
 		public String bigImageUrl;
+
+		public String getHotelName() {
+			if (Strings.isEmpty(localizedHotelName)) {
+				return hotelName;
+			}
+			return localizedHotelName;
+		}
 	}
 
 	public static class PriceChangeResponse {

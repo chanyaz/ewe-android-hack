@@ -212,7 +212,7 @@ public class LeanPlumUtils {
 			eventParams.put("CheckOutDate", DateUtils.convertDatetoInt(checkOutDate));
 			eventParams.put("b_win", "" + getBookingWindow(checkInDate));
 			eventParams.put("p_type", "HOTEL");
-			eventParams.put("hotel_friendly_name", hotelCheckoutResponse.checkoutResponse.productResponse.localizedHotelName);
+			eventParams.put("hotel_friendly_name", hotelCheckoutResponse.checkoutResponse.productResponse.getHotelName());
 			eventParams.put("PropertyId", hotelCheckoutResponse.checkoutResponse.productResponse.hotelId);
 			eventParams.put("AveragePrice", "" + avgPrice);
 			eventParams.put("StayDuration", "" + numNights);
