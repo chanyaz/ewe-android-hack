@@ -183,13 +183,11 @@ public class HotelResultsMapViewModel(val resources: Resources, val currentLocat
             if (response.hotelList != null && response.hotelList.size() > 0) {
                 newBoundsObservable.onNext(getMapBounds(response))
             }
-            markersObservable.onNext(hotels)
-
         }
 
         mapResultsSubject.subscribe { response ->
             hotels = response.hotelList
-            markersObservable.onNext(hotels)
+            sortedHotelsObservable.onNext(hotels)
         }
 
         mapPinSelectSubject.subscribe {

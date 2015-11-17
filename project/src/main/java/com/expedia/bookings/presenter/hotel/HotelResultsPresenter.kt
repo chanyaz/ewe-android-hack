@@ -278,7 +278,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         mapCarouselRecycler.adapter = HotelMapCarouselAdapter(emptyList(), hotelSelectedSubject)
 
-        mapViewModel.markersObservable.subscribe {
+        mapViewModel.sortedHotelsObservable.subscribe {
             mapViewModel.selectMarker.onNext(null)
             val hotels = it
             Observable.just(it).subscribeOn(Schedulers.io())
@@ -307,25 +307,15 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                             val marker = googleMap?.addMarker(option)
                             if (marker != null) markers.add(marker)
                         }
-
                         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotels)
                         mapCarouselRecycler.scrollToPosition(0)
-                        val marker = markers.filter { it.title == hotels.first().hotelId }.first()
-                        mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
+                        val markersForHotel = markers.filter { it.title == hotels.first().hotelId }
+                        if (markersForHotel.isNotEmpty()) {
+                            val marker = markersForHotel.first()
+                            mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
+                        }
                     }
-        }
 
-        mapViewModel.sortedHotelsObservable.subscribe {
-            val hotels = it
-            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotels)
-            mapCarouselRecycler.scrollToPosition(0)
-            val markersForHotel = markers.filter { it.title == hotels.first().hotelId }
-            if (markersForHotel.isNotEmpty()) {
-                val marker = markersForHotel.first()
-                val prevMarker = mapViewModel.selectMarker.value
-                if (prevMarker != null) mapViewModel.unselectedMarker.onNext(prevMarker)
-                mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
-            }
         }
 
         mapViewModel.soldOutHotel.subscribe { hotel ->
@@ -441,11 +431,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         fabLp.bottomMargin += resources.getDimension(R.dimen.hotel_filter_height).toInt()
 
         mapViewModel.newBoundsObservable.subscribe {
+            val center = it.center
+            val latLng = LatLng(center.latitude, center.longitude)
+            mapViewModel.mapBoundsSubject.onNext(latLng)
+
             googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * 50), object : GoogleMap.CancelableCallback {
                 override fun onFinish() {
-                    val center = googleMap?.cameraPosition?.target
-                    val latLng = LatLng(center?.latitude!!, center?.longitude!!)
-                    mapViewModel.mapBoundsSubject.onNext(latLng)
+
                 }
 
                 override fun onCancel() {
