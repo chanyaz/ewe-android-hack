@@ -311,7 +311,7 @@ public class HotelMedia implements JSONable, IMedia {
 			@Override
 			public boolean onPreDraw() {
 				view.getViewTreeObserver().removeOnPreDrawListener(this);
-				fillImageView(view, view.getWidth(), placeholderResId, target);
+				fillImageView(view, view.getWidth()/2, placeholderResId, target);
 				return true;
 			}
 		});
