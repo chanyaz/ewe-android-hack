@@ -2847,7 +2847,7 @@
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
     <string name="common_value_add_template">Todas las habitaciones incluyen%s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
-    <string name="select_a_room_instruction">Selecciona una habitación</string>
+    <string name="select_a_room_instruction">Selecciona</string>
     <!-- The text we use when the search date it tonight -->
     <string name="Tonight">Esta noche</string>
     <!-- The text we use when the search date it tonight -->
