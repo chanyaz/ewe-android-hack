@@ -245,6 +245,10 @@ public class HotelScreen {
 		onView(withId(R.id.widget_hotel_errors)).perform(ViewActions.waitForViewToDisplay());
 	}
 
+	public static void waitForConfirmationDisplayed() {
+		onView(withId(R.id.hotel_confirmation_presenter)).perform(ViewActions.waitForViewToDisplay());
+	}
+
 	public static void waitForFilterDisplayed() {
 		onView(withId(R.id.filter_view)).perform(ViewActions.waitForViewToDisplay());
 	}
