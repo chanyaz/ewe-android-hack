@@ -8,6 +8,8 @@ import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FacebookLinkResponse.FacebookLinkResponseCode;
 import com.mobiata.android.Log;
 
+// TODO: this is legacy code, it should be replaced AccountLib ASAP
+
 public class FacebookLinkResponseHandler extends JsonResponseHandler<FacebookLinkResponse> {
 
 	public FacebookLinkResponseHandler(Context context) {

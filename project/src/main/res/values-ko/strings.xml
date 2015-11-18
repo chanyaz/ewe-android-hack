@@ -911,36 +911,6 @@
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
 
-    <!-- Facebook -->
-    <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account_TEMPLATE">&lt;b&gt;{name}&lt;/b&gt; 님, 고객님의 {brand} 계정을 찾은 것 같아요! Facebook과 {brand} 계정을 연결하려면 아래에 {brand} 비밀번호를 입력해 주세요.</string>
-    <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt; 님! 고객님의 Facebook 정보를 가져왔습니다.</string>
-    <!-- Sign in with facebook (button text) -->
-    <string name="Sign_in_with_Facebook">Facebook 계정으로 로그인</string>
-    <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Facebook에서 정보 가져오는 중…</string>
-    <!-- Attempting to sign you in with facebook credentials -->
-    <string name="attempting_to_sign_in_with_facebook">Facebook 인증으로 로그인 시도 중…</string>
-    <!-- We have encountered an error -->
-    <string name="unspecified_error">알 수 없는 오류가 발생했습니다. 나중에 다시 시도해 주세요.</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Facebook에 로그인할 수 없습니다.</string>
-    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="sign_in_failed_try_again">로그인하지 못했습니다. 이메일과 비밀번호가 올바른 경우 앱의 국가 설정이 올바른지 확인해 주세요.</string>
-    <!-- Facebook connect password hint -->
-    <string name="brand_password_hint_TEMPLATE">{brand} 비밀번호</string>
-    <!-- Link accounts -->
-    <string name="link_accounts">계정 연결</string>
-    <!-- User Denied email permission Heading -->
-    <string name="user_denied_permission_email_heading">이메일 권한</string>
-    <!-- Linking your accounts -->
-    <string name="linking_your_accounts">계정 연결 중…</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">이메일 권한 부여하기</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">Facebook 계정으로 로그인하려면 저희에게 고객님의 이메일 주소를 확인할 권한을 주셔야 합니다. \n\n아래의 Facebook 버튼을 눌러 {brand}에 고객님 이메일 주소를 확인할 권한을 주세요. 감사합니다!</string>
-
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">{brand} 계정으로 로그인</string>
     <!-- or -->
@@ -3752,16 +3722,6 @@
     <string name="child_age_label">각 아동의 나이 선택</string>
 
     <string name="lob_not_supported_error_message">죄송합니다. 고객님의 위치에서는 아직 {lob} 예약을 이용하실 수 없습니다.</string>
-
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_an_Expedia_account">익스피디아에 회원가입</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_Expedia">익스피디아에 오신 걸 환영합니다!</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_Expedia_account_already_exists">이 이메일로 익스피디아 계정이 이미 있습니다.</string>
-    <!-- Children age label on hotel search -->
-    <string name="children_age_label">(만 0~17세)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">주변</string>

@@ -40,7 +40,7 @@ dependencies {
         exclude group: 'org.json'
     }
     compile 'com.expedia:svg-android:0.1.0'
-    compile 'com.expedia:android-account-lib:0.5.12'
+    compile 'com.expedia:android-account-lib:0.6.1'
     compile 'com.expedia:android-rangeseekbar:1.0.1'
     compile 'com.dgmltn:share-everywhere:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
@@ -69,8 +69,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.leanplum:Leanplum:1.2.15'
-    compile 'com.facebook.android:facebook-android-sdk:3.21.1'
     compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     compile ('com.wefika:flowlayout:0.4.0') {
         exclude group: 'com.intellij'
     }

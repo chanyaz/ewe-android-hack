@@ -57,7 +57,8 @@ import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.WalletUtils;
-import com.facebook.AppLinkData;
+import com.facebook.FacebookSdk;
+import com.facebook.applinks.AppLinkData;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
@@ -137,6 +138,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			MockModeShim.initMockWebServer(this);
 			startupTimer.addSplit("Mock mode init");
 		}
+
+		FacebookSdk.sdkInitialize(this);
+		startupTimer.addSplit("FacebookSdk started.");
 
 		PicassoHelper.init(this, mAppComponent.okHttpClient());
 		startupTimer.addSplit("Picasso started.");
@@ -224,24 +228,26 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 		startupTimer.addSplit("User upgraded to use AccountManager (if needed)");
 
-		AppLinkData.fetchDeferredAppLinkData(this,
-			new AppLinkData.CompletionHandler() {
-				@Override
-				public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
-					// applinkData is null in case it is not a deferred deeplink.
-					if (appLinkData != null && appLinkData.getTargetUri() != null) {
-						Log.v("Facebook Deferred Deeplink: ", appLinkData.getTargetUri().toString());
-						Intent intent = new Intent();
-						intent.setData(appLinkData.getTargetUri());
-						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						intent.setComponent(new ComponentName(BuildConfig.APPLICATION_ID,
-							"com.expedia.bookings.activity.DeepLinkRouterActivity"));
-						startActivity(intent);
+		if (!isAutomation()) {
+			AppLinkData.fetchDeferredAppLinkData(this,
+				new AppLinkData.CompletionHandler() {
+					@Override
+					public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
+						// applinkData is null in case it is not a deferred deeplink.
+						if (appLinkData != null && appLinkData.getTargetUri() != null) {
+							Log.v("Facebook Deferred Deeplink: ", appLinkData.getTargetUri().toString());
+							Intent intent = new Intent();
+							intent.setData(appLinkData.getTargetUri());
+							intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+							intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							intent.setComponent(new ComponentName(BuildConfig.APPLICATION_ID,
+								"com.expedia.bookings.activity.DeepLinkRouterActivity"));
+							startActivity(intent);
+						}
 					}
 				}
-			}
-		);
+			);
+		}
 
 		if (!isAutomation()) {
 			AdTracker.init(getApplicationContext());

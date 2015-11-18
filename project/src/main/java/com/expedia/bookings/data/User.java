@@ -23,7 +23,7 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.utils.Strings;
-import com.facebook.Session;
+import com.facebook.login.LoginManager;
 import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -189,9 +189,8 @@ public class User implements JSONable {
 		logger.addSplit("ExpediaServices.removeUserLoginCookies(context)");
 
 		//Facebook log out
-		if (Session.getActiveSession() != null) {
-			Session.getActiveSession().closeAndClearTokenInformation();
-		}
+		//TODO: consider moving this to AccountLib
+		LoginManager.getInstance().logOut();
 		logger.addSplit("Facebook Session Closed");
 
 		logger.dumpToLog();

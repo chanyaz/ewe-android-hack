@@ -911,36 +911,6 @@
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
 
-    <!-- Facebook -->
-    <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account_TEMPLATE">Chào &lt;b&gt;{name}&lt;/b&gt;, có vẻ chúng tôi đã tìm được tài khoản {brand} của quý vị! Vui lòng nhập mật khẩu {brand} để liên kết tài khoản Facebook và {brand}.</string>
-    <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">Chào &lt;b&gt;%1$s&lt;/b&gt;, chúng tôi vừa tải xong thông tin tài khoản Facebook của quý vị!</string>
-    <!-- Sign in with facebook (button text) -->
-    <string name="Sign_in_with_Facebook">Đăng nhập bằng Facebook</string>
-    <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Đang tải thông tin từ Facebook…</string>
-    <!-- Attempting to sign you in with facebook credentials -->
-    <string name="attempting_to_sign_in_with_facebook">Đang đăng nhập bằng tài khoản Facebook của quý vị…</string>
-    <!-- We have encountered an error -->
-    <string name="unspecified_error">Chúng tôi đã gặp lỗi không xác định. Vui lòng thử lại sau.</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Không thể đăng nhập Facebook.</string>
-    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="sign_in_failed_try_again">Không đăng nhập được. Nếu đã nhập đúng địa chỉ email và mật khẩu, vui lòng kiểm tra xác nhận cài đặt quốc gia trên app của quý vị chính xác.</string>
-    <!-- Facebook connect password hint -->
-    <string name="brand_password_hint_TEMPLATE">Mật khẩu {brand}</string>
-    <!-- Link accounts -->
-    <string name="link_accounts">Kết nối tài khoản</string>
-    <!-- User Denied email permission Heading -->
-    <string name="user_denied_permission_email_heading">Quyền truy xuất email</string>
-    <!-- Linking your accounts -->
-    <string name="linking_your_accounts">Đang kết nối tài khoản của quý vị…</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">Cho phép truy xuất email</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">Để đăng nhập bằng tài khoản Facebook, quý vị cần cho phép chúng tôi xác thực địa chỉ email. \n\nVui lòng chạm vào nút Facebook dưới đây để cho phép {brand} xác thực địa chỉ email của quý vị. Cám ơn!</string>
-
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Đăng nhập {brand}</string>
     <!-- or -->
@@ -3752,16 +3722,6 @@
     <string name="child_age_label">Chọn tuổi từng trẻ</string>
 
     <string name="lob_not_supported_error_message">Rất tiếc, hiện {lob} chưa hỗ trợ đặt tại địa điểm của quý vị.</string>
-
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_an_Expedia_account">Tạo tài khoản Expedia</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_Expedia">Expedia xin chào</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_Expedia_account_already_exists">Đã có tài khoản Expedia tạo bằng địa chỉ email này</string>
-    <!-- Children age label on hotel search -->
-    <string name="children_age_label">(0-17 tuổi)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Khu vực xung quanh</string>

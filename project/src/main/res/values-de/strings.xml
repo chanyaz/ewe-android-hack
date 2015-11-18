@@ -911,36 +911,6 @@
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
 
-    <!-- Facebook -->
-    <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account_TEMPLATE">Hallo &lt;b&gt;{name}&lt;/b&gt;, wir haben Ihr {brand}-Konto gefunden! Bitte geben Sie unten Ihr {brand}-Passwort ein, um Ihre Facebook- und {brand}-Konten zu verknüpfen.</string>
-    <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">Hallo &lt;b&gt;%1$s&lt;/b&gt;, wir haben Ihre Facebook-Informationen geladen!</string>
-    <!-- Sign in with facebook (button text) -->
-    <string name="Sign_in_with_Facebook">Über Facebook anmelden</string>
-    <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Facebook-Informationen werden abgerufen…</string>
-    <!-- Attempting to sign you in with facebook credentials -->
-    <string name="attempting_to_sign_in_with_facebook">Anmeldung mit Facebook-Benutzerdaten läuft…</string>
-    <!-- We have encountered an error -->
-    <string name="unspecified_error">Leider ist ein unbestimmter Fehler aufgetreten. Bitte versuchen Sie es später erneut.</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Die Anmeldung bei Facebook hat nicht geklappt.</string>
-    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="sign_in_failed_try_again">Anmeldung fehlgeschlagen. Wenn Ihre E-Mail-Adresse und Ihr Passwort korrekt sind, überprüfen Sie bitte die Ländereinstellungen der App.</string>
-    <!-- Facebook connect password hint -->
-    <string name="brand_password_hint_TEMPLATE">{brand}-Passwort</string>
-    <!-- Link accounts -->
-    <string name="link_accounts">Konten verknüpfen</string>
-    <!-- User Denied email permission Heading -->
-    <string name="user_denied_permission_email_heading">E-Mail-Genehmigung</string>
-    <!-- Linking your accounts -->
-    <string name="linking_your_accounts">Ihre Konten werden verknüpft…</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">E-Mail-Genehmigung erteilen</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">Für eine Anmeldung über Facebook brauchen wir Ihre Erlaubnis, um Ihre E-Mail-Adresse zu verifizieren. \n\nBitte tippen Sie unten auf die Facebook-Schaltfläche, um {brand} die Genehmigung zu erteilen, Ihre E-Mail-Adresse zu verifizieren. Vielen Dank!</string>
-
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Bei {brand} anmelden</string>
     <!-- or -->
@@ -3753,16 +3723,6 @@
     <string name="child_age_label">Geben Sie das Alter jedes Kindes an</string>
 
     <string name="lob_not_supported_error_message">Leider können {lob} an Ihrem Standort noch nicht mobil gebucht werden.</string>
-
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_an_Expedia_account">Expedia-Konto erstellen</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_Expedia">Willkommen bei Expedia</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_Expedia_account_already_exists">Es gibt bereits ein Expedia-Konto mit dieser E-Mail-Adresse</string>
-    <!-- Children age label on hotel search -->
-    <string name="children_age_label">(0-17 Jahre)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Umgebung</string>
