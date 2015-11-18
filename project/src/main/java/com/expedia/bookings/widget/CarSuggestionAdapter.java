@@ -66,7 +66,7 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 		}
 
 		private void updateLocationTitleAndSubTitle(Suggestion suggestion) {
-			if (suggestion.iconType == Suggestion.IconType.CURRENT_LOCATION_ICON) {
+			if (Suggestion.CURRENT_LOCATION_ID.equalsIgnoreCase(suggestion.id)) {
 				locationTitle.setText(locationTitle.getContext().getString(R.string.current_location));
 				locationSubtitle.setVisibility(View.GONE);
 			}
