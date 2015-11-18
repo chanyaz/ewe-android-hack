@@ -72,9 +72,6 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
                 hotelCheckoutWidget.slideWidget.resetSlider()
                 hotelCheckoutWidget.checkoutFormWasUpdated()
             }
-            else {
-                cvv.enableBookButton(true)
-            }
         }
     }
 
