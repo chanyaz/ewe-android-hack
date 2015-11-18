@@ -144,7 +144,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             show(presenter, Presenter.FLAG_CLEAR_BACKSTACK)
             presenter.show(presenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_BACKSTACK)
         })
-
+        presenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
         presenter
     }
 
@@ -509,7 +509,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val searchObserver: Observer<HotelSearchParams> = endlessObserver { params ->
         hotelSearchParams = params
         errorPresenter.viewmodel.paramsSubject.onNext(params)
-        checkoutPresenter.hotelCheckoutWidget.setSearchParams(params)
         if (params.suggestion.hotelId != null) {
             // Hotel name search - go straight to details
             showDetails(params.suggestion.hotelId, true)
@@ -537,6 +536,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     val selectedRoomObserver = object : Observer<HotelOffersResponse.HotelRoomResponse> {
         override fun onNext(t: HotelOffersResponse.HotelRoomResponse) {
+            checkoutPresenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
             checkoutPresenter.showCheckout(t)
             show(checkoutPresenter)
         }
