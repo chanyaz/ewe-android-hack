@@ -144,7 +144,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val hasETPObservable = BehaviorSubject.create<Boolean>(false)
     val hasFreeCancellationObservable = BehaviorSubject.create<Boolean>()
     val hasBestPriceGuaranteeObservable = BehaviorSubject.create<Boolean>()
-    val renovationObservable = BehaviorSubject.create<Unit>()
+    val renovationObservable = BehaviorSubject.create<Boolean>()
     val hotelRenovationObservable = BehaviorSubject.create<Pair<String, String>>()
     val hotelPayLaterInfoObservable = BehaviorSubject.create<String>()
     val vipAccessInfoObservable = BehaviorSubject.create<Unit>()
@@ -220,7 +220,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         }
         propertyInfoListObservable.onNext(listHotelInfo)
 
-        if (hotelOffersResponse.hotelRenovationText?.content != null) renovationObservable.onNext(Unit)
+        renovationObservable.onNext(if (hotelOffersResponse.hotelRenovationText?.content != null) true else false)
 
         // common amenities text
         if (CollectionUtils.isNotEmpty(hotelOffersResponse.hotelRoomResponse)) {

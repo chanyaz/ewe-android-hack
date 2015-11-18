@@ -235,7 +235,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         transparentViewOverMiniMap.subscribeOnClick(vm.mapClickedSubject)
 
-        vm.renovationObservable.subscribe { renovationContainer.setVisibility(View.VISIBLE) }
+        vm.renovationObservable.subscribeVisibility(renovationContainer)
         vm.hotelResortFeeObservable.subscribeText(resortFeeWidget.resortFeeText)
         vm.hotelResortFeeIncludedTextObservable.subscribeText(resortFeeWidget.feesIncludedNotIncluded)
 
