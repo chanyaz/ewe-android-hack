@@ -463,7 +463,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 detailPresenter.hotelDetailView.resetGallery()
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             }
-            if (!forward) HotelV2Tracking().trackHotelV2SearchBox()
+            else {
+                HotelV2Tracking().trackHotelV2SearchBox()
+            }
         }
     }
     private val resultsToError = ScaleTransition(this, HotelResultsPresenter::class.java, HotelErrorPresenter::class.java)
