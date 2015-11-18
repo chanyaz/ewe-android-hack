@@ -188,10 +188,16 @@ public class User implements JSONable {
 		ExpediaServices.removeUserLoginCookies(context);
 		logger.addSplit("ExpediaServices.removeUserLoginCookies(context)");
 
+		Session session = Session.getActiveSession();
 		//Facebook log out
-		if (Session.getActiveSession() != null) {
-			Session.getActiveSession().closeAndClearTokenInformation();
+		if (session == null) {
+			session = Session.openActiveSessionFromCache(context);
 		}
+
+		if (session != null) {
+			session.closeAndClearTokenInformation();
+		}
+
 		logger.addSplit("Facebook Session Closed");
 
 		logger.dumpToLog();

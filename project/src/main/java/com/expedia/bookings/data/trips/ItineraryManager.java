@@ -1344,7 +1344,7 @@ public class ItineraryManager implements JSONable {
 			if (session == null) {
 				session = Session.openActiveSessionFromCache(mContext);
 			}
-			if (session != null) {
+			if (session != null && session.isOpened()) {
 				// make request to the /me API
 				Response rep = Request.newMeRequest(session, null).executeAndWait();
 				GraphUser user = rep.getGraphObjectAs(GraphUser.class);

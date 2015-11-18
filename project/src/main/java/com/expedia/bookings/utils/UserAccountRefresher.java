@@ -74,7 +74,7 @@ public class UserAccountRefresher {
 			if (session == null) {
 				session = Session.openActiveSessionFromCache(context);
 			}
-			if (session != null) {
+			if (session != null && session.isOpened()) {
 				fetchFacebookUserInfo(Session.getActiveSession());
 			}
 			else {
