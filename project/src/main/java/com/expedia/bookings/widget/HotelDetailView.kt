@@ -273,9 +273,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.hotelLatLngObservable.subscribe {
             values ->
             hotelLatLng = values
-            googleMap?.clear()
-            addMarker()
-            googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hotelLatLng[0], hotelLatLng[1]), MAP_ZOOM_LEVEL))
+            miniMapView.getMapAsync(this);
         }
 
         vm.payByPhoneContainerVisibility.subscribe { spaceAboveSelectARoom() }
@@ -425,7 +423,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         //getting the map
         miniMapView.onCreate(null)
-        miniMapView.getMapAsync(this);
     }
 
     fun resetViews() {
@@ -451,6 +448,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         payLaterButtonContainer.unsubscribeOnClick()
         gallery.setDataSource(emptyList())
         roomContainer.removeAllViews()
+
+        googleMap?.clear()
+        googleMap?.setMapType(GoogleMap.MAP_TYPE_NONE)
     }
 
     private fun hideResortandSelectRoom() {
@@ -512,6 +512,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         googleMap.getUiSettings().setMapToolbarEnabled(false)
         googleMap.getUiSettings().setMyLocationButtonEnabled(false)
         googleMap.getUiSettings().setZoomControlsEnabled(false)
+
+        googleMap.clear()
+        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL)
+        addMarker()
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hotelLatLng[0], hotelLatLng[1]), MAP_ZOOM_LEVEL))
     }
 
     public fun addMarker() {
