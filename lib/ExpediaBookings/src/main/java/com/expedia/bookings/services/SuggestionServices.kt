@@ -37,7 +37,7 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
         adapter.create<SuggestApi>(SuggestApi::class.java)
     }
 
-    private val MAX_NEARBY_SUGGESTIONS = 1
+    private val MAX_NEARBY_SUGGESTIONS = 3
 
     public fun getCarSuggestions(query: String, locale: String, observer: Observer<MutableList<Suggestion>>): Subscription {
         val type = getTypeForCarSuggestions()
@@ -53,7 +53,15 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
         var lob = "CARS"
         return suggestNearbyV1(locale, latlng, siteId, type, sort, lob)
                 .doOnNext { list -> sortCarSuggestions(list) }
+                .doOnNext { list -> renameFirstResultIdToCurrentLocation(list) }
                 .subscribe(observer)
+    }
+
+    private fun renameFirstResultIdToCurrentLocation(suggestions: MutableList<Suggestion>): List<Suggestion> {
+        if (suggestions.size() > 0) {
+            suggestions.get(0).id = Suggestion.CURRENT_LOCATION_ID
+        }
+        return suggestions
     }
 
     private fun getTypeForCarSuggestions(): Int {

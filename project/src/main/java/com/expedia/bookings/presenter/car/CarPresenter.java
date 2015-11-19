@@ -125,6 +125,10 @@ public class CarPresenter extends Presenter {
 		public void finalizeTransition(boolean forward) {
 			carResultsPresenter.setVisibility(forward ? VISIBLE : GONE);
 			carSearchPresenter.setVisibility(forward ? GONE : VISIBLE);
+			if (forward) {
+				// making sure tool tip is hidden in case of deep link
+				carSearchPresenter.calendarContainer.hideToolTip();
+			}
 			carResultsPresenter.animationFinalize(!forward);
 			carSearchPresenter.animationFinalize(!forward);
 		}
@@ -154,6 +158,7 @@ public class CarPresenter extends Presenter {
 
 	@Subscribe
 	public void onShowSearchWidget(Events.CarsGoToSearch event) {
+		carSearchPresenter.calendarContainer.hideToolTip();
 		show(carSearchPresenter, FLAG_CLEAR_BACKSTACK | FLAG_CLEAR_TOP);
 	}
 }

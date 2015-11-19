@@ -54,6 +54,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView;
 import com.expedia.bookings.widget.CarDateTimeWidget;
 import com.expedia.bookings.widget.CarSuggestionAdapter;
+import com.expedia.bookings.widget.SuggestionBaseAdapter;
 import com.mobiata.android.time.widget.CalendarPicker;
 
 import butterknife.ButterKnife;
@@ -228,7 +229,7 @@ public class CarSearchPresenter extends Presenter
 			searchParamsBuilder.pickupLocationLatLng(carSearchParams.pickupLocationLatLng);
 
 			Suggestion suggestion = new Suggestion();
-
+			suggestion.id = "";
 			if (Strings.isNotEmpty(carSearchParams.origin)) {
 				suggestion.airportCode = carSearchParams.origin;
 			}
@@ -463,7 +464,7 @@ public class CarSearchPresenter extends Presenter
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 		if (actionId == EditorInfo.IME_ACTION_DONE && !Strings.isEmpty(v.getText())) {
 			setCalendarVisibility(View.VISIBLE);
-			Suggestion topSuggestion = suggestionAdapter.getItem(0);
+			Suggestion topSuggestion = giveTopSuggestion();
 			if (topSuggestion != null) {
 				if (carSearchParams == null) {
 					setPickUpLocation(topSuggestion);
@@ -475,6 +476,16 @@ public class CarSearchPresenter extends Presenter
 			hidePickupDropdown();
 		}
 		return false;
+	}
+
+	public Suggestion giveTopSuggestion() {
+		for (int position = 0; position < suggestionAdapter.getCount() - 1; position++) {
+			Suggestion suggestion = suggestionAdapter.getItem(position);
+			if (!(SuggestionBaseAdapter.DEFAULT_AUTOFILL_ITEM_ID).equalsIgnoreCase(suggestion.id)) {
+				return suggestion;
+			}
+		}
+		return null;
 	}
 
 	private void hidePickupDropdown() {
