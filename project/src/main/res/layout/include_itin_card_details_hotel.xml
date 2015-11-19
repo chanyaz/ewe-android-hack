@@ -116,6 +116,24 @@
         android:gravity="center_vertical" />
 
     <com.expedia.bookings.widget.TextView
+        android:id="@+id/non_price_promotion_header_text_view"
+        style="@style/TextView.Itin.SectionHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:text="@string/itin_card_details_non_price_promotion_includes" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/non_price_promotion_text_view"
+        style="@style/TextView.Itin.SectionText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center_vertical" />
+
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/bed_type_header_text_view"
         style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
