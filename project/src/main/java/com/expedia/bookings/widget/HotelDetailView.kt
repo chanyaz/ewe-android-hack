@@ -447,6 +447,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         payNowButtonContainer.unsubscribeOnClick()
         payLaterButtonContainer.unsubscribeOnClick()
         gallery.setDataSource(emptyList())
+        hotelDetailsGalleryImageViews.clear()
         roomContainer.removeAllViews()
 
         googleMap?.clear()
