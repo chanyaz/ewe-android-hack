@@ -39,6 +39,7 @@ import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.HotelRoomRateViewFactory
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.publishOnClick
@@ -170,7 +171,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var selectRoomInAnimator: ObjectAnimator by Delegates.notNull()
     var selectRoomOutAnimator: ObjectAnimator by Delegates.notNull()
 
-    var hotelDetailsGalleryImageViews = ArrayList<HotelDetailsGalleryImageView>()
     private val ANIMATION_DURATION_ROOM_CONTAINER = if (ExpediaBookingApp.isAutomation()) 0L else 250L
 
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
@@ -273,7 +273,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.hotelLatLngObservable.subscribe {
             values ->
             hotelLatLng = values
-            miniMapView.getMapAsync(this);
+            googleMap?.clear()
+            googleMap?.setMapType(GoogleMap.MAP_TYPE_NORMAL)
+            addMarker()
+            googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hotelLatLng[0], hotelLatLng[1]), MAP_ZOOM_LEVEL))
         }
 
         vm.payByPhoneContainerVisibility.subscribe { spaceAboveSelectARoom() }
@@ -287,6 +290,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         vm.hotelMessagingContainerVisibility.subscribeVisibility(hotelMessagingContainer)
 
+
+        // TODO: We don't need an observable here! > Make this manual
         val rowTopConstraintViewObservable: Observable<View> = vm.hasETPObservable.map { hasETP ->
             when {
                 hasETP -> etpContainer
@@ -309,8 +314,12 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                 override fun onAnimationEnd(p0: Animation?) {
                     roomContainer.removeAllViews()
                     roomList.first.forEachIndexed { roomResponseIndex, room ->
-                        val view = HotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex)
-                	view.viewmodel = HotelRoomRateViewModel(getContext(), vm.hotelOffersResponse.hotelId, roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), roomResponseIndex, vm.rowExpandingObservable)
+                        val view = HotelRoomRateViewFactory.makeHotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex,
+                                vm.hotelOffersResponse.hotelId, roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), vm.rowExpandingObservable)
+                        var parent = view.parent
+                        if (parent != null) {
+                            (parent as ViewGroup).removeView(view)
+                        }
                         roomContainer.addView(view)
                         hotelRoomRateViewModels.add(view.viewmodel)
                     }
@@ -327,7 +336,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                     //ignore
                 }
             })
-
             roomContainer.startAnimation(roomContainerAlphaOneToZeroAnimation)
         }
 
@@ -364,8 +372,12 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                 override fun onAnimationEnd(p0: Animation?) {
                     roomContainer.removeAllViews()
                     etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
-                        val view = HotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex)
-                	    view.viewmodel = HotelRoomRateViewModel(getContext(), vm.hotelOffersResponse.hotelId, etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), roomResponseIndex, vm.rowExpandingObservable)
+                        val view = HotelRoomRateViewFactory.makeHotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex,
+                                vm.hotelOffersResponse.hotelId, etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), vm.rowExpandingObservable)
+                        var parent = view.parent
+                        if (parent != null) {
+                            (parent as ViewGroup).removeView(view)
+                        }
                         roomContainer.addView(view)
                         hotelRoomRateViewModels.add(view.viewmodel)
                     }
@@ -423,6 +435,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         //getting the map
         miniMapView.onCreate(null)
+        miniMapView.getMapAsync(this);
     }
 
     fun resetViews() {
@@ -447,7 +460,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         payNowButtonContainer.unsubscribeOnClick()
         payLaterButtonContainer.unsubscribeOnClick()
         gallery.setDataSource(emptyList())
-        hotelDetailsGalleryImageViews.clear()
         roomContainer.removeAllViews()
 
         googleMap?.clear()
@@ -513,11 +525,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         googleMap.getUiSettings().setMapToolbarEnabled(false)
         googleMap.getUiSettings().setMyLocationButtonEnabled(false)
         googleMap.getUiSettings().setZoomControlsEnabled(false)
-
-        googleMap.clear()
-        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL)
-        addMarker()
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hotelLatLng[0], hotelLatLng[1]), MAP_ZOOM_LEVEL))
     }
 
     public fun addMarker() {
@@ -547,7 +554,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     private fun setViewVisibilities() {
         var yoffset = detailContainer.scrollY
 
-        updateGalleryChildrenHeights()
+        updateGalleryChildrenHeights(gallery.selectedItem)
         if (yoffset - initialScrollTop >= 0) {
             galleryRoot.translationY = (yoffset - initialScrollTop) * 0.5f
         } else {
@@ -678,12 +685,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     init {
         View.inflate(getContext(), R.layout.widget_hotel_detail, this)
         gallery.addImageViewCreatedListener(object : RecyclerGallery.IImageViewBitmapLoadedListener {
-            override fun onImageViewBitmapLoaded(hotelDetailsGalleryImageView: HotelDetailsGalleryImageView) {
-                if (!hotelDetailsGalleryImageViews.contains(hotelDetailsGalleryImageView)) {
-                    hotelDetailsGalleryImageViews.add(hotelDetailsGalleryImageView)
-                }
-                hotelDetailsGalleryImageView.setIntermediateValue(height - initialScrollTop, height,
-                        detailContainer.scrollY.toFloat() / initialScrollTop)
+            override fun onImageViewBitmapLoaded(index: Int) {
+                updateGalleryChildrenHeights(index)
             }
         })
         statusBarHeight = Ui.getStatusBarHeight(getContext())
@@ -771,13 +774,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         })
     }
 
-    private fun updateGalleryChildrenHeights() {
-        for (hotelDetailsGalleryImageView in hotelDetailsGalleryImageViews) {
-            hotelDetailsGalleryImageView.setIntermediateValue(height - initialScrollTop, height,
-                    detailContainer.scrollY.toFloat() / initialScrollTop)
-        }
-    }
-
     public fun updateGallery(toFullScreen: Boolean) {
         if (detailContainer.isFlinging) {
             return
@@ -802,6 +798,23 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             val colorMatrix = android.graphics.ColorMatrix()
             colorMatrix.setSaturation(0f)
             ColorMatrixColorFilter(colorMatrix)
+        }
+    }
+
+    private fun updateGalleryChildrenHeights(index: Int) {
+        resizeImageViews(index)
+        resizeImageViews(index - 1)
+        resizeImageViews(index + 1)
+    }
+
+    private fun resizeImageViews(index: Int) {
+        if (index >= 0 && index < gallery.adapter.itemCount) {
+            var holder = gallery.findViewHolderForAdapterPosition(index)
+            if (holder != null) {
+                holder = holder as RecyclerGallery.RecyclerAdapter.ViewHolder
+                holder.mImageView?.setIntermediateValue(height - initialScrollTop, height,
+                        detailContainer.scrollY.toFloat() / initialScrollTop)
+            }
         }
     }
 }

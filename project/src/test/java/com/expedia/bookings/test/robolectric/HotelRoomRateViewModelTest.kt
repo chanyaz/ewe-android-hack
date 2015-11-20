@@ -70,7 +70,7 @@ public class HotelRoomRateViewModelTest {
     fun payLaterOfferShowPerNightPrice() {
         givenOfferIsPayLater()
         setupNonSoldOutRoomUnderTest()
-     
+
         assertEquals("$109/night", sut.strikeThroughPriceObservable.value)
 
     }
@@ -127,7 +127,7 @@ public class HotelRoomRateViewModelTest {
         expectedAmenity = "Free wifi"
         mockHotelDetailViewModel = HotelDetailViewModel(context, mockHotelServiceTestRule.service, endlessObserver { /*ignore*/ })
 
-        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable)
+        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, endlessObserver { })
     }
 
     private fun setupSoldOutRoomUnderTest() {
@@ -135,6 +135,6 @@ public class HotelRoomRateViewModelTest {
         expectedAmenity = "Free wifi"
         mockHotelDetailViewModel = HotelDetailViewModel(context, mockHotelServiceTestRule.service, endlessObserver { /*ignore*/ })
 
-        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable)
+        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, endlessObserver { })
     }
 }

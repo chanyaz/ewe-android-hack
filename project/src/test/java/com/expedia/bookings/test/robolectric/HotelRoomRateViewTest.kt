@@ -16,6 +16,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import kotlin.test.assertEquals
 
+
 @RunWith(RobolectricRunner::class)
 public class HotelRoomRateViewTest {
     public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
@@ -25,14 +26,13 @@ public class HotelRoomRateViewTest {
     lateinit private var hotelRoomRateView: HotelRoomRateView
 
     @Before fun before() {
-        hotelRoomRateView = HotelRoomRateView(RuntimeEnvironment.application, ScrollView(RuntimeEnvironment.application), BehaviorSubject.create<View>(View(RuntimeEnvironment.application)), endlessObserver {  }, 0)
+        hotelRoomRateView = HotelRoomRateView(RuntimeEnvironment.application, ScrollView(RuntimeEnvironment.application), BehaviorSubject.create<View>(View(RuntimeEnvironment.application)), 0)
     }
 
     @Test
     fun soldOutRoomAutoCollapses() {
         givenHotelOffersResponse()
-
-        hotelRoomRateView.viewmodel = HotelRoomRateViewModel(RuntimeEnvironment.application, hotelOffersResponse.hotelId, hotelOffersResponse.hotelRoomResponse.first(), "", 0, PublishSubject.create<Int>())
+        hotelRoomRateView.viewmodel = HotelRoomRateViewModel(RuntimeEnvironment.application, hotelOffersResponse.hotelId, hotelOffersResponse.hotelRoomResponse.first(), "", 0, PublishSubject.create<Int>(), endlessObserver { })
 
         assertEquals(true, hotelRoomRateView.viewRoom.isEnabled)
         assertEquals(false, hotelRoomRateView.viewRoom.isChecked)

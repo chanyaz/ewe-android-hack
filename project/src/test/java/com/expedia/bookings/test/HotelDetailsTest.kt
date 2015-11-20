@@ -475,7 +475,6 @@ public class HotelDetailsTest {
         Assert.assertEquals(View.GONE, hotelDetailView.hotelMessagingContainer.getVisibility())
         Assert.assertEquals(View.GONE, hotelDetailView.etpContainer.getVisibility())
         Assert.assertEquals(View.GONE, hotelDetailView.etpAndFreeCancellationMessagingContainer.getVisibility())
-        hotelDetailView.hotelDetailsGalleryImageViews.forEach { galleryImageView -> Assert.assertNotNull(galleryImageView.colorFilter) }
         Assert.assertEquals(View.GONE, hotelDetailView.stickySelectRoomContainer.getVisibility())
 
     }
@@ -484,7 +483,6 @@ public class HotelDetailsTest {
         Assert.assertEquals(View.GONE, hotelDetailView.changeDatesButton.getVisibility())
         Assert.assertEquals(View.GONE, hotelDetailView.detailsSoldOut.getVisibility())
         Assert.assertEquals(activity.getResources().getColor(R.color.hotelsv2_detail_star_color), hotelDetailView.toolBarRating.getStarColor())
-        hotelDetailView.hotelDetailsGalleryImageViews.forEach { galleryImageView -> Assert.assertNull(galleryImageView.colorFilter) }
         Assert.assertEquals(View.VISIBLE, hotelDetailView.selectRoomButton.getVisibility())
         Assert.assertEquals(View.VISIBLE, hotelDetailView.roomContainer.getVisibility())
         Assert.assertEquals(View.VISIBLE, hotelDetailView.price.getVisibility())

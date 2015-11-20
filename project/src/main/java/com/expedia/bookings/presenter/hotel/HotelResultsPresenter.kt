@@ -65,6 +65,7 @@ import com.expedia.vm.HotelResultsViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
@@ -463,6 +464,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
+        MapsInitializer.initialize(context)
         this.googleMap = googleMap
         val uiSettings = googleMap?.uiSettings
         //Explicitly disallow map-cluttering ui (but keep the gestures)
