@@ -42,6 +42,7 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
@@ -49,6 +50,7 @@ import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.PhoneLaunchToolbar;
 import com.facebook.AppEventsLogger;
+import com.mobiata.android.Log;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
@@ -113,6 +115,8 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		Log.d("*** tom: PhoneLaunchActivity.onCreate()");
+
 		Ui.getApplication(this).defaultLaunchComponents();
 
 		if (Db.getTripBucket().isEmpty()) {
@@ -166,6 +170,8 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 			}
 			showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok);
 		}
+
+		AbacusHelperUtils.downloadBucket(this);
 	}
 
 	@Override
