@@ -2,9 +2,9 @@ package com.expedia.bookings.utils;
 
 import android.content.Context;
 
+import com.expedia.account.data.FacebookLinkResponse;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
@@ -15,12 +15,13 @@ import com.facebook.FacebookSdk;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 
+import rx.Subscriber;
+
 public class UserAccountRefresher {
 	public interface IUserAccountRefreshListener {
 		void onUserAccountRefreshed();
 	}
 
-	private static final String NET_AUTO_LOGIN = "NET_AUTO_LOGIN";
 	private IUserAccountRefreshListener userAccountRefreshListener;
 
 	private String keyRefreshUser;
@@ -104,51 +105,44 @@ public class UserAccountRefresher {
 		Log.d("FB: fetchFacebookUserInfo");
 
 		fbUserId = token.getUserId();
-		BackgroundDownloader bd = BackgroundDownloader.getInstance();
-		if (!bd.isDownloading(NET_AUTO_LOGIN)) {
-			bd.startDownload(NET_AUTO_LOGIN, mFbLinkAutoLoginDownload, mFbLinkAutoLoginHandler);
-		}
-	}
 
-	private final BackgroundDownloader.OnDownloadComplete<FacebookLinkResponse> mFbLinkAutoLoginHandler
-		= new BackgroundDownloader.OnDownloadComplete<FacebookLinkResponse>() {
-		@Override
-		public void onDownload(FacebookLinkResponse results) {
-			if (results != null && results.getFacebookLinkResponseCode() != null && results.isSuccess()) {
-				Log.d("FB: Autologin success" + results.getFacebookLinkResponseCode().name());
+		ServicesUtil.generateAccountService(context)
+			.facebookReauth(context).subscribe(new Subscriber<FacebookLinkResponse>() {
+			@Override
+			public void onCompleted() {
+				// unused
+			}
+
+			@Override
+			public void onError(Throwable e) {
+				failure();
+			}
+
+			@Override
+			public void onNext(FacebookLinkResponse facebookLinkResponse) {
+				if (facebookLinkResponse.isSuccess()) {
+					success();
+				}
+				else {
+					failure();
+				}
+			}
+
+			private void success() {
+				Log.d("FB: Autologin success");
 				BackgroundDownloader bd = BackgroundDownloader.getInstance();
 				if (!bd.isDownloading(keyRefreshUser)) {
 					bd.startDownload(keyRefreshUser, mRefreshUserDownload, mRefreshUserCallback);
 				}
 			}
-			else {
+
+			private void failure() {
 				Log.d("FB: Autologin failed");
 				if (User.isLoggedIn(context)) {
 					doLogout();
 				}
 				userAccountRefreshListener.onUserAccountRefreshed();
 			}
-		}
-	};
-
-	/**
-	 * This attmpts to hand our facebook info to expedia and tries to auto login based on that info.
-	 * This will only succeed if the user has at some point granted Expedia access to fbconnect.
-	 */
-	private final BackgroundDownloader.Download<FacebookLinkResponse> mFbLinkAutoLoginDownload
-		= new BackgroundDownloader.Download<FacebookLinkResponse>() {
-		@Override
-		public FacebookLinkResponse doDownload() {
-			FacebookSdk.sdkInitialize(context);
-			AccessToken token = AccessToken.getCurrentAccessToken();
-
-			Log.d("doDownload: mFbLinkAutoLoginDownload");
-			if (token == null) {
-				Log.e("fbState invalid");
-			}
-
-			ExpediaServices services = new ExpediaServices(context);
-			return services.facebookAutoLogin(fbUserId, token.getToken());
-		}
-	};
+		});
+	}
 }

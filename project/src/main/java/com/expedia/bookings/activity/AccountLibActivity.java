@@ -119,16 +119,12 @@ public class AccountLibActivity extends AppCompatActivity
 			backgroundDrawableResId);
 
 		accountView.configure(Config.build()
-				.setEndpoint(Ui.getApplication(this).appComponent().okHttpClient(),
-					Ui.getApplication(this).appComponent().endpointProvider().getE3EndpointUrl())
-				.setSiteId(PointOfSale.getPointOfSale().getSiteId())
-				.setLangId(PointOfSale.getPointOfSale().getDualLanguageId())
+				.setService(ServicesUtil.generateAccountService(this))
 				.setBackgroundImageView(background)
 				.setPOSEnableSpamByDefault(PointOfSale.getPointOfSale().shouldEnableMarketingOptIn())
 				.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
 				.setEnableFacebookButton(
 					ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
-				.setClientId(ServicesUtil.generateClientId(this))
 				.setListener(listener)
 				.setTOSText(StrUtils.generateAccountCreationLegalLink(this))
 				.setMarketingText(PointOfSale.getPointOfSale().getMarketingText())

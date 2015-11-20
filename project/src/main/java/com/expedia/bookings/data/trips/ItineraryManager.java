@@ -28,10 +28,10 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import com.expedia.account.data.FacebookLinkResponse;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -49,15 +49,16 @@ import com.expedia.bookings.server.PushRegistrationResponseHandler;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.HotelCrossSellUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
-import com.facebook.AccessToken;
-import com.facebook.FacebookSdk;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
+
+import rx.functions.Action1;
 
 /**
  * This singleton keeps all of our itinerary data together.  It loads, syncs and stores all itin data.
@@ -1370,17 +1371,17 @@ public class ItineraryManager implements JSONable {
 		}
 
 		private void reauthFacebookUser() {
-			FacebookSdk.sdkInitialize(mContext);
-			AccessToken token = AccessToken.getCurrentAccessToken();
-			if (token != null) {
-				String fbUserId = token.getUserId();
-				FacebookLinkResponse linkResponse = mServices.facebookAutoLogin(fbUserId, token.getToken());
-				if (linkResponse != null
-					&& linkResponse.getFacebookLinkResponseCode() != null
-					&& linkResponse.isSuccess()) {
-					Log.w(LOGGING_TAG, "FB: Autologin success" + linkResponse.getFacebookLinkResponseCode().name());
+
+			ServicesUtil.generateAccountService(mContext)
+				.facebookReauth(mContext).doOnNext(new Action1<FacebookLinkResponse>() {
+				@Override
+				public void call(FacebookLinkResponse linkResponse) {
+					if (linkResponse != null
+						&& linkResponse.isSuccess()) {
+						Log.w(LOGGING_TAG, "FB: Autologin success");
+					}
 				}
-			}
+			});
 		}
 
 		private void refreshTrip(Trip trip, boolean deepRefresh) {

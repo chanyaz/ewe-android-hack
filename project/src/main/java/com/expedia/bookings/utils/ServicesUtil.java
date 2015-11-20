@@ -5,6 +5,7 @@ import java.util.Locale;
 import android.content.Context;
 import android.os.Build;
 
+import com.expedia.account.AccountService;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -102,6 +103,20 @@ public class ServicesUtil {
 			}
 		}
 		return isUpgrade;
+	}
+
+	/**
+	 * Convenience method that generates an AccountLib.AccountService from EB configuration.
+	 * @param context
+	 * @return
+	 */
+	public static AccountService generateAccountService(Context context) {
+		return new AccountService(
+			Ui.getApplication(context).appComponent().okHttpClient(),
+			Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointUrl(),
+			PointOfSale.getPointOfSale().getSiteId(),
+			PointOfSale.getPointOfSale().getDualLanguageId(),
+			ServicesUtil.generateClientId(context));
 	}
 
 }

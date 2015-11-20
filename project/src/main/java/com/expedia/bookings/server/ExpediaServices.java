@@ -43,7 +43,6 @@ import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
@@ -1212,29 +1211,6 @@ public class ExpediaServices implements DownloadListener {
 		if (traveler.hasTuid()) {
 			query.add(new BasicNameValuePair(prefix + "tuid", traveler.getTuid().toString()));
 		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// Facebook Login API
-	//
-	// Note: This is the api for working with Expedia in regard to a facebook login.
-	// The calls to facebook itself are handled by the FB sdk, and currently happen in LoginFragment.java
-	// TODO: this is legacy code, it should be replaced by that in AccountLib ASAP
-
-	/**
-	 * Login to expedia using facebook credentials
-	 *
-	 * @param facebookUserId
-	 * @param facebookAccessToken
-	 * @return
-	 */
-	public FacebookLinkResponse facebookAutoLogin(String facebookUserId, String facebookAccessToken) {
-		List<BasicNameValuePair> query = new ArrayList<>();
-		query.add(new BasicNameValuePair("provider", "Facebook"));
-		query.add(new BasicNameValuePair("userId", facebookUserId));
-		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
-
-		return doE3Request("api/auth/autologin", query, new FacebookLinkResponseHandler(mContext));
 	}
 
 	//////////////////////////////////////////////////////////////////////////
