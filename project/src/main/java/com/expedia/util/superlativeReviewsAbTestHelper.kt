@@ -12,7 +12,7 @@ fun getGuestRatingRecommendedText(rating: Float, resources:Resources): String {
     return if (isSuperlativeReviewsABTestOn()) {
                 if (isWithSuperlative()) {
                     if (rating < 3.5f) {
-                        resources.getString(R.string.hotel_guest_recommend_no_superlative)
+                        resources.getString(R.string.hotel_guest_recommend)
                     } else if (rating < 4f) {
                         resources.getString(R.string.hotel_guest_recommend_good_superlative)
                     } else if (rating < 4.3f) {
