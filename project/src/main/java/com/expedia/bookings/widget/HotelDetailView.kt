@@ -229,7 +229,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             hotelGalleryIndicator.animate().translationX((galleryDescriptionBar.first * hotelGalleryIndicator.width).toFloat()).
                     setInterpolator(LinearInterpolator()).start()
             hotelGalleryDescription.setText(galleryDescriptionBar.second)
-
         }
 
         transparentViewOverMiniMap.subscribeOnClick(vm.mapClickedSubject)
@@ -324,6 +323,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                         roomContainer.addView(view)
                         hotelRoomRateViewModels.add(view.viewmodel)
                     }
+
                     vm.lastExpandedRowObservable.onNext(-1)
                     vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
                     roomContainer.startAnimation(roomContainerAlphaZeroToOneAnimation)
@@ -381,9 +381,13 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                         }
                         roomContainer.addView(view)
                         hotelRoomRateViewModels.add(view.viewmodel)
+                        view.viewmodel.depositTermsClickedObservable.subscribe {
+                            vm.depositInfoContainerClickObservable.onNext(Pair(vm.hotelOffersResponse.hotelCountry, room))
+                        }
                     }
                     vm.lastExpandedRowObservable.onNext(-1)
                     vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
+
                     roomContainer.startAnimation(roomContainerAlphaZeroToOneAnimation)
                 }
 

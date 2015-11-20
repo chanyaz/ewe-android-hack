@@ -151,9 +151,8 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val hasBestPriceGuaranteeObservable = BehaviorSubject.create<Boolean>()
     val renovationObservable = BehaviorSubject.create<Boolean>()
     val hotelRenovationObservable = BehaviorSubject.create<Pair<String, String>>()
-    val hotelPayLaterInfoObservable = BehaviorSubject.create<String>()
+    val hotelPayLaterInfoObservable = BehaviorSubject.create<Pair<String, List<HotelOffersResponse.HotelRoomResponse>>>()
     val vipAccessInfoObservable = BehaviorSubject.create<Unit>()
-
     val propertyInfoListObservable = BehaviorSubject.create<List<HotelOffersResponse.HotelText>>(emptyList())
 
     val roomResponseListObservable = BehaviorSubject.create<Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>>>()
@@ -190,6 +189,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val promoMessageObservable = BehaviorSubject.create<String>("")
     val strikeThroughPriceObservable = BehaviorSubject.create<CharSequence>()
     val galleryItemChangeObservable = BehaviorSubject.create<Pair<Int, String>>()
+    val depositInfoContainerClickObservable = BehaviorSubject.create<Pair<String, HotelOffersResponse.HotelRoomResponse>>()
     var isCurrentLocationSearch = false
     val scrollToRoom = PublishSubject.create<Unit>()
     val changeDates = PublishSubject.create<Unit>()
@@ -398,7 +398,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     }
 
     val payLaterInfoContainerClickObserver: Observer<Unit> = endlessObserver {
-        hotelPayLaterInfoObservable.onNext(hotelOffersResponse.hotelCountry)
+        hotelPayLaterInfoObservable.onNext(Pair(hotelOffersResponse.hotelCountry, hotelOffersResponse.hotelRoomResponse))
         HotelV2Tracking().trackHotelV2EtpInfo()
     }
 
@@ -412,10 +412,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val hotelMessagingContainerVisibility = Observable.combineLatest(hasDiscountPercentageObservable, hasVipAccessObservable, promoMessageObservable, hotelSoldOut)
     {
         hasDiscount, hasVipAccess, promoMessage, hotelSoldOut ->
-        (hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage))&& !hotelSoldOut
+        (hasDiscount || hasVipAccess || Strings.isNotEmpty(promoMessage)) && !hotelSoldOut
     }
 
-    val etpContainerVisibility =  Observable.combineLatest(hasETPObservable, hotelSoldOut) { hasETPOffer, hotelSoldOut -> hasETPOffer && !hotelSoldOut }
+    val etpContainerVisibility = Observable.combineLatest(hasETPObservable, hotelSoldOut) { hasETPOffer, hotelSoldOut -> hasETPOffer && !hotelSoldOut }
 
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
 
@@ -560,11 +560,9 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             context.resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft)
         } else if (roomOffer.isSameDayDRR) {
             context.resources.getString(R.string.tonight_only)
-        }
-        else if (roomOffer.isDiscountRestrictedToCurrentSourceType) {
+        } else if (roomOffer.isDiscountRestrictedToCurrentSourceType) {
             context.resources.getString(R.string.mobile_exclusive)
-        }
-        else {
+        } else {
             ""
         }
     }
@@ -600,6 +598,8 @@ public class HotelRoomRateViewModel(val context: Context, var hotelId: String, v
     val strikeThroughPriceObservable = BehaviorSubject.create<CharSequence>()
     val dailyPricePerNightObservable = BehaviorSubject.create<String>()
     val perNightPriceVisibleObservable = BehaviorSubject.create<Boolean>()
+    val depositTermsClickedObservable = BehaviorSubject.create<Unit>()
+
     val onlyShowTotalPrice = BehaviorSubject.create<Boolean>()
     val viewRoomObservable = BehaviorSubject.create<Unit>()
     val expandRoomObservable = PublishSubject.create<Boolean>()
@@ -607,14 +607,19 @@ public class HotelRoomRateViewModel(val context: Context, var hotelId: String, v
     val expandedMeasurementsDone = PublishSubject.create<Unit>()
     val roomInfoExpandCollapseObservable = PublishSubject.create<Unit>()
     val roomInfoExpandCollapseObservable1 = PublishSubject.create<Unit>()
-
     val discountPercentage = BehaviorSubject.create<String>()
+    val depositTerms = BehaviorSubject.create<List<String>>()
+
+    // TODO - create sepearate observable+observer for room selection.
+    // -- This should only take care of the expanding and collapsing of the view
     val expandCollapseRoomRateInfoDescription: Observer<Unit> = endlessObserver {
         roomInfoExpandCollapseObservable.onNext(Unit)
     }
 
-    // TODO - create sepearate observable+observer for room selection.
-    // -- This should only take care of the expanding and collapsing of the view
+    val depositInfoContainerClick: Observer<Unit> = endlessObserver {
+        depositTermsClickedObservable.onNext(Unit)
+    }
+
     val expandCollapseRoomRate: Observer<Boolean> = endlessObserver {
         isChecked ->
         if (!isChecked) {
@@ -673,15 +678,19 @@ public class HotelRoomRateViewModel(val context: Context, var hotelId: String, v
         onlyShowTotalPrice.onNext(chargeableRateInfo.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
 
         if (isPayLater) {
-            val depositAmount = chargeableRateInfo.depositAmountToShowUsers?.toDouble() ?: 0.0
-            val depositAmountMoney = Money(BigDecimal(depositAmount), currencyCode)
-            val payLaterText = Phrase.from(context, R.string.room_rate_pay_later_due_now).put("amount", depositAmountMoney.formattedMoney).format().toString()
-            dailyPricePerNightObservable.onNext(payLaterText)
             perNightPriceVisibleObservable.onNext(false)
+            depositTerms.onNext(hotelRoomResponse.depositPolicy)
             // we show price per night in strikeThroughPriceObservable in case of pay later option
+            if (hotelRoomResponse.depositPolicy == null || hotelRoomResponse.depositPolicy.isEmpty()) {
+                val depositAmount = chargeableRateInfo.depositAmountToShowUsers?.toDouble() ?: 0.0
+                val depositAmountMoney = Money(BigDecimal(depositAmount), currencyCode)
+                val payLaterText = Phrase.from(context, R.string.room_rate_pay_later_due_now).put("amount", depositAmountMoney.formattedMoney).format().toString()
+                dailyPricePerNightObservable.onNext(payLaterText)
+            } else {
+                dailyPricePerNightObservable.onNext(makePriceToShowCustomer())
+            }
             strikeThroughPriceObservable.onNext(makePriceToShowCustomer())
-        }
-        else {
+        } else {
             perNightPriceVisibleObservable.onNext(true)
             dailyPricePerNightObservable.onNext(dailyPrice.formattedMoney)
         }

@@ -75,6 +75,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
     private val roomDivider: View by bindView(R.id.row_divider)
     private val spaceAboveRoomInfo: View by bindView(R.id.space_above_room_info)
     private val collapsedContainer: RelativeLayout by bindView(R.id.collapsed_container)
+    private val depositTermsButton: TextView by bindView(R.id.deposit_terms_buttons)
 
     private var roomInfoHeaderTextHeight = -1
     private var roomHeaderImageHeight = -1
@@ -151,6 +152,8 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
         })
 
         roomInfoContainer.subscribeOnClick(vm.expandCollapseRoomRateInfoDescription)
+        depositTermsButton.subscribeOnClick(vm.depositInfoContainerClick)
+
         vm.roomRateInfoTextObservable.subscribeText(roomInfoDescriptionText)
         vm.roomTypeObservable.subscribeText(roomType)
         vm.discountPercentage.subscribeTextAndVisibility(roomDiscountPercentage)
@@ -167,7 +170,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
             freeCancellation.text = expandedMessagePair.first
             freeCancellation.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
         }
-        vm.dailyPricePerNightObservable.subscribeText(dailyPricePerNight)
+        vm.dailyPricePerNightObservable.subscribeTextAndVisibility(dailyPricePerNight)
         vm.viewRoomObservable.subscribe {
             viewRoom.isChecked = true
         }
@@ -254,6 +257,12 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
             viewRoom.setPadding(toggleExpanded, 0, toggleExpanded, 0)
             roomInfoContainer.setPadding(roomContainerLeftRightPadding, roomContainerTopBottomPadding, roomContainerLeftRightPadding, roomContainerTopBottomPadding)
             row.isEnabled = false
+            var depositTerms = vm.depositTerms.value
+            var showTerms = depositTerms?.isNotEmpty() ?: false
+            depositTermsButton.visibility = if (showTerms) View.VISIBLE else View.GONE
+            if (showTerms) {
+                dailyPricePerNight.visibility = View.GONE
+            }
             collapsedContainer.setBackgroundColor(Color.WHITE)
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
             dailyPricePerNight.setTextColor(resources.getColor(R.color.hotels_primary_color))
@@ -313,6 +322,12 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
             }
 
             row.isEnabled = true
+            depositTermsButton.visibility = View.GONE
+            var depositTerms = vm.depositTerms.value
+            var showTerms = depositTerms?.isNotEmpty() ?: false
+            if (showTerms) {
+                dailyPricePerNight.visibility = View.VISIBLE
+            }
             collapsedContainer.background = ContextCompat.getDrawable(context, R.drawable.hotel_detail_ripple)
             viewRoom.setPadding(toggleCollapsed, 0, toggleCollapsed, 0)
             roomInfoContainer.setPadding(0, 0, 0, 0)
