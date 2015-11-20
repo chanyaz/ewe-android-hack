@@ -94,9 +94,12 @@ public class ItinAirAttachCard<T extends ItinCardDataAirAttach> extends LinearLa
 	private void init(Context context) {
 		// Initialize air attach data
 		mAirAttach = Db.getTripBucket().getAirAttach();
-		mExpirationDate = mAirAttach.getExpirationDate();
-		DateTime currentDate = new DateTime();
-		int daysRemaining = JodaUtils.daysBetween(currentDate, mExpirationDate);
+		int daysRemaining = 0;
+		if (mAirAttach != null) { // can be null (see #5771)
+			mExpirationDate = mAirAttach.getExpirationDate();
+			DateTime currentDate = new DateTime();
+			daysRemaining = JodaUtils.daysBetween(currentDate, mExpirationDate);
+		}
 
 		// Get air attach button layout
 		inflate(context, R.layout.itin_air_attach_card, this);
