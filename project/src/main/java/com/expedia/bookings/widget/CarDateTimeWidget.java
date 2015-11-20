@@ -16,7 +16,6 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.NinePatchDrawable;
 import android.os.Build;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -201,12 +200,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		}
 
 		buildParams(start, end);
-
-		new Handler().postDelayed(new Runnable() {
-			public void run() {
-				drawCalendarTooltip(start, end);
-			}
-		}, 50);
+		drawCalendarTooltip(start, end);
 		validateTimes();
 	}
 
