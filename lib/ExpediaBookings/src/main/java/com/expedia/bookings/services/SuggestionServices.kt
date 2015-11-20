@@ -95,7 +95,9 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
     }
 
     public fun getNearbyLxSuggestions(locale: String, latlng: String, siteId: Int, observer: Observer<MutableList<Suggestion>>): Subscription {
-        return getNearbyLxSuggestions(locale, latlng, siteId).subscribe(observer)
+        return getNearbyLxSuggestions(locale, latlng, siteId)
+                .doOnNext { list -> renameFirstResultIdToCurrentLocation(list) }
+                .subscribe(observer)
     }
 
     public fun getNearbyLxSuggestions(locale: String, latlng: String, siteId: Int): Observable<MutableList<Suggestion>> {
