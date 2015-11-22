@@ -153,8 +153,7 @@ public class DeepLinkRouterActivity extends Activity {
 			finish = true;
 			break;
 		case "hotelSearch":
-			handleHotelSearch(data, queryData);
-			finish = false;
+			finish = handleHotelSearch(data, queryData);
 			break;
 		case "flightSearch":
 			handleFlightSearch(data, queryData);
@@ -486,7 +485,7 @@ public class DeepLinkRouterActivity extends Activity {
 			AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
 			query.addExperiment(AbacusUtils.EBAndroidAppHotelsABTest);
 			com.expedia.bookings.utils.Ui.getApplication(this).appComponent().abacus().downloadBucket(query, abacusSubscriber, 5, TimeUnit.SECONDS);
-
+			return false;
 		}
 		return true;
 	}
