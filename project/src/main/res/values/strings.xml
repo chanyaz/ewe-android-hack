@@ -2615,8 +2615,7 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">of 5 - guest rating</string>
-
-    <string name="hotel_guest_recommend_no_superlative">of 5</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
     <string name="hotel_guest_recommend_good_superlative">of 5 - Good!</string>
     <string name="hotel_guest_recommend_very_good_superlative">of 5 - Very Good!</string>
     <string name="hotel_guest_recommend_excellent_superlative">of 5 - Excellent!</string>
