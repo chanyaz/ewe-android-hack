@@ -9,33 +9,26 @@ import com.expedia.bookings.data.hotels.HotelCheckoutParams
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
-import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.JodaUtils
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelCheckoutViewModel
-import com.expedia.vm.HotelCreateTripViewModel
 import org.joda.time.format.ISODateTimeFormat
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
 public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
-    var hotelServices: HotelServices by Delegates.notNull()
-        @Inject set
 
     var hotelCheckoutViewModel: HotelCheckoutViewModel by Delegates.notNull()
-        @Inject set
 
     val hotelCheckoutWidget: HotelCheckoutMainViewPresenter by bindView(R.id.checkout)
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
 
     init {
-        Ui.getApplication(getContext()).hotelComponent().inject(this)
         View.inflate(getContext(), R.layout.widget_hotel_checkout, this)
     }
 
@@ -46,11 +39,8 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         hotelCheckoutWidget.emailOptInStatus.subscribe { status ->
             hotelCheckoutWidget.mainContactInfoCardView.setUPEMailOptCheckBox(status)
         }
-        hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(hotelServices)
 
         cvv.setCVVEntryListener(this)
-
-        hotelCheckoutViewModel.checkoutParams.subscribe { cvv.enableBookButton(false) }
     }
 
     fun showCheckout(offer: HotelOffersResponse.HotelRoomResponse) {

@@ -34,6 +34,9 @@ import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.ui.HotelActivity.Screen
 import com.expedia.util.endlessObserver
 import com.expedia.vm.GeocodeSearchModel
+import com.expedia.vm.HotelCheckoutViewModel
+import com.expedia.vm.HotelConfirmationViewModel
+import com.expedia.vm.HotelCreateTripViewModel
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelErrorViewModel
 import com.expedia.vm.HotelMapViewModel
@@ -77,7 +80,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.showDefault()
         presenter
     }
-
     val detailsStub: ViewStub by bindView(R.id.details_stub)
     val detailPresenter: HotelDetailPresenter by lazy {
         var presenter = detailsStub.inflate() as HotelDetailPresenter
@@ -107,6 +109,10 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val checkoutStub: ViewStub by bindView(R.id.checkout_stub)
     val checkoutPresenter: HotelCheckoutPresenter by lazy{
         var presenter = checkoutStub.inflate() as HotelCheckoutPresenter
+        presenter.hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(hotelServices)
+        presenter.hotelCheckoutViewModel = HotelCheckoutViewModel(hotelServices)
+        confirmationPresenter.hotelConfirmationViewModel = HotelConfirmationViewModel(presenter.hotelCheckoutViewModel.checkoutResponseObservable, context)
+        presenter.hotelCheckoutViewModel.checkoutParams.subscribe { presenter.cvv.enableBookButton(false) }
         presenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
             checkoutDialog.dismiss()
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
@@ -159,7 +165,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
-
         geoCodeSearchModel.geoResults.subscribe { geoResults ->
             fun triggerNewSearch(selectedResultIndex: Int) {
                 val newHotelSearchParams = hotelSearchParams.copy()
