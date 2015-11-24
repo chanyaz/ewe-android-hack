@@ -157,6 +157,7 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
     // output
     val legalTextInformation = BehaviorSubject.create<SpannableStringBuilder>()
     val disclaimerText = BehaviorSubject.create<Spanned>()
+    val depositPolicyText = BehaviorSubject.create<Spanned>()
     val slideToText = BehaviorSubject.create<String>()
     val totalPriceCharged = BehaviorSubject.create<String>()
     val resetMenuButton = BehaviorSubject.create<Unit>()
@@ -164,6 +165,7 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
     init {
         newRateObserver.subscribe {
             disclaimerText.onNext(Html.fromHtml(""))
+
             val room = it.hotelRoomResponse
             if (room.isPayLater) {
                 slideToText.onNext(context.getString(R.string.hotelsv2_slide_reserve))
@@ -177,14 +179,14 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
                 val resortFees = Money(BigDecimal(room.rateInfo.chargeableRateInfo.totalMandatoryFees.toDouble()), currencyCode).formattedMoney
                 val text = Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, resortFees, tripTotal));
                 disclaimerText.onNext(text)
-            } else if (room.isPayLater) {
+            }
+            if (room.isPayLater) {
                 if (room.rateInfo.chargeableRateInfo.depositAmount != null) {
-                    val deposit = Money(BigDecimal(room.rateInfo.chargeableRateInfo.depositAmount), currencyCode).formattedMoney
-                    val text = Html.fromHtml(context.getString(R.string.pay_later_deposit_disclaimer_TEMPLATE, deposit))
-                    disclaimerText.onNext(text)
+                    val depositText = Html.fromHtml(room.depositPolicy.get(0) + " "+ room.depositPolicy.get(1))
+                    depositPolicyText.onNext(depositText)
                 } else {
                     val text = Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal))
-                    disclaimerText.onNext(text)
+                    depositPolicyText.onNext(text)
                 }
             }
 
