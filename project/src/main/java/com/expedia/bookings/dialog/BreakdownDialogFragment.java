@@ -236,18 +236,20 @@ public class BreakdownDialogFragment extends DialogFragment {
 		Rate rateWeCareAbout = couponRate == null ? originalRate : couponRate;
 		boolean resortCase = rateWeCareAbout.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES;
 		boolean payLaterCase = rateWeCareAbout.isPayLater() && !AndroidUtils.isTablet(context);
+		// #5665: zero deposit for tablet only
+		boolean isZeroDepositCaseTablet = AndroidUtils.isTablet(context) && (rateWeCareAbout.isPayLater() || rateWeCareAbout.depositRequired());
 
 		// Show amount to be paid today in resort or ETP cases
-		if (resortCase || payLaterCase) {
+		if (resortCase || payLaterCase || isZeroDepositCaseTablet) {
 			Money dueToday;
-			if (payLaterCase) {
+			if (payLaterCase || isZeroDepositCaseTablet) {
 				dueToday = rateWeCareAbout.getDepositAmount();
 			}
 			else {
 				dueToday = rateWeCareAbout.getTotalAmountAfterTax();
 			}
 
-			CharSequence dueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE)
+			CharSequence dueTodayText = Phrase.from(context, R.string.due_to_brand_today_today_TEMPLATE)
 				.put("brand", BuildConfig.brand)
 				.format();
 

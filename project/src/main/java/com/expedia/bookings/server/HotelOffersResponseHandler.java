@@ -28,6 +28,7 @@ import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
+import com.mobiata.android.util.AndroidUtils;
 
 public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersResponse> {
 
@@ -377,6 +378,12 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		Money depositToShowUsers = ParserUtils.createMoney(chargeableRateInfo.optString("depositAmountToShowUsers",
 				"0.0"),
 			currencyCode);
+		// 0 out deposit amount (deposit v2 tablet only: #5665)
+		if (AndroidUtils.isTablet(mContext)) {
+			depositAmount = ParserUtils.createMoney("0", currencyCode);
+			depositToShowUsers = ParserUtils.createMoney("0", currencyCode);
+		}
+
 		Money priceToShowUsers = ParserUtils.createMoney(chargeableRateInfo.getString("priceToShowUsers"),
 			currencyCode);
 		Money strikethroughPriceToShowUsers = ParserUtils.createMoney(
@@ -481,6 +488,14 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 			JSONObject etpOffer = jsonRate.getJSONObject("payLaterOffer");
 			Rate etpOfferRate = parseJsonHotelOffer(etpOffer, numberOfNights);
 			rate.addEtpOffer(etpOfferRate);
+		}
+
+		if (jsonRate.has("depositPolicy") && jsonRate.getJSONArray("depositPolicy").length() > 1) {
+			JSONArray deposityPolicyJSON = jsonRate.getJSONArray("depositPolicy");
+			String[] depositPolicy = new String[2];
+			depositPolicy[0] = deposityPolicyJSON.getString(0);
+			depositPolicy[1] = deposityPolicyJSON.getString(1);
+			rate.setDepositPolicy(depositPolicy);
 		}
 
 		return rate;
