@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.PointF;
 import android.util.AttributeSet;
@@ -16,12 +15,11 @@ import com.expedia.bookings.R;
  * the phone UI Hotel Details screen.
  *
  * @author doug@mobiata.com
- *
  */
 public class HotelDetailsScrollView extends GalleryScrollView {
 
 	public interface HotelDetailsMiniMapClickedListener {
-		public void onHotelDetailsMiniMapClicked();
+		void onHotelDetailsMiniMapClicked();
 	}
 
 	ViewGroup mMapOuterContainer;
@@ -68,7 +66,6 @@ public class HotelDetailsScrollView extends GalleryScrollView {
 		}
 	}
 
-	@TargetApi(11)
 	@Override
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		super.onSizeChanged(w, h, oldw, oldh);
@@ -81,6 +78,7 @@ public class HotelDetailsScrollView extends GalleryScrollView {
 	/**
 	 * A side effect of this function is that mGalleryContainer gets initialized
 	 * if the gallery view is present.
+	 *
 	 * @return
 	 */
 	private boolean hasGallery() {
@@ -112,7 +110,8 @@ public class HotelDetailsScrollView extends GalleryScrollView {
 	private void initMap() {
 		mMapOuterContainer = (ViewGroup) findViewById(R.id.hotel_details_map_fragment_outer_container);
 		if (mMapOuterContainer != null) {
-			mMapContainer = (TouchableFrameLayout) mMapOuterContainer.findViewById(R.id.hotel_details_map_fragment_container);
+			mMapContainer = (TouchableFrameLayout) mMapOuterContainer
+				.findViewById(R.id.hotel_details_map_fragment_container);
 			mMapContainer.setBlockNewEventsEnabled(true);
 			mMapContainer.setTouchListener(new TouchableFrameLayout.TouchListener() {
 				@Override
@@ -201,8 +200,6 @@ public class HotelDetailsScrollView extends GalleryScrollView {
 		animateScrollY(from, to);
 	}
 
-
-	@TargetApi(11)
 	private void galleryCounterscroll(int parentScroll) {
 		// Setup interpolator for Gallery counterscroll (if needed)
 		if (mIGalleryScroll == null) {
@@ -273,5 +270,4 @@ public class HotelDetailsScrollView extends GalleryScrollView {
 	public int getInitialScrollTop() {
 		return mInitialScrollTop;
 	}
-
 }

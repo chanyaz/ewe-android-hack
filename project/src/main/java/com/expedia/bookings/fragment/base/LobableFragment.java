@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment.base;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -14,7 +12,6 @@ import com.expedia.bookings.utils.FragmentBailUtils;
  * 
  * We are deloping many fragment that depend on LOB for tablet checkout 2014, so it seems reasonable to abstract this stuff.
  */
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public abstract class LobableFragment extends Fragment implements ILOBable {
 
 	private static final String STATE_LOB = "STATE_LOB";

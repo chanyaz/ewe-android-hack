@@ -15,7 +15,7 @@ public class ThrobberDialog extends DialogFragment {
 	private CancelListener mCancelListener;
 
 	public interface CancelListener {
-		public void onCancel();
+		void onCancel();
 	}
 
 	private static final String ARG_MESSAGE = "ARG_MESSAGE";

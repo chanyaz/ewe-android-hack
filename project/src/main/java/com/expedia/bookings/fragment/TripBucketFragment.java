@@ -1,8 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -36,8 +33,8 @@ import com.mobiata.android.widget.UndoBarController;
 /**
  * TripBucketFragment: designed for tablet results 2014
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class TripBucketFragment extends Fragment implements FragmentAvailabilityUtils.IFragmentAvailabilityProvider, com.mobiata.android.widget.UndoBarController.UndoListener {
+public class TripBucketFragment extends Fragment implements FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
+	com.mobiata.android.widget.UndoBarController.UndoListener {
 
 	private static final String FTAG_BUCKET_FLIGHT = "FTAG_BUCKET_FLIGHT";
 	private static final String FTAG_BUCKET_HOTEL = "FTAG_BUCKET_HOTEL";
@@ -52,7 +49,6 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	private boolean mHotelInLimbo;
 	private boolean mFlightInLimbo;
 
-	private View mRootC;
 	private ScrollView mScrollC;
 	private LinearLayout mContentC;
 	private SwipeOutLayout mHotelC;
@@ -64,24 +60,19 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	private Space mEmptySpace;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = inflater.inflate(R.layout.fragment_tripbucket, null, false);
-		mScrollC = Ui.findView(mRootC, R.id.scroll_container);
-		mContentC = Ui.findView(mRootC, R.id.content_container);
-		mEmptySpace = Ui.findView(mRootC, R.id.trip_bucket_empty_space);
+		View rootView = inflater.inflate(R.layout.fragment_tripbucket, null, false);
+		mScrollC = Ui.findView(rootView, R.id.scroll_container);
+		mContentC = Ui.findView(rootView, R.id.content_container);
+		mEmptySpace = Ui.findView(rootView, R.id.trip_bucket_empty_space);
 
-		mHotelC = Ui.findView(mRootC, R.id.trip_bucket_hotel_trip_swipeout);
-		mHotelCard = Ui.findView(mRootC, R.id.trip_bucket_hotel_trip);
-		mHotelUndo = Ui.findView(mRootC, R.id.hotel_swipe_out_undo_bar);
+		mHotelC = Ui.findView(rootView, R.id.trip_bucket_hotel_trip_swipeout);
+		mHotelCard = Ui.findView(rootView, R.id.trip_bucket_hotel_trip);
+		mHotelUndo = Ui.findView(rootView, R.id.hotel_swipe_out_undo_bar);
 
-		mFlightC = Ui.findView(mRootC, R.id.trip_bucket_flight_trip_swipeout);
-		mFlightCard = Ui.findView(mRootC, R.id.trip_bucket_flight_trip);
-		mFlightUndo = Ui.findView(mRootC, R.id.flight_swipe_out_undo_bar);
+		mFlightC = Ui.findView(rootView, R.id.trip_bucket_flight_trip_swipeout);
+		mFlightCard = Ui.findView(rootView, R.id.trip_bucket_flight_trip);
+		mFlightUndo = Ui.findView(rootView, R.id.flight_swipe_out_undo_bar);
 
 		mHotelC.addListener(new TripBucketSwipeListener(LineOfBusiness.HOTELS));
 		mHotelC.setSwipeOutThresholdPercentage(BUCKET_ITEM_SWIPE_THRESHOLD);
@@ -92,7 +83,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 		mHotelUndo.setDividerPadding(undoDividerPadding);
 		mFlightUndo.setDividerPadding(undoDividerPadding);
 
-		return mRootC;
+		return rootView;
 	}
 
 	/**
@@ -215,13 +206,14 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 
 		@Override
 		public void onSwipeAllTheWay() {
-			TripBucketItem item = (mLob == LineOfBusiness.FLIGHTS ? Db.getTripBucket().getFlight() : Db.getTripBucket().getHotel());
+			TripBucketItem item = (mLob == LineOfBusiness.FLIGHTS ? Db.getTripBucket().getFlight()
+				: Db.getTripBucket().getHotel());
 			if (item != null) {
 				tripBucketItemRemoved(item);
 				OmnitureTracking.trackTripBucketItemRemoval(mLob);
 			}
 		}
-	};
+	}
 
 	/*
 	 * FRAG AVAILABILITY
@@ -229,10 +221,10 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 
 	@Override
 	public Fragment getExistingLocalInstanceFromTag(String tag) {
-		if (tag == FTAG_BUCKET_FLIGHT) {
+		if (FTAG_BUCKET_FLIGHT.equals(tag)) {
 			return mTripBucketFlightFrag;
 		}
-		else if (tag == FTAG_BUCKET_HOTEL) {
+		else if (FTAG_BUCKET_HOTEL.equals(tag)) {
 			return mTripBucketHotelFrag;
 		}
 		return null;
@@ -240,10 +232,10 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 
 	@Override
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
-		if (tag == FTAG_BUCKET_FLIGHT) {
+		if (FTAG_BUCKET_FLIGHT.equals(tag)) {
 			return TripBucketFlightFragment.newInstance();
 		}
-		else if (tag == FTAG_BUCKET_HOTEL) {
+		else if (FTAG_BUCKET_HOTEL.equals(tag)) {
 			return TripBucketHotelFragment.newInstance();
 		}
 		return null;
@@ -251,7 +243,6 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
-
 	}
 
 	/*
@@ -326,7 +317,7 @@ public class TripBucketFragment extends Fragment implements FragmentAvailability
 	}
 
 	public interface UndoAnimationEndListener {
-		public void onUndoAnimationListenerEnd();
+		void onUndoAnimationListenerEnd();
 	}
 
 	public boolean hasItemsInUndoState() {

@@ -1,9 +1,8 @@
 package com.expedia.bookings.fragment.base;
 
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,7 +29,6 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ColorBuilder;
-import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
 
@@ -41,7 +39,6 @@ import com.expedia.bookings.widget.TextView;
 public abstract class TripBucketItemFragment extends Fragment implements IStateProvider<TripBucketItemState> {
 
 	private static final String STATE_BUCKET_ITEM_STATE = "STATE_BUCKET_ITEM_STATE";
-	private static final String STATE_OVERLAY_COLOR_FETCHED = "STATE_OVERLAY_COLOR_FETCHED";
 
 	protected static final int[] DEFAULT_GRADIENT_COLORS = new int[] {
 		0x00000000,
@@ -83,8 +80,8 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private ITripBucketBookClickListener mListener;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, ITripBucketBookClickListener.class);
 	}
@@ -188,25 +185,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		return mListener;
 	}
 
-	public int getTopHeight() {
-		return mTopC.getHeight();
-	}
-
-	public Rect getTopRect() {
-		if (mTopC != null) {
-			return ScreenPositionUtils.getGlobalScreenPositionWithoutTranslations(mTopC);
-		}
-		return new Rect();
-	}
-
-	public int getExpandedHeight() {
-		return mExpandedC.getHeight();
-	}
-
-	public int getPriceChangeHeight() {
-		return mPriceChangedC.getHeight();
-	}
-
 	public void setState(TripBucketItemState state) {
 		setState(state, false);
 	}
@@ -264,13 +242,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			}
 		}
 
-	}
-
-	public void setRoundedCornersVisible(boolean visible) {
-		if (mCardCornersBottom != null) {
-			mCardCornersBottom.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
-			mCardCornersTop.setVisibility(visible ? View.VISIBLE : View.INVISIBLE);
-		}
 	}
 
 	public CharSequence getSoldOutText() {
@@ -552,7 +523,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mHeaderBitmapDrawable.setOverlayDrawable(mSoldOutUnSelectedOverlay);
 			mTopC.setPadding(0, 0, 0, 0);
 		}
-
 	}
 
 	protected void setVisibilityState(TripBucketItemState state) {

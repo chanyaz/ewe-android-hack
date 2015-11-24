@@ -32,7 +32,6 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 	private TravelersFilter mFilter = new TravelersFilter();
 	private String mFilterStr;
-	private int mTravelerNumber = -1;
 
 	private boolean isAddTravelerEnabled = true;
 	private int mTravelerBackgroundDrawable = R.drawable.traveler_circle;
@@ -76,25 +75,11 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 		return null;
 	}
 
-	public void setTravelerNumber(int travelerNumber) {
-		mTravelerNumber = travelerNumber;
-	}
-
-	public Traveler getItemFromId(long id) {
-		if (Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null) {
-			for (Traveler trav : Db.getUser().getAssociatedTravelers()) {
-				if (trav.getTuid() == id) {
-					return trav;
-				}
-			}
-		}
-		return null;
-	}
-
 	private static class ViewHolder {
 		TextView tv;
 		TextView initials;
 		ImageView icon;
+
 		public ViewHolder(View v) {
 			tv = Ui.findView(v, R.id.text1);
 			icon = Ui.findView(v, R.id.icon);
@@ -207,11 +192,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 			return availableTravelers;
 		}
-		return new ArrayList<Traveler>();
-	}
-
-	public void clearFilter() {
-		mFilterStr = "";
+		return new ArrayList<>();
 	}
 
 	@Override

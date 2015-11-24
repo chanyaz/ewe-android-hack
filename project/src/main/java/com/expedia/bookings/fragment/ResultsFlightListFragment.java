@@ -1,15 +1,12 @@
 package com.expedia.bookings.fragment;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
+import android.content.Context;
 import android.database.DataSetObserver;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -30,11 +27,10 @@ import com.mobiata.android.util.Ui;
 /**
  * ResultsFlightListFragment: The flight list fragment designed for tablet results 2013
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlightsListState> {
 
 	public interface IFlightListHeaderClickListener {
-		public void onTopRightClicked();
+		void onTopRightClicked();
 	}
 
 	private static final String STATE_LEG_NUMBER = "STATE_LEG_NUMBER";
@@ -98,8 +94,8 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mFlightSelectedListener = Ui.findFragmentListener(this, IResultsFlightSelectedListener.class);
 		mListHeaderClickListener = Ui.findFragmentListener(this, IFlightListHeaderClickListener.class, false);
@@ -130,13 +126,6 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 		Db.getFlightSearch().setSelectedLeg(mLegNumber, null);
 		Db.getFlightSearch().clearQuery(mLegNumber);
 		resetAdapterQuery();
-	}
-
-	public void setEnableOnListItemClick(boolean enable) {
-		mEnableOnListItemClick = enable;
-		if (hasList()) {
-			getListView().setChoiceMode(enable ? AbsListView.CHOICE_MODE_SINGLE : AbsListView.CHOICE_MODE_NONE);
-		}
 	}
 
 	@Override

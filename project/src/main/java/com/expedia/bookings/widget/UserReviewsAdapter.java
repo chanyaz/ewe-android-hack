@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
@@ -163,10 +162,9 @@ public class UserReviewsAdapter extends BaseAdapter {
 	}
 
 	private void populateUserReviewsView(final UserReviewViewHolder viewHolder, final ReviewWrapper userReviewLoaded,
-			final int position) {
+		final int position) {
 		// This click listener is set outside of the convertView so that it displays the right data
 		viewHolder.body.setOnClickListener(new OnClickListener() {
-			@TargetApi(8)
 			@Override
 			public void onClick(View v) {
 				viewHolder.body.setText(userReviewLoaded.mReview.getBody());
@@ -195,7 +193,8 @@ public class UserReviewsAdapter extends BaseAdapter {
 			SpannableBuilder builder = new SpannableBuilder();
 			builder.append(userReviewLoaded.mBodyReduced);
 			builder.append(" ");
-			builder.append(mContext.getString(R.string.more), new ForegroundColorSpan(0xFF245FB3), FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
+			builder.append(mContext.getString(R.string.more), new ForegroundColorSpan(0xFF245FB3),
+				FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
 			viewHolder.body.setText(builder.build());
 		}
 		else {
@@ -211,7 +210,7 @@ public class UserReviewsAdapter extends BaseAdapter {
 
 		if (hasName && hasLocation) {
 			nameAndLocationText = String.format(mContext.getString(R.string.user_review_name_and_location_signature),
-					name, location);
+				name, location);
 		}
 		else if (!hasName && hasLocation) {
 			nameAndLocationText = location;
@@ -219,7 +218,6 @@ public class UserReviewsAdapter extends BaseAdapter {
 		else if (hasName && !hasLocation) {
 			nameAndLocationText = name;
 		}
-
 
 		DateTime dateTime = userReviewLoaded.mReview.getSubmissionDate();
 		String submissionDateText = ProductFlavorFeatureConfiguration.getInstance()
@@ -231,7 +229,8 @@ public class UserReviewsAdapter extends BaseAdapter {
 				combinedText = submissionDateText;
 			}
 			else {
-				combinedText = mContext.getString(R.string.submitted_by_on_date_TEMPLATE, combinedText, submissionDateText);
+				combinedText = mContext
+					.getString(R.string.submitted_by_on_date_TEMPLATE, combinedText, submissionDateText);
 			}
 		}
 

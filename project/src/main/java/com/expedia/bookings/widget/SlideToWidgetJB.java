@@ -9,7 +9,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -22,7 +21,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
@@ -49,7 +47,6 @@ public class SlideToWidgetJB extends RelativeLayout {
 
 	// Dots mask
 	private Bitmap mMask;
-	private Bitmap mTargetBitmap;
 	private final Paint mPaint = new Paint();
 	private final Paint mPaintBackground = new Paint();
 
@@ -58,13 +55,11 @@ public class SlideToWidgetJB extends RelativeLayout {
 	private boolean mHitDestination = false;
 
 	public SlideToWidgetJB(Context context) {
-		super(context);
-		init(context, null);
+		this(context, null);
 	}
 
 	public SlideToWidgetJB(Context context, AttributeSet attr) {
-		super(context, attr);
-		init(context, attr);
+		this(context, attr, 0);
 	}
 
 	public SlideToWidgetJB(Context context, AttributeSet attrs, int defStyle) {
@@ -98,8 +93,8 @@ public class SlideToWidgetJB extends RelativeLayout {
 
 		// Setup alpha mask
 		mMask = convertToAlphaMask(BitmapFactory.decodeResource(getResources(), R.drawable.slide_dots_mask));
-		mTargetBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.slide_dots_pattern);
-		Shader targetShader = new BitmapShader(mTargetBitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
+		Bitmap targetBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.slide_dots_pattern);
+		Shader targetShader = new BitmapShader(targetBitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
 		mPaint.setShader(targetShader);
 		mPaintBackground.setStyle(Paint.Style.FILL);
 		mPaintBackground.setAntiAlias(true);
@@ -146,7 +141,6 @@ public class SlideToWidgetJB extends RelativeLayout {
 		private float mInitialTouchOffsetX;
 		private float mTotalSlide;
 
-		@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 
@@ -236,14 +230,13 @@ public class SlideToWidgetJB extends RelativeLayout {
 		}
 	}
 
-	private static Bitmap convertToAlphaMask(Bitmap b) {
-		Bitmap a = Bitmap.createBitmap(b.getWidth(), b.getHeight(), Bitmap.Config.ALPHA_8);
-		Canvas c = new Canvas(a);
-		c.drawBitmap(b, 0.0f, 0.0f, null);
-		return a;
+	private static Bitmap convertToAlphaMask(Bitmap inBitmap) {
+		Bitmap outBitmap = Bitmap.createBitmap(inBitmap.getWidth(), inBitmap.getHeight(), Bitmap.Config.ALPHA_8);
+		Canvas canvas = new Canvas(outBitmap);
+		canvas.drawBitmap(inBitmap, 0.0f, 0.0f, null);
+		return outBitmap;
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void activateSlide() {
 		mIsSliding = true;
 		mHitDestination = false;
@@ -297,7 +290,6 @@ public class SlideToWidgetJB extends RelativeLayout {
 		return getWidth() - params.leftMargin - params.rightMargin;
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private Animator getDrawLineAnimator() {
 		LayoutParams params = (LayoutParams) mSliderLine.getLayoutParams();
 		int padding = (int)(12 * getResources().getDisplayMetrics().density);
@@ -317,7 +309,6 @@ public class SlideToWidgetJB extends RelativeLayout {
 	 *
 	 * @return
 	 */
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private Animator getShowDestAnimator() {
 		float xstart = -getWidth() / 3;
 		PropertyValuesHolder trans = PropertyValuesHolder.ofFloat("translationX", xstart, 0f);
@@ -333,14 +324,6 @@ public class SlideToWidgetJB extends RelativeLayout {
 
 	public boolean addSlideToListener(ISlideToListener listener) {
 		return mSlideToListeners.add(listener);
-	}
-
-	public boolean removeSlideToListener(ISlideToListener listener) {
-		return mSlideToListeners.remove(listener);
-	}
-
-	public void clearSlideToListeners() {
-		mSlideToListeners.clear();
 	}
 
 	protected void fireSlideStart() {
@@ -371,23 +354,22 @@ public class SlideToWidgetJB extends RelativeLayout {
 		/**
 		 * The user has clicked on the slider...
 		 */
-		public void onSlideStart();
+		void onSlideStart();
 
 		/**
 		 * The slider has slid partially across. The fraction of the distance can be computed
 		 * by: pixels / total.
 		 */
-		public void onSlideProgress(float pixels, float total);
+		void onSlideProgress(float pixels, float total);
 
 		/**
 		 * If the user slides the widget all the way over.
 		 */
-		public void onSlideAllTheWay();
+		void onSlideAllTheWay();
 
 		/**
 		 * If the user starts a slide, but doesn't make it all the way, and the slide is reset
 		 */
-		public void onSlideAbort();
+		void onSlideAbort();
 	}
-
 }

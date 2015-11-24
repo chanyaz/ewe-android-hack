@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.Rect;
 import android.location.Location;
 import android.os.Bundle;
@@ -43,7 +42,6 @@ import com.expedia.bookings.widget.TouchableFrameLayout;
 /**
  * A large search fragment only suitable for tablet sizes.
  */
-@TargetApi(14)
 public class TabletWaypointFragment extends Fragment
 	implements SuggestionsFragmentListener, FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
 	CurrentLocationFragment.ICurrentLocationListener {
@@ -54,8 +52,8 @@ public class TabletWaypointFragment extends Fragment
 	private static final String STATE_HAS_BACKGROUND = "STATE_HAS_BACKGROUND";
 	private static final String STATE_WAYPOINT_EDIT_TEXT = "STATE_WAYPOINT_EDIT_TEXT";
 
-	public static interface ITabletWaypointFragmentListener {
-		public Rect getAnimOrigin();
+	public interface ITabletWaypointFragmentListener {
+		Rect getAnimOrigin();
 	}
 
 	private SuggestionsFragment mSuggestionsFragment;
@@ -74,17 +72,17 @@ public class TabletWaypointFragment extends Fragment
 	private String mWayPointString;
 
 	public static TabletWaypointFragment newInstance(boolean hasBackground) {
-		TabletWaypointFragment f = new TabletWaypointFragment();
-		f.mHasBackground = hasBackground;
-		return f;
+		TabletWaypointFragment waypointFragment = new TabletWaypointFragment();
+		waypointFragment.mHasBackground = hasBackground;
+		return waypointFragment;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mListener = Ui.findFragmentListener(this, ITabletWaypointFragmentListener.class);
 	}
 
@@ -173,10 +171,10 @@ public class TabletWaypointFragment extends Fragment
 	private void dismissWayPointFragment() {
 		Fragment parent = getParentFragment();
 		if (parent instanceof TabletLaunchControllerFragment) {
-			((TabletLaunchControllerFragment)parent).setLaunchState(LaunchState.OVERVIEW, true);
+			((TabletLaunchControllerFragment) parent).setLaunchState(LaunchState.OVERVIEW, true);
 		}
 		else if (parent instanceof TabletResultsSearchControllerFragment) {
-			((TabletResultsSearchControllerFragment)parent).setStateToBaseState(true);
+			((TabletResultsSearchControllerFragment) parent).setStateToBaseState(true);
 		}
 	}
 
@@ -247,7 +245,6 @@ public class TabletWaypointFragment extends Fragment
 			//We were loading the location, but the user started typing, so lets not look like we are waiting on location
 			unsetLoading();
 		}
-
 	}
 
 	private void updateFilter(SuggestionsFragment fragment, CharSequence text) {
@@ -299,9 +296,11 @@ public class TabletWaypointFragment extends Fragment
 	// Utils
 
 	protected boolean needsLocation(SuggestionV2 suggestion) {
-		return suggestion.getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION && (
-			suggestion.getLocation() == null || (suggestion.getLocation().getLatitude() == 0
-				&& suggestion.getLocation().getLongitude() == 0));
+		boolean latLongZero = suggestion.getLocation().getLatitude() == 0
+			&& suggestion.getLocation().getLongitude() == 0;
+
+		return suggestion.getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION
+			&& (suggestion.getLocation() == null || (latLongZero));
 	}
 
 	protected void handleSuggestion(SuggestionV2 suggestion) {
@@ -332,7 +331,8 @@ public class TabletWaypointFragment extends Fragment
 	@Override
 	public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion) {
 		if (!ExpediaNetUtils.isOnline(getActivity())) {
-			Events.post(new Events.ShowNoInternetDialog(SimpleCallbackDialogFragment.CODE_TABLET_NO_NET_CONNECTION_SEARCH));
+			Events.post(
+				new Events.ShowNoInternetDialog(SimpleCallbackDialogFragment.CODE_TABLET_NO_NET_CONNECTION_SEARCH));
 		}
 		else {
 			handleSuggestion(suggestion);
@@ -344,10 +344,10 @@ public class TabletWaypointFragment extends Fragment
 
 	@Override
 	public Fragment getExistingLocalInstanceFromTag(String tag) {
-		if (tag == FTAG_SUGGESTIONS) {
+		if (FTAG_SUGGESTIONS.equals(tag)) {
 			return mSuggestionsFragment;
 		}
-		else if (tag == FTAG_LOCATION) {
+		else if (FTAG_LOCATION.equals(tag)) {
 			return mLocationFragment;
 		}
 		return null;
@@ -355,10 +355,10 @@ public class TabletWaypointFragment extends Fragment
 
 	@Override
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
-		if (tag == FTAG_SUGGESTIONS) {
+		if (FTAG_SUGGESTIONS.equals(tag)) {
 			return new SuggestionsFragment();
 		}
-		else if (tag == FTAG_LOCATION) {
+		else if (FTAG_LOCATION.equals(tag)) {
 			return new CurrentLocationFragment();
 		}
 		return null;
@@ -548,18 +548,17 @@ public class TabletWaypointFragment extends Fragment
 	@Override
 	public void onCurrentLocationError(int errorCode) {
 		switch (errorCode) {
-		case CurrentLocationFragment.ERROR_LOCATION_DATA:
+		case CurrentLocationFragment.ERROR_LOCATION_DATA: // FALL THRU
 		case CurrentLocationFragment.ERROR_LOCATION_SERVICE:
 			if (mLoadingLocation) {
 				NoLocationServicesDialog dialog = NoLocationServicesDialog.newInstance();
 				dialog.show(getFragmentManager(), "NO_LOCATION_FRAG");
 			}
 			break;
-		case CurrentLocationFragment.ERROR_SUGGEST_DATA:
+		case CurrentLocationFragment.ERROR_SUGGEST_DATA: // FALL THRU
 		case CurrentLocationFragment.ERROR_SUGGEST_SERVICE:
 			Ui.showToast(getActivity(), R.string.geolocation_failed);
 			break;
 		}
 	}
-
 }

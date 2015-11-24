@@ -1,10 +1,8 @@
 package com.expedia.bookings.activity;
 
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -36,7 +34,6 @@ import com.mobiata.android.Log;
 /**
  * TabletCheckoutActivity: The checkout activity designed for tablet 2014
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletCheckoutActivity extends FragmentActivity implements IBackManageable,
 	ITripBucketBookClickListener, IAcceptingListenersListener, BookingUnavailableFragmentListener {
 
@@ -335,11 +332,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 	};
 
 	/*
-	 * CACHED DATA LOADING...
-	 */
-	private boolean mLoadedDbInfo = false;
-
-	/*
 	 * ITripBucketBookClickListener
 	 */
 	public void onTripBucketBookClicked(LineOfBusiness lob) {
@@ -362,10 +354,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackMan
 
 		updateBucketItems(true);
 		setCheckoutState(state, true);
-	}
-
-	private void loadCachedData(boolean wait) {
-
 	}
 
 	/*

@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -50,11 +49,11 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 	private LineOfBusiness mLob;
 
 	public interface ILoginStateChangedListener {
-		public void onLoginStateChanged();
+		void onLoginStateChanged();
 	}
 
 	public interface IWalletButtonStateChangedListener {
-		public void onWalletButtonStateChanged(boolean enableButtons);
+		void onWalletButtonStateChanged(boolean enableButtons);
 	}
 
 	private AccountButton mAccountButton;
@@ -75,8 +74,8 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mListener = Ui.findFragmentListener(this, ILoginStateChangedListener.class, false);
 		mWalletListener = Ui.findFragmentListener(this, IWalletButtonStateChangedListener.class, false);
 		mWalletCouponListener = Ui.findFragmentListener(this, IWalletCouponListener.class, false);
@@ -125,7 +124,8 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		mWalletButton.setOnClickListener(mWalletButtonClickListener);
 
 		bind();
-		mAccountButton.setVisibility(ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled() ? View.VISIBLE : View.GONE);
+		mAccountButton.setVisibility(
+			ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled() ? View.VISIBLE : View.GONE);
 
 		return v;
 
@@ -173,7 +173,8 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		if (loggedIn != mWasLoggedIn) {
 			BookingInfoUtils.populateTravelerDataFromUser(context, getLob());
 			BookingInfoUtils.populatePaymentDataFromUser(context, getLob());
-			Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(Db.getBillingInfo().getStoredCard());
+			Db.getWorkingBillingInfoManager().getWorkingBillingInfo()
+				.setStoredCard(Db.getBillingInfo().getStoredCard());
 			Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 			if (mListener != null) {
 				mListener.onLoginStateChanged();
@@ -417,7 +418,8 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 
 		mWalletButton.setVisibility(showWalletButton ? View.VISIBLE : View.GONE);
 		mWalletButton.setEnabled(!isWalletLoading);
-		mWalletButton.setPromoVisible(ProductFlavorFeatureConfiguration.getInstance().isGoogleWalletPromoEnabled() && getLob() == LineOfBusiness.HOTELS);
+		mWalletButton.setPromoVisible(ProductFlavorFeatureConfiguration.getInstance().isGoogleWalletPromoEnabled()
+			&& getLob() == LineOfBusiness.HOTELS);
 
 		// Enable buttons if we're either not showing the wallet button or we're not loading a masked wallet
 		boolean enableButtons = !showWalletButton || !isWalletLoading;
@@ -454,11 +456,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		return item.isCardTypeSupported(CreditCardType.GOOGLE_WALLET);
 	}
 
-	/*
-	 * listen, and you'll hear
-	 */
-
 	public interface IWalletCouponListener {
-		public void applyWalletCoupon();
+		void applyWalletCoupon();
 	}
 }

@@ -6,9 +6,9 @@ package com.expedia.bookings.interfaces;
 public interface IMeasurementListener {
 	/**
 	 * Fired when the content size has changed.
-	 * 
+	 *
 	 * @param totalWidth
 	 * @param totalHeight
 	 */
-	public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape);
+	void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape);
 }

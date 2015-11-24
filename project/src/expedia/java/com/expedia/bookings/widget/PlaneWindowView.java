@@ -59,7 +59,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 	/**
 	 * Sets whether or not the plane is "grounded"
-	 *
+	 * <p/>
 	 * Make sure to call before SurfaceView starts rendering,
 	 * but after the thread has been initialized
 	 */
@@ -136,22 +136,22 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 		// Required field that makes Parcelables from a Parcel
 		@SuppressWarnings("unused")
 		public static final Creator<SavedState> CREATOR =
-				new Creator<SavedState>() {
-					public SavedState createFromParcel(Parcel in) {
-						return new SavedState(in);
-					}
+			new Creator<SavedState>() {
+				public SavedState createFromParcel(Parcel in) {
+					return new SavedState(in);
+				}
 
-					public SavedState[] newArray(int size) {
-						return new SavedState[size];
-					}
-				};
+				public SavedState[] newArray(int size) {
+					return new SavedState[size];
+				}
+			};
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Callbacks
 
 	public interface PlaneWindowListener {
-		public void onFirstRender();
+		void onFirstRender();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -382,10 +382,10 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				Log.v("Window frame sample size: " + opts.inSampleSize);
 				Bitmap origWindowFrameBitmap = BitmapFactory.decodeResource(res, R.drawable.loading_window_frame, opts);
 				Log.v("Window frame (sampled) width,height: " + origWindowFrameBitmap.getWidth() + ", "
-						+ origWindowFrameBitmap.getHeight());
+					+ origWindowFrameBitmap.getHeight());
 				mWindowFrameBitmap = scaleBitmap(origWindowFrameBitmap, windowFrameWidth, windowFrameHeight);
 				Log.v("Window frame (final) width,height: " + mWindowFrameBitmap.getWidth() + ", "
-						+ mWindowFrameBitmap.getHeight());
+					+ mWindowFrameBitmap.getHeight());
 
 				// Calculate where to place the window frame
 				mFrameLeft = mCanvasWidth / 2 - (windowFrameWidth / 2);
@@ -415,9 +415,9 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 					// Pre-scale sky bitmap
 					BitmapFactory.Options skyBounds = decodeBounds(res, R.drawable.loading_repeating_sky);
 					Log.v("Sky orig width,height: " + skyBounds.outWidth + ", "
-							+ skyBounds.outHeight);
+						+ skyBounds.outHeight);
 					int skyWidth = (int) Math.round(skyBounds.outWidth
-							* ((double) mSkyDstFull.height() / (double) skyBounds.outHeight));
+						* ((double) mSkyDstFull.height() / (double) skyBounds.outHeight));
 					int skyHeight = mSkyDstFull.height();
 					Log.v("Sky target width,height: " + skyWidth + ", " + skyHeight);
 					opts.inSampleSize = calculateInSampleSize(skyBounds, skyWidth, skyHeight);
@@ -438,33 +438,33 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 					Log.v("Grounded target width,height: " + mVisibleFrameWidth + ", " + mVisibleFrameHeight);
 					BitmapFactory.Options groundedBounds = decodeBounds(res, R.drawable.loading_grounded);
 					Log.v("Grounded orig width,height: " + groundedBounds.outWidth + ", "
-							+ groundedBounds.outHeight);
+						+ groundedBounds.outHeight);
 					opts.inSampleSize = calculateInSampleSize(groundedBounds, mVisibleFrameWidth, mVisibleFrameHeight);
 					Log.v("Grounded sample size: " + opts.inSampleSize);
 					Bitmap origGroundedBitmap = BitmapFactory.decodeResource(res, R.drawable.loading_grounded, opts);
 					Log.v("Grounded (sampled) width,height: " + origGroundedBitmap.getWidth() + ", "
-							+ origGroundedBitmap.getHeight());
+						+ origGroundedBitmap.getHeight());
 					mGroundedBitmap = scaleBitmap(origGroundedBitmap, mVisibleFrameWidth, mVisibleFrameHeight);
 					Log.v("Grounded (final) width,height: " + mGroundedBitmap.getWidth() + ", "
-							+ mGroundedBitmap.getHeight());
+						+ mGroundedBitmap.getHeight());
 				}
 
 				// Pre-scale shade
 				int windowShadeWidth = mVisibleFrameWidth;
 				int windowShadeHeight = (int) Math.ceil(mVisibleFrameHeight * 1.05);
 				Log.v("Window shade target width,height: " + windowShadeWidth + ", "
-						+ windowShadeHeight);
+					+ windowShadeHeight);
 				BitmapFactory.Options windowShadeBounds = decodeBounds(res, R.drawable.loading_window_shade);
 				Log.v("Window shade orig width,height: " + windowShadeBounds.outWidth + ", "
-						+ windowShadeBounds.outHeight);
+					+ windowShadeBounds.outHeight);
 				opts.inSampleSize = calculateInSampleSize(windowShadeBounds, windowShadeWidth, windowShadeHeight);
 				Log.v("Window shade sample size: " + opts.inSampleSize);
 				Bitmap origWindowShadeBitmap = BitmapFactory.decodeResource(res, R.drawable.loading_window_shade, opts);
 				Log.v("Window shade (sampled) width,height: " + origWindowShadeBitmap.getWidth() + ", "
-						+ origWindowShadeBitmap.getHeight());
+					+ origWindowShadeBitmap.getHeight());
 				mWindowShadeBitmap = scaleBitmap(origWindowShadeBitmap, windowShadeWidth, windowShadeHeight);
 				Log.v("Window shade (final) width,height: " + mWindowShadeBitmap.getWidth() + ", "
-						+ mWindowShadeBitmap.getHeight());
+					+ mWindowShadeBitmap.getHeight());
 				mShadeHeight = mWindowShadeBitmap.getHeight();
 				mShadeMinY = (int) (.17 * mShadeHeight);
 
@@ -540,7 +540,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 				float eventX = event.getX();
 				float eventY = event.getY();
 				if (mShadeDst == null || eventX < mShadeDst.left - mEdgeSlop || eventX > mShadeDst.right + mEdgeSlop
-						|| eventY < mShadeDst.top - mEdgeSlop || eventY > mShadeDst.bottom + mEdgeSlop) {
+					|| eventY < mShadeDst.top - mEdgeSlop || eventY > mShadeDst.bottom + mEdgeSlop) {
 					return false;
 				}
 
@@ -777,7 +777,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 	 * Note: The reason that there exists this proxy class for the SensorEventListener is to workaround a known bug
 	 * in the Android SDK. SensorManager does not properly unregister SensorEventListeners, and in our case this causes
 	 * memory issues. Use this proxy class to leak only the SensorListenerProxy rather than the expensive PlaneThread:
-	 *
+	 * <p/>
 	 * http://code.google.com/p/android/issues/detail?id=15170
 	 */
 
@@ -819,7 +819,8 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 			}
 			else {
 				if (!mLostTarget) {
-					Log.d("PlaneWindowView SensorListenerProxy PlaneThread was null. Either forgot to unregister or leaked");
+					Log.d(
+						"PlaneWindowView SensorListenerProxy PlaneThread was null. Either forgot to unregister or leaked");
 					mLostTarget = true;
 				}
 			}
@@ -838,7 +839,7 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 
 	// From http://developer.android.com/training/displaying-bitmaps/load-bitmap.html#load-bitmap
 	public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
-			int reqWidth, int reqHeight) {
+		int reqWidth, int reqHeight) {
 
 		// First decode with inJustDecodeBounds=true to check dimensions
 		final BitmapFactory.Options options = new BitmapFactory.Options();

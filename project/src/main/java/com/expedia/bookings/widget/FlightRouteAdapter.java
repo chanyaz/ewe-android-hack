@@ -41,13 +41,13 @@ public class FlightRouteAdapter extends BaseAdapter {
 	private int mDropDownRowPaddingLeft;
 
 	public FlightRouteAdapter(Context context, FlightRoutes routes, RecentList<Location> recentSearches,
-			boolean isOrigin) {
+		boolean isOrigin) {
 		mContext = context;
 		mRecentSearches = recentSearches;
 		mRoutes = routes;
 		mIsOrigin = isOrigin;
 		mDropDownRowPaddingLeft = context.getResources().getDimensionPixelSize(
-				R.dimen.flight_search_airport_padding_left);
+			R.dimen.flight_search_airport_padding_left);
 		generateRows();
 	}
 
@@ -98,7 +98,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 		for (int a = 0; a < mRows.size(); a++) {
 			Row row = mRows.get(a);
 			if (row.getViewType() == RowType.AIRPORT
-					&& ((AirportRow) row).getAirport().mAirportCode.equals(airportCode)) {
+				&& ((AirportRow) row).getAirport().mAirportCode.equals(airportCode)) {
 				return a;
 			}
 		}
@@ -213,7 +213,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 	// Listener
 
 	public interface FlightRouteAdapterListener {
-		public void onSpinnerClicked();
+		void onSpinnerClicked();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -226,11 +226,11 @@ public class FlightRouteAdapter extends BaseAdapter {
 	}
 
 	private interface Row {
-		public View getView(View convertView, ViewGroup parent);
+		View getView(View convertView, ViewGroup parent);
 
-		public View getDropDownView(int position, View convertView, ViewGroup parent);
+		View getDropDownView(int position, View convertView, ViewGroup parent);
 
-		public RowType getViewType();
+		RowType getViewType();
 	}
 
 	private class HintRow implements Row {
@@ -326,7 +326,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 			}
 
 			textView.setText(Html.fromHtml(mContext.getString(R.string.dropdown_airport_selection,
-					mAirport.mAirportCode, mAirport.mName)));
+				mAirport.mAirportCode, mAirport.mName)));
 
 			return textView;
 		}

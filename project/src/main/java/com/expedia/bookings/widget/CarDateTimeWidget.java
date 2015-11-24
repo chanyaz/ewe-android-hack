@@ -124,7 +124,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 			getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsTooltipColor)),
 			PorterDuff.Mode.SRC_IN);
 
-		Ui.setViewBackground(pickupTimePopupContainerText, drawablePopUp);
+		pickupTimePopupContainerText.setBackground(drawablePopUp);
 
 		pickupTimeSeekBar.setProgress(new DateTime().withHourOfDay(9).withMinuteOfHour(0));
 		pickupTimeSeekBar.addOnSeekBarChangeListener(this);
@@ -283,7 +283,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		int color = isValid ? getResources().getColor(R.color.cars_tooltip_disabled_color)
 			: getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_carsTooltipColor));
 		drawablePopUp.setColorFilter(color, PorterDuff.Mode.SRC_IN);
-		Ui.setViewBackground(pickupTimePopupContainerText, drawablePopUp);
+		pickupTimePopupContainerText.setBackground(drawablePopUp);
 		pickupTimePopupTail.setColorFilter(color, PorterDuff.Mode.SRC_IN);
 	}
 

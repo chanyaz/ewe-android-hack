@@ -86,10 +86,10 @@ public class ItinCardData {
 	// interfaces
 
 	public interface ConfirmationNumberable {
-		public boolean hasConfirmationNumber();
+		boolean hasConfirmationNumber();
 
-		public int getConfirmationNumberLabelResId();
+		int getConfirmationNumberLabelResId();
 
-		public String getFormattedConfirmationNumbers();
+		String getFormattedConfirmationNumbers();
 	}
 }

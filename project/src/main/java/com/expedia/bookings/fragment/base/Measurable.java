@@ -5,7 +5,5 @@ package com.expedia.bookings.fragment.base;
  * it can be measured.
  */
 public interface Measurable {
-
-	public boolean isMeasurable();
-
+	boolean isMeasurable();
 }

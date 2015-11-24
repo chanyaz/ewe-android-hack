@@ -1,12 +1,10 @@
 package com.expedia.bookings.account;
 
 import android.accounts.Account;
-import android.annotation.TargetApi;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.Context;
 import android.content.SyncResult;
-import android.os.Build;
 import android.os.Bundle;
 
 import com.expedia.bookings.data.Db;
@@ -22,11 +20,6 @@ public class AccountSyncAdapter extends AbstractThreadedSyncAdapter {
 
 	public AccountSyncAdapter(Context context, boolean autoInitialize) {
 		super(context, autoInitialize);
-	}
-
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
-	public AccountSyncAdapter(Context context, boolean autoInitialize, boolean allowParallelSyncs) {
-		super(context, autoInitialize, allowParallelSyncs);
 	}
 
 	@Override
@@ -47,7 +40,5 @@ public class AccountSyncAdapter extends AbstractThreadedSyncAdapter {
 				Log.d("AccountSyncAdapter.onPerformSync has completed successfully, updating the User object in Db.");
 			}
 		}
-
 	}
-
 }

@@ -2,7 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.List;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -57,8 +57,8 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, HotelPaymentYoYoListener.class);
 	}
@@ -302,19 +302,19 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 	}
 
 	public interface HotelPaymentYoYoListener {
-		public void moveForward();
+		void moveForward();
 
-		public void setMode(YoYoMode mode);
+		void setMode(YoYoMode mode);
 
-		public boolean moveBackwards();
+		boolean moveBackwards();
 
-		public void displayOptions();
+		void displayOptions();
 
-		public void displayCreditCard();
+		void displayCreditCard();
 
-		public void displaySaveDialog();
+		void displaySaveDialog();
 
-		public void displayCheckout();
+		void displayCheckout();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

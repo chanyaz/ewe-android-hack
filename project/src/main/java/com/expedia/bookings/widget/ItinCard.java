@@ -46,15 +46,15 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
 
-public class ItinCard<T extends ItinCardData> extends RelativeLayout implements PopupMenu.OnMenuItemClickListener,
-		ShareView.OnShareTargetSelectedListener {
+public class ItinCard<T extends ItinCardData> extends RelativeLayout
+	implements PopupMenu.OnMenuItemClickListener, ShareView.OnShareTargetSelectedListener {
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// INTERFACES
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public interface OnItinCardClickListener {
-		public void onCloseButtonClicked();
+		void onCloseButtonClicked();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +62,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public enum DisplayState {
-		COLLAPSED, EXPANDED
+		COLLAPSED,
+		EXPANDED
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -85,7 +86,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	private int mTitleLayoutHeight;
 	private int mItinCardExtraTopPadding;
 	private int mItinCardExtraBottomPadding;
-	private int mItinSummarySectionHeight;
 	private int mActionButtonLayoutHeight;
 
 	private int mFixedItinTypeImageTranslation;
@@ -148,7 +148,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		mTitleLayoutHeight = res.getDimensionPixelSize(R.dimen.itin_title_height);
 		mItinCardExtraTopPadding = res.getDimensionPixelSize(R.dimen.itin_card_extra_top_padding);
 		mItinCardExtraBottomPadding = res.getDimensionPixelSize(R.dimen.itin_card_extra_bottom_padding);
-		mItinSummarySectionHeight = res.getDimensionPixelSize(R.dimen.itin_summary_section_height);
 		mActionButtonLayoutHeight = res.getDimensionPixelSize(R.dimen.itin_action_button_height);
 		mExpandedCardHeaderImageHeight = res.getDimensionPixelSize(R.dimen.itin_card_expanded_image_height);
 		mMiniCardHeaderImageHeight = res.getDimensionPixelSize(R.dimen.itin_card_mini_image_height);
@@ -216,15 +215,16 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 
 	/**
 	 * Returns the collapsed height of this card, even if the card is expanded.
+	 *
 	 * @return
 	 */
 	public int getCollapsedHeight() {
 		int height = getResources().getDimensionPixelSize(mShowSummary
-				? R.dimen.itin_card_summary_collapsed_height
-				: R.dimen.itin_card_collapsed_height);
+			? R.dimen.itin_card_summary_collapsed_height
+			: R.dimen.itin_card_collapsed_height);
 
 		height += (mTopExtraPaddingView.getVisibility() == VISIBLE ? mItinCardExtraTopPadding : 0)
-				+ (mBottomExtraPaddingView.getVisibility() == VISIBLE ? mItinCardExtraBottomPadding : 0);
+			+ (mBottomExtraPaddingView.getVisibility() == VISIBLE ? mItinCardExtraBottomPadding : 0);
 
 		return height;
 	}
@@ -232,6 +232,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	/**
 	 * If the card is expanded, returns the original getTop() of the collapsed card. May
 	 * return 0 if the card has not yet been expanded.
+	 *
 	 * @return
 	 */
 	public int getCollapsedTop() {
@@ -240,8 +241,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 
 	/**
 	 * Is the MotionEvent happening atop our Summary Buttons?
+	 *
 	 * @param event - MotionEvent designated for the ItinCard
-	 * This motion event will already have its offsetLocation set to the top of the ItinCard.
+	 *              This motion event will already have its offsetLocation set to the top of the ItinCard.
 	 * @return true if touch would effect the itin card summary buttons
 	 */
 	public boolean isTouchOnSummaryButtons(MotionEvent event) {
@@ -263,8 +265,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 
 	/**
 	 * Pass touch event to our Summary Buttons
+	 *
 	 * @param event - MotionEvent designated for the ItinCard
-	 * This motion event will already have its offsetLocation set to the top of the ItinCard.
+	 *              This motion event will already have its offsetLocation set to the top of the ItinCard.
 	 * @return true
 	 */
 	public boolean doSummaryButtonTouch(MotionEvent event) {
@@ -285,8 +288,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	public void bind(final T itinCardData) {
 		if (mItinContentGenerator != null && mItinContentGenerator.getType() != itinCardData.getTripComponentType()) {
 			throw new RuntimeException("Attempted to reuse an ItinCard for two different types of cards!"
-					+ "  Previously used " + mItinContentGenerator.getType() + ", reused with"
-					+ itinCardData.getTripComponentType());
+				+ "  Previously used " + mItinContentGenerator.getType() + ", reused with"
+				+ itinCardData.getTripComponentType());
 		}
 
 		mItinContentGenerator = ItinContentGenerator.createGenerator(getContext(), itinCardData);
@@ -294,8 +297,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		// Title
 		boolean wasNull = mHeaderView == null;
 		if (wasNull && mTitleContentLayout.getChildCount() > 0) {
-			Log.w("Somehow we were trying to re-add the title View even though we had a View to recycle; component type="
-					+ itinCardData.getTripComponentType() + " id=" + itinCardData.getId() + " itinCardId=" + toString());
+			Log.w(
+				"Somehow we were trying to re-add the title View even though we had a View to recycle; component type="
+					+ itinCardData.getTripComponentType() + " id=" + itinCardData.getId() + " itinCardId="
+					+ toString());
 			mHeaderView = mTitleContentLayout.getChildAt(0);
 			wasNull = false;
 		}
@@ -366,8 +371,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		// Summary text
 		wasNull = mSummaryView == null;
 		if (wasNull && mSummaryLayout.getChildCount() > 0) {
-			Log.w("Somehow we were trying to re-add the summary View even though we had a View to recycle; component type="
-					+ itinCardData.getTripComponentType() + " id=" + itinCardData.getId() + " itinCardId=" + toString());
+			Log.w(
+				"Somehow we were trying to re-add the summary View even though we had a View to recycle; component type="
+					+ itinCardData.getTripComponentType() + " id=" + itinCardData.getId() + " itinCardId="
+					+ toString());
 			mSummaryView = mSummaryLayout.getChildAt(0);
 			wasNull = false;
 		}
@@ -379,7 +386,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 
 		// Buttons
 		mActionButtonLayout.bind(mItinContentGenerator.getSummaryLeftButton(),
-				mItinContentGenerator.getSummaryRightButton());
+			mItinContentGenerator.getSummaryRightButton());
 
 		// Selected
 		mSelectedView.setVisibility(mSelectCard ? View.VISIBLE : View.GONE);
@@ -451,7 +458,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		// from the top of the screen. The parallax is not perfect when an image scales up from mini to
 		// expanded, I don't know why.
 		DisplayMetrics metrics = getResources().getDisplayMetrics();
-		int offsetBottom = metrics.heightPixels	- (int) (82 * metrics.density);
+		int offsetBottom = metrics.heightPixels - (int) (82 * metrics.density);
 		mHeaderImageContainer.setOffsetBottom(offsetBottom);
 
 		ResizeAnimator.setHeight(mHeaderImageView, height);
@@ -516,8 +523,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		if (isDateHidden) {
 			if (animate) {
 				animators.add(ObjectAnimator
-						.ofFloat(mHeaderTextDateView, "alpha", 1f)
-						.setDuration(200));
+					.ofFloat(mHeaderTextDateView, "alpha", 1f)
+					.setDuration(200));
 			}
 			else {
 				mHeaderTextDateView.setAlpha(1f);
@@ -526,8 +533,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		if (isTitleHidden) {
 			if (animate) {
 				animators.add(ObjectAnimator
-						.ofFloat(mHeaderTextLayout, "alpha", 1f)
-						.setDuration(200));
+					.ofFloat(mHeaderTextLayout, "alpha", 1f)
+					.setDuration(200));
 			}
 			else {
 				mHeaderTextLayout.setAlpha(1f);
@@ -536,8 +543,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		if (isTitleTranslated) {
 			if (animate) {
 				animators.add(ObjectAnimator
-						.ofFloat(mHeaderTextView, "translationY", 0f)
-						.setDuration(400));
+					.ofFloat(mHeaderTextView, "translationY", 0f)
+					.setDuration(400));
 			}
 			else {
 				mHeaderTextView.setTranslationY(0f);
@@ -566,8 +573,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		if (mItinContentGenerator.getHideDetailsTypeIcon()) {
 			if (animate) {
 				Animator typeImageAnimator = ObjectAnimator
-						.ofFloat(mItinTypeImageView, "alpha", 1)
-						.setDuration(400);
+					.ofFloat(mItinTypeImageView, "alpha", 1)
+					.setDuration(400);
 				typeImageAnimator.addListener(new AnimatorListenerAdapter() {
 					@Override
 					public void onAnimationStart(Animator arg0) {
@@ -596,7 +603,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 				mItinTypeImageView.setAlpha(0f);
 				PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", scale);
 				PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", scale);
-				ObjectAnimator anim = AnimUtils.ofPropertyValuesHolder(mFixedItinTypeImageView, scaleX, scaleY).setDuration(400);
+				ObjectAnimator anim = AnimUtils.ofPropertyValuesHolder(mFixedItinTypeImageView, scaleX, scaleY)
+					.setDuration(400);
 				anim.addListener(new AnimatorListenerAdapter() {
 					@Override
 					public void onAnimationEnd(Animator arg0) {
@@ -609,8 +617,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 
 				// Make mFixedItinTypeImageView end up aligned with mItinTypeImageView
 				animators.add(ObjectAnimator
-						.ofFloat(mFixedItinTypeImageView, "translationY", mFixedItinTypeImageTranslation)
-						.setDuration(400));
+					.ofFloat(mFixedItinTypeImageView, "translationY", mFixedItinTypeImageTranslation)
+					.setDuration(400));
 			}
 			else {
 				mItinTypeImageView.setAlpha(1f);
@@ -625,8 +633,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		// Header image parallax
 		if (animate) {
 			ValueAnimator parallaxAnimator = ValueAnimator
-					.ofInt(mHeaderImageContainer.getScrollY(), 0)
-					.setDuration(300);
+				.ofInt(mHeaderImageContainer.getScrollY(), 0)
+				.setDuration(300);
 			parallaxAnimator.addUpdateListener(new AnimatorUpdateListener() {
 				@Override
 				public void onAnimationUpdate(ValueAnimator arg0) {
@@ -715,7 +723,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		ArrayList<Animator> animators = new ArrayList<Animator>();
 		if (animate) {
 			Animator titleLayoutResizeAnimator = ResizeAnimator
-					.buildResizeAnimator(mTitleLayout, 0, mTitleLayoutHeight);
+				.buildResizeAnimator(mTitleLayout, 0, mTitleLayoutHeight);
 			animators.add(titleLayoutResizeAnimator);
 		}
 		else {
@@ -727,7 +735,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			mActionButtonLayout.setVisibility(VISIBLE);
 			if (animate) {
 				Animator actionButtonResizeAnimator = ResizeAnimator.buildResizeAnimator(
-						mActionButtonLayout, mActionButtonLayoutHeight);
+					mActionButtonLayout, mActionButtonLayoutHeight);
 				animators.add(actionButtonResizeAnimator);
 			}
 			else {
@@ -740,8 +748,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			//Header image gradient overlay
 			if (animate) {
 				ObjectAnimator headerOverlayAlphaAnimator = ObjectAnimator
-						.ofFloat(mHeaderOverlayImageView, "alpha", 0f)
-						.setDuration(200);
+					.ofFloat(mHeaderOverlayImageView, "alpha", 0f)
+					.setDuration(200);
 				animators.add(headerOverlayAlphaAnimator);
 			}
 			else {
@@ -753,11 +761,11 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		if (mItinContentGenerator.getHideDetailsTitle()) {
 			if (animate) {
 				ObjectAnimator headerTextAlphaAnimator = ObjectAnimator
-						.ofFloat(mHeaderTextLayout, "alpha", 0f)
-						.setDuration(200);
+					.ofFloat(mHeaderTextLayout, "alpha", 0f)
+					.setDuration(200);
 				ObjectAnimator headerTextTranslationAnimator = ObjectAnimator
-						.ofFloat(mHeaderTextLayout, "translationY", -50f)
-						.setDuration(400);
+					.ofFloat(mHeaderTextLayout, "translationY", -50f)
+					.setDuration(400);
 				animators.add(headerTextTranslationAnimator);
 				animators.add(headerTextAlphaAnimator);
 			}
@@ -773,14 +781,14 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			float trans = 20f * getResources().getDisplayMetrics().density;
 			if (animate) {
 				ObjectAnimator headerDateTextAlphaAnimator = ObjectAnimator
-						.ofFloat(mHeaderTextDateView, "alpha", 0f)
-						.setDuration(200);
+					.ofFloat(mHeaderTextDateView, "alpha", 0f)
+					.setDuration(200);
 				animators.add(headerDateTextAlphaAnimator);
 
 				if (!mShowSummary) {
 					ObjectAnimator headerTextTranslationAnimator = ObjectAnimator
-							.ofFloat(mHeaderTextView, "translationY", trans)
-							.setDuration(400);
+						.ofFloat(mHeaderTextView, "translationY", trans)
+						.setDuration(400);
 					animators.add(headerTextTranslationAnimator);
 				}
 			}
@@ -814,8 +822,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		if (mItinContentGenerator.getHideDetailsTypeIcon()) {
 			if (animate) {
 				ObjectAnimator itinTypeImageAlphaAnimator = ObjectAnimator
-						.ofFloat(mItinTypeImageView, "alpha", 0)
-						.setDuration(200);
+					.ofFloat(mItinTypeImageView, "alpha", 0)
+					.setDuration(200);
 				itinTypeImageAlphaAnimator.addListener(new AnimatorListenerAdapter() {
 					@Override
 					public void onAnimationEnd(Animator animator) {
@@ -843,13 +851,13 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 				PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", scale, 1f);
 				PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", scale, 1f);
 				ObjectAnimator anim = AnimUtils
-						.ofPropertyValuesHolder(mFixedItinTypeImageView, scaleX, scaleY)
-						.setDuration(400);
+					.ofPropertyValuesHolder(mFixedItinTypeImageView, scaleX, scaleY)
+					.setDuration(400);
 				animators.add(anim);
 
 				animators.add(ObjectAnimator
-						.ofFloat(mFixedItinTypeImageView, "translationY", mFixedItinTypeImageTranslation, 0f)
-						.setDuration(400));
+					.ofFloat(mFixedItinTypeImageView, "translationY", mFixedItinTypeImageTranslation, 0f)
+					.setDuration(400));
 			}
 			else {
 				mFixedItinTypeImageView.setScaleX(1f);
@@ -948,9 +956,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 			mCardLayout.setTranslationY(viewTranslationY);
 		}
 		else if (mShowSummary
-				&& mHeaderTextLayout.getTranslationY() == 0
-				&& mFixedItinTypeImageView.getVisibility() == View.VISIBLE
-				&& mHeaderTextLayout.getVisibility() == View.VISIBLE) {
+			&& mHeaderTextLayout.getTranslationY() == 0
+			&& mFixedItinTypeImageView.getVisibility() == View.VISIBLE
+			&& mHeaderTextLayout.getVisibility() == View.VISIBLE) {
 			//If we are in expanded mode, and are making use the of the fixtedItinTypeImageView we need to ensure that the text is positioned below it
 			//not underneath it. This fixes a rotation bug when a card is expanded and mShowSummary == true
 
@@ -1074,5 +1082,4 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 	public void onShareTargetSelected(ShareView view, Intent intent) {
 		OmnitureTracking.trackItinShareNew(mItinContentGenerator.getType(), intent);
 	}
-
 }

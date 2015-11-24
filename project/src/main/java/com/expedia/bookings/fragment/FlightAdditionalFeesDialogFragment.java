@@ -1,8 +1,8 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -28,8 +28,8 @@ public class FlightAdditionalFeesDialogFragment extends DialogFragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mCallback = Ui.findFragmentListener(this, FlightUtils.OnBaggageFeeViewClicked.class);
 	}
 
@@ -59,5 +59,4 @@ public class FlightAdditionalFeesDialogFragment extends DialogFragment {
 		});
 		return builder.create();
 	}
-
 }

@@ -10,9 +10,9 @@ import com.mobiata.android.json.JSONable;
 public class ItinShareInfo implements JSONable {
 
 	public interface ItinSharable {
-		public ItinShareInfo getShareInfo();
+		ItinShareInfo getShareInfo();
 
-		public boolean getSharingEnabled();
+		boolean getSharingEnabled();
 	}
 
 	private String mSharableDetailsUrl;
@@ -24,6 +24,7 @@ public class ItinShareInfo implements JSONable {
 
 	/**
 	 * Returns the shortened sharable details url if available, otherwise the long form sharable details url
+	 *
 	 * @return
 	 */
 	public String getSharableUrl() {
@@ -36,6 +37,7 @@ public class ItinShareInfo implements JSONable {
 
 	/**
 	 * Returns the long form sharable details url
+	 *
 	 * @return
 	 */
 	public String getSharableDetailsUrl() {
@@ -45,7 +47,7 @@ public class ItinShareInfo implements JSONable {
 	/**
 	 * Returns the long form sharable details url in the form suitable for fetching
 	 * json data. E.g. /m/ is replaces with /api/ via the static convertSharableUrlToApiUrl method.
-	 * 
+	 *
 	 * @return share url suitable for fetching api data.
 	 */
 	public String getSharableDetailsApiUrl() {
@@ -62,6 +64,7 @@ public class ItinShareInfo implements JSONable {
 
 	/**
 	 * Returns shortened sharable details url
+	 *
 	 * @return
 	 */
 	public String getShortSharableDetailsUrl() {
@@ -106,7 +109,7 @@ public class ItinShareInfo implements JSONable {
 	 * Typically our sharable itin urls come in the mobile form (/m/),
 	 * however, we often want the api version of the url (/api/).
 	 * This method does the conversion.
-	 * 
+	 *
 	 * @param url - mobile version of the sharable itin url
 	 * @return - api version of the url argument
 	 */

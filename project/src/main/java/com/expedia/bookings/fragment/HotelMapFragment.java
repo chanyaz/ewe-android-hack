@@ -96,7 +96,6 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	private boolean mShowInfoWindow = true;
 	private int mFilterViewWidth;
 	private int mCurrentLeftColWidth;
-	private boolean mFilterOpen = false;
 
 	private TextView mTextView;
 	private int mPricePinSidePadding;
@@ -107,8 +106,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	private WeakHashMap<Marker, Boolean> markerMap = new WeakHashMap<Marker, Boolean>();
 
 	public static HotelMapFragment newInstance() {
-		HotelMapFragment frag = new HotelMapFragment();
-		return frag;
+		return new HotelMapFragment();
 	}
 
 	@Override
@@ -660,7 +658,6 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		else {
 			width = mResultsViewWidth;
 		}
-		mFilterOpen = filtersShowing;
 		setPadding(width, 0, 0, 0);
 		mCurrentLeftColWidth = width;
 		showAll();
@@ -704,10 +701,6 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		}
 	}
 
-	public void showExactLocationBalloon() {
-		mExactLocationMarker.showInfoWindow();
-	}
-
 	public LatLng getCameraCenter() {
 		return getMap().getCameraPosition().target;
 	}
@@ -722,11 +715,6 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		if (SupportMapFragment.isValidLatLng(loc)) {
 			animateCamera(CameraUpdateFactory.newLatLngZoom(loc, DEFAULT_ZOOM));
 		}
-	}
-
-	public void notifyPropertySelected() {
-		showBalloon(Db.getHotelSearch().getSelectedProperty());
-		focusProperty(Db.getHotelSearch().getSelectedProperty(), true, DEFAULT_ZOOM);
 	}
 
 	private void checkIfSearchIsCurrentLocation() {
@@ -777,14 +765,14 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	}
 
 	public interface HotelMapFragmentListener {
-		public void onMapClicked();
+		void onMapClicked();
 
-		public void onPropertyClicked(Property property);
+		void onPropertyClicked(Property property);
 
-		public void onExactLocationClicked();
+		void onExactLocationClicked();
 
-		public void onPropertyBubbleClicked(Property property);
+		void onPropertyBubbleClicked(Property property);
 
-		public void onHotelMapFragmentAttached(HotelMapFragment fragment);
+		void onHotelMapFragmentAttached(HotelMapFragment fragment);
 	}
 }

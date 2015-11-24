@@ -9,7 +9,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -112,8 +112,8 @@ public class ResultsHotelDetailsFragment extends Fragment implements IBackManage
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mAddToBucketListener = Ui.findFragmentListener(this, IAddToBucketListener.class);
 		mHotelReviewsClickedListener = Ui.findFragmentListener(this, IResultsHotelReviewsClickedListener.class);
 		mHotelGalleryClickedListener = Ui.findFragmentListener(this, IResultsHotelGalleryClickedListener.class);

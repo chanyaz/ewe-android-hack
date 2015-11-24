@@ -4,7 +4,7 @@ import com.expedia.bookings.data.Response;
 
 public interface IExpediaServicesListener {
 
-	public enum ServiceType {
+	enum ServiceType {
 		SUGGEST_NEARBY,
 		HOTEL_SEARCH,
 		HOTEL_SEARCH_HOTEL,
@@ -12,5 +12,5 @@ public interface IExpediaServicesListener {
 		HOTEL_AFFINITY_SEARCH,
 	}
 
-	public void onExpediaServicesDownload(ServiceType type, Response response);
+	void onExpediaServicesDownload(ServiceType type, Response response);
 }

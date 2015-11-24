@@ -81,7 +81,8 @@ public class ItinGuestAddFragment extends Fragment implements LoginExtenderListe
 		if (savedInstanceState != null) {
 			mLoginExtenderRunning = savedInstanceState.getBoolean(STATE_LOGIN_EXTENDER_RUNNING, false);
 			if (savedInstanceState.containsKey(STATE_LOGIN_EXTENDER)) {
-				mLoginExtender = LoginExtender.buildLoginExtenderFromState(savedInstanceState.getBundle(STATE_LOGIN_EXTENDER));
+				mLoginExtender = LoginExtender
+					.buildLoginExtenderFromState(savedInstanceState.getBundle(STATE_LOGIN_EXTENDER));
 			}
 			if (savedInstanceState.containsKey(STATE_STATUS_TEXT)) {
 				mStatusText = savedInstanceState.getString(STATE_STATUS_TEXT);
@@ -226,7 +227,7 @@ public class ItinGuestAddFragment extends Fragment implements LoginExtenderListe
 		boolean tripAdded = false;
 		for (Trip trip : trips) {
 			if (trip.isGuest() && trip.getTripNumber() != null
-					&& trip.getTripNumber().trim().equalsIgnoreCase(itinNumber.trim())) {
+				&& trip.getTripNumber().trim().equalsIgnoreCase(itinNumber.trim())) {
 				tripAdded = true;
 				break;
 			}
@@ -290,8 +291,8 @@ public class ItinGuestAddFragment extends Fragment implements LoginExtenderListe
 	};
 
 	public interface AddGuestItineraryDialogListener {
-		public void onFindItinClicked(String email, String itinNumber);
+		void onFindItinClicked(String email, String itinNumber);
 
-		public void onCancel();
+		void onCancel();
 	}
 }

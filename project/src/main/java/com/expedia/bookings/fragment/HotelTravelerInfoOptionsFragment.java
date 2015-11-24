@@ -3,7 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -63,8 +63,8 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, TravelerInfoYoYoListener.class);
 	}
@@ -121,7 +121,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 
 			//We inflate the traveler as an option for the user to select
 			SectionTravelerInfo travelerInfo = Ui.inflate(inflater,
-					R.layout.section_hotel_display_traveler_info_name, null);
+				R.layout.section_hotel_display_traveler_info_name, null);
 			travelerInfo.bind(traveler);
 			travelerInfo.setOnClickListener(new OnClickListener() {
 				@Override
@@ -138,7 +138,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 						ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.loading_traveler_info));
 						df.show(getFragmentManager(), DIALOG_LOADING_TRAVELER);
 						bd.startDownload(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsDownload,
-								mTravelerDetailsCallback);
+							mTravelerDetailsCallback);
 
 						OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting();
 					}
@@ -150,7 +150,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 			//Add divider
 			View divider = new View(getActivity());
 			LinearLayout.LayoutParams divLayoutParams = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,
-					res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
+				res.getDimensionPixelSize(R.dimen.simple_grey_divider_height));
 			divider.setLayoutParams(divLayoutParams);
 			divider.setBackgroundColor(0x69FFFFFF);
 			mAssociatedTravelersContainer.addView(divider);
@@ -217,17 +217,17 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 	}
 
 	public interface TravelerInfoYoYoListener {
-		public void moveForward();
+		void moveForward();
 
-		public void setMode(YoYoMode mode);
+		void setMode(YoYoMode mode);
 
-		public boolean moveBackwards();
+		boolean moveBackwards();
 
-		public void displayOptions();
+		void displayOptions();
 
-		public void displayTravelerEntryOne();
+		void displayTravelerEntryOne();
 
-		public void displayCheckout();
+		void displayCheckout();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -250,7 +250,8 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 
 			if (results == null) {
 				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null,
-						Phrase.from(getActivity(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
+					Phrase.from(getActivity(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format()
+						.toString());
 				dialogFragment.show(getFragmentManager(), "errorFragment");
 			}
 			else if (results.hasErrors()) {
@@ -268,7 +269,8 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 		if (traveler != null) {
 			Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler);
 			mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
-			mCurrentTraveler.setSaveTravelerToExpediaAccount(!traveler.fromGoogleWallet());//We default account travelers to save, unless the user alters the name
+			mCurrentTraveler.setSaveTravelerToExpediaAccount(
+				!traveler.fromGoogleWallet());//We default account travelers to save, unless the user alters the name
 			HotelTravelerFlowState state = HotelTravelerFlowState.getInstance(getActivity());
 			if (state.hasValidTraveler(mCurrentTraveler)) {
 				mListener.displayCheckout();

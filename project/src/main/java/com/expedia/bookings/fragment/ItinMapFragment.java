@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
+import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
@@ -55,8 +56,8 @@ public class ItinMapFragment extends SupportMapFragment implements OnMyLocationC
 	private FusedLocationProviderFragment mLocationFragment;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, ItineraryMapFragmentListener.class);
 
@@ -287,7 +288,6 @@ public class ItinMapFragment extends SupportMapFragment implements OnMyLocationC
 	// Listener
 
 	public interface ItineraryMapFragmentListener {
-		public void onItinMarkerClicked(ItinCardData data);
+		void onItinMarkerClicked(ItinCardData data);
 	}
-
 }

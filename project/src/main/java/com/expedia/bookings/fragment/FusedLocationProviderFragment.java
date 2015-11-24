@@ -175,8 +175,8 @@ public class FusedLocationProviderFragment extends Fragment implements
 	// For asynchronous callbacks
 
 	public interface FusedLocationProviderListener {
-		public void onFound(Location currentLocation);
+		void onFound(Location currentLocation);
 
-		public void onError();
+		void onError();
 	}
 }
