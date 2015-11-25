@@ -571,8 +571,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
 val ROOMS_LEFT_CUTOFF = 5
 
-
-public class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, var amenity: String, var rowIndex: Int, var rowExpanding: PublishSubject<Int>, var selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>) {
+public class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, var amenity: String, var rowIndex: Int, var rowExpanding: PublishSubject<Int>, var selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>, val hasETP: Boolean) {
 
     var lastRoomSelectedSubscription: Subscription? = null
 
@@ -626,6 +625,9 @@ public class HotelRoomRateViewModel(val context: Context, var hotelId: String, v
             roomSelectedObservable.onNext(hotelRoomResponse)
             //don't change the state of toggle button
             viewRoomObservable.onNext(Unit)
+
+            HotelV2Tracking().trackLinkHotelV2RoomBookClick(hotelRoomResponse, hasETP)
+
 
             if (hotelRoomResponse.rateInfo.chargeableRateInfo.airAttached) {
                 HotelV2Tracking().trackLinkHotelV2AirAttachEligible(hotelRoomResponse, hotelId)

@@ -44,6 +44,7 @@ import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : CheckoutBasePresenter(context, attr) {
+    val COUPON_VIEW_INDEX = 4
     var slideAllTheWayObservable = PublishSubject.create<Unit>()
     var emailOptInStatus = PublishSubject.create<MerchandiseSpam>()
     var hotelCheckoutSummaryWidget: HotelCheckoutSummaryWidget by Delegates.notNull()
@@ -102,7 +103,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         paymentInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
 
         val container = scrollView.findViewById(R.id.scroll_content) as LinearLayout
-        container.addView(couponCardView, container.getChildCount() - 4)
+        container.addView(couponCardView, container.getChildCount() - COUPON_VIEW_INDEX)
         couponCardView.setToolbarListener(toolbarListener)
 
         couponCardView.viewmodel.removeObservable.subscribe {

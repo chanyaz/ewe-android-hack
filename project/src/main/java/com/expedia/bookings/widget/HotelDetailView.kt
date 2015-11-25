@@ -314,8 +314,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                 override fun onAnimationEnd(p0: Animation?) {
                     roomContainer.removeAllViews()
                     roomList.first.forEachIndexed { roomResponseIndex, room ->
+                        val hasETP = viewmodel.hasETPObservable.value
                         val view = HotelRoomRateViewFactory.makeHotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex,
-                                vm.hotelOffersResponse.hotelId, roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), vm.rowExpandingObservable)
+                                vm.hotelOffersResponse.hotelId, roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), vm.rowExpandingObservable, hasETP)
                         var parent = view.parent
                         if (parent != null) {
                             (parent as ViewGroup).removeView(view)
@@ -373,8 +374,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                 override fun onAnimationEnd(p0: Animation?) {
                     roomContainer.removeAllViews()
                     etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
+                        val hasETP = viewmodel.hasETPObservable.value
                         val view = HotelRoomRateViewFactory.makeHotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex,
-                                vm.hotelOffersResponse.hotelId, etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), vm.rowExpandingObservable)
+                                vm.hotelOffersResponse.hotelId, etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), vm.rowExpandingObservable, hasETP)
                         var parent = view.parent
                         if (parent != null) {
                             (parent as ViewGroup).removeView(view)

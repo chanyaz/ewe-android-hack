@@ -54,23 +54,13 @@ public class HotelCheckoutOverviewViewModelTest {
     }
 
     @Test
+    
     fun roomIsPayLater() {
         givenHotelIsPayLater()
         sut.newRateObserver.onNext(hotelProductResponse)
 
         assertEquals("Slide to reserve", sut.slideToText.value)
         assertEquals("The total for your trip will be $135.81. You'll pay the hotel the total cost of your booking (in the hotel's local currency) during your stay.", sut.disclaimerText.value.toString())
-    }
-
-    @Test
-    fun roomIsPayLaterAndDepositAmountToShowUsers() {
-        val amountToShow = 42.0
-        givenHotelIsPayLater()
-        givenHotelHasDepositAmountToShowUsers(amountToShow)
-        sut.newRateObserver.onNext(hotelProductResponse)
-
-        assertEquals("Slide to reserve", sut.slideToText.value)
-        assertEquals("A deposit of $42 will be collected now. You'll pay the hotel the remaining cost of your booking (in the hotel's local currency) during your stay.", sut.disclaimerText.value.toString())
     }
 
     private fun givenHotelIsPayLater() {

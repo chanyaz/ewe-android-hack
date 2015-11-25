@@ -89,13 +89,13 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.hotelMapView.mapView = detailsMapView
         presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView);
         presenter.hotelDetailView.viewmodel = HotelDetailViewModel(context, hotelServices, selectedRoomObserver)
-        presenter.hotelDetailView.viewmodel.depositInfoContainerClickObservable.subscribe { a: Pair<String, HotelOffersResponse.HotelRoomResponse> ->
-            presenter.hotelDepositInfoObserver.onNext(a)
+        presenter.hotelDetailView.viewmodel.depositInfoContainerClickObservable.subscribe { pair: Pair<String, HotelOffersResponse.HotelRoomResponse> ->
+            presenter.hotelDepositInfoObserver.onNext(pair)
         }
         presenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
         presenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(presenter.hotelRenovationObserver)
-        presenter.hotelDetailView.viewmodel.hotelPayLaterInfoObservable.subscribe { a: Pair<String, List<HotelOffersResponse.HotelRoomResponse>> ->
-            presenter.hotelPayLaterInfoObserver.onNext(a)
+        presenter.hotelDetailView.viewmodel.hotelPayLaterInfoObservable.subscribe { pair: Pair<String, List<HotelOffersResponse.HotelRoomResponse>> ->
+            presenter.hotelPayLaterInfoObserver.onNext(pair)
         }
         presenter.hotelDetailView.viewmodel.vipAccessInfoObservable.subscribe(presenter.hotelVIPAccessInfoObserver)
         presenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)

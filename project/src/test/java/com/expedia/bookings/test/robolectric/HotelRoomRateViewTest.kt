@@ -32,7 +32,7 @@ public class HotelRoomRateViewTest {
     @Test
     fun soldOutRoomAutoCollapses() {
         givenHotelOffersResponse()
-        hotelRoomRateView.viewmodel = HotelRoomRateViewModel(RuntimeEnvironment.application, hotelOffersResponse.hotelId, hotelOffersResponse.hotelRoomResponse.first(), "", 0, PublishSubject.create<Int>(), endlessObserver { })
+        hotelRoomRateView.viewmodel = HotelRoomRateViewModel(RuntimeEnvironment.application, hotelOffersResponse.hotelId, hotelOffersResponse.hotelRoomResponse.first(), "", 0, PublishSubject.create<Int>(), endlessObserver { }, false)
 
         assertEquals(true, hotelRoomRateView.viewRoom.isEnabled)
         assertEquals(false, hotelRoomRateView.viewRoom.isChecked)

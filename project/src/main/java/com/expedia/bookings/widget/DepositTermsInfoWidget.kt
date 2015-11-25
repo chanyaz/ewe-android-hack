@@ -46,8 +46,8 @@ public class DepositTermsInfoWidget(context: Context, attrs: AttributeSet) : Fra
         val hotelCountryCode = values.first
         val hotelCountrycurrency = CurrencyUtils.currencyForLocale(hotelCountryCode)
         val isDepositRequired = values.second.payLaterOffer.depositRequired
-        val depositPolicyFirst = values.second.payLaterOffer?.depositPolicy?.get(0)
-        val depositPolicySecond = values.second.payLaterOffer?.depositPolicy?.get(1)
+        val depositPolicyFirst = values.second.payLaterOffer?.depositPolicyAtIndex(0)
+        val depositPolicySecond = values.second.payLaterOffer?.depositPolicyAtIndex(1)
 
         depositPolicyFirstView.visibility = if (isDepositRequired) View.VISIBLE else View.GONE
         depositExceedInfoView.visibility = if (isDepositRequired) View.VISIBLE else View.GONE

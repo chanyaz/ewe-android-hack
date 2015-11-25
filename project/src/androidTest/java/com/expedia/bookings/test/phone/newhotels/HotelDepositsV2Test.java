@@ -26,14 +26,7 @@ import static org.hamcrest.Matchers.not;
 public class HotelDepositsV2Test extends HotelTestCase {
 
 	public void testInfoWithDepositRequired() throws Throwable {
-		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-		final DateTime endDateTime = startDateTime.plusDays(3);
-		HotelScreen.location().perform(typeText("SFO"));
-		HotelScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		HotelScreen.selectDateButton().perform(click());
-		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
-
-		HotelScreen.searchButton().perform(click());
+		goToResults();
 		HotelScreen.selectHotel("hotel_etp_renovation_resort");
 		waitForDetailsLoaded();
 
@@ -81,14 +74,7 @@ public class HotelDepositsV2Test extends HotelTestCase {
 	}
 
 	public void testInfoWithoutDepositNotRequired() throws Throwable {
-		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-		final DateTime endDateTime = startDateTime.plusDays(3);
-		HotelScreen.location().perform(typeText("SFO"));
-		HotelScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		HotelScreen.selectDateButton().perform(click());
-		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
-
-		HotelScreen.searchButton().perform(click());
+		goToResults();
 		HotelScreen.selectHotel("hotel_etp_renovation_resort_with_free_cancellation");
 		waitForDetailsLoaded();
 
@@ -96,7 +82,8 @@ public class HotelDepositsV2Test extends HotelTestCase {
 		onView(withId(R.id.etp_info_text_small)).perform(click());
 		Common.delay(1);
 
-		EspressoUtils.assertViewWithTextIsDisplayed(R.id.etp_pay_later_currency_text, "Pay the hotel directly, in the hotel's local currency (USD).");
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.etp_pay_later_currency_text,
+			"Pay the hotel directly, in the hotel's local currency (USD).");
 		onView(allOf(withText(R.string.etp_pay_later_cancellation_text),
 			isDescendantOfA(withId(R.id.pay_later_options))))
 			.check(matches(isDisplayed()));
@@ -115,4 +102,14 @@ public class HotelDepositsV2Test extends HotelTestCase {
 
 	}
 
+
+	public void goToResults() throws Throwable {
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
+		final DateTime endDateTime = startDateTime.plusDays(3);
+		HotelScreen.location().perform(typeText("SFO"));
+		HotelScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		HotelScreen.selectDateButton().perform(click());
+		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
+		HotelScreen.searchButton().perform(click());
+	}
 }

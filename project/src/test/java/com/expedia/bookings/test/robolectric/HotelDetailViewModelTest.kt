@@ -154,7 +154,7 @@ public class HotelDetailViewModelTest {
 
         val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>()
         (1..20).forEach {
-            hotelRoomRateViewModels.add(HotelRoomRateViewModel(RuntimeEnvironment.application, offer1.hotelId, offer1.hotelRoomResponse.first(), "", it, PublishSubject.create(), endlessObserver { }))
+            hotelRoomRateViewModels.add(HotelRoomRateViewModel(RuntimeEnvironment.application, offer1.hotelId, offer1.hotelRoomResponse.first(), "", it, PublishSubject.create(), endlessObserver { }, false))
         }
         vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
 

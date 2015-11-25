@@ -179,15 +179,13 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
                 val resortFees = Money(BigDecimal(room.rateInfo.chargeableRateInfo.totalMandatoryFees.toDouble()), currencyCode).formattedMoney
                 val text = Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, resortFees, tripTotal));
                 disclaimerText.onNext(text)
-            }
-            if (room.isPayLater) {
+            } else if (room.isPayLater) {
                 if (room.rateInfo.chargeableRateInfo.depositAmount != null) {
-                    val depositText = Html.fromHtml(room.depositPolicy.get(0) + " "+ room.depositPolicy.get(1))
+                    val depositText = Html.fromHtml(room.depositPolicyAtIndex(0) + " " + room.depositPolicyAtIndex(1))
                     depositPolicyText.onNext(depositText)
-                } else {
-                    val text = Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal))
-                    depositPolicyText.onNext(text)
                 }
+                val text = Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal))
+                disclaimerText.onNext(text)
             }
 
             legalTextInformation.onNext(StrUtils.generateHotelsBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString(), false))

@@ -54,13 +54,13 @@ public class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLa
         val hotelCountryCode = values.first
         val hotelCountryCurrency = CurrencyUtils.currencyForLocale(hotelCountryCode)
         var isDepositRequired = false
-        var depositPolicy = ArrayList<String>()
+        var payLaterOffer : HotelOffersResponse.HotelRoomResponse? = null
 
         for (room in values.second) {
             if (room.payLaterOffer != null) {
                 isDepositRequired = room.payLaterOffer.depositRequired
                 if (isDepositRequired) {
-                    depositPolicy.addAll(room.payLaterOffer.depositPolicy)
+                    payLaterOffer = room.payLaterOffer
                     break
                 }
             }
@@ -73,8 +73,8 @@ public class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLa
         depositPolicySecondView.visibility = if (isDepositRequired) View.VISIBLE else View.GONE
 
         if (isDepositRequired) {
-            depositTermsFirstText.text = depositPolicy.get(0)
-            depositTermsSecondText.text = depositPolicy.get(1)
+            depositTermsFirstText.text = payLaterOffer?.depositPolicyAtIndex(0)
+            depositTermsSecondText.text = payLaterOffer?.depositPolicyAtIndex(1)
         }
 
         payNowRateText.text = Phrase.from(getContext(), R.string.etp_pay_now_charges_text_TEMPLATE).put("brand", BuildConfig.brand).format()
