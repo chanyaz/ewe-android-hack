@@ -8,6 +8,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.trips.ItinCardDataLXAttach;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -30,6 +31,7 @@ public class LXAttachItinContentGenerator extends ItinButtonContentGenerator<Iti
 			public void onClick(View v) {
 				NavUtils.goToActivities(v.getContext(), null, getItinCardData().getLxSearchParams(v.getContext()),
 					NavUtils.FLAG_OPEN_SEARCH);
+				OmnitureTracking.trackAddLxItin();
 			}
 		};
 	}
