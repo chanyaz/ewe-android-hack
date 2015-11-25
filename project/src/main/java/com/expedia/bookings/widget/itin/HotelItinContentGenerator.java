@@ -101,10 +101,15 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	@Override
 	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
 		List<String> urls = getItinCardData().getHeaderImageUrls();
+
 		if (urls != null && urls.size() > 0) {
 			setSharableImageURL(urls.get(0));
 			new PicassoHelper.Builder(getContext()).setPlaceholder(getHeaderImagePlaceholderResId()).setTarget(
 				target.getCallBack()).build().load(urls);
+		}
+		else {
+			new PicassoHelper.Builder(getContext()).setTarget(
+				target.getCallBack()).build().load(getHeaderImagePlaceholderResId());
 		}
 	}
 
