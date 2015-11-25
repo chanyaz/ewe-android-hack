@@ -294,7 +294,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		}
 		case R.id.add_itinerary_guest: {
 			if (Ui.isAdded(mItinListFragment)) {
-				mItinListFragment.startAddGuestItinActivity();
+				mItinListFragment.startAddGuestItinActivity(false);
 			}
 			return true;
 		}

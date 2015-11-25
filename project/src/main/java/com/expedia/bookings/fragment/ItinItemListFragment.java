@@ -156,13 +156,13 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mOrEnterNumberTv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				startAddGuestItinActivity();
+				startAddGuestItinActivity(false);
 			}
 		});
 		mFindItineraryButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				startAddGuestItinActivity();
+				startAddGuestItinActivity(false);
 			}
 		});
 
@@ -323,8 +323,11 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mAllowLoadItins = false;
 	}
 
-	public synchronized void startAddGuestItinActivity() {
+	public synchronized void startAddGuestItinActivity(boolean isFetchGuestItinFailure) {
 		Intent intent = new Intent(getActivity(), ItineraryGuestAddActivity.class);
+		if (isFetchGuestItinFailure) {
+			intent.setAction(ItineraryGuestAddActivity.ERROR_FETCHING_GUEST_ITINERARY);
+		}
 		OmnitureTracking.trackFindItin();
 		startActivity(intent);
 	}
@@ -509,6 +512,12 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	@Override
 	public void onTripUpdated(Trip trip) {
 		OmnitureTracking.trackItinAdd(trip);
+	}
+
+	@Override
+	public void onTripFailedFetchingGuestItinerary() {
+		boolean isFetchGuestItinFailure = true;
+		startAddGuestItinActivity(isFetchGuestItinFailure);
 	}
 
 	@Override

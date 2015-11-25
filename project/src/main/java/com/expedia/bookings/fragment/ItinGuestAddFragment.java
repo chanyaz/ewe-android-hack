@@ -37,12 +37,14 @@ public class ItinGuestAddFragment extends Fragment implements LoginExtenderListe
 	public static final String STATE_LOGIN_EXTENDER = "STATE_LOGIN_EXTENDER";
 	public static final String STATE_LOGIN_EXTENDER_RUNNING = "STATE_LOGIN_EXTENDER_RUNNING";
 	public static final String STATE_STATUS_TEXT = "STATE_HEADER_TEXT";
+	public static final String isFetchItinFailed = "isFetchItinFailed";
 
 	private Button mFindItinBtn;
 	private TextView mStatusMessageTv;
 	private EditText mEmailEdit;
 	private EditText mItinNumEdit;
 	private ViewGroup mExtenderContainer;
+	private TextView mUnableToFindItinErrorMsg;
 	private LinearLayout mOuterContainer;
 	private AddGuestItineraryDialogListener mListener;
 	private LoginExtender mLoginExtender;
@@ -56,6 +58,14 @@ public class ItinGuestAddFragment extends Fragment implements LoginExtenderListe
 			args.putBundle(STATE_LOGIN_EXTENDER, extender.buildStateBundle());
 		}
 		frag.setArguments(args);
+		return frag;
+	}
+
+	public static ItinGuestAddFragment fetchingGuestItinFailedInstance(LoginExtender extender) {
+		ItinGuestAddFragment frag = newInstance(extender);
+		Bundle arguments = frag.getArguments();
+		arguments.putBoolean(isFetchItinFailed, true);
+		frag.setArguments(arguments);
 		return frag;
 	}
 
@@ -80,6 +90,7 @@ public class ItinGuestAddFragment extends Fragment implements LoginExtenderListe
 
 		mOuterContainer = Ui.findView(view, R.id.outer_container);
 		mExtenderContainer = Ui.findView(view, R.id.login_extender_container);
+		mUnableToFindItinErrorMsg = Ui.findView(view, R.id.unable_to_find_itin_error_message);
 		mStatusMessageTv = Ui.findView(view, R.id.itin_heading_textview);
 		mFindItinBtn = Ui.findView(view, R.id.find_itinerary_button);
 		mEmailEdit = Ui.findView(view, R.id.email_edit_text);
@@ -98,6 +109,11 @@ public class ItinGuestAddFragment extends Fragment implements LoginExtenderListe
 
 		if (!TextUtils.isEmpty(mStatusText)) {
 			setStatusText(mStatusText);
+		}
+
+		if (getArguments().containsKey(isFetchItinFailed)) {
+			getArguments().remove(isFetchItinFailed);
+			mUnableToFindItinErrorMsg.setVisibility(View.VISIBLE);
 		}
 
 		return view;
@@ -156,7 +172,6 @@ public class ItinGuestAddFragment extends Fragment implements LoginExtenderListe
 
 					ItineraryManager.getInstance().addGuestTrip(emailAddr, itinNumber);
 					runExtenderOrFinish();
-
 					OmnitureTracking.setPendingManualAddGuestItin(emailAddr, itinNumber);
 				}
 			}

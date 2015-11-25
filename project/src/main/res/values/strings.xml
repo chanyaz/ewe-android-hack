@@ -1014,6 +1014,10 @@
     <string name="shop">Shop</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Find Itinerary</string>
+    <!-- Unable to find itinerary -->
+    <string name="unable_to_find_itinerary">Unable to find itinerary. Please confirm Country (in settings) matches the website address of your booking.</string>
+    <!-- Find Guest Itinerary -->
+    <string name="find_guest_itinerary">Find Guest Itinerary</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">Enter Itinerary Details</string>
     <!-- Find Itinerary # -->
@@ -1028,6 +1032,8 @@
     <string name="no_upcoming_trips">No upcoming trips.</string>
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Enter Itinerary Number</string>
+    <!-- Enter a Guest itinerary number -->
+    <string name="or_enter_a_guest_itinerary_number">Or, Enter a Guest Itinerary</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Fetching your itineraries…</string>
     <!-- Error fetching itinerary -->
