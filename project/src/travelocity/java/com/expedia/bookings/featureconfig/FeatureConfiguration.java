@@ -123,7 +123,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public List<BasicNameValuePair> getAdditionalParamsForReviewsRequest() {
 		List<BasicNameValuePair> additionalParamsForReviewsRequest = new ArrayList<>();
-		additionalParamsForReviewsRequest.add(new BasicNameValuePair("origin", "TRAVELOCITY"));
+		additionalParamsForReviewsRequest.add(new BasicNameValuePair("caller", "TRAVELOCITY"));
 		additionalParamsForReviewsRequest.add(new BasicNameValuePair("locale", PointOfSale.getPointOfSale().getLocaleIdentifier()));
 		return additionalParamsForReviewsRequest;
 	}
