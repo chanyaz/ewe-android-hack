@@ -39,7 +39,6 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         hotelCheckoutWidget.emailOptInStatus.subscribe { status ->
             hotelCheckoutWidget.mainContactInfoCardView.setUPEMailOptCheckBox(status)
         }
-
         cvv.setCVVEntryListener(this)
     }
 

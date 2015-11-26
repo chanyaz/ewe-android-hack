@@ -47,7 +47,7 @@ public class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(c
     val toolBarRating: StarRatingBar by bindView(R.id.hotel_star_rating_bar)
     val toolBarBackground: View by bindView(R.id.toolbar_background)
 
-    val mapReady = PublishSubject.create<GoogleMap>()
+    var googleMap : GoogleMap? = null
 
     init {
         View.inflate(context, R.layout.widget_hotel_map, this)
@@ -80,38 +80,34 @@ public class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(c
         vm.fromPriceVisibility.subscribeVisibility(selectRoomPrice)
         vm.selectARoomInvisibility.subscribeInverseVisibility(selectRoomContainer)
 
-        Observable.combineLatest(mapReady, vm.resetCameraPosition, vm.hotelLatLng) {
-            googleMap, unit, hotelLatLng -> object {
-                val googleMap = googleMap
-                val hotelLatLng = hotelLatLng
-            }
-        }.subscribe {
-            it.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it.hotelLatLng[0], it.hotelLatLng[1]), MAP_ZOOM_LEVEL))
-            it.googleMap.clear()
-            addMarker(it.googleMap, it.hotelLatLng)
-        }
-
         //Hook inputs from View
         selectRoomContainer.subscribeOnClick(endlessObserver<Unit> {
             (context as Activity).onBackPressed()
             vm.selectARoomObserver.onNext(Unit)
             HotelV2Tracking().trackLinkHotelV2MapSelectRoom()
         })
+
+        vm.hotelLatLng.subscribe {
+            googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(it[0], it[1]), MAP_ZOOM_LEVEL))
+            googleMap?.clear()
+            addMarker(googleMap, it)
+        }
     }
 
-    private fun addMarker(googleMap:GoogleMap, hotelLatLng: DoubleArray) {
+    private fun addMarker(googleMap:GoogleMap?, hotelLatLng: DoubleArray) {
+        googleMap ?: return
         val marker = MarkerOptions()
         marker.position(LatLng(hotelLatLng[0], hotelLatLng[1]))
         marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.hotels_pin))
         googleMap.addMarker(marker)
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
+    override fun onMapReady(map: GoogleMap) {
         MapsInitializer.initialize(context)
-        googleMap.uiSettings.isMapToolbarEnabled = false
-        googleMap.uiSettings.isMyLocationButtonEnabled = false
-        googleMap.uiSettings.isZoomControlsEnabled = false
-
-        mapReady.onNext(googleMap)
+        googleMap = map
+        googleMap?.uiSettings?.isMapToolbarEnabled = false
+        googleMap?.uiSettings?.isMyLocationButtonEnabled = false
+        googleMap?.uiSettings?.isZoomControlsEnabled = false
+        googleMap?.mapType = GoogleMap.MAP_TYPE_NONE
     }
 }

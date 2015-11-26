@@ -151,7 +151,7 @@ public class HotelResultsMapViewModel(val resources: Resources, val currentLocat
     //outputs
     val markersObservable = PublishSubject.create<List<Hotel>>()
     val newBoundsObservable = PublishSubject.create<LatLngBounds>()
-    val sortedHotelsObservable = BehaviorSubject.create<List<Hotel>>()
+    val sortedHotelsObservable = PublishSubject.create<List<Hotel>>()
     val unselectedMarker = PublishSubject.create<Pair<Marker?, Hotel>>()
     val selectMarker = BehaviorSubject.create<Pair<Marker?, Hotel>>()
     val soldOutMarker = BehaviorSubject.create<Pair<Marker?, Hotel>>()

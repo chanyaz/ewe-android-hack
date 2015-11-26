@@ -28,6 +28,7 @@ import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
+import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeChecked
 import com.expedia.util.subscribeEnabled
@@ -41,9 +42,10 @@ import com.expedia.vm.HotelRoomRateViewModel
 import com.mobiata.android.util.AndroidUtils
 import rx.Observer
 import rx.Observable
+import rx.Subscription
 import kotlin.properties.Delegates
 
-public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView, val rowTopConstraintViewObservable: Observable<View>, val selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>, val rowIndex: Int) : LinearLayout(context) {
+public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView, var rowTopConstraintViewObservable: Observable<View>, var rowIndex: Int) : LinearLayout(context) {
 
     val PICASSO_HOTEL_ROOM = "HOTEL_ROOMS"
 
@@ -85,11 +87,12 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
     private var roomContainerTopBottomPadding = 0
     private var roomContainerLeftRightPadding = 0
 
-    private var rowTopConstraintView: View by Delegates.notNull()
+    public var rowTopConstraintView: View by Delegates.notNull()
+    var viewsToHideInExpandedState : Array<View> by Delegates.notNull()
+    var viewsToShowInExpandedState : Array<View> by Delegates.notNull()
+    var rowTopConstraintSubscription: Subscription? = null
 
     var viewmodel: HotelRoomRateViewModel by notNullAndObservable { vm ->
-        val viewsToHideInExpandedState = arrayOf(collapsedBedType, collapsedUrgency)
-        val viewsToShowInExpandedState = arrayOf(expandedBedType, expandedAmenity, freeCancellation, strikeThroughPrice)
 
         vm.roomSoldOut.filter { it }.map { false }.subscribeChecked(viewRoom)
         vm.roomSoldOut.filter { it }.map { false }.subscribeEnabled(viewRoom)
@@ -100,7 +103,13 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
         row.setOnClickListener {
             vm.expandCollapseRoomRate.onNext(!viewRoom.isChecked)
         }
-        vm.roomSelectedObservable.subscribe(selectedRoomObserver)
+
+        vm.roomInfoExpandCollapseObservable1.subscribe {
+            val lp = roomInfoChevron.layoutParams as RelativeLayout.LayoutParams
+            lp.addRule(RelativeLayout.BELOW, 0)
+            roomInfoChevron.layoutParams = lp
+            roomInfoDescriptionText.visibility = View.GONE
+        }
 
         Observable.combineLatest(vm.roomInfoExpandCollapseObservable, vm.expandedMeasurementsDone) { visibility, unit -> visibility }.subscribe({ visibility ->
             val shouldExpand = roomInfoDescriptionText.visibility == View.GONE
@@ -352,10 +361,12 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
 
     init {
         View.inflate(getContext(), R.layout.hotel_room_row, this)
+        orientation = LinearLayout.VERTICAL
 
-        rowTopConstraintViewObservable.subscribe { rowTopConstraintView = it }
+        viewsToHideInExpandedState = arrayOf(collapsedBedType, collapsedUrgency)
+        viewsToShowInExpandedState = arrayOf(expandedBedType, expandedAmenity, freeCancellation, strikeThroughPrice)
 
-        val globalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
+        val globalLayoutListener = object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 roomHeaderImageHeight = roomHeaderImage.height;
                 roomInfoHeaderTextHeight = roomInfoHeader.height;
@@ -372,6 +383,8 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
         }
         row.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
 
+        viewSetup(scrollAncestor, rowTopConstraintViewObservable, rowIndex)
+
         val transitionDrawable = TransitionDrawable(arrayOf(ColorDrawable(Color.parseColor("#00000000")), resources.getDrawable(R.drawable.card_background)))
         transitionDrawable.isCrossFadeEnabled = true
         if(rowIndex == 0) transitionDrawable.startTransition(0)
@@ -380,6 +393,30 @@ public class HotelRoomRateView(context: Context, val scrollAncestor: ScrollView,
         toggleExpanded = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, context.resources.displayMetrics).toInt()
         roomContainerTopBottomPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, context.resources.displayMetrics).toInt()
         roomContainerLeftRightPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15f, context.resources.displayMetrics).toInt()
+    }
+
+
+
+    fun viewSetup(scrollAncestor: ScrollView, rowTopConstraintViewObservable: Observable<View>, rowIndex: Int) {
+        this.scrollAncestor = scrollAncestor
+        this.rowTopConstraintViewObservable = rowTopConstraintViewObservable
+        this.rowIndex = rowIndex
+
+        rowTopConstraintSubscription?.unsubscribe()
+        rowTopConstraintSubscription = rowTopConstraintViewObservable.subscribe { rowTopConstraintView = it }
+
+        val transitionDrawable = TransitionDrawable(arrayOf(ColorDrawable(Color.parseColor("#00000000")), resources.getDrawable(R.drawable.card_background)))
+        transitionDrawable.isCrossFadeEnabled = true
+        if (rowIndex == 0) {
+            transitionDrawable.startTransition(0)
+        }
+        viewRoom.isChecked = false
+        viewRoom.isEnabled = true
+        viewRoom.textOff = resources.getString(R.string.view_room_button_text)
+        viewRoom.textOn = resources.getString(R.string.book_room_button_text)
+        row.background = transitionDrawable
+        roomInfoDescriptionText.visibility = View.VISIBLE
+
     }
 
     fun topMarginForView(view: View, margin: Int) {
