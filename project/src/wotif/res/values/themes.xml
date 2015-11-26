@@ -56,6 +56,7 @@
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_wotif_white_logo_small</item>
         <item name="skin_bgFindItineraryButton">@drawable/btn_find_wotif</item>
         <item name="skin_flightPriceTextColor">@color/flight_trip_price</item>
+        <item name="skin_actionBarAboutLogo">@drawable/ic_action_bar_wotif_logo</item>
 
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_hotels_wotif</item>
         <item name="skin_hotelWebViewActionBarLogo">@drawable/ic_logo_hotels_wotif</item>
