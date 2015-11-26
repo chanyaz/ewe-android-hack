@@ -187,7 +187,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isFacebookLoginIntegrationEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
