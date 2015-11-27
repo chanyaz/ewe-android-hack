@@ -96,6 +96,9 @@ public class LXResultsPresenter extends Presenter {
 	@InjectView(R.id.toolbar_two)
 	LinearLayout toolbarTwo;
 
+	@InjectView(R.id.transparent_view)
+	View transparentView;
+
 	private int searchTop;
 	private ArrowXDrawable navIcon;
 
@@ -123,17 +126,26 @@ public class LXResultsPresenter extends Presenter {
 	// Transitions
 	private Presenter.Transition searchResultsToSortFilter = new Presenter.Transition(LXSearchResultsWidget.class, LXSortFilterWidget.class,
 		new DecelerateInterpolator(), ANIMATION_DURATION) {
+			int sortFilterWidgetHeightForCategoriesABTest;
 
 		@Override
 		public void startTransition(boolean forward) {
 			sortFilterButton.showNumberOfFilters(sortFilterWidget.getNumberOfSelectedFilters());
 			sortFilterWidget.setVisibility(View.VISIBLE);
+			sortFilterWidgetHeightForCategoriesABTest = sortFilterWidget.getSortFilterWidgetHeightForCategoriesABTest();
 		}
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			float translatePercentage = forward ? 1f - f : f;
-			sortFilterWidget.setTranslationY(sortFilterWidget.getHeight() * translatePercentage);
+			if (isUserBucketedForCategoriesTest) {
+				sortFilterWidget
+					.setTranslationY(sortFilterWidget.getHeight() - sortFilterWidgetHeightForCategoriesABTest
+						+ (sortFilterWidgetHeightForCategoriesABTest * translatePercentage));
+			}
+			else {
+				sortFilterWidget.setTranslationY(sortFilterWidget.getHeight() * translatePercentage);
+			}
 		}
 
 		@Override
@@ -142,7 +154,12 @@ public class LXResultsPresenter extends Presenter {
 
 		@Override
 		public void finalizeTransition(boolean forward) {
-			sortFilterWidget.setTranslationY(forward ? 0 : sortFilterWidget.getHeight());
+			if (isUserBucketedForCategoriesTest) {
+				transparentView.setVisibility(forward ? VISIBLE : GONE);
+			}
+			else {
+				sortFilterWidget.setTranslationY(forward ? 0 : sortFilterWidget.getHeight());
+			}
 			sortFilterWidget.setVisibility(forward ? VISIBLE : GONE);
 		}
 	};
@@ -215,6 +232,7 @@ public class LXResultsPresenter extends Presenter {
 			Events.post(new Events.LXSearchResultsAvailable(lxSearchResponse));
 			OmnitureTracking.trackAppLXSearchCategories(lxState.searchParams, lxSearchResponse);
 			List<LXCategoryMetadata> categories = new ArrayList<>(lxSearchResponse.filterCategories.values());
+
 			categoryResultsWidget.bind(categories);
 			searchResultsWidget.setVisibility(GONE);
 			categoryResultsWidget.setVisibility(VISIBLE);

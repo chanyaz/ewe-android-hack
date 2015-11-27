@@ -80,6 +80,10 @@ public class PicassoHelper implements Target, Callback {
 			requestCreator = requestCreator.placeholder(mDefaultResId);
 		}
 
+		if (mErrorResId != 0) {
+			requestCreator = requestCreator.error(mErrorResId);
+		}
+
 		if (mBlur) {
 			requestCreator = requestCreator.transform(new BlurTransform(mContext));
 		}

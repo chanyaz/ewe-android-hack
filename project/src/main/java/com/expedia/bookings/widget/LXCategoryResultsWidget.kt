@@ -9,12 +9,10 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.lx.LXCategoryMetadata
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.bindView
 import com.squareup.otto.Subscribe
 import rx.subjects.PublishSubject
-import java.util.*
-import kotlin.properties.Delegates
+import java.util.ArrayList
 
 public class LXCategoryResultsWidget(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) {
 
@@ -22,9 +20,9 @@ public class LXCategoryResultsWidget(context: Context, attrs: AttributeSet): Fra
     val errorScreen: LXErrorWidget by bindView(R.id.category_error_widget)
 
     val adapter = LXCategoryListAdapter()
-    private val CARDS_FOR_LOADING_ANIMATION = 3
+    private val CARDS_FOR_LOADING_ANIMATION = 4
     private val lxCategorySubject = PublishSubject.create<LXCategoryMetadata>()
-    private val LIST_DIVIDER_HEIGHT = 12
+    private val LIST_DIVIDER_HEIGHT = 14
 
     override fun onFinishInflate() {
         val layoutManager = LinearLayoutManager(context)

@@ -357,6 +357,7 @@ public class LXServicesTest {
 		assertEquals(4, observer.getOnNextEvents().get(0).activities.size());
 		assertNotNull(observer.getOnNextEvents().get(0).filterCategories.get("Attractions").activities);
 		assertEquals(4, observer.getOnNextEvents().get(0).filterCategories.get("Attractions").activities.size());
+		assertEquals("Attractions", observer.getOnNextEvents().get(0).filterCategories.get("Attractions").categoryKey);
 	}
 
 	private void givenServerUsingMockResponses() throws IOException {

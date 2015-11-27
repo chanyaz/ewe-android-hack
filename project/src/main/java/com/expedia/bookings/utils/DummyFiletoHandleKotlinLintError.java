@@ -187,6 +187,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.hotel_guest_recommend_exceptional_superlative,
 		R.layout.lx_category_loading_animation_widget,
 		R.layout.row_lx_category,
-		R.dimen.lx_category_image_width
+		R.dimen.lx_category_image_width,
+		R.drawable.lx_category_count_background_single_digit
 	};
 }
