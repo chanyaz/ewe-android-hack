@@ -4,7 +4,26 @@
     android:layout_height="match_parent"
     android:background="#EEEEEE">
 
-<com.expedia.bookings.widget.LXSearchResultsWidget
+    <com.expedia.bookings.widget.LXCategoryResultsWidget
+        android:id="@+id/lx_category_results_widget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="?attr/actionBarSize"
+        android:visibility="gone">
+
+        <com.expedia.bookings.widget.LXErrorWidget
+            android:id="@+id/category_error_widget"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/lx_category_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.expedia.bookings.widget.LXCategoryResultsWidget>
+
+    <com.expedia.bookings.widget.LXSearchResultsWidget
         android:id="@+id/lx_search_results_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

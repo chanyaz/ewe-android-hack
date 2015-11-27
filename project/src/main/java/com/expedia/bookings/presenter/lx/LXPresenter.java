@@ -263,4 +263,8 @@ public class LXPresenter extends Presenter {
 	public void setIsGroundTransport(boolean isGroundTransport) {
 		resultsPresenter.setIsFromGroundTransport(isGroundTransport);
 	}
+	public void setUserBucketedForCategoriesTest(boolean isUserBucketedForTest) {
+		resultsPresenter.setUserBucketedForCategoriesTest(isUserBucketedForTest);
+	}
+
 }

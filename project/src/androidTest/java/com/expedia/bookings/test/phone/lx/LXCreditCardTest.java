@@ -1,6 +1,5 @@
 package com.expedia.bookings.test.phone.lx;
 
-import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
@@ -16,14 +15,19 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.Matchers.allOf;
 
 public class LXCreditCardTest extends LxTestCase {
 
 	public void testPaymentCleared() throws Throwable {
 
 		if (getLxIdlingResource().isInSearchEditMode()) {
-			onView(Matchers.allOf(withId(R.id.error_action_button), withText(R.string.edit_search))).perform(click());
+			onView(allOf(withId(R.id.error_action_button), withText(R.string.edit_search),
+				withParent(withParent(withId(R.id.lx_search_error_widget)))))
+				.perform(click());
+
 			LXScreen.location().perform(typeText("San"));
 			LXScreen.selectLocation("San Francisco, CA");
 			LXScreen.selectDateButton().perform(click());

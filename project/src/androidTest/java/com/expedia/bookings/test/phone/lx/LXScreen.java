@@ -20,10 +20,12 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.TabletViewActions;
+import com.expedia.bookings.widget.LXCategoryListAdapter;
 import com.expedia.bookings.widget.LXResultsListAdapter;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -80,6 +82,10 @@ public class LXScreen {
 		return onView(withId(R.id.lx_search_results_widget));
 	}
 
+	public static ViewInteraction searchCategoryResultsWidget() {
+		return onView(withId(R.id.lx_category_results_widget));
+	}
+
 	public static ViewInteraction searchFailed() {
 		return onView(withId(R.id.lx_search_error_widget));
 	}
@@ -88,14 +94,28 @@ public class LXScreen {
 		return onView(recyclerView(R.id.lx_search_results_list));
 	}
 
+	public static ViewInteraction categoryList() {
+		return onView(recyclerView(R.id.lx_category_list));
+	}
+
 	public static void waitForSearchListDisplayed() {
 		searchList().perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
 		// Wait an extra bit just to be sure the list items have settled
 		Common.delay(2);
 	}
 
+	public static void waitForCategoryListDisplayed() {
+		categoryList().perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
+		// Wait an extra bit just to be sure the list items have settled
+		Common.delay(2);
+	}
+
 	public static void waitForSearchResultsWidgetDisplayed() {
 		searchResultsWidget().perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
+	}
+
+	public static void waitForCategoryResultsWidgetDisplayed() {
+		searchCategoryResultsWidget().perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
 	}
 
 	public static ViewInteraction sortAndFilterButton() {
@@ -191,7 +211,49 @@ public class LXScreen {
 			public void perform(UiController uiController, View view) {
 				uiController.loopMainThreadUntilIdle();
 				RecyclerView rv = (RecyclerView) view;
-				((LXResultsListAdapter) rv.getAdapter()).setActivities(activities);
+				((LXResultsListAdapter) rv.getAdapter()).setItems(activities);
+			}
+		};
+	}
+
+	public static ViewAction setLXCategories(final List<LXCategoryMetadata> categories) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return withId(R.id.lx_category_list);
+			}
+
+			@Override
+			public String getDescription() {
+				return "Placing the view holder in the recycler view";
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				uiController.loopMainThreadUntilIdle();
+				RecyclerView rv = (RecyclerView) view;
+				((LXCategoryListAdapter) rv.getAdapter()).setItems(categories);
+			}
+		};
+	}
+
+	public static ViewAction performCategoryViewHolderComparison(final String title) {
+		return new ViewAction() {
+			@Override
+			public Matcher<View> getConstraints() {
+				return null;
+			}
+
+			@Override
+			public String getDescription() {
+				return null;
+			}
+
+			@Override
+			public void perform(UiController uiController, View viewHolder) {
+				TextView categoryTitle = (TextView) viewHolder.findViewById(R.id.category_title);
+
+				Assert.assertEquals(title, categoryTitle.getText());
 			}
 		};
 	}
@@ -339,8 +401,8 @@ public class LXScreen {
 				.actionOnItemAtPosition(index, click()));
 	}
 
-	public static ViewInteraction getTile(String activityTitle) {
-		return resultsListItemView(withChild(withChild(withText(activityTitle))));
+	public static ViewInteraction getTile(String activityTitle, int listId) {
+		return listItemView(withChild(withChild(withText(activityTitle))), listId);
 	}
 
 	public static Matcher<View> withResults(final int expectedResultsCount) {
@@ -357,8 +419,8 @@ public class LXScreen {
 		};
 	}
 
-	public static ViewInteraction resultsListItemView(Matcher<View> identifyingMatcher) {
-		Matcher<View> itemView = allOf(withParent(recyclerView(R.id.lx_search_results_list)),
+	public static ViewInteraction listItemView(Matcher<View> identifyingMatcher, int listId) {
+		Matcher<View> itemView = allOf(withParent(recyclerView(listId)),
 			withChild(identifyingMatcher));
 		return onView(itemView);
 	}

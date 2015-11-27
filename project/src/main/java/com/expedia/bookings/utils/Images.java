@@ -72,6 +72,13 @@ public class Images {
 			.build();
 	}
 
+	public static String getLXCategories(String category, float width) {
+		final String categoryString = category.toString().replaceAll("[^a-zA-Z0-9]", "");
+		return new Akeakamai(getMediaHost() + "/mobiata/mobile/apps/ExpediaBooking/ActivityCategories/images/" + categoryString + ".jpg")
+			.downsize(Akeakamai.pixels((int) width), Akeakamai.preserve())
+			.build();
+	}
+
 	/**
 	 * Returns list of image URLs based on the screen size.
 	 * List contains the best match at 0th index followed by higher resolution and then lower resolution image URLs

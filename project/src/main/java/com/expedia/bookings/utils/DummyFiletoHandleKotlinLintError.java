@@ -184,6 +184,9 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.hotel_guest_recommend_very_good_superlative,
 		R.string.hotel_guest_recommend_excellent_superlative,
 		R.string.hotel_guest_recommend_wonderful_superlative,
-		R.string.hotel_guest_recommend_exceptional_superlative
+		R.string.hotel_guest_recommend_exceptional_superlative,
+		R.layout.lx_category_loading_animation_widget,
+		R.layout.row_lx_category,
+		R.dimen.lx_category_image_width
 	};
 }

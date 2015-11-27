@@ -14,6 +14,7 @@ import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
@@ -22,7 +23,7 @@ public class LXCreateTripErrorTest extends LxTestCase {
 
 	private void goToCheckout(int productPosition, String ticketName) throws Throwable {
 		if (getLxIdlingResource().isInSearchEditMode()) {
-			onView(allOf(withId(R.id.error_action_button), withText(R.string.edit_search)))
+			onView(allOf(withId(R.id.error_action_button), withText(R.string.edit_search), withParent(withParent(withId(R.id.lx_search_error_widget)))))
 				.perform(click());
 			LXScreen.location().perform(typeText("San"));
 			LXScreen.selectLocation("San Francisco, CA");

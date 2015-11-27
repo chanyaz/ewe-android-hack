@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
@@ -61,6 +62,9 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	@InjectView(R.id.scroll_filter)
 	android.widget.ScrollView scrollFilter;
+
+	@InjectView(R.id.category_title)
+	TextView categoryTitle;
 
 	@Override
 	protected void onFinishInflate() {
@@ -138,8 +142,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		else {
 			// Set to default state, as we have new search params available.
 			selectedFilterCategories.clear();
-			popularitySortButton.setSelected(true);
-			priceSortButton.setSelected(false);
+			resetSort();
 		}
 
 		// Hide the dynamic feedback & update done button in case we have zero filters applied.
@@ -241,4 +244,19 @@ public class LXSortFilterWidget extends LinearLayout {
 		this.selectedFilterCategories = lxSortFilterMetadata.lxCategoryMetadataMap;
 		return this;
 	}
+
+	public void hideCategoryFilter() {
+		categoryTitle.setVisibility(GONE);
+		filterCategoriesContainer.setVisibility(GONE);
+	}
+
+	public void setToolbarTitle(CharSequence title) {
+		toolbar.setTitle(title);
+	}
+
+	public void resetSort() {
+		popularitySortButton.setSelected(true);
+		priceSortButton.setSelected(false);
+	}
+
 }
