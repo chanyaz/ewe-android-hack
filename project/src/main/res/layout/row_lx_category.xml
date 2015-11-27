@@ -18,7 +18,7 @@
         <com.expedia.bookings.widget.OptimizedImageView
             android:id="@+id/category_image"
             android:layout_width="match_parent"
-            android:layout_height="?attr/card_list_image_container_height"
+            android:layout_height="110dp"
             android:scaleType="centerCrop" />
 
         <com.expedia.bookings.widget.TextView
@@ -36,7 +36,7 @@
             android:paddingRight="12dp"
             android:paddingTop="9dp"
             android:textColor="@android:color/white"
-            android:textSize="16sp"
+            android:textSize="18sp"
             app:textStyle="medium" />
 
         <com.expedia.bookings.widget.TextView
@@ -44,9 +44,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|right"
+            android:gravity="center"
             android:layout_marginRight="12dp"
             android:layout_marginTop="9dp"
-            android:background="@drawable/lx_category_count_background"
+            android:background="@drawable/lx_category_count_background_more_than_one_digit"
             android:paddingBottom="2dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"

@@ -18,7 +18,6 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.bindView
-import com.mobiata.android.util.AndroidUtils
 import com.squareup.picasso.Picasso
 import rx.subjects.PublishSubject
 
@@ -72,11 +71,18 @@ public class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetada
             categoryTitle.text = category.displayValue
             categoryCount.text = category.activities.size().toString()
 
-            val imageURLs = Images.getLXCategories(category.displayValue, itemView.getContext().getResources().getDimension(R.dimen.lx_category_image_width))
+            if(category.activities.size() == 1) {
+                categoryCount.background = itemView.getContext().getResources().getDrawable(R.drawable.lx_category_count_background_single_digit)
+            }
+            else if(category.activities.size() > 1) {
+                categoryCount.background = itemView.getContext().getResources().getDrawable(R.drawable.lx_category_count_background_more_than_one_digit)
+            }
+
+            val imageURLs = Images.getLXCategories(category.categoryKey, itemView.getContext().getResources().getDimension(R.dimen.lx_category_image_width))
 
             PicassoHelper
                     .Builder(itemView.context)
-                    .setPlaceholder(R.drawable.itin_header_placeholder_activities)
+                    .setPlaceholder(R.drawable.results_list_placeholder)
                     .setError(R.drawable.itin_header_placeholder_activities)
                     .fade()
                     .setTag("CATEGORY_ROW")

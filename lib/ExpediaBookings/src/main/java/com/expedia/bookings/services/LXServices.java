@@ -75,6 +75,7 @@ public class LXServices {
 			.doOnNext(PUT_POPULARITY_COUNTER_FOR_SORT)
 			.doOnNext(CACHE_SEARCH_RESPONSE)
 			.doOnNext(PUT_ACTIVITIES_IN_CATEGORY)
+			.doOnNext(PUT_CATEGORY_KEY_IN_CATEGORY_METADATA)
 			.subscribeOn(subscribeOn)
 			.observeOn(observeOn)
 			.subscribe(observer);
@@ -115,6 +116,17 @@ public class LXServices {
 			int popularityForClientSort = 0;
 			for (LXActivity activity : lxSearchResponse.activities) {
 				activity.popularityForClientSort = popularityForClientSort++;
+			}
+		}
+	};
+
+	private static final Action1<LXSearchResponse> PUT_CATEGORY_KEY_IN_CATEGORY_METADATA = new Action1<LXSearchResponse>() {
+		@Override
+		public void call(LXSearchResponse lxSearchResponse) {
+			for (Map.Entry<String, LXCategoryMetadata> filterCategory : lxSearchResponse.filterCategories.entrySet()) {
+				String categoryKey = filterCategory.getKey();
+				LXCategoryMetadata categoryValue = filterCategory.getValue();
+				categoryValue.categoryKey = categoryKey;
 			}
 		}
 	};

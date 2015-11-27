@@ -259,4 +259,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		priceSortButton.setSelected(false);
 	}
 
+	public int getSortFilterWidgetHeightForCategoriesABTest() {
+		return filterCategoriesContainer.getTop() + Ui.toolbarSizeWithStatusBar(getContext());
+	}
 }
