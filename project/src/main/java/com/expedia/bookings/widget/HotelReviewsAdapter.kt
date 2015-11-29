@@ -21,7 +21,7 @@ public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager,
         vm.reviewsSummaryObservable.subscribe { reviewsSummary ->
             val hotelReviewsSummaryViewModel = HotelReviewsSummaryViewModel(context)
             hotelReviewsSummaryViewModel.reviewsSummaryObserver.onNext(reviewsSummary)
-            for (reviewSort: ReviewSort in ReviewSort.values()) {
+            for (reviewSort: ReviewSort in ReviewSort.values) {
                 val hotelReviewsView = viewPager.findViewWithTag(reviewSort) as HotelReviewsPageView
                 if (hotelReviewsView.summaryContainer.childCount == 0) {
                     hotelReviewsView.summaryContainer.addView(HotelReviewsSummaryWidget(context, hotelReviewsSummaryViewModel))
@@ -40,7 +40,6 @@ public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager,
         vm.newestReviewsObservable.subscribe { reviews ->
             addReviews(ReviewSort.NEWEST_REVIEW_FIRST, reviews)
         }
-
     }
 
     private fun addReviews(reviewSort: ReviewSort, reviews: List<Review>) {
@@ -94,7 +93,7 @@ public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager,
     }
 
     override fun getCount(): Int {
-        return ReviewSort.values().size()
+        return ReviewSort.values.size
     }
 
     override public fun destroyItem(container: ViewGroup, position: Int, obj: Any) {

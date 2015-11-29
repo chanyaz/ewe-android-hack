@@ -51,7 +51,6 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeRating
 import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.HotelDetailViewModel
@@ -303,19 +302,19 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             if (CollectionUtils.isEmpty(roomList.first)) {
                 return@subscribe
             }
-            val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(roomList.first.size())
+            val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(roomList.first.size)
 
             val roomContainerAlphaZeroToOneAnimation = AlphaAnimation(0f, 1f)
             roomContainerAlphaZeroToOneAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
 
             val roomContainerAlphaOneToZeroAnimation = AlphaAnimation(1f, 0f)
             roomContainerAlphaOneToZeroAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
-            roomContainerAlphaOneToZeroAnimation.setAnimationListener(object: Animation.AnimationListener {
+            roomContainerAlphaOneToZeroAnimation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationEnd(p0: Animation?) {
                     roomContainer.removeAllViews()
                     roomList.first.forEachIndexed { roomResponseIndex, room ->
                         val view = HotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex)
-                	view.viewmodel = HotelRoomRateViewModel(getContext(), vm.hotelOffersResponse.hotelId, roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), roomResponseIndex, vm.rowExpandingObservable)
+                        view.viewmodel = HotelRoomRateViewModel(getContext(), vm.hotelOffersResponse.hotelId, roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), roomResponseIndex, vm.rowExpandingObservable)
                         roomContainer.addView(view)
                         hotelRoomRateViewModels.add(view.viewmodel)
                     }
@@ -339,8 +338,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.hasETPObservable.subscribeVisibility(etpInfoText)
         vm.hasFreeCancellationObservable.subscribeVisibility(freeCancellation)
 
-       vm.etpContainerVisibility.subscribeVisibility(etpContainer)
-       vm.hasETPObservable.filter { it == true }.subscribe { payNowLaterSelectionChanged(true) }
+        vm.etpContainerVisibility.subscribeVisibility(etpContainer)
+        vm.hasETPObservable.filter { it == true }.subscribe { payNowLaterSelectionChanged(true) }
 
         Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hotelSoldOut -> hasETP && hasFreeCancellation && !hotelSoldOut }
                 .distinctUntilChanged()
@@ -362,19 +361,19 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             if (CollectionUtils.isEmpty(etpRoomList.first)) {
                 return@subscribe
             }
-            val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(etpRoomList.first.size())
+            val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(etpRoomList.first.size)
 
             val roomContainerAlphaZeroToOneAnimation = AlphaAnimation(0f, 1f)
             roomContainerAlphaZeroToOneAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
 
             val roomContainerAlphaOneToZeroAnimation = AlphaAnimation(1f, 0f)
             roomContainerAlphaOneToZeroAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
-            roomContainerAlphaOneToZeroAnimation.setAnimationListener(object: Animation.AnimationListener {
+            roomContainerAlphaOneToZeroAnimation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationEnd(p0: Animation?) {
                     roomContainer.removeAllViews()
                     etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
                         val view = HotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex)
-                	    view.viewmodel = HotelRoomRateViewModel(getContext(), vm.hotelOffersResponse.hotelId, etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), roomResponseIndex, vm.rowExpandingObservable)
+                        view.viewmodel = HotelRoomRateViewModel(getContext(), vm.hotelOffersResponse.hotelId, etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), roomResponseIndex, vm.rowExpandingObservable)
                         roomContainer.addView(view)
                         hotelRoomRateViewModels.add(view.viewmodel)
                     }
@@ -490,7 +489,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     fun payNowLaterSelectionChanged(payNowSelected: Boolean) {
         payNowButtonContainer.isSelected = payNowSelected
         payLaterButtonContainer.isSelected = !payNowSelected
-        
+
         val checkMarkIcon = ContextCompat.getDrawable(context, R.drawable.sliding_radio_selector_left)
         if (payNowSelected) {
             payNowButton.setCompoundDrawablesWithIntrinsicBounds(checkMarkIcon, null, null, null)
@@ -505,7 +504,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         // Scroll to the top room in case of change in ETP selection when ETP container is sticked
-        if(etpContainerDropShadow.visibility == View.VISIBLE) {
+        if (etpContainerDropShadow.visibility == View.VISIBLE) {
             val etpLocation = etpContainer.y + etpContainer.height
             val offsetToETP = if (commonAmenityText.visibility == View.VISIBLE) commonAmenityText.y else roomContainer.y
             val offset = offsetToETP - etpLocation
@@ -707,7 +706,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         offset = statusBarHeight.toFloat() + toolBarHeight
 
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
-        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN!!)
+        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.setNavigationIcon(navIcon)
 
         toolbar.setNavigationOnClickListener { view ->

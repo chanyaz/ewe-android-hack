@@ -1,7 +1,6 @@
 package com.expedia.vm;
 
 import android.content.Context
-import android.graphics.Typeface
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import com.expedia.bookings.R
@@ -11,7 +10,7 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TypefaceSpan
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
-import rx.subjects.BehaviorSubject;
+import rx.subjects.BehaviorSubject
 
 public class HotelReviewsSummaryViewModel(val context: Context) {
 
@@ -38,7 +37,7 @@ public class HotelReviewsSummaryViewModel(val context: Context) {
                             .format()
                             .toString()
         val builder = SpannableStringBuilder(ratingString)
-        builder.setSpan(TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)), 0, displayRating.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
+        builder.setSpan(TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)), 0, displayRating.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         return builder
     }
 

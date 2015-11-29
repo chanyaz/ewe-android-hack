@@ -95,7 +95,7 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
             val fromPriceString = context.getString(R.string.map_snippet_price_template, roomDailyPrice)
             val fromPriceStyledString = SpannableString(fromPriceString)
             val startIndex = fromPriceString.indexOf(roomDailyPrice)
-            val endIndex = startIndex + roomDailyPrice.length()
+            val endIndex = startIndex + roomDailyPrice.length
             fromPriceStyledString.setSpan(StyleSpan(Typeface.BOLD), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             fromPriceStyledString.setSpan(RelativeSizeSpan(1.4f), startIndex, endIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
 
@@ -203,8 +203,8 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         var listHotelInfo = ArrayList<HotelOffersResponse.HotelText>()
 
         //Set up entire text for hotel info
-        if (hotelOffersResponse.hotelOverviewText != null && hotelOffersResponse.hotelOverviewText.size() > 1 ) {
-            for (index in 1..hotelOffersResponse.hotelOverviewText.size() - 1) {
+        if (hotelOffersResponse.hotelOverviewText != null && hotelOffersResponse.hotelOverviewText.size > 1 ) {
+            for (index in 1..hotelOffersResponse.hotelOverviewText.size - 1) {
                 listHotelInfo.add(hotelOffersResponse.hotelOverviewText.get(index))
             }
         }
@@ -437,15 +437,15 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             return emptyList()
         }
 
-        var list = Array(hotelRooms!!.size(), { i -> "" }).toArrayList()
-        for (iRoom in 0..hotelRooms.size() - 1) {
+        var list = Array(hotelRooms!!.size, { i -> "" }).toArrayList()
+        for (iRoom in 0..hotelRooms.size - 1) {
             val rate = hotelOffersResponse.hotelRoomResponse.get(iRoom)
             if (rate.valueAdds != null) {
                 var unique = rate.valueAdds
                 if (!commonList.isEmpty()) {
-                    unique.removeAll(commonList)
+                    unique.removeAllRaw(commonList)
                 }
-                if (unique.size() > 0) {
+                if (unique.size > 0) {
                     list.add(iRoom, context.getString(R.string.value_add_template, unique.get(0).description.toLowerCase(Locale.getDefault())))
                 }
             }
@@ -510,7 +510,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             //by splitting view models list into sublists of RxRingBuffer.SIZE size each and use 2 levels of combineLatest
             val listOfListOfRoomRateViewModels = ArrayList<List<HotelRoomRateViewModel>>()
             var hotelRoomRateViewModelsToBeSplit = hotelRoomRateViewModels.toList()
-            while (hotelRoomRateViewModelsToBeSplit.size() > RxRingBuffer.SIZE) {
+            while (hotelRoomRateViewModelsToBeSplit.size > RxRingBuffer.SIZE) {
                 listOfListOfRoomRateViewModels.add(hotelRoomRateViewModelsToBeSplit.take(RxRingBuffer.SIZE))
                 hotelRoomRateViewModelsToBeSplit = hotelRoomRateViewModelsToBeSplit.drop(RxRingBuffer.SIZE)
             }
@@ -538,7 +538,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
         rowExpandingObservable.subscribe { indexOfRowBeingExpanded ->
             //collapse already expanded row if there is one
-            if (lastExpandedRowObservable.value >= 0 && lastExpandedRowObservable.value < hotelRoomRateViewModelsObservable.value.size()) {
+            if (lastExpandedRowObservable.value >= 0 && lastExpandedRowObservable.value < hotelRoomRateViewModelsObservable.value.size) {
                 hotelRoomRateViewModelsObservable.value.elementAt(lastExpandedRowObservable.value).collapseRoomObservable.onNext(true)
             }
             lastExpandedRowObservable.onNext(indexOfRowBeingExpanded)

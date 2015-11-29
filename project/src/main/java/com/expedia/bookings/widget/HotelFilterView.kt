@@ -125,7 +125,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
         vm.finishClear.subscribe {
             //check if filterHotelName is empty to avoid calling handleFiltering
-            if (filterHotelName.text.length() > 0) filterHotelName.text = ""
+            if (filterHotelName.text.length > 0) filterHotelName.text = ""
             resetStars()
 
             filterHotelVip.isChecked = false
@@ -241,7 +241,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
         sortByButtonGroup.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                val sort = Sort.values()[position]
+                val sort = Sort.values[position]
                 vm.userFilterChoices.userSort = sort
             }
 
@@ -259,13 +259,13 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
         vm.neighborhoodListObservable.subscribe { list ->
             neighborhoodContainer.removeAllViews()
-            if (list != null && list.size() > 1) {
+            if (list != null && list.size > 1) {
                 neighborhoodLabel.visibility = View.VISIBLE
-                if (list.size() > 4) {
+                if (list.size > 4) {
                     neighborhoodMoreLessView.visibility = View.VISIBLE
                 }
 
-                for (i in 1..list.size() - 1) {
+                for (i in 1..list.size - 1) {
                     val neighborhoodView = LayoutInflater.from(getContext()).inflate(R.layout.section_hotel_neighborhood_row, neighborhoodContainer, false) as HotelsNeighborhoodFilter
                     neighborhoodView.bind(list.get(i), vm)
                     neighborhoodView.subscribeOnClick(neighborhoodView.checkObserver)
@@ -336,7 +336,6 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
                 v.visibility = View.GONE
             }
         }
-
     }
 
     init {

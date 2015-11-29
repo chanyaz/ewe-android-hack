@@ -56,15 +56,15 @@ private fun isShowColorBackground(): Boolean {
 }
 
 private fun isWithColorWithSuperlatives(): Boolean {
-    return isSuperlativeReviewsABVariant() == AbacusUtils.HotelSuperlativeReviewsVariate.WITH_COLOR_WITH_SUPERLATIVES.ordinal()
+    return isSuperlativeReviewsABVariant() == AbacusUtils.HotelSuperlativeReviewsVariate.WITH_COLOR_WITH_SUPERLATIVES.ordinal
 }
 
 private fun isNoColorWithSuperlatives(): Boolean {
-    return isSuperlativeReviewsABVariant() == AbacusUtils.HotelSuperlativeReviewsVariate.NO_COLOR_WITH_SUPERLATIVES.ordinal()
+    return isSuperlativeReviewsABVariant() == AbacusUtils.HotelSuperlativeReviewsVariate.NO_COLOR_WITH_SUPERLATIVES.ordinal
 }
 
 private fun isWithColorNoSuperlatives(): Boolean {
-    return isSuperlativeReviewsABVariant() == AbacusUtils.HotelSuperlativeReviewsVariate.WITH_COLOR_NO_SUPERLATIVES.ordinal()
+    return isSuperlativeReviewsABVariant() == AbacusUtils.HotelSuperlativeReviewsVariate.WITH_COLOR_NO_SUPERLATIVES.ordinal
 }
 
 private fun isSuperlativeReviewsABTestOn(): Boolean {

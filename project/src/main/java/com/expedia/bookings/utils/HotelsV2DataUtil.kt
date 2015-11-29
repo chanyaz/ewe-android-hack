@@ -34,7 +34,7 @@ public class HotelsV2DataUtil {
             suggestionV4.coordinates.lat = params.searchLatitude
             suggestionV4.coordinates.lng = params.searchLongitude
 
-            suggestionV4.type = params.searchType.name()
+            suggestionV4.type = params.searchType.name
             val regionNames = SuggestionV4.RegionNames()
             regionNames.displayName = params.getQuery()
             regionNames.shortName = params.getQuery()
@@ -42,7 +42,7 @@ public class HotelsV2DataUtil {
             val childTraveler = params.getChildren()
             val childList = ArrayList<Int>()
             if (childTraveler != null && !childTraveler.isEmpty()) {
-                for (index in 0..childTraveler.size() - 1) {
+                for (index in 0..childTraveler.size - 1) {
                     childList.add(childTraveler.get(index).getAge())
                 }
             }
@@ -59,7 +59,5 @@ public class HotelsV2DataUtil {
             return GsonBuilder().registerTypeAdapter(LocalDate::class.java, LocalDateTypeAdapter(PATTERN)).create()
         }
 
-
     }
-
 }

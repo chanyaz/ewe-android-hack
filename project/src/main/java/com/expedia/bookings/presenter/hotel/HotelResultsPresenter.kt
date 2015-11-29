@@ -343,10 +343,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     override fun onFinishInflate() {
-
-        //Store a pointer instead of invoking the getResources() function behind the resources property each usage
-        val res = resources
-
         // add the view of same height as of status bar
         val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
@@ -450,7 +446,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 override fun onCancel() {
                 }
             })
-
         }
     }
 
@@ -1042,7 +1037,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     fun showSearchThisArea(duration: Long = DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION) {
-        if (currentState?.equals(javaClass<ResultsMap>().name) ?: false && searchThisArea.visibility == View.GONE) {
+        if (currentState?.equals(ResultsMap::class.java.name) ?: false && searchThisArea.visibility == View.GONE) {
             searchThisArea.visibility = View.VISIBLE
             ObjectAnimator.ofFloat(searchThisArea, "alpha", 0f, 1f).setDuration(duration).start()
         }

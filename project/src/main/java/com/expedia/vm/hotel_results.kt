@@ -27,7 +27,6 @@ import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import kotlin.properties.Delegates
 
 public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices) {
 
@@ -70,7 +69,7 @@ public class HotelResultsViewModel(private val context: Context, private val hot
     }
 
     private fun doSearch(params: HotelSearchParams) {
-        titleSubject.onNext(params.suggestion?.regionNames?.shortName)
+        titleSubject.onNext(params.suggestion.regionNames?.shortName)
 
         subtitleSubject.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
                 .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
@@ -125,7 +124,7 @@ public class HotelResultsPricingStructureHeaderViewModel(private val resources: 
         }
 
         resultsDeliveredObserver.subscribe { response ->
-            val hotelResultsCount = response.hotelList?.size() ?: 0
+            val hotelResultsCount = response.hotelList?.size ?: 0
             val header =
                     when (response.userPriceType) {
                         HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> resources.getQuantityString(R.plurals.hotel_results_pricing_header_total_price_for_stay_TEMPLATE, hotelResultsCount, hotelResultsCount)
@@ -180,7 +179,7 @@ public class HotelResultsMapViewModel(val resources: Resources, val currentLocat
 
         hotelResultsSubject.subscribe { response ->
             hotels = response.hotelList
-            if (response.hotelList != null && response.hotelList.size() > 0) {
+            if (response.hotelList != null && response.hotelList.size > 0) {
                 newBoundsObservable.onNext(getMapBounds(response))
             }
             markersObservable.onNext(hotels)

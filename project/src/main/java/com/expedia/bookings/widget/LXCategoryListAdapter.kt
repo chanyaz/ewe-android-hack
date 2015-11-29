@@ -23,7 +23,7 @@ import rx.subjects.PublishSubject
 
 
 public class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetadata>() {
-    var categoryMetadataSubject: PublishSubject<LXCategoryMetadata> =  PublishSubject.create<LXCategoryMetadata>()
+    var categoryMetadataSubject: PublishSubject<LXCategoryMetadata> = PublishSubject.create<LXCategoryMetadata>()
 
     override fun loadingLayoutResourceId(): Int {
         return R.layout.lx_category_loading_animation_widget
@@ -69,12 +69,11 @@ public class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetada
             itemView.tag = category
             cardView.preventCornerOverlap = false
             categoryTitle.text = category.displayValue
-            categoryCount.text = category.activities.size().toString()
+            categoryCount.text = category.activities.size.toString()
 
-            if(category.activities.size() == 1) {
+            if (category.activities.size == 1) {
                 categoryCount.background = itemView.getContext().getResources().getDrawable(R.drawable.lx_category_count_background_single_digit)
-            }
-            else if(category.activities.size() > 1) {
+            } else if (category.activities.size > 1) {
                 categoryCount.background = itemView.getContext().getResources().getDrawable(R.drawable.lx_category_count_background_more_than_one_digit)
             }
 
@@ -94,12 +93,12 @@ public class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetada
         private val target = object : PicassoTarget() {
             override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
                 super.onBitmapLoaded(bitmap, from)
-                val palette = Palette.generate(bitmap)
+                val palette = Palette.Builder(bitmap).generate()
                 val color = palette.getLightVibrantColor(R.color.transparent_dark)
                 val overlayColorBuilder = ColorBuilder(color).darkenBy(.5f);
                 val overlayColor = overlayColorBuilder.setAlpha(154).build()
 
-                val overlayDrawable  = ColorDrawable()
+                val overlayDrawable = ColorDrawable()
                 overlayDrawable.color = overlayColor
                 val drawable = HeaderBitmapDrawable()
                 drawable.setBitmap(bitmap)
@@ -117,7 +116,6 @@ public class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetada
                 categoryImage.setImageDrawable(placeHolderDrawable)
             }
         }
-
     }
 
     public fun setCategories(categories: List<LXCategoryMetadata>, categoryPublishSubject: PublishSubject<LXCategoryMetadata>) {

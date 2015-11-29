@@ -21,7 +21,7 @@ enum class FilterAmenity(val preference: Int, val resId: Int, val strId: Int) {
         fun amenityFilterToShow(map: Map<String, HotelSearchResponse.AmenityOptions>): Map<FilterAmenity, Int> {
             var amenityMap = TreeMap<FilterAmenity, Int>(FilterAmenityComparator())
 
-            for (filterId in map.keySet()) {
+            for (filterId in map.keys) {
                 var id = filterId.toInt()
                 when (id) {
                     14 -> amenityMap.put(FilterAmenity.FREE_PARKING, id)
@@ -37,9 +37,9 @@ enum class FilterAmenity(val preference: Int, val resId: Int, val strId: Int) {
         fun addAmenityFilters(viewGroup: ViewGroup, amenityMaps: Map<FilterAmenity, Int>, vm: HotelFilterViewModel) {
             viewGroup.removeAllViews()
 
-            for (amenityEntry in amenityMaps.entrySet()) {
+            for (amenityEntry in amenityMaps.entries) {
                 val amenityLayout = LayoutInflater.from(viewGroup.context).inflate(R.layout.filter_amenity_row, null) as HotelAmenityFilter
-                amenityLayout.bind(amenityEntry.getKey(), amenityEntry.getValue(), vm)
+                amenityLayout.bind(amenityEntry.key, amenityEntry.value, vm)
                 val columnNum = 4
                 amenityLayout.layoutParams = ViewGroup.LayoutParams(viewGroup.getContext().getResources().getDisplayMetrics().widthPixels / columnNum, ViewGroup.LayoutParams.WRAP_CONTENT)
                 viewGroup.addView(amenityLayout)

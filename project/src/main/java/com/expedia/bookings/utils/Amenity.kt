@@ -60,7 +60,7 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
             val paint = Paint()
             paint.setColorFilter(filter)
 
-            for (index in 0..amenityList.size() - 1) {
+            for (index in 0..amenityList.size - 1) {
 
                 val amenityLayout = com.mobiata.android.util.Ui.inflate<LinearLayout>(R.layout.new_amenity_row, viewGroup, false)
                 val amenityTextView = amenityLayout.findViewById(R.id.amenity_label) as android.widget.TextView
@@ -80,7 +80,7 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
 
             var amenityTreeSet = TreeSet<Amenity>(AmenityComparator())
 
-            for (i in 0..list.size() - 1) {
+            for (i in 0..list.size - 1) {
 
                 when (list.get(i).id.toInt()) {
                     2065, 2213, 2538 -> amenityTreeSet.add(Amenity.BUSINESS_CENTER)

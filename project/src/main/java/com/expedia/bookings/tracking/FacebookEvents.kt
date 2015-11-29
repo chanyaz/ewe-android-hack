@@ -51,17 +51,17 @@ private val TAG = "FacebookTracking"
 private fun track(event: String, parameters: Bundle) {
     val keys = parameters.keySet()
 
-    if (keys.size() > 10) {
-        Log.e(TAG, "${event} passing too many parameters, max 10, tried ${keys.size()}")
+    if (keys.size > 10) {
+        Log.e(TAG, "${event} passing too many parameters, max 10, tried ${keys.size}")
     }
 
     val nullKeys = keys.filter { parameters.get(it) == null }
-    if (nullKeys.size() > 0) {
+    if (nullKeys.size > 0) {
         Log.e(TAG, "${event} null values in bundle: ${nullKeys.joinToString(", ")}")
     }
 
     val badKeys = keys.filter { parameters.get(it) !is String && parameters.get(it) !is Int }
-    if (badKeys.size() > 0) {
+    if (badKeys.size > 0) {
         Log.e(TAG, "${event} values other than string or integer found: ${badKeys.joinToString(", ")}")
     }
 
@@ -97,15 +97,13 @@ class FacebookEvents() {
                 searchResponse.hotelList.get(0).stateProvinceCode,
                 searchResponse.hotelList.get(0).countryCode)
         val hotelList: List<Hotel> = searchResponse.hotelList
-        if (hotelList != null) {
-            val parameters = Bundle()
-            addCommonHotelV2Params(parameters, searchParams, searchResponse.searchRegionId ?: "", location)
-            parameters.putString("fb_search_string", location.city ?: "")
-            parameters.putString("LowestSearch_Value", calculateLowestRateV2Hotels(hotelList)?.displayTotalPrice?.getAmount()?.toString() ?: "")
-            parameters.putInt("Num_Rooms", 1)
+        val parameters = Bundle()
+        addCommonHotelV2Params(parameters, searchParams, searchResponse.searchRegionId ?: "", location)
+        parameters.putString("fb_search_string", location.city ?: "")
+        parameters.putString("LowestSearch_Value", calculateLowestRateV2Hotels(hotelList)?.displayTotalPrice?.getAmount()?.toString() ?: "")
+        parameters.putInt("Num_Rooms", 1)
 
-            track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
-        }
+        track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
     }
 
     fun trackHotelInfoSite(search: HotelSearch) {
@@ -220,7 +218,7 @@ class FacebookEvents() {
         parameters.putInt("Num_Rooms", 1)
         parameters.putString("Currency", hotelCheckoutResponse.currencyCode ?: "")
         parameters.putString("fb_content_type", "product")
-        facebookLogger?.logPurchase(BigDecimal(hotelCheckoutResponse.totalCharges) ?: BigDecimal(0), Currency.getInstance(hotelCheckoutResponse.currencyCode));
+        facebookLogger?.logPurchase(BigDecimal(hotelCheckoutResponse.totalCharges), Currency.getInstance(hotelCheckoutResponse.currencyCode));
         track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
     }
 
@@ -428,7 +426,7 @@ class FacebookEvents() {
     }
 
     private fun calculateLowestRateHotels(properties: List<Property>): Rate? {
-        if (properties.size() == 0) return null
+        if (properties.size == 0) return null
 
         var minPropertyRate = properties.get(0).getLowestRate()
 
@@ -444,7 +442,7 @@ class FacebookEvents() {
     }
 
     private fun calculateLowestRateV2Hotels(properties: List<Hotel>): HotelRate? {
-        if (properties.size() == 0) return null
+        if (properties.size == 0) return null
 
         var minPropertyRate = properties.get(0).lowRateInfo
 
@@ -473,7 +471,7 @@ class FacebookEvents() {
     private fun getLoyaltyTier(user: User?): String {
         var loyaltyTier = "N/A"
         if (user != null && user.getPrimaryTraveler().getLoyaltyMembershipTier() != Traveler.LoyaltyMembershipTier.NONE) {
-            loyaltyTier = Db.getUser().getPrimaryTraveler().getLoyaltyMembershipTier().name()
+            loyaltyTier = Db.getUser().getPrimaryTraveler().getLoyaltyMembershipTier().name
         }
         return loyaltyTier
     }
@@ -503,10 +501,9 @@ class FacebookEvents() {
     private fun addCommonHotelV2Params(parameters: Bundle, searchParams: com.expedia.bookings.data.hotels.HotelSearchParams, regionId: String, location: Location) {
         val dtf = ISODateTimeFormat.date()
         parameters.putString("LOB", "Hotel")
-        val regionId = regionId
         val formattedAddressCityState = StrUtils.formatAddressCityState(location) ?: ""
         val numOfNight = JodaUtils.daysBetween(searchParams.checkIn, searchParams.checkOut)
-        parameters.putString("region_id", regionId ?: "")
+        parameters.putString("region_id", regionId)
         addCommonLocationEvents(parameters, location)
 
         parameters.putString("destination_name", formattedAddressCityState)
@@ -514,7 +511,7 @@ class FacebookEvents() {
         parameters.putString("Checkout_Date", dtf.print(searchParams.checkOut))
         parameters.putInt("Booking_Window", getBookingWindow(searchParams.checkIn))
         parameters.putInt("Num_People", searchParams.guests())
-        parameters.putInt("Number_Children", searchParams.children.size())
+        parameters.putInt("Number_Children", searchParams.children.size)
         parameters.putInt("Number_Nights", numOfNight)
         if (facebookContext != null) {
             parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
@@ -527,12 +524,12 @@ class FacebookEvents() {
         val dtf = ISODateTimeFormat.date()
         parameters.putString("LOB", "Hotel")
 
-        val regionId = hotelCheckoutResponse.checkoutResponse.productResponse.regionId  ?: ""
+        val regionId = hotelCheckoutResponse.checkoutResponse.productResponse.regionId ?: ""
         val formattedAddressCityState = StrUtils.formatAddressCityState(location) ?: ""
         val checkInDate = LocalDate(hotelCheckoutResponse.checkoutResponse.productResponse.checkInDate)
         val checkOutDate = LocalDate(hotelCheckoutResponse.checkoutResponse.productResponse.checkOutDate)
         val numOfNight = JodaUtils.daysBetween(checkInDate, checkOutDate)
-        parameters.putString("region_id", regionId ?: "")
+        parameters.putString("region_id", regionId)
         addCommonLocationEvents(parameters, location)
 
         parameters.putString("destination_name", formattedAddressCityState)
