@@ -5,10 +5,8 @@ import java.util.List;
 import org.joda.time.LocalDate;
 import org.joda.time.YearMonth;
 
-import android.annotation.TargetApi;
 import android.graphics.Rect;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -59,7 +57,6 @@ import com.squareup.otto.Subscribe;
  * TabletResultsSearchControllerFragment: designed for tablet results 2014
  * This controls all the fragments relating to searching on the results screen
  */
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletResultsSearchControllerFragment extends Fragment implements IBackManageable,
 	IStateProvider<ResultsSearchState>, FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
 	ResultsDatesFragment.DatesFragmentListener, ResultsGuestPickerFragment.GuestPickerFragmentListener,
@@ -89,7 +86,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private Interpolator mCenterColumnUpDownInterpolator = new AccelerateInterpolator(1.2f);
 
 	//Containers
-	private ViewGroup mRootC;
 	private TouchableFrameLayout mSearchBarC;
 	private TouchableFrameLayout mBottomRightC;
 	private TouchableFrameLayout mBottomCenterC;
@@ -112,7 +108,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private ViewGroup mPopupLeftC;
 	private ViewGroup mCalPopupC;
 	private TextView mTravPopupC;
-	private TextView mPopupDoneTv;
 	private TextView mCalPopupStartTv;
 	private TextView mCalPopupEndTv;
 
@@ -127,8 +122,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private ResultsDatesFragment mDatesFragment;
 	private ResultsGuestPickerFragment mGuestsFragment;
 	private CurrentLocationFragment mCurrentLocationFragment;
-	private SimpleCallbackDialogFragment mRedeyeDialogFrag;
-	private SimpleCallbackDialogFragment mMismatchedDialogFrag;
 
 	public TabletResultsSearchControllerFragment() {
 		importParams();
@@ -158,7 +151,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_tablet_results_search, null, false);
 
-		mRootC = Ui.findView(view, R.id.root_layout);
 		mSearchBarC = Ui.findView(view, R.id.search_bar_container);
 		mBottomRightC = Ui.findView(view, R.id.bottom_right_container);
 		mBottomCenterC = Ui.findView(view, R.id.bottom_center_container);
@@ -179,7 +171,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		mPopupLeftC = Ui.findView(view, R.id.search_popup_left_content_container);
 		mCalPopupC = Ui.findView(view, R.id.calendar_popup_content_container);
 		mTravPopupC = Ui.findView(view, R.id.traveler_popup_num_guests_label);
-		mPopupDoneTv = Ui.findView(view, R.id.search_popup_done);
+		TextView mPopupDoneTv = Ui.findView(view, R.id.search_popup_done);
 		mCalPopupStartTv = Ui.findView(view, R.id.popup_start_date);
 		mCalPopupEndTv = Ui.findView(view, R.id.popup_end_date);
 		mPopupStartClearBtn = Ui.findView(view, R.id.popup_start_date_clear_btn);
@@ -276,7 +268,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	public void bindSearchBtns() {
 		// Destination Button - Note that this comes straight from Params
-		if (mLocalParams.hasDestination() && mLocalParams.getDestination().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION) {
+		if (mLocalParams.hasDestination()
+			&& mLocalParams.getDestination().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION) {
 			mDestBtn.setText(R.string.current_location);
 		}
 		else if (mLocalParams.hasDestination()) {
@@ -532,7 +525,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 					clearChanges();
 					// Nothing actually listens to the passed callback ID, but we need to differentiate
 					// this usage of the "no internet dialog" from when it's used in other places
-					Events.post(new Events.ShowNoInternetDialog(SimpleCallbackDialogFragment.CODE_TABLET_NO_NET_CONNECTION_SEARCH));
+					Events.post(new Events.ShowNoInternetDialog(
+						SimpleCallbackDialogFragment.CODE_TABLET_NO_NET_CONNECTION_SEARCH));
 				}
 				setStateToBaseState(true);
 			}
@@ -638,7 +632,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 		@Override
 		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo,
-											float percentage) {
+			float percentage) {
 
 			if (stateOne.isUpState() != stateTwo.isUpState()) {
 				float perc = stateTwo.isUpState() ? percentage : (1f - percentage);
@@ -735,7 +729,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			mSearchBarC.setTranslationY(percentage * -barTransDistance);
 			if (mGrid.isLandscape()) {
 				mBottomRightC.setTranslationY(percentage * mBottomRightC.getHeight());
-				mBottomCenterC.setTranslationY(mCenterColumnUpDownInterpolator.getInterpolation(percentage) * mBottomCenterC.getHeight());
+				mBottomCenterC.setTranslationY(
+					mCenterColumnUpDownInterpolator.getInterpolation(percentage) * mBottomCenterC.getHeight());
 			}
 			else {
 				mBottomRightC.setTranslationY(percentage * 2 * mBottomRightC.getHeight());
@@ -905,16 +900,16 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	@Override
 	public Fragment getExistingLocalInstanceFromTag(String tag) {
-		if (tag == FTAG_CALENDAR) {
+		if (FTAG_CALENDAR.equals(tag)) {
 			return mDatesFragment;
 		}
-		else if (tag == FTAG_TRAV_PICKER) {
+		else if (FTAG_TRAV_PICKER.equals(tag)) {
 			return mGuestsFragment;
 		}
-		else if (tag == FTAG_WAYPOINT) {
+		else if (FTAG_WAYPOINT.equals(tag)) {
 			return mWaypointFragment;
 		}
-		else if (tag == FTAG_ORIGIN_LOCATION) {
+		else if (FTAG_ORIGIN_LOCATION.equals(tag)) {
 			return mCurrentLocationFragment;
 		}
 		return null;
@@ -923,18 +918,14 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	@Override
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
 		switch (tag) {
-		case FTAG_CALENDAR: {
+		case FTAG_CALENDAR:
 			return new ResultsDatesFragment();
-		}
-		case FTAG_TRAV_PICKER: {
+		case FTAG_TRAV_PICKER:
 			return new ResultsGuestPickerFragment();
-		}
-		case FTAG_WAYPOINT: {
+		case FTAG_WAYPOINT:
 			return TabletWaypointFragment.newInstance(false);
-		}
-		case FTAG_ORIGIN_LOCATION: {
+		case FTAG_ORIGIN_LOCATION:
 			return new CurrentLocationFragment();
-		}
 		}
 		return null;
 	}
@@ -942,24 +933,21 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
 		switch (tag) {
-		case FTAG_CALENDAR: {
+		case FTAG_CALENDAR:
 			// Don't reset the calendar month unless the user has set a start or end date
 			if (mLocalParams.getStartDate() != null || mLocalParams.getEndDate() != null) {
 				((ResultsDatesFragment) frag).setDates(mLocalParams.getStartDate(), mLocalParams.getEndDate());
 			}
 			break;
-		}
-		case FTAG_TRAV_PICKER: {
+		case FTAG_TRAV_PICKER:
 			((ResultsGuestPickerFragment) frag).bind(mLocalParams.getNumAdults(), mLocalParams.getChildTravelers());
 			break;
-		}
-		case FTAG_ORIGIN_LOCATION: {
+		case FTAG_ORIGIN_LOCATION:
 			if (!mLocalParams.hasOrigin()) {
 				//Will notify listener
 				((CurrentLocationFragment) frag).getCurrentLocation();
 			}
 			break;
-		}
 		}
 	}
 
@@ -967,10 +955,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	/*
 	 * RESULTS STATE LISTENER
 	 */
-
-	public StateListenerHelper<ResultsState> getResultsListener() {
-		return mResultsStateHelper;
-	}
 
 	private StateListenerHelper<ResultsState> mResultsStateHelper = new StateListenerHelper<ResultsState>() {
 
@@ -1055,7 +1039,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		public void onContentSizeUpdated(int totalWidth, int totalHeight, boolean isLandscape) {
 			if (isLandscape) {
 				mGrid.setDimensions(totalWidth, totalHeight);
-				mGrid.setNumRows(5); // 0 - 3 = top half, 4 = bottom half, 0 = AB, 1 = space, 2 = AB height above 3, 3 = AB (down)
+				// 0 - 3 = top half, 4 = bottom half, 0 = AB, 1 = space, 2 = AB height above 3, 3 = AB (down)
+				mGrid.setNumRows(5);
 				mGrid.setNumCols(5); // 3 columns, 2 spacers
 
 				int spacerSize = getResources().getDimensionPixelSize(R.dimen.results_column_spacing);
@@ -1133,9 +1118,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 			return false;
 		}
-
 	};
-
 
 	/*
 	 * RESULTS SEARCH STATE PROVIDER
@@ -1191,7 +1174,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	public void onCurrentLocation(Location location, SuggestionV2 suggestion) {
 		// Let's not update the origin when destination is CURRENT_LOCATION
 		// Also, lets not kick off a new search if the user entered via deep link
-		if (!mLocalParams.hasOrigin() && mLocalParams.getDestination().getResultType() != SuggestionV2.ResultType.CURRENT_LOCATION && !mIsDeepLink) {
+		if (!mLocalParams.hasOrigin()
+			&& mLocalParams.getDestination().getResultType() != SuggestionV2.ResultType.CURRENT_LOCATION
+			&& !mIsDeepLink) {
 			mLocalParams.setOrigin(suggestion);
 			if (copyTempValuesToParams()) {
 				doSpUpdate();
@@ -1226,8 +1211,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			else {
 				mLocalParams.setDestination(event.suggestion);
 				// When the user selects current location as destination, let's clear origin IF it was previously current location. #2996
-				if (mLocalParams.getOrigin() != null && mLocalParams.getOrigin().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION
-					&& mLocalParams.getDestination() != null && mLocalParams.getDestination().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION) {
+				if (mLocalParams.getOrigin() != null
+					&& mLocalParams.getOrigin().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION
+					&& mLocalParams.getDestination() != null
+					&& mLocalParams.getDestination().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION) {
 					mLocalParams.setOrigin(null);
 				}
 			}
@@ -1240,35 +1227,35 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	@Subscribe
 	public void onTripBucketHasRedeyeItems(Events.TripBucketHasRedeyeItems event) {
-		mRedeyeDialogFrag = Ui.findSupportFragment(this, FTAG_REDEYE_ITEMS_DIALOG);
-		if (mRedeyeDialogFrag == null) {
-			mRedeyeDialogFrag = SimpleCallbackDialogFragment.newInstance(
+		SimpleCallbackDialogFragment redeyeDialogFrag = Ui.findSupportFragment(this, FTAG_REDEYE_ITEMS_DIALOG);
+		if (redeyeDialogFrag == null) {
+			redeyeDialogFrag = SimpleCallbackDialogFragment.newInstance(
 				"" /*title*/, //
 				getString(R.string.tablet_redeye_products_message), //
 				getString(R.string.yes) /*button*/, //
 				SimpleCallbackDialogFragment.CODE_TABLET_MISMATCHED_ITEMS, //
 				getString(R.string.no) /*negativeButton*/);
 		}
-		if (!mRedeyeDialogFrag.isAdded()) {
+		if (!redeyeDialogFrag.isAdded()) {
 			OmnitureTracking.trackRedeyeAlert();
-			mRedeyeDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
+			redeyeDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
 		}
 	}
 
 	@Subscribe
 	public void onTripBucketHasMismatchedItems(Events.TripBucketHasMismatchedItems event) {
-		mMismatchedDialogFrag = Ui.findSupportFragment(this, FTAG_MISMATCHED_ITEMS_DIALOG);
-		if (mMismatchedDialogFrag == null) {
-			mMismatchedDialogFrag = SimpleCallbackDialogFragment.newInstance(
+		SimpleCallbackDialogFragment mismatchedDialogFrag = Ui.findSupportFragment(this, FTAG_MISMATCHED_ITEMS_DIALOG);
+		if (mismatchedDialogFrag == null) {
+			mismatchedDialogFrag = SimpleCallbackDialogFragment.newInstance(
 				"" /*title*/, //
 				getString(R.string.tablet_mismatched_products_message), //
 				getString(R.string.yes) /*button*/, //
 				SimpleCallbackDialogFragment.CODE_TABLET_MISMATCHED_ITEMS, //
 				getString(R.string.no) /*negativeButton*/);
 		}
-		if (!mMismatchedDialogFrag.isAdded()) {
+		if (!mismatchedDialogFrag.isAdded()) {
 			OmnitureTracking.trackDateMismatchAlert();
-			mMismatchedDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
+			mismatchedDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
 		}
 	}
 

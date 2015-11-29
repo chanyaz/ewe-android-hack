@@ -1,8 +1,8 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -29,26 +29,28 @@ public class FlightPaymentSaveDialogFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		return new AlertDialog.Builder(getActivity())
-				.setTitle(R.string.save_billing_info)
-				.setMessage(Phrase.from(getActivity(), R.string.save_billing_info_message_TEMPLATE).put("brand", BuildConfig.brand).format())
-				.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setSaveCardToExpediaAccount(true);
-						mListener.moveForward();
-					}
-				})
-				.setNegativeButton(R.string.no_thanks, new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface dialog, int id) {
-						Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setSaveCardToExpediaAccount(false);
-						mListener.moveForward();
-					}
-				}).create();
+			.setTitle(R.string.save_billing_info)
+			.setMessage(
+				Phrase.from(getActivity(), R.string.save_billing_info_message_TEMPLATE).put("brand", BuildConfig.brand)
+					.format())
+			.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setSaveCardToExpediaAccount(true);
+					mListener.moveForward();
+				}
+			})
+			.setNegativeButton(R.string.no_thanks, new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setSaveCardToExpediaAccount(false);
+					mListener.moveForward();
+				}
+			}).create();
 
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, FlightPaymentYoYoListener.class);
 	}

@@ -330,15 +330,6 @@ public class Ui extends com.mobiata.android.util.Ui {
 		return result;
 	}
 
-	public static void setViewBackground(View v, Drawable bg) {
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-			v.setBackgroundDrawable(bg);
-		}
-		else {
-			v.setBackground(bg);
-		}
-	}
-
 	/**
 	 * Sets the color for status bar when status bar is transparent and also give padding to container and toolbar.
 	 *

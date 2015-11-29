@@ -8,10 +8,8 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.PropertyValuesHolder;
-import android.annotation.TargetApi;
-import android.app.Activity;
+import android.content.Context;
 import android.database.DataSetObserver;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.util.Pair;
@@ -83,9 +81,8 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mListener = Ui.findFragmentListener(this, FlightListFragmentListener.class);
 	}
 
@@ -209,7 +206,6 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 
 	private static final float MAX_TRANSLATE_Y_DP = 300;
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public Animator createLegClickAnimator(boolean enter, FlightLeg flightLeg) {
 		View v = getView();
 		List<Animator> set = new ArrayList<Animator>();
@@ -291,7 +287,6 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		return animSet;
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public Animator createLegSelectAnimator(boolean enter) {
 		View v = getView();
 		List<Animator> set = new ArrayList<Animator>();
@@ -303,8 +298,8 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 			int translate = mListView.getHeight() - mListView.getChildAt(0).getHeight();
 			int childCount = mListView.getChildCount();
 			values = enter
-				? new float[] {translate, 0}
-				: new float[] {0, translate};
+				? new float[] { translate, 0 }
+				: new float[] { 0, translate };
 			PropertyValuesHolder pvhAlpha = AnimUtils.createFadePropertyValuesHolder(enter);
 			PropertyValuesHolder pvhTranslation = PropertyValuesHolder.ofFloat("translationY", values);
 			for (int a = 1; a < childCount; a++) {
@@ -359,7 +354,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 				// F1302: Need to account for top padding in listview when calculating top/bottom
 				int paddingTop = listView.getPaddingTop();
 				if (v != null) {
-					return new Pair<Integer, Integer>(v.getTop() - paddingTop, v.getBottom() - paddingTop);
+					return new Pair<>(v.getTop() - paddingTop, v.getBottom() - paddingTop);
 				}
 			}
 			else {
@@ -371,22 +366,22 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 
 				// Return a set of top/bottom just above or just below the ListView
 				if (position < firstPosition) {
-					return new Pair<Integer, Integer>(-cardHeight, 0);
+					return new Pair<>(-cardHeight, 0);
 				}
 				else {
 					int listViewHeight = listView.getHeight();
-					return new Pair<Integer, Integer>(listViewHeight, listViewHeight + cardHeight);
+					return new Pair<>(listViewHeight, listViewHeight + cardHeight);
 				}
 			}
 		}
 
 		//By default we return 0,0 which wont look great, but is valid
-		return new Pair<Integer, Integer>(0, 0);
+		return new Pair<>(0, 0);
 
 	}
 
 	public Pair<Integer, Integer> getSelectedFlightCardTopAndBottom() {
-		return new Pair<Integer, Integer>(mSectionFlightLeg.getTop(), mSectionFlightLeg.getBottom());
+		return new Pair<>(mSectionFlightLeg.getTop(), mSectionFlightLeg.getBottom());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -433,14 +428,13 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 // FlightListFragmentListener
 
 	public interface FlightListFragmentListener {
-		public void onFlightListLayout(FlightListFragment fragment);
+		void onFlightListLayout(FlightListFragment fragment);
 
-		public void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition);
+		void onFlightLegClick(FlightTrip trip, FlightLeg leg, int legPosition);
 
-		public void onDisableFade();
+		void onDisableFade();
 
-		public void onFadeRangeChange(int startY, int endY);
-
+		void onFadeRangeChange(int startY, int endY);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

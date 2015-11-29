@@ -1,6 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,17 +21,13 @@ import com.squareup.otto.Subscribe;
 public class ResultsHotelGalleryFragment extends Fragment {
 
 	public static ResultsHotelGalleryFragment newInstance() {
-		ResultsHotelGalleryFragment frag = new ResultsHotelGalleryFragment();
-		return frag;
+		return new ResultsHotelGalleryFragment();
 	}
 
-	private ViewGroup mRootC;
 	private ViewGroup mGalleryActionBar;
-	private TextView mDoneText;
 	private TextView mHotelText;
 
 	private View mBackground;
-
 
 	private RecyclerGallery mRecyclerView;
 
@@ -42,23 +38,23 @@ public class ResultsHotelGalleryFragment extends Fragment {
 	private int mCurrentImagePosition = NO_IMAGE;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mHotelGalleryBackClickedListener = Ui.findFragmentListener(this, IResultsHotelGalleryBackClickedListener.class);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_hotel_gallery, null);
-		mGalleryActionBar = Ui.findView(mRootC, R.id.gallery_action_bar);
-		mDoneText = Ui.findView(mRootC, R.id.done_button);
-		mHotelText = Ui.findView(mRootC, R.id.photos_for_hotel_text);
-		mRecyclerView = Ui.findView(mRootC, R.id.recycler_view);
+		ViewGroup rootView = Ui.inflate(inflater, R.layout.fragment_tablet_hotel_gallery, null);
+		mGalleryActionBar = Ui.findView(rootView, R.id.gallery_action_bar);
+		TextView doneText = Ui.findView(rootView, R.id.done_button);
+		mHotelText = Ui.findView(rootView, R.id.photos_for_hotel_text);
+		mRecyclerView = Ui.findView(rootView, R.id.recycler_view);
 		mRecyclerView.setMode(RecyclerGallery.MODE_CENTER);
 
-		mBackground = Ui.findView(mRootC, R.id.background_view);
+		mBackground = Ui.findView(rootView, R.id.background_view);
 
-		mDoneText.setOnClickListener(new OnClickListener() {
+		doneText.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				mHotelGalleryBackClickedListener.onHotelGalleryBackClicked();
@@ -69,7 +65,7 @@ public class ResultsHotelGalleryFragment extends Fragment {
 			mCurrentImagePosition = savedInstanceState.getInt(INSTANCE_CURRENT_IMAGE, NO_IMAGE);
 		}
 
-		return mRootC;
+		return rootView;
 	}
 
 	@Override

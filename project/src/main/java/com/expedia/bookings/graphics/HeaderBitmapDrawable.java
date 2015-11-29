@@ -19,14 +19,14 @@ import com.squareup.picasso.Picasso;
 
 /**
  * Used for creating drawables with some special formatting for headers
- * 
+ * <p/>
  * Can be used to:
- * 
+ * <p/>
  * - Create rounded corners (on top, all, or none)
  * - Add a gradient
  * - Add an overlay Drawable
  * - Center/translate the Bitmap
- * 
+ * <p/>
  * Possible TODO: Add ScaleType so that we can center images differently
  */
 public class HeaderBitmapDrawable extends Drawable {
@@ -174,12 +174,12 @@ public class HeaderBitmapDrawable extends Drawable {
 
 	/**
 	 * Sets a gradient for the image.  Does not apply gradient to the overlay
-	 *
+	 * <p/>
 	 * If colors is null, it cancels the gradient
 	 *
-	 * @param colors The colors to be distributed along the gradient line
+	 * @param colors    The colors to be distributed along the gradient line
 	 * @param positions May be null. The relative positions [0..1] of each corresponding color in the colors array.
-	 * 		If this is null, the the colors are distributed evenly along the gradient line.
+	 *                  If this is null, the the colors are distributed evenly along the gradient line.
 	 */
 	public void setGradient(int[] colors, float[] positions) {
 		mColors = colors;
@@ -193,7 +193,7 @@ public class HeaderBitmapDrawable extends Drawable {
 		int height = bounds.height();
 		if (mColors != null && height > 0) {
 			mGradientPaint.setShader(new LinearGradient(0, 0, 0, height, mColors, mPositions,
-					Shader.TileMode.CLAMP));
+				Shader.TileMode.CLAMP));
 		}
 		else {
 			mGradientPaint.setShader(null);
@@ -403,7 +403,9 @@ public class HeaderBitmapDrawable extends Drawable {
 
 	public interface CallbackListener {
 		void onBitmapLoaded();
+
 		void onBitmapFailed();
+
 		void onPrepareLoad();
 	}
 }

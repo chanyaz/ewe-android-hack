@@ -61,7 +61,7 @@ public class HotelTravelerInfoOptionsActivity extends FragmentActivity implement
 	}
 
 	public interface Validatable {
-		public boolean validate();
+		boolean validate();
 	}
 
 	//for AB test

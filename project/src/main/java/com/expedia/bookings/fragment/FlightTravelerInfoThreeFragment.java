@@ -1,6 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -28,8 +28,8 @@ public class FlightTravelerInfoThreeFragment extends Fragment implements Validat
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mAttemptToLeaveMade = false;
 	}
 

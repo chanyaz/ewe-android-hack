@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.joda.time.DateTime;
 
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
@@ -36,8 +35,8 @@ import com.expedia.bookings.utils.UserReviewsUtils;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
 import com.mobiata.android.Log;
 
-public class UserReviewsListActivity extends FragmentActivity implements UserReviewsFragmentListener,
-	TabListener, OnPageChangeListener {
+public class UserReviewsListActivity extends FragmentActivity
+	implements UserReviewsFragmentListener, TabListener, OnPageChangeListener {
 
 	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
 	private DateTime mLastResumeTime;
@@ -66,10 +65,10 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 		}
 
 		if (savedInstanceState != null) {
-			mViewedReviews = new HashSet<String>(savedInstanceState.getStringArrayList(INSTANCE_VIEWED_REVIEWS));
+			mViewedReviews = new HashSet<>(savedInstanceState.getStringArrayList(INSTANCE_VIEWED_REVIEWS));
 		}
 		else {
-			mViewedReviews = new HashSet<String>();
+			mViewedReviews = new HashSet<>();
 		}
 
 		setContentView(R.layout.activity_user_reviews);
@@ -107,7 +106,6 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 		return false;
 	}
 
-	@TargetApi(11)
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_hotel_details, menu);
@@ -120,7 +118,6 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-
 		switch (item.getItemId()) {
 		case android.R.id.home: {
 			// app icon in action bar clicked; go back

@@ -1,8 +1,6 @@
 package com.expedia.bookings.fragment.base;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.os.Build;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -28,12 +26,10 @@ import com.mobiata.android.util.Ui;
 /**
  * ResultsListFragment: The abstract base Fragment  for the flight and hotel lists designed for tablet results 2013
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public abstract class ResultsListFragment<T> extends ListFragment implements IStateProvider<T> {
 
 	private static final String STATE_LIST_STATE = "STATE_LIST_STATE";
 
-	private View mRootC;
 	private FruitList mListView;
 	private String mListViewContentDescription;
 	private TouchableFrameLayout mStickyHeader;
@@ -48,8 +44,8 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	private int mTopSpacePixels = 0;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		if (mStickyHeader != null) {
 			mStickyHeader.getViewTreeObserver().addOnPreDrawListener(mHeaderUpdater);
@@ -62,18 +58,17 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 			mStickyHeader.getViewTreeObserver().removeOnPreDrawListener(mHeaderUpdater);
 		}
 		super.onDetach();
-
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = inflater.inflate(getLayoutResId(), null);
-		mListView = Ui.findView(mRootC, android.R.id.list);
+		View rootView = inflater.inflate(getLayoutResId(), null);
+		mListView = Ui.findView(rootView, android.R.id.list);
 		mListView.setContentDescription(mListViewContentDescription);
-		mStickyHeader = Ui.findView(mRootC, R.id.sticky_header_container);
+		mStickyHeader = Ui.findView(rootView, R.id.sticky_header_container);
 		mStickyHeader.setConsumeTouch(true);
-		mStickyHeaderTv = Ui.findView(mRootC, R.id.sticky_number_of_items);
-		mTopRightTextButton = Ui.findView(mRootC, R.id.top_right_text_button);
+		mStickyHeaderTv = Ui.findView(rootView, R.id.sticky_number_of_items);
+		mTopRightTextButton = Ui.findView(rootView, R.id.top_right_text_button);
 
 		mStickyHeaderTv.setText(mStickyHeaderText);
 		mTopRightTextButton.setText(mTopRightTextButtonText);
@@ -99,7 +94,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 
 		setTopSpacePixels(mTopSpacePixels);
 
-		return mRootC;
+		return rootView;
 	}
 
 	/**
@@ -126,7 +121,8 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	public void onResume() {
 		super.onResume();
 		mListView.registerStateListener(mListStateHelper, false);
-		IAcceptingListenersListener readyForListeners = Ui.findFragmentListener(this, IAcceptingListenersListener.class, false);
+		IAcceptingListenersListener readyForListeners = Ui
+			.findFragmentListener(this, IAcceptingListenersListener.class, false);
 		if (readyForListeners != null) {
 			readyForListeners.acceptingListenersUpdated(this, true);
 		}
@@ -135,12 +131,12 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	@Override
 	public void onPause() {
 		super.onPause();
-		IAcceptingListenersListener readyForListeners = Ui.findFragmentListener(this, IAcceptingListenersListener.class, false);
+		IAcceptingListenersListener readyForListeners = Ui
+			.findFragmentListener(this, IAcceptingListenersListener.class, false);
 		if (readyForListeners != null) {
 			readyForListeners.acceptingListenersUpdated(this, false);
 		}
 		mListView.unRegisterStateListener(mListStateHelper);
-
 	}
 
 	@Override
@@ -281,8 +277,7 @@ public abstract class ResultsListFragment<T> extends ListFragment implements ISt
 	}
 
 	@Override
-	public void updateStateTransition(T stateOne, T stateTwo,
-									  float percentage) {
+	public void updateStateTransition(T stateOne, T stateTwo, float percentage) {
 		mListeners.updateStateTransition(stateOne, stateTwo, percentage);
 	}
 

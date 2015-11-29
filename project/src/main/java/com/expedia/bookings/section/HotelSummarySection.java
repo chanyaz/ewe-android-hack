@@ -2,7 +2,6 @@ package com.expedia.bookings.section;
 
 import java.text.DecimalFormat;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -511,11 +510,8 @@ public class HotelSummarySection extends RelativeLayout {
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Show/hide MED callout
-	@TargetApi(11)
 	public void collapseBy(float pixels) {
 		mUrgencyText.setTranslationY(-pixels);
 		mCardCornersBottom.setTranslationY(-pixels);
 	}
-
-
 }

@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
-import android.graphics.Canvas;
+import android.content.Context;
 import android.graphics.Matrix;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -39,8 +38,7 @@ public class SvgMapFragment extends MeasurableFragment {
 	private Point2D.Double mBottomRight;
 
 	public static SvgMapFragment newInstance() {
-		SvgMapFragment frag = new SvgMapFragment();
-		return frag;
+		return new SvgMapFragment();
 	}
 
 	public void setMapResource(int resId) {
@@ -55,8 +53,8 @@ public class SvgMapFragment extends MeasurableFragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		int mapResId = R.raw.map_tablet_launch;
 		Bundle args = getArguments();
@@ -64,7 +62,7 @@ public class SvgMapFragment extends MeasurableFragment {
 			mapResId = args.getInt(ARG_MAP_RESOURCE, R.raw.map_tablet_launch);
 		}
 
-		mSvg = SVGParser.getSVGFromResource(activity.getResources(), mapResId);
+		mSvg = SVGParser.getSVGFromResource(context.getResources(), mapResId);
 
 		mProjection = new MercatorProjection();
 		double circumference = mProjection.getEllipsoid().getEquatorRadius() * 2 * Math.PI;
@@ -184,10 +182,6 @@ public class SvgMapFragment extends MeasurableFragment {
 		return t;
 	}
 
-	public void drawMapSvg(Canvas c) {
-		mSvg.getRoot().render(c, null, null);
-	}
-
 	public SVG getSvg() {
 		return mSvg;
 	}
@@ -202,10 +196,6 @@ public class SvgMapFragment extends MeasurableFragment {
 
 	public Matrix getViewportMatrix() {
 		return mViewportMatrix;
-	}
-
-	public Projection getSvgProjection() {
-		return mProjection;
 	}
 
 	public boolean isMapGenerated() {

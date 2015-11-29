@@ -3,8 +3,7 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
+import android.content.Context;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -42,27 +41,28 @@ import com.squareup.otto.Subscribe;
 /**
  * ResultsHotelListFragment: The hotel list fragment designed for tablet results 2013
  */
-public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsListState> implements
-	OnFilterChangedListener {
+public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsListState>
+	implements OnFilterChangedListener {
 
 	public interface ISortAndFilterListener {
-		public void onSortAndFilterClicked();
+		void onSortAndFilterClicked();
 	}
 
 	private TabletHotelAdapter mAdapter;
-	private ISortAndFilterListener mSortAndFilterListener;
 	private IResultsHotelSelectedListener mHotelSelectedListener;
 	private List<ISortAndFilterListener> mSortAndFilterListeners = new ArrayList<ResultsHotelListFragment.ISortAndFilterListener>();
 	private ResultsHotelsListState mState = getDefaultState();
 
 	private static final String PICASSO_TAG = "HOTEL_LIST";
-	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
 
-		mSortAndFilterListener = Ui.findFragmentListener(this, ISortAndFilterListener.class, true);
+	@Override
+	public void onAttach(Context context) {
+		super.onAttach(context);
+
+		ISortAndFilterListener sortAndFilterListener = Ui
+			.findFragmentListener(this, ISortAndFilterListener.class, true);
 		mHotelSelectedListener = Ui.findFragmentListener(this, IResultsHotelSelectedListener.class, true);
-		mSortAndFilterListeners.add(mSortAndFilterListener);
+		mSortAndFilterListeners.add(sortAndFilterListener);
 	}
 
 	@Override
@@ -97,7 +97,8 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		}
 
 		@Override
-		public void onStateTransitionUpdate(ResultsHotelsListState stateOne, ResultsHotelsListState stateTwo, float percentage) {
+		public void onStateTransitionUpdate(ResultsHotelsListState stateOne, ResultsHotelsListState stateTwo,
+			float percentage) {
 			float collapsePct = 0f;
 			if (stateTwo == ResultsHotelsListState.HOTELS_LIST_AT_TOP) {
 				collapsePct = Math.max(0f, (0.5f - percentage) * 2f);
@@ -136,7 +137,6 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 
 	private float mCollapsedBy = -1f;
 
-	@TargetApi(11)
 	private void collapseRowsBy(float percentage) {
 		if (mCollapsedBy == percentage) {
 			return;
@@ -147,7 +147,8 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 
 		FruitList listView = getListView();
 		int adapterPosition = listView.getFirstVisiblePosition();
-		for (int listIndex = 0; listIndex < listView.getChildCount() && adapterPosition < mAdapter.getCount(); listIndex++) {
+		for (int listIndex = 0; listIndex < listView.getChildCount() && adapterPosition < mAdapter.getCount();
+			listIndex++) {
 			View child = listView.getChildAt(listIndex);
 			if (!(child instanceof HotelSummarySection)) {
 				continue;
@@ -295,12 +296,6 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		return true;
 	}
 
-	public void addSortAndFilterListener(ISortAndFilterListener sortAndFilterListener) {
-		if (!mSortAndFilterListeners.contains(sortAndFilterListener)) {
-			mSortAndFilterListeners.add(sortAndFilterListener);
-		}
-	}
-
 	private final DataSetObserver mDataSetObserver = new DataSetObserver() {
 		@Override
 		public void onChanged() {
@@ -329,11 +324,6 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		if (hasList()) {
 			getListView().invalidate();
 		}
-	}
-
-	public void onHotelSelected() {
-		Property property = Db.getHotelSearch().getSelectedProperty();
-		getListView().setSelection(getListView().getHeaderViewsCount() + mAdapter.getPositionOfProperty(property));
 	}
 
 	public void clearSelectedProperty() {

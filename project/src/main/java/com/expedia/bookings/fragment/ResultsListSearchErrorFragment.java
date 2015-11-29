@@ -1,8 +1,6 @@
 package com.expedia.bookings.fragment;
 
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -28,7 +26,6 @@ import com.expedia.bookings.widget.CenteredCaptionedIcon;
  * <p/>
  * This was developed with the intention of it sitting in one of the 6 grid cells of the Tablet Search/Results screen.
  */
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ResultsListSearchErrorFragment extends Fragment {
 
 	private final static String STATE_ERROR_TEXT = "STATE_ERROR_TEXT";
@@ -41,8 +38,7 @@ public class ResultsListSearchErrorFragment extends Fragment {
 	private ResultsFlightsState mDefaultFlightsState;
 
 	public static ResultsListSearchErrorFragment newInstance() {
-		ResultsListSearchErrorFragment frag = new ResultsListSearchErrorFragment();
-		return frag;
+		return new ResultsListSearchErrorFragment();
 	}
 
 	public void setDefaultState(ResultsFlightsState state) {

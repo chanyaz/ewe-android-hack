@@ -3,7 +3,6 @@ package com.expedia.bookings.widget;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -27,7 +26,7 @@ import com.expedia.bookings.utils.FontCache;
 /**
  * A view displaying a count with a partially completed circle around it, on a
  * translucent black background.
- * 
+ * <p/>
  * <pre>
  * &lt;com.expedia.bookings.widget.RingedCountView
  *     android:id="@+id/ring"
@@ -45,13 +44,13 @@ import com.expedia.bookings.utils.FontCache;
  *     app:captionTextStyle="bold"
  *     app:ringThickness="10dp" /&gt;
  * </pre>
- * 
+ * <p/>
  * <pre>
  *    ringView.setCaption(String.format("of %d hotels", seekBar.getMax()));
  *    ringView.setPercent(1.0f * seekBar.getProgress() / seekBar.getMax());
  *    ringView.setCount(seekBar.getProgress());
  * </pre>
- * 
+ *
  * @author Doug Melton
  */
 public class RingedCountView extends View {
@@ -184,9 +183,9 @@ public class RingedCountView extends View {
 
 	/**
 	 * Sets the percentage filled of the ring only. Does not change the text.
+	 *
 	 * @param filled
 	 */
-	@TargetApi(11)
 	public void setPercent(float filled) {
 		if (mAnimator != null && mAnimator.isRunning()) {
 			mAnimator.cancel();
@@ -196,6 +195,7 @@ public class RingedCountView extends View {
 
 	/**
 	 * Returns the currently filled percentage of the ring.
+	 *
 	 * @return
 	 */
 	public float getPercent() {
@@ -206,9 +206,9 @@ public class RingedCountView extends View {
 	 * Sets the large count text. Does not change the ring percentage. A fractional
 	 * amount will cause an odometer style effect. Setting this will override what
 	 * was set previously in setCount(String).
+	 *
 	 * @param count
 	 */
-	@TargetApi(11)
 	public void setCount(float count) {
 		if (mAnimator != null && mAnimator.isRunning()) {
 			mAnimator.cancel();
@@ -219,6 +219,7 @@ public class RingedCountView extends View {
 	/**
 	 * Sets the large count text. Setting this will override what was set previously
 	 * in setCount(float).
+	 *
 	 * @param text
 	 */
 	public void setCountText(String text) {
@@ -227,10 +228,10 @@ public class RingedCountView extends View {
 
 	/**
 	 * Animates the count and ring percent to the passed values.
+	 *
 	 * @param count
 	 * @param float percent
 	 */
-	@TargetApi(11)
 	public void animateTo(int count, float percent) {
 		if (mAnimator != null && mAnimator.isRunning()) {
 			mAnimator.cancel();
@@ -239,10 +240,10 @@ public class RingedCountView extends View {
 		// 200ms per number different, capping out at 1200ms
 		int duration = Math.min(1200, Math.abs(count - (int) mRingDrawable.getCount()) * 200);
 		Animator countAnim = ObjectAnimator.ofFloat(mRingDrawable, "count", getCount(), count)
-				.setDuration(duration);
+			.setDuration(duration);
 
 		Animator ringAnim = ObjectAnimator.ofFloat(mRingDrawable, "percent", getPercent(), percent)
-				.setDuration(200);
+			.setDuration(200);
 
 		AnimatorSet set = new AnimatorSet();
 		set.play(countAnim).with(ringAnim);
@@ -261,6 +262,7 @@ public class RingedCountView extends View {
 
 	/**
 	 * Sets the caption displayed under the count (i.e. "of 23 hotels").
+	 *
 	 * @param caption
 	 */
 	public void setCaption(String caption) {
@@ -436,7 +438,7 @@ public class RingedCountView extends View {
 
 		public void setCaption(String caption) {
 			if ((caption != null || mCaption != null)
-					&& (caption == null || !caption.equals(mCaption))) {
+				&& (caption == null || !caption.equals(mCaption))) {
 				mCaption = caption;
 				invalidateSelf();
 			}
@@ -512,6 +514,5 @@ public class RingedCountView extends View {
 		public void setColorFilter(ColorFilter cf) {
 			// Not implemented
 		}
-
 	}
 }

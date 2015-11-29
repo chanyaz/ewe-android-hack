@@ -1,9 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -46,7 +43,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFragment implements InputFilter,
 	IStateProvider<TravelerFormState>, FragmentAvailabilityUtils.IFragmentAvailabilityProvider,
 	IDialogForwardBackwardListener {
@@ -74,10 +70,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	private boolean mAttemptToLeaveMade = false;
 	private ICheckoutDataListener mListener;
 
-
-	private StateManager<TravelerFormState> mStateManager = new StateManager<TravelerFormState>(
-		TravelerFormState.EDITING, this);
-
+	private StateManager<TravelerFormState> mStateManager = new StateManager<>(TravelerFormState.EDITING, this);
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -91,11 +84,10 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mListener = Ui.findFragmentListener(this, ICheckoutDataListener.class);
 	}
-
 
 	@Override
 	public void onResume() {
@@ -163,7 +155,8 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			mSectionTraveler.setPhoneFieldsEnabled(mTravelerNumber);
 
 			if (getLob() == LineOfBusiness.FLIGHTS) {
-				mSectionTraveler.bind(Db.getWorkingTravelerManager().getWorkingTraveler(), Db.getTripBucket().getFlight().getFlightSearchParams());
+				mSectionTraveler.bind(Db.getWorkingTravelerManager().getWorkingTraveler(),
+					Db.getTripBucket().getFlight().getFlightSearchParams());
 			}
 			else {
 				mSectionTraveler.bind(Db.getWorkingTravelerManager().getWorkingTraveler());
@@ -173,7 +166,6 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			setHeadingButtonOnClick(mHeaderButtonClickListener);
 		}
 	}
-
 
 	private OnClickListener mHeaderButtonClickListener = new OnClickListener() {
 		@Override
@@ -215,8 +207,9 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		if (isAdded()) {
 			FragmentManager manager = getChildFragmentManager();
 			FragmentTransaction transaction = manager.beginTransaction();
-			FragmentAvailabilityUtils.setFragmentAvailability(showSaveDialog, FTAG_SAVE_DIALOG, manager, transaction, this,
-				FragmentAvailabilityUtils.DIALOG_FRAG, true);
+			FragmentAvailabilityUtils
+				.setFragmentAvailability(showSaveDialog, FTAG_SAVE_DIALOG, manager, transaction, this,
+					FragmentAvailabilityUtils.DIALOG_FRAG, true);
 			FragmentAvailabilityUtils
 				.setFragmentAvailability(showOverwriteDialog, FTAG_OVERWRITE_DIALOG, manager, transaction, this,
 					FragmentAvailabilityUtils.DIALOG_FRAG, true);
@@ -292,7 +285,8 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		WorkingTravelerManager travMan = Db.getWorkingTravelerManager();
 		Traveler trav = travMan.getWorkingTraveler();
 
-		if (User.isLoggedIn(getActivity()) && trav.getSaveTravelerToExpediaAccount() && travMan.workingTravelerDiffersFromBase()) {
+		if (User.isLoggedIn(getActivity()) && trav.getSaveTravelerToExpediaAccount() && travMan
+			.workingTravelerDiffersFromBase()) {
 			// Save the traveler to the User account on a background thread
 			// We ignore errors and successes (for now) because this is a non-critical operation.
 			travMan.commitTravelerToAccount(getActivity(), trav, false, null);
@@ -412,7 +406,8 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		});
 
 		// Add focus change listeners only for 7inch portrait mode and only if we want to show the name match message.
-		if (AndroidUtils.is7InchTablet(getActivity()) && getResources().getBoolean(R.bool.portrait) && showBoardingMessage()) {
+		if (AndroidUtils.is7InchTablet(getActivity()) && getResources().getBoolean(R.bool.portrait)
+			&& showBoardingMessage()) {
 			EditText editFirstName = Ui.findView(mSectionTraveler, R.id.edit_first_name);
 			EditText editMiddleName = Ui.findView(mSectionTraveler, R.id.edit_middle_name);
 			EditText editLastName = Ui.findView(mSectionTraveler, R.id.edit_last_name);
@@ -472,7 +467,8 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 					/*
 					 * mTravelerAutoComplete is based on POS and hence the previously set mAllNamesFocusListener might be overwritten by this.
 					 */
-					if (AndroidUtils.is7InchTablet(getActivity()) && getResources().getBoolean(R.bool.portrait) && showBoardingMessage()) {
+					if (AndroidUtils.is7InchTablet(getActivity()) && getResources().getBoolean(R.bool.portrait)
+						&& showBoardingMessage()) {
 						showNameMatchHeaderText(hasFocus);
 					}
 				}

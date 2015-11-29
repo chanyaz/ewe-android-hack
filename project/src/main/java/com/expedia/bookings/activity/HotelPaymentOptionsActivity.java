@@ -51,16 +51,20 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 
 	//Define the states of navigation
 	public enum YoYoMode {
-		NONE, YOYO, EDIT
+		NONE,
+		YOYO,
+		EDIT
 	}
 
 	//Where we want to return to after our action
 	public enum YoYoPosition {
-		OPTIONS, CREDITCARD, SAVE
+		OPTIONS,
+		CREDITCARD,
+		SAVE
 	}
 
 	public interface Validatable {
-		public boolean attemptToLeave();
+		boolean attemptToLeave();
 	}
 
 	public static Intent gotoOptionsIntent(Context context) {
@@ -249,13 +253,13 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 	private void displayActionBarTitleBasedOnState() {
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
-				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+			| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 		String titleStr = getString(R.string.payment_method);
 		if (mPos != null) {
 			switch (mPos) {
 			case CREDITCARD:
 				actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP
-						| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+					| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 				actionBar.setCustomView(R.layout.action_bar_card_info);
 				break;
 			case SAVE:
@@ -306,8 +310,8 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 			case CREDITCARD:
 				if (validate(mCCFragment)) {
 					if (User.isLoggedIn(this)
-							&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
-							&& workingBillingInfoChanged()) {
+						&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
+						&& workingBillingInfoChanged()) {
 						displaySaveDialog();
 					}
 					else {
@@ -325,7 +329,7 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 				break;
 			case SAVE:
 				Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-						Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+					Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
 				displayOptions();
 				break;
 			case OPTIONS:
@@ -353,7 +357,7 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 	private boolean workingBillingInfoChanged() {
 		if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
 			return Db.getWorkingBillingInfoManager().getWorkingBillingInfo()
-					.compareTo(Db.getWorkingBillingInfoManager().getBaseBillingInfo()) != 0;
+				.compareTo(Db.getWorkingBillingInfoManager().getBaseBillingInfo()) != 0;
 		}
 		return false;
 	}
@@ -399,7 +403,7 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 				//If we are backing up we want to restore the base billing info...
 				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
 					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
+						Db.getWorkingBillingInfoManager().getBaseBillingInfo());
 				}
 				displayOptions();
 				break;

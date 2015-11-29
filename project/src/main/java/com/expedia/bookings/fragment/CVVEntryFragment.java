@@ -1,7 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import android.app.ActionBar;
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -59,8 +59,8 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, CVVEntryFragmentListener.class);
 	}
@@ -106,7 +106,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 	}
 
 	private void syncBookButtonState() {
-	    mCreditCardInputSection.setBookButtonEnabled(mCVVTextView.getCvv().length() >= mMinCvvLen);
+		mCreditCardInputSection.setBookButtonEnabled(mCVVTextView.getCvv().length() >= mMinCvvLen);
 		if (mBookButton != null) {
 			mBookButton.setEnabled(mCVVTextView.getCvv().length() >= mMinCvvLen);
 		}
@@ -283,6 +283,6 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 	// CVVEntryFragmentListener
 
 	public interface CVVEntryFragmentListener {
-		public void onBook(String cvv);
+		void onBook(String cvv);
 	}
 }

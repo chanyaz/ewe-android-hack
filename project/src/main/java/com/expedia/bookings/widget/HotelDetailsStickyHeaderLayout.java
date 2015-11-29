@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -36,27 +35,20 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 	private View mVipBadge;
 	private View mStarRatingContainer;
 	private View mGradientMask;
-	private View mDominantMask;
 	private View mHotelName;
 
 	private TouchControlHelper mTouchHelper = new TouchControlHelper();
 
 	public HotelDetailsStickyHeaderLayout(Context context) {
-		super(context);
-		init();
+		this(context, null);
 	}
 
 	public HotelDetailsStickyHeaderLayout(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		init();
+		this(context, attrs, 0);
 	}
 
 	public HotelDetailsStickyHeaderLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init();
-	}
-
-	private void init() {
 		Resources res = getResources();
 		mCompactHeaderHeight = res.getDimension(R.dimen.tablet_details_compact_header_height);
 		mTouchHelper.setConsumeTouch(true);
@@ -94,12 +86,11 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 		mStarRatingContainer = Ui.findView(this, R.id.star_rating_container);
 		mHotelName = Ui.findView(this, R.id.hotel_header_hotel_name);
 		mGradientMask = Ui.findView(this, R.id.gradient_header_mask);
-		mDominantMask = Ui.findView(this, R.id.dominant_color_header_mask);
-		mDominantMask.setBackgroundDrawable(mDominantColorBackground);
+		View dominantMask = Ui.findView(this, R.id.dominant_color_header_mask);
+		dominantMask.setBackgroundDrawable(mDominantColorBackground);
 	}
 
 	@Override
-	@TargetApi(11)
 	public void stick() {
 		if (!isEnabled()) {
 			return;
@@ -142,7 +133,6 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 		setDominantColor(getResources().getColor(R.color.hotel_details_sticky_header_background));
 	}
 
-	@TargetApi(11)
 	public void setDominantColor(int color) {
 		if (mDominantColorBackground == null) {
 			mDominantColorBackground = new ColorDrawable();
@@ -153,5 +143,4 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 		mDominantColorBackground.setAlpha(alpha);
 		mDominantColorBackground.invalidateSelf();
 	}
-	
 }

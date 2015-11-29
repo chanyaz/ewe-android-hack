@@ -1,7 +1,6 @@
 package com.expedia.bookings.activity;
 
 import android.app.ActionBar;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -48,8 +47,7 @@ public class HotelMapActivity extends FragmentActivity implements HotelMapFragme
 	 * @return
 	 */
 	public static Intent createIntent(Context context) {
-		Intent intent = new Intent(context, HotelMapActivity.class);
-		return intent;
+		return new Intent(context, HotelMapActivity.class);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -107,7 +105,6 @@ public class HotelMapActivity extends FragmentActivity implements HotelMapFragme
 		overridePendingTransition(R.anim.fade_in, exitAnimRes);
 	}
 
-	@TargetApi(11)
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_hotel_details, menu);

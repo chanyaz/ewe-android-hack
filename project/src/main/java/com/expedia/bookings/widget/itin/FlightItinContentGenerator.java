@@ -135,12 +135,15 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
 		final String code = getItinCardData().getFlightLeg().getLastWaypoint().mAirportCode;
 
-		final String url = new Akeakamai(Images.getFlightDestination(code)) //
-			.resizeExactly(width, height) //
+		final String url = new Akeakamai(Images.getFlightDestination(code))
+			.resizeExactly(width, height)
 			.build();
 
-		new PicassoHelper.Builder(getContext()).setPlaceholder(getHeaderImagePlaceholderResId()).setTarget(
-			target.getCallBack()).build().load(url);
+		new PicassoHelper.Builder(getContext())
+			.setPlaceholder(getHeaderImagePlaceholderResId())
+			.setTarget(target.getCallBack())
+			.build()
+			.load(url);
 		setSharableImageURL(url);
 	}
 
@@ -167,7 +170,6 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 					&& !TextUtils.isEmpty(itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity)) {
 				return itinCardData.getFlightLeg().getLastWaypoint().getAirport().mCity;
 			}
-
 		}
 
 		return "Flight Card";
@@ -679,9 +681,8 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		String uriStr = String.format(format, airport.getLatitude(), airport.getLongitude(),
 				airport.mName);
 		Uri airportUri = Uri.parse(uriStr);
-		Intent intent = new Intent(Intent.ACTION_VIEW, airportUri);
 
-		return intent;
+		return new Intent(Intent.ACTION_VIEW, airportUri);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -1004,5 +1005,4 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			return builder.create();
 		}
 	}
-
 }

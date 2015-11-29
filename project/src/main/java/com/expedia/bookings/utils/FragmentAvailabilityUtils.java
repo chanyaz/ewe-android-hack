@@ -15,11 +15,11 @@ public class FragmentAvailabilityUtils {
 	private static final String ARG_IS_FRAGMENT_ADDED_EBAD = "ARG_IS_FRAGMENT_ADDED_EBAD";
 
 	public interface IFragmentAvailabilityProvider {
-		public Fragment getExistingLocalInstanceFromTag(String tag);
+		Fragment getExistingLocalInstanceFromTag(String tag);
 
-		public Fragment getNewFragmentInstanceFromTag(String tag);
+		Fragment getNewFragmentInstanceFromTag(String tag);
 
-		public void doFragmentSetup(String tag, Fragment frag);
+		void doFragmentSetup(String tag, Fragment frag);
 	}
 
 	public static <T extends Fragment> T getFrag(FragmentManager manager, String tag) {
@@ -95,5 +95,4 @@ public class FragmentAvailabilityUtils {
 		args.putBoolean(ARG_IS_FRAGMENT_ADDED_EBAD, true);
 		frag.setArguments(args);
 	}
-
 }

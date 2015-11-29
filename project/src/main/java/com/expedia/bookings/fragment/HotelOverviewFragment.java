@@ -3,7 +3,6 @@ package com.expedia.bookings.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -89,7 +88,6 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.ViewUtils;
 import com.squareup.otto.Subscribe;
 import com.squareup.phrase.Phrase;
 
@@ -98,9 +96,9 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	CancelListener, CouponDialogFragmentListener {
 
 	public interface BookingOverviewFragmentListener {
-		public void checkoutStarted();
+		void checkoutStarted();
 
-		public void checkoutEnded();
+		void checkoutEnded();
 	}
 
 	public static final String TAG_SLIDE_TO_PURCHASE_FRAG = "TAG_SLIDE_TO_PURCHASE_FRAG";
@@ -186,8 +184,8 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private Animation mPurchaseViewsAnimation;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mBookingOverviewFragmentListener = Ui.findFragmentListener(this, BookingOverviewFragmentListener.class);
 	}
@@ -265,7 +263,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		mSlideToPurchaseFragmentLayout = Ui.findView(view, R.id.slide_to_purchase_fragment_layout);
 
-		ViewUtils.setAllCaps((TextView) Ui.findView(view, R.id.checkout_information_header_text_view));
+		((TextView) Ui.findView(view, R.id.checkout_information_header_text_view)).setAllCaps(true);
 
 		mScrollViewListener = new ScrollViewListener(mScrollView.getContext());
 
@@ -479,7 +477,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private void populateTravelerData() {
 		List<Traveler> travelers = Db.getTravelers();
 		if (travelers == null) {
-			travelers = new ArrayList<Traveler>();
+			travelers = new ArrayList<>();
 			Db.setTravelers(travelers);
 		}
 
@@ -761,7 +759,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		if (isInCheckout() && mShowSlideToWidget) {
 			final int screenHeight = AndroidUtils.getScreenSize(getActivity()).y;
-			final int actionBarHeight = ((FragmentActivity) getActivity()).getActionBar().getHeight();
+			final int actionBarHeight = getActivity().getActionBar().getHeight();
 
 			// We compute this based on screenHeight incase all of the content fits on the screen
 			// For example on a large tablet

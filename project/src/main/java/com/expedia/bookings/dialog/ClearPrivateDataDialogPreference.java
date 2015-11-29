@@ -12,7 +12,7 @@ import com.expedia.bookings.utils.ClearPrivateDataUtil;
 
 public class ClearPrivateDataDialogPreference extends DialogPreference {
 	public interface ClearPrivateDataListener {
-		public void onClearPrivateData(boolean signedOut);
+		void onClearPrivateData(boolean signedOut);
 	}
 
 	private ClearPrivateDataListener mClearPrivateDataListener;

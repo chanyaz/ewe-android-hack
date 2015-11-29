@@ -46,7 +46,7 @@ import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
 
 public class ItinItemListFragment extends Fragment implements LoginConfirmLogoutDialogFragment.DoLogoutListener,
-		ItinerarySyncListener {
+	ItinerarySyncListener {
 
 	public static final String TAG = "TAG_ITIN_ITEM_LIST_FRAGMENT";
 
@@ -91,6 +91,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	/**
 	 * Creates a new fragment that will open right away to the passed uniqueId.
+	 *
 	 * @param uniqueId
 	 * @return
 	 */
@@ -107,15 +108,15 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mItinManager = ItineraryManager.getInstance();
 		mItinManager.addSyncListener(this);
 
 		// Not a strict requirement
-		if (activity instanceof ItinItemListFragmentListener) {
-			mListener = (ItinItemListFragmentListener) activity;
+		if (context instanceof ItinItemListFragmentListener) {
+			mListener = (ItinItemListFragmentListener) context;
 
 			mListener.onItinItemListFragmentAttached(this);
 		}
@@ -237,7 +238,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		int retVal = -1;
 		if (mItinListView != null) {
 			retVal = mItinListView.getCount() - mItinListView.getFooterViewsCount()
-					- mItinListView.getHeaderViewsCount();
+				- mItinListView.getHeaderViewsCount();
 		}
 		return retVal;
 	}
@@ -617,8 +618,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	 * This is useful for getting references to fragments that are in viewpagers
 	 */
 	public interface ItinItemListFragmentListener {
-		public void onItinItemListFragmentAttached(ItinItemListFragment frag);
+		void onItinItemListFragmentAttached(ItinItemListFragment frag);
 
-		public void onItinCardClicked(ItinCardData data);
+		void onItinCardClicked(ItinCardData data);
 	}
 }

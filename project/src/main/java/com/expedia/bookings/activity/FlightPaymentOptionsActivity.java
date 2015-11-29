@@ -56,16 +56,21 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 
 	//Define the states of navigation
 	public enum YoYoMode {
-		NONE, YOYO, EDIT
+		NONE,
+		YOYO,
+		EDIT
 	}
 
 	//Where we want to return to after our action
 	public enum YoYoPosition {
-		OPTIONS, ADDRESS, CREDITCARD, SAVE
+		OPTIONS,
+		ADDRESS,
+		CREDITCARD,
+		SAVE
 	}
 
 	public interface Validatable {
-		public boolean attemptToLeave();
+		boolean attemptToLeave();
 	}
 
 	@Override
@@ -292,7 +297,7 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 	private void displayActionBarTitleBasedOnState() {
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
-				| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+			| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 		String titleStr = getString(R.string.payment_method);
 		if (mPos != null) {
 			switch (mPos) {
@@ -302,7 +307,7 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 				break;
 			case CREDITCARD:
 				actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP
-						| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
+					| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
 				actionBar.setCustomView(R.layout.action_bar_card_info);
 				break;
 			case SAVE:
@@ -363,13 +368,13 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 			case ADDRESS:
 				if (validate(mAddressFragment)) {
 					if (User.isLoggedIn(this)
-							&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
-							&& workingBillingInfoChanged()) {
+						&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
+						&& workingBillingInfoChanged()) {
 						displaySaveDialog();
 					}
 					else {
 						Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-								Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+							Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
 						displayOptions();
 					}
 				}
@@ -378,20 +383,20 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 				if (validate(mCCFragment)) {
 					Db.getTripBucket().getFlight().getFlightTrip().setShowFareWithCardFee(true);
 					if (User.isLoggedIn(this)
-							&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
-							&& workingBillingInfoChanged()) {
+						&& !Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getSaveCardToExpediaAccount()
+						&& workingBillingInfoChanged()) {
 						displaySaveDialog();
 					}
 					else {
 						Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-								Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+							Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
 						displayOptions();
 					}
 				}
 				break;
 			case SAVE:
 				Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-						Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+					Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
 				displayOptions();
 				break;
 			case OPTIONS:
@@ -419,7 +424,7 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 	private boolean workingBillingInfoChanged() {
 		if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
 			return Db.getWorkingBillingInfoManager().getWorkingBillingInfo()
-					.compareTo(Db.getWorkingBillingInfoManager().getBaseBillingInfo()) != 0;
+				.compareTo(Db.getWorkingBillingInfoManager().getBaseBillingInfo()) != 0;
 		}
 		return false;
 	}
@@ -440,7 +445,7 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 				//If we are backing up we want to restore the base billing info...
 				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
 					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
+						Db.getWorkingBillingInfoManager().getBaseBillingInfo());
 				}
 				displayOptions();
 				break;
@@ -469,7 +474,7 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 				//If we are backing up we want to restore the base billing info...
 				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
 					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
+						Db.getWorkingBillingInfoManager().getBaseBillingInfo());
 				}
 				displayOptions();
 				break;
@@ -568,7 +573,7 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 		Db.getWorkingBillingInfoManager().clearWorkingBillingInfo();
 
 		Intent gotoCheckoutOverviewIntent = new Intent(FlightPaymentOptionsActivity.this,
-				FlightTripOverviewActivity.class);
+			FlightTripOverviewActivity.class);
 		gotoCheckoutOverviewIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(gotoCheckoutOverviewIntent);
 	}
@@ -584,9 +589,9 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 		//Has the user manually entered data already?
 		FlightPaymentFlowState validationState = FlightPaymentFlowState.getInstance(this);
 		boolean addressValid = validationState.hasValidBillingAddress(Db.getWorkingBillingInfoManager()
-				.getWorkingBillingInfo());
+			.getWorkingBillingInfo());
 		boolean cardValid = validationState
-				.hasValidCardInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+			.hasValidCardInfo(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
 		if (addressValid || cardValid) {
 			return false;
 		}

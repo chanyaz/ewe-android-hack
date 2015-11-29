@@ -50,7 +50,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public interface OnListModeChangedListener {
-		public void onListModeChanged(boolean isInDetailMode, boolean animated);
+		void onListModeChanged(boolean isInDetailMode, boolean animated);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -1019,7 +1019,5 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 				mHasDrawn = true;
 			}
 		}
-
 	}
-
 }

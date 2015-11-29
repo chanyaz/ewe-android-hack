@@ -1,8 +1,8 @@
 package com.expedia.bookings.section;
 
 public interface ISectionEditable {
-	public interface SectionChangeListener {
-		public void onChange();
+	interface SectionChangeListener {
+		void onChange();
 	}
 
 	/**
@@ -11,15 +11,15 @@ public interface ISectionEditable {
 	 *
 	 * @return whether or not this SectionEditable is valid
 	 */
-	public boolean performValidation();
+	boolean performValidation();
 
-	public void resetValidation();
+	void resetValidation();
 
-	public void addChangeListener(SectionChangeListener listener);
+	void addChangeListener(SectionChangeListener listener);
 
-	public void removeChangeListener(SectionChangeListener listener);
+	void removeChangeListener(SectionChangeListener listener);
 
-	public void clearChangeListeners();
+	void clearChangeListeners();
 
-	public void onChange();
+	void onChange();
 }

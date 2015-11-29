@@ -51,8 +51,9 @@ public class PaymentButton extends LinearLayout {
 	}
 
 	public interface IPaymentButtonListener {
-		public void onAddNewCreditCardSelected();
-		public void onStoredCreditCardChosen(StoredCreditCard card);
+		void onAddNewCreditCardSelected();
+
+		void onStoredCreditCardChosen(StoredCreditCard card);
 	}
 
 	@Override
@@ -64,7 +65,8 @@ public class PaymentButton extends LinearLayout {
 	}
 
 	public void bind() {
-		mStoredCreditCardAdapter = new StoredCreditCardSpinnerAdapter(getContext(), Db.getTripBucket().getItem(lineOfBusiness), false);
+		mStoredCreditCardAdapter = new StoredCreditCardSpinnerAdapter(getContext(),
+			Db.getTripBucket().getItem(lineOfBusiness), false);
 	}
 
 	public void setPaymentButtonListener(IPaymentButtonListener listener) {

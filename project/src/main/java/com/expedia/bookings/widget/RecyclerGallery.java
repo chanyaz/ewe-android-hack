@@ -66,11 +66,13 @@ public class RecyclerGallery extends RecyclerView {
 	private IImageViewBitmapLoadedListener imageViewBitmapLoadedListener;
 
 	private boolean enableProgressBarOnImageViews = false;
+
 	public void setProgressBarOnImageViewsEnabled(boolean enableProgressBarOnImageViews) {
 		this.enableProgressBarOnImageViews = enableProgressBarOnImageViews;
 	}
 
 	private ColorFilter mColorFilter = null;
+
 	public void setColorFilter(ColorFilter colorFilter) {
 		mColorFilter = colorFilter;
 	}
@@ -295,7 +297,7 @@ public class RecyclerGallery extends RecyclerView {
 
 		@Override
 		public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-															 int viewType) {
+			int viewType) {
 			View root = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.gallery_image, parent, false);
 			ProgressBar progressBar = Ui.findView(root, R.id.gallery_item_progress_bar);
@@ -473,11 +475,11 @@ public class RecyclerGallery extends RecyclerView {
 	private final Handler mHandler = new LeakSafeHandler(this);
 
 	public interface GalleryItemListener {
-		public void onGalleryItemClicked(Object item);
+		void onGalleryItemClicked(Object item);
 	}
 
 	public interface GalleryItemScrollListener {
-		public void onGalleryItemScrolled(int position);
+		void onGalleryItemScrolled(int position);
 	}
 
 	public void setOnItemClickListener(GalleryItemListener listener) {

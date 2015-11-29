@@ -12,7 +12,6 @@ import com.expedia.bookings.R;
 import com.mobiata.android.util.Ui;
 
 public class SimpleNumberPicker extends LinearLayout {
-	private Context mContext;
 	private ImageButton mIncrementButton;
 	private TextView mTextLower;
 	private TextView mTextCurrent;
@@ -34,7 +33,7 @@ public class SimpleNumberPicker extends LinearLayout {
 	private Formatter mFormatter;
 
 	public interface Formatter {
-		public String format(int value);
+		String format(int value);
 	}
 
 	// Constructors
@@ -43,14 +42,11 @@ public class SimpleNumberPicker extends LinearLayout {
 	}
 
 	public SimpleNumberPicker(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		mContext = context;
-		init();
+		this(context, attrs, 0);
 	}
 
 	public SimpleNumberPicker(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		mContext = context;
 		init();
 	}
 
@@ -90,10 +86,6 @@ public class SimpleNumberPicker extends LinearLayout {
 		update();
 	}
 
-	public int getMinValue() {
-		return mMinValue;
-	}
-
 	public void setMinValue(int minValue) {
 		if (mMinValue == minValue) {
 			return;
@@ -106,10 +98,6 @@ public class SimpleNumberPicker extends LinearLayout {
 			mValue = mMinValue;
 		}
 		update();
-	}
-
-	public int getMaxValue() {
-		return mMaxValue;
 	}
 
 	public void setMaxValue(int maxValue) {

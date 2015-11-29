@@ -26,7 +26,7 @@ public class InvalidCharacterHelper {
 	private static final Semaphore sDialogSemaphore = new Semaphore(1);
 
 	public interface InvalidCharacterListener {
-		public void onInvalidCharacterEntered(CharSequence text, Mode mode);
+		void onInvalidCharacterEntered(CharSequence text, Mode mode);
 	}
 
 	public enum Mode {
@@ -42,6 +42,7 @@ public class InvalidCharacterHelper {
 
 	/**
 	 * Get the pattern used to determine if characters are valid
+	 *
 	 * @return
 	 */
 	public static Pattern getSupportedCharacterPattern(Mode mode) {
@@ -60,10 +61,12 @@ public class InvalidCharacterHelper {
 	 * This will generate a TextWatcher that removes invalid characters, after they have been entered.
 	 * Additionally it supports chaining, so that if the chainListener argument is not null, its callback
 	 * will be fired in the event of invalid characters.
+	 *
 	 * @param chainListener - listener to fire if invalid characters are present
 	 */
-	public static void generateInvalidCharacterTextWatcher(final EditText field, final InvalidCharacterListener chainListener,
-			final Mode mode) {
+	public static void generateInvalidCharacterTextWatcher(final EditText field,
+		final InvalidCharacterListener chainListener,
+		final Mode mode) {
 		field.addTextChangedListener(
 			new AfterChangeTextWatcher() {
 				@Override
@@ -90,6 +93,7 @@ public class InvalidCharacterHelper {
 
 	/**
 	 * This will show the invalid characters dialog fragment if it is  not already showing.
+	 *
 	 * @param fm - The FragmentManager to attach the dialog to.
 	 */
 	public static void showInvalidCharacterPopup(FragmentManager fm, Mode mode) {

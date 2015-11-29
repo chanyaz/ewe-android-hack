@@ -4,13 +4,10 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -46,7 +43,6 @@ import com.mobiata.flightlib.utils.DateTimeUtils;
 /**
  * ResultsFlightDetailsFragment: The flight details fragment designed for tablet results 2013
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsFlightDetailsFragment extends Fragment implements FlightUtils.OnBaggageFeeViewClicked {
 
 	private static final String ARG_LEG_NUMBER = "ARG_LEG_NUMBER";
@@ -101,11 +97,10 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 	private boolean mBindInOnResume = false;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mFlightLegSelectedListener = Ui.findFragmentListener(this, IResultsFlightLegSelected.class, true);
 	}
-
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -384,7 +379,6 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 	}
 
 	public void finalizeSlideInPercentage() {
-
 	}
 
 	/*
@@ -457,7 +451,6 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 			mDetailsC.setTranslationY(detailsTranslationY);
 			mDetailsC.setAlpha(1f - percentage);
 		}
-
 	}
 
 	public void finalizeDepartureFlightSelectedAnimation() {

@@ -255,7 +255,7 @@ public class HotelFilter implements JSONable {
 	}
 
 	public interface OnFilterChangedListener {
-		public void onFilterChanged();
+		void onFilterChanged();
 	}
 
 	public HotelFilter copy() {

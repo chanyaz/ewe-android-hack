@@ -1,6 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -40,10 +40,13 @@ public class TravelerButtonFragment extends LobableFragment {
 	}
 
 	public interface ITravelerButtonListener {
-		public boolean travelerIsValid(int travelerNumber);
-		public void onTravelerEditButtonPressed(int travelerNumber);
-		public void onTravelerChosen();
-		public void onAddNewTravelerSelected(int travelerNumber);
+		boolean travelerIsValid(int travelerNumber);
+
+		void onTravelerEditButtonPressed(int travelerNumber);
+
+		void onTravelerChosen();
+
+		void onAddNewTravelerSelected(int travelerNumber);
 	}
 
 	private static final String STATE_TRAVELER_NUMBER = "STATE_TRAVELER_NUMBER";
@@ -69,8 +72,8 @@ public class TravelerButtonFragment extends LobableFragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mTravelerButtonListener = Ui.findFragmentListener(this, ITravelerButtonListener.class);
 	}
 
@@ -413,5 +416,4 @@ public class TravelerButtonFragment extends LobableFragment {
 			}
 		}
 	};
-
 }

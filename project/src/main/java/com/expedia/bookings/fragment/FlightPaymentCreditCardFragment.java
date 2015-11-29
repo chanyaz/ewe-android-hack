@@ -3,7 +3,7 @@ package com.expedia.bookings.fragment;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -53,8 +53,8 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mAttemptToLeaveMade = false;
 	}
 
@@ -66,7 +66,7 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 		hideCardMessageOrDisplayDefault(true);
 
 		mAttemptToLeaveMade = savedInstanceState != null ? savedInstanceState.getBoolean(STATE_TAG_ATTEMPTED_LEAVE,
-				false) : false;
+			false) : false;
 
 		mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
 
@@ -89,14 +89,15 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 				if (mBillingInfo.getCardType() != null) {
 					TripBucketItemFlight flightItem = Db.getTripBucket().getFlight();
 					if (!flightItem.isCardTypeSupported(mBillingInfo.getCardType())) {
-						String cardName = CreditCardUtils.getHumanReadableName(getActivity(), mBillingInfo.getCardType());
+						String cardName = CreditCardUtils
+							.getHumanReadableName(getActivity(), mBillingInfo.getCardType());
 						String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, cardName);
 						updateCardMessage(message, getResources().getColor(R.color.flight_card_unsupported_warning));
 						toggleCardMessage(true, true);
 					}
 					else if (flightItem.getCardFee(mBillingInfo) != null) {
 						String message = getString(R.string.airline_processing_fee_TEMPLATE,
-								flightItem.getCardFee(mBillingInfo).getFormattedMoney());
+							flightItem.getCardFee(mBillingInfo).getFormattedMoney());
 						updateCardMessage(message, getResources().getColor(R.color.flight_card_airline_fee_warning));
 						toggleCardMessage(true, true);
 					}
@@ -166,6 +167,7 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 
 	/**
 	 * Set the message that displays above the virtual keyboard.
+	 *
 	 * @param message
 	 * @param backgroundColor
 	 */
@@ -176,6 +178,7 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 
 	/**
 	 * Toggle the message that displays above the virtual keyboard.
+	 *
 	 * @param show
 	 * @param animate
 	 */
@@ -209,7 +212,7 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 					float end = show ? 0f : mCreditCardMessageTv.getHeight();
 
 					ObjectAnimator animator = ObjectAnimator.ofFloat(mCreditCardMessageTv, "translationY",
-							start, end);
+						start, end);
 					animator.setDuration(300);
 					if (show) {
 						animator.addListener(new AnimatorListenerAdapter() {
@@ -242,14 +245,14 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 	/**
 	 * Hide the card message OR display a default message.
 	 * Some POSes have messages like "Dont use debit cards" that need to display all the time.
-	 * 
+	 *
 	 * @param animate
 	 */
 	private void hideCardMessageOrDisplayDefault(boolean animate) {
 		if (PointOfSale.getPointOfSale().doesNotAcceptDebitCardsForFlights()) {
 			Resources res = FlightPaymentCreditCardFragment.this.getResources();
 			updateCardMessage(res.getString(R.string.debit_cards_not_accepted),
-					res.getColor(R.color.flight_card_no_debit_warning));
+				res.getColor(R.color.flight_card_no_debit_warning));
 			toggleCardMessage(true, animate);
 		}
 		else {
