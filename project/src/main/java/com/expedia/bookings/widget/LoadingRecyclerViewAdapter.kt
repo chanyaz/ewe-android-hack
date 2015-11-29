@@ -48,7 +48,7 @@ public abstract class LoadingRecyclerViewAdapter<T> : RecyclerView.Adapter<Recyc
     }
 
     override fun getItemCount(): Int {
-        return items.size()
+        return items.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {

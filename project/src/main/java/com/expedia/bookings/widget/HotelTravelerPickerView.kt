@@ -80,14 +80,14 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Sc
         }
 
         vm.travelerParamsObservable.subscribe { travelers ->
-            if (travelers.children.size() == 0) {
+            if (travelers.children.size == 0) {
                 childAgeLabel.setVisibility(View.GONE)
             } else {
                 childAgeLabel.setVisibility(View.VISIBLE)
             }
             for (i in childSpinners.indices) {
                 val spinner = childSpinners[i]
-                if (i >= travelers.children.size()) {
+                if (i >= travelers.children.size) {
                     spinner.setVisibility(View.INVISIBLE)
                 } else {
                     spinner.setVisibility(View.VISIBLE)

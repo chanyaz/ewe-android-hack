@@ -92,7 +92,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
     }
 
     override fun getItemCount(): Int {
-        return hotels.size() + numHeaderItemsInHotelsList()
+        return hotels.size + numHeaderItemsInHotelsList()
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -145,7 +145,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         } else if (holder.itemViewType == HOTEL_VIEW) {
             val hotelItemIndex = hotelListItemsMetadata.indexOfFirst { it.hotelId == (holder as HotelViewHolder).hotelId }
             if (hotelItemIndex != -1) {
-                hotelListItemsMetadata.remove(hotelItemIndex)
+                hotelListItemsMetadata.removeAt(hotelItemIndex)
             }
         }
         super.onViewRecycled(holder)
@@ -271,7 +271,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
                 super.onBitmapLoaded(bitmap, from)
 
-                val palette = Palette.generate(bitmap)
+                val palette = Palette.Builder(bitmap).generate()
                 val color = palette.getDarkVibrantColor(R.color.transparent_dark)
 
                 val fullColorBuilder = ColorBuilder(color).darkenBy(.6f).setSaturation(if (!mIsFallbackImage) .8f else 0f);
@@ -280,10 +280,8 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
 
                 val drawable = HeaderBitmapDrawable()
                 drawable.setBitmap(bitmap)
-                val colorArrayBottom = intArrayOf(0, 0, endColor,
-                        startColor)
-                val colorArrayFull = intArrayOf(startColor, 0, endColor,
-                        startColor)
+                val colorArrayBottom = intArrayOf(0, 0, endColor, startColor)
+                val colorArrayFull = intArrayOf(startColor, 0, endColor, startColor)
 
                 if (vipMessage.visibility == View.VISIBLE ) {
                     drawable.setGradient(colorArrayFull, DEFAULT_GRADIENT_POSITIONS)
@@ -305,7 +303,6 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
                 imageView.setImageDrawable(placeHolderDrawable)
             }
         }
-
     }
 
     public inner class HotelResultsPricingStructureHeaderViewHolder(val root: ViewGroup, val vm: HotelResultsPricingStructureHeaderViewModel) : RecyclerView.ViewHolder(root) {

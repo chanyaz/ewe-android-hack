@@ -103,7 +103,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         val container = scrollView.findViewById(R.id.scroll_content) as LinearLayout
         container.addView(couponCardView, container.getChildCount() - 3)
         couponCardView.setToolbarListener(toolbarListener)
-        
+
         couponCardView.viewmodel.removeObservable.subscribe {
             showProgress(true)
             showCheckout()
@@ -120,7 +120,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         paymentInfoCardView.setCreditCardRequired(true)
         paymentInfoCardView.setExpanded(false)
 
-       if(!hasDiscount && !couponCardView.removingCoupon) {
+        if (!hasDiscount && !couponCardView.removingCoupon) {
             clearCCNumber()
         }
 
@@ -135,7 +135,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
             }
         })
         if (User.isLoggedIn(getContext())) {
-            if (!hasSomeManuallyEnteredData(paymentInfoCardView.sectionBillingInfo.billingInfo) && Db.getUser().getStoredCreditCards().size() == 1) {
+            if (!hasSomeManuallyEnteredData(paymentInfoCardView.sectionBillingInfo.billingInfo) && Db.getUser().getStoredCreditCards().size == 1) {
                 paymentInfoCardView.sectionBillingInfo.bind(Db.getBillingInfo())
                 paymentInfoCardView.selectFirstAvailableCard()
             }
@@ -199,7 +199,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         Db.getTripBucket().add(TripBucketItemHotelV2(trip))
 
         hotelCheckoutSummaryWidget.viewModel.tripResponseObserver.onNext(trip)
-        hotelCheckoutSummaryWidget.viewModel.guestCountObserver.onNext(hotelSearchParams.adults + hotelSearchParams.children.size())
+        hotelCheckoutSummaryWidget.viewModel.guestCountObserver.onNext(hotelSearchParams.adults + hotelSearchParams.children.size)
         val couponRate = trip.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getPriceAdjustments()
         hasDiscount = couponRate != null && !couponRate.isZero
         couponCardView.viewmodel.hasDiscountObservable.onNext(hasDiscount)

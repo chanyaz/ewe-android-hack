@@ -16,7 +16,7 @@ public class NewHotelDeepLinkTest: PhoneTestCase() {
     @Throws(Throwable::class)
     override fun runTest() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelsABTest,
-                AbacusUtils.DefaultVariate.BUCKETED.ordinal())
+                AbacusUtils.DefaultVariate.BUCKETED.ordinal)
         super.runTest()
     }
 

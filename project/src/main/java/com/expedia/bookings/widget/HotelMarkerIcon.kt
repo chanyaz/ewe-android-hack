@@ -28,7 +28,7 @@ fun createHotelMarkerIcon(resources: Resources, hotel: Hotel, isSelected: Boolea
     paint.textSize = pxSize
     paint.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
     paint.style = Paint.Style.FILL
-    paint.getTextBounds(hotelPriceText.toString(), 0, hotelPriceText.length(), bounds)
+    paint.getTextBounds(hotelPriceText.toString(), 0, hotelPriceText.length, bounds)
     
     var outputBitmap = getBitmap(resources, isSelected, isAirAttached, isSoldOut)
     var chunk = outputBitmap.getNinePatchChunk()

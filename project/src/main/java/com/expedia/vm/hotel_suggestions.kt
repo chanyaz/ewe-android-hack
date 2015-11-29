@@ -35,7 +35,7 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
     // Inputs
     val queryObserver = endlessObserver<String> { query ->
         lastQuery = query
-        if (query.isNotBlank() && query.length() >= 3 && !query.equals(currentLocationText)) {
+        if (query.isNotBlank() && query.length >= 3 && !query.equals(currentLocationText)) {
             suggestionsService.getHotelSuggestionsV4(query, ServicesUtil.generateClientId(context), generateSuggestionServiceCallback())
         } else {
             suggestionsObservable.onNext(suggestionsListWithNearby())
@@ -55,7 +55,7 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
         suggestionsService
                 .suggestNearbyV4(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().getSiteId(), ServicesUtil.generateClientId(context))
                 .doOnNext { nearbySuggestions ->
-                    if (nearbySuggestions.size() < 1) {
+                    if (nearbySuggestions.size < 1) {
                         throw ApiError(ApiError.Code.SUGGESTIONS_NO_RESULTS)
                     }
                     var suggestion = modifySuggestionToCurrentLocation(location, nearbySuggestions.first())
@@ -66,12 +66,13 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
                     nearby.forEach { it.iconType = SuggestionV4.IconType.CURRENT_LOCATION_ICON }
                 }
                 .doOnNext { nearbySuggestions ->
-                    nearbySuggestions.addAll(loadRecentSuggestions()) }
+                    nearbySuggestions.addAll(loadRecentSuggestions())
+                }
                 .subscribe(generateSuggestionServiceCallback())
     }
 
     // Utility
-    private fun modifySuggestionToCurrentLocation(location: Location, suggestion: SuggestionV4) : SuggestionV4 {
+    private fun modifySuggestionToCurrentLocation(location: Location, suggestion: SuggestionV4): SuggestionV4 {
         val currentLocation = suggestion.copy()
         currentLocation.gaiaId = null
         currentLocation.regionNames.displayName = context.getString(R.string.current_location)
@@ -104,15 +105,15 @@ class HotelSuggestionAdapterViewModel(val context: Context, val suggestionsServi
                 val rawQuerySuggestion = if (!lastQuery.isNullOrBlank()) listOf(suggestionWithRawQueryString(lastQuery)) else emptyList()
                 if (essSuggestions.count() == 0) {
                     suggestionsObservable.onNext(rawQuerySuggestion)
-                }
-                else {
+                } else {
                     val essAndRawTextSuggestion = ArrayList<SuggestionV4>(rawQuerySuggestion)
                     essAndRawTextSuggestion.addAll(essSuggestions)
                     suggestionsObservable.onNext(essAndRawTextSuggestion)
                 }
             }
 
-            override fun onCompleted() {}
+            override fun onCompleted() {
+            }
 
             override fun onError(e: Throwable?) {
                 Log.e("Hotel Suggestions Error", e)

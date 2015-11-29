@@ -41,7 +41,7 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
     private val hotelListItemsMetadata: MutableList<HotelListItemMetadata> = ArrayList()
 
     override fun getItemCount(): Int {
-        return hotels.size()
+        return hotels.size
     }
 
     public fun setItems(newHotels: List<Hotel>) {
@@ -67,7 +67,7 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
     override fun onViewRecycled(holder: RecyclerView.ViewHolder) {
         val hotelItemIndex = hotelListItemsMetadata.indexOfFirst { it.hotelId == (holder as HotelViewHolder).hotelId }
         if (hotelItemIndex != -1) {
-            hotelListItemsMetadata.remove(hotelItemIndex)
+            hotelListItemsMetadata.removeAt(hotelItemIndex)
         }
         super.onViewRecycled(holder)
     }

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.os.PersistableBundle
-import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
@@ -94,7 +93,8 @@ public class HotelActivity : AbstractAppCompatActivity() {
                 }
             }
 
-            AddToCalendarUtils.requestCodeAddCheckInToCalendarActivity -> { // show add to calendar for checkOut date
+            AddToCalendarUtils.requestCodeAddCheckInToCalendarActivity -> {
+                // show add to calendar for checkOut date
                 hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.showAddToCalendarIntent(false, this)
             }
         }
@@ -122,20 +122,20 @@ public class HotelActivity : AbstractAppCompatActivity() {
     fun handleNavigationViaDeepLink() {
         val hotelSearchParams = HotelsV2DataUtil.getHotelV2SearchParamsFromJSON(getIntent().getStringExtra("hotelSearchParams"))
         if (hotelSearchParams != null) {
-            val isCurrentLocationSearch = "MY_LOCATION".equals(hotelSearchParams?.suggestion?.type)
+            val isCurrentLocationSearch = "MY_LOCATION".equals(hotelSearchParams.suggestion.type)
             if (isCurrentLocationSearch) {
-                hotelSearchParams?.suggestion?.regionNames?.displayName = resources.getString(R.string.current_location)
-                hotelSearchParams?.suggestion?.regionNames?.shortName = resources.getString(R.string.current_location)
-                if (hotelSearchParams?.suggestion?.coordinates?.lat == 0.0 || hotelSearchParams?.suggestion?.coordinates?.lng == 0.0)
+                hotelSearchParams.suggestion.regionNames?.displayName = resources.getString(R.string.current_location)
+                hotelSearchParams.suggestion.regionNames?.shortName = resources.getString(R.string.current_location)
+                if (hotelSearchParams.suggestion.coordinates?.lat == 0.0 || hotelSearchParams.suggestion.coordinates?.lng == 0.0)
                     CurrentLocationObservable.create(this).subscribe(generateLocationServiceCallback(hotelSearchParams))
                 else {
                     startCurrentLocationSearch(hotelSearchParams)
                 }
             } else {
-                hotelPresenter.searchPresenter.searchViewModel.suggestionObserver.onNext(hotelSearchParams?.suggestion)
+                hotelPresenter.searchPresenter.searchViewModel.suggestionObserver.onNext(hotelSearchParams.suggestion)
                 if (hotelSearchParams.suggestion.hotelId == null) {
-                    val displayName = hotelSearchParams?.suggestion?.regionNames?.displayName ?: ""
-                    if (displayName.length() > 0 ) {
+                    val displayName = hotelSearchParams.suggestion.regionNames?.displayName ?: ""
+                    if (displayName.length > 0 ) {
                         val service = Ui.getApplication(this).hotelComponent().suggestionsService()
                         service.getHotelSuggestionsV4(displayName, ServicesUtil.generateClientId(this), generateSuggestionServiceCallback(hotelSearchParams))
                         return
@@ -205,12 +205,10 @@ public class HotelActivity : AbstractAppCompatActivity() {
     }
 
     // Showing different presenter based on deeplink
-    public enum class Screen{
+    public enum class Screen {
         SEARCH,
         DETAILS,
         RESULTS
     }
-
-
 }
 

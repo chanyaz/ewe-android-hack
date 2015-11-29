@@ -263,7 +263,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             searchLocationEditText.visibility = View.VISIBLE
             clearLocationButton.visibility = if (Strings.isEmpty(searchLocationEditText.text)) View.INVISIBLE else View.VISIBLE
             searchLocationEditText.requestFocus()
-            searchLocationEditText.setSelection(searchLocationEditText.getText().length())
+            searchLocationEditText.setSelection(searchLocationEditText.getText().length)
             if (currentState == null) {
                 show(HotelParamsDefault())
             }

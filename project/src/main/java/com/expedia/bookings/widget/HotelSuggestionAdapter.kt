@@ -16,7 +16,7 @@ import com.expedia.vm.HotelSuggestionViewModel
 public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
     override fun getItemCount(): Int {
-        return viewmodel.suggestions.size()
+        return viewmodel.suggestions.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {

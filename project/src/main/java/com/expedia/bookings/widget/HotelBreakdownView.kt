@@ -21,7 +21,7 @@ public class HotelBreakDownView(context: Context, attrs: AttributeSet?) : Scroll
         vm.addRows.subscribe {
             linearLayout.removeAllViews()
             for (breakdown in it) {
-                if (it.indexOf(breakdown) == it.size() - 1) {
+                if (it.indexOf(breakdown) == it.size - 1) {
                     linearLayout.addView(createLine())
                 }
                 if (breakdown.isDate) {
