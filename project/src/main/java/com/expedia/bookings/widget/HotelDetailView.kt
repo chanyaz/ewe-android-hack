@@ -174,7 +174,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     private val ANIMATION_DURATION_ROOM_CONTAINER = if (ExpediaBookingApp.isAutomation()) 0L else 250L
 
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
-        detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
         detailContainer.setOnTouchListener(touchListener)
 
         vm.toolBarRatingColor.subscribeStarColor(toolBarRating)
@@ -435,6 +434,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     }
 
     fun resetViews() {
+        detailContainer.getViewTreeObserver().removeOnScrollChangedListener(scrollListener)
         AnimUtils.reverseRotate(readMoreView)
         hotelDescription.maxLines = HOTEL_DESC_COLLAPSE_LINES
         renovationContainer.setVisibility(View.GONE)
@@ -747,8 +747,13 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     override fun onVisibilityChanged(changedView: View?, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
         if (changedView == this && visibility == View.VISIBLE) {
-            resetGallery()
+            refresh()
         }
+    }
+
+    public fun refresh() {
+        detailContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+        resetGallery()
     }
 
     public fun resetGallery() {
