@@ -6,6 +6,7 @@ import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.ViewMatchers;
 
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
@@ -49,12 +50,21 @@ public class EspressoUtils {
 		onView(withText(containsString(substring))).check(matches(isDisplayed()));
 	}
 
+	public static void assertViewWithSubstringIsDisplayed(int id, String substring) {
+		onView(allOf(withId(id), withText(containsString(substring))))
+				.check(matches(isDisplayed()));
+	}
+
 	public static void assertContains(ViewInteraction view, String str) {
 		view.check(matches(withText(containsString(str))));
 	}
 
 	public static void assertTextWithChildrenIsDisplayed(int id, String text) {
 		onView(allOf(withId(id), withChild(withText(text)), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))).check(matches(isDisplayed()));
+	}
+
+	public static void viewHasDescendantsWithText(int id, String text) {
+		onView(allOf(withId(id), hasDescendant(withText(text)), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))).check(matches(isDisplayed()));
 	}
 
 	public static String getText(int id) {
