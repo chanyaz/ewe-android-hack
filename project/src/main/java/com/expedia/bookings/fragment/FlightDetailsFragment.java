@@ -10,6 +10,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.PropertyValuesHolder;
 import android.app.Activity;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -27,6 +28,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.FlightInfoBarSection;
 import com.expedia.bookings.section.FlightInfoSection;
 import com.expedia.bookings.section.FlightSegmentSection;
@@ -56,6 +58,7 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 	private ViewGroup mInfoContainer;
 	private FlightInfoBarSection mInfoBar;
 	private TextView mFeesTextView;
+	private TextView mFeesPaymentTextView;
 	private TextView mFeesSecondaryTextView;
 	private ViewGroup mFeesContainer;
 
@@ -105,10 +108,32 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 		mInfoBar = Ui.findView(v, R.id.info_bar);
 		mFeesContainer = Ui.findView(v, R.id.fees_container);
 		mFeesTextView = Ui.findView(v, R.id.fees_text_view);
+		mFeesPaymentTextView = Ui.findView(v, R.id.airline_fee_notice_payment);
 		mFeesSecondaryTextView = Ui.findView(v, R.id.fees_secondary_text_view);
 
 		// Format header
 		mInfoBar.bindFlightDetails(trip, leg);
+
+
+		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
+			mFeesPaymentTextView.setVisibility(View.VISIBLE);
+			mFeesPaymentTextView.setPaintFlags(mFeesPaymentTextView.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+			mFeesPaymentTextView.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+					builder.setUrl(PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL());
+					builder.setTheme(R.style.FlightTheme);
+					builder.setTitle(R.string.airline_fee);
+					builder.setInjectExpediaCookies(true);
+					startActivity(builder.getIntent());
+				}
+
+			});
+		}
+		else {
+			mFeesPaymentTextView.setVisibility(View.INVISIBLE);
+		}
 
 		// Format content
 		// Depart from row
