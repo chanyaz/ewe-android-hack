@@ -299,7 +299,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             loadingOverlay.visibility = View.GONE
             detailPresenter.visibility = View.VISIBLE
             if (forward) {
-                detailPresenter.hotelDetailView.resetGallery()
+                detailPresenter.hotelDetailView.refresh()
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
                 backStack.push(searchPresenter)
             }
@@ -363,7 +363,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 detailPresenter.hotelDetailView.resetViews()
             }
             else {
-                detailPresenter.hotelDetailView.resetGallery()
+                detailPresenter.hotelDetailView.refresh()
             }
             val parentHeight = getHeight()
             detailsHeight = parentHeight - Ui.getStatusBarHeight(getContext())
@@ -460,7 +460,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             if (forward) {
-                detailPresenter.hotelDetailView.resetGallery()
+                detailPresenter.hotelDetailView.refresh()
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             }
             if (!forward) HotelV2Tracking().trackHotelV2SearchBox()
