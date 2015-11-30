@@ -204,6 +204,7 @@
     <color name="confirmation_item_divider_hotel">#616871</color>
     <color name="cost_summary_header_text_color">#004582</color>
     <color name="flight_checkout_missing_info_callout">#E60000</color>
+    <color name="flight_checkout_fee_warning_background">#1A2C40</color>
 
     <!-- Hotels search hangtag/mapsearch colors -->
     <color name="hotel_list_progress_text_color">#555555</color>

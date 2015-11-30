@@ -169,6 +169,9 @@ public class PointOfSale {
 	// Should we show cirlces for rating
 	private boolean shouldShowCircleForRatings;
 
+	// 5810 - Do Airlines Charge Additional Fee Based On Payment Method?
+	private boolean doAirlinesChargeAdditionalFeeBasedOnPaymentMethod;
+
 	private static boolean mIsTablet;
 
 	private boolean mRequiresHotelPostalCode;
@@ -461,6 +464,9 @@ public class PointOfSale {
 		// The URL for Loyalty Terms and Conditions for this POS
 		private String mLoyaltyTermsAndConditionsUrl;
 
+		// The URL for Help Url for Airlines Additional Fee Based On Payment Method for this POS
+		private String airlineFeeBasedOnPaymentMethodTermsAndConditionsURL;
+
 		// The URL for Terms of Booking for this POS (see GB)
 		private String mTermsOfBookingUrl;
 
@@ -688,6 +694,10 @@ public class PointOfSale {
 		return getPosLocale().mLoyaltyTermsAndConditionsUrl;
 	}
 
+	public String getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL() {
+		return getPosLocale().airlineFeeBasedOnPaymentMethodTermsAndConditionsURL;
+	}
+
 	public String getTermsOfBookingUrl() {
 		return getPosLocale().mTermsOfBookingUrl;
 	}
@@ -749,6 +759,11 @@ public class PointOfSale {
 	public boolean shouldShowCircleForRatings() {
 		return shouldShowCircleForRatings;
 	}
+
+	public boolean doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() {
+		return doAirlinesChargeAdditionalFeeBasedOnPaymentMethod;
+	}
+
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
 	 *
@@ -1119,6 +1134,7 @@ public class PointOfSale {
 		pos.mMarketingOptIn = MarketingOptIn
 			.valueOf(data.optString("marketingOptIn", MarketingOptIn.DO_NOT_SHOW.name()));
 		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
+		pos.doAirlinesChargeAdditionalFeeBasedOnPaymentMethod = data.optBoolean("doAirlinesChargeAdditionalFeeBasedOnPaymentMethod", false);
 		pos.mRequiresHotelPostalCode = data.optString("requiredPaymentFields:hotels").equals("postalCode");
 
 		// Parse POS locales
@@ -1204,6 +1220,7 @@ public class PointOfSale {
 		locale.mLoyaltyTermsAndConditionsUrl = data.optString("loyaltyTermsAndConditionsURL", null);
 		locale.mTermsOfBookingUrl = data.optString("termsOfBookingURL", null);
 		locale.mPrivacyPolicyUrl = data.optString("privacyPolicyURL", null);
+		locale.airlineFeeBasedOnPaymentMethodTermsAndConditionsURL = data.optString("airlineFeeBasedOnPaymentMethodTermsAndConditionsURL", null);
 
 		// Language identifier
 		locale.mLanguageCode = data.optString("languageCode", null);
