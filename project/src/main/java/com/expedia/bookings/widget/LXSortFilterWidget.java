@@ -18,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.data.lx.LXSortFilterMetadata;
 import com.expedia.bookings.data.lx.LXSortType;
@@ -79,8 +81,11 @@ public class LXSortFilterWidget extends LinearLayout {
 		MenuItem item = toolbar.getMenu().findItem(R.id.apply_check);
 		setupToolBarCheckmark(item);
 
+		boolean isUserBucketedForCategoriesTest = Db.getAbacusResponse()
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCategoryABTest);
+
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
-		if (statusBarHeight > 0) {
+		if (statusBarHeight > 0 && !isUserBucketedForCategoriesTest) {
 			int color = getContext().getResources()
 				.getColor(Ui.obtainThemeResID(getContext(), R.attr.primary_color));
 			addView(Ui.setUpStatusBar(getContext(), null, null, color), 0);
