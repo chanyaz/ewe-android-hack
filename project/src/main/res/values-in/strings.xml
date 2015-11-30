@@ -218,6 +218,8 @@
     <string name="hotelsv2_slide_reserve">Geser untuk memesan</string>
     <!-- Hotels V2 slide to purchase -->
     <string name="hotelsv2_slide_purchase">Geser untuk membeli</string>
+    <!-- Hotels V2 Change Dates in case of Sold Out -->
+    <string name="change_dates">Ubah Tanggal</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -2540,6 +2542,10 @@
     <string name="please_try_a_different_location_or_date">Silakan coba lokasi atau tanggal lain.</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">Tidak ada kamar yang tersedia</string>
+    <!-- Title displayed when room is sold out -->
+    <string name="select_another_room">Harap pilih kamar lainnya.</string>
+    <!-- Message displayed when room is sold out -->
+    <string name="error_room_sold_out">Kamar ini sudah habis terpesan.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_TEMPLATE">Maaf, hotel ini tidak lagi tersedia di {brand}.</string>
 
@@ -2972,7 +2978,7 @@
     <!-- Error when applying coupon - Pay Later Hotel -->
     <string name="coupon_error_pay_later_hotel">Kupon tidak bisa digunakan untuk kamar dengan kategori harga Bayar Belakangan, silakan pilih kategori harga Bayar Sekarang.</string>
     <!-- Error when applying coupon - Not Active -->
-    <string name="coupon_error_not_active">Maaf, tapi kode kupon ini telah kedaluwarsa.</string>
+    <string name="coupon_error_not_active">Maaf, kode kupon ini telah kedaluwarsa.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -3734,4 +3740,8 @@
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Penggunaan kupon: Anda hemat %1$s!</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog title -->
+    <string name="coupon_error_dialog_title">Kupon Tak Bisa Digunakan</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog message -->
+    <string name="coupon_error_dialog_message">Terdapat masalah dengan kupon Anda. Harap coba memasukkannya kembali.</string>
 </resources>

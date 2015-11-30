@@ -33,7 +33,7 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 	private static final int SUGGESTION_ITEM_VIEW = 1;
 	private static final int ITEM_VIEW_TYPE_COUNT = 2;
 
-	protected static final String DEFAULT_AUTOFILL_ITEM_ID = "DEFAULT_AUTOFILL_ITEM";
+	public static final String DEFAULT_AUTOFILL_ITEM_ID = "DEFAULT_AUTOFILL_ITEM";
 
 	// Implementing class decides how to use the suggestion service to provide suggestions
 	protected abstract Subscription suggest(SuggestionServices suggestionServices,

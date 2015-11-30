@@ -218,6 +218,8 @@
     <string name="hotelsv2_slide_reserve">Desliza para reservar</string>
     <!-- Hotels V2 slide to purchase -->
     <string name="hotelsv2_slide_purchase">Desliza para realizar la compra</string>
+    <!-- Hotels V2 Change Dates in case of Sold Out -->
+    <string name="change_dates">Cambiar fechas</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -2540,6 +2542,10 @@
     <string name="please_try_a_different_location_or_date">Cambia la fecha o la ubicación.</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">No hay habitaciones disponibles</string>
+    <!-- Title displayed when room is sold out -->
+    <string name="select_another_room">Selecciona otra habitación</string>
+    <!-- Message displayed when room is sold out -->
+    <string name="error_room_sold_out">Vaya, ya no quedan más habitaciones.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_TEMPLATE">Lo sentimos, este hotel ya no está disponible en {brand}.</string>
 
@@ -2934,7 +2940,7 @@
     <!-- Error when applying coupon - the coupon isn't recognized -->
     <string name="coupon_error_unrecognized">Lo sentimos, pero este código de descuento no existe.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Lo sentimos, pero este código de descuento ha caducado..</string>
+    <string name="coupon_error_expired">Lo sentimos, pero este código de descuento ha caducado.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Lo sentimos, estamos teniendo problemas en este momento. Vuelve a intentarlo.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
@@ -3735,4 +3741,8 @@
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Se ha aplicado el cupón: ¡te has ahorrado %1$s!</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog title -->
+    <string name="coupon_error_dialog_title">No se ha podido aplicar el cupón</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog message -->
+    <string name="coupon_error_dialog_message">Se ha detectado un problema con el cupón introducido. Vuelve a intentarlo.</string>
 </resources>

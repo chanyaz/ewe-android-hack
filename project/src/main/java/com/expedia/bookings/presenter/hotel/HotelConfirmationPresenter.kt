@@ -20,6 +20,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.OptimizedImageView
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
@@ -45,33 +46,9 @@ public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) :
     val sendToEmailTextView: TextView by bindView(R.id.email_text)
     val toolbar: Toolbar by bindView(R.id.toolbar)
 
-    var hotelConfirmationViewModel: HotelConfirmationViewModel by Delegates.notNull()
-        @Inject set
-
-    init {
-        View.inflate(getContext(), R.layout.widget_hotel_confirmation, this)
-
-        val res = getContext().getResources()
-        dressAction(res, directionsToHotelBtn, R.drawable.car_directions)
-        dressAction(res, addToCalendarBtn, R.drawable.add_to_calendar)
-        dressAction(res, addCarBtn, R.drawable.hotel_car)
-        dressAction(res, addFlightBtn, R.drawable.car_flights)
-        dressAction(res, callSupportBtn, R.drawable.hotel_phone)
-        callSupportBtn.text = Phrase.from(context, R.string.call_customer_support_TEMPLATE).put("brand", BuildConfig.brand).format()
-    }
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        Ui.getApplication(getContext()).hotelComponent().inject(this);
-
+    var hotelConfirmationViewModel: HotelConfirmationViewModel by notNullAndObservable {
         hotelConfirmationViewModel.showCarCrossSell.subscribeVisibility(addCarBtn)
         hotelConfirmationViewModel.showFlightCrossSell.subscribeVisibility(addFlightBtn)
-        addFlightBtn.subscribeOnClick(hotelConfirmationViewModel.getAddFlightBtnObserver(getContext()))
-        addCarBtn.subscribeOnClick(hotelConfirmationViewModel.getAddCarBtnObserver(getContext()))
-        addToCalendarBtn.subscribeOnClick(hotelConfirmationViewModel.getAddToCalendarBtnObserver(getContext()))
-        callSupportBtn.subscribeOnClick(hotelConfirmationViewModel.getCallSupportBtnObserver(getContext()))
-        directionsToHotelBtn.subscribeOnClick(hotelConfirmationViewModel.getDirectionsToHotelBtnObserver(getContext()))
-
         hotelConfirmationViewModel.itineraryNumberLabel.subscribeText(itinNumberTextView)
         hotelConfirmationViewModel.formattedCheckInOutDate.subscribeText(checkInOutDateTextView)
         hotelConfirmationViewModel.bigImageUrl.subscribe { value ->
@@ -93,6 +70,29 @@ public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) :
         hotelConfirmationViewModel.addFlightBtnText.subscribeText(addFlightBtn)
         hotelConfirmationViewModel.addCarBtnText.subscribeText(addCarBtn)
         hotelConfirmationViewModel.customerEmail.subscribeText(sendToEmailTextView)
+
+        addFlightBtn.subscribeOnClick(hotelConfirmationViewModel.getAddFlightBtnObserver(getContext()))
+        addCarBtn.subscribeOnClick(hotelConfirmationViewModel.getAddCarBtnObserver(getContext()))
+        addToCalendarBtn.subscribeOnClick(hotelConfirmationViewModel.getAddToCalendarBtnObserver(getContext()))
+        callSupportBtn.subscribeOnClick(hotelConfirmationViewModel.getCallSupportBtnObserver(getContext()))
+        directionsToHotelBtn.subscribeOnClick(hotelConfirmationViewModel.getDirectionsToHotelBtnObserver(getContext()))
+
+    }
+
+    init {
+        View.inflate(getContext(), R.layout.widget_hotel_confirmation, this)
+
+        val res = getContext().getResources()
+        dressAction(res, directionsToHotelBtn, R.drawable.car_directions)
+        dressAction(res, addToCalendarBtn, R.drawable.add_to_calendar)
+        dressAction(res, addCarBtn, R.drawable.hotel_car)
+        dressAction(res, addFlightBtn, R.drawable.car_flights)
+        dressAction(res, callSupportBtn, R.drawable.hotel_phone)
+        callSupportBtn.text = Phrase.from(context, R.string.call_customer_support_TEMPLATE).put("brand", BuildConfig.brand).format()
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
 
         val navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp)!!.mutate()
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)

@@ -206,7 +206,7 @@ public class RecyclerGallery extends RecyclerView {
 		initViews();
 	}
 
-	private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+	public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 		private List<? extends IMedia> mMedia;
 		private FrameLayout.LayoutParams mLayoutParams;
 		private static final int MAX_IMAGES_LOADED = 5;
@@ -267,10 +267,6 @@ public class RecyclerGallery extends RecyclerView {
 					}
 					mImageView.setImageBitmap(bitmap);
 					mImageView.setColorFilter(mColorFilter);
-
-					if (imageViewBitmapLoadedListener != null) {
-						imageViewBitmapLoadedListener.onImageViewBitmapLoaded(mImageView);
-					}
 				}
 
 				@Override
@@ -309,6 +305,10 @@ public class RecyclerGallery extends RecyclerView {
 
 		@Override
 		public void onBindViewHolder(final ViewHolder holder, int position) {
+			if (imageViewBitmapLoadedListener != null) {
+				imageViewBitmapLoadedListener.onImageViewBitmapLoaded(position);
+			}
+
 			IMedia media = mMedia.get(position);
 			if (media.isPlaceHolder()) {
 				media.loadErrorImage(holder.mImageView, holder.callback, R.drawable.room_fallback);
@@ -320,9 +320,6 @@ public class RecyclerGallery extends RecyclerView {
 			}
 			if (enableProgressBarOnImageViews) {
 				holder.progressBar.setVisibility(View.VISIBLE);
-			}
-			if (imageViewBitmapLoadedListener != null) {
-				imageViewBitmapLoadedListener.onImageViewBitmapLoaded(holder.mImageView);
 			}
 		}
 
@@ -491,6 +488,6 @@ public class RecyclerGallery extends RecyclerView {
 	}
 
 	public interface IImageViewBitmapLoadedListener {
-		void onImageViewBitmapLoaded(HotelDetailsGalleryImageView hotelDetailsGalleryImageView);
+		void onImageViewBitmapLoaded(int index);
 	}
 }

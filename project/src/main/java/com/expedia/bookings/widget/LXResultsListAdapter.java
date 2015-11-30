@@ -164,8 +164,10 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 			@Override
 			public void onBitmapFailed(Drawable errorDrawable) {
 				super.onBitmapFailed(errorDrawable);
-				activityImage.setImageDrawable(errorDrawable);
-				gradientMask.setVisibility(View.VISIBLE);
+				if (errorDrawable != null) {
+					activityImage.setImageDrawable(errorDrawable);
+					gradientMask.setVisibility(View.VISIBLE);
+				}
 			}
 
 			@Override

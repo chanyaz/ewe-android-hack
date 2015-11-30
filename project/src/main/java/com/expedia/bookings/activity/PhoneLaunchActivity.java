@@ -42,6 +42,7 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
@@ -166,6 +167,8 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 			}
 			showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok);
 		}
+
+		AbacusHelperUtils.downloadBucket(this);
 	}
 
 	@Override
