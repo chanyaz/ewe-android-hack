@@ -31,6 +31,7 @@ import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -119,6 +120,12 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 			mListView.addFooterView(footer);
 			mListView.setFooterDividersEnabled(false);
 		}
+
+		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
+			TextView airlineFeeBar = Ui.findView(v, R.id.airline_fee_bar);
+			airlineFeeBar.setVisibility(View.VISIBLE);
+		}
+
 
 		// Only dynamically blur background if there is no header
 		// flight card being shown.
@@ -424,8 +431,23 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 
 	private void displayPriceLabel() {
 		if (mPriceLabelTextView != null) {
-			int labelResId = Db.getFlightSearch().getSearchParams().isRoundTrip() ? R.string.prices_roundtrip_label :
-				R.string.prices_oneway_label;
+			int labelResId;
+			if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
+				if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
+					labelResId = R.string.prices_roundtrip_minimum_label;
+				}
+				else {
+					labelResId = R.string.prices_oneway_minimum_label;
+				}
+			}
+			else {
+				if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
+					labelResId = R.string.prices_roundtrip_label;
+				}
+				else {
+					labelResId = R.string.prices_oneway_label;
+				}
+			}
 			mPriceLabelTextView.setText(getString(labelResId));
 		}
 	}

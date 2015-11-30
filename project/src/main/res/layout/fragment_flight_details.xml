@@ -36,8 +36,8 @@
         android:id="@+id/fees_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_above="@+id/airline_fee_notice_payment"
         android:layout_marginBottom="8dp"
         android:padding="8dp"
         android:contentDescription="@string/cd_flight_leg_baggage_fee_info"
@@ -69,6 +69,23 @@
             android:textSize="@dimen/flight_details_baggage_fee_text_view_text_size"
             app:textStyle="bold"
             android:visibility="gone" />
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/airline_fee_notice_payment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:drawablePadding="8dp"
+        android:layout_marginBottom="8dp"
+        android:gravity="center"
+        android:text="@string/airline_fee_notice_payment"
+        android:textStyle="bold"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
+
 
 </RelativeLayout>
