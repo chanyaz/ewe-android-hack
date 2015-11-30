@@ -19,6 +19,8 @@ public class HotelEtpStickyHeaderLayout extends StickyRelativeLayout {
 
 	private Rect mVisible = new Rect();
 	private View mContainer;
+	private View dropShadow;
+
 	private TouchControlHelper mTouchHelper = new TouchControlHelper();
 
 	public HotelEtpStickyHeaderLayout(Context context) {
@@ -70,15 +72,28 @@ public class HotelEtpStickyHeaderLayout extends StickyRelativeLayout {
 
 	@Override
 	public void stick() {
-		if (!isEnabled()) {
+		if (!isEnabled() || getVisibility() == GONE) {
 			return;
 		}
 
 		View parent = (View) getParent();
 		parent.getLocalVisibleRect(mVisible);
 
-		float offset = Math.max(0, mVisible.top - getTop() + Ui.getToolbarSize(getContext()) + Ui.getStatusBarHeight(getContext()));
+		if (dropShadow == null) {
+			dropShadow = Ui.findView(parent, R.id.pay_later_drop_shadow);
+		}
+
+		float offset = Math
+			.max(0, mVisible.top - getTop() + Ui.getToolbarSize(getContext()) + Ui.getStatusBarHeight(getContext()));
 		mContainer.setTranslationY(offset);
+		dropShadow.setTranslationY(offset);
+
+		if (offset != 0) {
+			dropShadow.setVisibility(View.VISIBLE);
+		}
+		else {
+			dropShadow.setVisibility(View.GONE);
+		}
 	}
 
 }

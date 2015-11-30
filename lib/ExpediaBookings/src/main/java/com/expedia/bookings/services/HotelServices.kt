@@ -1,23 +1,34 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.data.hotels.*
+import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelApplyCouponParams
+import com.expedia.bookings.data.hotels.HotelCheckoutParams
+import com.expedia.bookings.data.hotels.HotelCreateTripParams
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.hotels.NearbyHotelParams
+import com.expedia.bookings.utils.Strings
 import com.google.gson.GsonBuilder
 import com.squareup.okhttp.OkHttpClient
 import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 import retrofit.RequestInterceptor
 import retrofit.RestAdapter
 import retrofit.client.OkClient
 import retrofit.converter.GsonConverter
+import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
-import kotlin.properties.Delegates
 
 public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
-	val hotelApi: HotelApi by Delegates.lazy {
+	val hotelApi: HotelApi by lazy {
 		val gson = GsonBuilder()
-			.registerTypeAdapter(javaClass<DateTime>(), DateTimeTypeAdapter())
+			.registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
 			.create()
 
 		val adapter = RestAdapter.Builder()
@@ -28,7 +39,7 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 			.setClient(OkClient(okHttpClient))
 			.build()
 
-		adapter.create(javaClass<HotelApi>())
+		adapter.create(HotelApi::class.java)
 	}
 
 	public fun nearbyHotels(params: NearbyHotelParams, observer: Observer<MutableList<Hotel>>): Subscription {
@@ -40,26 +51,49 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 			.subscribe(observer)
 	}
 
-	public fun regionSearch(params: HotelSearchParams, observer: Observer<HotelSearchResponse>): Subscription {
-		return hotelApi.regionSearch(params.suggestion.gaiaId, params.checkIn.toString(), params.checkOut.toString(),
-				params.getGuestString())
-				.observeOn(observeOn)
-				.subscribeOn(subscribeOn)
-				.doOnNext { response -> response.allNeighborhoodsInSearchRegion.map { response.neighborhoodsMap.put(it.id, it) }}
-				.doOnNext { response -> response.hotelList.map { hotel ->
-					if (hotel.locationId != null && response.neighborhoodsMap.containsKey(hotel.locationId)) {
-						response.neighborhoodsMap.get(hotel.locationId)?.hotels?.add(hotel)
-					}
-				}}
-				.doOnNext { response -> response.allNeighborhoodsInSearchRegion.map {
-					it.score = it.hotels.map { 1 }.sum()
-				}}
-				.subscribe(observer)
-	}
+    public fun regionSearch(params: HotelSearchParams): Observable<HotelSearchResponse> {
+        return hotelApi.search(params.toQueryMap())
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .doOnNext { response ->
+                    if (response.hasErrors()) return@doOnNext
 
-    public fun details(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
-        return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(),
-                hotelSearchParams.getGuestString(), hotelId)
+                    response.userPriceType = getUserPriceType(response.hotelList)
+                    response.allNeighborhoodsInSearchRegion.map { response.neighborhoodsMap.put(it.id, it) }
+                    response.hotelList.map { hotel ->
+                        if (hotel.locationId != null && response.neighborhoodsMap.containsKey(hotel.locationId)) {
+                            response.neighborhoodsMap.get(hotel.locationId)?.hotels?.add(hotel)
+                        }
+                    }
+
+                    response.allNeighborhoodsInSearchRegion.map {
+                        it.score = it.hotels.map { 1 }.sum()
+                    }
+
+		     if (!params.suggestion.isCurrentLocationSearch || params.suggestion.isGoogleSuggestionSearch) {
+			     response.hotelList.forEach { hotel ->
+				     hotel.proximityDistanceInMiles = 0.0
+			    }
+		     }
+
+					response.hotelList = putSponsoredItemsInCorrectPlaces(response.hotelList)
+                }
+    }
+
+    public fun offers(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
+        return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(), hotelSearchParams.getGuestString(), hotelId)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .subscribe(observer)
+    }
+
+    public fun info(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
+        val yyyyMMddDateTimeFormat = DateTimeFormat.forPattern("yyyy-MM-dd")
+
+        return hotelApi.info(hotelId).doOnNext {
+            it.checkInDate = yyyyMMddDateTimeFormat.print(hotelSearchParams.checkIn)
+            it.checkOutDate = yyyyMMddDateTimeFormat.print(hotelSearchParams.checkOut)
+        }
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)
@@ -72,10 +106,39 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 				.subscribe(observer)
 	}
 
+	public fun applyCoupon(body: HotelApplyCouponParams): Observable<HotelCreateTripResponse> {
+		return hotelApi.applyCoupon(body.toQueryMap())
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+	}
+
 	public fun checkout(params: HotelCheckoutParams, observer: Observer<HotelCheckoutResponse>): Subscription {
 		return hotelApi.checkout(params.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.subscribe(observer)
+	}
+
+	private fun getUserPriceType(hotels: List<Hotel>?): HotelRate.UserPriceType {
+		if (hotels != null) {
+			for (hotel in hotels) {
+				val rate = hotel.lowRateInfo
+				if (rate != null && Strings.isNotEmpty(rate.userPriceType)) {
+					return HotelRate.UserPriceType.toEnum(rate.userPriceType)
+				}
+			}
+		}
+		return HotelRate.UserPriceType.UNKNOWN
+	}
+
+	companion object {
+		fun putSponsoredItemsInCorrectPlaces(hotelList: List<Hotel>): List<Hotel> {
+			val (sponsored, nonSponsored) = hotelList.partition { it.isSponsoredListing }
+			val firstChunk = sponsored.take(1)
+			val secondChunk = nonSponsored.take(49)
+			val thirdChunk = sponsored.drop(1)
+			val rest = nonSponsored.drop(49)
+			return firstChunk + secondChunk + thirdChunk + rest
+		}
 	}
 }

@@ -2,15 +2,6 @@
 
     <application>
 
-        <!-- AD-X -->
-        <meta-data
-            android:name="ADX_CLIENT_ID"
-            android:value="exp3dia042815dw" />
-
-        <meta-data
-            android:name="APP_NAME"
-            android:value="com.wotif.android" />
-
         <!-- Deep link routing activity -->
         <activity
             android:name="com.expedia.bookings.activity.DeepLinkRouterActivity"
@@ -64,14 +55,6 @@
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.expedia.bookings.action.wotif_locale_changed" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
-            android:name="com.AdX.tag.AdXAppTracker"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
             </intent-filter>
         </receiver>
 

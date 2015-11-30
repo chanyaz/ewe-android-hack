@@ -201,7 +201,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 
 			if (!mBlur) {
 				Palette palette = Palette.generate(bitmap);
-				int transparentAvgColor = new ColorBuilder(palette.getVibrantColor(R.color.transparent_dark))
+				int transparentAvgColor = new ColorBuilder(palette.getVibrantColor(getResources().getColor(R.color.transparent_dark)))
 					.setSaturation(0.2f) //
 					.setOpacity(0.35f) //
 					.setAlpha(0xE5) //

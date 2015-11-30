@@ -7,7 +7,7 @@ import com.expedia.bookings.dagger.DaggerLXTestComponent;
 import com.expedia.bookings.dagger.LXFakeCurrentLocationSuggestionModule;
 import com.expedia.bookings.dagger.LXTestComponent;
 import com.expedia.bookings.data.cars.ApiError;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.LxTestCase;
 
 import static android.support.test.espresso.action.ViewActions.click;
@@ -48,16 +48,16 @@ public class LXCurrentLocationErrorTest extends LxTestCase {
 
 		//Setup Lx Test Component
 		LXTestComponent lxTestComponent = DaggerLXTestComponent.builder()
-			.appComponent(getApplication().appComponent())
+			.appComponent(Common.getApplication().appComponent())
 			.lXFakeCurrentLocationSuggestionModule(module)
 			.build();
 
-		getApplication().setLXTestComponent(lxTestComponent);
+		Common.getApplication().setLXTestComponent(lxTestComponent);
 		super.runTest();
 	}
 
 	public void testNoCurrentLocationError() throws Throwable {
-		ScreenActions.delay(1);
+		Common.delay(1);
 		LXScreen.searchErrorScreen().check(matches(isDisplayed()));
 		LXScreen.searchErrorText().check(matches(withText(R.string.error_lx_current_location_search_message)));
 		LXScreen.srpErrorToolbar().check(matches(isDisplayed()));
@@ -68,7 +68,7 @@ public class LXCurrentLocationErrorTest extends LxTestCase {
 	}
 
 	public void testCurrentLocationNoSuggestionsError() throws Throwable {
-		ScreenActions.delay(1);
+		Common.delay(1);
 		LXScreen.searchErrorScreen().check(matches(isDisplayed()));
 		LXScreen.searchErrorText().check(matches(withText(R.string.lx_error_current_location_no_results)));
 		LXScreen.srpErrorToolbar().check(matches(isDisplayed()));
@@ -80,7 +80,7 @@ public class LXCurrentLocationErrorTest extends LxTestCase {
 	}
 
 	public void testCurrentLocationSuggestionWithNoActivitiesError() throws Throwable {
-		ScreenActions.delay(1);
+		Common.delay(1);
 		LXScreen.searchErrorScreen().check(matches(isDisplayed()));
 		LXScreen.searchErrorText().check(matches(withText(R.string.lx_error_current_location_no_results)));
 		LXScreen.srpErrorToolbar().check(matches(isDisplayed()));

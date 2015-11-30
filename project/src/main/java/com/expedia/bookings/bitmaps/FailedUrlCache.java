@@ -29,4 +29,8 @@ public class FailedUrlCache {
 		mIgnore.add(url);
 	}
 
+	public void clearCache() {
+		mIgnore.clear();
+	}
+
 }

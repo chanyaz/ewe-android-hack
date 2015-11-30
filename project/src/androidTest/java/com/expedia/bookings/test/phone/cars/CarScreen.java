@@ -8,13 +8,14 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.TabletViewActions;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
@@ -25,8 +26,10 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.setVisibility;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
@@ -39,8 +42,8 @@ public final class CarScreen {
 		EspressoUtils.assertViewIsDisplayed(R.id.search_container);
 	}
 
-	public static void didNotshowCalendar() {
-		calendar().check(matches(not(isDisplayed())));
+	public static void showCalendar() {
+		calendar().check(matches((isDisplayed())));
 	}
 
 	public static ViewInteraction calendar() {
@@ -49,6 +52,10 @@ public final class CarScreen {
 
 	public static ViewInteraction pickupLocation() {
 		return onView(withId(R.id.pickup_location));
+	}
+
+	public static void waitForSearchScreen() {
+		pickupLocation().perform(waitForViewToDisplay());
 	}
 
 	public static ViewInteraction searchFilter() {
@@ -60,7 +67,7 @@ public final class CarScreen {
 	}
 
 	public static void selectPickupLocation(String airportCode) throws Throwable {
-		ScreenActions.delay(1);
+		Common.delay(1);
 		onView(withText(airportCode))
 			.inRoot(withDecorView(
 				not(is(SpoonScreenshotUtils.getCurrentActivity(
@@ -68,8 +75,7 @@ public final class CarScreen {
 			.perform(click());
 	}
 
-	public static void selectAirport(String airportCode,
-		String displayName) throws Throwable {
+	public static void selectAirport(String airportCode, String displayName) throws Throwable {
 		pickupLocation().perform(typeText(airportCode));
 		selectPickupLocation(displayName);
 	}
@@ -132,6 +138,11 @@ public final class CarScreen {
 		return onView(allOf(isAssignableFrom(ImageButton.class), isDescendantOfA(allOf(withId(R.id.error_toolbar), isDescendantOfA(withId(R.id.car_results_presenter))))));
 	}
 
+	public static ViewInteraction searchWidgetToolbarBack() {
+		return onView(allOf(withParent(withParent(withId(R.id.widget_car_params))), withParent(withId(R.id.toolbar)),
+			isAssignableFrom(ImageButton.class)));
+	}
+
 	//Filters
 
 	public static void clickFilterButton() {
@@ -174,7 +185,7 @@ public final class CarScreen {
 
 	public static void selectSupplierFilter(String supplierName) {
 		onView(allOf(withId(R.id.vendor), withText(supplierName),
-			isDescendantOfA(withId(R.id.filter_suppliers)))).perform(click());
+			isDescendantOfA(withId(R.id.filter_suppliers)))).perform(scrollTo(), click());
 
 	}
 
@@ -185,7 +196,7 @@ public final class CarScreen {
 		}
 		onView(allOf(isDescendantOfA(withId(R.id.offer_list)), withId(R.id.reserve_now), withText("Reserve")))
 			.perform(click());
-		ScreenActions.delay(1);
+		Common.delay(1);
 	}
 
 	// Checkout

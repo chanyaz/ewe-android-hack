@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory android:title="Development" >
 
@@ -15,12 +14,6 @@
             android:key="@string/preference_proxy_server_address"
             android:summary="The address of your server/proxy (e.g., 192.168.0.5:3000 for proxy)"
             android:title="Server/Proxy Address" />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="@string/preference_force_custom_server_http_only"
-            android:summary="Force http only when using the Custom Server api"
-            android:title="Custom Server HTTP Only" />
 
         <CheckBoxPreference
             android:defaultValue="false"
@@ -45,17 +38,17 @@
             android:summary="Show detailed logging of Picasso activity."
             android:title="Enable Picasso Logging" />
 
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/preference_enable_leakcanary"
+            android:summary="Enable super useful memory analysis tool (requires restart)"
+            android:title="Enable LeakCanary" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Hotels" >
 
         <CheckBoxPreference
-            android:key="@string/preference_disable_domain_v2_hotel_search"
-            android:summary="Take the Domain V2 flag out of the search requests"
-            android:title="Disable Domain V2 Hotel Search" />
-
-        <com.expedia.bookings.widget.CheckBoxPreference
-            app:id="@+id/preference_suppress_hotel_booking_checkbox"
             android:defaultValue="true"
             android:key="@string/preference_suppress_hotel_bookings"
             android:summary="Do hotel bookings, but suppress any actual booking from going through"
@@ -82,8 +75,7 @@
 
     <PreferenceCategory android:title="Cars" >
 
-        <com.expedia.bookings.widget.CheckBoxPreference
-            app:id="@+id/preference_suppress_car_booking_checkbox"
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/preference_suppress_car_bookings"
             android:summary="Do car bookings, but suppress any actual booking from going through"
@@ -93,8 +85,7 @@
 
     <PreferenceCategory android:title="LX" >
 
-        <com.expedia.bookings.widget.CheckBoxPreference
-            app:id="@+id/preference_suppress_lx_booking_checkbox"
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/preference_suppress_lx_bookings"
             android:summary="Do LX bookings, but suppress any actual booking from going through"
@@ -104,8 +95,7 @@
 
     <PreferenceCategory android:title="Flights" >
 
-        <com.expedia.bookings.widget.CheckBoxPreference
-            app:id="@+id/preference_suppress_flight_booking_checkbox"
+        <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/preference_suppress_flight_bookings"
             android:summary="Do flight bookings, but suppress any actual booking from going through"
@@ -140,7 +130,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:key="6714"
-            android:summary="Select a test group"
             android:title="AA Abacus Test" />
 
         <ListPreference
@@ -148,7 +137,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:key="7369"
-            android:summary="Select a test group"
             android:title="Launch Screen NearBy Deals vs Collections" />
 
         <ListPreference
@@ -156,7 +144,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:key="7373"
-            android:summary="Select a test group"
             android:title="Hotel Result Rating Test" />
 
         <ListPreference
@@ -164,7 +151,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:key="7370"
-            android:summary="Select a test group"
             android:title="Flight Confirmation Car Cross sell" />
 
         <ListPreference
@@ -172,7 +158,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:key="7535"
-            android:summary="Select a test group"
             android:title="Hotel Search Sale Pin Green" />
 
         <ListPreference
@@ -180,7 +165,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:key="7533"
-            android:summary="Select a test group"
             android:title="Flight Confirmation Lx Cross sell" />
 
         <ListPreference
@@ -188,7 +172,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:key="7532"
-            android:summary="Select a test group"
             android:title="Hotels ETP book now/pay later search results" />
 
         <ListPreference
@@ -196,7 +179,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:key="7612"
-            android:summary="Select a test group"
             android:title="Hotel Itin Lx Cross sell" />
 
         <ListPreference
@@ -204,7 +186,6 @@
             android:entryValues="@array/abacus_hsr_map_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:key="7772"
-            android:summary="Select a test group"
             android:title="Hotel HSR Map Icon" />
 
         <ListPreference
@@ -212,7 +193,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:key="7769"
-            android:summary="Select a test group"
             android:title="Car Rates Collapse Top Listing" />
 
         <ListPreference
@@ -220,7 +200,6 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:key="7774"
-            android:summary="Select a test group"
             android:title="Car Insurance Included CKO" />
 
         <ListPreference
@@ -228,65 +207,78 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:key="7775"
-            android:summary="Select a test group"
             android:title="Hotel Checkout Traveler to Payment" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="-1"
+            android:defaultValue="@string/preference_abacus_default"
             android:key="7777"
-            android:summary="Select a test group"
             android:title="Hotel Coupon ETP Test" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="-1"
+            android:defaultValue="@string/preference_abacus_default"
             android:key="7973"
-            android:summary="Select a test group"
             android:title="Hotel 3x points messaging" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="-1"
+            android:defaultValue="@string/preference_abacus_default"
             android:key="8126"
-            android:summary="Select a test group"
             android:title="Hotel collapse amenities, policies, fees" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="-1"
+            android:defaultValue="@string/preference_abacus_default"
             android:key="8129"
-            android:summary="Select a test group"
             android:title="Show hotel address and map in receipt" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="-1"
+            android:defaultValue="@string/preference_abacus_default"
             android:key="8148"
-            android:summary="Select a test group"
             android:title="Payment collapse Google Wallet" />
 
         <ListPreference
             android:entries="@array/abacus_flight_missing_callout_choices"
             android:entryValues="@array/abacus_flight_missing_callout_values"
-            android:defaultValue="-1"
+            android:defaultValue="@string/preference_abacus_default"
             android:key="8128"
-            android:summary="Select a test group"
             android:title="Flight Checkout Missing Traveler details Callout" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="-1"
+            android:defaultValue="@string/preference_abacus_default"
             android:key="8127"
-            android:summary="Select a test group"
             android:title="Hotel CKO MER Email Guest opt/in/out" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="8369"
+            android:title="Split GT and LX Launch" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="8706"
+            android:title="Integration AA Test" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="8624"
+            android:title="Hotels AB Test" />
+        
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >
@@ -298,7 +290,7 @@
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_disable_push_registration"
-            android:summary="Dont tell the server about your itin flights."
+            android:summary="Don't tell the server about flights in your itineraries"
             android:title="Disable push registrations." />
 
         <CheckBoxPreference

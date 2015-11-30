@@ -693,6 +693,15 @@ public class CarResultsPresenter extends Presenter {
 		}
 	};
 
+	@Override
+	public boolean back() {
+		if (CarFilterWidget.class.getName().equals(getCurrentState()) && filter.isFilteredToZeroResults()) {
+			filter.getDynamicFeedbackWidget().animateDynamicFeedbackWidget();
+			return true;
+		}
+		return super.back();
+	}
+
 	private Observer<SearchCarOffer> carOfferObserver = new Observer<SearchCarOffer>() {
 		@Override
 		public void onCompleted() {

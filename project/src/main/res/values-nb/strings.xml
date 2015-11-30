@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Hotels -->
+    <!-- Hotels Calendar Strings -->
+    <!-- Hotels calendar tooltip bottom line after a single date is selected -->
+    <string name="hotel_calendar_tooltip_bottom">Neste: Velg utsjekkingsdato</string>
+    <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
+    <string name="select_checkout_date_TEMPLATE">%1$s – velg utsjekkingsdato</string>
+    <!-- Search form text hotels nights. %$s = formatted nights string. E.g. (3 nights) -->
+    <string name="nights_count_TEMPLATE">(%1$s)</string>
+    <!-- Hotels search form default text for number of guests -->
+    <string name="hotel_search_guest_default_text">1 gjest</string>
+    <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
+    <string name="hotel_calendar_bottom_drag_to_modify">Dra for å endre</string>
+
+    <!-- Hotels Reviews Strings -->
+    <!-- Hotels summary rating template-->
+    <string name="hotel_rating_summary_Template">{rating} – {attribute}</string>
+    <!-- Hotels rating room cleanliness string -->
+    <string name="hotel_rating_room_cleanliness">Renhet på rommet</string>
+    <!-- Hotels rating room comfort string -->
+    <string name="hotel_rating_room_comfort">Rommets komfort</string>
+    <!-- Hotels rating service and staff string -->
+    <string name="hotel_rating_service_and_staff">Service og betjening</string>
+    <!-- Hotels rating hotel condition string -->
+    <string name="hotel_rating_hotel_condition">Hotellets tilstand</string>
+
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
@@ -51,6 +76,8 @@
     <string name="cars_driver_details_text">Informasjon om sjåfør</string>
     <!-- Text for payment details toolbar-->
     <string name="cars_payment_details_text">Betalingsinfo</string>
+    <!-- Text for payment options toolbar-->
+    <string name="cars_payment_options_text">Betalingsalternativer</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Oppgi informasjon om sjåfør</string>
     <!-- Text for select saved contacts-->
@@ -107,7 +134,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Kommer snart! Vi jobber hardt for å legge til enveisbestillinger i en kommende versjon.</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">Søket ditt ga ingen resultater. Prøv å søke på nytt med andre søkekriterer.</string>
+    <string name="error_car_search_message">Søket ditt ga ingen resultater. Prøv å søke på nytt med andre søkekriterier.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Søket ditt ga ingen resultater. Prøv å bruke færre filtre.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -138,9 +165,6 @@
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s eller lignende</string>
     <string name="car_model_unknown_template">Eksakt modell ikke oppgitt</string>
-
-    <!-- Desk & vehicle at terminal -->
-    <string name="desk_and_vehicle_terminal">Skranke og bil i terminalen</string>
     <!-- Car checkout cost breakdown total due today -->
     <string name="car_cost_breakdown_due_today">Må betales i dag</string>
     <!-- Car checkout cost breakdown total due at pick up -->
@@ -175,6 +199,28 @@
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Veibeskrivelse til %1$s</string>
 
+    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
+    <string name="checkout_payment_option_credit_debit_label">Kredittkort/debetkort</string>
+    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
+    <string name="checkout_payment_option_google_wallet_label">Google Wallet</string>
+    <!-- Text for enter guest details line 1 -->
+    <string name="checkout_hotelsv2_enter_guest_details_line1">Gjestens detaljer</string>
+    <!-- Text for enter guest details line 2 -->
+    <string name="checkout_hotelsv2_enter_guest_details_line2">Angi din informasjon</string>
+    <!-- Text for enter payment details line 1 -->
+    <string name="checkout_hotelsv2_enter_payment_details_line1">Betalingsdetaljer</string>
+    <!-- Text for enter payment details line 2 -->
+    <string name="checkout_hotelsv2_enter_payment_details_line2">Velg betalingstype</string>
+    <!-- Label to indicate that the user has selected a stored credit card -->
+    <string name="checkout_payment_line2_storedcc">Lagret kort</string>
+
+    <!-- Hotels V2 slide to reserve -->
+    <string name="hotelsv2_slide_reserve">Sveip for å bestille</string>
+    <!-- Hotels V2 slide to purchase -->
+    <string name="hotelsv2_slide_purchase">Sveip for å betale</string>
+    <!-- Hotels V2 Change Dates in case of Sold Out -->
+    <string name="change_dates">Endre datoer</string>
+
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
     <string name="pick_up_time_error">Juster hente- eller avleveringstidene.</string>
@@ -184,8 +230,10 @@
     <string name="date_out_of_range">Denne datoen er for langt frem i tid. Velg en annen dato.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Vennligst øk bestillingens varighet.</string>
-    <!-- Shown to user when they try to book something already booked -->
+    <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">Er du fremdeles der? Du har vært inaktiv i for lang tid. Prøv å søke på nytt.</string>
+    <!-- Shown to user when they try to book something already booked in new Hotels -->
+    <string name="reservation_already_exists_new_hotels">Bestillingen er fullført. Kontroller reisene dine eller innboksen din.</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">Hm… Det ser ut til at du allerede har bestilt denne reisen. Kontroller reisene dine eller innboksen din.</string>
     <!-- Show to user when the price of a car they are trying to book has changed -->
@@ -194,6 +242,8 @@
     <string name="reservation_invalid_name">Navnene kan ikke inneholde sifre eller spesialtegn.</string>
     <!-- Show to user when their phone number is invalid -->
     <string name="reservation_invalid_phone">Telefonnummeret ditt må bestå av mellom 4 og 20 sifre.</string>
+    <!-- Error button text indicating that the user should search again -->
+    <string name= "search_again">Søk på nytt</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">Hm… Betalingen din mislyktes. Kontroller at betalingsopplysningene er korrekte og prøv på nytt.</string>
@@ -240,9 +290,11 @@
 
     <!-- LX -->
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
-    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
-    <!-- Search widget header text -->
+    <string name="lx_toolbar_date_range_template">%1$s-%2$s</string>
+    <!--LX Search widget header text -->
     <string name="lx_search_title">Søk etter aktiviteter</string>
+    <!--GT Search widget header text -->
+    <string name="gt_search_title">Søk etter transport</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">Velg dato</string>
     <!-- Activity details highlights heading -->
@@ -567,9 +619,11 @@
     <!-- Enter contact details-->
     <string name="lx_enter_contact_details">Oppgi kontaktdetaljer</string>
     <!-- LX search error -->
-    <string name="error_lx_search_message">Søket ditt ga ingen resultater. Prøv å søke på nytt med andre søkekriterer.</string>
+    <string name="error_lx_search_message">Søket ditt ga ingen resultater. Prøv å søke på nytt med andre søkekriterier.</string>
     <!-- LX search error -->
-    <string name="error_lx_current_location_search_message">Vi kunne ikke finne din nåværende posisjon, så vi kan ikke finne aktiviteter rundt deg.</string> 
+    <string name="error_lx_current_location_search_message">Det var ikke mulig å fastsette din nåværende posisjon, så vi kan ikke finne aktiviteter rundt deg.</string> 
+    <!-- GT current location search error -->
+    <string name="error_gt_current_location_search_message">Det var ikke mulig å fastsette din nåværende posisjon, så vi kan ikke finne transportalternativer rundt deg.</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">Feil</string>
     <!-- Text for error toolbar-->
@@ -615,7 +669,9 @@
     <!-- Current location failed toolbar text -->
     <string name="lx_error_current_location_toolbar_text">Prøv på nytt</string>
     <!-- LX No Activities for Current location -->
-    <string name="lx_error_current_location_no_results">Vi kunne ikke finne noen aktiviteter nær deg. Prøv å søke på nytt med andre søkekriterer.</string>
+    <string name="lx_error_current_location_no_results">Vi kunne ikke finne noen aktiviteter nær deg. Prøv å søke på nytt med andre søkekriterier.</string>
+    <!-- LX No Activities for Current location -->
+    <string name="gt_error_current_location_no_results">Vi kunne ikke finne noen transportalternativer nær deg. Prøv å søke på nytt med andre søkekriterier.</string>
 
     <!-- Ground Transport bags text-->
     <string name="lx_ground_transport_bags_text">%1$s kofferter</string>
@@ -792,7 +848,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">Betal nå</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">Belastes nå</string>
+    <string name="room_rate_pay_later_due_now">{amount} belastes nå</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s per natt</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -905,6 +961,8 @@
     <string name="nav_cars">Leiebil</string>
     <!-- Activities -->
     <string name="nav_lx">Aktiviteter</string>
+    <!-- Ground Transport -->
+    <string name="nav_transport">Transport</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -1427,7 +1485,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">Telefonnr. \n%s</string>
     <!-- App download link -->
-    <string name="share_long_ad_TEMPLATE">Bestill hoteller og fly, eller se og del reiserutene dine. Last ned {brand}s gratis mobilapp i dag.\n{appinfourl}</string>
+    <string name="share_long_ad_TEMPLATE">Bestill hoteller og fly, eller se og del reiserutene dine. Last ned gratisappen til {brand} i dag.\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Jeg skal fly til %1$s den %2$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1459,10 +1517,10 @@
     <string name="share_template_short_car_type_premium_elite">Jeg har leid en premium elite-bil</string>
     <string name="share_template_short_car_type_luxury_elite">Jeg har leid en luksuriøs elite-bil</string>
     <string name="share_template_short_car_type_economy">Jeg har leid en økonomi-bil</string>
-    <string name="share_template_short_car_type_economy_elite">Jeg har leid en rimelig elite-bil</string>
+    <string name="share_template_short_car_type_economy_elite">Jeg har leid en økonomi-elite-bil</string>
     <string name="share_template_short_car_type_oversize">Jeg har leid en stor bil</string>
     <!-- 1: pick up date 2: drop off date -->
-    <string name="share_template_short_car_dates">fra %1$s–%2$s</string>
+    <string name="share_template_short_car_dates">fra %1$s-%2$s</string>
     <!-- Start of share email.  %1$s is the car rental vendor name (e.g., "Advantage") -->
     <string name="share_car_start_TEMPLATE">Her er informasjonen om leiebilen min fra %1$s.</string>
     <!-- Label for type of vehicle.  %1$s is the car type (e.g., "Three Door Car") -->
@@ -1643,7 +1701,7 @@
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">Velg dato for innsjekking</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate}-{enddate}, {guests} gjester</string>
+    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate}-{enddate}, {guests}</string>
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">En vei for &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1765,7 +1823,9 @@
     <!-- Message when loading realtime flight information -->
     <string name="loading_flight_details">Sjekker eventuelle prisendringer…</string>
     <!-- Price changed from -->
-    <string name="price_changed_from_TEMPLATE">Pris endret fra %1$s</string>
+    <string name="price_changed_from_TEMPLATE">Prisen er endret fra %1$s</string>
+    <!-- Price dropped from -->
+    <string name="price_dropped_from_TEMPLATE">Prisen har gått ned fra %1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">Dette flyselskapet krever et gebyr på &lt;b&gt;%1$s&lt;/b&gt; (inkludert i det totale beløpet) for bruk av dette kortet.</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
@@ -1837,9 +1897,9 @@
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Oppgi en gyldig e-postadresse</string>
     <!-- Row header for when we show resort fees as its own line item -->
-    <string name="fees_paid_at_hotel">Avgifter som betales på hotellet:</string>
+    <string name="fees_paid_at_hotel">Avgifter som betales på hotellet</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
-    <string name="due_to_brand_today_TEMPLATE">Beløp som må betales til {brand} i dag:</string>
+    <string name="due_to_brand_today_TEMPLATE">Betales til {brand}</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">Feriestedsavgiften på &lt;b&gt;%1$s&lt;/b&gt; må betales på hotellet. Totalbeløpet for oppholdet ditt er &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -1894,6 +1954,10 @@
     <string name="enter_traveler_info">Reisendes informasjon</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Informasjon om hovedreisende</string>
+    <!-- AB test variate 1 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate1">Oppgi detaljer for hovedreisende</string>
+    <!-- AB test variate 2 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate2">Hovedreisende</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Lagret</string>
     <!-- Edit button for traveler/payment -->
@@ -1975,8 +2039,14 @@
     <string name="email_address_hint">E-postadresse</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">Telefonnummer</string>
+    <!-- phone number -->
+    <string name="phone_number_field_text">telefonnummer</string>
+    <!-- first name -->
+    <string name="first_name_field_text">fornavn</string>
+    <!-- last name -->
+    <string name="last_name_field_text">etternavn</string>
     <!-- Cardholder -->
-    <string name="cardholder">Kortholder</string>
+    <string name="cardholder">Kortinnehaver</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">E-postbekreftelsen vil bli sendt hit</string>
     <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
@@ -2090,6 +2160,8 @@
     <!-- Enter a new traveler -->
     <string name="enter_new_traveler">Legg inn en ny reisende</string>
     <!-- Edit current traveler details -->
+    <string name="edit_guest_details">Rediger gjestens detaljer</string>
+    <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Rediger den reisendes informasjon</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">Foretrekker sete %1$s</string>
@@ -2157,8 +2229,6 @@
     <string name="share_trip">Del via e-post</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">Legg til i kalender</string>
-    <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
-    <string name="add_to_flighttrack">Spor med FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_customer_support_TEMPLATE">Ring {brand}s kundeservice</string>
     <!-- Add Insurance label -->
@@ -2190,6 +2260,10 @@
     <string name="flights_to_TEMPLATE">Flyvninger til %s</string>
     <!-- Summary of the user's hotel stay.  %1$s is the # of guests, %2$s is the duration, e.g. "3 Guests, Aug 1 to Aug 3" -->
     <string name="stay_summary_TEMPLATE">%1$s, %2$s</string>
+    <!-- Hotel confirmation directions text -->
+    <string name="hotel_confirmation_directions">Veibeskrivelser til hotellet</string>
+    <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
+    <string name="rent_a_car_TEMPLATE">Lei en bil i %1$s</string>
 
     <!-- Add to calendar (flights) -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
@@ -2274,6 +2348,14 @@
     <string name="error_hotel_no_longer_available">Beklager, du kan ikke lenger holde av dette rommet</string>
     <!-- Button label imploring users to pick a new hotel room due to unavailability -->
     <string name="pick_new_hotel">Velg et nytt hotell</string>
+    <!-- Text for hotel error unknown -->
+    <string name="error_hotel_unhandled">Vi kan dessverre ikke behandle din bestilling akkurat nå. Prøv på nytt.</string>
+    <!-- Text for hotel error toolbar duplicate trip-->
+    <string name="hotel_duplicate_trip_text">Duplisert reise</string>
+    <!-- Text for hotel error toolbar payment failed-->
+    <string name="hotel_payment_failed_text">Betaling mislyktes</string>
+    <!-- Text for error toolbar session expired-->
+    <string name="session_timeout">Økten er utløpt</string>
 
     <!-- Credit card input section -->
     <string name="one">1</string>
@@ -2309,6 +2391,8 @@
     <string name="See_back_of_card">Se baksiden av kortet</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">Se foran på kortet</string>
+    <!-- Hint on CVV widget title for where to look for CVV code -->
+    <string name="cvv_enter_security_code">Angi sikkerhetskode</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -2488,6 +2572,10 @@
     <string name="please_try_a_different_location_or_date">Vennligst prøv en annen dato eller beliggenhet.</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">Ingen hotellrom tilgjengelige på appen vår</string>
+    <!-- Title displayed when room is sold out -->
+    <string name="select_another_room">Velg et annet rom</string>
+    <!-- Message displayed when room is sold out -->
+    <string name="error_room_sold_out">Dette rommet er utsolgt på vårt nettsted.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_TEMPLATE">Beklager, dette hotellet er ikke lenger tilgjengelig på {brand}.</string>
 
@@ -2518,6 +2606,8 @@
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">Fra %s</string>
     <string name="From_x_per_night_template">Fra %s per natt</string>
+    <!-- Button text prompting the user to search this area on the map -->
+    <string name="Search_this_area">Søk i dette området</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2536,7 +2626,6 @@
     <string name="book_now_ab_test">Velg rom</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">Bestill via telefon</string>
-
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
@@ -2546,6 +2635,8 @@
     <string name="filter_vip_access">Kun +VIP Access-hoteller</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="VIP_Access_Only">Kun +VIP Access</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">+VIP</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">PÅ</string>
     <string name="switch_off">RABATT</string>
@@ -2558,10 +2649,13 @@
     <!-- new material Hotel results cell guest rating -->
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
-    <string name="guest_recommend">av tidligere gjester anbefaler</string>
     <string name="hotel_guest_recommend">av 5 – gjestevurdering</string>
+    <!-- new material Hotel results cell discount percentage -->
+    <string name="hotel_discount_percent_Template">{discount}%</string>
 
     <!-- Amenity strings -->
+    <!-- Label to show amenities -->
+    <string name="AmenityTitle">Fasiliteter</string>
     <!-- Text that indicates no amenities at this property -->
     <string name="AmenityNone">Ingen fasiliteter tilbys</string>
     <!-- Business center amenity -->
@@ -2621,6 +2715,15 @@
     <!-- Free parking amenity -->
     <string name="AmenityFreeParking">Gratis parkering</string>
 
+    <!-- Hotel Filter Amenities -->
+    <!-- Free internet -->
+    <string name="FilterFreeInternet">Gratis Internett</string>
+    <!-- Free breakfast -->
+    <string name="FilterFreeBreakfast">Gratis frokost</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="FilterFreeAirportShuttle">Gratis flyplasstransport</string>
+
+
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
     <string name="user_review_loading_text">Laster inn gjesteanmeldelser…</string>
@@ -2654,6 +2757,17 @@
         <item quantity="many">%d anmeldelser</item>
         <item quantity="other">%d anmeldelser</item>
     </plurals>
+
+    <!-- HOtel V2A number of reviews -->
+    <plurals name="hotel_number_of_reviews">
+        <item quantity="zero">Ingen anmeldelser</item>
+        <item quantity="one">Vis %s anmeldelse</item>
+        <item quantity="two">Vis %s anmeldelser</item>
+        <item quantity="many">Vis %s anmeldelser</item>
+        <item quantity="other">Vis %s anmeldelser</item>
+    </plurals>
+
+    <string name="zero_reviews">0 anmeldelser</string>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -2696,7 +2810,24 @@
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="total_price_for_stay">Totalpris for oppholdet</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
-    <string name="prices_avg_per_night">Gjennomsnittspris, per natt</string>
+    <string name="prices_avg_per_night">Gjennomsnittspris per natt</string>
+
+    <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
+    <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">Ingen resultater</item>
+        <item quantity="one">Gjennomsnittspris per natt • 1 resultat</item>
+        <item quantity="many">Gjennomsnittspris per natt • %d resultater</item>
+        <item quantity="other">Gjennomsnittspris per natt • %d resultater</item>
+    </plurals>
+
+    <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
+    <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">Ingen resultater</item>
+        <item quantity="one">Totalpris for oppholdet • 1 resultat</item>
+        <item quantity="many">Totalpris for oppholdet • %d resultater</item>
+        <item quantity="other">Totalpris for oppholdet • %d resultater</item>
+    </plurals>
+
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">Ingen rom igjen på appen vår!</item>
@@ -2705,6 +2836,8 @@
         <item quantity="many">Kun %d rom igjen på appen vår!</item>
         <item quantity="other">Kun %d rom igjen på appen vår!</item>
     </plurals>
+    <!-- The text we use to show room info for expanded room -->
+    <string name="room_information">Rominformasjon</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">Ikke-refunderbar</string>
     <!-- Label for free nights -->
@@ -2727,7 +2860,10 @@
     <string name="not_included_in_the_price">Ikke inkludert i prisen</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">Vis rom</string>
-
+    <!-- Book Room button text -->
+    <string name="book_room_button_text">Bestill</string>
+    <!-- Share via when user is shareing hotel listing -->
+    <string name="share_via">Del via</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">Advarsel om renovering</string>
     <!-- This property is undergoing renovations -->
@@ -2736,8 +2872,6 @@
     <string name="more_info">Mer informasjon</string>
 
     <!-- Booking info -->
-    <!-- Error if we couldn't find the room type details -->
-    <string name="error_room_type_nonexistant">Vi kunne dessverre ikke finne tilleggsopplysninger om dette rommet.</string>
     <!-- Quantity for the length of stay -->
     <plurals name="length_of_stay">
         <item quantity="one">1 natt</item>
@@ -2811,6 +2945,12 @@
     <string name="apply">Benytt</string>
 
     <!-- Coupon dialog -->
+    <!-- Saved coupon title -->
+    <string name="saved_coupon">Lagrede kuponger</string>
+    <!-- Coupon Widget Title -->
+    <string name="coupon_promo_title">Kuponger og kampanjer</string>
+    <!-- Title on dialog imploring users to enter coupons -->
+    <string name="enter_coupon_promo_code">Skriv inn en kupongkode</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">Oppgi kupongkode</string>
     <!-- Message shown when applying coupon (in progress) -->
@@ -2821,10 +2961,14 @@
     <string name="coupon_saved_TEMPLATE">Du har spart %s!</string>
     <!-- Message shown when a coupon is being removed -->
     <string name="coupon_removing_dialog">Fjerner kupong</string>
+    <!-- Coupon submit button -->
+    <string name="coupon_submit_button">Send</string>
 
     <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't known -->
+    <string name="coupon_error_unknown">Dette er ikke en kjent kupongkode.</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">Dette er ikke en gyldig kupongkode.</string>
+    <string name="coupon_error_unrecognized">Dette er ikke en kjent kupongkode.</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Beklager, kupongen er utløpt.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -2849,6 +2993,8 @@
     <string name="coupon_error_hotel_excluded">Dette hotellet godtar ikke kuponger.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_invalid_hotel">Kupongen kan ikke brukes på dette hotellet.</string>
+    <!-- Error when applying coupon - the package does not accept coupons -->
+    <string name="coupon_error_invalid_booking">Kupongen kan ikke brukes på denne bestillingen</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">Det er ikke mulig å behandle kupongkoden for øyeblikket. Prøv på nytt.</string>
     <!-- Error when applying coupon - session timeout -->
@@ -2861,6 +3007,8 @@
     <string name="coupon_error_invalid_average_price">Gjennomsnittsprisen per natt er ikke tilstrekkelig høy til at denne kupongen kan brukes.</string>
     <!-- Error when applying coupon - Pay Later Hotel -->
     <string name="coupon_error_pay_later_hotel">Kupongen kan ikke brukes på betal senere-rom. Velg et betal nå-rom.</string>
+    <!-- Error when applying coupon - Not Active -->
+    <string name="coupon_error_not_active">Beklager, kupongen er utløpt.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2869,6 +3017,8 @@
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">Hjelp til bestilling</string>
+    <!-- Subject for loyalty email on Itin -->
+    <string name="support_request">Forespørsel om kundeservice</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_via_TEMPLATE">Ta kontakt med {brand} via…</string>
     <!-- Contact Expedia via phone -->
@@ -2893,8 +3043,6 @@
     <string name="dialog_title_cleared_private_data">De private opplysningene ble fjernet</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">Alle lagrede fakturerings- og kontaktopplysninger er blitt slettet.</string>
-    <!-- Action button label to Subscribe to our mailing list -->
-    <string name="Subscribe">Abonner</string>
     <!-- Action button label to follow on twitter -->
     <string name="Follow">Følg</string>
     <!-- Action button label to like on facebook -->
@@ -3015,6 +3163,8 @@
     <string name="e3_error_checkout_payment_failed">Beklager, vi kunne ikke behandle betalingen din. Kontroller at opplysningene du oppga er korrekte.</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
     <string name="e3_error_checkout_invalid_expiration">Ugyldig utløpsdato for kredittkortet.</string>
+    <!-- Error message displayed when the traveler information is invalid -->
+    <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">Oppgi et gyldig %1$s</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
@@ -3616,4 +3766,22 @@
     <string name="acct_Welcome_to_Expedia">Velkommen til Expedia</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Expedia_account_already_exists">Det finnes allerede en Expedia-konto med denne e-postadressen</string>
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(0-17 år)</string>
+
+    <!-- Hotel Filters Strings -->
+    <string name="neighborhoods">Områder</string>
+    <string name="amenities">Fasiliteter</string>
+    <string name="plus_vip">+VIP</string>
+    <string name="star_rating">Stjernerangering</string>
+    <string name="show_more">VIS MER</string>
+    <string name="show_less">VIS MINDRE</string>
+    <string name="price_range">Prisklasse</string>
+
+    <!-- Hotel V2 Coupon related -->
+    <string name="applied_coupon_message">Kupongen er lagt til: Du sparer %1$s!</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog title -->
+    <string name="coupon_error_dialog_title">Kupongen kunne ikke legges til</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog message -->
+    <string name="coupon_error_dialog_message">Det oppstod et problem med kupongen din. Prøv å angi koden på nytt.</string>
 </resources>

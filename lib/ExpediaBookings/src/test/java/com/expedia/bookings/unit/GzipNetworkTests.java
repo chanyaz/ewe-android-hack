@@ -13,6 +13,7 @@ import com.squareup.okhttp.mockwebserver.Dispatcher;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 import com.squareup.okhttp.mockwebserver.RecordedRequest;
+
 import retrofit.RestAdapter;
 import retrofit.http.GET;
 import okio.Buffer;
@@ -25,7 +26,7 @@ public class GzipNetworkTests {
 	private static final String GZIP_TEST_STRING = string(gzip(TEST_STRING));
 
 	private static byte[] gzip(String str) {
-		byte[] bytes = new byte[0];
+		byte[] bytes;
 		try {
 			bytes = str.getBytes("UTF-8");
 		}
@@ -69,7 +70,7 @@ public class GzipNetworkTests {
 			.setHeader("Content-Encoding", "gzip")
 			.setBody(gzipData.clone()));
 
-		mockWebServer.play();
+		mockWebServer.start();
 
 		String endpoint = "http://localhost:" + mockWebServer.getPort();
 		OkHttpClient client = new OkHttpClient();
@@ -98,13 +99,13 @@ public class GzipNetworkTests {
 			}
 		});
 
-		mockWebServer.play();
+		mockWebServer.start();
 
 		String endpoint = "http://localhost:" + mockWebServer.getPort();
 
 		RestAdapter adapter = new RestAdapter.Builder()
 			.setEndpoint(endpoint)
-			//.setLogLevel(RestAdapter.LogLevel.FULL)
+				//.setLogLevel(RestAdapter.LogLevel.FULL)
 			.build();
 
 		LameApi api = adapter.create(LameApi.class);
@@ -113,6 +114,6 @@ public class GzipNetworkTests {
 
 	public interface LameApi {
 		@GET("/foo")
-		public int foo();
+		int foo();
 	}
 }

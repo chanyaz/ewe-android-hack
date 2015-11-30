@@ -1,5 +1,7 @@
 package com.expedia.bookings.data.cars;
 
+import com.expedia.bookings.utils.Strings;
+
 public class ApiError extends RuntimeException {
 
 	public enum Code {
@@ -34,7 +36,22 @@ public class ApiError extends RuntimeException {
 		LX_SEARCH_NO_RESULTS,
 		LX_DETAILS_FETCH_ERROR,
 		LX_PRODUCT_LOOKUP_ERROR,
-		;
+
+		//Hotel Coupon Errors
+		APPLY_COUPON_ERROR,
+
+		//Hotel Search Errors
+		HOTEL_SEARCH_NO_RESULTS,
+		HOTEL_MAP_SEARCH_NO_RESULTS,
+
+		//Hotel Checkout Errors
+		HOTEL_CHECKOUT_CARD_DETAILS,
+		HOTEL_CHECKOUT_TRAVELLER_DETAILS,
+		HOTEL_CHECKOUT_UNKNOWN,
+
+		HOTEL_PRODUCT_KEY_EXPIRY,
+		HOTEL_ROOM_UNAVAILABLE;
+
 	}
 
 	public enum DetailCode {
@@ -51,6 +68,23 @@ public class ApiError extends RuntimeException {
 		public String summary;
 		public String field;
 		public String cause;
+		public String couponErrorType;
+
+		@Override
+		public boolean equals(Object obj) {
+			if (obj instanceof ErrorInfo) {
+				ErrorInfo other = ((ErrorInfo) obj);
+				if (other.field != null && field != null && !Strings.equals(other.field, field)) {
+					return false;
+				}
+				if (other.couponErrorType != null && couponErrorType != null && !Strings
+					.equals(other.couponErrorType, couponErrorType)) {
+					return false;
+				}
+				return true;
+			}
+			return false;
+		}
 	}
 
 	public Code errorCode;
@@ -63,5 +97,24 @@ public class ApiError extends RuntimeException {
 	public ApiError(Code code) {
 		super(code.name());
 		errorCode = code;
+	}
+
+	public ApiError() {
+		// ignore
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof ApiError) {
+			ApiError other = ((ApiError) obj);
+			if (other.errorCode != errorCode) {
+				return false;
+			}
+			if (other.errorInfo != null && errorInfo != null && !other.errorInfo.equals(errorInfo)) {
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 }

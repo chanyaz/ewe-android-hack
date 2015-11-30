@@ -21,8 +21,8 @@
 
     <style name="Widget.ShareView.Invisible" parent="Widget.ShareView.Dark.Simple">
         <item name="sv_favoriteDisplayed">false</item>
-        <item name="sv_buttonDrawable">@null</item>
-        <item name="sv_buttonBackground">@null</item>
+        <item name="sv_buttonDrawable">@android:color/transparent</item>
+        <item name="sv_buttonBackground">@android:color/transparent</item>
     </style>
 
     <style name="NumberPickerButton">
@@ -222,8 +222,14 @@
         <item name="android:maxHeight">14dp</item>
     </style>
 
-    <style name="RatingBar.UserReview.Material.Yellow">
-        <item name="android:progressDrawable">@drawable/ratingbar_star_material_yellow</item>
+    <style name="RatingBar.UserReview.Material.Green">
+        <item name="android:progressDrawable">@drawable/ratingbar_star_material_green</item>
+        <item name="android:minHeight">14dp</item>
+        <item name="android:maxHeight">14dp</item>
+    </style>
+
+    <style name="RatingBar.UserReview.Material.Detail">
+        <item name="android:progressDrawable">@drawable/ratingbar_star_material_detail</item>
         <item name="android:minHeight">14dp</item>
         <item name="android:maxHeight">14dp</item>
     </style>
@@ -327,6 +333,11 @@
     <style name="rateInfoText">
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">#696969</item>
+    </style>
+
+    <style name="widgetHotelReviewsSummaryText">
+        <item name="android:textColor">@color/hotel_review_summary_rating_color</item>
+        <item name="android:textSize">@dimen/hotel_reviews_summary_text_size</item>
     </style>
 
     <style name="widgetHotelNameText">
@@ -1068,14 +1079,15 @@
         <item name="android:layout_weight">1</item>
         <item name="android:background">?android:attr/selectableItemBackground</item>
         <item name="android:button">@android:color/transparent</item>
-        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingLeft">44dp</item>
+        <item name="android:drawablePadding">8dp</item>
         <item name="android:paddingTop">12dp</item>
         <item name="android:paddingRight">8dp</item>
         <item name="android:paddingBottom">12dp</item>
-        <item name="android:gravity">center</item>
+        <item name="android:gravity">left</item>
         <item name="android:textColor">@color/sliding_group_text</item>
-        <item name="android:textSize">16.85sp</item>
-        <item name="textStyle">bold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="textStyle">normal</item>
     </style>
 
     <!-- Credit Card Edit Text on hotel checkout -->
@@ -1127,4 +1139,38 @@
         <item name="android:background">@drawable/bg_btn_borderless_kitkat</item>
     </style>
 
+    <style name="HotelDetailsInfo">
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:paddingBottom">15dp</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:drawableLeft">@drawable/check</item>
+    </style>
+
+    <style name="HotelDetailsInfoLeft" parent="HotelDetailsInfo">
+        <item name="android:gravity">left</item>
+    </style>
+
+    <style name="HotelDetailsInfoSmallCenter" parent="HotelDetailsInfo">
+        <item name="android:gravity">center</item>
+        <item name="android:drawablePadding">4dp</item>
+        <item name="android:paddingLeft">31dp</item>
+        <item name="android:paddingRight">31dp</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="ETPInfoTextLeft" parent="HotelDetailsInfo">
+        <item name="android:gravity">left</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:background">@drawable/hotel_detail_ripple</item>
+        <item name="android:drawableRight">@drawable/details_info</item>
+    </style>
+
+    <style name="ETPInfoTextSmallCenter" parent="HotelDetailsInfoSmallCenter">
+        <item name="android:paddingLeft">15dp</item>
+        <item name="android:paddingRight">15dp</item>
+        <item name="android:background">@drawable/hotel_detail_ripple</item>
+        <item name="android:drawableRight">@drawable/smaller_details_info</item>
+    </style>
 </resources>

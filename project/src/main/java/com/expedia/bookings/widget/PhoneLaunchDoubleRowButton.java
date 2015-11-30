@@ -31,6 +31,7 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 	private Drawable icon;
 	private int disabledBg;
 	private int bgColor;
+	private boolean fiveLobBtn;
 
 	private static final float MAX_ICON_SCALE = 1.0f;
 	private float minIconSize;
@@ -46,11 +47,11 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 	public TextView textView;
 
 	private float fullHeight;
+	private boolean firstTimeMeasure = true;
+	private float scaleToFactor = 1;
 
 	public PhoneLaunchDoubleRowButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		LayoutInflater.from(getContext()).inflate(R.layout.widget_phone_launch_double_row_btn, this);
-		ButterKnife.inject(this);
 
 		if (attrs != null) {
 			TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.PhoneLaunchButton);
@@ -59,12 +60,18 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 			bgColor = ta.getColor(R.styleable.PhoneLaunchButton_btn_bg, -1);
 			minIconSize = ta.getFloat(R.styleable.PhoneLaunchButton_icon_min_scale, 0.75f);
 			disabledBg = getResources().getColor(R.color.disabled_lob_btn);
+			fiveLobBtn = ta.getBoolean(R.styleable.PhoneLaunchButton_five_lob_btn, false);
 			ta.recycle();
 		}
+		LayoutInflater.from(getContext()).inflate(
+			fiveLobBtn ? R.layout.widget_phone_launch_double_row_five_btn : R.layout.widget_phone_launch_double_row_btn,
+			this);
+		ButterKnife.inject(this);
 	}
 
 	@Override
 	public void onFinishInflate() {
+		super.onFinishInflate();
 		ViewCompat.setElevation(textView, 2 * bgView.getCardElevation());
 		ViewCompat.setElevation(iconView, 2 * bgView.getCardElevation());
 		bgView.setCardBackgroundColor(bgColor);
@@ -80,6 +87,13 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 	@Override
 	protected void onMeasure(int w, int h) {
 		super.onMeasure(w, h);
+		if (firstTimeMeasure) {
+			firstTimeMeasure = false;
+			initViewProperties();
+		}
+	}
+
+	private void initViewProperties() {
 		fullHeight = getResources().getDimension(R.dimen.launch_lob_double_row_height);
 		iconView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
 			@Override
@@ -88,6 +102,7 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 				iconView.setPivotX(0);
 				iconView.setPivotY(-iconView.getHeight());
 				iconView.setTranslationY(getBottom() - iconView.getBottom());
+				scaleTo(scaleToFactor);
 				return true;
 			}
 		});
@@ -95,8 +110,15 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 			@Override
 			public boolean onPreDraw() {
 				textView.getViewTreeObserver().removeOnPreDrawListener(this);
-				textView.setPivotX(textView.getWidth() / 2);
-				textView.setPivotY(-textView.getTop());
+				if (fiveLobBtn) {
+					textView.setPivotX(textView.getWidth());
+					textView.setPivotY(0);
+				}
+				else {
+					textView.setPivotX(textView.getWidth() / 2);
+					textView.setPivotY(-textView.getTop());
+				}
+				scaleTo(scaleToFactor);
 				return true;
 			}
 		});
@@ -129,6 +151,10 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 				OmnitureTracking.trackNewLaunchScreenLobNavigation(LineOfBusiness.LX);
 				NavUtils.goToActivities(getContext(), animOptions);
 				break;
+			case R.id.transport_button:
+				OmnitureTracking.trackNewLaunchScreenLobNavigation(LineOfBusiness.TRANSPORT);
+				NavUtils.goToTransport(getContext(), animOptions);
+				break;
 			default:
 				throw new RuntimeException("No onClick defined for PhoneLaunchButton with id: " + getId());
 			}
@@ -153,7 +179,11 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 	}
 
 	public void scaleTo(float f) {
+		scaleToFactor = f;
+
 		// Normalize float f between squash widget ratio and 1
+		float normalized = (float) ((f - squashedRatio) / (1.0 - squashedRatio));
+
 		float iconScale = (((f - squashedRatio) * (MAX_ICON_SCALE - minIconSize)) / (1.0f - squashedRatio)) + minIconSize;
 		float bgScale = f;
 		float scaledIconBottom = iconView.getBottom() * iconScale;
@@ -163,8 +193,18 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 		iconView.setScaleX(iconScale);
 		iconView.setScaleY(iconScale);
 		iconView.setTranslationY(iconTranslation);
-		textView.setTranslationY((f * fullHeight) - fullHeight);
 		bgView.setScaleY(f);
+
+		if (fiveLobBtn) {
+			float textScale = 1 - (1 - normalized) * 0.1f;
+			textView.setScaleX(textScale);
+			textView.setScaleY(textScale);
+			textView.setTranslationY((bgView.getBottom() * f - textView.getHeight() * textScale - getResources()
+				.getDimension(R.dimen.launch_tile_margin_side)*normalized) / (2 - normalized));
+		}
+		else {
+			textView.setTranslationY((f * fullHeight) - fullHeight);
+		}
 	}
 }
 

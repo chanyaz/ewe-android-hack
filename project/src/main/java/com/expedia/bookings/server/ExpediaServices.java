@@ -12,6 +12,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
 
@@ -35,6 +36,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.AssociateUserToTripResponse;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.ChildTraveler;
@@ -47,7 +49,6 @@ import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightStatsFlightResponse;
-import com.expedia.bookings.data.FlightStatsRatingResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.GsonResponse;
 import com.expedia.bookings.data.HotelBookingResponse;
@@ -127,8 +128,6 @@ public class ExpediaServices implements DownloadListener {
 	public static final int HOTEL_MAX_RESULTS = 200;
 
 	public static final int FLIGHT_MAX_TRIPS = 1600;
-
-	private static final String COOKIES_FILE = "cookies.dat";
 
 	// Flags for getE3EndpointUrl()
 	public static final int F_HOTELS = 4;
@@ -659,18 +658,6 @@ public class ExpediaServices implements DownloadListener {
 	////////////////////////////////////////////////////////////////////////////////////
 	// FlightStats Ratings API: https://developer.flightstats.com/api-docs/ratings/v1
 
-	public FlightStatsRatingResponse getFlightStatsRating(Flight flight) {
-		ArrayList<BasicNameValuePair> parameters = new ArrayList<BasicNameValuePair>();
-
-		addCommonFlightStatsParams(parameters);
-
-		String airlineCode = flight.getPrimaryFlightCode().mAirlineCode;
-		String airlineNum = flight.getPrimaryFlightCode().mNumber;
-		String baseUrl = FS_FLEX_BASE_URI + "/ratings/rest/v1/json/flight/" + airlineCode + "/" + airlineNum;
-
-		return doFlightStatsRequest(baseUrl, parameters, new FlightStatsRatingResponseHandler());
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Expedia hotel API
 	//
@@ -684,15 +671,6 @@ public class ExpediaServices implements DownloadListener {
 			rh.setLatLng(params.getSearchLatitude(), params.getSearchLongitude());
 		}
 		rh.setNumNights(params.getStayDuration());
-
-		if (BuildConfig.DEBUG) {
-			boolean disabled = SettingUtils
-				.get(mContext, mContext.getString(R.string.preference_disable_domain_v2_hotel_search), false);
-
-			if (!disabled) {
-				query.add(new BasicNameValuePair("forceV2Search", "true"));
-			}
-		}
 
 		return doE3Request("m/api/hotel/search", query, rh, 0);
 	}
@@ -1060,26 +1038,6 @@ public class ExpediaServices implements DownloadListener {
 	// Expedia user account API
 	//
 	// Documentation: https://www.expedia.com/static/mobile/APIConsole/flight.html
-
-	public SignInResponse signIn(String email, String password, int flags) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		addCommonParams(query);
-
-		query.add(new BasicNameValuePair("email", email));
-		query.add(new BasicNameValuePair("password", password));
-		query.add(new BasicNameValuePair("staySignedIn", "true"));
-		query.add(new BasicNameValuePair("includeFullPaymentProfile", "true"));
-
-		addProfileTypes(query, flags);
-
-		// Make sure we're signed out before we try to sign in again
-		if (User.isLoggedIn(mContext)) {
-			User.signOut(mContext);
-		}
-
-		return doE3Request("api/user/sign-in", query, new SignInResponseHandler());
-	}
 
 	// Attempt to sign in again with the stored cookie
 	public SignInResponse signIn(int flags) {
@@ -1449,9 +1407,6 @@ public class ExpediaServices implements DownloadListener {
 	//
 	// API Console: http://test.reviewsvc.expedia.com/APIConsole?segmentedapi=true
 
-	private static final String TEST_REVIEWS_BASE_URL = "https://test.reviewsvc.expedia.com/api/hotelreviews/hotel/";
-	private static final String PROD_REVIEWS_BASE_URL = "https://reviewsvc.expedia.com/api/hotelreviews/hotel/";
-
 	public ReviewsResponse reviews(Property property, ReviewSort sort, int pageNumber) {
 		return reviews(property, sort, pageNumber, REVIEWS_PER_PAGE);
 	}
@@ -1472,8 +1427,9 @@ public class ExpediaServices implements DownloadListener {
 		return doReviewsRequest(getReviewsUrl(property), params, new ReviewsResponseHandler());
 	}
 
-	private static String getReviewsUrl(Property property) {
-		String url = PROD_REVIEWS_BASE_URL;
+	private String getReviewsUrl(Property property) {
+		String url = mEndpointProvider.getReviewsEndpointUrl();
+		url += "api/hotelreviews/hotel/";
 		url += property.getPropertyId();
 		return url;
 	}
@@ -1482,17 +1438,7 @@ public class ExpediaServices implements DownloadListener {
 	// Launch data
 
 	private String getLaunchEndpointUrl() {
-		String server = "";
-		if (mEndpointProvider.getEndPoint() == EndPoint.CUSTOM_SERVER) {
-			server = "http://";
-			server += SettingUtils
-				.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
-		}
-		else {
-			server = "https://";
-			server += "www.expedia.com";
-		}
-		return server + "/static/mobile/LaunchDestinations";
+		return mEndpointProvider.getE3EndpointUrl() + "/static/mobile/LaunchDestinations";
 	}
 
 	public LaunchDestinationCollections getLaunchCollections(String localeString) {
@@ -1550,7 +1496,9 @@ public class ExpediaServices implements DownloadListener {
 			base = createHttpPost(serverUrl, params);
 		}
 
-		base.addHeader("x-eb-client", ServicesUtil.generateXEbClientString(mContext));
+		if (!ExpediaBookingApp.isAutomation()) {
+			base.addHeader("x-eb-client", ServicesUtil.generateXEbClientString(mContext));
+		}
 		// Some logging before passing the request along
 		Log.d(TAG_REQUEST, "Request: " + serverUrl + "?" + NetUtils.getParamsForLogging(params));
 
@@ -1604,8 +1552,6 @@ public class ExpediaServices implements DownloadListener {
 			mClient.setCookieHandler(sBlackHoleCookieManager);
 		}
 
-		final boolean cookiesAreLoggedIn = User.isLoggedIn(mContext);
-
 		// Make the request
 		long start = System.currentTimeMillis();
 		mCancellingDownload = false;
@@ -1613,19 +1559,8 @@ public class ExpediaServices implements DownloadListener {
 		try {
 			mRequest = request.build();
 			response = mClient.newCall(mRequest).execute();
-			Response processedResponse = responseHandler.handleResponse(response);
-			if (!ignoreCookies && !mCancellingDownload) {
-				if (cookiesAreLoggedIn != User.isLoggedIn(mContext)) {
-					//The login state has changed, so we should redo the network request with the appropriate new cookies
-					//this prevents us from overwritting our cookies with bunk loggedin/loggedout cookie states.
-					Log.d(
-						"Login state has changed since the request began - we are going to resend the request using appropriate cookies. The request began in the logged "
-							+ (cookiesAreLoggedIn ? "IN" : "OUT") + " state."
-					);
-					return doRequest(request, responseHandler, flags);
-				}
-			}
-			return (T) processedResponse;
+			T processedResponse = responseHandler.handleResponse(response);
+			return processedResponse;
 		}
 		catch (IOException e) {
 			if (mCancellingDownload) {
@@ -1724,32 +1659,33 @@ public class ExpediaServices implements DownloadListener {
 
 	@Override
 	public void onCancel() {
+		mCancellingDownload = true;
+
 		if (mRequest != null) {
 			Log.i("Cancelling download!");
-			mCancellingDownload = true;
+			cancelAndWait();
+		}
+	}
 
-			// If we're on the main thread, then run the abort
-			// in its own thread (to avoid network calls in
-			// main thread).  If we're not, feel free to just
-			// abort.
-			if ("main".equals(Thread.currentThread().getName())) {
-				(new Thread(new Runnable() {
-					@Override
-					public void run() {
-						// Due to timing issues, we could end up such that the
-						// request has finished by the time we get here.  In
-						// that case, let's not NPE.
-						if (mRequest != null) {
-							mClient.cancel(mRequest);
-							mRequest = null;
-						}
-					}
-				})).start();
+	synchronized private void cancelAndWait() {
+		final CountDownLatch latch = new CountDownLatch(1);
+		Thread bgThread = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				if (mRequest != null) {
+					mClient.cancel(mRequest);
+					mRequest = null;
+				}
+				latch.countDown();
 			}
-			else {
-				mClient.cancel(mRequest);
-				mRequest = null;
-			}
+		});
+
+		bgThread.start();
+		try {
+			latch.await();
+		}
+		catch (Throwable t) {
+			throw new RuntimeException("Problem cancelling download", t);
 		}
 	}
 

@@ -131,8 +131,10 @@ public class LXSearchParamsPresenter extends Presenter
 		location.setOnItemClickListener(mLocationListListener);
 		location.setOnEditorActionListener(this);
 		location.setOnFocusChangeListener(mLocationFocusListener);
+		location.setOnClickListener(mLocationClickListener);
 		location.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 		selectDates.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
+		onDateCheckedChanged(false);
 		addTransition(defaultToCal);
 		show(new LXParamsDefault());
 
@@ -163,6 +165,13 @@ public class LXSearchParamsPresenter extends Presenter
 		}
 	};
 
+	private OnClickListener mLocationClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			location.showDropDown();
+		}
+	};
+
 	private OnFocusChangeListener mLocationFocusListener = new OnFocusChangeListener() {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
@@ -180,7 +189,9 @@ public class LXSearchParamsPresenter extends Presenter
 	};
 
 	private void setSearchLocation(final Suggestion suggestion) {
-		location.setText(StrUtils.formatCityName(suggestion.fullName));
+		location.setText(suggestion.iconType == Suggestion.IconType.CURRENT_LOCATION_ICON ? getContext()
+			.getString(R.string.current_location)
+			: StrUtils.formatCityName(suggestion.fullName));
 		searchParams.location(suggestion.fullName);
 		searchParamsChanged();
 
@@ -323,7 +334,7 @@ public class LXSearchParamsPresenter extends Presenter
 		MenuItem item = toolbar.getMenu().findItem(R.id.menu_search);
 		setupToolBarCheckmark(item);
 
-		toolBarSearchText.setText(getResources().getString(R.string.lx_search_title));
+		toolBarSearchText.setText(getResources().getString(Ui.obtainThemeResID(getContext(), R.attr.skin_lxSearchToolbarText)));
 		toolbar.setTitleTextColor(Color.WHITE);
 		toolbar
 			.setBackgroundColor(getResources().getColor(Ui.obtainThemeResID(getContext(), R.attr.skin_lxPrimaryColor)));

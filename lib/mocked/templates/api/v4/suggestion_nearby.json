@@ -1,0 +1,2505 @@
+{
+  "q": "latlong=37.7903983|-122.4009983&tla=&siteid=1&type=4&knnsearch=true&maxradius=200",
+  "rid": "bc5bbb1f-fe36-4bdc-8b78-19dca27f72c7",
+  "rc": "OK",
+  "sr": [
+    {
+      "@type": "gaiaRegionResult",
+      "index": "0",
+      "gaiaId": "178305",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "San Francisco (and vicinity), California, United States of America",
+        "shortName": "San Francisco (and vicinity)",
+        "displayName": "San Francisco, CA",
+        "lastSearchName": "San Francisco (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "37.787400",
+        "long": "-122.408200"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "QSF",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "0.715",
+          "distInMI": "0.444"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "437"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000581",
+          "airportCode": "SFO",
+          "regionNames": {
+            "fullName": "San Francisco, CA, United States (SFO-San Francisco Intl.)",
+            "shortName": "San Francisco, CA (SFO-San Francisco Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.615940",
+            "long": "-122.387996"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "5129.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000592",
+          "airportCode": "SJC",
+          "regionNames": {
+            "fullName": "San Jose, CA, United States (SJC-Norman Y. Mineta San Jose Intl.)",
+            "shortName": "San Jose, CA (SJC-Norman Y. Mineta San Jose Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.369739",
+            "long": "-121.929225"
+          },
+          "index": "1",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "1005.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000466",
+          "airportCode": "OAK",
+          "regionNames": {
+            "fullName": "Oakland, CA, United States (OAK-Oakland Intl.)",
+            "shortName": "Oakland, CA (OAK-Oakland Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.712497",
+            "long": "-122.213105"
+          },
+          "index": "2",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "821.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6139039",
+          "airportCode": "QSF",
+          "regionNames": {
+            "fullName": "San Francisco, CA, United States (QSF-All Airports)",
+            "shortName": "San Francisco (QSF-All Airports)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "true",
+          "coordinates": {
+            "lat": "37.67913128",
+            "long": "-122.0474756"
+          },
+          "index": "3",
+          "popularity": "525.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "1",
+      "gaiaId": "601762",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Oakland (and vicinity), California, United States of America",
+        "shortName": "Oakland (and vicinity)",
+        "displayName": "Oakland, CA",
+        "lastSearchName": "Oakland (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "37.805320",
+        "long": "-122.270600"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "OAK",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "11.586",
+          "distInMI": "7.201"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "105"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000466",
+          "airportCode": "OAK",
+          "regionNames": {
+            "fullName": "Oakland, CA, United States (OAK-Oakland Intl.)",
+            "shortName": "Oakland, CA (OAK-Oakland Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.712497",
+            "long": "-122.213105"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "821.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "2",
+      "gaiaId": "6056046",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Concord (and vicinity), California, United States of America",
+        "shortName": "Concord (and vicinity)",
+        "displayName": "Concord, CA",
+        "lastSearchName": "Concord (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "37.976139",
+        "long": "-122.035217"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SFO",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "38.204",
+          "distInMI": "23.744"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "43"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000581",
+          "airportCode": "SFO",
+          "regionNames": {
+            "fullName": "San Francisco, CA, United States (SFO-San Francisco Intl.)",
+            "shortName": "San Francisco, CA (SFO-San Francisco Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.615940",
+            "long": "-122.387996"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "5129.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000466",
+          "airportCode": "OAK",
+          "regionNames": {
+            "fullName": "Oakland, CA, United States (OAK-Oakland Intl.)",
+            "shortName": "Oakland, CA (OAK-Oakland Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.712497",
+            "long": "-122.213105"
+          },
+          "index": "1",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "821.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "3",
+      "gaiaId": "6023567",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Marin County, California, United States of America",
+        "shortName": "Marin County",
+        "displayName": "Marin County, CA",
+        "lastSearchName": "Marin County, California, United States of America"
+      },
+      "coordinates": {
+        "lat": "38.083403",
+        "long": "-122.763304"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SFO",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "45.547",
+          "distInMI": "28.308"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "40"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000581",
+          "airportCode": "SFO",
+          "regionNames": {
+            "fullName": "San Francisco, CA, United States (SFO-San Francisco Intl.)",
+            "shortName": "San Francisco, CA (SFO-San Francisco Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.615940",
+            "long": "-122.387996"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "5129.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "4",
+      "gaiaId": "180052",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Sonoma Valley, California, United States of America",
+        "shortName": "Sonoma Valley",
+        "displayName": "Sonoma Valley, CA",
+        "lastSearchName": "Sonoma Valley, California, United States of America"
+      },
+      "coordinates": {
+        "lat": "38.223535",
+        "long": "-122.456507"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SFO",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "48.449",
+          "distInMI": "30.111"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "161"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000581",
+          "airportCode": "SFO",
+          "regionNames": {
+            "fullName": "San Francisco, CA, United States (SFO-San Francisco Intl.)",
+            "shortName": "San Francisco, CA (SFO-San Francisco Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.615940",
+            "long": "-122.387996"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "5129.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000466",
+          "airportCode": "OAK",
+          "regionNames": {
+            "fullName": "Oakland, CA, United States (OAK-Oakland Intl.)",
+            "shortName": "Oakland, CA (OAK-Oakland Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.712497",
+            "long": "-122.213105"
+          },
+          "index": "1",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "821.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6032114",
+          "airportCode": "STS",
+          "regionNames": {
+            "fullName": "Santa Rosa, CA, United States (STS-Sonoma County)",
+            "shortName": "Santa Rosa, CA (STS-Sonoma County)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "38.510233",
+            "long": "-122.805326"
+          },
+          "index": "2",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "78.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "5",
+      "gaiaId": "6056050",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Pleasanton - Livermore, California, United States of America",
+        "shortName": "Pleasanton - Livermore",
+        "displayName": "Pleasanton - Livermore, CA",
+        "lastSearchName": "Pleasanton - Livermore, California, United States of America"
+      },
+      "coordinates": {
+        "lat": "37.685096",
+        "long": "-121.767491"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "OAK",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "56.973",
+          "distInMI": "35.409"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "45"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000466",
+          "airportCode": "OAK",
+          "regionNames": {
+            "fullName": "Oakland, CA, United States (OAK-Oakland Intl.)",
+            "shortName": "Oakland, CA (OAK-Oakland Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.712497",
+            "long": "-122.213105"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "821.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "6",
+      "gaiaId": "6055407",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Fairfield (and vicinity), California, United States of America",
+        "shortName": "Fairfield (and vicinity)",
+        "displayName": "Fairfield, CA",
+        "lastSearchName": "Fairfield (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "38.249260",
+        "long": "-122.043228"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "OAK",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "59.93",
+          "distInMI": "37.247"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "55"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000466",
+          "airportCode": "OAK",
+          "regionNames": {
+            "fullName": "Oakland, CA, United States (OAK-Oakland Intl.)",
+            "shortName": "Oakland, CA (OAK-Oakland Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.712497",
+            "long": "-122.213105"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "821.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "7",
+      "gaiaId": "6023769",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "San Jose - Silicon Valley, California, United States of America",
+        "shortName": "San Jose - Silicon Valley",
+        "displayName": "San Jose - Silicon Valley, CA",
+        "lastSearchName": "San Jose - Silicon Valley, California, United States of America"
+      },
+      "coordinates": {
+        "lat": "37.397802",
+        "long": "-121.890288"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SFO",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "62.746",
+          "distInMI": "38.997"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "308"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000581",
+          "airportCode": "SFO",
+          "regionNames": {
+            "fullName": "San Francisco, CA, United States (SFO-San Francisco Intl.)",
+            "shortName": "San Francisco, CA (SFO-San Francisco Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.615940",
+            "long": "-122.387996"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "5129.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000592",
+          "airportCode": "SJC",
+          "regionNames": {
+            "fullName": "San Jose, CA, United States (SJC-Norman Y. Mineta San Jose Intl.)",
+            "shortName": "San Jose, CA (SJC-Norman Y. Mineta San Jose Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.369739",
+            "long": "-121.929225"
+          },
+          "index": "1",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "1005.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "8",
+      "gaiaId": "180046",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Napa Valley, California, United States of America",
+        "shortName": "Napa Valley",
+        "displayName": "Napa Valley, CA",
+        "lastSearchName": "Napa Valley, California, United States of America"
+      },
+      "coordinates": {
+        "lat": "38.427432",
+        "long": "-122.394330"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SFO",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "70.898",
+          "distInMI": "44.063"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "107"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000581",
+          "airportCode": "SFO",
+          "regionNames": {
+            "fullName": "San Francisco, CA, United States (SFO-San Francisco Intl.)",
+            "shortName": "San Francisco, CA (SFO-San Francisco Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.615940",
+            "long": "-122.387996"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "5129.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000466",
+          "airportCode": "OAK",
+          "regionNames": {
+            "fullName": "Oakland, CA, United States (OAK-Oakland Intl.)",
+            "shortName": "Oakland, CA (OAK-Oakland Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.712497",
+            "long": "-122.213105"
+          },
+          "index": "1",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "821.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6032114",
+          "airportCode": "STS",
+          "regionNames": {
+            "fullName": "Santa Rosa, CA, United States (STS-Sonoma County)",
+            "shortName": "Santa Rosa, CA (STS-Sonoma County)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "38.510233",
+            "long": "-122.805326"
+          },
+          "index": "2",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "78.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "9",
+      "gaiaId": "6136004",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Scotts Valley (and vicinity), California, United States of America",
+        "shortName": "Scotts Valley (and vicinity)",
+        "displayName": "Scotts Valley, CA",
+        "lastSearchName": "Scotts Valley (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "37.069688",
+        "long": "-122.007047"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SJC",
+          "multicity": "6023769"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "87.438",
+          "distInMI": "54.343"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "4"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000592",
+          "airportCode": "SJC",
+          "regionNames": {
+            "fullName": "San Jose, CA, United States (SJC-Norman Y. Mineta San Jose Intl.)",
+            "shortName": "San Jose, CA (SJC-Norman Y. Mineta San Jose Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.369739",
+            "long": "-121.929225"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "1005.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "10",
+      "gaiaId": "602989",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Stockton (and vicinity), California, United States of America",
+        "shortName": "Stockton (and vicinity)",
+        "displayName": "Stockton, CA",
+        "lastSearchName": "Stockton (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "37.953941",
+        "long": "-121.286026"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "OAK",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "99.626",
+          "distInMI": "61.918"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "54"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000466",
+          "airportCode": "OAK",
+          "regionNames": {
+            "fullName": "Oakland, CA, United States (OAK-Oakland Intl.)",
+            "shortName": "Oakland, CA (OAK-Oakland Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.712497",
+            "long": "-122.213105"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "821.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000602",
+          "airportCode": "SMF",
+          "regionNames": {
+            "fullName": "Sacramento, CA, United States (SMF-Sacramento Intl.)",
+            "shortName": "Sacramento, CA (SMF-Sacramento Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "38.693465",
+            "long": "-121.590382"
+          },
+          "index": "1",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "602.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "11",
+      "gaiaId": "180049",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Sacramento (and vicinity), California, United States of America",
+        "shortName": "Sacramento (and vicinity)",
+        "displayName": "Sacramento, CA",
+        "lastSearchName": "Sacramento (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "38.579590",
+        "long": "-121.495230"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SMF",
+          "multicity": "180049"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "118.286",
+          "distInMI": "73.515"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "195"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000602",
+          "airportCode": "SMF",
+          "regionNames": {
+            "fullName": "Sacramento, CA, United States (SMF-Sacramento Intl.)",
+            "shortName": "Sacramento, CA (SMF-Sacramento Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "38.693465",
+            "long": "-121.590382"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "602.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "12",
+      "gaiaId": "602990",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Modesto (and vicinity), California, United States of America",
+        "shortName": "Modesto (and vicinity)",
+        "displayName": "Modesto, CA",
+        "lastSearchName": "Modesto (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "37.641090",
+        "long": "-120.999313"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "OAK",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "124.512",
+          "distInMI": "77.384"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "47"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000466",
+          "airportCode": "OAK",
+          "regionNames": {
+            "fullName": "Oakland, CA, United States (OAK-Oakland Intl.)",
+            "shortName": "Oakland, CA (OAK-Oakland Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.712497",
+            "long": "-122.213105"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "821.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000602",
+          "airportCode": "SMF",
+          "regionNames": {
+            "fullName": "Sacramento, CA, United States (SMF-Sacramento Intl.)",
+            "shortName": "Sacramento, CA (SMF-Sacramento Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "38.693465",
+            "long": "-121.590382"
+          },
+          "index": "1",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "602.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6030213",
+          "airportCode": "MOD",
+          "regionNames": {
+            "fullName": "Modesto, CA, United States (MOD-Modesto City - County)",
+            "shortName": "Modesto, CA (MOD-Modesto City - County)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.630322",
+            "long": "-120.957499"
+          },
+          "index": "2",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "31.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "13",
+      "gaiaId": "180045",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Monterey (and vicinity), California, United States of America",
+        "shortName": "Monterey (and vicinity)",
+        "displayName": "Monterey, CA",
+        "lastSearchName": "Monterey (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "36.601200",
+        "long": "-121.895580"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SFO",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "139.724",
+          "distInMI": "86.839"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "267"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000581",
+          "airportCode": "SFO",
+          "regionNames": {
+            "fullName": "San Francisco, CA, United States (SFO-San Francisco Intl.)",
+            "shortName": "San Francisco, CA (SFO-San Francisco Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.615940",
+            "long": "-122.387996"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "5129.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000592",
+          "airportCode": "SJC",
+          "regionNames": {
+            "fullName": "San Jose, CA, United States (SJC-Norman Y. Mineta San Jose Intl.)",
+            "shortName": "San Jose, CA (SJC-Norman Y. Mineta San Jose Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.369739",
+            "long": "-121.929225"
+          },
+          "index": "1",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "1005.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000433",
+          "airportCode": "MRY",
+          "regionNames": {
+            "fullName": "Monterey, CA, United States (MRY-Monterey Peninsula)",
+            "shortName": "Monterey, CA (MRY-Monterey Peninsula)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "36.592979",
+            "long": "-121.849751"
+          },
+          "index": "2",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "147.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "14",
+      "gaiaId": "6055542",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Salinas (and vicinity), California, United States of America",
+        "shortName": "Salinas (and vicinity)",
+        "displayName": "Salinas, CA",
+        "lastSearchName": "Salinas (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "36.673759",
+        "long": "-121.654800"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "MRY",
+          "multicity": "180045"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "140.764",
+          "distInMI": "87.485"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "204"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000433",
+          "airportCode": "MRY",
+          "regionNames": {
+            "fullName": "Monterey, CA, United States (MRY-Monterey Peninsula)",
+            "shortName": "Monterey, CA (MRY-Monterey Peninsula)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "36.592979",
+            "long": "-121.849751"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "147.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "15",
+      "gaiaId": "6055370",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Clear Lake (and vicinity), California, United States of America",
+        "shortName": "Clear Lake (and vicinity)",
+        "displayName": "Clear Lake, CA",
+        "lastSearchName": "Clear Lake (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "39.058190",
+        "long": "-122.831015"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SMF",
+          "multicity": "180049"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "145.988",
+          "distInMI": "90.732"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "26"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000602",
+          "airportCode": "SMF",
+          "regionNames": {
+            "fullName": "Sacramento, CA, United States (SMF-Sacramento Intl.)",
+            "shortName": "Sacramento, CA (SMF-Sacramento Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "38.693465",
+            "long": "-121.590382"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "602.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6032114",
+          "airportCode": "STS",
+          "regionNames": {
+            "fullName": "Santa Rosa, CA, United States (STS-Sonoma County)",
+            "shortName": "Santa Rosa, CA (STS-Sonoma County)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "38.510233",
+            "long": "-122.805326"
+          },
+          "index": "1",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "78.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "16",
+      "gaiaId": "6094971",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Jackson (and vicinity), California, United States of America",
+        "shortName": "Jackson (and vicinity)",
+        "displayName": "Jackson, CA",
+        "lastSearchName": "Jackson (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "38.340484",
+        "long": "-120.753849"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SMF",
+          "multicity": "180049"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "156.766",
+          "distInMI": "97.431"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "14"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000602",
+          "airportCode": "SMF",
+          "regionNames": {
+            "fullName": "Sacramento, CA, United States (SMF-Sacramento Intl.)",
+            "shortName": "Sacramento, CA (SMF-Sacramento Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "38.693465",
+            "long": "-121.590382"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "602.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "17",
+      "gaiaId": "6055413",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Los Banos (and vicinity), California, United States of America",
+        "shortName": "Los Banos (and vicinity)",
+        "displayName": "Los Banos, CA",
+        "lastSearchName": "Los Banos (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "37.060970",
+        "long": "-120.847839"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SJC",
+          "multicity": "6023769"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "159.472",
+          "distInMI": "99.112"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "35"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000592",
+          "airportCode": "SJC",
+          "regionNames": {
+            "fullName": "San Jose, CA, United States (SJC-Norman Y. Mineta San Jose Intl.)",
+            "shortName": "San Jose, CA (SJC-Norman Y. Mineta San Jose Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.369739",
+            "long": "-121.929225"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "1005.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "18",
+      "gaiaId": "6094980",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Yuba City (and vicinity), California, United States of America",
+        "shortName": "Yuba City (and vicinity)",
+        "displayName": "Yuba City, CA",
+        "lastSearchName": "Yuba City (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "39.112986",
+        "long": "-121.671289"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SMF",
+          "multicity": "180049"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "160.341",
+          "distInMI": "99.652"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "26"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000602",
+          "airportCode": "SMF",
+          "regionNames": {
+            "fullName": "Sacramento, CA, United States (SMF-Sacramento Intl.)",
+            "shortName": "Sacramento, CA (SMF-Sacramento Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "38.693465",
+            "long": "-121.590382"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "602.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "19",
+      "gaiaId": "6055336",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Ukiah (and vicinity), California, United States of America",
+        "shortName": "Ukiah (and vicinity)",
+        "displayName": "Ukiah, CA",
+        "lastSearchName": "Ukiah (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "39.149971",
+        "long": "-123.207565"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "STS",
+          "multicity": "180046"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "166.83",
+          "distInMI": "103.685"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "24"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6032114",
+          "airportCode": "STS",
+          "regionNames": {
+            "fullName": "Santa Rosa, CA, United States (STS-Sonoma County)",
+            "shortName": "Santa Rosa, CA (STS-Sonoma County)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "38.510233",
+            "long": "-122.805326"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "78.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "20",
+      "gaiaId": "6055661",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Placerville (and vicinity), California, United States of America",
+        "shortName": "Placerville (and vicinity)",
+        "displayName": "Placerville, CA",
+        "lastSearchName": "Placerville (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "38.729710",
+        "long": "-120.799202"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SMF",
+          "multicity": "180049"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "174.696",
+          "distInMI": "108.574"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "27"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000602",
+          "airportCode": "SMF",
+          "regionNames": {
+            "fullName": "Sacramento, CA, United States (SMF-Sacramento Intl.)",
+            "shortName": "Sacramento, CA (SMF-Sacramento Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "38.693465",
+            "long": "-121.590382"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "602.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "21",
+      "gaiaId": "6055671",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Grass Valley (and vicinity), California, United States of America",
+        "shortName": "Grass Valley (and vicinity)",
+        "displayName": "Grass Valley, CA",
+        "lastSearchName": "Grass Valley (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "39.219040",
+        "long": "-121.062973"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SMF",
+          "multicity": "180049"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "197.119",
+          "distInMI": "122.51"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "42"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000602",
+          "airportCode": "SMF",
+          "regionNames": {
+            "fullName": "Sacramento, CA, United States (SMF-Sacramento Intl.)",
+            "shortName": "Sacramento, CA (SMF-Sacramento Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "38.693465",
+            "long": "-121.590382"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "602.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "22",
+      "gaiaId": "180043",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Mendocino Coast, California, United States of America",
+        "shortName": "Mendocino Coast",
+        "displayName": "Mendocino Coast, CA",
+        "lastSearchName": "Mendocino Coast, California, United States of America"
+      },
+      "coordinates": {
+        "lat": "39.317954",
+        "long": "-123.799189"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SFO",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "209.058",
+          "distInMI": "129.93"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "59"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000581",
+          "airportCode": "SFO",
+          "regionNames": {
+            "fullName": "San Francisco, CA, United States (SFO-San Francisco Intl.)",
+            "shortName": "San Francisco, CA (SFO-San Francisco Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.615940",
+            "long": "-122.387996"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "5129.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6032114",
+          "airportCode": "STS",
+          "regionNames": {
+            "fullName": "Santa Rosa, CA, United States (STS-Sonoma County)",
+            "shortName": "Santa Rosa, CA (STS-Sonoma County)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "38.510233",
+            "long": "-122.805326"
+          },
+          "index": "1",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "78.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "23",
+      "gaiaId": "6055356",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Chico (and vicinity), California, United States of America",
+        "shortName": "Chico (and vicinity)",
+        "displayName": "Chico, CA",
+        "lastSearchName": "Chico (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "39.728500",
+        "long": "-121.838882"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SMF",
+          "multicity": "180049"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "221.138",
+          "distInMI": "137.438"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "37"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000602",
+          "airportCode": "SMF",
+          "regionNames": {
+            "fullName": "Sacramento, CA, United States (SMF-Sacramento Intl.)",
+            "shortName": "Sacramento, CA (SMF-Sacramento Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "38.693465",
+            "long": "-121.590382"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "602.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "24",
+      "gaiaId": "180672",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Yosemite National Park (and vicinity), California, United States of America",
+        "shortName": "Yosemite National Park",
+        "displayName": "Yosemite National Park, CA",
+        "lastSearchName": "Yosemite National Park (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "37.707560",
+        "long": "-119.603663"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "OAK",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "246.321",
+          "distInMI": "153.089"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "206"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000466",
+          "airportCode": "OAK",
+          "regionNames": {
+            "fullName": "Oakland, CA, United States (OAK-Oakland Intl.)",
+            "shortName": "Oakland, CA (OAK-Oakland Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.712497",
+            "long": "-122.213105"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "821.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000602",
+          "airportCode": "SMF",
+          "regionNames": {
+            "fullName": "Sacramento, CA, United States (SMF-Sacramento Intl.)",
+            "shortName": "Sacramento, CA (SMF-Sacramento Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "38.693465",
+            "long": "-121.590382"
+          },
+          "index": "1",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "602.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000222",
+          "airportCode": "FAT",
+          "regionNames": {
+            "fullName": "Fresno, CA, United States (FAT-Fresno Yosemite Intl.)",
+            "shortName": "Fresno, CA (FAT-Fresno Yosemite Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "36.769530",
+            "long": "-119.720271"
+          },
+          "index": "2",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "130.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6030171",
+          "airportCode": "MMH",
+          "regionNames": {
+            "fullName": "Mammoth Lakes, CA, United States (MMH-Mammoth Yosemite)",
+            "shortName": "Mammoth Lakes, CA (MMH-Mammoth Yosemite)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.627488",
+            "long": "-118.842845"
+          },
+          "index": "3",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "17.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "25",
+      "gaiaId": "180041",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Lake Tahoe (and vicinity), California, United States of America",
+        "shortName": "Lake Tahoe (and vicinity)",
+        "displayName": "Lake Tahoe, CA",
+        "lastSearchName": "Lake Tahoe (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "39.096849",
+        "long": "-120.032351"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SFO",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "252.505",
+          "distInMI": "156.933"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "329"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000581",
+          "airportCode": "SFO",
+          "regionNames": {
+            "fullName": "San Francisco, CA, United States (SFO-San Francisco Intl.)",
+            "shortName": "San Francisco, CA (SFO-San Francisco Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "37.615940",
+            "long": "-122.387996"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "5129.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000550",
+          "airportCode": "RNO",
+          "regionNames": {
+            "fullName": "Reno, NV, United States (RNO-Reno-Tahoe Intl.)",
+            "shortName": "Reno, NV (RNO-Reno-Tahoe Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "39.505903",
+            "long": "-119.775621"
+          },
+          "index": "1",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "486.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "26",
+      "gaiaId": "602988",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Fresno (and vicinity), California, United States of America",
+        "shortName": "Fresno (and vicinity)",
+        "displayName": "Fresno, CA",
+        "lastSearchName": "Fresno (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "36.734612",
+        "long": "-119.789078"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "FAT",
+          "multicity": "180672"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "259.458",
+          "distInMI": "161.254"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "87"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000222",
+          "airportCode": "FAT",
+          "regionNames": {
+            "fullName": "Fresno, CA, United States (FAT-Fresno Yosemite Intl.)",
+            "shortName": "Fresno, CA (FAT-Fresno Yosemite Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "36.769530",
+            "long": "-119.720271"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "130.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "27",
+      "gaiaId": "6055367",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Red Bluff (and vicinity), California, United States of America",
+        "shortName": "Red Bluff (and vicinity)",
+        "displayName": "Red Bluff, CA",
+        "lastSearchName": "Red Bluff (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "40.177540",
+        "long": "-122.234894"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SMF",
+          "multicity": "180049"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "266.053",
+          "distInMI": "165.353"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "20"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000602",
+          "airportCode": "SMF",
+          "regionNames": {
+            "fullName": "Sacramento, CA, United States (SMF-Sacramento Intl.)",
+            "shortName": "Sacramento, CA (SMF-Sacramento Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "38.693465",
+            "long": "-121.590382"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "602.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "28",
+      "gaiaId": "6055486",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "San Simeon (and vicinity), California, United States of America",
+        "shortName": "San Simeon (and vicinity)",
+        "displayName": "San Simeon, CA",
+        "lastSearchName": "San Simeon (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "35.613091",
+        "long": "-121.144341"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SBP",
+          "multicity": "6046822"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "266.991",
+          "distInMI": "165.936"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "33"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6031728",
+          "airportCode": "SBP",
+          "regionNames": {
+            "fullName": "San Luis Obispo, CA, United States (SBP-San Luis Obispo County Regional)",
+            "shortName": "San Luis Obispo, CA (SBP-San Luis Obispo County Regional)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "35.239556",
+            "long": "-120.640891"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "55.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "29",
+      "gaiaId": "6054194",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Carson City (and vicinity), Nevada, United States of America",
+        "shortName": "Carson City (and vicinity)",
+        "displayName": "Carson City, NV",
+        "lastSearchName": "Carson City (and vicinity), Nevada, United States of America"
+      },
+      "coordinates": {
+        "lat": "39.164590",
+        "long": "-119.767040"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "RNO",
+          "multicity": "602688"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "275.752",
+          "distInMI": "171.381"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "52"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000550",
+          "airportCode": "RNO",
+          "regionNames": {
+            "fullName": "Reno, NV, United States (RNO-Reno-Tahoe Intl.)",
+            "shortName": "Reno, NV (RNO-Reno-Tahoe Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "39.505903",
+            "long": "-119.775621"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "486.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "30",
+      "gaiaId": "6132073",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Garberville (and vicinity), California, United States of America",
+        "shortName": "Garberville (and vicinity)",
+        "displayName": "Garberville, CA",
+        "lastSearchName": "Garberville (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "40.084288",
+        "long": "-123.798398"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "ACV",
+          "multicity": "287"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "282.486",
+          "distInMI": "175.566"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "5"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6023453",
+          "airportCode": "ACV",
+          "regionNames": {
+            "fullName": "Eureka, CA, United States (ACV-Arcata - Eureka)",
+            "shortName": "Eureka, CA (ACV-Arcata - Eureka)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "40.971980",
+            "long": "-124.107530"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "51.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6139060",
+          "airportCode": "ACV",
+          "regionNames": {
+            "fullName": "Eureka, CA, United States (ACV-All Airports)",
+            "shortName": "Eureka (ACV-All Airports)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "true",
+          "coordinates": {
+            "lat": "40.86525138",
+            "long": "-124.1212286"
+          },
+          "index": "1",
+          "popularity": "11.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "31",
+      "gaiaId": "602688",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Reno (and vicinity), Nevada, United States of America",
+        "shortName": "Reno (and vicinity)",
+        "displayName": "Reno, NV",
+        "lastSearchName": "Reno (and vicinity), Nevada, United States of America"
+      },
+      "coordinates": {
+        "lat": "39.528480",
+        "long": "-119.813860"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "RNO",
+          "multicity": "602688"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "296.564",
+          "distInMI": "184.315"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "59"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000550",
+          "airportCode": "RNO",
+          "regionNames": {
+            "fullName": "Reno, NV, United States (RNO-Reno-Tahoe Intl.)",
+            "shortName": "Reno, NV (RNO-Reno-Tahoe Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "39.505903",
+            "long": "-119.775621"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "486.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "32",
+      "gaiaId": "2962",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Redding (and vicinity), California, United States of America",
+        "shortName": "Redding (and vicinity)",
+        "displayName": "Redding, CA",
+        "lastSearchName": "Redding (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "40.582390",
+        "long": "-122.389954"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SMF",
+          "multicity": "180049"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "310.723",
+          "distInMI": "193.115"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "47"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000602",
+          "airportCode": "SMF",
+          "regionNames": {
+            "fullName": "Sacramento, CA, United States (SMF-Sacramento Intl.)",
+            "shortName": "Sacramento, CA (SMF-Sacramento Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "38.693465",
+            "long": "-121.590382"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "602.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6023484",
+          "airportCode": "RDD",
+          "regionNames": {
+            "fullName": "Redding, CA, United States (RDD-Redding Municipal)",
+            "shortName": "Redding, CA (RDD-Redding Municipal)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "40.505680",
+            "long": "-122.300030"
+          },
+          "index": "1",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "25.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "33",
+      "gaiaId": "6046822",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "San Luis Obispo (and vicinity), California, United States of America",
+        "shortName": "San Luis Obispo (and vicinity)",
+        "displayName": "San Luis Obispo, CA",
+        "lastSearchName": "San Luis Obispo (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "35.280080",
+        "long": "-120.661230"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SBP",
+          "multicity": "6046822"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "319.752",
+          "distInMI": "198.727"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "175"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6031728",
+          "airportCode": "SBP",
+          "regionNames": {
+            "fullName": "San Luis Obispo, CA, United States (SBP-San Luis Obispo County Regional)",
+            "shortName": "San Luis Obispo, CA (SBP-San Luis Obispo County Regional)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "35.239556",
+            "long": "-120.640891"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "55.0"
+        },
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6031988",
+          "airportCode": "SMX",
+          "regionNames": {
+            "fullName": "Santa Maria, CA, United States (SMX-Santa Maria Public)",
+            "shortName": "Santa Maria, CA (SMX-Santa Maria Public)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "34.901230",
+            "long": "-120.448512"
+          },
+          "index": "1",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "9.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "34",
+      "gaiaId": "603080",
+      "type": "MULTICITY",
+      "regionNames": {
+        "fullName": "Visalia (and vicinity), California, United States of America",
+        "shortName": "Visalia (and vicinity)",
+        "displayName": "Visalia, CA",
+        "lastSearchName": "Visalia (and vicinity), California, United States of America"
+      },
+      "coordinates": {
+        "lat": "36.331039",
+        "long": "-119.292252"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "VIS",
+          "multicity": "603080"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        },
+        "nearby": {
+          "distInKM": "320.286",
+          "distInMI": "199.059"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "64"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6032919",
+          "airportCode": "VIS",
+          "regionNames": {
+            "fullName": "Visalia, CA, United States (VIS-Visalia Municipal)",
+            "shortName": "Visalia, CA (VIS-Visalia Municipal)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "36.326406",
+            "long": "-119.397869"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "13.0"
+        }
+      ]
+    }
+  ]
+}

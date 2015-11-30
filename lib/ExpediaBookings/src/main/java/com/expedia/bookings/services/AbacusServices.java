@@ -11,6 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.squareup.okhttp.OkHttpClient;
 
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
@@ -25,8 +26,8 @@ public class AbacusServices {
 	private Scheduler observeOn;
 	private Scheduler subscribeOn;
 
-	public AbacusServices(OkHttpClient client, String endpoint, Scheduler observeOn, Scheduler subscribeOn,
-		RestAdapter.LogLevel logLevel) {
+	public AbacusServices(String endpoint, OkHttpClient client, RequestInterceptor interceptor, Scheduler observeOn,
+		Scheduler subscribeOn, RestAdapter.LogLevel logLevel) {
 		this.observeOn = observeOn;
 		this.subscribeOn = subscribeOn;
 
@@ -37,6 +38,7 @@ public class AbacusServices {
 			.setLogLevel(logLevel)
 			.setConverter(new GsonConverter(gson))
 			.setClient(new OkClient(client))
+			.setRequestInterceptor(interceptor)
 			.build();
 
 		api = adapter.create(AbacusApi.class);
@@ -46,7 +48,8 @@ public class AbacusServices {
 		return downloadBucket(query, observer, 15, TimeUnit.SECONDS);
 	}
 
-	public Subscription downloadBucket(AbacusEvaluateQuery query, Observer<AbacusResponse> observer, long timeout, TimeUnit timeUnit) {
+	public Subscription downloadBucket(AbacusEvaluateQuery query, Observer<AbacusResponse> observer, long timeout,
+		TimeUnit timeUnit) {
 		return api.evaluateExperiments(query.guid, query.eapid, query.tpid, query.evaluatedExperiments)
 			.observeOn(observeOn)
 			.subscribeOn(subscribeOn)

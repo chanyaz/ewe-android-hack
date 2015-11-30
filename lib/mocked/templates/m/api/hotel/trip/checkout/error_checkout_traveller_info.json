@@ -1,0 +1,14 @@
+{
+  "errors": [
+    {
+      "errorCode": "INVALID_INPUT",
+      "errorInfo": {
+        "summary": "Invalid input error",
+        "field": "phone",
+        "cause": "size must be between 4 and 20"
+      },
+      "diagnosticId": 0
+    }
+  ],
+  "activityId": "b1f3ce62-f87c-47fe-b773-2aa64b88af3d"
+}

@@ -28,4 +28,13 @@ public class LXMedia implements IMedia {
 		new PicassoHelper.Builder(context).build().load(imageURLs);
 	}
 
+	@Override
+	public void loadErrorImage(ImageView imageView, PicassoTarget target, int fallbackId) {
+
+	}
+
+	@Override
+	public boolean isPlaceHolder() {
+		return false;
+	}
 }

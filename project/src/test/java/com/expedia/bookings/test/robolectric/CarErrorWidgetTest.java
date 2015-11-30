@@ -35,6 +35,7 @@ public class CarErrorWidgetTest {
 	@Test
 	public void testInvalidInput() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity.setTheme(R.style.V2_Theme_Cars);
 		ErrorWidget errorWidget = (ErrorWidget) LayoutInflater.from(activity)
 			.inflate(R.layout.car_error_widget_test, null);
 

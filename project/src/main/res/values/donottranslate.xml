@@ -81,15 +81,14 @@
     <string name="preference_push_notification_any_flight">preference_push_notification_any_flight</string>
     <string name="preference_force_fs_db_update">preference_force_fs_db_update</string>
     <string name="preference_push_notification_gcm_id">preference_push_notification_gcm_id</string>
-    <string name="preference_disable_domain_v2_hotel_search">preference_disable_domain_v2_hotel_search</string>
     <string name="preference_fake_invalid_google_wallet_line_item">preference_fake_invalid_google_wallet_line_item</string>
     <string name="preference_force_google_wallet_error">preference_force_google_wallet_error</string>
-    <string name="preference_force_custom_server_http_only">preference_force_custom_server_http_only</string>
     <string name="preference_enable_picasso_logging">preference_enable_picasso_logging</string>
     <string name="preference_force_passenger_category_error">preference_force_passenger_category_error</string>
     <string name="preference_abacus_setting_server">Abacus Server</string>
-    <string name="preference_abacus_setting_controlgroup">Control Group</string>
+    <string name="preference_abacus_setting_control">Control Group</string>
     <string name="preference_abacus_setting_bucketed">Bucketed</string>
+    <string name="preference_enable_leakcanary">preference_enable_leakcanary</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

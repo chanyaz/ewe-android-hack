@@ -1,6 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Hotels -->
+    <!-- Hotels Calendar Strings -->
+    <!-- Hotels calendar tooltip bottom line after a single date is selected -->
+    <string name="hotel_calendar_tooltip_bottom">下一步：選擇退房日期</string>
+    <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->
+    <string name="select_checkout_date_TEMPLATE">%1$s - 選擇退房日期</string>
+    <!-- Search form text hotels nights. %$s = formatted nights string. E.g. (3 nights) -->
+    <string name="nights_count_TEMPLATE">(%1$s)</string>
+    <!-- Hotels search form default text for number of guests -->
+    <string name="hotel_search_guest_default_text">1 位旅客</string>
+    <!-- Hotel calendar tooltip bottom line after two dates are selected E.g. Drag to Modify -->
+    <string name="hotel_calendar_bottom_drag_to_modify">拖曳以修改</string>
+
+    <!-- Hotels Reviews Strings -->
+    <!-- Hotels summary rating template-->
+    <string name="hotel_rating_summary_Template">{rating} - {attribute}</string>
+    <!-- Hotels rating room cleanliness string -->
+    <string name="hotel_rating_room_cleanliness">客房整潔度</string>
+    <!-- Hotels rating room comfort string -->
+    <string name="hotel_rating_room_comfort">客房舒適度</string>
+    <!-- Hotels rating service and staff string -->
+    <string name="hotel_rating_service_and_staff">服務與員工</string>
+    <!-- Hotels rating hotel condition string -->
+    <string name="hotel_rating_hotel_condition">飯店狀況</string>
+
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
@@ -51,6 +76,8 @@
     <string name="cars_driver_details_text">駕駛者資訊</string>
     <!-- Text for payment details toolbar-->
     <string name="cars_payment_details_text">付款詳細資訊</string>
+    <!-- Text for payment options toolbar-->
+    <string name="cars_payment_options_text">付款方式</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">輸入駕駛者資訊</string>
     <!-- Text for select saved contacts-->
@@ -138,9 +165,6 @@
     <!-- Car model templates-->
     <string name="car_model_name_template">%1$s 或類似車款</string>
     <string name="car_model_unknown_template">找不到完全符合條件的車款</string>
-
-    <!-- Desk & vehicle at terminal -->
-    <string name="desk_and_vehicle_terminal">航廈櫃台與車輛</string>
     <!-- Car checkout cost breakdown total due today -->
     <string name="car_cost_breakdown_due_today">今天付款</string>
     <!-- Car checkout cost breakdown total due at pick up -->
@@ -175,6 +199,28 @@
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">前往 %1$s 的路線</string>
 
+    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
+    <string name="checkout_payment_option_credit_debit_label">信用卡/金融卡</string>
+    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
+    <string name="checkout_payment_option_google_wallet_label">Google 電子錢包</string>
+    <!-- Text for enter guest details line 1 -->
+    <string name="checkout_hotelsv2_enter_guest_details_line1">旅客資訊</string>
+    <!-- Text for enter guest details line 2 -->
+    <string name="checkout_hotelsv2_enter_guest_details_line2">輸入您的資訊</string>
+    <!-- Text for enter payment details line 1 -->
+    <string name="checkout_hotelsv2_enter_payment_details_line1">付款詳細資訊</string>
+    <!-- Text for enter payment details line 2 -->
+    <string name="checkout_hotelsv2_enter_payment_details_line2">選擇付款類型</string>
+    <!-- Label to indicate that the user has selected a stored credit card -->
+    <string name="checkout_payment_line2_storedcc">已儲存的信用卡</string>
+
+    <!-- Hotels V2 slide to reserve -->
+    <string name="hotelsv2_slide_reserve">滑動以預訂</string>
+    <!-- Hotels V2 slide to purchase -->
+    <string name="hotelsv2_slide_purchase">滑動以購買</string>
+    <!-- Hotels V2 Change Dates in case of Sold Out -->
+    <string name="change_dates">變更日期</string>
+
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
     <string name="pick_up_time_error">請調整您的取車或還車時間。</string>
@@ -184,8 +230,10 @@
     <string name="date_out_of_range">此日期距現在太遠，請選擇距現在較近的日期。</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">請延長您的預訂時間。</string>
-    <!-- Shown to user when they try to book something already booked -->
+    <!-- Shown to user in case the reservation timed out -->
     <string name="reservation_time_out">還在嗎？您的工作階段已經逾時。請再次嘗試搜尋。</string>
+    <!-- Shown to user when they try to book something already booked in new Hotels -->
+    <string name="reservation_already_exists_new_hotels">此預訂已完成。請檢查您的行程或電子郵件。</string>
     <!-- Shown to user when they try to book something already booked -->
     <string name="reservation_already_exists">不好意思，您似乎已經預訂好這個行程。請檢查您的行程或電子郵件。</string>
     <!-- Show to user when the price of a car they are trying to book has changed -->
@@ -194,6 +242,8 @@
     <string name="reservation_invalid_name">姓名不能包含數字或特殊字元。</string>
     <!-- Show to user when their phone number is invalid -->
     <string name="reservation_invalid_phone">電話號碼長度必須介於 4 至 20 個數字之間。</string>
+    <!-- Error button text indicating that the user should search again -->
+    <string name= "search_again">重新搜尋</string>
 
     <!-- Shown to a user when there is an issue with their credit card -->
     <string name="reservation_payment_failed">不好意思…您的付款並未成功。請再次檢查您的付款詳細資料，然後再試一次。</string>
@@ -241,8 +291,10 @@
     <!-- LX -->
     <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
     <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
-    <!-- Search widget header text -->
+    <!--LX Search widget header text -->
     <string name="lx_search_title">搜尋活動</string>
+    <!--GT Search widget header text -->
+    <string name="gt_search_title">搜尋交通</string>
     <!-- Button to show calendar and selected dates -->
     <string name="select_lx_search_dates">請選擇日期</string>
     <!-- Activity details highlights heading -->
@@ -570,6 +622,8 @@
     <string name="error_lx_search_message">沒有搜尋結果。請使用其他條件再搜尋一次。</string>
     <!-- LX search error -->
     <string name="error_lx_current_location_search_message">我們無法識別您目前的位置，因此無法搜尋您附近的活動。</string> 
+    <!-- GT current location search error -->
+    <string name="error_gt_current_location_search_message">我們無法識別您目前的位置，因此無法搜尋您附近的交通。</string> 
     <!-- Text for generic error toolbar-->
     <string name="lx_error_text">錯誤</string>
     <!-- Text for error toolbar-->
@@ -615,7 +669,9 @@
     <!-- Current location failed toolbar text -->
     <string name="lx_error_current_location_toolbar_text">請再試一次。</string>
     <!-- LX No Activities for Current location -->
-    <string name="lx_error_current_location_no_results">無法找到附近的活動。請使用其他條件再搜尋一次。</string>
+    <string name="lx_error_current_location_no_results">找不到任何在您附近的活動。請使用其他條件再搜尋一次。</string>
+    <!-- LX No Activities for Current location -->
+    <string name="gt_error_current_location_no_results">找不到任何在您附近的交通。請使用其他條件再搜尋一次。</string>
 
     <!-- Ground Transport bags text-->
     <string name="lx_ground_transport_bags_text">%1$s 件行李</string>
@@ -792,7 +848,7 @@
     <!-- Rooms and rates pay now -->
     <string name="room_rate_pay_now">立即付款</string>
     <!-- Rooms and rates pay later deposit due now -->
-    <string name="room_rate_pay_later_due_now">現在應付</string>
+    <string name="room_rate_pay_later_due_now">{amount}現在應付</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/晚</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -905,6 +961,8 @@
     <string name="nav_cars">租車</string>
     <!-- Activities -->
     <string name="nav_lx">活動</string>
+    <!-- Ground Transport -->
+    <string name="nav_transport">交通</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -1643,7 +1701,7 @@
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">選擇入住日期</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
-    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}，{guests} 位旅客</string>
+    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}，{guests}</string>
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">單程 &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1766,6 +1824,8 @@
     <string name="loading_flight_details">正在查詢價格變動…</string>
     <!-- Price changed from -->
     <string name="price_changed_from_TEMPLATE">變更前價格：%1$s</string>
+    <!-- Price dropped from -->
+    <string name="price_dropped_from_TEMPLATE">降價前價格：%1$s</string>
     <!-- Message shown to user when the airline is charging a fee to use their credit card brand e.g. This airline charges a fee of $5 (included in the total) to use this card. -->
     <string name="airline_card_fee_TEMPLATE">使用此信用卡，航空公司將收取 &lt;b&gt;%1$s&lt;/b&gt; 的費用 (已包含在總價中)。</string>
     <!-- Message shown to user explaining an airline fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The airline charges a fee of $8.50 to use VISA." -->
@@ -1837,9 +1897,9 @@
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">請輸入有效的電子郵件地址。</string>
     <!-- Row header for when we show resort fees as its own line item -->
-    <string name="fees_paid_at_hotel">需要在飯店支付的費用：</string>
+    <string name="fees_paid_at_hotel">在飯店支付的費用</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
-    <string name="due_to_brand_today_TEMPLATE">今天應付給 {brand}：</string>
+    <string name="due_to_brand_today_TEMPLATE">應付給 {brand}</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">飯店將會收取休閒設施費 &lt;b&gt;%1$s&lt;/b&gt;。您住宿的總價為 &lt;b&gt;%2$s&lt;/b&gt;。</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -1894,6 +1954,10 @@
     <string name="enter_traveler_info">旅客資訊</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">主要旅客資訊</string>
+    <!-- AB test variate 1 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate1">輸入主要旅客資訊</string>
+    <!-- AB test variate 2 - Traveler Details (for flights) -->
+    <string name="traveler_details_variate2">主要旅客</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">已儲存</string>
     <!-- Edit button for traveler/payment -->
@@ -1975,6 +2039,12 @@
     <string name="email_address_hint">電子郵件地址</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">電話號碼</string>
+    <!-- phone number -->
+    <string name="phone_number_field_text">電話號碼</string>
+    <!-- first name -->
+    <string name="first_name_field_text">名字</string>
+    <!-- last name -->
+    <string name="last_name_field_text">姓氏</string>
     <!-- Cardholder -->
     <string name="cardholder">持卡人</string>
     <!-- email disclaimer -->
@@ -2090,6 +2160,8 @@
     <!-- Enter a new traveler -->
     <string name="enter_new_traveler">輸入新旅客</string>
     <!-- Edit current traveler details -->
+    <string name="edit_guest_details">編輯旅客資訊</string>
+    <!-- Edit current traveler details -->
     <string name="edit_current_traveler">修改旅客資訊</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">喜好%1$s座位</string>
@@ -2157,8 +2229,6 @@
     <string name="share_trip">透過電子郵件分享</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
     <string name="add_to_calendar">新增到行事曆</string>
-    <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
-    <string name="add_to_flighttrack">使用 FlightTrack 追蹤班機</string>
     <!-- Button label for calling expedia customer support -->
     <string name="call_customer_support_TEMPLATE">來電 {brand} 客服中心</string>
     <!-- Add Insurance label -->
@@ -2190,6 +2260,10 @@
     <string name="flights_to_TEMPLATE">前往%s的班機</string>
     <!-- Summary of the user's hotel stay.  %1$s is the # of guests, %2$s is the duration, e.g. "3 Guests, Aug 1 to Aug 3" -->
     <string name="stay_summary_TEMPLATE">%1$s，%2$s</string>
+    <!-- Hotel confirmation directions text -->
+    <string name="hotel_confirmation_directions">飯店路線</string>
+    <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
+    <string name="rent_a_car_TEMPLATE">%1$s租車</string>
 
     <!-- Add to calendar (flights) -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
@@ -2274,6 +2348,14 @@
     <string name="error_hotel_no_longer_available">很抱歉，這間客房的保留期限已過。</string>
     <!-- Button label imploring users to pick a new hotel room due to unavailability -->
     <string name="pick_new_hotel">選擇新的飯店</string>
+    <!-- Text for hotel error unknown -->
+    <string name="error_hotel_unhandled">很抱歉，我們目前無法處理您的預訂。請再試一次。</string>
+    <!-- Text for hotel error toolbar duplicate trip-->
+    <string name="hotel_duplicate_trip_text">行程重複</string>
+    <!-- Text for hotel error toolbar payment failed-->
+    <string name="hotel_payment_failed_text">付款失敗</string>
+    <!-- Text for error toolbar session expired-->
+    <string name="session_timeout">工作階段逾時</string>
 
     <!-- Credit card input section -->
     <string name="one">1</string>
@@ -2309,6 +2391,8 @@
     <string name="See_back_of_card">請查看卡片背面</string>
     <!-- Hint on CVV fragment title for where to look for CVV code -->
     <string name="See_front_of_card">請查看卡片正面</string>
+    <!-- Hint on CVV widget title for where to look for CVV code -->
+    <string name="cvv_enter_security_code">輸入信用卡安全碼</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -2488,6 +2572,10 @@
     <string name="please_try_a_different_location_or_date">請嘗試不同的地點或日期。</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">找不到可入住的飯店</string>
+    <!-- Title displayed when room is sold out -->
+    <string name="select_another_room">選擇另一間客房</string>
+    <!-- Message displayed when room is sold out -->
+    <string name="error_room_sold_out">此客房已經訂滿。</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_TEMPLATE">很抱歉，此飯店在 {brand} 已訂滿。</string>
 
@@ -2518,6 +2606,8 @@
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">最低價 %s</string>
     <string name="From_x_per_night_template">最低 %s/晚</string>
+    <!-- Button text prompting the user to search this area on the map -->
+    <string name="Search_this_area">搜尋此地區</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -2536,7 +2626,6 @@
     <string name="book_now_ab_test">選擇客房</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">電話預訂</string>
-
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
@@ -2546,6 +2635,8 @@
     <string name="filter_vip_access">僅限 +VIP Access 飯店</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="VIP_Access_Only">僅限 +VIP Access</string>
+    <!-- Title for VIP Access message for Hotel Results -->
+    <string name="vip">+VIP</string>
     <!-- ON and OFF text for toggle switches -->
     <string name="switch_on">開</string>
     <string name="switch_off">關</string>
@@ -2558,10 +2649,13 @@
     <!-- new material Hotel results cell guest rating -->
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
-    <string name="guest_recommend">旅客推薦</string>
     <string name="hotel_guest_recommend">/ 5 - 旅客評分</string>
+    <!-- new material Hotel results cell discount percentage -->
+    <string name="hotel_discount_percent_Template">{discount}%</string>
 
     <!-- Amenity strings -->
+    <!-- Label to show amenities -->
+    <string name="AmenityTitle">設施服務</string>
     <!-- Text that indicates no amenities at this property -->
     <string name="AmenityNone">不提供設施</string>
     <!-- Business center amenity -->
@@ -2595,7 +2689,7 @@
     <!-- Parking amenity -->
     <string name="AmenityParking">停車場</string>
     <!-- Room service amenity -->
-    <string name="AmenityRoomService">客房服務</string>
+    <string name="AmenityRoomService">客房送餐服務</string>
     <!-- Accessible path of travel amenity -->
     <string name="AmenityAccessiblePaths">無障礙步道</string>
     <!-- Accessible bathroom amenity -->
@@ -2620,6 +2714,15 @@
     <string name="AmenityExtendedParking">延時停車</string>
     <!-- Free parking amenity -->
     <string name="AmenityFreeParking">免費停車</string>
+
+    <!-- Hotel Filter Amenities -->
+    <!-- Free internet -->
+    <string name="FilterFreeInternet">免費上網</string>
+    <!-- Free breakfast -->
+    <string name="FilterFreeBreakfast">免費早餐</string>
+    <!-- Free airport shuttle amenity -->
+    <string name="FilterFreeAirportShuttle">免費機場接駁車</string>
+
 
     <!-- User Reviews list strings -->
     <!-- Loading text prompt -->
@@ -2654,6 +2757,17 @@
         <item quantity="many">%d 則評語</item>
         <item quantity="other">%d 則評語</item>
     </plurals>
+
+    <!-- HOtel V2A number of reviews -->
+    <plurals name="hotel_number_of_reviews">
+        <item quantity="zero">沒有評語</item>
+        <item quantity="one">查看 %s 則評語</item>
+        <item quantity="two">查看 %s 則評語</item>
+        <item quantity="many">查看 %s 則評語</item>
+        <item quantity="other">查看 %s 則評語</item>
+    </plurals>
+
+    <string name="zero_reviews">0 則評論</string>
     <!--
          User review name and place review signature eg (John from San Diego, CA)
         1$ is the user name
@@ -2697,6 +2811,23 @@
     <string name="total_price_for_stay">住宿價格總計</string>
     <!-- Rate price for entire list, encompasses a group of hotel properties -->
     <string name="prices_avg_per_night">每晚平均價格</string>
+
+    <!-- Hotel Results Pricing Header - Prices Avg Per Night along with the Number of Search Results -->
+    <plurals name="hotel_results_pricing_header_prices_avg_per_night_TEMPLATE">
+        <item quantity="zero">沒有結果</item>
+        <item quantity="one">每晚平均價格 • 1 個結果</item>
+        <item quantity="many">每晚平均價格 • %d 個結果</item>
+        <item quantity="other">每晚平均價格 • %d 個結果</item>
+    </plurals>
+
+    <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
+    <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
+        <item quantity="zero">沒有結果</item>
+        <item quantity="one">總房價 • 1 個結果</item>
+        <item quantity="many">總房價 • %d 個結果</item>
+        <item quantity="other">總房價 • %d 個結果</item>
+    </plurals>
+
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">沒有空房！</item>
@@ -2705,6 +2836,8 @@
         <item quantity="many">只剩 %d 間客房！</item>
         <item quantity="other">只剩 %d 間客房！</item>
     </plurals>
+    <!-- The text we use to show room info for expanded room -->
+    <string name="room_information">客房資訊</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">不可退款</string>
     <!-- Label for free nights -->
@@ -2727,7 +2860,10 @@
     <string name="not_included_in_the_price">未含在價格內</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">查看客房</string>
-
+    <!-- Book Room button text -->
+    <string name="book_room_button_text">預訂</string>
+    <!-- Share via when user is shareing hotel listing -->
+    <string name="share_via">分享到</string>
     <!-- Renovation Notice -->
     <string name="renovation_notice">內部整修通知</string>
     <!-- This property is undergoing renovations -->
@@ -2736,8 +2872,6 @@
     <string name="more_info">更多資訊</string>
 
     <!-- Booking info -->
-    <!-- Error if we couldn't find the room type details -->
-    <string name="error_room_type_nonexistant">很抱歉，我們找不到更多此客房的資料。</string>
     <!-- Quantity for the length of stay -->
     <plurals name="length_of_stay">
         <item quantity="one">1 晚</item>
@@ -2811,6 +2945,12 @@
     <string name="apply">使用</string>
 
     <!-- Coupon dialog -->
+    <!-- Saved coupon title -->
+    <string name="saved_coupon">已儲存的優惠券</string>
+    <!-- Coupon Widget Title -->
+    <string name="coupon_promo_title">優惠券及促銷活動</string>
+    <!-- Title on dialog imploring users to enter coupons -->
+    <string name="enter_coupon_promo_code">輸入優惠或促銷代碼</string>
     <!-- Title on dialog imploring users to enter coupons -->
     <string name="enter_coupon_code">輸入優惠代碼</string>
     <!-- Message shown when applying coupon (in progress) -->
@@ -2821,10 +2961,14 @@
     <string name="coupon_saved_TEMPLATE">您節省了 %s！</string>
     <!-- Message shown when a coupon is being removed -->
     <string name="coupon_removing_dialog">正在刪除優惠券</string>
+    <!-- Coupon submit button -->
+    <string name="coupon_submit_button">送出</string>
 
     <!-- Coupon Error Strings -->
+    <!-- Error when applying coupon - the coupon isn't known -->
+    <string name="coupon_error_unknown">很抱歉，這不是有效的優惠代碼。</string>
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">很抱歉，此優惠代碼無效。</string>
+    <string name="coupon_error_unrecognized">很抱歉，這不是有效的優惠代碼。</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">很抱歉，此優惠代碼已經過期。</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
@@ -2849,6 +2993,8 @@
     <string name="coupon_error_hotel_excluded">很抱歉，此飯店不接受優惠券。</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_invalid_hotel">很抱歉，此優惠券不適用於此飯店。</string>
+    <!-- Error when applying coupon - the package does not accept coupons -->
+    <string name="coupon_error_invalid_booking">很抱歉，此優惠券不適用於此預訂。</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">很抱歉，目前無法處理優惠券。請再試一次。</string>
     <!-- Error when applying coupon - session timeout -->
@@ -2861,6 +3007,8 @@
     <string name="coupon_error_invalid_average_price">很抱歉，平均每晚價格未達使用此優惠券的最低要求。</string>
     <!-- Error when applying coupon - Pay Later Hotel -->
     <string name="coupon_error_pay_later_hotel">優惠券不適用於入住飯店才付款的客房，請選擇立即線上付款的客房。</string>
+    <!-- Error when applying coupon - Not Active -->
+    <string name="coupon_error_not_active">很抱歉，此優惠代碼已經過期。</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2869,6 +3017,8 @@
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">預訂支援</string>
+    <!-- Subject for loyalty email on Itin -->
+    <string name="support_request">支援要求</string>
     <!-- Title for different ways to connect to Expedia -->
     <string name="contact_via_TEMPLATE">聯絡 {brand}…</string>
     <!-- Contact Expedia via phone -->
@@ -2893,8 +3043,6 @@
     <string name="dialog_title_cleared_private_data">已清除個人資料</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">所有儲存的帳單和聯絡資訊皆已清除。</string>
-    <!-- Action button label to Subscribe to our mailing list -->
-    <string name="Subscribe">訂閱</string>
     <!-- Action button label to follow on twitter -->
     <string name="Follow">關注</string>
     <!-- Action button label to like on facebook -->
@@ -3015,6 +3163,8 @@
     <string name="e3_error_checkout_payment_failed">很抱歉，我們無法處理您的付款。請確認您已輸入正確的資料。</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
     <string name="e3_error_checkout_invalid_expiration">信用卡到期日無效。</string>
+    <!-- Error message displayed when the traveler information is invalid -->
+    <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">請輸入有效的%1$s</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
@@ -3616,4 +3766,22 @@
     <string name="acct_Welcome_to_Expedia">歡迎使用 Expedia</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Expedia_account_already_exists">此電子郵件地址已經有一個 Expedia 帳戶</string>
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(0-17 歲)</string>
+
+    <!-- Hotel Filters Strings -->
+    <string name="neighborhoods">鄰近地區</string>
+    <string name="amenities">設施服務</string>
+    <string name="plus_vip">+VIP</string>
+    <string name="star_rating">星級評等</string>
+    <string name="show_more">顯示更多</string>
+    <string name="show_less">隱藏部分內容</string>
+    <string name="price_range">價格範圍</string>
+
+    <!-- Hotel V2 Coupon related -->
+    <string name="applied_coupon_message">已使用優惠券：您省了 %1$s！</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog title -->
+    <string name="coupon_error_dialog_title">優惠券無法使用</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog message -->
+    <string name="coupon_error_dialog_message">您的優惠券出現問題。請再輸入一次。</string>
 </resources>

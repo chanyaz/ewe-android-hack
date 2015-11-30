@@ -167,10 +167,11 @@ public class LXDetailsPresenterTest {
 
 		ViewInteraction thirdOfferSelectTicket = LXScreen.selectTicketsButton("5-Day New York Pass");
 		LXScreen.withOfferText("5-Day New York Pass").perform(customScroll());
-		thirdOfferSelectTicket.perform(customScroll(),click());
+		thirdOfferSelectTicket.perform(customScroll(), click());
 
 		firstOfferTicketPicker.check(matches(not(isDisplayed())));
 		secondOfferTicketPicker.check(matches(not(isDisplayed())));
+		thirdOfferSelectTicket.perform(customScroll(50));
 		thirdOfferTicketPicker.check(matches(isDisplayed()));
 
 		//Scroll to show more and display all the offers.
@@ -185,6 +186,7 @@ public class LXDetailsPresenterTest {
 		firstOfferTicketPicker.check(matches(not(isDisplayed())));
 		secondOfferTicketPicker.check(matches(not(isDisplayed())));
 		thirdOfferTicketPicker.check(matches(not(isDisplayed())));
+		fourthOfferTicketPicker.perform(customScroll(50));
 		fourthOfferTicketPicker.check(matches(isDisplayed()));
 	}
 

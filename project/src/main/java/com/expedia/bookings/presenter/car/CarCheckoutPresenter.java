@@ -7,7 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.annotation.StringRes;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -175,7 +175,7 @@ public class CarCheckoutPresenter extends Presenter {
 			super.finalizeTransition(forward);
 			if (!forward) {
 				checkout.slideWidget.resetSlider();
-				checkout.isCheckoutComplete();
+				checkout.checkoutFormWasUpdated();
 			}
 		}
 	};
@@ -201,7 +201,7 @@ public class CarCheckoutPresenter extends Presenter {
 	@Subscribe
 	public void showSessionTimeout(Events.CarsSessionTimeout event) {
 		clearBackStack();
-		((ActionBarActivity) getContext()).onBackPressed();
+		((AppCompatActivity) getContext()).onBackPressed();
 	}
 
 	@Subscribe
@@ -213,10 +213,15 @@ public class CarCheckoutPresenter extends Presenter {
 
 	@Subscribe
 	public void showInvalidInput(Events.CarsInvalidInput event) {
-		show(checkout, FLAG_CLEAR_TOP);
-		checkout.slideWidget.resetSlider();
-		checkout.mainContactInfoCardView.setExpanded(true, true);
-		checkout.mainContactInfoCardView.setInvalid(event.field);
+		if (event.field.equalsIgnoreCase("creditCardNumber")) {
+			Events.post(new Events.CarsPaymentFailed());
+		}
+		else {
+			show(checkout, FLAG_CLEAR_TOP);
+			checkout.slideWidget.resetSlider();
+			checkout.mainContactInfoCardView.setExpanded(true, true);
+			checkout.mainContactInfoCardView.setInvalid(event.field);
+		}
 	}
 
 	@Subscribe

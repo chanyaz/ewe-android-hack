@@ -1,156 +1,230 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/hotel_room_background"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp" />
+        android:layout_height="wrap_content"
+        android:minHeight="120dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_alignBottom="@+id/hotel_room_background"
-        android:layout_alignLeft="@+id/hotel_room_background"
-        android:layout_alignRight="@+id/hotel_room_background"
-        android:layout_alignTop="@+id/hotel_room_background"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/hotel_name"
+        <ImageView
+            android:id="@+id/hotel_checkout_room_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/hotel_info_section"
+            android:layout_alignBottom="@+id/hotel_info_section"
+            android:scaleType="centerCrop"
+            android:src="@drawable/room_fallback" />
 
-        <TextView
-            android:id="@+id/check_in_out_dates"
+        <LinearLayout
+            android:id="@+id/hotel_info_section"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-        <TextView
-            android:id="@+id/address_line_one"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/hotel_name"
+                style="@style/HotelCheckoutImageSummary.Name" />
 
-        <TextView
-            android:id="@+id/address_city_state"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/check_in_out_dates"
+                style="@style/HotelCheckoutImageSummary.Common" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/address_line_one"
+                style="@style/HotelCheckoutImageSummary.Common"
+                android:paddingTop="12dp" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/address_city_state"
+                style="@style/HotelCheckoutImageSummary.Common" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/hotel_booking_summary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/hotel_room_background"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingBottom="13dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:paddingTop="9dp">
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/selected_room"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/cars_actionbar_text_color" />
+            style="@style/HotelCheckoutSummaryCommon"
+            android:textSize="14sp"
+            app:textStyle="medium" />
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/selected_bed"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/cars_actionbar_text_color" />
+            style="@style/HotelCheckoutSummaryCommon.Common" />
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/number_nights"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/cars_actionbar_text_color" />
+            style="@style/HotelCheckoutSummaryCommon.Common"
+            android:drawableLeft="@drawable/ic_checkout_date"
+            android:drawablePadding="8dp"
+            android:paddingBottom="3dp"
+            android:paddingTop="9dp" />
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/number_guests"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/cars_actionbar_text_color" />
+            style="@style/HotelCheckoutSummaryCommon.Common"
+            android:drawableLeft="@drawable/ic_checkout_guests"
+            android:drawablePadding="8dp"
+            android:paddingBottom="9dp" />
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/free_cancellation_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/check"
+            style="@style/HotelCheckoutSummaryCommon.Common"
+            android:drawableLeft="@drawable/ic_hotel_check"
             android:drawablePadding="8dp"
-            android:paddingLeft="14dp"
-            android:textColor="@color/cars_actionbar_text_color" />
+            android:paddingBottom="3dp"
+            android:text="@string/free_cancellation" />
 
-        <TextView
-            android:id="@+id/sale_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/check"
-            android:drawablePadding="8dp"
-            android:paddingLeft="14dp"
-            android:textColor="@color/cars_actionbar_text_color" />
-
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/best_price_guarantee"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/check"
+            style="@style/HotelCheckoutSummaryCommon.Common"
+            android:drawableLeft="@drawable/ic_hotel_check"
             android:drawablePadding="8dp"
-            android:paddingLeft="14dp"
-            android:textColor="@color/cars_actionbar_text_color" />
+            android:text="@string/best_price_guarantee" />
     </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/hotelsv2_checkout_divider_color" />
+
     <LinearLayout
+        android:id="@+id/cost_summary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/hotel_booking_summary"
-        android:orientation="horizontal">
+        android:background="@drawable/cost_breakdown"
+        android:orientation="vertical"
+        android:paddingBottom="9dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="14dp"
+        android:paddingTop="9dp">
 
-        <LinearLayout
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/total_tax_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="6dp"
+                android:drawableRight="@drawable/ic_checkout_info"
+                android:gravity="center_vertical"
+                android:text="@string/total_with_tax"
+                android:textColor="@color/hotelsv2_checkout_text_color"
+                android:textSize="11sp"
+                app:textStyle="medium" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/total_price_with_tax"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/total_tax_label"
+                android:layout_alignTop="@+id/total_tax_label"
+                android:layout_toRightOf="@id/total_tax_label"
+                android:gravity="right|center_vertical"
+                android:textColor="@color/hotelsv2_checkout_text_color"
+                android:textSize="11sp"
+                app:textStyle="medium" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/fees_paid_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/fees_paid"
+                android:drawablePadding="7dp"
+                android:text="@string/fees_paid_at_hotel"
+                android:textColor="@color/hotelsv2_checkout_text_color"
+                android:textSize="11sp"
+                app:textStyle="medium" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/total_fees"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/fees_paid_label"
+                android:layout_alignTop="@+id/fees_paid_label"
+                android:layout_toRightOf="@id/fees_paid_label"
+                android:gravity="right|center_vertical"
+                android:textColor="@color/hotelsv2_checkout_text_color"
+                android:textSize="11sp"
+                app:textStyle="normal" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/amount_due_today_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="6dp"
+                android:drawableRight="@drawable/ic_checkout_info"
+                android:textColor="@color/hotelsv2_checkout_text_color"
+                android:textSize="16sp"
+                app:textStyle="medium" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/total_price_with_tax_and_fees"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/amount_due_today_label"
+                android:layout_alignTop="@+id/amount_due_today_label"
+                android:layout_toRightOf="@id/amount_due_today_label"
+                android:gravity="right|center_vertical"
+                android:textColor="@color/hotels_primary_color"
+                android:textSize="16sp"
+                app:textStyle="medium" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/price_change_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/hotel_summary_background"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#D5D5D5" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/price_change_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/cars_actionbar_text_color" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/cars_actionbar_text_color" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/cars_actionbar_text_color" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:textColor="@color/cars_actionbar_text_color" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:textColor="@color/cars_actionbar_text_color" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:textColor="@color/cars_actionbar_text_color" />
-
-        </LinearLayout>
-
+            android:layout_gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="8dp"
+            android:textColor="@color/cars_checkout_text_color"
+            android:textSize="14sp"
+            app:textStyle="light"
+            android:drawableLeft="@drawable/price_change_decrease"
+            android:drawablePadding="8dp"/>
     </LinearLayout>
 
 </merge>

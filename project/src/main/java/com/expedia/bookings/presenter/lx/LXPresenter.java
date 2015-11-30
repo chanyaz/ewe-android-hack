@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.lx;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -12,7 +13,7 @@ import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXConfirmationWidget;
-import com.expedia.bookings.widget.LXLoadingOverlayWidget;
+import com.expedia.bookings.widget.LoadingOverlayWidget;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
@@ -34,8 +35,8 @@ public class LXPresenter extends Presenter {
 	@InjectView(R.id.activity_details_presenter)
 	LXDetailsPresenter detailsPresenter;
 
-	@InjectView(R.id.lx_loading_overlay)
-	LXLoadingOverlayWidget loadingOverlay;
+	@InjectView(R.id.details_loading_overlay)
+	LoadingOverlayWidget loadingOverlay;
 
 	@InjectView(R.id.confirmation)
 	LXConfirmationWidget confirmationWidget;
@@ -63,6 +64,9 @@ public class LXPresenter extends Presenter {
 		show(resultsPresenter);
 		resultsPresenter.setVisibility(VISIBLE);
 
+		int[] attrs = {R.attr.skin_lxPrimaryColor};
+		TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
+		loadingOverlay.setBackgroundAttr(ta.getDrawable(0));
 	}
 
 	private Transition searchParamsToResults = new Transition(LXSearchParamsPresenter.class,
@@ -138,7 +142,7 @@ public class LXPresenter extends Presenter {
 	};
 
 	private Transition searchOverlayOnResults = new Transition(LXResultsPresenter.class,
-	LXParamsOverlay.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
+		LXParamsOverlay.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
 		@Override
 		public void startTransition(boolean forward) {
 			resultsPresenter.setVisibility(VISIBLE);
@@ -147,17 +151,17 @@ public class LXPresenter extends Presenter {
 			resultsPresenter.animationStart(forward);
 			searchParamsWidget.animationStart(forward);
 		}
-	
+
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			resultsPresenter.animationUpdate(f, forward);
 			searchParamsWidget.animationUpdate(f, forward, 1f);
 		}
-	
+
 		@Override
 		public void endTransition(boolean forward) {
 		}
-	
+
 		@Override
 		public void finalizeTransition(boolean forward) {
 			resultsPresenter.setVisibility(VISIBLE);
@@ -254,5 +258,9 @@ public class LXPresenter extends Presenter {
 	@Subscribe
 	public void onCheckoutSuccess(Events.LXCheckoutSucceeded event) {
 		show(confirmationWidget, FLAG_CLEAR_BACKSTACK);
+	}
+
+	public void setIsGroundTransport(boolean isGroundTransport) {
+		resultsPresenter.setIsFromGroundTransport(isGroundTransport);
 	}
 }

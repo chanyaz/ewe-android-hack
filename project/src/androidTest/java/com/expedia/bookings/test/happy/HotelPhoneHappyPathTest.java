@@ -3,16 +3,16 @@ package com.expedia.bookings.test.happy;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.test.espresso.PhoneTestCase;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonTravelerInformationScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsCheckoutScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsConfirmationScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsDetailsScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.hotels.HotelsSearchScreen;
-import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
+import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CommonTravelerInformationScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
+import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsCheckoutScreen;
+import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsConfirmationScreen;
+import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsDetailsScreen;
+import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
+import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsSearchScreen;
+import com.expedia.bookings.test.espresso.Common;
 
 public class HotelPhoneHappyPathTest extends PhoneTestCase {
 
@@ -63,7 +63,7 @@ public class HotelPhoneHappyPathTest extends PhoneTestCase {
 
 		screenshot("Slide_To_Purchase");
 		HotelsCheckoutScreen.slideToCheckout();
-		CVVEntryScreen.parseAndEnterCVV("111");
+		CVVEntryScreen.enterCVV("111");
 		screenshot("CVV");
 		CVVEntryScreen.clickBookButton();
 		screenshot("Confirmation");

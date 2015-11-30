@@ -126,4 +126,20 @@ public class StrUtilsTest {
 		String formattedString = StrUtils.formatAirportName(displayNameResponse);
 		assertEquals(formattedString, "NYC-All Airports");
 	}
+
+	@Test
+	public void testRoundOff() {
+		float testNumber = 4.0481f;
+		assertEquals("4", StrUtils.roundOff(testNumber, 0));
+		assertEquals("4.0", StrUtils.roundOff(testNumber, 1));
+		assertEquals("4.05", StrUtils.roundOff(testNumber, 2));
+		assertEquals("4.048", StrUtils.roundOff(testNumber, 3));
+	}
+
+	public void testContentFormatting() {
+		String content = "<p>A complimentary breakfast is offered.</p><p>eStone Villa Inn San Mateo is a smoke-free property.</p><ul><li>24-hour front desk</li></ul>";
+		String formattedString = StrUtils.getFormattedContent(getContext(), content);
+		assertEquals("A complimentary breakfast is offered.eStone Villa Inn San Mateo is a smoke-free property.<br/><br/>• 24-hour front desk<br/>", formattedString);
+	}
+
 }

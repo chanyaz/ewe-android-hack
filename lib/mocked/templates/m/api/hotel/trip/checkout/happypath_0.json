@@ -167,5 +167,6 @@
         "travelRecordLocator": "1",
         "tripId": "${tripId}"
     },
-    "orderId": "000000"
+    "orderId": "000000",
+    "totalCharges": "126.71"
 }

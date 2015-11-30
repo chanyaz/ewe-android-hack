@@ -6,19 +6,28 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.enums.MerchandiseSpam;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfo;
+import com.expedia.bookings.tracking.HotelV2Tracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -67,11 +76,22 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	@InjectView(R.id.traveler_button)
 	TravelerButton travelerButton;
 
+	@InjectView(R.id.merchandise_guest_opt_checkbox)
+	CheckBox merchandiseOptCheckBox;
+
+	public Boolean emailOptIn;
+	MerchandiseSpam emailOptInStatus;
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		LayoutInflater inflater = LayoutInflater.from(getContext());
-		inflater.inflate(R.layout.traveler_contact_details_widget, this);
+		if (PointOfSale.getPointOfSale().showLastNameFirst()) {
+			inflater.inflate(R.layout.traveler_contact_details_widget_reversed, this);
+		}
+		else {
+			inflater.inflate(R.layout.traveler_contact_details_widget, this);
+		}
 		ButterKnife.inject(this);
 
 		phoneSpinner.selectPOSCountry();
@@ -103,6 +123,47 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		bind();
 	}
 
+	public void setUPEMailOptCheckBox(MerchandiseSpam value) {
+		emailOptInStatus = value;
+		if (lineOfBusiness == LineOfBusiness.HOTELSV2 && !User.isLoggedIn(getContext())) {
+			if (emailOptInStatus != null) {
+				switch (emailOptInStatus) {
+				case ALWAYS:
+					//default value
+					emailOptIn = true;
+					break;
+				case CONSENT_TO_OPT_IN:
+					//default value
+					emailOptIn = false;
+					merchandiseOptCheckBox.setText(Phrase.from(getContext(), R.string.hotel_checkout_merchandise_guest_opt_in_TEMPLATE).put("brand", BuildConfig.brand).format());
+					initUsers();
+					break;
+				case CONSENT_TO_OPT_OUT:
+					//default value
+					emailOptIn = true;
+					merchandiseOptCheckBox.setText(Phrase.from(getContext(), R.string.hotel_checkout_merchandise_guest_opt_out_TEMPLATE).put("brand", BuildConfig.brand).format());
+					initUsers();
+					break;
+				}
+			}
+		}
+	}
+
+	private void initUsers() {
+		merchandiseOptCheckBox.setVisibility(View.VISIBLE);
+		merchandiseOptCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+				if (emailOptInStatus.equals(MerchandiseSpam.CONSENT_TO_OPT_IN)) {
+					emailOptIn = isChecked;
+				}
+				else if (emailOptInStatus.equals(MerchandiseSpam.CONSENT_TO_OPT_OUT)) {
+					emailOptIn = !isChecked;
+				}
+			}
+		});
+	}
+
 	public void setEnterDetailsText(String text) {
 		enterDetailsText.setText(text);
 	}
@@ -130,6 +191,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			sectionTravelerInfo.bind(traveler);
 			lastName.setNextFocusRightId(phoneNumber.getId());
 			lastName.setNextFocusDownId(phoneNumber.getId());
+			FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
 			enterDetailsText.setText(traveler.getFullName());
 			travelerPhoneText.setText(traveler.getPhoneNumber());
 			travelerPhoneText.setVisibility(VISIBLE);
@@ -141,14 +203,25 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			}
 			sectionTravelerInfo.refreshOnLoginStatusChange();
 			sectionTravelerInfo.bind(traveler);
+			FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
 			lastName.setNextFocusRightId(emailAddress.getId());
 			lastName.setNextFocusDownId(emailAddress.getId());
 		}
 
 		if (TextUtils.isEmpty(traveler.getFullName())) {
-			enterDetailsText.setText(Ui.obtainThemeResID(getContext(), R.attr.traveler_details_text));
-			travelerPhoneText.setText("");
-			travelerPhoneText.setVisibility(GONE);
+			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+				FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
+				enterDetailsText.setText(getResources().getString(R.string.checkout_hotelsv2_enter_guest_details_line1));
+				travelerPhoneText.setVisibility(VISIBLE);
+				travelerPhoneText.setText(getResources().getString(R.string.checkout_hotelsv2_enter_guest_details_line2));
+			}
+			else {
+				FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_REGULAR);
+				enterDetailsText.setText(Ui.obtainThemeResID(getContext(), R.attr.traveler_details_text));
+				travelerPhoneText.setText("");
+				travelerPhoneText.setVisibility(GONE);
+			}
+
 			driverCheckoutStatusLeftImageView.setTraveler(null);
 			driverCheckoutStatusLeftImageView.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
 			driverCheckoutStatusRightImageView.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
@@ -184,10 +257,22 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			else {
 				travelerButton.setVisibility(GONE);
 			}
-			firstName.requestFocus();
-			Ui.showKeyboard(firstName, null);
 			bind();
-			OmnitureTracking.trackCheckoutTraveler(lineOfBusiness);
+			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+				new HotelV2Tracking().trackHotelV2CheckoutTraveler();
+			}
+			else {
+				OmnitureTracking.trackCheckoutTraveler(lineOfBusiness);
+			}
+
+			if (PointOfSale.getPointOfSale().showLastNameFirst()) {
+				lastName.requestFocus();
+				Ui.showKeyboard(lastName, null);
+			}
+			else {
+				firstName.requestFocus();
+				Ui.showKeyboard(firstName, null);
+			}
 		}
 		else {
 			bind();
@@ -202,7 +287,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	}
 
 	@Override
-	public boolean getDoneButtonFocus() {
+	public boolean getMenuDoneButtonFocus() {
 		if (phoneNumber != null) {
 			return phoneNumber.hasFocus();
 		}
@@ -210,12 +295,22 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	}
 
 	@Override
-	public String getActionBarTitle() {
-		return getResources().getString(Ui.obtainThemeResID(getContext(), R.attr.traveler_toolbar_text));
+	public String getMenuButtonTitle() {
+		return getResources().getString(R.string.Done);
 	}
 
 	@Override
-	public void onDonePressed() {
+	public String getActionBarTitle() {
+		if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+			return getResources().getString(R.string.checkout_hotelsv2_enter_guest_details_line1);
+		}
+		else {
+			return getResources().getString(Ui.obtainThemeResID(getContext(), R.attr.traveler_toolbar_text));
+		}
+	}
+
+	@Override
+	public void onMenuButtonPressed() {
 		if (sectionTravelerInfo.performValidation()) {
 			setExpanded(false);
 		}
@@ -239,7 +334,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	}
 
 	public boolean isFilled() {
-		return !firstName.getText().toString().isEmpty() || !lastName.getText().toString().isEmpty() || !phoneNumber.getText().toString().isEmpty() ;
+		return !firstName.getText().toString().isEmpty() || !lastName.getText().toString().isEmpty() || !phoneNumber.getText().toString().isEmpty();
 	}
 
 	public void setInvalid(String field) {
@@ -257,5 +352,11 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	public void setLineOfBusiness(LineOfBusiness lob) {
 		lineOfBusiness = lob;
+	}
+
+	public void bindGoogleWalletTraveler(Traveler traveler) {
+		if (traveler != null && !isFilled()) {
+			sectionTravelerInfo.bind(traveler);
+		}
 	}
 }

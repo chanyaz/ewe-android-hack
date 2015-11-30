@@ -511,7 +511,7 @@ public class CustomEditText extends EditText {
 		/*
 		 * Now set the popup size to be big enough for the text plus the border.
 		 */
-		pop.setWidth(wid + (int) FloatMath.ceil(max));
+		pop.setWidth(wid + (int) Math.ceil(max));
 		pop.setHeight(ht + l.getHeight());
 	}
 

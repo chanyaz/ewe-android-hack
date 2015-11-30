@@ -2,25 +2,13 @@ package com.expedia.bookings.utils;
 
 import java.text.DecimalFormat;
 
-import org.xmlpull.v1.XmlPullParser;
-
-import android.app.Activity;
 import android.content.Context;
-import android.content.pm.ActivityInfo;
-import android.content.res.AssetManager;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.content.res.XmlResourceParser;
-import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.graphics.Shader.TileMode;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.text.Html;
 import android.text.TextPaint;
 import android.util.TypedValue;
 import android.view.View;
@@ -37,7 +25,6 @@ import com.expedia.bookings.data.HotelFilter.SearchRadius;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Property.Amenity;
-import com.expedia.bookings.data.Rate;
 import com.larvalabs.svgandroid.widget.SVGView;
 import com.mobiata.android.util.ViewUtils;
 
@@ -78,13 +65,6 @@ public class LayoutUtils {
 		textPaint.setTypeface(Typeface.DEFAULT_BOLD);
 		return ViewUtils.getTextSizeForMaxLines(context, context.getString(R.string.percent_off_template, 50.0),
 			textPaint, 58, 1, 11.5f, 1);
-	}
-
-	public static Drawable getDividerDrawable(Context context) {
-		BitmapDrawable drawable = new BitmapDrawable(BitmapFactory.decodeResource(context.getResources(),
-			R.drawable.list_stroke_shadow));
-		drawable.setTileModeY(TileMode.REPEAT);
-		return drawable;
 	}
 
 	public static void configureRadiusFilterLabels(Context context, ViewGroup radiusFilterGroup, HotelFilter filter) {
@@ -228,27 +208,7 @@ public class LayoutUtils {
 		return sb.toString();
 	}
 
-	public static void layoutRoomLongDescription(Context context, Rate rate, TextView roomDetailsTextView) {
-		CharSequence longDescription = rate.getRoomLongDescription();
-		if (longDescription != null) {
-			// Do a bit of formatting on it...
-			longDescription = longDescription.toString().replace("<strong>", "").replace("</strong>", ". ")
-				.replace(". .", ".");
-			longDescription = Html.fromHtml(longDescription.toString());
-		}
-		else {
-			longDescription = context.getString(R.string.error_room_type_nonexistant);
-		}
-		roomDetailsTextView.setText(longDescription);
-	}
-
-	public static boolean isScreenNarrow(Context context) {
-		Configuration config = context.getResources().getConfiguration();
-		return config.screenWidthDp <= 800;
-	}
-
 	private static final int[] ATTR_ACTION_BAR_SIZE = new int[] {android.R.attr.actionBarSize};
-	private static final int[] ATTR_WINDOW_ACTION_BAR_OVERLAY = new int[] {android.R.attr.windowActionBarOverlay};
 
 	public static int getActionBarSize(Context context) {
 		TypedArray a = context.obtainStyledAttributes(null, ATTR_ACTION_BAR_SIZE);
@@ -256,135 +216,4 @@ public class LayoutUtils {
 		a.recycle();
 		return actionBarHeight;
 	}
-
-	public static int getActionBarSplitSize(Context context) {
-		// FIXME: I don't think there is a way to do this outside of ActionBarSherlock
-		// The styleables are not exposed to us
-		// For now I just return the actionbar size
-		return getActionBarSize(context);
-	}
-
-	/**
-	 * Adjusts the top and bottom padding of a View based on its Activity and state.
-	 * <p/>
-	 * This method makes a few assumptions, namely that you're setting things like the
-	 * action bar/split's height and the uiOptions in the XML rather than dynamically.
-	 * If you're doing it dynamically then you're on your own (but I can't see any use
-	 * for a *more* dynamic version of this method at the moment).
-	 *
-	 * @param activity     the Activity who made have overlay
-	 * @param rootView     the root view to add padding to
-	 * @param hasMenuItems there appears to be no easy way to tell if the menu actually has any items,
-	 *                     so we use this variable to determine whether or not to adjust for bottom padding
-	 */
-	public static void adjustPaddingForOverlayMode(Activity activity, View rootView, boolean hasMenuItems) {
-		TypedArray a = activity.getTheme().obtainStyledAttributes(ATTR_WINDOW_ACTION_BAR_OVERLAY);
-		boolean inOverlayMode = a.getBoolean(0, false);
-		a.recycle();
-
-		if (inOverlayMode) {
-			Resources res = activity.getResources();
-			int extraTopPadding = getActionBarSize(activity);
-
-			// Get bottom padding (if in split action bar mode)
-			int extraBottomPadding = 0;
-			if (needsBottomPaddingForOverlay(activity, hasMenuItems)) {
-				extraBottomPadding = getActionBarSplitSize(activity);
-			}
-
-			// Reset the padding with the additional top (and maybe bottom) padding
-			rootView.setPadding(rootView.getPaddingLeft(), rootView.getPaddingTop() + extraTopPadding,
-				rootView.getPaddingRight(), rootView.getPaddingBottom() + extraBottomPadding);
-		}
-	}
-
-	public static boolean needsBottomPaddingForOverlay(Activity activity, boolean hasMenuItems) {
-		if (hasMenuItems) {
-			int uiOptions = loadUiOptionsFromManifest(activity);
-			boolean splitWhenNarrow = (uiOptions & ActivityInfo.UIOPTION_SPLIT_ACTION_BAR_WHEN_NARROW) != 0;
-			return splitWhenNarrow
-				&& activity.getResources().getBoolean(R.bool.abs__split_action_bar_is_narrow);
-		}
-		return false;
-	}
-
-	// Ripped from ActionBarSherlock for needsBottomPaddingForOverlay(...)
-	public static int loadUiOptionsFromManifest(Activity activity) {
-		int uiOptions = 0;
-		try {
-			final String thisPackage = activity.getClass().getName();
-
-			final String packageName = activity.getApplicationInfo().packageName;
-			final AssetManager am = activity.createPackageContext(packageName, 0).getAssets();
-			final XmlResourceParser xml = am.openXmlResourceParser("AndroidManifest.xml");
-
-			int eventType = xml.getEventType();
-			while (eventType != XmlPullParser.END_DOCUMENT) {
-				if (eventType == XmlPullParser.START_TAG) {
-					String name = xml.getName();
-
-					if ("application".equals(name)) {
-						//Check if the <application> has the attribute
-						for (int i = xml.getAttributeCount() - 1; i >= 0; i--) {
-							if ("uiOptions".equals(xml.getAttributeName(i))) {
-								uiOptions = xml.getAttributeIntValue(i, 0);
-								break; //out of for loop
-							}
-						}
-					}
-					else if ("activity".equals(name)) {
-						//Check if the <activity> is us and has the attribute
-						Integer activityUiOptions = null;
-						String activityPackage = null;
-						boolean isOurActivity = false;
-
-						for (int i = xml.getAttributeCount() - 1; i >= 0; i--) {
-							//We need both uiOptions and name attributes
-							String attrName = xml.getAttributeName(i);
-							if ("uiOptions".equals(attrName)) {
-								activityUiOptions = xml.getAttributeIntValue(i, 0);
-							}
-							else if ("name".equals(attrName)) {
-								activityPackage = cleanActivityName(packageName, xml.getAttributeValue(i));
-								if (!thisPackage.equals(activityPackage)) {
-									break; //out of for loop
-								}
-								isOurActivity = true;
-							}
-
-							//Make sure we have both attributes before processing
-							if ((activityUiOptions != null) && (activityPackage != null)) {
-								//Our activity, uiOptions specified, override with our value
-								uiOptions = activityUiOptions.intValue();
-							}
-						}
-						if (isOurActivity) {
-							//If we matched our activity but it had no logo don't
-							//do any more processing of the manifest
-							break;
-						}
-					}
-				}
-				eventType = xml.nextToken();
-			}
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		return uiOptions;
-	}
-
-	public static String cleanActivityName(String manifestPackage, String activityName) {
-		if (activityName.charAt(0) == '.') {
-			//Relative activity name (e.g., android:name=".ui.SomeClass")
-			return manifestPackage + activityName;
-		}
-		if (activityName.indexOf('.', 1) == -1) {
-			//Unqualified activity name (e.g., android:name="SomeClass")
-			return manifestPackage + "." + activityName;
-		}
-		//Fully-qualified activity name (e.g., "com.my.package.SomeClass")
-		return activityName;
-	}
-
 }

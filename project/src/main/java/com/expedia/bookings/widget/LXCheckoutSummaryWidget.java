@@ -39,6 +39,9 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 		super(context, attrs);
 	}
 
+	@InjectView(R.id.lx_activity_title_text)
+	TextView lxActivityTitleText;
+
 	@InjectView(R.id.lx_offer_title_text)
 	TextView lxOfferTitleText;
 
@@ -88,6 +91,7 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 	 */
 	public void bind(Money originalPrice, Money latestPrice, LXBookableItem lxBookableItem) {
 		this.lxBookableItem = lxBookableItem;
+		lxActivityTitleText.setText(lxState.activity.title);
 		lxOfferTitleText.setText(lxState.offer.title);
 		lxGroupText.setText(lxState.selectedTicketsCountSummary(getContext()));
 		LocalDate offerSelectedDate = DateUtils.yyyyMMddHHmmssToLocalDate(

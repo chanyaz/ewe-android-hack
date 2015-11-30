@@ -7,12 +7,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFFFFF"
-        android:clipChildren="false"
         android:clipToPadding="false"
         android:orientation="vertical"
         android:paddingTop="?attr/actionBarSize">
 
         <LinearLayout
+            android:id="@+id/search_params_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/hotels_primary_color"
@@ -20,10 +20,10 @@
             android:clipToPadding="false"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/location_container"
+            <RelativeLayout android:id="@+id/location_container"
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="16dp"
                 android:clipChildren="false"
@@ -33,41 +33,58 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/location_image_view"
                     android:layout_width="55dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_centerVertical="true"
                     android:layout_marginRight="1dp"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
                     android:src="@drawable/location"
                     android:tint="#FFFFFF" />
 
-                <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/hotel_location"
                     style="@style/CarAutocomplete"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_toRightOf="@id/location_image_view"
                     android:layout_weight="1"
-                    android:completionThreshold="1"
-                    android:dropDownAnchor="@+id/drop_down_anchor"
-                    android:dropDownHeight="fill_parent"
-                    android:dropDownSelector="#FFFFFF"
-                    android:dropDownWidth="fill_parent"
+                    android:focusable="false"
+                    android:hint="@string/search_location"
+                    android:textColorHighlight="#12AD9F"
+                    android:visibility="gone" />
+
+                <EditText
+                    android:id="@+id/hotel_location_autocomplete"
+                    style="@style/CarAutocomplete"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_toRightOf="@id/location_image_view"
+                    android:layout_weight="1"
                     android:hint="@string/search_location"
                     android:imeOptions="actionDone"
-                    android:inputType="textNoSuggestions" />
+                    android:inputType="textNoSuggestions"
+                    android:textColorHighlight="#12AD9F" />
 
-            </LinearLayout>
-
-            <View
-                android:id="@+id/drop_down_anchor"
-                android:layout_width="match_parent"
-                android:layout_height="0dp" />
+                <ImageView
+                    android:id="@+id/clear_location_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_alignRight="@id/hotel_location_autocomplete"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:src="@drawable/input_x"
+                    android:visibility="invisible" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button
+                <ToggleButton
                     android:id="@+id/select_date"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -80,11 +97,11 @@
                     android:gravity="left|center_vertical"
                     android:paddingLeft="20dp"
                     android:textAllCaps="false"
-                    android:text="@string/select_dates"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@drawable/cars_text_selector"
+                    android:textOff="@string/select_dates"
+                    android:textOn="@string/select_dates"
                     android:textSize="15sp"
-                    android:textStyle="normal" >
-                </Button>
+                    android:textStyle="normal" />
             </LinearLayout>
 
             <LinearLayout
@@ -92,7 +109,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button
+                <ToggleButton
                     android:id="@+id/select_traveler"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
@@ -102,8 +119,9 @@
                     android:gravity="left|center_vertical"
                     android:paddingLeft="20dp"
                     android:textAllCaps="false"
-                    android:text="@string/hotel_search_guest_default_text"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@drawable/cars_text_selector"
+                    android:textOff="@string/hotel_search_guest_default_text"
+                    android:textOn="@string/hotel_search_guest_default_text"
                     android:textSize="15sp"
                     android:textStyle="normal" />
             </LinearLayout>
@@ -121,7 +139,7 @@
             android:layout_weight="1"
             android:orientation="vertical"
             android:padding="16dp"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <com.mobiata.android.time.widget.CalendarPicker
             android:id="@+id/calendar"
@@ -135,9 +153,6 @@
             app:calendarDaySelectionFillColor="@android:color/white"
             app:calendarDaysOfWeekColor="@color/hotels_primary_color"
             app:calendarHeaderTextColor="@color/hotels_primary_color"
-            app:calendarToolTipEnabled ="true"
-            app:calendarToolTipBackground="@drawable/toolbar_bg"
-            app:calendarToolTipTailDrawable="@drawable/toolbar_arrow"
             app:calendarHeaderTextSize="16dp"
             app:calendarHighlightColor="@color/hotels_primary_color"
             app:calendarHighlightInverseColor="@color/hotels_primary_color"
@@ -145,9 +160,17 @@
             app:calendarLayout="@layout/calendar_cars_lx_layout"
             app:calendarSecondaryColor="@color/cars_valid_days_calendar"
             app:calendarTodayColor="@color/hotels_primary_color"
+            app:calendarToolTipBackground="@drawable/toolbar_bg"
+            app:calendarToolTipEnabled="true"
+            app:calendarToolTipTailDrawable="@drawable/toolbar_arrow"
             app:calendarWeekSelectionColor="@color/hotels_primary_color" />
-
     </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/drop_down_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

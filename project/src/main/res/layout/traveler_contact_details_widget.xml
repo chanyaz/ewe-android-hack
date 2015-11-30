@@ -31,6 +31,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center|left"
                 android:singleLine="true"
+                android:textColor="@color/cars_lx_checkout_button_text_color"
                 android:textSize="16sp"
                 app:textStyle="medium" />
 
@@ -40,8 +41,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center|left"
                 android:singleLine="true"
-                android:text=""
-                android:textSize="13sp" />
+                android:textColor="@color/cars_lx_checkout_button_text_color"
+                android:textSize="13sp"
+                app:textStyle="normal" />
         </LinearLayout>
 
         <com.expedia.bookings.widget.ContactDetailsCompletenessStatusImageView
@@ -73,7 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/edit_first_name"
@@ -87,19 +89,18 @@
                 android:nextFocusDown="@+id/edit_last_name"
                 android:nextFocusRight="@+id/edit_last_name"
                 android:paddingBottom="12dp"
-                android:singleLine="true" >
-            </EditText>
+                android:singleLine="true"></EditText>
 
             <EditText
                 android:id="@+id/edit_last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginBottom="4dp"
-                android:nextFocusRight="@+id/edit_email_address"
-                android:nextFocusDown="@+id/edit_email_address"
+                android:layout_weight="1"
                 android:hint="@string/last_name"
                 android:inputType="textPersonName|textCapWords"
+                android:nextFocusDown="@+id/edit_email_address"
+                android:nextFocusRight="@+id/edit_email_address"
                 android:paddingBottom="12dp"
                 android:singleLine="true" />
         </LinearLayout>
@@ -108,8 +109,8 @@
             android:id="@+id/edit_email_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textEmailAddress"
             android:hint="@string/email_address_hint"
+            android:inputType="textEmailAddress"
             android:nextFocusDown="@+id/edit_phone_number"
             android:nextFocusRight="@+id/edit_phone_number"
             android:singleLine="true"
@@ -139,6 +140,16 @@
                 android:singleLine="true"
                 android:textSize="16sp" />
         </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/merchandise_guest_opt_checkbox"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:paddingLeft="10dp"
+            android:textColor="@color/hotel_cell_gray_text"
+            android:textSize="@dimen/hotel_traveler_edit_email_disclaimer_text_size"
+            android:visibility="gone" />
 
     </com.expedia.bookings.section.SectionTravelerInfo>
 </merge>

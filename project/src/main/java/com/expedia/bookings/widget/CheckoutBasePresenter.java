@@ -1,20 +1,25 @@
 package com.expedia.bookings.widget;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Space;
 
@@ -24,18 +29,22 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.presenter.Presenter;
+import com.expedia.bookings.tracking.HotelV2Tracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.mobiata.android.Log;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Observer;
 
 public abstract class CheckoutBasePresenter extends Presenter implements SlideToWidgetLL.ISlideToListener,
-	UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
+	UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener, ExpandableCardView.IExpandedListener {
 
 	protected abstract LineOfBusiness getLineOfBusiness();
 
@@ -46,6 +55,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	@InjectView(R.id.checkout_scroll)
 	public ScrollView scrollView;
+
+	@InjectView(R.id.scroll_content)
+	public LinearLayout checkoutContent;
 
 	@InjectView(R.id.checkout_toolbar)
 	Toolbar toolbar;
@@ -71,25 +83,31 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	ViewGroup hintContainer;
 
 	@InjectView(R.id.legal_information_text_view)
-	TextView legalInformationText;
+	public TextView legalInformationText;
+
+	@InjectView(R.id.disclaimer_text)
+	public TextView disclaimerText;
+
+	@InjectView(R.id.layout_confirm_tos)
+	public AcceptTermsWidget acceptTermsWidget;
 
 	@InjectView(R.id.slide_to_purchase_widget)
 	public SlideToWidgetLL slideWidget;
 
 	@InjectView(R.id.purchase_total_text_view)
-	TextView sliderTotalText;
+	public TextView sliderTotalText;
 
 	@InjectView(R.id.spacer)
 	public Space space;
 
-	MenuItem menuCheckout;
-	MenuItem menuNext;
-	MenuItem menuDone;
+	public MenuItem menuDone;
 
 	ExpandableCardView lastExpandedCard;
 	ExpandableCardView currentExpandedCard;
 
 	protected UserAccountRefresher userAccountRefresher;
+
+	private boolean listenToScroll = true;
 
 	@Override
 	protected void onFinishInflate() {
@@ -107,8 +125,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		loginWidget.setListener(this);
 		mainContactInfoCardView.setLineOfBusiness(getLineOfBusiness());
 		paymentInfoCardView.setLineOfBusiness(getLineOfBusiness());
-		mainContactInfoCardView.setToolbarListener(toolbarListener);
 		paymentInfoCardView.setToolbarListener(toolbarListener);
+		paymentInfoCardView.addExpandedListener(this);
+		mainContactInfoCardView.addExpandedListener(this);
+		mainContactInfoCardView.setToolbarListener(toolbarListener);
 		hintContainer.setVisibility(User.isLoggedIn(getContext()) ? GONE : VISIBLE);
 		legalInformationText.setMovementMethod(LinkMovementMethod.getInstance());
 		slideToContainer.setOnTouchListener(new OnTouchListener() {
@@ -134,6 +154,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 		summaryContainer.addView(mSummaryProgressLayout);
 		userAccountRefresher = new UserAccountRefresher(getContext(), getLineOfBusiness(), this);
+
+		if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
+			scrollView.addOnScrollListener(checkoutScrollListener);
+		}
 	}
 
 	public void setupToolbar() {
@@ -146,32 +170,31 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				((Activity) getContext()).onBackPressed();
 			}
 		});
+
 		toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
 		toolbar.inflateMenu(R.menu.cars_checkout_menu);
 
-		menuCheckout = toolbar.getMenu().findItem(R.id.menu_checkout);
-		menuCheckout.setVisible(isCheckoutButtonEnabled());
-
-		menuNext = toolbar.getMenu().findItem(R.id.menu_next);
-		menuNext.setVisible(false);
-
 		menuDone = toolbar.getMenu().findItem(R.id.menu_done);
+		// Let's start with not showing the menuDone button
 		menuDone.setVisible(false);
 
 		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
 			@Override
 			public boolean onMenuItemClick(MenuItem menuItem) {
 				switch (menuItem.getItemId()) {
-				case R.id.menu_checkout:
-					Ui.hideKeyboard(CheckoutBasePresenter.this);
-					scrollView.fullScroll(View.FOCUS_DOWN);
-					return true;
-				case R.id.menu_next:
-					currentExpandedCard.setNextFocus();
-					return true;
 				case R.id.menu_done:
-					currentExpandedCard.onDonePressed();
-					Ui.hideKeyboard(CheckoutBasePresenter.this);
+					if (menuItem.getTitle().equals(getResources().getString(R.string.done)) || menuItem.getTitle().equals(getResources().getString(R.string.coupon_submit_button))) {
+						currentExpandedCard.onMenuButtonPressed();
+						Ui.hideKeyboard(CheckoutBasePresenter.this);
+					}
+					else if (menuItem.getTitle().equals(getResources().getString(R.string.next))) {
+						if (getLineOfBusiness() == LineOfBusiness.HOTELSV2 && listenToScroll) {
+							scrollToEnterDetails();
+						}
+						else {
+							currentExpandedCard.setNextFocus();
+						}
+					}
 					return true;
 				}
 
@@ -186,8 +209,88 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 	}
 
+	public void resetMenuButton() {
+		if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
+			menuDone.setVisible(true);
+			menuDone.setTitle(R.string.next);
+		}
+		else {
+			menuDone.setVisible(false);
+		}
+	}
+
+	private void scrollToEnterDetails() {
+		Ui.hideKeyboard(CheckoutBasePresenter.this);
+
+		int targetScrollY = loginWidget.getTop() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, getResources().getDisplayMetrics());
+		final ValueAnimator scrollAnimation =
+			ValueAnimator.ofInt(scrollView.getScrollY(), targetScrollY);
+		scrollAnimation.setDuration(300);
+		scrollAnimation.setInterpolator(new FastOutSlowInInterpolator());
+		scrollAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+			@Override
+			public void onAnimationUpdate(ValueAnimator animation) {
+				int scrollTo = (Integer) animation.getAnimatedValue();
+				scrollView.scrollTo(0, scrollTo);
+			}
+		});
+		scrollAnimation.addListener(new ValueAnimator.AnimatorListener() {
+			@Override
+			public void onAnimationStart(Animator animator) {
+				menuDone.setVisible(false);
+				listenToScroll = false;
+			}
+
+			@Override
+			public void onAnimationEnd(Animator animator) {
+				listenToScroll = true;
+			}
+
+			@Override
+			public void onAnimationCancel(Animator animator) {
+
+			}
+
+			@Override
+			public void onAnimationRepeat(Animator animator) {
+
+			}
+		});
+
+		scrollView.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				scrollAnimation.start();
+			}
+		}, 100L);
+	}
+
+	com.expedia.bookings.widget.ScrollView.OnScrollListener checkoutScrollListener = new ScrollView.OnScrollListener() {
+		@Override
+		public void onScrollChanged(ScrollView scrollView, int x, int y, int oldx, int oldy) {
+			if (listenToScroll) {
+				View lastChildView = scrollView.getChildAt(scrollView.getChildCount() - 1);
+				int diff = (lastChildView.getBottom()) - (scrollView.getHeight() + scrollView.getScrollY());
+
+				// if diff is zero, then the bottom has been reached
+				if (diff == 0) {
+					menuDone.setVisible(false);
+					return;
+				}
+
+				int top = loginWidget.getTop() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, getResources().getDisplayMetrics());
+				if (y >= top) {
+					menuDone.setVisible(false);
+				}
+				else {
+					menuDone.setVisible(true);
+				}
+			}
+		}
+	};
+
 	// Listener to update the toolbar status when a widget(Login, Driver Info, Payment) is being interacted with
-	ToolbarListener toolbarListener = new ToolbarListener() {
+	public ToolbarListener toolbarListener = new ToolbarListener() {
 		@Override
 		public void setActionBarTitle(String title) {
 			toolbar.setTitle(title);
@@ -197,6 +300,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void onWidgetExpanded(ExpandableCardView cardView) {
 			lastExpandedCard = currentExpandedCard;
 			currentExpandedCard = cardView;
+			menuDone.setTitle(currentExpandedCard.getMenuButtonTitle());
 			show(new WidgetExpanded());
 		}
 
@@ -207,24 +311,83 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		@Override
 		public void onEditingComplete() {
-			menuNext.setVisible(false);
 			menuDone.setVisible(true);
+		}
+
+		@Override
+		public void setMenuLabel(String label) {
+			menuDone.setTitle(label);
+		}
+
+		@Override
+		public void showRightActionButton(boolean show) {
+			menuDone.setVisible(show);
 		}
 	};
 
-	public void isCheckoutComplete() {
-		if (mainContactInfoCardView.isComplete() && paymentInfoCardView.isComplete()) {
-			animateInSlideTo(true);
-			scrollView.post(new Runnable() {
+	public void animateInSlideToPurchase(boolean visible) {
+		// If its already in position, don't do it again
+		if (slideToContainer.getVisibility() == (visible ? VISIBLE : INVISIBLE)) {
+			return;
+		}
+
+		boolean acceptTermsRequired = PointOfSale.getPointOfSale(getContext()).requiresRulesRestrictionsCheckbox();
+		boolean acceptedTerms = acceptTermsWidget.getVm().getAcceptedTermsObservable().getValue();
+		if (acceptTermsRequired && !acceptedTerms) {
+			return; // don't show if terms have not ben accepted yet
+		}
+
+		slideToContainer.setTranslationY(visible ? slideToContainer.getHeight() : 0);
+		slideToContainer.setVisibility(VISIBLE);
+		ObjectAnimator animator = ObjectAnimator
+			.ofFloat(slideToContainer, "translationY", visible ? 0 : slideToContainer.getHeight());
+		animator.setDuration(300);
+		animator.start();
+
+		if (visible) {
+			scrollView.postDelayed(new Runnable() {
 				@Override
 				public void run() {
 					scrollView.fullScroll(ScrollView.FOCUS_DOWN);
 				}
-			});
-			OmnitureTracking.trackCheckoutSlideToPurchase(getLineOfBusiness(), getContext(), paymentInfoCardView.getCardType());
+			}, 100);
+			if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
+				new HotelV2Tracking().trackHotelV2SlideToPurchase(Strings.capitalizeFirstLetter(paymentInfoCardView.getCardType().toString()));
+			}
+			else {
+				OmnitureTracking.trackCheckoutSlideToPurchase(getLineOfBusiness(), getContext(),
+					paymentInfoCardView.getCardType());
+			}
+		}
+	}
+
+	public void checkoutFormWasUpdated() {
+		if (isCheckoutFormComplete()) {
+			if (PointOfSale.getPointOfSale(getContext()).requiresRulesRestrictionsCheckbox() && !acceptTermsWidget
+				.getVm().getAcceptedTermsObservable().getValue()) {
+				acceptTermsWidget.getVm().getAcceptedTermsObservable().subscribe(new Observer<Boolean>() {
+					@Override
+					public void onCompleted() {
+					}
+
+					@Override
+					public void onError(Throwable e) {
+					}
+
+					@Override
+					public void onNext(Boolean b) {
+						animateInSlideToPurchase(true);
+					}
+				});
+				acceptTermsWidget.setVisibility(VISIBLE);
+			}
+			else {
+				animateInSlideToPurchase(true);
+			}
 		}
 		else {
-			animateInSlideTo(false);
+			acceptTermsWidget.setVisibility(INVISIBLE);
+			animateInSlideToPurchase(false);
 		}
 	}
 
@@ -241,16 +404,18 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		@Override
 		public void finalizeTransition(boolean forward) {
 			showProgress(true);
+			menuDone.setVisible(false);
 			paymentInfoCardView.setCreditCardRequired(false);
-			mainContactInfoCardView.setExpanded(false, false);
-			paymentInfoCardView.setExpanded(false, false);
+			for (int i = 0; i < checkoutContent.getChildCount(); i ++) {
+				View v = checkoutContent.getChildAt(i);
+				if (v instanceof ExpandableCardView) {
+					((ExpandableCardView) v).setExpanded(false, false);
+				}
+				v.setVisibility(GONE);
+			}
+			summaryContainer.setVisibility(VISIBLE);
 			slideToContainer.setVisibility(INVISIBLE);
-			loginWidget.setVisibility(GONE);
-			hintContainer.setVisibility(GONE);
-			mainContactInfoCardView.setVisibility(GONE);
-			paymentInfoCardView.setVisibility(GONE);
-			legalInformationText.setVisibility(GONE);
-			menuCheckout.setVisible(false);
+
 			updateSpacerHeight();
 		}
 	};
@@ -259,14 +424,22 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		@Override
 		public void startTransition(boolean forward) {
 			super.startTransition(forward);
-			loginWidget.setVisibility(forward ? VISIBLE : INVISIBLE);
-			hintContainer.setVisibility(forward ? User.isLoggedIn(getContext()) ? GONE : VISIBLE : INVISIBLE);
-			mainContactInfoCardView.setVisibility(forward ? VISIBLE : INVISIBLE);
-			if (paymentInfoCardView.isCreditCardRequired()) {
-				paymentInfoCardView.setVisibility(forward ? VISIBLE : INVISIBLE);
+			for (int i = 0; i < checkoutContent.getChildCount(); i++) {
+				View v = checkoutContent.getChildAt(i);
+				if (v == hintContainer) {
+					hintContainer.setVisibility(forward ? User.isLoggedIn(getContext()) ? GONE : VISIBLE : INVISIBLE);
+				}
+				else if (v == paymentInfoCardView) {
+					if (paymentInfoCardView.isCreditCardRequired()) {
+						paymentInfoCardView
+							.setVisibility(forward ? VISIBLE : INVISIBLE);
+					}
+				}
+				else {
+					v.setVisibility(forward ? VISIBLE : INVISIBLE);
+				}
 			}
-			legalInformationText.setVisibility(forward ? VISIBLE : INVISIBLE);
-			menuCheckout.setVisible(forward && isCheckoutButtonEnabled());
+			summaryContainer.setVisibility(VISIBLE);
 		}
 
 		@Override
@@ -274,26 +447,48 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			super.finalizeTransition(forward);
 			showProgress(!forward);
 			if (forward) {
-				isCheckoutComplete();
+				resetMenuButton();
+				checkoutFormWasUpdated();
 			}
 			else {
-				animateInSlideTo(false);
+				animateInSlideToPurchase(false);
 			}
+
 			updateSpacerHeight();
+			listenToScroll = true;
 		}
 	};
 
-	protected boolean isCheckoutButtonEnabled() {
-		return false;
-	}
+	private void updateSpacerHeight() {
+		postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				if (getLineOfBusiness() != LineOfBusiness.HOTELSV2 || isCheckoutFormComplete()) {
+					float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
+					int bottom = (disclaimerText.getVisibility() == View.VISIBLE) ? disclaimerText.getBottom()
+						: legalInformationText.getBottom();
+					if (scrollViewActualHeight - bottom < slideToContainer.getHeight()) {
+						ViewGroup.LayoutParams params = space.getLayoutParams();
+						params.height = slideToContainer.getVisibility() == VISIBLE ? slideToContainer.getHeight() : 0;
 
-	protected void updateSpacerHeight() {
-		float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
-		if (scrollViewActualHeight - legalInformationText.getBottom() < slideToContainer.getHeight()) {
-			ViewGroup.LayoutParams params = space.getLayoutParams();
-			params.height = slideToContainer.getVisibility() == VISIBLE ? slideToContainer.getHeight() : 0;
-			space.setLayoutParams(params);
-		}
+						if (slideToContainer.getVisibility() == VISIBLE || acceptTermsWidget.getVisibility() == VISIBLE) {
+							params.height = Math.max(slideToContainer.getHeight(), acceptTermsWidget.getHeight());
+						}
+						else {
+							params.height = 0;
+						}
+						space.setLayoutParams(params);
+					}
+				}
+				else {
+					// if not complete, provide enough space for sign in button to be anchored at top of viewable area
+					int remainingHeight = scrollView.getChildAt(0).getHeight() - space.getHeight() - summaryContainer.getHeight();
+					ViewGroup.LayoutParams params = space.getLayoutParams();
+					params.height = scrollView.getHeight() - remainingHeight - Ui.getToolbarSize(getContext());
+					space.setLayoutParams(params);
+				}
+			}
+		}, 300L);
 	}
 
 	private Transition defaultToCheckoutFailed = new Transition(CheckoutDefault.class, CheckoutFailed.class) {
@@ -309,48 +504,52 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		@Override
 		public void startTransition(boolean forward) {
-			scrollCheckoutToTop();
 			if (forward) {
-				summaryContainer.setVisibility(GONE);
-				loginWidget.setVisibility(GONE);
-				hintContainer.setVisibility(GONE);
-				if (mainContactInfoCardView != currentExpandedCard) {
-					mainContactInfoCardView.setVisibility(GONE);
+				for (int i = 0; i < checkoutContent.getChildCount(); i++) {
+					View v = checkoutContent.getChildAt(i);
+					if (v instanceof ExpandableCardView && v == currentExpandedCard) {
+						continue;
+					}
+					v.setVisibility(GONE);
 				}
-				if (paymentInfoCardView != currentExpandedCard) {
-					paymentInfoCardView.setVisibility(GONE);
-				}
-				legalInformationText.setVisibility(GONE);
+				listenToScroll = false;
 				if (lastExpandedCard != null && lastExpandedCard != currentExpandedCard) {
 					lastExpandedCard.setExpanded(false, false);
 				}
 			}
 			else {
 				currentExpandedCard.setExpanded(false, false);
-				summaryContainer.setVisibility(VISIBLE);
-				loginWidget.setVisibility(VISIBLE);
-				hintContainer.setVisibility(User.isLoggedIn(getContext()) ? GONE : VISIBLE);
-				mainContactInfoCardView.setVisibility(VISIBLE);
-				if (paymentInfoCardView.isCreditCardRequired()) {
-					paymentInfoCardView.setVisibility(VISIBLE);
+				for (int i = 0; i < checkoutContent.getChildCount(); i++) {
+					View v = checkoutContent.getChildAt(i);
+					if (v == hintContainer) {
+						hintContainer.setVisibility(User.isLoggedIn(getContext()) ? GONE : VISIBLE);
+					}
+					else if (v == paymentInfoCardView) {
+						paymentInfoCardView.setVisibility(paymentInfoCardView.isCreditCardRequired() ? VISIBLE : GONE);
+					}
+					else {
+						v.setVisibility(VISIBLE);
+					}
 				}
-				legalInformationText.setVisibility(VISIBLE);
+
 				Ui.hideKeyboard(CheckoutBasePresenter.this);
+				resetMenuButton();
+				listenToScroll = true;
 			}
 
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle()
 				: getContext().getString(R.string.cars_checkout_text));
-			Drawable nav = getResources().getDrawable(forward ? R.drawable.ic_close_white_24dp : R.drawable.ic_arrow_back_white_24dp).mutate();
+			Drawable nav = getResources().getDrawable(forward ? R.drawable.ic_close_white_24dp : R.drawable.ic_arrow_back_white_24dp)
+				.mutate();
 			nav.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 			toolbar.setNavigationIcon(nav);
-			menuNext.setVisible(forward);
-			menuDone.setVisible(false);
 		}
 
 		@Override
 		public void finalizeTransition(boolean forward) {
 			if (forward) {
 				slideToContainer.setVisibility(INVISIBLE);
+				acceptTermsWidget.setVisibility(INVISIBLE);
 				// Space to avoid keyboard hiding the view behind.
 				int spacerHeight = (int) getResources().getDimension(R.dimen.car_expanded_space_height);
 				ViewGroup.LayoutParams params = space.getLayoutParams();
@@ -358,33 +557,19 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				space.setLayoutParams(params);
 			}
 			else {
-				isCheckoutComplete();
+				checkoutFormWasUpdated();
 				updateSpacerHeight();
+				scrollToEnterDetails();
 			}
-			menuCheckout.setVisible(!forward && isCheckoutButtonEnabled());
-
 		}
 	};
-
-	private void animateInSlideTo(boolean visible) {
-		// If its already in position, don't do it again
-		if (slideToContainer.getVisibility() == (visible ? VISIBLE : INVISIBLE)) {
-			return;
-		}
-
-		slideToContainer.setTranslationY(visible ? slideToContainer.getHeight() : 0);
-		slideToContainer.setVisibility(VISIBLE);
-		ObjectAnimator animator = ObjectAnimator
-			.ofFloat(slideToContainer, "translationY", visible ? 0 : slideToContainer.getHeight());
-		animator.setDuration(300);
-		animator.start();
-	}
 
 	public void clearCCNumber() {
 		try {
 			paymentInfoCardView.creditCardNumber.setText("");
 			Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setNumber(null);
 			Db.getBillingInfo().setNumber(null);
+			paymentInfoCardView.bind();
 		}
 		catch (Exception ex) {
 			Log.e("Error clearing billingInfo card number", ex);
@@ -398,6 +583,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@Override
 	public void onUserAccountRefreshed() {
 		doCreateTrip();
+		if (User.isLoggedIn(getContext())) {
+			listenToScroll = true;
+			scrollToEnterDetails();
+		}
 	}
 
 	public abstract void doCreateTrip();
@@ -423,7 +612,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		mainContactInfoCardView.onLogin();
 		paymentInfoCardView.onLogin();
 		hintContainer.setVisibility(GONE);
-		OmnitureTracking.trackCheckoutLoginSuccess(getLineOfBusiness());
 		showCheckout();
 	}
 
@@ -441,5 +629,19 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		paymentInfoCardView.onLogout();
 		hintContainer.setVisibility(VISIBLE);
 		showCheckout();
+	}
+
+	@Override
+	public void collapsed(ExpandableCardView view) {
+		acceptTermsWidget.setAlpha(1f);
+	}
+
+	@Override
+	public void expanded(ExpandableCardView view) {
+		acceptTermsWidget.setAlpha(0f);
+	}
+
+	public boolean isCheckoutFormComplete() {
+		return mainContactInfoCardView.isComplete() && paymentInfoCardView.isComplete();
 	}
 }

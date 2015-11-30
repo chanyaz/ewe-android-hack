@@ -135,7 +135,9 @@
     <issue id="ExtraText" severity="error" />
     <!-- <issue id="InnerclassSeparator" severity="error" /> -->
     <issue id="LocalSuppress" severity="error" />
-    <issue id="PrivateResource" severity="error" />
+
+    <!-- removed check until https://code.google.com/p/android/issues/detail?id=183851 is resolved -->
+    <!--<issue id="PrivateResource" severity="error" />-->
     <issue id="ProguardSplit" severity="error" />
     <!-- <issue id="SpUsage" severity="error" /> -->
     <issue id="AccidentalOctal" severity="error" />

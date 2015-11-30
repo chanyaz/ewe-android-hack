@@ -8,9 +8,13 @@ import javax.inject.Inject;
 import org.joda.time.LocalDate;
 
 import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.PointF;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
@@ -44,7 +48,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import rx.Observer;
 
-public class LXActivityDetailsWidget extends ScrollView {
+public class LXActivityDetailsWidget extends LXDetailsScrollView implements RecyclerGallery.GalleryItemListener {
 
 	public static final int DURATION = 500;
 	@InjectView(R.id.activity_details_container)
@@ -92,6 +96,11 @@ public class LXActivityDetailsWidget extends ScrollView {
 	private ActivityDetailsResponse activityDetails;
 	private float offset;
 	private int dateButtonWidth;
+	private int mGalleryHeight = 0;
+	private int mInitialScrollTop = 0;
+	private boolean mHasBeenTouched = false;
+	private int mIntroOffset = 0;
+	SegmentedLinearInterpolator mIGalleryScroll;
 
 	public LXActivityDetailsWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -115,6 +124,11 @@ public class LXActivityDetailsWidget extends ScrollView {
 
 		offset = Ui.toolbarSizeWithStatusBar(getContext());
 		offers.getOfferPublishSubject().subscribe(lxOfferObserever);
+		defaultScroll();
+	}
+
+	public void defaultScroll() {
+		smoothScrollTo(0, mInitialScrollTop);
 	}
 
 	@Override
@@ -138,7 +152,6 @@ public class LXActivityDetailsWidget extends ScrollView {
 		buildGallery(activityDetails);
 		buildSections(activityDetails);
 		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.startDate);
-		smoothScrollTo(0, 0);
 	}
 
 	@Subscribe
@@ -163,6 +176,7 @@ public class LXActivityDetailsWidget extends ScrollView {
 		}
 
 		activityGallery.setDataSource(mediaList);
+		activityGallery.setOnItemClickListener(this);
 		activityGallery.scrollToPosition(0);
 		if (!activityGallery.isFlipping()) {
 			activityGallery.startFlipping();
@@ -212,6 +226,10 @@ public class LXActivityDetailsWidget extends ScrollView {
 			cancellationPolicyText, 0);
 		cancellation.setVisibility(View.VISIBLE);
 
+		int datesScrollerDrawable =
+			CollectionUtils.isNotEmpty(activityDetailsResponse.highlights) ? R.drawable.lx_dates_container_background
+				: R.drawable.lx_dates_container_background_no_top_border;
+		offerDatesScrollView.setBackground(getResources().getDrawable(datesScrollerDrawable));
 	}
 
 	// Not all activities have all the sections. Reset before building details.
@@ -275,7 +293,8 @@ public class LXActivityDetailsWidget extends ScrollView {
 		// Scroll from end to the selected date.
 		postDelayed(new Runnable() {
 			public void run() {
-				ObjectAnimator scrollAnimation = ObjectAnimator.ofInt(offerDatesScrollView, "scrollX", finalSelectedDateX);
+				ObjectAnimator scrollAnimation = ObjectAnimator
+					.ofInt(offerDatesScrollView, "scrollX", finalSelectedDateX);
 				scrollAnimation.setDuration(DURATION);
 				scrollAnimation.setInterpolator(new DecelerateInterpolator());
 				scrollAnimation.start();
@@ -284,9 +303,52 @@ public class LXActivityDetailsWidget extends ScrollView {
 	}
 
 	public float parallaxScrollHeader(int scrollY) {
-		float ratio = (float) (scrollY) / (activityContainer.getTop() - offset);
-		galleryContainer.setTranslationY(scrollY * 0.5f);
-		return ratio;
+		return (float) (scrollY - mInitialScrollTop) * 3.2f / (activityContainer.getTop() - offset);
+	}
+
+	public float getArrowRotationRatio(int scrollY) {
+		return (float) scrollY/ (mInitialScrollTop);
+	}
+
+	@Override
+	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+		super.onSizeChanged(w, h, oldw, oldh);
+		initGallery(h);
+	}
+
+	private void initGallery(int h) {
+
+		if (galleryContainer != null) {
+			ViewGroup.LayoutParams lp = galleryContainer.getLayoutParams();
+			lp.height = h;
+			galleryContainer.setLayoutParams(lp);
+
+			mInitialScrollTop = getInitialScrollTop();
+		}
+
+	}
+
+	@Override
+	protected void onLayout(boolean changed, int l, int t, int r, int b) {
+		super.onLayout(changed, l, t, r, b);
+		mIGalleryScroll = null;
+
+		if (activityGallery != null) {
+			mGalleryHeight = getResources().getDimensionPixelSize(R.dimen.gallery_height);
+			mInitialScrollTop = getInitialScrollTop();
+		}
+
+		if (!mHasBeenTouched) {
+			scrollTo(0, mInitialScrollTop);
+			doCounterscroll();
+		}
+	}
+
+	public void doCounterscroll() {
+		int t = getScrollY();
+		if (galleryContainer != null) {
+			galleryCounterscroll(t);
+		}
 	}
 
 	private Observer<Offer> lxOfferObserever = new Observer<Offer>() {
@@ -315,5 +377,47 @@ public class LXActivityDetailsWidget extends ScrollView {
 				lxState.activity.regionId, lxState.activity.price.currencyCode, lowestTicketAmount);
 		}
 	};
+
+	@TargetApi(11)
+	private void galleryCounterscroll(int parentScroll) {
+		// Setup interpolator for Gallery counterscroll (if needed)
+		if (mIGalleryScroll == null) {
+			int screenHeight = getHeight();
+			PointF p1 = new PointF(0, screenHeight - mGalleryHeight / 2);
+			PointF p2 = new PointF(mGalleryHeight, screenHeight - mGalleryHeight);
+			PointF p3 = new PointF(screenHeight, (screenHeight - mGalleryHeight + mIntroOffset) / 2);
+			mIGalleryScroll = new SegmentedLinearInterpolator(p1, p2, p3);
+		}
+
+		// The number of y-pixels available to the gallery
+		int availableHeight = getHeight() - parentScroll;
+
+		int counterscroll = (int) mIGalleryScroll.get(availableHeight);
+
+		galleryContainer.setPivotX(getWidth() / 2);
+		galleryContainer.setPivotY(counterscroll + mGalleryHeight / 2);
+
+		galleryContainer.scrollTo(0, -counterscroll);
+
+	}
+
+	@Override
+	public boolean onTouchEvent(MotionEvent ev) {
+		boolean result = super.onTouchEvent(ev);
+		mHasBeenTouched = true;
+		return result;
+	}
+
+	@Override
+	public void onGalleryItemClicked(Object item) {
+		toggleFullScreenGallery();
+	}
+
+	public void toggleFullScreenGallery() {
+		int from = getScrollY();
+		int to = from != 0 ? 0 : mInitialScrollTop;
+		animateScrollY(from, to);
+	}
+
 }
 

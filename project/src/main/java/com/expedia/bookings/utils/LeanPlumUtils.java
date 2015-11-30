@@ -31,9 +31,12 @@ import com.expedia.bookings.data.cars.CarLocation;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CreateTripCarFare;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
+import com.expedia.bookings.data.hotels.HotelSearchResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.notification.PushNotificationUtils;
+import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.leanplum.Leanplum;
 import com.leanplum.LeanplumActivityHelper;
@@ -187,6 +190,40 @@ public class LeanPlumUtils {
 		}
 	}
 
+	public static void trackHotelV2Booked(HotelCheckoutResponse hotelCheckoutResponse) {
+		if (initialized) {
+			String eventName = "Sale Hotel";
+			Log.i("LeanPlum hotel booking event currency=" + hotelCheckoutResponse.currencyCode + " total=" + hotelCheckoutResponse.totalCharges);
+			HashMap<String, Object> eventParams = new HashMap<String, Object>();
+
+			addCommonProductRetargeting(eventParams, hotelCheckoutResponse.checkoutResponse.productResponse.hotelCity,
+				hotelCheckoutResponse.checkoutResponse.productResponse.hotelStateProvince,
+				hotelCheckoutResponse.checkoutResponse.productResponse.hotelCountry);
+			eventParams.put("Destination", hotelCheckoutResponse.checkoutResponse.productResponse.hotelCity);
+
+			LocalDate checkInDate = new LocalDate(hotelCheckoutResponse.checkoutResponse.productResponse.checkInDate);
+			LocalDate checkOutDate = new LocalDate(hotelCheckoutResponse.checkoutResponse.productResponse.checkOutDate);
+			int numNights = JodaUtils.daysBetween(checkInDate, checkOutDate);
+			String avgPrice =
+				hotelCheckoutResponse.checkoutResponse.productResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.averageRate
+					+ "";
+
+			eventParams.put("CheckInDate", DateUtils.convertDatetoInt(checkInDate));
+			eventParams.put("CheckOutDate", DateUtils.convertDatetoInt(checkOutDate));
+			eventParams.put("b_win", "" + getBookingWindow(checkInDate));
+			eventParams.put("p_type", "HOTEL");
+			eventParams.put("hotel_friendly_name", hotelCheckoutResponse.checkoutResponse.productResponse.getHotelName());
+			eventParams.put("PropertyId", hotelCheckoutResponse.checkoutResponse.productResponse.hotelId);
+			eventParams.put("AveragePrice", "" + avgPrice);
+			eventParams.put("StayDuration", "" + numNights);
+			eventParams.put("currency", hotelCheckoutResponse.currencyCode);
+			eventParams.put("OrderNumber", hotelCheckoutResponse.orderId);
+			eventParams.put("TotalPrice", hotelCheckoutResponse.totalCharges);
+			tracking(eventName, eventParams);
+		}
+	}
+
+
 	public static void trackFlightBooked(TripBucketItemFlight tripBucketItemFlight, String orderId, String currency,
 		double totalPrice) {
 		if (initialized) {
@@ -256,6 +293,35 @@ public class LeanPlumUtils {
 		}
 	}
 
+	public static void trackHotelV2CheckoutStarted(HotelCreateTripResponse.HotelProductResponse hotelProductResponse) {
+		if (initialized) {
+			String eventName = "Checkout Hotel Started";
+			String price = hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getDisplayTotalPrice()
+				.getFormattedMoney();
+			String currency = hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode;
+
+			Log.i("LeanPlum hotel checkout started currency=" + currency + " total=" + price);
+			HashMap<String, Object> eventParams = new HashMap<String, Object>();
+
+			addCommonProductRetargeting(eventParams, hotelProductResponse.hotelCity,
+				hotelProductResponse.hotelStateProvince,
+				hotelProductResponse.hotelCountry);
+			eventParams.put("Destination", hotelProductResponse.hotelCity);
+
+			LocalDate checkInDate = new LocalDate(hotelProductResponse.checkInDate);
+			LocalDate checkOutDate = new LocalDate(hotelProductResponse.checkOutDate);
+
+			eventParams.put("CheckInDate", DateUtils.convertDatetoInt(checkInDate));
+			eventParams.put("CheckOutDate", DateUtils.convertDatetoInt(checkOutDate));
+			eventParams.put("b_win", "" + getBookingWindow(checkInDate));
+			eventParams.put("p_type", "HOTEL");
+			eventParams.put("PropertyId", hotelProductResponse.hotelId);
+			eventParams.put("currency", currency);
+			eventParams.put("TotalPrice", price);
+			tracking(eventName, eventParams);
+		}
+	}
+
 	public static void trackFlightCheckoutStarted(FlightSearch search, String currency, double totalPrice) {
 		if (initialized) {
 
@@ -298,7 +364,7 @@ public class LeanPlumUtils {
 
 			if (Db.getHotelSearch().getSearchResponse() != null
 				&& Db.getHotelSearch().getSearchResponse().getPropertiesCount() > 0) {
-				Location location = Db.getHotelSearch().getSearchResponse().getProperty(0).getLocation();
+				Location location = Db.getHotelSearch().getSearchResponse().getProperties().get(0).getLocation();
 				if (location != null) {
 					addCommonProductRetargeting(eventParams, location.getCity(), location.getStateCode(),
 						location.getCountryCode());
@@ -316,6 +382,32 @@ public class LeanPlumUtils {
 		}
 
 	}
+
+	public static void trackHotelV2Search(com.expedia.bookings.data.hotels.HotelSearchParams searchParams,
+		HotelSearchResponse searchResponse) {
+		if (initialized) {
+			String eventName = "Search Hotel";
+			Log.i("LeanPlum hotel search");
+			HashMap<String, Object> eventParams = new HashMap<String, Object>();
+
+			if (searchResponse != null && !searchResponse.hotelList.isEmpty()) {
+				addCommonProductRetargeting(eventParams, searchResponse.hotelList.get(0).city,
+					searchResponse.hotelList.get(0).stateProvinceCode,
+					searchResponse.hotelList.get(0).countryCode);
+				eventParams.put("Destination", searchResponse.hotelList.get(0).city);
+			}
+			if (!Strings.isEmpty(searchParams.getSuggestion().gaiaId)) {
+				eventParams.put("RegionId", searchParams.getSuggestion().gaiaId);
+			}
+			eventParams.put("CheckInDate", DateUtils.convertDatetoInt(searchParams.getCheckIn()));
+			eventParams.put("CheckOutDate", DateUtils.convertDatetoInt(searchParams.getCheckOut()));
+			eventParams.put("b_win", "" + getBookingWindow(searchParams.getCheckIn()));
+			eventParams.put("p_type", "HOTEL");
+			tracking(eventName, eventParams);
+		}
+
+	}
+
 
 	public static void trackFlightSearch() {
 		if (initialized) {

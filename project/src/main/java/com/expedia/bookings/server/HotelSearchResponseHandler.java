@@ -179,9 +179,6 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			else if (name.equals("hotelId")) {
 				property.setPropertyId(reader.nextString());
 			}
-			else if (name.equals("shortDescription")) {
-				property.setDescriptionText(reader.nextString());
-			}
 			else if (name.equals("locationDescription")) {
 				location.setDescription(reader.nextString());
 			}

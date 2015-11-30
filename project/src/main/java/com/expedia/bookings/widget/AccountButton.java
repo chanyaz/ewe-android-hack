@@ -19,9 +19,11 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.data.TripBucketItemHotelV2;
 import com.expedia.bookings.data.TripBucketItemLX;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -172,14 +174,23 @@ public class AccountButton extends LinearLayout {
 			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
 			lp.height = LayoutParams.WRAP_CONTENT;
 			LayoutParams lpt = (LayoutParams) mLoginTextView.getLayoutParams();
-			lpt.width = LayoutParams.MATCH_PARENT;
-			lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
-			int bgResourceId = Ui.obtainThemeResID(getContext(), android.R.attr.selectableItemBackground);
-			mLoginContainer.setBackgroundResource(R.drawable.card_background);
-			mLoginTextView.setBackgroundResource(bgResourceId);
+			if (lob == LineOfBusiness.HOTELSV2) {
+				lpt.width = LayoutParams.WRAP_CONTENT;
+				lpt.gravity = Gravity.CENTER;
+				mLoginContainer.setBackgroundResource(R.drawable.account_sign_in_button_ripple);
+				mLoginTextView.setTextColor(getResources().getColor(android.R.color.white));
+				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.expedia_white, 0, 0, 0);
+			}
+			else {
+				int bgResourceId = Ui.obtainThemeResID(getContext(), android.R.attr.selectableItemBackground);
+				lpt.width = LayoutParams.MATCH_PARENT;
+				lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
+				mLoginContainer.setBackgroundResource(R.drawable.card_background);
+				mLoginTextView.setTextColor(getResources().getColor(R.color.cars_lx_checkout_button_text_color));
+				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.expedia, 0, 0, 0);
+				mLoginTextView.setBackgroundResource(bgResourceId);
+			}
 			mLoginTextView.setGravity(Gravity.LEFT);
-			mLoginTextView.setTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
-			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.expedia, 0, 0, 0);
 			int padding = getResources().getDimensionPixelSize(R.dimen.account_button_text_padding);
 			mLoginTextView.setPadding(padding, padding, padding, padding);
 		}
@@ -284,7 +295,11 @@ public class AccountButton extends LinearLayout {
 			CreateTripResponse hotelTrip = hotel == null ? null : hotel.getCreateTripResponse();
 			rewardPoints = hotelTrip == null ? "" : hotelTrip.getRewardsPoints();
 			break;
-
+		case HOTELSV2:
+			TripBucketItemHotelV2 hotelV2 = Db.getTripBucket().getHotelV2();
+			HotelCreateTripResponse trip = hotelV2 == null ? null : hotelV2.mHotelTripResponse;
+			rewardPoints = trip == null ? "" : trip.expediaRewards.totalPointsToEarn;
+			break;
 		case LX:
 			TripBucketItemLX lx = Db.getTripBucket().getLX();
 			LXCreateTripResponse createTripResponse = lx == null ? null : lx.getCreateTripResponse();
@@ -293,11 +308,13 @@ public class AccountButton extends LinearLayout {
 		}
 
 		CharSequence youllEarnRewardsPointsText = "";
-		if (!TextUtils.isEmpty(rewardPoints)) {
+		if (!TextUtils.isEmpty(rewardPoints) && !rewardPoints.equals("0")) {
 			switch (lob) {
 			case FLIGHTS:
 				youllEarnRewardsPointsText = Html.fromHtml(mContext.getString(R.string.x_points_for_this_trip_TEMPLATE, rewardPoints));
 				break;
+			case HOTELSV2:
+				youllEarnRewardsPointsText = Html.fromHtml(mContext.getString(R.string.youll_earn_points_TEMPLATE, rewardPoints));
 			case HOTELS:
 				boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotel3xMessaging);
 				boolean isTablet = AndroidUtils.isTablet(getContext());

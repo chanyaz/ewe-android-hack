@@ -100,23 +100,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isAdXEnabled() {
-		return true;
-	}
-
-	@Override
-	public int getAdXPosIdentifier() {
-		//TODO Add correct AdX Identifier.
-		int adXPosIdentifier = 13292;
-
-		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.LASTMINUTE_NZ) {
-			adXPosIdentifier = 14776;
-		}
-
-		return adXPosIdentifier;
-	}
-
-	@Override
 	public String getOmnitureReportSuiteIds() {
 		if (BuildConfig.RELEASE) {
 			return "expediaglobalapp";
@@ -253,12 +236,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public String getClientShortName() {
 		return "lastminute";
-	}
-
-	@Override
-	public String getAdXKey() {
-		//TODO Add correct AdX key.
-		return "";
 	}
 
 	@Override

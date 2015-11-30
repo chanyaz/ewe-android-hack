@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.HotelsNeighborhoodFilter
+    android:id="@+id/filter_categories_widget"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/hotel_neighborhood_height"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:paddingBottom="5dp"
+    android:paddingLeft="@dimen/lx_sort_filter_padding"
+    android:paddingRight="@dimen/lx_sort_filter_padding"
+    android:paddingTop="5dp">
+
+    <TextView
+        android:id="@+id/neighborhood_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/neighborhood_check_box"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/hotel_filter_neighborhood_text"
+        android:textSize="15sp" />
+
+    <CheckBox
+        android:id="@+id/neighborhood_check_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:clickable="false" />
+
+</com.expedia.bookings.widget.HotelsNeighborhoodFilter>
