@@ -218,6 +218,8 @@
     <string name="hotelsv2_slide_reserve">Slide to reserve</string>
     <!-- Hotels V2 slide to purchase -->
     <string name="hotelsv2_slide_purchase">Slide to purchase</string>
+    <!-- Hotels V2 Change Dates in case of Sold Out -->
+    <string name="change_dates">Change Dates</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early."  -->
@@ -2540,6 +2542,10 @@
     <string name="please_try_a_different_location_or_date">Please try a different location or date.</string>
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">No hotel rooms available</string>
+    <!-- Title displayed when room is sold out -->
+    <string name="select_another_room">Select another room</string>
+    <!-- Message displayed when room is sold out -->
+    <string name="error_room_sold_out">This room is sold out.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
     <string name="error_hotel_is_now_sold_out_TEMPLATE">We\&apos;re sorry but this hotel is no longer available from {brand}.</string>
 
@@ -3734,4 +3740,8 @@
 
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Coupon applied: You saved %1$s!</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog title -->
+    <string name="coupon_error_dialog_title">Voucher Failed</string>
+    <!-- Hotel V2 coupon failed after sign-in dialog message -->
+    <string name="coupon_error_dialog_message">There was a problem with your voucher. Please try entering it again.</string>
 </resources>

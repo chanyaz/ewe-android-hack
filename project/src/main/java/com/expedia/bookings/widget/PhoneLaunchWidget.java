@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
@@ -117,6 +118,7 @@ public class PhoneLaunchWidget extends FrameLayout {
 		launchListWidget.setOnScrollListener(scrollListener);
 		isAirAttachDismissed = false;
 		setListState();
+		progressBar.setOnTouchListener(absorbTouchesListener());
 	}
 
 	@Override
@@ -542,5 +544,17 @@ public class PhoneLaunchWidget extends FrameLayout {
 	public void onPOSChange(Events.PhoneLaunchOnPOSChange event) {
 		bindLobWidget();
 		setListState();
+	}
+
+	/**
+	 * @return touchListener that consumes all touch events
+	 */
+	private OnTouchListener absorbTouchesListener() {
+		return new OnTouchListener() {
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				return true;
+			}
+		};
 	}
 }

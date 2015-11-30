@@ -65,7 +65,7 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 			if (suggestion.iconType == Suggestion.IconType.HISTORY_ICON) {
 				dropdownImage.setImageResource(R.drawable.recents);
 			}
-			else if (suggestion.iconType == Suggestion.IconType.CURRENT_LOCATION_ICON) {
+			else if (Suggestion.CURRENT_LOCATION_ID.equalsIgnoreCase(suggestion.id)) {
 				dropdownImage.setImageResource(R.drawable.ic_suggest_current_location);
 				displayName.setText(displayName.getContext().getString(R.string.current_location));
 				cityName.setVisibility(View.GONE);

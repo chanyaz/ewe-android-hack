@@ -6,6 +6,9 @@ import com.expedia.bookings.utils.Strings;
 import com.google.gson.annotations.SerializedName;
 
 public class Suggestion implements Cloneable {
+
+	transient public static final String CURRENT_LOCATION_ID = "current_location";
+
 	@SerializedName("f")
 	public String fullName;
 

@@ -16,6 +16,7 @@ import com.expedia.bookings.widget.PayLaterInfoWidget
 import com.expedia.bookings.widget.SpecialNoticeWidget
 import com.expedia.bookings.widget.VIPAccessInfoWidget
 import com.expedia.util.endlessObserver
+import com.google.android.gms.maps.GoogleMap
 
 public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
@@ -56,8 +57,13 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
 
     private val detailToMap = object: ScaleTransition(this, HotelDetailView::class.java, HotelMapView::class.java) {
         override fun finalizeTransition(forward: Boolean) {
-            hotelMapView.viewmodel.resetCameraPosition.onNext(Unit)
             super.finalizeTransition(forward)
+            hotelMapView.viewmodel.resetCameraPosition.onNext(Unit)
+            if (forward) {
+                hotelMapView.googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
+            } else {
+                hotelMapView.googleMap?.mapType = GoogleMap.MAP_TYPE_NONE
+            }
         }
     }
 

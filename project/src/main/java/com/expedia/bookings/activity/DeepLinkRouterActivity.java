@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import org.joda.time.LocalDate;
 
@@ -16,6 +17,8 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.TimeFormatException;
 
+import com.crashlytics.android.Crashlytics;
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Db;
@@ -31,6 +34,9 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
+import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -47,7 +53,10 @@ import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.Ui;
+
+import rx.Observer;
 
 /**
  * This class acts as a router for incoming deep links.  It seems a lot
@@ -69,6 +78,7 @@ public class DeepLinkRouterActivity extends Activity {
 	private LineOfBusiness mLobToLaunch = null;
 
 	private boolean mIsCurrentLocationSearch;
+	private HotelSearchParams hotelSearchParams;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -179,16 +189,16 @@ public class DeepLinkRouterActivity extends Activity {
 	 * Example: Car search results with Airport as Pickup Location
 	 * This will show results for a car with pickup location, pickup time & drop off time.
 	 * expda://carSearch?pickupLocation=SFO&pickupDateTime=2015-06-25T09:00:00&dropoffDateTime=2015-06-25T09:00:00&originDescription=SFO-San Francisco International Airport
-	 *
+	 * <p/>
 	 * Example: Car Details with Airport as Pickup Location
 	 * This will show the details for a car with pickup location, pickup time & drop off time & productKey.
 	 * expda://carSearch?pickupLocation=SFO&pickupDateTime=2015-06-26T09:00:00&dropoffDateTime=2015-06-27T09:00:00&originDescription=SFO-San Francisco International Airport
 	 * &productKey= AQAQAQLRg2IAAoADCS_0847plQQANQ8AKQAdYumAHhoASgAdsBqAHbAQ
-	 *
+	 * <p/>
 	 * Example: Car search results with LatLong based Pickup Location & Dropoff Location
 	 * This will show results for a car with pickup location, pickup time & drop off time.
 	 * expda://carSearch?pickupLocationLat=32.1234&pickupLocationLng=32.1234&pickupDateTime=2015-06-25T09:00:00&dropoffDateTime=2015-06-25T09:00:00&originDescription=SFO-San Francisco International Airport
-	 *
+	 * <p/>
 	 * Example: Car Details with LatLong based Pickup Location & Dropoff Location
 	 * This will show the details for a car with pickup location, pickup time & drop off time & productKey.
 	 * expda://carSearch?pickupLocationLat=32.1234&pickupLocationLng=32.1234&pickupDateTime=2015-06-26T09:00:00&dropoffDateTime=2015-06-27T09:00:00&originDescription=SFO-San Francisco International Airport
@@ -220,26 +230,26 @@ public class DeepLinkRouterActivity extends Activity {
 
 	/**
 	 * We'll parse any deep link whose url matches: expda://activitySearch/*
-	 *
+	 * <p/>
 	 * <p/>
 	 * Example: Activity search.
 	 * This will search for an activity with location & start date.
 	 * expda://activitySearch?startDate=2015-08-08&location=San+Francisco.
 	 * <p/>
-
+	 * <p/>
 	 * <p/>
 	 * Example: Activity search with GT Filters.
 	 * This will search for an activity with location, start date & GT filters, i.e. Private Transfers & Shared Trasfers.
 	 * expda://activitySearch?startDate=2015-08-08&location=San+Francisco&filters=Private Transfers|Shared Transfers
 	 * <p/>
-	 *
+	 * <p/>
 	 * <p/>
 	 * Example: Activity search with Activity Filters.
 	 * This will search for an activity with location, start date & Activity filters applied, i.e. Adventures & Attractions.
 	 * expda://activitySearch?startDate=2015-08-08&location=San+Francisco&filters=Adventures|Attractions
 	 * <p/>
-	 *
-	 *  <p/>
+	 * <p/>
+	 * <p/>
 	 * Example: Activity details search.
 	 * This will search for an activity with location, start date & activityID applied, i.e. 219796.
 	 * expda://activitySearch?startDate=2015-08-14&location=San+Francisco&activityId=219796
@@ -417,31 +427,31 @@ public class DeepLinkRouterActivity extends Activity {
 		}
 		else {
 			// Fill HotelSearchParams with query data
-			HotelSearchParams params = new HotelSearchParams();
+			hotelSearchParams = new HotelSearchParams();
 
 			if (startDate != null) {
-				params.setCheckInDate(startDate);
+				hotelSearchParams.setCheckInDate(startDate);
 			}
 			if (endDate != null) {
-				params.setCheckOutDate(endDate);
+				hotelSearchParams.setCheckOutDate(endDate);
 			}
 			if (numAdults != 0) {
-				params.setNumAdults(numAdults);
+				hotelSearchParams.setNumAdults(numAdults);
 			}
 			if (children != null) {
-				params.setChildren(children);
+				hotelSearchParams.setChildren(children);
 			}
 
 			// Determine the search location.  Defaults to "current location" if none supplied
 			// or the supplied variables could not be parsed.
 			if (queryData.contains("hotelId")) {
-				params.setSearchType(SearchType.HOTEL);
+				hotelSearchParams.setSearchType(SearchType.HOTEL);
 				String hotelId = data.getQueryParameter("hotelId");
-				params.setQuery(getString(R.string.search_hotel_id_TEMPLATE, hotelId));
-				params.hotelId = hotelId;
-				params.setRegionId(hotelId);
+				hotelSearchParams.setQuery(getString(R.string.search_hotel_id_TEMPLATE, hotelId));
+				hotelSearchParams.hotelId = hotelId;
+				hotelSearchParams.setRegionId(hotelId);
 
-				Log.d(TAG, "Setting hotel search id: " + params.getRegionId());
+				Log.d(TAG, "Setting hotel search id: " + hotelSearchParams.getRegionId());
 			}
 			else if (queryData.contains("latitude") && queryData.contains("longitude")) {
 				String latStr = data.getQueryParameter("latitude");
@@ -453,9 +463,9 @@ public class DeepLinkRouterActivity extends Activity {
 
 					// Check that lat/lng are valid
 					if (lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
-						params.setSearchType(SearchType.ADDRESS);
-						params.setQuery("(" + lat + ", " + lng + ")");
-						params.setSearchLatLon(lat, lng);
+						hotelSearchParams.setSearchType(SearchType.ADDRESS);
+						hotelSearchParams.setQuery("(" + lat + ", " + lng + ")");
+						hotelSearchParams.setSearchLatLon(lat, lng);
 						Log.d(TAG, "Setting hotel search lat/lng: (" + lat + ", " + lng + ")");
 					}
 					else {
@@ -467,16 +477,69 @@ public class DeepLinkRouterActivity extends Activity {
 				}
 			}
 			else if (queryData.contains("location")) {
-				params.setSearchType(SearchType.CITY);
-				params.setQuery(data.getQueryParameter("location"));
-				Log.d(TAG, "Setting hotel search location: " + params.getQuery());
+				hotelSearchParams.setSearchType(SearchType.CITY);
+				hotelSearchParams.setQuery(data.getQueryParameter("location"));
+				Log.d(TAG, "Setting hotel search location: " + hotelSearchParams.getQuery());
 			}
+
+			AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
+			query.addExperiment(AbacusUtils.EBAndroidAppHotelsABTest);
+			com.expedia.bookings.utils.Ui.getApplication(this).appComponent().abacus().downloadBucket(query, abacusSubscriber, 5, TimeUnit.SECONDS);
+			return false;
+		}
+		return true;
+	}
+
+	private Observer<AbacusResponse> abacusSubscriber = new Observer<AbacusResponse>() {
+		@Override
+		public void onCompleted() {
+			Log.d(TAG, "AbacusResponse - onCompleted");
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			// navigate to hotels and call finish()
+			// onError is called when it cannot connect to abacus
+			// incase of deeplink when there's no network
+			updateAbacus(new AbacusResponse());
+			Log.d(TAG, "AbacusResponse - onError", e);
+			NavUtils.goToHotels(DeepLinkRouterActivity.this, hotelSearchParams, null, NavUtils.FLAG_DEEPLINK);
+			finish();
+		}
+
+		@Override
+		public void onNext(AbacusResponse abacusResponse) {
+			updateAbacus(abacusResponse);
+			Log.d(TAG, "AbacusResponse - onNext");
 
 			// Launch hotel search
 			Log.i(TAG, "Launching hotel search from deep link!");
-			NavUtils.goToHotels(this, params, null, NavUtils.FLAG_DEEPLINK);
+			NavUtils.goToHotels(DeepLinkRouterActivity.this, hotelSearchParams, null, NavUtils.FLAG_DEEPLINK);
+			finish();
 		}
-		return true;
+	};
+
+	private void updateAbacus(AbacusResponse abacusResponse) {
+		if (ExpediaBookingApp.isAutomation()) {
+			return;
+		}
+
+		if (Db.getAbacusResponse() == null) {
+			Db.setAbacusResponse(abacusResponse);
+		}
+		else {
+			Db.getAbacusResponse().updateFrom(abacusResponse);
+		}
+
+		// Modify the bucket values based on dev settings;
+		if (BuildConfig.DEBUG) {
+			for (int key : AbacusUtils.getActiveTests()) {
+				Db.getAbacusResponse().updateABTestForDebug(key, SettingUtils.get(this, String.valueOf(key), AbacusUtils.ABTEST_IGNORE_DEBUG));
+			}
+		}
+
+		Log.v("AbacusData", Db.getAbacusResponse().toString());
+		Crashlytics.log(Db.getAbacusResponse().toString());
 	}
 
 	/**

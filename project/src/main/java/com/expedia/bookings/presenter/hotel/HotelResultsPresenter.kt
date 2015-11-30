@@ -14,6 +14,7 @@ import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format.DateUtils
@@ -64,6 +65,7 @@ import com.expedia.vm.HotelResultsViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
@@ -277,7 +279,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         mapCarouselRecycler.adapter = HotelMapCarouselAdapter(emptyList(), hotelSelectedSubject)
 
-        mapViewModel.markersObservable.subscribe {
+        mapViewModel.sortedHotelsObservable.subscribe {
             mapViewModel.selectMarker.onNext(null)
             val hotels = it
             Observable.just(it).subscribeOn(Schedulers.io())
@@ -306,25 +308,15 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                             val marker = googleMap?.addMarker(option)
                             if (marker != null) markers.add(marker)
                         }
-
                         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotels)
                         mapCarouselRecycler.scrollToPosition(0)
-                        val marker = markers.filter { it.title == hotels.first().hotelId }.first()
-                        mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
+                        val markersForHotel = markers.filter { it.title == hotels.first().hotelId }
+                        if (markersForHotel.isNotEmpty()) {
+                            val marker = markersForHotel.first()
+                            mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
+                        }
                     }
-        }
 
-        mapViewModel.sortedHotelsObservable.subscribe {
-            val hotels = it
-            (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotels)
-            mapCarouselRecycler.scrollToPosition(0)
-            val markersForHotel = markers.filter { it.title == hotels.first().hotelId }
-            if (markersForHotel.isNotEmpty()) {
-                val marker = markersForHotel.first()
-                val prevMarker = mapViewModel.selectMarker.value
-                if (prevMarker != null) mapViewModel.unselectedMarker.onNext(prevMarker)
-                mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
-            }
         }
 
         mapViewModel.soldOutHotel.subscribe { hotel ->
@@ -436,11 +428,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         fabLp.bottomMargin += resources.getDimension(R.dimen.hotel_filter_height).toInt()
 
         mapViewModel.newBoundsObservable.subscribe {
+            val center = it.center
+            val latLng = LatLng(center.latitude, center.longitude)
+            mapViewModel.mapBoundsSubject.onNext(latLng)
+
             googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * 50), object : GoogleMap.CancelableCallback {
                 override fun onFinish() {
-                    val center = googleMap?.cameraPosition?.target
-                    val latLng = LatLng(center?.latitude!!, center?.longitude!!)
-                    mapViewModel.mapBoundsSubject.onNext(latLng)
+
                 }
 
                 override fun onCancel() {
@@ -465,6 +459,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
+        MapsInitializer.initialize(context)
         this.googleMap = googleMap
         val uiSettings = googleMap?.uiSettings
         //Explicitly disallow map-cluttering ui (but keep the gestures)
@@ -507,17 +502,14 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
             currentState = newState
 
-            val view = recyclerView.findViewHolderForAdapterPosition(1)
-            val topOffset = if (view == null) {
-                0
-            } else {
-                view.itemView.top
-            }
+            val manager = recyclerView.layoutManager as LinearLayoutManager
+            val isAtBottom = manager.findLastCompletelyVisibleItemPosition() == (recyclerView.adapter.itemCount - 1)
+            val topOffset = recyclerView.findViewHolderForAdapterPosition(1)?.itemView?.top ?: 0
 
             if (newState == RecyclerView.SCROLL_STATE_IDLE && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
                 //view has passed threshold, show map
                 show(ResultsMap())
-            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset > halfway && isHeaderVisible()) {
+            } else if (newState == RecyclerView.SCROLL_STATE_IDLE && topOffset < threshold && topOffset > halfway && isHeaderVisible() && !isAtBottom) {
                 resetListOffset()
             }
 
@@ -544,12 +536,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             val y = mapView.translationY + (-dy * halfway / (recyclerView.height - halfway))
             mapView.translationY = y
 
-            val view = recyclerView.findViewHolderForAdapterPosition(1)
-            val topOffset = if (view == null) {
-                0
-            } else {
-                view.itemView.top
-            }
+            val topOffset = recyclerView.findViewHolderForAdapterPosition(1)?.itemView?.top ?: 0
 
             adjustGoogleMapLogo()
 

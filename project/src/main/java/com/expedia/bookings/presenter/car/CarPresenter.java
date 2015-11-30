@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.car;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.animation.DecelerateInterpolator;
 
@@ -125,6 +126,17 @@ public class CarPresenter extends Presenter {
 		public void finalizeTransition(boolean forward) {
 			carResultsPresenter.setVisibility(forward ? VISIBLE : GONE);
 			carSearchPresenter.setVisibility(forward ? GONE : VISIBLE);
+			if (forward) {
+				// making sure tool tip is hidden in case of deep link
+				// the reason we are adding delay is we are showing tool tip with 50 ms delay
+				// TODO Update CalendarPicker.hideToolTip() in such way it cancels 50 ms "show" animation if we are trying to hide it
+				new Handler().postDelayed(new Runnable() {
+					public void run() {
+						carSearchPresenter.calendarContainer.hideToolTip();
+					}
+				}, 300);
+
+			}
 			carResultsPresenter.animationFinalize(!forward);
 			carSearchPresenter.animationFinalize(!forward);
 		}
@@ -154,6 +166,7 @@ public class CarPresenter extends Presenter {
 
 	@Subscribe
 	public void onShowSearchWidget(Events.CarsGoToSearch event) {
+		carSearchPresenter.calendarContainer.hideToolTip();
 		show(carSearchPresenter, FLAG_CLEAR_BACKSTACK | FLAG_CLEAR_TOP);
 	}
 }

@@ -3,7 +3,6 @@ package com.expedia.bookings.activity;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
-import java.util.UUID;
 
 import android.app.ActivityManager;
 import android.content.ComponentName;
@@ -34,9 +33,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.WalletPromoResponse;
-import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
-import com.expedia.bookings.data.abacus.AbacusResponse;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -47,6 +43,7 @@ import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
@@ -54,7 +51,6 @@ import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.StethoShim;
-import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.WalletUtils;
 import com.facebook.FacebookSdk;
@@ -72,7 +68,6 @@ import com.squareup.leakcanary.LeakCanary;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 import io.fabric.sdk.android.Fabric;
-import rx.Observer;
 
 public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler {
 	// Don't change the actual string, updated identifier for clarity
@@ -83,9 +78,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	// For bug #2249 where we did not point at the production push server
 	private static final String PREF_UPGRADED_TO_PRODUCTION_PUSH = "PREF_UPGRADED_TO_PRODUCTION_PUSH";
-
-	// For Abacus bucketing GUID
-	private static final String PREF_ABACUS_GUID = "PREF_ABACUS_GUID";
 
 	private UncaughtExceptionHandler mOriginalUncaughtExceptionHandler;
 
@@ -112,6 +104,8 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	@Override
 	public void onCreate() {
+		AbacusHelperUtils.generateAbacusGuid(this);
+
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
 		super.onCreate();
 		startupTimer.addSplit("super.onCreate()");
@@ -328,11 +322,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		CurrencyUtils.initMap(this);
 		startupTimer.addSplit("Currency Utils init");
 
-		AbacusEvaluateQuery query = new AbacusEvaluateQuery(generateAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
-		query.addExperiments(AbacusUtils.getActiveTests());
-		mAppComponent.abacus().downloadBucket(query, abacusSubscriber);
-		startupTimer.addSplit("Abacus Guid init");
-
 		startupTimer.dumpToLog();
 	}
 
@@ -514,59 +503,5 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		if (!gcmId.isEmpty()) {
 			Crashlytics.setString("gcm token", gcmId);
 		}
-	}
-
-	private Observer<AbacusResponse> abacusSubscriber = new Observer<AbacusResponse>() {
-		@Override
-		public void onCompleted() {
-			Log.d("AbacusResponse - onCompleted");
-		}
-
-		@Override
-		public void onError(Throwable e) {
-			// onError is called during debugging & cannot connect to dev endpoint
-			// but we still want to modify the tests for debugging and QA purposes
-			updateAbacus(new AbacusResponse());
-			Log.d("AbacusResponse - onError", e);
-		}
-
-		@Override
-		public void onNext(AbacusResponse abacusResponse) {
-			updateAbacus(abacusResponse);
-			Log.d("AbacusResponse - onNext");
-		}
-	};
-
-	private void updateAbacus(AbacusResponse abacusResponse) {
-		if (ExpediaBookingApp.isAutomation()) {
-			return;
-		}
-
-		if (Db.getAbacusResponse() == null) {
-			Db.setAbacusResponse(abacusResponse);
-		}
-		else {
-			Db.getAbacusResponse().updateFrom(abacusResponse);
-		}
-
-		// Modify the bucket values based on dev settings;
-		if (BuildConfig.DEBUG) {
-			for (int key : AbacusUtils.getActiveTests()) {
-				Db.getAbacusResponse().updateABTestForDebug(key, SettingUtils.get(ExpediaBookingApp.this, String.valueOf(key), AbacusUtils.ABTEST_IGNORE_DEBUG));
-			}
-		}
-
-		Log.v("AbacusData", Db.getAbacusResponse().toString());
-		Crashlytics.log(Db.getAbacusResponse().toString());
-	}
-
-	public String generateAbacusGuid() {
-		String guid = SettingUtils.get(ExpediaBookingApp.this, PREF_ABACUS_GUID, "");
-		if (Strings.isEmpty(guid)) {
-			guid = UUID.randomUUID().toString();
-			SettingUtils.save(ExpediaBookingApp.this, PREF_ABACUS_GUID, guid);
-		}
-		Db.setAbacusGuid(guid);
-		return guid;
 	}
 }

@@ -311,7 +311,7 @@ public class HotelMedia implements JSONable, IMedia {
 			@Override
 			public boolean onPreDraw() {
 				view.getViewTreeObserver().removeOnPreDrawListener(this);
-				fillImageView(view, view.getWidth(), placeholderResId, target);
+				fillImageView(view, view.getWidth()/2, placeholderResId, target);
 				return true;
 			}
 		});
@@ -336,6 +336,11 @@ public class HotelMedia implements JSONable, IMedia {
 	 * if necessary), and stuffs it into the passed ImageView. The Media will be
 	 * downloaded in the background.
 	 */
+	public void fillImageView(final ImageView view, final int width, final int placeholderResId) {
+		new PicassoHelper.Builder(view).setPlaceholder(placeholderResId).build()
+			.load(getBestUrls(width));
+	}
+
 	public void fillImageView(final ImageView view, final int width, final int placeholderResId,
 		final PicassoTarget target) {
 		new PicassoHelper.Builder(view.getContext()).setPlaceholder(placeholderResId).setTarget(target).build()

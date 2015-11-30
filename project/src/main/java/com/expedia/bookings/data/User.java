@@ -191,6 +191,7 @@ public class User implements JSONable {
 		//Facebook log out
 		//TODO: consider moving this to AccountLib
 		LoginManager.getInstance().logOut();
+
 		logger.addSplit("Facebook Session Closed");
 
 		logger.dumpToLog();

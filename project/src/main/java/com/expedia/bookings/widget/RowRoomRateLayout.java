@@ -303,7 +303,7 @@ public class RowRoomRateLayout extends FrameLayout {
 		int placeholderResId = Ui.obtainThemeResID(getContext(), R.attr.skin_hotelImagePlaceHolderDrawable);
 		if (mRate.getThumbnail() != null) {
 			int width = res.getDimensionPixelSize(R.dimen.hotel_room_rate_thumbnail_width);
-			mRate.getThumbnail().fillImageView(roomDetailImageView, width, placeholderResId, null);
+			mRate.getThumbnail().fillImageView(roomDetailImageView, width, placeholderResId);
 		}
 		else {
 			roomDetailImageView.setImageResource(placeholderResId);

@@ -237,12 +237,12 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		scrollAnimation.addListener(new ValueAnimator.AnimatorListener() {
 			@Override
 			public void onAnimationStart(Animator animator) {
+				menuDone.setVisible(false);
 				listenToScroll = false;
 			}
 
 			@Override
 			public void onAnimationEnd(Animator animator) {
-				menuDone.setVisible(false);
 				listenToScroll = true;
 			}
 

@@ -1,14 +1,10 @@
 package com.expedia.bookings.dagger;
 
-import android.content.Context;
-
 import com.expedia.bookings.dagger.tags.HotelScope;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
-import com.expedia.vm.HotelCheckoutViewModel;
-import com.expedia.vm.HotelConfirmationViewModel;
 import com.squareup.okhttp.OkHttpClient;
 
 import dagger.Module;
@@ -40,17 +36,5 @@ public final class HotelModule {
 		RestAdapter.LogLevel logLevel) {
 		final String endpoint = endpointProvider.getReviewsEndpointUrl();
 		return new ReviewsServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
-	}
-
-	@Provides
-	@HotelScope
-	HotelCheckoutViewModel provideHotelCheckoutViewModel(HotelServices hotelServices) {
-		return new HotelCheckoutViewModel(hotelServices);
-	}
-
-	@Provides
-	@HotelScope
-	HotelConfirmationViewModel provideHotelConfirmationViewModel(Context context, HotelCheckoutViewModel hotelCheckoutViewModel) {
-		return new HotelConfirmationViewModel(hotelCheckoutViewModel.getCheckoutResponseObservable(), context);
 	}
 }
