@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget;
 
-
 import java.util.List;
 
 import android.text.Html;
@@ -29,6 +28,11 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		View itemView = super.getView(position, convertView, parent);
+		if (itemView != null) {
+			return itemView;
+		}
+
 		LxSuggestionViewHolder holder;
 
 		if (convertView == null) {
@@ -38,7 +42,6 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 
 		holder = (LxSuggestionViewHolder) convertView.getTag();
 		holder.bind(getItem(position));
-
 		return convertView;
 	}
 
@@ -62,8 +65,10 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 			if (suggestion.iconType == Suggestion.IconType.HISTORY_ICON) {
 				dropdownImage.setImageResource(R.drawable.recents);
 			}
-			else if (suggestion.iconType == Suggestion.IconType.CURRENT_LOCATION_ICON) {
+			else if (Suggestion.CURRENT_LOCATION_ID.equalsIgnoreCase(suggestion.id)) {
 				dropdownImage.setImageResource(R.drawable.ic_suggest_current_location);
+				displayName.setText(displayName.getContext().getString(R.string.current_location));
+				cityName.setVisibility(View.GONE);
 			}
 			else {
 				dropdownImage.setImageResource(R.drawable.search_type_icon);

@@ -13,6 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.RoundImageView;
 import com.mobiata.android.util.Ui;
 
@@ -95,7 +96,11 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 			break;
 		case ITEM_VIEW_TYPE_CREDITCARD:
 			StoredCreditCard card = getItem(position);
-			if (retView == null) {
+			if (card.isGoogleWallet() && !WalletUtils.isWalletSupported(mTripBucketItem.getLineOfBusiness())) {
+				// Hide google wallet stored card if its not supported
+				retView = View.inflate(getContext(), R.layout.hidden_credit_card, null);
+			}
+			else {
 				retView = View.inflate(getContext(), R.layout.credit_card_autocomplete_row, null);
 			}
 

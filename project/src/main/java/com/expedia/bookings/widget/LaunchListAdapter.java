@@ -139,7 +139,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
 			final String url = Images.getNearbyHotelImage(hotel);
 			HeaderBitmapDrawable drawable = Images.makeHotelBitmapDrawable(parentView.getContext(), (HotelViewHolder) holder, width, url,
-				PICASSO_TAG);
+				PICASSO_TAG, R.drawable.results_list_placeholder);
 			((HotelViewHolder) holder).backgroundImage.setImageDrawable(drawable);
 
 			((HotelViewHolder) holder).bindListData(hotel, fullWidthTile);

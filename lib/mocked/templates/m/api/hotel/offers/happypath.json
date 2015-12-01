@@ -8,6 +8,10 @@
             "id": "361"
         }
     ],
+    "hotelAmenitiesText": {
+        "content": "<p>Adjacent to San Francisco Bay and three miles from the San Francisco airport, Bay Landing San Francisco Airport Hotel features a complimentary deluxe Continental breakfast which includes waffles and hard-boiled eggs, and which is served from Monday to Friday from 6 AM - 9:30 AM; Saturday and Sunday from 6:30 AM - 10 AM.</p><p>A small library with sofas offers books and a plasma-screen TV. A lobby computer station provides complimentary high-speed Internet access and printing. Complimentary wireless Internet access is also available in the lobby. Coin-operated laundry facilities are on site. The Bay Landing is entirely smoke-free.</p><p></p><p>Parking is complimentary only during guests' stay. Extended parking is available for a surcharge.</p><ul><li>Free airport transportation</li><li>Concierge services</li><li>Free breakfast</li><li>Free newspapers in lobby</li><li>Fitness facilities</li><li>Conference space</li><li>Meeting rooms</li><li>24-hour front desk</li><li>ATM/banking</li><li>Laundry facilities</li><li>Dry cleaning/laundry service</li><li>Fireplace in lobby</li><li>Coffee/tea in lobby</li><li>Television in lobby</li><li>Library</li><li>Elevator/lift</li><li>Smoke-free property</li><li>Free self parking</li><li>Long-term parking (surcharge)</li><li>Free WiFi</li></ul>",
+        "name": "Property Amenities"
+    },
     "hotelCity": "San Francisco",
     "hotelCountry": "USA",
     "hotelGuestRating": "4.4",
@@ -45,6 +49,8 @@
                     ],
                     "priceAdjustments": [],
                     "priceToShowUsers": "109",
+                    "resortFeeInclusion": false,
+                    "showResortFeeMessage": true,
                     "strikethroughPriceToShowUsers": "109",
                     "surchargeTotal": "15.98",
                     "surchargeTotalForEntireStay": "15.98",
@@ -87,9 +93,7 @@
                     "total": "124.98",
                     "totalMandatoryFees": "0.00",
                     "totalPriceWithMandatoryFees": "124.98",
-                    "userPriceType": "PerNightRateNoTaxes",
-                    "showResortFeeMessage": true,
-                    "resortFeeInclusion": false
+                    "userPriceType": "PerNightRateNoTaxes"
                 },
                 "priceBreakdown": true,
                 "promo": true,
@@ -101,120 +105,138 @@
             "roomTypeDescription": "${hotelId}_0",
             "smokingPreferences": "NS",
             "supplierType": "MERCHANT",
-            "valueAdds": []
+            "valueAdds": [
+                {
+                    "id": "128",
+                    "description": "Free Parking"
+                },
+                {
+                    "id": "32768",
+                    "description": "Free Airport Shuttle"
+                }
+            ]
         },
-        {       
+        {
+            "bedTypes": [
+                {
+                    "description": "2 double",
+                    "id": "21"
+                }
+            ],
+            "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Palace Hotel - Luxury Collection charges the following cancellation and change fees.</p><p>Cancellations or changes made before 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to the first night's rate plus taxes and fees.</p><p>Cancellations or changes made after 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking an Expedia Special Rate hotel.</p>",
+            "currentAllotment": "13",
+            "depositRequired": false,
+            "guaranteeRequired": false,
+            "hasFreeCancellation": false,
+            "immediateChargeRequired": true,
+            "isDiscountRestrictedToCurrentSourceType": false,
+            "isPayLater": false,
+            "isSameDayDRR": false,
+            "minGuestAge": "0",
+            "nonRefundable": true,
             "productKey": "happypath_2_night_stay_0",
-            "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Palace Hotel - Luxury Collection charges the following cancellation and change fees.<\/p><p>Cancellations or changes made before 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to the first night's rate plus taxes and fees.<\/p><p>Cancellations or changes made after 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.<\/p><p>Your room will be guaranteed for late arrival.<\/p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking an Expedia Special Rate hotel.<\/p>",
+            "promoDescription": "",
+            "quotedOccupancy": "4",
+            "rateChange": false,
             "rateDescription": "happypath_2_night_stay_0",
-            "roomTypeDescription": "happypath_2_night_stay_0",
+            "rateInfo": {
+                "chargeableRateInfo": {
+                    "airAttached": false,
+                    "averageBaseRate": "1029.00",
+                    "averageRate": "1029.00",
+                    "checkoutPriceType": "total",
+                    "currencyCode": "USD",
+                    "currencySymbol": "$",
+                    "discountPercent": "20",
+                    "formattedTotalPriceWithMandatoryFees": "$ 2,394.88",
+                    "maxNightlyRate": "1029.00",
+                    "nightlyRateTotal": "2058.00",
+                    "nightlyRatesPerRoom": [
+                        {
+                            "baseRate": "1029.00",
+                            "promo": "false",
+                            "rate": "1029.00"
+                        },
+                        {
+                            "baseRate": "1029.00",
+                            "promo": "false",
+                            "rate": "1029.00"
+                        }
+                    ],
+                    "priceAdjustments": [],
+                    "priceToShowUsers": "1029",
+                    "ratePlanCode": "202384972",
+                    "resortFeeInclusion": false,
+                    "roomTypeCode": "200410806",
+                    "showResortFeeMessage": true,
+                    "strikethroughPriceToShowUsers": "1029",
+                    "strikethroughPriceWithTaxesAndFeesToShowUsers": "2395",
+                    "surchargeTotal": "168.44",
+                    "surchargeTotalForEntireStay": "336.88",
+                    "surcharges": [
+                        {
+                            "amount": "147.38",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "147.38",
+                            "type": "TAX_OTHER"
+                        },
+                        {
+                            "amount": "21.06",
+                            "type": "FEE_ALL"
+                        },
+                        {
+                            "amount": "21.06",
+                            "type": "FEE_MISC"
+                        }
+                    ],
+                    "surchargesForEntireStay": [
+                        {
+                            "amount": "294.76",
+                            "type": "TAX_ALL"
+                        },
+                        {
+                            "amount": "294.76",
+                            "type": "TAX_OTHER"
+                        },
+                        {
+                            "amount": "42.12",
+                            "type": "FEE_ALL"
+                        },
+                        {
+                            "amount": "42.12",
+                            "type": "FEE_MISC"
+                        }
+                    ],
+                    "taxStatusType": "ESTIMATED",
+                    "total": "2394.88",
+                    "totalMandatoryFees": "0.00",
+                    "totalPriceWithMandatoryFees": "2394.88",
+                    "userPriceType": "PerNightRateNoTaxes"
+                },
+                "priceBreakdown": true,
+                "promo": true,
+                "rateChange": false
+            },
+            "rateOccupancyPerRoom": "7",
+            "ratePlanCode": "202384972",
             "roomLongDescription": "   2 double   Get a good night's sleep with premium bedding and blackout drapes/curtains. Wired and wireless Internet access (surcharge) keeps you connected, and the 37-inch flat-screen TV is offered for your entertainment. You can request an in-room massage. You will have a shower/tub combination, as well as bathrobes, designer toiletries, and complimentary toiletries. Air conditioning, complimentary bottled water, and a laptop-compatible safe are among the conveniences offered. This room is Non-Smoking.   ",
             "roomThumbnailUrl": "/hotels/1000000/30000/27300/27274/27274_178_d.jpg",
-            "supplierType": "MERCHANT",
-            "rateChange": false,
-            "nonRefundable": true,
-            "hasFreeCancellation": false,
-            "guaranteeRequired": false,
-            "depositRequired": false,
-            "immediateChargeRequired": true,
-            "currentAllotment": "13",
-            "promoDescription": "",
-            "isDiscountRestrictedToCurrentSourceType": false,
-            "isSameDayDRR": false,
-            "smokingPreferences": "NS",
-            "rateOccupancyPerRoom": "7",
-            "bedTypes": [
-               {
-                  "id": "21",
-                  "description": "2 double"
-               }
-            ],
-            "rateInfo": {
-               "priceBreakdown": true,
-               "promo": true,
-               "rateChange": false,
-               "chargeableRateInfo": {
-                  "maxNightlyRate": "1029.00",
-                  "averageRate": "1029.00",
-                  "taxStatusType": "ESTIMATED",
-                  "surchargeTotal": "168.44",
-                  "surchargeTotalForEntireStay": "336.88",
-                  "averageBaseRate": "1029.00",
-                  "nightlyRateTotal": "2058.00",
-                  "discountPercent": "20",
-                  "total": "2394.88",
-                  "currencyCode": "USD",
-                  "currencySymbol": "$",
-                  "surcharges": [
-                     {
-                        "amount": "147.38",
-                        "type": "TAX_ALL"
-                     },
-                     {
-                        "amount": "147.38",
-                        "type": "TAX_OTHER"
-                     },
-                     {
-                        "amount": "21.06",
-                        "type": "FEE_ALL"
-                     },
-                     {
-                        "amount": "21.06",
-                        "type": "FEE_MISC"
-                     }
-                  ],
-                  "surchargesForEntireStay": [
-                     {
-                        "amount": "294.76",
-                        "type": "TAX_ALL"
-                     },
-                     {
-                        "amount": "294.76",
-                        "type": "TAX_OTHER"
-                     },
-                     {
-                        "amount": "42.12",
-                        "type": "FEE_ALL"
-                     },
-                     {
-                        "amount": "42.12",
-                        "type": "FEE_MISC"
-                     }
-                  ],
-                  "nightlyRatesPerRoom": [
-                     {
-                        "promo": "false",
-                        "baseRate": "1029.00",
-                        "rate": "1029.00"
-                     },
-                     {
-                        "promo": "false",
-                        "baseRate": "1029.00",
-                        "rate": "1029.00"
-                     }
-                  ],
-                  "priceToShowUsers": "1029",
-                  "strikethroughPriceToShowUsers": "1029",
-                  "strikethroughPriceWithTaxesAndFeesToShowUsers": "2395",
-                  "totalMandatoryFees": "0.00",
-                  "totalPriceWithMandatoryFees": "2394.88",
-                  "formattedTotalPriceWithMandatoryFees": "$ 2,394.88",
-                  "userPriceType": "PerNightRateNoTaxes",
-                  "priceAdjustments": [],
-                  "checkoutPriceType": "total",
-                  "airAttached": false,
-                  "roomTypeCode": "200410806",
-                  "ratePlanCode": "202384972",
-                  "showResortFeeMessage": true,
-                  "resortFeeInclusion": false
-               }
-            },
-            "valueAdds": [],
-            "quotedOccupancy": "4",
-            "minGuestAge": "0",
             "roomTypeCode": "200410806",
-            "ratePlanCode": "202384972",
-            "isPayLater": false
+            "roomTypeDescription": "happypath_2_night_stay_0",
+            "smokingPreferences": "NS",
+            "supplierType": "MERCHANT",
+            "valueAdds": [
+                {
+                    "id": "2",
+                    "description": "Continental Breakfast"
+                },
+                {
+                    "id": "32768",
+                    "description": "Free Airport Shuttle"
+                }
+            ]
         }
     ],
     "hotelStarRating": "4.0",
@@ -231,20 +253,24 @@
     "photos": [
         {
             "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_81_t.jpg",
-            "url": "/hotels/1000000/20000/12600/12539/12539_81_l.jpg"
+            "url": "/hotels/1000000/20000/12600/12539/12539_81_l.jpg",
+            "displayText": "happy"
         },
         {
             "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_114_t.jpg",
-            "url": "/hotels/1000000/20000/12600/12539/12539_114_l.jpg"
+            "url": "/hotels/1000000/20000/12600/12539/12539_114_l.jpg",
+            "displayText": "happy"
         },
         {
             "thumbnailUrl": "/hotels/1000000/20000/12600/12539/12539_115_t.jpg",
-            "url": "/hotels/1000000/20000/12600/12539/12539_115_l.jpg"
+            "url": "/hotels/1000000/20000/12600/12539/12539_115_l.jpg",
+            "displayText": "happy"
         }
     ],
     "shortDescription": "Just off Market Street, downtown San Francisco's major thoroughfare, this contemporary 32-story hotel is 1 block from San Francisco Centre shops and 3 blocks from the Moscone Convention Center.",
     "signedMapUrl": "http://maps.googleapis.com/maps/api/staticmap?client=gme-expedia&center=37.78458,-122.40854&maptype=mobile&zoom=16&size=480x400&sensor=false&hl=false&signature=LYrk5MKD7KH2jhIXDQXAMCmf4xE=",
     "telesalesNumber": "1-800-766-6658",
+    "deskTopOverrideNumber": "false",
     "timeZoneUTCOffsetMinutes": "-480",
     "totalRecommendations": "2013",
     "totalReviews": "1843"

@@ -34,19 +34,16 @@ public class AdTracker {
 
 	public static void trackFirstLaunch() {
 		// Other
-		AdX.trackFirstLaunch();
 		LeanPlumUtils.tracking("FirstLaunch");
 	}
 
 	public static void trackLaunch() {
 		// Other
-		AdX.trackLaunch();
 		LeanPlumUtils.tracking("Launch");
 	}
 
 	public static void trackLogin() {
 		// Other
-		AdX.trackLogin();
 		LeanPlumUtils.tracking("Sign In Success");
 		TuneUtils.trackLogin();
 	}
@@ -64,12 +61,10 @@ public class AdTracker {
 	}
 
 	public static void trackViewHomepage() {
-		AdX.trackViewHomepage();
 		TuneUtils.trackHomePageView();
 	}
 
 	public static void trackViewItinList() {
-		AdX.trackViewItinList();
 		LeanPlumUtils.tracking("Itinerary");
 	}
 
@@ -84,14 +79,13 @@ public class AdTracker {
 		final String currency = rate.getDisplayPrice().getCurrency();
 		final Double displayPrice = rate.getDisplayPrice().getAmount().doubleValue();
 		final Double totalPrice = rate.getTotalAmountAfterTax().getAmount().doubleValue();
-		final Double pricePerNight = Db.getTripBucket().getHotel().getRate().getNightlyRateTotal().getAmount().doubleValue();
+		final Double pricePerNight = rate.getNightlyRateTotal().getAmount().doubleValue();
 
 		// Other
 		HotelBookingResponse response = Db.getTripBucket().getHotel().getBookingResponse();
 		String orderNumber = response != null ? response.getOrderNumber() : "";
 		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 		Property property = Db.getTripBucket().getHotel().getProperty();
-		AdX.trackHotelBooked(params, property, orderNumber, currency, totalPrice, displayPrice);
 		LeanPlumUtils.trackHotelBooked(params, property, orderNumber, currency, totalPrice, displayPrice);
 		TuneUtils.trackHotelConfirmation(totalPrice, pricePerNight, orderNumber, currency, Db.getTripBucket().getHotel());
 		new FacebookEvents().trackHotelConfirmation(Db.getTripBucket().getHotel(), rate);
@@ -101,16 +95,15 @@ public class AdTracker {
 		try {
 			if (Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().getFlightTrip() != null) {
 				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-				Money money = trip.getTotalFare();
-				if (money != null) {
+				Money totalFare = trip.getTotalFare();
+				Money averageTotalFare = trip.getAverageTotalFare();
+				if (totalFare != null) {
 					String orderNumber = Db.getTripBucket().getFlight().getCheckoutResponse() != null ?
 						Db.getTripBucket().getFlight().getCheckoutResponse().getOrderId() : "";
-					AdX.trackFlightBooked(Db.getTripBucket().getFlight().getFlightSearch(), orderNumber,
-						money.getCurrency(), money.getAmount().doubleValue());
 					LeanPlumUtils.trackFlightBooked(Db.getTripBucket().getFlight(), orderNumber,
-						money.getCurrency(), money.getAmount().doubleValue());
+						totalFare.getCurrency(), totalFare.getAmount().doubleValue());
 					TuneUtils.trackFlightBooked(Db.getTripBucket().getFlight(), orderNumber,
-						money.getCurrency(), money.getAmount().doubleValue());
+						totalFare.getCurrency(), totalFare.getAmount().doubleValue(), averageTotalFare.getAmount().doubleValue());
 					new FacebookEvents().trackFlightConfirmation(Db.getTripBucket().getFlight());
 				}
 			}
@@ -131,7 +124,6 @@ public class AdTracker {
 		final Money totalPrice = rate.getTotalAmountAfterTax();
 		HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 		Property property = Db.getTripBucket().getHotel().getProperty();
-		AdX.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
 		LeanPlumUtils.trackHotelCheckoutStarted(params, property, totalPrice.getCurrency(),
 			totalPrice.getAmount().doubleValue());
 		TuneUtils.trackHotelCheckoutStarted(property, totalPrice.getCurrency(), totalPrice.getAmount().doubleValue());
@@ -141,8 +133,6 @@ public class AdTracker {
 	public static void trackFlightCheckoutStarted() {
 		if (Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().getFlightTrip() != null) {
 			Money totalPrice = Db.getTripBucket().getFlight().getFlightTrip().getTotalFare();
-			AdX.trackFlightCheckoutStarted(Db.getTripBucket().getFlight().getFlightSearch(), totalPrice.getCurrency(),
-				totalPrice.getAmount().doubleValue());
 			LeanPlumUtils
 				.trackFlightCheckoutStarted(Db.getTripBucket().getFlight().getFlightSearch(), totalPrice.getCurrency(),
 					totalPrice.getAmount().doubleValue());
@@ -187,7 +177,6 @@ public class AdTracker {
 
 	public static void trackHotelSearch() {
 		if (Db.getHotelSearch() != null) {
-			AdX.trackHotelSearch(Db.getHotelSearch());
 			LeanPlumUtils.trackHotelSearch();
 			TuneUtils.trackHotelSearchResults();
 			new FacebookEvents().trackHotelSearch(Db.getHotelSearch());
@@ -202,12 +191,11 @@ public class AdTracker {
 
 	public static void trackHotelInfoSite() {
 		TuneUtils.trackHotelInfoSite(Db.getHotelSearch().getSelectedProperty());
-		new FacebookEvents().trackHotelInfosite(Db.getHotelSearch());
+		new FacebookEvents().trackHotelInfoSite(Db.getHotelSearch());
 	}
 
 	public static void trackFlightSearch() {
 		if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchParams() != null) {
-			AdX.trackFlightSearch(Db.getFlightSearch());
 			new FacebookEvents().trackFlightSearch(Db.getFlightSearch());
 			LeanPlumUtils.trackFlightSearch();
 		}
@@ -253,12 +241,13 @@ public class AdTracker {
 		new FacebookEvents().trackCarDetail(searchParams, searchCarOffer);
 	}
 
-	public static void trackLXBooked(String lxActivityLocation, Money totalPrice, String lxActivityStartDate,
+	public static void trackLXBooked(String lxActivityLocation, Money totalPrice, Money ticketPrice,
+		String lxActivityStartDate,
 		List<String> lxActivityCategories, String orderId, String lxActivityTitle, String activityId,
 		LocalDate startDate, String regionId, int selectedTicketCount, int selectedChildTicketCount) {
 		LeanPlumUtils.trackLXBooked(lxActivityLocation, totalPrice, lxActivityStartDate, lxActivityCategories);
-		TuneUtils.trackLXConfirmation(lxActivityLocation, totalPrice, lxActivityStartDate,
-			orderId, lxActivityTitle);
+		TuneUtils.trackLXConfirmation(lxActivityLocation, totalPrice, ticketPrice, lxActivityStartDate,
+			orderId, lxActivityTitle, selectedTicketCount, selectedChildTicketCount);
 		new FacebookEvents().trackLXConfirmation(activityId, lxActivityLocation, startDate, regionId, totalPrice,
 			selectedTicketCount, selectedChildTicketCount);
 	}

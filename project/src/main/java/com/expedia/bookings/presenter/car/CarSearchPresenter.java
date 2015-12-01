@@ -54,6 +54,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView;
 import com.expedia.bookings.widget.CarDateTimeWidget;
 import com.expedia.bookings.widget.CarSuggestionAdapter;
+import com.expedia.bookings.widget.SuggestionBaseAdapter;
 import com.mobiata.android.time.widget.CalendarPicker;
 
 import butterknife.ButterKnife;
@@ -187,7 +188,8 @@ public class CarSearchPresenter extends Presenter
 
 		pickUpLocation.setAdapter(suggestionAdapter);
 		pickUpLocation.setOnItemClickListener(mPickupListListener);
-		pickUpLocation.setOnFocusChangeListener(mPickupClickListener);
+		pickUpLocation.setOnFocusChangeListener(mPickupFocusListener);
+		pickUpLocation.setOnClickListener(mPickupClickListener);
 		pickUpLocation.setOnEditorActionListener(this);
 		pickUpLocation.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
 		selectDateButton.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
@@ -227,7 +229,7 @@ public class CarSearchPresenter extends Presenter
 			searchParamsBuilder.pickupLocationLatLng(carSearchParams.pickupLocationLatLng);
 
 			Suggestion suggestion = new Suggestion();
-
+			suggestion.id = "";
 			if (Strings.isNotEmpty(carSearchParams.origin)) {
 				suggestion.airportCode = carSearchParams.origin;
 			}
@@ -269,6 +271,7 @@ public class CarSearchPresenter extends Presenter
 			public void onClick(View v) {
 				if (isSearchFormFilled()) {
 					Ui.hideKeyboard(CarSearchPresenter.this);
+					calendarContainer.hideToolTip();
 					Events.post(new Events.CarsNewSearchParams(carSearchParams));
 				}
 			}
@@ -286,7 +289,10 @@ public class CarSearchPresenter extends Presenter
 
 	private void setPickUpLocation(final Suggestion suggestion, final boolean filter) {
 		Suggestion suggest = suggestion.clone();
-		pickUpLocation.setText(StrUtils.formatCityName(suggest.fullName), filter);
+
+		pickUpLocation.setText(suggest.iconType == Suggestion.IconType.CURRENT_LOCATION_ICON ? getContext()
+			.getString(R.string.current_location)
+			: StrUtils.formatCityName(suggest.fullName), filter);
 
 		if (!suggest.isMajorAirport() && suggest.latLong != null) {
 			searchParamsBuilder.origin(null);
@@ -322,7 +328,7 @@ public class CarSearchPresenter extends Presenter
 		suggestionAdapter.updateRecentHistory(mRecentCarsLocationsSearches);
 
 		selectDateButton.setChecked(true);
-		show(new CarParamsCalendar());
+		show(new CarParamsCalendar(), FLAG_CLEAR_BACKSTACK);
 
 		setUpSearchButton();
 	}
@@ -333,6 +339,12 @@ public class CarSearchPresenter extends Presenter
 			suggestionAdapter.cleanup();
 		}
 		super.onDetachedFromWindow();
+	}
+
+	@Override
+	public boolean back() {
+		calendarContainer.hideToolTip();
+		return super.back();
 	}
 
 	@OnClick(R.id.select_date)
@@ -397,7 +409,14 @@ public class CarSearchPresenter extends Presenter
 		}
 	};
 
-	private OnFocusChangeListener mPickupClickListener = new OnFocusChangeListener() {
+	private OnClickListener mPickupClickListener = new OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			pickUpLocation.showDropDown();
+		}
+	};
+
+	private OnFocusChangeListener mPickupFocusListener = new OnFocusChangeListener() {
 		@Override
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (hasFocus) {
@@ -445,7 +464,7 @@ public class CarSearchPresenter extends Presenter
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 		if (actionId == EditorInfo.IME_ACTION_DONE && !Strings.isEmpty(v.getText())) {
 			setCalendarVisibility(View.VISIBLE);
-			Suggestion topSuggestion = suggestionAdapter.getItem(0);
+			Suggestion topSuggestion = giveTopSuggestion();
 			if (topSuggestion != null) {
 				if (carSearchParams == null) {
 					setPickUpLocation(topSuggestion);
@@ -457,6 +476,16 @@ public class CarSearchPresenter extends Presenter
 			hidePickupDropdown();
 		}
 		return false;
+	}
+
+	public Suggestion giveTopSuggestion() {
+		for (int position = 0; position < suggestionAdapter.getCount() - 1; position++) {
+			Suggestion suggestion = suggestionAdapter.getItem(position);
+			if (!(SuggestionBaseAdapter.DEFAULT_AUTOFILL_ITEM_ID).equalsIgnoreCase(suggestion.id)) {
+				return suggestion;
+			}
+		}
+		return null;
 	}
 
 	private void hidePickupDropdown() {

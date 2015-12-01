@@ -24,15 +24,19 @@
     <dimen name="launch_header_height">48dp</dimen>
     <dimen name="launch_header_top_space">183dp</dimen>
     <dimen name="launch_header_double_row_top_space">240dp</dimen>
+    <dimen name="launch_header_five_lob_top_space">246dp</dimen>
     <dimen name="launch_tile_hotel_sale_horizontal_padding">6dp</dimen>
     <dimen name="launch_tile_hotel_sale_vertical_padding">4dp</dimen>
     <dimen name="launch_tile_hotel_sale_drawable_padding">5dp</dimen>
     <dimen name="launch_tile_hotel_sale_right_margin">12dp</dimen>
     <dimen name="launch_lob_height">103dp</dimen>
     <dimen name="launch_lob_container_height">140dp</dimen>
+    <dimen name="launch_lob_reference_container_height">130dp</dimen>
     <dimen name="launch_lob_squashed_height">80dp</dimen>
     <dimen name="launch_lob_double_row_height">81dp</dimen>
+    <dimen name="launch_five_lob_double_row_height">87dp</dimen>
     <dimen name="launch_lob_double_row_container_height">197dp</dimen>
+    <dimen name="launch_five_lob_double_row_container_height">203dp</dimen>
     <dimen name="launch_lob_double_row_squashed_height">112dp</dimen>
     <dimen name="launch_lob_btn_corner_radius">3dp</dimen>
     <dimen name="launch_tile_margin_top">8dp</dimen>
@@ -41,6 +45,10 @@
     <dimen name="launch_tile_margin_middle">4dp</dimen>
     <dimen name="launch_list_corner_radius">2dp</dimen>
     <dimen name="launch_lob_margin_left">10dp</dimen>
+    <dimen name="launch_lob_button_top_padding">5dp</dimen>
+    <dimen name="launch_five_lob_button_top_padding">8dp</dimen>
+    <dimen name="launch_lob_button_text_size">20sp</dimen>
+    <dimen name="launch_five_lob_button_text_size">16sp</dimen>
 
     <!-- Itinerary dimens -->
     <dimen name="itin_card_collapsed_height">138.5dp</dimen>
@@ -259,6 +267,8 @@
     <dimen name="lx_sort_filter_padding">16dp</dimen>
     <dimen name="lx_sort_filter_margin">16dp</dimen>
     <dimen name="lx_unexpanded_space_height">190dp</dimen>
+    <dimen name="lx_results_bottom_padding">58dp</dimen>
+    <dimen name="gt_results_bottom_padding">0dp</dimen>
 
     <!-- Car Search  -->
     <dimen name="car_calendar_month_view_max_text_size">12dp</dimen>
@@ -291,7 +301,7 @@
     <dimen name="gt_leanplum_dialog_height">190dp</dimen>
 
     <!-- Dimensions for Hotel Traveler Table -->
-    <dimen name="hotel_traveler_table_margin">24dp</dimen>
+    <dimen name="hotel_traveler_table_margin">14dp</dimen>
     <dimen name="hotel_traveler_padding">28dp</dimen>
     <dimen name="hotel_traveler_plus_minus_size">40dp</dimen>
 
@@ -301,7 +311,7 @@
     <!-- Dimensions For LX Toolbar dropshadow height -->
     <dimen name="toolbar_dropshadow_height">5dp</dimen>
 
-    <!--Dimesnion for room rate margin -->
+    <!--Dimension for room rate margin -->
     <dimen name="hotel_room_list_container_margin">9dp</dimen>
 
     <!-- Dimensions for Hotel Results -->
@@ -310,7 +320,63 @@
     <dimen name="hotel_preview_margin_small">4dp</dimen>
     <dimen name="hotel_marker_padding_width">20dp</dimen>
     <dimen name="hotel_marker_padding_height">14dp</dimen>
+    <dimen name="hotel_gallery_description_padding">5dp</dimen>
+
+    <!--Dimensions for hotel review row-->
+    <!--Text size of review title-->
+    <dimen name="hotel_review_title">13dp</dimen>
+    <!--Text size of review date-->
+    <dimen name="hotel_review_date">12dp</dimen>
+    <!--Text size of review content-->
+    <dimen name="hotel_review_body">12dp</dimen>
+    <!--Text size of reviewer-->
+    <dimen name="hotel_reviewer">12dp</dimen>
+    <!--Top padding for one review row-->
+    <dimen name="hotel_review_row_padding_top">18dp</dimen>
+    <!--Bottom padding for one review row-->
+    <dimen name="hotel_review_row_padding_bottom">@dimen/hotel_review_row_padding_top</dimen>
+    <!--Left padding for hotel reviews-->
+    <dimen name="hotel_reviews_padding_left">20dp</dimen>
+    <!--Right padding for hotel reviews-->
+    <dimen name="hotel_reviews_padding_right">@dimen/hotel_reviews_padding_left</dimen>
+    <!--Review row divider height-->
+    <dimen name="hotel_review_divider_height">1px</dimen>
+    <!--Review content line spacing-->
+    <dimen name="hotel_review_content_line_spacing">3dp</dimen>
+    <!--Review padding bottom-->
+    <dimen name="hotel_review_padding_bottom">5dp</dimen>
+    <!-- Review corner radius -->
+    <dimen name="hotel_review_corner_radius">2dp</dimen>
+    <!-- Review divider width -->
+    <dimen name="hotel_review_divider_width">1dp</dimen>
+    <!-- marging for special notice and etp desc -->
+    <dimen name="hotel_special_and_etp_margin">15dp</dimen>
+    <!--Dimensions for hotel reviews summary-->
+    <!--Review summary rating text size-->
+    <dimen name="hotel_reviews_summary_text_size">12dp</dimen>
+    <!--Review summary rating bottom padding size-->
+    <dimen name="hotel_reviews_summary_padding_bottom">10dp</dimen>
+    <!--Review summary overall rating left padding-->
+    <dimen name="hotel_reviews_rating_padding_left">4dp</dimen>
+    <!--Review summary overall rating right padding-->
+    <dimen name="hotel_reviews_rating_padding_right">@dimen/hotel_reviews_rating_padding_left</dimen>
+    <!--Review summary overall rating bottom padding-->
+    <dimen name="hotel_reviews_rating_padding_bottom">1dp</dimen>
 
     <!-- Approx height of car & lx suggestion's row -->
     <dimen name="suggestion_list_height">60dp</dimen>
+    <!-- gradient height in hotel details -->
+    <dimen name="hotel_detail_gradient_height">120dp</dimen>
+    <!-- hotel Detail divider margin -->
+    <dimen name="hotel_detail_divider_margin">10dp</dimen>
+    <!-- hotel filter toolbar height -->
+    <dimen name="hotel_filter_height">58dp</dimen>
+    <!-- hotel filter neighborhood height -->
+    <dimen name="hotel_neighborhood_height">40dp</dimen>
+
+    <!-- hotel V2 drawable padding for Free cancellation/ETP -->
+    <dimen name="hotel_free_cancellation_etp_drawable_padding">10dp</dimen>
+
+    <!-- hotel V2 Checkout -->
+    <dimen name="hotel_checkout_image_corner_radius">3dp</dimen>
 </resources>

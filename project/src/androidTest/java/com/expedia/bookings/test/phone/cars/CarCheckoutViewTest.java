@@ -4,7 +4,7 @@ import org.joda.time.DateTime;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.CarTestCase;
 

@@ -15,8 +15,9 @@ import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.mockwebserver.MockResponse;
-import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
+import com.squareup.okhttp.mockwebserver.MockWebServer;
 
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import rx.observers.TestSubscriber;
@@ -29,14 +30,20 @@ import static junit.framework.Assert.assertTrue;
 
 public class AbacusServicesTest {
 	@Rule
-	public MockWebServerRule server = new MockWebServerRule();
+	public MockWebServer server = new MockWebServer();
 
 	public AbacusServices service;
 
 	@Before
 	public void before() {
-		service = new AbacusServices(new OkHttpClient(),
-			"http://localhost:" + server.getPort(),
+		service = new AbacusServices("http://localhost:" + server.getPort(),
+			new OkHttpClient(),
+			new RequestInterceptor() {
+				@Override
+				public void intercept(RequestFacade request) {
+					// ignore
+				}
+			},
 			Schedulers.immediate(),
 			Schedulers.immediate(),
 			RestAdapter.LogLevel.FULL);
@@ -76,7 +83,7 @@ public class AbacusServicesTest {
 	public void testMockDownloadWorks() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		server.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<AbacusResponse> observer = new TestSubscriber<>();
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery("TEST-TEST-TEST-TEST", 1, 0);
@@ -102,7 +109,7 @@ public class AbacusServicesTest {
 	public void testMockEmptyLogWorks() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		server.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.setDispatcher(new ExpediaDispatcher(opener));
 
 		AbacusLogQuery query = new AbacusLogQuery("TEST-TEST-TEST-TEST", 1, 0);
 		service.logExperiment(query);

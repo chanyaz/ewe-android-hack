@@ -1,5 +1,8 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -24,7 +27,12 @@ public abstract class ExpandableCardView extends FrameLayout implements View.OnF
 
 	private EditText mCurrentEditText;
 	public ToolbarListener mToolbarListener;
+	public List<IExpandedListener> expandedListeners = new ArrayList();
 	private boolean isExpanded;
+
+	public void addExpandedListener(IExpandedListener listener) {
+		expandedListeners.add(listener);
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -45,8 +53,15 @@ public abstract class ExpandableCardView extends FrameLayout implements View.OnF
 	public void onFocusChange(View v, boolean hasFocus) {
 		mCurrentEditText = (EditText) v;
 
-		if (getDoneButtonFocus() && mToolbarListener != null) {
-			mToolbarListener.onEditingComplete();
+		if (mToolbarListener != null) {
+			if (getMenuDoneButtonFocus()) {
+				mToolbarListener.setMenuLabel(getResources().getString(R.string.done));
+				mToolbarListener.onEditingComplete();
+			}
+			else {
+				mToolbarListener.showRightActionButton(true);
+				mToolbarListener.setMenuLabel(getResources().getString(R.string.next));
+			}
 		}
 
 	}
@@ -72,12 +87,23 @@ public abstract class ExpandableCardView extends FrameLayout implements View.OnF
 			return;
 		}
 		isExpanded = expand;
+
+		for (IExpandedListener listener : expandedListeners) {
+			if (expand) {
+				listener.expanded(this);
+			}
+			else {
+				listener.collapsed(this);
+			}
+		}
+
 		if (!animate) {
 			return;
 		}
 		if (mToolbarListener != null) {
 			if (expand) {
 				mToolbarListener.onWidgetExpanded(this);
+				mToolbarListener.showRightActionButton(false);
 			}
 			else {
 				mToolbarListener.onWidgetClosed();
@@ -85,14 +111,21 @@ public abstract class ExpandableCardView extends FrameLayout implements View.OnF
 		}
 	}
 
+	public boolean isExpanded() {
+		return isExpanded;
+	}
+
 	// Is the user focus on the last edittext?
-	public abstract boolean getDoneButtonFocus();
+	public abstract boolean getMenuDoneButtonFocus();
+
+	// Title to set on the Done button
+	public abstract String getMenuButtonTitle();
 
 	// Title to set on the toolbar once the widget opens
 	public abstract String getActionBarTitle();
 
 	// Actions to perform once the user presses done on the toolbar
-	public abstract void onDonePressed();
+	public abstract void onMenuButtonPressed();
 
 	// Actions to perform once the user has logged in
 	public abstract void onLogin();
@@ -106,5 +139,11 @@ public abstract class ExpandableCardView extends FrameLayout implements View.OnF
 	@Override
 	public boolean onTouch(View v, MotionEvent event) {
 		return isExpanded;
+	}
+
+	public interface IExpandedListener {
+
+		void expanded(ExpandableCardView view);
+		void collapsed(ExpandableCardView view);
 	}
 }

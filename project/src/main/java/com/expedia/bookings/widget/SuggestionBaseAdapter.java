@@ -1,7 +1,9 @@
 package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -9,6 +11,9 @@ import org.joda.time.DateTime;
 
 import android.content.Context;
 import android.text.format.DateUtils;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -23,6 +28,12 @@ import rx.Observer;
 import rx.Subscription;
 
 public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filterable {
+
+	private static final int DEFAULT_AUTOFILL_ITEM_VIEW = 0;
+	private static final int SUGGESTION_ITEM_VIEW = 1;
+	private static final int ITEM_VIEW_TYPE_COUNT = 2;
+
+	public static final String DEFAULT_AUTOFILL_ITEM_ID = "DEFAULT_AUTOFILL_ITEM";
 
 	// Implementing class decides how to use the suggestion service to provide suggestions
 	protected abstract Subscription suggest(SuggestionServices suggestionServices,
@@ -42,9 +53,39 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 	private Subscription suggestSubscription;
 	private final SuggestFilter filter = new SuggestFilter();
 
+	private void updateSuggestionsBackingList(List<Suggestion> suggestions) {
+		this.suggestions = suggestions;
+	}
+
 	@Override
 	public int getCount() {
 		return suggestions.size();
+	}
+
+	@Override
+	public int getViewTypeCount() {
+		return ITEM_VIEW_TYPE_COUNT;
+	}
+
+	@Override
+	public int getItemViewType (int position) {
+		return position == 0 ? DEFAULT_AUTOFILL_ITEM_VIEW : SUGGESTION_ITEM_VIEW;
+	}
+
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		final int itemViewType = getItemViewType(position);
+
+		return itemViewType == DEFAULT_AUTOFILL_ITEM_VIEW ? getDefaultAutofillItemView(parent.getContext(), convertView) : null;
+	}
+
+	protected View getDefaultAutofillItemView(Context context, View convertView) {
+		if (convertView == null) {
+			convertView = new View(context);
+			convertView.setLayoutParams(new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0));
+		}
+
+		return convertView;
 	}
 
 	public void addNearbyAndRecents(List<Suggestion> list, Context ctx) {
@@ -61,6 +102,7 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 			getNearbySuggestions(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().getSiteId(), suggestionsObserver);
 		}
 		else {
+			suggestions.add(getDummySuggestionItem());
 			suggestions.addAll(recentHistory);
 			filter.publishResults("", null);
 		}
@@ -76,7 +118,7 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 
 	@Override
 	public Suggestion getItem(int position) {
-		if (suggestions == null || suggestions.size() == 0) {
+		if (suggestions == null || position >= suggestions.size()) {
 			return null;
 		}
 		return suggestions.get(position);
@@ -96,6 +138,9 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 		@Override
 		protected FilterResults performFiltering(CharSequence query) {
 			FilterResults results = new FilterResults();
+			List<Suggestion> combinedSuggestionsList = new ArrayList<>();
+			combinedSuggestionsList.add(getDummySuggestionItem());
+
 			if (Strings.isNotEmpty(query) && query.length() >= 3) {
 				cleanup();
 				suggestSubscription = suggest(suggestionServices, suggestionsObserver, query);
@@ -104,13 +149,15 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 			}
 			else {
 				// Default to show nearby and recent history
-				suggestions.clear();
-				suggestions.addAll(nearbySuggestions);
-				suggestions.addAll(recentHistory);
+				Set<Suggestion> suggestionsSet = new LinkedHashSet<Suggestion>();
+				suggestionsSet.addAll(nearbySuggestions);
+				suggestionsSet.addAll(recentHistory);
+				combinedSuggestionsList.addAll(suggestionsSet);
 			}
 
-			results.count = suggestions.size();
-			results.values = suggestions;
+			results.count = combinedSuggestionsList.size();
+			results.values = combinedSuggestionsList;
+			updateSuggestionsBackingList(combinedSuggestionsList);
 			return results;
 		}
 
@@ -120,10 +167,15 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 		}
 	}
 
+	private Suggestion getDummySuggestionItem() {
+		Suggestion dummySuggestionForDefaultAutofill = new Suggestion();
+		dummySuggestionForDefaultAutofill.id = DEFAULT_AUTOFILL_ITEM_ID;
+		return dummySuggestionForDefaultAutofill;
+	}
+
 	private final Observer<List<Suggestion>> suggestionsObserver = new Observer<List<Suggestion>>() {
 		@Override
 		public void onCompleted() {
-			filter.publishResults("", null);
 			cleanup();
 		}
 
@@ -132,17 +184,21 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 		}
 
 		@Override
-		public void onNext(List<Suggestion> suggests) {
+		public void onNext(List<Suggestion> essSuggestions) {
 			// Cache nearby
 			if (showNearby) {
-				nearbySuggestions.addAll(suggests);
+				nearbySuggestions.addAll(essSuggestions);
 			}
 
-			suggestions.clear();
-			suggestions.addAll(suggests);
+			List<Suggestion> combinedSuggestionsList = new ArrayList<>();
+			combinedSuggestionsList.add(getDummySuggestionItem());
+			combinedSuggestionsList.addAll(essSuggestions);
 			if (showRecentSearch) {
-				suggestions.addAll(recentHistory);
+				combinedSuggestionsList.addAll(recentHistory);
 			}
+
+			updateSuggestionsBackingList(combinedSuggestionsList);
+			filter.publishResults("", null);
 		}
 	};
 

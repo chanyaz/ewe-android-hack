@@ -283,11 +283,24 @@ public class LXServices {
 			Observable.combineLatest(lxSearchResponseObservable, Observable.just(lxSortFilterMetadata),
 				new CombineSearchResponseAndSortFilterStreams()) :
 			lxSearch(lxSearchParams))
+			.doOnNext(new IsFromCachedResponseInjector(lxSearchParams == null))
 			.subscribeOn(this.subscribeOn)
 			.observeOn(this.observeOn)
 			.subscribe(searchResultFilterObserver);
 	}
 
+	private class IsFromCachedResponseInjector implements Action1<LXSearchResponse> {
+		private boolean isFromCachedResponse;
+
+		IsFromCachedResponseInjector(boolean isFromCachedResponse) {
+			this.isFromCachedResponse = isFromCachedResponse;
+		}
+
+		@Override
+		public void call(LXSearchResponse lxSearchResponse) {
+			lxSearchResponse.isFromCachedResponse = isFromCachedResponse;
+		}
+	}
 	public List<LXActivity> applySortFilter(List<LXActivity> unfilteredActivities, LXSearchResponse lxSearchResponse, LXSortFilterMetadata lxSortFilterMetadata) {
 
 		Set<LXActivity> filteredSet = new LinkedHashSet<>();

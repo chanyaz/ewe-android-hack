@@ -1,66 +1,46 @@
 package com.expedia.bookings.widget
 
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.ImageView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.subscribe
+import com.expedia.util.subscribeText
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.HotelSuggestionViewModel
-import java.util.concurrent.CountDownLatch
 
-public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewModel) : BaseAdapter(), Filterable {
+public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
-    private val filter = object : Filter() {
-        override public fun publishResults(constraint: CharSequence?, results: Filter.FilterResults?) {
+    override fun getItemCount(): Int {
+        return viewmodel.suggestions.size()
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
+        var view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_dropdown_item, parent, false)
+        val vm = HotelSuggestionViewModel()
+        vm.suggestionSelected.subscribe(viewmodel.suggestionSelectedSubject)
+        return HotelSuggestionViewHolder(view as ViewGroup, vm)
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+        when (holder) {
+            is HotelSuggestionViewHolder -> holder.vm.suggestionObserver.onNext(viewmodel.suggestions.get(position))
+        }
+    }
+
+    init {
+        viewmodel.suggestionsObservable.subscribe {
+            viewmodel.suggestions = it
             notifyDataSetChanged()
         }
-
-        override fun performFiltering(input: CharSequence?): Filter.FilterResults {
-            val latch = CountDownLatch(1)
-            viewmodel.suggestionsObservable.subscribe {
-                latch.countDown()
-            }
-            viewmodel.queryObserver.onNext(input?.toString() ?: "")
-            latch.await()
-
-            val results = Filter.FilterResults()
-            results.count = viewmodel.suggestions.size()
-            results.values = viewmodel.suggestions
-            return results
-        }
-    }
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View? {
-        var view = convertView
-
-        if (view == null) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.hotel_dropdown_item, parent, false)
-            view.setTag(HotelSuggestionViewHolder(view as ViewGroup, HotelSuggestionViewModel()))
-        }
-
-        val holder = view.getTag() as HotelSuggestionViewHolder
-        holder.viewmodel.suggestionObserver.onNext(getItem(position))
-
-        return view
-    }
-
-    override fun getCount(): Int {
-        return viewmodel.suggestions.size()
     }
 
     override fun getFilter(): Filter? {
         return filter
-    }
-
-    override fun getItem(position: Int): SuggestionV4 {
-        return viewmodel.suggestions.get(position)
     }
 
     override fun getItemId(position: Int): Long {
@@ -68,31 +48,38 @@ public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewMod
     }
 }
 
-public class HotelSuggestionViewHolder(val root: ViewGroup, val viewmodel: HotelSuggestionViewModel) {
+public class HotelSuggestionViewHolder(val root: ViewGroup, val vm : HotelSuggestionViewModel) : RecyclerView.ViewHolder(root), View.OnClickListener {
     val title: TextView by root.bindView(R.id.title_textview)
     val icon: ImageView by root.bindView(R.id.icon_imageview)
     val hierarchyIcon: ImageView by root.bindView(R.id.hierarchy_imageview)
 
     init {
-        icon.setColorFilter(root.getContext().getResources().getColor(R.color.hotels_primary_color))
-        hierarchyIcon.setColorFilter(root.getContext().getResources().getColor(R.color.hotels_primary_color))
+        itemView.setOnClickListener(this)
+        icon.setColorFilter(root.context.resources.getColor(R.color.hotels_primary_color))
+        hierarchyIcon.setColorFilter(root.context.resources.getColor(R.color.hotels_primary_color))
 
-        viewmodel.titleObservable.subscribe(title)
+        vm.titleObservable.subscribeText(title)
 
-        viewmodel.isChildObservable.subscribe { isChild ->
+        vm.isChildObservable.subscribe { isChild ->
             if (isChild) {
-                hierarchyIcon.setVisibility(View.VISIBLE)
-                icon.setVisibility(View.GONE)
+                hierarchyIcon.visibility = View.VISIBLE
+                icon.visibility = View.GONE
 
             } else {
-                hierarchyIcon.setVisibility(View.GONE)
-                icon.setVisibility(View.VISIBLE)
+                hierarchyIcon.visibility = View.GONE
+                icon.visibility = View.VISIBLE
             }
         }
 
-        viewmodel.iconObservable.subscribe { imageSource ->
+        vm.iconObservable.subscribe { imageSource ->
             icon.setImageResource(imageSource)
         }
+    }
+
+    override fun onClick(view: View) {
+        val suggestion = vm.suggestionObserver.value
+        suggestion.regionNames.displayName = suggestion.regionNames.displayName.replace("\"", "")
+        vm.suggestionSelected.onNext(suggestion)
     }
 }
 

@@ -94,8 +94,6 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 			return v;
 		}
 
-		LayoutUtils.adjustPaddingForOverlayMode(getActivity(), v, false);
-
 		final FlightTrip trip = getFlightTrip();
 		FlightLeg leg = getFlightLeg();
 

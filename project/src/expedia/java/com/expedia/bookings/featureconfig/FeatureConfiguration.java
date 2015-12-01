@@ -103,16 +103,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isAdXEnabled() {
-		return true;
-	}
-
-	@Override
-	public int getAdXPosIdentifier() {
-		return 2601;
-	}
-
-	@Override
 	public String getOmnitureReportSuiteIds() {
 		if (BuildConfig.RELEASE) {
 			return "expediaglobalapp";
@@ -227,7 +217,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String formatDateTimeForHotelUserReviews(Context context, DateTime dateTime) {
-		return JodaUtils.formatDateTime(context, dateTime, DateUtils.FORMAT_NUMERIC_DATE);
+		return JodaUtils.formatDateTime(context, dateTime, DateUtils.FORMAT_NUMERIC_DATE | DateUtils.FORMAT_SHOW_YEAR);
 	}
 
 	@Override
@@ -265,6 +255,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isSigninEnabled() {
+		return true;
+	}
+
+	public boolean isAppSupportUrlEnabled() {
 		return true;
 	}
 

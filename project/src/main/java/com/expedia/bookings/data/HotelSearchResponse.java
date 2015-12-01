@@ -65,10 +65,6 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		return mProperties;
 	}
 
-	public Property getProperty(int index) {
-		return mProperties.get(index);
-	}
-
 	public void addProperty(Property property) {
 		if (mProperties == null) {
 			mProperties = new ArrayList<Property>();

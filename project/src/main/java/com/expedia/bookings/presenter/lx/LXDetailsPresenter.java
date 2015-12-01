@@ -8,15 +8,17 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.drawable.Drawable;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.annotation.StringRes;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
@@ -24,6 +26,7 @@ import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.services.LXServices;
+import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
@@ -38,6 +41,8 @@ public class LXDetailsPresenter extends Presenter {
 	public LXDetailsPresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
 	}
+
+	private ArrowXDrawable navIcon;
 
 	@InjectView(R.id.activity_details)
 	LXActivityDetailsWidget details;
@@ -65,6 +70,9 @@ public class LXDetailsPresenter extends Presenter {
 
 	@InjectView(R.id.toolbar_two)
 	LinearLayout toolbarTwo;
+
+	@InjectView(R.id.lx_details_gradient_top)
+	View lxDetailsGradientTop;
 
 	private Subscription detailsSubscription;
 
@@ -109,7 +117,7 @@ public class LXDetailsPresenter extends Presenter {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
-					((ActionBarActivity) getContext()).onBackPressed();
+					((AppCompatActivity) getContext()).onBackPressed();
 				}
 			})
 			.show();
@@ -155,17 +163,25 @@ public class LXDetailsPresenter extends Presenter {
 		LocalDate endDate) {
 		setToolbarTitles(title);
 		detailsSubscription = lxServices.lxDetails(activityId, location, startDate, endDate, detailsObserver);
+		details.defaultScroll();
 	}
 
 	private void setupToolbar() {
-		Drawable navIcon = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp);
+		navIcon = ArrowXDrawableUtil
+			.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK);
+		navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(navIcon);
 		toolbar.inflateMenu(R.menu.lx_results_details_menu);
 
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((Activity) getContext()).onBackPressed();
+				if (navIcon.getParameter() != ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()) {
+					details.toggleFullScreenGallery();
+				}
+				else {
+					((Activity) getContext()).onBackPressed();
+				}
 			}
 		});
 		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
@@ -197,10 +213,17 @@ public class LXDetailsPresenter extends Presenter {
 
 	com.expedia.bookings.widget.ScrollView.OnScrollListener parallaxScrollListener = new com.expedia.bookings.widget.ScrollView.OnScrollListener() {
 		@Override
-		public void onScrollChanged(com.expedia.bookings.widget.ScrollView scrollView, int x, int y, int oldx, int oldy) {
+		public void onScrollChanged(com.expedia.bookings.widget.ScrollView scrollView, int x, int y, int oldx,
+			int oldy) {
 			float ratio = details.parallaxScrollHeader(y);
+			float arrowRatio = details.getArrowRotationRatio(y);
 			toolbarBackground.setAlpha(ratio);
 			toolbarDropshadow.setAlpha(ratio);
+			lxDetailsGradientTop.setAlpha(1.0f - ratio);
+			if (arrowRatio >= 0 && arrowRatio <= 1) {
+				navIcon.setParameter(1 - arrowRatio);
+			}
+			details.doCounterscroll();
 		}
 	};
 
@@ -213,7 +236,7 @@ public class LXDetailsPresenter extends Presenter {
 	}
 
 	public void animationUpdate(float f, boolean forward) {
-		float yTrans = forward ?  - (searchTop * -f) : (searchTop * (1 - f));
+		float yTrans = forward ? -(searchTop * -f) : (searchTop * (1 - f));
 		toolBarDetailText.setTranslationY(yTrans);
 		toolBarSubtitleText.setTranslationY(yTrans);
 	}
@@ -225,5 +248,13 @@ public class LXDetailsPresenter extends Presenter {
 		toolBarSubtitleText.setTranslationY(0);
 	}
 
+	@Override
+	public boolean back() {
+		if (navIcon.getParameter() != ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()) {
+			details.toggleFullScreenGallery();
+			return true;
+		}
+		return super.back();
+	}
 }
 

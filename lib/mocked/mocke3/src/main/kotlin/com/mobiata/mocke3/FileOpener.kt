@@ -4,6 +4,6 @@ import java.io.IOException
 import java.io.InputStream
 
 public interface FileOpener {
-	@throws(IOException::class)
+	@Throws(IOException::class)
 	public fun openFile(filename: String): InputStream
 }

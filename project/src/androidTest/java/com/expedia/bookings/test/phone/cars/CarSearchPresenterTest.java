@@ -114,8 +114,8 @@ public final class CarSearchPresenterTest {
 		CarScreen.selectAirport("SFO", "San Francisco, CA");
 		CarScreen.pickupLocation().perform(clearText());
 		CarScreen.selectDateButton().perform(click());
-		CarScreen.pickUpTimeBar().perform(ViewActions.setSeekbarTo(noonProgress));
-		CarScreen.dropOffTimeBar().perform(ViewActions.setSeekbarTo(onePmProgress));
+		CarScreen.pickUpTimeBar().perform(ViewActions.setSeekBarTo(noonProgress));
+		CarScreen.dropOffTimeBar().perform(ViewActions.setSeekBarTo(onePmProgress));
 		CarScreen.selectDateButton().check(matches(withText(R.string.select_pickup_and_dropoff_dates)));
 
 		//Select dates from calendar
@@ -173,7 +173,7 @@ public final class CarSearchPresenterTest {
 		//Test with invalid airport code we dont show calendar
 		CarScreen.pickupLocation().perform(typeText("AAAA"));
 		CarScreen.searchButton().perform(click());
-		CarScreen.didNotshowCalendar();
+		CarScreen.showCalendar();
 	}
 
 	@Test
@@ -224,8 +224,8 @@ public final class CarSearchPresenterTest {
 		CarScreen.selectAirport("SFO", "San Francisco, CA");
 		CarScreen.pickupLocation().perform(clearText());
 		CarScreen.selectDateButton().perform(click());
-		CarScreen.pickUpTimeBar().perform(ViewActions.setSeekbarTo(startTimeSteps));
-		CarScreen.dropOffTimeBar().perform(ViewActions.setSeekbarTo(ninePMSteps));
+		CarScreen.pickUpTimeBar().perform(ViewActions.setSeekBarTo(startTimeSteps));
+		CarScreen.dropOffTimeBar().perform(ViewActions.setSeekBarTo(ninePMSteps));
 		CarScreen.selectDateButton().check(matches(withText(R.string.select_pickup_and_dropoff_dates)));
 
 		//Select dates from calendar
@@ -247,8 +247,8 @@ public final class CarSearchPresenterTest {
 		CarScreen.selectAirport("SFO", "San Francisco, CA");
 		CarScreen.pickupLocation().perform(clearText());
 		CarScreen.selectDateButton().perform(click());
-		CarScreen.pickUpTimeBar().perform(ViewActions.setSeekbarTo(ninePmProgress));
-		CarScreen.dropOffTimeBar().perform(ViewActions.setSeekbarTo(twoPmProgress));
+		CarScreen.pickUpTimeBar().perform(ViewActions.setSeekBarTo(ninePmProgress));
+		CarScreen.dropOffTimeBar().perform(ViewActions.setSeekBarTo(twoPmProgress));
 		CarScreen.selectDateButton().check(matches(withText(R.string.select_pickup_and_dropoff_dates)));
 
 		//Select dates from calendar

@@ -79,6 +79,10 @@ public class ServerError implements JSONable {
 		COUPON_INVALID_STAY_DATES,
 		COUPON_EXCEEDED_EARN_LIMIT,
 		COUPON_INVALID_AVERAGE_PRICE,
+		COUPON_NOT_ACTIVE,
+		COUPON_DOES_NOT_EXIST,
+		COUPON_CAMPAIGN_NOT_CONFIGURED,
+		COUPON_PACKAGE_MISSING,
 	}
 
 	public static final String FLAG_ITINERARY_BOOKED = "itineraryBooked";
@@ -158,6 +162,10 @@ public class ServerError implements JSONable {
 			put("InvalidAveragePrice", ErrorCode.COUPON_INVALID_AVERAGE_PRICE);
 			put("InvalidStayDates", ErrorCode.COUPON_INVALID_STAY_DATES);
 			put("ExceededEarnLimit", ErrorCode.COUPON_EXCEEDED_EARN_LIMIT);
+			put("NotActive", ErrorCode.COUPON_NOT_ACTIVE);
+			put("DoesNotExist", ErrorCode.COUPON_DOES_NOT_EXIST);
+			put("CampaignIsNotConfigured", ErrorCode.COUPON_CAMPAIGN_NOT_CONFIGURED);
+			put("PackageProductMissing", ErrorCode.COUPON_PACKAGE_MISSING);
 		}
 	};
 
@@ -180,6 +188,10 @@ public class ServerError implements JSONable {
 			put(ErrorCode.COUPON_INVALID_AVERAGE_PRICE, R.string.coupon_error_invalid_average_price);
 			put(ErrorCode.COUPON_INVALID_STAY_DATES, R.string.coupon_error_invalid_stay_dates);
 			put(ErrorCode.COUPON_EXCEEDED_EARN_LIMIT, R.string.coupon_error_exceeded_earn_limit);
+			put(ErrorCode.COUPON_NOT_ACTIVE, R.string.coupon_error_not_active);
+			put(ErrorCode.COUPON_DOES_NOT_EXIST, R.string.coupon_error_unknown);
+			put(ErrorCode.COUPON_CAMPAIGN_NOT_CONFIGURED, R.string.coupon_error_unknown);
+			put(ErrorCode.COUPON_PACKAGE_MISSING, R.string.coupon_error_invalid_booking);
 		}
 	};
 

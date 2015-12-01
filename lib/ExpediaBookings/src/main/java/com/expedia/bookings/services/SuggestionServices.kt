@@ -3,7 +3,6 @@ package com.expedia.bookings.services
 import com.expedia.bookings.data.SuggestionResultType
 import com.expedia.bookings.data.cars.Suggestion
 import com.expedia.bookings.data.cars.SuggestionResponse
-import com.expedia.bookings.data.lx.LXActivity
 import com.google.gson.GsonBuilder
 import com.squareup.okhttp.OkHttpClient
 import retrofit.RequestInterceptor
@@ -16,8 +15,6 @@ import rx.Scheduler
 import rx.Subscription
 import java.util.Collections
 import java.util.Comparator
-import java.util.Locale
-import kotlin.properties.Delegates
 
 public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
     val acceptJsonInterceptor: RequestInterceptor = object : RequestInterceptor {
@@ -26,8 +23,8 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
         }
     }
 
-    val suggestApi: SuggestApi by Delegates.lazy {
-        val gson = GsonBuilder().registerTypeAdapter(javaClass<SuggestionResponse>(), SuggestionResponse()).create()
+    val suggestApi: SuggestApi by lazy {
+        val gson = GsonBuilder().registerTypeAdapter(SuggestionResponse::class.java, SuggestionResponse()).create()
 
         val adapter = RestAdapter.Builder()
                 .setEndpoint(endpoint)
@@ -37,10 +34,10 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
                 .setRequestInterceptor(acceptJsonInterceptor)
                 .build()
 
-        adapter.create<SuggestApi>(javaClass<SuggestApi>())
+        adapter.create<SuggestApi>(SuggestApi::class.java)
     }
 
-    private val MAX_NEARBY_SUGGESTIONS = 2
+    private val MAX_NEARBY_SUGGESTIONS = 3
 
     public fun getCarSuggestions(query: String, locale: String, observer: Observer<MutableList<Suggestion>>): Subscription {
         val type = getTypeForCarSuggestions()
@@ -56,7 +53,15 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
         var lob = "CARS"
         return suggestNearbyV1(locale, latlng, siteId, type, sort, lob)
                 .doOnNext { list -> sortCarSuggestions(list) }
+                .doOnNext { list -> renameFirstResultIdToCurrentLocation(list) }
                 .subscribe(observer)
+    }
+
+    private fun renameFirstResultIdToCurrentLocation(suggestions: MutableList<Suggestion>): List<Suggestion> {
+        if (suggestions.size() > 0) {
+            suggestions.get(0).id = Suggestion.CURRENT_LOCATION_ID
+        }
+        return suggestions
     }
 
     private fun getTypeForCarSuggestions(): Int {
@@ -90,7 +95,9 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
     }
 
     public fun getNearbyLxSuggestions(locale: String, latlng: String, siteId: Int, observer: Observer<MutableList<Suggestion>>): Subscription {
-        return getNearbyLxSuggestions(locale, latlng, siteId).subscribe(observer)
+        return getNearbyLxSuggestions(locale, latlng, siteId)
+                .doOnNext { list -> renameFirstResultIdToCurrentLocation(list) }
+                .subscribe(observer)
     }
 
     public fun getNearbyLxSuggestions(locale: String, latlng: String, siteId: Int): Observable<MutableList<Suggestion>> {

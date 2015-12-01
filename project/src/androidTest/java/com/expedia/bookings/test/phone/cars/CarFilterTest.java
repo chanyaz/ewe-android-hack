@@ -6,8 +6,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
-import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CarTestCase;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 
@@ -32,7 +31,7 @@ public class CarFilterTest extends CarTestCase {
 	public void testCarsFilters() throws Throwable {
 		enterSearchParams("SFO", "San Francisco, CA");
 		CarScreen.searchButton().perform(click());
-		ScreenActions.delay(1);
+		Common.delay(1);
 		int unifilterdCategoryNumber = EspressoUtils.getListCount(CarScreen.carCategoryList());
 
 		screenshot("Car_Search_Results");
@@ -43,7 +42,7 @@ public class CarFilterTest extends CarTestCase {
 		screenshot("Filtered_Categories");
 		int filterdCategoryNumber = EspressoUtils.getListCount(CarScreen.carCategoryList());
 
-//number of categories after applying car type filter are different from the original number of categories
+		//number of categories after applying car type filter are different from the original number of categories
 		assertNotSame(filterdCategoryNumber, unifilterdCategoryNumber);
 		assertCorrectCategoryShownAfterApplyingFilters(filterdCategoryNumber, CATEGORY);
 
@@ -58,19 +57,19 @@ public class CarFilterTest extends CarTestCase {
 		int filterdOffersNumber = EspressoUtils.getListCount(CarScreen.carOfferList());
 		screenshot("Filtered_Details");
 
-//number of offers after applying car type filter are different from the original number of offers
+		//number of offers after applying car type filter are different from the original number of offers
 		assertNotSame(filterdOffersNumber, unifilterdOffersNumber);
 		assertCorrectOfferShownAfterApplyingFilters(filterdOffersNumber, "NoCCRequired");
 
-//when user go back to car categories and filters applied on Details screen are reflected on Categories screen
+		//when user go back to car categories and filters applied on Details screen are reflected on Categories screen
 		Common.pressBack();
 		assertCorrectCategoryShownAfterApplyingFilters(filterdCategoryNumber, CATEGORY);
-		ScreenActions.delay(1);
+		Common.delay(1);
 
 		CarScreen.selectCarCategory(CATEGORY);
 		assertCorrectOfferShownAfterApplyingFilters(filterdOffersNumber, "NoCCRequired");
 
-//Test the filters are correctly updated when user comes back to the categories screen from details screen
+		//Test the filters are correctly updated when user comes back to the categories screen from details screen
 		Common.pressBack();
 		screenshot("Back_to_Categories");
 		CarScreen.searchFilter().perform(click());
@@ -84,7 +83,7 @@ public class CarFilterTest extends CarTestCase {
 		enterSearchParams("SFO", "San Francisco, CA");
 		CarScreen.searchButton().perform(click());
 
-		ScreenActions.delay(1);
+		Common.delay(1);
 
 		int unifilterdCategoryNumber = EspressoUtils.getListCount(CarScreen.carCategoryList());
 		screenshot("Car_Search_Results");
@@ -107,7 +106,7 @@ public class CarFilterTest extends CarTestCase {
 		enterSearchParams("SFO", "San Francisco, CA");
 		CarScreen.searchButton().perform(click());
 
-		ScreenActions.delay(1);
+		Common.delay(1);
 
 		CarScreen.searchFilter().perform(click());
 		CarScreen.selectSupplierFilter("NoCCRequired");
@@ -126,7 +125,7 @@ public class CarFilterTest extends CarTestCase {
 		screenshot("Car_Search_Results");
 		int unfilteredOfferNumber = countOffers(unifilterdCategoryNumber);
 
-		ScreenActions.delay(1);
+		Common.delay(1);
 
 		CarScreen.searchFilter().perform(click());
 		onView(withId(R.id.ac_filter_checkbox)).perform(click());
@@ -147,7 +146,7 @@ public class CarFilterTest extends CarTestCase {
 		screenshot("Car_Search_Results");
 		int unfilteredOfferNumber = countOffers(unifilterdCategoryNumber);
 
-		ScreenActions.delay(1);
+		Common.delay(1);
 
 		CarScreen.searchFilter().perform(click());
 		onView(withId(R.id.unlimited_mileage_filter_checkbox)).perform(click());
@@ -168,7 +167,7 @@ public class CarFilterTest extends CarTestCase {
 		screenshot("Car_Search_Results");
 		int unfilteredOfferNumber = countOffers(unifilterdCategoryNumber);
 
-		ScreenActions.delay(1);
+		Common.delay(1);
 
 		CarScreen.searchFilter().perform(click());
 		onView(withId(R.id.transmission_filter_manual)).perform(click());
@@ -216,7 +215,7 @@ public class CarFilterTest extends CarTestCase {
 	public void assertSupplierInsideFilteredCategories(int numberOfCategories, String supplierName) {
 		for (int i = 0; i < numberOfCategories; i++) {
 			CarScreen.carCategoryList().perform(RecyclerViewActions.actionOnItemAtPosition(i, click()));
-			ScreenActions.delay(1);
+			Common.delay(1);
 
 			int numberOfOffers = EspressoUtils.getListCount(CarScreen.carOfferList());
 
@@ -239,9 +238,9 @@ public class CarFilterTest extends CarTestCase {
 	public int countOffers(int numberOfCategories) {
 		int numberOfOffers = 0;
 		for (int i = 0; i < numberOfCategories; i++) {
-			ScreenActions.delay(1);
+			Common.delay(1);
 			CarScreen.carCategoryList().perform(RecyclerViewActions.actionOnItemAtPosition(i, click()));
-			ScreenActions.delay(1);
+			Common.delay(1);
 
 			numberOfOffers = numberOfOffers + EspressoUtils.getListCount(CarScreen.carOfferList());
 			Common.pressBack();

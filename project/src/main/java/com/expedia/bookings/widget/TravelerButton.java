@@ -2,7 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -107,7 +107,7 @@ public class TravelerButton extends LinearLayout {
 			// Show a loading dialog
 			ThrobberDialog df = ThrobberDialog
 				.newInstance(getResources().getString(R.string.loading_traveler_info));
-			df.show(((ActionBarActivity) getContext()).getSupportFragmentManager(), FTAG_FETCH_TRAVELER_INFO);
+			df.show(((AppCompatActivity) getContext()).getSupportFragmentManager(), FTAG_FETCH_TRAVELER_INFO);
 			dl.startDownload(getTravelerDownloadKey(), mTravelerDetailsDownload,
 				mTravelerDetailsCallback);
 			mStoredTravelerPopup.dismiss();
@@ -143,7 +143,7 @@ public class TravelerButton extends LinearLayout {
 		@Override
 		public void onDownload(SignInResponse results) {
 
-			ThrobberDialog df = (ThrobberDialog) ((ActionBarActivity) getContext()).getSupportFragmentManager()
+			ThrobberDialog df = (ThrobberDialog) ((AppCompatActivity) getContext()).getSupportFragmentManager()
 				.findFragmentByTag(FTAG_FETCH_TRAVELER_INFO);
 			if (df != null) {
 				df.dismiss();
@@ -152,7 +152,7 @@ public class TravelerButton extends LinearLayout {
 			if (results == null || results.hasErrors()) {
 				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null,
 					getResources().getString(R.string.unable_to_load_traveler_message));
-				dialogFragment.show(((ActionBarActivity) getContext()).getSupportFragmentManager(), "errorFragment");
+				dialogFragment.show(((AppCompatActivity) getContext()).getSupportFragmentManager(), "errorFragment");
 				if (results != null && results.hasErrors()) {
 					String error = results.getErrors().get(0).getPresentableMessage(getContext());
 					Log.e("Traveler Details Error:" + error);

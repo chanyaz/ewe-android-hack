@@ -22,8 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="9dp"
-                android:animateLayoutChanges="true"
-                android:background="@drawable/card_background">
+                android:background="@drawable/card_background" >
 
             </com.expedia.bookings.widget.FrameLayout>
 
@@ -87,8 +86,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:linksClickable="true"
-                android:padding="16dp"
+                android:paddingBottom="16dp"
+                android:paddingLeft="1.5dp"
+                android:paddingRight="1.5dp"
+                android:paddingTop="16dp"
                 android:textSize="10sp" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/disclaimer_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="16dp"
+                android:paddingLeft="1.5dp"
+                android:paddingRight="1.5dp"
+                android:textSize="10sp"
+                android:visibility="gone" />
 
             <Space
                 android:id="@+id/spacer"
@@ -96,6 +108,49 @@
                 android:layout_height="wrap_content" />
         </LinearLayout>
     </com.expedia.bookings.widget.ScrollView>
+
+    <com.expedia.bookings.widget.AcceptTermsWidget
+        android:id="@+id/layout_confirm_tos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/drop_shadow" />
+
+        <TextView
+            android:id="@+id/do_you_accept_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Do_you_accept"
+            android:gravity="center"
+            android:paddingTop="8dp"
+            android:paddingBottom="9dp"
+            android:textColor="?attr/primary_color"
+            android:background="#FFFFFF"
+            android:textSize="12sp" />
+
+        <!-- We build this whole oval manually instead of as a simple 9patch for l337 animation effects -->
+
+        <Button
+            android:id="@+id/i_accept_terms_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="20dp"
+            android:paddingTop="19dp"
+            android:text="@string/I_Accept"
+            android:textColor="@color/slide_to_purchase_text"
+            android:textSize="16sp"
+            android:background="?attr/skin_rippleDrawable" />
+    </com.expedia.bookings.widget.AcceptTermsWidget>
 
     <LinearLayout
         android:id="@+id/slide_to_purchase_layout"
@@ -107,7 +162,7 @@
         <View
             android:id="@+id/slider_shadow"
             android:layout_width="match_parent"
-            android:layout_height="8dp"
+            android:layout_height="4dp"
             android:background="@drawable/drop_shadow" />
 
         <LinearLayout

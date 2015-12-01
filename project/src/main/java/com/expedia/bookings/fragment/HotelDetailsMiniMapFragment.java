@@ -22,6 +22,12 @@ public class HotelDetailsMiniMapFragment extends SupportMapFragment {
 	private static final float ZOOM_LEVEL = 13;
 	private GoogleMap mMap;
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		mMap.setMyLocationEnabled(false);
+	}
+
 	public static HotelDetailsMiniMapFragment newInstance() {
 		return new HotelDetailsMiniMapFragment();
 	}

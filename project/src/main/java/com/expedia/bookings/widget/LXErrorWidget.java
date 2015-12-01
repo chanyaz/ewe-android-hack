@@ -5,7 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
@@ -104,14 +104,14 @@ public class LXErrorWidget extends FrameLayout {
 			break;
 
 		case CURRENT_LOCATION_ERROR:
-			showSearchError(R.string.error_lx_current_location_search_message, SearchType.DEFAULT_SEARCH);
+			showSearchError(Ui.obtainThemeResID(getContext(), R.attr.skin_lxErrorCurrentLocationText), SearchType.DEFAULT_SEARCH);
 			break;
 
 		case SUGGESTIONS_NO_RESULTS:
 		case LX_SEARCH_NO_RESULTS:
 			switch (searchType) {
 			case DEFAULT_SEARCH:
-				showSearchError(R.string.lx_error_current_location_no_results, searchType);
+				showSearchError(Ui.obtainThemeResID(getContext(), R.attr.skin_lxErrorNoResultsText), searchType);
 				break;
 			case EXPLICIT_SEARCH:
 				showSearchError(R.string.error_lx_search_message, searchType);
@@ -188,13 +188,13 @@ public class LXErrorWidget extends FrameLayout {
 		errorButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((ActionBarActivity) getContext()).onBackPressed();
+				((AppCompatActivity) getContext()).onBackPressed();
 			}
 		});
 	}
 
 	private void showSearchError(int errorMessageResId, SearchType searchType) {
-		bindText(R.drawable.error_lx,
+		bindText(Ui.obtainThemeResID(getContext(), R.attr.skin_lxErrorWidgetDrawable),
 			errorMessageResId,
 			searchType == SearchType.DEFAULT_SEARCH ? R.string.lx_error_current_location_toolbar_text : R.string.lx_error_text,
 			R.string.edit_search);

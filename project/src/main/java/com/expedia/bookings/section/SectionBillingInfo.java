@@ -32,6 +32,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
@@ -105,6 +106,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(mValidPhoneNumber);
 		mFields.add(mValidEmail);
 		mFields.add(mValidExpiration);
+		mFields.add(mValidPostalCode);
 
 		//Edit fields
 		mFields.add(this.mEditCreditCardNumber);
@@ -114,6 +116,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(this.mEditEmailAddress);
 		mFields.add(this.mEditPhoneNumber);
 		mFields.add(this.mEditCardExpirationDateTextBtn);
+		mFields.add(this.mEditPostalCode);
 	}
 
 	/**
@@ -485,6 +488,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		R.id.edit_phone_number);
 	ValidationIndicatorExclaimation<BillingInfo> mValidEmail = new ValidationIndicatorExclaimation<BillingInfo>(
 		R.id.edit_email_address);
+	ValidationIndicatorExclaimation<BillingInfo> mValidPostalCode = new ValidationIndicatorExclaimation<BillingInfo>(
+		R.id.edit_address_postal_code);
 	ValidationIndicatorExclaimation<BillingInfo> mValidExpiration = new ValidationIndicatorExclaimation<BillingInfo>(
 		R.id.edit_creditcard_exp_text_btn);
 
@@ -624,7 +629,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			return retArr;
 		}
 	};
-
+	
 	SectionFieldEditable<EditText, BillingInfo> mEditLastName = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
 		R.id.edit_last_name) {
 
@@ -667,6 +672,61 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
 			retArr.add(mValidLastName);
 			return retArr;
+		}
+	};
+
+	SectionFieldEditable<EditText, BillingInfo> mEditPostalCode = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
+		R.id.edit_address_postal_code) {
+
+		Validator<EditText> mValidator = new Validator<EditText>() {
+			@Override
+			public int validate(EditText obj) {
+				if (mLineOfBusiness == LineOfBusiness.HOTELSV2 && PointOfSale.getPointOfSale().requiresHotelPostalCode()) {
+					if (obj == null) {
+						return ValidationError.ERROR_DATA_MISSING;
+					}
+					else {
+						String text = obj.getText().toString();
+						if (text.length() < 4 || text.length() > 20) {
+							return ValidationError.ERROR_DATA_INVALID;
+						}
+					}
+				}
+				return ValidationError.NO_ERROR;
+			}
+		};
+
+		@Override
+		protected Validator<EditText> getValidator() {
+			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
+			nameValidators.addValidator(mValidator);
+			return nameValidators;
+		}
+
+		@Override
+		protected void onHasFieldAndData(EditText field, BillingInfo data) {
+			String postalCode = (data.getLocation() != null) ? data.getLocation().getPostalCode() : "";
+			field.setText(!TextUtils.isEmpty(postalCode) ? postalCode : "");
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
+			retArr.add(mValidPostalCode);
+			return retArr;
+		}
+
+		@Override
+		public void setChangeListener(EditText field) {
+			field.addTextChangedListener(new AfterChangeTextWatcher() {
+				@Override
+				public void afterTextChanged(Editable s) {
+					if (hasBoundData() && getData().getLocation() != null) {
+						getData().getLocation().setPostalCode(s.toString());
+					}
+					onChange(SectionBillingInfo.this);
+				}
+			});
 		}
 	};
 

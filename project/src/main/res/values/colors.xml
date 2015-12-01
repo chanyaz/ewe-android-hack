@@ -29,6 +29,7 @@
     <color name="hotel_lob_btn">@color/hotels_primary_color</color>
     <color name="cars_lob_btn">@color/cars_primary_color</color>
     <color name="lx_lob_btn">@color/lx_primary_color</color>
+    <color name="transport_lob_btn">@color/gt_primary_color</color>
     <color name="flights_lob_btn">#204A8E</color>
     <color name="disabled_lob_btn">#909ba3</color>
 
@@ -83,21 +84,50 @@
     <color name="section_flight_edit_traveler_link_color">#2A4367</color>
 
     <!-- Hotels colors -->
-    <color name="hotels_primary_color">#028F87</color>
+    <color name="hotels_primary_color">#009688</color>
     <color name="hotels_cc_text_color_secondary">#868a8f</color>
     <color name="hotel_price_breakdown_discount_green">#218b22</color>
     <color name="actionbar_text_disabled">#505c69</color>
     <color name="amenity_text_color_large">#79848f</color>
     <color name="amenity_icon_color">#717880</color>
+    <color name="new_amenity_icon_color">#7E7E7E</color>
     <color name="hotel_filter_spinner_dropdown_color">#FFFFFF</color>
     <color name="hotel_filter_spinner_dropdown_color_selected">#878F94</color>
     <color name="hotel_filter_spinner_color">#DFE0E2</color>>
     <color name="hotel_filter_spinner_color_selected">#CDCED0</color>
-    <color name="hotel_filter_spinner_text_color">#393E43</color>
+    <color name="hotel_filter_spinner_text_color">#707070</color>
     <color name="etp_text_color">#29a653</color>
     <color name="room_rate_refundable_cancellation_text_color">#008C5D</color>
     <color name="hotel_cell_gray_text">#888888</color>
     <color name="hotel_cell_light_gray_text">#D7D7D7</color>
+    <color name="hotel_cell_secondary_text_color">#9A9A9A</color>
+    <color name="hotel_cell_disabled_text">#7D7D7D</color>
+    <color name="hotel_detail_divider">#CACACA</color>
+    <color name="hotel_filter_background_color">#efefef</color>
+    <color name="hotel_promo_background">#00877B</color>
+
+    <color name="hotel_urgency_message_color">#E2934A</color>
+    <color name="hotel_tonight_only_color">#4A90E2</color>
+    <color name="hotel_mobile_exclusive_color">#E2624A</color>
+    <color name="hotel_sold_out_color">#8C8C8C</color>
+
+    <!-- Hotel reviews colors -->
+    <color name="hotel_review_background_color">#FAFAFA</color>
+    <color name="hotel_review_title_color">#686868</color>
+    <color name="hotel_review_date_color">#A5A5A5</color>
+    <color name="hotel_review_summary_rating_color">#888888</color>
+    <color name="hotel_overall_rating_background_color">#787878</color>
+    <color name="hotel_review_body_color">#686868</color>
+    <color name="hotel_review_reviewer_color">#A5A5A5</color>
+    <color name="hotel_reviews_row_divider_color">#E2E2E2</color>
+    <color name="hotel_reviews_summary_background_color">#FFFFFF</color>
+
+    <!--Hotel Filter Colors -->
+    <color name="hotel_filter_hotel_name_icon">#868686</color>
+    <color name="hotel_filter_input_filed">#757575</color>
+    <color name="hotel_filter_neighborhood_text">#676767</color>
+    <color name="hotel_filter_show_more_less">#8B8B8B</color>
+    <color name="hotel_filter_text">#5c5c5c</color>
 
     <!-- Login -->
     <color name="login_text_hotels">#FFFFFF</color>
@@ -231,7 +261,6 @@
     <color name="tablet_trip_bucket_text_color">@android:color/primary_text_light</color>
 
     <color name="sliding_group_text_bright">#f4f5f7</color>
-    <color name="sliding_group_text_dim">#4a4f54</color>
 
     <color name="placeholder_background_color">#21394E</color>
 
@@ -244,6 +273,7 @@
     <color name="cars_tooltip_color">#915B7C</color>
     <color name="cars_tooltip_disabled_color">#9D9D9D</color>
     <color name="cars_actionbar_text_color">#5C5C5C</color>
+    <color name="cars_lx_checkout_button_text_color">#676767</color>
     <color name="cars_invalid_days_calendar">#A9A9A9</color>
     <color name="cars_valid_days_calendar">#3A3A3A</color>
     <color name="cars_checkmark_color">#29a653</color>
@@ -265,6 +295,7 @@
     <!-- LX colors -->
     <color name="lx_primary_color">#E88534</color>
     <color name="lx_ripple_color">#F7840D</color>
+    <color name="gt_primary_color">#B93F62</color>
     <color name="lx_valid_days_calendar">#3A3A3A</color>
     <color name="lx_invalid_days_calendar">#A9A9A9</color>
     <color name="lx_search_result_info_text_color">#888888</color>
@@ -288,6 +319,9 @@
     <color name="lx_dates_container_border_color">#CCCCCC</color>
     <color name="lx_confirmation_action_background">#3A424C</color>
     <color name="lx_unchecked_toggle_text_color">#FFC48E</color>
+    <color name="gt_unchecked_toggle_text_color">#E98DA7</color>
+    <color name="lx_primary_disabled_color">#40E88534</color>
+    <color name="gt_primary_disabled_color">#40B93F62</color>
 
     <color name="search_dropdown_disabled_stroke">#C3C3C3</color>
     <color name="lx_sort_filter_pressed">#D9D9D9</color>
@@ -307,7 +341,6 @@
     <color name="acct__bg_input_text_good">#4a90e2</color>
     <color name="acct__flavor_text">#ffffff</color>
     <color name="acct__user_info_text_color">#ffffff</color>
-    <color name="acct__welcome_text_color">#ffffff</color>
     <color name="toolbar_icon">#ffffff</color>
 
     <!-- MER Email Opt checkbox color -->
@@ -315,10 +348,27 @@
     <color name="mer_email_checkbox_checked_color">#00B9E6</color>
     <color name="mer_email_text_color">#F7F8FA</color>
 
+    <!-- Hotels V2 Checkout Colors -->
+    <color name="hotelsv2_checkout_text_color">#676767</color>
+    <color name="hotelsv2_checkout_divider_color">#DFDFDF</color>
+    <color name="hotel_guest_selector_enabled_color">#5C5C5C</color>
+    <color name="hotel_guest_selector_disabled_color">#405C5C5C</color>
+
+    <!-- Hotels V2 Detail star color -->
+    <color name="hotelsv2_detail_star_color">#F1B906</color>
+
+    <!-- Hotels V2 Hotel Sold Out -->
+    <color name="hotelsv2_sold_out_hotel_gray">#676767</color>
+
     <!-- Signed in user tier colors -->
     <color name="sign_in_user_tier_blue">#0085c9</color>
     <color name="sign_in_user_tier_silver">#808080</color>
     <color name="sign_in_user_tier_gold">#e7b40d</color>
 
     <color name="flight_loading_message_text_color">#575757</color>
+    <!-- Error widget button colors -->
+    <color name="error_widget_edit_button_selected_color">#7C7C7C</color>
+
+    <color name="rating_yellow_disabled">#DBDBDB</color>
+    <color name="rating_yellow">#F6AE24</color>
 </resources>

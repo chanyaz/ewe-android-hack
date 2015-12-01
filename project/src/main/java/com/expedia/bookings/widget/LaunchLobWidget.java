@@ -27,7 +27,7 @@ public class LaunchLobWidget extends RelativeLayout {
 	@InjectView(R.id.cars_button)
 	PhoneLaunchButton carsBtn;
 
-	@InjectView(R.id.lx_button)
+	@InjectView(R.id.activities_button)
 	PhoneLaunchButton lxBtn;
 
 	@InjectView(R.id.lob_btn_container)

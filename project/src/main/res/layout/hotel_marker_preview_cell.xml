@@ -2,6 +2,7 @@
 <LinearLayout
     android:id="@+id/root"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="90dp"
     android:background="#ffffff"
@@ -44,13 +45,23 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <RatingBar
-                    android:id="@+id/hotel_preview_rating"
-                    style="@style/RatingBar.UserReview.Material.Yellow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:numStars="5"
-                    android:stepSize="0.5" />
+                <com.expedia.bookings.widget.StarRatingBar
+                    android:id="@+id/hotel_preview_star_rating"
+                    android:layout_width="200dp"
+                    android:layout_height="14dp"
+                    android:visibility="gone"
+                    app:star_color="#F1B906"
+                    app:star_drawable="@drawable/results_map_preview_star"
+                    app:star_spacing="4dp" />
+
+                <com.expedia.bookings.widget.StarRatingBar
+                    android:id="@+id/hotel_preview_circle_rating"
+                    android:layout_width="200dp"
+                    android:layout_height="14dp"
+                    android:visibility="gone"
+                    app:star_color="#F1B906"
+                    app:star_drawable="@drawable/ratingbar_circle"
+                    app:star_spacing="4dp" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -74,6 +85,16 @@
                         android:textColor="#676767"
                         android:textSize="17dp" />
 
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/hotel_sold_out"
+                        android:text="@string/trip_bucket_sold_out"
+                        android:textAllCaps="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/hotelsv2_sold_out_hotel_gray"
+                        android:visibility="gone"
+                        android:textSize="17dp" />
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -85,10 +106,19 @@
                 android:textColor="#696969">
 
                 <com.expedia.bookings.widget.TextView
+                    android:id="@+id/no_guest_rating"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/not_rated"
+                    android:textColor="@color/hotel_cell_gray_text"
+                    android:textSize="10sp" />
+
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/hotel_guest_rating"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/hotel_guest_rating_background"
+                    android:background="@drawable/user_review_background"
                     android:gravity="center"
                     android:paddingBottom="1dp"
                     android:paddingLeft="4dp"

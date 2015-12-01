@@ -106,16 +106,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isAdXEnabled() {
-		return false;
-	}
-
-	@Override
-	public int getAdXPosIdentifier() {
-		throw new UnsupportedOperationException("AdX not enabled for VSC.");
-	}
-
-	@Override
 	public String getOmnitureReportSuiteIds() {
 		if (BuildConfig.RELEASE) {
 			return "expediaglobalapp" + ",expedia7androidapp";
@@ -322,6 +312,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isSigninEnabled() {
+		return true;
+	}
+
+	public boolean isAppSupportUrlEnabled() {
 		return true;
 	}
 

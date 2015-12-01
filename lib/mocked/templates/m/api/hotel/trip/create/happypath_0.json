@@ -67,12 +67,7 @@
                             "rate": "99.00"
                         }
                     ],
-                    "priceAdjustments": [
-                        {
-                            "amount": "20.00",
-                            "type": "COUPON"
-                        }
-                    ],
+                    "priceAdjustments": [],
                     "priceToShowUsers": "99",
                     "strikethroughPriceToShowUsers": "119",
                     "surchargeTotal": "16.81",

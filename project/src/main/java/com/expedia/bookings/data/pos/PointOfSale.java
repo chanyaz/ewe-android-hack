@@ -85,6 +85,12 @@ public class PointOfSale {
 	// The POS's gold rewards member phone number
 	private String mSupportPhoneNumberGold;
 
+	// The POS's silver rewards member contact email
+	private String mSupportEmailSilver;
+
+	// The POS's gold rewards member contact email
+	private String mSupportEmailGold;
+
 	// The two-letter country code associated with this locale (e.g. "US")
 	private String mTwoLetterCountryCode;
 
@@ -164,6 +170,8 @@ public class PointOfSale {
 	private boolean shouldShowCircleForRatings;
 
 	private static boolean mIsTablet;
+
+	private boolean mRequiresHotelPostalCode;
 
 	private static Map<String, Integer> sCountryCodeMap;
 
@@ -518,6 +526,14 @@ public class PointOfSale {
 		return mSupportPhoneNumberGold;
 	}
 
+	public String getSupportEmailSilver() {
+		return mSupportEmailSilver;
+	}
+
+	public String getSupportEmailGold() {
+		return mSupportEmailGold;
+	}
+
 	/**
 	 * If the user is a rewards member, we return the silver or gold rewards number (if available)
 	 * otherwise if the user is null, or a normal user, return  the regular support number
@@ -580,6 +596,9 @@ public class PointOfSale {
 		return mHideMiddleName;
 	}
 
+	public boolean requiresHotelPostalCode() {
+		return mRequiresHotelPostalCode;
+	}
 
 	public boolean supportsGDE() {
 		return mSupportsGDE;
@@ -676,6 +695,10 @@ public class PointOfSale {
 
 	public String getForgotPasswordUrl() {
 		return getPosLocale().mForgotPasswordUrl;
+	}
+
+	public String getHotelBookingStatement() {
+		return getPosLocale().mHotelBookingStatement;
 	}
 
 	// TODO: As more complicated payment combinations arise, think about a refactor
@@ -1060,6 +1083,10 @@ public class PointOfSale {
 		pos.mSupportPhoneNumberSilver = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberSilver");
 		pos.mSupportPhoneNumberGold = parseDeviceSpecificPhoneNumber(context, data, "supportPhoneNumberGold");
 
+		// Support email
+		pos.mSupportEmailGold = data.optString("supportEmailGold", null);
+		pos.mSupportEmailSilver = data.optString("supportEmailSilver", null);
+
 		// POS config
 		pos.mDistanceUnit = data.optString("distanceUnit", "").equals("miles") ? DistanceUnit.MILES
 			: DistanceUnit.KILOMETERS;
@@ -1084,6 +1111,7 @@ public class PointOfSale {
 		pos.mMarketingOptIn = MarketingOptIn
 			.valueOf(data.optString("marketingOptIn", MarketingOptIn.DO_NOT_SHOW.name()));
 		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
+		pos.mRequiresHotelPostalCode = data.optString("requiredPaymentFields:hotels").equals("postalCode");
 
 		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
 

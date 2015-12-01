@@ -1,6 +1,7 @@
 package com.expedia.bookings.data;
 
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
+import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.utils.CurrencyUtils;
 
 public class TripBucketItemHotelV2 extends TripBucketItem {
@@ -14,6 +15,12 @@ public class TripBucketItemHotelV2 extends TripBucketItem {
 			}
 			addValidPayments(mHotelTripResponse.validFormsOfPayment);
 		}
+	}
+
+	public HotelCreateTripResponse updateHotelProducts(HotelCheckoutResponse.PriceChangeResponse priceChange) {
+		mHotelTripResponse.originalHotelProductResponse = priceChange.oldProduct;
+		mHotelTripResponse.newHotelProductResponse = priceChange.newProduct;
+		return mHotelTripResponse;
 	}
 
 	@Override

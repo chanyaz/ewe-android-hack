@@ -17,13 +17,16 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
 
@@ -64,6 +67,8 @@ import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarTrackingData;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
+import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
@@ -77,6 +82,8 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.services.HotelCheckoutResponse;
+import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -111,6 +118,7 @@ public class OmnitureTracking {
 	public static void init(ExpediaBookingApp app) {
 		Log.d(TAG, "init");
 		sContext = app.getApplicationContext();
+		ADMS_Measurement.sharedInstance(sContext);
 		app.registerActivityLifecycleCallbacks(sOmnitureActivityCallbacks);
 		sMarketingDate = SettingUtils.get(sContext, sContext.getString(R.string.preference_marketing_date), sMarketingDate);
 	}
@@ -154,6 +162,807 @@ public class OmnitureTracking {
 		}
 	};
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// HotelsV2 tracking
+	//
+	// https://confluence/display/Omniture/Mobile+App:+Hotel+Redesign+-+Android+Material
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	private static final String HOTELV2_LOB = "hotels";
+	private static final String HOTELSV2_SEARCH_BOX = "App.Hotels.Dest-Search";
+	private static final String HOTELSV2_GEO_SUGGESTION_CLICK = "App.Hotels.DS.DestSuggest";
+	private static final String HOTELSV2_TRAVELER = "App.Hotels.Traveler.";
+	private static final String HOTELSV2_RESULT = "App.Hotels.Search";
+	private static final String HOTELSV2_NO_RESULT = "App.Hotels.Search.NoResults";
+	private static final String HOTELSV2_SORT = "App.Hotels.Search.Sort.";
+	private static final String HOTELSV2_SORT_PRICE_SLIDER = "App.Hotels.Search.Price";
+	private static final String HOTELSV2_SEARCH_FILTER_VIP = "App.Hotels.Search.Filter.VIP.";
+	private static final String HOTELSV2_SEARCH_FILTER_NEIGHBOURHOOD = "App.Hotels.Search.Neighborhood";
+	private static final String HOTELSV2_SEARCH_FILTER_BY_NAME = "App.Hotels.Search.HotelName";
+	private static final String HOTELSV2_CLEAR_FILTER = "App.Hotels.Search.ClearFilter";
+	private static final String HOTELSV2_SEARCH_MAP = "App.Hotels.Search.Map";
+	private static final String HOTELSV2_SEARCH_MAP_TO_LIST = "App.Hotels.Search.Expand.List";
+	private static final String HOTELSV2_SEARCH_MAP_TAP_PIN = "App.Hotels.Search.TapPin";
+	private static final String HOTELSV2_SEARCH_MAP_TAP_CAROUSAL = "App.Hotels.Search.Expand.Hotel";
+	private static final String HOTELSV2_SEARCH_THIS_AREA = "App.Hotels.Search.AreaSearch";
+	private static final String HOTELSV2_CAROUSEL_SCROLL = "App.Hotels.Search.ShowNext";
+	private static final String HOTELSV2_DETAILS_PAGE = "App.Hotels.Infosite";
+	private static final String HOTELSV2_DETAILS_ETP = "App.Hotels.IS.Select.";
+	private static final String HOTELSV2_DETAIL_VIEW_ROOM = "App.Hotels.IS.ViewRoom";
+	private static final String HOTELSV2_DETAIL_ROOM_INFO = "App.Hotels.IS.MoreRoomInfo";
+	private static final String HOTELSV2_DETAIL_MAP_VIEW = "App.Hotels.Infosite.Map";
+	private static final String HOTELSV2_DETAIL_BOOK_PHONE = "App.Hotels.Infosite.BookPhone";
+	private static final String HOTELSV2_DETAIL_SELECT_ROOM = "App.Hotels.Infosite.SelectRoom";
+	private static final String HOTELSV2_MAP_SELECT_ROOM = "App.Hotels.IS.Map.SelectRoom";
+	private static final String HOTELSV2_REVIEWS = "App.Hotels.Reviews";
+
+	private static final String HOTELSV2_ETP_INFO = "App.Hotels.ETPInfo";
+	private static final String HOTELSV2_RESORT_FEE_INFO = "App.Hotels.ResortFeeInfo";
+	private static final String HOTELSV2_RENOVATION_INFO = "App.Hotels.RenovationInfo";
+	private static final String HOTELSV2_TRAVELER_LINK_NAME = "Search Results Update";
+	private static final String HOTELSV2_CHECKOUT_TRIP_SUMMARY = "App.Hotels.CKO.TripSummary";
+	private static final String HOTELSV2_CHECKOUT_PRICE_CHANGE = "App.Hotels.CKO.PriceChange";
+	private static final String HOTELSV2_CHECKOUT_TRAVELER_INFO = "App.Hotels.Checkout.Traveler.Edit.Info";
+	private static final String HOTELSV2_CHECKOUT_PAYMENT_INFO = "App.Hotels.Checkout.Payment.Select";
+	private static final String HOTELSV2_CHECKOUT_GOOGLE_WALLET = "App.Hotels.CKO.Payment.GoogleWallet";
+	private static final String HOTELSV2_CHECKOUT_SELECT_STORED_CARD = "App.Hotels.CKO.Payment.StoredCard";
+	private static final String HOTELSV2_CHECKOUT_EDIT_PAYMENT = "App.Hotels.Checkout.Payment.Edit.Card";
+	private static final String HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE = "App.Hotels.Checkout.SlideToPurchase";
+	private static final String HOTELSV2_CHECKOUT_ERROR = "App.Hotels.Checkout.Error";
+	private static final String HOTELSV2_PURCHASE_CONFIRMATION = "App.Hotels.Checkout.Confirmation";
+	private static final String HOTELSV2_CONFIRMATION_ADD_CALENDAR = "App.Hotels.CKO.Confirm.CalenderAdd";
+	private static final String HOTELSV2_CONFIRMATION_CALL_CUSTOMER_SUPPORT = "App.Hotels.CKO.Confirm.CallSupport";
+	private static final String HOTELSV2_CONFIRMATION_DIRECTIONS = "App.Hotels.CKO.Confirm.Directions";
+	private static final String HOTELSV2_CONFIRMATION_CROSS_SELL = "App.Hotels.CKO.Confirm.Xsell";
+	private static final String HOTELSV2_CONFIRMATION_EXPAND_COUPON = "App.CKO.Coupon.Expand";
+	private static final String HOTELSV2_CONFIRMATION_COUPON_SUCCESS = "App.CKO.Coupon.Success";
+	private static final String HOTELSV2_CONFIRMATION_COUPON_FAIL = "App.CKO.Coupon.Fail";
+	private static final String HOTELSV2_CONFIRMATION_COUPON_REMOVE = "App.CKO.Coupon.Remove";
+
+	public static void trackHotelV2SearchBox() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_BOX + "\" pageLoad...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(HOTELSV2_SEARCH_BOX);
+		s.setEvar(18, HOTELSV2_SEARCH_BOX);
+
+		// LOB Search
+		s.setEvar(2, "D=c2");
+		s.setProp(2, HOTELV2_LOB);
+
+		// Send the tracking data
+		s.track();
+
+	}
+
+	public static void trackTravelerPickerClick(String text) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_BOX + "\" pageLoad...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, HOTELSV2_TRAVELER + text);
+		s.setProp(16, HOTELSV2_TRAVELER + text);
+		s.trackLink(null, "o", HOTELSV2_TRAVELER_LINK_NAME, null, null);
+
+	}
+
+	public static void trackGeoSuggestionClick() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_GEO_SUGGESTION_CLICK + "\" click...");
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_GEO_SUGGESTION_CLICK);
+		s.trackLink(null, "o", "Search Results Update", null, null);
+	}
+
+	public static void internalTrackHotelsV2Search(com.expedia.bookings.data.hotels.HotelSearchParams searchParams,
+		com.expedia.bookings.data.hotels.HotelSearchResponse searchResponse) {
+		// Start actually tracking the search result change
+		Log.d(TAG, "Tracking \"" + HOTELSV2_RESULT + "\" pageLoad...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(HOTELSV2_RESULT);
+		s.setEvar(18, HOTELSV2_RESULT);
+		s.setEvents("event30,event51");
+
+		// LOB Search
+		s.setEvar(2, "D=c2");
+		s.setProp(2, HOTELV2_LOB);
+
+		// Region
+		addHotelV2RegionId(s, searchParams);
+		// Check in/check out date
+		addHotelV2AdvancePurchaseWindow(s, searchParams);
+
+		s.setEvar(47, getHotelV2Evar47String(searchParams));
+
+		// prop and evar 5, 6
+		setDateValues(s, searchParams.getCheckIn(), searchParams.getCheckOut());
+		// Freeform location
+		if (!TextUtils.isEmpty(searchParams.getSuggestion().regionNames.fullName)) {
+			s.setEvar(48, searchParams.getSuggestion().regionNames.fullName);
+		}
+
+		// Number of search results
+		if (searchResponse != null) {
+			s.setProp(1, Integer.toString(searchResponse.hotelList.size()));
+		}
+
+		if (searchResponse != null) {
+			// Has at least one sponsored Listing
+			if (searchResponse.hotelList.get(0).isSponsoredListing) {
+				s.setEvar(28, HOTELS_SEARCH_SPONSORED_PRESENT);
+				s.setProp(16, HOTELS_SEARCH_SPONSORED_PRESENT);
+			}
+			else {
+				s.setEvar(28, HOTELS_SEARCH_SPONSORED_NOT_PRESENT);
+				s.setProp(16, HOTELS_SEARCH_SPONSORED_NOT_PRESENT);
+			}
+		}
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackHotelV2NoResult() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_NO_RESULT + "\" pageLoad...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(HOTELSV2_NO_RESULT);
+		s.setEvar(18, HOTELSV2_NO_RESULT);
+
+		// LOB Search
+		s.setEvar(2, "D=c2");
+		s.setProp(2, HOTELV2_LOB);
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackHotelV2SponsoredListingClick() {
+		Log.d(TAG, "Tracking \"" + HOTELS_SPONSORED_LISTING_CLICK + "\" click...");
+		ADMS_Measurement s = createTrackLinkEvent(HOTELS_SPONSORED_LISTING_CLICK);
+		s.trackLink(null, "o", "Sponsored Click", null, null);
+
+	}
+
+	public static void trackHotelV2Filter() {
+		Log.d(TAG, "Tracking \"" + HOTELS_SEARCH_REFINE + "\" pageLoad...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(HOTELS_SEARCH_REFINE);
+		s.setEvar(18, HOTELS_SEARCH_REFINE);
+
+		// LOB Search
+		s.setEvar(2, "D=c2");
+		s.setProp(2, HOTELV2_LOB);
+
+		// Send the tracking data
+		s.track();
+
+	}
+
+	public static void trackHotelV2SortBy(String type) {
+		String pageName = HOTELSV2_SORT + type;
+		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(pageName);
+		s.trackLink(null, "o", "Search Results Sort", null, null);
+	}
+
+	public static void trackHotelV2PriceSlider() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_SORT_PRICE_SLIDER + "\" click...");
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_SORT_PRICE_SLIDER);
+		s.trackLink(null, "o", "Search Results Sort", null, null);
+	}
+
+	public static void trackLinkHotelV2FilterRating(String rating) {
+		String pageName = HOTELS_SEARCH_REFINE + "." + rating;
+		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(pageName);
+		s.trackLink(null, "o", "Search Results Sort", null, null);
+
+	}
+
+	public static void trackLinkHotelV2FilterVip(String state) {
+		String pageName = HOTELSV2_SEARCH_FILTER_VIP + state;
+		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(pageName);
+		s.trackLink(null, "o", "Search Results Sort", null, null);
+	}
+
+	public static void trackLinkHotelV2FilterNeighbourhood() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_FILTER_NEIGHBOURHOOD + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_SEARCH_FILTER_NEIGHBOURHOOD);
+		s.trackLink(null, "o", "Search Results Sort", null, null);
+	}
+
+	public static void trackLinkHotelV2FilterByName() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_FILTER_BY_NAME + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_SEARCH_FILTER_BY_NAME);
+		s.trackLink(null, "o", "Search Results Sort", null, null);
+	}
+
+	public static void trackLinkHotelV2ClearFilter() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CLEAR_FILTER + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CLEAR_FILTER);
+		s.trackLink(null, "o", "Search Results Sort", null, null);
+	}
+
+	public static void trackHotelV2SearchMap() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_MAP + "\" pageLoad...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(HOTELSV2_SEARCH_MAP);
+		s.setEvar(18, HOTELSV2_SEARCH_MAP);
+
+		// LOB Search
+		s.setEvar(2, "D=c2");
+		s.setProp(2, HOTELV2_LOB);
+
+		// Send the tracking data
+		s.track();
+
+	}
+
+	public static void trackHotelV2MapToList() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_MAP_TO_LIST + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_SEARCH_MAP_TO_LIST);
+		s.trackLink(null, "o", "Search Results Map View", null, null);
+	}
+
+	public static void trackHotelV2MapTapPin() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_MAP_TAP_PIN + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_SEARCH_MAP_TAP_PIN);
+		s.trackLink(null, "o", "Search Results Map View", null, null);
+	}
+
+	public static void trackHotelV2CarouselClick() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_MAP_TAP_CAROUSAL + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_SEARCH_MAP_TAP_CAROUSAL);
+		s.trackLink(null, "o", "Search Results Map View", null, null);
+	}
+
+	public static void trackHotelV2AreaSearchClick() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_THIS_AREA + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_SEARCH_THIS_AREA);
+		s.trackLink(null, "o", "Search Results Map View", null, null);
+	}
+
+	public static void trackHotelV2CarouselScroll() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CAROUSEL_SCROLL + "\" scroll...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CAROUSEL_SCROLL);
+		s.trackLink(null, "o", "Search Results Map View", null, null);
+	}
+
+	public static void trackPageLoadHotelV2Infosite(HotelOffersResponse hotelOffersResponse, boolean isETPEligible,
+		boolean isCurrentLocationSearch, boolean isHotelSoldOut, boolean isRoomSoldOut) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAILS_PAGE + "\" pageload");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		final DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+
+		LocalDate checkInDate = dtf.parseDateTime(hotelOffersResponse.checkInDate).toLocalDate();
+		LocalDate checkOutDate = dtf.parseDateTime(hotelOffersResponse.checkOutDate).toLocalDate();
+
+		s.setAppState(HOTELSV2_DETAILS_PAGE);
+		s.setEvar(18, HOTELSV2_DETAILS_PAGE);
+
+		String drrString = internalGenerateHotelV2DRRString(hotelOffersResponse);
+		s.setEvar(9, drrString);
+
+		if (isHotelSoldOut) {
+			s.setEvents("event32,event14");
+		}
+		else if (isRoomSoldOut && isETPEligible) {
+			s.setEvents("event32,event5,event18");
+			s.setEvar(52, "Pay Now");
+		}
+		else if (isRoomSoldOut) {
+			s.setEvents("event32,event18");
+			s.setEvar(52, "Non ETP");
+		}
+		else if (isETPEligible) {
+			s.setEvents("event32,event5");
+			s.setEvar(52, "Pay Now");
+		}
+		else if (!isETPEligible) {
+			s.setEvents("event32");
+			s.setEvar(52, "Non ETP");
+		}
+
+		s.setEvar(2, HOTELV2_LOB);
+		s.setProp(2, HOTELV2_LOB);
+		setDateValues(s, checkInDate, checkOutDate);
+
+		String region;
+		if (isCurrentLocationSearch) {
+			region = "Current Location";
+		}
+		else {
+			region = hotelOffersResponse.locationId;
+		}
+		s.setProp(4, region);
+		s.setEvar(4, "D=c4");
+
+		if (hotelOffersResponse.hotelRoomResponse != null) {
+			addHotelV2Products(s, hotelOffersResponse.hotelRoomResponse.get(0), hotelOffersResponse.hotelId);
+			if (hotelOffersResponse.hotelRoomResponse.get(0).rateInfo.chargeableRateInfo.airAttached) {
+				String products = s.getProducts();
+				products += ";;;;eVar66=Flight:Hotel Infosite X-Sell";
+				s.setProducts(products);
+
+				String event = s.getEvents();
+				event += ",event57";
+				s.setEvents(event);
+			}
+		}
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackLinkHotelV2EtpClick(String payType) {
+		String pageName = HOTELSV2_DETAILS_ETP + payType;
+		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, pageName);
+		s.setProp(16, pageName);
+		s.setEvar(52, payType);
+		s.trackLink(null, "o", "ETP Selection", null, null);
+	}
+
+	public static void trackLinkHotelV2AirAttachEligible(HotelOffersResponse.HotelRoomResponse hotelRoomResponse, String hotelId) {
+		String pageName = HOTELSV2_DETAILS_PAGE;
+		Log.d(TAG, "Tracking \"" + pageName + "\" air attach...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvents("event58");
+
+		addHotelV2Products(s, hotelRoomResponse, hotelId);
+		s.setEvar(28, AIR_ATTACH_HOTEL_ADD);
+		s.setProp(16, AIR_ATTACH_HOTEL_ADD);
+		s.trackLink(null, "o", "Hotel Infosite", null, null);
+
+	}
+
+	public static void trackLinkHotelV2ViewRoomClick() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_VIEW_ROOM + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_VIEW_ROOM);
+		s.trackLink(null, "o", "Room Info", null, null);
+	}
+
+	public static void trackLinkHotelV2RoomInfoClick() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_ROOM_INFO + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_ROOM_INFO);
+		s.trackLink(null, "o", "Room Info", null, null);
+	}
+
+	public static void trackHotelV2DetailMapView() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_MAP_VIEW + "\" pageLoad...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(HOTELSV2_DETAIL_MAP_VIEW);
+		s.setEvar(18, HOTELSV2_DETAIL_MAP_VIEW);
+
+		// LOB Search
+		s.setEvar(2, "D=c2");
+		s.setProp(2, HOTELV2_LOB);
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackLinkHotelV2DetailBookPhoneClick() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_BOOK_PHONE + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_BOOK_PHONE);
+		s.setEvents("event34");
+		s.trackLink(null, "o", "Hotel Infosite", null, null);
+	}
+
+	public static void trackLinkHotelV2DetailSelectRoom() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_SELECT_ROOM + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_SELECT_ROOM);
+		s.trackLink(null, "o", "Hotel Infosite", null, null);
+	}
+
+	public static void trackLinkHotelV2MapSelectRoom() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_MAP_SELECT_ROOM + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_MAP_SELECT_ROOM);
+		s.trackLink(null, "o", "Infosite Map", null, null);
+	}
+
+	public static void trackHotelV2Reviews() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_REVIEWS + "\" pageLoad...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(HOTELSV2_REVIEWS);
+		s.setEvar(18, HOTELSV2_REVIEWS);
+
+		// LOB Search
+		s.setEvar(2, "D=c2");
+		s.setProp(2, HOTELV2_LOB);
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackHotelV2ReviewsCategories(String category) {
+		String pageName = HOTELSV2_REVIEWS + "." + category;
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad...");
+		ADMS_Measurement s = createTrackLinkEvent(pageName);
+		s.trackLink(null, "o", "Hotel Reviews", null, null);
+	}
+
+	public static void trackHotelV2EtpInfo() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_ETP_INFO + "\" pageLoad...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(HOTELSV2_ETP_INFO);
+		s.setEvar(18, HOTELSV2_ETP_INFO);
+
+		// LOB Search
+		s.setEvar(2, "D=c2");
+		s.setProp(2, HOTELV2_LOB);
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackHotelV2ResortFeeInfo() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_RESORT_FEE_INFO + "\" pageLoad...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(HOTELSV2_RESORT_FEE_INFO);
+
+		// LOB Search
+		s.setEvar(2, "D=c2");
+		s.setProp(2, HOTELV2_LOB);
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackHotelV2RenovationInfo() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_RENOVATION_INFO + "\" pageLoad...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setAppState(HOTELSV2_RENOVATION_INFO);
+
+		// LOB Search
+		s.setEvar(2, "D=c2");
+		s.setProp(2, HOTELV2_LOB);
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackPageLoadHotelV2CheckoutInfo(
+		HotelCreateTripResponse.HotelProductResponse hotelProductResponse,
+		com.expedia.bookings.data.hotels.HotelSearchParams searchParams) {
+		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_CHECKOUT_INFO);
+		s.setEvents("event70");
+
+		addHotelV2RegionId(s, searchParams);
+
+		String supplierType = hotelProductResponse.hotelRoomResponse.supplierType;
+		int numOfNights = JodaUtils.daysBetween(searchParams.getCheckIn(), searchParams.getCheckOut());
+		String price = hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.total + "";
+
+
+		if (TextUtils.isEmpty(supplierType)) {
+			supplierType = "";
+		}
+		String properCaseSupplierType;
+		if (supplierType.length() > 1) {
+			properCaseSupplierType = Strings.splitAndCapitalizeFirstLetters(supplierType);
+		}
+		else {
+			properCaseSupplierType = supplierType;
+		}
+		s.setProducts(
+			"Hotel;" + properCaseSupplierType + " Hotel:" + hotelProductResponse.hotelId + ";" + numOfNights + ";"
+				+ price);
+
+
+		addStandardHotelV2Fields(s, searchParams);
+		s.track();
+	}
+
+	public static void trackTripSummaryClick() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_TRIP_SUMMARY + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_TRIP_SUMMARY);
+		s.trackLink(null, "o", "Hotel Checkout", null, null);
+	}
+
+	public static void trackPriceChange(String priceChange) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_PRICE_CHANGE + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_PRICE_CHANGE);
+		s.setEvents("event62");
+		s.setProp(9, "HOT|" + priceChange);
+		s.trackLink(null, "o", "Hotel Checkout", null, null);
+	}
+
+	public static void trackHotelV2CheckoutTraveler() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_TRAVELER_INFO + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setAppState(HOTELSV2_CHECKOUT_TRAVELER_INFO);
+		s.track();
+
+	}
+
+	public static void trackHotelV2PaymentInfo() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_PAYMENT_INFO + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setAppState(HOTELSV2_CHECKOUT_PAYMENT_INFO);
+		s.track();
+
+	}
+
+	public static void trackHotelV2GoogleWalletClick() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_GOOGLE_WALLET + "\" click...");
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_GOOGLE_WALLET);
+		s.trackLink(null, "o", "Hotel Checkout", null, null);
+	}
+
+	public static void trackHotelV2StoredCardSelect() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_SELECT_STORED_CARD + "\" click...");
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_SELECT_STORED_CARD);
+		s.trackLink(null, "o", "Hotel Checkout", null, null);
+	}
+
+	public static void trackHotelV2PaymentEdit() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_EDIT_PAYMENT + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setAppState(HOTELSV2_CHECKOUT_EDIT_PAYMENT);
+		s.setEvar(18, HOTELSV2_CHECKOUT_EDIT_PAYMENT);
+		s.track();
+
+	}
+
+	public static void trackHotelV2SlideToPurchase(String cardType) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setAppState(HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE);
+		s.setEvar(18, HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE);
+		s.setEvar(37, cardType);
+		s.track();
+
+	}
+
+	public static void trackHotelV2CheckoutPaymentCid() {
+		internalTrackPageLoadEventStandard(HOTELS_CHECKOUT_PAYMENT_CID);
+	}
+
+	public static void trackHotelV2CheckoutError(String errorType) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_ERROR + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		// set the pageName
+		s.setAppState(HOTELSV2_CHECKOUT_ERROR);
+		s.setEvar(18, HOTELSV2_CHECKOUT_ERROR);
+		s.setEvents("event38");
+		s.setProp(36, errorType);
+		s.track();
+	}
+
+	public static void trackHotelV2CheckoutErrorRetry() {
+		Log.d(TAG, "Tracking \"" + "App.Hotels.CKO.Error.Retry" + "\" click...");
+		ADMS_Measurement s = createTrackLinkEvent("App.Hotels.CKO.Error.Retry");
+		s.trackLink(null, "o", "Hotel Checkout", null, null);
+	}
+
+	public static void trackHotelV2PurchaseConfirmation(HotelCheckoutResponse hotelCheckoutResponse) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_PURCHASE_CONFIRMATION + "\" pageLoad");
+
+		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELSV2_PURCHASE_CONFIRMATION);
+		s.setEvents("purchase");
+
+		// Product details
+		DateTimeFormatter dtf = ISODateTimeFormat.basicDate();
+		LocalDate checkInDate = new LocalDate(hotelCheckoutResponse.checkoutResponse.productResponse.checkInDate);
+		LocalDate checkOutDate = new LocalDate(hotelCheckoutResponse.checkoutResponse.productResponse.checkOutDate);
+		String checkIn = dtf.print(checkInDate);
+		String checkOut = dtf.print(checkOutDate);
+		s.setEvar(30, "Hotel:" + checkIn + "-" + checkOut + ":N");
+
+		// Unique confirmation id
+		// 14103: Remove timestamp from the purchaseID variable
+		s.setProp(71, hotelCheckoutResponse.checkoutResponse.bookingResponse.travelRecordLocator);
+		s.setProp(72, hotelCheckoutResponse.orderId);
+		s.setPurchaseID("onum" + hotelCheckoutResponse.orderId);
+
+		int numNights = JodaUtils.daysBetween(checkInDate,checkOutDate);
+		String totalCost = hotelCheckoutResponse.totalCharges;
+		String supplierType = hotelCheckoutResponse.checkoutResponse.bookingResponse.supplierType;
+		if (Strings.isEmpty(supplierType)) {
+			supplierType = "";
+		}
+		String properCaseSupplierType = Strings.splitAndCapitalizeFirstLetters(supplierType);
+
+		String products = "Hotel;" + properCaseSupplierType + " Hotel:" + hotelCheckoutResponse.checkoutResponse.productResponse.hotelId;
+
+		products += ";" + numNights + ";" + totalCost;
+		s.setProducts(products);
+
+		// Currency code
+		s.setCurrencyCode(hotelCheckoutResponse.currencyCode);
+
+			// Send the tracking data
+		s.track();
+	}
+
+	public static void trackHotelV2ConfirmationCalendar() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_ADD_CALENDAR + "\" click...");
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_ADD_CALENDAR);
+		s.trackLink(null, "o", "Confirmation Trip Action", null, null);
+	}
+
+	public static void trackHotelV2CallCustomerSupport() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_CALL_CUSTOMER_SUPPORT + "\" click...");
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_CALL_CUSTOMER_SUPPORT);
+		s.setEvents("event35");
+		s.trackLink(null, "o", "Confirmation Trip Action", null, null);
+	}
+
+	public static void trackHotelV2ConfirmationDirection() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_DIRECTIONS + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_DIRECTIONS);
+		s.trackLink(null, "o", "Confirmation Trip Action", null, null);
+	}
+
+	public static void trackHotelV2ConfirmationCrossSell(String typeOfBusiness) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_CROSS_SELL + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_CROSS_SELL);
+		s.setEvar(12, "CrossSell.Hotels.Confirm." + typeOfBusiness);
+		s.trackLink(null, "o", "Confirmation Trip Action", null, null);
+	}
+
+	public static void trackHotelV2ExpandCoupon() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_EXPAND_COUPON + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_EXPAND_COUPON);
+		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
+	}
+
+	public static void trackHotelV2CouponSuccess(String couponCode) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_COUPON_SUCCESS + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_COUPON_SUCCESS);
+		s.setEvents("event21");
+		s.setEvar(24, couponCode);
+		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
+	}
+
+	public static void trackHotelV2CouponFail(String couponCode, String errorMessage) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_COUPON_FAIL + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_COUPON_FAIL);
+		s.setEvents("event22");
+		s.setEvar(24, couponCode);
+		s.setProp(36, errorMessage);
+		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
+	}
+
+	public static void trackHotelV2CouponRemove(String couponCode) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_CONFIRMATION_COUPON_REMOVE + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CONFIRMATION_COUPON_REMOVE);
+		s.setEvar(24, couponCode);
+		s.trackLink(null, "o", "CKO:Coupon Action", null, null);
+	}
+
+
+	private static void addHotelV2Products(ADMS_Measurement s, HotelOffersResponse.HotelRoomResponse hotelRoomResponse,String hotelId) {
+		// The "products" field uses this format:
+		// Hotel;<supplier> Hotel:<hotel id>
+
+		// Determine supplier type
+		String supplierType = "";
+		supplierType = hotelRoomResponse.supplierType;
+
+
+		if (TextUtils.isEmpty(supplierType)) {
+			supplierType = "";
+		}
+		String properCaseSupplierType;
+		if (supplierType.length() > 1) {
+			properCaseSupplierType = Strings.capitalizeFirstLetter(supplierType);
+		}
+		else {
+			properCaseSupplierType = supplierType;
+		}
+		s.setProducts("Hotel;" + properCaseSupplierType + " Hotel:" + hotelId);
+	}
+
+	private static void addStandardHotelV2Fields(ADMS_Measurement s, com.expedia.bookings.data.hotels.HotelSearchParams searchParams) {
+		s.setEvar(2, HOTELV2_LOB);
+		s.setProp(2, HOTELV2_LOB);
+		s.setEvar(6, Integer.toString(JodaUtils.daysBetween(searchParams.getCheckIn(), searchParams.getCheckOut())));
+		internalSetHotelV2DateProps(s, searchParams);
+	}
+
+	private static void internalSetHotelV2DateProps(ADMS_Measurement s, com.expedia.bookings.data.hotels.HotelSearchParams searchParams) {
+		LocalDate checkInDate = searchParams.getCheckIn();
+		LocalDate checkOutDate = searchParams.getCheckOut();
+		setDateValues(s, checkInDate, checkOutDate);
+	}
+
+
+	private static void addHotelV2RegionId(ADMS_Measurement s, com.expedia.bookings.data.hotels.HotelSearchParams searchParams) {
+		String region;
+		if (searchParams.getSuggestion().isCurrentLocationSearch()) {
+			region = "Current Location";
+		}
+		else {
+			region = searchParams.getSuggestion().gaiaId;
+		}
+		s.setProp(4, region);
+		s.setEvar(4, "D=c4");
+	}
+
+	private static void addHotelV2AdvancePurchaseWindow(ADMS_Measurement s,
+		com.expedia.bookings.data.hotels.HotelSearchParams searchParams) {
+		String window = Integer.toString(JodaUtils.daysBetween(LocalDate.now(), searchParams.getCheckIn()));
+		s.setEvar(5, window);
+		s.setProp(5, window);
+	}
+
+	private static String getHotelV2Evar47String(com.expedia.bookings.data.hotels.HotelSearchParams params) {
+		StringBuilder sb = new StringBuilder("HOT|A");
+		sb.append(params.getAdults());
+		sb.append("|C");
+		sb.append(params.getChildren().size());
+		return sb.toString();
+	}
+
+	private static String internalGenerateHotelV2DRRString(HotelOffersResponse hotelOffersResponse) {
+		if (hotelOffersResponse != null && CollectionUtils.isNotEmpty(hotelOffersResponse.hotelRoomResponse)) {
+			StringBuilder sb = new StringBuilder("Hotels | ");
+			HotelOffersResponse.HotelRoomResponse firstRoomDetails = hotelOffersResponse.hotelRoomResponse.get(0);
+			int discountPercent = (int) Math.abs(firstRoomDetails.rateInfo.chargeableRateInfo.discountPercent);
+			if (firstRoomDetails.isDiscountRestrictedToCurrentSourceType) {
+				sb.append("Mobile Exclusive");
+				if (discountPercent > 0) {
+					sb.append(": ");
+
+				}
+			}
+			if (discountPercent > 0) {
+				sb.append(discountPercent);
+				sb.append("% OFF");
+			}
+			return sb.toString();
+		}
+		return null;
+	}
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Hotels tracking
 	//
@@ -216,6 +1025,16 @@ public class OmnitureTracking {
 	public static final String HOTELS_COUPON_REMOVE = "App.CKO.Coupon.Remove";
 	public static final String HOTELS_COUPON_FAIL = "App.CKO.Coupon.Fail";
 
+	public static final String HOTELS = "App.Hotels";
+
+	public static void trackHotelsABTest() {
+		Log.d(TAG, "Tracking \"" + HOTELS + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		// TO-Do: Adding specs for tracking
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsABTest);
+		s.track();
+	}
+
 	public static void trackAppHotelsSearch() {
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 		HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
@@ -274,6 +1093,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSRPercentRecommend);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelETPSearchResults);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHSRMapIconTest);
+		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
 
 		// Send the tracking data
 		s.track();
@@ -1279,7 +2099,6 @@ public class OmnitureTracking {
 	public static final String LX_INFO = "LX_INFO";
 	public static final String LX_TICKET = "App.LX.Ticket.";
 	private static final String LX_CHECKOUT_TRAVELER_INFO = "App.LX.Checkout.Traveler.Edit.Info";
-	private static final String LX_CHECKOUT_LOGIN_SUCCESS = "App.LX.Checkout.Login.Success";
 	private static final String LX_CHECKOUT_PAYMENT_INFO = "App.LX.Checkout.Payment.Edit.Info";
 	private static final String LX_CHECKOUT_SLIDE_TO_PURCHASE = "App.LX.Checkout.SlideToPurchase";
 	private static final String LX_CHECKOUT_CVV_SCREEN = "App.LX.Checkout.Payment.CID";
@@ -1410,18 +2229,6 @@ public class OmnitureTracking {
 		s.setAppState(LX_CHECKOUT_TRAVELER_INFO);
 		s.track();
 
-	}
-
-	public static void trackAppLXCheckoutLoginSuccess() {
-		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_LOGIN_SUCCESS + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
-
-
-		s.setEvar(28, LX_CHECKOUT_LOGIN_SUCCESS);
-		s.setProp(16, LX_CHECKOUT_LOGIN_SUCCESS);
-		s.setEvents("event26");
-
-		s.trackLink(null, "o", "User Login", null, null);
 	}
 
 	public static void trackAppLXCheckoutPayment() {
@@ -2683,6 +3490,13 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", link, null, null);
 	}
 
+	public static void trackGroundTransportTest() {
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppSplitGTandActivities);
+		s.track();
+	}
+
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Tracking events for new launch screen
 	//
@@ -2698,6 +3512,7 @@ public class OmnitureTracking {
 	private static final String FLIGHT_LOB_NAVIGATION = "Flight";
 	private static final String CAR_LOB_NAVIGATION = "Car";
 	private static final String LX_LOB_NAVIGATION = "LX";
+	private static final String TRANSPORT_LOB_NAVIGATION = "Transport";
 
 	public static void trackNewLaunchScreenLobNavigation(LineOfBusiness lob) {
 
@@ -2714,6 +3529,9 @@ public class OmnitureTracking {
 			break;
 		case LX:
 			lobString = LX_LOB_NAVIGATION;
+			break;
+		case TRANSPORT:
+			lobString = TRANSPORT_LOB_NAVIGATION;
 			break;
 		}
 		String link = LAUNCH_SCREEN_LOB_NAVIGATION + "." + lobString;
@@ -2822,34 +3640,6 @@ public class OmnitureTracking {
 		s.setEvar(28, "App Install");
 
 		s.track();
-	}
-
-	// Documentation: https://confluence/display/Omniture/Ad-X+Campaign+Measurement
-
-	private static final String ADX_EVENT = "Ad-X Download";
-	private static final String ADX_ORGANIC_EVENT = "Ad-X Organic";
-	private static final String ORGANIC_ADX_DOWNLOAD_REFERRAL_STRING = "Mob :: Brand";
-
-	public static void trackAdXReferralLink(String referral) {
-		if (ORGANIC_ADX_DOWNLOAD_REFERRAL_STRING.equals(referral)) {
-			Log.d(TAG, "Tracking \"" + ADX_ORGANIC_EVENT + "\"");
-
-			ADMS_Measurement s = getFreshTrackingObject();
-
-			s.setEvar(8, referral);
-
-			s.trackLink(null, "o", ADX_ORGANIC_EVENT, null, null);
-		}
-		else {
-			Log.d(TAG, "Tracking \"" + ADX_EVENT + "\"");
-
-			ADMS_Measurement s = getFreshTrackingObject();
-
-			s.setEvar(8, referral);
-			s.setEvents("event20");
-
-			s.trackLink(null, "o", ADX_EVENT, null, null);
-		}
 	}
 
 	public static void trackGooglePlayReferralLink(Context context, Intent intent) {
@@ -3069,11 +3859,16 @@ public class OmnitureTracking {
 			break;
 		}
 
-		// User location
-		android.location.Location bestLastLocation = LocationServices.getLastBestLocation(sContext, 0);
-		if (bestLastLocation != null) {
-			s.setProp(40, bestLastLocation.getLatitude() + "," + bestLastLocation.getLongitude() + "|"
-				+ bestLastLocation.getAccuracy());
+		int permissionCheck = ContextCompat.checkSelfPermission(sContext,
+			Manifest.permission.ACCESS_FINE_LOCATION);
+
+		if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+			// User location
+			android.location.Location bestLastLocation = LocationServices.getLastBestLocation(sContext, 0);
+			if (bestLastLocation != null) {
+				s.setProp(40, bestLastLocation.getLatitude() + "," + bestLastLocation.getLongitude() + "|"
+					+ bestLastLocation.getAccuracy());
+			}
 		}
 	}
 
@@ -3348,7 +4143,6 @@ public class OmnitureTracking {
 	private static final String CAR_VIEW_DETAILS = "App.Cars.RD.ViewDetails";
 	private static final String CAR_VIEW_MAP = "App.Cars.RD.ViewMap";
 	private static final String CAR_CHECKOUT_PAGE = "App.Cars.Checkout.Info";
-	private static final String CAR_CHECKOUT_LOGIN_SUCCESS = "App.Cars.Checkout.Login.Success";
 	private static final String CAR_CHECKOUT_TRAVELER_INFO = "App.Cars.Checkout.Traveler.Edit.Info";
 	private static final String CAR_CHECKOUT_PAYMENT_INFO = "App.Cars.Checkout.Payment.Edit.Info";
 	private static final String CAR_CHECKOUT_SLIDE_TO_PURCHASE = "App.Cars.Checkout.SlideToPurchase";
@@ -3450,19 +4244,6 @@ public class OmnitureTracking {
 		s.setCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency());
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppCarInsuranceIncludedCKO);
 		s.track();
-	}
-
-	public static void trackAppCarCheckoutLoginSuccess() {
-		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_LOGIN_SUCCESS + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
-
-
-		s.setEvar(28, CAR_CHECKOUT_LOGIN_SUCCESS);
-		s.setProp(16, CAR_CHECKOUT_LOGIN_SUCCESS);
-		s.setEvents("event26");
-
-		s.trackLink(null, "o", "User Login", null, null);
-
 	}
 
 	public static void trackAppCarCheckoutTraveler() {
@@ -3584,15 +4365,6 @@ public class OmnitureTracking {
 		}
 		else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
 			trackAppLXCheckoutSlideToPurchase(context, creditCardType);
-		}
-	}
-
-	public static void trackCheckoutLoginSuccess(LineOfBusiness lineOfBusiness) {
-		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
-			trackAppCarCheckoutLoginSuccess();
-		}
-		else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
-			trackAppLXCheckoutLoginSuccess();
 		}
 	}
 

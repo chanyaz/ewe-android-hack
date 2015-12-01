@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.view.View;
@@ -120,7 +120,10 @@ public class ErrorWidget extends FrameLayout {
 			else if (error.errorInfo.field.equals("mainMobileTraveler.phone")) {
 				message = getResources().getString(R.string.reservation_invalid_phone);
 			}
-			bindText(Ui.obtainThemeResID(getContext(), R.attr.skin_carsErrorDefaultDrawable),
+			else if (error.errorInfo.field.equals("creditCardNumber")) {
+				message = getResources().getString(R.string.reservation_payment_failed);
+			}
+			bindText(R.drawable.error_default,
 				message,
 				R.string.cars_invalid_input_text,
 				R.string.edit_info);
@@ -184,7 +187,7 @@ public class ErrorWidget extends FrameLayout {
 		errorButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				((ActionBarActivity) getContext()).onBackPressed();
+				((AppCompatActivity) getContext()).onBackPressed();
 			}
 		});
 	}

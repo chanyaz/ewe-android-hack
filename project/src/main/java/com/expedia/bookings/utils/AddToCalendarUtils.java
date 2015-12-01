@@ -19,6 +19,8 @@ import com.mobiata.flightlib.data.Waypoint;
 import com.squareup.phrase.Phrase;
 
 public class AddToCalendarUtils {
+	
+	public static int requestCodeAddCheckInToCalendarActivity = 5678;
 
 	public static Intent generateHotelAddToCalendarIntent(Context context, Property property, LocalDate date,
 			boolean checkIn, String confNumber, String itinId) {

@@ -1,0 +1,89 @@
+{
+  "tripId": "happypath_gt_trip_id",
+  "itineraryNumber": 1114686115968,
+  "newTotalPrice": {
+    "amount": "19.25",
+    "formattedPrice": "$19.25",
+    "formattedWholePrice": "$19",
+    "currencyCode": "USD"
+  },
+  "activityId": "adbde7e4-aa95-4297-9e73-6fec34a44cfd",
+  "lxProduct": {
+    "totalPrice": {
+      "amount": "19.25",
+      "formattedPrice": "$19.25",
+      "formattedWholePrice": "$19",
+      "currencyCode": "USD"
+    },
+    "lxBookableItems": [
+      {
+        "tickets": [
+          {
+            "priceBreakdownItemList": [
+              {
+                "type": "PER_PASSENGER_TOTAL",
+                "price": {
+                  "amount": "19.25",
+                  "formattedPrice": "$19.25",
+                  "formattedWholePrice": "$19",
+                  "currencyCode": "USD"
+                }
+              },
+              {
+                "type": "PER_CATEGORY_TOTAL",
+                "price": {
+                  "amount": "19.25",
+                  "formattedPrice": "$19.25",
+                  "formattedWholePrice": "$19",
+                  "currencyCode": "USD"
+                }
+              }
+            ],
+            "count": 1,
+            "code": "Traveler",
+            "ticketId": "7921"
+          }
+        ],
+        "activityDate": {
+          "raw": "2015-08-21T00:00:00-07:00",
+          "localized": "Aug 21, 2015 12:00:00 AM",
+          "epochSeconds": 1440140400,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "Fri, 21 Aug"
+        },
+        "activityId": "201959",
+        "activityItemId": "218366",
+        "amount": "19.25",
+        "allDayActivity": true,
+        "regionId": "178305"
+      }
+    ],
+    "tripName": "San Francisco, United States"
+  },
+  "validFormsOfPayment": [
+    {
+      "name": "AmericanExpress"
+    },
+    {
+      "name": "Diner's Club International"
+    },
+    {
+      "name": "Discover"
+    },
+    {
+      "name": "JCB"
+    },
+    {
+      "name": "MasterCard"
+    },
+    {
+      "name": "Visa"
+    }
+  ],
+  "expediaRewards": {
+    "totalPointsToEarn": 156,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "guestUserPromoEmailOptInStatus": "ALWAYS"
+}

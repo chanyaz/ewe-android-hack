@@ -117,11 +117,6 @@
         <attr name="waypointTextTopMargin" format="dimension" />
     </declare-styleable>
 
-    <!-- CheckBoxPreference -->
-    <declare-styleable name="CheckBoxPreference">
-        <attr name="id" format="reference" />
-    </declare-styleable>
-
     <!-- ParallaxContainer -->
     <declare-styleable name="ParallaxContainer">
         <attr name="offsetTop" format="dimension" />
@@ -293,12 +288,47 @@
     <declare-styleable name="PhoneLaunchButton">
         <!-- Button text -->
         <attr name="btn_text" format="string" />
+        <!-- Button text size -->
+        <attr name="btn_text_size" format="string" />
         <!--Button color -->
         <attr name="btn_bg" format="color"/>
         <!-- Button icon -->
         <attr name="btn_icon" format="reference"/>
         <!-- Minimum scale factor for icon -->
         <attr name="icon_min_scale" format="float" />
+        <!-- Background card height for launch button -->
+        <attr name="bg_card_height" format="dimension" />
+        <!-- Background card top padding for launch button -->
+        <attr name="bg_icon_padding_top" format="dimension" />
+        <attr name="refernce_container_height" format="dimension" />
+        <attr name="five_lob_btn" format="boolean" />
+    </declare-styleable>
+
+    <!-- Message Loading/Progress View-->
+    <declare-styleable name="MessageProgressView">
+        <attr name="line_color" format="color" />
+        <attr name="background_tint" format="color" />
+    </declare-styleable>
+
+
+    <declare-styleable name="BoxRatingBar">
+        <!--Enabled Box Color -->
+        <attr name="enabled_box_color" format="color" />
+        <!--Disabled Box Color -->
+        <attr name="disabled_box_color" format="color" />
+        <!-- Divider Width -->
+        <attr name="divider_width" format="dimension" />
+        <!-- Corner Radius -->
+        <attr name="corner_radius" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="StarRatingBar">
+        <!-- Spacing between the stars -->
+        <attr name="star_spacing" format="dimension" />
+        <!-- Star drawable -->
+        <attr name="star_drawable" format="reference" />
+        <!-- Color for the star -->
+        <attr name="star_color" format="color" />
     </declare-styleable>
 
 </resources>

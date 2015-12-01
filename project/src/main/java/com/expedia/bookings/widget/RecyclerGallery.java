@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -22,15 +23,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.PicassoTarget;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.bitmaps.IMedia;
-import com.expedia.bookings.data.Property;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.squareup.picasso.Picasso;
 
 public class RecyclerGallery extends RecyclerView {
@@ -49,6 +50,7 @@ public class RecyclerGallery extends RecyclerView {
 	private RecyclerAdapter mAdapter;
 	private SpaceDecoration mDecoration;
 	private LinearLayoutManager mLayoutManager;
+	private GalleryItemScrollListener mScrollListener;
 
 	private int mMode = MODE_FILL;
 
@@ -61,6 +63,21 @@ public class RecyclerGallery extends RecyclerView {
 	private boolean mUserPresent = true;
 	private boolean mScrolling = false;
 	private boolean mRegisteredReceiver = false;
+	private IImageViewBitmapLoadedListener imageViewBitmapLoadedListener;
+
+	private boolean enableProgressBarOnImageViews = false;
+	public void setProgressBarOnImageViewsEnabled(boolean enableProgressBarOnImageViews) {
+		this.enableProgressBarOnImageViews = enableProgressBarOnImageViews;
+	}
+
+	private ColorFilter mColorFilter = null;
+	public void setColorFilter(ColorFilter colorFilter) {
+		mColorFilter = colorFilter;
+	}
+
+	public void addImageViewCreatedListener(IImageViewBitmapLoadedListener imageViewBitmapLoadedListener) {
+		this.imageViewBitmapLoadedListener = imageViewBitmapLoadedListener;
+	}
 
 	private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
 		@Override
@@ -153,8 +170,11 @@ public class RecyclerGallery extends RecyclerView {
 			}
 			offset = mLayoutManager.getLeftDecorationWidth(v);
 		}
-
+		if (mScrollListener != null) {
+			mScrollListener.onGalleryItemScrolled(position);
+		}
 		smoothScrollBy(getScrollDistance(v, offset), 0);
+
 	}
 
 	private int getScrollDistance(View v, int offset) {
@@ -165,11 +185,16 @@ public class RecyclerGallery extends RecyclerView {
 		mDecoration = new SpaceDecoration();
 		addItemDecoration(mDecoration);
 
-		mLayoutManager = new LinearLayoutManager(getContext());
+		mLayoutManager = new LinearLayoutManager(getContext()) {
+			@Override
+			protected int getExtraLayoutSpace(State state) {
+				return AndroidUtils.getScreenSize(getContext()).x;
+			}
+		};
 		mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 		setLayoutManager(mLayoutManager);
 
-		mAdapter = new RecyclerAdapter(getContext(), new ArrayList<IMedia>());
+		mAdapter = new RecyclerAdapter(new ArrayList<IMedia>());
 		setAdapter(mAdapter);
 	}
 
@@ -179,51 +204,50 @@ public class RecyclerGallery extends RecyclerView {
 		initViews();
 	}
 
-	private class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
+	public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 		private List<? extends IMedia> mMedia;
-		private Context mContext;
-		private LinearLayout.LayoutParams mLayoutParams;
+		private FrameLayout.LayoutParams mLayoutParams;
 		private static final int MAX_IMAGES_LOADED = 5;
 
-		private RecyclerAdapter(Context context, List<? extends IMedia> media) {
-			mContext = context;
+		private RecyclerAdapter(List<? extends IMedia> media) {
 			mMedia = media;
 			setWidth();
 		}
 
 		private void setWidth() {
-			Point screen = Ui.getScreenSize(mContext);
+			Point screen = Ui.getScreenSize(getContext());
 			final float imageWidth;
 			if (mMode == MODE_FILL) {
 				imageWidth = screen.x;
-				mLayoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-					LinearLayout.LayoutParams.MATCH_PARENT);
+
+				mLayoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
+					(int) (getContext().getResources().getDimension(R.dimen.car_details_image_size)));
 			}
 			else {
 				imageWidth = screen.x * 0.60f;
-				mLayoutParams = new LinearLayout.LayoutParams(
-					LinearLayout.LayoutParams.MATCH_PARENT,
-					LinearLayout.LayoutParams.MATCH_PARENT);
-				mLayoutParams.width = (int) imageWidth;
+				mLayoutParams = new FrameLayout.LayoutParams(
+					FrameLayout.LayoutParams.MATCH_PARENT,
+					FrameLayout.LayoutParams.MATCH_PARENT);
 			}
 			mLayoutParams.width = (int) imageWidth;
 		}
 
 		public class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
-			public ImageView mImageView;
+			private final ProgressBar progressBar;
+			public final HotelDetailsGalleryImageView mImageView;
 
-			public ViewHolder(ImageView v) {
-				super(v);
-				mImageView = v;
+			public ViewHolder(View root, HotelDetailsGalleryImageView imageView, ProgressBar progressBar) {
+				super(root);
+				mImageView = imageView;
+				this.progressBar = progressBar;
 				mImageView.setTag(callback);
-				v.setOnClickListener(this);
+				imageView.setOnClickListener(this);
 			}
 
 			@Override
 			public void onClick(View v) {
-				Property selected = Db.getHotelSearch().getSelectedProperty();
 
-				if (mListener != null && selected != null) {
+				if (mListener != null) {
 					mListener.onGalleryItemClicked(mMedia.get(getAdapterPosition()));
 				}
 			}
@@ -232,21 +256,23 @@ public class RecyclerGallery extends RecyclerView {
 				@Override
 				public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 					super.onBitmapLoaded(bitmap, from);
-					mImageView.setBackgroundColor(Color.TRANSPARENT);
-					mImageView.setImageBitmap(bitmap);
 					if (mMode == MODE_FILL) {
-						if (bitmap.getWidth() > bitmap.getHeight()) {
-							mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-						}
-						else {
-							mImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-						}
+						mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 					}
+					mImageView.setBackgroundColor(Color.TRANSPARENT);
+					if (enableProgressBarOnImageViews) {
+						progressBar.setVisibility(View.GONE);
+					}
+					mImageView.setImageBitmap(bitmap);
+					mImageView.setColorFilter(mColorFilter);
 				}
 
 				@Override
 				public void onBitmapFailed(Drawable errorDrawable) {
 					super.onBitmapFailed(errorDrawable);
+					if (enableProgressBarOnImageViews) {
+						progressBar.setVisibility(View.GONE);
+					}
 				}
 
 				@Override
@@ -259,28 +285,40 @@ public class RecyclerGallery extends RecyclerView {
 						mImageView.setBackgroundColor(getResources().getColor(R.color.placeholder_background_color));
 						mImageView.setImageDrawable(placeHolderDrawable);
 					}
-
 				}
 			};
 		}
 
 		@Override
 		public RecyclerAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-			int viewType) {
+															 int viewType) {
 			View root = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.gallery_image, parent, false);
-			ImageView imageView = Ui.findView(root, R.id.gallery_item_image_view);
+			ProgressBar progressBar = Ui.findView(root, R.id.gallery_item_progress_bar);
+			HotelDetailsGalleryImageView imageView = Ui.findView(root, R.id.gallery_item_image_view);
 			imageView.setLayoutParams(mLayoutParams);
-			ViewHolder vh = new ViewHolder(imageView);
+			ViewHolder vh = new ViewHolder(root, imageView, progressBar);
 			return vh;
 		}
 
 		@Override
 		public void onBindViewHolder(final ViewHolder holder, int position) {
+			if (imageViewBitmapLoadedListener != null) {
+				imageViewBitmapLoadedListener.onImageViewBitmapLoaded(position);
+			}
+
 			IMedia media = mMedia.get(position);
-			media.loadImage(holder.mImageView, holder.callback,
-				mMode == MODE_CENTER ? Ui.obtainThemeResID(getContext(), R.attr.skin_HotelRowThumbPlaceHolderDrawable) : 0);
-			preFetchImages(position);
+			if (media.isPlaceHolder()) {
+				media.loadErrorImage(holder.mImageView, holder.callback, R.drawable.room_fallback);
+			}
+			else {
+				media.loadImage(holder.mImageView, holder.callback,
+					mMode == MODE_CENTER ? Ui.obtainThemeResID(getContext(),
+						R.attr.skin_HotelRowThumbPlaceHolderDrawable) : 0);
+			}
+			if (enableProgressBarOnImageViews) {
+				holder.progressBar.setVisibility(View.VISIBLE);
+			}
 		}
 
 		@Override
@@ -293,32 +331,6 @@ public class RecyclerGallery extends RecyclerView {
 			notifyDataSetChanged();
 		}
 
-		private void preFetchImages(int position) {
-			int left = position;
-			int right = position;
-			int loaded = 1;
-			int len = mMedia.size();
-			boolean hasMore = true;
-
-			while (mContext != null && loaded < MAX_IMAGES_LOADED && hasMore) {
-				hasMore = false;
-				if (left > 0) {
-					left--;
-					mMedia.get(left).preloadImage(mContext);
-					loaded++;
-					hasMore = true;
-				}
-				if (loaded == MAX_IMAGES_LOADED) {
-					break;
-				}
-				if (right < len - 1) {
-					right++;
-					mMedia.get(right).preloadImage(mContext);
-					loaded++;
-					hasMore = true;
-				}
-			}
-		}
 	}
 
 	public int getSelectedItem() {
@@ -347,7 +359,7 @@ public class RecyclerGallery extends RecyclerView {
 
 		private int getPadding() {
 			if (mMode == MODE_FILL) {
-				return 1;
+				return 0;
 			}
 			else {
 				Point screen = Ui.getScreenSize(getContext());
@@ -389,6 +401,7 @@ public class RecyclerGallery extends RecyclerView {
 
 	public void startFlipping() {
 		mStarted = true;
+		mScrolling = false;
 		updateRunning();
 	}
 
@@ -415,9 +428,16 @@ public class RecyclerGallery extends RecyclerView {
 	}
 
 	public void showNext() {
-		int position = mLayoutManager.findFirstVisibleItemPosition() + 1;
-		if (position >= 0 && position < mAdapter.getItemCount()) {
-			smoothScrollToPosition(position);
+		RecyclerAdapter.ViewHolder viewHolder = (RecyclerAdapter.ViewHolder) findViewHolderForAdapterPosition(
+			getSelectedItem());
+		if (viewHolder != null && viewHolder.progressBar.getVisibility() == GONE) {
+			int position = mLayoutManager.findFirstVisibleItemPosition() + 1;
+			if (position >= 0 && position < mAdapter.getItemCount()) {
+				if (mScrollListener != null) {
+					mScrollListener.onGalleryItemScrolled(position);
+				}
+				smoothScrollToPosition(position);
+			}
 		}
 	}
 
@@ -453,7 +473,19 @@ public class RecyclerGallery extends RecyclerView {
 		public void onGalleryItemClicked(Object item);
 	}
 
+	public interface GalleryItemScrollListener {
+		public void onGalleryItemScrolled(int position);
+	}
+
 	public void setOnItemClickListener(GalleryItemListener listener) {
 		mListener = listener;
+	}
+
+	public void setOnItemChangeListener(GalleryItemScrollListener listener) {
+		mScrollListener = listener;
+	}
+
+	public interface IImageViewBitmapLoadedListener {
+		void onImageViewBitmapLoaded(int index);
 	}
 }

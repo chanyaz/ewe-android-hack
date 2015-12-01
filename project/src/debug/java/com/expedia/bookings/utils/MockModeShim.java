@@ -1,53 +1,49 @@
 package com.expedia.bookings.utils;
 
-import java.net.URL;
+import java.util.concurrent.CountDownLatch;
 
 import android.content.Context;
 
 import com.expedia.bookings.R;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.mocke3.ExpediaDispatcher;
-import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 public class MockModeShim {
 
-	private static MockWebServer server = null;
-	private static ExpediaDispatcher dispatcher = null;
+	private static ExpediaMockWebServer server = null;
 
 	public static void initMockWebServer(Context c) {
 		final Context context = c.getApplicationContext();
+		final CountDownLatch latch = new CountDownLatch(1);
+
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
-				try {
-					if (server != null) {
-						server.shutdown();
-						dispatcher = null;
-						server = null;
-					}
-
-					server = new MockWebServer();
-					server.start();
-				}
-				catch (Exception e) {
-					throw new RuntimeException("Failed to init MockWebServer, wut?", e);
+				if (server != null) {
+					server.shutdown();
+					server = null;
 				}
 
-				AndroidFileOpener opener = new AndroidFileOpener(context);
-				dispatcher = new ExpediaDispatcher(opener);
-				server.setDispatcher(dispatcher);
+				server = new ExpediaMockWebServer(context);
 
-				// Persist MockWebServer address to be used for the services classes
-				URL mockUrl = server.getUrl("");
-				String server = mockUrl.getHost() + ":" + mockUrl.getPort();
-				SettingUtils.save(context, R.string.preference_proxy_server_address, server);
-				SettingUtils.save(context, R.string.preference_force_custom_server_http_only, true);
+				server.start();
+
+				SettingUtils.save(context, R.string.preference_proxy_server_address, server.getHostWithPort());
+
+				latch.countDown();
 			}
 		}).start();
+
+		try {
+			latch.await();
+		}
+		catch (Throwable e) {
+			throw new RuntimeException("Problem waiting for mock web server to start", e);
+		}
 	}
 
 	public static ExpediaDispatcher getDispatcher() {
-		return dispatcher;
+		return server.getDispatcher();
 	}
 }

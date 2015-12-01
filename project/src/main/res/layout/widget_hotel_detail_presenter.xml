@@ -6,4 +6,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <com.expedia.bookings.widget.SpecialNoticeWidget
+        android:id="@+id/hotel_detail_desc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <com.expedia.bookings.widget.PayLaterInfoWidget
+        android:id="@+id/hotel_pay_later_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <com.expedia.bookings.widget.VIPAccessInfoWidget
+        android:id="@+id/hotel_vip_access_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <com.expedia.bookings.widget.HotelMapView
+        android:id="@+id/hotel_map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
 </merge>

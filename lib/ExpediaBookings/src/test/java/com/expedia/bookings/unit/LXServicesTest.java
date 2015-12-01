@@ -32,7 +32,7 @@ import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.mockwebserver.MockResponse;
-import com.squareup.okhttp.mockwebserver.rule.MockWebServerRule;
+import com.squareup.okhttp.mockwebserver.MockWebServer;
 
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -47,7 +47,7 @@ import static org.junit.Assert.assertTrue;
 
 public class LXServicesTest {
 	@Rule
-	public MockWebServerRule server = new MockWebServerRule();
+	public MockWebServer server = new MockWebServer();
 
 	private LXServices service;
 	private LXCheckoutParams checkoutParams;
@@ -103,7 +103,7 @@ public class LXServicesTest {
 		observer.assertNoErrors();
 		observer.assertCompleted();
 		observer.assertValueCount(1);
-		assertEquals(3, observer.getOnNextEvents().get(0).activities.size());
+		assertEquals(4, observer.getOnNextEvents().get(0).activities.size());
 	}
 
 	@Test
@@ -342,7 +342,7 @@ public class LXServicesTest {
 	private void givenServerUsingMockResponses() throws IOException {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
-		server.get().setDispatcher(new ExpediaDispatcher(opener));
+		server.setDispatcher(new ExpediaDispatcher(opener));
 	}
 
 	private void givenCreateTripParamsHasOneOffer(String activityId) {

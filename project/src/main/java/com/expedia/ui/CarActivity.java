@@ -4,25 +4,22 @@ import org.joda.time.DateTimeZone;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.ViewTreeObserver;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.car.CarPresenter;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CarActivity extends ActionBarActivity {
+public class CarActivity extends AbstractAppCompatActivity {
 
 	@InjectView(R.id.car_presenter)
 	CarPresenter carsPresenter;
@@ -53,28 +50,25 @@ public class CarActivity extends ActionBarActivity {
 	}
 
 	@Override
+	protected void onDestroy() {
+		Ui.getApplication(this).setCarComponent(null);
+		super.onDestroy();
+	}
+
+	@Override
 	protected void onPause() {
 		super.onPause();
 		Events.unregister(this);
 
 		if (isFinishing()) {
 			clearCCNumber();
+			clearStoredCard();
 		}
 	}
 
 	@Subscribe
 	public void onFinishActivity(Events.FinishActivity event) {
 		finish();
-	}
-
-	public void clearCCNumber() {
-		try {
-			Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setNumber(null);
-			Db.getBillingInfo().setNumber(null);
-		}
-		catch (Exception ex) {
-			Log.e("Error clearing billingInfo card number", ex);
-		}
 	}
 
 	private void handleNavigationViaDeepLink() {

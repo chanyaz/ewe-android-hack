@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.expedia.bookings.presenter.hotel.HotelCheckoutWidget
+    <com.expedia.bookings.presenter.hotel.HotelCheckoutMainViewPresenter
         android:id="@+id/checkout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -11,13 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#3A424C"
-        android:visibility="gone" />
-
-    <com.expedia.bookings.widget.ErrorWidget
-        android:id="@+id/checkout_error_widget"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#FFFFFF"
         android:visibility="gone" />
 
 </merge>

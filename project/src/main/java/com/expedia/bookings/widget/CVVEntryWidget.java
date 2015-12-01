@@ -5,7 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.InputFilter;
@@ -122,13 +122,12 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 			addView(Ui.setUpStatusBar(getContext(), toolbar, mainContainer, color));
 		}
 
+		updateActionBar();
+
 	}
 
 	private void syncBookButtonState() {
-	    mCreditCardInputSection.setBookButtonEnabled(mCVVTextView.getCvv().length() >= mMinCvvLen);
-		if (mBookButton != null) {
-			mBookButton.setEnabled(mCVVTextView.getCvv().length() >= mMinCvvLen);
-		}
+		enableBookButton(mCVVTextView.getCvv().length() >= mMinCvvLen);
 	}
 
 	private void syncCVVTextFilter() {
@@ -168,8 +167,6 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 
 	public void setCvvErrorMode(boolean enabled) {
 		mCVVTextView.setCvvErrorMode(enabled);
-
-		updateActionBar();
 	}
 
 	public void bind(BillingInfo billingInfo) {
@@ -258,17 +255,18 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 
 	// Special case for the subprompt ("see back of card"), if it's in the ActionBar (for phone)
 	private void updateActionBar() {
-		if (!(getContext() instanceof ActionBarActivity)) {
+		if (!(getContext() instanceof AppCompatActivity)) {
 			return;
 		}
 
-		CreditCardType cardType = getCurrentCCType();
-		toolbar.setSubtitle(
-			cardType == CreditCardType.AMERICAN_EXPRESS
-				? R.string.See_front_of_card
-				: R.string.See_back_of_card
-		);
+		toolbar.setSubtitle(R.string.cvv_enter_security_code);
+	}
 
+	public void enableBookButton(boolean enabled) {
+		mCreditCardInputSection.setBookButtonEnabled(enabled);
+		if (mBookButton != null) {
+			mBookButton.setEnabled(enabled);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////

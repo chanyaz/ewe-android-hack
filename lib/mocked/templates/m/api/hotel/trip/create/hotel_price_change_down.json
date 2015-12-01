@@ -347,6 +347,7 @@
     "tealeafTransactionId": "tealeafHotel:${productKey}",
     "tripId": "${productKey}",
     "userId": 570429434,
+    "guestUserPromoEmailOptInStatus": "ALWAYS",
     "validFormsOfPayment": [
         {
             "name": "Visa"

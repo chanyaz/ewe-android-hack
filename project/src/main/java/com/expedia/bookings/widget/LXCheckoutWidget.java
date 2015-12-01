@@ -95,6 +95,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		slideWidget.resetSlider();
 
 		sliderTotalText.setText(getResources().getString(R.string.your_card_will_be_charged_TEMPLATE, newPrice.getFormattedMoney()));
+		acceptTermsWidget.getVm().resetAcceptedTerms();
 
 		mainContactInfoCardView.setExpanded(false);
 		paymentInfoCardView.setExpanded(false);
@@ -103,7 +104,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		String e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().getE3EndpointUrl();
 		String rulesAndRestrictionsURL = LXDataUtils.getRulesRestrictionsUrl(e3EndpointUrl, tripId);
 		legalInformationText.setText(StrUtils.generateLegalClickableLink(getContext(), rulesAndRestrictionsURL));
-		isCheckoutComplete();
+		checkoutFormWasUpdated();
 		if (User.isLoggedIn(getContext())) {
 			loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness());
 		}

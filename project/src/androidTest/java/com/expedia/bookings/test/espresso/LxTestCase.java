@@ -1,8 +1,11 @@
 package com.expedia.bookings.test.espresso;
 
-import com.expedia.ui.LXBaseActivity;
+import com.expedia.bookings.dagger.DaggerLXTestComponent;
+import com.expedia.bookings.dagger.LXFakeCurrentLocationSuggestionModule;
+import com.expedia.bookings.dagger.LXTestComponent;
+import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.test.espresso.IdlingResources.LxIdlingResource;
-import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
+import com.expedia.ui.LXBaseActivity;
 
 public class LxTestCase extends PhoneTestCase {
 
@@ -18,18 +21,34 @@ public class LxTestCase extends PhoneTestCase {
 
 	@Override
 	public void runTest() throws Throwable {
-		if (Common.isPhone(getInstrumentation())) {
+		if (Common.isPhone()) {
 			mLxIdlingResource = new LxIdlingResource();
 			mLxIdlingResource.register();
+
+			if (Common.getApplication().lxTestComponent() == null) {
+				ApiError apiError = new ApiError(ApiError.Code.CURRENT_LOCATION_ERROR);
+				ApiError.ErrorInfo errorInfo = new ApiError.ErrorInfo();
+				errorInfo.cause = "Could not determine users current location.";
+				apiError.errorInfo = errorInfo;
+				LXFakeCurrentLocationSuggestionModule module = new LXFakeCurrentLocationSuggestionModule(apiError);
+
+				LXTestComponent lxTestComponent = DaggerLXTestComponent.builder()
+					.appComponent(Common.getApplication().appComponent())
+					.lXFakeCurrentLocationSuggestionModule(module)
+					.build();
+				Common.getApplication().setLXTestComponent(lxTestComponent);
+			}
 		}
 		super.runTest();
 	}
 
 	@Override
 	public void tearDown() throws Exception {
-		if (Common.isPhone(getInstrumentation())) {
+		if (Common.isPhone()) {
 			mLxIdlingResource.unregister();
 			mLxIdlingResource = null;
+
+			Common.getApplication().setLXTestComponent(null);
 		}
 		super.tearDown();
 	}

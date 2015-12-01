@@ -573,6 +573,12 @@ public class PlaneWindowView extends SurfaceView implements SurfaceHolder.Callba
 		@Override
 		public void run() {
 			while (mRun) {
+				try {
+					sleep(100);
+				}
+				catch (InterruptedException e) {
+					Log.w("Got an exception in PlaneWindowView.run()", e);
+				}
 				if (mRendering) {
 					Canvas c = null;
 					try {

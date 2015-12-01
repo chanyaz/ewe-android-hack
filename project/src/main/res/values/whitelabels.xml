@@ -60,6 +60,9 @@
     <!-- Hotel listing Sort by price icon -->
     <attr name="skin_hotelListingSortPriceDrawable" format="reference" />
 
+    <!-- Hotel filters Background -->
+    <attr name="skin_hotelFilterBackground" format="reference|color" />
+
     <!-- Hotel filters button style, for SegmentedControlGroups -->
     <attr name="skin_hotelListingFilterGroupStyle" format="reference" />
 
@@ -330,8 +333,6 @@
     <attr name="skin_lxSortButtonTextSelectorDrawable" format="reference" />
     <attr name="skin_lxTextSelectorDrawable" format="reference" />
     <attr name="skin_lxUncheckedToggleTextColor" format="reference|color" />
-    <attr name="skin_lxTicketPlusButtonSelectorDrawable" format="reference" />
-    <attr name="skin_lxTicketMinusButtonSelectorDrawable" format="reference" />
     <attr name="skin_lxErrorDefaultDrawable" format="reference" />
     <attr name="skin_filterNumberBgDrawable" format="reference" />
     <attr name="skin_accountCreationBackgroundDrawable" format="reference" />
@@ -341,4 +342,16 @@
     <attr name="skin_hotelPriceTextStyle" format="reference" />
 
     <attr name="skin_flightLoadingMessageTextColor" format="reference|color" />
+    <attr name="skin_ticketSelectorDisabledColor" format="reference" />
+    <attr name="skin_lxResultsBottomPadding" format="reference" />
+    <attr name="skin_lxSearchToolbarText" format="reference" />
+    <attr name="skin_lxErrorNoResultsText" format="reference" />
+    <attr name="skin_lxErrorCurrentLocationText" format="reference" />
+    <attr name="skin_lxErrorWidgetDrawable" format="reference" />
+
+    <attr name="skin_errorWidgetEditButtonStyle" format="reference" />
+    <attr name="skin_lxTicketPlusButtonSelectorDrawable" format="reference" />
+    <attr name="skin_lxTicketMinusButtonSelectorDrawable" format="reference" />
+
+    <attr name="skin_rippleDrawable" format="reference" />
 </resources>

@@ -6,9 +6,9 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.LxTestCase;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
+import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.utils.LXDataUtils;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -50,6 +50,7 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 		goToCheckout();
 
 		LXScreen.checkoutWidget().check(matches(isDisplayed()));
+		LXScreen.checkoutActivityTitle().check(matches(withText("happy")));
 		LXScreen.checkoutOfferTitle().check(matches(withText("2-Day New York Pass")));
 		LXScreen.checkoutGroupText().check(matches(withText("3 Adults, 1 Child")));
 		LXScreen.checkoutOfferLocation().check(matches(withText("New York, United States")));

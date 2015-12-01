@@ -2,19 +2,10 @@
 
     <application>
 
-        <!-- Ad-X -->
-        <meta-data
-            android:name="ADX_CLIENT_ID"
-            android:value="exped2345789jo" />
-
-        <meta-data
-            android:name="APP_NAME"
-            android:value="com.expedia.bookings" />
-
         <!-- Deep link routing activity -->
         <activity
             android:name="com.expedia.bookings.activity.DeepLinkRouterActivity"
-            android:theme="@android:style/Theme.NoDisplay" android:launchMode="singleTask" >
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" android:launchMode="singleTask" >
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -100,14 +91,6 @@
             </intent-filter>
 
         </activity>
-
-        <receiver
-            android:name="com.AdX.tag.AdXAppTracker"
-            android:exported="true" >
-            <intent-filter>
-                <action android:name="com.android.vending.INSTALL_REFERRER" />
-            </intent-filter>
-        </receiver>
 
         <!--Push Notifications for lean plum sdk -->
         <receiver

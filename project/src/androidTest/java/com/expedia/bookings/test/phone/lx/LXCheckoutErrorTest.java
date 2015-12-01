@@ -8,8 +8,8 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.LxTestCase;
 import com.squareup.phrase.Phrase;
@@ -103,7 +103,7 @@ public class LXCheckoutErrorTest extends LxTestCase {
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.performSlideToPurchase();
 
-		CVVEntryScreen.parseAndEnterCVV("111");
+		CVVEntryScreen.enterCVV("111");
 		CVVEntryScreen.clickBookButton();
 
 		// this time click on the back button. Expected : we must come to the CVV Screen
@@ -140,9 +140,10 @@ public class LXCheckoutErrorTest extends LxTestCase {
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.enterPaymentInfo();
 		CheckoutViewModel.clickDone();
+		CheckoutViewModel.waitForSlideToPurchase();
 		CheckoutViewModel.performSlideToPurchase();
 
-		CVVEntryScreen.parseAndEnterCVV("111");
+		CVVEntryScreen.enterCVV("111");
 		CVVEntryScreen.clickBookButton();
 	}
 }

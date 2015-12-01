@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <LinearLayout
+        android:id="@+id/reviews_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingTop="?attr/actionBarSize">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="top"
+            android:orientation="vertical">
+
+            <com.expedia.bookings.widget.DisableableViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <com.expedia.bookings.presenter.hotel.HotelReviewsToolbar
+                    android:id="@+id/hotel_reviews_toolbar"
+                    style="@style/LaunchActionBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:background="@color/hotel_cell_primary_color"
+                    app:contentInsetLeft="0dp"
+                    app:contentInsetStart="0dp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/toolbar_dropshadow_height"
+                    android:background="@drawable/tb_shadow" />
+            </LinearLayout>
+        </FrameLayout>
+    </LinearLayout>
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="@color/hotels_primary_color"
+        android:minHeight="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_close_white_24dp"
+        app:titleTextAppearance="@style/CarsToolbarTitleTextAppearance"
+        app:subtitleTextAppearance="@style/CarsToolbarSubtitleTextAppearance"/>
+
+
+</merge>

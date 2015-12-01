@@ -31,6 +31,7 @@ import android.text.format.DateUtils;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -51,6 +52,10 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.HotelCrossSellUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.model.GraphUser;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -772,6 +777,7 @@ public class ItineraryManager implements JSONable {
 	// !!!!!!
 	private enum Operation {
 		LOAD_FROM_DISK, // Loads saved trips from disk, if we're just starting up
+		REAUTH_FACEBOOK_USER, // Autologin for facebook users
 		REFRESH_USER, // If logged in, refreshes the trip list of the user
 		GATHER_TRIPS, // Enqueues all trips for later operation
 
@@ -921,6 +927,7 @@ public class ItineraryManager implements JSONable {
 				mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
 			}
 			if (update) {
+				mSyncOpQueue.add(new Task(Operation.REAUTH_FACEBOOK_USER));
 				mSyncOpQueue.add(new Task(Operation.REFRESH_USER));
 				mSyncOpQueue.add(new Task(Operation.GATHER_TRIPS));
 				mSyncOpQueue.add(new Task(Operation.DEDUPLICATE_TRIPS));
@@ -1091,6 +1098,9 @@ public class ItineraryManager implements JSONable {
 				switch (nextTask.mOp) {
 				case LOAD_FROM_DISK:
 					load();
+					break;
+				case REAUTH_FACEBOOK_USER:
+					reauthFacebookUser();
 					break;
 				case REFRESH_USER:
 					refreshUserList();
@@ -1333,6 +1343,29 @@ public class ItineraryManager implements JSONable {
 			}
 
 			// POSSIBLE TODO: Only call tripUpated() when it's actually changed
+		}
+
+		private void reauthFacebookUser() {
+			Session session = Session.getActiveSession();
+			if (session == null) {
+				session = Session.openActiveSessionFromCache(mContext);
+			}
+			if (session != null && session.isOpened()) {
+				// make request to the /me API
+				Response rep = Request.newMeRequest(session, null).executeAndWait();
+				GraphUser user = rep.getGraphObjectAs(GraphUser.class);
+				String fbUserId = user.getId();
+
+				Session fbSession = Session.getActiveSession();
+				if (fbSession != null && !fbSession.isClosed()) {
+					FacebookLinkResponse linkResponse = mServices
+						.facebookAutoLogin(fbUserId, fbSession.getAccessToken());
+					if (linkResponse != null && linkResponse.getFacebookLinkResponseCode() != null && linkResponse
+						.isSuccess()) {
+						Log.w(LOGGING_TAG, "FB: Autologin success" + linkResponse.getFacebookLinkResponseCode().name());
+					}
+				}
+			}
 		}
 
 		private void refreshTrip(Trip trip, boolean deepRefresh) {

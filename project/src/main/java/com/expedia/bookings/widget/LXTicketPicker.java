@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.util.AttributeSet;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -13,6 +14,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.Ui;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -37,6 +39,9 @@ public class LXTicketPicker extends LinearLayout {
 
 	private static final int MIN_TICKET_COUNT = 0;
 	private static final int MAX_TICKET_COUNT = 8;
+
+	private int enabledTicketSelectorColor;
+	private int disabledTicketSelectorColor;
 
 	@OnClick(R.id.ticket_add)
 	public void onAddTicket() {
@@ -68,6 +73,8 @@ public class LXTicketPicker extends LinearLayout {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);
+		enabledTicketSelectorColor = Ui.obtainThemeColor(getContext(), R.attr.primary_color);
+		disabledTicketSelectorColor = Ui.obtainThemeColor(getContext(), R.attr.skin_ticketSelectorDisabledColor);
 	}
 
 	public void bind(Ticket ticket, String offerId, int defaultCount) {
@@ -95,11 +102,16 @@ public class LXTicketPicker extends LinearLayout {
 	private void setTicketCount() {
 		ticketCount.setText(String.valueOf(ticket.count));
 		// Enable or disable add and remove option for ticket
+		ticketRemove.setColorFilter(enabledTicketSelectorColor, PorterDuff.Mode.SRC_IN);
+		ticketAdd.setColorFilter(enabledTicketSelectorColor, PorterDuff.Mode.SRC_IN);
 		if (ticket.count == MIN_TICKET_COUNT) {
 			ticketRemove.setEnabled(false);
+			ticketRemove.setColorFilter(disabledTicketSelectorColor,
+				PorterDuff.Mode.SRC_IN);
 		}
 		else if (ticket.count == MAX_TICKET_COUNT) {
 			ticketAdd.setEnabled(false);
+			ticketAdd.setColorFilter(disabledTicketSelectorColor, PorterDuff.Mode.SRC_IN);
 		}
 		else {
 			ticketAdd.setEnabled(true);

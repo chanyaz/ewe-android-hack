@@ -9,83 +9,69 @@ import com.expedia.bookings.data.hotels.HotelCheckoutParams
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
-import com.expedia.bookings.services.HotelCheckoutResponse
-import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.JodaUtils
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CVVEntryWidget
-import com.expedia.bookings.widget.ErrorWidget
-import com.mobiata.android.Log
+import com.expedia.util.endlessObserver
+import com.expedia.vm.HotelCheckoutViewModel
 import org.joda.time.format.ISODateTimeFormat
-import rx.Observer
+import java.util.Locale
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
 public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
 
-    val checkout: HotelCheckoutWidget by bindView(R.id.checkout)
+    var hotelCheckoutViewModel: HotelCheckoutViewModel by Delegates.notNull()
+
+    val hotelCheckoutWidget: HotelCheckoutMainViewPresenter by bindView(R.id.checkout)
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
-    val errorScreen: ErrorWidget by bindView(R.id.checkout_error_widget)
-    var confirmationObserver: Observer<HotelCheckoutResponse> by Delegates.notNull()
 
-    var hotelServices: HotelServices? = null
-        @Inject set
-    
     init {
-        Ui.getApplication(getContext()).hotelComponent().inject(this)
         View.inflate(getContext(), R.layout.widget_hotel_checkout, this)
-    }
-
-    fun showCheckout(offer: HotelOffersResponse.HotelRoomResponse) {
-        Db.getTripBucket().clearHotelV2()
-        show(checkout)
-        checkout.showCheckout(offer)
     }
 
     override fun onFinishInflate() {
         addTransition(checkoutToCvv)
-        addTransition(checkoutToError)
-        addTransition(cvvToError)
         addDefaultTransition(defaultCheckoutTransition)
-        checkout.slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
+        hotelCheckoutWidget.slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
+        hotelCheckoutWidget.emailOptInStatus.subscribe { status ->
+            hotelCheckoutWidget.mainContactInfoCardView.setUPEMailOptCheckBox(status)
+        }
         cvv.setCVVEntryListener(this)
     }
 
-    private val defaultCheckoutTransition = object : Presenter.DefaultTransition(javaClass<HotelCheckoutWidget>().getName()) {
+    fun showCheckout(offer: HotelOffersResponse.HotelRoomResponse) {
+        show(hotelCheckoutWidget)
+        hotelCheckoutWidget.showCheckout(offer)
+    }
+
+    private val defaultCheckoutTransition = object : Presenter.DefaultTransition(HotelCheckoutMainViewPresenter::class.java.name) {
         override fun finalizeTransition(forward: Boolean) {
-            checkout.setVisibility(View.VISIBLE)
+            hotelCheckoutWidget.setVisibility(View.VISIBLE)
             cvv.setVisibility(View.GONE)
-            errorScreen.setVisibility(View.GONE)
         }
     }
-    private val checkoutToCvv = VisibilityTransition(this, javaClass<HotelCheckoutWidget>(), javaClass<CVVEntryWidget>())
 
-    private val checkoutToError = object : VisibilityTransition(this, javaClass<HotelCheckoutWidget>(), javaClass<ErrorWidget>()) {
+    private val checkoutToCvv = object : VisibilityTransition(this, HotelCheckoutMainViewPresenter::class.java, CVVEntryWidget::class.java) {
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             if (!forward) {
-                checkout.slideWidget.resetSlider()
-                checkout.isCheckoutComplete()
+                hotelCheckoutWidget.slideWidget.resetSlider()
+                hotelCheckoutWidget.checkoutFormWasUpdated()
             }
         }
     }
 
-    private val cvvToError = VisibilityTransition(this, javaClass<CVVEntryWidget>(), javaClass<ErrorWidget>())
-
-    val checkoutSliderSlidObserver: Observer<Unit> = object : Observer<Unit> {
-        override fun onCompleted() {
-            val billingInfo = checkout.paymentInfoCardView.sectionBillingInfo.getBillingInfo()
+    val checkoutSliderSlidObserver = endlessObserver<Unit> {
+        val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.getBillingInfo()
+        if (billingInfo.getStoredCard() != null && billingInfo.getStoredCard().isGoogleWallet()) {
+            onBook(billingInfo.getSecurityCode())
+        } else {
             cvv.bind(billingInfo)
             show(cvv)
-        }
-
-        override fun onError(e: Throwable?) {
-            Log.d("Eek, there was a slip up!", e)
-        }
-
-        override fun onNext(t: Unit?) {
-
+            HotelV2Tracking().trackHotelV2CheckoutPaymentCid()
         }
     }
 
@@ -95,28 +81,38 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         val dtf = ISODateTimeFormat.date()
 
         hotelCheckoutParams.tripId = Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId
-        hotelCheckoutParams.expectedTotalFare = "" + java.lang.String.format("%.2f", hotelRate.total) // TODO - We should be using BigDecimal
+        hotelCheckoutParams.expectedTotalFare = java.lang.String.format(Locale.ENGLISH, "%.2f", hotelRate.total)
         hotelCheckoutParams.expectedFareCurrencyCode = "" + hotelRate.currencyCode
-        val primaryTraveler = checkout.mainContactInfoCardView.sectionTravelerInfo.getTraveler()
-        val billingInfo = checkout.paymentInfoCardView.sectionBillingInfo.getBillingInfo()
+        val primaryTraveler = hotelCheckoutWidget.mainContactInfoCardView.sectionTravelerInfo.getTraveler()
+        val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.getBillingInfo()
         hotelCheckoutParams.firstName = primaryTraveler.getFirstName()
         hotelCheckoutParams.phone = primaryTraveler.getPhoneNumber()
         hotelCheckoutParams.phoneCountryCode = primaryTraveler.getPhoneCountryCode()
         hotelCheckoutParams.email = primaryTraveler.getEmail()
         hotelCheckoutParams.lastName = primaryTraveler.getLastName()
-        hotelCheckoutParams.sendEmailConfirmation = false // TODO: when true?
+        hotelCheckoutParams.sendEmailConfirmation = true
         hotelCheckoutParams.abacusUserGuid = Db.getAbacusGuid()
         hotelCheckoutParams.checkInDate = dtf.print(Db.getHotelSearch().getSearchParams().getCheckInDate())
         hotelCheckoutParams.checkOutDate = dtf.print(Db.getHotelSearch().getSearchParams().getCheckOutDate())
         hotelCheckoutParams.cvv = cvv
-        // TODO: Support saved credit cards
-        hotelCheckoutParams.nameOnCard = billingInfo.getNameOnCard()
-        hotelCheckoutParams.creditCardNumber = billingInfo.getNumber()
-        hotelCheckoutParams.expirationDateYear = JodaUtils.format(billingInfo.getExpirationDate(), "yyyy")
-        hotelCheckoutParams.expirationDateMonth = JodaUtils.format(billingInfo.getExpirationDate(), "MM")
-        hotelCheckoutParams.postalCode = billingInfo.getLocation().getPostalCode()
+        hotelCheckoutParams.emailOptIn = hotelCheckoutWidget.mainContactInfoCardView.emailOptIn?.toString() ?: ""
 
+        if (billingInfo.getStoredCard() == null || billingInfo.getStoredCard().isGoogleWallet()) {
+            hotelCheckoutParams.creditCardNumber = billingInfo.getNumber()
+            hotelCheckoutParams.expirationDateYear = JodaUtils.format(billingInfo.getExpirationDate(), "yyyy")
+            hotelCheckoutParams.expirationDateMonth = JodaUtils.format(billingInfo.getExpirationDate(), "MM")
+            hotelCheckoutParams.nameOnCard = billingInfo.getNameOnCard()
+            hotelCheckoutParams.postalCode = billingInfo.getLocation().getPostalCode()
+            hotelCheckoutParams.storeCreditCardInUserProfile = billingInfo.saveCardToExpediaAccount
+        } else {
+            hotelCheckoutParams.storedCreditCardId = billingInfo.getStoredCard().getId()
+            hotelCheckoutParams.nameOnCard = billingInfo.getFirstName() + " " + billingInfo.getLastName()
+        }
 
-        hotelServices!!.checkout(hotelCheckoutParams, confirmationObserver)
+        hotelCheckoutParams.suppressFinalBooking = BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_hotel_bookings)
+        val tealeafTransactionId = Db.getTripBucket().hotelV2.mHotelTripResponse.tealeafTransactionId;
+        hotelCheckoutParams.tealeafTransactionId = tealeafTransactionId
+
+        hotelCheckoutViewModel.checkoutParams.onNext(hotelCheckoutParams)
     }
 }

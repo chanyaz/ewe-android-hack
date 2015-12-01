@@ -10,50 +10,38 @@
         android:layout_height="@dimen/launch_tile_margin_top"
         android:background="@color/launch_lob_bg" />
 
-    <FrameLayout
-        android:id="@+id/lob_top_row"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <View
-            android:id="@+id/lob_top_row_bg"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/launch_lob_double_row_height"
-            android:background="@color/launch_lob_bg" />
-
-        <LinearLayout
-
-            android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/launch_lob_bg"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:showDividers="middle">
+        <com.expedia.bookings.widget.PhoneLaunchDoubleRowButton
+            android:id="@+id/hotels_button"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal"
-            android:showDividers="middle">
-            <com.expedia.bookings.widget.PhoneLaunchDoubleRowButton
-                android:id="@+id/hotels_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/launch_tile_margin_side"
-                android:layout_marginRight="@dimen/launch_tile_margin_middle"
-                android:layout_weight="1"
-                app:btn_bg="@color/hotel_lob_btn"
-                app:btn_icon="@drawable/ic_launch_hotels"
-                app:btn_text="@string/nav_hotels"
-                app:icon_min_scale=".70" />
+            android:layout_marginLeft="@dimen/launch_tile_margin_side"
+            android:layout_marginRight="@dimen/launch_tile_margin_middle"
+            android:layout_weight="1"
+            app:btn_bg="@color/hotel_lob_btn"
+            app:btn_icon="@drawable/ic_launch_hotels"
+            app:btn_text="@string/nav_hotels"
+            app:icon_min_scale=".70" />
 
-            <com.expedia.bookings.widget.PhoneLaunchDoubleRowButton
-                android:id="@+id/flights_button"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/launch_tile_margin_side"
-                android:layout_weight="1"
-                app:btn_bg="@color/flights_lob_btn"
-                app:btn_icon="@drawable/ic_launch_flights"
-                app:btn_text="@string/nav_flights"
-                app:icon_min_scale=".68" />
+        <com.expedia.bookings.widget.PhoneLaunchDoubleRowButton
+            android:id="@+id/flights_button"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/launch_tile_margin_side"
+            android:layout_weight="1"
+            app:btn_bg="@color/flights_lob_btn"
+            app:btn_icon="@drawable/ic_launch_flights"
+            app:btn_text="@string/nav_flights"
+            app:icon_min_scale=".68" />
 
-        </LinearLayout>
-    </FrameLayout>
+    </LinearLayout>
 
     <View
         android:id="@+id/vertical_divider"

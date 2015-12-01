@@ -4,18 +4,18 @@ import com.squareup.okhttp.mockwebserver.MockResponse
 import com.squareup.okhttp.mockwebserver.RecordedRequest
 import java.util.regex.Pattern
 
-public class CarApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener: FileOpener) {
+public class CarApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
     override fun dispatch(request: RecordedRequest): MockResponse {
-        val urlPath = request.getPath()
+        val path = request.path
         val params = parseRequest(request)
 
-        if (!CarApiRequestMatcher.isCarApiRequest(urlPath)) {
-            throwUnsupportedRequestException(urlPath)
+        if (!CarApiRequestMatcher.isCarApiRequest(path)) {
+            throwUnsupportedRequestException(path)
         }
 
         return when {
-            CarApiRequestMatcher.isSearchRequest(urlPath) -> {
+            CarApiRequestMatcher.isSearchRequest(path) -> {
                 return when(params.get("airportCode")) {
                     "KTM" -> getMockResponse("m/api/cars/search/airport/ktm_no_product.json")
 
@@ -25,16 +25,16 @@ public class CarApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatche
                 }
             }
 
-            CarApiRequestMatcher.isCreateTripRequest(urlPath) -> {
+            CarApiRequestMatcher.isCreateTripRequest(path) -> {
                 val productKey = params.get("productKey")
                 return when (productKey) {
                     "CreateTripPriceChange" -> getMockResponse("m/api/cars/trip/create/price_change.json")
 
-                    else -> getMockResponse("m/api/cars/trip/create/" + productKey + ".json", params)
+                    else -> getMockResponse("m/api/cars/trip/create/$productKey.json", params)
                 }
             }
 
-            CarApiRequestMatcher.isCheckoutRequest(urlPath) -> {
+            CarApiRequestMatcher.isCheckoutRequest(path) -> {
                 val responseType = params.get("mainMobileTraveler.firstName")
                 return when (responseType) {
                     "AlreadyBooked" -> getMockResponse("m/api/cars/trip/checkout/trip_already_booked.json")

@@ -43,11 +43,7 @@ public class PicassoHelper implements Target, Callback {
 
 	private String mTag;
 
-	private boolean mRetrieving;
-	private boolean mHasLoadedPlaceholder;
-
 	private static Picasso mPicasso;
-	private boolean mDisableFallback;
 
 	public static void init(Context context, OkHttpClient client) {
 		OkHttpDownloader okHttpDownloader = new OkHttpDownloader(client);
@@ -66,27 +62,22 @@ public class PicassoHelper implements Target, Callback {
 
 	public void load(List<String> urls) {
 		mUrls = urls;
-		retrieveImage(false);
+		retrieveImage();
 	}
 
 	public void load(String url) {
 		mUrl = url;
-		retrieveImage(false);
+		retrieveImage();
 	}
 
 	public void load(int resId) {
 		mResId = resId;
-		retrieveImage(false);
+		retrieveImage();
 	}
 
 	private void loadImage(RequestCreator requestCreator) {
 		if (mDefaultResId != 0) {
 			requestCreator = requestCreator.placeholder(mDefaultResId);
-			mHasLoadedPlaceholder = true;
-		}
-
-		if (mErrorResId != 0) {
-			requestCreator = requestCreator.error(mErrorResId);
 		}
 
 		if (mBlur) {
@@ -110,7 +101,6 @@ public class PicassoHelper implements Target, Callback {
 		}
 
 		if (mTarget != null) {
-			//Download bitmap and pass to a callback
 			requestCreator.into(mTarget);
 		}
 		else if (mView != null) {
@@ -142,26 +132,15 @@ public class PicassoHelper implements Target, Callback {
 		mPicasso.getSnapshot().dump();
 	}
 
-	protected void retrieveImage(boolean forceRetrieve) {
-		if (!mRetrieving || forceRetrieve) {
-
-			if (mResId != 0) {
-				loadImage(mResId);
-				return;
-			}
+	protected void retrieveImage() {
+		if (mResId != 0) {
+			loadImage(mResId);
+		}
+		else {
 			String url = getUrl();
-
-			if (FailedUrlCache.getInstance().contains(url)) {
-				onError();
-				return;
-			}
-
 			if (!TextUtils.isEmpty(url)) {
-				mRetrieving = true;
 				loadImage(url);
-				return;
 			}
-
 		}
 	}
 
@@ -176,34 +155,18 @@ public class PicassoHelper implements Target, Callback {
 		return mUrl;
 	}
 
-	private void retry() {
-
-		if (mUrls != null && mIndex + 1 < mUrls.size()) {
+	private boolean retry() {
+		while (mUrls != null && mIndex + 1 < mUrls.size()) {
 			mIndex++;
-			retrieveImage(true);
-			return;
+			if (FailedUrlCache.getInstance().contains(getUrl())) {
+				continue;
+			}
+			else {
+				return true;
+			}
 		}
 
-		// All urls have failed. Load the placeholder as the image or error if it
-		// hasn't been set before.
-		// - will callback success
-		if (!mDisableFallback) {
-			if ((mErrorResId != 0 || mDefaultResId != 0) && !mHasLoadedPlaceholder) {
-				mResId = mErrorResId != 0 ? mErrorResId : mDefaultResId;
-				mDefaultResId = 0;
-				mBlur = false;
-				retrieveImage(true);
-				return;
-			}
-		}
-		else { // no image. fallback behaviour disabled. fetch placeholder
-			// - will callback failure (but use placeholder if exists)
-			String url = getUrl();
-			if (!TextUtils.isEmpty(url)) {
-				mRetrieving = true;
-				loadImage(url);
-			}
-		}
+		return false;
 	}
 
 	/**
@@ -219,28 +182,42 @@ public class PicassoHelper implements Target, Callback {
 	@Override
 	public void onError() {
 		FailedUrlCache.getInstance().add(getUrl());
-
-		retry();
-
-		if (mCallback != null) {
-			mCallback.onError();
+		boolean didRetry = retry();
+		if (!didRetry) {
+			if (mErrorResId != 0) {
+				if (mTarget != null) {
+					mTarget.mIsFallbackImage = true;
+				}
+				load(mErrorResId);
+			}
+		}
+		else {
+			retrieveImage();
 		}
 	}
 
-	/**
-	 * Target callbacks*
-	 */
 	@Override
 	public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+
 	}
 
 	@Override
 	public void onBitmapFailed(Drawable errorDrawable) {
-		retry();
+		FailedUrlCache.getInstance().add(getUrl());
+		boolean didRetry = retry();
+		if (!didRetry) {
+			if (mErrorResId != 0) {
+				load(mErrorResId);
+			}
+		}
+		else {
+			retrieveImage();
+		}
 	}
 
 	@Override
 	public void onPrepareLoad(Drawable placeHolderDrawable) {
+
 	}
 
 	public void pause(String tag) {
@@ -304,7 +281,7 @@ public class PicassoHelper implements Target, Callback {
 	}
 
 	public void setDisableFallback(boolean disableFallback) {
-		this.mDisableFallback = disableFallback;
+
 	}
 
 	public static class Builder {
@@ -398,6 +375,7 @@ public class PicassoHelper implements Target, Callback {
 			picassoHelper.setCenterCrop(mCenterCrop);
 			picassoHelper.setPaletteTransformation(mPalette);
 			if (mTarget != null) {
+				mTarget.mIsFallbackImage = false;
 				mTarget.setCallBack(picassoHelper);
 				picassoHelper.setTarget(mTarget);
 			}

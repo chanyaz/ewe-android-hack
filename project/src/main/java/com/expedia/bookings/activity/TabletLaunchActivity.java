@@ -31,6 +31,7 @@ import com.expedia.bookings.interfaces.IMeasurementProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.TuneUtils;
@@ -86,6 +87,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok);
 		}
 
+		AbacusHelperUtils.downloadBucket(this);
 		OmnitureTracking.trackPageLoadLaunchScreen();
 	}
 

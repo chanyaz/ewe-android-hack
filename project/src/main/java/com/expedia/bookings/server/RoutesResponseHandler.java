@@ -40,24 +40,29 @@ public class RoutesResponseHandler extends JsonResponseHandler<RoutesResponse> {
 
 			// Parse airports
 			JSONArray airportsJson = response.optJSONArray("airports");
-			int len = airportsJson.length();
-			for (int a = 0; a < len; a++) {
-				JSONObject airportJson = airportsJson.optJSONObject(a);
-				Airport airport = new Airport();
-				airport.mAirportCode = airportJson.optString("airportCode");
-				airport.mName = airportJson.optString("name");
-				airport.mCountryCode = airportJson.optString("country"); // Note: this is using a somewhat overloaded var name
-				routes.addAirport(airport);
+			if (airportsJson != null) {
+				int len = airportsJson.length();
+				for (int a = 0; a < len; a++) {
+					JSONObject airportJson = airportsJson.optJSONObject(a);
+					Airport airport = new Airport();
+					airport.mAirportCode = airportJson.optString("airportCode");
+					airport.mName = airportJson.optString("name");
+					airport.mCountryCode = airportJson
+						.optString("country"); // Note: this is using a somewhat overloaded var name
+					routes.addAirport(airport);
+				}
 			}
 
 			// Parse routes
 			JSONArray routesJson = response.optJSONArray("routes");
-			len = routesJson.length();
-			for (int a = 0; a < len; a++) {
-				JSONObject routeJson = routesJson.optJSONObject(a);
-				String origin = routeJson.optString("origin");
-				List<String> destinations = JSONUtils.getStringList(routeJson, "destinations");
-				routes.addRoutes(origin, destinations);
+			if (routesJson != null) {
+				int len = routesJson.length();
+				for (int a = 0; a < len; a++) {
+					JSONObject routeJson = routesJson.optJSONObject(a);
+					String origin = routeJson.optString("origin");
+					List<String> destinations = JSONUtils.getStringList(routeJson, "destinations");
+					routes.addRoutes(origin, destinations);
+				}
 			}
 
 			routes.markCreationTime();

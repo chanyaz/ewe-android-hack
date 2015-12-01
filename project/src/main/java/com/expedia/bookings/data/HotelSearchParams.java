@@ -67,6 +67,7 @@ public class HotelSearchParams implements JSONable {
 	private boolean mSearchLatLonUpToDate;
 	private String mCorrespondingAirportCode;
 
+	public String hotelId;
 	// This might get filled as a result of an autosuggestion
 	private String mRegionId;
 
