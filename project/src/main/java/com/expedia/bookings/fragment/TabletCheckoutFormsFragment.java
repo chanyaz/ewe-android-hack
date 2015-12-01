@@ -29,6 +29,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemHotel;
@@ -122,6 +123,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private SizeCopyView mSizeCopyView;
 	private TravelerFlowStateTablet mTravelerFlowState;
 	private TextView mResortFeeText;
+	private TextView mDepositPolicyTxt;
 
 	private TripBucketHorizontalHotelFragment mHorizontalHotelFrag;
 	private TripBucketHorizontalFlightFragment mHorizontalFlightFrag;
@@ -534,6 +536,14 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			legalBlurb.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement(true));
 		}
 
+		if (getLob() == LineOfBusiness.HOTELS) {
+			if (mDepositPolicyTxt == null) {
+				mDepositPolicyTxt = Ui.inflate(R.layout.include_tablet_resort_blurb_tv, mCheckoutRowsC, false);
+			}
+			add(mDepositPolicyTxt);
+			updateDepositPolicyText();
+		}
+
 		if (getLob() == LineOfBusiness.HOTELS && PointOfSale.getPointOfSale().showFTCResortRegulations() &&
 			Db.getTripBucket().getHotel().getRate().showResortFeesMessaging()) {
 			if (mResortFeeText == null) {
@@ -583,6 +593,20 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		transaction.commit();
 
 		bindAll();
+	}
+
+	private void updateDepositPolicyText() {
+		Rate rate = Db.getTripBucket().getHotel().getRate();
+		String[] depositPolicy = rate.getDepositPolicy();
+		if (mDepositPolicyTxt != null) {
+			if (depositPolicy != null) {
+				mDepositPolicyTxt.setText(HotelUtils.getDepositPolicyText(getActivity(), depositPolicy));
+				mDepositPolicyTxt.setVisibility(View.VISIBLE);
+			}
+			else {
+				mDepositPolicyTxt.setVisibility(View.GONE);
+			}
+		}
 	}
 
 	private void updateResortFeeText() {
@@ -1075,5 +1099,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			mHorizontalHotelFrag.refreshRate();
 		}
 		updateResortFeeText();
+		updateDepositPolicyText();
 	}
 }

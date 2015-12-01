@@ -102,6 +102,17 @@ public class Rate implements JSONable {
 	//ETP: is this rate a pay later rate?
 	private boolean mIsPayLater;
 
+	// deposit policy messaging from the api
+	private String[] mDepositPolicy;
+
+	public String[] getDepositPolicy() {
+		return mDepositPolicy;
+	}
+
+	public void setDepositPolicy(String[] depositPolicy) {
+		this.mDepositPolicy = depositPolicy;
+	}
+
 	public Set<BedType> getBedTypes() {
 		return mBedTypes;
 	}
