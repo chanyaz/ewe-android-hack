@@ -20,6 +20,8 @@
         <item name="android:colorPrimaryDark">#A8540D</item>
         <item name="android:colorButtonNormal">@color/lx_primary_color</item>
         <item name="colorAccent">@color/lx_primary_color</item>
+        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_car_lx</item>
+
 
         <!-- Skins added for whitelabel -->
         <item name="skin_loginBrandLogoDrawable">@drawable/expedia</item>

@@ -381,7 +381,13 @@
     <!-- hotel V2 Checkout -->
     <dimen name="hotel_checkout_image_corner_radius">3dp</dimen>
 
-    <!-- Dimension for left margin on icon of new login button on checkout-->
-    <dimen name="checkout_icon_right_margin">16dp</dimen>
+    <!-- Dimension for left margin on icon of new login button on flight checkout-->
+    <dimen name="checkout_icon_right_margin_flight">16dp</dimen>
+
+    <!-- Dimension for left margin on icon of new login button on gotel checkout-->
+    <dimen name="checkout_icon_right_margin_hotel">16dp</dimen>
+
+    <!-- Dimension for left margin on icon of new login button on car & LX checkout-->
+    <dimen name="checkout_icon_right_margin_car_lx">16dp</dimen>
 
 </resources>

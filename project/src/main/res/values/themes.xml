@@ -244,6 +244,7 @@
     </style>
 
     <style name="Theme.Phone.Dark" parent="Theme.Phone">
+        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_hotel</item>
         <item name="android:windowBackground">@color/window_background_dark</item>
         <item name="android:editTextStyle">@style/Widget.EditText.Phone.Dark</item>
         <item name="android:textViewStyle">@style/Widget.TextView.Phone.Dark</item>
@@ -396,6 +397,8 @@
         <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
         <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
         <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color</item>
+        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_flight</item>
+
     </style>
 
     <style name="FlightTheme.DropDownSearch">
