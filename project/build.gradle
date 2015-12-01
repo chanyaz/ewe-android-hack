@@ -6,6 +6,8 @@ def CRASHLYTICS_BETA_GROUPS_PATH = "buildbot/crashlytics_beta_groups.txt"
 
 apply plugin: 'android-sdk-manager'
 apply plugin: 'com.android.application'
+// This does not break the build when Android Studio is missing the JRebel for Android plugin.
+apply plugin: 'com.zeroturnaround.jrebel.android'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
@@ -29,7 +31,6 @@ dependencies {
     compile fileTree(dir: 'libs', include: [
             'activeandroid-20131111.jar',
             'ADMS_AppLibrary-3.2.7-Android.jar',
-            'adxtag3.2.6.jar',
             'MobileAppTracker-3.9.1.jar',
     ])
     compile project(':lib:Utils')
@@ -39,7 +40,8 @@ dependencies {
         exclude group: 'org.json'
     }
     compile 'com.expedia:svg-android:0.1.0'
-    compile 'com.expedia:android-account-lib:0.5.11'
+    compile 'com.expedia:android-account-lib:0.5.12'
+    compile 'com.expedia:android-rangeseekbar:1.0.1'
     compile 'com.dgmltn:share-everywhere:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
 
@@ -60,15 +62,15 @@ dependencies {
     compile "com.google.android.gms:play-services-location:${rootProject.ext.googlePlayServicesVersion}"
 
     compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'com.squareup.okhttp:okhttp:2.4.0'
-    compile 'com.squareup.okio:okio:1.5.0'
+    compile 'com.squareup.okhttp:okhttp:2.5.0'
+    compile 'com.squareup.okio:okio:1.6.0'
     compile 'com.squareup:otto:1.3.8'
     compile 'com.squareup.phrase:phrase:1.1.0'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.leanplum:Leanplum:1.2.15'
     compile 'com.facebook.android:facebook-android-sdk:3.21.1'
-    compile 'io.reactivex:rxandroid:0.25.0'
+    compile 'io.reactivex:rxandroid:1.0.1'
     compile ('com.wefika:flowlayout:0.4.0') {
         exclude group: 'com.intellij'
     }
@@ -78,7 +80,7 @@ dependencies {
     apt 'com.google.dagger:dagger-compiler:2.0.1'
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
-    compile ('com.crashlytics.sdk.android:crashlytics:2.5.0@aar') {
+    compile ('com.crashlytics.sdk.android:crashlytics:2.5.1@aar') {
         transitive = true
     }
 
@@ -87,12 +89,14 @@ dependencies {
     debugCompile "com.squareup.leakcanary:leakcanary-android:${leakCanaryVersion}"
     releaseCompile "com.squareup.leakcanary:leakcanary-android-no-op:${leakCanaryVersion}"
 
-    debugCompile 'com.squareup.okhttp:mockwebserver:2.4.0'
+    // junit is only for mockwebserver
+    debugCompile 'com.squareup.okhttp:mockwebserver:2.5.0'
+    debugCompile 'junit:junit:4.12'
     debugCompile (project(':lib:mocked:mocke3')) {
         transitive = false
     }
 
-    def stethoVersion = '1.1.1'
+    def stethoVersion = '1.2.0'
     debugCompile "com.facebook.stetho:stetho:${stethoVersion}"
     debugCompile "com.facebook.stetho:stetho-okhttp:${stethoVersion}"
 
@@ -103,7 +107,7 @@ dependencies {
     testCompile "org.robolectric:shadows-multidex:${roboVersion}"
     testCompile 'org.mockito:mockito-core:2.0.31-beta'
 
-    def espressoVersion = '2.2'
+    def espressoVersion = '2.2.1'
     androidTestCompile ("com.android.support.test.espresso:espresso-core:${espressoVersion}"){
         exclude group: 'com.android.support'
         exclude group: 'javax.inject'
@@ -113,7 +117,7 @@ dependencies {
         exclude group: 'javax.inject'
     }
 
-    androidTestCompile ('com.android.support.test:rules:0.3') {
+    androidTestCompile ('com.android.support.test:rules:0.4.1') {
         exclude group: 'com.android.support'
     }
     androidTestCompile ("com.android.support.test.espresso:espresso-intents:${espressoVersion}") {
@@ -128,6 +132,7 @@ dependencies {
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
+    useLibrary 'org.apache.http.legacy'
 
     dexOptions {
         javaMaxHeapSize "2g"
@@ -163,7 +168,7 @@ android {
         versionName "undefined"
 
         minSdkVersion 16
-        targetSdkVersion 22
+        targetSdkVersion 23
 
         multiDexEnabled = true
         testApplicationId "com.expedia.bookings.test"
@@ -183,9 +188,9 @@ android {
             applicationId "com.expedia.bookings"
 
             def major = 6
-            def minor = 4
+            def minor = 5
             def patch = 0
-            def build = 0
+            def build = 1
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
         }

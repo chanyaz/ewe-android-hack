@@ -1,14 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Button android:id="@+id/filter_btn"
-    style="@style/CarRobotoFont"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="fill_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/filter_btn"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:fontFamily="sans-serif-medium"
     android:background="?android:attr/selectableItemBackground"
-    android:drawableLeft="@drawable/sort"
-    android:drawablePadding="10dp"
-    android:paddingLeft="12dp"
-    android:paddingRight="12dp"
-    android:text="@string/filter"
-    android:textAllCaps="true"
-    android:textSize="14sp" />
+    android:paddingLeft="5dp"
+    android:orientation="horizontal">
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/filter_count_text"
+        app:textStyle="medium"
+        android:layout_marginLeft="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:paddingBottom="1dp"
+        android:paddingLeft="5.5dp"
+        android:paddingRight="5.5dp"
+        android:background="@drawable/filter_number_bg_white"
+        android:textColor="@color/hotels_primary_color"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/filter_placeholder_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="5dp" />
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="8dp"
+        android:textAllCaps="true"
+        android:paddingRight="12dp"
+        android:text="@string/filter"
+        android:textColor="#FFFFFFFF"
+        android:gravity="center_vertical"
+        android:textStyle="normal"
+        android:textSize="14sp" />
+
+</LinearLayout>

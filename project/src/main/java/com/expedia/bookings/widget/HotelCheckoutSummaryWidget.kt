@@ -1,35 +1,167 @@
 package com.expedia.bookings.widget
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.support.v4.content.ContextCompat
+import android.support.v7.graphics.Palette
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
-import android.widget.RelativeLayout
+import android.widget.LinearLayout
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.bitmaps.PicassoTarget
+import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
+import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeVisibility
+import com.expedia.vm.HotelBreakDownViewModel
+import com.expedia.vm.HotelCheckoutSummaryViewModel
+import com.squareup.phrase.Phrase
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 
-public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?) : RelativeLayout(context, attrs), HeaderBitmapDrawable.CallbackListener {
-    val hotelImage: ImageView by bindView(R.id.hotel_room_background)
+public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val viewModel: HotelCheckoutSummaryViewModel) : LinearLayout(context, attrs) {
+
+    val PICASSO_HOTEL_IMAGE = "HOTEL_CHECKOUT_IMAGE"
+
+    val hotelName: android.widget.TextView by bindView(R.id.hotel_name)
+    val hotelRoomImage: ImageView by bindView(R.id.hotel_checkout_room_image)
+    val date: android.widget.TextView by bindView(R.id.check_in_out_dates)
+    val address: android.widget.TextView by bindView(R.id.address_line_one)
+    val cityState: android.widget.TextView by bindView(R.id.address_city_state)
+    val selectedRoom: android.widget.TextView by bindView(R.id.selected_room)
+    val selectedBed: android.widget.TextView by bindView(R.id.selected_bed)
+    val numberNights: android.widget.TextView by bindView(R.id.number_nights)
+    val numberGuests: android.widget.TextView by bindView(R.id.number_guests)
+    val freeCancellationView: android.widget.TextView by bindView(R.id.free_cancellation_text)
+    val totalWithTaxLabelWithInfoButton: android.widget.TextView by bindView(R.id.total_tax_label)
+    val totalPriceWithTax: android.widget.TextView by bindView(R.id.total_price_with_tax)
+    val feesPaidLabel: android.widget.TextView by bindView(R.id.fees_paid_label)
+    val totalFees: android.widget.TextView by bindView(R.id.total_fees)
+    val totalPriceWithTaxAndFees: android.widget.TextView by bindView(R.id.total_price_with_tax_and_fees)
+    val amountDueTodayLabel: android.widget.TextView by bindView(R.id.amount_due_today_label)
+    val bestPriceGuarantee: android.widget.TextView by bindView(R.id.best_price_guarantee)
+    val costSummary: LinearLayout by bindView(R.id.cost_summary)
+    val priceChangeLayout: LinearLayout by bindView(R.id.price_change_container)
+    val priceChange: android.widget.TextView by bindView(R.id.price_change_text)
+    val breakdown = HotelBreakDownView(context, null)
+    val dialog: AlertDialog by lazy {
+        val builder = AlertDialog.Builder(context)
+        builder.setView(breakdown)
+        builder.setTitle(R.string.cost_summary)
+        builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface, which: Int) {
+                dialog.dismiss()
+            }
+        })
+        builder.create()
+    }
 
     init {
+        setOrientation(LinearLayout.VERTICAL)
         View.inflate(getContext(), R.layout.hotel_checkout_summary_widget, this)
+        costSummary.setOnClickListener {
+            dialog.show()
+            HotelV2Tracking().trackTripSummaryClick()
+        }
+
+        viewModel.hotelName.subscribeText(hotelName)
+        viewModel.checkInOutDatesFormatted.subscribeText(date)
+        viewModel.address.subscribeText(address)
+        viewModel.city.subscribeText(cityState)
+        viewModel.hasFreeCancellation.subscribeVisibility(freeCancellationView)
+        viewModel.roomDescriptions.subscribeText(selectedRoom)
+        viewModel.bedDescriptions.subscribeText(selectedBed)
+        viewModel.numNights.subscribeText(numberNights)
+        viewModel.numGuests.subscribeText(numberGuests)
+        viewModel.dueNowAmount.subscribeText(totalPriceWithTaxAndFees)
+        viewModel.showFeesPaidAtHotel.subscribeVisibility(feesPaidLabel)
+        viewModel.showFeesPaidAtHotel.subscribeVisibility(totalFees)
+        viewModel.isPayLaterOrResortCase.subscribeVisibility(totalWithTaxLabelWithInfoButton)
+        viewModel.isPayLaterOrResortCase.subscribeVisibility(totalPriceWithTax)
+        viewModel.feesPaidAtHotel.subscribeText(totalFees)
+        viewModel.tripTotalPrice.subscribeText(totalPriceWithTax)
+        viewModel.isBestPriceGuarantee.subscribeVisibility(bestPriceGuarantee)
+        viewModel.isPriceChange.subscribeVisibility(priceChangeLayout)
+        viewModel.priceChangeMessage.subscribeText(priceChange)
+        viewModel.priceChangeIconResourceId.subscribe { resourceId ->
+            priceChange.setCompoundDrawablesWithIntrinsicBounds(resourceId, 0, 0, 0)
+        }
+        viewModel.isPayLaterOrResortCase.subscribeVisibility(totalWithTaxLabelWithInfoButton.compoundDrawables[2], false)
+        viewModel.isPayLaterOrResortCase.subscribeVisibility(amountDueTodayLabel.compoundDrawables[2], true)
+        viewModel.newDataObservable.subscribe {
+            amountDueTodayLabel.text = if (it.isPayLaterOrResortCase.value)
+                                            Phrase.from(getContext(), R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format()
+                                        else
+                                            resources.getString(R.string.total_with_tax)
+        }
+        viewModel.roomHeaderImage.subscribe {
+            PicassoHelper.Builder(context)
+                    .setPlaceholder(R.drawable.room_fallback)
+                    .setError(R.drawable.room_fallback)
+                    .setTarget(picassoTarget).setTag(PICASSO_HOTEL_IMAGE)
+                    .build()
+                    .load(HotelMedia(Images.getMediaHost() + it).getBestUrls(width/2))
+        }
+        breakdown.viewmodel = HotelBreakDownViewModel(context, viewModel)
     }
 
-    fun setHotelImage(imageUrl: HotelOffersResponse.HotelRoomResponse) {
-        val drawable = Images.makeHotelBitmapDrawable(getContext(), this, getWidth(), Images.getMediaHost() + imageUrl.roomThumbnailUrl, null)
-        hotelImage.setImageDrawable(drawable)
-    }
+    val picassoTarget = object : PicassoTarget() {
+        override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
+            super.onBitmapLoaded(bitmap, from)
 
-    override fun onBitmapLoaded() {
-    }
+            val drawable = HeaderBitmapDrawable()
+            drawable.setCornerRadius(resources.getDimensionPixelSize(R.dimen.hotel_checkout_image_corner_radius))
+            drawable.setCornerMode(HeaderBitmapDrawable.CornerMode.TOP)
+            drawable.setBitmap(bitmap)
 
-    override fun onBitmapFailed() {
-    }
+            var textColor: Int
+            if (!mIsFallbackImage) {
+                // only apply gradient treatment to hotels with images #5647
+                val palette = Palette.generate(bitmap)
+                val color = palette.getDarkVibrantColor(R.color.transparent_dark)
+                val fullColorBuilder = ColorBuilder(color).darkenBy(0.25f);
+                val gradientColor = fullColorBuilder.setAlpha(154).build()
+                val colorArrayBottom = intArrayOf(gradientColor, gradientColor)
+                drawable.setGradient(colorArrayBottom, floatArrayOf(0f, 1f))
+                textColor = ContextCompat.getColor(context, R.color.itin_white_text);
+            }
+            else {
+                textColor = ContextCompat.getColor(context, R.color.text_black)
+            }
+            hotelName.setTextColor(textColor)
+            date.setTextColor(textColor)
+            address.setTextColor(textColor)
+            cityState.setTextColor(textColor)
+            hotelRoomImage.setImageDrawable(drawable)
+        }
 
-    override fun onPrepareLoad() {
-    }
+        override fun onBitmapFailed(errorDrawable: Drawable?) {
+            super.onBitmapFailed(errorDrawable)
+        }
 
+        override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+            super.onPrepareLoad(placeHolderDrawable)
+
+            if (placeHolderDrawable != null) {
+                hotelRoomImage.setImageDrawable(placeHolderDrawable)
+
+                val textColor = ContextCompat.getColor(context, R.color.text_black)
+                hotelName.setTextColor(textColor)
+                date.setTextColor(textColor)
+                address.setTextColor(textColor)
+                cityState.setTextColor(textColor)
+            }
+        }
+    }
 }

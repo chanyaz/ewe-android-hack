@@ -11,7 +11,8 @@
         android:id="@+id/activity_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/lx_details_background_color">
+        android:background="@color/lx_details_background_color"
+        android:fillViewport="true">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -21,14 +22,10 @@
             <FrameLayout
                 android:id="@+id/gallery_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="#262626">
 
                 <include layout="@layout/section_activity_details_gallery" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="120dp"
-                    android:background="@drawable/lx_details_gradient_top" />
 
             </FrameLayout>
 
@@ -50,7 +47,6 @@
                     android:id="@+id/offer_dates_scroll_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/lx_dates_container_background"
                     android:scrollbars="none">
 
                     <RadioGroup
@@ -125,6 +121,12 @@
             </LinearLayout>
         </LinearLayout>
     </com.expedia.bookings.widget.LXActivityDetailsWidget>
+
+    <View
+        android:id="@+id/lx_details_gradient_top"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@drawable/lx_details_gradient_top" />
 
     <LinearLayout
         android:layout_width="match_parent"

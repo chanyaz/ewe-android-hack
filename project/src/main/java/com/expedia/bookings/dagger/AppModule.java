@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 import javax.net.ssl.SSLContext;
@@ -14,6 +15,7 @@ import android.content.Context;
 
 import com.expedia.account.server.ExpediaAccountApi;
 import com.expedia.bookings.BuildConfig;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.AbacusServices;
@@ -122,6 +124,9 @@ public class AppModule {
 		client.setFollowSslRedirects(true);
 		client.setCookieHandler(cookieManager);
 
+		client.setConnectTimeout(10, TimeUnit.SECONDS);
+		client.setReadTimeout(60L, TimeUnit.SECONDS);
+
 		if (BuildConfig.DEBUG) {
 			// We don't care about cert validity for debug builds
 			client.setSslSocketFactory(sslContext.getSocketFactory());
@@ -138,7 +143,9 @@ public class AppModule {
 			@Override
 			public void intercept(RequestFacade request) {
 				request.addHeader("User-Agent", ServicesUtil.generateUserAgentString(context));
-				request.addHeader("x-eb-client", ServicesUtil.generateXEbClientString(context));
+				if (!ExpediaBookingApp.isAutomation()) {
+					request.addHeader("x-eb-client", ServicesUtil.generateXEbClientString(context));
+				}
 				request.addEncodedQueryParam("clientid", ServicesUtil.generateClientId(context));
 				request.addEncodedQueryParam("sourceType", ServicesUtil.generateSourceType());
 
@@ -150,6 +157,8 @@ public class AppModule {
 				if (endpointProvider.requestRequiresSiteId()) {
 					request.addEncodedQueryParam("siteid", ServicesUtil.generateSiteId());
 				}
+
+				request.addHeader("Accept", "application/json");
 			}
 		};
 	}
@@ -169,9 +178,9 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	AbacusServices provideAbacus(OkHttpClient client, EndpointProvider endpointProvider, RestAdapter.LogLevel loglevel) {
+	AbacusServices provideAbacus(OkHttpClient client, EndpointProvider endpointProvider, RequestInterceptor interceptor, RestAdapter.LogLevel loglevel) {
 		final String endpoint = endpointProvider.getAbacusEndpointUrl();
-		return new AbacusServices(client, endpoint, AndroidSchedulers.mainThread(), Schedulers.io(), loglevel);
+		return new AbacusServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), loglevel);
 	}
 
 	@Provides

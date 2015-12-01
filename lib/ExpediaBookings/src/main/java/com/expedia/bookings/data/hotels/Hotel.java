@@ -1,7 +1,9 @@
 package com.expedia.bookings.data.hotels;
 
-public class Hotel {
+import java.util.List;
 
+public class Hotel {
+	public String sortIndex;
 	public String hotelId;
 	public String localizedName;
 	public String address;
@@ -34,9 +36,21 @@ public class Hotel {
 	public boolean isSameDayDRR;
 	public boolean isHotelAvailable;
 	public boolean isSponsoredListing;
+	public transient boolean hasShownImpression;
+	public String clickTrackingUrl;
+	public String impressionTrackingUrl;
 	public boolean hasFreeCancellation;
+	public List<HotelAmenity> amenities;
 	public String distanceUnit;
 	public boolean isVipAccess;
 	public boolean isPaymentChoiceAvailable;
 	public boolean isShowEtpChoice;
+
+	public transient List<Integer> amenityFilterIdList;
+	public transient boolean isSoldOut = false;
+
+	public static class HotelAmenity {
+		public String id;
+		public String description;
+	}
 }

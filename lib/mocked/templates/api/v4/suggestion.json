@@ -77,6 +77,41 @@
     {
       "@type": "gaiaRegionResult",
       "index": "2",
+      "hotelId": "happypath",
+      "type": "HOTEL",
+      "regionNames": {
+        "fullName": "Hyatt Regency San Francisco",
+        "shortName": "Hyatt Regency",
+        "displayName": "<B>Hyatt</B> <B>Regency</B> <B><B>San</B></B> <B><B>Francisco</B></B>",
+        "lastSearchName": "Hyatt Regency San Francisco, San Francisco"
+      },
+      "coordinates": {
+        "lat": "37.793720",
+        "long": "-122.396440"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "QSF",
+          "metrocode": "QSF",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "USA",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "2"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "packageable": "true"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "3",
       "gaiaId": "6075280",
       "type": "POI",
       "regionNames": {
@@ -114,7 +149,7 @@
     },
     {
       "@type": "gaiaRegionResult",
-      "index": "3",
+      "index": "4",
       "gaiaId": "6076914",
       "type": "POI",
       "regionNames": {
@@ -153,7 +188,7 @@
     },
     {
       "@type": "gaiaRegionResult",
-      "index": "4",
+      "index": "5",
       "gaiaId": "6077694",
       "type": "POI",
       "regionNames": {
@@ -191,7 +226,7 @@
     },
     {
       "@type": "gaiaRegionResult",
-      "index": "5",
+      "index": "6",
       "gaiaId": "501787",
       "type": "POI",
       "regionNames": {
@@ -230,7 +265,7 @@
     },
     {
       "@type": "gaiaRegionResult",
-      "index": "6",
+      "index": "7",
       "gaiaId": "6300493",
       "type": "POI",
       "regionNames": {

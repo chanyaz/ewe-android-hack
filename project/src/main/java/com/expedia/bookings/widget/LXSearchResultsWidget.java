@@ -15,6 +15,7 @@ import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
+import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -48,7 +49,8 @@ public class LXSearchResultsWidget extends FrameLayout {
 		recyclerView.setLayoutManager(layoutManager);
 
 		//  Footer : Height of filter view container to make the view scrollable.
-		int filterViewHeight = (int) getResources().getDimension(R.dimen.lx_sort_filter_container_height);
+		int filterViewHeight = (int) getResources()
+			.getDimension(Ui.obtainThemeResID(getContext(), R.attr.skin_lxResultsBottomPadding));
 
 		recyclerView.addItemDecoration(
 			new RecyclerDividerDecoration(getContext(), 0, LIST_DIVIDER_HEIGHT, 0, LIST_DIVIDER_HEIGHT,

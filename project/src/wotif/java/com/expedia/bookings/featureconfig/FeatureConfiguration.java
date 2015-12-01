@@ -101,22 +101,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isAdXEnabled() {
-		return true;
-	}
-
-	@Override
-	public int getAdXPosIdentifier() {
-		int adXPosIdentifier = 13292;
-
-		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.WOTIF_NZ) {
-			adXPosIdentifier = 14776;
-		}
-
-		return adXPosIdentifier;
-	}
-
-	@Override
 	public String getOmnitureReportSuiteIds() {
 		if (BuildConfig.RELEASE) {
 			return "expediaglobalapp";
@@ -264,6 +248,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public String getAdXKey() {
 		//Key not available for Wotif for now, so passing blank.
 		return "";
+	}
+
+	public boolean isAppSupportUrlEnabled() {
+		return false;
 	}
 
 	@Override

@@ -23,11 +23,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.isEmpty;
-import static com.expedia.bookings.test.espresso.CustomMatchers.withAtleastChildCount;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withAtLeastChildCount;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withChildCount;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withDateCaptionAtIndex;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withOneEnabled;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withTotalPrice;
+import static com.expedia.bookings.test.espresso.ViewActions.customScroll;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.containsString;
@@ -108,7 +109,7 @@ public class LXInfositeTest extends LxTestCase {
 		LXInfositeScreen.detailsDateContainer().check(matches(withOneEnabled()));
 		screenshot("LX validated offers strip");
 
-		onView(withId(R.id.offers)).check(matches(withAtleastChildCount(1)));
+		onView(withId(R.id.offers)).check(matches(withAtLeastChildCount(1)));
 
 		TicketSummaryDataModel ticketSummary = new TicketSummaryDataModel();
 		LXInfositeScreen.offersWidgetContainer().perform(scrollTo());
@@ -132,14 +133,15 @@ public class LXInfositeTest extends LxTestCase {
 				// the very first row must contain 1 travellers by default
 				LXInfositeScreen.ticketCount(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
 					.check(matches(withText(containsString("1"))));
+				LXInfositeScreen.offersWidgetContainer().perform(customScroll(50));
 				LXInfositeScreen.bookNowButton(mExpectedDataTktWdgt.getTicketName()).check(matches(isDisplayed()));
 				//now bring back the counter to zero so that all the rows have zero tickets
 				LXInfositeScreen
 					.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
-					.perform(click());
+					.perform(scrollTo(), click());
 				LXInfositeScreen
 					.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
-					.perform(click());
+					.perform(scrollTo(), click());
 				//check in this situation where we dont have any ticket we dont have the book now button nor the ticket summary
 				LXInfositeScreen.priceSummary(mExpectedDataTktWdgt.getTicketName()).check(
 					matches(not(isDisplayed())));
@@ -170,6 +172,10 @@ public class LXInfositeTest extends LxTestCase {
 		for (int currentClickCounter = 1; currentClickCounter <= 9; currentClickCounter++) {
 			for (TicketDataModel ticket : mExpectedDataTktWdgt.getTickets()) {
 				int count = currentClickCounter;
+				LXInfositeScreen.offersWidgetContainer().perform(customScroll(50));
+				LXInfositeScreen
+					.ticketAddButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
+					.perform(scrollTo());
 				LXInfositeScreen
 					.ticketAddButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
 					.perform(click());
@@ -188,6 +194,7 @@ public class LXInfositeTest extends LxTestCase {
 		}
 		for (int currentClickCounter = 1; currentClickCounter <= 9; currentClickCounter++) {
 			for (TicketDataModel ticket : mExpectedDataTktWdgt.getTickets()) {
+				LXInfositeScreen.offersWidgetContainer().perform(customScroll(50));
 				LXInfositeScreen
 					.ticketRemoveButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
 					.perform(click());
@@ -203,6 +210,7 @@ public class LXInfositeTest extends LxTestCase {
 			Random rand = new Random();
 			int numberOfClicks = rand.nextInt(7) + 1;
 			for (int currentClickCounter = 1; currentClickCounter <= numberOfClicks; currentClickCounter++) {
+				LXInfositeScreen.offersWidgetContainer().perform(customScroll(50));
 				LXInfositeScreen
 					.ticketAddButton(mExpectedDataTktWdgt.getTicketName(), ticket.travellerType)
 					.perform(click());
@@ -213,6 +221,7 @@ public class LXInfositeTest extends LxTestCase {
 			matches(withText(mExpectedDataTktWdgt.expectedSummary())));
 		LXInfositeScreen.bookNowButton(mExpectedDataTktWdgt.getTicketName()).check(matches(
 			withTotalPrice(mExpectedDataTktWdgt.getTotalPrice())));
+		LXInfositeScreen.offersWidgetContainer().perform(customScroll(50));
 		LXInfositeScreen.bookNowButton(mExpectedDataTktWdgt.getTicketName()).perform(click());
 		screenshot("LX validated the offers widget");
 	}

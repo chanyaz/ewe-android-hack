@@ -99,23 +99,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isAdXEnabled() {
-		return true;
-	}
-
-	@Override
-	public int getAdXPosIdentifier() {
-		int adXPosIdentifier = 6259;
-
-		// For AirAsiaGo Thailand setting a separate ID.
-		if (PointOfSale.getPointOfSale().getTwoLetterCountryCode().toLowerCase().equals("th")) {
-			adXPosIdentifier = 6258;
-		}
-
-		return adXPosIdentifier;
-	}
-
-	@Override
 	public String getOmnitureReportSuiteIds() {
 		if (BuildConfig.RELEASE) {
 			return "expediaglobalapp";
@@ -262,6 +245,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isSigninEnabled() {
+		return true;
+	}
+
+	public boolean isAppSupportUrlEnabled() {
 		return true;
 	}
 

@@ -67,7 +67,7 @@
             android:gravity="left"
             android:layout_toRightOf="@+id/price_text_view"
             android:layout_alignBaseline="@+id/price_text_view"
-            android:text="@string/room_rate_pay_later_due_now"
+            android:text="@string/old_room_rate_pay_later_due_now"
             android:layout_marginLeft="5dp"
             android:visibility="gone"
             android:textSize="16sp" />

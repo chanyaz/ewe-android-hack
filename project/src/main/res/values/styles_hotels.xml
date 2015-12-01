@@ -3,6 +3,13 @@
 
     <style name="V2.Theme.Hotels" parent="Whitelabel.HotelTheme.Base" />
 
+    <style name="V2.Theme.Floating" parent="Whitelabel.HotelTheme.Base">
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
     <!--
         Override this theme in whitelabels to provide whitelabel specific theme values.
 
@@ -11,6 +18,8 @@
         must be added in all Whitelabel.HotelTheme.Base for all whitelabels
     -->
     <style name="Whitelabel.HotelTheme.Base" parent="AppTheme.Base.Hotels">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorPrimaryDark">#0b514b</item>
         <item name="android:colorButtonNormal">@color/hotels_primary_color</item>
         <item name="colorAccent">@color/hotels_primary_color</item>
@@ -22,6 +31,11 @@
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
+        <item name="skin_hotelFilterBackground">@color/hotel_filter_background_color</item>
+        <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_hotels</item>
+        <item name="skin_errorWidgetEditButtonStyle">@style/HotelButton</item>
+        <item name="skin_rippleDrawable">@drawable/hotel_select_room_ripple</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
     </style>
 
     <!--
@@ -32,22 +46,98 @@
             It should have its own properties and should not be dependent on cars theme.
             If something is common for all LOB's put it in  AppTheme.Base
          -->
-
+        <item name="traveler_toolbar_text">@string/traveler_information</item>
+        <item name="traveler_checkout_circle_drawable">@drawable/hotelsv2_traveler_checkout_circle</item>
     </style>
 
     <style name="HotelTravelerIcon">
         <item name="android:layout_width">@dimen/hotel_traveler_plus_minus_size</item>
         <item name="android:layout_height">@dimen/hotel_traveler_plus_minus_size</item>
         <item name="android:background">?android:attr/selectableItemBackground</item>
-        <item name="android:tint">@color/cars_actionbar_text_color</item>
     </style>
 
     <style name="HotelTravelerIcon.Plus">
-        <item name="android:src">@drawable/lx_plus_icon</item>
+        <item name="android:src">@drawable/plus</item>
     </style>
 
     <style name="HotelTravelerIcon.Minus">
-        <item name="android:src">@drawable/lx_minus_icon</item>
+        <item name="android:src">@drawable/minus</item>
+    </style>
+
+    <!-- New Hotels Checkout Styling -->
+    <style name="HotelPaymentOption">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">13dp</item>
+        <item name="android:paddingBottom">13dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:drawablePadding">18dp</item>
+        <item name="android:textColor">@color/hotelsv2_checkout_text_color</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">15sp</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="HotelCheckoutImageSummary">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">#474747</item>
+    </style>
+
+    <style name="HotelCheckoutImageSummary.Name" parent="HotelCheckoutImageSummary">
+        <item name="android:textSize">15dp</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="HotelCheckoutImageSummary.Common" parent="HotelCheckoutImageSummary">
+        <item name="android:textSize">12dp</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="HotelCheckoutSummaryCommon">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/hotelsv2_checkout_text_color</item>
+    </style>
+
+    <style name="HotelCheckoutSummaryCommon.Common" parent="HotelCheckoutSummaryCommon">
+        <item name="android:textSize">12dp</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="UrgencyMessage">
+        <item name="android:paddingRight">9dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:paddingLeft">9dp</item>
+        <item name="android:paddingTop">3dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+    </style>
+
+    <style name="HotelToggleButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textOff">@string/view_room_button_text</item>
+        <item name="android:textOn">@string/book_room_button_text</item>
+        <item name="android:background">@drawable/hotel_toggle_background_selector</item>
+        <item name="android:textColor">@drawable/hotel_toggle_text</item>
+    </style>
+
+    <style name="HotelToggleButtonTextAppearance">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="HotelButtonTextAppearance">
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/hotels_primary_color</item>
+    </style>
+
+    <style name="HotelButton" parent="CarButton">
+        <item name="android:background">@drawable/hotels_button_selector</item>
     </style>
 
 </resources>

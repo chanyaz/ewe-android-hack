@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.math.BigDecimal;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -12,7 +14,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -23,38 +28,58 @@ import com.mobiata.android.util.ViewUtils;
 public class HotelRulesFragment extends Fragment {
 	public static final String TAG = HotelRulesFragment.class.toString();
 
+	private static LineOfBusiness lob;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_hotel_rules, container, false);
 
-		populateHeaderRows(view);
+		if (lob == null) {
+			lob = Db.getTripBucket().getLOBToRefresh();
+		}
 
+		populateHeaderRows(view);
 		ViewUtils.setAllCaps((TextView) Ui.findView(view, R.id.cancellation_policy_header_text_view));
 
-		Rate rate = Db.getTripBucket().getHotel().getRate();
-		if (rate != null) {
-			String cancellationPolicy = rate.getCancellationPolicy();
+		String cancellationPolicy = "";
+		Money totalAmountAfterTax = new Money();
 
-			if (Strings.isNotEmpty(cancellationPolicy)) {
-				TextView cancellationPolicyTextView = Ui.findView(view, R.id.cancellation_policy_text_view);
-				cancellationPolicyTextView.setText(Html.fromHtml(cancellationPolicy));
+		if (lob == LineOfBusiness.HOTELS) {
+			Rate rate = Db.getTripBucket().getHotel().getRate();
+			if (rate != null) {
+				cancellationPolicy = rate.getCancellationPolicy();
+				totalAmountAfterTax = rate.getTotalAmountAfterTax();
 			}
-
-			// Show Google Wallet promo terms & condition if it's being offered
-			if (PointOfSale.getPointOfSale().supportsGoogleWallet()
-					&& WalletUtils.offerGoogleWallet(rate.getTotalAmountAfterTax())
-					&& WalletUtils.offerGoogleWalletCoupon(getActivity())) {
-				TextView header = Ui.findView(view, R.id.wallet_promo_header);
-				ViewUtils.setAllCaps(header);
-
-				header.setVisibility(View.VISIBLE);
-				Ui.findView(view, R.id.wallet_promo_divider).setVisibility(View.VISIBLE);
-				Ui.findView(view, R.id.wallet_promo_text).setVisibility(View.VISIBLE);
+		}
+		else if (lob == LineOfBusiness.HOTELSV2) {
+			HotelOffersResponse.HotelRoomResponse room = Db.getTripBucket()
+				.getHotelV2().mHotelTripResponse.newHotelProductResponse.hotelRoomResponse;
+			if (room != null) {
+				cancellationPolicy = room.cancellationPolicy;
+				totalAmountAfterTax = new Money(new BigDecimal(room.rateInfo.chargeableRateInfo.total),
+					room.rateInfo.chargeableRateInfo.currencyCode);
 			}
 		}
 
-		return view;
-	}
+		if (Strings.isNotEmpty(cancellationPolicy)) {
+			TextView cancellationPolicyTextView = Ui.findView(view, R.id.cancellation_policy_text_view);
+			cancellationPolicyTextView.setText(Html.fromHtml(cancellationPolicy));
+		}
+
+		// Show Google Wallet promo terms & condition if it's being offered
+		if (PointOfSale.getPointOfSale().supportsGoogleWallet()
+			&& WalletUtils.offerGoogleWallet(totalAmountAfterTax)
+			&& WalletUtils.offerGoogleWalletCoupon(getActivity())) {
+			TextView header = Ui.findView(view, R.id.wallet_promo_header);
+			ViewUtils.setAllCaps(header);
+
+			header.setVisibility(View.VISIBLE);
+			Ui.findView(view, R.id.wallet_promo_divider).setVisibility(View.VISIBLE);
+			Ui.findView(view, R.id.wallet_promo_text).setVisibility(View.VISIBLE);
+		}
+
+	return view;
+}
 
 	private void populateHeaderRows(View view) {
 

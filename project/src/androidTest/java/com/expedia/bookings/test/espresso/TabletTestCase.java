@@ -1,7 +1,6 @@
 package com.expedia.bookings.test.espresso;
 
 import com.expedia.bookings.test.espresso.IdlingResources.SuggestionResource;
-import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
 
 public class TabletTestCase extends EspressoTestCase {
 
@@ -9,7 +8,7 @@ public class TabletTestCase extends EspressoTestCase {
 
 	@Override
 	public void runTest() throws Throwable {
-		if (Common.isTablet(getInstrumentation())) {
+		if (Common.isTablet()) {
 			mSuggestionResource = new SuggestionResource();
 			mSuggestionResource.register();
 			super.runTest();
@@ -19,9 +18,9 @@ public class TabletTestCase extends EspressoTestCase {
 	@Override
 	public void tearDown() throws Exception {
 		super.tearDown();
-		if (Common.isTablet(getInstrumentation())) {
+		if (Common.isTablet()) {
 			mSuggestionResource.unregister();
-			Common.pressBackOutOfApp(getInstrumentation());
+			Common.pressBackOutOfApp();
 		}
 	}
 }

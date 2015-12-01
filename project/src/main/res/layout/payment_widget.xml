@@ -32,6 +32,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center|left"
                 android:singleLine="true"
+                android:textColor="@color/cars_lx_checkout_button_text_color"
                 android:textSize="16sp"
                 app:textStyle="medium" />
 
@@ -41,8 +42,9 @@
                 android:layout_height="wrap_content"
                 android:gravity="center|left"
                 android:singleLine="true"
-                android:text="Expired 11/15"
-                android:textSize="13sp" />
+                android:textColor="@color/cars_lx_checkout_button_text_color"
+                android:textSize="13sp"
+                app:textStyle="normal" />
         </LinearLayout>
 
         <com.expedia.bookings.widget.ContactDetailsCompletenessStatusImageView
@@ -52,6 +54,30 @@
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="16dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/section_payment_options_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/payment_option_credit_debit"
+            style="@style/HotelPaymentOption"
+            android:text="@string/checkout_payment_option_credit_debit_label" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:background="#E0E0E0" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/payment_option_google_wallet"
+            style="@style/HotelPaymentOption"
+            android:drawableLeft="@drawable/ic_hotel_google_wallet"
+            android:text="@string/checkout_payment_option_google_wallet_label" />
 
     </LinearLayout>
 

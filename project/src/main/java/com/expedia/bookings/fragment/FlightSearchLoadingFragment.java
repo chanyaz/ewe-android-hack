@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.PlaneWindowView;
 import com.mobiata.android.util.Ui;
 
@@ -47,8 +46,6 @@ public class FlightSearchLoadingFragment extends android.support.v4.app.Fragment
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_status, container, false);
-
-		LayoutUtils.adjustPaddingForOverlayMode(getActivity(), v, false);
 
 		mMessageTextView = Ui.findView(v, R.id.message_text_view);
 		mCoverUpView = Ui.findView(v, R.id.cover_up_view);

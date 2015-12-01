@@ -673,7 +673,7 @@ public class Rate implements JSONable {
 
 		mTotalPriceWithMandatoryFees = new Money();
 		mTotalPriceWithMandatoryFees.setCurrency(rate.currencyCode);
-		mTotalPriceWithMandatoryFees.setAmount(rate.totalPriceMandatoryFees);
+		mTotalPriceWithMandatoryFees.setAmount(rate.totalPriceWithMandatoryFees);
 
 		setUserPriceType(rate.userPriceType);
 		setCheckoutPriceType(rate.checkoutPriceType);

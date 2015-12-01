@@ -56,6 +56,7 @@ import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
+import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.TravelerIconUtils;
 import com.expedia.bookings.utils.Ui;
@@ -393,31 +394,45 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 		int labelResId = 0;
 		final String supportPhoneNumber;
-
+		final String supportEmail;
+		View view = null;
 		switch(User.getLoggedInLoyaltyMembershipTier(mContext)) {
 		case SILVER:
 			labelResId = R.string.Expedia_plus_Silver_Customer_Support;
 			supportPhoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberSilver();
+			supportEmail = PointOfSale.getPointOfSale().getSupportEmailSilver();
 			break;
 		case GOLD:
 			labelResId = R.string.Expedia_plus_Gold_Customer_Support;
 			supportPhoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberGold();
+			supportEmail = PointOfSale.getPointOfSale().getSupportEmailGold();
 			break;
 		default:
 			supportPhoneNumber = null;
+			supportEmail = null;
 		}
 
-		if (TextUtils.isEmpty(supportPhoneNumber)) {
-			return false;
+		if (!TextUtils.isEmpty(supportPhoneNumber)) {
+			view = getItinDetailItem(labelResId, supportPhoneNumber, false,
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						SocialUtils.call(getContext(), supportPhoneNumber);
+					}
+				});
 		}
 
-		View view = getItinDetailItem(labelResId, supportPhoneNumber, false,
-			new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					SocialUtils.call(getContext(), supportPhoneNumber);
-				}
-			});
+		else if (!TextUtils.isEmpty(supportEmail)) {
+			view = getItinDetailItem(labelResId, supportEmail, false,
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						SocialUtils
+							.email(getContext(), supportEmail, getResources().getString(R.string.support_request),
+								DebugInfoUtils.generateEmailBody(mContext));
+					}
+				});
+		}
 
 		if (view == null) {
 			return false;

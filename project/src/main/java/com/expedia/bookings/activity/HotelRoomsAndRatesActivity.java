@@ -139,8 +139,10 @@ public class HotelRoomsAndRatesActivity extends FragmentActivity implements Room
 	@Override
 	protected void onStart() {
 		super.onStart();
-		Property property = Db.getHotelSearch().getSelectedProperty();
-		OmnitureTracking.trackAppHotelsRoomsRates(this, property);
+		if (Db.getHotelSearch() != null && Db.getHotelSearch().getSelectedProperty() != null) {
+			Property property = Db.getHotelSearch().getSelectedProperty();
+			OmnitureTracking.trackAppHotelsRoomsRates(this, property);
+		}
 	}
 
 	@Override

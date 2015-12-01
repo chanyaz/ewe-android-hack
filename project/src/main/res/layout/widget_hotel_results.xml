@@ -1,26 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/map_view"
+    <com.expedia.bookings.widget.FrameLayout android:id="@+id/stub_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize" />
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:minHeight="?attr/actionBarSize" />
-
     <LinearLayout
-        android:id="@+id/preview_layout"
+        android:id="@+id/hotel_carousel_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -32,28 +19,92 @@
             android:layout_height="8dp"
             android:background="@drawable/map_shadow" />
 
-        <com.expedia.bookings.widget.HotelMarkerPreviewRecycler
-            android:id="@+id/hotel_marker_preview"
+        <com.expedia.bookings.widget.HotelCarouselRecycler
+            android:id="@+id/hotel_carousel"
             android:layout_width="match_parent"
             android:layout_height="90dp" />
     </LinearLayout>
 
+    <View
+        android:id="@+id/recycler_view_temp_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#eaeaea" />
+
+    <com.expedia.bookings.widget.HotelListRecyclerView
+        android:id="@+id/list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:layout_marginTop="?attr/actionBarSize" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:minHeight="?attr/actionBarSize" />
+
+        <View
+            android:id="@+id/toolbar_dropshadow"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_dropshadow_height"
+            android:background="@drawable/tb_shadow" />
+    </LinearLayout>
+
+    <com.expedia.bookings.widget.FilterButtonWithCountWidget
+        android:id="@+id/sort_filter_button_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/hotel_filter_height"
+        android:layout_gravity="bottom"
+        android:orientation="vertical"
+        android:visibility="gone"/>
+
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/map_fab"
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_marginBottom="16dp"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/fab_map" />
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/ic_transition_map_list_fab" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/list_fab"
+    <!-- Do not be fooled, this textStyle does not yet function - but it's a reminder that we WANT it to do that -->
+    <Button
+        android:id="@+id/search_this_area"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
+        android:layout_gravity="start|bottom"
         android:layout_marginBottom="106dp"
-        android:layout_marginRight="16dp"
-        android:src="@drawable/fab_list" />
+        android:layout_marginStart="16dp"
+        android:background="@drawable/hotel_select_room_button_selector"
+        android:drawablePadding="8dp"
+        android:minHeight="0dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="8dp"
+        android:text="@string/Search_this_area"
+        android:textAllCaps="false"
+        android:textColor="@color/hotels_primary_color"
+        android:textSize="12sp"
+        app:textStyle="thin" />
+    
+    <com.expedia.bookings.widget.HotelFilterView
+        android:id="@+id/filter_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/skin_hotelFilterBackground" />
+
+    <com.expedia.bookings.widget.MapLoadingOverlayWidget
+        android:id="@+id/map_loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
 
 </merge>

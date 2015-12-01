@@ -1,0 +1,212 @@
+{
+  "tripId":"389a01d9-7c42-40c3-9763-9ebe77a80760",
+  "userId":44264976,
+  "originalHotelProductResponse":{
+
+  },
+  "newHotelProductResponse":{
+    "checkInDate":"2016-04-19",
+    "checkOutDate":"2016-04-22",
+    "adultCount":"1",
+    "numberOfNights":"3",
+    "numberOfRooms":"1",
+    "hotelId":"3818880",
+    "hotelName":"The Cosmopolitan Of Las Vegas",
+    "localizedHotelName":"The Cosmopolitan Of Las Vegas",
+    "nonLocalizedHotelName":"The Cosmopolitan Of Las Vegas",
+    "largeThumbnailUrl":"/hotels/4000000/3820000/3818900/3818880/3818880_216_d.jpg",
+    "thumbnailUrl":"/hotels/4000000/3820000/3818900/3818880/3818880_216_n.jpg",
+    "hotelAddress":"3708 Las Vegas Blvd S",
+    "hotelCity":"Las Vegas",
+    "hotelStateProvince":"NV",
+    "hotelCountry":"USA",
+    "hotelStarRating":"5.0",
+    "hotelRoomResponse":{
+      "productKey":"a9d56b67-9164-44b0-9486-544faf323181_V3",
+      "cancellationPolicy":"<p>If you cancel or change your plans, please cancel your reservation in accordance with the hotel''s cancellation policies to avoid a no-show charge.</p><p>Cancellations or changes made after 11:59 AM (hotel local time) on 16 April, 2016 or no-shows are subject to a hotel fee equal to the first night's rate plus taxes and fees.</p><p>If a late check-in is planned, contact this hotel directly for their late check-in policy.</p>",
+      "rateDescription":"Terrace One Bedroom",
+      "roomTypeDescription":"Terrace One Bedroom",
+      "supplierType":"DIRECT_AGENCY",
+      "rateChange":true,
+      "nonRefundable":false,
+      "hasFreeCancellation":true,
+      "freeCancellationWindowDate":"2016-04-16 11:59",
+      "guaranteeRequired":false,
+      "depositRequired":true,
+      "immediateChargeRequired":false,
+      "currentAllotment":"0",
+      "promoDescription":"Two free Breakfasts per stay",
+      "isDiscountRestrictedToCurrentSourceType":false,
+      "isSameDayDRR":false,
+      "smokingPreferences":"NS",
+      "rateOccupancyPerRoom":"5",
+      "bedTypes":[
+        {
+          "id":"14",
+          "description":"1 king bed"
+        }
+      ],
+      "rateInfo":{
+        "priceBreakdown":true,
+        "promo":true,
+        "rateChange":true,
+        "chargeableRateInfo":{
+          "maxNightlyRate":"589.90",
+          "averageRate":"483.48",
+          "taxStatusType":"ESTIMATED",
+          "surchargeTotal":"58.02",
+          "surchargeTotalForEntireStay":"174.06",
+          "averageBaseRate":"483.48",
+          "nightlyRateTotal":"1450.46",
+          "discountPercent":0,
+          "total":"1624.52",
+          "currencyCode":"AUD",
+          "currencySymbol":"AU$",
+          "surcharges":[
+            {
+              "amount":"58.02",
+              "type":"TAX_ALL"
+            },
+            {
+              "amount":"58.02",
+              "type":"TAX_OTHER"
+            }
+          ],
+          "surchargesForEntireStay":[
+            {
+              "amount":"174.06",
+              "type":"TAX_ALL"
+            },
+            {
+              "amount":"174.06",
+              "type":"TAX_OTHER"
+            }
+          ],
+          "nightlyRatesPerRoom":[
+            {
+              "promo":"false",
+              "baseRate":"589.90",
+              "rate":"589.90"
+            },
+            {
+              "promo":"false",
+              "baseRate":"471.92",
+              "rate":"471.92"
+            },
+            {
+              "promo":"false",
+              "baseRate":"388.64",
+              "rate":"388.64"
+            }
+          ],
+          "priceToShowUsers":"1749",
+          "depositAmountToShowUsers":"661",
+          "priceRemainingAfterDepositToShowUsers":"1089",
+          "depositAmountExact":"$ 660.69",
+          "depositAmount":"660.69",
+          "priceRemainingAfterDepositExact":"$ 1,088.75",
+          "priceRemainingAfterDeposit":"1088.75",
+          "strikethroughPriceToShowUsers":"1625",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers":"1625",
+          "totalMandatoryFees":"124.92",
+          "totalPriceWithMandatoryFees":"1749.44",
+          "formattedTotalPriceWithMandatoryFees":"$ 1,749.44",
+          "userPriceType":"RateForWholeStayWithTaxes",
+          "priceAdjustments":[
+
+          ],
+          "checkoutPriceType":"totalPriceWithMandatoryFees",
+          "airAttached":false,
+          "roomTypeCode":"200062774",
+          "ratePlanCode":"202762537",
+          "showResortFeeMessage":true,
+          "resortFeeInclusion":true,
+          "dailyMandatoryFee":"41.64"
+        }
+      },
+      "valueAdds":[
+        {
+          "id":"8192",
+          "description":"Breakfast for 2"
+        }
+      ],
+      "quotedOccupancy":"3",
+      "minGuestAge":"0",
+      "roomTypeCode":"200062774",
+      "ratePlanCode":"202762537",
+      "isPayLater":true,
+      "depositPolicy":[
+        "You will be charged deposits by the property based on the following schedule. Any remaining amount will be due upon arrival:",
+        "First night (after booking) "
+      ]
+    },
+    "supplierType":"DIRECT_AGENCY",
+    "accessibilityAmenities":[
+      {
+        "id":"2424",
+        "description":"Accessibility equipment for the deaf"
+      },
+      {
+        "id":"2420",
+        "description":"Accessible bathroom"
+      },
+      {
+        "id":"2419",
+        "description":"Accessible path of travel"
+      },
+      {
+        "id":"2425",
+        "description":"Braille or raised signage"
+      },
+      {
+        "id":"2422",
+        "description":"Accessible parking"
+      },
+      {
+        "id":"2423",
+        "description":"In-room accessibility"
+      },
+      {
+        "id":"2421",
+        "description":"Roll-in shower"
+      }
+    ],
+    "isVipAccess":false,
+    "tealeafTransactionId":"6be7837a41af45c4a263c09568e242b8",
+    "bigImageUrl":"/hotels/4000000/3820000/3818900/3818880/3818880_216_b.jpg",
+    "regionId":"800045"
+  },
+  "airAttachedProductResponse":{
+
+  },
+  "loyaltyPoints":{
+    "totalLoyaltyPoints":3249.00,
+    "loyaltyPointInfoList":[
+      {
+        "pointValue":3249.00,
+        "pointType":"basePoint"
+      }
+    ]
+  },
+  "expediaRewards":{
+    "totalPointsToEarn":3249,
+    "isActiveRewardsMember":false,
+    "rewardsMembershipTierName":"Invalid Tier"
+  },
+  "tealeafTransactionId":"6be7837a41af45c4a263c09568e242b8",
+  "validFormsOfPayment":[
+    {
+      "name":"AmericanExpress"
+    },
+    {
+      "name":"Diner's Club International"
+    },
+    {
+      "name":"MasterCard"
+    },
+    {
+      "name":"Visa"
+    }
+  ],
+  "guestUserPromoEmailOptInStatus":"CONSENT_TO_OPT_OUT"
+}

@@ -6,6 +6,9 @@ import com.expedia.bookings.utils.Strings;
 import com.google.gson.annotations.SerializedName;
 
 public class Suggestion implements Cloneable {
+
+	transient public static final String CURRENT_LOCATION_ID = "current_location";
+
 	@SerializedName("f")
 	public String fullName;
 
@@ -59,5 +62,18 @@ public class Suggestion implements Cloneable {
 
 	public boolean isMajorAirport() {
 		return Strings.isNotEmpty(regionType) && regionType.toLowerCase(Locale.US).equals("airport") && !isMinorAirport;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Suggestion) {
+			return ((Suggestion) obj).id.equals(this.id);
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		return id.hashCode();
 	}
 }

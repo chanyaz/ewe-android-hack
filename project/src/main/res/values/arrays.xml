@@ -811,6 +811,13 @@
         <item>@string/rating</item>
     </string-array>
 
+    <string-array name="sort_options_material_hotels">
+        <item>@string/popular</item>
+        <item>@string/price</item>
+        <item>@string/sort_description_deals</item>
+        <item>@string/rating</item>
+    </string-array>
+
     <string-array name="sort_options_flights">
         <item>@string/sort_description_price</item>
         <item>@string/sort_description_departure</item>
@@ -821,7 +828,7 @@
 
     <string-array name="abacus_default_choices">
         <item>@string/preference_abacus_setting_server</item>
-        <item>@string/preference_abacus_setting_controlgroup</item>
+        <item>@string/preference_abacus_setting_control</item>
         <item>@string/preference_abacus_setting_bucketed</item>
     </string-array>
 
@@ -833,7 +840,7 @@
 
     <string-array name="abacus_hsr_map_choices">
         <item>@string/preference_abacus_setting_server</item>
-        <item>@string/preference_abacus_setting_controlgroup</item>
+        <item>@string/preference_abacus_setting_control</item>
         <item>Pin Icon</item>
         <item>Text Only</item>
     </string-array>
@@ -847,7 +854,7 @@
 
     <string-array name="abacus_flight_missing_callout_choices">
         <item>@string/preference_abacus_setting_server</item>
-        <item>@string/preference_abacus_setting_controlgroup</item>
+        <item>@string/preference_abacus_setting_control</item>
         <item>Single line "Enter" addition</item>
         <item>Second line callout</item>
     </string-array>

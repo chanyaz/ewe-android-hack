@@ -3,7 +3,6 @@ package com.expedia.bookings.section;
 import java.text.DecimalFormat;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -12,6 +11,8 @@ import android.graphics.ColorMatrixColorFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
+import android.support.annotation.ColorInt;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.util.AttributeSet;
 import android.util.StateSet;
@@ -80,9 +81,16 @@ public class HotelSummarySection extends RelativeLayout {
 	// Properties extracted from the view.xml
 	private Drawable mUnselectedBackground;
 	private Drawable mSelectedBackground;
+
+	@ColorInt
 	private int mSalePriceTextColor;
+
+	@ColorInt
 	private int mAirAttachPriceTextColor;
+
+	@ColorInt
 	private int mPriceTextColor;
+
 	private boolean mIsSelected;
 
 	//Value for AB test
@@ -98,11 +106,11 @@ public class HotelSummarySection extends RelativeLayout {
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.hotel_summary_section);
 			mSelectedBackground = a.getDrawable(R.styleable.hotel_summary_section_selectedBackground);
 			mSalePriceTextColor = a.getColor(R.styleable.hotel_summary_section_salePriceTextColor,
-				R.color.hotel_price_sale_text_color);
+				ContextCompat.getColor(getContext(), R.color.hotel_price_sale_text_color));
 			mAirAttachPriceTextColor = a.getColor(R.styleable.hotel_summary_section_airAttachPriceTextColor,
-				R.color.hotel_price_air_attach_text_color);
-			mPriceTextColor = a
-				.getColor(R.styleable.hotel_summary_section_priceTextColor, R.color.hotel_price_text_color);
+				ContextCompat.getColor(getContext(), R.color.hotel_price_air_attach_text_color));
+			mPriceTextColor = a.getColor(R.styleable.hotel_summary_section_priceTextColor,
+				ContextCompat.getColor(getContext(), R.color.hotel_price_text_color));
 			a.recycle();
 		}
 	}
@@ -143,16 +151,6 @@ public class HotelSummarySection extends RelativeLayout {
 		if (!ExpediaBookingApp.useTabletInterface(getContext())) {
 			isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppSRPercentRecommend);
 		}
-	}
-
-	/**
-	 * Convenience method for hotels shown in the trip bucket.
-	 *
-	 * @param property
-	 * @param rate
-	 */
-	public void bindForTripBucket(Property property, Rate rate) {
-		bind(property, rate, false, 16, false, DistanceUnit.MILES, false, true);
 	}
 
 	/**
@@ -240,7 +238,7 @@ public class HotelSummarySection extends RelativeLayout {
 							mSaleImageView.setVisibility(View.VISIBLE);
 							mSaleImageView.setImageResource(R.drawable.bg_hotel_cell_sale_air_attach);
 						}
-						mPriceText.setTextColor(getResources().getColor(mAirAttachPriceTextColor));
+						mPriceText.setTextColor(mAirAttachPriceTextColor);
 						mSaleText.setVisibility(View.VISIBLE);
 						mSaleText.setText(context.getString(R.string.percent_minus_template,
 							(float) rate.getDiscountPercent()));
@@ -354,7 +352,7 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 
 
-		if (mDoUrgencyTextColorMatching && mUrgencyText.getVisibility() == View.VISIBLE) {
+		if (mDoUrgencyTextColorMatching && mUrgencyText != null && mUrgencyText.getVisibility() == View.VISIBLE) {
 			if (mIsSelected) {
 				mUrgencyText.setSelected(true);
 				setDominantColor(getResources().getColor(R.color.tablet_hotel_urgency_msg_selected_unpressed_overlay));
@@ -438,7 +436,6 @@ public class HotelSummarySection extends RelativeLayout {
 		//    the 2013 tablet UI.
 		//    We'll assume this is what we want if we're not using #1.
 		boolean useSelectedBackground = mSelectedBackground != null;
-		boolean useHeaderGradient = !useSelectedBackground;
 
 		if (mHotelBackgroundView != null) {
 
@@ -454,7 +451,7 @@ public class HotelSummarySection extends RelativeLayout {
 			}
 
 			int placeholderResId = Ui
-				.obtainThemeResID((Activity) context, R.attr.skin_HotelRowThumbPlaceHolderDrawable);
+				.obtainThemeResID(context, R.attr.skin_HotelRowThumbPlaceHolderDrawable);
 			if (property.getThumbnail() != null) {
 				PaletteCallback callback = new PaletteCallback(mHotelBackgroundView) {
 					@Override
@@ -465,7 +462,7 @@ public class HotelSummarySection extends RelativeLayout {
 					@Override
 					public void onFailed() {
 						if (mDoUrgencyTextColorMatching && !mIsSelected) {
-							setDominantColor(getResources().getColor(R.color.transparent_dark));
+							setDominantColor(ContextCompat.getColor(getContext(), R.color.transparent_dark));
 						}
 					}
 				};
@@ -477,7 +474,7 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 
 		// Set the background based on whether the row is selected or not
-		setBackgroundDrawable(useSelectedBackground && isSelected ? mSelectedBackground : mUnselectedBackground);
+		setBackground(useSelectedBackground && isSelected ? mSelectedBackground : mUnselectedBackground);
 	}
 
 	private void setSoldOut() {

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/unexpanded"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:paddingBottom="13dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="13dp"
+        android:text="@string/enter_coupon_promo_code"
+        android:textSize="15sp"
+        app:textStyle="normal" />
+
+    <LinearLayout
+        android:id="@+id/applied"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/applied_coupon_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:padding="16dp"
+            android:text="@string/applied_coupon_message"
+            android:textSize="15sp"
+            app:textStyle="normal" />
+
+        <ImageView
+            android:id="@+id/remove_coupon_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/bg_clickable_row"
+            android:padding="16dp"
+            android:src="@drawable/widget_close" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/expanded"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="12dp"
+        android:paddingRight="9dp"
+        android:paddingLeft="3dp"
+        android:paddingTop="12dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="31dp"
+            android:layout_height="31dp"
+            android:layout_marginRight="13dp"
+            android:layout_gravity="center_vertical"
+            android:padding="5dp"
+            android:scaleType="center"
+            android:src="@drawable/coupon" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/edit_coupon_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/enter_coupon_code"
+                android:singleLine="true" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/error_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/coupon_error_unrecognized"
+                android:textColor="#FFDD2C00"
+                android:textSize="14sp"
+                android:visibility="gone"
+                app:textStyle="light" />
+        </LinearLayout>
+        
+    </LinearLayout>
+
+
+</merge>
+

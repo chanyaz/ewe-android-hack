@@ -42,9 +42,6 @@ public class LaunchLobDoubleRowWidget extends RelativeLayout {
 	@InjectView(R.id.lob_bottom_row)
 	FrameLayout bottomRow;
 
-	@InjectView(R.id.lob_top_row_bg)
-	View topRowBg;
-
 	@InjectView(R.id.lob_bottom_row_bg)
 	View bottomRowBg;
 
@@ -67,7 +64,6 @@ public class LaunchLobDoubleRowWidget extends RelativeLayout {
 		flightsBtn.scaleTo(f);
 		carsBtn.scaleTo(f);
 		lxBtn.scaleTo(f);
-		topRowBg.setScaleY(f);
 		bottomRowBg.setScaleY(f);
 		divider.setTranslationY((f * origHeight) - origHeight);
 		bottomRow.setTranslationY((f * origHeight) - origHeight);
@@ -80,7 +76,6 @@ public class LaunchLobDoubleRowWidget extends RelativeLayout {
 		carsBtn.setEnabled(enabled);
 		lxBtn.setEnabled(enabled);
 		if (!enabled) {
-			topRowBg.setScaleY(1.0f);
 			bottomRowBg.setScaleY(1.0f);
 			divider.setTranslationY(0.0f);
 			bottomRow.setTranslationY(0.0f);
@@ -103,7 +98,6 @@ public class LaunchLobDoubleRowWidget extends RelativeLayout {
 	@Override
 	protected void onMeasure(int w, int h) {
 		super.onMeasure(w, h);
-		topRowBg.setPivotY(-topRowBg.getTop());
 		bottomRowBg.setPivotY(-bottomRowBg.getTop());
 		origHeight = getResources().getDimension(R.dimen.launch_lob_double_row_height);
 	}

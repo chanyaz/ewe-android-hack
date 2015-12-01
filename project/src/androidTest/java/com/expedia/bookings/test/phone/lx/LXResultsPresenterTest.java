@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import org.hamcrest.Matcher;
 import org.joda.time.LocalDate;
 import org.junit.Rule;
 import org.junit.Test;
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
@@ -20,9 +22,9 @@ import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -52,13 +54,14 @@ public class LXResultsPresenterTest {
 		searchParams.endDate = LocalDate.now().plusDays(14);
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 
-		LXScreen.searchResultsWidget().perform(waitFor(isDisplayed(), 10L, TimeUnit.SECONDS));
+		LXScreen.waitForSearchResultsWidgetDisplayed();
 		LXScreen.searchResultsWidget().check(matches(isDisplayed()));
+		LXScreen.waitForSearchListDisplayed();
 		LXScreen.searchList().check(matches(isDisplayed()));
-		ViewInteraction searchResultItem = LXScreen.recyclerItemView(allOf
-				(hasDescendant(withText(startsWith("happy"))),
-					hasDescendant(withText("$130"))),
-			R.id.lx_search_results_list);
+		Matcher<View> identifyingMatcher = allOf
+			(hasDescendant(withText(startsWith("happy"))),
+				hasDescendant(withText("$130")));
+		ViewInteraction searchResultItem = LXScreen.resultsListItemView(identifyingMatcher);
 
 		searchResultItem.check(matches(isDisplayed()));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_title))));
@@ -78,7 +81,7 @@ public class LXResultsPresenterTest {
 		searchParams.location = location;
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 
-		LXScreen.searchResultsWidget().perform(waitFor(isDisplayed(), 10L, TimeUnit.SECONDS));
+		LXScreen.waitForSearchResultsWidgetDisplayed();
 
 		String expectedToolbarDateRange = startDate.toString("MMM d") + " - " + endDate.toString("MMM d");
 		ViewInteraction searchToolbar = LXScreen.toolbar();
@@ -110,11 +113,11 @@ public class LXResultsPresenterTest {
 		a.duration = duration;
 		activities.add(a);
 
-		LXScreen.searchResultsWidget().perform(waitFor(isDisplayed(), 10L, TimeUnit.SECONDS));
+		LXScreen.waitForSearchResultsWidgetDisplayed();
 		onView(withId(R.id.lx_search_results_list)).perform(LXScreen.setLXActivities(activities));
 		onView(withId(R.id.lx_search_results_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0,
 			LXScreen.performViewHolderComparison(title, price.getFormattedMoney(),
-				originalPrice.getFormattedMoney(), duration, categoriesList)));
+				originalPrice.getFormattedMoney(), duration)));
 
 	}
 
@@ -126,7 +129,7 @@ public class LXResultsPresenterTest {
 		searchParams.endDate = LocalDate.now().plusDays(14);
 		searchParams.searchType = SearchType.EXPLICIT_SEARCH;
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
-		ScreenActions.delay(2);
+		Common.delay(2);
 		LXScreen.searchFailed().check(matches(isDisplayed()));
 		LXScreen.searchFailed().check(matches(hasDescendant(withText(R.string.error_car_search_message))));
 	}
@@ -139,9 +142,9 @@ public class LXResultsPresenterTest {
 		searchParams.endDate = LocalDate.now().plusDays(14);
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 
-		LXScreen.searchResultsWidget().perform(waitFor(isDisplayed(), 10L, TimeUnit.SECONDS));
-
+		LXScreen.waitForSearchResultsWidgetDisplayed();
 		LXScreen.searchResultsWidget().check(matches(isDisplayed()));
+		LXScreen.waitForSearchListDisplayed();
 		LXScreen.searchList().check(matches(isDisplayed()));
 		LXScreen.sortAndFilterButton().check(matches(isDisplayed()));
 		LXScreen.sortAndFilterButton().perform(click());

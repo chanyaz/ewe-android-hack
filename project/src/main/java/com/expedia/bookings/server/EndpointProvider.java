@@ -125,11 +125,24 @@ public class EndpointProvider {
 		return ESS_PRODUCTION_ENDPOINT;
 	}
 
+	private static final String TEST_REVIEWS_BASE_URL = "https://reviewsvc.ewetest.expedia.com/";
+	private static final String PROD_REVIEWS_BASE_URL = "https://reviewsvc.expedia.com/";
+
+	public String getReviewsEndpointUrl() {
+		EndPoint endPoint = getEndPoint();
+		switch (endPoint) {
+		case MOCK_MODE:
+			return getCustomServerAddress();
+		case INTEGRATION:
+			return TEST_REVIEWS_BASE_URL;
+		default:
+			return PROD_REVIEWS_BASE_URL;
+		}
+	}
+
 	public String getCustomServerAddress() {
-		boolean forceHttp = SettingUtils.get(context, R.string.preference_force_custom_server_http_only, false);
-		String protocol = !forceHttp ? "https" : "http";
 		String server = SettingUtils.get(context, R.string.preference_proxy_server_address, "localhost:3000");
-		return protocol + "://" + server + "/";
+		return "https://" + server + "/";
 	}
 
 	public EndPoint getEndPoint() {

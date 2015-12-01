@@ -5,7 +5,12 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="22" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="22" />
 
     <!-- Account Manager -->
     <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
@@ -256,6 +261,7 @@
 
         <activity
             android:name="com.expedia.ui.CarActivity"
+            android:launchMode="singleTop"
             android:taskAffinity="com.expedia.bookings.activity.CarActivity"
             android:screenOrientation="portrait"
             android:label="Cars"
@@ -267,12 +273,30 @@
 
         <activity
             android:name="com.expedia.ui.LXBaseActivity"
+            android:launchMode="singleTop"
             android:taskAffinity="com.expedia.bookings.activity.LXBaseActivity"
             android:screenOrientation="portrait"
             android:label="Activities"
             android:theme="@style/V2.Theme.LX"
             android:windowSoftInputMode="adjustNothing">
         </activity>
+
+        <!-- New Hotel activity -->
+        <activity
+            android:name="com.expedia.ui.HotelActivity"
+            android:launchMode="singleTop"
+            android:label="Hotels"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.expedia.bookings.ui.HotelActivity"
+            android:theme="@style/V2.Theme.Hotels">
+        </activity>
+
+        <activity
+            android:name="com.expedia.bookings.activity.GoogleWalletActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:theme="@style/V2.Theme.Floating"
+            android:windowSoftInputMode="adjustResize" />
 
         <!-- About/Preferences/WebView activities -->
 
@@ -407,6 +431,9 @@
         </receiver>
 
         <!-- Google Wallet optimization -->
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
 
         <receiver
             android:name="com.google.android.gms.wallet.EnableWalletOptimizationReceiver"

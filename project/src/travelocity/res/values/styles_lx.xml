@@ -31,10 +31,10 @@
         <item name="traveler_checkout_circle_drawable">@drawable/lx_traveler_checkout_circle_tvly</item>
         <item name="skin_lxTextSelectorDrawable">@drawable/lx_text_selector_tvly</item>
         <item name="skin_lxUncheckedToggleTextColor">@color/lx_unchecked_toggle_text_color_tvly</item>
-        <item name="skin_lxTicketPlusButtonSelectorDrawable">@drawable/lx_ticket_plus_button_selector_tvly</item>
-        <item name="skin_lxTicketMinusButtonSelectorDrawable">@drawable/lx_ticket_minus_button_selector_tvly</item>
         <item name="skin_lxErrorDefaultDrawable">@drawable/error_default_tvly</item>
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_lx_tvly</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
+        <item name="skin_ticketSelectorDisabledColor">@color/lx_ticket_selector_disabled_color_tvly</item>
+        <item name="skin_lxResultsBottomPadding">@dimen/lx_results_bottom_padding</item>
     </style>
 </resources>

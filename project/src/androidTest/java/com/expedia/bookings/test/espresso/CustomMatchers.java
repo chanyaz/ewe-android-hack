@@ -7,13 +7,13 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.support.test.espresso.matcher.BoundedMatcher;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,9 +30,6 @@ import com.expedia.bookings.data.Property;
 
 import static org.hamcrest.Matchers.equalTo;
 
-/**
- * Created by dmadan on 5/13/14.
- */
 public class CustomMatchers {
 	public static Matcher<View> withCompoundDrawable(final int resId) {
 		return new BoundedMatcher<View, TextView>(TextView.class) {
@@ -67,9 +64,8 @@ public class CustomMatchers {
 		};
 	}
 
-	@SuppressLint("NewApi")
 	private static boolean sameBitmap(Context context, Drawable drawable, int resId) {
-		Drawable otherDrawable = context.getResources().getDrawable(resId);
+		Drawable otherDrawable = ContextCompat.getDrawable(context, resId);
 		if (drawable == null || otherDrawable == null) {
 			return false;
 		}
@@ -214,7 +210,7 @@ public class CustomMatchers {
 		};
 	}
 
-	public static Matcher<View> withAtleastChildCount(final int leastCount) {
+	public static Matcher<View> withAtLeastChildCount(final int leastCount) {
 		return new BoundedMatcher<View, ViewGroup>(ViewGroup.class) {
 			@Override
 			public boolean matchesSafely(ViewGroup view) {
@@ -237,10 +233,7 @@ public class CustomMatchers {
 				java.util.regex.Matcher m = p.matcher(displayedText);
 				m.find();
 				BigDecimal foundPrice = new BigDecimal(m.group());
-				if (foundPrice.compareTo(expectedPrice) == 0) {
-					return true;
-				}
-				return false;
+				return foundPrice.compareTo(expectedPrice) == 0;
 			}
 
 			@Override
@@ -249,4 +242,5 @@ public class CustomMatchers {
 			}
 		};
 	}
+
 }

@@ -39,6 +39,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.widget.CalendarDatePicker;
 
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 
 public final class ViewActions {
 
@@ -142,7 +143,7 @@ public final class ViewActions {
 
 	// View Action for manipulating a seek bar
 
-	public static ViewAction setSeekbarTo(final int progress) {
+	public static ViewAction setSeekBarTo(final int progress) {
 		return new ViewAction() {
 			@Override
 			public Matcher<View> getConstraints() {
@@ -157,7 +158,7 @@ public final class ViewActions {
 			@Override
 			public void perform(UiController uiController, View view) {
 				SeekBar seekBar = (SeekBar) view;
-				((SeekBar) view).setProgress(progress);
+				seekBar.setProgress(progress);
 			}
 		};
 	}
@@ -357,12 +358,12 @@ public final class ViewActions {
 		return new ViewAction() {
 			@Override
 			public Matcher<View> getConstraints() {
-				return Matchers.allOf(isAssignableFrom(AdapterView.class));
+				return Matchers.allOf(isAssignableFrom(ViewGroup.class));
 			}
 
 			@Override
 			public void perform(UiController uiController, View view) {
-				count.set(((AdapterView) view).getChildCount());
+				count.set(((ViewGroup) view).getChildCount());
 			}
 
 			@Override
@@ -384,18 +385,23 @@ public final class ViewActions {
 			public void perform(UiController uiController, View view) {
 				AdapterView av = (AdapterView) view;
 				AdapterView.OnItemClickListener listener = av.getOnItemClickListener();
+				if (listener == null) {
+					throw new PerformException.Builder()
+						.withActionDescription("AdapterView OnItemClickListener was null")
+						.withViewDescription(HumanReadables.describe(view))
+						.build();
+				}
 				listener.onItemClick(av, null, position, position);
 			}
 
 			@Override
 			public String getDescription() {
-
 				return "Click etp room item";
 			}
 		};
 	}
-//View Action to type multibyte characters
 
+	//View Action to type multibyte characters
 	public static ViewAction setText(final String multiByte) {
 		return new ViewAction() {
 			@Override
@@ -430,7 +436,8 @@ public final class ViewActions {
 
 			@Override
 			public String getDescription() {
-				return String.format("Waiting for view to match given matcher, max wait time is: %d seconds", timeoutSeconds);
+				return String.format("Waiting for view to match given matcher, max wait time is: %d seconds",
+					timeoutSeconds);
 			}
 
 			@Override
@@ -440,13 +447,13 @@ public final class ViewActions {
 
 				final long endTime = System.currentTimeMillis() + timeout;
 				do {
+					Log.v("waitFor", "Waiting for " + SLEEP_UI_MS + "ms");
+					uiController.loopMainThreadForAtLeast(SLEEP_UI_MS);
+
 					if (what.matches(view)) {
 						Log.v("waitFor", "Matched");
 						return;
 					}
-
-					Log.v("waitFor", "Waitig for " + SLEEP_UI_MS + "ms");
-					uiController.loopMainThreadForAtLeast(SLEEP_UI_MS);
 				}
 				while (System.currentTimeMillis() <= endTime);
 
@@ -456,6 +463,10 @@ public final class ViewActions {
 					.build();
 			}
 		};
+	}
+
+	public static ViewAction waitForViewToDisplay() {
+		return waitFor(isDisplayed(), 10, TimeUnit.SECONDS);
 	}
 
 	// View action to set visibility of a view
@@ -480,17 +491,21 @@ public final class ViewActions {
 	}
 
 	public static ViewAction customScroll() {
+		return customScroll(90);
+	}
+
+	public static ViewAction customScroll(final int minimumAreaPercentageDisplayedRequired) {
 		return new ViewAction() {
 			@Override
 			public Matcher<View> getConstraints() {
-				return Matchers.allOf(new Matcher[] {
-					ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
+				return Matchers.allOf(
 					ViewMatchers.isDescendantOfA(
-						Matchers.anyOf(new Matcher[] {
+						Matchers.anyOf(
 							ViewMatchers.isAssignableFrom(ScrollView.class),
 							ViewMatchers.isAssignableFrom(HorizontalScrollView.class)
-						}))
-				});
+						)
+					)
+				);
 			}
 
 			@Override
@@ -500,7 +515,7 @@ public final class ViewActions {
 
 			@Override
 			public void perform(UiController uiController, View view) {
-				if (!ViewMatchers.isDisplayingAtLeast(90).matches(view)) {
+				if (!ViewMatchers.isDisplayingAtLeast(minimumAreaPercentageDisplayedRequired).matches(view)) {
 					Rect rect = new Rect();
 					view.getDrawingRect(rect);
 					if (!view.requestRectangleOnScreen(rect, true)) {
@@ -509,7 +524,6 @@ public final class ViewActions {
 
 					uiController.loopMainThreadUntilIdle();
 					uiController.loopMainThreadForAtLeast(100);
-					return;
 				}
 			}
 		};

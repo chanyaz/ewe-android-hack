@@ -8,7 +8,6 @@ import org.hamcrest.Matcher;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 
-import android.support.test.espresso.Espresso;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
@@ -16,14 +15,15 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.TabletViewActions;
-import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.widget.LXResultsListAdapter;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -57,7 +57,7 @@ public class LXScreen {
 	}
 
 	public static void selectLocation(String location) throws Throwable {
-		ScreenActions.delay(1);
+		Common.delay(1);
 		onView(withText(location))
 			.inRoot(withDecorView(
 				not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))))
@@ -90,6 +90,12 @@ public class LXScreen {
 
 	public static void waitForSearchListDisplayed() {
 		searchList().perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
+		// Wait an extra bit just to be sure the list items have settled
+		Common.delay(2);
+	}
+
+	public static void waitForSearchResultsWidgetDisplayed() {
+		searchResultsWidget().perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
 	}
 
 	public static ViewInteraction sortAndFilterButton() {
@@ -104,12 +110,6 @@ public class LXScreen {
 		return allOf(isAssignableFrom(RecyclerView.class), withId(viewId));
 	}
 
-	public static ViewInteraction recyclerItemView(Matcher<View> identifyingMatcher, int recyclerViewId) {
-		Matcher<View> itemView = allOf(withParent(recyclerView(recyclerViewId)),
-			withChild(identifyingMatcher));
-		return Espresso.onView(itemView);
-	}
-
 	public static ViewInteraction progressDetails() {
 		return onView(withId(R.id.overlay_title_container));
 	}
@@ -119,7 +119,7 @@ public class LXScreen {
 	}
 
 	public static void waitForDetailsDisplayed() {
-		ScreenActions.delay(1);
+		Common.delay(1);
 		onView(withId(R.id.offers)).perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
 	}
 
@@ -150,6 +150,17 @@ public class LXScreen {
 
 	public static ViewInteraction toolbar() {
 		return onView(withId(R.id.toolbar));
+	}
+
+	public static ViewInteraction searchWidgetToolbarNavigation() {
+		return onView(allOf(withParent(withParent(withId(R.id.search_params_widget))), withParent(withId(R.id.toolbar)),
+			isAssignableFrom(ImageButton.class)));
+	}
+
+	public static ViewInteraction resultsPresenterToolbarNavigation() {
+		return onView(
+			allOf(withParent(withParent(withId(R.id.search_list_presenter))), withParent(withId(R.id.toolbar)),
+				isAssignableFrom(ImageButton.class)));
 	}
 
 	public static ViewInteraction searchButton() {
@@ -185,8 +196,8 @@ public class LXScreen {
 		};
 	}
 
-	public static ViewAction performViewHolderComparison(final String title, final String price, final String originalPrice, final String duration,
-		final List<String> categoriesList) {
+	public static ViewAction performViewHolderComparison(final String title, final String price,
+		final String originalPrice, final String duration) {
 		return new ViewAction() {
 			@Override
 			public Matcher<View> getConstraints() {
@@ -222,12 +233,12 @@ public class LXScreen {
 		return onView(withId(R.id.lx_offer_title_text));
 	}
 
-	public static ViewInteraction checkoutGroupText() {
-		return onView(withId(R.id.lx_group_text));
+	public static ViewInteraction checkoutActivityTitle() {
+		return onView(withId(R.id.lx_activity_title_text));
 	}
 
-	public static ViewInteraction checkoutOfferDate() {
-		return onView(withId(R.id.lx_offer_date));
+	public static ViewInteraction checkoutGroupText() {
+		return onView(withId(R.id.lx_group_text));
 	}
 
 	public static ViewInteraction checkoutOfferLocation() {
@@ -329,9 +340,7 @@ public class LXScreen {
 	}
 
 	public static ViewInteraction getTile(String activityTitle) {
-		return recyclerItemView(
-			withChild(withChild(withText(activityTitle))),
-			R.id.lx_search_results_list);
+		return resultsListItemView(withChild(withChild(withText(activityTitle))));
 	}
 
 	public static Matcher<View> withResults(final int expectedResultsCount) {
@@ -347,4 +356,11 @@ public class LXScreen {
 			}
 		};
 	}
+
+	public static ViewInteraction resultsListItemView(Matcher<View> identifyingMatcher) {
+		Matcher<View> itemView = allOf(withParent(recyclerView(R.id.lx_search_results_list)),
+			withChild(identifyingMatcher));
+		return onView(itemView);
+	}
+
 }

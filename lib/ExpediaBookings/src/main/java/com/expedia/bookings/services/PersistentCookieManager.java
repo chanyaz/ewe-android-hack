@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
 import java.net.CookieStore;
@@ -16,6 +17,8 @@ import java.util.Map;
 
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.InstanceCreator;
 import com.google.gson.reflect.TypeToken;
 
 public class PersistentCookieManager extends CookieManager {
@@ -24,10 +27,17 @@ public class PersistentCookieManager extends CookieManager {
 	private Gson gson;
 
 	public PersistentCookieManager(File storage) {
-		super(null /*default*/, CookiePolicy.ACCEPT_ORIGINAL_SERVER);
+		super(new SecureCookieStore(), CookiePolicy.ACCEPT_ORIGINAL_SERVER);
 
 		this.storage = storage;
-		gson = new Gson();
+		//Gson doesn't use class constructors by default so it may not call vital init code.
+		gson = new GsonBuilder().registerTypeAdapter(HttpCookie.class, new InstanceCreator<HttpCookie>() {
+			@Override
+			public HttpCookie createInstance(Type type) {
+				return new HttpCookie("fakeName","");
+			}
+		}).create();
+
 		load();
 	}
 
@@ -85,7 +95,8 @@ public class PersistentCookieManager extends CookieManager {
 			}
 		}
 		catch (Exception e) {
-			// ignore, we don't care about cookies that throw parsing exceptions
+			storage.delete();
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -108,6 +119,7 @@ public class PersistentCookieManager extends CookieManager {
 			writer.close();
 		}
 		catch (Exception e) {
+			storage.delete();
 			throw new RuntimeException(e);
 		}
 	}

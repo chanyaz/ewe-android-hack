@@ -53,7 +53,6 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 			// Parse property info
 			Property property = new Property();
 			availResponse.setProperty(property);
-			property.setDescriptionText(JSONUtils.optNormalizedString(response, "longDescription", null));
 			property.setName(response.optString("hotelName", null));
 			property.setHotelRating(response.optDouble("hotelStarRating", 0));
 			property.setTotalReviews(response.optInt("totalReviews", 0));

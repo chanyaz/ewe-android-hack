@@ -140,17 +140,6 @@ public class HotelDetailsIntroFragment extends Fragment {
 		// Banner messages
 		int roomsLeft = property.getRoomsLeftAtThisRate();
 
-		// xx booked in the past x hours
-		/*if (TODO: xx booked in the past x hours) {
-			String banner = TODO
-			if (!bannerTextView.getText().equals(banner)) {
-			bannerTextView.setText(banner);
-			bannerTextView.setVisibility(View.VISIBLE);
-			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_urgency_clock, 0, 0, 0);
-			}
-		}*/
-		// Only xx rooms left
-		/*else*/
 		if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
 			String banner = resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft);
 			if (!bannerTextView.getText().equals(banner)) {
@@ -223,18 +212,12 @@ public class HotelDetailsIntroFragment extends Fragment {
 		final TextView titleView = Ui.findView(view, R.id.title_text);
 		final TextView bodyView = Ui.findView(view, R.id.body_text);
 
-		CharSequence title;
 		if (sections != null && sections.size() >= 1) {
-			title = sections.get(0).getNameWithoutHtml();
 			sectionBody = Html.fromHtml(sections.get(0).getContentFormatted(getActivity()));
-		}
-		else {
-			title = Html.fromHtml("");
-			sectionBody = Html.fromHtml(property.getDescriptionText());
 		}
 
 		// Add "read more" button if the intro paragraph is too long
-		if (sectionBody.length() > INTRO_PARAGRAPH_CUTOFF) {
+		if (sectionBody != null && sectionBody.length() > INTRO_PARAGRAPH_CUTOFF) {
 			final CharSequence untruncated = sectionBody;
 			final View readMoreView = Ui.findView(view, R.id.read_more);
 			final View fadeOverlay = Ui.findView(view, R.id.body_text_fade_bottom);

@@ -9,8 +9,8 @@
         layout="@layout/lx_result_presenter"
         android:visibility="gone" />
 
-    <com.expedia.bookings.widget.LXLoadingOverlayWidget
-        android:id="@+id/lx_loading_overlay"
+    <com.expedia.bookings.widget.LoadingOverlayWidget
+        android:id="@+id/details_loading_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
@@ -31,6 +31,7 @@
         android:id="@+id/lx_checkout_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#EEEEEE"
         android:visibility="gone" />
 
     <com.expedia.bookings.widget.LXConfirmationWidget

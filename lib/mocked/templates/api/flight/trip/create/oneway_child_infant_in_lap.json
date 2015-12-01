@@ -167,6 +167,7 @@
             "CompletePenaltyRules": "https://www.expedia.com/pub/agent.dll?qscr=ffrs&itid=742449564&rtyp=1&tlid=1033"
         }
     },
+    "tealeafTransactionId": "tealeafFlight:${productKey}",
     "totalPrice": {
         "amount": "596.00",
         "formattedPrice": "$596.00",

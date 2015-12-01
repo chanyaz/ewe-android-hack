@@ -1,158 +1,820 @@
 package com.expedia.bookings.widget
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
+import android.app.Activity
 import android.content.Context
+import android.graphics.Color
+import android.graphics.ColorMatrixColorFilter
+import android.graphics.PorterDuff
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
+import android.text.Html
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.widget.*
-import android.widget.HorizontalScrollView
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.view.animation.DecelerateInterpolator
+import android.view.animation.LinearInterpolator
+import android.widget.Button
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.Space
+import android.widget.TableLayout
+import android.widget.TableRow
+import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
-import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.extension.shouldShowCircleForRatings
+import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.utils.Amenity
+import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.CollectionUtils
+import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.HotelRoomRateViewFactory
+import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribe
+import com.expedia.util.publishOnClick
+import com.expedia.util.subscribeBackground
+import com.expedia.util.subscribeBackgroundColor
+import com.expedia.util.subscribeBackgroundResource
+import com.expedia.util.subscribeGalleryColorFilter
+import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeOnClick
+import com.expedia.util.subscribeRating
+import com.expedia.util.subscribeStarColor
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeVisibility
+import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
-import com.google.android.gms.maps.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.MapsInitializer
+import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import rx.Observable
 import rx.Observer
+import java.util.ArrayList
 import kotlin.properties.Delegates
 
-/**
- * Created by mohsharma on 8/6/15.
- */
-object RoomSelected {
-    var observer: Observer<HotelOffersResponse.HotelRoomResponse> by Delegates.notNull()
-}
+val DESCRIPTION_ANIMATION = 150L
+val HOTEL_DESC_COLLAPSE_LINES = 2
+
 public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), OnMapReadyCallback {
 
     val MAP_ZOOM_LEVEL = 12f
+    var bottomMargin = 0
+    val ANIMATION_DURATION = 200L
+    var resortViewHeight = 0
+    var selectRoomContainerHeight = 0
+    val screenSize by lazy { Ui.getScreenSize(context) }
+
+    var initialScrollTop = 0
+    var galleryHeight = 0
+
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle: TextView by bindView(R.id.hotel_name_text)
-    val toolBarRating: RatingBar by bindView(R.id.hotel_star_rating_bar)
+    var toolBarRating: StarRatingBar by Delegates.notNull()
+    val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
+    var navIcon: ArrowXDrawable
 
     val gallery: RecyclerGallery by bindView(R.id.images_gallery)
+
     val galleryContainer: FrameLayout by bindView(R.id.gallery_container)
+    val galleryRoot: LinearLayout by bindView(R.id.gallery)
 
-    val pricePerNight: TextView by bindView(R.id.price_per_night)
+    val priceContainer: ViewGroup by bindView(R.id.price_widget)
+    val strikeThroughPrice: TextView by bindView(R.id.strike_through_price)
+    val price: TextView by bindView(R.id.price)
+    val perNight: TextView by bindView(R.id.per_night)
+    val detailsSoldOut: TextView by bindView(R.id.details_sold_out)
+    val priceWidget: View by bindView(R.id.price_widget)
+
     val searchInfo: TextView by bindView(R.id.hotel_search_info)
+    val ratingContainer: LinearLayout by bindView(R.id.rating_container)
+    val selectRoomButton: Button by bindView(R.id.select_room_button)
+    val changeDatesButton: Button by bindView(R.id.change_dates_button)
+    val stickySelectRoomContainer: ViewGroup by bindView(R.id.sticky_select_room_container)
+    val stickySelectRoomButton: Button by bindView(R.id.sticky_select_room)
     val userRating: TextView by bindView(R.id.user_rating)
+    val noGuestRating: TextView by bindView(R.id.no_guest_rating)
+    val userRatingRecommendationText: TextView by bindView(R.id.user_rating_recommendation_text)
     val numberOfReviews: TextView by bindView(R.id.number_of_reviews)
+    val readMoreView: ImageButton by bindView(R.id.read_more)
     val hotelDescription: TextView by bindView(R.id.body_text)
-    val readMoreView: View by bindView(R.id.read_more)
-    val fadeOverlay: View by bindView(R.id.body_text_fade_bottom)
-    val mapView: MapView by bindView(R.id.map_view)
-    val mapClickContainer: FrameLayout by bindView(R.id.map_click_container)
+    val hotelDescriptionContainer: ViewGroup by bindView(R.id.hotel_description_container)
+    val miniMapView: MapView by bindView(R.id.mini_map_view)
+    val transparentViewOverMiniMap: View by bindView(R.id.transparent_view_over_mini_map)
+    val gradientHeight = context.getResources().getDimension(R.dimen.hotel_detail_gradient_height)
 
-    val amenityScrollView: HorizontalScrollView by bindView(R.id.amenities_scroll_view)
-    val amenityRow: TableRow by bindView(R.id.amenities_table_row)
-    val noAmenityText: TextView by bindView(R.id.amenities_none_text)
+    val hotelMessagingContainer: RelativeLayout by bindView(R.id.promo_messaging_container)
+    val discountPercentage: TextView by bindView(R.id.discount_percentage)
+    val vipAccessMessage: TextView by bindView(R.id.vip_access_message)
+    val promoMessage: TextView by bindView(R.id.promo_text)
 
+    val payLaterButtonContainer: FrameLayout by bindView(R.id.radius_pay_later_container)
+    val payNowButtonContainer: FrameLayout by bindView(R.id.radius_pay_now_container)
+    val payNowButton: TextView by bindView(R.id.radius_pay_now)
+    val payLaterButton: TextView by bindView(R.id.radius_pay_later)
+    val etpAndFreeCancellationMessagingContainer: View by bindView(R.id.etp_and_free_cancellation_messaging_container)
+    val etpInfoText: TextView by bindView(R.id.etp_info_text)
+    val etpInfoTextSmall: TextView by bindView(R.id.etp_info_text_small)
+    val freeCancellation: TextView by bindView(R.id.free_cancellation)
+    val bestPriceGuarantee: TextView by bindView(R.id.best_price_guarantee)
+    val singleMessageContainer: ViewGroup by bindView(R.id.single_message_container)
+    val freeCancellationAndETPMessaging: ViewGroup by bindView(R.id.free_cancellation_etp_messaging)
+    val etpContainer: HotelEtpStickyHeaderLayout by bindView(R.id.etp_placeholder)
+    val etpContainerDropShadow: View by bindView(R.id.pay_later_drop_shadow)
+    val renovationContainer: ViewGroup by bindView(R.id.renovation_container)
+    val payByPhoneTextView: TextView by bindView(R.id.book_by_phone_text)
+    val payByPhoneContainer: ViewGroup by bindView(R.id.book_by_phone_container)
+    val space: Space by bindView(R.id.spacer)
+
+    val hotelGalleryDescriptionContainer: LinearLayout by bindView(R.id.hotel_gallery_description_container)
+    val hotelGalleryIndicator: View by bindView(R.id.hotel_gallery_indicator)
+    val hotelGalleryDescription: TextView by bindView(R.id.hotel_gallery_description)
+    val amenityContainer: TableRow by bindView(R.id.amenities_table_row)
+    val amenityDivider: View by bindView(R.id.etp_and_free_cancellation_divider)
+
+    val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
+    val commonAmenityText: TextView by bindView(R.id.common_amenities_text)
+    val commonAmenityDivider: View by bindView(R.id.common_amenities_divider)
+    var googleMap: GoogleMap? = null
     val roomContainer: TableLayout by bindView(R.id.room_container)
-    val amenities_text: TextView by bindView(R.id.amenities_text)
-    val amenities_text_header: TextView by bindView(R.id.amenities_text_header)
+    val propertyTextContainer: TableLayout by bindView(R.id.property_info_container)
 
-    val detailContainer: ScrollView by bindView(R.id.detail_container)
-    val mainContainer: ViewGroup by bindView(R.id.main_container)
+    val detailContainer: NewHotelDetailsScrollView by bindView(R.id.detail_container)
     var statusBarHeight = 0
     var toolBarHeight = 0
     val toolBarBackground: View by bindView(R.id.toolbar_background)
+    val toolBarGradient: View by bindView(R.id.hotel_details_gradient)
     var hotelLatLng: DoubleArray by Delegates.notNull()
     var offset: Float by Delegates.notNull()
+    var priceContainerLocation = IntArray(2)
+    var urgencyContainerLocation = IntArray(2)
+    var roomContainerPosition = IntArray(2)
+
+    var resortInAnimator: ObjectAnimator by Delegates.notNull()
+    var resortOutAnimator: ObjectAnimator by Delegates.notNull()
+    var selectRoomInAnimator: ObjectAnimator by Delegates.notNull()
+    var selectRoomOutAnimator: ObjectAnimator by Delegates.notNull()
+
+    private val ANIMATION_DURATION_ROOM_CONTAINER = if (ExpediaBookingApp.isAutomation()) 0L else 250L
 
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
+        detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
+        detailContainer.setOnTouchListener(touchListener)
+
+        vm.toolBarRatingColor.subscribeStarColor(toolBarRating)
+        vm.galleryColorFilter.subscribeGalleryColorFilter(gallery)
+
+        vm.hotelSoldOut.subscribeVisibility(changeDatesButton)
+        vm.hotelSoldOut.subscribeInverseVisibility(selectRoomButton)
+        vm.hotelSoldOut.subscribeVisibility(detailsSoldOut)
+        vm.hotelSoldOut.subscribeInverseVisibility(price)
+        vm.hotelSoldOut.subscribeInverseVisibility(roomContainer)
+        vm.hotelSoldOut.subscribeInverseVisibility(stickySelectRoomContainer)
+
+        changeDatesButton.publishOnClick(vm.changeDates)
+
         vm.galleryObservable.subscribe { galleryUrls ->
-            gallery.setDataSource(galleryUrls)
-            gallery.scrollToPosition(0)
             gallery.setOnItemClickListener(vm)
+            gallery.setOnItemChangeListener(vm)
+            gallery.setDataSource(galleryUrls)
+            gallery.setProgressBarOnImageViewsEnabled(true)
+            gallery.scrollToPosition(0)
             gallery.startFlipping()
-        }
 
-        vm.amenityHeaderTextObservable.subscribe(amenities_text_header)
-        vm.amenityTextObservable.subscribe(amenities_text)
-        vm.sectionBodyObservable.subscribe(hotelDescription)
-        vm.hotelNameObservable.subscribe(toolbarTitle)
-        vm.hotelRatingObservable.subscribe(toolBarRating)
-        vm.pricePerNightObservable.subscribe(pricePerNight)
-        vm.searchInfoObservable.subscribe(searchInfo)
-        vm.userRatingObservable.subscribe(userRating)
-        vm.numberOfReviewsObservable.subscribe(numberOfReviews)
-        vm.hotelLatLngObservable.subscribe { values -> hotelLatLng = values }
-        vm.showReadMoreObservable.subscribe { isVisible ->
-            fadeOverlay.setVisibility(if (isVisible) View.VISIBLE else View.GONE)
-            readMoreView.setVisibility(if (isVisible) View.VISIBLE else View.GONE)
-        }
-
-        vm.roomResponseListObservable.subscribe { roomList ->
-            roomContainer.removeAllViews()
-            roomList.forEachIndexed { roomResponseIndex, room ->
-                val view = HotelRoomRateView(getContext(), roomContainer, RoomSelected.observer)
-                view.viewmodel = HotelRoomRateViewModel(getContext(), roomList.get(roomResponseIndex), roomResponseIndex)
-                roomContainer.addView(view)
+            val galleryItemCount = gallery.adapter.itemCount
+            if (galleryItemCount > 0) {
+                val indicatorWidth = screenSize.x / galleryItemCount
+                val lp = hotelGalleryIndicator.layoutParams
+                lp.width = indicatorWidth
+                hotelGalleryIndicator.layoutParams = lp
             }
         }
 
-        mapClickContainer.subscribeOnClick(vm.mapClickContainer)
-        hotelDescription.subscribeOnClick(vm.readMore)
-        readMoreView.subscribeOnClick(vm.readMore)
+        vm.hotelSoldOut.filter { it }.subscribe { resetGallery() }
+        vm.priceWidgetBackground.subscribeBackgroundColor(priceWidget)
+
+        vm.scrollToRoom.subscribe { scrollToRoom(false) }
+
+        vm.noAmenityObservable.subscribe {
+            amenityContainer.visibility = View.GONE
+            amenityDivider.visibility = View.GONE
+        }
+        vm.amenitiesListObservable.subscribe { amenityList ->
+            amenityContainer.visibility = View.VISIBLE
+            amenityDivider.visibility = View.VISIBLE
+            Amenity.addHotelAmenity(amenityContainer, amenityList)
+        }
+        vm.commonAmenityTextObservable.subscribe { text ->
+            commonAmenityText.setVisibility(View.VISIBLE)
+            commonAmenityText.setText(Html.fromHtml(text))
+            commonAmenityDivider.setVisibility(View.VISIBLE)
+        }
+
+        vm.galleryItemChangeObservable.subscribe { galleryDescriptionBar: Pair<Int, String> ->
+            hotelGalleryIndicator.animate().translationX((galleryDescriptionBar.first * hotelGalleryIndicator.width).toFloat()).
+                    setInterpolator(LinearInterpolator()).start()
+            hotelGalleryDescription.setText(galleryDescriptionBar.second)
+
+        }
+
+        transparentViewOverMiniMap.subscribeOnClick(vm.mapClickedSubject)
+
+        vm.renovationObservable.subscribeVisibility(renovationContainer)
+        vm.hotelResortFeeObservable.subscribeText(resortFeeWidget.resortFeeText)
+        vm.hotelResortFeeIncludedTextObservable.subscribeText(resortFeeWidget.feesIncludedNotIncluded)
+
+        vm.sectionBodyObservable.subscribe {
+            hotelDescription.text = it
+            hotelDescription.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    hotelDescription.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    if (hotelDescription.lineCount <= HOTEL_DESC_COLLAPSE_LINES) {
+                        readMoreView.visibility = View.GONE
+                        hotelDescriptionContainer.isClickable = false
+                    } else {
+                        readMoreView.visibility = View.VISIBLE
+                        hotelDescriptionContainer.isClickable = true
+                        hotelDescriptionContainer.subscribeOnClick(vm.hotelDescriptionContainerObserver)
+                    }
+                }
+            })
+        }
+        vm.hotelNameObservable.subscribeText(toolbarTitle)
+        vm.hotelRatingObservable.subscribeRating(toolBarRating)
+        vm.hotelRatingObservableVisibility.subscribeVisibility(toolBarRating)
+        vm.strikeThroughPriceObservable.subscribeText(strikeThroughPrice)
+        vm.strikeThroughPriceVisibility.subscribeVisibility(strikeThroughPrice)
+        vm.pricePerNightObservable.subscribeText(price)
+        vm.searchInfoObservable.subscribeText(searchInfo)
+        vm.userRatingObservable.subscribeText(userRating)
+        vm.roomPriceToShowCustomer.subscribeText(price)
+        vm.perNightVisibility.subscribeInverseVisibility(perNight)
+
+        vm.isUserRatingAvailableObservable.subscribeVisibility(userRating)
+        vm.isUserRatingAvailableObservable.subscribeVisibility(userRatingRecommendationText)
+        vm.isUserRatingAvailableObservable.map { !it }.subscribeVisibility(noGuestRating)
+        vm.numberOfReviewsObservable.subscribeText(numberOfReviews)
+        vm.hotelLatLngObservable.subscribe {
+            values ->
+            hotelLatLng = values
+            googleMap?.clear()
+            googleMap?.setMapType(GoogleMap.MAP_TYPE_NORMAL)
+            addMarker()
+            googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hotelLatLng[0], hotelLatLng[1]), MAP_ZOOM_LEVEL))
+        }
+
+        vm.payByPhoneContainerVisibility.subscribe { spaceAboveSelectARoom() }
+        vm.payByPhoneContainerVisibility.subscribeVisibility(payByPhoneContainer)
+        vm.discountPercentageObservable.subscribeText(discountPercentage)
+        vm.discountPercentageBackgroundObservable.subscribeBackgroundResource(discountPercentage)
+        vm.hasDiscountPercentageObservable.subscribeVisibility(discountPercentage)
+        vipAccessMessage.subscribeOnClick(vm.vipAccessInfoObservable)
+        vm.hasVipAccessObservable.subscribeVisibility(vipAccessMessage)
+        vm.promoMessageObservable.subscribeText(promoMessage)
+
+        vm.hotelMessagingContainerVisibility.subscribeVisibility(hotelMessagingContainer)
+
+
+        // TODO: We don't need an observable here! > Make this manual
+        val rowTopConstraintViewObservable: Observable<View> = vm.hasETPObservable.map { hasETP ->
+            when {
+                hasETP -> etpContainer
+                else -> toolbar
+            }
+        }
+
+        vm.roomResponseListObservable.subscribe { roomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
+            if (CollectionUtils.isEmpty(roomList.first)) {
+                return@subscribe
+            }
+            val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(roomList.first.size())
+
+            val roomContainerAlphaZeroToOneAnimation = AlphaAnimation(0f, 1f)
+            roomContainerAlphaZeroToOneAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
+
+            val roomContainerAlphaOneToZeroAnimation = AlphaAnimation(1f, 0f)
+            roomContainerAlphaOneToZeroAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
+            roomContainerAlphaOneToZeroAnimation.setAnimationListener(object: Animation.AnimationListener {
+                override fun onAnimationEnd(p0: Animation?) {
+                    roomContainer.removeAllViews()
+                    roomList.first.forEachIndexed { roomResponseIndex, room ->
+                        val view = HotelRoomRateViewFactory.makeHotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex,
+                                vm.hotelOffersResponse.hotelId, roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), vm.rowExpandingObservable)
+                        var parent = view.parent
+                        if (parent != null) {
+                            (parent as ViewGroup).removeView(view)
+                        }
+                        roomContainer.addView(view)
+                        hotelRoomRateViewModels.add(view.viewmodel)
+                    }
+                    vm.lastExpandedRowObservable.onNext(-1)
+                    vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
+                    roomContainer.startAnimation(roomContainerAlphaZeroToOneAnimation)
+                }
+
+                override fun onAnimationStart(p0: Animation?) {
+                    //ignore
+                }
+
+                override fun onAnimationRepeat(p0: Animation?) {
+                    //ignore
+                }
+            })
+            roomContainer.startAnimation(roomContainerAlphaOneToZeroAnimation)
+        }
+
+        vm.hasETPObservable.subscribeVisibility(etpInfoText)
+        vm.hasFreeCancellationObservable.subscribeVisibility(freeCancellation)
+
+       vm.etpContainerVisibility.subscribeVisibility(etpContainer)
+       vm.hasETPObservable.filter { it == true }.subscribe { payNowLaterSelectionChanged(true) }
+
+        Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hotelSoldOut -> hasETP && hasFreeCancellation && !hotelSoldOut }
+                .subscribeVisibility(freeCancellationAndETPMessaging)
+
+        Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hotelSoldOut -> !(hasETP && hasFreeCancellation) && !hotelSoldOut }
+                .subscribeVisibility(singleMessageContainer)
+
+        Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hasBestPriceGuaranteeObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hasBestPriceGuarantee, hotelSoldOut -> (hasETP || hasFreeCancellation || hasBestPriceGuarantee) && !hotelSoldOut }
+                .subscribeVisibility(etpAndFreeCancellationMessagingContainer)
+
+        Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hasBestPriceGuaranteeObservable, vm.isUserRatingAvailableObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hasBestPriceGuarantee, hasUserReviews, hotelSoldOut -> !hasETP && !hasFreeCancellation && hasBestPriceGuarantee && !hasUserReviews && !hotelSoldOut }
+                .subscribeVisibility(bestPriceGuarantee)
+
+        vm.etpRoomResponseListObservable.subscribe { etpRoomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
+            if (CollectionUtils.isEmpty(etpRoomList.first)) {
+                return@subscribe
+            }
+            val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(etpRoomList.first.size())
+
+            val roomContainerAlphaZeroToOneAnimation = AlphaAnimation(0f, 1f)
+            roomContainerAlphaZeroToOneAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
+
+            val roomContainerAlphaOneToZeroAnimation = AlphaAnimation(1f, 0f)
+            roomContainerAlphaOneToZeroAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
+            roomContainerAlphaOneToZeroAnimation.setAnimationListener(object: Animation.AnimationListener {
+                override fun onAnimationEnd(p0: Animation?) {
+                    roomContainer.removeAllViews()
+                    etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
+                        val view = HotelRoomRateViewFactory.makeHotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex,
+                                vm.hotelOffersResponse.hotelId, etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), vm.rowExpandingObservable)
+                        var parent = view.parent
+                        if (parent != null) {
+                            (parent as ViewGroup).removeView(view)
+                        }
+                        roomContainer.addView(view)
+                        hotelRoomRateViewModels.add(view.viewmodel)
+                    }
+                    vm.lastExpandedRowObservable.onNext(-1)
+                    vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
+                    roomContainer.startAnimation(roomContainerAlphaZeroToOneAnimation)
+                }
+
+                override fun onAnimationStart(p0: Animation?) {
+                    //ignore
+                }
+
+                override fun onAnimationRepeat(p0: Animation?) {
+                    //ignore
+                }
+            })
+
+            roomContainer.startAnimation(roomContainerAlphaOneToZeroAnimation)
+        }
+
+        vm.ratingContainerBackground.subscribeBackground(ratingContainer)
+        vm.isUserRatingAvailableObservable.filter { it }.subscribe { ratingContainer.subscribeOnClick(vm.reviewsClickedSubject) }
+        vm.isUserRatingAvailableObservable.filter { !it }.subscribe { ratingContainer.unsubscribeOnClick() }
+
+        etpInfoText.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
+        etpInfoTextSmall.subscribeOnClick(vm.payLaterInfoContainerClickObserver)
+        galleryContainer.subscribeOnClick(vm.galleryClickedSubject)
+
+        vm.propertyInfoListObservable.subscribe { infoList ->
+            propertyTextContainer.removeAllViews()
+            infoList.forEach { propertyTextContainer.addView(HotelInfoView(context).setText(it.name, it.content)) }
+        }
+
+        vm.sectionImageObservable.subscribe { isExpanded ->
+            val values = if (hotelDescription.maxLines == HOTEL_DESC_COLLAPSE_LINES) hotelDescription.lineCount else HOTEL_DESC_COLLAPSE_LINES
+            var animation = ObjectAnimator.ofInt(hotelDescription, "maxLines", values)
+
+            animation.setDuration(DESCRIPTION_ANIMATION).start()
+
+            if (isExpanded) {
+                AnimUtils.rotate(readMoreView)
+            } else {
+                AnimUtils.reverseRotate(readMoreView)
+            }
+
+        }
+
+        vm.sectionImageObservable.subscribe { isExpanded ->
+            if (isExpanded) AnimUtils.rotate(readMoreView) else AnimUtils.reverseRotate(readMoreView)
+        }
+        vm.galleryClickedSubject.subscribe { detailContainer.animateScrollY(detailContainer.getScrollY(), -initialScrollTop, 500) }
+        renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
+        resortFeeWidget.subscribeOnClick(vm.resortFeeContainerClickObserver)
+        payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
 
         //getting the map
-        mapView.onCreate(null)
-        mapView.getMapAsync(this);
+        miniMapView.onCreate(null)
+        miniMapView.getMapAsync(this);
+    }
+
+    fun resetViews() {
+        AnimUtils.reverseRotate(readMoreView)
+        hotelDescription.maxLines = HOTEL_DESC_COLLAPSE_LINES
+        renovationContainer.setVisibility(View.GONE)
+        etpContainer.setVisibility(View.GONE)
+        etpContainerDropShadow.setVisibility(View.GONE)
+        etpAndFreeCancellationMessagingContainer.setVisibility(View.GONE)
+        toolBarBackground.setAlpha(0f)
+        toolBarGradient.setTranslationY(0f)
+        priceViewAlpha(1f)
+        urgencyViewAlpha(1f)
+        hotelGalleryDescriptionContainer.setAlpha(0f)
+        resortFeeWidget.setVisibility(View.GONE)
+        commonAmenityText.setVisibility(View.GONE)
+        commonAmenityDivider.setVisibility(View.GONE)
+        hideResortandSelectRoom()
+        freeCancellationAndETPMessaging.visibility = View.GONE
+        singleMessageContainer.visibility = View.GONE
+        viewmodel.onGalleryItemScrolled(0)
+        payNowButtonContainer.unsubscribeOnClick()
+        payLaterButtonContainer.unsubscribeOnClick()
+        gallery.setDataSource(emptyList())
+        roomContainer.removeAllViews()
+
+        googleMap?.clear()
+        googleMap?.setMapType(GoogleMap.MAP_TYPE_NONE)
+    }
+
+    private fun hideResortandSelectRoom() {
+        stickySelectRoomContainer.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        bottomMargin = (stickySelectRoomContainer.measuredHeight - resources.getDimension(R.dimen.breakdown_text_margin)).toInt()
+        resortFeeWidget.animate().translationY(resortViewHeight.toFloat()).setInterpolator(LinearInterpolator()).setDuration(ANIMATION_DURATION).start()
+        stickySelectRoomContainer.animate().translationY(selectRoomContainerHeight.toFloat()).setInterpolator(DecelerateInterpolator()).start()
+    }
+
+    fun spaceAboveSelectARoom() {
+        val params = space.getLayoutParams()
+        params.height = bottomMargin
+        space.setLayoutParams(params)
+    }
+
+    val payNowObserver: Observer<Unit> = endlessObserver {
+        //pay now show all the offers
+        payNowLaterSelectionChanged(true)
+        viewmodel.roomResponseListObservable.onNext(Pair(viewmodel.hotelOffersResponse.hotelRoomResponse, viewmodel.uniqueValueAddForRooms))
+        HotelV2Tracking().trackPayNowContainerClick()
+    }
+
+    val payLaterObserver: Observer<Unit> = endlessObserver {
+        //pay later show only etp offers
+        payNowLaterSelectionChanged(false)
+        viewmodel.etpRoomResponseListObservable.onNext(Pair(viewmodel.etpOffersList, viewmodel.etpUniqueValueAddForRooms))
+        HotelV2Tracking().trackPayLaterContainerClick()
+    }
+
+    fun payNowLaterSelectionChanged(payNowSelected: Boolean) {
+        payNowButtonContainer.isSelected = payNowSelected
+        payLaterButtonContainer.isSelected = !payNowSelected
+        
+        val checkMarkIcon = ContextCompat.getDrawable(context, R.drawable.sliding_radio_selector_left)
+        if (payNowSelected) {
+            payNowButton.setCompoundDrawablesWithIntrinsicBounds(checkMarkIcon, null, null, null)
+            payLaterButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+            payNowButtonContainer.unsubscribeOnClick()
+            payLaterButtonContainer.subscribeOnClick(payLaterObserver)
+        } else {
+            payNowButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+            payLaterButton.setCompoundDrawablesWithIntrinsicBounds(checkMarkIcon, null, null, null)
+            payLaterButtonContainer.unsubscribeOnClick()
+            payNowButtonContainer.subscribeOnClick(payNowObserver)
+        }
+
+        // Scroll to the top room in case of change in ETP selection when ETP container is sticked
+        if(etpContainerDropShadow.visibility == View.VISIBLE) {
+            val etpLocation = etpContainer.y + etpContainer.height
+            val offsetToETP = if (commonAmenityText.visibility == View.VISIBLE) commonAmenityText.y else roomContainer.y
+            val offset = offsetToETP - etpLocation
+            detailContainer.smoothScrollBy(0, offset.toInt())
+        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
+        this.googleMap = googleMap
         MapsInitializer.initialize(getContext())
-        addMarker(googleMap)
         googleMap.getUiSettings().setMapToolbarEnabled(false)
         googleMap.getUiSettings().setMyLocationButtonEnabled(false)
         googleMap.getUiSettings().setZoomControlsEnabled(false)
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hotelLatLng[0], hotelLatLng[1]), MAP_ZOOM_LEVEL))
     }
 
-    public fun addMarker(googleMap: GoogleMap) {
+    public fun addMarker() {
+        googleMap ?: return
         val marker = MarkerOptions()
         marker.position(LatLng(hotelLatLng[0], hotelLatLng[1]))
-        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.cars_pin))
-        googleMap.addMarker(marker)
+        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.hotels_pin))
+        googleMap?.addMarker(marker)
     }
 
     val scrollListener = object : ViewTreeObserver.OnScrollChangedListener {
         override fun onScrollChanged() {
-            var yOffset = detailContainer.getScrollY()
-            var ratio: Float = parallaxScrollHeader(yOffset)
-            toolBarBackground.setAlpha(ratio)
+            setViewVisibilities()
         }
     }
 
-    public fun parallaxScrollHeader(scrollY: Int): Float {
-        val ratio = (scrollY).toFloat() / (mainContainer.getTop() - offset)
-        galleryContainer.setTranslationY(scrollY * 0.5f)
-        return ratio
+    val touchListener = object : View.OnTouchListener {
+        override fun onTouch(v: View?, event: MotionEvent): Boolean {
+            val action = event.action;
+            if (action == MotionEvent.ACTION_UP) {
+                detailContainer.post { updateGallery(true) }
+            }
+            return false
+        }
     }
+
+    private fun setViewVisibilities() {
+        var yoffset = detailContainer.scrollY
+
+        updateGalleryChildrenHeights(gallery.selectedItem)
+        if (yoffset - initialScrollTop >= 0) {
+            galleryRoot.translationY = (yoffset - initialScrollTop) * 0.5f
+        } else {
+            galleryRoot.translationY = 0f
+        }
+
+        miniMapView.translationY = yoffset * 0.15f
+        transparentViewOverMiniMap.translationY = miniMapView.translationY
+
+        priceContainer.getLocationOnScreen(priceContainerLocation)
+        var ratio = (priceContainerLocation[1] - (offset / 2)) / offset
+        priceViewAlpha(ratio * 1.5f)
+
+        hotelMessagingContainer.getLocationOnScreen(urgencyContainerLocation)
+        var urgencyRatio = (urgencyContainerLocation[1] - (offset / 2)) / offset
+        urgencyViewAlpha(urgencyRatio * 1.5f)
+
+        if (priceContainerLocation[1] + priceContainer.height <= offset) {
+            toolBarBackground.alpha = 1.0f
+            toolbarShadow.visibility = View.VISIBLE
+        } else {
+            toolBarBackground.alpha = 0f
+            toolbarShadow.visibility = View.GONE
+        }
+
+        showToolbarGradient()
+
+        val shouldShowResortFee = shouldShowResortView()
+        if (shouldShowResortFee && !resortInAnimator.isRunning && resortFeeWidget.translationY != 0f) {
+            resortFeeWidget.visibility = View.VISIBLE
+            resortInAnimator.start()
+        } else if (!shouldShowResortFee && !resortOutAnimator.isRunning && resortFeeWidget.translationY != resortViewHeight.toFloat()) {
+            resortOutAnimator.start()
+        }
+
+        shouldShowStickySelectRoomView()
+        if (etpContainer.visibility == View.VISIBLE) {
+            shouldShowETPContainer()
+        }
+        val arrowRatio = getArrowRotationRatio(yoffset)
+        if (arrowRatio >= 0 && arrowRatio <= 1) {
+            navIcon.parameter = 1 - arrowRatio
+            hotelGalleryDescriptionContainer.alpha = 1 - arrowRatio
+        }
+    }
+
+    fun priceViewAlpha(ratio: Float) {
+        perNight.alpha = ratio
+        price.alpha = ratio
+        searchInfo.alpha = ratio
+        selectRoomButton.alpha = ratio
+        strikeThroughPrice.alpha = ratio
+    }
+
+    fun urgencyViewAlpha(ratio: Float) {
+        discountPercentage.alpha = ratio
+        vipAccessMessage.alpha = ratio
+        promoMessage.alpha = ratio
+    }
+
+    public fun showToolbarGradient() {
+        if (hotelMessagingContainer.visibility == View.VISIBLE)
+            hotelMessagingContainer.getLocationOnScreen(priceContainerLocation)
+        else
+            priceContainer.getLocationOnScreen(priceContainerLocation)
+
+        if (priceContainerLocation[1] < gradientHeight) {
+            toolBarGradient.translationY = (-(gradientHeight - priceContainerLocation[1]))
+        } else
+            toolBarGradient.translationY = 0f
+    }
+
+    public fun shouldShowResortView(): Boolean {
+        roomContainer.getLocationOnScreen(roomContainerPosition)
+        val isOutOfView = roomContainerPosition[1] + roomContainer.height < offset
+        val isInView = roomContainerPosition[1] < screenSize.y / 2
+        if (viewmodel.hotelResortFeeObservable.value != null && isInView && !isOutOfView) {
+            return true
+        }
+        return false
+    }
+
+    public fun shouldShowStickySelectRoomView() {
+        roomContainer.getLocationOnScreen(roomContainerPosition)
+        var selectRoomButtonOffset = offset
+
+        if (etpContainer.visibility == View.VISIBLE) {
+            selectRoomButtonOffset = (offset + (etpContainer.height) / 2)
+        }
+        val showStickySelectRoom = roomContainerPosition[1] + roomContainer.height < selectRoomButtonOffset
+
+        if (showStickySelectRoom && !selectRoomInAnimator.isRunning && stickySelectRoomContainer.translationY != 0f) {
+            selectRoomInAnimator.start()
+        } else if (!showStickySelectRoom && !selectRoomOutAnimator.isRunning && stickySelectRoomContainer.translationY != selectRoomContainerHeight.toFloat()) {
+            selectRoomOutAnimator.start()
+        }
+    }
+
+    public fun shouldShowETPContainer() {
+        roomContainer.getLocationOnScreen(roomContainerPosition)
+        if (roomContainerPosition[1] + roomContainer.height < offset + etpContainer.height) {
+            etpContainer.setEnabled(false)
+        } else
+            etpContainer.setEnabled(true)
+    }
+
+    public fun scrollToRoom(animate: Boolean) {
+        roomContainer.getLocationOnScreen(roomContainerPosition)
+
+        var scrollToAmount = roomContainerPosition[1] - offset + detailContainer.scrollY
+        if (etpContainer.visibility == View.VISIBLE) scrollToAmount -= etpContainer.height
+        if (commonAmenityText.visibility == View.VISIBLE) scrollToAmount -= commonAmenityText.height
+        val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.scrollY, scrollToAmount.toInt())
+
+        smoothScrollAnimation.setDuration(if (animate) ANIMATION_DURATION else 0)
+        smoothScrollAnimation.interpolator = (DecelerateInterpolator())
+        smoothScrollAnimation.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
+            override fun onAnimationUpdate(animation: ValueAnimator) {
+                val scrollTo = animation.animatedValue as Int
+                detailContainer.scrollTo(0, scrollTo)
+            }
+        })
+
+        smoothScrollAnimation.start()
+    }
+
 
     init {
         View.inflate(getContext(), R.layout.widget_hotel_detail, this)
+        gallery.addImageViewCreatedListener(object : RecyclerGallery.IImageViewBitmapLoadedListener {
+            override fun onImageViewBitmapLoaded(index: Int) {
+                updateGalleryChildrenHeights(index)
+            }
+        })
         statusBarHeight = Ui.getStatusBarHeight(getContext())
         toolBarHeight = Ui.getToolbarSize(getContext())
         if (statusBarHeight > 0) {
             toolbar.setPadding(0, statusBarHeight, 0, 0)
         }
         Ui.showTransparentStatusBar(getContext())
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp))
         toolbar.setBackgroundColor(getResources().getColor(android.R.color.transparent))
         toolBarBackground.getLayoutParams().height += statusBarHeight
-        toolBarBackground.setAlpha(0f)
         toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
-        detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
-        offset = Ui.toolbarSizeWithStatusBar(getContext()).toFloat()
+
+        if (shouldShowCircleForRatings()) {
+            toolBarRating = findViewById(R.id.hotel_circle_rating_bar) as StarRatingBar
+        } else {
+            toolBarRating = findViewById(R.id.hotel_star_rating_bar) as StarRatingBar
+        }
+        toolBarRating.visibility = View.VISIBLE
+
+        offset = statusBarHeight.toFloat() + toolBarHeight
+
+        navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
+        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN!!)
+        toolbar.setNavigationIcon(navIcon)
+
+        toolbar.setNavigationOnClickListener { view ->
+            if (navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
+                updateGallery(false)
+            } else
+                (getContext() as Activity).onBackPressed()
+        }
+
+        //share hotel listing text view set up drawable
+        val phoneIconDrawable = getResources().getDrawable(R.drawable.detail_phone).mutate()
+        phoneIconDrawable.setColorFilter(getResources().getColor(R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
+        payByPhoneTextView.setCompoundDrawablesWithIntrinsicBounds(phoneIconDrawable, null, null, null)
+        selectRoomButton.setOnClickListener {
+            scrollToRoom(true)
+            HotelV2Tracking().trackLinkHotelV2DetailSelectRoom()
+        }
+        stickySelectRoomButton.setOnClickListener {
+            scrollToRoom(true)
+            HotelV2Tracking().trackLinkHotelV2DetailSelectRoom()
+        }
+        resortFeeWidget.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        resortViewHeight = resortFeeWidget.measuredHeight
+        resortInAnimator = ObjectAnimator.ofFloat(resortFeeWidget, "translationY", resortViewHeight.toFloat(), 0f).setDuration(ANIMATION_DURATION)
+        resortOutAnimator = ObjectAnimator.ofFloat(resortFeeWidget, "translationY", 0f, resortViewHeight.toFloat()).setDuration(ANIMATION_DURATION)
+
+        stickySelectRoomContainer.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        selectRoomContainerHeight = stickySelectRoomContainer.measuredHeight
+        selectRoomInAnimator = ObjectAnimator.ofFloat(stickySelectRoomContainer, "translationY", selectRoomContainerHeight.toFloat(), 0f).setDuration(ANIMATION_DURATION)
+        selectRoomOutAnimator = ObjectAnimator.ofFloat(stickySelectRoomContainer, "translationY", 0f, selectRoomContainerHeight.toFloat()).setDuration(ANIMATION_DURATION)
+
+        hideResortandSelectRoom()
+
+        FontCache.setTypeface(payNowButton, FontCache.Font.ROBOTO_REGULAR)
+        FontCache.setTypeface(payLaterButton, FontCache.Font.ROBOTO_REGULAR)
     }
 
+    override fun onVisibilityChanged(changedView: View?, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+        if (changedView == this && visibility == View.VISIBLE) {
+            resetGallery()
+        }
+    }
+
+    public fun resetGallery() {
+        viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                viewTreeObserver.removeOnGlobalLayoutListener(this)
+                val lp = galleryContainer.layoutParams
+                lp.height = height
+                galleryContainer.layoutParams = lp
+
+                galleryHeight = resources.getDimensionPixelSize(R.dimen.gallery_height)
+                initialScrollTop = height - galleryHeight
+
+                detailContainer.post {
+                    detailContainer.scrollTo(0, initialScrollTop)
+                    gallery.scrollToPosition(0)
+                    showToolbarGradient()
+                }
+            }
+        })
+    }
+
+    public fun updateGallery(toFullScreen: Boolean) {
+        if (detailContainer.isFlinging) {
+            return
+        }
+
+        val fromY = detailContainer.scrollY
+        val threshold = initialScrollTop / 2
+        //In case of slow scrolling, if gallery view is expanding more than halfway then scrollTo full screen else scrollTo initialScroollTop
+        if ((toFullScreen && fromY > threshold && fromY < initialScrollTop) || (!toFullScreen)) {
+            detailContainer.animateScrollY(fromY, initialScrollTop, ANIMATION_DURATION)
+        } else if (fromY < threshold ) {
+            detailContainer.animateScrollY(fromY, 0, ANIMATION_DURATION)
+        }
+    }
+
+    public fun getArrowRotationRatio(scrollY: Int): Float {
+        return scrollY.toFloat() / (initialScrollTop)
+    }
+
+    companion object {
+        val zeroSaturationColorMatrixColorFilter: ColorMatrixColorFilter by lazy {
+            val colorMatrix = android.graphics.ColorMatrix()
+            colorMatrix.setSaturation(0f)
+            ColorMatrixColorFilter(colorMatrix)
+        }
+    }
+
+    private fun updateGalleryChildrenHeights(index: Int) {
+        resizeImageViews(index)
+        resizeImageViews(index - 1)
+        resizeImageViews(index + 1)
+    }
+
+    private fun resizeImageViews(index: Int) {
+        if (index >= 0 && index < gallery.adapter.itemCount) {
+            var holder = gallery.findViewHolderForAdapterPosition(index)
+            if (holder != null) {
+                holder = holder as RecyclerGallery.RecyclerAdapter.ViewHolder
+                holder.mImageView?.setIntermediateValue(height - initialScrollTop, height,
+                        detailContainer.scrollY.toFloat() / initialScrollTop)
+            }
+        }
+    }
 }

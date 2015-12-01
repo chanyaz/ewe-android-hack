@@ -28,16 +28,20 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		CarSuggestionViewHolder holder;
+		View itemView = super.getView(position, convertView, parent);
+		if (itemView != null) {
+			return itemView;
+		}
 
+		CarSuggestionViewHolder holder;
 		if (convertView == null) {
-			convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.car_dropdown_item, parent, false);
+			convertView = LayoutInflater.from(parent.getContext())
+				.inflate(R.layout.car_dropdown_item, parent, false);
 			convertView.setTag(new CarSuggestionViewHolder(convertView));
 		}
 
 		holder = (CarSuggestionViewHolder) convertView.getTag();
 		holder.bind(getItem(position));
-
 		return convertView;
 	}
 
@@ -56,7 +60,17 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 		}
 
 		public void bind(Suggestion suggestion) {
-			if (suggestion.isMajorAirport()) {
+			updateLocationTitleAndSubTitle(suggestion);
+
+			updateDropdownImage(suggestion);
+		}
+
+		private void updateLocationTitleAndSubTitle(Suggestion suggestion) {
+			if (Suggestion.CURRENT_LOCATION_ID.equalsIgnoreCase(suggestion.id)) {
+				locationTitle.setText(locationTitle.getContext().getString(R.string.current_location));
+				locationSubtitle.setVisibility(View.GONE);
+			}
+			else if (suggestion.isMajorAirport()) {
 				locationTitle.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)));
 				locationSubtitle.setText(StrUtils.formatAirportName(suggestion.shortName));
 			}
@@ -64,7 +78,9 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 				locationTitle.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)));
 				locationSubtitle.setText(suggestion.shortName);
 			}
+		}
 
+		private void updateDropdownImage(Suggestion suggestion) {
 			if (suggestion.iconType == Suggestion.IconType.HISTORY_ICON) {
 				dropdownImage.setImageResource(R.drawable.recents);
 			}
@@ -72,7 +88,8 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 				dropdownImage.setImageResource(R.drawable.ic_suggest_current_location);
 			}
 			else {
-				dropdownImage.setImageResource(suggestion.isMajorAirport() ? R.drawable.ic_suggest_airport : R.drawable.search_type_icon);
+				dropdownImage.setImageResource(
+					suggestion.isMajorAirport() ? R.drawable.ic_suggest_airport : R.drawable.search_type_icon);
 			}
 			dropdownImage
 				.setColorFilter(dropdownImage.getContext().getResources()

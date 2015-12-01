@@ -1,7 +1,5 @@
 package com.expedia.bookings.test.espresso;
 
-import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
-
 public class PhoneTestCase extends EspressoTestCase {
 
 	public PhoneTestCase() {
@@ -14,7 +12,7 @@ public class PhoneTestCase extends EspressoTestCase {
 
 	@Override
 	public void runTest() throws Throwable {
-		if (Common.isPhone(getInstrumentation())) {
+		if (Common.isPhone()) {
 			super.runTest();
 		}
 	}

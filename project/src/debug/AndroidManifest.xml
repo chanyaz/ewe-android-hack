@@ -12,18 +12,6 @@
             android:theme="@style/V2.Theme.Cars" >
         </activity>
 
-        <activity
-            android:name="com.expedia.ui.HotelActivity"
-            android:taskAffinity="com.expedia.bookings.ui.HotelActivity"
-            android:label="New Hotels"
-            android:theme="@style/V2.Theme.Hotels" >
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-
-    </application>
+     </application>
 
 </manifest>

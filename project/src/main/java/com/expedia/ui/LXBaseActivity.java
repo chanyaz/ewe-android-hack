@@ -2,14 +2,15 @@ package com.expedia.ui;
 
 import org.joda.time.LocalDate;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v4.content.ContextCompat;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
@@ -19,7 +20,6 @@ import com.expedia.bookings.presenter.lx.LXPresenter;
 import com.expedia.bookings.utils.AlertDialogUtils;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -27,7 +27,7 @@ import butterknife.InjectView;
 import rx.Observable;
 import rx.Subscription;
 
-public class LXBaseActivity extends ActionBarActivity {
+public class LXBaseActivity extends AbstractAppCompatActivity {
 
 	@InjectView(R.id.lx_base_presenter)
 	LXPresenter lxPresenter;
@@ -35,17 +35,37 @@ public class LXBaseActivity extends ActionBarActivity {
 	private LXCurrentLocationSuggestionObserver currentLocationSuggestionObserver;
 	private Subscription currentLocationSuggestionSubscription;
 
+	public static final String EXTRA_IS_GROUND_TRANSPORT = "IS_GROUND_TRANSPORT";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Ui.getApplication(this).defaultLXComponents();
+
+		Intent intent = getIntent();
+		boolean isGroundTransport = intent.getBooleanExtra(EXTRA_IS_GROUND_TRANSPORT, false);
+		if (isGroundTransport) {
+			this.setTheme(R.style.V2_Theme_LX_Transport);
+		}
+
 		setContentView(R.layout.lx_base_layout);
 		ButterKnife.inject(this);
+		lxPresenter.setIsGroundTransport(isGroundTransport);
 		Ui.showTransparentStatusBar(this);
 		handleNavigationViaDeepLink();
 	}
 
 	private void triggerCurrentLocationSuggestions() {
+		int permissionCheck = ContextCompat.checkSelfPermission(this,
+			Manifest.permission.ACCESS_FINE_LOCATION);
+
+		if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+			// If no permission on LX, we should go to the search screen instead of results
+			Events.post(new Events.LXNewSearch(null, LocalDate.now(),
+				LocalDate.now().plusDays(getResources().getInteger(R.integer.lx_default_search_range))));
+			return;
+		}
+
 		Events.post(new Events.LXShowLoadingAnimation());
 		LXSearchParams currentLocationSearchParams = new LXSearchParams()
 			.startDate(LocalDate.now())
@@ -116,12 +136,19 @@ public class LXBaseActivity extends ActionBarActivity {
 	}
 
 	@Override
+	protected void onDestroy() {
+		Ui.getApplication(this).setLXTestComponent(null);
+		super.onDestroy();
+	}
+
+	@Override
 	protected void onPause() {
 		super.onPause();
 		Events.unregister(this);
 
 		if (isFinishing()) {
 			clearCCNumber();
+			clearStoredCard();
 		}
 	}
 
@@ -136,15 +163,5 @@ public class LXBaseActivity extends ActionBarActivity {
 	@Subscribe
 	public void onFinishActivity(Events.FinishActivity event) {
 		finish();
-	}
-
-	public void clearCCNumber() {
-		try {
-			Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setNumber(null);
-			Db.getBillingInfo().setNumber(null);
-		}
-		catch (Exception ex) {
-			Log.e("Error clearing billingInfo card number", ex);
-		}
 	}
 }

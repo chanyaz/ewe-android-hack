@@ -177,8 +177,10 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 			@Override
 			public void onBitmapFailed(Drawable errorDrawable) {
 				super.onBitmapFailed(errorDrawable);
-				backgroundImageView.setImageDrawable(errorDrawable);
-				gradientMask.setVisibility(View.VISIBLE);
+				if (errorDrawable != null) {
+					backgroundImageView.setImageDrawable(errorDrawable);
+					gradientMask.setVisibility(View.VISIBLE);
+				}
 			}
 
 			@Override

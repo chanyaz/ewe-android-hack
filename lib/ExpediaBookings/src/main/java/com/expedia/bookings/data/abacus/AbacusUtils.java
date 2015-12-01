@@ -32,6 +32,10 @@ public class AbacusUtils {
 	public static final int EBAndroidAppPaySuppressGoogleWallet = 8148;
 	public static final int EBAndroidAppFlightMissingTravelerInfoCallout = 8128;
 	public static final int EBAndroidHotelCKOMerEmailGuestOpt = 8127;
+	public static final int EBAndroidAppSplitGTandActivities = 8369;
+	public static final int ExpediaAndroidAppAATestSep2015 = 8706;
+	public static final int EBAndroidAppHotelsABTest = 8624;
+
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -81,6 +85,9 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppPaySuppressGoogleWallet);
 		testIDs.add(EBAndroidAppFlightMissingTravelerInfoCallout);
 		testIDs.add(EBAndroidHotelCKOMerEmailGuestOpt);
+		testIDs.add(EBAndroidAppSplitGTandActivities);
+		testIDs.add(ExpediaAndroidAppAATestSep2015);
+		testIDs.add(EBAndroidAppHotelsABTest);
 		return testIDs;
 	}
 

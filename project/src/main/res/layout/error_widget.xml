@@ -20,7 +20,7 @@
 
         <Button
             android:id="@+id/error_action_button"
-            style="@style/CarButton"
+            style="?attr/skin_errorWidgetEditButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
