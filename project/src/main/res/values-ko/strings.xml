@@ -273,12 +273,6 @@
     <string name="missing_flight_info_message_TEMPLATE">%s행 항공편을 검색하려면 어디서 출발하는지 알려주세요.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">날짜 또는 날짜 범위를 올바르게 선택해 주세요.</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">%s행 항공편을 검색하려면\n언제 출발하는지 알려주세요.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">항공 요금 추세를 보려면\n어디서 출발하는지 알려주세요.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">항공 요금 추세를 통해 항공 요금의 변동을 확인하실 수 있어요. 표시된 요금은 실제로 검색되는 데이터를 기반으로 하기 때문에 일부 경로의 경우 정보가 부족할 수 있습니다.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">여행 시작</string>
     <!-- Denotes the end date of the trip -->
@@ -658,6 +652,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s 결제가 지원되지 않습니다.</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">죄송합니다. 이 즐길거리의 가격이 변동되었습니다. 다시 예약해 주세요.</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">죄송합니다. 선택하신 날짜에 티켓이 충분하지 않습니다. 다른 날짜를 선택하시거나 티켓 수를 줄여 선택해 주세요.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">고객님의 티켓을 다음 주소로 보내드렸습니다:</string>
     <!-- LX reservation confirmation text -->
@@ -748,10 +744,6 @@
     <string name="trip_bucket_label_flight_roundtrip">%1$s 왕복 여행 항공</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">%1$s행 항공편</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">항공 요금 추세</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">돌아오는 날짜</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">죄송합니다. \n현재 이용 가능한 호텔이 없습니다.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -849,6 +841,8 @@
     <string name="room_rate_pay_now">지금 결제</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">지금 결제할 금액: {amount}</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">지금 결제할 금액</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/1박</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -1390,6 +1384,7 @@
     <string name="itin_card_details_address">주소</string>
     <string name="itin_card_details_local_phone">현지 전화</string>
     <string name="itin_card_details_room_type">객실 유형</string>
+    <string name="itin_card_details_non_price_promotion_includes">포함</string>
     <string name="itin_card_details_bed_type">침대 유형</string>
     <string name="toast_copied_to_clipboard">클립보드에 복사되었습니다.</string>
     <string name="itin_card_details_reload">정보 다시 로드하기</string>
@@ -2620,6 +2615,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">(5점 만점의 고객 평점)</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">/ 5 - 좋음!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">/ 5 - 매우 좋음!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">/ 5 - 훌륭함!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">/ 5 - 매우 훌륭함!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">/ 5 - 최고 좋음!</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -3001,6 +3003,8 @@
     <string name="app_support">앱 기술 지원</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">이용약관</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">이용약관</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">개인정보 보호정책</string>
     <!-- Copyright information -->
@@ -3104,7 +3108,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%1$s%2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
@@ -3722,12 +3726,15 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">이 예약을 완료함으로써 본인은 %1$s, %2$s 및 %3$s을 읽었으며 이를 수락하는 데 동의합니다.</string>
     <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">%1$s 및 %2$s 내용을 읽었고 이에 동의합니다.</string>
+    <string name="account_creation_legal_TEMPLATE">%1$s 및 %2$s 내용을 읽었고 이에 동의합니다. {brand}+에 가입함으로써 본인은 모든 %3$s에 동의합니다.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">각 아동의 나이 선택</string>
 
     <string name="lob_not_supported_error_message">죄송합니다. 고객님의 위치에서는 아직 {lob} 예약을 이용하실 수 없습니다.</string>
+
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(만 0~17세)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">주변</string>

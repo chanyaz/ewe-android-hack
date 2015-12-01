@@ -273,12 +273,6 @@
     <string name="missing_flight_info_message_TEMPLATE">Para procurar voos para %s, diga de onde você está voando.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Selecione uma data ou intervalo de datas válido.</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">Para buscar voos para %s,\ndiga quando gostaria de voar.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">Para flutuação de tarifa,\ndiga de onde está partindo.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">Com a Flutuação de tarifa, você poderá ter uma ideia de como os preços dos voos variam ao longo do tempo. Visto que os preços exibidos têm como base dados obtidos em tempo real através de pesquisas reais, algumas rotas oferecem menos informações do que outras.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">A viagem começa</string>
     <!-- Denotes the end date of the trip -->
@@ -658,6 +652,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">Não aceitamos %1$s</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">O preço desta atividade mudou. Tente reservar novamente.</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">Não temos bilhetes suficientes para as datas selecionadas. Tente outra data ou selecione menos bilhetes.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Seus bilhetes foram enviados para</string>
     <!-- LX reservation confirmation text -->
@@ -748,10 +744,6 @@
     <string name="trip_bucket_label_flight_roundtrip">Voo de ida e volta para %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Voo para %1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">Flutuação de tarifa</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">Quando retornar</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Nenhum hotel \n disponível em nosso site no momento.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -849,6 +841,8 @@
     <string name="room_rate_pay_now">Pagar agora</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} devido agora</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">Devido agora</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/noite</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -1390,6 +1384,7 @@
     <string name="itin_card_details_address">Endereço</string>
     <string name="itin_card_details_local_phone">Telefone local</string>
     <string name="itin_card_details_room_type">Tipo de quarto</string>
+    <string name="itin_card_details_non_price_promotion_includes">Inclui</string>
     <string name="itin_card_details_bed_type">Tipo de cama</string>
     <string name="toast_copied_to_clipboard">Copiado para área de transferência.</string>
     <string name="itin_card_details_reload">Recarregar informações</string>
@@ -2620,6 +2615,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">de 5 (classificação do hóspede)</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">de 5 - Bom!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">de 5 - Muito bom!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">de 5 - Excelente!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">de 5 - Maravilhoso!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">de 5 - Extraordinário!</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -3001,6 +3003,8 @@
     <string name="app_support">Assistência para o app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Termos e condições</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">Termos de uso</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Política de privacidade</string>
     <!-- Copyright information -->
@@ -3722,12 +3726,15 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Ao finalizar esta reserva, eu concordo que li e aceitei as %1$s, os %2$s e a %3$s.</string>
     <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">Li e aceito os %1$s e a %2$s.</string>
+    <string name="account_creation_legal_TEMPLATE">Li e aceito os %1$s e a %2$s. Ao me inscrever no {brand}+, eu aceito todos os %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Selecione a idade de cada criança</string>
 
     <string name="lob_not_supported_error_message">Reserva de {lob} ainda não está disponível para seu local.</string>
+
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(0-17 anos)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Arredores</string>

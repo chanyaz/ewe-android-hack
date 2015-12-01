@@ -273,12 +273,6 @@
     <string name="missing_flight_info_message_TEMPLATE">For at kunne søge efter flyrejser til %s, bedes du fortælle os, hvor du flyver fra.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Vælg en gyldig dato eller datointerval.</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">For at kunne søge efter flyrejser til %s,\n, bedes du fortælle os, hvornår du ønsker at flyve.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">Angiv hvor du rejser fra\nfor at se flypristendenser.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">Flytendenser giver dig et indblik i, hvordan flypriser svinger over tid. Eftersom de viste priser er baseret på livedata fra rigtige søgninger, har nogle ruter færre oplysninger end andre.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Rejsen starter</string>
     <!-- Denotes the end date of the trip -->
@@ -658,6 +652,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s accepteres ikke</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Vi beklager, men prisen på denne aktivitet har ændret sig. Prøv venligst at reservere igen.</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">Beklager, vi har ikke nok billetter på den valgte dato. Prøv en anden dato, eller vælg færre billetter.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Dine billetter er blevet sendt til</string>
     <!-- LX reservation confirmation text -->
@@ -748,10 +744,6 @@
     <string name="trip_bucket_label_flight_roundtrip">Returrejse med fly til %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Flyrejse til %1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">Flytendenser</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">Hjemrejse</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Beklager, der er ingen tilgængelige hoteller \n i øjeblikket.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -849,6 +841,8 @@
     <string name="room_rate_pay_now">Betal nu</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} til betaling nu</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">Til betaling nu</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/nat</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -1390,6 +1384,7 @@
     <string name="itin_card_details_address">Adresse</string>
     <string name="itin_card_details_local_phone">Lokalt telefonnummer</string>
     <string name="itin_card_details_room_type">Værelsestype</string>
+    <string name="itin_card_details_non_price_promotion_includes">Inkluderer</string>
     <string name="itin_card_details_bed_type">Sengetype</string>
     <string name="toast_copied_to_clipboard">Kopieret til udklipsholder.</string>
     <string name="itin_card_details_reload">Genindlæs oplysninger</string>
@@ -2620,6 +2615,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">af 5 - gæstebedømmelse</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">ud af 5 - Godt!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">ud af 5 - Meget Godt!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">ud af 5 - Fremragende!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">ud af 5 - Fantastisk!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">ud af 5 - Enestående!</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -3001,6 +3003,8 @@
     <string name="app_support">App Support</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Vilkår og betingelser</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">Vilkår for brug</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Fortrolighedspolitik</string>
     <!-- Copyright information -->
@@ -3722,12 +3726,15 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Ved at gennemføre denne reservation bekræfter jeg, at jeg har læst og accepterer %1$s, %2$s samt %3$s.</string>
     <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">Jeg har læst og accepterer %1$s samt Expedias %2$s.</string>
+    <string name="account_creation_legal_TEMPLATE">Jeg har læst og accepterer %1$s samt Expedias %2$s. Ved at tilmelde mig {brand}+ accepterer jeg alle %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Vælg hvert barns alder</string>
 
     <string name="lob_not_supported_error_message">Beklager, men reservation af {lob} er endnu ikke tilgængelig, der hvor du befinder dig.</string>
+
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(0-17 år gammel)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Kvarterer</string>

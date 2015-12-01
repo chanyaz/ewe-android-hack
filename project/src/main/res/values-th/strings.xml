@@ -273,12 +273,6 @@
     <string name="missing_flight_info_message_TEMPLATE">โปรดบอกเราว่าคุณจะบินจากที่ไหน เพื่อเลือกดูเที่ยวบินไปยัง%s</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">โปรดเลือกวันที่หรือช่วงวันที่ที่ถูกต้อง</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">เพื่อดูเที่ยวบินไปยัง%s \nโปรดระบุวันเดินทางของคุณ</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">บอกเราว่าคุณจะออกเดินทางจากไหน\nเพื่อดูแนวโน้มราคาเที่ยวบิน</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">ฟีเจอร์แนวโน้มราคาเที่ยวบินช่วยให้คุณทราบการเปลี่ยนแปลงของราคาเที่ยวบินที่ผันผวนขึ้นลงได้คร่าวๆ ราคาที่แสดงอ้างอิงจากข้อมูลสดที่รวบรวมจากการค้นหาจริง ดังนั้นบางเส้นทางบินจะมีข้อมูลน้อยกว่าเส้นทางบินอื่นๆ</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">วันเริ่มออกเดินทาง</string>
     <!-- Denotes the end date of the trip -->
@@ -348,9 +342,9 @@
     <string name="ticket_type_sedan">รถเก๋ง</string>
     <string name="ticket_type_minivan">มินิแวน</string>
     <string name="ticket_type_water_taxi">แท็กซี่น้ำ</string>
-    <string name="ticket_type_suv">SUV</string>
+    <string name="ticket_type_suv">รถเอสยูวี</string>
     <string name="ticket_type_executive_car">รถนั่งขนาดใหญ่</string>
-    <string name="ticket_type_luxury_car">รถหรู</string>
+    <string name="ticket_type_luxury_car">รถหรูหรา</string>
     <string name="ticket_type_limousine">ลิมูซีน</string>
     <string name="ticket_type_towncar">รถทาวน์คาร์</string>
     <string name="ticket_type_vehicle_parking_spot">จุดจอดรถ</string>
@@ -438,7 +432,7 @@
         <item quantity="other">แท็กซี่น้ำ %1$s ลำ</item>
     </plurals>
     <plurals name="ticket_type_suv_TEMPLATE">
-        <item quantity="one">รถ SUV %1$s คัน</item>
+        <item quantity="one">รถเอสยูวี %1$s คัน</item>
         <item quantity="other">รถ SUV %1$s คัน</item>
     </plurals>
     <plurals name="ticket_type_executive_car_TEMPLATE">
@@ -446,8 +440,8 @@
         <item quantity="other">รถนั่งขนาดใหญ่ %1$s คัน</item>
     </plurals>
     <plurals name="ticket_type_luxury_car_TEMPLATE">
-        <item quantity="one">รถหรู %1$s คัน</item>
-        <item quantity="other">รถหรู %1$s คัน</item>
+        <item quantity="one">รถหรูหรา %1$s คัน</item>
+        <item quantity="other">รถหรูหรา %1$s คัน</item>
     </plurals>
     <plurals name="ticket_type_limousine_TEMPLATE">
         <item quantity="one">ลิมูซีน %1$s คัน</item>
@@ -580,9 +574,9 @@
     <string name="per_ticket_type_sedan">ต่อรถเก๋ง</string>
     <string name="per_ticket_type_minivan">ต่อมินิแวน</string>
     <string name="per_ticket_type_water_taxi">ต่อแท็กซี่น้ำ</string>
-    <string name="per_ticket_type_suv">ต่อ SUV</string>
+    <string name="per_ticket_type_suv">ต่อรถเอสยูวี</string>
     <string name="per_ticket_type_executive_car">ต่อรถนั่งขนาดใหญ่</string>
-    <string name="per_ticket_type_luxury_car">ต่อรถหรู</string>
+    <string name="per_ticket_type_luxury_car">ต่อรถหรูหรา</string>
     <string name="per_ticket_type_limousine">ต่อลิมูซีน</string>
     <string name="per_ticket_type_towncar">ต่อรถทาวน์คาร์</string>
     <string name="per_ticket_type_vehicle_parking_spot">ต่อจุดจอดรถ</string>
@@ -658,6 +652,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">ไม่รับ %1$s</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">ขออภัย ราคาของกิจกรรมนี้มีการเปลี่ยนแปลง โปรดลองจองใหม่อีกครั้ง</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">ขออภัย เรามีตั๋วไม่พอสำหรับวันที่เลือก โปรดลองเลือกวันอื่นหรือลดจำนวนตั๋วลง</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">ตั๋วของคุณส่งไปยัง</string>
     <!-- LX reservation confirmation text -->
@@ -748,10 +744,6 @@
     <string name="trip_bucket_label_flight_roundtrip">เที่ยวบินไป-กลับไปยัง%1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">เที่ยวบินไปยัง%1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">แนวโน้มราคาเที่ยวบิน</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">วันเดินทางกลับ</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">ขออภัย ไม่มีโรงแรมว่าง\nในขณะนี้</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -851,6 +843,8 @@
     <string name="room_rate_pay_now">จ่ายตอนนี้</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">จ่ายตอนนี้ {amount}</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">จ่ายตอนนี้</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/คืน</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -1262,7 +1256,7 @@
     <!-- Car category: mini -->
     <string name="car_category_mini">รถขนาดมินิ</string>
     <!-- Car category: economy -->
-    <string name="car_category_economy">รถประหยัดน้ำมัน</string>
+    <string name="car_category_economy">รถราคาประหยัด</string>
     <!-- Car category: compact -->
     <string name="car_category_compact">รถขนาดเล็ก</string>
     <!-- Car category: midize -->
@@ -1272,25 +1266,25 @@
     <!-- Car category: fullsize -->
     <string name="car_category_fullsize">รถขนาดใหญ่</string>
     <!-- Car category: premium -->
-    <string name="car_category_premium">รถระดับพรีเมียม</string>
+    <string name="car_category_premium">รถพรีเมียม</string>
     <!-- Car category: luxury -->
-    <string name="car_category_luxury">รถหรู</string>
+    <string name="car_category_luxury">รถหรูหรา</string>
     <!-- Car category: mini elite -->
-    <string name="car_category_mini_elite">รถขนาดมินิแบบหรู</string>
+    <string name="car_category_mini_elite">รถหรูหราขนาดมินิ</string>
     <!-- Car category: economy elite -->
-    <string name="car_category_economy_elite">รถประหยัดน้ำมันแบบหรู</string>
+    <string name="car_category_economy_elite">รถหรูหราแบบราคาประหยัด</string>
     <!-- Car category: compact elite -->
-    <string name="car_category_compact_elite">รถขนาดเล็กแบบหรู</string>
+    <string name="car_category_compact_elite">รถหรูหราขนาดเล็ก</string>
     <!-- Car category: midize elite -->
     <string name="car_category_midsize_elite">รถขนาดกลางแบบหรู</string>
     <!-- Car category: standard elite -->
-    <string name="car_category_standard_elite">รถขนาดมาตรฐานแบบหรู</string>
+    <string name="car_category_standard_elite">รถหรูหราขนาดมาตรฐาน</string>
     <!-- Car category: fullsize elite -->
     <string name="car_category_fullsize_elite">รถขนาดใหญ่แบบหรู</string>
     <!-- Car category: premium elite -->
-    <string name="car_category_premium_elite">รถระดับพรีเมียมแบบหรู</string>
+    <string name="car_category_premium_elite">รถหรูหราพรีเมียม</string>
     <!-- Car category: luxury elite -->
-    <string name="car_category_luxury_elite">รถเอลีทระดับหรู</string>
+    <string name="car_category_luxury_elite">รถหรูมีระดับ</string>
     <!-- Car category: special -->
     <string name="car_category_special">รถพิเศษ</string>
     <!-- Car category: oversize -->
@@ -1298,58 +1292,58 @@
 
     <!-- Car category for results and details screen -->
     <!-- Car category: mini -->
-    <string name="car_category_result_mini">มินิ</string>
+    <string name="car_category_result_mini">รถขนาดมินิ</string>
     <!-- Car category: economy -->
-    <string name="car_category_result_economy">ประหยัดน้ำมัน</string>
+    <string name="car_category_result_economy">รถราคาประหยัด</string>
     <!-- Car category: compact -->
-    <string name="car_category_result_compact">ขนาดเล็ก</string>
+    <string name="car_category_result_compact">รถขนาดเล็ก</string>
     <!-- Car category: midize -->
     <string name="car_category_result_midsize">ขนาดกลาง</string>
     <!-- Car category: standard -->
-    <string name="car_category_result_standard">ขนาดมาตรฐาน</string>
+    <string name="car_category_result_standard">รถขนาดมาตรฐาน</string>
     <!-- Car category: fullsize -->
     <string name="car_category_result_fullsize">ขนาดใหญ่</string>
     <!-- Car category: premium -->
-    <string name="car_category_result_premium">ระดับพรีเมียม</string>
+    <string name="car_category_result_premium">รถพรีเมียม</string>
     <!-- Car category: luxury -->
-    <string name="car_category_result_luxury">หรู</string>
+    <string name="car_category_result_luxury">รถหรูหรา</string>
     <!-- Car category: mini elite -->
-    <string name="car_category_result_mini_elite">ขนาดมินิแบบหรู</string>
+    <string name="car_category_result_mini_elite">รถหรูหราขนาดมินิ</string>
     <!-- Car category: economy elite -->
-    <string name="car_category_result_economy_elite">ประหยัดน้ำมันแบบหรู</string>
+    <string name="car_category_result_economy_elite">รถหรูหราแบบราคาประหยัด</string>
     <!-- Car category: compact elite -->
-    <string name="car_category_result_compact_elite">ขนาดเล็กแบบหรู</string>
+    <string name="car_category_result_compact_elite">รถหรูหราขนาดเล็ก</string>
     <!-- Car category: midize elite -->
     <string name="car_category_result_midsize_elite">ขนาดกลางแบบหรู</string>
     <!-- Car category: standard elite -->
-    <string name="car_category_result_standard_elite">ขนาดมาตรฐานแบบหรู</string>
+    <string name="car_category_result_standard_elite">รถหรูหราขนาดมาตรฐาน</string>
     <!-- Car category: fullsize elite -->
     <string name="car_category_result_fullsize_elite">ขนาดใหญ่แบบหรู</string>
     <!-- Car category: premium elite -->
-    <string name="car_category_result_premium_elite">ระดับพรีเมียมแบบหรู</string>
+    <string name="car_category_result_premium_elite">รถหรูหราพรีเมียม</string>
     <!-- Car category: luxury elite -->
-    <string name="car_category_result_luxury_elite">เอลีทระดับหรู</string>
+    <string name="car_category_result_luxury_elite">รถหรูมีระดับ</string>
     <!-- Car category: oversize -->
-    <string name="car_category_result_oversize">ขนาดใหญ่พิเศษ</string>
+    <string name="car_category_result_oversize">รถขนาดใหญ่พิเศษ</string>
 
     <!-- Car types -->
     <string name="car_type_two_door">รถสองประตู</string>
     <string name="car_type_three_door">รถสามประตู</string>
     <string name="car_type_four_door">รถสี่ประตู</string>
     <string name="car_type_van">รถตู้</string>
-    <string name="car_type_wagon">รถแวกอน</string>
+    <string name="car_type_wagon">รถวากอน</string>
     <string name="car_type_limousine">ลิมูซีน</string>
     <string name="car_type_recreational_vehicle">รถบ้าน</string>
-    <string name="car_type_convertible">เปิดประทุน</string>
+    <string name="car_type_convertible">รถเปิดประทุน</string>
     <string name="car_type_sports_car">รถสปอร์ต</string>
-    <string name="car_type_suv">SUV</string>
-    <string name="car_type_pickup_regular_cab">รถปิคอัพ</string>
+    <string name="car_type_suv">รถเอสยูวี</string>
+    <string name="car_type_pickup_regular_cab">รถกระบะตอนเดียว</string>
     <string name="car_type_open_air_all_terrain">เอทีวี</string>
     <string name="car_type_special">พิเศษ</string>
     <string name="car_type_commercial_van_truck">รถตู้/รถบรรทุกเพื่อการพาณิชย์</string>
     <string name="car_type_pickup_extended_cab">รถปิคอัพแบบที่นั่งตอนครึ่ง</string>
     <string name="car_type_special_offer_car">รถราคาพิเศษ</string>
-    <string name="car_type_coupe">คูเป้</string>
+    <string name="car_type_coupe">รถคูเป้</string>
     <string name="car_type_monospace">รถอเนกประสงค์</string>
     <string name="car_type_motor_home">รถบ้าน</string>
     <string name="car_type_two_wheel_vehicle">ยานพาหนะสองล้อ</string>
@@ -1392,6 +1386,7 @@
     <string name="itin_card_details_address">ที่อยู่</string>
     <string name="itin_card_details_local_phone">โทรศัพท์ในประเทศ</string>
     <string name="itin_card_details_room_type">ประเภทห้อง</string>
+    <string name="itin_card_details_non_price_promotion_includes">ราคารวม</string>
     <string name="itin_card_details_bed_type">ประเภทเตียง</string>
     <string name="toast_copied_to_clipboard">คัดลอกไปยังคลิปบอร์ด</string>
     <string name="itin_card_details_reload">โหลดข้อมูลใหม่</string>
@@ -1478,18 +1473,18 @@
     <string name="share_template_short_car_type_midsize">ฉันเช่ารถขนาดกลาง</string>
     <string name="share_template_short_car_type_standard">ฉันเช่ารถขนาดมาตรฐาน</string>
     <string name="share_template_short_car_type_fullsize">ฉันเช่ารถขนาดใหญ่</string>
-    <string name="share_template_short_car_type_premium">ฉันเช่ารถระดับพรีเมียม</string>
-    <string name="share_template_short_car_type_luxury">ฉันเช่ารถหรู</string>
+    <string name="share_template_short_car_type_premium">ฉันเช่ารถพรีเมียม</string>
+    <string name="share_template_short_car_type_luxury">ฉันเช่ารถหรูหรา</string>
     <string name="share_template_short_car_type_special">ฉันเช่ารถพิเศษ</string>
-    <string name="share_template_short_car_type_mini_elite">ฉันเช่ารถขนาดมินิแบบหรู</string>
-    <string name="share_template_short_car_type_compact_elite">ฉันเช่ารถขนาดเล็กแบบหรู</string>
+    <string name="share_template_short_car_type_mini_elite">ฉันเช่ารถหรูหราขนาดมินิ</string>
+    <string name="share_template_short_car_type_compact_elite">ฉันเช่ารถหรูหราขนาดเล็ก</string>
     <string name="share_template_short_car_type_midsize_elite">ฉันเช่ารถขนาดกลางแบบหรู</string>
     <string name="share_template_short_car_type_standard_elite">ฉันเช่ารถขนาดมาตรฐานแบบหรู</string>
     <string name="share_template_short_car_type_fullsize_elite">ฉันเช่ารถขนาดใหญ่แบบหรู</string>
-    <string name="share_template_short_car_type_premium_elite">ฉันเช่ารถพรีเมียมแบบหรู</string>
-    <string name="share_template_short_car_type_luxury_elite">ฉันเช่ารถเอลีทระดับหรู</string>
-    <string name="share_template_short_car_type_economy">ฉันเช่ารถประหยัดน้ำมัน</string>
-    <string name="share_template_short_car_type_economy_elite">ฉันเช่ารถประหยัดน้ำมันแบบหรู</string>
+    <string name="share_template_short_car_type_premium_elite">ฉันเช่ารถหรูหราพรีเมียม</string>
+    <string name="share_template_short_car_type_luxury_elite">ฉันเช่ารถหรูมีระดับ</string>
+    <string name="share_template_short_car_type_economy">ฉันเช่ารถราคาประหยัด</string>
+    <string name="share_template_short_car_type_economy_elite">ฉันเช่ารถหรูหราแบบราคาประหยัด</string>
     <string name="share_template_short_car_type_oversize">ฉันเช่ารถขนาดใหญ่พิเศษ</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">ตั้งแต่ %1$s - %2$s</string>
@@ -2622,6 +2617,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">จาก 5 - คะแนนจากผู้เข้าพัก</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">จาก 5 - ดี!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">จาก 5 - ดีมาก!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">จาก 5 - ดีเลิศ!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">จาก 5 - ยอดเยี่ยม!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">จาก 5 - ยอดเยี่ยมที่สุด!</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -3003,6 +3005,8 @@
     <string name="app_support">ฝ่ายสนับสนุนแอพ</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">ข้อตกลงและเงื่อนไข</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">ข้อตกลงการใช้งาน</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">นโยบายความเป็นส่วนตัว</string>
     <!-- Copyright information -->
@@ -3724,12 +3728,15 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">ในการดำเนินการจองนี้ให้เสร็จสมบูรณ์ ฉันได้อ่านและยอมรับ %1$s, %2$s และ %3$s แล้ว</string>
     <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">ฉันได้อ่านและยอมรับใน%1$sและ%2$s</string>
+    <string name="account_creation_legal_TEMPLATE">ฉันได้อ่านและยอมรับใน%1$sและ%2$s โดยการเข้าร่วม {brand}+ ฉันยอมรับ%3$sทั้งหมด</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">โปรดระบุอายุเด็ก</string>
 
     <string name="lob_not_supported_error_message">ขออภัย การจอง{lob}ยังไม่มีให้บริการในตำแหน่งของคุณ</string>
+
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(0-17 ปี)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">ย่าน</string>

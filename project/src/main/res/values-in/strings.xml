@@ -273,12 +273,6 @@
     <string name="missing_flight_info_message_TEMPLATE">Untuk mencari penerbangan ke %s, beri tahu kami bandara asal Anda.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Harap pilih tanggal yang valid.</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">Untuk mencari penerbangan ke %s,\nharap beritahu kami kapan Anda akan berangkat.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">Untuk melihat tren harga tiket, \nsilakan beritahu kami dari mana Anda terbang.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">Tren Harga Tiket akan menunjukkan bagi Anda perubahan harga tiket dari waktu ke waktu. Karena harga yang ditampilkan di bawah ini didasarkan pada info real-time, beberapa rute mungkin memiliki info yang lebih sedikit dibandingkan rute yang lainnya.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Perjalanan dimulai</string>
     <!-- Denotes the end date of the trip -->
@@ -658,6 +652,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">Hotel tidak menerima %1$s</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Maaf, harga aktivitas ini telah berubah. Silakan coba lagi nanti.</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">Maaf, jumlah tiket tidak cukup untuk tanggal pilihan Anda. Harap coba tanggal yang berbeda atau kurangi jumlah tiket.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Tiket Anda telah dikirimkan ke</string>
     <!-- LX reservation confirmation text -->
@@ -748,10 +744,6 @@
     <string name="trip_bucket_label_flight_roundtrip">Penerbangan Pulang-Pergi ke %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Penerbangan ke %1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">Tren Harga Tiket</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">Waktu kembali</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Maaf, saat ini tak ada \n hotel yang tersedia</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -849,6 +841,8 @@
     <string name="room_rate_pay_now">Bayar Sekarang</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} Dibayar Sekarang</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">Dibayar Sekarang</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/malam</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -1390,6 +1384,7 @@
     <string name="itin_card_details_address">Alamat</string>
     <string name="itin_card_details_local_phone">Telepon Lokal</string>
     <string name="itin_card_details_room_type">Jenis Kamar</string>
+    <string name="itin_card_details_non_price_promotion_includes">Mencakup</string>
     <string name="itin_card_details_bed_type">Jenis Tempat Tidur</string>
     <string name="toast_copied_to_clipboard">Disalin ke clipboard.</string>
     <string name="itin_card_details_reload">Muat Ulang Informasi</string>
@@ -2620,6 +2615,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">dari 5 - skor tamu</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">dari 5 - Bagus!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">dari 5 - Sangat Bagus!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">dari 5 - Luar biasa!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">dari 5 - Istimewa!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">dari 5 - Sempurna!</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -2940,7 +2942,7 @@
     <!-- Error when applying coupon - the coupon isn't recognized -->
     <string name="coupon_error_unrecognized">Maaf, kami tidak bisa mengenali kode kupon ini.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Maaf, tapi kode kupon ini telah kedaluwarsa.</string>
+    <string name="coupon_error_expired">Maaf, kode kupon ini telah kedaluwarsa.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Maaf, kami sedang mengalami masalah. Silakan coba lagi.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
@@ -3001,6 +3003,8 @@
     <string name="app_support">Dukungan Aplikasi</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Syarat dan Ketentuan</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">Ketentuan Penggunaan</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Kebijakan Privasi</string>
     <!-- Copyright information -->
@@ -3722,12 +3726,15 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Dengan menyelesaikan pemesanan ini, saya menyatakan bahwa saya telah membaca dan menerima %1$s, %2$s, dan %3$s.</string>
     <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">Saya telah membaca dan menyetujui %1$s serta %2$s.</string>
+    <string name="account_creation_legal_TEMPLATE">Saya telah membaca dan menyetujui %1$s serta %2$s. Dengan bergabung di {brand}+, saya menerima semua %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Masukkan umur tiap anak</string>
 
     <string name="lob_not_supported_error_message">Maaf, pemesanan {lob} saat ini belum tersedia untuk kawasan Anda.</string>
+
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(0-17 tahun)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Kawasan</string>

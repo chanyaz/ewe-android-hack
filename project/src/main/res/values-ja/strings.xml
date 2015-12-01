@@ -273,12 +273,6 @@
     <string name="missing_flight_info_message_TEMPLATE">%sへのフライトを表示するには、出発地を入力してください。</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">有効な日付または期間を選択してください。</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">%sへのフライトを表示するには、\n出発日を入力してください。</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">航空券の料金を表示するには、\n出発地を入力してください。</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">航空券の料金は、常に変動します。表示されている料金は実際の検索結果データに基づいており、一部のルートには最新の情報が反映されていない場合があります。</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">旅行開始日</string>
     <!-- Denotes the end date of the trip -->
@@ -658,6 +652,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s利用不可</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">申し訳ありません。このオプショナル ツアーの料金が変更されました。もう一度ご予約ください。</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">申し訳ありません。指定された日付ではご希望枚数分のチケットがありません。日付またはチケット枚数を変更してください。</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">チケット送信先 :</string>
     <!-- LX reservation confirmation text -->
@@ -748,10 +744,6 @@
     <string name="trip_bucket_label_flight_roundtrip">%1$sへの往復航空券</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">%1$sへの航空券</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">航空券の料金</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">復路 (帰り) 出発日</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">申し訳ありません。\n現在ご利用いただけるホテルはありません。</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -849,6 +841,8 @@
     <string name="room_rate_pay_now">今すぐお支払い</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">今すぐお支払いの金額 : {amount}</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">今すぐお支払いの金額</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/ 泊</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -1390,6 +1384,7 @@
     <string name="itin_card_details_address">住所</string>
     <string name="itin_card_details_local_phone">現地の電話番号</string>
     <string name="itin_card_details_room_type">部屋タイプ</string>
+    <string name="itin_card_details_non_price_promotion_includes">含まれているもの : </string>
     <string name="itin_card_details_bed_type">ベッドタイプ</string>
     <string name="toast_copied_to_clipboard">クリップボードにコピーしました。</string>
     <string name="itin_card_details_reload">情報をリロード</string>
@@ -2620,6 +2615,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">(5 段階中) - ゲスト評価</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">(5 段階中) - 良い</string>
+    <string name="hotel_guest_recommend_very_good_superlative">(5 段階中) - とても良い</string>
+    <string name="hotel_guest_recommend_excellent_superlative">(5 段階中) - 素晴らしい</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">(5 段階中) - とても素晴らしい</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">(5 段階中) - 最高に素晴らしい</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -3001,6 +3003,8 @@
     <string name="app_support">アプリ サポート</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">利用規約</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">利用規約</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">プライバシー ポリシー</string>
     <!-- Copyright information -->
@@ -3722,12 +3726,15 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">この予約を完了をもって、%1$s、%2$s、%3$sを読み、理解したものと見なされます。</string>
     <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">%1$sおよび%2$sを読み、これに同意します。</string>
+    <string name="account_creation_legal_TEMPLATE">%1$sおよび%2$sを読み、これに同意します。{brand}+ への入会をもって、すべての%3$sに同意したものとみなされます。</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">お子様の年齢を選択する</string>
 
     <string name="lob_not_supported_error_message">{lob}の予約は、お客様のロケーションではまだご利用いただけません。</string>
+
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(0 ～ 17 歳)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">周辺</string>

@@ -273,12 +273,6 @@
     <string name="missing_flight_info_message_TEMPLATE">Wenn Sie Flüge nach %s suchen, verraten Sie uns bitte Ihren Abflughafen.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Bitte wählen Sie ein Datum oder einen Zeitraum aus.</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">Wenn Sie Flüge nach %s suchen,\nverraten Sie uns bitte Ihren Zielflughafen.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">Für Flugpreistrends\nbrauchen wir Ihren Abflughafen.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">Die Flugtrends informieren Sie darüber, wie die Flugpreise im Laufe der Zeit schwanken. Da die angezeigten Preise auf Live-Daten aus realen Suchen basieren, stehen für manche Routen weniger Informationen zur Verfügung als für andere.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Reise beginnt am</string>
     <!-- Denotes the end date of the trip -->
@@ -658,6 +652,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s wird nicht akzeptiert</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Leider hat sich der Preis der Aktivität geändert. Bitte buchen Sie erneut.</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">Leider haben wir für das ausgewählte Datum nicht mehr genügend Tickets. Bitte wählen Sie ein anderes Datum oder weniger Tickets aus.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Ihre Tickets wurden an diese Adresse gesendet:</string>
     <!-- LX reservation confirmation text -->
@@ -748,10 +744,6 @@
     <string name="trip_bucket_label_flight_roundtrip">Hin- und Rückflug nach %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Flug nach %1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">Flugtrends</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">Datum des Rückflugs</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Zurzeit sind in der App leider \n keine Hotels verfügbar.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -849,6 +841,8 @@
     <string name="room_rate_pay_now">Jetzt zahlen</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} jetzt fällig</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">Jetzt fällig</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/Nacht</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -1023,7 +1017,7 @@
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">Reiseplandetails eingeben</string>
     <!-- Find Itinerary # -->
-    <string name="find_itinerary_pound">Reiseplannr. suchen:</string>
+    <string name="find_itinerary_pound">Reiseplan suchen</string>
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand}-Reiseplannr.</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
@@ -1390,6 +1384,7 @@
     <string name="itin_card_details_address">Adresse</string>
     <string name="itin_card_details_local_phone">Festnetznummer</string>
     <string name="itin_card_details_room_type">Zimmertyp</string>
+    <string name="itin_card_details_non_price_promotion_includes">Inklusive</string>
     <string name="itin_card_details_bed_type">Bettentyp</string>
     <string name="toast_copied_to_clipboard">In die Zwischenablage kopiert</string>
     <string name="itin_card_details_reload">Infos neu laden</string>
@@ -2621,6 +2616,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">von 5 – Gästebewertung</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">von 5 – Gut!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">von 5 – Sehr gut!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">von 5 – Hervorragend!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">von 5 – Wunderbar!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">von 5 – Ausgezeichnet!</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -3002,6 +3004,8 @@
     <string name="app_support">App-Support</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">allgemeinen Geschäftsbedingungen</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">Nutzungsbedingungen</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Datenschutzrichtlinie</string>
     <!-- Copyright information -->
@@ -3723,12 +3727,15 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Mit dem Durchführen dieser Buchung bestätige ich, dass ich die %1$s, die %2$s und die %3$s gelesen habe und anerkenne.</string>
     <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">Ich habe die %1$s und die %2$s gelesen und akzeptiert.</string>
+    <string name="account_creation_legal_TEMPLATE">Ich habe die %1$s und die %2$s gelesen und akzeptiert. Indem Sie sich für {brand}+ anmelden, akzeptieren Sie die %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Geben Sie das Alter jedes Kindes an</string>
 
     <string name="lob_not_supported_error_message">Leider können {lob} an Ihrem Standort noch nicht mobil gebucht werden.</string>
+
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(0-17 Jahre)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Umgebung</string>
