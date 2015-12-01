@@ -27,6 +27,7 @@ import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.LXServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
@@ -34,7 +35,6 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 
-import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import rx.observers.TestSubscriber;
@@ -55,14 +55,7 @@ public class LXServicesTest {
 
 	@Before
 	public void before() {
-		RequestInterceptor emptyInterceptor = new RequestInterceptor() {
-			@Override
-			public void intercept(RequestFacade request) {
-				// ignore
-			}
-		};
-
-		service = new LXServices("http://localhost:" + server.getPort(), new OkHttpClient(), emptyInterceptor, Schedulers.immediate(),
+		service = new LXServices("http://localhost:" + server.getPort(), new OkHttpClient(), new MockInterceptor(), Schedulers.immediate(),
 			Schedulers.immediate(), RestAdapter.LogLevel.FULL);
 
 		checkoutParams = new LXCheckoutParams();
