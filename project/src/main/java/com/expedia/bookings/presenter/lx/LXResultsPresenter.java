@@ -361,6 +361,8 @@ public class LXResultsPresenter extends Presenter {
 
 	@Subscribe
 	public void onLXNewSearchParamsAvailable(Events.LXNewSearchParamsAvailable event) {
+		OmnitureTracking.trackAppLXCategoryABTest();
+
 		// Dispatch loading animation event if explicit search. Default search dispatches event separately.
 		if (event.lxSearchParams.searchType.equals(SearchType.EXPLICIT_SEARCH)) {
 			Events.post(new Events.LXShowLoadingAnimation());
@@ -386,7 +388,6 @@ public class LXResultsPresenter extends Presenter {
 			areExternalFiltersSupplied = true;
 		}
 		if (isUserBucketedForCategoriesTest && Strings.isEmpty(event.lxSearchParams.filters)) {
-			OmnitureTracking.trackAppLXCategoryABTest();
 			show(categoryResultsWidget, FLAG_CLEAR_BACKSTACK);
 			categoryResultsWidget.setVisibility(VISIBLE);
 			searchResultsWidget.setVisibility(GONE);
