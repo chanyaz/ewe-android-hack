@@ -84,6 +84,23 @@
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabTravelocityStyle</item>
     </style>
 
+    <style name="TerminalMapTheme" parent="@android:style/Theme.Holo">
+        <item name="android:logo">@drawable/ic_ab_tvly_logo</item>
+        <item name="android:actionBarStyle">@style/TerminalMapActionBar</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
+        <item name="android:windowBackground">@android:color/white</item>
+
+        <!-- PopupMenu -->
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
+        <item name="skin_terminalChooserTextColor">@android:color/white</item>
+
+    </style>
+
+    <style name="TerminalMapActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:displayOptions">showHome|useLogo</item>
+        <item name="android:background">@color/bg_blue_color_travelocity</item>
+    </style>
+
     <style name="LaunchTheme" parent="Theme.AppCompat">
         <item name="android:logo">@drawable/ic_ab_travelocity_logo</item>
         <item name="windowActionBar">false</item>
