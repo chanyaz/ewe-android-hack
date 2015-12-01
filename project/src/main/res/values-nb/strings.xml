@@ -124,7 +124,7 @@
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">Velg datoer for henting og avlevering</string>
     <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
-    <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
+    <string name="date_time_range_TEMPLATE">%1$s–%2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">%1$s – Velg returdato</string>
     <!-- Label for pick-up time picker -->
@@ -273,12 +273,6 @@
     <string name="missing_flight_info_message_TEMPLATE">For å søke på fly til %s må du angi hvor du vil fly fra.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Velg en gyldig dato eller tidsperiode.</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">For å søke på fly til %s,\nangi når du vil fly.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">Fortell oss hvor du vil fly fra\nfor å se flypris-trender.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">Fly-trender gir deg en idé om hvordan flyprisene endres over tid. Da prisene som vises er basert på live data fra ekte søk, vil noen ruter ha mindre informasjon enn andre.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Turen begynner</string>
     <!-- Denotes the end date of the trip -->
@@ -658,6 +652,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s ikke godkjent</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Prisen på denne aktiviteten er endret. Prøv å bestille på nytt.</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">Vi har ikke nok billetter igjen på den valgte datoen. Prøv en annen dato eller velg færre billetter.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Billettene dine er blitt sendt til</string>
     <!-- LX reservation confirmation text -->
@@ -748,10 +744,6 @@
     <string name="trip_bucket_label_flight_roundtrip">Tur-retur-flyvning til %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Flyvning til %1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">Flypris-trender</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">Når skal du fly tilbake?</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Beklager, det er ingen hoteller \n tilgjengelige på appen vår for øyeblikket.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -849,6 +841,8 @@
     <string name="room_rate_pay_now">Betal nå</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} belastes nå</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">Belastes nå</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s per natt</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -1390,6 +1384,7 @@
     <string name="itin_card_details_address">Adresse</string>
     <string name="itin_card_details_local_phone">Lokalt telefonnummer</string>
     <string name="itin_card_details_room_type">Romtype</string>
+    <string name="itin_card_details_non_price_promotion_includes">Inkluderer</string>
     <string name="itin_card_details_bed_type">Sengetype</string>
     <string name="toast_copied_to_clipboard">Kopiert til utklippstavlen.</string>
     <string name="itin_card_details_reload">Last inn informasjonen på nytt</string>
@@ -2620,6 +2615,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">av 5 – gjestevurdering</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">av 5 – Bra!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">av 5 – Meget bra!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">av 5 – Utmerket!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">av 5 – Fabelaktig!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">av 5 – Enestående!</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -3000,9 +3002,11 @@
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App-støtte</string>
     <!-- Label for link to terms and conditions -->
-    <string name="info_label_terms_conditions">Vilkår</string>
+    <string name="info_label_terms_conditions">vilkårene</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">betingelsene for bruk</string>
     <!-- Label for link to privacy policy -->
-    <string name="info_label_privacy_policy">Personvernregler</string>
+    <string name="info_label_privacy_policy">personvernreglene</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nMed enerett.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -3722,12 +3726,15 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Ved å fullføre denne bestillingen bekrefter jeg at jeg har lest og aksepterer gjeldende %1$s, %2$s og %3$s.</string>
     <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">Jeg har lest og godtar %1$s og %2$s.</string>
+    <string name="account_creation_legal_TEMPLATE">Jeg har lest og godtar %1$s og %2$s. Ved å bli med i {brand}+ godkjenner jeg alle %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Velg hvert barns alder</string>
 
     <string name="lob_not_supported_error_message">Beklager, {lob}-bestillinger på mobil er ikke tilgjengelig der du befinner deg ennå.</string>
+
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(0-17 år)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Områder</string>

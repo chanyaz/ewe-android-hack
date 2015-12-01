@@ -273,12 +273,6 @@
     <string name="missing_flight_info_message_TEMPLATE">Para buscar vuelos a %s, indica dónde quieres tomar el vuelo.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Selecciona una fecha o un rango de fechas válidos.</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">Para buscar vuelos a %s,\nindica la fecha del vuelo.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">Para conocer las tendencias de precios de los vuelos,\nindícanos el origen de tu vuelo.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">Las Tendencias de vuelos te dan una idea de cómo cambian los precios de los vuelos con el paso del tiempo. Debido a que los precios desplegados están basados en datos actuales obtenidos a través de búsquedas reales, algunas de las rutas tienen menos información que otras.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">El viaje comienza el</string>
     <!-- Denotes the end date of the trip -->
@@ -647,7 +641,7 @@
     <!-- Popularity sort button -->
     <string name="lx_popularity_sort_button">Popularidad</string>
     <!-- Select ticket button -->
-    <string name="lx_select_ticket">Seleccionar boletos</string>
+    <string name="lx_select_ticket">Seleccionar entradas</string>
     <!-- Free cancellation text in offer  -->
     <string name="lx_free_cancellation">Cancelación gratuita</string>
     <!-- Message for voucherless offers  -->
@@ -658,8 +652,10 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">No se acepta %1$s</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Lo sentimos, el precio de esta actividad cambió. Intenta buscar otra vez.</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">Lo sentimos; no tenemos suficientes entradas para la fecha seleccionada. Intentá con una fecha distinta o seleccioná menos entradas.</string>
     <!-- LX confirmation itin text -->
-    <string name="lx_successful_checkout_email_label">Enviamos tus boletos a</string>
+    <string name="lx_successful_checkout_email_label">Enviamos tus entradas a</string>
     <!-- LX reservation confirmation text -->
     <string name="lx_successful_checkout_reservation_label">¡Tu reservación está confirmada!</string>
     <!-- Text for getting current location suggestion -->
@@ -748,10 +744,6 @@
     <string name="trip_bucket_label_flight_roundtrip">Vuelo de ida y vuelta a %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Vuelo a %1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">Tendencias de vuelos</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">Cuándo regresar</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Lo sentimos, no hay hoteles \n disponibles en este momento.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -815,9 +807,9 @@
     <!-- Description for infant seating preference message -->
     <string name="infants_seating_preference_description">¿Los niños de menos de 2 años (al momento del vuelo) se sientan en el regazo o tienen su propio asiento?</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in seat-->
-    <string name="infants_in_seats_prompt">Los niños que ocupen un asiento deben tener su propio boleto. Busquemos nuevamente para encontrar pasajes para los niños.</string>
+    <string name="infants_in_seats_prompt">Los niños que ocupen un asiento deben tener su propia entrada. Busquemos nuevamente para encontrar pasajes para los niños.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
-    <string name="infants_in_laps_prompt">Los niños en el regazo no deben tener su propio boleto. Comenzaremos una nueva búsqueda con menos pasajes.</string>
+    <string name="infants_in_laps_prompt">Los niños en el regazo no deben tener su propia entrada. Comenzaremos una nueva búsqueda con menos pasajes.</string>
 
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
@@ -849,6 +841,8 @@
     <string name="room_rate_pay_now">Pagar ahora</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} a pagar ahora</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">Monto a pagar ahora</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/noche</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -1008,7 +1002,7 @@
     <!-- Notification title for activity start -->
     <string name="Activity_starting_soon">La actividad empezará dentro de poco</string>
     <!-- Notification text for activity start -->
-    <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Puedes canjear tu boleto %s a partir de mañana.</string>
+    <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Puedes canjear tu entrada %s a partir de mañana.</string>
     <!-- Notification text for a desktop booking itinerary being available on the user's device -->
     <string name="Itinerary_ready">Itinerario listo</string>
 
@@ -1390,6 +1384,7 @@
     <string name="itin_card_details_address">Dirección</string>
     <string name="itin_card_details_local_phone">Teléfono local</string>
     <string name="itin_card_details_room_type">Tipo de habitación</string>
+    <string name="itin_card_details_non_price_promotion_includes">Incluye</string>
     <string name="itin_card_details_bed_type">Tipo de cama</string>
     <string name="toast_copied_to_clipboard">Se copió al porta papeles</string>
     <string name="itin_card_details_reload">Cargar de nuevo la información</string>
@@ -2004,7 +1999,7 @@
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
-    <string name="name_on_card_hint">Nombre tal como aparece en la tarjeta</string>
+    <string name="name_on_card_hint">Nombre que figura en la tarjeta</string>
     <!-- email hint -->
     <string name="email_address_hint">Dirección de correo electrónico</string>
     <!-- phone number hint -->
@@ -2037,7 +2032,7 @@
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Número de la tarjeta de crédito</string>
     <!-- Expiration date label -->
-    <string name="expiration_date">Fecha de vencimiento</string>
+    <string name="expiration_date">Vencimiento</string>
     <!-- Set expiration date button -->
     <string name="btn_set">Configurar</string>
     <!-- Describes credit card expiration (e.g. "Expires 01/18") -->
@@ -2281,13 +2276,13 @@
     <!-- Button label for calling -->
     <string name="call_support">Ayuda</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
-    <string name="error_flight_price_increased">Parece que la línea aérea acaba de aumentar el precio de tu boleto por un total de %1$s.  ¿Estás de acuerdo en pagar el nuevo total de %2$s?</string>
+    <string name="error_flight_price_increased">Parece que la línea aérea acaba de aumentar el precio de tu entrada por un total de %1$s.  ¿Estás de acuerdo en pagar el nuevo total de %2$s?</string>
     <!-- Error shown to user if the flight's price has decreased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
     <string name="error_flight_price_decreased">Acabamos de encontrar los vuelos que solicitaste en oferta por %1$s menos. ¿Estás de acuerdo en que te cobremos el nuevo total de %2$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee.  %1$s is the fee, %2$s is the new total, both are cash (e.g. "$5.99") -->
     <string name="error_flight_added_processing_fee">Parece ser que la línea aérea está cobrando un cargo de %1$s por procesamiento de pago. ¿Estás de acuerdo en pagar un total nuevo de %2$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has increased since we last checked.  %1$s is the fee, %2$s is the price increase, and %3$s is the new total; all are cash (e.g. "$5.99") -->
-    <string name="error_flight_price_increased_with_fee">Parece ser que la línea aérea está cobrando un cargo por procesamiento de pago de %1$s y ha subido el precio de tu boleto de %2$s. ¿Estás de acuerdo en pagar un total nuevo de %3$s?</string>
+    <string name="error_flight_price_increased_with_fee">Parece ser que la línea aérea está cobrando un cargo por procesamiento de pago de %1$s y ha subido el precio de tu entrada de %2$s. ¿Estás de acuerdo en pagar un total nuevo de %3$s?</string>
     <!-- Error shown to user if the flight's airline adds a payment processing fee and the flight's price has decreased since we last checked.  %1$s is the fee, %2$s is the price decrease, and %3$s is the new total; all are cash (e.g. "$5.99") -->
     <string name="error_flight_price_decreased_with_fee">Parece ser que la línea aérea está cobrando un cargo por procesamiento de pago de %1$s sin embargo acabamos de encontrar los vuelos que solicitaste en oferta por %2$s menos. ¿Estás de acuerdo en pagar un total nuevo de %3$s?</string>
     <!-- Error shown to user if their credit card number is invalid -->
@@ -2620,6 +2615,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">de 5 - evaluación de los clientes</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">de 5 - ¡Bueno!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">de 5 - ¡Muy bueno!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">de 5 - ¡Excelente!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">de 5 - ¡Maravilloso!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">de 5 - ¡Excepcional!</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -2813,7 +2815,7 @@
     <!-- Label for free nights -->
     <string name="free">¡GRATIS!</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
-    <string name="value_add_template">Incluye%s</string>
+    <string name="value_add_template">Incluye %s</string>
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
     <string name="common_value_add_template">Todas las habitaciones incluyen%s</string>
     <!-- Instruction as the header of the list to select a room from the list -->
@@ -3001,6 +3003,8 @@
     <string name="app_support">Ayuda sobre la aplicación.</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Términos y condiciones</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">Términos de uso</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Política de privacidad</string>
     <!-- Copyright information -->
@@ -3722,12 +3726,15 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Al completar esta reservación, acepto que he leído y acepto las %1$s, los %2$s, y la %3$s.</string>
     <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">Leí y acepto los %1$s y la %2$s.</string>
+    <string name="account_creation_legal_TEMPLATE">Leí y acepto los %1$s y la %2$s. Al inscribirme en {brand}+, acepto todos los %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Selecciona la edad de cada niño</string>
 
     <string name="lob_not_supported_error_message">Lo sentimos, pero todavía no es posible reservar {lob} en tu ubicación.</string>
+
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(De 0 a 17 años)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Áreas</string>

@@ -273,12 +273,6 @@
     <string name="missing_flight_info_message_TEMPLATE">Vertel ons vanaf waar je vliegt om vluchten naar %s te bekijken.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Kies een geldige datum of periode.</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">Vertel ons waar je naartoe wilt vliegen om door vluchten naar %s te bladeren.\n</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">Vertel ons vanaf waar je vliegt\nzodat we vluchtprijstrends kunnen ophalen</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">Flight Trends geeft je een idee hoe vluchtprijzen over tijd kunnen fluctueren. Aangezien de getoonde prijzen zijn gebaseerd op live informatie van reële zoekopdrachten, is het mogelijk dat sommige routes minder informatie bevatten dan andere.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Begindatum reis</string>
     <!-- Denotes the end date of the trip -->
@@ -658,6 +652,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s niet geaccepteerd</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Sorry, maar de prijs van de activiteit is gewijzigd. Probeer opnieuw te boeken.</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">Sorry, we hebben niet genoeg tickets voor de geselecteerde datum. Probeer het met een andere datum of selecteer minder tickets.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Jouw tickets werden verzonden naar</string>
     <!-- LX reservation confirmation text -->
@@ -748,10 +744,6 @@
     <string name="trip_bucket_label_flight_roundtrip">Retourvlucht naar %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Vlucht naar %1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">Vluchttrends</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">Terugvluchten</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Sorry, er zijn momenteel \n geen hotels beschikbaar.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -849,6 +841,8 @@
     <string name="room_rate_pay_now">Betaal nu</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} nu te betalen</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">Nu te betalen</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/nacht</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -1390,6 +1384,7 @@
     <string name="itin_card_details_address">Adres</string>
     <string name="itin_card_details_local_phone">Lokaal telefoonnr.</string>
     <string name="itin_card_details_room_type">Kamertype</string>
+    <string name="itin_card_details_non_price_promotion_includes">Inclusief</string>
     <string name="itin_card_details_bed_type">Bedtype</string>
     <string name="toast_copied_to_clipboard">Gekopieerd naar het klembord.</string>
     <string name="itin_card_details_reload">Informatie opnieuw laden</string>
@@ -2620,6 +2615,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">/ 5 - gastenscore</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">/ 5 - Goed</string>
+    <string name="hotel_guest_recommend_very_good_superlative">/ 5 - Zeer goed</string>
+    <string name="hotel_guest_recommend_excellent_superlative">/ 5 - Uitstekend</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">/ 5 - Fantastisch</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">/ 5 - Superieur</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -3001,6 +3003,8 @@
     <string name="app_support">App-support</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Algemene Voorwaarden</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">Gebruiksvoorwaarden</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Privacybeleid</string>
     <!-- Copyright information -->
@@ -3722,12 +3726,15 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Door deze boeking te voltooien, bevestig ik de %1$s, de %2$s en het %3$s te hebben gelezen en goedgekeurd.</string>
     <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">Ik heb de %1$s en het %2$s gelezen en goedgekeurd.</string>
+    <string name="account_creation_legal_TEMPLATE">Ik heb de %1$s en het %2$s gelezen en goedgekeurd. Door me te registreren voor {brand}+ aanvaard ik alle %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Selecteer de leeftijd van elk kind</string>
 
     <string name="lob_not_supported_error_message">Sorry, boekingen van {lob} zijn nog niet beschikbaar voor jouw regio.</string>
+
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(0-17 jaar oud)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Buurten</string>

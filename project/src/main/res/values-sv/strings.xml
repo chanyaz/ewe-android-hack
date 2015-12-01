@@ -273,12 +273,6 @@
     <string name="missing_flight_info_message_TEMPLATE">Berätta var du flyger från för att se flyg till %s.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Välj ett giltigt datum eller datumintervall.</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">Om du vill söka efter flyg till %s,\nmåste du ange när du vill flyga.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">Ange var du reser ifrån\nför att se flygpristrender.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">Flygtrender ger dig ett hum om hur flygpriser varierar över tid. Eftersom priserna som visas baseras på livedata från riktiga sökningar, har vissa rutter mindre information än andra.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Avresa</string>
     <!-- Denotes the end date of the trip -->
@@ -658,6 +652,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s accepteras ej</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Tyvärr har priset för aktiviteten ändrats. Försök att boka igen.</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">Tyvärr har vi inte tillräckligt med biljetter för det valda datumet. Försök med ett annat datum eller välj färre biljetter.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Dina biljetter har skickats till</string>
     <!-- LX reservation confirmation text -->
@@ -748,10 +744,6 @@
     <string name="trip_bucket_label_flight_roundtrip">Tur- och returflyg till %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Flyg till %1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">Flygtrender</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">Hemresa</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Tyvärr är inga hotell \n tillgängliga just nu.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -849,6 +841,8 @@
     <string name="room_rate_pay_now">Betala nu</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} betalas nu</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">Betalas nu</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/natt</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -1390,6 +1384,7 @@
     <string name="itin_card_details_address">Adress</string>
     <string name="itin_card_details_local_phone">Lokal telefon</string>
     <string name="itin_card_details_room_type">Rumstyp</string>
+    <string name="itin_card_details_non_price_promotion_includes">Inkluderar</string>
     <string name="itin_card_details_bed_type">Sängtyp</string>
     <string name="toast_copied_to_clipboard">Kopierat till clipboard.</string>
     <string name="itin_card_details_reload">Ladda om information</string>
@@ -2620,6 +2615,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">av 5 - gästbetyg</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">av 5 - Bra!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">av 5 - Mycket bra!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">av 5 - Utmärkt!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">av 5 - Strålande!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">av 5 - Enastående!</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -3001,6 +3003,8 @@
     <string name="app_support">Support för appen</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Regler och villkor</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">Användarvillkor</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Integritetspolicy</string>
     <!-- Copyright information -->
@@ -3722,12 +3726,15 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Genom att slutföra bokningen bekräftar jag att jag har läst och godkänt %1$s, %2$s och %3$s.</string>
     <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">Jag har läst och accepterar Expedias %1$s och %2$s.</string>
+    <string name="account_creation_legal_TEMPLATE">Jag har läst och accepterar %1$s och %2$s. Genom att gå med i {brand}+, accepterar jag samtliga %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Välj vardera barns ålder</string>
 
     <string name="lob_not_supported_error_message">Bokningar av {lob} är tyvärr inte tillgängliga där du befinner dig än.</string>
+
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(0-17 år)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Områden</string>

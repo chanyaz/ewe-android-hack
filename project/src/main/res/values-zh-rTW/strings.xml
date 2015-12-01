@@ -273,12 +273,6 @@
     <string name="missing_flight_info_message_TEMPLATE">如需搜尋前往%s的班機，請輸入您的出發地。</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">請選擇有效的日期或日期範圍。</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">如需瀏覽前往%s的班機，\n請先輸入您的出發日期。</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">如需查詢機票價格趨勢，\n請輸入您的出發地。</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">機票價格趨勢提供您在各時間點的機票價格漲跌資訊。由於顯示的票價是根據即時資料的實際搜尋結果，因此有些航線的資訊比較少。</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">行程開始日期</string>
     <!-- Denotes the end date of the trip -->
@@ -658,6 +652,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">不接受 %1$s</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">很抱歉，此活動的價格已經改變。請嘗試再訂一次。</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">很抱歉，在您指定日期的票源不足。請嘗試其他日期或減少購買張數。</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">您的票已經傳送到</string>
     <!-- LX reservation confirmation text -->
@@ -748,10 +744,6 @@
     <string name="trip_bucket_label_flight_roundtrip">%1$s來回機票</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">班機前往%1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">機票價格趨勢</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">回程日期</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">很抱歉，目前沒有飯店\n可供預訂。</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -849,6 +841,8 @@
     <string name="room_rate_pay_now">立即付款</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount}現在應付</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">現在應付</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/晚</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -1390,6 +1384,7 @@
     <string name="itin_card_details_address">地址</string>
     <string name="itin_card_details_local_phone">本地電話</string>
     <string name="itin_card_details_room_type">房型</string>
+    <string name="itin_card_details_non_price_promotion_includes">包含</string>
     <string name="itin_card_details_bed_type">床型</string>
     <string name="toast_copied_to_clipboard">已複製到剪貼簿</string>
     <string name="itin_card_details_reload">重新載入資訊</string>
@@ -2620,6 +2615,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">/ 5 - 旅客評分</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">/ 5 - 不錯哦！</string>
+    <string name="hotel_guest_recommend_very_good_superlative">/ 5 - 非常好！</string>
+    <string name="hotel_guest_recommend_excellent_superlative">/ 5 - 好極了！</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">/ 5 - 太棒了！</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">/ 5 - 有夠讚！</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -3001,6 +3003,8 @@
     <string name="app_support">App 技術支援</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">條款和條件</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">使用條款</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">隱私權政策</string>
     <!-- Copyright information -->
@@ -3722,12 +3726,15 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">完成此預訂即表示我同意並接受%1$s、%2$s和%3$s。</string>
     <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">我已經閱讀並同意%1$s和%2$s。</string>
+    <string name="account_creation_legal_TEMPLATE">我已經閱讀並同意%1$s和%2$s。加入 {brand}+，即表示我接受所有%3$s。</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">請選擇每位兒童的年齡</string>
 
     <string name="lob_not_supported_error_message">很抱歉，您的所在地點尚未提供{lob}預訂。</string>
+
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(0-17 歲)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">鄰近地區</string>

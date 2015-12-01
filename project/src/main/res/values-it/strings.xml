@@ -273,12 +273,6 @@
     <string name="missing_flight_info_message_TEMPLATE">Per sfogliare i voli verso %s, facci sapere da dove vuoi partire.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Inserisci una data o una combinazione di date valide.</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">Per cercare i tuoi voli per %s,\nindica quando vorresti partire.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">Per scoprire i trend sui prezzi dei voli,\nindica da dove vuoi partire.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">Le Tendenze di volo ti danno un\&apos;idea di come cambiano i prezzi dei voli nel corso del tempo. Dato che i prezzi indicati si basano sulle informazioni in tempo reale delle ricerche, alcune rotte potrebbero presentare meno dettagli di altre.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Inizio del viaggio</string>
     <!-- Denotes the end date of the trip -->
@@ -658,6 +652,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s non accettata</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Siamo spiacenti, il prezzo di questa attività è cambiato. Riprova a prenotare.</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">Spiacenti, non disponiamo di un numero sufficiente di biglietti per la data selezionata. Prova a inserire un\&apos;altra data o a selezionare un numero inferiore di biglietti.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">I tuoi biglietti sono stati inviati a</string>
     <!-- LX reservation confirmation text -->
@@ -748,10 +744,6 @@
     <string name="trip_bucket_label_flight_roundtrip">Volo di andata e ritorno per %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Volo per %1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">Tendenze di volo</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">Ritorno</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Spiacenti, nessun hotel \n disponibile al momento.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -849,6 +841,8 @@
     <string name="room_rate_pay_now">Paga ora</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} da pagare ora</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">Da pagare ora</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/notte</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -957,7 +951,7 @@
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
     <string name="network_unavailable">Rete non disponibile</string>
     <!-- Tablet. Error message when the device is not connected to internet/network unavailable. -->
-    <string name="error_network_unavailable">Collegati a una rete Wi-Fi o a una rete dati cellulare\n per continuare</string>
+    <string name="error_network_unavailable">Collegati a una rete Wi-Fi o a una rete dati cellulare\nper continuare</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Viaggi</string>
     <!-- Menu option for going to see your trips/itineraries -->
@@ -1148,7 +1142,7 @@
     <!-- Itin flight international terminal only -->
     <string name="Depart_International_Terminal">Partenza dal Terminal internazionale</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
-    <string name="at_airport_TEMPLATE">&lt;b&gt; Presso %1$s &lt;/b&gt;</string>
+    <string name="at_airport_TEMPLATE">&lt;b&gt;Presso %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="from_airport_TEMPLATE">&lt;b&gt;Da %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
@@ -1390,6 +1384,7 @@
     <string name="itin_card_details_address">Indirizzo</string>
     <string name="itin_card_details_local_phone">Telefono locale</string>
     <string name="itin_card_details_room_type">Tipologia camera</string>
+    <string name="itin_card_details_non_price_promotion_includes">Include</string>
     <string name="itin_card_details_bed_type">Tipo di letto</string>
     <string name="toast_copied_to_clipboard">Copiato negli appunti.</string>
     <string name="itin_card_details_reload">Ricarica dati</string>
@@ -1628,7 +1623,7 @@
     <!-- Number of adults template -->
     <plurals name="number_of_adults_TEMPLATE">
         <item quantity="zero">%1$d adulti</item>
-        <item quantity="one">%1$dadulto</item>
+        <item quantity="one">%1$d adulto</item>
         <item quantity="two">%1$d adulti</item>
         <item quantity="few">%1$d adulti</item>
         <item quantity="many">%1$d adulti</item>
@@ -1875,7 +1870,7 @@
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">Il totale per il tuo viaggio sarà &lt;b&gt;%1$s&lt;/b&gt;. Pagherai in hotel il costo totale della tua prenotazione (nella valuta locale della struttura) durante il soggiorno.</string>
     <!-- Pay later disclaimer with deposit -->
-    <string name="pay_later_deposit_disclaimer_TEMPLATE">Ora ti sarà addebitato un deposito di &lt;b&gt;.%1$s&lt;/b&gt; Pagherai all\&apos;hotel il costo rimanente della tua prenotazione (nella valuta locale della struttura) durante il soggiorno.</string>
+    <string name="pay_later_deposit_disclaimer_TEMPLATE">Ora ti sarà addebitato un deposito di &lt;b&gt;%1$s&lt;/b&gt;. Pagherai all\&apos;hotel il costo rimanente della tua prenotazione (nella valuta locale della struttura) durante il soggiorno.</string>
     <!-- Pay later disclaimer with resort fees -->
     <string name="pay_later_resort_disclaimer_TEMPLATE">Il prezzo totale del tuo viaggio, inclusa la tariffa resort di &lt;b&gt;%1$s&lt;/b&gt;, sarà &lt;b&gt;%2$s&lt;/b&gt;. Pagherai in hotel il costo totale della tua prenotazione (nella valuta locale della struttura) durante il soggiorno.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
@@ -1906,13 +1901,13 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Tasse e spese di gestione</string>
     <!-- Expedia booking fee -->
-    <string name="brand_booking_fee">{brand} Costo di prenotazione</string>
+    <string name="brand_booking_fee">Costo di prenotazione {brand}</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">Commissione sui pagamenti con carta</string>
     <!-- Flight -->
     <string name="flight">Volo</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE">viaggiatore%1$d</string>
+    <string name="traveler_num_and_category_TEMPLATE">Viaggiatore %1$d</string>
 
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
@@ -2142,7 +2137,7 @@
     <!-- Passport -->
     <string name="passport">Passaporto</string>
     <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">Viaggiatore attuale -%1$s %2$s</string>
+    <string name="current_traveler_TEMPLATE">Viaggiatore attuale - %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2241,7 +2236,7 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">{brand}Itinerario n.: {itinerary}</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">Itinerario {brand} n.: {itinerary}</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">Indicazioni per raggiungere l\&apos;aeroporto: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
@@ -2620,6 +2615,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">su 5 - valutazione degli ospiti</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">su 5 - buono!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">su 5 - molto buono!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">su 5 - eccellente!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">su 5 - fantastico!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">su 5 - eccezionale!</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -3001,6 +3003,8 @@
     <string name="app_support">Assistenza app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Termini e condizioni</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">Termini di utilizzo</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Informativa sulla Privacy</string>
     <!-- Copyright information -->
@@ -3046,7 +3050,7 @@
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d adulti</item>
-        <item quantity="one">%dadulto</item>
+        <item quantity="one">%d adulto</item>
         <item quantity="two">%d adulti</item>
         <item quantity="many">%d adulti</item>
         <item quantity="other">%d adulti</item>
@@ -3722,12 +3726,15 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Completando questa prenotazione, confermo di aver letto e accettato %1$s, %2$s e %3$s.</string>
     <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">Ho letto e accetto %1$s e %2$s.</string>
+    <string name="account_creation_legal_TEMPLATE">Ho letto e accettato %1$s e %2$s. Effettuando l\&apos;iscrizione a {brand}+, accetto %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Seleziona l\&apos;età di ciascun bambino</string>
 
     <string name="lob_not_supported_error_message">Siamo spiacenti, la prenotazione di {lob} non è al momento disponibile nella località in cui ti trovi.</string>
+
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(0-17 anni)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Quartieri</string>

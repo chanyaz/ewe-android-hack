@@ -273,12 +273,6 @@
     <string name="missing_flight_info_message_TEMPLATE">Pour parcourir les vols vers %s, dites-nous d\&apos;où arrive votre vol.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Veuillez sélectionner une date ou une plage de dates valide.</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">Pour voir les vols à destination de %s,\ndites-nous où vous souhaitez partir.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">Pour connaître les tendances dans les prix \ndes vols, dites-nous de quel endroit vous partez.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">Flight Trends vous présente un aperçu des fluctuations des tarifs au fil du temps. Étant donné que les tarifs sont établis sur des données obtenues directement des résultats de recherche, certains itinéraires présentent moins d\&apos;information que d\&apos;autres.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Du</string>
     <!-- Denotes the end date of the trip -->
@@ -658,6 +652,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s non accepté</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Nous sommes désolés, mais le prix de cette activité a changé. Veuillez essayer de réserver à nouveau.</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">Désolé, il ne reste pas assez de billets à la date sélectionnée. Veuillez sélectionner une autre date ou réduire le nombre de billets.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Vos billets ont été envoyés à</string>
     <!-- LX reservation confirmation text -->
@@ -748,10 +744,6 @@
     <string name="trip_bucket_label_flight_roundtrip">Vol aller-retour vers %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Vol vers %1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">Tendances dans les vols</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">Quand revenir</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Désolé, aucun hôtel n\&apos;est \n disponible en ce moment.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -849,6 +841,8 @@
     <string name="room_rate_pay_now">Payer maintenant</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} payable maintenant</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">Payable maintenant</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/nuit</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -957,7 +951,7 @@
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
     <string name="network_unavailable">Réseau non disponible</string>
     <!-- Tablet. Error message when the device is not connected to internet/network unavailable. -->
-    <string name="error_network_unavailable">Connectez-vous à un réseau Wi-Fi \nou de données cellulaires pour continuer</string>
+    <string name="error_network_unavailable">Connectez-vous à un réseau Wi-Fi\nou de données cellulaires pour continuer</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Voyages</string>
     <!-- Menu option for going to see your trips/itineraries -->
@@ -1390,6 +1384,7 @@
     <string name="itin_card_details_address">Adresse</string>
     <string name="itin_card_details_local_phone">Téléphone local</string>
     <string name="itin_card_details_room_type">Type de chambre</string>
+    <string name="itin_card_details_non_price_promotion_includes">Comprend</string>
     <string name="itin_card_details_bed_type">Type de lit</string>
     <string name="toast_copied_to_clipboard">Copié dans le presse-papiers.</string>
     <string name="itin_card_details_reload">Recharger l\&apos;information</string>
@@ -2565,7 +2560,7 @@
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Non classé</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-    <string name="percent_off_template">%2.0f%% DE RABAIS</string>
+    <string name="percent_off_template">%2.0f%% DE RÉDUCTION</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
     <string name="percent_minus_template">-%2.0f%%</string>
 
@@ -2620,6 +2615,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">sur 5 – évaluation de client</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">sur 5 – Bien!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">sur 5 – Vraiment bien!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">sur 5 – Excellent!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">sur 5 – Incroyable!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">sur 5 – Exceptionnel!</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount} %</string>
 
@@ -3001,6 +3003,8 @@
     <string name="app_support">Soutien pour l\&apos;application</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Conditions générales</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">Conditions d\&apos;utilisation</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Politique de confidentialité</string>
     <!-- Copyright information -->
@@ -3148,14 +3152,14 @@
 
     <!-- HotelOffers API method -->
     <!-- The hotel offer is no longer available -->
-    <string name="e3_error_hotel_offers_hotel_offer_unavailable">Désolé! L\&apos;offre pour cette chambre a pris fin et aucune autre offre n\&apos;est disponible.</string>
+    <string name="e3_error_hotel_offers_hotel_offer_unavailable">Nous sommes désolés! L\&apos;offre pour cette chambre a pris fin et aucune autre offre n\&apos;est disponible.</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">Désolé, la chambre sélectionnée n\&apos;est plus disponible.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
     <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">Désolé, nous n\&apos;avons pas pu établir la connexion à {brand}. Veuillez réessayer.</string>
     <!-- There are no longer any rooms for the hotel offer -->
-    <string name="e3_error_hotel_offers_invalid_input">Désolé! L\&apos;offre pour cette chambre a pris fin et aucune autre offre n\&apos;est disponible.</string>
+    <string name="e3_error_hotel_offers_invalid_input">Nous sommes désolés! L\&apos;offre pour cette chambre a pris fin et aucune autre offre n\&apos;est disponible.</string>
     <!-- There are no longer any rooms for the hotel offer -->
-    <string name="e3_error_hotel_offers_unknown_error">Désolé! L\&apos;offre pour cette chambre a pris fin et aucune autre offre n\&apos;est disponible.</string>
+    <string name="e3_error_hotel_offers_unknown_error">Nous sommes désolés! L\&apos;offre pour cette chambre a pris fin et aucune autre offre n\&apos;est disponible.</string>
 
     <!-- HotelProduct API method -->
     <string name="e3_error_hotel_product_unknown_error">Une erreur inconnue s\&apos;est produite.</string>
@@ -3722,12 +3726,15 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">En choisissant d\&apos;effectuer cette réservation, je reconnais que j\&apos;ai lu et que j\&apos;accepte les %1$s, les %2$s et la %3$s.</string>
     <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">J\&apos;ai lu et j\&apos;accepte les %1$s et la %2$s.</string>
+    <string name="account_creation_legal_TEMPLATE">J\&apos;ai lu et j\&apos;accepte les %1$s et la %2$s. En m\&apos;inscrivant à {brand}+, j\&apos;accepte toutes les %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Sélectionnez l\&apos;âge de chaque enfant</string>
 
     <string name="lob_not_supported_error_message">Désolé, la réservation de {lob} depuis votre appareil mobile n\&apos;est pas encore disponible dans votre région.</string>
+
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(0 à 17 ans)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Quartiers</string>

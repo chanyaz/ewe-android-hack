@@ -273,12 +273,6 @@
     <string name="missing_flight_info_message_TEMPLATE">Để tìm chuyến bay đến %s, hãy cho chúng tôi biết điểm khởi hành của quý vị.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Vui lòng chọn ngày hoặc chuỗi ngày hợp lệ.</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">Để tìm chuyến bay đến %s,\nhãy cho chúng tôi biết thời điểm chuyến bay mong muốn.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">Để xem xu hướng giá chuyến bay,\nhãy cho chúng tôi biết quý vị bay từ đâu.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">Xu hướng giá chuyến bay giúp quý vị nắm thông tin về việc thay đổi giá của chuyến bay. Vì giá hiển thị dựa trên dữ liệu cập nhật thực tế, một số chuyến bay có ít thông tin hơn.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Khởi hành</string>
     <!-- Denotes the end date of the trip -->
@@ -658,6 +652,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">Không nhận thanh toán bằng %1$s</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Rất tiếc, giá vé hoạt động này đã thay đổi. Vui lòng thử đặt lại.</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">Rất tiếc, chúng tôi không có đủ số lượng vé vào ngày quý vị cần. Hãy thử tìm cho ngày khác hoặc tìm ít vé hơn.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Vé của quý vị đã được gửi đ6én</string>
     <!-- LX reservation confirmation text -->
@@ -748,10 +744,6 @@
     <string name="trip_bucket_label_flight_roundtrip">Chuyến bay khứ hồi đến %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Bay đến %1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">Xu hướng giá chuyến bay</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">Trở về</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Rất tiếc, hiện không có \nkhách sạn.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -849,6 +841,8 @@
     <string name="room_rate_pay_now">Thanh toán ngay</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} - thanh toán ngay</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">Thanh toán ngay</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/đêm</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -1334,7 +1328,7 @@
     <string name="car_type_two_door">Xe 2 cửa</string>
     <string name="car_type_three_door">Xe 3 cửa</string>
     <string name="car_type_four_door">Xe 4 cửa</string>
-    <string name="car_type_van">Tải</string>
+    <string name="car_type_van">Van</string>
     <string name="car_type_wagon">Wagon</string>
     <string name="car_type_limousine">Limousine</string>
     <string name="car_type_recreational_vehicle">RV</string>
@@ -1390,6 +1384,7 @@
     <string name="itin_card_details_address">Địa chỉ</string>
     <string name="itin_card_details_local_phone">Số điện thoại địa phương</string>
     <string name="itin_card_details_room_type">Loại phòng</string>
+    <string name="itin_card_details_non_price_promotion_includes">Bao gồm</string>
     <string name="itin_card_details_bed_type">Loại giường</string>
     <string name="toast_copied_to_clipboard">Chép vào clipboard.</string>
     <string name="itin_card_details_reload">Đang tải lại thông tin</string>
@@ -2620,6 +2615,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">/5 - đánh giá của khách</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">/ 5 - Tốt!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">/ 5 - Rất tốt!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">/ 5 - Xuất sắc!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">/ 5 - Tuyệt vời!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">/ 5 - Ngoại hạng!</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -3001,6 +3003,8 @@
     <string name="app_support">Hỗ trợ ứng dụng</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Điều khoản và Điều kiện</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">Điều khoản Sử dụng</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Quyền riêng tư</string>
     <!-- Copyright information -->
@@ -3722,12 +3726,15 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Bằng việc hoàn tất quy trình đặt, tôi đồng ý mình đã đọc và chấp thuận %1$s, %2$s và %3$s.</string>
     <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">Tôi đã đọc và đồng ý %1$s và %2$s.</string>
+    <string name="account_creation_legal_TEMPLATE">Tôi đã đọc và đồng ý với %1$s và %2$s. Với việc tham gia {brand}+, tôi đồng ý tất cả %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Chọn tuổi từng trẻ</string>
 
     <string name="lob_not_supported_error_message">Rất tiếc, hiện {lob} chưa hỗ trợ đặt tại địa điểm của quý vị.</string>
+
+    <!-- Children age label on hotel search -->
+    <string name="children_age_label">(0-17 tuổi)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Khu vực xung quanh</string>
