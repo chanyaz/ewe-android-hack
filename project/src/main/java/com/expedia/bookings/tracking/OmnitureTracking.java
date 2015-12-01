@@ -2696,6 +2696,23 @@ public class OmnitureTracking {
 			s.setEvents("event70");
 			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 			s.setEvar(47, getEvar47String(params));
+
+			// DepositV2 Omniture Tracking
+			if (!Db.getTripBucket().getHotel().getProperty().hasEtpOffer()) {
+				s.setEvar(52, "Non Etp");
+			}
+			else if (Db.getTripBucket().getHotel().getRate().isPayLater()) {
+				if (Db.getTripBucket().getHotel().getRate().depositRequired()) {
+					s.setEvar(52, "Pay Later Deposit");
+				}
+				else {
+					s.setEvar(52, "Pay Later");
+				}
+			}
+			else {
+				s.setEvar(52, "Pay Now");
+			}
+
 			addHotelRegionId(s, params);
 			addProducts(s, Db.getTripBucket().getHotel().getProperty());
 			addStandardHotelFields(s, params);
