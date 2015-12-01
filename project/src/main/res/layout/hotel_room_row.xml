@@ -144,6 +144,19 @@
                         android:orientation="vertical">
 
                         <com.expedia.bookings.widget.TextView
+                            android:id="@+id/deposit_terms_buttons"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawableLeft="@drawable/details_info"
+                            android:drawablePadding="9dp"
+                            android:text="@string/deposit_terms"
+                            android:textColor="@color/hotels_primary_color"
+                            android:textSize="17sp"
+                            app:textStyle="medium"
+                            android:clickable="true"
+                            android:visibility="gone" />
+
+                        <com.expedia.bookings.widget.TextView
                             android:id="@+id/strike_through_price"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

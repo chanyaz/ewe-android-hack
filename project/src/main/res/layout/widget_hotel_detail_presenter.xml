@@ -18,6 +18,12 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
+    <com.expedia.bookings.widget.DepositTermsInfoWidget
+        android:id="@+id/hotel_deposit_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
     <com.expedia.bookings.widget.VIPAccessInfoWidget
         android:id="@+id/hotel_vip_access_info"
         android:layout_width="match_parent"

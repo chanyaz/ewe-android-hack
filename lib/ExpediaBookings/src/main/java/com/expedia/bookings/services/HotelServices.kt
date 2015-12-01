@@ -84,6 +84,17 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
         return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(), hotelSearchParams.getGuestString(), hotelId)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
+				.doOnNext {
+					it.hotelRoomResponse
+							?.forEach {
+								val room = it
+								val payLater = room.payLaterOffer
+								if (payLater != null && payLater.isPayLater && room.depositPolicy != null && !room.depositPolicy.isEmpty()) {
+									it.rateInfo.chargeableRateInfo.depositAmount = "0";
+									it.rateInfo.chargeableRateInfo.depositAmountToShowUsers = "0";
+								}
+							}
+				}
                 .subscribe(observer)
     }
 
@@ -103,6 +114,13 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 		return hotelApi.createTrip(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
+				.doOnNext {
+					val payLater = it.newHotelProductResponse?.hotelRoomResponse
+					if (payLater != null && payLater.isPayLater && payLater.depositPolicy != null && !payLater.depositPolicy.isEmpty()) {
+						payLater.rateInfo.chargeableRateInfo.depositAmount = "0";
+						payLater.rateInfo.chargeableRateInfo.depositAmountToShowUsers = "0";
+					}
+				}
 				.subscribe(observer)
 	}
 
@@ -110,6 +128,13 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 		return hotelApi.applyCoupon(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
+				.doOnNext {
+					val payLater = it.newHotelProductResponse?.hotelRoomResponse
+					if (payLater != null && payLater.isPayLater && payLater.depositPolicy != null && !payLater.depositPolicy.isEmpty()) {
+						payLater.rateInfo.chargeableRateInfo.depositAmount = "0";
+						payLater.rateInfo.chargeableRateInfo.depositAmountToShowUsers = "0";
+					}
+				}
 	}
 
 	public fun checkout(params: HotelCheckoutParams, observer: Observer<HotelCheckoutResponse>): Subscription {

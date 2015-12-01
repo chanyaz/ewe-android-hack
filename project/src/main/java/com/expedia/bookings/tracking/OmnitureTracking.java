@@ -191,6 +191,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_DETAILS_ETP = "App.Hotels.IS.Select.";
 	private static final String HOTELSV2_DETAIL_VIEW_ROOM = "App.Hotels.IS.ViewRoom";
 	private static final String HOTELSV2_DETAIL_ROOM_INFO = "App.Hotels.IS.MoreRoomInfo";
+	private static final String HOTELSV2_DETAIL_ROOM_BOOK = "App.Hotels.IS.BookNow";
 	private static final String HOTELSV2_DETAIL_MAP_VIEW = "App.Hotels.Infosite.Map";
 	private static final String HOTELSV2_DETAIL_BOOK_PHONE = "App.Hotels.Infosite.BookPhone";
 	private static final String HOTELSV2_DETAIL_SELECT_ROOM = "App.Hotels.Infosite.SelectRoom";
@@ -551,6 +552,29 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_ROOM_INFO);
 		s.trackLink(null, "o", "Room Info", null, null);
+	}
+
+	public static void trackHotelV2RoomBookClick(HotelOffersResponse.HotelRoomResponse hotelRoomResponse, boolean hasETP) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_ROOM_BOOK + "\" pageLoad...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_ROOM_BOOK);
+
+		if (!hasETP) {
+			s.setEvar(52, "Non Etp");
+		}
+		else if (hotelRoomResponse.isPayLater) {
+			if (hotelRoomResponse.depositRequired) {
+				s.setEvar(52, "Pay Later Deposit");
+			}
+			else {
+				s.setEvar(52, "Pay Later");
+			}
+		}
+		else {
+			s.setEvar(52, "Pay Now");
+		}
+
+		s.trackLink(null, "o", "Hotel Infosite", null, null);
 	}
 
 	public static void trackHotelV2DetailMapView() {

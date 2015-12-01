@@ -2587,6 +2587,8 @@
     <string name="widget_savings_template">Save %2.0f%%</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">No Internet Connectivity</string>
+    <!-- The label for deposit terms button -->
+    <string name="deposit_terms">Deposit Terms</string>
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
@@ -2775,6 +2777,11 @@
     <string name="etp_pay_now_currency_text_TEMPLATE">You will pay in your local currency (%s).</string>
     <string name="etp_pay_now_cancellation_text">Cancellation is free, right up to the hotel\'s cancellation window.</string>
     <string name="etp_select_room">Select Room</string>
+
+    <!-- ETP pay later deposit info message -->
+    <string name="etp_pay_later_deposit_text">Your deposits will never exceed the total cost of your booking.</string>
+    <string name="no_charge_text_TEMPLATE">{brand} will not charge you.</string>
+    <string name="deposit_info_text">Reserve with deposit</string>
 
     <!-- Room and rates list -->
     <!-- Loading message for rooms & rates -->
