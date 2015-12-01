@@ -12,6 +12,7 @@ import com.expedia.bookings.R;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.RequestCreator;
@@ -37,6 +38,7 @@ public class PicassoHelper implements Target, Callback {
 	private boolean mFade;
 	private boolean mFit;
 	private boolean mCenterCrop;
+	private boolean mCacheEnabled;
 
 	private PicassoTarget mTarget;
 	private Callback mCallback;
@@ -80,10 +82,6 @@ public class PicassoHelper implements Target, Callback {
 			requestCreator = requestCreator.placeholder(mDefaultResId);
 		}
 
-		if (mErrorResId != 0) {
-			requestCreator = requestCreator.error(mErrorResId);
-		}
-
 		if (mBlur) {
 			requestCreator = requestCreator.transform(new BlurTransform(mContext));
 		}
@@ -102,6 +100,10 @@ public class PicassoHelper implements Target, Callback {
 
 		if (mTag != null) {
 			requestCreator = requestCreator.tag(mTag);
+		}
+
+		if (!mCacheEnabled) {
+			requestCreator = requestCreator.memoryPolicy(MemoryPolicy.NO_CACHE);
 		}
 
 		if (mTarget != null) {
@@ -248,6 +250,10 @@ public class PicassoHelper implements Target, Callback {
 		mFit = fit;
 	}
 
+	private void setCacheEnabled(boolean enabled) {
+		mCacheEnabled = enabled;
+	}
+
 	private void setCenterCrop(boolean centerCrop) {
 		mCenterCrop = centerCrop;
 	}
@@ -304,6 +310,7 @@ public class PicassoHelper implements Target, Callback {
 		private boolean mFade;
 		private boolean mFit;
 		private boolean mCenterCrop;
+		private boolean mCacheEnabled;
 
 		private String mTag;
 		private boolean mDisableFallback = false;
@@ -370,6 +377,11 @@ public class PicassoHelper implements Target, Callback {
 			return this;
 		}
 
+		public Builder setCacheEnabled(boolean enabled) {
+			mCacheEnabled = enabled;
+			return this;
+		}
+
 		public PicassoHelper build() {
 			PicassoHelper picassoHelper = new PicassoHelper(mContext);
 			picassoHelper.setPlaceholder(mDefaultResId);
@@ -387,6 +399,7 @@ public class PicassoHelper implements Target, Callback {
 			picassoHelper.setImageView(mView);
 			picassoHelper.setFade(mFade);
 			picassoHelper.setTag(mTag);
+			picassoHelper.setCacheEnabled(mCacheEnabled);
 			picassoHelper.setDisableFallback(mDisableFallback);
 			return picassoHelper;
 		}

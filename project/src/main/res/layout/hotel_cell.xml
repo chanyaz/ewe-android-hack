@@ -34,6 +34,11 @@
                     android:layout_height="134dp"
                     android:scaleType="centerCrop"/>
 
+                <View
+                    android:id="@+id/foreground"
+                    android:layout_width="match_parent"
+                    android:layout_height="134dp" />
+
                 <LinearLayout
                     android:id="@+id/urgency_message_layout"
                     style="@style/UrgencyMessage"

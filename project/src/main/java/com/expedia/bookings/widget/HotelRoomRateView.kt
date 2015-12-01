@@ -22,10 +22,11 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.ToggleButton
 import com.expedia.bookings.R
-import com.expedia.bookings.graphics.HeaderBitmapDrawable
+import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
@@ -46,8 +47,6 @@ import kotlin.properties.Delegates
 
 public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView, var rowTopConstraintViewObservable: Observable<View>, var rowIndex: Int) : LinearLayout(context) {
 
-    val PICASSO_HOTEL_ROOM = "HOTEL_ROOMS"
-
     private val ANIMATION_DURATION = 250L
 
     //views for room row
@@ -62,7 +61,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
     private val perNight: TextView by bindView(R.id.per_night)
     val viewRoom: ToggleButton by bindView(R.id.view_room_button)
     private val roomHeaderImageContainer: FrameLayout by bindView(R.id.room_header_image_container)
-    private val roomHeaderImage: ImageView by bindView(R.id.room_header_image)
+    public val roomHeaderImage: ImageView by bindView(R.id.room_header_image)
     private val roomDiscountPercentage: TextView by bindView(R.id.discount_percentage)
     private val roomInfoDescriptionText: TextView by bindView(R.id.room_info_description_text)
     private val roomInfoChevron: ImageView by bindView(R.id.room_info_chevron)
@@ -192,7 +191,6 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
                 }
 
                 override fun onAnimationEnd(animation: Animation?) {
-                    //ignore
                 }
 
                 override fun onAnimationRepeat(animation: Animation?) {
@@ -231,11 +229,16 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
 
             viewRoom.isChecked = true
 
+            val imageFactor = if (ExpediaBookingApp.isDeviceShitty()) 4 else 2
             val imageUrl: String? = vm.roomHeaderImageObservable.value
             if (imageUrl != null && imageUrl.isNotBlank()) {
-                val drawable = Images.makeHotelBitmapDrawable(getContext(), emptyPicassoCallback, roomHeaderImage.maxWidth/2, imageUrl, PICASSO_HOTEL_ROOM, R.drawable.room_fallback)
-                drawable.setCornerMode(HeaderBitmapDrawable.CornerMode.TOP)
-                roomHeaderImage.setImageDrawable(drawable)
+                val hotelMedia = HotelMedia(imageUrl)
+                PicassoHelper.Builder(roomHeaderImage)
+                        .setPlaceholder(R.drawable.room_fallback)
+                        .build()
+                        .load(hotelMedia.getBestUrls(scrollAncestor.width/imageFactor))
+            } else {
+                roomHeaderImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.room_fallback))
             }
 
             viewsToHideInExpandedState.forEach {
@@ -357,7 +360,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
 
             resizeAnimator.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationEnd(p0: Animator?) {
-                    roomHeaderImage.setImageDrawable(null)
+                    recycleImageView(roomHeaderImage)
                     if (roomInfoDescriptionText.visibility == View.VISIBLE)
                         vm.roomInfoExpandCollapseObservable.onNext(Unit)
                 }
@@ -376,6 +379,12 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
             })
             resizeAnimator.start()
         }
+    }
+
+    fun recycleImageView(imageView: ImageView) {
+        var drawable = imageView.drawable;
+        drawable?.callback = null
+        drawable = null
     }
 
     init {
@@ -414,8 +423,6 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
         roomContainerLeftRightPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15f, context.resources.displayMetrics).toInt()
     }
 
-
-
     fun viewSetup(scrollAncestor: ScrollView, rowTopConstraintViewObservable: Observable<View>, rowIndex: Int) {
         this.scrollAncestor = scrollAncestor
         this.rowTopConstraintViewObservable = rowTopConstraintViewObservable
@@ -446,13 +453,3 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
 
 }
 
-val emptyPicassoCallback = object : HeaderBitmapDrawable.CallbackListener {
-    override fun onBitmapLoaded() {
-    }
-
-    override fun onBitmapFailed() {
-    }
-
-    override fun onPrepareLoad() {
-    }
-}

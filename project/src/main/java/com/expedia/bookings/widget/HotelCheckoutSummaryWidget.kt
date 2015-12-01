@@ -13,6 +13,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelMedia
@@ -104,12 +105,13 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
                                             resources.getString(R.string.total_with_tax)
         }
         viewModel.roomHeaderImage.subscribe {
+            val imageFactor = if (ExpediaBookingApp.isDeviceShitty()) 4 else 2
             PicassoHelper.Builder(context)
                     .setPlaceholder(R.drawable.room_fallback)
                     .setError(R.drawable.room_fallback)
                     .setTarget(picassoTarget).setTag(PICASSO_HOTEL_IMAGE)
                     .build()
-                    .load(HotelMedia(Images.getMediaHost() + it).getBestUrls(width/2))
+                    .load(HotelMedia(Images.getMediaHost() + it).getBestUrls(width/imageFactor))
         }
         breakdown.viewmodel = HotelBreakDownViewModel(context, viewModel)
     }

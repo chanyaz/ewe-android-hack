@@ -26,6 +26,7 @@ import android.widget.RelativeLayout
 import android.widget.Space
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.ImageView
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
@@ -312,6 +313,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             roomContainerAlphaOneToZeroAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
             roomContainerAlphaOneToZeroAnimation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationEnd(p0: Animation?) {
+                    for (index in 0..(roomContainer.childCount-1) ) {
+                        val room = roomContainer.getChildAt(index) as HotelRoomRateView
+                        recycleImageView(room.roomHeaderImage)
+                    }
                     roomContainer.removeAllViews()
                     roomList.first.forEachIndexed { roomResponseIndex, room ->
                         val hasETP = viewmodel.hasETPObservable.value
@@ -372,6 +377,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             roomContainerAlphaOneToZeroAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
             roomContainerAlphaOneToZeroAnimation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationEnd(p0: Animation?) {
+                    for (index in 0..(roomContainer.childCount-1) ) {
+                        val room = roomContainer.getChildAt(index) as HotelRoomRateView
+                        recycleImageView(room.roomHeaderImage)
+                    }
                     roomContainer.removeAllViews()
                     etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
                         val hasETP = viewmodel.hasETPObservable.value
@@ -468,6 +477,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         payNowButtonContainer.unsubscribeOnClick()
         payLaterButtonContainer.unsubscribeOnClick()
         gallery.setDataSource(emptyList())
+        for (index in 0..(roomContainer.childCount-1) ) {
+            val room = roomContainer.getChildAt(index) as HotelRoomRateView
+            recycleImageView(room.roomHeaderImage)
+        }
         roomContainer.removeAllViews()
 
         googleMap?.clear()
@@ -829,5 +842,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                         detailContainer.scrollY.toFloat() / initialScrollTop)
             }
         }
+    }
+
+    fun recycleImageView(imageView: ImageView) {
+        var drawable = imageView.drawable;
+        drawable?.callback = null
+        drawable = null
     }
 }

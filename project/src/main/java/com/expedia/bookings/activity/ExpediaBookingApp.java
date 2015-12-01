@@ -84,6 +84,8 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	// Debug / test settings
 
 	private static boolean sIsRobolectric = false;
+	//64 memory class or lower is a shitty device
+	private static boolean sIsDeviceShitty = false;
 	private static boolean sIsInstrumentation = false;
 
 	public static boolean isAutomation() {
@@ -92,6 +94,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	public static boolean isRobolectric() {
 		return sIsRobolectric;
+	}
+
+	public static boolean isDeviceShitty() {
+		return sIsDeviceShitty && !isAutomation();
 	}
 
 	public static void setIsInstrumentation(boolean isInstrumentation) {
@@ -109,6 +115,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
 		super.onCreate();
 		startupTimer.addSplit("super.onCreate()");
+
+		ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+		int memClass = am.getMemoryClass();
+		sIsDeviceShitty = memClass <= 64;
 
 		if (!isAutomation()) {
 			Fabric.with(this, new Crashlytics());

@@ -12,6 +12,7 @@ import android.content.Context;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.ImageView;
 
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.bitmaps.PaletteCallback;
 import com.expedia.bookings.bitmaps.PicassoHelper;
@@ -310,8 +311,9 @@ public class HotelMedia implements JSONable, IMedia {
 		view.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
+				int imageFactor = ExpediaBookingApp.isDeviceShitty() ? 4 : 2;
 				view.getViewTreeObserver().removeOnPreDrawListener(this);
-				fillImageView(view, view.getWidth()/2, placeholderResId, target);
+				fillImageView(view, view.getWidth()/imageFactor, placeholderResId, target);
 				return true;
 			}
 		});
@@ -343,7 +345,7 @@ public class HotelMedia implements JSONable, IMedia {
 
 	public void fillImageView(final ImageView view, final int width, final int placeholderResId,
 		final PicassoTarget target) {
-		new PicassoHelper.Builder(view.getContext()).setPlaceholder(placeholderResId).setTarget(target).build()
+		new PicassoHelper.Builder(view.getContext()).setCacheEnabled(false).setPlaceholder(placeholderResId).setTarget(target).build()
 			.load(getBestUrls(width));
 	}
 
