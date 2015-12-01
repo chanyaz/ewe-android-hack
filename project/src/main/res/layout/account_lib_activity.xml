@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
@@ -13,7 +14,25 @@
         android:id="@+id/account_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true" />
+        android:fitsSystemWindows="true"
+        app:acct__flavor_text_color="?skin_acctFlavorTextColor"
+        app:acct__input_text_error_color="?skin_acctInputTextErrorColor"
+        app:acct__input_text_good_color="?skin_acctInputTextGoodColor"
+        app:acct__input_text_default_color="?skin_acctInputTextDefaultColor"
+        app:acct__toolbar_icon_color="?skin_acctToolbarIconColor"
+        app:acct__user_info_text_color="?skin_acctUserInfoTextColor"
+        app:acct__welcome_text_color="?skin_acctWelcomeTextColor"
+        app:acct__sign_in_button_text_color="?skin_acctSignInButtonTextColor"
+        app:acct__sign_in_button_background_drawable="?skin_acctSignInButtonBackgroundDrawable"
+        app:acct__checkmark_good_drawable="?skin_acctCheckmarkGoodDrawable"
+        app:acct__checkmark_warning_drawable="?skin_acctCheckmarkWarningDrawable"
+        app:acct__logo_small_drawable="?skin_acctLogoSmallDrawable"
+        app:acct__logo_large_drawable="?skin_acctLogoLargeDrawable"
+        app:acct__logo_text_drawable="?skin_acctLogoTextDrawable"
+        app:acct__logo_text_drawable_margin_left="?skin_acctLogoTextDrawableMarginLeft"
+        app:acct__logo_text_drawable_margin_top="?skin_acctLogoTextDrawableMarginTop"
+        app:acct__brand="?skin_acctBrand"
+        />
 
     <LinearLayout
         android:layout_width="wrap_content"
