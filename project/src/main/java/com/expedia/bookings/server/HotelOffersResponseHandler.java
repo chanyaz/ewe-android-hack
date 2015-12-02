@@ -131,7 +131,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 					}
 
 					// If this rate has an associated pay later offer, reflect that in hotel's info
-					if (rate.getEtpRate() != null && !property.hasEtpOffer()) {
+					if (!property.hasEtpOffer() && (rate.getEtpRate() != null || rate.isPayLater())) {
 						property.setHasEtpOffer(true);
 					}
 				}
