@@ -153,6 +153,7 @@ public class HotelActivity : AbstractAppCompatActivity() {
         hotelPresenter.searchPresenter.traveler.viewmodel.travelerParamsObservable.onNext(HotelTravelerParams(hotelSearchParams?.adults ?: 1, hotelSearchParams?.children ?: emptyList()))
         val dates = Pair (hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
         hotelPresenter.searchPresenter.searchViewModel.datesObserver.onNext(dates)
+        hotelPresenter.searchPresenter.selectTraveler.isChecked = true
         hotelPresenter.searchPresenter.calendar.setSelectedDates(hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
         if (!isCurrentLocationSearch) {
             hotelPresenter.searchObserver.onNext(hotelSearchParams)
