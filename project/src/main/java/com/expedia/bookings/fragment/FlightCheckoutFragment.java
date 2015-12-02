@@ -4,12 +4,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -44,6 +48,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FragmentBailUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TravelerListGenerator;
 import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.utils.Ui;
@@ -124,6 +129,17 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		}
 	}
 
+	private static SpannableStringBuilder generateAirlineFeeClickableLink(Context context) {
+		String spannedTerms = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL(),
+			context.getResources().getString(R.string.airline_fee).toLowerCase(Locale.getDefault()));
+
+		String statement = context.getResources()
+			.getString(R.string.airline_notice_fee_added_TEMPLATE, spannedTerms);
+
+		return StrUtils.getSpannableTextByColor(statement, Color.WHITE, true);
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		if (FragmentBailUtils.shouldBail(getActivity())) {
@@ -155,6 +171,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		mSelectPaymentSentenceText = Ui.findView(v, R.id.select_payment_sentence_text);
 		mSelectPaymentCalloutText = Ui.findView(v, R.id.select_payment_callout_text);
 
+
 		if (!PointOfSale.getPointOfSale().requiresBillingAddressFlights()) {
 			mSectionLocation.setVisibility(View.GONE);
 		}
@@ -164,6 +181,13 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		mWalletButton.setOnClickListener(mWalletButtonClickListener);
 		mWalletButton.setPromoVisible(false);
+
+		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
+			TextView mFeeAddedText = Ui.findView(v, R.id.airline_notice_fee_added);
+			mFeeAddedText.setVisibility(View.VISIBLE);
+			mFeeAddedText.setMovementMethod(LinkMovementMethod.getInstance());
+			mFeeAddedText.setText(generateAirlineFeeClickableLink(getContext()));
+		}
 
 		// rules and restrictions link stuff
 		TextView tv = Ui.findView(v, R.id.legal_blurb);
