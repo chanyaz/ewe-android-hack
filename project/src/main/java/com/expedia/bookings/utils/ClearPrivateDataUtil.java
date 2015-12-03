@@ -61,5 +61,6 @@ public class ClearPrivateDataUtil {
 		SuggestionUtils.deleteCachedSuggestions(context);
 		// Clear new hotels suggestions history
 		SuggestionV4Utils.deleteCachedSuggestions(context);
+		HotelSearchParamsUtil.deleteCachedSearches(context);
 	}
 }

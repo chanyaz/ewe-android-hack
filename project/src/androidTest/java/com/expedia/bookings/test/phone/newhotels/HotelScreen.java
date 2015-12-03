@@ -149,6 +149,27 @@ public class HotelScreen {
 		return onView(withId(R.id.list_view));
 	}
 
+	public static ViewInteraction recentSearchList() {
+		return onView(withId(R.id.recent_searches_adapter));
+	}
+
+	public static void selectRecentSearch(String location) {
+		recentSearchList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(location)), click()));
+	}
+
+	public static void doSearch(String location) throws Throwable {
+		final LocalDate start = DateTime.now().toLocalDate();
+		final LocalDate end = start.plusDays(3);
+
+		HotelScreen.location().perform(typeText("SFO"));
+		HotelScreen.selectLocation(location);
+		HotelScreen.selectDateButton().perform(click());
+		HotelScreen.selectDates(start, end);
+		HotelScreen.clickSearchButton();
+		HotelScreen.waitForResultsLoaded();
+	}
+
+
 	public static ViewInteraction hotelResultsMap() {
 		return onView(allOf(withId(R.id.map_view)));
 	}

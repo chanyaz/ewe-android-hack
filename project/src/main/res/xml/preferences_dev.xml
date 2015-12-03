@@ -293,6 +293,12 @@
             android:summary="Select a test group"
             android:title="LX Category Test" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="8692"
+            android:title="Hotels Recent Search AB Test" />
+        
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Push" >

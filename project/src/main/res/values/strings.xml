@@ -115,6 +115,8 @@
     <string name="hotel_toolbar_title">Search Hotels</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">Search Location</string>
+    <!-- Label for recent searches -->
+    <string name="recent_searches">Recent Searches</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Pick-up location</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
