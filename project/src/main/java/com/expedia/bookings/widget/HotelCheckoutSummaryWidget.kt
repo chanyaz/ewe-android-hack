@@ -99,7 +99,7 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
         viewModel.isPayLaterOrResortCase.subscribeVisibility(amountDueTodayLabel.compoundDrawables[2], true)
         viewModel.newDataObservable.subscribe {
             amountDueTodayLabel.text = if (it.isPayLaterOrResortCase.value)
-                                            Phrase.from(getContext(), R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format()
+                                            Phrase.from(getContext(), R.string.due_to_brand_today_today_TEMPLATE).put("brand", BuildConfig.brand).format()
                                         else
                                             resources.getString(R.string.total_with_tax)
         }
