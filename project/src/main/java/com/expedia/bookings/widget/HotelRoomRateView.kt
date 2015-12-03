@@ -4,7 +4,9 @@ import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.TransitionDrawable
 import android.support.v4.content.ContextCompat
 import android.util.TypedValue
@@ -256,6 +258,11 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
             row.isEnabled = false
             var depositTerms = vm.depositTerms.value
             var showTerms = depositTerms?.isNotEmpty() ?: false
+
+            var infoIcon : Drawable = ContextCompat.getDrawable(context, R.drawable.details_info)
+            infoIcon.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
+            depositTermsButton.setCompoundDrawablesWithIntrinsicBounds(infoIcon, null, null, null)
+
             depositTermsButton.visibility = if (showTerms) View.VISIBLE else View.GONE
             if (showTerms) {
                 dailyPricePerNight.visibility = View.GONE
