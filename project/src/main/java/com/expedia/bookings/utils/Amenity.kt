@@ -3,6 +3,7 @@ package com.expedia.bookings.utils
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -54,7 +55,7 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
 
         fun addHotelAmenity(viewGroup: ViewGroup, amenityList: List<Amenity>) {
             viewGroup.removeAllViews()
-            val srcColor = viewGroup.getContext().getResources().getColor(R.color.hotelsv2_checkout_text_color)
+            val srcColor = ContextCompat.getColor(viewGroup.context, R.color.hotelsv2_checkout_text_color)
             val mode = PorterDuff.Mode.SRC_ATOP
             val filter = PorterDuffColorFilter(srcColor, mode)
             val paint = Paint()
@@ -69,7 +70,7 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
                 val amenityStr = viewGroup.getContext().getString(amenityList.get(index).strId)
 
                 amenityTextView.setText(amenityStr)
-                amenityIconView.setImageDrawable(viewGroup.getContext().getResources().getDrawable(amenityList.get(index).resId))
+                amenityIconView.setImageDrawable(ContextCompat.getDrawable(viewGroup.context, amenityList.get(index).resId))
                 viewGroup.addView(amenityLayout)
             }
             viewGroup.scheduleLayoutAnimation()

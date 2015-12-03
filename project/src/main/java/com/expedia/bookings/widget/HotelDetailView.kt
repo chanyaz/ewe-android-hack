@@ -703,7 +703,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             toolbar.setPadding(0, statusBarHeight, 0, 0)
         }
         Ui.showTransparentStatusBar(getContext())
-        toolbar.setBackgroundColor(getResources().getColor(android.R.color.transparent))
+        toolbar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         toolBarBackground.getLayoutParams().height += statusBarHeight
         toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
 
@@ -728,8 +728,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         //share hotel listing text view set up drawable
-        val phoneIconDrawable = getResources().getDrawable(R.drawable.detail_phone).mutate()
-        phoneIconDrawable.setColorFilter(getResources().getColor(R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
+        val phoneIconDrawable = ContextCompat.getDrawable(context, R.drawable.detail_phone).mutate()
+        phoneIconDrawable.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
         payByPhoneTextView.setCompoundDrawablesWithIntrinsicBounds(phoneIconDrawable, null, null, null)
         selectRoomButton.setOnClickListener {
             scrollToRoom(true)

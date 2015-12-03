@@ -2,6 +2,7 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.graphics.Color
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -45,7 +46,7 @@ public class HotelBreakDownView(context: Context, attrs: AttributeSet?) : Scroll
         priceDescription.setText(breakdown.title)
         if (isDiscount) {
             priceValue.setText("(" + breakdown.cost + ")")
-            priceValue.setTextColor(getResources().getColor(R.color.hotels_primary_color))
+            priceValue.setTextColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
         }
         else {
             priceValue.setText(breakdown.cost)

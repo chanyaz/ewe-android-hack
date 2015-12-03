@@ -120,7 +120,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var filterCountText: TextView by Delegates.notNull()
     var filterPlaceholderImageView: ImageView by Delegates.notNull()
     val filterPlaceholderIcon by lazy {
-        val sortDrawable = resources.getDrawable(R.drawable.sort).mutate()
+        val sortDrawable = ContextCompat.getDrawable(context, R.drawable.sort).mutate()
         sortDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         sortDrawable
     }
@@ -273,7 +273,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
-        toolbar.setBackgroundColor(resources.getColor(R.color.hotels_primary_color))
+        toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
         toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
         toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
 

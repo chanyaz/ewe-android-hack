@@ -566,7 +566,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
-    val hotelDetailsListener: Observer<HotelDetailsRequestMetadata> = endlessObserver {
+    private val hotelDetailsListener: Observer<HotelDetailsRequestMetadata> = endlessObserver {
         if (it.isOffersRequest) {
             loadingOverlay.animate(false)
         }

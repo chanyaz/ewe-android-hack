@@ -14,13 +14,12 @@ import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import android.widget.ImageView
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.ToggleButton
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.AnimUtils
@@ -28,7 +27,6 @@ import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
-import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeChecked
 import com.expedia.util.subscribeEnabled
@@ -36,11 +34,10 @@ import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.util.subscribeVisibility
 import com.expedia.util.subscribeToggleButton
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelRoomRateViewModel
 import com.mobiata.android.util.AndroidUtils
-import rx.Observer
 import rx.Observable
 import rx.Subscription
 import kotlin.properties.Delegates
@@ -265,9 +262,9 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
             }
             collapsedContainer.setBackgroundColor(Color.WHITE)
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
-            dailyPricePerNight.setTextColor(resources.getColor(R.color.hotels_primary_color))
+            dailyPricePerNight.setTextColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
             perNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
-            perNight.setTextColor(resources.getColor(R.color.hotels_primary_color))
+            perNight.setTextColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
 
             if (animate) (row.background as TransitionDrawable).startTransition(ANIMATION_DURATION.toInt())
 
@@ -332,9 +329,9 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
             viewRoom.setPadding(toggleCollapsed, 0, toggleCollapsed, 0)
             roomInfoContainer.setPadding(0, 0, 0, 0)
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
-            dailyPricePerNight.setTextColor(resources.getColor(R.color.hotel_cell_disabled_text))
+            dailyPricePerNight.setTextColor(ContextCompat.getColor(context, R.color.hotel_cell_disabled_text))
             perNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
-            perNight.setTextColor(resources.getColor(R.color.hotel_cell_disabled_text))
+            perNight.setTextColor(ContextCompat.getColor(context, R.color.hotel_cell_disabled_text))
 
             if (animate) (row.background as TransitionDrawable).reverseTransition(ANIMATION_DURATION.toInt())
 
@@ -400,7 +397,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
 
         viewSetup(scrollAncestor, rowTopConstraintViewObservable, rowIndex)
 
-        val transitionDrawable = TransitionDrawable(arrayOf(ColorDrawable(Color.parseColor("#00000000")), resources.getDrawable(R.drawable.card_background)))
+        val transitionDrawable = TransitionDrawable(arrayOf(ColorDrawable(Color.parseColor("#00000000")), ContextCompat.getDrawable(context, R.drawable.card_background)))
         transitionDrawable.isCrossFadeEnabled = true
         if(rowIndex == 0) transitionDrawable.startTransition(0)
         row.background = transitionDrawable
@@ -420,7 +417,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
         rowTopConstraintSubscription?.unsubscribe()
         rowTopConstraintSubscription = rowTopConstraintViewObservable.subscribe { rowTopConstraintView = it }
 
-        val transitionDrawable = TransitionDrawable(arrayOf(ColorDrawable(Color.parseColor("#00000000")), resources.getDrawable(R.drawable.card_background)))
+        val transitionDrawable = TransitionDrawable(arrayOf(ColorDrawable(Color.parseColor("#00000000")), ContextCompat.getDrawable(context, R.drawable.card_background)))
         transitionDrawable.isCrossFadeEnabled = true
         if (rowIndex == 0) {
             transitionDrawable.startTransition(0)

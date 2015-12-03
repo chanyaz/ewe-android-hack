@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.support.annotation.DrawableRes
+import android.support.v4.content.ContextCompat
 import android.text.Html
 import android.text.SpannableString
 import android.text.Spanned
@@ -125,9 +126,9 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val hotelSoldOut = BehaviorSubject.create<Boolean>(false)
     val selectedRoomSoldOut = PublishSubject.create<Unit>()
 
-    val toolBarRatingColor = hotelSoldOut.map { if (it) context.resources.getColor(android.R.color.white) else context.resources.getColor(R.color.hotelsv2_detail_star_color) }
+    val toolBarRatingColor = hotelSoldOut.map { if (it) ContextCompat.getColor(context, android.R.color.white) else ContextCompat.getColor(context, R.color.hotelsv2_detail_star_color) }
     val galleryColorFilter = hotelSoldOut.map { if (it) HotelDetailView.zeroSaturationColorMatrixColorFilter else null }
-    val priceWidgetBackground = hotelSoldOut.map { if (it) context.resources.getColor(R.color.hotel_cell_gray_text) else context.resources.getColor(R.color.hotels_primary_color) }
+    val priceWidgetBackground = hotelSoldOut.map { if (it) ContextCompat.getColor(context, R.color.hotel_cell_gray_text) else ContextCompat.getColor(context, R.color.hotels_primary_color) }
 
     val hotelOffersSubject = BehaviorSubject.create<HotelOffersResponse>()
     var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
@@ -179,7 +180,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     val userRatingObservable = BehaviorSubject.create<String>()
     val isUserRatingAvailableObservable = BehaviorSubject.create<Boolean>()
     val userRatingRecommendationTextObservable = BehaviorSubject.create<String>()
-    val ratingContainerBackground = isUserRatingAvailableObservable.map { if (it) context.resources.getDrawable(R.drawable.hotel_detail_ripple) else null }
+    val ratingContainerBackground = isUserRatingAvailableObservable.map { if (it) ContextCompat.getDrawable(context, R.drawable.hotel_detail_ripple) else null }
     val numberOfReviewsObservable = BehaviorSubject.create<String>()
     val hotelLatLngObservable = BehaviorSubject.create<DoubleArray>()
     val discountPercentageBackgroundObservable = BehaviorSubject.create<Int>()
@@ -541,7 +542,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
         rowExpandingObservable.subscribe { indexOfRowBeingExpanded ->
             //collapse already expanded row if there is one
-            if (lastExpandedRowObservable.value >= 0 && lastExpandedRowObservable.value < hotelRoomRateViewModelsObservable.value.size() && lastExpandedRowObservable.value != indexOfRowBeingExpanded) {
+            if (lastExpandedRowObservable.value >= 0 && lastExpandedRowObservable.value < hotelRoomRateViewModelsObservable.value.size && lastExpandedRowObservable.value != indexOfRowBeingExpanded) {
                 hotelRoomRateViewModelsObservable.value.elementAt(lastExpandedRowObservable.value).collapseRoomObservable.onNext(true)
             }
             lastExpandedRowObservable.onNext(indexOfRowBeingExpanded)
