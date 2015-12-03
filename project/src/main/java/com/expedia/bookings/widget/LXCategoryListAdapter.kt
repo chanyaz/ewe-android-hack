@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.graphics.Bitmap
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
+import android.support.v4.content.ContextCompat
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
@@ -72,9 +73,9 @@ public class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetada
             categoryCount.text = category.activities.size.toString()
 
             if (category.activities.size == 1) {
-                categoryCount.background = itemView.getContext().getResources().getDrawable(R.drawable.lx_category_count_background_single_digit)
+                categoryCount.background = ContextCompat.getDrawable(itemView.context, R.drawable.lx_category_count_background_single_digit)
             } else if (category.activities.size > 1) {
-                categoryCount.background = itemView.getContext().getResources().getDrawable(R.drawable.lx_category_count_background_more_than_one_digit)
+                categoryCount.background = ContextCompat.getDrawable(itemView.context, R.drawable.lx_category_count_background_more_than_one_digit)
             }
 
             val imageURLs = Images.getLXCategories(category.categoryKey, itemView.getContext().getResources().getDimension(R.dimen.lx_category_image_width))

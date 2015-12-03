@@ -21,7 +21,7 @@ public class HotelRoomRateViewFactory() {
 
             val poolOfViews = viewsPool
 
-            if (rowIndex < poolOfViews.size()) {
+            if (rowIndex < poolOfViews.size) {
                 val view = poolOfViews.get(rowIndex)
                 view.viewRoom.isChecked = false
                 view.viewSetup(scrollAncestor, rowTopConstraintViewObservable, rowIndex)

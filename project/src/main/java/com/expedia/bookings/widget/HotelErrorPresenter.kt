@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
@@ -43,7 +44,7 @@ public class HotelErrorPresenter(context: Context, attr: AttributeSet?) : Presen
 
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
-        toolbar.setBackgroundColor(resources.getColor(R.color.hotels_primary_color))
+        toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
         toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
         toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
 
@@ -53,7 +54,7 @@ public class HotelErrorPresenter(context: Context, attr: AttributeSet?) : Presen
 
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
-            val statusBar = Ui.setUpStatusBar(getContext(), toolbar, root, resources.getColor(com.expedia.bookings.R.color.hotels_primary_color))
+            val statusBar = Ui.setUpStatusBar(getContext(), toolbar, root, ContextCompat.getColor(context, com.expedia.bookings.R.color.hotels_primary_color))
             addView(statusBar)
         }
     }

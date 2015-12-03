@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
@@ -56,7 +57,7 @@ public class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(c
             toolBar.setPadding(0, statusBarHeight, 0, 0)
         }
         Ui.showTransparentStatusBar(context)
-        toolBar.setBackgroundColor(resources.getColor(android.R.color.transparent))
+        toolBar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         toolBarBackground.layoutParams.height += statusBarHeight
         toolBar.setTitleTextAppearance(context, R.style.CarsToolbarTitleTextAppearance)
 

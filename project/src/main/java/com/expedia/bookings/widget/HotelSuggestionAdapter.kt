@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget
 
+import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -55,8 +56,8 @@ public class HotelSuggestionViewHolder(val root: ViewGroup, val vm : HotelSugges
 
     init {
         itemView.setOnClickListener(this)
-        icon.setColorFilter(root.context.resources.getColor(R.color.hotels_primary_color))
-        hierarchyIcon.setColorFilter(root.context.resources.getColor(R.color.hotels_primary_color))
+        icon.setColorFilter(ContextCompat.getColor(root.context, R.color.hotels_primary_color))
+        hierarchyIcon.setColorFilter(ContextCompat.getColor(root.context, R.color.hotels_primary_color))
 
         vm.titleObservable.subscribeText(title)
 

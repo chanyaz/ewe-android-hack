@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.os.Build
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -99,10 +100,10 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     val toolbarTitle by lazy { toolbar.getChildAt(0) }
     val searchButton: Button by lazy {
         val button = LayoutInflater.from(getContext()).inflate(R.layout.toolbar_checkmark_item, null) as Button
-        val navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate()
+        val navIcon = ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp).mutate()
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         button.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null)
-        button.setTextColor(getResources().getColor(android.R.color.white))
+        button.setTextColor(ContextCompat.getColor(context, android.R.color.white))
         // Disable search button initially
         button.setAlpha(0.15f)
         toolbar.getMenu().findItem(R.id.menu_check).setActionView(button)
@@ -368,7 +369,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
-            val color = getContext().getResources().getColor(R.color.hotels_primary_color)
+            val color = ContextCompat.getColor(context, R.color.hotels_primary_color)
             val statusBar = Ui.setUpStatusBar(getContext(), toolbar, searchContainer, color)
             addView(statusBar)
         }

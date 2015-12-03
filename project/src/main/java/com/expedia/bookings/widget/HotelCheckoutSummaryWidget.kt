@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.graphics.Palette
@@ -27,7 +26,6 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelBreakDownViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.squareup.phrase.Phrase
-import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
 public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val viewModel: HotelCheckoutSummaryViewModel) : LinearLayout(context, attrs) {
@@ -128,7 +126,7 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
             var textColor: Int
             if (!mIsFallbackImage) {
                 // only apply gradient treatment to hotels with images #5647
-                val palette = Palette.generate(bitmap)
+                val palette = Palette.Builder(bitmap).generate()
                 val color = palette.getDarkVibrantColor(R.color.transparent_dark)
                 val fullColorBuilder = ColorBuilder(color).darkenBy(0.25f);
                 val gradientColor = fullColorBuilder.setAlpha(154).build()
