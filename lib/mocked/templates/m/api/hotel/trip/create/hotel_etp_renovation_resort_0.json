@@ -1,0 +1,185 @@
+{
+  "tripId": "59a645a6-f947-47d9-b173-e7b0da320ec6",
+  "userId": 860110167,
+  "originalHotelProductResponse": {
+
+  },
+  "newHotelProductResponse": {
+    "checkInDate": "2015-12-23",
+    "checkOutDate": "2015-12-24",
+    "adultCount": "1",
+    "numberOfNights": "1",
+    "numberOfRooms": "1",
+    "hotelId": "8647196",
+    "hotelName": "hotel_etp_renovtion_with_free_cancellation",
+    "localizedHotelName": "hotel_etp_renovtion_with_free_cancellation",
+    "nonLocalizedHotelName": "hotel_etp_renovtion_with_free_cancellation",
+    "largeThumbnailUrl": "/hotels/9000000/8650000/8647200/8647196/8647196_21_d.jpg",
+    "thumbnailUrl": "/hotels/9000000/8650000/8647200/8647196/8647196_21_n.jpg",
+    "hotelAddress": "942 Mission Street",
+    "hotelCity": "San Francisco",
+    "hotelStateProvince": "CA",
+    "hotelCountry": "USA",
+    "hotelStarRating": "3.0",
+    "hotelRoomResponse": {
+      "productKey": "4ef16880-23d0-4948-89fd-5591ce98de4d_V3",
+      "cancellationPolicy": "<p>If you cancel or change your plans, please cancel your reservation in accordance with the hotel''s cancellation policies to avoid a no-show charge.</p><p>Cancellations or changes made after 3:00 PM (hotel local time) on Dec 22, 2015 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.</p><p>If a late check-in is planned, contact this hotel directly for their late check-in policy.</p>",
+      "rateDescription": "Standard Room, 1 King Bed, Non Smoking",
+      "roomTypeDescription": "Standard Room, 1 King Bed, Non Smoking",
+      "supplierType": "DIRECT_AGENCY",
+      "rateChange": false,
+      "nonRefundable": false,
+      "hasFreeCancellation": true,
+      "freeCancellationWindowDate": "2015-12-22 15:00",
+      "guaranteeRequired": false,
+      "depositRequired": false,
+      "immediateChargeRequired": false,
+      "currentAllotment": "0",
+      "promoDescription": "",
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isSameDayDRR": false,
+      "smokingPreferences": "NS",
+      "rateOccupancyPerRoom": "3",
+      "bedTypes": [
+        {
+          "id": "14",
+          "description": "1 king bed"
+        }
+      ],
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": false,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "129.00",
+          "averageRate": "129.00",
+          "taxStatusType": "ESTIMATED",
+          "surchargeTotal": "21.07",
+          "surchargeTotalForEntireStay": "21.07",
+          "averageBaseRate": "129.00",
+          "nightlyRateTotal": "129.00",
+          "discountPercent": 0,
+          "total": "150.07",
+          "currencyCode": "USD",
+          "currencySymbol": "$",
+          "surcharges": [
+            {
+              "amount": "21.07",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "21.07",
+              "type": "TAX_OTHER"
+            }
+          ],
+          "surchargesForEntireStay": [
+            {
+              "amount": "21.07",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "21.07",
+              "type": "TAX_OTHER"
+            }
+          ],
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "false",
+              "baseRate": "129.00",
+              "rate": "129.00"
+            }
+          ],
+          "priceToShowUsers": "129",
+          "strikethroughPriceToShowUsers": "129",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "150",
+          "totalMandatoryFees": "0.00",
+          "totalPriceWithMandatoryFees": "150.07",
+          "formattedTotalPriceWithMandatoryFees": "$ 150.07",
+          "userPriceType": "PerNightRateNoTaxes",
+          "priceAdjustments": [
+
+          ],
+          "checkoutPriceType": "total",
+          "airAttached": false,
+          "roomTypeCode": "200758274",
+          "ratePlanCode": "206112748",
+          "showResortFeeMessage": false,
+          "resortFeeInclusion": false
+        }
+      },
+      "valueAdds": [
+        {
+          "id": "1024",
+          "description": "Free High-Speed Internet"
+        },
+        {
+          "id": "16777216",
+          "description": "Breakfast Buffet"
+        }
+      ],
+      "quotedOccupancy": "2",
+      "minGuestAge": "0",
+      "roomTypeCode": "200758274",
+      "ratePlanCode": "206112748",
+      "isPayLater": true
+    },
+    "supplierType": "DIRECT_AGENCY",
+    "accessibilityAmenities": [
+      {
+        "id": "2423",
+        "description": "In-room accessibility"
+      },
+      {
+        "id": "2421",
+        "description": "Roll-in shower"
+      }
+    ],
+    "isVipAccess": false,
+    "tealeafTransactionId": "1be558d79639413999c56eb0113b4879",
+    "bigImageUrl": "/hotels/9000000/8650000/8647200/8647196/8647196_21_b.jpg",
+    "regionId": "160166"
+  },
+  "airAttachedProductResponse": {
+
+  },
+  "loyaltyPoints": {
+    "totalLoyaltyPoints": 900.00,
+    "loyaltyPointInfoList": [
+      {
+        "pointValue": 300.00,
+        "pointType": "basePoint"
+      },
+      {
+        "pointValue": 600.00,
+        "pointType": "offerPoint"
+      }
+    ]
+  },
+  "expediaRewards": {
+    "totalPointsToEarn": 900,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "tealeafTransactionId": "1be558d79639413999c56eb0113b4879",
+  "validFormsOfPayment": [
+    {
+      "name": "AmericanExpress"
+    },
+    {
+      "name": "Diner's Club International"
+    },
+    {
+      "name": "Discover"
+    },
+    {
+      "name": "JCB"
+    },
+    {
+      "name": "MasterCard"
+    },
+    {
+      "name": "Visa"
+    }
+  ],
+  "guestUserPromoEmailOptInStatus": "ALWAYS"
+}
