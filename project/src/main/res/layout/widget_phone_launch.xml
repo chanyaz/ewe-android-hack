@@ -24,20 +24,17 @@
         android:id="@+id/lob_selector"
         android:layout_width="match_parent"
         android:layout_height="@dimen/launch_lob_container_height"
-        android:layout_marginTop="?attr/actionBarSize"
         android:visibility="gone" />
 
     <com.expedia.bookings.widget.LaunchLobDoubleRowWidget
         android:id="@+id/double_row_lob_selector"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/launch_lob_double_row_container_height"
-        android:layout_marginTop="?attr/actionBarSize" />
+        android:layout_height="@dimen/launch_lob_double_row_container_height"/>
 
     <com.expedia.bookings.widget.LaunchFiveLobDoubleRowWidget
         android:id="@+id/double_row_five_lob_selector"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/launch_five_lob_double_row_container_height"
-        android:layout_marginTop="?attr/actionBarSize" />
+        android:layout_height="@dimen/launch_five_lob_double_row_container_height"/>
 
     <include
         android:id="@+id/air_attach_banner"
@@ -50,8 +47,7 @@
     <FrameLayout
         android:id="@+id/launch_progress_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/launch_list_bg">
+        android:layout_height="match_parent">
 
         <ProgressBar
             style="@style/ProgressBar"

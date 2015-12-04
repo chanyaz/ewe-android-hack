@@ -73,8 +73,10 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed(R.id.arrival_time,
 			isOutboundFlightArrivalAtStandardOffset ? "10:04 PM" : "9:04 PM");
 		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, isOutboundFlightArrivalAtStandardOffset ? "Arrive (EST)" : "Arrive (EDT)");
-		onView(withText("1102138068718")).perform(scrollTo());
+		onView(withText("San Francisco Int'l Airport")).perform(scrollTo());
 		assertViewWithTextIsDisplayed("San Francisco Int'l Airport");
+		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, isOutboundFlightArrivalAtStandardOffset ? "Arrive (EST)" : "Arrive (EDT)");
+		onView(withText("1102138068718")).perform(scrollTo());
 		// TODO - investigate why flight name differs locally to buildbot #4657
 		//assertViewWithTextIsDisplayed(R.id.airline_text_view, "Delta Air Lines 745");
 		assertViewWithTextIsDisplayed(R.id.departure_time_text_view,
@@ -144,8 +146,9 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 			isPackageOutboundFlightArrivalAtStandardOffset ? "7:04 AM" : "6:04 AM");
 		assertViewWithTextIsDisplayed(R.id.arrival_time_tz,
 			isPackageOutboundFlightArrivalAtStandardOffset ? "Arrive (PST)" : "Arrive (PDT)");
-		onView(withText("11590764196")).perform(scrollTo());
+		onView(withText("San Francisco Int'l Airport")).perform(scrollTo());
 		assertViewWithTextIsDisplayed("San Francisco Int'l Airport");
+		onView(withText("11590764196")).perform(scrollTo());
 		assertViewWithTextIsDisplayed(R.id.departure_time_text_view,
 			isPackageOutboundFlightDepartureAtStandardOffset ? "5:00 AM" : "4:00 AM");
 		assertViewWithTextIsDisplayed("McCarran Int'l Airport");
