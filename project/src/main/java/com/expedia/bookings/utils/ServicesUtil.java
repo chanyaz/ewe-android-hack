@@ -116,7 +116,8 @@ public class ServicesUtil {
 			Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointUrl(),
 			PointOfSale.getPointOfSale().getSiteId(),
 			PointOfSale.getPointOfSale().getDualLanguageId(),
-			ServicesUtil.generateClientId(context));
+			ServicesUtil.generateClientId(context),
+			generateUserAgentString(context));
 	}
 
 }
