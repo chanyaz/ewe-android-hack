@@ -689,6 +689,10 @@
     <string name="prices_roundtrip_label">Prices roundtrip per person</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Prices one-way per person</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_roundtrip_minimum_label">Prices roundtrip, per person, from</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_oneway_minimum_label">Prices one-way, per person, from</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Your trip is empty.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -1662,6 +1666,10 @@
     <string name="round_trip_price_TEMPLATE">Round trip from &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">Book now for &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Variants of the previous few templates, for Australian compliance rules (d/5810) -->
+    <string name="one_way_price_min_TEMPLATE">One way from &lt;b&gt;%s&lt;/b&gt; per person</string>
+    <string name="round_trip_price_min_TEMPLATE">Round trip from &lt;b&gt;%s&lt;/b&gt; per person</string>
+    <string name="book_now_price_min_TEMPLATE">Book now from &lt;b&gt;%s&lt;/b&gt; per person</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
         <item quantity="zero">%1$s left at &lt;b&gt;%2$s&lt;/b&gt;</item>
@@ -1671,8 +1679,20 @@
         <item quantity="many">%1$s left at &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="other">%1$s left at &lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
+    <!-- Book now info label, when there are only a few seats left. Variant for Australian
+         compliance rules (d/5810) -->
+    <plurals name="urgency_book_min_TEMPLATE">
+        <item quantity="zero">%1$s left from &lt;b&gt;%2$s&lt;/b&gt; per person</item>
+        <item quantity="one">%1$s left from &lt;b&gt;%2$s&lt;/b&gt; per person</item>
+        <item quantity="two">%1$s left from &lt;b&gt;%2$s&lt;/b&gt; per person</item>
+        <item quantity="few">%1$s left from &lt;b&gt;%2$s&lt;/b&gt; per person</item>
+        <item quantity="many">%1$s left from &lt;b&gt;%2$s&lt;/b&gt; per person</item>
+        <item quantity="other">%1$s left from &lt;b&gt;%2$s&lt;/b&gt; per person</item>
+    </plurals>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
+    <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
+    <string name="fare_name_and_price_min_TEMPLATE">%1$s from %2$s per person</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">Baggage Fee Information</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -1755,10 +1775,14 @@
     <string name="Overview">Overview</string>
     <!-- Trip total price label -->
     <string name="total_price_label">Trip Total</string>
+    <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
+    <string name="total_price_min_label">Trip Total From</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Trip to %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Includes taxes and fees</string>
+    <!-- Includes taxes (but not necessarily fees) -->
+    <string name="includes_taxes">Includes taxes</string>
     <!-- Date and trip from _ to _ -->
     <string name="trip_to_with_date">%1$s: %2$s to %3$s</string>
     <!-- Number of traverlers template -->
@@ -1807,6 +1831,8 @@
     <string name="slide_to_book_flight">slide to book flight</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Your card will be charged %1$s</string>
+    <!-- Your card will be charged -->
+    <string name="your_card_will_be_charged_plue_airline_fee_TEMPLATE">Your card will be charged %1$s (plue airline fee)</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_TEMPLATE">Amount due today: %1$s</string>
     <!-- Amount to be paid now -->
@@ -1886,6 +1912,8 @@
     <string name="cost_summary">Cost Summary</string>
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Taxes &amp; Fees</string>
+    <!-- Taxes without airline fees -->
+    <string name="taxes_without_airline_fees">Taxes</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand} Booking Fee</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
@@ -2235,6 +2263,8 @@
     <string name="privacy_policy">Privacy Policy</string>
     <!-- Fare information header -->
     <string name="fare_information">FARE INFORMATION</string>
+    <!-- Airline Fee -->
+    <string name="airline_fee">Airline Fee</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -3627,4 +3657,9 @@
     <string name="acct_Welcome_to_Expedia">Welcome to Expedia</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Expedia_account_already_exists">An Expedia account already exists with this email</string>
+
+    <string name="airline_fee_notice">An airline fee, based on card type, is added upon payment.</string>
+    <string name="airline_charge_notice">Airlines charge an additional fee based on payment method.</string>
+    <string name="airline_fee_notice_payment">Airline fee applies based on payment method.</string>
+    <string name="airline_notice_fee_added_TEMPLATE">An %1$s, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
 </resources>

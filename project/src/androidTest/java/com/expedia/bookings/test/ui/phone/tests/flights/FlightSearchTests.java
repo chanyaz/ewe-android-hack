@@ -2,17 +2,22 @@ package com.expedia.bookings.test.ui.phone.tests.flights;
 
 import org.joda.time.LocalDate;
 
+import android.support.test.espresso.assertion.ViewAssertions;
+
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.ScreenActions;
 import com.expedia.bookings.test.ui.phone.pagemodels.common.SettingsScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightLegScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 
-import static android.support.test.espresso.Espresso.pressBack;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static com.expedia.bookings.test.ui.tablet.pagemodels.Common.pressBack;
 
 /**
  * Created by dmadan on 5/2/14.
@@ -92,7 +97,7 @@ public class FlightSearchTests extends PhoneTestCase {
 		}
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		FlightsSearchScreen.clickDate(startDate);
-		FlightsSearchScreen.searchButton().check(matches(isDisplayed()));
+		FlightsSearchScreen.searchButton().check(ViewAssertions.matches(isDisplayed()));
 		ScreenActions.enterLog(TAG, "Successfully asserted that the search button is shown.");
 		ScreenActions.enterLog(TAG, "END TEST");
 	}
@@ -181,4 +186,78 @@ public class FlightSearchTests extends PhoneTestCase {
 		ScreenActions.enterLog(TAG, "END TEST");
 	}
 
+	//Test for maintaining Australian regulatory changes. d/5810
+	public void testAustralianRegulatoryComplianceLabelsPresent() throws Exception {
+		ScreenActions.enterLog(TAG, "START TEST:");
+		setPOS(PointOfSaleId.AUSTRALIA);
+		LaunchScreen.launchFlights();
+		FlightsSearchScreen.enterDepartureAirport("LAX");
+		FlightsSearchScreen.enterArrivalAirport("SFO");
+		FlightsSearchScreen.clickSelectDepartureButton();
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
+		FlightsSearchScreen.clickDate(startDate, endDate);
+		FlightsSearchScreen.clickSearchButton();
+		EspressoUtils.assertViewWithTextIsDisplayed(
+				R.id.airline_fee_bar, "Airlines charge an additional fee based on payment method.");
+		EspressoUtils.assertViewWithTextIsDisplayed(
+				R.id.flight_price_label_text_view, "Prices roundtrip, per person, from");
+		FlightsSearchResultsScreen.clickListItem(1);
+		EspressoUtils.assertViewWithSubstringIsDisplayed(R.id.right_text_view, "from");
+		EspressoUtils.assertViewWithTextIsDisplayed(
+				R.id.airline_fee_notice_payment, "Airline fee applies based on payment method.");
+		FlightLegScreen.clickSelectFlightButton();
+		EspressoUtils.assertViewWithTextIsDisplayed(
+				R.id.airline_fee_bar, "Airlines charge an additional fee based on payment method.");
+		EspressoUtils.assertViewWithTextIsDisplayed(
+				R.id.flight_price_label_text_view, "Prices roundtrip, per person, from");
+		FlightsSearchResultsScreen.clickListItem(1);
+		EspressoUtils.assertViewWithSubstringIsDisplayed(R.id.right_text_view, "from");
+		EspressoUtils.assertViewWithTextIsDisplayed(
+				R.id.airline_fee_notice_payment, "Airline fee applies based on payment method.");
+		FlightLegScreen.clickSelectFlightButton();
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.total_price_label, "Trip Total From");
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.taxes_fees_label, "Includes taxes");
+		EspressoUtils.assertViewWithTextIsDisplayed(
+				R.id.airline_fee_notice,
+				"An airline fee, based on card type, is added upon payment.");
+		FlightLegScreen.clickCostBreakdownButtonView();
+		EspressoUtils.viewHasDescendantsWithText(R.id.breakdown_container, "Trip Total From");
+		EspressoUtils.viewHasDescendantsWithText(R.id.breakdown_container, "Taxes");
+		FlightLegScreen.clickCostBreakdownDoneButton();
+		CommonCheckoutScreen.clickCheckoutButton();
+		EspressoUtils.assertViewWithSubstringIsDisplayed(
+				R.id.airline_notice_fee_added,
+				"An airline fee, based on card type, is added upon payment.");
+		ScreenActions.enterLog(TAG, "END TEST");
+	}
+
+	//Ensure that Australian regulatory labels are NOT present for other POS. d/5810
+	public void testAustralianRegulatoryComplianceOnlyForAustralia() throws Exception {
+		ScreenActions.enterLog(TAG, "START TEST:");
+		LaunchScreen.launchFlights();
+		FlightsSearchScreen.enterDepartureAirport("LAX");
+		FlightsSearchScreen.enterArrivalAirport("SFO");
+		FlightsSearchScreen.clickSelectDepartureButton();
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(40);
+		FlightsSearchScreen.clickDate(startDate, endDate);
+		FlightsSearchScreen.clickSearchButton();
+		EspressoUtils.assertViewIsNotDisplayed(R.id.airline_fee_bar);
+		FlightsSearchResultsScreen.clickListItem(1);
+		EspressoUtils.assertViewIsNotDisplayed(R.id.airline_fee_notice_payment);
+		FlightLegScreen.clickSelectFlightButton();
+		EspressoUtils.assertViewIsNotDisplayed(R.id.airline_fee_bar);
+		FlightsSearchResultsScreen.clickListItem(1);
+		EspressoUtils.assertViewIsNotDisplayed(R.id.airline_fee_notice_payment);
+		FlightLegScreen.clickSelectFlightButton();
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.total_price_label, "Trip Total");
+		EspressoUtils.assertViewIsNotDisplayed(R.id.airline_fee_notice);
+		FlightLegScreen.clickCostBreakdownButtonView();
+		EspressoUtils.viewHasDescendantsWithText(R.id.breakdown_container, "Trip Total");
+		FlightLegScreen.clickCostBreakdownDoneButton();
+		CommonCheckoutScreen.clickCheckoutButton();
+		EspressoUtils.assertViewIsNotDisplayed(R.id.airline_notice_fee_added);
+		ScreenActions.enterLog(TAG, "END TEST");
+	}
 }
