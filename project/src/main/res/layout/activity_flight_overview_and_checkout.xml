@@ -57,6 +57,8 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:visibility="gone"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:text="@string/airline_fee_notice"
                     android:textColor="@android:color/white"/>
 

@@ -25,7 +25,7 @@
         android:visibility="gone"
         android:layout_marginTop="?android:attr/actionBarSize"
         android:layout_weight="1"
-        android:ellipsize="middle"
+        android:ellipsize="end"
         android:singleLine="true"
         android:textColor="@color/roboto_light"
         android:textSize="14dp"
