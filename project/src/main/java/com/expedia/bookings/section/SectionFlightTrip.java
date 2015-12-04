@@ -10,6 +10,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.pos.PointOfSale;
 
 public class SectionFlightTrip extends LinearLayout implements ISection<FlightTrip> {
 	SectionFieldList<FlightTrip> mFields = new SectionFieldList<FlightTrip>();
@@ -47,6 +48,11 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 		super.onFinishInflate();
 
 		mFields.bindFieldsAll(this);
+
+		TextView totalPriceLabel = (TextView) findViewById(R.id.total_price_label);
+		totalPriceLabel.setText(PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ? R.string.total_price_min_label : R.string.total_price_label);
+		TextView taxesFeesLabel = (TextView) findViewById(R.id.taxes_fees_label);
+		taxesFeesLabel.setText(PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ? R.string.includes_taxes : R.string.includes_taxes_and_fees);
 	}
 
 	@Override

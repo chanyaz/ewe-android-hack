@@ -97,11 +97,11 @@ public class HotelSummarySection extends RelativeLayout {
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.hotel_summary_section);
 			mSelectedBackground = a.getDrawable(R.styleable.hotel_summary_section_selectedBackground);
 			mSalePriceTextColor = a.getColor(R.styleable.hotel_summary_section_salePriceTextColor,
-				R.color.hotel_price_sale_text_color);
+				getResources().getColor(R.color.hotel_price_sale_text_color));
 			mAirAttachPriceTextColor = a.getColor(R.styleable.hotel_summary_section_airAttachPriceTextColor,
-				R.color.hotel_price_air_attach_text_color);
-			mPriceTextColor = a
-				.getColor(R.styleable.hotel_summary_section_priceTextColor, R.color.hotel_price_text_color);
+				getResources().getColor(R.color.hotel_price_air_attach_text_color));
+			mPriceTextColor = a.getColor(R.styleable.hotel_summary_section_priceTextColor,
+				getResources().getColor(R.color.hotel_price_text_color));
 			a.recycle();
 		}
 	}

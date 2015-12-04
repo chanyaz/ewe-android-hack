@@ -16,6 +16,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
@@ -74,28 +75,36 @@ public class FlightInfoBarSection extends LinearLayout {
 		String fare = trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL);
 		int seatsRemaining = trip.getSeatsRemaining();
 		if (!TextUtils.isEmpty(trip.getFareName())) {
-			String fareStr = getResources().getString(R.string.fare_name_and_price_TEMPLATE, trip.getFareName(), fare);
+			int templateID = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ?
+					R.string.fare_name_and_price_min_TEMPLATE :
+					R.string.fare_name_and_price_TEMPLATE;
+			String fareStr = getResources().getString(templateID, trip.getFareName(), fare);
 			mRightTextView.setText(fareStr);
 		}
 		else if (seatsRemaining > 0 && seatsRemaining <= SHOW_URGENCY_CUTOFF) {
-			String urgencyStr = getResources().getQuantityString(R.plurals.urgency_book_TEMPLATE, seatsRemaining,
+			int templateID = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ?
+					R.plurals.urgency_book_min_TEMPLATE : R.plurals.urgency_book_TEMPLATE;
+			String urgencyStr = getResources().getQuantityString(templateID, seatsRemaining,
 					seatsRemaining, fare);
 			mRightTextView.setText(Html.fromHtml(urgencyStr));
 		}
 		else {
 			int bookNowResId;
 			if (trip.getLegCount() == 1) {
-				bookNowResId = R.string.one_way_price_TEMPLATE;
+				bookNowResId = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ?
+						R.string.one_way_price_min_TEMPLATE : R.string.one_way_price_TEMPLATE;
 			}
 			else {
 				if (trip.getLeg(0).equals(leg)) {
-					bookNowResId = R.string.round_trip_price_TEMPLATE;
+					bookNowResId = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ?
+							R.string.round_trip_price_min_TEMPLATE :
+							R.string.round_trip_price_TEMPLATE;
 				}
 				else {
-					bookNowResId = R.string.book_now_price_TEMPLATE;
+					bookNowResId = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ?
+							R.string.book_now_price_min_TEMPLATE : R.string.book_now_price_TEMPLATE;
 				}
 			}
-
 			mRightTextView.setText(Html.fromHtml(context.getString(bookNowResId, fare)));
 		}
 	}

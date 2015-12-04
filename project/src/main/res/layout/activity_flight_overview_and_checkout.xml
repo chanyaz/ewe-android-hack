@@ -49,6 +49,19 @@
                     android:text="@string/ab_test_flights_free_cancellation"
                     android:textColor="?attr/skin_flightFreeCancellationTextColor"/>
 
+                <TextView
+                    android:id="@+id/airline_fee_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="8dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/airline_fee_notice"
+                    android:textColor="@android:color/white"/>
+
                 <com.expedia.bookings.widget.TouchableFrameLayout
                     android:id="@+id/checkout_event_blocker"
                     android:layout_width="match_parent"
