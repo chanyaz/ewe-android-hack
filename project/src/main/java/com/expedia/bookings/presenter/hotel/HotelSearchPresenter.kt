@@ -113,6 +113,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
     var suggestionViewModel: HotelSuggestionAdapterViewModel by notNullAndObservable { vm ->
         vm.suggestionSelectedSubject.subscribe { suggestion ->
+            searchContainer.setBackgroundColor(Color.WHITE)
             searchViewModel.suggestionObserver.onNext(suggestion)
             searchLocationEditText.clearFocus()
             searchLocationEditText.visibility = View.INVISIBLE
