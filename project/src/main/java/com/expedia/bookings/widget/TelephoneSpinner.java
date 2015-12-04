@@ -34,6 +34,7 @@ public class TelephoneSpinner extends Spinner {
 
 	@Override
 	public void onFinishInflate() {
+		super.onFinishInflate();
 		updateText();
 	}
 
