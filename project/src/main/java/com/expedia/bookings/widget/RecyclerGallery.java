@@ -27,10 +27,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
+import com.mobiata.android.util.AndroidUtils;
 import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
@@ -189,7 +191,17 @@ public class RecyclerGallery extends RecyclerView {
 		mDecoration = new SpaceDecoration();
 		addItemDecoration(mDecoration);
 
-		mLayoutManager = new LinearLayoutManager(getContext());
+		if (ExpediaBookingApp.isDeviceShitty()) {
+			mLayoutManager = new LinearLayoutManager(getContext());
+		}
+		else {
+			mLayoutManager = new LinearLayoutManager(getContext()) {
+				@Override
+				protected int getExtraLayoutSpace(State state) {
+					return AndroidUtils.getScreenSize(getContext()).x;
+				}
+			};
+		}
 		mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 		setLayoutManager(mLayoutManager);
 

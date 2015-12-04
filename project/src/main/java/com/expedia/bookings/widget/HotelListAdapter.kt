@@ -265,6 +265,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         private val target = object : PicassoTarget() {
             override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
                 super.onBitmapLoaded(bitmap, from)
+                imageView.setImageBitmap(bitmap)
 
                 val palette = Palette.Builder(bitmap).generate()
                 val color = palette.getDarkVibrantColor(R.color.transparent_dark)
@@ -286,7 +287,6 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
                     drawable.shaderFactory = getShader(colorArrayBottom)
                 }
 
-                imageView.setImageBitmap(bitmap)
                 gradient.background = drawable
             }
 
@@ -300,6 +300,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
                 super.onPrepareLoad(placeHolderDrawable)
                 imageView.setImageDrawable(placeHolderDrawable)
+                gradient.background = null
             }
         }
 
