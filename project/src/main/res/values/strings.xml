@@ -678,6 +678,9 @@
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">This date is in the past, please choose a new date.</string>
 
+    <!-- Category Title "All Things To Do" -->
+    <string name="lx_category_all_things_to_do">All Things To Do</string>
+
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
     <string name="Sort_and_Filter">Sort &amp; Filter</string>

@@ -18,8 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.data.lx.LXSortFilterMetadata;
 import com.expedia.bookings.data.lx.LXSortType;
@@ -36,6 +34,7 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	private Map<String, LXCategoryMetadata> selectedFilterCategories = new HashMap<>();
 	private boolean isFilteredToZeroResults = false;
+	private View toolbarBackgroundView;
 
 	public LXSortFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -81,14 +80,12 @@ public class LXSortFilterWidget extends LinearLayout {
 		MenuItem item = toolbar.getMenu().findItem(R.id.apply_check);
 		setupToolBarCheckmark(item);
 
-		boolean isUserBucketedForCategoriesTest = Db.getAbacusResponse()
-			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCategoryABTest);
-
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
-		if (statusBarHeight > 0 && !isUserBucketedForCategoriesTest) {
+		if (statusBarHeight > 0) {
 			int color = getContext().getResources()
 				.getColor(Ui.obtainThemeResID(getContext(), R.attr.primary_color));
-			addView(Ui.setUpStatusBar(getContext(), null, null, color), 0);
+			toolbarBackgroundView = Ui.setUpStatusBar(getContext(), null, null, color);
+			addView(toolbarBackgroundView, 0);
 		}
 		// Reset Popularity sort as default.
 		popularitySortButton.setSelected(true);
@@ -145,9 +142,7 @@ public class LXSortFilterWidget extends LinearLayout {
 			}
 		}
 		else {
-			// Set to default state, as we have new search params available.
-			selectedFilterCategories.clear();
-			resetSort();
+			resetSortAndFilter();
 		}
 
 		// Hide the dynamic feedback & update done button in case we have zero filters applied.
@@ -250,16 +245,20 @@ public class LXSortFilterWidget extends LinearLayout {
 		return this;
 	}
 
-	public void hideCategoryFilter() {
-		categoryTitle.setVisibility(GONE);
-		filterCategoriesContainer.setVisibility(GONE);
+	public void categoryFilterVisibility(boolean visibility) {
+		categoryTitle.setVisibility(visibility ? VISIBLE : GONE);
+		filterCategoriesContainer.setVisibility(visibility ? VISIBLE : GONE);
+		toolbarBackgroundView.setVisibility(visibility ? VISIBLE : GONE);
 	}
 
 	public void setToolbarTitle(CharSequence title) {
 		toolbar.setTitle(title);
 	}
 
-	public void resetSort() {
+	public void resetSortAndFilter() {
+		// Set to default state, as we have new search params available.
+		selectedFilterCategories.clear();
+
 		popularitySortButton.setSelected(true);
 		priceSortButton.setSelected(false);
 	}

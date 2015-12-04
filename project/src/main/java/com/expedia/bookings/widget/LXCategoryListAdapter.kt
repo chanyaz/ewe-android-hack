@@ -72,9 +72,9 @@ public class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetada
             categoryTitle.text = category.displayValue
             categoryCount.text = category.activities.size.toString()
 
-            if (category.activities.size == 1) {
+            if (category.activities.size >= 1 && category.activities.size <= 9) {
                 categoryCount.background = ContextCompat.getDrawable(itemView.context, R.drawable.lx_category_count_background_single_digit)
-            } else if (category.activities.size > 1) {
+            } else  {
                 categoryCount.background = ContextCompat.getDrawable(itemView.context, R.drawable.lx_category_count_background_more_than_one_digit)
             }
 
