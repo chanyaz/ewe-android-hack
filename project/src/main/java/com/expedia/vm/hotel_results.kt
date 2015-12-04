@@ -23,6 +23,7 @@ import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
+import com.google.maps.android.ui.IconGenerator
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
@@ -136,7 +137,7 @@ public class HotelResultsPricingStructureHeaderViewModel(private val resources: 
     }
 }
 
-public class HotelResultsMapViewModel(val resources: Resources, val currentLocation: Location) {
+public class HotelResultsMapViewModel(val context: Context, val currentLocation: Location, val factory: IconGenerator) {
 
     var hotels: List<Hotel> = emptyList()
 
@@ -211,7 +212,7 @@ public class HotelResultsMapViewModel(val resources: Resources, val currentLocat
             if (it != null) {
                 val marker = it.first
                 val hotel = it.second
-                marker?.setIcon(createHotelMarkerIcon(resources, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
+                marker?.setIcon(createHotelMarkerIcon(context, factory, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
             }
         }
 
@@ -219,7 +220,7 @@ public class HotelResultsMapViewModel(val resources: Resources, val currentLocat
             if (it != null) {
                 val marker = it.first
                 val hotel = it.second
-                marker?.setIcon(createHotelMarkerIcon(resources, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
+                marker?.setIcon(createHotelMarkerIcon(context, factory, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
             }
         }
 
@@ -227,7 +228,7 @@ public class HotelResultsMapViewModel(val resources: Resources, val currentLocat
             if (it != null) {
                 val marker = it.first
                 val hotel = it.second
-                marker?.setIcon(createHotelMarkerIcon(resources, hotel, true, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
+                marker?.setIcon(createHotelMarkerIcon(context, factory, hotel, true, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
                 marker?.showInfoWindow()
             }
         }

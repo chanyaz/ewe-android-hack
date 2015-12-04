@@ -22,17 +22,19 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.FrameLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.squareup.picasso.Picasso;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class RecyclerGallery extends RecyclerView {
 	/**
@@ -187,12 +189,7 @@ public class RecyclerGallery extends RecyclerView {
 		mDecoration = new SpaceDecoration();
 		addItemDecoration(mDecoration);
 
-		mLayoutManager = new LinearLayoutManager(getContext()) {
-			@Override
-			protected int getExtraLayoutSpace(State state) {
-				return AndroidUtils.getScreenSize(getContext()).x;
-			}
-		};
+		mLayoutManager = new LinearLayoutManager(getContext());
 		mLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 		setLayoutManager(mLayoutManager);
 
@@ -209,7 +206,6 @@ public class RecyclerGallery extends RecyclerView {
 	public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
 		private List<? extends IMedia> mMedia;
 		private FrameLayout.LayoutParams mLayoutParams;
-		private static final int MAX_IMAGES_LOADED = 5;
 
 		private RecyclerAdapter(List<? extends IMedia> media) {
 			mMedia = media;
@@ -235,15 +231,17 @@ public class RecyclerGallery extends RecyclerView {
 		}
 
 		public class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
-			private final ProgressBar progressBar;
-			public final HotelDetailsGalleryImageView mImageView;
+			@InjectView(R.id.gallery_item_progress_bar)
+			public ProgressBar progressBar;
+			@InjectView(R.id.gallery_item_image_view)
+			public HotelDetailsGalleryImageView mImageView;
 
-			public ViewHolder(View root, HotelDetailsGalleryImageView imageView, ProgressBar progressBar) {
+			public ViewHolder(View root) {
 				super(root);
-				mImageView = imageView;
-				this.progressBar = progressBar;
+				ButterKnife.inject(this, itemView);
+				mImageView.setLayoutParams(mLayoutParams);
 				mImageView.setTag(callback);
-				imageView.setOnClickListener(this);
+				mImageView.setOnClickListener(this);
 			}
 
 			@Override
@@ -296,10 +294,7 @@ public class RecyclerGallery extends RecyclerView {
 			int viewType) {
 			View root = LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.gallery_image, parent, false);
-			ProgressBar progressBar = Ui.findView(root, R.id.gallery_item_progress_bar);
-			HotelDetailsGalleryImageView imageView = Ui.findView(root, R.id.gallery_item_image_view);
-			imageView.setLayoutParams(mLayoutParams);
-			ViewHolder vh = new ViewHolder(root, imageView, progressBar);
+			ViewHolder vh = new ViewHolder(root);
 			return vh;
 		}
 

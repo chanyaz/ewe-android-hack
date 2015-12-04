@@ -178,7 +178,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.hotel_results_presenter_stub,
 		R.layout.hotel_detail_presenter_stub,
 		R.layout.hotel_checkout_presenter_stub,
-		R.layout.test_hotel_map_widget,
 		R.drawable.user_review_background_green,
 		R.string.hotel_guest_recommend_good_superlative,
 		R.string.hotel_guest_recommend_very_good_superlative,

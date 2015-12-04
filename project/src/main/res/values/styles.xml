@@ -1173,4 +1173,9 @@
         <item name="android:background">@drawable/hotel_detail_ripple</item>
         <item name="android:drawableRight">@drawable/smaller_details_info</item>
     </style>
+
+    <style name="MarkerTextAppearance">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">13sp</item>
+    </style>
 </resources>
