@@ -65,6 +65,7 @@ public class PhoneLaunchDoubleRowButton extends FrameLayout {
 
 	@Override
 	public void onFinishInflate() {
+		super.onFinishInflate();
 		ViewCompat.setElevation(textView, 2 * bgView.getCardElevation());
 		ViewCompat.setElevation(iconView, 2 * bgView.getCardElevation());
 		bgView.setCardBackgroundColor(bgColor);
