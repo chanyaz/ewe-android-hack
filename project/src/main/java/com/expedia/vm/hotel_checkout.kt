@@ -370,7 +370,7 @@ class HotelBreakDownViewModel(val context: Context, val hotelCheckoutSummaryView
 
             // Show amount to be paid today in resort or ETP cases
             if (it.isResortCase.value || it.isPayLater.value) {
-                val dueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+                val dueTodayText = Phrase.from(context, R.string.due_to_brand_today_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
                 breakdowns.add(Breakdown(dueTodayText, it.dueNowAmount.value, false, false))
             }
 

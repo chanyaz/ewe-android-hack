@@ -71,6 +71,22 @@ public class HotelDepositsV2Test extends HotelTestCase {
 			.check(matches(isDisplayed()));
 		Common.pressBack();
 
+		waitForDetailsLoaded();
+		addRoom().perform(scrollTo());
+		clickPayLater();
+		Common.delay(1);
+
+		HotelScreen.addRoom().perform(click());
+		Common.delay(2);
+
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.amount_due_today_label, "Due to Expedia today");
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.total_price_with_tax_and_fees, "$0");
+
+		onView(withId(R.id.amount_due_today_label)).perform(click());
+
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.price_type_text_view, "Due to Expedia today");
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.price_text_view, "$0");
+
 	}
 
 	public void testInfoWithoutDepositNotRequired() throws Throwable {
@@ -91,11 +107,10 @@ public class HotelDepositsV2Test extends HotelTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.no_charges_text, "Expedia will not charge you.");
 		Common.pressBack();
 
-		//assert Deposit terms info screen
 		waitForDetailsLoaded();
 		addRoom().perform(scrollTo());
+		Common.delay(2);
 		clickPayLater();
-		Common.delay(1);
 
 		//We don't show deposit terms link if there is no deposit required
 		onView(withId(R.id.deposit_terms_buttons)).check(matches(not(isDisplayed())));
