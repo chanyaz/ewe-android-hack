@@ -4,6 +4,7 @@ import android.app.Activity
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.util.endlessObserver
@@ -18,7 +19,6 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import retrofit.RequestInterceptor
 import retrofit.RestAdapter
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
@@ -37,12 +37,7 @@ public class HotelValueAddsTest {
     @Before
     fun before() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        val emptyInterceptor = object : RequestInterceptor {
-            override fun intercept(request: RequestInterceptor.RequestFacade) {
-                // ignore
-            }
-        }
-        service = HotelServices("http://localhost:" + server.port, OkHttpClient(), emptyInterceptor, Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL)
+        service = HotelServices("http://localhost:" + server.port, OkHttpClient(), MockInterceptor(), Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL)
         vm = HotelDetailViewModel(activity.applicationContext, service, endlessObserver { /*ignore*/ })
     }
 

@@ -19,15 +19,9 @@ import rx.Scheduler
 import java.io.IOException
 import kotlin.properties.Delegates
 
-public class ReviewsServices(endPoint: String, client: OkHttpClient, private val observeOn: Scheduler, private val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
+public class ReviewsServices(endPoint: String, client: OkHttpClient, requestInterceptor: RequestInterceptor, private val observeOn: Scheduler, private val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
     val reviewsApi: ReviewsApi by lazy {
-        val acceptJsonInterceptor: RequestInterceptor = object : RequestInterceptor {
-            override fun intercept(request: RequestInterceptor.RequestFacade) {
-                request.addHeader("Accept", "application/json")
-            }
-        }
-
         val gson = GsonBuilder()
                 .registerTypeAdapter(DateTime::class.java, object : TypeAdapter<DateTime>() {
 
@@ -47,7 +41,7 @@ public class ReviewsServices(endPoint: String, client: OkHttpClient, private val
         val adapter = RestAdapter.Builder()
                 .setEndpoint(endPoint)
                 .setLogLevel(logLevel)
-                .setRequestInterceptor(acceptJsonInterceptor)
+                .setRequestInterceptor(requestInterceptor)
                 .setConverter(GsonConverter(gson))
                 .setClient(OkClient(client))
                 .build()

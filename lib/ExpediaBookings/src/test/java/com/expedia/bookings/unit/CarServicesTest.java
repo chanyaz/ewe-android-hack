@@ -19,6 +19,7 @@ import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.Transmission;
+import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.CarServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
@@ -26,7 +27,6 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 
-import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import rx.observers.TestSubscriber;
@@ -46,15 +46,9 @@ public class CarServicesTest {
 
 	@Before
 	public void before() {
-		RequestInterceptor emptyInterceptor = new RequestInterceptor() {
-			@Override
-			public void intercept(RequestFacade request) {
-				// ignore
-			}
-		};
 
 		service = new CarServices("http://localhost:" + server.getPort(), new OkHttpClient(),
-			emptyInterceptor, Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL);
+			new MockInterceptor(), Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL);
 	}
 
 	@After

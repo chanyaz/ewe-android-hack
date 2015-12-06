@@ -22,6 +22,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
 import com.expedia.bookings.data.hotels.SuggestionV4;
+import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.services.HotelServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
@@ -30,7 +31,6 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 
-import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import rx.observers.TestSubscriber;
@@ -47,15 +47,8 @@ public class HotelServicesTest {
 
 	@Before
 	public void before() {
-		RequestInterceptor emptyInterceptor = new RequestInterceptor() {
-			@Override
-			public void intercept(RequestFacade request) {
-				// ignore
-			}
-		};
-
 		service = new HotelServices("http://localhost:" + server.getPort(),
-			new OkHttpClient(), emptyInterceptor,
+			new OkHttpClient(), new MockInterceptor(),
 			Schedulers.immediate(), Schedulers.immediate(),
 			RestAdapter.LogLevel.FULL);
 	}

@@ -25,9 +25,9 @@ public class LXModule {
 
 	@Provides
 	@LXScope
-	SuggestionServices provideLxSuggestionServices(EndpointProvider endpointProvider, OkHttpClient client, RestAdapter.LogLevel logLevel) {
+	SuggestionServices provideLxSuggestionServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor requestInterceptor, RestAdapter.LogLevel logLevel) {
 		final String endpoint = endpointProvider.getEssEndpointUrl();
-		return new SuggestionServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
+		return new SuggestionServices(endpoint, client, requestInterceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 
 	@Provides
