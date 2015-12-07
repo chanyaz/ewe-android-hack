@@ -12,7 +12,6 @@ import android.content.Context;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.ImageView;
 
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.bitmaps.PaletteCallback;
 import com.expedia.bookings.bitmaps.PicassoHelper;
@@ -311,9 +310,8 @@ public class HotelMedia implements JSONable, IMedia {
 		view.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 			@Override
 			public boolean onPreDraw() {
-				int imageFactor = ExpediaBookingApp.isDeviceShitty() ? 4 : 2;
 				view.getViewTreeObserver().removeOnPreDrawListener(this);
-				fillImageView(view, view.getWidth()/imageFactor, placeholderResId, target);
+				fillImageView(view, view.getWidth()/2, placeholderResId, target);
 				return true;
 			}
 		});

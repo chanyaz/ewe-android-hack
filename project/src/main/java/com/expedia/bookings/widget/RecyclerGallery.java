@@ -198,7 +198,12 @@ public class RecyclerGallery extends RecyclerView {
 			mLayoutManager = new LinearLayoutManager(getContext()) {
 				@Override
 				protected int getExtraLayoutSpace(State state) {
-					return AndroidUtils.getScreenSize(getContext()).x;
+					if (state.hasTargetScrollPosition()) {
+						return AndroidUtils.getScreenSize(getContext()).x;
+					}
+					else {
+						return 0;
+					}
 				}
 			};
 		}

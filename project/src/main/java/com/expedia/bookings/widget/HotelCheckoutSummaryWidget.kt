@@ -105,13 +105,12 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
                                             resources.getString(R.string.total_with_tax)
         }
         viewModel.roomHeaderImage.subscribe {
-            val imageFactor = if (ExpediaBookingApp.isDeviceShitty()) 4 else 2
             PicassoHelper.Builder(context)
                     .setPlaceholder(R.drawable.room_fallback)
                     .setError(R.drawable.room_fallback)
                     .setTarget(picassoTarget).setTag(PICASSO_HOTEL_IMAGE)
                     .build()
-                    .load(HotelMedia(Images.getMediaHost() + it).getBestUrls(width/imageFactor))
+                    .load(HotelMedia(Images.getMediaHost() + it).getBestUrls(width/2))
         }
         breakdown.viewmodel = HotelBreakDownViewModel(context, viewModel)
     }

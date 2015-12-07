@@ -229,14 +229,15 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
 
             viewRoom.isChecked = true
 
-            val imageFactor = if (ExpediaBookingApp.isDeviceShitty()) 4 else 2
             val imageUrl: String? = vm.roomHeaderImageObservable.value
-            if (imageUrl != null && imageUrl.isNotBlank()) {
+            if (ExpediaBookingApp.isDeviceShitty()) {
+                //ignore dont load image
+            } else if (imageUrl != null && imageUrl.isNotBlank()) {
                 val hotelMedia = HotelMedia(imageUrl)
                 PicassoHelper.Builder(roomHeaderImage)
                         .setPlaceholder(R.drawable.room_fallback)
                         .build()
-                        .load(hotelMedia.getBestUrls(scrollAncestor.width/imageFactor))
+                        .load(hotelMedia.getBestUrls(scrollAncestor.width/2))
             } else {
                 roomHeaderImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.room_fallback))
             }
@@ -442,6 +443,12 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
         viewRoom.textOn = resources.getString(R.string.book_room_button_text)
         row.background = transitionDrawable
         roomInfoDescriptionText.visibility = View.VISIBLE
+
+        if (ExpediaBookingApp.isDeviceShitty()) {
+            roomHeaderImage.visibility = View.GONE
+        } else {
+            roomHeaderImage.visibility = View.VISIBLE
+        }
 
     }
 
