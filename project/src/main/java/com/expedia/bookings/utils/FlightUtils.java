@@ -81,7 +81,7 @@ public class FlightUtils {
 		Money totalFare = flightItem.getFlightTrip().getTotalFareWithCardFee(Db.getBillingInfo(), flightItem);
 		String template = context.getString(
 			PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
-				? R.string.your_card_will_be_charged_plue_airline_fee_TEMPLATE
+				? R.string.your_card_will_be_charged_plus_airline_fee_TEMPLATE
 				: R.string.your_card_will_be_charged_TEMPLATE);
 		return String.format(template, totalFare.getFormattedMoney());
 	}
