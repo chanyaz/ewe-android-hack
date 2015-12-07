@@ -1832,7 +1832,7 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Your card will be charged %1$s</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plue_airline_fee_TEMPLATE">Your card will be charged %1$s (plue airline fee)</string>
+    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">Your card will be charged %1$s (plus airline fee)</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_TEMPLATE">Amount due today: %1$s</string>
     <!-- Amount to be paid now -->
@@ -2264,7 +2264,9 @@
     <!-- Fare information header -->
     <string name="fare_information">FARE INFORMATION</string>
     <!-- Airline Fee -->
-    <string name="airline_fee">Airline Fee</string>
+    <string name="Airline_fee">Airline Fee</string>
+    <!-- airline fee -->
+    <string name="airline_fee">airline fee</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
