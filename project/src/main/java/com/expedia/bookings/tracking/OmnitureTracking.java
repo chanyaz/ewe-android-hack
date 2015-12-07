@@ -470,19 +470,15 @@ public class OmnitureTracking {
 		}
 		else if (isRoomSoldOut && isETPEligible) {
 			s.setEvents("event32,event5,event18");
-			s.setEvar(52, "Pay Now");
 		}
 		else if (isRoomSoldOut) {
 			s.setEvents("event32,event18");
-			s.setEvar(52, "Non ETP");
 		}
 		else if (isETPEligible) {
 			s.setEvents("event32,event5");
-			s.setEvar(52, "Pay Now");
 		}
 		else if (!isETPEligible) {
 			s.setEvents("event32");
-			s.setEvar(52, "Non ETP");
 		}
 
 		s.setEvar(2, HOTELV2_LOB);
