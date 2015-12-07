@@ -228,6 +228,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
     val isResortCase = BehaviorSubject.create<Boolean>(false)
     val isPayLater = BehaviorSubject.create<Boolean>(false)
     val isPayLaterOrResortCase = BehaviorSubject.create<Boolean>(false)
+    val isDepositV2 = BehaviorSubject.create<Boolean>(false)
     val feesPaidAtHotel = BehaviorSubject.create<String>()
     val showFeesPaidAtHotel = BehaviorSubject.create<Boolean>(false)
     val roomHeaderImage = BehaviorSubject.create<String?>()
@@ -271,6 +272,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             isPayLater.onNext(room.isPayLater && !AndroidUtils.isTablet(context))
             isResortCase.onNext(Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
             isPayLaterOrResortCase.onNext(isPayLater.value || isResortCase.value)
+            isDepositV2.onNext(room.depositRequired)
             priceAdjustments.onNext(rate.getPriceAdjustments())
             hotelName.onNext(it.getHotelName())
             checkInDate.onNext(it.checkInDate)
@@ -370,7 +372,12 @@ class HotelBreakDownViewModel(val context: Context, val hotelCheckoutSummaryView
 
             // Show amount to be paid today in resort or ETP cases
             if (it.isResortCase.value || it.isPayLater.value) {
-                val dueTodayText = Phrase.from(context, R.string.due_to_brand_today_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+                var dueTodayText: String
+                if (it.isDepositV2.value) {
+                    dueTodayText = Phrase.from(context, R.string.due_to_brand_today_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+                } else {
+                    dueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+                }
                 breakdowns.add(Breakdown(dueTodayText, it.dueNowAmount.value, false, false))
             }
 
