@@ -32,7 +32,7 @@ public object HotelSearchParamsUtil {
                 val type = object : TypeToken<List<HotelSearchParams>>() {}.type
                 var savedSearches = loadSearchHistory(context)
                 savedSearches.add(0, searchParams)
-                val recentSearches = savedSearches.distinctBy { listOf(it.suggestion.gaiaId, it.suggestion.regionNames.displayName, it.checkIn, it.checkOut) }
+                val recentSearches = savedSearches.distinctBy { listOf(it.suggestion.gaiaId, it.suggestion.regionNames.displayName, it.checkIn, it.checkOut, it.adults, it.children.size) }
 
                 val builder = GsonBuilder().registerTypeAdapter(LocalDate::class.java, LocalDateTypeAdapter(PATTERN))
                 val searchJson = builder.create().toJson(recentSearches.take(10), type)

@@ -25,7 +25,7 @@ public class RecentSearchViewModel(val context: Context) {
             descriptionObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
                     .put("startdate", DateUtils.localDateToMMMd(hotelSearchParam.checkIn))
                     .put("enddate", DateUtils.localDateToMMMd(hotelSearchParam.checkOut))
-                    .put("guests", StrUtils.formatGuestString(context, hotelSearchParam.guests()))
+                    .put("guests", StrUtils.formatGuests(context, hotelSearchParam.adults, hotelSearchParam.children.size))
                     .format())
 
             titleObservable.onNext(Html.fromHtml(hotelSearchParam.suggestion.regionNames.displayName).toString())

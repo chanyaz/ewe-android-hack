@@ -191,7 +191,11 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         recentSearches.recentSearchesAdapterViewModel.recentSearchSelectedSubject.subscribe {
             searchViewModel.searchParamsObservable.onNext(it)
             vm.suggestionObserver.onNext(it.suggestion)
-            vm.travelersObserver.onNext(HotelTravelerParams(it.adults, it.children))
+            traveler.viewmodel.travelerParamsObservable.onNext(HotelTravelerParams(it.adults, it.children))
+            for (index in 0..it.children.size -1) {
+                val spinner = traveler.childSpinners[index]
+                spinner.setSelection(it.children[index])
+            }
             vm.datesObserver.onNext(Pair(it.checkIn, it.checkOut))
             calendar.setSelectedDates(it.checkIn, it.checkOut)
         }
