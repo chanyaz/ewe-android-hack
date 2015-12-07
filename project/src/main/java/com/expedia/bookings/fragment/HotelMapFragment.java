@@ -6,10 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -157,7 +160,10 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		mInflater = LayoutInflater.from(getActivity());
 
 		// Initial configuration
-		mMap.setMyLocationEnabled(true);
+		if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+			== PackageManager.PERMISSION_GRANTED) {
+			mMap.setMyLocationEnabled(true);
+		}
 		mMap.getUiSettings().setZoomControlsEnabled(false);
 
 		if (mIsTablet) {
@@ -285,7 +291,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 			});
 		}
 
-		boolean isUserBucketedForSalePinGreenTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHSRSalePinTest);
+		boolean isUserBucketedForSalePinGreenTest = Db.getAbacusResponse()
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHSRSalePinTest);
 		int pinSaleAttrID;
 
 		if (isUserBucketedForSalePinGreenTest) {
@@ -665,7 +672,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 
 	/**
 	 * Shows all properties visible on the map.
-	 * <p/>
+	 * <p>
 	 * If there are properties but all are hidden (due to filtering),
 	 * then it shows the area they would appear (if they weren't
 	 * hidden).
