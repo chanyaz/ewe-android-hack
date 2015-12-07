@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.lx;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -99,6 +100,11 @@ public class LXResultsPresenter extends Presenter {
 	@InjectView(R.id.transparent_view)
 	View transparentView;
 
+	@OnClick(R.id.transparent_view)
+	public void onTransparentViewClick() {
+		show(searchResultsWidget, FLAG_CLEAR_TOP);
+	}
+
 	private int searchTop;
 	private ArrowXDrawable navIcon;
 
@@ -133,15 +139,20 @@ public class LXResultsPresenter extends Presenter {
 			sortFilterButton.showNumberOfFilters(sortFilterWidget.getNumberOfSelectedFilters());
 			sortFilterWidget.setVisibility(View.VISIBLE);
 			sortFilterWidgetHeightForCategoriesABTest = sortFilterWidget.getSortFilterWidgetHeightForCategoriesABTest();
+			if (isUserBucketedAndCategoryAllThingsToDo()) {
+				transparentView.setAlpha(forward ? 0 : 0.5f);
+				transparentView.setVisibility(VISIBLE);
+			}
 		}
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			float translatePercentage = forward ? 1f - f : f;
-			if (isUserBucketedForCategoriesTest) {
+			if (isUserBucketedAndCategoryAllThingsToDo()) {
 				sortFilterWidget
 					.setTranslationY(sortFilterWidget.getHeight() - sortFilterWidgetHeightForCategoriesABTest
 						+ (sortFilterWidgetHeightForCategoriesABTest * translatePercentage));
+				transparentView.setAlpha((1f - translatePercentage) / 2f);
 			}
 			else {
 				sortFilterWidget.setTranslationY(sortFilterWidget.getHeight() * translatePercentage);
@@ -154,7 +165,8 @@ public class LXResultsPresenter extends Presenter {
 
 		@Override
 		public void finalizeTransition(boolean forward) {
-			if (isUserBucketedForCategoriesTest) {
+			if (isUserBucketedAndCategoryAllThingsToDo()) {
+				transparentView.setAlpha(forward ? 0.5f : 0);
 				transparentView.setVisibility(forward ? VISIBLE : GONE);
 			}
 			else {
@@ -213,14 +225,27 @@ public class LXResultsPresenter extends Presenter {
 
 		@Override
 		public void onNext(LXCategoryMetadata category) {
+			OmnitureTracking.trackAppLXSearch(lxState.searchParams, searchResponse);
+			sortFilterWidget.resetSortAndFilter();
+
+			if (category.categoryKey.equals(getResources().getString(R.string.lx_category_key_all_things_to_do))) {
+				sortFilterWidget.categoryFilterVisibility(true);
+				for (LXCategoryMetadata categoryMetadata : searchResponse.filterCategories.values()) {
+					categoryMetadata.checked = false;
+				}
+				sortFilterWidget.bind(searchResponse.filterCategories);
+				sortFilterButton.setFilterText(getResources().getString(R.string.lx_sort_filter));
+			}
+			else {
+				sortFilterWidget.categoryFilterVisibility(false);
+				sortFilterButton.setFilterText(getResources().getString(R.string.sort));
+			}
 			categorySelected = category;
 			show(searchResultsWidget, FLAG_CLEAR_TOP);
 			sortFilterButton.showNumberOfFilters(0);
-			sortFilterWidget.hideCategoryFilter();
 			sortFilterButton.setVisibility(VISIBLE);
 			searchSubscription = lxServices.lxCategorySort(categorySelected, LXSortType.POPULARITY,
 				categoryResultSortObserver);
-			sortFilterWidget.resetSort();
 		}
 	};
 
@@ -229,10 +254,21 @@ public class LXResultsPresenter extends Presenter {
 		@Override
 		public void onNext(LXSearchResponse lxSearchResponse) {
 			searchResponse = lxSearchResponse;
+
+			// Add All Things to do as first Category.
+			LXCategoryMetadata lxCategoryMetadata = new LXCategoryMetadata();
+			String allThingsToDoCategory = getContext().getResources().getString(R.string.lx_category_all_things_to_do);
+			lxCategoryMetadata.displayValue = allThingsToDoCategory;
+			// This is non-localized category key.
+			lxCategoryMetadata.categoryKey = getContext().getResources().getString(R.string.lx_category_key_all_things_to_do);
+			lxCategoryMetadata.activities.addAll(lxSearchResponse.activities);
+			LinkedHashMap categoryLinkedHashMap = new LinkedHashMap();
+			categoryLinkedHashMap.put(allThingsToDoCategory, lxCategoryMetadata);
+			categoryLinkedHashMap.putAll(lxSearchResponse.filterCategories);
+
 			Events.post(new Events.LXSearchResultsAvailable(lxSearchResponse));
 			OmnitureTracking.trackAppLXSearchCategories(lxState.searchParams, lxSearchResponse);
-			List<LXCategoryMetadata> categories = new ArrayList<>(lxSearchResponse.filterCategories.values());
-
+			List<LXCategoryMetadata> categories = new ArrayList<>(categoryLinkedHashMap.values());
 			categoryResultsWidget.bind(categories);
 			searchResultsWidget.setVisibility(GONE);
 			categoryResultsWidget.setVisibility(VISIBLE);
@@ -427,7 +463,7 @@ public class LXResultsPresenter extends Presenter {
 
 	@Subscribe
 	public void onLXFilterChanged(Events.LXFilterChanged event) {
-		if (isUserBucketedForCategoriesTest) {
+		if (isUserBucketedAndCategoryAllThingsToDo()) {
 			searchSubscription = lxServices.lxCategorySort(categorySelected, event.lxSortFilterMetadata.sort,
 				categoryResultSortObserver);
 		}
@@ -507,7 +543,7 @@ public class LXResultsPresenter extends Presenter {
 	}
 
 	public void animationUpdate(float f, boolean forward) {
-		float yTrans = forward ?  - (searchTop * -f) : (searchTop * (1 - f));
+		float yTrans = forward ? -(searchTop * -f) : (searchTop * (1 - f));
 		toolBarDetailText.setTranslationY(yTrans);
 		toolBarSubtitleText.setTranslationY(yTrans);
 		navIcon.setParameter(forward ? f : Math.abs(1 - f));
@@ -560,5 +596,19 @@ public class LXResultsPresenter extends Presenter {
 
 	public void setUserBucketedForCategoriesTest(boolean isUserBucketedForTest) {
 		this.isUserBucketedForCategoriesTest = isUserBucketedForTest && !isGroundTransport;
+	}
+
+	private boolean isUserBucketedAndCategoryAllThingsToDo() {
+		return isUserBucketedForCategoriesTest && !categorySelected.categoryKey
+			.equals(getResources().getString(R.string.lx_category_key_all_things_to_do));
+	}
+
+	@Override
+	public boolean back() {
+		if (LXSearchResultsWidget.class.getName().equals(getCurrentState()) && searchResponse != null
+			&& searchResponse.regionId != null) {
+			OmnitureTracking.trackAppLXSearchCategories(lxState.searchParams, searchResponse);
+		}
+		return super.back();
 	}
 }
