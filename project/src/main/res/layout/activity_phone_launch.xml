@@ -4,6 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.expedia.bookings.widget.DisableableViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <com.expedia.bookings.widget.PhoneLaunchToolbar
         android:id="@+id/launch_toolbar"
         style="@style/LaunchActionBar"
@@ -12,10 +17,4 @@
         android:background="?attr/skin_launchActionBarBackgroundColor"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp" />
-
-    <com.expedia.bookings.widget.DisableableViewPager
-            android:id="@+id/viewpager"
-            android:layout_marginTop="?attr/actionBarSize"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 </FrameLayout>
