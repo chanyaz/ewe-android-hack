@@ -72,7 +72,8 @@ public class FlightInfoBarSection extends LinearLayout {
 		}
 
 		// Bind right label (booking price)
-		String fare = trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL);
+		String fare = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ? trip.getAverageTotalFare().getFormattedMoney(
+			Money.F_NO_DECIMAL) : trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL);
 		int seatsRemaining = trip.getSeatsRemaining();
 		if (!TextUtils.isEmpty(trip.getFareName())) {
 			int templateID = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ?
