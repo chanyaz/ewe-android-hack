@@ -32,7 +32,7 @@
       "hasFreeCancellation": true,
       "freeCancellationWindowDate": "2015-12-22 15:00",
       "guaranteeRequired": false,
-      "depositRequired": false,
+      "depositRequired": true,
       "immediateChargeRequired": false,
       "currentAllotment": "0",
       "promoDescription": "",
