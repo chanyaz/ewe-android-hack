@@ -463,14 +463,13 @@
                     android:layout_below="@id/map_divider"
                     android:foreground="?android:attr/selectableItemBackground">
 
-                    <com.google.android.gms.maps.MapView
+                    <com.expedia.bookings.widget.LocationMapImageView
                         android:id="@+id/mini_map_view"
                         android:layout_width="match_parent"
                         android:layout_height="480dp"
                         android:layout_gravity="center"
-                        android:paddingBottom="160dp"
-                        app:liteMode="true"
-                        app:mapType="normal"/>
+                        android:scaleType="centerCrop"
+                        android:paddingBottom="160dp" />
 
                     <View
                         android:id="@+id/transparent_view_over_mini_map"
