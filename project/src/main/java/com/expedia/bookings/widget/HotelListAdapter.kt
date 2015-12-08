@@ -241,7 +241,6 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
                 viewModel.setImpressionTracked(true)
             }
 
-            val imageFactor = if (ExpediaBookingApp.isDeviceShitty()) 4 else 2
             viewModel.hotelLargeThumbnailUrlObservable.subscribe { url ->
                 PicassoHelper.Builder(itemView.context)
                         .setPlaceholder(R.drawable.results_list_placeholder)
@@ -249,7 +248,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
                         .setCacheEnabled(false)
                         .setTarget(target).setTag(PICASSO_TAG)
                         .build()
-                        .load(HotelMedia(url).getBestUrls(width / imageFactor))
+                        .load(HotelMedia(url).getBestUrls(width / 2))
             }
         }
 

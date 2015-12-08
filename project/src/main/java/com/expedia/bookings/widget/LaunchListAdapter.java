@@ -19,7 +19,6 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.collections.CollectionLocation;
@@ -130,7 +129,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		}
 
 		int width = fullWidthTile ? parentView.getWidth() : parentView.getWidth()/2;
-		int imageFactor = ExpediaBookingApp.isDeviceShitty() ? 4 : 2;
 
 		if (holder.getItemViewType() == LOADING_VIEW) {
 			((LoadingViewHolder) holder).bind();
@@ -139,7 +137,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			Hotel hotel = (Hotel) listData.get(actualPosition);
 
 			final String url = Images.getNearbyHotelImage(hotel);
-			HeaderBitmapDrawable drawable = Images.makeHotelBitmapDrawable(parentView.getContext(), (HotelViewHolder) holder, width/imageFactor, url,
+			HeaderBitmapDrawable drawable = Images.makeHotelBitmapDrawable(parentView.getContext(), (HotelViewHolder) holder, width/2, url,
 				PICASSO_TAG, R.drawable.results_list_placeholder);
 			((HotelViewHolder) holder).backgroundImage.setImageDrawable(drawable);
 
@@ -148,7 +146,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		else if (holder.getItemViewType() == COLLECTION_VIEW) {
 			CollectionLocation location = (CollectionLocation) listData.get(actualPosition);
 
-			final String url = Images.getCollectionImageUrl(location, width/imageFactor);
+			final String url = Images.getCollectionImageUrl(location, width/2);
 			HeaderBitmapDrawable drawable = Images.makeCollectionBitmapDrawable(parentView.getContext(), (CollectionViewHolder) holder, url, PICASSO_TAG);
 			((CollectionViewHolder) holder).backgroundImage.setImageDrawable(drawable);
 
