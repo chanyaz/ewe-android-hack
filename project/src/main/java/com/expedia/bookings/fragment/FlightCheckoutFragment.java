@@ -133,7 +133,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	private static SpannableStringBuilder generateAirlineFeeClickableLink(Context context) {
 		String spannedTerms = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
 			PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL(),
-			context.getResources().getString(R.string.airline_fee).toLowerCase(Locale.getDefault()));
+			context.getResources().getString(R.string.airline_fee_lowercase).toLowerCase(Locale.getDefault()));
 
 		String statement = context.getResources()
 			.getString(R.string.airline_notice_fee_added_TEMPLATE, spannedTerms);
