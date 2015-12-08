@@ -59,6 +59,11 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
             return dispatchTrip(request)
         }
 
+        // Calculate points API
+        if (request.path.contains("/api/trip/calculatePoints")) {
+            return dispatchCalculatePoints(request)
+        }
+
         // Expedia Suggest
         if (request.path.startsWith("/hint/es") || request.path.startsWith("/api/v4") ) {
             return dispatchSuggest(request)
@@ -255,6 +260,11 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 
     private fun dispatchReviews(): MockResponse {
         return makeResponse("api/hotelreviews/hotel/happy.json")
+    }
+
+    private fun dispatchCalculatePoints(request: RecordedRequest): MockResponse {
+        val params = parseRequest(request)
+        return makeResponse("/m/api/trip/calculatePoints/"+ params["tripId"] +".json")
     }
 
     public fun numOfTravelAdRequests(key: String): Int {

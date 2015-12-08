@@ -1,5 +1,7 @@
 package com.expedia.bookings.services
 
+import com.expedia.bookings.data.hotels.CalculatePointsParams
+import com.expedia.bookings.data.hotels.CalculatePointsResponse
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams
 import com.expedia.bookings.data.hotels.HotelCheckoutParams
@@ -139,6 +141,13 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 
 	public fun checkout(params: HotelCheckoutParams, observer: Observer<HotelCheckoutResponse>): Subscription {
 		return hotelApi.checkout(params.toQueryMap())
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+				.subscribe(observer)
+	}
+
+	public fun calculatePoints(calculatePointsParams: CalculatePointsParams, observer: Observer<CalculatePointsResponse>): Subscription {
+		return hotelApi.calculatePoints(calculatePointsParams.tripId, calculatePointsParams.programName, calculatePointsParams.amount, calculatePointsParams.rateId)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.subscribe(observer)
