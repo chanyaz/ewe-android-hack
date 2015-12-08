@@ -598,7 +598,7 @@ public class HotelRoomRateViewModel(val context: Context, var hotelId: String, v
     val strikeThroughPriceObservable = BehaviorSubject.create<CharSequence>()
     val dailyPricePerNightObservable = BehaviorSubject.create<String>()
     val perNightPriceVisibleObservable = BehaviorSubject.create<Boolean>()
-    val depositTermsClickedObservable = BehaviorSubject.create<Unit>()
+    val depositTermsClickedObservable = PublishSubject.create<Unit>()
 
     val onlyShowTotalPrice = BehaviorSubject.create<Boolean>()
     val viewRoomObservable = BehaviorSubject.create<Unit>()
@@ -663,7 +663,6 @@ public class HotelRoomRateViewModel(val context: Context, var hotelId: String, v
         roomInfoVisibiltyObservable = roomRateInfoTextObservable.map { it != "" }
         soldOutButtonLabelObservable = roomSoldOut.filter { it == true }.map { context.getString(R.string.trip_bucket_sold_out) }
 
-
         val rateInfo = hotelRoomResponse.rateInfo
         val isPayLater = hotelRoomResponse.isPayLater
         val chargeableRateInfo = rateInfo.chargeableRateInfo
@@ -696,6 +695,7 @@ public class HotelRoomRateViewModel(val context: Context, var hotelId: String, v
         } else {
             perNightPriceVisibleObservable.onNext(true)
             dailyPricePerNightObservable.onNext(dailyPrice.formattedMoney)
+            depositTerms.onNext(null)
         }
 
         val bedTypes = (hotelRoomResponse.bedTypes ?: emptyList()).map { it.description }.joinToString("")
