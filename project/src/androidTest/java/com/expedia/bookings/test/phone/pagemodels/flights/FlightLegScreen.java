@@ -2,6 +2,7 @@ package com.expedia.bookings.test.phone.pagemodels.flights;
 
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 
 import android.support.test.espresso.ViewInteraction;
 
@@ -40,6 +41,7 @@ public class FlightLegScreen {
 	// Object interaction
 
 	public static void clickSelectFlightButton() {
+		Common.delay(1);
 		selectFlightButton().perform(click());
 	}
 
