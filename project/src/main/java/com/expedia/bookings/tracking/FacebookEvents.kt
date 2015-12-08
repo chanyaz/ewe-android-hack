@@ -457,7 +457,10 @@ class FacebookEvents() {
         return minPropertyRate
     }
 
-    private fun calculateLowestRateFlights(flightTrips: List<FlightTrip>): String {
+    public fun calculateLowestRateFlights(flightTrips: List<FlightTrip>): String {
+        if (flightTrips.size == 0) {
+            return "";
+        }
         var minAmount = flightTrips.get(0).getTotalFare().getAmount()
         for (trip in flightTrips) {
             var amount = trip.getTotalFare().getAmount()
