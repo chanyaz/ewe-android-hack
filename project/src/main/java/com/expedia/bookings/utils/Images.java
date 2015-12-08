@@ -72,9 +72,14 @@ public class Images {
 			.build();
 	}
 
-	public static String getLXCategories(String category, float width) {
-		final String categoryString = category.toString().replaceAll("[^a-zA-Z0-9]", "");
-		return new Akeakamai(getMediaHost() + "/mobiata/mobile/apps/ExpediaBooking/ActivityCategories/images/" + categoryString + ".jpg")
+	public static String forLxCategory(Context context, String categoryKey, String imageCode,
+		float width) {
+		boolean categoryAllThingsToDoAndItsCategoryImageAvailable = LXDataUtils
+			.isCategoryAllThingsToDoAndItsCategoryImageAvailable(context, categoryKey, imageCode);
+		String categoryImageURL = categoryAllThingsToDoAndItsCategoryImageAvailable ? getTabletDestination(imageCode)
+			: getMediaHost() + "/mobiata/mobile/apps/ExpediaBooking/ActivityCategories/images/" + categoryKey.toString()
+				.replaceAll("[^a-zA-Z0-9]", "") + ".jpg";
+		return new Akeakamai(categoryImageURL)
 			.downsize(Akeakamai.pixels((int) width), Akeakamai.preserve())
 			.build();
 	}

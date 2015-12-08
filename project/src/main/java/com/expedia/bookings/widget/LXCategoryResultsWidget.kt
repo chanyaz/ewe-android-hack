@@ -40,11 +40,12 @@ public class LXCategoryResultsWidget(context: Context, attrs: AttributeSet): Fra
         errorScreen.setToolbarVisibility(View.GONE)
     }
 
-    public fun bind(categories: List<LXCategoryMetadata>) {
+    public fun bind(categories: List<LXCategoryMetadata>, imageCode: String?) {
         recyclerView.setVisibility(View.VISIBLE)
         recyclerView.layoutManager.scrollToPosition(0)
         errorScreen.setVisibility(View.GONE)
         adapter.setCategories(categories, lxCategorySubject)
+        adapter.setDestinationImageCode(imageCode)
     }
 
     override fun onAttachedToWindow() {

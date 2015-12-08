@@ -124,9 +124,9 @@ public class LXServices {
 		@Override
 		public void call(LXSearchResponse lxSearchResponse) {
 			for (Map.Entry<String, LXCategoryMetadata> filterCategory : lxSearchResponse.filterCategories.entrySet()) {
-				String categoryKey = filterCategory.getKey();
+				String categoryKeyEN = filterCategory.getKey();
 				LXCategoryMetadata categoryValue = filterCategory.getValue();
-				categoryValue.categoryKey = categoryKey;
+				categoryValue.categoryKeyEN = categoryKeyEN;
 			}
 		}
 	};
@@ -135,10 +135,10 @@ public class LXServices {
 		@Override
 		public void call(LXSearchResponse lxSearchResponse) {
 			for (Map.Entry<String, LXCategoryMetadata> filterCategory : lxSearchResponse.filterCategories.entrySet()) {
-				String categoryKey = filterCategory.getKey();
+				String categoryKeyEN = filterCategory.getKey();
 				LXCategoryMetadata categoryValue = filterCategory.getValue();
 				for (LXActivity activity: lxSearchResponse.activities) {
-					if (CollectionUtils.isNotEmpty(activity.categories) && activity.categories.contains(categoryKey)) {
+					if (CollectionUtils.isNotEmpty(activity.categories) && activity.categories.contains(categoryKeyEN)) {
 						categoryValue.activities.add(activity);
 					}
 				}

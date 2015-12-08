@@ -18,6 +18,7 @@ import com.expedia.bookings.data.lx.LXCategoryMetadata
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.Images
+import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.bindView
 import com.squareup.picasso.Picasso
 import rx.subjects.PublishSubject
@@ -25,6 +26,7 @@ import rx.subjects.PublishSubject
 
 public class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetadata>() {
     var categoryMetadataSubject: PublishSubject<LXCategoryMetadata> = PublishSubject.create<LXCategoryMetadata>()
+    var imageCode: String? = null
 
     override fun loadingLayoutResourceId(): Int {
         return R.layout.lx_category_loading_animation_widget
@@ -43,7 +45,7 @@ public class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetada
         super.onBindViewHolder(holder, position)
         if (holder.itemViewType == LoadingRecyclerViewAdapter.DATA_VIEW) {
             val categories = getItems().get(position)
-            (holder as ViewHolder).bind(categories, categoryMetadataSubject)
+            (holder as ViewHolder).bind(categories, categoryMetadataSubject, imageCode)
         }
     }
 
@@ -65,7 +67,7 @@ public class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetada
             categoryMetadataSubject!!.onNext(category)
         }
 
-        public fun bind(category: LXCategoryMetadata, subject: PublishSubject<LXCategoryMetadata>) {
+        public fun bind(category: LXCategoryMetadata, subject: PublishSubject<LXCategoryMetadata>, imageCode: String?) {
             this.categoryMetadataSubject = subject
             itemView.tag = category
             cardView.preventCornerOverlap = false
@@ -78,12 +80,14 @@ public class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetada
                 categoryCount.background = ContextCompat.getDrawable(itemView.context, R.drawable.lx_category_count_background_more_than_one_digit)
             }
 
-            val imageURLs = Images.getLXCategories(category.categoryKey, itemView.getContext().getResources().getDimension(R.dimen.lx_category_image_width))
+            var imageURLs = Images.forLxCategory(itemView.context, category.categoryKeyEN, imageCode, itemView.getContext().getResources().getDimension(R.dimen.lx_category_image_width))
+
+            var errorDrawable = LXDataUtils.getErrorDrawableForCategory(itemView.context, category.categoryKeyEN);
 
             PicassoHelper
                     .Builder(itemView.context)
                     .setPlaceholder(R.drawable.results_list_placeholder)
-                    .setError(R.drawable.itin_header_placeholder_activities)
+                    .setError(errorDrawable)
                     .fade()
                     .setTag("CATEGORY_ROW")
                     .setTarget(target)
@@ -123,4 +127,9 @@ public class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetada
         categoryMetadataSubject = categoryPublishSubject
         setItems(categories)
     }
+
+    public fun setDestinationImageCode(imageCode: String?) {
+        this.imageCode = imageCode
+    }
+
 }
