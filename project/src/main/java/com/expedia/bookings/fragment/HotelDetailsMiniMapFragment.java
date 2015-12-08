@@ -10,6 +10,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.utils.GoogleMapsUtil;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -25,7 +26,7 @@ public class HotelDetailsMiniMapFragment extends SupportMapFragment {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		mMap.setMyLocationEnabled(false);
+		GoogleMapsUtil.setMyLocationEnabled(getActivity(), mMap, false);
 	}
 
 	public static HotelDetailsMiniMapFragment newInstance() {
@@ -61,7 +62,8 @@ public class HotelDetailsMiniMapFragment extends SupportMapFragment {
 		Rate lowestRate = property.getLowestRate();
 		boolean isOnSale = lowestRate != null && lowestRate.isSaleTenPercentOrBetter();
 		boolean isAirAttach = lowestRate != null && lowestRate.isAirAttached();
-		boolean isUserBucketedForSalePinGreenTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHSRSalePinTest);
+		boolean isUserBucketedForSalePinGreenTest = Db.getAbacusResponse().isUserBucketedForTest(
+			AbacusUtils.EBAndroidAppHotelHSRSalePinTest);
 		int pinSaleAttrID;
 		if (isUserBucketedForSalePinGreenTest) {
 			pinSaleAttrID = R.attr.skin_hotelListMapMarkerSaleGreenABTestDrawable;
@@ -72,20 +74,22 @@ public class HotelDetailsMiniMapFragment extends SupportMapFragment {
 
 		if (isOnSale) {
 			if (isAirAttach) {
-				marker.icon(BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerAirAttachDrawable)));
+				marker.icon(BitmapDescriptorFactory.fromResource(
+					Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerAirAttachDrawable)));
 			}
 			else {
 				marker.icon(BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), pinSaleAttrID)));
 			}
 		}
 		else {
-			marker.icon(BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerDrawable)));
+			marker.icon(BitmapDescriptorFactory.fromResource(
+				Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerDrawable)));
 		}
 		mMap.addMarker(marker);
 	}
 
 	private void checkIfSearchIsCurrentLocation(HotelSearchParams searchParams) {
 		boolean showCurrentLocation = searchParams.getSearchType() == HotelSearchParams.SearchType.MY_LOCATION;
-		mMap.setMyLocationEnabled(showCurrentLocation);
+		GoogleMapsUtil.setMyLocationEnabled(getActivity(), mMap, showCurrentLocation);
 	}
 }

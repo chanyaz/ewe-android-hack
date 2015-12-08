@@ -6,13 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.WeakHashMap;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -43,6 +40,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.enums.ResultsHotelsState;
+import com.expedia.bookings.utils.GoogleMapsUtil;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.CameraUpdate;
@@ -160,10 +158,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 		mInflater = LayoutInflater.from(getActivity());
 
 		// Initial configuration
-		if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-			== PackageManager.PERMISSION_GRANTED) {
-			mMap.setMyLocationEnabled(true);
-		}
+		GoogleMapsUtil.setMyLocationEnabled(getActivity(), mMap, true);
 		mMap.getUiSettings().setZoomControlsEnabled(false);
 
 		if (mIsTablet) {
@@ -727,9 +722,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	private void checkIfSearchIsCurrentLocation() {
 		HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 		boolean showCurrentLocation = params.getSearchType() == HotelSearchParams.SearchType.MY_LOCATION;
-		if (mMap != null) {
-			mMap.setMyLocationEnabled(showCurrentLocation);
-		}
+		GoogleMapsUtil.setMyLocationEnabled(getActivity(), mMap, showCurrentLocation);
 	}
 
 	private void initMapCameraToGoodSpot() {
