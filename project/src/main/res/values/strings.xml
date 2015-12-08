@@ -2266,7 +2266,7 @@
     <!-- Airline Fee -->
     <string name="Airline_fee">Airline Fee</string>
     <!-- airline fee -->
-    <string name="airline_fee">airline fee</string>
+    <string name="airline_fee_lowercase">airline fee</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
