@@ -30,6 +30,7 @@ import android.widget.ImageView
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelV2Tracking
@@ -57,14 +58,6 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.MapsInitializer
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import rx.Observable
 import rx.Observer
 import java.util.ArrayList
@@ -73,7 +66,7 @@ import kotlin.properties.Delegates
 val DESCRIPTION_ANIMATION = 150L
 val HOTEL_DESC_COLLAPSE_LINES = 2
 
-public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), OnMapReadyCallback {
+public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     val MAP_ZOOM_LEVEL = 12f
     var bottomMargin = 0
@@ -116,7 +109,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val readMoreView: ImageButton by bindView(R.id.read_more)
     val hotelDescription: TextView by bindView(R.id.body_text)
     val hotelDescriptionContainer: ViewGroup by bindView(R.id.hotel_description_container)
-    val miniMapView: MapView by bindView(R.id.mini_map_view)
+    val miniMapView: LocationMapImageView by bindView(R.id.mini_map_view)
     val transparentViewOverMiniMap: View by bindView(R.id.transparent_view_over_mini_map)
     val gradientHeight = context.getResources().getDimension(R.dimen.hotel_detail_gradient_height)
 
@@ -152,7 +145,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
     val commonAmenityText: TextView by bindView(R.id.common_amenities_text)
     val commonAmenityDivider: View by bindView(R.id.common_amenities_divider)
-    var googleMap: GoogleMap? = null
     val roomContainer: TableLayout by bindView(R.id.room_container)
     val propertyTextContainer: TableLayout by bindView(R.id.property_info_container)
 
@@ -161,7 +153,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var toolBarHeight = 0
     val toolBarBackground: View by bindView(R.id.toolbar_background)
     val toolBarGradient: View by bindView(R.id.hotel_details_gradient)
-    var hotelLatLng: DoubleArray by Delegates.notNull()
     var offset: Float by Delegates.notNull()
     var priceContainerLocation = IntArray(2)
     var urgencyContainerLocation = IntArray(2)
@@ -274,11 +265,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.numberOfReviewsObservable.subscribeText(numberOfReviews)
         vm.hotelLatLngObservable.subscribe {
             values ->
-            hotelLatLng = values
-            googleMap?.clear()
-            googleMap?.setMapType(GoogleMap.MAP_TYPE_NORMAL)
-            addMarker()
-            googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hotelLatLng[0], hotelLatLng[1]), MAP_ZOOM_LEVEL))
+            val location = Location()
+            location.latitude = values[0]
+            location.longitude = values[1]
+             miniMapView.setLocation(location)
         }
         vm.payByPhoneContainerVisibility.subscribe { spaceAboveSelectARoom() }
         vm.payByPhoneContainerVisibility.subscribeVisibility(payByPhoneContainer)
@@ -448,10 +438,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
         resortFeeWidget.subscribeOnClick(vm.resortFeeContainerClickObserver)
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
-
-        //getting the map
-        miniMapView.onCreate(null)
-        miniMapView.getMapAsync(this);
     }
 
     fun resetViews() {
@@ -482,9 +468,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             recycleImageView(room.roomHeaderImage)
         }
         roomContainer.removeAllViews()
-
-        googleMap?.clear()
-        googleMap?.setMapType(GoogleMap.MAP_TYPE_NONE)
     }
 
     private fun hideResortandSelectRoom() {
@@ -538,22 +521,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             val offset = offsetToETP - etpLocation
             detailContainer.smoothScrollBy(0, offset.toInt())
         }
-    }
-
-    override fun onMapReady(googleMap: GoogleMap) {
-        this.googleMap = googleMap
-        MapsInitializer.initialize(getContext())
-        googleMap.getUiSettings().setMapToolbarEnabled(false)
-        googleMap.getUiSettings().setMyLocationButtonEnabled(false)
-        googleMap.getUiSettings().setZoomControlsEnabled(false)
-    }
-
-    public fun addMarker() {
-        googleMap ?: return
-        val marker = MarkerOptions()
-        marker.position(LatLng(hotelLatLng[0], hotelLatLng[1]))
-        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.hotels_pin))
-        googleMap?.addMarker(marker)
     }
 
     val scrollListener = object : ViewTreeObserver.OnScrollChangedListener {
