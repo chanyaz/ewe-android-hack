@@ -18,7 +18,7 @@ public class Suggestion implements Cloneable {
 	@SerializedName("d")
 	public String displayName;
 
-	public String id;
+	public String id = "";
 
 	public String gaiaId;
 
