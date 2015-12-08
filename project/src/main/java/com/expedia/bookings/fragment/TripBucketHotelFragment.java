@@ -165,10 +165,19 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 
 	private void addDueToBrandRow(Rate rate, boolean showDepositAmount) {
 		String formattedMoney = showDepositAmount ? rate.getDepositAmount().getFormattedMoney() : rate.getTotalAmountAfterTax().getFormattedMoney();
-		String totalDueToOurBrandToday = Phrase.from(getActivity(), R.string.due_to_brand_today_today_TEMPLATE)
-			.put("brand", BuildConfig.brand)
-			.format()
-			.toString();
+		String totalDueToOurBrandToday;
+		if (showDepositAmount) {
+			totalDueToOurBrandToday = Phrase.from(getActivity(), R.string.due_to_brand_today_today_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format()
+				.toString();
+		}
+		else {
+			totalDueToOurBrandToday = Phrase.from(getActivity(), R.string.due_to_brand_today_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format()
+				.toString();
+		}
 		addExtraRow(totalDueToOurBrandToday, formattedMoney, false);
 	}
 

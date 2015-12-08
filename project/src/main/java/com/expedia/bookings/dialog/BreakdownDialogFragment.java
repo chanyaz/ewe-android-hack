@@ -249,10 +249,17 @@ public class BreakdownDialogFragment extends DialogFragment {
 			else {
 				dueToday = rateWeCareAbout.getTotalAmountAfterTax();
 			}
-
-			CharSequence dueTodayText = Phrase.from(context, R.string.due_to_brand_today_today_TEMPLATE)
-				.put("brand", BuildConfig.brand)
-				.format();
+			CharSequence dueTodayText;
+			if (isZeroDepositCaseTablet) {
+				dueTodayText = Phrase.from(context, R.string.due_to_brand_today_today_TEMPLATE)
+					.put("brand", BuildConfig.brand)
+					.format();
+			}
+			else {
+				dueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE)
+					.put("brand", BuildConfig.brand)
+					.format();
+			}
 
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
