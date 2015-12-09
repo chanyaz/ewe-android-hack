@@ -21,7 +21,7 @@
     <color name="tablet_trip_bucket_text_color_tvly">#FFFFFF</color>
     <color name="tablet_search_result_error_button_tvly">#004E93</color>
     <color name="tablet_search_result_error_button_pressed_tvly">#D1EAFF</color>
-    <color name="tablet_results_search_blue_tvly">#608405</color>
+    <color name="tablet_dates_popup_done_color_tvly">#7abb00</color>
     <color name="launch_pin_detail_button_text_travelocity">#D1EAFF</color>
 
     <color name="launch_card_back_container_color">#393939</color>
