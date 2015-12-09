@@ -178,6 +178,14 @@ public class HotelScreen {
 		return onView(withId(R.id.fab));
 	}
 
+	public static ViewInteraction hotelResultsToolbar() {
+		return onView(withId(R.id.hotel_results_toolbar));
+	}
+
+	public static ViewInteraction hotelCarousel() {
+		return onView(withId(R.id.hotel_carousel));
+	}
+
 	public static ViewInteraction hotelSuggestionList() {
 		return onView(withId(R.id.drop_down_list));
 	}
