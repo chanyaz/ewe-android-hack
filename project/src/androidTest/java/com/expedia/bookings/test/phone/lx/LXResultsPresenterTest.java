@@ -150,7 +150,7 @@ public class LXResultsPresenterTest {
 		final List<LXCategoryMetadata> categories = new ArrayList<>();
 		LXCategoryMetadata categoryMetadata = new LXCategoryMetadata();
 		categoryMetadata.displayValue = title;
-		categoryMetadata.categoryKey = title;
+		categoryMetadata.categoryKeyEN = title;
 		categories.add(categoryMetadata);
 
 		LXScreen.waitForCategoryListDisplayed();

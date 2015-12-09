@@ -40,6 +40,7 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -228,7 +229,7 @@ public class LXResultsPresenter extends Presenter {
 			OmnitureTracking.trackAppLXSearch(lxState.searchParams, searchResponse);
 			sortFilterWidget.resetSortAndFilter();
 
-			if (category.categoryKey.equals(getResources().getString(R.string.lx_category_key_all_things_to_do))) {
+			if (LXDataUtils.isCategoryAllThingsToDo(getContext(), category.categoryKeyEN)) {
 				sortFilterWidget.categoryFilterVisibility(true);
 				for (LXCategoryMetadata categoryMetadata : searchResponse.filterCategories.values()) {
 					categoryMetadata.checked = false;
@@ -260,7 +261,7 @@ public class LXResultsPresenter extends Presenter {
 			String allThingsToDoCategory = getContext().getResources().getString(R.string.lx_category_all_things_to_do);
 			lxCategoryMetadata.displayValue = allThingsToDoCategory;
 			// This is non-localized category key.
-			lxCategoryMetadata.categoryKey = getContext().getResources().getString(R.string.lx_category_key_all_things_to_do);
+			lxCategoryMetadata.categoryKeyEN = getContext().getResources().getString(R.string.lx_category_key_all_things_to_do);
 			lxCategoryMetadata.activities.addAll(lxSearchResponse.activities);
 			LinkedHashMap categoryLinkedHashMap = new LinkedHashMap();
 			categoryLinkedHashMap.put(allThingsToDoCategory, lxCategoryMetadata);
@@ -269,7 +270,7 @@ public class LXResultsPresenter extends Presenter {
 			Events.post(new Events.LXSearchResultsAvailable(lxSearchResponse));
 			OmnitureTracking.trackAppLXSearchCategories(lxState.searchParams, lxSearchResponse);
 			List<LXCategoryMetadata> categories = new ArrayList<>(categoryLinkedHashMap.values());
-			categoryResultsWidget.bind(categories);
+			categoryResultsWidget.bind(categories, lxState.searchParams.imageCode);
 			searchResultsWidget.setVisibility(GONE);
 			categoryResultsWidget.setVisibility(VISIBLE);
 			show(categoryResultsWidget, FLAG_CLEAR_BACKSTACK);
@@ -599,8 +600,8 @@ public class LXResultsPresenter extends Presenter {
 	}
 
 	private boolean isUserBucketedAndCategoryAllThingsToDo() {
-		return isUserBucketedForCategoriesTest && !categorySelected.categoryKey
-			.equals(getResources().getString(R.string.lx_category_key_all_things_to_do));
+		return isUserBucketedForCategoriesTest && !LXDataUtils
+			.isCategoryAllThingsToDo(getContext(), categorySelected.categoryKeyEN);
 	}
 
 	@Override
