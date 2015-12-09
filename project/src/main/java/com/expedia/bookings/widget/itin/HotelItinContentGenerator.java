@@ -184,6 +184,11 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		}
 
 		ItinCardDataHotel data = getItinCardData();
+		view.setText(getSummaryText(data));
+		return view;
+	}
+
+	public String getSummaryText(ItinCardDataHotel data) {
 		DateTime startDate = data.getStartDate();
 		DateTime endDate = data.getEndDate();
 		DateTime now = DateTime.now(startDate.getZone());
@@ -192,57 +197,58 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		final long daysBetweenStart = JodaUtils.daysBetween(now, startDate);
 		final long daysBetweenEnd = JodaUtils.daysBetween(now, endDate);
 
+		String summaryText = "";
 		// Check in - 3 days
 		if (beforeStart && daysBetweenStart == 3) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_three_days));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_in_three_days));
 		}
 		// Check in - 2 days
 		else if (beforeStart && daysBetweenStart == 2) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_two_days));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_in_two_days));
 		}
 		// Check in tomorrow
 		else if (beforeStart && daysBetweenStart == 1) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_tomorrow));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_in_tomorrow));
 		}
 		// Check in after 3 PM
 		else if (daysBetweenStart == 0) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
-					data.getFallbackCheckInTime(getContext())));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
+				data.getFallbackCheckInTime(getContext())));
 		}
 		// Check in May 14
 		else if (beforeStart) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_day_TEMPLATE,
-					data.getFormattedDetailsCheckInDate(getContext())));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_in_day_TEMPLATE,
+				data.getFormattedDetailsCheckInDate(getContext())));
 		}
 		// Check out in 3 days
 		else if (!beforeStart && daysBetweenEnd == 3) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_three_days));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_out_three_days));
 		}
 		// Check out in 2 days
 		else if (!beforeStart && daysBetweenEnd == 2) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_two_days));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_out_two_days));
 		}
 		// Check out tomorrow
 		else if (!beforeStart && daysBetweenEnd == 1) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_tomorrow));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_out_tomorrow));
 		}
 		// Check out before noon
 		else if (daysBetweenEnd == 0) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
-					data.getFallbackCheckOutTime(getContext())));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
+				data.getFallbackCheckOutTime(getContext())));
 		}
 		// Check out May 18
 		else if (now.isBefore(endDate)) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_day_TEMPLATE,
-					data.getFormattedDetailsCheckOutDate(getContext())));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_out_day_TEMPLATE,
+				data.getFormattedDetailsCheckOutDate(getContext())));
 		}
 		// Checked out at May 18
 		else {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_checked_out_day_TEMPLATE,
-					data.getFormattedDetailsCheckOutDate(getContext())));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_checked_out_day_TEMPLATE,
+				data.getFormattedDetailsCheckOutDate(getContext())));
 		}
 
-		return view;
+		return summaryText;
 	}
 
 	public View getDetailsView(View convertView, ViewGroup container) {
