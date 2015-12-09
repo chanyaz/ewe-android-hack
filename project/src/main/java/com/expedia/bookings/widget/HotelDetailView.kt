@@ -735,13 +735,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         FontCache.setTypeface(payLaterButton, FontCache.Font.ROBOTO_REGULAR)
     }
 
-    override fun onVisibilityChanged(changedView: View?, visibility: Int) {
-        super.onVisibilityChanged(changedView, visibility)
-        if (changedView == this && visibility == View.VISIBLE) {
-            refresh()
-        }
-    }
-
     public fun refresh() {
         detailContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
         resetGallery()
