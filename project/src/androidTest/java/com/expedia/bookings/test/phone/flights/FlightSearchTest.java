@@ -203,8 +203,7 @@ public class FlightSearchTest extends PhoneTestCase {
 				R.id.flight_price_label_text_view, "Prices roundtrip, per person, from");
 		FlightsSearchResultsScreen.clickListItem(1);
 		EspressoUtils.assertViewWithSubstringIsDisplayed(R.id.right_text_view, "from");
-		EspressoUtils.assertViewWithTextIsDisplayed(
-				R.id.airline_fee_notice_payment, "Airline fee applies based on payment method.");
+		EspressoUtils.assertViewWithTextIsDisplayed("Airline fee applies based on payment method");
 		FlightLegScreen.clickSelectFlightButton();
 		EspressoUtils.assertViewWithTextIsDisplayed(
 				R.id.airline_fee_bar, "Airlines charge an additional fee based on payment method.");
@@ -212,8 +211,7 @@ public class FlightSearchTest extends PhoneTestCase {
 				R.id.flight_price_label_text_view, "Prices roundtrip, per person, from");
 		FlightsSearchResultsScreen.clickListItem(1);
 		EspressoUtils.assertViewWithSubstringIsDisplayed(R.id.right_text_view, "from");
-		EspressoUtils.assertViewWithTextIsDisplayed(
-				R.id.airline_fee_notice_payment, "Airline fee applies based on payment method.");
+		EspressoUtils.assertViewWithTextIsDisplayed("Airline fee applies based on payment method");
 		FlightLegScreen.clickSelectFlightButton();
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.total_price_label, "Trip Total From");
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.taxes_fees_label, "Includes taxes");
@@ -244,11 +242,11 @@ public class FlightSearchTest extends PhoneTestCase {
 		FlightsSearchScreen.clickSearchButton();
 		EspressoUtils.assertViewIsNotDisplayed(R.id.airline_fee_bar);
 		FlightsSearchResultsScreen.clickListItem(1);
-		EspressoUtils.assertViewIsNotDisplayed(R.id.airline_fee_notice_payment);
+		EspressoUtils.assertViewIsNotDisplayed(R.id.fees_secondary_text_view);
 		FlightLegScreen.clickSelectFlightButton();
 		EspressoUtils.assertViewIsNotDisplayed(R.id.airline_fee_bar);
 		FlightsSearchResultsScreen.clickListItem(1);
-		EspressoUtils.assertViewIsNotDisplayed(R.id.airline_fee_notice_payment);
+		EspressoUtils.assertViewIsNotDisplayed(R.id.fees_secondary_text_view);
 		FlightLegScreen.clickSelectFlightButton();
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.total_price_label, "Trip Total");
 		EspressoUtils.assertViewIsNotDisplayed(R.id.airline_fee_notice);
