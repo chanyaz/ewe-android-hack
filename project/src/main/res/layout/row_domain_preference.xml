@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
+    android:background="@drawable/spinner_ripple"
     android:layout_height="wrap_content" >
     <TextView
         android:id="@+id/country_name_text_view"
