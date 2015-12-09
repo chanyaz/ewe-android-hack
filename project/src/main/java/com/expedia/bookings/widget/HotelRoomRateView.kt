@@ -85,7 +85,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
     private var toggleExpanded = 0
     private var roomContainerTopBottomPadding = 0
     private var roomContainerLeftRightPadding = 0
-
+    private var showTerms = false
     public var rowTopConstraintView: View by Delegates.notNull()
     var viewsToHideInExpandedState : Array<View> by Delegates.notNull()
     var viewsToShowInExpandedState : Array<View> by Delegates.notNull()
@@ -175,7 +175,10 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
         vm.roomInfoVisibiltyObservable.subscribeVisibility(roomInfoContainer)
         vm.roomInfoVisibiltyObservable.subscribeVisibility(roomInfoDivider)
         vm.strikeThroughPriceObservable.subscribeTextAndVisibility(strikeThroughPrice)
-
+        vm.depositTerms.subscribe {
+            val depositTerms = it
+            showTerms = depositTerms?.isNotEmpty() ?: false
+        }
         fun AlphaAnimation.commonSetup() {
             this.interpolator = AccelerateDecelerateInterpolator()
             this.fillAfter = true
@@ -260,8 +263,6 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
             viewRoom.setPadding(toggleExpanded, 0, toggleExpanded, 0)
             roomInfoContainer.setPadding(roomContainerLeftRightPadding, roomContainerTopBottomPadding, roomContainerLeftRightPadding, roomContainerTopBottomPadding)
             row.isEnabled = false
-            var depositTerms = vm.depositTerms.value
-            var showTerms = depositTerms?.isNotEmpty() ?: false
 
             var infoIcon : Drawable = ContextCompat.getDrawable(context, R.drawable.details_info)
             infoIcon.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
@@ -331,8 +332,6 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
 
             row.isEnabled = true
             depositTermsButton.visibility = View.GONE
-            var depositTerms = vm.depositTerms.value
-            var showTerms = depositTerms?.isNotEmpty() ?: false
             if (showTerms) {
                 dailyPricePerNight.visibility = View.VISIBLE
             }
