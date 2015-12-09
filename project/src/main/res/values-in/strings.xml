@@ -115,6 +115,8 @@
     <string name="hotel_toolbar_title">Cari Hotel</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">Cari Lokasi</string>
+    <!-- Label for recent searches -->
+    <string name="recent_searches">Pencarian Terbaru</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Lokasi pengambilan</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -730,6 +732,10 @@
     <string name="prices_roundtrip_label">Harga pulang-pergi per orang</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Harga adalah untuk penerbangan pulang-pergi per orang</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_roundtrip_minimum_label">Harga pulang-pergi, per orang, mulai dari</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_oneway_minimum_label">Harga sekali jalan, per orang, mulai dari</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Perjalanan Anda kosong.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -1014,6 +1020,10 @@
     <string name="shop">Pemesanan</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Cari Itinerary</string>
+    <!-- Unable to find itinerary -->
+    <string name="unable_to_find_itinerary">Tidak dapat menemukan itinerary. Harap pastikan pilihan Negara (di Pengaturan) sama dengan versi negara website pemesanan Anda.</string>
+    <!-- Find Guest Itinerary -->
+    <string name="find_guest_itinerary">Cari Itinerary Tanpa Login</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">Masukkan Rincian Itinerary</string>
     <!-- Find Itinerary # -->
@@ -1028,6 +1038,8 @@
     <string name="no_upcoming_trips">Tidak ada perjalanan akan datang.</string>
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Masukkan nomor itinerary</string>
+    <!-- Enter a Guest itinerary number -->
+    <string name="or_enter_a_guest_itinerary_number">Atau, masukkan nomor itinerary tanpa login</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Mengakses itinerary Anda…</string>
     <!-- Error fetching itinerary -->
@@ -1674,6 +1686,10 @@
     <string name="round_trip_price_TEMPLATE">Pulang-pergi mulai dari &lt;b&gt; %s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">Pesan sekarang seharga &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Variants of the previous few templates, for Australian compliance rules (d/5810) -->
+    <string name="one_way_price_min_TEMPLATE">Sekali jalan, mulai dari &lt;b&gt;%s&lt;/b&gt; per orang</string>
+    <string name="round_trip_price_min_TEMPLATE">Pulang-pergi, mulai dari &lt;b&gt;%s&lt;/b&gt; per orang</string>
+    <string name="book_now_price_min_TEMPLATE">Pesan sekarang, mulai dari &lt;b&gt;%s&lt;/b&gt; per orang</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
         <item quantity="zero">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
@@ -1683,8 +1699,20 @@
         <item quantity="many">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="other">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
+    <!-- Book now info label, when there are only a few seats left. Variant for Australian
+         compliance rules (d/5810) -->
+    <plurals name="urgency_book_min_TEMPLATE">
+        <item quantity="zero">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt; per orang</item>
+        <item quantity="one">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt; per orang</item>
+        <item quantity="two">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt; per orang</item>
+        <item quantity="few">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt; per orang</item>
+        <item quantity="many">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt; per orang</item>
+        <item quantity="other">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt; per orang</item>
+    </plurals>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
+    <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
+    <string name="fare_name_and_price_min_TEMPLATE">%1$s mulai dari %2$s per orang</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">Informasi Biaya Bagasi</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -1767,10 +1795,14 @@
     <string name="Overview">Ringkasan</string>
     <!-- Trip total price label -->
     <string name="total_price_label">Total Harga</string>
+    <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
+    <string name="total_price_min_label">Harga Total mulai dari</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Perjalanan ke %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Termasuk pajak dan biaya</string>
+    <!-- Includes taxes (but not necessarily fees) -->
+    <string name="includes_taxes">Termasuk pajak</string>
     <!-- Date and trip from _ to _ -->
     <string name="trip_to_with_date">%1$s: %2$s - %3$s</string>
     <!-- Number of traverlers template -->
@@ -1821,6 +1853,8 @@
     <string name="slide_to_book_flight">geser untuk memesan penerbangan</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Kartu kredit Anda akan dikenai %1$s</string>
+    <!-- Your card will be charged -->
+    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">%1$s akan ditarik dari kartu Anda (plus biaya maskapai)</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_TEMPLATE">Dibayar hari ini: %1$s</string>
     <!-- Amount to be paid now -->
@@ -1865,6 +1899,8 @@
     <string name="fees_paid_at_hotel">Biaya dibayar di hotel</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">Ditarik oleh {brand}</string>
+    <!-- Due to expedia today - today -->
+    <string name="due_to_brand_today_today_TEMPLATE">{brand} dibayar sekarang</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">Biaya resor sebesar &lt;b&gt;%1$s&lt;/b&gt; akan ditarik di hotel. Harga total masa inap Anda akan menjadi &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -1875,6 +1911,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">Total biaya perjalanan Anda, termasuk &lt;b&gt;%1$s&lt;/b&gt; untuk biaya resor, akan menjadi &lt;b&gt;%2$s&lt;/b&gt;. Anda akan membayar total biaya kepada hotel (dalam mata uang lokal hotel) selama masa inap Anda.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Total biaya perjalanan Anda, termasuk &lt;b&gt;%1$s&lt;/b&gt; untuk biaya resor, akan menjadi &lt;b&gt;%2$s&lt;/b&gt;. Anda akan membayar sisa biaya kepada hotel (dalam mata uang lokal hotel) selama masa inap Anda.</string>
+    <!-- Pay later deposit amount -->
+    <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">Pembatalan gratis dalam 24 jam</string>
     <!-- Flights AB Test Traveler info missing callout label -->
@@ -1900,6 +1938,8 @@
     <string name="cost_summary">Ringkasan Biaya</string>
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Pajak &amp; Biaya</string>
+    <!-- Taxes without airline fees -->
+    <string name="taxes_without_airline_fees">Pajak</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">Biaya Pemesanan {brand}</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
@@ -2261,6 +2301,10 @@
     <string name="privacy_policy">Kebijakan Privasi</string>
     <!-- Fare information header -->
     <string name="fare_information">INFORMASI TARIF</string>
+    <!-- Airline Fee -->
+    <string name="Airline_fee">Biaya Maskapai</string>
+    <!-- airline fee -->
+    <string name="airline_fee_lowercase">biaya maskapai</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -2581,6 +2625,8 @@
     <string name="widget_savings_template">Hemat %2.0f%%</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">Tidak Ada Koneksi Internet</string>
+    <!-- The label for deposit terms button -->
+    <string name="deposit_terms">Ketentuan Deposit</string>
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
@@ -2769,6 +2815,11 @@
     <string name="etp_pay_now_currency_text_TEMPLATE">Anda akan membayar dalam mata uang lokal Anda %s.</string>
     <string name="etp_pay_now_cancellation_text">Pembatalan gratis, asal sebelum batas periode pembatalan hotel.</string>
     <string name="etp_select_room">Pilih Kamar</string>
+
+    <!-- ETP pay later deposit info message -->
+    <string name="etp_pay_later_deposit_text">Jumlah deposit tidak akan pernah melebihi total harga pemesanan.</string>
+    <string name="no_charge_text_TEMPLATE">{brand} tidak menarik biaya apapun.</string>
+    <string name="deposit_info_text">Pesan dengan deposit</string>
 
     <!-- Room and rates list -->
     <!-- Loading message for rooms & rates -->
@@ -3725,7 +3776,7 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Dengan menyelesaikan pemesanan ini, saya menyatakan bahwa saya telah membaca dan menerima %1$s, %2$s, dan %3$s.</string>
-    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
     <string name="account_creation_legal_TEMPLATE">Saya telah membaca dan menyetujui %1$s serta %2$s. Dengan bergabung di {brand}+, saya menerima semua %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
@@ -3751,4 +3802,9 @@
     <string name="coupon_error_dialog_title">Kupon Tak Bisa Digunakan</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Terdapat masalah dengan kupon Anda. Harap coba memasukkannya kembali.</string>
+
+    <string name="airline_fee_notice">Sejumlah biaya maskapai, tergantung pada tipe kartu Anda, akan ditambahkan ke total harga.</string>
+    <string name="airline_charge_notice">Maskapai mengenakan biaya tambahan tergantung pada metode pembayaran.</string>
+    <string name="airline_fee_notice_payment">Sejumlah biaya maskapai dikenakan berdasarkan metode pembayaran Anda.</string>
+    <string name="airline_notice_fee_added_TEMPLATE">Sejumlah %1$s, tergantung pada tipe kartu Anda, akan ditambahkan ke total harga. Biaya tersebut akan ditambahkan ke total harga.</string>
 </resources>

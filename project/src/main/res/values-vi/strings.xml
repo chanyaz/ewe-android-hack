@@ -115,6 +115,8 @@
     <string name="hotel_toolbar_title">Tìm khách sạn</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">Tìm địa điểm</string>
+    <!-- Label for recent searches -->
+    <string name="recent_searches">Tìm gần đây</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Địa điểm nhận xe</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -730,6 +732,10 @@
     <string name="prices_roundtrip_label">Giá khứ hồi 1 người</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Giá 1 chiều 1 người</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_roundtrip_minimum_label">Giá hai chiều, mỗi người, từ</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_oneway_minimum_label">Giá một chiều, mỗi người, từ</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Không có chuyến đi.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -1014,6 +1020,10 @@
     <string name="shop">Đặt</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Tìm lịch trình</string>
+    <!-- Unable to find itinerary -->
+    <string name="unable_to_find_itinerary">Không tìm được lịch trìng. Vui lòng kiểm tra Quốc gia (trong phần cài đặt) phải trùng với địa chỉ trang web quốc gia quý vị đặt.</string>
+    <!-- Find Guest Itinerary -->
+    <string name="find_guest_itinerary">Tìm lịch trình của khách</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">Nhập chi tiết lịch trình</string>
     <!-- Find Itinerary # -->
@@ -1028,6 +1038,8 @@
     <string name="no_upcoming_trips">Không có chuyến đi nào sắp đến.</string>
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Nhập số lịch trình</string>
+    <!-- Enter a Guest itinerary number -->
+    <string name="or_enter_a_guest_itinerary_number">Hoặc nhập lịch trình của khách</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Đang tải lịch trình của quý vị…</string>
     <!-- Error fetching itinerary -->
@@ -1674,6 +1686,10 @@
     <string name="round_trip_price_TEMPLATE">Khứ hồi từ &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">Đặt ngay với giá &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Variants of the previous few templates, for Australian compliance rules (d/5810) -->
+    <string name="one_way_price_min_TEMPLATE">Một chiều, từ &lt;b&gt;%s&lt;/b&gt; mỗi người</string>
+    <string name="round_trip_price_min_TEMPLATE">Hai chiều, từ &lt;b&gt;%s&lt;/b&gt; mỗi người</string>
+    <string name="book_now_price_min_TEMPLATE">Đặt ngay, từ &lt;b&gt;%s&lt;/b&gt; mỗi người</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
         <item quantity="zero">Còn %1$s chỗ giá &lt;b&gt;%2$s&lt;/b&gt;</item>
@@ -1683,8 +1699,20 @@
         <item quantity="many">Còn %1$s chỗ giá &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="other">Còn %1$s chỗ giá &lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
+    <!-- Book now info label, when there are only a few seats left. Variant for Australian
+         compliance rules (d/5810) -->
+    <plurals name="urgency_book_min_TEMPLATE">
+        <item quantity="zero">Còn %1$s chỗ từ &lt;b&gt;%2$s&lt;/b&gt; mỗi người</item>
+        <item quantity="one">Còn %1$s chỗ từ &lt;b&gt;%2$s&lt;/b&gt; mỗi người</item>
+        <item quantity="two">Còn %1$s chỗ từ &lt;b&gt;%2$s&lt;/b&gt; mỗi người</item>
+        <item quantity="few">Còn %1$s chỗ từ &lt;b&gt;%2$s&lt;/b&gt; mỗi người</item>
+        <item quantity="many">Còn %1$s chỗ từ &lt;b&gt;%2$s&lt;/b&gt; mỗi người</item>
+        <item quantity="other">Còn %1$s chỗ từ &lt;b&gt;%2$s&lt;/b&gt; mỗi người</item>
+    </plurals>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
+    <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
+    <string name="fare_name_and_price_min_TEMPLATE">%1$s từ %2$s mỗi người</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">Thông tin phí hành lý</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -1767,10 +1795,14 @@
     <string name="Overview">Tổng quan</string>
     <!-- Trip total price label -->
     <string name="total_price_label">Tổng chuyến đi</string>
+    <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
+    <string name="total_price_min_label">Tổng giá chuyến đi từ</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Chuyến đi đến %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">bao gồm thuế và phí</string>
+    <!-- Includes taxes (but not necessarily fees) -->
+    <string name="includes_taxes">Gồm thuế</string>
     <!-- Date and trip from _ to _ -->
     <string name="trip_to_with_date">%1$s: %2$s đến %3$s</string>
     <!-- Number of traverlers template -->
@@ -1821,6 +1853,8 @@
     <string name="slide_to_book_flight">trượt để đặt chuyến bay</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Thẻ của quý vị sẽ được tính phí %1$s</string>
+    <!-- Your card will be charged -->
+    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">Sẽ thu từ thẻ của quý vị %1$s (cùng phí hãng hàng không)</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_TEMPLATE">Thanh toán hôm nay: %1$s</string>
     <!-- Amount to be paid now -->
@@ -1865,6 +1899,8 @@
     <string name="fees_paid_at_hotel">Phí thanh toán tại khách sạn</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">Cần thanh toán cho {brand}</string>
+    <!-- Due to expedia today - today -->
+    <string name="due_to_brand_today_today_TEMPLATE">Cần thanh toán cho {brand} ngay</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">Khách sạn sẽ thu phí &lt;b&gt;%1$s&lt;/b&gt; resort. Tổng giá chuyến đi của quý vị là &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -1875,6 +1911,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">Tổng giá chuyến đi, bao gồm phí resort &lt;b&gt;%1$s&lt;/b&gt;, là &lt;b&gt;%2$s&lt;/b&gt;. Quý vị sẽ thanh toán tiền phòng với khách sạn (bằng loại tiền tệ địa phương khách sạn) trong thời gian lưu trú.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Tổng giá chuyến đi, bao gồm phí resort &lt;b&gt;%1$s&lt;/b&gt;, là &lt;b&gt;%2$s&lt;/b&gt;. Quý vị sẽ thanh toán phần còn lại với khách sạn (bằng loại tiền tệ địa phương khách sạn) trong thời gian lưu trú.</string>
+    <!-- Pay later deposit amount -->
+    <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">Hủy miễn phí trong vòng 24 giờ sau khi đặt</string>
     <!-- Flights AB Test Traveler info missing callout label -->
@@ -1900,6 +1938,8 @@
     <string name="cost_summary">Tóm tắt chi phí</string>
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Thuế &amp; Phí</string>
+    <!-- Taxes without airline fees -->
+    <string name="taxes_without_airline_fees">Thuế</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">Phí đặt chỗ của {brand}</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
@@ -2261,6 +2301,10 @@
     <string name="privacy_policy">Quyền riêng tư</string>
     <!-- Fare information header -->
     <string name="fare_information">THÔNG TIN GIÁ VÉ</string>
+    <!-- Airline Fee -->
+    <string name="Airline_fee">Phí hãng hàng không</string>
+    <!-- airline fee -->
+    <string name="airline_fee_lowercase">phí hãng hàng không</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -2581,6 +2625,8 @@
     <string name="widget_savings_template">Tiết kiệm %2.0f%%</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">Không có kết nối internet</string>
+    <!-- The label for deposit terms button -->
+    <string name="deposit_terms">Điều khoản đặt cọc</string>
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
@@ -2769,6 +2815,11 @@
     <string name="etp_pay_now_currency_text_TEMPLATE">Quý vị sẽ thanh toán bằng loại tiền tệ địa phương của mình (%s).</string>
     <string name="etp_pay_now_cancellation_text">Hủy miễn phí, đến hết thời hạn cho phép hủy của khách sạn.</string>
     <string name="etp_select_room">Chọn phòng</string>
+
+    <!-- ETP pay later deposit info message -->
+    <string name="etp_pay_later_deposit_text">Đặt cọc không bao giờ vượt quá tổng giá trị của đặt phòng.</string>
+    <string name="no_charge_text_TEMPLATE">{brand} sẽ không thu phí của quý vị.</string>
+    <string name="deposit_info_text">Đặt phòng với đặt cọc</string>
 
     <!-- Room and rates list -->
     <!-- Loading message for rooms & rates -->
@@ -3725,7 +3776,7 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Bằng việc hoàn tất quy trình đặt, tôi đồng ý mình đã đọc và chấp thuận %1$s, %2$s và %3$s.</string>
-    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
     <string name="account_creation_legal_TEMPLATE">Tôi đã đọc và đồng ý với %1$s và %2$s. Với việc tham gia {brand}+, tôi đồng ý tất cả %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
@@ -3751,4 +3802,9 @@
     <string name="coupon_error_dialog_title">Không áp dụng được coupon</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Có trục trặc với coupon của quý vị. Vui lòng nhập lại.</string>
+
+    <string name="airline_fee_notice">Hãng hàng không sẽ thu thêm phụ phí khi thanh toán, tùy loại thẻ.</string>
+    <string name="airline_charge_notice">Hãng hàng không sẽ thu thêm phụ phí khi thanh toán, tùy hình thức thanh toán.</string>
+    <string name="airline_fee_notice_payment">Hãng hàng không sẽ thu thêm phụ phí tùy hình thức thanh toán.</string>
+    <string name="airline_notice_fee_added_TEMPLATE">Sẽ thu thêm %1$s, phụ phí khi thanh toán, tùy loại thẻ. Loại phí này sẽ được tính vào tổng giá khi thanh toán.</string>
 </resources>

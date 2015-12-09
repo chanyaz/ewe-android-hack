@@ -115,6 +115,8 @@
     <string name="hotel_toolbar_title">호텔 검색</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">위치 검색</string>
+    <!-- Label for recent searches -->
+    <string name="recent_searches">최근 검색</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">인수 위치</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -730,6 +732,10 @@
     <string name="prices_roundtrip_label">1인당 왕복 요금</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">1인당 편도 요금</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_roundtrip_minimum_label">1인당 왕복 요금 최저가</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_oneway_minimum_label">1인당 편도 요금 최저가</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">고객님의 여행이 비어 있습니다.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -1014,6 +1020,10 @@
     <string name="shop">예약</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">일정 찾기</string>
+    <!-- Unable to find itinerary -->
+    <string name="unable_to_find_itinerary">일정을 찾을 수 없습니다. 앱의 국가 설정이 고객님이 예악하신 웹사이트와 같은지 확인해 주세요.</string>
+    <!-- Find Guest Itinerary -->
+    <string name="find_guest_itinerary">비회원 일정 찾기</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">일정 정보 입력</string>
     <!-- Find Itinerary # -->
@@ -1028,6 +1038,8 @@
     <string name="no_upcoming_trips">예정된 여행이 없습니다.</string>
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">일정 번호 입력</string>
+    <!-- Enter a Guest itinerary number -->
+    <string name="or_enter_a_guest_itinerary_number">또는 비회원 일정 입력</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">고객님의 일정을 가져오는 중…</string>
     <!-- Error fetching itinerary -->
@@ -1674,6 +1686,10 @@
     <string name="round_trip_price_TEMPLATE">왕복 항공 시작가: &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">지금 예약 시 가격: &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Variants of the previous few templates, for Australian compliance rules (d/5810) -->
+    <string name="one_way_price_min_TEMPLATE">1인당 편도 최저가 &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="round_trip_price_min_TEMPLATE">1인당 왕복 최저가 &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="book_now_price_min_TEMPLATE">1인당 최저가 &lt;b&gt;%s&lt;/b&gt; 지금 예약</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
         <item quantity="zero">%1$s개 좌석 남음, 요금: &lt;b&gt;%2$s&lt;/b&gt;</item>
@@ -1683,8 +1699,20 @@
         <item quantity="many">%1$s개 좌석 남음, 요금: &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="other">%1$s개 좌석 남음, 요금: &lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
+    <!-- Book now info label, when there are only a few seats left. Variant for Australian
+         compliance rules (d/5810) -->
+    <plurals name="urgency_book_min_TEMPLATE">
+        <item quantity="zero">1인당 최저가 &lt;b&gt;%2$s&lt;/b&gt;, %1$s개 남음</item>
+        <item quantity="one">1인당 최저가 &lt;b&gt;%2$s&lt;/b&gt;, %1$s개 남음</item>
+        <item quantity="two">1인당 최저가 &lt;b&gt;%2$s&lt;/b&gt;, %1$s개 남음</item>
+        <item quantity="few">1인당 최저가 &lt;b&gt;%2$s&lt;/b&gt;, %1$s개 남음</item>
+        <item quantity="many">1인당 최저가 &lt;b&gt;%2$s&lt;/b&gt;, %1$s개 남음</item>
+        <item quantity="other">1인당 최저가 &lt;b&gt;%2$s&lt;/b&gt;, %1$s개 남음</item>
+    </plurals>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
+    <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
+    <string name="fare_name_and_price_min_TEMPLATE">%1$s: 1인당 최저가 %2$s</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">수하물 요금 정보</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -1767,10 +1795,14 @@
     <string name="Overview">요약</string>
     <!-- Trip total price label -->
     <string name="total_price_label">총 금액</string>
+    <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
+    <string name="total_price_min_label">여행 총 금액 최저가</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">여행지: %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">세금 및 수수료 포함</string>
+    <!-- Includes taxes (but not necessarily fees) -->
+    <string name="includes_taxes">세금 포함</string>
     <!-- Date and trip from _ to _ -->
     <string name="trip_to_with_date">%1$s: %2$s - %3$s</string>
     <!-- Number of traverlers template -->
@@ -1821,6 +1853,8 @@
     <string name="slide_to_book_flight">밀어서 항공 예약하기</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">고객님의 신용카드로 %1$s의 금액이 청구됩니다.</string>
+    <!-- Your card will be charged -->
+    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">고객님 카드에 %1$s의 금액(항공사 수수료 별도)이 청구됩니다.</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_TEMPLATE">오늘 결제할 금액: %1$s</string>
     <!-- Amount to be paid now -->
@@ -1865,6 +1899,8 @@
     <string name="fees_paid_at_hotel">호텔에서 결제되는 요금</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">{brand}에 결제</string>
+    <!-- Due to expedia today - today -->
+    <string name="due_to_brand_today_today_TEMPLATE">{brand}에 오늘 결제할 금액</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 리조트 요금을 호텔에서 결제하시게 됩니다. 고객님 숙박의 총 금액은 &lt;b&gt;%2$s&lt;/b&gt;입니다.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -1875,6 +1911,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 리조트 요금을 포함하여 고객님 여행의 총 금액은 &lt;b&gt;%2$s&lt;/b&gt;입니다. 고객님은 숙박 시 호텔에 예약의 총 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 리조트 요금을 포함하여 고객님 여행의 총 금액은 &lt;b&gt;%2$s&lt;/b&gt;입니다. 고객님은 숙박 시 호텔에 예약의 나머지 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
+    <!-- Pay later deposit amount -->
+    <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">예약 후 24시간 이내 무료 취소</string>
     <!-- Flights AB Test Traveler info missing callout label -->
@@ -1900,6 +1938,8 @@
     <string name="cost_summary">비용 요약</string>
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">세금 및 수수료</string>
+    <!-- Taxes without airline fees -->
+    <string name="taxes_without_airline_fees">세금</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand} 예약 수수료</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
@@ -2261,6 +2301,10 @@
     <string name="privacy_policy">개인정보 보호정책</string>
     <!-- Fare information header -->
     <string name="fare_information">요금 정보</string>
+    <!-- Airline Fee -->
+    <string name="Airline_fee">항공사 수수료</string>
+    <!-- airline fee -->
+    <string name="airline_fee_lowercase">항공사 수수료</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -2581,6 +2625,8 @@
     <string name="widget_savings_template">%2.0f%% 할인</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">인터넷 연결 없음</string>
+    <!-- The label for deposit terms button -->
+    <string name="deposit_terms">보증금 약관</string>
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
@@ -2769,6 +2815,11 @@
     <string name="etp_pay_now_currency_text_TEMPLATE">고객님은 고객님께서 사용하시는 통화(%s)로 결제하시게 됩니다.</string>
     <string name="etp_pay_now_cancellation_text">호텔의 취소 마감까지 무료 취소가 가능합니다.</string>
     <string name="etp_select_room">객실 선택</string>
+
+    <!-- ETP pay later deposit info message -->
+    <string name="etp_pay_later_deposit_text">보증금은 총 예약 금액을 절대 초과하지 않습니다.</string>
+    <string name="no_charge_text_TEMPLATE">{brand}에서 고객님께 청구하지 않습니다.</string>
+    <string name="deposit_info_text">보증금 있는 예약</string>
 
     <!-- Room and rates list -->
     <!-- Loading message for rooms & rates -->
@@ -3108,7 +3159,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s%2$s</string>
+    <string name="distance_template_short">%1$s %2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
@@ -3725,7 +3776,7 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">이 예약을 완료함으로써 본인은 %1$s, %2$s 및 %3$s을 읽었으며 이를 수락하는 데 동의합니다.</string>
-    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
     <string name="account_creation_legal_TEMPLATE">%1$s 및 %2$s 내용을 읽었고 이에 동의합니다. {brand}+에 가입함으로써 본인은 모든 %3$s에 동의합니다.</string>
 
     <!-- Used in hotel search for specifying traveler -->
@@ -3751,4 +3802,9 @@
     <string name="coupon_error_dialog_title">쿠폰 적용 실패</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">고객님 쿠폰에 문제가 있는 것 같습니다. 다시 입력해 보세요.</string>
+
+    <string name="airline_fee_notice">카드 종류에 따라 항공사 수수료가 결제 시 추가됩니다.</string>
+    <string name="airline_charge_notice">항공사에서 결제 방법에 따라 추가 수수료를 청구합니다.</string>
+    <string name="airline_fee_notice_payment">항공사 수수료가 결제 방법에 따라 적용됩니다.</string>
+    <string name="airline_notice_fee_added_TEMPLATE">카드 종류에 따라 %1$s가 결제 시 추가됩니다. 이러한 요금은 결제 시 총 금액에 추가됩니다.</string>
 </resources>
