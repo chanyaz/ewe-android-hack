@@ -1,7 +1,5 @@
 package com.expedia.bookings.dialog;
 
-import java.util.List;
-
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.Context;
@@ -10,6 +8,7 @@ import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.preference.ListPreference;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +22,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
+
+import java.util.List;
 
 public class DomainPreference extends ListPreference {
 	private Context mContext;
@@ -71,6 +72,12 @@ public class DomainPreference extends ListPreference {
 	@Override
 	public CharSequence[] getEntryValues() {
 		return mEntryValues;
+	}
+
+	@Override
+	protected void onBindView(View view) {
+		super.onBindView(view);
+		view.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.preference_ripple));
 	}
 
 	@Override
