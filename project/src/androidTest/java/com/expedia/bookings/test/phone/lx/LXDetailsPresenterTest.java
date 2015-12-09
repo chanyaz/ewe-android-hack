@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.runner.AndroidJUnit4;
 import android.widget.LinearLayout;
-import android.widget.RadioGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
@@ -195,7 +194,7 @@ public class LXDetailsPresenterTest {
 		Events.post(new Events.LXActivitySelected(new LXActivity()));
 		LXScreen.waitForDetailsDisplayed();
 
-		RadioGroup container = (RadioGroup) playground.getRoot().findViewById(R.id.offer_dates_container);
+		LinearLayout container = (LinearLayout) playground.getRoot().findViewById(R.id.offer_dates_container);
 		int count = container.getChildCount();
 		int range = playground.getActivity().getResources().getInteger(R.integer.lx_default_search_range) + 1;
 		Assert.assertEquals(range, count);

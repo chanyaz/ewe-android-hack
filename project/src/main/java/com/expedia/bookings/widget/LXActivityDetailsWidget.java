@@ -19,8 +19,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXMedia;
@@ -73,7 +71,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	LXDetailSectionDataWidget location;
 
 	@InjectView(R.id.offer_dates_container)
-	RadioGroup offerDatesContainer;
+	LinearLayout offerDatesContainer;
 
 	@InjectView(R.id.inclusions)
 	LXDetailSectionDataWidget inclusions;
@@ -156,6 +154,13 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 	@Subscribe
 	public void onDetailsDateChanged(Events.LXDetailsDateChanged event) {
+
+		for (int i = 0; i < offerDatesContainer.getChildCount(); i++) {
+			LXOfferDatesButton button = (LXOfferDatesButton) offerDatesContainer.getChildAt(i);
+			button.setChecked(false);
+		}
+
+		event.buttonSelected.setChecked(true);
 		//  Track Link to track Change of dates.
 		OmnitureTracking.trackLinkLXChangeDate();
 		buildOffersSection(event.dateSelected);
@@ -274,7 +279,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 		for (int iDay = 0; iDay <= numOfDaysToDisplay; iDay++) {
 			if (offerDatesContainer.getChildAt(iDay).isEnabled()) {
-				RadioButton child = (RadioButton) offerDatesContainer.getChildAt(iDay);
+				LXOfferDatesButton child = (LXOfferDatesButton) offerDatesContainer.getChildAt(iDay);
 				child.setChecked(true);
 				buildOffersSection(startDate.plusDays(iDay));
 				selectedDateX = dateButtonWidth * iDay;

@@ -21,8 +21,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -175,11 +174,11 @@ public class CustomMatchers {
 	}
 
 	public static Matcher<View> withOneEnabled() {
-		return new BoundedMatcher<View, RadioGroup>(RadioGroup.class) {
+		return new BoundedMatcher<View, LinearLayout>(LinearLayout.class) {
 			@Override
-			public boolean matchesSafely(RadioGroup view) {
+			public boolean matchesSafely(LinearLayout view) {
 				for (int i = 0; i < view.getChildCount(); i++) {
-					RadioButton button = (RadioButton) view.getChildAt(i);
+					Button button = (Button) view.getChildAt(i);
 					if (button.isEnabled()) {
 						return true;
 					}
@@ -195,10 +194,10 @@ public class CustomMatchers {
 	}
 
 	public static Matcher<View> withDateCaptionAtIndex(final int index, final String weekDay, final String dayOfMonth) {
-		return new BoundedMatcher<View, RadioGroup>(RadioGroup.class) {
+		return new BoundedMatcher<View, LinearLayout>(LinearLayout.class) {
 			@Override
-			public boolean matchesSafely(RadioGroup view) {
-				RadioButton currentButton = (RadioButton) view.getChildAt(index);
+			public boolean matchesSafely(LinearLayout view) {
+				Button currentButton = (Button) view.getChildAt(index);
 				String text = currentButton.getText().toString();
 				return text.contains(weekDay) && text.contains(dayOfMonth);
 			}

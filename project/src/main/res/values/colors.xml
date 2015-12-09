@@ -307,6 +307,8 @@
     <color name="lx_select_ticket_button_color">#7C7C7C</color>
     <color name="lx_date_disabled_background_color">@android:color/white</color>
     <color name="lx_actionbar_text_color">#5C5C5C</color>
+    <color name="lx_date_unselected_color">#5C5C5C</color>
+    <color name="lx_date_selected_color">#FFFFFF</color>
     <color name="lx_confirmation_gradient">#80000000</color>
     <color name="lx_confirmation_background">#1A1D20</color>
     <color name="lx_confirmation_action_text_color">#F3F3F3</color>

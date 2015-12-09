@@ -49,6 +49,7 @@ import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.enums.ResultsSearchState;
+import com.expedia.bookings.widget.LXOfferDatesButton;
 import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
@@ -936,9 +937,11 @@ public class Events {
 
 	public static class LXDetailsDateChanged {
 		public LocalDate dateSelected;
+		public LXOfferDatesButton buttonSelected;
 
-		public LXDetailsDateChanged(LocalDate dateSelected) {
+		public LXDetailsDateChanged(LocalDate dateSelected, LXOfferDatesButton buttonSelected) {
 			this.dateSelected = dateSelected;
+			this.buttonSelected = buttonSelected;
 		}
 	}
 
