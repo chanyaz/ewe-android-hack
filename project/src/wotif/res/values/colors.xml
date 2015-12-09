@@ -61,6 +61,7 @@
     <color name="tablet_confirmation_action_color_wotif">#2CA2E2</color>
     <color name="tablet_price_expanded_bucket_text_color">#599027</color>
     <color name="tablet_calender_results_search_blue_wotif">#1972B2</color>
+    <color name="flight_checkout_fee_warning_background">#7AC231</color>
 
     <color name="section_flight_edit_traveler_link_color_wotif">#1F8EDE</color>
     <color name="room_rate_refundable_cancellation_text_color_wotif">#599027</color>
