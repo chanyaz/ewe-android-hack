@@ -115,6 +115,8 @@
     <string name="hotel_toolbar_title">搜尋酒店</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">搜尋地點</string>
+    <!-- Label for recent searches -->
+    <string name="recent_searches">最近的搜尋</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">取車地點</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -727,9 +729,13 @@
         <item quantity="other">%s 個回程航班</item>
     </plurals>
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_roundtrip_label">每人來回價格</string>
+    <string name="prices_roundtrip_label">每位來回價</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
-    <string name="prices_oneway_label">每人單程價格</string>
+    <string name="prices_oneway_label">每位單程價</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_roundtrip_minimum_label">每位來回價低至</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_oneway_minimum_label">每位單程價低至</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">您的行程留空了。</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -1014,6 +1020,10 @@
     <string name="shop">搜尋預訂</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">尋找行程</string>
+    <!-- Unable to find itinerary -->
+    <string name="unable_to_find_itinerary">找不到行程。請確定「設定」內的「國家/地區」與預訂時使用的網站地址相符。</string>
+    <!-- Find Guest Itinerary -->
+    <string name="find_guest_itinerary">尋找旅客行程</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">請輸入行程資料</string>
     <!-- Find Itinerary # -->
@@ -1028,6 +1038,8 @@
     <string name="no_upcoming_trips">沒有即將進行的旅程。</string>
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">請輸入行程編號</string>
+    <!-- Enter a Guest itinerary number -->
+    <string name="or_enter_a_guest_itinerary_number">又或輸入旅客行程編號</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">正載入您的行程…</string>
     <!-- Error fetching itinerary -->
@@ -1671,20 +1683,36 @@
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">單程 &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Round trip from $994" -->
-    <string name="round_trip_price_TEMPLATE">來回由 &lt;b&gt;%s&lt;/b&gt; 起</string>
+    <string name="round_trip_price_TEMPLATE">來回低至 &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">立即預訂 &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Variants of the previous few templates, for Australian compliance rules (d/5810) -->
+    <string name="one_way_price_min_TEMPLATE">單程低至 &lt;b&gt;%s&lt;/b&gt; 一位</string>
+    <string name="round_trip_price_min_TEMPLATE">來回低至 &lt;b&gt;%s&lt;/b&gt; 一位</string>
+    <string name="book_now_price_min_TEMPLATE">立即預訂低至 &lt;b&gt;%s&lt;/b&gt; 一位</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
-        <item quantity="zero">尚餘 %1$s 個機位，價格：&lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="one">尚餘 %1$s 個機位，價格：&lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="two">尚餘 %1$s 個機位，價格：&lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="few">尚餘 %1$s 個機位，價格：&lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="many">尚餘 %1$s 個機位，價格：&lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="other">尚餘 %1$s 個機位，價格：&lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="zero">&lt;b&gt;%2$s&lt;/b&gt;，尚餘 %1$s 個機位</item>
+        <item quantity="one">&lt;b&gt;%2$s&lt;/b&gt;，尚餘 %1$s 個機位</item>
+        <item quantity="two">&lt;b&gt;%2$s&lt;/b&gt;，尚餘 %1$s 個機位</item>
+        <item quantity="few">&lt;b&gt;%2$s&lt;/b&gt;，尚餘 %1$s 個機位</item>
+        <item quantity="many">&lt;b&gt;%2$s&lt;/b&gt;，尚餘 %1$s 個機位</item>
+        <item quantity="other">&lt;b&gt;%2$s&lt;/b&gt;，尚餘 %1$s 個機位</item>
+    </plurals>
+    <!-- Book now info label, when there are only a few seats left. Variant for Australian
+         compliance rules (d/5810) -->
+    <plurals name="urgency_book_min_TEMPLATE">
+        <item quantity="zero">低至 &lt;b&gt;%2$s&lt;/b&gt; 一位，尚餘 %1$s 個機位</item>
+        <item quantity="one">低至 &lt;b&gt;%2$s&lt;/b&gt; 一位，尚餘 %1$s 個機位</item>
+        <item quantity="two">低至 &lt;b&gt;%2$s&lt;/b&gt; 一位，尚餘 %1$s 個機位</item>
+        <item quantity="few">低至 &lt;b&gt;%2$s&lt;/b&gt; 一位，尚餘 %1$s 個機位</item>
+        <item quantity="many">低至 &lt;b&gt;%2$s&lt;/b&gt; 一位，尚餘 %1$s 個機位</item>
+        <item quantity="other">低至 &lt;b&gt;%2$s&lt;/b&gt; 一位，尚餘 %1$s 個機位</item>
     </plurals>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s：%2$s</string>
+    <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
+    <string name="fare_name_and_price_min_TEMPLATE">%1$s 低至 %2$s 一位</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">行李費詳情</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -1767,10 +1795,14 @@
     <string name="Overview">概覽</string>
     <!-- Trip total price label -->
     <string name="total_price_label">行程總金額</string>
+    <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
+    <string name="total_price_min_label">行程總金額低至</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">前往%1$s的行程</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">包括稅項及服務費</string>
+    <!-- Includes taxes (but not necessarily fees) -->
+    <string name="includes_taxes">包括稅項</string>
     <!-- Date and trip from _ to _ -->
     <string name="trip_to_with_date">%1$s：%2$s 往%3$s</string>
     <!-- Number of traverlers template -->
@@ -1820,7 +1852,9 @@
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">滑動來預訂機票</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">我們將透過您的信用卡收取 %1$s</string>
+    <string name="your_card_will_be_charged_TEMPLATE">您的信用卡將被收取 %1$s</string>
+    <!-- Your card will be charged -->
+    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">您的信用卡將被收取 %1$s (加航空公司手續費)</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_TEMPLATE">今天須付金額：%1$s</string>
     <!-- Amount to be paid now -->
@@ -1865,6 +1899,8 @@
     <string name="fees_paid_at_hotel">於酒店支付的費用</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">應付 {brand}</string>
+    <!-- Due to expedia today - today -->
+    <string name="due_to_brand_today_today_TEMPLATE">現時應付 {brand}</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; 休閒設施費將於酒店收取。您住宿的總價將為 &lt;b&gt;%2$s&lt;/b&gt;。</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -1875,6 +1911,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">您行程的總金額 (包括 &lt;b&gt;%1$s&lt;/b&gt; 休閒設施費) 將為 &lt;b&gt;%2$s&lt;/b&gt;。您需於住宿期間 (以酒店當地貨幣) 向酒店支付預訂總金額。</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">您行程的總金額 (包括 &lt;b&gt;%1$s&lt;/b&gt; 休閒設施費) 將為 &lt;b&gt;%2$s&lt;/b&gt;。您需於住宿期間 (以酒店當地貨幣) 向酒店支付預訂的餘額。</string>
+    <!-- Pay later deposit amount -->
+    <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">24 小時內免費取消</string>
     <!-- Flights AB Test Traveler info missing callout label -->
@@ -1900,6 +1938,8 @@
     <string name="cost_summary">費用概覽</string>
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">稅項及服務費</string>
+    <!-- Taxes without airline fees -->
+    <string name="taxes_without_airline_fees">稅項</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand} 預訂費</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
@@ -2261,6 +2301,10 @@
     <string name="privacy_policy">私隱政策</string>
     <!-- Fare information header -->
     <string name="fare_information">收費資料</string>
+    <!-- Airline Fee -->
+    <string name="Airline_fee">航空公司手續費</string>
+    <!-- airline fee -->
+    <string name="airline_fee_lowercase">航空公司手續費</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -2581,6 +2625,8 @@
     <string name="widget_savings_template">慳 %2.0f%%</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">沒有互聯網連接能力</string>
+    <!-- The label for deposit terms button -->
+    <string name="deposit_terms">訂金條款</string>
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
@@ -2769,6 +2815,11 @@
     <string name="etp_pay_now_currency_text_TEMPLATE">您將以您當地的貨幣 (%s) 付款。</string>
     <string name="etp_pay_now_cancellation_text">在酒店免費取消期限前，取消預訂都是免費的。</string>
     <string name="etp_select_room">選擇客房</string>
+
+    <!-- ETP pay later deposit info message -->
+    <string name="etp_pay_later_deposit_text">您支付的訂金絕不會超過預訂總金額。</string>
+    <string name="no_charge_text_TEMPLATE">{brand} 不會向您收費。</string>
+    <string name="deposit_info_text">透過支付訂金來預訂</string>
 
     <!-- Room and rates list -->
     <!-- Loading message for rooms & rates -->
@@ -3725,7 +3776,7 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">完成此預訂，即表示本人同意已閱讀並接受%1$s、%2$s及%3$s。</string>
-    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
     <string name="account_creation_legal_TEMPLATE">我已閱讀並同意%1$s及%2$s。登記 {brand}+，即表示我接受所有%3$s。</string>
 
     <!-- Used in hotel search for specifying traveler -->
@@ -3751,4 +3802,9 @@
     <string name="coupon_error_dialog_title">優惠券無法使用</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">您的優惠券出現問題。請再輸入一次。</string>
+
+    <string name="airline_fee_notice">付款時將附加根據信用卡類型收取的航空公司手續費。</string>
+    <string name="airline_charge_notice">航空公司將根據付款方式收取附加費。</string>
+    <string name="airline_fee_notice_payment">根據付款方式收取航空公司手續費。</string>
+    <string name="airline_notice_fee_added_TEMPLATE">付款時將附加根據信用卡類型收取的%1$s。有關費用將於付款時加入總金額。</string>
 </resources>

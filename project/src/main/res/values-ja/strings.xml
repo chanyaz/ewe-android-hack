@@ -115,6 +115,8 @@
     <string name="hotel_toolbar_title">ホテルを検索</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">ロケーションを検索</string>
+    <!-- Label for recent searches -->
+    <string name="recent_searches">最近の検索履歴</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">借出場所</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -730,6 +732,10 @@
     <string name="prices_roundtrip_label">1 名あたりの往復料金</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">1 名あたりの片道料金</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_roundtrip_minimum_label">往復 (1 名あたり) の最低料金</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_oneway_minimum_label">片道 (1 名あたり) の最低料金</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">旅行のデータがありません。</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -1014,6 +1020,10 @@
     <string name="shop">検索</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">旅程を検索する</string>
+    <!-- Unable to find itinerary -->
+    <string name="unable_to_find_itinerary">旅程が見つかりません。国設定 (アプリの設定内) がご予約時のサイトアドレスと一致していることをご確認ください (例：Expedia.co.jp でご予約の際にはアプリの国設定を日本に設定）。</string>
+    <!-- Find Guest Itinerary -->
+    <string name="find_guest_itinerary">ゲスト旅程の検索</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">旅程情報を入力してください</string>
     <!-- Find Itinerary # -->
@@ -1028,6 +1038,8 @@
     <string name="no_upcoming_trips">予約された旅行はありません。</string>
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">旅程番号を入力してください</string>
+    <!-- Enter a Guest itinerary number -->
+    <string name="or_enter_a_guest_itinerary_number">または、旅程番号を入力してください</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">お客様の旅程を取得しています…</string>
     <!-- Error fetching itinerary -->
@@ -1384,7 +1396,7 @@
     <string name="itin_card_details_address">住所</string>
     <string name="itin_card_details_local_phone">現地の電話番号</string>
     <string name="itin_card_details_room_type">部屋タイプ</string>
-    <string name="itin_card_details_non_price_promotion_includes">含まれているもの : </string>
+    <string name="itin_card_details_non_price_promotion_includes">含まれているもの :</string>
     <string name="itin_card_details_bed_type">ベッドタイプ</string>
     <string name="toast_copied_to_clipboard">クリップボードにコピーしました。</string>
     <string name="itin_card_details_reload">情報をリロード</string>
@@ -1674,6 +1686,10 @@
     <string name="round_trip_price_TEMPLATE">往復 &lt;b&gt;%s&lt;/b&gt; ～</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">今すぐ予約で &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Variants of the previous few templates, for Australian compliance rules (d/5810) -->
+    <string name="one_way_price_min_TEMPLATE">片道 (1 名あたり) &lt;b&gt;%s&lt;/b&gt; ～</string>
+    <string name="round_trip_price_min_TEMPLATE">往復 (1 名あたり) &lt;b&gt;%s&lt;/b&gt; ～</string>
+    <string name="book_now_price_min_TEMPLATE">今すぐ予約すると &lt;b&gt;%s&lt;/b&gt; ～</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
         <item quantity="zero">残り %1$s 席 &lt;b&gt;%2$s ～&lt;/b&gt;</item>
@@ -1683,8 +1699,20 @@
         <item quantity="many">残り %1$s 席 &lt;b&gt;%2$s ～&lt;/b&gt;</item>
         <item quantity="other">残り %1$s 席 &lt;b&gt;%2$s ～&lt;/b&gt;</item>
     </plurals>
+    <!-- Book now info label, when there are only a few seats left. Variant for Australian
+         compliance rules (d/5810) -->
+    <plurals name="urgency_book_min_TEMPLATE">
+        <item quantity="zero">残り %1$s 席 &lt;b&gt;%2$s ～&lt;/b&gt; (1 名あたり)</item>
+        <item quantity="one">残り %1$s 席 &lt;b&gt;%2$s ～&lt;/b&gt; (1 名あたり)</item>
+        <item quantity="two">残り %1$s 席 &lt;b&gt;%2$s ～&lt;/b&gt; (1 名あたり)</item>
+        <item quantity="few">残り %1$s 席 &lt;b&gt;%2$s ～&lt;/b&gt; (1 名あたり)</item>
+        <item quantity="many">残り %1$s 席 &lt;b&gt;%2$s ～&lt;/b&gt; (1 名あたり)</item>
+        <item quantity="other">残り %1$s 席 &lt;b&gt;%2$s ～&lt;/b&gt; (1 名あたり)</item>
+    </plurals>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
+    <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
+    <string name="fare_name_and_price_min_TEMPLATE">%1$s (1 名あたり) %2$s ～</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">手荷物料金情報</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -1767,10 +1795,14 @@
     <string name="Overview">概要</string>
     <!-- Trip total price label -->
     <string name="total_price_label">旅行の合計料金</string>
+    <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
+    <string name="total_price_min_label">合計の最低料金</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">目的地 : %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">税金とサービス料込み</string>
+    <!-- Includes taxes (but not necessarily fees) -->
+    <string name="includes_taxes">税込み</string>
     <!-- Date and trip from _ to _ -->
     <string name="trip_to_with_date">%1$s : %2$s ～ %3$s</string>
     <!-- Number of traverlers template -->
@@ -1821,6 +1853,8 @@
     <string name="slide_to_book_flight">スライドして航空券を予約</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">カードに %1$s が課金されます</string>
+    <!-- Your card will be charged -->
+    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">カードに %1$s が課金されます (航空会社の手数料別)</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_TEMPLATE">本日お支払いの合計金額 :%1$s</string>
     <!-- Amount to be paid now -->
@@ -1865,6 +1899,8 @@
     <string name="fees_paid_at_hotel">ホテルでのお支払い料金</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">{brand} へのお支払い金額</string>
+    <!-- Due to expedia today - today -->
+    <string name="due_to_brand_today_today_TEMPLATE">本日 {brand} にお支払いの金額</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; のリゾート料金はホテルでお支払いください。ご宿泊の合計金額は &lt;b&gt;%2$s&lt;/b&gt; です。</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -1875,6 +1911,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">ご旅行の合計金額は &lt;b&gt;%2$s&lt;/b&gt; です (&lt;b&gt;%1$s&lt;/b&gt;のリゾート料金を含む)。合計金額は滞在中にホテルの現地通貨でお支払いください。</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">ご旅行の合計金額は &lt;b&gt;%2$s&lt;/b&gt; です (&lt;b&gt;%1$s&lt;/b&gt;のリゾート料金を含む)。残額は滞在中にホテルの現地通貨でお支払いください。</string>
+    <!-- Pay later deposit amount -->
+    <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">予約後 24 時間以内ならキャンセル手数料無料 !</string>
     <!-- Flights AB Test Traveler info missing callout label -->
@@ -1900,6 +1938,8 @@
     <string name="cost_summary">料金の概要</string>
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">税金 &amp; サービス料</string>
+    <!-- Taxes without airline fees -->
+    <string name="taxes_without_airline_fees">税金</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand} 予約手数料</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
@@ -2261,6 +2301,10 @@
     <string name="privacy_policy">プライバシー ポリシー</string>
     <!-- Fare information header -->
     <string name="fare_information">料金情報</string>
+    <!-- Airline Fee -->
+    <string name="Airline_fee">航空会社の手数料</string>
+    <!-- airline fee -->
+    <string name="airline_fee_lowercase">航空会社の手数料</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -2581,6 +2625,8 @@
     <string name="widget_savings_template">%2.0f%% 割引</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">インターネットに接続されていません</string>
+    <!-- The label for deposit terms button -->
+    <string name="deposit_terms">デポジット規約</string>
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
@@ -2769,6 +2815,11 @@
     <string name="etp_pay_now_currency_text_TEMPLATE">お客様の自国通貨 (%s) でのお支払いとなります。</string>
     <string name="etp_pay_now_cancellation_text">ホテルのキャンセル料金適用期間より前であればキャンセル料は無料です。</string>
     <string name="etp_select_room">部屋を選択</string>
+
+    <!-- ETP pay later deposit info message -->
+    <string name="etp_pay_later_deposit_text">デポジットが、ご予約の合計金額を超えることはありません。</string>
+    <string name="no_charge_text_TEMPLATE">{brand} からの課金はありません。</string>
+    <string name="deposit_info_text">予約 (デポジットあり)</string>
 
     <!-- Room and rates list -->
     <!-- Loading message for rooms & rates -->
@@ -3725,7 +3776,7 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">この予約を完了をもって、%1$s、%2$s、%3$sを読み、理解したものと見なされます。</string>
-    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
     <string name="account_creation_legal_TEMPLATE">%1$sおよび%2$sを読み、これに同意します。{brand}+ への入会をもって、すべての%3$sに同意したものとみなされます。</string>
 
     <!-- Used in hotel search for specifying traveler -->
@@ -3751,4 +3802,9 @@
     <string name="coupon_error_dialog_title">クーポンが適用できませんでした</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">申し訳ありません。クーポンの適用中にエラーが発生しました。もう一度入力してください。</string>
+
+    <string name="airline_fee_notice">航空会社の手数料 (カードの種類によって異なる) が追加されます。</string>
+    <string name="airline_charge_notice">支払い方法に応じて、航空会社から手数料が課金されます。</string>
+    <string name="airline_fee_notice_payment">支払い方法に応じて、航空会社の手数料が追加されます。</string>
+    <string name="airline_notice_fee_added_TEMPLATE">%1$s (カードの種類によって異なる) が追加されます。これらの手数料が合計料金に追加されます。</string>
 </resources>
