@@ -163,7 +163,6 @@
                             android:textColor="@color/hotels_primary_color"
                             android:textSize="17sp"
                             app:textStyle="medium"
-                            android:clickable="true"
                             android:visibility="gone" />
 
                         <LinearLayout
