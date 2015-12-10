@@ -162,8 +162,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dp"
         android:layout_marginRight="2dp"
-        android:textColor="#FFFFFF"
-        android:linksClickable="true"
-        android:visibility="gone" />
+        android:textColor="@android:color/white"
+        android:visibility="gone"
+        android:text="@string/airline_notice_fee_added" />
 
 </LinearLayout>
