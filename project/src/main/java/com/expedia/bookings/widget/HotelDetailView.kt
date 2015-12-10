@@ -318,6 +318,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                         }
                         roomContainer.addView(view)
                         hotelRoomRateViewModels.add(view.viewmodel)
+                        view.viewmodel.depositTermsClickedObservable.subscribe {
+                            vm.depositInfoContainerClickObservable.onNext(Pair(vm.hotelOffersResponse.hotelCountry, room))
+                        }
                     }
 
                     vm.lastExpandedRowObservable.onNext(-1)

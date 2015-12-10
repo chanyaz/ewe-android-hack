@@ -45,9 +45,10 @@ public class DepositTermsInfoWidget(context: Context, attrs: AttributeSet) : Fra
     fun setText(values: Pair<String, HotelOffersResponse.HotelRoomResponse>) {
         val hotelCountryCode = values.first
         val hotelCountrycurrency = CurrencyUtils.currencyForLocale(hotelCountryCode)
-        val isDepositRequired = values.second.payLaterOffer.depositRequired
-        val depositPolicyFirst = values.second.payLaterOffer?.depositPolicyAtIndex(0)
-        val depositPolicySecond = values.second.payLaterOffer?.depositPolicyAtIndex(1)
+        val offer = values.second.payLaterOffer ?: values.second
+        val isDepositRequired = offer.depositRequired
+        val depositPolicyFirst = offer?.depositPolicyAtIndex(0)
+        val depositPolicySecond = offer?.depositPolicyAtIndex(1)
 
         depositPolicyFirstView.visibility = if (isDepositRequired) View.VISIBLE else View.GONE
         depositExceedInfoView.visibility = if (isDepositRequired) View.VISIBLE else View.GONE
