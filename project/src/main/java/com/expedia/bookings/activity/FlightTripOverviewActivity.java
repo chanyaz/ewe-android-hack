@@ -174,14 +174,10 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 		mBelowOverviewSpacer = Ui.findView(this, R.id.below_overview_spacer);
 		mCheckoutBlocker = Ui.findView(this, R.id.checkout_event_blocker);
 		mFreeCancellation = Ui.findView(this, R.id.free_cancellation_text);
+		mAirlineFeeNotice = Ui.findView(this, R.id.airline_fee_notice);
 
 		addOverviewFragment();
 		setUpFreeCancellationAbTest();
-
-		mAirlineFeeNotice = Ui.findView(this, R.id.airline_fee_notice);
-		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
-			mAirlineFeeNotice.setVisibility(View.VISIBLE);
-		}
 
 		mScrollViewListener = new ScrollViewListener();
 		mContentScrollView.addOnScrollListener(mScrollViewListener);
@@ -424,6 +420,11 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 			}
 		}
 
+		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
+			mAirlineFeeNotice.setVisibility(View.VISIBLE);
+			findViewById(R.id.airline_notice_fee_added).setVisibility(View.GONE);
+		}
+
 		setActionBarOverviewMode();
 		modeChangeComplete();
 
@@ -452,6 +453,11 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 			if (mCheckoutFragment != null) {
 				mCheckoutFragment.updateViewVisibilities();
 			}
+		}
+
+		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
+			mAirlineFeeNotice.setVisibility(View.GONE);
+			findViewById(R.id.airline_notice_fee_added).setVisibility(View.VISIBLE);
 		}
 
 		setActionBarCheckoutMode();

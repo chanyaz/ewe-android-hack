@@ -226,6 +226,14 @@ public class FlightSearchTest extends PhoneTestCase {
 		EspressoUtils.assertViewWithSubstringIsDisplayed(
 				R.id.airline_notice_fee_added,
 				"An airline fee, based on card type, is added upon payment.");
+		// Of two similar TextViews, make sure only one is visible at once as
+		// the user backs up and retraces their steps.
+		Common.pressBack();
+		EspressoUtils.assertViewIsDisplayed(R.id.airline_fee_notice);
+		EspressoUtils.assertViewIsNotDisplayed(R.id.airline_notice_fee_added);
+		CommonCheckoutScreen.clickCheckoutButton();
+		EspressoUtils.assertViewIsDisplayed(R.id.airline_notice_fee_added);
+		EspressoUtils.assertViewIsNotDisplayed(R.id.airline_fee_notice);
 		Log.v(TAG, "END TEST");
 	}
 

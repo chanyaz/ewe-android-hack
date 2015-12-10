@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -169,10 +168,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		mWalletButton.setPromoVisible(false);
 
 		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
-			TextView mFeeAddedText = Ui.findView(v, R.id.airline_notice_fee_added);
-			mFeeAddedText.setVisibility(View.VISIBLE);
-			mFeeAddedText.setMovementMethod(LinkMovementMethod.getInstance());
-			mFeeAddedText.setOnClickListener(new View.OnClickListener() {
+			Ui.findView(v, R.id.airline_notice_fee_added).setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
