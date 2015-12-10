@@ -118,26 +118,7 @@ public class FlightUtils {
 		feesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
 
 		// Configure the second TextView, "Payment Fees Apply"
-		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
-			drawableResId = isPhone ? R.drawable.ic_payment_fee : R.drawable.ic_tablet_payment_fees;
-			secondaryFeesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0 ,0);
-			secondaryFeesTv.setVisibility(View.VISIBLE);
-			secondaryFeesTv.setText(fragment.getString(R.string.airline_fee_notice_payment));
-			ViewUtils.setAllCaps(secondaryFeesTv);
-			secondaryFeesTv.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(fragment.getActivity());
-					builder
-						.setUrl(PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL());
-					builder.setTheme(R.style.FlightTheme);
-					builder.setTitle(R.string.Airline_fee);
-					builder.setInjectExpediaCookies(true);
-					fragment.startActivity(builder.getIntent());
-				}
-			});
-		}
-		else if (trip.getMayChargeObFees()) {
+		if (trip.getMayChargeObFees()) {
 			drawableResId = isPhone ? R.drawable.ic_payment_fee : R.drawable.ic_tablet_payment_fees;
 			secondaryFeesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0 ,0);
 			secondaryFeesTv.setVisibility(View.VISIBLE);
@@ -159,6 +140,26 @@ public class FlightUtils {
 				@Override
 				public void onClick(View v) {
 					((OnBaggageFeeViewClicked) fragment).onBaggageFeeViewClicked(fragment.getString(R.string.baggage_fees), leg.getBaggageFeesUrl());
+				}
+			});
+		}
+
+		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
+			drawableResId = isPhone ? R.drawable.ic_payment_fee : R.drawable.ic_tablet_payment_fees;
+			secondaryFeesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0 ,0);
+			secondaryFeesTv.setVisibility(View.VISIBLE);
+			secondaryFeesTv.setText(fragment.getString(R.string.airline_fee_notice_payment));
+			ViewUtils.setAllCaps(secondaryFeesTv);
+			secondaryFeesTv.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(fragment.getActivity());
+					builder
+						.setUrl(PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL());
+					builder.setTheme(R.style.FlightTheme);
+					builder.setTitle(R.string.Airline_fee);
+					builder.setInjectExpediaCookies(true);
+					fragment.startActivity(builder.getIntent());
 				}
 			});
 		}
