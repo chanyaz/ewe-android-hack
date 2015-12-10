@@ -175,7 +175,7 @@ public class HotelResultsMapViewModel(val context: Context, val currentLocation:
             location.latitude = currentRegion.latitude
             location.longitude = currentRegion.longitude
             val sortedHotels = sortByLocation(location, hotels)
-            sortedHotelsObservable.onNext(sortedHotels)
+            markersObservable.onNext(sortedHotels)
         }
 
         hotelResultsSubject.subscribe { response ->
@@ -187,7 +187,7 @@ public class HotelResultsMapViewModel(val context: Context, val currentLocation:
 
         mapResultsSubject.subscribe { response ->
             hotels = response.hotelList
-            sortedHotelsObservable.onNext(hotels)
+            markersObservable.onNext(hotels)
         }
 
         mapPinSelectSubject.subscribe {

@@ -282,7 +282,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
 
         mapCarouselRecycler.adapter = HotelMapCarouselAdapter(emptyList(), hotelSelectedSubject)
 
-        mapViewModel.sortedHotelsObservable.subscribe {
+        mapViewModel.markersObservable.subscribe {
             mapViewModel.selectMarker.onNext(null)
             hotels = it
             if (!ExpediaBookingApp.isDeviceShitty() || Strings.equals(currentState, ResultsMap::class.java.name)) {
@@ -292,6 +292,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 googleMap?.mapType = GoogleMap.MAP_TYPE_NONE
                 clearMarkers()
             }
+        }
+
+        mapViewModel.sortedHotelsObservable.subscribe {
+            hotels = it
+            updateCarousel()
         }
 
         mapViewModel.soldOutHotel.subscribe { hotel ->
@@ -319,37 +324,39 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         if (hotels.isEmpty()) {
             return
         }
-        Observable.just(hotels).subscribeOn(Schedulers.io())
-                .map {
-                    var options = ArrayList<MarkerOptions>()
-                    //createHotelMarkerIcon should run in a separate thread since its heavy and hangs on the UI thread
-                    hotels.forEach {
-                        hotel ->
-                        val bitmap = createHotelMarkerIcon(context, iconFactory, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut)
-                        val option = MarkerOptions()
-                                .position(LatLng(hotel.latitude, hotel.longitude))
-                                .icon(bitmap)
-                                .title(hotel.hotelId)
-                        options.add(option)
-                    }
-                    options
-                }
-                .observeOn(AndroidSchedulers.mainThread())
-                //add the markers on the UI thread
-                .subscribe {
-                    it.forEach {
-                        val option = it
-                        val marker = googleMap?.addMarker(option)
-                        if (marker != null) markers.add(marker)
-                    }
-                    (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotels)
-                    mapCarouselRecycler.scrollToPosition(0)
-                    val markersForHotel = markers.filter { it.title == hotels.first().hotelId }
-                    if (markersForHotel.isNotEmpty()) {
-                        val marker = markersForHotel.first()
-                        mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
-                    }
-                }
+
+        var options = ArrayList<MarkerOptions>()
+        hotels.forEach {
+            hotel ->
+            val bitmap = createHotelMarkerIcon(context, iconFactory, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut)
+            val option = MarkerOptions()
+                    .position(LatLng(hotel.latitude, hotel.longitude))
+                    .icon(bitmap)
+                    .title(hotel.hotelId)
+            options.add(option)
+        }
+
+        options.forEach {
+            val option = it
+            val marker = googleMap?.addMarker(option)
+            if (marker != null) markers.add(marker)
+        }
+        
+        updateCarousel()
+    }
+
+    fun updateCarousel() {
+        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotels)
+        mapCarouselRecycler.scrollToPosition(0)
+        val markersForHotel = markers.filter { it.title == hotels.first().hotelId }
+        if (markersForHotel.isNotEmpty()) {
+            val prevMarker = mapViewModel.selectMarker.value
+            if (prevMarker != null) {
+                mapViewModel.unselectedMarker.onNext(prevMarker)
+            }
+            val marker = markersForHotel.first()
+            mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
+        }
     }
 
     override fun onFinishInflate() {
