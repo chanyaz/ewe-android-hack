@@ -767,14 +767,16 @@ public class Events {
 			lxSearchParams = params;
 		}
 
-		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate,
+		public LXNewSearchParamsAvailable(String locationName, String airportCode, LocalDate startDate,
+			LocalDate endDate,
 			SearchType searchType) {
-			lxSearchParams = new LXSearchParams().location(locationName).startDate(startDate).endDate(endDate)
+			lxSearchParams = new LXSearchParams().location(locationName).imageCode(airportCode).startDate(startDate)
+				.endDate(endDate)
 				.searchType(searchType);
 		}
 
 		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate) {
-			this(locationName, startDate, endDate, SearchType.EXPLICIT_SEARCH);
+			this(locationName, null, startDate, endDate, SearchType.EXPLICIT_SEARCH);
 		}
 
 		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate, String filters) {
