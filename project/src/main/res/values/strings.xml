@@ -2265,8 +2265,6 @@
     <string name="fare_information">FARE INFORMATION</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">Airline Fee</string>
-    <!-- airline fee -->
-    <string name="airline_fee_lowercase">airline fee</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -3660,8 +3658,9 @@
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Expedia_account_already_exists">An Expedia account already exists with this email</string>
 
+    <!-- Australian compliance warnings d/5810 -->
     <string name="airline_fee_notice">An airline fee, based on card type, is added upon payment.</string>
     <string name="airline_charge_notice">Airlines charge an additional fee based on payment method.</string>
-    <string name="airline_fee_notice_payment">Airline fee applies based on payment method.</string>
-    <string name="airline_notice_fee_added_TEMPLATE">An %1$s, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
+    <string name="airline_fee_notice_payment">Airline fee applies based on payment method</string>
+    <string name="airline_notice_fee_added">An <u><b>airline fee</b></u>, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
 </resources>
