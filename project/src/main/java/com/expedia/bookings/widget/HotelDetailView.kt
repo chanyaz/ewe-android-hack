@@ -21,12 +21,12 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Space
 import android.widget.TableLayout
 import android.widget.TableRow
-import android.widget.ImageView
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
@@ -111,7 +111,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val hotelDescriptionContainer: ViewGroup by bindView(R.id.hotel_description_container)
     val miniMapView: LocationMapImageView by bindView(R.id.mini_map_view)
     val transparentViewOverMiniMap: View by bindView(R.id.transparent_view_over_mini_map)
-    val gradientHeight = context.getResources().getDimension(R.dimen.hotel_detail_gradient_height)
+    val gradientHeight = context.resources.getDimension(R.dimen.hotel_detail_gradient_height)
 
     val hotelMessagingContainer: RelativeLayout by bindView(R.id.promo_messaging_container)
     val discountPercentage: TextView by bindView(R.id.discount_percentage)
@@ -212,15 +212,15 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             Amenity.addHotelAmenity(amenityContainer, amenityList)
         }
         vm.commonAmenityTextObservable.subscribe { text ->
-            commonAmenityText.setVisibility(View.VISIBLE)
-            commonAmenityText.setText(Html.fromHtml(text))
-            commonAmenityDivider.setVisibility(View.VISIBLE)
+            commonAmenityText.visibility = View.VISIBLE
+            commonAmenityText.text = Html.fromHtml(text)
+            commonAmenityDivider.visibility = View.VISIBLE
         }
 
         vm.galleryItemChangeObservable.subscribe { galleryDescriptionBar: Pair<Int, String> ->
             hotelGalleryIndicator.animate().translationX((galleryDescriptionBar.first * hotelGalleryIndicator.width).toFloat()).
                     setInterpolator(LinearInterpolator()).start()
-            hotelGalleryDescription.setText(galleryDescriptionBar.second)
+            hotelGalleryDescription.text = galleryDescriptionBar.second
         }
 
         transparentViewOverMiniMap.subscribeOnClick(vm.mapClickedSubject)
@@ -434,28 +434,28 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.sectionImageObservable.subscribe { isExpanded ->
             if (isExpanded) AnimUtils.rotate(readMoreView) else AnimUtils.reverseRotate(readMoreView)
         }
-        vm.galleryClickedSubject.subscribe { detailContainer.animateScrollY(detailContainer.getScrollY(), -initialScrollTop, 500) }
+        vm.galleryClickedSubject.subscribe { detailContainer.animateScrollY(detailContainer.scrollY, -initialScrollTop, 500) }
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
         resortFeeWidget.subscribeOnClick(vm.resortFeeContainerClickObserver)
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
     }
 
     fun resetViews() {
-        detailContainer.getViewTreeObserver().removeOnScrollChangedListener(scrollListener)
+        detailContainer.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
         AnimUtils.reverseRotate(readMoreView)
         hotelDescription.maxLines = HOTEL_DESC_COLLAPSE_LINES
-        renovationContainer.setVisibility(View.GONE)
-        etpContainer.setVisibility(View.GONE)
-        etpContainerDropShadow.setVisibility(View.GONE)
-        etpAndFreeCancellationMessagingContainer.setVisibility(View.GONE)
-        toolBarBackground.setAlpha(0f)
-        toolBarGradient.setTranslationY(0f)
+        renovationContainer.visibility = View.GONE
+        etpContainer.visibility = View.GONE
+        etpContainerDropShadow.visibility = View.GONE
+        etpAndFreeCancellationMessagingContainer.visibility = View.GONE
+        toolBarBackground.alpha = 0f
+        toolBarGradient.translationY = 0f
         priceViewAlpha(1f)
         urgencyViewAlpha(1f)
-        hotelGalleryDescriptionContainer.setAlpha(0f)
-        resortFeeWidget.setVisibility(View.GONE)
-        commonAmenityText.setVisibility(View.GONE)
-        commonAmenityDivider.setVisibility(View.GONE)
+        hotelGalleryDescriptionContainer.alpha = 0f
+        resortFeeWidget.visibility = View.GONE
+        commonAmenityText.visibility = View.GONE
+        commonAmenityDivider.visibility = View.GONE
         hideResortandSelectRoom()
         freeCancellationAndETPMessaging.visibility = View.GONE
         singleMessageContainer.visibility = View.GONE
@@ -478,9 +478,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     }
 
     fun spaceAboveSelectARoom() {
-        val params = space.getLayoutParams()
+        val params = space.layoutParams
         params.height = bottomMargin
-        space.setLayoutParams(params)
+        space.layoutParams = params
     }
 
     val payNowObserver: Observer<Unit> = endlessObserver {
@@ -644,9 +644,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     public fun shouldShowETPContainer() {
         roomContainer.getLocationOnScreen(roomContainerPosition)
         if (roomContainerPosition[1] + roomContainer.height < offset + etpContainer.height) {
-            etpContainer.setEnabled(false)
+            etpContainer.isEnabled = false
         } else
-            etpContainer.setEnabled(true)
+            etpContainer.isEnabled = true
     }
 
     public fun scrollToRoom(animate: Boolean) {
@@ -684,7 +684,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
         Ui.showTransparentStatusBar(getContext())
         toolbar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
-        toolBarBackground.getLayoutParams().height += statusBarHeight
+        toolBarBackground.layoutParams.height += statusBarHeight
         toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
 
         if (shouldShowCircleForRatings()) {
@@ -698,7 +698,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-        toolbar.setNavigationIcon(navIcon)
+        toolbar.navigationIcon = navIcon
 
         toolbar.setNavigationOnClickListener { view ->
             if (navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
