@@ -320,7 +320,7 @@ public class LXDataUtils {
 	}
 
 	public static int getErrorDrawableForCategory(Context context, String categoryKey) {
-		return isCategoryAllThingsToDo(context, categoryKey) ? R.drawable.itin_header_placeholder_cruises
+		return isCategoryAllThingsToDo(context, categoryKey) ? R.drawable.itin_header_placeholder_activities
 			: R.drawable.lx_category_all_things_to_do;
 	}
 }
