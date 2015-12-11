@@ -678,6 +678,9 @@
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">此日期已過，請選擇新的日期。</string>
 
+    <!-- Category Title "All Things To Do" -->
+    <string name="lx_category_all_things_to_do">所有當地玩樂</string>
+
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
     <string name="Sort_and_Filter">排序和篩選</string>
@@ -2303,8 +2306,6 @@
     <string name="fare_information">收費資料</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">航空公司手續費</string>
-    <!-- airline fee -->
-    <string name="airline_fee_lowercase">航空公司手續費</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -3803,8 +3804,9 @@
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">您的優惠券出現問題。請再輸入一次。</string>
 
+    <!-- Australian compliance warnings d/5810 -->
     <string name="airline_fee_notice">付款時將附加根據信用卡類型收取的航空公司手續費。</string>
     <string name="airline_charge_notice">航空公司將根據付款方式收取附加費。</string>
-    <string name="airline_fee_notice_payment">根據付款方式收取航空公司手續費。</string>
-    <string name="airline_notice_fee_added_TEMPLATE">付款時將附加根據信用卡類型收取的%1$s。有關費用將於付款時加入總金額。</string>
+    <string name="airline_fee_notice_payment">根據付款方式收取航空公司手續費</string>
+    <string name="airline_notice_fee_added">付款時將附加根據信用卡類型收取的<u><b>航空公司手續費</b></u>。有關費用將於付款時加入總金額。</string>
 </resources>

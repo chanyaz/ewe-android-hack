@@ -678,6 +678,9 @@
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">過去の日付が入力されています。新しい日付を選択してください。</string>
 
+    <!-- Category Title "All Things To Do" -->
+    <string name="lx_category_all_things_to_do">すべてのオプショナル ツアー</string>
+
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
     <string name="Sort_and_Filter">並び替え &amp; 絞り込み</string>
@@ -1337,9 +1340,9 @@
     <string name="car_category_result_oversize">大型</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア 自動車</string>
-    <string name="car_type_three_door">3 ドア 自動車</string>
-    <string name="car_type_four_door">4 ドア 自動車</string>
+    <string name="car_type_two_door">2 ドア自動車</string>
+    <string name="car_type_three_door">3 ドア自動車</string>
+    <string name="car_type_four_door">4 ドア自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -2303,8 +2306,6 @@
     <string name="fare_information">料金情報</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">航空会社の手数料</string>
-    <!-- airline fee -->
-    <string name="airline_fee_lowercase">航空会社の手数料</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -3803,8 +3804,9 @@
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">申し訳ありません。クーポンの適用中にエラーが発生しました。もう一度入力してください。</string>
 
+    <!-- Australian compliance warnings d/5810 -->
     <string name="airline_fee_notice">航空会社の手数料 (カードの種類によって異なる) が追加されます。</string>
     <string name="airline_charge_notice">支払い方法に応じて、航空会社から手数料が課金されます。</string>
-    <string name="airline_fee_notice_payment">支払い方法に応じて、航空会社の手数料が追加されます。</string>
-    <string name="airline_notice_fee_added_TEMPLATE">%1$s (カードの種類によって異なる) が追加されます。これらの手数料が合計料金に追加されます。</string>
+    <string name="airline_fee_notice_payment">お支払い方法に応じて、航空会社の手数料が追加されます</string>
+    <string name="airline_notice_fee_added"><u><b>航空会社の手数料</b></u> (カードの種類によって異なる) が追加されます。これらの手数料が合計料金に追加されます。</string>
 </resources>

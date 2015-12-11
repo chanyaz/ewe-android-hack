@@ -678,6 +678,9 @@
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">Ngày trong quá khứ, vui lòng chọn ngày mới.</string>
 
+    <!-- Category Title "All Things To Do" -->
+    <string name="lx_category_all_things_to_do">Mọi hoạt động giải trí</string>
+
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
     <string name="Sort_and_Filter">Sắp xếp &amp; Lọc</string>
@@ -2303,8 +2306,6 @@
     <string name="fare_information">THÔNG TIN GIÁ VÉ</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">Phí hãng hàng không</string>
-    <!-- airline fee -->
-    <string name="airline_fee_lowercase">phí hãng hàng không</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -3803,8 +3804,9 @@
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Có trục trặc với coupon của quý vị. Vui lòng nhập lại.</string>
 
+    <!-- Australian compliance warnings d/5810 -->
     <string name="airline_fee_notice">Hãng hàng không sẽ thu thêm phụ phí khi thanh toán, tùy loại thẻ.</string>
     <string name="airline_charge_notice">Hãng hàng không sẽ thu thêm phụ phí khi thanh toán, tùy hình thức thanh toán.</string>
-    <string name="airline_fee_notice_payment">Hãng hàng không sẽ thu thêm phụ phí tùy hình thức thanh toán.</string>
-    <string name="airline_notice_fee_added_TEMPLATE">Sẽ thu thêm %1$s, phụ phí khi thanh toán, tùy loại thẻ. Loại phí này sẽ được tính vào tổng giá khi thanh toán.</string>
+    <string name="airline_fee_notice_payment">Phí hãng hàng không tùy hình thức thanh toán</string>
+    <string name="airline_notice_fee_added">Sẽ bổ sung thêm <u><b>phí hãng hàng không</b></u>, tùy loại thẻ, khi thanh toán. Loại phí này sẽ được tính vào tổng giá khi thanh toán.</string>
 </resources>
