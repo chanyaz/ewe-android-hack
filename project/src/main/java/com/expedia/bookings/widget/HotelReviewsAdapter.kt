@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.Review
 import com.expedia.bookings.data.hotels.ReviewSort
-import com.expedia.vm.HotelReviewRowViewModel
 import com.expedia.vm.HotelReviewsAdapterViewModel
 import com.expedia.vm.HotelReviewsPageViewModel
-import com.expedia.vm.HotelReviewsSummaryViewModel
 
 public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager, val vm: HotelReviewsAdapterViewModel) : PagerAdapter() {
 
@@ -19,13 +17,10 @@ public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager,
         viewPager.adapter = this
 
         vm.reviewsSummaryObservable.subscribe { reviewsSummary ->
-            val hotelReviewsSummaryViewModel = HotelReviewsSummaryViewModel(context)
-            hotelReviewsSummaryViewModel.reviewsSummaryObserver.onNext(reviewsSummary)
+
             for (reviewSort: ReviewSort in ReviewSort.values) {
                 val hotelReviewsView = viewPager.findViewWithTag(reviewSort) as HotelReviewsPageView
-                if (hotelReviewsView.summaryContainer.childCount == 0) {
-                    hotelReviewsView.summaryContainer.addView(HotelReviewsSummaryWidget(context, hotelReviewsSummaryViewModel))
-                }
+                hotelReviewsView.recyclerAdapter.updateSummary(reviewsSummary)
             }
         }
 
@@ -45,13 +40,7 @@ public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager,
     private fun addReviews(reviewSort: ReviewSort, reviews: List<Review>) {
         val hotelReviewsView = viewPager.findViewWithTag(reviewSort) as HotelReviewsPageView
         hotelReviewsView.viewModel.reviewsObserver.onNext(reviews)
-        val reviewsTable = hotelReviewsView.reviewsTable
-        reviews.forEachIndexed { index, review ->
-            val hotelReviewRowViewModel = HotelReviewRowViewModel(context)
-            val view = HotelReviewRowView(context, hotelReviewRowViewModel)
-            hotelReviewRowViewModel.reviewObserver.onNext(review)
-            reviewsTable.addView(view)
-        }
+        hotelReviewsView.recyclerAdapter.addReviews(reviews);
     }
 
     fun getReviewSort(position: Int): ReviewSort {
@@ -74,14 +63,9 @@ public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager,
     override fun instantiateItem(container: ViewGroup, position: Int): Any? {
         val hotelReviewsView = HotelReviewsPageView(context)
         hotelReviewsView.viewModel = HotelReviewsPageViewModel()
-        hotelReviewsView.reviewsScrollviewContainer.addOnScrollListener { scrollView, x1, y1, x2, y2 ->
-            val view = scrollView.getChildAt(scrollView.childCount - 1)
-            val diff = (view.bottom - (scrollView.height + scrollView.scrollY));
-            if (diff == 0) {
-                vm.reviewsObserver.onNext(getReviewSort(position))
-            }
+        hotelReviewsView.recyclerAdapter.loadMoreObservable.subscribe {
+            vm.reviewsObserver.onNext(getReviewSort(position))
         }
-
         val sort = getReviewSort(position)
         hotelReviewsView.tag = sort
         container.addView(hotelReviewsView)

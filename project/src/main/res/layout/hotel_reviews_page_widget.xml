@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/hotel_reviews_summary_background_color"
+    android:background="@color/hotel_review_background_color"
     android:paddingTop="?attr/actionBarSize">
 
     <com.expedia.bookings.widget.MessageProgressView
@@ -13,57 +13,10 @@
         android:layout_gravity="center"
         app:line_color="@color/hotel_reviews_summary_background_color" />
 
-    <com.expedia.bookings.widget.ScrollView
-        android:id="@+id/reviews_scrollview_container"
+    <com.expedia.bookings.widget.HotelReviewsRecyclerView
+        android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:visibility="gone">
+        android:visibility="gone" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:id="@+id/summary_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingBottom="@dimen/hotel_reviews_summary_padding_bottom"
-                android:paddingLeft="@dimen/hotel_reviews_padding_left"
-                android:paddingRight="@dimen/hotel_reviews_padding_right"
-                android:paddingTop="@dimen/hotel_review_row_padding_top" />
-
-            <View
-                android:id="@+id/divider"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/hotel_review_divider_height"
-                android:background="@color/hotel_reviews_row_divider_color" />
-
-            <TableLayout
-                android:id="@+id/reviews_table"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@color/hotel_review_background_color" />
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/hotel_review_background_color">
-
-                <ProgressBar
-                    android:id="@+id/more_reviews_progressbar"
-                    style="?android:attr/android:progressBarStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:indeterminate="true"
-                    android:padding="20dp" />
-
-            </FrameLayout>
-
-
-        </LinearLayout>
-    </com.expedia.bookings.widget.ScrollView>
 </FrameLayout>
