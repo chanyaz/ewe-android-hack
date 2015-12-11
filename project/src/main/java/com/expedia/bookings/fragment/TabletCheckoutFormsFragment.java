@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -69,6 +67,8 @@ import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
+
+import java.util.ArrayList;
 
 @SuppressWarnings("ResourceType")
 public class TabletCheckoutFormsFragment extends LobableFragment implements IBackManageable,
@@ -596,9 +596,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	}
 
 	private void updateDepositPolicyText() {
-		Rate rate = Db.getTripBucket().getHotel().getRate();
-		String[] depositPolicy = rate.getDepositPolicy();
 		if (mDepositPolicyTxt != null) {
+			Rate rate = Db.getTripBucket().getHotel().getRate();
+			String[] depositPolicy = rate.getDepositPolicy();
 			if (depositPolicy != null) {
 				mDepositPolicyTxt.setText(HotelUtils.getDepositPolicyText(getActivity(), depositPolicy));
 				mDepositPolicyTxt.setVisibility(View.VISIBLE);
