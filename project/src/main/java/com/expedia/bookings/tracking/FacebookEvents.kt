@@ -199,7 +199,6 @@ class FacebookEvents() {
             parameters.putString("Currency", getLowestRate(property)?.getDisplayPrice()?.currencyCode ?: "")
             parameters.putString("fb_content_type", "product")
             facebookLogger?.logPurchase(rate.getTotalAmountAfterTax()?.amount ?: BigDecimal(0), Currency.getInstance(rate.getTotalAmountAfterTax()?.currencyCode));
-            track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
         }
     }
 
