@@ -678,6 +678,9 @@
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">Cette date est antérieure au présent, veuillez choisir une nouvelle date.</string>
 
+    <!-- Category Title "All Things To Do" -->
+    <string name="lx_category_all_things_to_do">Toutes les choses à faire</string>
+
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
     <string name="Sort_and_Filter">Trier &amp; filtrer</string>
@@ -1694,16 +1697,16 @@
     <plurals name="urgency_book_TEMPLATE">
         <item quantity="zero">Il reste %1$s place à &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="one">Il reste %1$s place à &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="two">Il reste %1$s places à &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="few">Il reste %1$s places à &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="many">Il reste %1$s places à &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="two">Il reste %1$s place à &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="few">Il reste %1$s place à &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="many">Il reste %1$s place à &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="other">Il reste %1$s places à &lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
     <!-- Book now info label, when there are only a few seats left. Variant for Australian
          compliance rules (d/5810) -->
     <plurals name="urgency_book_min_TEMPLATE">
         <item quantity="zero">Il reste %1$s place à partir de &lt;b&gt;%2$s&lt;/b&gt; par personne</item>
-        <item quantity="one">Il reste %1$s place à partir de &lt;b&gt;%2$s&lt;/b&gt; par personne</item>
+        <item quantity="one">Il reste %1$s places à partir de &lt;b&gt;%2$s&lt;/b&gt; par personne</item>
         <item quantity="two">Il reste %1$s places à partir de &lt;b&gt;%2$s&lt;/b&gt; par personne</item>
         <item quantity="few">Il reste %1$s places à partir de &lt;b&gt;%2$s&lt;/b&gt; par personne</item>
         <item quantity="many">Il reste %1$s places à partir de &lt;b&gt;%2$s&lt;/b&gt; par personne</item>
@@ -2303,8 +2306,6 @@
     <string name="fare_information">INFORMATIONS SUR LES TARIFS</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">Frais de compagnie aérienne</string>
-    <!-- airline fee -->
-    <string name="airline_fee_lowercase">frais de compagnie aérienne</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -2658,7 +2659,7 @@
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% de nos clients recommandent cet hôtel.</string>
     <!-- new material Hotel results cell guest rating -->
-    <string name="customer_rating_percent_Template">{rating}{percent}</string>
+    <string name="customer_rating_percent_Template">{rating} {percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">sur 5 - avis clients</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -3803,8 +3804,9 @@
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Un problème est survenu avec votre bon de réduction. Veuillez le saisir à nouveau.</string>
 
+    <!-- Australian compliance warnings d/5810 -->
     <string name="airline_fee_notice">Des frais de compagnie aérienne seront ajoutés au moment du paiement, en fonction du type de carte.</string>
     <string name="airline_charge_notice">Les compagnies aériennes imposent des frais supplémentaires en fonction du moyen de paiement utilisé.</string>
-    <string name="airline_fee_notice_payment">Des frais de compagnie aérienne s\&apos;appliquent en fonction du moyen de paiement utilisé.</string>
-    <string name="airline_notice_fee_added_TEMPLATE">Des %1$s seront ajoutés au moment du paiement, en fonction du type de carte. Les frais sont ajoutés au total au moment du paiement.</string>
+    <string name="airline_fee_notice_payment">Des frais de compagnie aérienne s\&apos;appliquent selon le moyen de paiement.</string>
+    <string name="airline_notice_fee_added">Des <u><b>frais de compagnie aérienne</b></u> sont ajoutés au moment du paiement, en fonction du type de carte. Ces frais sont ajoutés au montant total lors du paiement.</string>
 </resources>

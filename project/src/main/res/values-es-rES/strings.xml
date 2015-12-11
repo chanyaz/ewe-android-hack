@@ -678,6 +678,9 @@
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">La fecha seleccionada ya ha pasado, elige una fecha nueva.</string>
 
+    <!-- Category Title "All Things To Do" -->
+    <string name="lx_category_all_things_to_do">Todas las actividades</string>
+
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
     <string name="Sort_and_Filter">Ordenar y filtrar</string>
@@ -1703,7 +1706,7 @@
          compliance rules (d/5810) -->
     <plurals name="urgency_book_min_TEMPLATE">
         <item quantity="zero">Quedan %1$s desde &lt;b&gt;%2$s&lt;/b&gt; por persona</item>
-        <item quantity="one">Queda %1$s desde &lt;b&gt;%2$s&lt;/b&gt; por persona</item>
+        <item quantity="one">Quedan %1$s desde &lt;b&gt;%2$s&lt;/b&gt; por persona</item>
         <item quantity="two">Quedan %1$s desde &lt;b&gt;%2$s&lt;/b&gt; por persona</item>
         <item quantity="few">Quedan %1$s desde &lt;b&gt;%2$s&lt;/b&gt; por persona</item>
         <item quantity="many">Quedan %1$s desde &lt;b&gt;%2$s&lt;/b&gt; por persona</item>
@@ -2303,8 +2306,6 @@
     <string name="fare_information">INFORMACIÓN SOBRE TARIFAS</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">Tasas de la línea aérea</string>
-    <!-- airline fee -->
-    <string name="airline_fee_lowercase">tasa de la línea aérea</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -3804,8 +3805,9 @@
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Se ha detectado un problema con el cupón introducido. Vuelve a intentarlo.</string>
 
+    <!-- Australian compliance warnings d/5810 -->
     <string name="airline_fee_notice">Se cargará una tasa de la aerolínea a la cantidad total en función del tipo de tarjeta utilizado.</string>
     <string name="airline_charge_notice">Algunas aerolíneas cargan una tasa adicional según el tipo de pago utilizado.</string>
-    <string name="airline_fee_notice_payment">Se aplica una tasa de la aerolínea en función del tipo de pago utilizado.</string>
-    <string name="airline_notice_fee_added_TEMPLATE">Se cargará una %1$s a la cantidad total en función del tipo de tarjeta utilizado. Esta tasa se añadirá al total en el momento del pago.</string>
+    <string name="airline_fee_notice_payment">Se aplica una tasa de la aerolínea en función del tipo de pago utilizado</string>
+    <string name="airline_notice_fee_added">Se cargará una <u><b>tasa de la aerolínea</b></u> a la cantidad total en función del tipo de tarjeta utilizado. Esta tasa se añadirá al total en el momento del pago.</string>
 </resources>
