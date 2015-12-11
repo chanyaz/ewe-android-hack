@@ -95,6 +95,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.hotel_breakdown,
 		R.layout.hotel_cost_summary_row,
 		R.layout.hotel_reviews_summary_widget,
+		R.layout.hotel_reviews_loading_widget,
 		R.string.hotel_rating_room_cleanliness,
 		R.string.hotel_rating_hotel_condition,
 		R.string.hotel_rating_service_and_staff,
