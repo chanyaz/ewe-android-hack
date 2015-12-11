@@ -668,6 +668,11 @@ public class HotelRoomRateViewModel(val context: Context, var hotelId: String, v
         val chargeableRateInfo = rateInfo.chargeableRateInfo
         val discountPercent = HotelUtils.getDiscountPercent(chargeableRateInfo)
 
+        //resetting the text for views
+        strikeThroughPriceObservable.onNext("")
+        discountPercentage.onNext("")
+        expandedAmenityObservable.onNext("")
+
         if (discountPercent >= 9.5) {
             // discount is 10% or better
             discountPercentage.onNext(context.resources.getString(R.string.percent_off_TEMPLATE, discountPercent))

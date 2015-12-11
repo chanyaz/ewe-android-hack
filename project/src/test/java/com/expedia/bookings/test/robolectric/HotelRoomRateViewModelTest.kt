@@ -11,12 +11,10 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import java.text.DecimalFormat
 import rx.observers.TestSubscriber
-import rx.subjects.BehaviorSubject
+import java.text.DecimalFormat
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -44,7 +42,7 @@ public class HotelRoomRateViewModelTest {
 
         assertEquals("-20%", sut.discountPercentage.value)
         assertFalse(sut.onlyShowTotalPrice.value)
-        assertNull(sut.strikeThroughPriceObservable.value)
+        assertEquals("", sut.strikeThroughPriceObservable.value)
         assertEquals("$109", sut.dailyPricePerNightObservable.value)
         assertTrue(sut.perNightPriceVisibleObservable.value)
         assertEquals("One King Bed", sut.collapsedBedTypeObservable.value)
@@ -80,8 +78,8 @@ public class HotelRoomRateViewModelTest {
         givenDiscountLessThanTenPercent()
         setupNonSoldOutRoomUnderTest()
 
-        assertNull(sut.discountPercentage.value)
-        assertNull(sut.strikeThroughPriceObservable.value)
+        assertEquals("", sut.discountPercentage.value)
+        assertEquals("", sut.strikeThroughPriceObservable.value)
     }
 
     @Test
