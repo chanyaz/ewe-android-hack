@@ -15,14 +15,16 @@ public class FlightAdditionalFeesDialogFragment extends DialogFragment {
 
 	private static final String ARG_BAGGAGE_FEES_URL = "ARG_BAGGAGE_FEES_URL";
 	private static final String ARG_OB_FEES_URL = "ARG_OB_FEES_URL";
+	private static final String ARG_OB_FEES_TEXT = "ARG_OB_FEES_TEXT";
 
 	private FlightUtils.OnBaggageFeeViewClicked mCallback;
 
-	public static FlightAdditionalFeesDialogFragment newInstance(String baggageFeesUrl, String obFeesUrl) {
+	public static FlightAdditionalFeesDialogFragment newInstance(String baggageFeesUrl, String obFeesUrl, String obFeesText) {
 		FlightAdditionalFeesDialogFragment fragment = new FlightAdditionalFeesDialogFragment();
 		Bundle args = new Bundle();
 		args.putString(ARG_BAGGAGE_FEES_URL, baggageFeesUrl);
 		args.putString(ARG_OB_FEES_URL, obFeesUrl);
+		args.putString(ARG_OB_FEES_TEXT, obFeesText);
 		fragment.setArguments(args);
 		return fragment;
 	}
@@ -44,7 +46,7 @@ public class FlightAdditionalFeesDialogFragment extends DialogFragment {
 		itemNames[0] = getString(R.string.baggage_fees);
 		itemUrls[0] = args.getString(ARG_BAGGAGE_FEES_URL);
 
-		itemNames[1] = getString(R.string.payment_processing_fees);
+		itemNames[1] = args.getString(ARG_OB_FEES_TEXT);
 		itemUrls[1] = args.getString(ARG_OB_FEES_URL);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
