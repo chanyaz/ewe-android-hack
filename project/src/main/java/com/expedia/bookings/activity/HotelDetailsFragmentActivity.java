@@ -340,6 +340,9 @@ public class HotelDetailsFragmentActivity extends FragmentActivity
 
 		// Tracking
 		if (savedInstanceState == null) {
+			if (fromLaunch) {
+				OmnitureTracking.trackHotelsABTest();
+			}
 			doOmnitureTracking();
 		}
 
