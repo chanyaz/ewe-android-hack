@@ -49,4 +49,5 @@
     <color name="acct__btn_sign_in_text_tvly">#FFFFFF</color>
     <color name="acct__bg_input_text_error_tvly">#FFFFFF</color>
     <color name="acct__bg_input_text_good_tvly">#EEEEEE</color>
+    <color name="acct__tos_checkbox_checked">@color/bg_blue_color_travelocity</color>
 </resources>
