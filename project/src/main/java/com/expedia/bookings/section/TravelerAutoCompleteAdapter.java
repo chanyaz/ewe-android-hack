@@ -1,8 +1,5 @@
 package com.expedia.bookings.section;
 
-import java.util.ArrayList;
-import java.util.Locale;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
@@ -20,8 +17,12 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.TravelerIconUtils;
 import com.mobiata.android.util.Ui;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implements Filterable {
 
@@ -189,7 +190,9 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 					continue;
 				}
 			}
-
+			if (availableTravelers.size() == 1 && Strings.isEmpty(availableTravelers.get(0).getFullName())) {
+				return new ArrayList<>();
+			}
 			return availableTravelers;
 		}
 		return new ArrayList<>();
