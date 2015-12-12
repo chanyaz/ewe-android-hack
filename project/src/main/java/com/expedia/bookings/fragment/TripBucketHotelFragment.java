@@ -313,7 +313,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 				addResortFeeRows(rate);
 				addDueToBrandRow(rate, false);
 			}
-			else if (rate.isPayLater() || rate.depositRequired()) {
+			else if (rate.isPayLater() && rate.depositRequired()) {
 				boolean showDepositAmount = true;
 				addDueToBrandRow(rate, showDepositAmount);
 			}

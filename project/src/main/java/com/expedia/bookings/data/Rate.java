@@ -243,7 +243,6 @@ public class Rate implements JSONable {
 
 	public void setDepositAmount(Money depositAmount) {
 		mDepositAmount = depositAmount;
-		mDepositRequired = !depositAmount.isZero();
 	}
 
 	public Money getTotalMandatoryFees() {
@@ -320,7 +319,6 @@ public class Rate implements JSONable {
 
 	public void setDepositToShowUsers(Money m) {
 		mDepositToShowUsers = m;
-		mDepositRequired = !m.isZero();
 	}
 
 	public void setStrikeThroughPriceToShowUsers(Money m) {
@@ -456,6 +454,10 @@ public class Rate implements JSONable {
 
 	public boolean depositRequired() {
 		return mDepositRequired;
+	}
+
+	public void setIsDepositRequired(boolean depositRequired) {
+		mDepositRequired = depositRequired;
 	}
 
 	public void setCancellationPolicy(String cancellationPolicy) {
