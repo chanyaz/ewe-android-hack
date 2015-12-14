@@ -193,6 +193,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.recent_search_header,
 		R.layout.recent_search_item,
 		R.layout.recent_search_view,
-		R.drawable.recent_searches
+		R.drawable.recent_searches,
+		R.layout.package_activity
 	};
 }
