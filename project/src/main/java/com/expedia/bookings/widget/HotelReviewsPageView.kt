@@ -23,6 +23,16 @@ public class HotelReviewsPageView(context: Context) : LinearLayout(context) {
     val bottomProgressBar: ProgressBar by bindView(R.id.more_reviews_progressbar)
     val animation: ObjectAnimator
 
+    init {
+        View.inflate(getContext(), R.layout.hotel_reviews_page_widget, this)
+
+        animation = ObjectAnimator.ofFloat(messageProgressLoading, "progress", 0f, 1f)
+        animation.repeatMode = ValueAnimator.RESTART
+        animation.repeatCount = ValueAnimator.INFINITE
+        animation.setDuration(1500)
+        animation.start()
+    }
+
     var viewModel: HotelReviewsPageViewModel by notNullAndObservable { vm ->
         vm.reviewsScrollviewContainerObservable.subscribeVisibility(reviewsScrollviewContainer)
         vm.messageProgressLoadingObservable.subscribeVisibility(messageProgressLoading)
@@ -38,15 +48,4 @@ public class HotelReviewsPageView(context: Context) : LinearLayout(context) {
             vm.moreReviewsAvailableObservable.subscribeVisibility(bottomProgressBar)
         }
     }
-
-    init {
-        View.inflate(getContext(), R.layout.hotel_reviews_page_widget, this)
-
-        animation = ObjectAnimator.ofFloat(messageProgressLoading, "progress", 0f, 1f)
-        animation.repeatMode = ValueAnimator.RESTART
-        animation.repeatCount = ValueAnimator.INFINITE
-        animation.setDuration(1500)
-        animation.start()
-    }
-
 }
