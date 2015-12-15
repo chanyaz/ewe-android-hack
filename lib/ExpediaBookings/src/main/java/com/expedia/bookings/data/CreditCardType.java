@@ -18,6 +18,7 @@ public enum CreditCardType {
 	GOOGLE_WALLET("GOOG"),
 	CARTE_BLEUE("R"),
 	CARTA_SI("T"),
+	EXPEDIA_REWARDS("ER"),
 	UNKNOWN("?");
 
 	private String mCode;

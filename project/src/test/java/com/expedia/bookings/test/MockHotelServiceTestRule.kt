@@ -54,6 +54,14 @@ public class MockHotelServiceTestRule : TestRule {
         return getCreateTripResponse("happypath_0")
     }
 
+    fun getLoggedInUserWithRedeemablePointsCreateTripResponse(): HotelCreateTripResponse {
+        return getCreateTripResponse("logged_in_user_with_redeemable_points")
+    }
+
+    fun getLoggedInUserWithNonRedeemeblePointsCreateTripResponse(): HotelCreateTripResponse {
+        return getCreateTripResponse("logged_in_user_with_non_redeemable_points")
+    }
+
     fun getProductKeyExpiredResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("error_expired_product_key_createtrip")
     }

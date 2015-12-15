@@ -143,6 +143,9 @@ public class CurrencyUtils {
 		else if (type.equals("CarteSi")) {
 			return CreditCardType.CARTA_SI;
 		}
+		else if (type.equals("EXPEDIA_REWARDS")) {
+			return CreditCardType.EXPEDIA_REWARDS;
+		}
 		else {
 			Log.w("Tried to parse an unknown credit card type, name=" + type);
 			return CreditCardType.UNKNOWN;
