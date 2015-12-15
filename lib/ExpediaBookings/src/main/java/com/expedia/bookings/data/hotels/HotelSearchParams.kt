@@ -75,21 +75,6 @@ public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: L
 
     }
 
-    public fun toQueryMap(): Map<String, Any> {
-        val params = HashMap<String, Any>()
-        if (suggestion.gaiaId != null)  {
-            params.put("regionId", suggestion.gaiaId)
-        } else {
-            params.put("latitude", suggestion.coordinates.lat)
-            params.put("longitude", suggestion.coordinates.lng)
-        }
-        params.put("checkInDate", checkIn.toString())
-        params.put("checkOutDate", checkOut.toString())
-        params.put("room1", getGuestString())
-
-        return params
-    }
-
     public fun guests() : Int {
         return children.size + adults
     }
