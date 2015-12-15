@@ -2627,7 +2627,7 @@
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">Connexion Internet absente</string>
     <!-- The label for deposit terms button -->
-    <string name="deposit_terms">Conditions du dépôt de garantie</string>
+    <string name="deposit_terms">Dépôt de garantie</string>
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
@@ -2659,7 +2659,7 @@
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% de nos clients recommandent cet hôtel.</string>
     <!-- new material Hotel results cell guest rating -->
-    <string name="customer_rating_percent_Template">{rating} {percent}</string>
+    <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">sur 5 - avis clients</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
