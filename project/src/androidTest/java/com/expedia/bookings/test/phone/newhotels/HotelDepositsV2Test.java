@@ -117,7 +117,6 @@ public class HotelDepositsV2Test extends HotelTestCase {
 
 	}
 
-
 	public void goToResults() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);

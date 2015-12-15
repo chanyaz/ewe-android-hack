@@ -24,10 +24,6 @@ public class LogInScreen {
 		return onView(allOf(withId(R.id.input_text), withParent(withId(R.id.password))));
 	}
 
-	public static ViewInteraction facebookButton() {
-		return onView(withId(R.id.sign_in_with_facebook_button));
-	}
-
 	public static ViewInteraction logInButton() {
 		return onView(withId(R.id.sign_in_button));
 	}

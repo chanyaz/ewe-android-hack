@@ -173,13 +173,13 @@ public class LXScreen {
 	}
 
 	public static ViewInteraction searchWidgetToolbarNavigation() {
-		return onView(allOf(withParent(withParent(withId(R.id.search_params_widget))), withParent(withId(R.id.toolbar)),
+		return onView(allOf(isDescendantOfA(withId(R.id.search_params_widget)), withParent(withId(R.id.toolbar)),
 			isAssignableFrom(ImageButton.class)));
 	}
 
 	public static ViewInteraction resultsPresenterToolbarNavigation() {
 		return onView(
-			allOf(withParent(withParent(withId(R.id.search_list_presenter))), withParent(withId(R.id.toolbar)),
+			allOf(isDescendantOfA(withId(R.id.search_list_presenter)), withParent(withId(R.id.toolbar)),
 				isAssignableFrom(ImageButton.class)));
 	}
 

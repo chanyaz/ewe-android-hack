@@ -20,9 +20,7 @@ import static com.expedia.bookings.test.phone.newhotels.HotelScreen.selectRoom;
 import static com.expedia.bookings.test.phone.newhotels.HotelScreen.slideToPurchase;
 import static org.hamcrest.Matchers.allOf;
 
-
-
-public class NewHotelConfirmationTest extends HotelTestCase {
+public class HotelConfirmationTest extends HotelTestCase {
 
 	public void testConfirmationView() throws Throwable {
 		doGenericSearch();
