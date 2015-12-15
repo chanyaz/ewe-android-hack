@@ -1,8 +1,5 @@
 package com.expedia.bookings.featureconfig;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 
@@ -21,6 +18,9 @@ import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.fragment.AboutSectionFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
 	@Override
