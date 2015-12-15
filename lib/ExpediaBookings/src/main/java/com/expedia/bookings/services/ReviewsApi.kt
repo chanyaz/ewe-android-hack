@@ -15,6 +15,6 @@ public interface ReviewsApi {
                             @Query("sortBy") sort: String,
                             @Query("start") start: Int,
                             @Query("items") items: Int,
-                            @Query("languageSort") languageSort: String): Observable<HotelReviewsResponse>
+                            @Query("locale") locale: String): Observable<HotelReviewsResponse>
 
 }

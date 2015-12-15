@@ -72,7 +72,7 @@ public class HotelReviewsTest {
     }
 
     private fun getExpectedReviewRequestStr(startParam: Int): String {
-        return "/api/hotelreviews/hotel/%s?sortBy=RATINGASC&start=%d&items=25&languageSort=en_US".format(HOTEL_ID, startParam)
+        return "/api/hotelreviews/hotel/%s?sortBy=RATINGASC&start=%d&items=25&locale=en_US".format(HOTEL_ID, startParam)
     }
 
     @Test
