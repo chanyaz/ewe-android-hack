@@ -2627,7 +2627,7 @@
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">Connessione Internet assente</string>
     <!-- The label for deposit terms button -->
-    <string name="deposit_terms">Termini del deposito cauzionale</string>
+    <string name="deposit_terms">Deposito</string>
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->

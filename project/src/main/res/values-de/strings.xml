@@ -2628,7 +2628,7 @@
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">Keine Internetverbindung</string>
     <!-- The label for deposit terms button -->
-    <string name="deposit_terms">Anzahlungsbedingungen</string>
+    <string name="deposit_terms">Anzahlung</string>
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->

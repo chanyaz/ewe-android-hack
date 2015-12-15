@@ -2627,7 +2627,7 @@
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">Pas de connexion Internet</string>
     <!-- The label for deposit terms button -->
-    <string name="deposit_terms">Conditions relatives à l\&apos;acompte</string>
+    <string name="deposit_terms">Acompte</string>
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
@@ -2885,7 +2885,7 @@
     <!-- View Room button text -->
     <string name="view_room_button_text">Afficher la chambre</string>
     <!-- Book Room button text -->
-    <string name="book_room_button_text">Livre</string>
+    <string name="book_room_button_text">Réserver</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Partager sur</string>
     <!-- Renovation Notice -->
