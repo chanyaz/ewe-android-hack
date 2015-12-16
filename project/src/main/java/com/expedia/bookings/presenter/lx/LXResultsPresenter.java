@@ -441,6 +441,7 @@ public class LXResultsPresenter extends Presenter {
 			searchResultsWidget.setVisibility(VISIBLE);
 			searchResultObserver.searchType = event.lxSearchParams.searchType;
 			searchResultObserver.widget = searchResultsWidget;
+			searchResultFilterObserver.widget = searchResultsWidget;
 			searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams,
 				areExternalFiltersSupplied ? new LXSortFilterMetadata(filters) : null,
 				areExternalFiltersSupplied ? searchResultFilterObserver : searchResultObserver);
