@@ -2127,6 +2127,12 @@ public class OmnitureTracking {
 	private static final String LX_CATEGORY_TEST = "App.LX.Category";
 	private static final String LX_SEARCH_CATEGORIES = "App.LX.Search.Categories";
 
+	public static void trackFirstActivityListingExpanded() {
+		Log.d(TAG, "Tracking \"" + LX_LOB + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXFirstActivityListingExpanded);
+		s.track();
+	}
 
 	public static void trackAppLXCategoryABTest() {
 		Log.d(TAG, "Tracking \"" + LX_CATEGORY_TEST + "\" category...");
