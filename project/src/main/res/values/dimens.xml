@@ -214,6 +214,9 @@
     <dimen name="breakdown_indentation">17dp</dimen>
     <dimen name="breakdown_text_margin">8dp</dimen>
 
+    <!-- Hotel information widget padding-->
+    <dimen name="widget_hotel_info_padding">18dp</dimen>
+
     <!-- Hotel Checkout -->
     <!-- -1px == match_parent forall screen sizes -->
     <!-- This is overridden for tablets in landscape -->
