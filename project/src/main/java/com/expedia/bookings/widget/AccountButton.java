@@ -326,7 +326,7 @@ public class AccountButton extends LinearLayout {
 				}
 				break;
 			case LX:
-				youllEarnRewardsPointsText = Html.fromHtml(mContext.getString(R.string.youll_earn_points_TEMPLATE, rewardPoints));
+				youllEarnRewardsPointsText = Html.fromHtml(mContext.getString(R.string.youll_earn_points_ab_test_3x_TEMPLATE, rewardPoints));
 			}
 		}
 
