@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
-import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -306,7 +306,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 			&& Db.getTripBucket().getFlight() != null
 			&& !TextUtils.isEmpty(Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber())) {
 			// Disable Google Wallet if not a valid payment type
-			if (!Db.getTripBucket().getFlight().isCardTypeSupported(CreditCardType.GOOGLE_WALLET)) {
+			if (!Db.getTripBucket().getFlight().isPaymentTypeSupported(PaymentType.WALLET_GOOGLE)) {
 				Log.d("disableGoogleWallet: safeGoogleWalletTripPaymentTypeCheck");
 				checkoutFrag.disableGoogleWallet();
 			}

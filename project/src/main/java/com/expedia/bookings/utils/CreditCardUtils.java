@@ -4,7 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.PaymentType;
 
 public class CreditCardUtils {
 
@@ -14,45 +14,46 @@ public class CreditCardUtils {
 	 * @param context
 	 * @return
 	 */
-	public static String getHumanReadableName(Context context, CreditCardType type) {
+	public static String getHumanReadableName(Context context, PaymentType type) {
 		return getHumanReadableCardTypeName(context, type);
 	}
 
 	/**
 	 * Need to display a card type name? Use this method.
 	 * <p/>
-	 * CreditCardType.MASTERCARD -> Master Card
+	 * Payment.CARD_MASTERCARD -> Master Card
 	 *
 	 * @param context
 	 * @param cardType
 	 * @return Human readable representation of cardType
 	 */
 	@SuppressLint("DefaultLocale")
-	public static String getHumanReadableCardTypeName(Context context, CreditCardType cardType) {
+	public static String getHumanReadableCardTypeName(Context context, PaymentType cardType) {
+		assertPaymentTypeIsCardOrGoogleWallet(cardType);
 		switch (cardType) {
-		case AMERICAN_EXPRESS:
+		case CARD_AMERICAN_EXPRESS:
 			return context.getString(R.string.cc_american_express);
-		case CARTE_BLANCHE:
+		case CARD_CARTE_BLANCHE:
 			return context.getString(R.string.cc_carte_blanche);
-		case CHINA_UNION_PAY:
+		case CARD_CHINA_UNION_PAY:
 			return context.getString(R.string.cc_china_union_pay);
-		case DINERS_CLUB:
+		case CARD_DINERS_CLUB:
 			return context.getString(R.string.cc_diners_club);
-		case DISCOVER:
+		case CARD_DISCOVER:
 			return context.getString(R.string.cc_discover);
-		case JAPAN_CREDIT_BUREAU:
+		case CARD_JAPAN_CREDIT_BUREAU:
 			return context.getString(R.string.cc_japan_credit_bureau);
-		case MAESTRO:
+		case CARD_MAESTRO:
 			return context.getString(R.string.cc_maestro);
-		case MASTERCARD:
+		case CARD_MASTERCARD:
 			return context.getString(R.string.cc_master_card);
-		case VISA:
+		case CARD_VISA:
 			return context.getString(R.string.cc_visa);
-		case GOOGLE_WALLET:
+		case WALLET_GOOGLE:
 			return context.getString(R.string.google_wallet);
-		case CARTE_BLEUE:
+		case CARD_CARTE_BLEUE:
 			return context.getString(R.string.cc_carte_bleue);
-		case CARTA_SI:
+		case CARD_CARTA_SI:
 			return context.getString(R.string.cc_carta_si);
 		default:
 			// If all else fails, just return the enum
@@ -60,4 +61,10 @@ public class CreditCardUtils {
 		}
 	}
 
+	public static void assertPaymentTypeIsCardOrGoogleWallet(PaymentType cardType) {
+		if (!cardType.name().startsWith("CARD_") && !cardType.equals(PaymentType.WALLET_GOOGLE)) {
+			throw new UnsupportedOperationException("Can't use payment type "
+				+ cardType.name());
+		}
+	}
 }

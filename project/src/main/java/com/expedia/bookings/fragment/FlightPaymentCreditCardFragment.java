@@ -86,18 +86,18 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 		mSectionCreditCard.addChangeListener(new SectionChangeListener() {
 			@Override
 			public void onChange() {
-				if (mBillingInfo.getCardType() != null) {
+				if (mBillingInfo.getPaymentType() != null) {
 					TripBucketItemFlight flightItem = Db.getTripBucket().getFlight();
-					if (!flightItem.isCardTypeSupported(mBillingInfo.getCardType())) {
+					if (!flightItem.isPaymentTypeSupported(mBillingInfo.getPaymentType())) {
 						String cardName = CreditCardUtils
-							.getHumanReadableName(getActivity(), mBillingInfo.getCardType());
+							.getHumanReadableName(getActivity(), mBillingInfo.getPaymentType());
 						String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, cardName);
 						updateCardMessage(message, getResources().getColor(R.color.flight_card_unsupported_warning));
 						toggleCardMessage(true, true);
 					}
-					else if (flightItem.getCardFee(mBillingInfo) != null) {
+					else if (flightItem.getPaymentFee(mBillingInfo) != null) {
 						String message = getString(R.string.airline_processing_fee_TEMPLATE,
-							flightItem.getCardFee(mBillingInfo).getFormattedMoney());
+							flightItem.getPaymentFee(mBillingInfo).getFormattedMoney());
 						updateCardMessage(message, getResources().getColor(R.color.flight_card_airline_fee_warning));
 						toggleCardMessage(true, true);
 					}

@@ -11,7 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.NumberMaskFormatter;
@@ -47,38 +47,38 @@ public class CreditCardSection extends RelativeLayout {
 		}
 	}
 
-	public void bind(String name, CreditCardType type, String cardNumber) {
+	public void bind(String name, PaymentType type, String cardNumber) {
 		int resId = 0;
 		if (type != null) {
 			switch (type) {
-			case AMERICAN_EXPRESS:
+			case CARD_AMERICAN_EXPRESS:
 				resId = R.drawable.ic_amex_grey_cvv;
 				break;
-			case CARTE_BLANCHE:
+			case CARD_CARTE_BLANCHE:
 				resId = R.drawable.ic_carte_blanche_grey_cvv;
 				break;
-			case CARTE_BLEUE:
+			case CARD_CARTE_BLEUE:
 				resId = R.drawable.ic_carte_bleue_grey_cvv;
 				break;
-			case CHINA_UNION_PAY:
+			case CARD_CHINA_UNION_PAY:
 				resId = R.drawable.ic_union_pay_grey_cvv;
 				break;
-			case DINERS_CLUB:
+			case CARD_DINERS_CLUB:
 				resId = R.drawable.ic_diners_club_grey_cvv;
 				break;
-			case DISCOVER:
+			case CARD_DISCOVER:
 				resId = R.drawable.ic_discover_grey_cvv;
 				break;
-			case JAPAN_CREDIT_BUREAU:
+			case CARD_JAPAN_CREDIT_BUREAU:
 				resId = R.drawable.ic_jcb_grey_cvv;
 				break;
-			case MAESTRO:
+			case CARD_MAESTRO:
 				resId = R.drawable.ic_maestro_grey_cvv;
 				break;
-			case MASTERCARD:
+			case CARD_MASTERCARD:
 				resId = R.drawable.ic_master_card_grey_cvv;
 				break;
-			case VISA:
+			case CARD_VISA:
 				resId = R.drawable.ic_visa_grey_cvv;
 				break;
 			default:
@@ -114,7 +114,7 @@ public class CreditCardSection extends RelativeLayout {
 		}
 
 		// Show front or back of card (front for amex, back for everything else)
-		boolean amex = type == CreditCardType.AMERICAN_EXPRESS;
+		boolean amex = type == PaymentType.CARD_AMERICAN_EXPRESS;
 		showHide(amex, R.id.amex_container);
 		showHide(!amex, R.id.other_cards_container, R.id.signature_strip_frame, R.id.cvv_prompt_text_view, R.id.not_valid_unless_signed_text, R.id.cc_logo_image_view);
 	}

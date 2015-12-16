@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
@@ -122,7 +122,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 				@Override
 				public void onClick(View v) {
 					String text;
-					CreditCardType type = mStoredCard.getType();
+					PaymentType type = mStoredCard.getType();
 					if (type != null) {
 						int msg = 0;
 						if (mLob == LineOfBusiness.FLIGHTS) {
@@ -235,9 +235,9 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 					throw new RuntimeException("LineOfBusiness must be set and TripBucketItem cannot be null");
 				}
 
-				final CreditCardType type = mStoredCard.getType();
-				final Money cardFee = item.getCardFee(type);
-				if (!item.isCardTypeSupported(type)) {
+				final PaymentType type = mStoredCard.getType();
+				final Money cardFee = item.getPaymentFee(type);
+				if (!item.isPaymentTypeSupported(type)) {
 					Resources res = getResources();
 					int errorIconResId;
 					if (AndroidUtils.isTablet(getContext())) {
