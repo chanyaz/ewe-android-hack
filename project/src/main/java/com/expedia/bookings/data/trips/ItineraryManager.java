@@ -1354,15 +1354,18 @@ public class ItineraryManager implements JSONable {
 				// make request to the /me API
 				Response rep = Request.newMeRequest(session, null).executeAndWait();
 				GraphUser user = rep.getGraphObjectAs(GraphUser.class);
-				String fbUserId = user.getId();
+				if (user != null) {
+					String fbUserId = user.getId();
 
-				Session fbSession = Session.getActiveSession();
-				if (fbSession != null && !fbSession.isClosed()) {
-					FacebookLinkResponse linkResponse = mServices
-						.facebookAutoLogin(fbUserId, fbSession.getAccessToken());
-					if (linkResponse != null && linkResponse.getFacebookLinkResponseCode() != null && linkResponse
-						.isSuccess()) {
-						Log.w(LOGGING_TAG, "FB: Autologin success" + linkResponse.getFacebookLinkResponseCode().name());
+					Session fbSession = Session.getActiveSession();
+					if (fbSession != null && !fbSession.isClosed()) {
+						FacebookLinkResponse linkResponse = mServices
+							.facebookAutoLogin(fbUserId, fbSession.getAccessToken());
+						if (linkResponse != null && linkResponse.getFacebookLinkResponseCode() != null && linkResponse
+							.isSuccess()) {
+							Log.w(LOGGING_TAG,
+								"FB: Autologin success" + linkResponse.getFacebookLinkResponseCode().name());
+						}
 					}
 				}
 			}
@@ -1410,7 +1413,7 @@ public class ItineraryManager implements JSONable {
 				if (response == null || response.hasErrors()) {
 					if (response != null && response.hasErrors()) {
 						Log.w(LOGGING_TAG, "Error updating trip " + trip.getItineraryKey() + ": "
-								+ response.gatherErrorMessage(mContext));
+							+ response.gatherErrorMessage(mContext));
 
 						// If it's a guest trip, and we've never retrieved info on it, it may be invalid.
 						// As such, we should remove it (but don't remove a trip if it's ever been loaded
@@ -1817,7 +1820,8 @@ public class ItineraryManager implements JSONable {
 				boolean showAirAttach = itinCardDataFlight.showAirAttach();
 				// Check if user qualifies for air attach
 				if (isUserAirAttachQualified && showAirAttach) {
-					return HotelCrossSellUtils.generateHotelSearchParamsFromItinData((TripFlight) itinCardDataFlight.getTripComponent(),
+					return HotelCrossSellUtils.generateHotelSearchParamsFromItinData(
+						(TripFlight) itinCardDataFlight.getTripComponent(),
 						itinCardDataFlight.getFlightLeg(), itinCardDataFlight.getNextFlightLeg());
 				}
 			}
@@ -1902,7 +1906,8 @@ public class ItineraryManager implements JSONable {
 						notification = existing;
 					}
 
-					String time = com.expedia.bookings.utils.DateUtils.convertMilliSecondsForLogging(notification.getTriggerTimeMillis());
+					String time = com.expedia.bookings.utils.DateUtils.convertMilliSecondsForLogging(
+						notification.getTriggerTimeMillis());
 					Log.i(LOGGING_TAG, "Notification scheduled for " + time);
 
 					// This is just to get the notifications to show up frequently for development
