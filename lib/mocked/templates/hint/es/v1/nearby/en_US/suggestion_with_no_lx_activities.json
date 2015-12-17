@@ -1,0 +1,52 @@
+{
+    "q": "latlong=28.4895157|77.092398&tla=&siteid=1&type=14&knnsearch=true&maxradius=200",
+    "rid": "d1582669-44e7-400a-8973-8d2f9885d14d",
+    "rc": "OK",
+    "r": [
+        {
+            "i": "0",
+            "f": "search_failure",
+            "d": "search_failure",
+            "id": "6271700",
+            "gaiaId": "487583682572321818",
+            "t": "CITY",
+            "rt": "CITY",
+            "s": "Global Business Park",
+            "l": "Global Business Park, Gurgaon, India",
+            "ll": {
+                "lat": "28.480795",
+                "lng": "77.102457"
+            },
+            "a": "DEL",
+            "amc": "180000",
+            "c": "India",
+            "cc": "IN",
+            "ccc": "IND",
+            "hc": "662",
+            "pb": "true",
+            "pt": [
+                {
+                    "@type": "packageTLA",
+                    "id": "6000184",
+                    "gaiaId": "319476416666141766",
+                    "popularity": "70.0",
+                    "t": "DEL",
+                    "f": "Delhi, India (DEL-Indira Gandhi Intl.)",
+                    "s": "Delhi (DEL-Indira Gandhi Intl.)",
+                    "p": "true",
+                    "m": "false",
+                    "ll": {
+                        "lat": "28.555741",
+                        "lng": "77.086145"
+                    },
+                    "i": "0",
+                    "isMinorAirport": "false"
+                }
+            ],
+            "distInKM": "1.382056560369738",
+            "distInMI": "0.8589537354690726",
+            "rangeUsedInKM": "321.8",
+            "rangeUsedInMI": "200.0"
+        }
+    ]
+}

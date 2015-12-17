@@ -12,15 +12,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutWebViewActivity;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.AndroidUtils;
+import com.squareup.phrase.Phrase;
 
 // Methods that tie together TabletAboutActivity and AboutActivity
 public class AboutUtils {
@@ -40,7 +41,7 @@ public class AboutUtils {
 	public Dialog createContactExpediaDialog(final Runnable onDismiss) {
 		AlertDialog.Builder builder = new Builder(mActivity, R.style.LightDialog);
 
-		builder.setTitle(Ui.obtainThemeResID(mActivity, R.attr.infoContactUsString));
+		builder.setTitle(Phrase.from(mActivity, R.string.contact_via_TEMPLATE).put("brand", BuildConfig.brand).format());
 
 		// Figure out which items to display to the user
 		List<String> items = new ArrayList<String>();
@@ -59,7 +60,7 @@ public class AboutUtils {
 		items.add(mActivity.getString(R.string.contact_expedia_website));
 		actions.add(new Runnable() {
 			public void run() {
-				contactViaWeb();
+				ProductFlavorFeatureConfiguration.getInstance().contactUsViaWeb(mActivity);
 			}
 		});
 
@@ -92,87 +93,17 @@ public class AboutUtils {
 		return builder.create();
 	}
 
-	@SuppressLint("NewApi")
-	public Dialog createExpediaWebsiteDialog(final Runnable onDismiss) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(mActivity, R.style.LightDialog);
-
-		builder.setMessage(Ui.obtainThemeResID(mActivity, R.attr.dialogMessageLaunchMobileSite));
-		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				if (onDismiss != null) {
-					onDismiss.run();
-				}
-			}
-		});
-		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				openExpediaWebsite();
-
-				if (onDismiss != null) {
-					onDismiss.run();
-				}
-			}
-		});
-		if (onDismiss != null) {
-			builder.setOnCancelListener(new OnCancelListener() {
-				@Override
-				public void onCancel(DialogInterface dialog) {
-					onDismiss.run();
-				}
-			});
-		}
-
-		return builder.create();
-	}
-
 	public void contactViaPhone() {
 		trackCallSupport();
 		SocialUtils.call(mActivity, PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
-	}
-
-	public void contactViaWeb() {
-		openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
-	}
-
-	public void contactViaEmail() {
-		trackEmailSupport();
-		SocialUtils.email(mActivity, PointOfSale.getPointOfSale().getSupportEmail(),
-				mActivity.getString(Ui.obtainThemeResID(mActivity, R.attr.infoContactEmailSubjectString)), null);
 	}
 
 	public void openExpediaWebsite() {
 		openWebsite(mActivity, PointOfSale.getPointOfSale().getWebsiteUrl(), true);
 	}
 
-	public void openContactUsVSC() {
-		openWebsite(mActivity, "http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/pagecontactandroid.html", false, false);
-	}
-
 	public void openAppSupport() {
-		if (ExpediaBookingApp.IS_VSC) {
-			openWebsite(mActivity, mActivity.getString(R.string.app_support_url_vsc), false, true);
-		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			openWebsite(mActivity, PointOfSale.getPointOfSale().getAppSupportUrl(), false, true);
-		}
-		else if (ExpediaBookingApp.IS_AAG) {
-			openWebsite(mActivity, mActivity.getString(R.string.app_support_url_aag), false, true);
-		}
-		else if (ExpediaBookingApp.IS_EXPEDIA) {
-			openWebsite(mActivity, mActivity.getString(R.string.app_support_url), false, true);
-		}
-		else {
-			throw new RuntimeException("Did not handle app support url for current build flavor");
-		}
-	}
-
-	public void tellAFriend() {
-		trackTellAFriend();
-
-		SocialUtils.email(mActivity, mActivity.getString(Ui.obtainThemeResID(mActivity, R.attr.tellAFriendSubject)),
-			mActivity.getString(Ui.obtainThemeResID(mActivity, R.attr.tellAFriendBody)));
+		openWebsite(mActivity, ProductFlavorFeatureConfiguration.getInstance().getAppSupportUrl(mActivity), false, true);
 	}
 
 	public void openCareers() {
@@ -190,11 +121,11 @@ public class AboutUtils {
 		openWebsite(mActivity, posInfo.getPrivacyPolicyUrl(), false);
 	}
 
-	private void openWebsite(Context context, String url, boolean useExternalBrowser) {
+	public static void openWebsite(Context context, String url, boolean useExternalBrowser) {
 		openWebsite(context, url, useExternalBrowser, false);
 	}
 
-	private void openWebsite(Context context, String url, boolean useExternalBrowser, boolean showEmailButton) {
+	public static void openWebsite(Context context, String url, boolean useExternalBrowser, boolean showEmailButton) {
 		if (useExternalBrowser) {
 			SocialUtils.openSite(context, url);
 		}
@@ -211,47 +142,27 @@ public class AboutUtils {
 
 	public void trackAboutActivityPageLoad() {
 		Log.d("Tracking \"App.Hotel.Support\" pageLoad");
-		OmnitureTracking.trackSimpleEvent(mActivity, "App.Hotel.Support", null, null);
+		OmnitureTracking.trackSimpleEvent("App.Hotel.Support", null, null);
 	}
 
 	public void trackCallSupport() {
 		Log.d("Tracking \"call support\" onClick");
-		OmnitureTracking.trackSimpleEvent(mActivity, null, "event35", "App.Info.CallSupport");
-	}
-
-	public void trackEmailSupport() {
-		Log.d("Tracking \"email support\" onClick");
-		OmnitureTracking.trackSimpleEvent(mActivity, null, "event36", "App.Info.EmailSupport");
-	}
-
-	public void trackTellAFriend() {
-		Log.d("Tracking \"tell a friend\" onClick");
-		OmnitureTracking.trackSimpleEvent(mActivity, null, null, "App.Info.TellAFriend");
-	}
-
-	public void trackFlightTrackFreeLink() {
-		Log.d("Tracking \"flighttrackfree\" onClick");
-		OmnitureTracking.trackSimpleEvent(mActivity, null, null, "App.Link.FlightTrackFree");
+		OmnitureTracking.trackSimpleEvent(null, "event35", "App.Info.CallSupport");
 	}
 
 	public void trackFlightTrackLink() {
 		Log.d("Tracking \"flighttrack\" onClick");
-		OmnitureTracking.trackSimpleEvent(mActivity, null, null, "App.Link.FlightTrack");
+		OmnitureTracking.trackSimpleEvent(null, null, "App.Link.FlightTrack");
 	}
 
 	public void trackFlightBoardLink() {
 		Log.d("Tracking \"flightboard\" onClick");
-		OmnitureTracking.trackSimpleEvent(mActivity, null, null, "App.Link.FlightBoard");
+		OmnitureTracking.trackSimpleEvent(null, null, "App.Link.FlightBoard");
 	}
 
 	public void trackHiringLink() {
 		Log.d("Tracking \"hiring\" onClick");
-		OmnitureTracking.trackSimpleEvent(mActivity, null, null, "App.Link.Mobiata.Jobs");
-	}
-
-	public void trackFeedbackPageLoad() {
-		Log.d("Tracking \"App.Feedback\" pageLoad");
-		OmnitureTracking.trackSimpleEvent(mActivity, "App.Feedback", null, null);
+		OmnitureTracking.trackSimpleEvent(null, null, "App.Link.Mobiata.Jobs");
 	}
 
 	public void trackFeedbackSubmitted() {
@@ -259,6 +170,6 @@ public class AboutUtils {
 
 		// TODO: referrerId should display the # of stars the user gave us, however we cannot get
 		// that information from OpinionLab yet.
-		OmnitureTracking.trackSimpleEvent(mActivity, null, "event37", null);
+		OmnitureTracking.trackSimpleEvent(null, "event37", null);
 	}
 }

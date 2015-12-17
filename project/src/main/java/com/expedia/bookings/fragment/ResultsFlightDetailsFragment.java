@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.Calendar;
-
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -37,9 +35,9 @@ import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.RingedCountView;
 import com.expedia.bookings.widget.TextView;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
@@ -62,10 +60,8 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 		return frag;
 	}
 
-	private Flight mFlight;
-
 	// Views
-	private FrameLayoutTouchController mRootC;
+	private TouchableFrameLayout mRootC;
 	private ViewGroup mDetailsC;
 	private ScrollView mScrollC;
 	private FlightLegSummarySectionTablet mAnimationFlightRow;
@@ -197,7 +193,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 		mTimeHeaderTv.setText(time);
 
 		// Add for $390
-		mPriceTv.setText(trip.getTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
+		mPriceTv.setText(trip.getAverageTotalFare().getFormattedMoney(Money.F_NO_DECIMAL));
 		mAddTripTv.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -224,8 +220,8 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 		// Flight Leg container
 
 		//Arrival / Departure times
-		Calendar depTime = flightLeg.getFirstWaypoint().getBestSearchDateTime();
-		Calendar arrTime = flightLeg.getLastWaypoint().getBestSearchDateTime();
+		DateTime depTime = flightLeg.getFirstWaypoint().getBestSearchDateTime();
+		DateTime arrTime = flightLeg.getLastWaypoint().getBestSearchDateTime();
 
 		FlightSegmentSection flightSegmentSection;
 
@@ -245,7 +241,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 				Flight prevFlight = flightLeg.getSegment(i - 1);
 				Layover layover = new Layover(prevFlight, flight);
 				String duration = DateTimeUtils.formatDuration(getResources(), layover.mDuration);
-				String waypoint = StrUtils.formatWaypoint(flight.mOrigin);
+				String waypoint = StrUtils.formatWaypoint(flight.getOriginWaypoint());
 
 				ViewGroup layoverC = Ui.inflate(R.layout.snippet_tablet_flight_layover, mFlightLegsC, false);
 				TextView tv = Ui.findView(layoverC, R.id.flight_details_layover_text_view);
@@ -283,10 +279,9 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 		startActivity(intent);
 	}
 
-	private String formatTime(Calendar cal) {
-		DateTime datetime = new DateTime(cal);
+	private String formatTime(DateTime cal) {
 		DateTimeFormatter format = DateTimeFormat.forPattern("MMM dd, h:mm a");
-		return format.print(datetime);
+		return format.print(cal);
 	}
 
 	/*

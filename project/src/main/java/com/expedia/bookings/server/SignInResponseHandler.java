@@ -8,9 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-import android.text.TextUtils;
-
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.ServerError;
@@ -23,16 +20,11 @@ import com.expedia.bookings.data.Traveler.SeatPreference;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.UserPreference;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
 public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
-
-	private Context mContext;
-
-	public SignInResponseHandler(Context context) {
-		mContext = context;
-	}
 
 	@Override
 	public SignInResponse handleJson(JSONObject response) {
@@ -42,7 +34,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 
 		try {
 			// Check for errors
-			signInResponse.addErrors(ParserUtils.parseErrors(mContext, ServerError.ApiMethod.SIGN_IN, response));
+			signInResponse.addErrors(ParserUtils.parseErrors(ServerError.ApiMethod.SIGN_IN, response));
 			signInResponse.setSuccess(response.optBoolean("success", true));
 
 			if (signInResponse.isSuccess()) {
@@ -91,6 +83,10 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 						JSONObject passport = passports.optJSONObject(a);
 						traveler.addPassportCountry(passport.optString("countryCode"));
 					}
+					if (traveler.getPassportCountries().size() > 1) { // multiple passports.
+						// force customer to select a passport (#4834)
+						traveler.setPrimaryPassportCountry(null);
+					}
 				}
 
 				JSONObject tsaDetails = response.optJSONObject("tsaDetails");
@@ -109,7 +105,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 					}
 
 					String dateOfBirth = tsaDetails.optString("dateOfBirth", null);
-					if (!TextUtils.isEmpty(dateOfBirth)) {
+					if (Strings.isNotEmpty(dateOfBirth)) {
 						traveler.setBirthDate(LocalDate.parse(dateOfBirth));
 					}
 
@@ -129,7 +125,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 						JSONObject sccJson = ccArr.optJSONObject(a);
 						StoredCreditCard scc = new StoredCreditCard();
 						String type = sccJson.optString("creditCardType", null);
-						if (!TextUtils.isEmpty(type)) {
+						if (Strings.isNotEmpty(type)) {
 							scc.setType(CurrencyUtils.parseCardType(type));
 						}
 						scc.setDescription(sccJson.optString("description", null));
@@ -165,10 +161,9 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 		traveler.setFirstName(obj.optString("firstName", null));
 		traveler.setMiddleName(obj.optString("middleName", null));
 		traveler.setLastName(obj.optString("lastName", null));
-		traveler.setLoyaltyMembershipNumber(obj.optString("loyaltyMembershipNumber", null));
 		traveler.setLoyaltyMembershipActive(obj.optBoolean("loyaltyMemebershipActive", false));
 		traveler.setLoyaltyMembershipName(obj.optString("loyaltyMemebershipName", null));
-		traveler.setMembershipTierName(obj.optString("membershipTierName", null));
+		traveler.setLoyaltyMembershipTier(obj.optString("membershipTierName", null));
 		return traveler;
 	}
 
@@ -181,11 +176,11 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 		// storage and parsing and this method covers all the cases.
 		StringBuilder phoneNumberBuilder = new StringBuilder();
 		String areaCode = phoneJson.optString("areaCode", null);
-		if (!TextUtils.isEmpty(areaCode)) {
+		if (Strings.isNotEmpty(areaCode)) {
 			phoneNumberBuilder.append(areaCode);
 		}
 		String phoneNumber = phoneJson.optString("number", null);
-		if (!TextUtils.isEmpty(phoneNumber)) {
+		if (Strings.isNotEmpty(phoneNumber)) {
 			phoneNumberBuilder.append(phoneNumber);
 		}
 		phone.setNumber(phoneNumberBuilder.toString());

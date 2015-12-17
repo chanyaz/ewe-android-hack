@@ -4,10 +4,6 @@
     <dimen name="hotel_checkout_overview_width">@dimen/standard_content_width</dimen>
 
     <!-- Trip Bucket -->
-    <dimen name="hotel_flight_card_width">335dp</dimen>
-    <dimen name="trip_bucket_undo_bar_width">335dp</dimen>
-
-    <!-- Checkout -->
-    <dimen name="tablet_checkout_trip_bucket_expanded_item_height">196dp</dimen>
+    <fraction name="results_grid_tripbucket_height">23%</fraction>
 
 </resources>

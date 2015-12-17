@@ -3,7 +3,7 @@
 
     <item
         android:id="@+id/menu_select_search"
-        android:icon="?attr/actionBarCheckMarkDrawable"
+        android:icon="?attr/skin_actionBarCheckMarkDrawable"
         android:showAsAction="always|withText"
         android:title="@string/SEARCH"/>
 

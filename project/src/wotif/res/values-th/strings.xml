@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="call_wotif_customer_support">โทรติดต่อฝ่ายบริการลูกค้า Wotif</string>
+
+    <!-- Log in with Wotif -->
+    <string name="Log_in_with_Wotif">เข้าสู่ระบบด้วย Wotif</string>
+    <!-- Label for signin screen -->
+    <string name="wotif_account">บัญชี Wotif</string>
+    <!-- Content description for action: Press to log in with your Wotif account -->
+    <string name="cd_checkout_log_in_with_wotif">กดเพื่อเข้าสู่ระบบบัญชี Wotif ของคุณ</string>
+
+    <string name="wotif_website">เว็บไซต์ Wotif</string>
+    <string name="wotif_app_support">ฝ่ายสนับสนุนแอพ Wotif</string>
+    <string name="wotif_copyright_TEMPLATE">© ลิขสิทธิ์ 2012-%1$s Wotif\nสงวนลิขสิทธิ์</string>
+    <string name="wotif_info_url">http://www.wotif.com/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_wotif">คุณต้องการออกจากระบบบัญชี Wotif หรือไม่</string>
+
+    <!-- Expedia booking fee -->
+    <string name="wotif_booking_fee">ค่าธรรมเนียมการจอง Wotif</string>
+
+    <string name="error_flight_unhandled_wotif_TEMPLATE">ขออภัย เราไม่สามารถดำเนินการคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองอีกครั้งหรือโทรติดต่อฝ่ายบริการลูกค้า Wotif และแจ้งหมายเลขแผนเดินทางนี้: %s</string>
+    <string name="error_server_wotif">ขออภัย เราไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ Wotif  โปรดลองอีกครั้งภายหลัง</string>
+
+    <!-- save billing info message -->
+    <string name="save_billing_wotif_info_message">บันทึกวิธีการชำระเงินนี้ไว้ในบัญชี Wotif ของคุณ เพื่อให้จองได้รวดเร็วขึ้นในครั้งถัดไป?</string>
+
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_wotif_message_TEMPLATE">บันทึกข้อมูลของ %1$s ไว้ในบัญชี Wotif ของคุณเพื่อให้จองได้รวดเร็วขึ้นในครั้งถัดไป?</string>
+
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE_wotif">หมายเลขแผนการเดินทาง Wotif: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE_wotif">ฝ่ายบริการลูกค้า Wotif: %s</string>
+
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data_wotif">คุณออกจากระบบบัญชี Wotif และล้างข้อมูลการเงินและข้อมูลติดต่อทั้งหมดแล้ว</string>
+
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure_wotif">ขออภัย ระบบไม่สามารถเชื่อมต่อกับ Wotif ได้ โปรดลองอีกครั้ง</string>
+
+    <!-- Phone Fragment Header-->
+    <string name="nav_accommodation">ที่พัก</string>
+    
+    <!-- Shop travel label -->
+    <string name="shop_travel">จองการเดินทาง</string>
+
+    <!-- Title for different ways to connect to Expedia -->
+    <string name="contact_wotif_via">ติดต่อ Wotif ผ่านทาง…</string>
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_wotif_email_subject">ฝ่ายช่วยเหลือเกี่ยวกับการจอง Wotif</string>
+    <!-- Wotif- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_wotif">หากคุณมีคำถามเกี่ยวกับการจอง โปรดโทรติดต่อ Wotif ที่ %s</string>
+    <!-- Wotif Itinerary -->
+    <string name="wotif_itinerary">หมายเลขแผนการเดินทาง Wotif</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Wotif</string>
+
+    <string name="error_flight_no_longer_available_wotif">ขออภัย เที่ยวบินของคุณไม่มีแล้วบน Wotif</string>
+
+    <string name="error_flights_no_longer_available_wotif">ขออภัย หนึ่งในเที่ยวบินของคุณไม่มีแล้วบน Wotif</string>
+
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out_wotif">ขออภัย โรงแรมนี้ขายหมดแล้วบน Wotif</string>
+    <!--A message stating this hotel is Not currently available on Wotif -->
+    <string name="not_currently_available_wotif">ไม่มีให้บริการในขณะนี้บน Wotif</string>
+    <!-- A message stating this hotel is sold out on Wotif -->
+    <string name="sold_out_on_wotif">ขายหมดแล้วบน Wotif</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Wotif Nov. 3-4" -->
+    <string name="not_currently_available_wotif_TEMPLATE">ขายหมดแล้วบน Wotif %s</string>
+
+    <!-- Missing strings for Wotif from Expedia-->
+    <string name="tell_a_friend_body_wotif">สวัสดีค่ะ \n\n คุณลองดาวน์โหลดแอพ Wotif Hotels สำหรับ iPhone และ Android แล้วหรือยัง แอพฟรีนี้ช่วยให้คุณค้นหาและจองโรงแรมกว่า 140,000 แห่งทั่วโลกได้ง่ายๆ ผ่านมือถือของคุณ</string>
+    <string name="tell_a_friend_subject_wotif">โรงแรม Wotif</string>
+    <string name="restricted_profile_login_message_wotif">เพื่อเข้าสู่ระบบ Wotif คุณต้องใช้โปรไฟล์ที่ไม่จำกัดการใช้งานบนอุปกรณ์ของคุณ</string>
+    <string name="loading_wotif_account">กำลังโหลดบัญชี Wotif</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_wotif">คุณจองโรงแรมเรียบร้อยแล้ว! หากคุณต้องการแผนการเดินทางทันที โปรดโทรติดต่อฝ่ายบริการลูกค้า Wotif</string>
+    <string name="wotif_password_hint">รหัสผ่าน Wotif</string>
+    <string name="dialog_message_launch_wotif_mobile_site">เปิดใช้เว็บไซต์สำหรับมือถือของ Wotif หรือไม่</string>
+    <string name="sorry_rooms_sold_out_wotif">ขออภัย ห้องพักทั้งหมดขายหมดแล้วบน Wotif</string>
+    <!-- Wotif App download link -->
+    <string name="share_template_long_ad_wotif">จองโรงแรม เที่ยวบิน ดูและแชร์แผนการเดินทางของคุณ ดาวน์โหลดแอพฟรีจาก Wotif วันนี้\n%s</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">ยอดที่ต้องจ่าย Wotif วันนี้:</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">เราต้องการให้คุณสร้างบัญชีใหม่เพื่อใช้เข้าสู่ระบบเว็บไซต์ Wotif ทั่วโลก&lt;br&gt;โปรดตั้งรหัสผ่านของคุณใหม่ โดยคลิกที่ลิงก์  ‘ลืมรหัสผ่าน?’ ด้านล่าง</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today_wotif">ยอดที่ต้องจ่าย Wotif วันนี้</string>
+    <string name="etp_pay_now_charges_text_wotif">Wotif  จะดำเนินการเก็บเงินจากคุณ</string>
+</resources>

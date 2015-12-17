@@ -11,8 +11,6 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.app.Activity;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -30,10 +28,9 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.bitmaps.BitmapUtils;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PaletteCallback;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelAvailability;
 import com.expedia.bookings.data.HotelOffersResponse;
@@ -42,15 +39,18 @@ import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.TripBucket;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.VipBadgeClickListener;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
+import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IResultsHotelGalleryClickedListener;
 import com.expedia.bookings.interfaces.IResultsHotelReviewsClickedListener;
+import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.CrossContextHelper;
-import com.expedia.bookings.utils.ColorBuilder;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.Ui;
@@ -61,16 +61,14 @@ import com.expedia.bookings.widget.ScrollView;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-import com.mobiata.android.app.SimpleDialogFragment;
-import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.TimingLogger;
+import com.squareup.phrase.Phrase;
 
 /**
  * ResultsHotelDetailsFragment: The hotel details / rooms and rates
  * fragment designed for tablet results 2013
  */
-public class ResultsHotelDetailsFragment extends Fragment {
+public class ResultsHotelDetailsFragment extends Fragment implements IBackManageable {
 
 	public static ResultsHotelDetailsFragment newInstance() {
 		ResultsHotelDetailsFragment frag = new ResultsHotelDetailsFragment();
@@ -99,6 +97,20 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	private Property mCurrentProperty;
 	private int mSavedScrollPosition;
 
+	private BackManager mBackManager = new BackManager(this) {
+
+		@Override
+		public boolean handleBackPressed() {
+			BackgroundDownloader.getInstance().cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
+			return false;
+		}
+	};
+
+	@Override
+	public BackManager getBackManager() {
+		return mBackManager;
+	}
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -116,12 +128,16 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		mMobileExclusiveContainer = Ui.findView(mRootC, R.id.mobile_exclusive_container);
 		mHeaderContainer = Ui.findView(mRootC, R.id.header_container);
 		mProgressContainer = Ui.findView(mRootC, R.id.progress_spinner_container);
-		mUserRatingContainer = Ui.findView(mRootC, R.id.user_rating_container);
 		mReviewsC = Ui.findView(mRootC, R.id.reviews_container);
 		mScrollView = Ui.findView(mRootC, R.id.scrolling_content);
 		mRoomsRatesContainer = Ui.findView(mRootC, R.id.rooms_rates_container);
 		mSoldOutContainer = Ui.findView(mRootC, R.id.rooms_sold_out_container);
 		toggleLoadingState(true);
+
+		TextView soldOut = Ui.findView(mRootC, R.id.all_rooms_sold_out);
+		soldOut.setText(
+			Phrase.from(getActivity(), R.string.sorry_rooms_sold_out_TEMPLATE).put("brand", BuildConfig.brand)
+				.format());
 		return mRootC;
 	}
 
@@ -145,6 +161,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		mBackManager.registerWithParent(this);
 		mMeasurementHelper.registerWithProvider(this);
 		Events.register(this);
 		if (mSavedScrollPosition != 0) {
@@ -155,6 +172,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	@Override
 	public void onPause() {
 		super.onPause();
+		mBackManager.unregisterWithParent(this);
 		mMeasurementHelper.unregisterWithProvider(this);
 		Events.unregister(this);
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
@@ -180,10 +198,11 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			scrollFragmentToTop();
 			toggleLoadingState(true);
 			prepareDetailsForInfo(mRootC, property);
-			if (!NetUtils.isOnline(getActivity())) {
+			if (!ExpediaNetUtils.isOnline(getActivity())) {
 				Events.post(new Events.ShowNoInternetDialog(SimpleCallbackDialogFragment.CODE_TABLET_NO_NET_CONNECTION_HOTEL_DETAILS));
 				mCurrentProperty = null;
-			} else {
+			}
+			else {
 				downloadDetails();
 			}
 		}
@@ -206,27 +225,20 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		final String key = CrossContextHelper.KEY_INFO_DOWNLOAD;
 		final HotelOffersResponse infoResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
 		logger.addSplit("Get downloader and old response");
+		// Let's cancel existing download so we can start a new one or get cached response.
+		bd.cancelDownload(key);
 
+		// We may have been downloading the data elsewhere, so let's set the previous response.
 		if (infoResponse != null) {
-			// We may have been downloading the data here before getting it elsewhere, so cancel
-			// our own download once we have data
-			bd.cancelDownload(key);
-
 			// Load the data
 			mInfoCallback.onDownload(infoResponse);
 			logger.addSplit("mInfoCallback.onDownload(infoResponse)");
-
-		}
-		else if (bd.isDownloading(key)) {
-			bd.registerDownloadCallback(key, mInfoCallback);
-			logger.addSplit("bd.registerDownloadCallback(key, mInfoCallback)");
 		}
 		else {
 			bd.startDownload(key, CrossContextHelper.getHotelOffersDownload(getActivity(), key), mInfoCallback);
 			logger.addSplit("bd.startDownload");
 		}
 		logger.dumpToLog();
-
 	}
 
 	/**
@@ -273,42 +285,62 @@ public class ResultsHotelDetailsFragment extends Fragment {
 	}
 
 	private void prepareDetailsForInfo(View view, Property property) {
+		View hotelImageTouchTarget = Ui.findView(view, R.id.hotel_header_image_touch_target);
 		ImageView hotelImage = Ui.findView(view, R.id.hotel_header_image);
 		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
 
-		hotelImage.setOnClickListener(mGalleryButtonClickedListener);
+		hotelImageTouchTarget.setOnClickListener(mGalleryButtonClickedListener);
 
 		// Hotel Name
 		hotelName.setText(property.getName());
 
 		// Holder image, son
-		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
+		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelImagePlaceHolderDrawable);
 		hotelImage.setImageResource(placeholderResId);
 
-		RatingBar starRating = Ui.findView(view, R.id.star_rating_bar);
-		starRating.setVisibility(View.INVISIBLE);
+		RatingBar ratingBar;
+		// Need to hide both sets
+		ratingBar = Ui.findView(view, R.id.circle_rating_bar);
+		ratingBar.setVisibility(View.GONE);
 
-		TextView saleText = Ui.findView(view, R.id.sale_text_view);
-		saleText.setVisibility(View.GONE);
+		ratingBar = Ui.findView(view, R.id.star_rating_bar);
+		ratingBar.setVisibility(View.GONE);
 
 		setupReviews(view, property);
 	}
 
 	private void setupHeader(View view, Property property) {
-		ImageView hotelImage = Ui.findView(view, R.id.hotel_header_image);
+		final ImageView hotelImage = Ui.findView(view, R.id.hotel_header_image);
 		TextView hotelName = Ui.findView(view, R.id.hotel_header_hotel_name);
 		TextView notRatedText = Ui.findView(view, R.id.not_rated_text_view);
-		RatingBar starRating = Ui.findView(view, R.id.star_rating_bar);
+		RatingBar ratingBar;
+		if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
+			ratingBar = Ui.findView(view, R.id.circle_rating_bar);
+		}
+		else {
+			ratingBar = Ui.findView(view, R.id.star_rating_bar);
+		}
 		View vipView = Ui.findView(view, R.id.vip_badge);
-		TextView saleText = Ui.findView(view, R.id.sale_text_view);
 
 		// Hotel Name
 		hotelName.setText(property.getName());
 
 		// Hotel Image
-		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
+		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelImagePlaceHolderDrawable);
 		if (property.getThumbnail() != null) {
-			property.getThumbnail().fillImageView(hotelImage, placeholderResId, mHeaderBitmapLoadedCallback);
+			PaletteCallback mHeaderBitmapLoadedCallback = new PaletteCallback(hotelImage) {
+				@Override
+				public void onSuccess(int color) {
+					mHeaderContainer.setDominantColor(color);
+				}
+
+				@Override
+				public void onFailed() {
+					mHeaderContainer.resetDominantColor();
+				}
+			};
+
+			property.getThumbnail().fillImageView(hotelImage, placeholderResId, mHeaderBitmapLoadedCallback, null);
 		}
 		else {
 			hotelImage.setImageResource(placeholderResId);
@@ -320,30 +352,19 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		vipView.setVisibility(shouldShowVipIcon ? View.VISIBLE : View.GONE);
 		vipView.setOnClickListener(new VipBadgeClickListener(getResources(), getFragmentManager()));
 
-		// "25% OFF"
-		Rate rate = property.getLowestRate();
-		if (rate != null && rate.isOnSale() && rate.isSaleTenPercentOrBetter()) {
-			saleText.setVisibility(View.VISIBLE);
-			saleText.setText(getString(R.string.x_percent_OFF_TEMPLATE,
-				rate.getDiscountPercent()));
-		}
-		else {
-			saleText.setVisibility(View.GONE);
-		}
-
 		// Star Rating
 		float starRatingValue = (float) property.getHotelRating();
 		if (starRatingValue == 0f) {
-			starRating.setVisibility(View.GONE);
+			ratingBar.setVisibility(View.GONE);
 			notRatedText.setVisibility(View.VISIBLE);
 		}
 		else {
-			starRating.setVisibility(View.VISIBLE);
+			ratingBar.setVisibility(View.VISIBLE);
 			notRatedText.setVisibility(View.GONE);
-			starRating.setRating(starRatingValue);
+			ratingBar.setRating(starRatingValue);
 			// Adjust it so it looks centered
-			float pct = 1 - starRatingValue / starRating.getNumStars();
-			starRating.setTranslationX(pct * starRating.getWidth() / 2);
+			float pct = 1 - starRatingValue / ratingBar.getNumStars();
+			ratingBar.setTranslationX(pct * ratingBar.getWidth() / 2);
 		}
 	}
 
@@ -632,12 +653,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		final HashMap<View, int[]> oldCoordinates = new HashMap<>();
 		for (int i = mRoomsRatesContainer.getChildCount() - 1; i >= 0; i--) {
 			View v = mRoomsRatesContainer.getChildAt(i);
-			if (AndroidUtils.getSdkVersion() >= 16) {
-				v.setHasTransientState(true);
-			}
-			if (v instanceof ViewGroup) {
-				((ViewGroup) v).setClipChildren(false);
-			}
+			v.setHasTransientState(true);
 			oldCoordinates.put(v, new int[] {v.getTop(), v.getBottom()});
 		}
 
@@ -719,9 +735,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 							mRoomsRatesContainer.setClickable(true);
 							for (int i = mRoomsRatesContainer.getChildCount() - 1; i >= 0; i--) {
 								View v = mRoomsRatesContainer.getChildAt(i);
-								if (AndroidUtils.getSdkVersion() >= 16) {
-									v.setHasTransientState(false);
-								}
+								v.setHasTransientState(false);
 							}
 						}
 					});
@@ -768,7 +782,7 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		LinearLayout container = Ui.findView(view, R.id.description_details_sections_container);
 		container.removeAllViews();
 
-		List<HotelTextSection> sections = property.getAllHotelText(getActivity());
+		List<HotelTextSection> sections = property.getAllHotelText();
 
 		if (sections != null && sections.size() > 0) {
 			for (int i = 0; i < sections.size(); i++) {
@@ -792,17 +806,36 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		}
 	}
 
+	// Silently don't do anything if our data in Db is messed up.
 	private void addSelectedRoomToTrip() {
 		scrollFragmentToTop();
 
 		HotelSearch search = Db.getHotelSearch();
+		if (search == null) {
+			return;
+		}
+
 		Property property = search.getSelectedProperty();
+		if (property == null) {
+			return;
+		}
+
 		Rate rate = search.getSelectedRate();
 		if (rate == null) {
 			rate = property.getLowestRate();
+			if (rate == null) {
+				return;
+			}
 		}
-		Db.getTripBucket().clearHotel();
-		Db.getTripBucket().add(search, rate, search.getAvailability(property.getPropertyId()));
+
+		HotelAvailability availability = search.getAvailability(property.getPropertyId());
+		if (availability == null) {
+			return;
+		}
+
+		TripBucket bucket = Db.getTripBucket();
+		bucket.clearHotel();
+		bucket.add(search, rate, availability);
 		Db.saveTripBucket(getActivity());
 
 		mAddToBucketListener.onItemAddedToBucket();
@@ -822,15 +855,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		float shift = image - header;
 		float target = (mSavedScrollPosition - shift) * -percentage + mSavedScrollPosition;
 		mScrollView.scrollTo(0, (int) target);
-	}
-
-	public Rect getHotelHeaderImageLocationInWindow() {
-		ImageView hotelImage = Ui.findView(mRootC, R.id.hotel_header_image);
-		int[] location = new int[2];
-		hotelImage.getLocationInWindow(location);
-		final int x = location[0];
-		final int y = location[1];
-		return new Rect(x, y, x + hotelImage.getWidth(), y + hotelImage.getHeight());
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -853,37 +877,30 @@ public class ResultsHotelDetailsFragment extends Fragment {
 			}
 
 			if (response == null) {
-				Log.w(getString(R.string.e3_error_hotel_offers_hotel_service_failure));
-				//showErrorDialog(R.string.e3_error_hotel_offers_hotel_service_failure);
+				String message = Phrase
+					.from(getActivity(), R.string.e3_error_hotel_offers_hotel_service_failure_TEMPLATE)
+					.put("brand", BuildConfig.brand).format().toString();
+				Log.w(message);
 				return;
 			}
 			else if (response.hasErrors()) {
-				int messageResId;
 				if (response.isHotelUnavailable()) {
-					messageResId = Ui.obtainThemeResID(getActivity(), R.attr.sorryRoomsSoldOutErrorMessage);
+					String message = Phrase.from(getActivity(), R.string.error_hotel_is_now_sold_out_TEMPLATE)
+						.put("brand", BuildConfig.brand).format().toString();
+					Log.w(message);
 				}
 				else {
-					if (ExpediaBookingApp.IS_AAG) {
-						messageResId = R.string.e3_error_hotel_offers_hotel_service_failure_aag;
-					}
-					else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-						messageResId = R.string.e3_error_hotel_offers_hotel_service_failure_tvly;
-					}
-					else {
-						messageResId = R.string.e3_error_hotel_offers_hotel_service_failure;
-					}
+					String message = Phrase
+						.from(getActivity(), R.string.e3_error_hotel_offers_hotel_service_failure_TEMPLATE)
+						.put("brand", BuildConfig.brand).format().toString();
+					Log.w(message);
 				}
-				Log.w(getString(messageResId));
-				//showErrorDialog(messageResId);
 			}
 			else if (search.getAvailability(selectedId) != null && search.getSearchParams() != null
 				&& search.getAvailability(selectedId).getRateCount() == 0
 				&& search.getSearchParams().getSearchType() != SearchType.HOTEL) {
-				Log.w(getString(R.string.error_hotel_is_now_sold_out_expedia));
-				//showErrorDialog(R.string.error_hotel_is_now_sold_out_expedia);
-			}
-			else {
-				Db.kickOffBackgroundHotelSearchSave(getActivity());
+				Log.w(Phrase.from(getActivity(), R.string.error_hotel_is_now_sold_out_TEMPLATE)
+					.put("brand", BuildConfig.brand).format().toString());
 			}
 
 			// Notify affected child fragments to refresh.
@@ -895,21 +912,6 @@ public class ResultsHotelDetailsFragment extends Fragment {
 		}
 	};
 
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// Async handling of Header / ColorScheme
-
-	L2ImageCache.OnBitmapLoaded mHeaderBitmapLoadedCallback = new L2ImageCache.OnBitmapLoaded() {
-		@Override
-		public void onBitmapLoaded(String url, Bitmap bitmap) {
-			ColorBuilder builder = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)).darkenBy(0.4f);
-			mHeaderContainer.setDominantColor(builder.build());
-		}
-
-		@Override
-		public void onBitmapLoadFailed(String url) {
-			mHeaderContainer.resetDominantColor();
-		}
-	};
 
 	/*
 	MEASUREMENT HELPER

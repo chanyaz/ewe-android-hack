@@ -26,7 +26,7 @@ public class AssociateUserToTripResponseHandler extends JsonResponseHandler<Asso
 
 		try {
 			assocUserToTripResp
-					.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.ASSOCIATE_USER_TO_TRIP, response));
+					.addErrors(ParserUtils.parseErrors(ApiMethod.ASSOCIATE_USER_TO_TRIP, response));
 			if (!assocUserToTripResp.isSuccess()) {
 				return assocUserToTripResp;
 			}

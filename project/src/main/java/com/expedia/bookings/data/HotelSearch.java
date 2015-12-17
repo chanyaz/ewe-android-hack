@@ -9,7 +9,6 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
-import com.expedia.bookings.widget.SummarizedRoomRates;
 import com.expedia.bookings.otto.Events;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -92,7 +91,17 @@ public class HotelSearch implements JSONable {
 	}
 
 	public Property getSelectedProperty() {
+		// Sponsored hotels have duplicate keys, the non sponsored property
+		// is the one being updated in the property map, so get that one for
+		// setting up our views.
+		if (mSelectedProperty != null) {
+			Property property =  Db.getHotelSearch().getProperty(mSelectedProperty.getPropertyId());
+			if (property != null) {
+				return property;
+			}
+		}
 		return mSelectedProperty;
+
 	}
 
 	public String getSelectedPropertyId() {
@@ -188,14 +197,6 @@ public class HotelSearch implements JSONable {
 			return null;
 		}
 		return availability.getHotelOffersResponse();
-	}
-
-	public SummarizedRoomRates getSummarizedRoomRates(String id) {
-		HotelOffersResponse response = getHotelOffersResponse(id);
-		if (response == null) {
-			return null;
-		}
-		return response.getSummarizedRoomRates();
 	}
 
 	public ReviewsResponse getReviewsResponse(String id) {

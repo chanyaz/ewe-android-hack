@@ -1,35 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.widget.WalletButton xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/wallet_container"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+                                          xmlns:app="http://schemas.android.com/apk/res-auto"
+                                          android:id="@+id/wallet_container"
+                                          android:layout_width="match_parent"
+                                          android:layout_height="wrap_content">
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/wallet_promo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/wallet_button"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_marginLeft="3.5dp"
+        android:layout_marginRight="3.5dp"
         android:layout_marginTop="-8dp"
-        android:background="@drawable/bg_google_wallet_coupon"
+        android:background="@drawable/wallet_promo_bg"
         android:gravity="center_horizontal"
         android:paddingBottom="9dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:paddingTop="10dp"
         android:text="@string/wallet_promo_offer"
-        android:textColor="#f0f0f0"
-        android:textSize="15dp" />
+        android:textColor="@drawable/wallet_promo_text"
+        android:textSize="15dp"
+        app:textStyle="light"/>
 
     <ImageButton
         android:id="@+id/wallet_button"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="40dp"
         android:background="@drawable/wallet_button_background"
         android:contentDescription="@string/wallet_buy_with_google_wallet"
         android:minWidth="200dp"
-        android:src="@drawable/wallet_button_buy_with_foreground" />
+        android:src="@drawable/wallet_button_buy_with_foreground"/>
 
     <ProgressBar
         android:id="@+id/wallet_progress_bar"
@@ -40,6 +42,6 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="8dp"
         android:indeterminate="true"
-        android:visibility="gone" />
+        android:visibility="gone"/>
 
 </com.expedia.bookings.widget.WalletButton>

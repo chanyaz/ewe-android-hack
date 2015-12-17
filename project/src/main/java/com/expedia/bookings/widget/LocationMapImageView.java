@@ -3,20 +3,22 @@ package com.expedia.bookings.widget;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.Location;
 import com.mobiata.android.Log;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.GoogleServices.MapType;
+import com.squareup.picasso.Picasso;
 
 public class LocationMapImageView extends ImageView {
 
-	private static int ZOOM = 13; // We want this to be different depending on dpi too
-	private static int DENSITY_SCALE_FACTOR = 1; // This has to be calculated at runtime
+	private static int sZoom = 13; // We want this to be different depending on dpi too
+	private static int sDensityScaleFactor = 1; // This has to be calculated at runtime
 
 	private String mStaticMapUri;
 	private Location mLocation;
@@ -41,8 +43,8 @@ public class LocationMapImageView extends ImageView {
 		// High DPI screens should utilize scale=2 for this API
 		// https://developers.google.com/maps/documentation/staticmaps/
 		if (res.getDisplayMetrics().density > 1.5) {
-			DENSITY_SCALE_FACTOR = 2;
-			ZOOM = 12;
+			sDensityScaleFactor = 2;
+			sZoom = 12;
 		}
 	}
 
@@ -73,27 +75,38 @@ public class LocationMapImageView extends ImageView {
 
 		String oldUri = mStaticMapUri;
 
-		mStaticMapUri = GoogleServices.getStaticMapUrl(width / DENSITY_SCALE_FACTOR, height / DENSITY_SCALE_FACTOR,
-				ZOOM, MapType.ROADMAP, mLocation.getLatitude(), mLocation.getLongitude(),
-				getMarkerString(mLocation, 0x126299)) + "&scale=" + DENSITY_SCALE_FACTOR;
+		mStaticMapUri = GoogleServices.getStaticMapUrl(width / sDensityScaleFactor, height / sDensityScaleFactor,
+				sZoom, MapType.ROADMAP, mLocation.getLatitude(), mLocation.getLongitude(),
+				getMarkerString(mLocation, 0x126299)) + "&scale=" + sDensityScaleFactor;
 
 		Log.d("ITIN: mapUrl:" + mStaticMapUri);
 
 		if (!mStaticMapUri.equals(oldUri)) {
-			UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(mStaticMapUri, this);
-			drawable.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
-				@Override
-				public void onBitmapLoaded(String url, Bitmap bitmap) {
-					LocationMapImageView.this.setBackgroundDrawable(null);
-				}
-
-				@Override
-				public void onBitmapLoadFailed(String url) {
-					// nothing
-				}
-			});
+			new PicassoHelper.Builder(this)
+				.setTarget(callback)
+				.build()
+				.load(mStaticMapUri);
 		}
 	}
+
+	private PicassoTarget callback = new PicassoTarget() {
+		@Override
+		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+			super.onBitmapLoaded(bitmap, from);
+			setImageBitmap(bitmap);
+			LocationMapImageView.this.setBackgroundDrawable(null);
+		}
+
+		@Override
+		public void onBitmapFailed(Drawable errorDrawable) {
+			super.onBitmapFailed(errorDrawable);
+		}
+
+		@Override
+		public void onPrepareLoad(Drawable placeHolderDrawable) {
+			super.onPrepareLoad(placeHolderDrawable);
+		}
+	};
 
 	private String colorToHexString(int color) {
 		return String.format("0x%06X", (0xFFFFFF & color));

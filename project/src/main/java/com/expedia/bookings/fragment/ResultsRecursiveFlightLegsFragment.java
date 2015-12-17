@@ -36,13 +36,14 @@ import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.section.FlightLegSummarySectionTablet;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.FruitList;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
 
 /**
@@ -59,11 +60,6 @@ import com.mobiata.android.Log;
 public class ResultsRecursiveFlightLegsFragment extends Fragment implements IStateProvider<ResultsFlightLegState>,
 	FragmentAvailabilityUtils.IFragmentAvailabilityProvider, IBackManageable, IResultsFlightLegSelected,
 	IResultsFlightSelectedListener, ResultsFlightListFragment.IFlightListHeaderClickListener, IAcceptingListenersListener {
-
-	public static ResultsRecursiveFlightLegsFragment newInstance(int legNumber) {
-		ResultsRecursiveFlightLegsFragment frag = new ResultsRecursiveFlightLegsFragment(legNumber);
-		return frag;
-	}
 
 	//State
 	private static final String INSTANCE_STATE = "INSTANCE_STATE";
@@ -87,12 +83,12 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	//Containers
 	private ArrayList<ViewGroup> mContainers = new ArrayList<ViewGroup>();
-	private FrameLayoutTouchController mDetailsC;
-	private FrameLayoutTouchController mFiltersC;
+	private TouchableFrameLayout mDetailsC;
+	private TouchableFrameLayout mFiltersC;
 	private RelativeLayout mListColumnC;
-	private FrameLayoutTouchController mListC;
-	private FrameLayoutTouchController mNextLegC;
-	private FrameLayoutTouchController mLastLegC;
+	private TouchableFrameLayout mListC;
+	private TouchableFrameLayout mNextLegC;
+	private TouchableFrameLayout mLastLegC;
 	private TextView mLastLegHeader;
 
 	//Views
@@ -112,14 +108,13 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	private boolean mListHasTouch = false;
 	private ISiblingListTouchListener mListener;
 
-	public ResultsRecursiveFlightLegsFragment() {
-		this(0);
-	}
-
-	//Constructor
-	public ResultsRecursiveFlightLegsFragment(int legNumber) {
-		super();
-		initLegNumber(legNumber);
+	public static ResultsRecursiveFlightLegsFragment newInstance(int legNumber) {
+		ResultsRecursiveFlightLegsFragment frag = new ResultsRecursiveFlightLegsFragment();
+		Bundle args = new Bundle();
+		args.putInt(INSTANCE_LEG_NUMBER, legNumber);
+		frag.setArguments(args);
+		frag.initLegNumber(legNumber);
+		return frag;
 	}
 
 	private void initLegNumber(int legNumber) {
@@ -139,9 +134,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		if (savedInstanceState != null) {
 			int legNumber = savedInstanceState.getInt(INSTANCE_LEG_NUMBER);
-			if (mLegNumber != legNumber) {
-				initLegNumber(legNumber);
-			}
+			initLegNumber(legNumber);
 			mStateManager.setDefaultState(ResultsFlightLegState.valueOf(savedInstanceState.getString(INSTANCE_STATE)));
 		}
 
@@ -306,7 +299,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		if (mParentFlightSelectedListener != null) {
 			mParentFlightSelectedListener.onFlightSelected(legNumber);
 		}
-		OmnitureTracking.trackPageLoadFlightSearchResultsDetails(getActivity(), legNumber);
+		OmnitureTracking.trackPageLoadFlightSearchResultsDetails(legNumber);
 	}
 
 	/*
@@ -318,6 +311,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		Log.d("onTripAdded mLegNumber:" + mLegNumber + " legNumber:" + legNumber);
 		if (legNumber == mLegNumber) {
 			if (isLastLeg()) {
+				AdTracker.trackTabletFlightViewContent();
 				// Set the Db properly
 				Db.getTripBucket().clearFlight();
 				Db.getTripBucket().add(Db.getFlightSearch());
@@ -335,7 +329,8 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 					mNextLegFrag.setState(ResultsFlightLegState.FILTERS, false);
 				}
 				setState(ResultsFlightLegState.LATER_LEG, true);
-				OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), mLegNumber + 1 );
+				AdTracker.trackPageLoadFlightSearchResults(mLegNumber + 1);
+				OmnitureTracking.trackPageLoadFlightSearchResults(mLegNumber + 1);
 			}
 		}
 		if (mParentLegSelectedListener != null) {
@@ -355,7 +350,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsListState stateOne, ResultsFlightsListState stateTwo,
-			float percentage) {
+											float percentage) {
 			updateStateTransition(translate(stateOne), translate(stateTwo), percentage);
 		}
 
@@ -404,7 +399,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo,
-			float percentage) {
+											float percentage) {
 			if (getState() == ResultsFlightLegState.LATER_LEG && stateOne == ResultsFlightLegState.DETAILS
 				&& stateTwo == ResultsFlightLegState.ADDING_TO_TRIP) {
 				updateStateTransition(ResultsFlightLegState.LATER_LEG, ResultsFlightLegState.ADDING_TO_TRIP,
@@ -440,7 +435,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo,
-			float percentage) {
+											float percentage) {
 
 		}
 
@@ -481,7 +476,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
-			float percentage) {
+											float percentage) {
 			if (stateOne == ResultsFlightsState.ADDING_FLIGHT_TO_TRIP
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				updateStateTransition(ResultsFlightLegState.ADDING_TO_TRIP, ResultsFlightLegState.LIST_DOWN,
@@ -568,7 +563,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo,
-			float percentage) {
+											float percentage) {
 			if (stateOne == ResultsFlightLegState.LIST_DOWN && stateTwo == ResultsFlightLegState.FILTERS) {
 				showFiltersPercentage(percentage);
 			}
@@ -611,6 +606,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			}
 			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.FILTERS) {
 				showDetailsAnimCleanUp();
+				clearSelection();
 			}
 			else if (stateOne == ResultsFlightLegState.DETAILS && stateTwo == ResultsFlightLegState.LATER_LEG) {
 				showNextLegAnimCleanup();
@@ -645,6 +641,10 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			else {
 				mFiltersC.setAlpha(1f);
 				mFiltersC.setTranslationY(0f);
+			}
+
+			if (mListFrag != null && mListFrag.hasList()) {
+				mListFrag.setListHeaderExpansionPercentage(state.shouldShowExpandedHeader() ? 1f : 0f);
 			}
 
 			//Details state
@@ -848,6 +848,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 			* mListFrag.getMaxDistanceFromTop();
 		mFiltersC.setTranslationY(filterPaneTopTranslation);
 		mListFrag.setPercentage(1f - percentage, 0);
+		mListFrag.setListHeaderExpansionPercentage(percentage);
 	}
 
 	protected void showFiltersAnimCleanUp() {
@@ -862,6 +863,9 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 		if (isLastLeg()) {
 			mDetailsFrag.setAddToTripFromDetailsAnimationLayer(View.LAYER_TYPE_HARDWARE);
 			mDetailsFrag.prepareAddToTripFromDetailsAnimation(mAddToTripAnimRect);
+		}
+		if (isFirstLeg()) {
+			mListFrag.setListHeaderExpansionPercentage(0f);
 		}
 	}
 
@@ -953,13 +957,16 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 				if (mListFrag.hasList() && mListFrag.getPercentage() > 0) {
 					mListFrag.setPercentage(0f, 0);
 				}
+				if (mListFrag.hasList()) {
+					mListFrag.setListHeaderExpansionPercentage(1f);
+				}
 
 				//This is the previous leg row that should always be visible if we aren't leg == 0
 				showLastLeg();
 			}
 
 			// Sort and Filter button
-			mListFrag.setTopRightTextButtonEnabled(state == ResultsFlightLegState.DETAILS);
+			mListFrag.setTopRightTextButtonVisibility(state == ResultsFlightLegState.DETAILS);
 		}
 	}
 
@@ -1298,7 +1305,7 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 
 	@Override
 	public void updateStateTransition(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo,
-		float percentage) {
+									  float percentage) {
 		mStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
 	}
 
@@ -1359,8 +1366,11 @@ public class ResultsRecursiveFlightLegsFragment extends Fragment implements ISta
 	}
 
 	public boolean listIsDisplaced() {
-		float per = mListFrag.getListView().getScrollDownPercentage();
-		return per != 0f && per != 1f;
+		if (mListFrag != null && mListFrag.getListView() != null) {
+			float per = mListFrag.getListView().getScrollDownPercentage();
+			return per != 0f && per != 1f;
+		}
+		return false;
 	}
 
 	View.OnTouchListener mListTouchListener = new View.OnTouchListener() {

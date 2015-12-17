@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.sql.Struct;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -23,7 +22,6 @@ import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CenteredCaptionedIcon;
-import com.expedia.bookings.widget.TextView;
 
 /**
  * ResultsListSearchErrorFragment for Tablet
@@ -135,6 +133,10 @@ public class ResultsListSearchErrorFragment extends Fragment {
 			break;
 		case SEARCH_ERROR:
 			setErrorText(getString(R.string.tablet_search_results_flights_unavailable));
+			break;
+		case INVALID_START_DATE:
+			setErrorText(getString(R.string.flight_search_range_error_TEMPLATE,
+				getActivity().getResources().getInteger(R.integer.calendar_max_days_flight_search)));
 			break;
 		}
 	}

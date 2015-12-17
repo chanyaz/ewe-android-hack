@@ -6,8 +6,8 @@
     android:background="@color/tablet_white_pane_bg"
     android:paddingLeft="@dimen/hotel_flight_card_padding_x"
     android:paddingRight="@dimen/hotel_flight_card_padding_x"
-    app:priceTextColor="?attr/hotelPriceStandardColor"
-    app:salePriceTextColor="?attr/hotelPriceSaleColor">
+    app:priceTextColor="?attr/skin_hotelPriceStandardColor"
+    app:salePriceTextColor="?attr/skin_hotelPriceSaleColor">
 
     <TextView
         android:id="@+id/urgency_text_view_color_matched"
@@ -27,6 +27,7 @@
         android:id="@+id/hotel_background_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/hotel_flight_card_height"
+        android:background="@color/placeholder_background_color"
         android:scaleType="centerCrop"/>
 
     <View
@@ -116,7 +117,7 @@
 
                 <RatingBar
                     android:id="@+id/user_rating_bar"
-                    style="?attr/hotelListingUserRatingStyle"
+                    style="?attr/skin_hotelListingUserRatingStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -144,7 +145,6 @@
                     android:includeFontPadding="false"
                     android:paddingLeft="4dp"
                     android:singleLine="true"
-                    android:text="@string/sold_out_on_expedia"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/tablet_result_row_secondary_text_size"
                     app:textStyle="light"
@@ -199,7 +199,7 @@
         android:layout_alignTop="@id/hotel_background_view"
         android:layout_marginRight="@dimen/hotel_flight_card_content_margin_x"
         android:layout_marginTop="@dimen/hotel_flight_card_content_margin_y"
-        android:background="@drawable/bg_sale_text_view"
+        android:background="?attr/skin_bgSaleTextViewDrawable"
         android:paddingBottom="1dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
@@ -207,6 +207,31 @@
         android:singleLine="true"
         android:textColor="@android:color/white"
         android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/air_attach_sale_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/hotel_background_view"
+        android:layout_alignTop="@id/hotel_background_view"
+        android:layout_marginRight="@dimen/hotel_flight_card_content_margin_x"
+        android:layout_marginTop="@dimen/hotel_flight_card_content_margin_y"
+        android:orientation="horizontal"
+        android:background="@drawable/airattach_hotel_discounts_bg"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/air_attach_sale_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="1dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="1dp"
+            android:singleLine="true"
+            android:textColor="@android:color/white"/>
+
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

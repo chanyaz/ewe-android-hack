@@ -12,6 +12,7 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Point;
@@ -31,9 +32,7 @@ import android.widget.TextView;
 
 import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.animation.ResizeAnimator;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
@@ -192,6 +191,14 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		updateLayout();
 
 		setWillNotDraw(false);
+
+		int orientation = getResources().getConfiguration().orientation;
+		if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+			mChevronImageView.setVisibility(View.INVISIBLE);
+		}
+		else {
+			mChevronImageView.setVisibility(View.VISIBLE);
+		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -317,11 +324,16 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 		if (mHeaderBitmapDrawable == null) {
 			mHeaderBitmapDrawable = new HeaderBitmapDrawable();
 
+			//Setting the placeholder image
+			int placeholderResId = mItinContentGenerator.getHeaderImagePlaceholderResId();
+			Drawable placeholderDrawable = res.getDrawable(placeholderResId);
+			mHeaderBitmapDrawable.setPlaceholderDrawable(placeholderDrawable);
+
 			mHeaderBitmapDrawable.setCornerRadius(res.getDimensionPixelSize(R.dimen.itin_card_corner_radius));
 
 			if (getType() == Type.FLIGHT) {
 				mHeaderBitmapDrawable.setMatrixTranslation(0,
-						res.getDimensionPixelSize(R.dimen.itin_card_flight_vertical_offset));
+					res.getDimensionPixelSize(R.dimen.itin_card_flight_vertical_offset));
 			}
 			else {
 				mHeaderBitmapDrawable.setMatrixTranslation(0, 0);
@@ -332,15 +344,11 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 
 		// We currently use the size of the screen, as that is what is required by us of the Expedia image API
 		Point size = AndroidUtils.getScreenSize(getContext());
-		UrlBitmapDrawable drawable = mItinContentGenerator.getHeaderBitmapDrawable(size.x, size.y);
-		if (drawable != null) {
-			mHeaderBitmapDrawable.setUrlBitmapDrawable(drawable);
-		}
-		else {
-			int placeholderResId = mItinContentGenerator.getHeaderImagePlaceholderResId();
-			Drawable placeholderDrawable = res.getDrawable(placeholderResId);
-			mHeaderBitmapDrawable.setPlaceholderDrawable(placeholderDrawable);
-		}
+		int expandedImageHeight = getResources().getDimensionPixelSize(R.dimen.itin_card_expanded_image_height);
+		int parallaxSlop = getResources().getDimensionPixelSize(R.dimen.itin_card_expanded_parallax_slop);
+		int imageHeight = expandedImageHeight - parallaxSlop;
+		mItinContentGenerator.getHeaderBitmapDrawable(size.x, imageHeight, mHeaderBitmapDrawable);
+
 
 		if (mDisplayState == DisplayState.EXPANDED) {
 			mHeaderBitmapDrawable.setOverlayDrawable(null);
@@ -1064,7 +1072,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout implements 
 
 	@Override
 	public void onShareTargetSelected(ShareView view, Intent intent) {
-		OmnitureTracking.trackItinShareNew(getContext(), mItinContentGenerator.getType(), intent);
+		OmnitureTracking.trackItinShareNew(mItinContentGenerator.getType(), intent);
 	}
 
 }

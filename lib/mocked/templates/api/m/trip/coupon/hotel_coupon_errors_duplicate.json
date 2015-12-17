@@ -1,0 +1,13 @@
+{
+    "activityId": "58b6be8a-d533-4eb0-aaa6-0228e000056c",
+    "errors": [
+        {
+            "diagnosticId": 2007,
+            "errorCode": "APPLY_COUPON_ERROR",
+            "errorInfo": {
+                "couponErrorType": "Duplicate",
+                "summary": "Requesting to issue coupon instance of the master coupon with Earn limit attribute is less than number of times that coupon was issued per EndUser."
+            }
+        }
+    ]
+}

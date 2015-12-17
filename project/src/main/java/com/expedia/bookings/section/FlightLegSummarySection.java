@@ -1,10 +1,8 @@
 package com.expedia.bookings.section;
 
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.util.Calendar;
-import java.util.LinkedHashSet;
-import java.util.Set;
+
+import org.joda.time.DateTime;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -27,8 +25,8 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripBucketItemFlight;
-import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightTripView;
@@ -86,7 +84,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		mFlightTripView = Ui.findView(this, R.id.flight_trip_view);
 	}
 
-	public void bindFlight(Flight flight, Calendar minTime, Calendar maxTime) {
+	public void bindFlight(Flight flight, DateTime minTime, DateTime maxTime) {
 		// Fake a flight leg
 		FlightLeg pseudoLeg = new FlightLeg();
 		pseudoLeg.addSegment(flight);
@@ -96,8 +94,8 @@ public class FlightLegSummarySection extends RelativeLayout {
 
 	public void bind(FlightSearch flightSearch, int legNumber) {
 		FlightTripQuery query = flightSearch.queryTrips(legNumber);
-		Calendar minTime = (Calendar) query.getMinTime().clone();
-		Calendar maxTime = (Calendar) query.getMaxTime().clone();
+		DateTime minTime = new DateTime(query.getMinTime());
+		DateTime maxTime = new DateTime(query.getMaxTime());
 
 		FlightTripLeg flightTripLeg = flightSearch.getSelectedLegs()[legNumber];
 
@@ -116,17 +114,17 @@ public class FlightLegSummarySection extends RelativeLayout {
 		bind(trip, leg, null, null, null, false, billingInfo, tripBucketItemFlight);
 	}
 
-	public void bind(FlightTrip trip, final FlightLeg leg, Calendar minTime, Calendar maxTime) {
+	public void bind(FlightTrip trip, final FlightLeg leg, DateTime minTime, DateTime maxTime) {
 		bind(trip, leg, minTime, maxTime, false);
 	}
 
-	public void bind(FlightTrip trip, final FlightLeg leg, Calendar minTime, Calendar maxTime,
+	public void bind(FlightTrip trip, final FlightLeg leg, DateTime minTime, DateTime maxTime,
 					 boolean isIndividualFlight) {
 		bind(trip, leg, null, minTime, maxTime, isIndividualFlight, null, null);
 	}
 
-	public void bind(FlightTrip trip, final FlightLeg leg, final FlightLeg legTwo, Calendar minTime,
-					 Calendar maxTime, boolean isIndividualFlight, BillingInfo billingInfo,
+	public void bind(FlightTrip trip, final FlightLeg leg, final FlightLeg legTwo, DateTime minTime,
+		DateTime maxTime, boolean isIndividualFlight, BillingInfo billingInfo,
 					 TripBucketItemFlight tripBucketItemFlight) {
 		Context context = getContext();
 		Resources res = getResources();
@@ -194,7 +192,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 			if (daySpan != 0) {
 				mMultiDayTextView.setVisibility(View.VISIBLE);
 				String daySpanStr = sDaySpanFormatter.format(daySpan);
-				mMultiDayTextView.setText(res.getQuantityString(R.plurals.day_span, daySpan, daySpanStr));
+				mMultiDayTextView.setText(res.getQuantityString(R.plurals.day_span, Math.abs(daySpan), daySpanStr));
 			}
 			else {
 				mMultiDayTextView.setVisibility(View.INVISIBLE);
@@ -208,7 +206,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 					money = trip.getTotalFareWithCardFee(billingInfo, tripBucketItemFlight);
 				}
 				else {
-					money = trip.getTotalFare();
+					money = trip.getAverageTotalFare();
 				}
 				mPriceTextView.setText(money.getFormattedMoney(Money.F_NO_DECIMAL));
 			}
@@ -237,17 +235,17 @@ public class FlightLegSummarySection extends RelativeLayout {
 
 	private static String getCombinedAirlinesFormatted(FlightLeg leg, FlightLeg legTwo) {
 		if (legTwo != null) {
-			Set<String> union = new LinkedHashSet<String>(leg.getPrimaryAirlines());
-			union.addAll(legTwo.getPrimaryAirlines());
-			return FlightUtils.getFormattedAirlinesList(union);
+			String firstAirlines = leg.getPrimaryAirlineNamesFormatted();
+			String secondAirlines = legTwo.getPrimaryAirlineNamesFormatted();
+			return firstAirlines + ", " + secondAirlines;
 		}
 		else {
-			return leg.getAirlinesFormatted();
+			return leg.getPrimaryAirlineNamesFormatted();
 		}
 	}
 
 	protected int getBagWithXDrawableResId() {
-		return Ui.obtainThemeResID(getContext(), R.attr.icSuitCaseBaggage);
+		return Ui.obtainThemeResID(getContext(), R.attr.skin_icSuitCaseBaggage);
 	}
 
 	/**
@@ -315,8 +313,8 @@ public class FlightLegSummarySection extends RelativeLayout {
 		}
 	}
 
-	private String formatTime(Calendar cal) {
-		DateFormat df = android.text.format.DateFormat.getTimeFormat(getContext());
-		return df.format(DateTimeUtils.getTimeInLocalTimeZone(cal));
+	private String formatTime(DateTime cal) {
+		String dateFormat = DateTimeUtils.getDeviceTimeFormat(getContext());
+		return JodaUtils.format(cal, dateFormat);
 	}
 }

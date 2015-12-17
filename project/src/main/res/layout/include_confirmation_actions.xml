@@ -45,9 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="4dp"
-        android:drawableLeft="?attr/hotelConfirmationCallActionDrawable"
+        android:drawableLeft="?attr/skin_hotelConfirmationCallActionDrawable"
         android:drawablePadding="5dp"
-        android:text="?attr/hotelConfirmationCallActionText"
         android:textSize="14dp"
         android:textStyle="bold" />
 

@@ -5,6 +5,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.cars.CarCategory;
+import com.expedia.bookings.data.cars.CarType;
+import com.expedia.bookings.utils.GsonUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -48,31 +51,6 @@ public class Car implements JSONable {
 		}
 	}
 
-	public static enum Type {
-		TWO_DOOR_CAR,
-		THREE_DOOR_CAR,
-		FOUR_DOOR_CAR,
-		VAN,
-		WAGON,
-		LIMOUSINE,
-		RECREATIONAL_VEHICLE,
-		CONVERTIBLE,
-		SPORTS_CAR,
-		SUV,
-		PICKUP_REGULAR_CAB,
-		OPEN_AIR_ALL_TERRAIN,
-		SPECIAL,
-		COMMERCIAL_VAN_TRUCK,
-		PICKUP_EXTENDED_CAB,
-		SPECIAL_OFFER_CAR,
-		COUPE,
-		MONOSPACE,
-		MOTORHOME,
-		TWO_WHEEL_VEHICLE,
-		ROADSTER,
-		CROSSOVER;
-	}
-
 	private String mId;
 
 	private String mConfNumber;
@@ -87,10 +65,10 @@ public class Car implements JSONable {
 
 	private CarVendor mVendor;
 
-	private Category mCategory;
-	private Media mCategoryImage;
+	private CarCategory mCategory;
+	private HotelMedia mCategoryImage;
 
-	private Type mType;
+	private CarType mType;
 
 	public String getId() {
 		return mId;
@@ -156,27 +134,27 @@ public class Car implements JSONable {
 		mVendor = vendor;
 	}
 
-	public Category getCategory() {
+	public CarCategory getCategory() {
 		return mCategory;
 	}
 
-	public void setCategory(Category category) {
+	public void setCategory(CarCategory category) {
 		mCategory = category;
 	}
 
-	public Media getCategoryImage() {
+	public HotelMedia getCategoryImage() {
 		return mCategoryImage;
 	}
 
-	public void setCategoryImage(Media categoryImage) {
+	public void setCategoryImage(HotelMedia categoryImage) {
 		mCategoryImage = categoryImage;
 	}
 
-	public Type getType() {
+	public CarType getType() {
 		return mType;
 	}
 
-	public void setType(Type type) {
+	public void setType(CarType type) {
 		mType = type;
 	}
 
@@ -192,7 +170,7 @@ public class Car implements JSONable {
 
 			obj.putOpt("confNumber", mConfNumber);
 
-			JSONUtils.putJSONable(obj, "price", mPrice);
+			GsonUtil.putForJsonable(obj, "price", mPrice);
 			JodaUtils.putDateTimeInJson(obj, "pickupJodaDateTime", mPickUpDateTime);
 			JSONUtils.putJSONable(obj, "pickupLocation", mPickUpLocation);
 			JodaUtils.putDateTimeInJson(obj, "dropoffJodaDateTime", mDropOffDateTime);
@@ -218,7 +196,7 @@ public class Car implements JSONable {
 
 		mConfNumber = obj.optString("confNumber", null);
 
-		mPrice = JSONUtils.getJSONable(obj, "price", Money.class);
+		mPrice = GsonUtil.getForJsonable(obj, "price", Money.class);
 		mPickUpDateTime = JodaUtils.getDateTimeFromJsonBackCompat(obj, "pickupJodaDateTime", "pickupDateTime");
 		mPickUpLocation = JSONUtils.getJSONable(obj, "pickupLocation", Location.class);
 		mPickUpDateTime = JodaUtils.getDateTimeFromJsonBackCompat(obj, "dropoffJodaDateTime", "dropoffDateTime");
@@ -226,10 +204,10 @@ public class Car implements JSONable {
 
 		mVendor = JSONUtils.getJSONable(obj, "vendor", CarVendor.class);
 
-		mCategory = JSONUtils.getEnum(obj, "category", Category.class);
-		mCategoryImage = JSONUtils.getJSONable(obj, "categoryImage", Media.class);
+		mCategory = JSONUtils.getEnum(obj, "category", CarCategory.class);
+		mCategoryImage = JSONUtils.getJSONable(obj, "categoryImage", HotelMedia.class);
 
-		mType = JSONUtils.getEnum(obj, "type", Type.class);
+		mType = JSONUtils.getEnum(obj, "type", CarType.class);
 
 		return true;
 	}

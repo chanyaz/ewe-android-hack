@@ -69,19 +69,14 @@
         android:visibility="gone"
         app:textStyle="light" />
 
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/free_cancellation_text_view"
-        style="@style/AmenitiesOnTablet"
+    <LinearLayout
+        android:id="@+id/extras_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="17dp" />
-
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/price_guarantee_text_view"
-        style="@style/AmenitiesOnTablet"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="17dp" />
+        android:layout_marginBottom="17dp"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:orientation="vertical" />
 
     <View
         android:layout_width="match_parent"

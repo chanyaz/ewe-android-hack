@@ -20,7 +20,7 @@
             android:id="@+id/card_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/itinCardBackground"
+            android:background="?attr/skin_itinCardBackground"
             android:orientation="vertical" >
 
             <!-- ###################################################################### -->
@@ -31,7 +31,7 @@
                 android:id="@+id/title_layout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/itin_title_height"
-                android:background="?attr/itinCardTitleBackground"
+                android:background="?attr/skin_itinCardTitleBackground"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingBottom="1dp"
@@ -41,10 +41,10 @@
                     android:id="@+id/close_image_button"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:background="@drawable/list_selector_holo_dark"
+                    android:background="?android:attr/selectableItemBackground"
                     android:padding="8dp"
                     android:paddingTop="7dp"
-                    android:src="@drawable/ic_action_bar_checkmark_white" />
+                    android:src="?attr/skin_itinCardActionBarCheckmark" />
 
                 <View
                     android:layout_width="1dp"
@@ -87,13 +87,13 @@
                         android:layout_width="48dp"
                         android:layout_height="46dp"
                         android:layout_marginRight="3dp"
-                        android:background="@drawable/list_selector_holo_dark"
+                        android:background="?android:attr/selectableItemBackground"
                         android:contentDescription="@string/cd_share_menu_btn"
                         android:paddingBottom="6dp"
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
                         android:paddingTop="6dp"
-                        android:src="@drawable/abs__ic_menu_moreoverflow_holo_dark" />
+                        android:src="?attr/skin_itinCardOverflowDrawable" />
                 </FrameLayout>
             </LinearLayout>
 
@@ -123,7 +123,7 @@
                             android:id="@+id/header_image_container"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/itin_card_expanded_image_height"
-                            app:scrollMin="-80dp" >
+                            app:scrollMin="@dimen/itin_card_expanded_parallax_slop" >
 
                             <com.expedia.bookings.widget.OptimizedImageView
                                 android:id="@+id/header_image_view"
@@ -207,7 +207,7 @@
                         android:id="@+id/summary_section_layout"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/itin_summary_section_height"
-                        android:background="@drawable/list_selector_transparent"
+                        android:background="?android:attr/selectableItemBackground"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:visibility="gone" >

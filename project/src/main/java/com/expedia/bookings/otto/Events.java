@@ -1,25 +1,57 @@
 package com.expedia.bookings.otto;
 
 import java.util.List;
+import java.util.Map;
 
+import org.joda.time.LocalDate;
+
+import android.location.Location;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.HotelOffersResponse;
-import com.expedia.bookings.data.HotelProductResponse;
+import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.LaunchCollection;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.WeeklyFlightHistogram;
-import com.expedia.bookings.dialog.BirthDateInvalidDialog;
+import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.cars.CarCategory;
+import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
+import com.expedia.bookings.data.cars.CarCheckoutResponse;
+import com.expedia.bookings.data.cars.CarCreateTripResponse;
+import com.expedia.bookings.data.cars.CarFilter;
+import com.expedia.bookings.data.cars.CarSearch;
+import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CategorizedCarOffers;
+import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.collections.Collection;
+import com.expedia.bookings.data.collections.CollectionLocation;
+import com.expedia.bookings.data.hotels.Hotel;
+import com.expedia.bookings.data.lx.ActivityDetailsResponse;
+import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.data.lx.LXCategoryMetadata;
+import com.expedia.bookings.data.lx.LXCheckoutParams;
+import com.expedia.bookings.data.lx.LXCheckoutResponse;
+import com.expedia.bookings.data.lx.LXCreateTripResponse;
+import com.expedia.bookings.data.lx.LXSearchParams;
+import com.expedia.bookings.data.lx.LXSearchResponse;
+import com.expedia.bookings.data.lx.LXSortFilterMetadata;
+import com.expedia.bookings.data.lx.Offer;
+import com.expedia.bookings.data.lx.SearchType;
+import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.enums.ResultsSearchState;
+import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
 
@@ -138,7 +170,8 @@ public class Events {
 		public LaunchCollection selectedCollection;
 		public LaunchLocation selectedLocation;
 
-		public LaunchCollectionsAvailable(List<LaunchCollection> collections, LaunchCollection selectedCollection, LaunchLocation selectedLocation) {
+		public LaunchCollectionsAvailable(List<LaunchCollection> collections, LaunchCollection selectedCollection,
+			LaunchLocation selectedLocation) {
 			this.collections = collections;
 			this.selectedCollection = selectedCollection;
 			this.selectedLocation = selectedLocation;
@@ -165,18 +198,7 @@ public class Events {
 	/// HotelBookingFragment related
 
 	/**
-	 * This event notifies HotelProductDownload call has succeeded
-	 */
-	public static class HotelProductDownloadSuccess {
-		public final HotelProductResponse hotelProductResponse;
-
-		public HotelProductDownloadSuccess(HotelProductResponse response) {
-			this.hotelProductResponse = response;
-		}
-	}
-
-	/**
-	 * This event notifies HotelProductDownload call has succeeded and the rate of the selected room has gone up.
+	 * This event notifies that the rate of the selected room has gone up after CreateTripDownload call has succeeded.
 	 */
 	public static class HotelProductRateUp {
 		public final Rate newRate;
@@ -201,10 +223,24 @@ public class Events {
 	 * This event notifies CreateTripDownload call completed with an error
 	 */
 	public static class CreateTripDownloadError {
+		private LineOfBusiness mLineOfBusiness;
 		private ServerError mServerError;
 
 		public CreateTripDownloadError(ServerError serverError) {
 			this.mServerError = serverError;
+		}
+
+		public CreateTripDownloadError(LineOfBusiness lob, ServerError error) {
+			mLineOfBusiness = lob;
+			mServerError = error;
+		}
+
+		public LineOfBusiness getLob() {
+			return mLineOfBusiness;
+		}
+
+		public ServerError getServerError() {
+			return mServerError;
 		}
 	}
 
@@ -332,6 +368,7 @@ public class Events {
 	 */
 	public static class ShowNoInternetDialog {
 		public final int callBackId;
+
 		public ShowNoInternetDialog(int callBackId) {
 			this.callBackId = callBackId;
 		}
@@ -437,18 +474,15 @@ public class Events {
 
 	public static class SearchSuggestionSelected {
 		public final SuggestionV2 suggestion;
-		public final String queryText;
 		public final boolean isFromSavedParamsAndBucket;
 
-		public SearchSuggestionSelected(SuggestionV2 suggestion, String queryText) {
+		public SearchSuggestionSelected(SuggestionV2 suggestion) {
 			this.suggestion = suggestion;
-			this.queryText = queryText;
 			this.isFromSavedParamsAndBucket = false;
 		}
 
-		public SearchSuggestionSelected(SuggestionV2 suggestion, String queryText, boolean fromSavedParams) {
+		public SearchSuggestionSelected(SuggestionV2 suggestion, boolean fromSavedParams) {
 			this.suggestion = suggestion;
-			this.queryText = queryText;
 			this.isFromSavedParamsAndBucket = fromSavedParams;
 		}
 	}
@@ -474,6 +508,7 @@ public class Events {
 	 */
 	public static class ShowSearchFragment {
 		public final ResultsSearchState searchState;
+
 		public ShowSearchFragment(ResultsSearchState state) {
 			searchState = state;
 		}
@@ -481,6 +516,7 @@ public class Events {
 
 	public static class FlightSearchResponseAvailable {
 		public final FlightSearchResponse response;
+
 		public FlightSearchResponseAvailable(FlightSearchResponse response) {
 			this.response = response;
 		}
@@ -488,6 +524,7 @@ public class Events {
 
 	public static class HotelSearchResponseAvailable {
 		public final HotelSearchResponse response;
+
 		public HotelSearchResponseAvailable(HotelSearchResponse response) {
 			this.response = response;
 		}
@@ -495,11 +532,552 @@ public class Events {
 
 	public static class HotelOffersResponseAvailable {
 		public final HotelOffersResponse response;
+
 		public HotelOffersResponseAvailable(HotelOffersResponse response) {
 			this.response = response;
 		}
 	}
 
 	public static class UserClickedSelectDatesButton {
+	}
+
+	/**
+	 * Cars cars cars
+	 */
+
+	public static class SignOut {
+		// ignore
+	}
+
+	public static class CarsSessionTimeout {
+		// ignore
+	}
+
+	public static class CarsPaymentFailed {
+		// ignore
+	}
+
+	public static class CarsSearchFailed {
+		// ignore
+	}
+
+	public static class CarsInvalidInput {
+		public String field;
+
+		public CarsInvalidInput(String field) {
+			this.field = field;
+		}
+	}
+
+	public static class CarsGoToSearch {
+		// ignore
+	}
+
+	public static class CarsFilterDone {
+		public CarFilter carFilter;
+
+		public CarsFilterDone(CarFilter carFilter) {
+			this.carFilter = carFilter;
+		}
+	}
+
+	public static class CarsGoToOverlay {
+		// ignore
+	}
+
+	public static class CarsNewSearchParams {
+		public CarSearchParams carSearchParams;
+		public String productKey;
+
+		public CarsNewSearchParams(CarSearchParams params) {
+			carSearchParams = params;
+		}
+
+		public CarsNewSearchParams(CarSearchParams params, String productKey) {
+			carSearchParams = params;
+			this.productKey = productKey;
+		}
+
+	}
+
+	public static class CarsShowLoadingAnimation {
+		// ignore
+	}
+
+	public static class CarsShowSearchResults {
+		public CarSearch results;
+
+		public CarsShowSearchResults(CarSearch results) {
+			this.results = results;
+		}
+	}
+
+	public static class CarsShowFilteredSearchResults {
+		// ignore
+	}
+
+	public static class CarsShowSearchResultsError {
+		public ApiError error;
+
+		public CarsShowSearchResultsError(ApiError error) {
+			this.error = error;
+		}
+	}
+
+	public static class CarsShowDetails {
+		public CategorizedCarOffers categorizedCarOffers;
+
+		public CarsShowDetails(CategorizedCarOffers offers) {
+			categorizedCarOffers = offers;
+		}
+	}
+
+	public static class CarsShowCheckoutAfterPriceChange {
+		// ignore
+	}
+
+	public static class CarsUpdateCheckoutSummaryAfterPriceChange {
+		public CreateTripCarOffer originalCreateTripOffer;
+		public CreateTripCarOffer newCreateTripOffer;
+		public String tripId;
+
+		public CarsUpdateCheckoutSummaryAfterPriceChange(CreateTripCarOffer originalOffer, CreateTripCarOffer newOffer,
+			String tripId) {
+			this.originalCreateTripOffer = originalOffer;
+			this.newCreateTripOffer = newOffer;
+			this.tripId = tripId;
+		}
+	}
+
+	public static class CarsShowCheckout {
+		public String productKey;
+		public Money fare;
+		public boolean isInsuranceIncluded;
+		public LatLng location;
+
+		public CarsShowCheckout(String productKey, Money fare, boolean isInsuranceIncluded, LatLng location) {
+			this.productKey = productKey;
+			this.fare = fare;
+			this.isInsuranceIncluded = isInsuranceIncluded;
+			this.location = location;
+		}
+	}
+
+	public static class CarsCheckoutCreateTripSuccess {
+		public CarCreateTripResponse response;
+
+		public CarsCheckoutCreateTripSuccess(CarCreateTripResponse carCreateTripResponse) {
+			this.response = carCreateTripResponse;
+		}
+	}
+
+	public static class ShowCVV {
+		public BillingInfo billingInfo;
+
+		public ShowCVV(BillingInfo info) {
+			this.billingInfo = info;
+		}
+	}
+
+	public static class CarsKickOffSearchCall {
+		public CarSearchParams carSearchParams;
+
+		public CarsKickOffSearchCall(CarSearchParams params) {
+			this.carSearchParams = params;
+		}
+	}
+
+	public static class CarsKickOffCheckoutCall {
+		public CarCheckoutParamsBuilder checkoutParamsBuilder;
+
+		public CarsKickOffCheckoutCall(CarCheckoutParamsBuilder checkoutParamsBuilder) {
+			this.checkoutParamsBuilder = checkoutParamsBuilder;
+		}
+	}
+
+	public static class CarsShowConfirmation {
+		public CarCheckoutResponse checkoutResponse;
+
+		public CarsShowConfirmation(CarCheckoutResponse checkoutResponse) {
+			this.checkoutResponse = checkoutResponse;
+		}
+	}
+
+	public static class CarsCategoryFilterCheckChanged {
+		public CarCategory category;
+		public boolean checked;
+
+		public CarsCategoryFilterCheckChanged(CarCategory category, boolean checked) {
+			this.category = category;
+			this.checked = checked;
+		}
+	}
+
+	public static class CarsSupplierFilterCheckChanged {
+		public String supplier;
+		public boolean checked;
+
+		public CarsSupplierFilterCheckChanged(String supplier, boolean checked) {
+			this.supplier = supplier;
+			this.checked = checked;
+		}
+	}
+
+	public static class CarsIsFiltered {
+		public CarSearch filteredCarSearch;
+		public CategorizedCarOffers filteredCarOffers;
+
+		public CarsIsFiltered(CarSearch filteredCarSearch, CategorizedCarOffers filteredCarOffers) {
+			this.filteredCarSearch = filteredCarSearch;
+			this.filteredCarOffers = filteredCarOffers;
+		}
+	}
+
+	public static class CarsShowProductKeyDetails {
+		public CarSearch productKeyCarSearch;
+
+		public CarsShowProductKeyDetails(CarSearch productKeyCarSearch) {
+			this.productKeyCarSearch = productKeyCarSearch;
+		}
+	}
+
+	public static class CarsShowResultsForProductKey {
+		public CarSearch productKeyCarSearch;
+
+		public CarsShowResultsForProductKey(CarSearch productKeyCarSearch) {
+			this.productKeyCarSearch = productKeyCarSearch;
+		}
+	}
+
+	public static class FinishActivity {
+		// ignore
+	}
+
+	public static class LXShowSearchWidget {
+		// ignore
+	}
+
+	public static class DynamicFeedbackClearButtonClicked {
+		//ignore
+	}
+
+	public static class LXFilterDoneClicked {
+		//ignore
+	}
+
+	public static class LXNewSearch {
+		public String locationName;
+		public LocalDate startDate;
+		public LocalDate endDate;
+
+		public LXNewSearch(String locationName, LocalDate startDate, LocalDate endDate) {
+			this.locationName = locationName;
+			this.startDate = startDate;
+			this.endDate = endDate;
+		}
+	}
+
+	public static class LXNewSearchParamsAvailable {
+		public LXSearchParams lxSearchParams;
+
+		public LXNewSearchParamsAvailable(LXSearchParams params) {
+			lxSearchParams = params;
+		}
+
+		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate,
+			SearchType searchType) {
+			lxSearchParams = new LXSearchParams().location(locationName).startDate(startDate).endDate(endDate)
+				.searchType(searchType);
+		}
+
+		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate) {
+			this(locationName, startDate, endDate, SearchType.EXPLICIT_SEARCH);
+		}
+
+		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate, String filters) {
+			lxSearchParams = new LXSearchParams().location(locationName).startDate(startDate).endDate(endDate)
+				.searchType(SearchType.EXPLICIT_SEARCH).filters(
+					filters);
+		}
+
+		public LXNewSearchParamsAvailable(String activityId, String locationName, LocalDate startDate,
+			LocalDate endDate) {
+			lxSearchParams = new LXSearchParams().location(locationName).startDate(startDate).endDate(endDate)
+				.searchType(SearchType.EXPLICIT_SEARCH).activityId(activityId);
+		}
+	}
+
+	public static class LXSearchResultsAvailable {
+		public LXSearchResponse lxSearchResponse;
+
+		public LXSearchResultsAvailable(LXSearchResponse lxSearchResponse) {
+			this.lxSearchResponse = lxSearchResponse;
+		}
+	}
+
+	public static class LXFilterCategoryCheckedChanged {
+		public LXCategoryMetadata lxCategoryMetadata;
+		public String categoryKey;
+
+		public LXFilterCategoryCheckedChanged(LXCategoryMetadata lxCategoryMetadata, String categoryKey) {
+			this.lxCategoryMetadata = lxCategoryMetadata;
+			this.categoryKey = categoryKey;
+		}
+	}
+
+	public static class LXFilterChanged {
+		public LXSortFilterMetadata lxSortFilterMetadata;
+
+		public LXFilterChanged(LXSortFilterMetadata lxSortFilterMetadata) {
+			this.lxSortFilterMetadata = lxSortFilterMetadata;
+		}
+	}
+
+	public static class LXSearchFilterResultsReady {
+		public List<LXActivity> filteredActivities;
+		public Map<String, LXCategoryMetadata> filterCategories;
+
+		public LXSearchFilterResultsReady(List<LXActivity> filteredActivities,
+			Map<String, LXCategoryMetadata> filterCategories) {
+			this.filteredActivities = filteredActivities;
+			this.filterCategories = filterCategories;
+		}
+	}
+
+	public static class LXShowSearchError {
+		public ApiError error;
+		public SearchType searchType;
+
+		public LXShowSearchError(ApiError error, SearchType searchType) {
+			this.error = error;
+			this.searchType = searchType;
+		}
+	}
+
+	public static class LXActivitySelected {
+		public LXActivity lxActivity;
+
+		public LXActivitySelected(LXActivity lxActivity) {
+			this.lxActivity = lxActivity;
+		}
+	}
+
+	public static class LXShowRulesOnCheckout {
+		//ignore
+	}
+
+	public static class LXShowCheckoutAfterPriceChange {
+		//ignore
+	}
+
+	public static class LXUpdateCheckoutSummaryAfterPriceChange {
+		public LXCheckoutResponse lxCheckoutResponse;
+
+		public LXUpdateCheckoutSummaryAfterPriceChange(LXCheckoutResponse lxCheckoutResponse) {
+			this.lxCheckoutResponse = lxCheckoutResponse;
+		}
+	}
+
+	public static class LXActivitySelectedRetry {
+		//ignore
+	}
+
+	public static class LXShowDetails {
+		public ActivityDetailsResponse activityDetails;
+
+		public LXShowDetails(ActivityDetailsResponse activityDetails) {
+			this.activityDetails = activityDetails;
+		}
+	}
+
+	public static class LXCreateTripSucceeded {
+		public LXCreateTripResponse createTripResponse;
+		public LXActivity activity;
+
+		public LXCreateTripSucceeded(LXCreateTripResponse createTripResponse, LXActivity activity) {
+			this.createTripResponse = createTripResponse;
+			this.activity = activity;
+		}
+	}
+
+	public static class LXTicketCountChanged {
+		public Ticket ticket;
+		public String offerId;
+
+		public LXTicketCountChanged(Ticket ticket, String offerId) {
+			this.ticket = ticket;
+			this.offerId = offerId;
+		}
+	}
+
+	public static class LXOfferExpanded {
+		public Offer offer;
+
+		public LXOfferExpanded(Offer offer) {
+			this.offer = offer;
+		}
+	}
+
+	public static class LXOfferBooked {
+		public Offer offer;
+		public List<Ticket> selectedTickets;
+
+		public LXOfferBooked(Offer offer, List<Ticket> selectedTickets) {
+			this.offer = offer;
+			this.selectedTickets = selectedTickets;
+		}
+	}
+
+	public static class LXKickOffCheckoutCall {
+		public LXCheckoutParams checkoutParams;
+
+		public LXKickOffCheckoutCall(LXCheckoutParams checkoutParams) {
+			this.checkoutParams = checkoutParams;
+		}
+	}
+
+	public static class LXCheckoutSucceeded {
+		public LXCheckoutResponse checkoutResponse;
+
+		public LXCheckoutSucceeded(LXCheckoutResponse checkoutResponse) {
+			this.checkoutResponse = checkoutResponse;
+		}
+	}
+
+	public static class LXError {
+		public ApiError apiError;
+
+		public LXError(ApiError apiError) {
+			this.apiError = apiError;
+		}
+	}
+
+	public static class LXDetailsDateChanged {
+		public LocalDate dateSelected;
+
+		public LXDetailsDateChanged(LocalDate dateSelected) {
+			this.dateSelected = dateSelected;
+		}
+	}
+
+	public static class LXSearchParamsOverlay {
+		// ignore
+	}
+
+	public static class LXShowLoadingAnimation {
+		// ignore
+	}
+
+	public static class LXInvalidInput {
+		public String field;
+
+		public LXInvalidInput(String field) {
+			this.field = field;
+		}
+	}
+
+	public static class LXSessionTimeout {
+		// ignore
+	}
+
+	public static class LXPaymentFailed {
+		// ignore
+	}
+	// Launch screen
+
+	public static class LaunchHotelSearchResponse {
+		public List<Hotel> topHotels;
+
+		public LaunchHotelSearchResponse(List<Hotel> topHotels) {
+			this.topHotels = topHotels;
+		}
+	}
+
+	public static class LaunchListItemSelected {
+		public Hotel offer;
+
+		public LaunchListItemSelected(Hotel offer) {
+			this.offer = offer;
+		}
+	}
+
+	public static class LaunchSeeAllButtonPressed {
+		public Bundle animOptions;
+
+		public LaunchSeeAllButtonPressed(Bundle animOptions) {
+			this.animOptions = animOptions;
+		}
+	}
+
+	public static class LaunchLocationFetchComplete {
+		public final Location location;
+
+		public LaunchLocationFetchComplete(Location location) {
+			this.location = location;
+		}
+	}
+
+	public static class LaunchLocationFetchError {
+	}
+
+	public static class CollectionDownloadComplete {
+		public Collection collection;
+
+		public CollectionDownloadComplete(Collection collection) {
+			this.collection = collection;
+		}
+	}
+
+	public static class LaunchCollectionItemSelected {
+		public CollectionLocation collectionLocation;
+		public Bundle animOptions;
+
+		public LaunchCollectionItemSelected(CollectionLocation location, Bundle animOptions) {
+			this.collectionLocation = location;
+			this.animOptions = animOptions;
+		}
+	}
+
+	public static class LaunchOnlineState {
+	}
+
+	public static class LaunchOfflineState {
+	}
+
+	// Launch screen -- air attach
+
+	public static class LaunchAirAttachBannerHide {
+	}
+
+	public static class LaunchAirAttachBannerShow {
+		public HotelSearchParams params;
+
+		public LaunchAirAttachBannerShow(HotelSearchParams params) {
+			this.params = params;
+		}
+	}
+
+	public static class PhoneLaunchOnResume {
+	}
+
+	public static class PhoneLaunchOnPOSChange {
+	}
+
+
+	// Memory testing
+
+	public static class MemoryTestImpetus {
+	}
+
+	public static class MemoryTestInput {
+		public int viewId;
+
+		public MemoryTestInput(int viewId) {
+			this.viewId = viewId;
+		}
+	}
+
+	public static class LoggedInSuccessful {
+
 	}
 }

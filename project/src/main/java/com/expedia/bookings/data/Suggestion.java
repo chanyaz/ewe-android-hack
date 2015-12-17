@@ -1,20 +1,14 @@
 package com.expedia.bookings.data;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Pair;
 
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
-import com.expedia.bookings.model.Search;
 import com.expedia.bookings.utils.StrUtils;
-import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
-import com.mobiata.flightlib.data.Airport;
 
 /**
  * A general Suggestion.  At the moment, can either be a city with hotels
@@ -119,61 +113,37 @@ public class Suggestion implements JSONable {
 	//////////////////////////////////////////////////////////////////////////
 	// Utility
 
-	private static final Pattern DISPLAY_NAME_PATTERN = Pattern.compile("^(.+)\\((.+)\\)$");
-
 	public Pair<String, String> splitDisplayNameForFlights() {
-		Matcher m = DISPLAY_NAME_PATTERN.matcher(mDisplayName);
-		if (m.matches()) {
-			return new Pair<String, String>(m.group(1), m.group(2));
-		}
-		else {
-			Log.e("Could not split display name for flight: " + mDisplayName);
-			return null;
-		}
+		return new Pair<String, String>(StrUtils.formatCityStateCountryName(mDisplayName),
+			StrUtils.formatAirportName(mDisplayName));
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Conversion to other types (Search, JSONable)
-
-	public static Suggestion fromAirport(Airport airport) {
-		Suggestion suggestion = new Suggestion();
-		suggestion.mDisplayName = StrUtils.formatAirport(airport) + "(" + airport.mAirportCode + "-" + airport.mName
-				+ ")";
-		suggestion.mLatitude = airport.getLatitude();
-		suggestion.mLongitude = airport.getLongitude();
-		suggestion.mCountryCode = airport.mCountryCode;
-		suggestion.mAirportLocationCode = airport.mAirportCode;
-		suggestion.mType = Type.AIRPORT;
-		return suggestion;
-	}
-
-	public Search toSearch() {
-		HotelSearchParams searchParams = new HotelSearchParams();
-		searchParams.setQuery(mDisplayName);
-		searchParams.setRegionId(mId);
-
+	public HotelSearchParams toHotelSearchParams() {
+		HotelSearchParams hotelSearchParams = new HotelSearchParams();
+		hotelSearchParams.setQuery(mDisplayName);
+		hotelSearchParams.setRegionId(mId);
 		switch (mType) {
 		case CITY:
-			searchParams.setSearchType(SearchType.CITY);
+			hotelSearchParams.setSearchType(SearchType.CITY);
 			break;
 		case ADDRESS:
-			searchParams.setSearchType(SearchType.ADDRESS);
+			hotelSearchParams.setSearchType(SearchType.ADDRESS);
 			break;
 		case ATTRACTION:
 		case AIRPORT:
-			searchParams.setSearchType(SearchType.POI);
+			hotelSearchParams.setSearchType(SearchType.POI);
 			break;
 		case HOTEL:
-			searchParams.setSearchType(SearchType.HOTEL);
+			hotelSearchParams.setSearchType(SearchType.HOTEL);
 			break;
 		default:
-			searchParams.setSearchType(SearchType.FREEFORM);
+			hotelSearchParams.setSearchType(SearchType.FREEFORM);
 			break;
 		}
 
-		searchParams.setSearchLatLon(mLatitude, mLongitude);
+		hotelSearchParams.setSearchLatLon(mLatitude, mLongitude);
 
-		return new Search(searchParams);
+		return hotelSearchParams;
 	}
 
 	public Location toLocation() {

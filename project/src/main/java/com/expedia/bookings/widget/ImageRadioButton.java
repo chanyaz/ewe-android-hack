@@ -1,15 +1,10 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.RadioButton;
-
-import com.expedia.bookings.R;
 
 // A RadioButton that just renders the given drawable without all the hassle of
 // trying to center an image with a seperate background in a RadioButton
@@ -19,19 +14,6 @@ public class ImageRadioButton extends RadioButton {
 
 	public ImageRadioButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		init(context, attrs);
-	}
-
-	private void init(Context context, AttributeSet attrs) {
-		if (attrs != null) {
-			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ImageRadioButton);
-			mDrawable = a.getDrawable(R.styleable.ImageRadioButton_image);
-			a.recycle();
-		}
-
-		if (mDrawable == null) {
-			throw new RuntimeException("Must specify app:image=\"@drawable/mydrawable\" in xml");
-		}
 	}
 
 	@Override
@@ -39,9 +21,11 @@ public class ImageRadioButton extends RadioButton {
 		// Draw the background and stuff
 		super.onDraw(canvas);
 
-		// CompoundButton
-		mDrawable.setBounds(0, 0, getWidth(), getHeight());
-		mDrawable.draw(canvas);
+		if (mDrawable != null) {
+			// CompoundButton
+			mDrawable.setBounds(0, 0, getWidth(), getHeight());
+			mDrawable.draw(canvas);
+		}
 	}
 
 	@Override
@@ -65,5 +49,10 @@ public class ImageRadioButton extends RadioButton {
 		if (mDrawable != null) {
 			mDrawable.jumpToCurrentState();
 		}
+	}
+
+	public void setDrawable(Drawable mDrawable) {
+		this.mDrawable = mDrawable;
+		invalidate();
 	}
 }

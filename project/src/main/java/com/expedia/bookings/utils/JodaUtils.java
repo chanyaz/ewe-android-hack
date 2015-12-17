@@ -8,6 +8,7 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 import org.joda.time.ReadableInstant;
 import org.joda.time.ReadablePartial;
+import org.joda.time.base.AbstractInstant;
 import org.joda.time.base.AbstractPartial;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -15,14 +16,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.text.format.DateUtils;
 
-import com.expedia.bookings.R;
-import com.expedia.bookings.data.Date;
 import com.mobiata.android.json.JSONUtils;
 
 public class JodaUtils extends com.mobiata.android.time.util.JodaUtils {
@@ -36,6 +31,10 @@ public class JodaUtils extends com.mobiata.android.time.util.JodaUtils {
 	}
 
 	public static boolean isBeforeOrEquals(AbstractPartial first, AbstractPartial second) {
+		return first.isBefore(second) || first.isEqual(second);
+	}
+
+	public static boolean isBeforeOrEquals(AbstractInstant first, AbstractInstant second) {
 		return first.isBefore(second) || first.isEqual(second);
 	}
 
@@ -84,7 +83,7 @@ public class JodaUtils extends com.mobiata.android.time.util.JodaUtils {
 	// JSON
 
 	public static void putDateTime(Bundle bundle, String key, DateTime dateTime) {
-		if (bundle != null && !TextUtils.isEmpty(key) && dateTime != null) {
+		if (bundle != null && Strings.isNotEmpty(key) && dateTime != null) {
 			bundle.putString(key, dateTime.toString());
 		}
 	}
@@ -97,17 +96,13 @@ public class JodaUtils extends com.mobiata.android.time.util.JodaUtils {
 	}
 
 	public static void putLocalDateInJson(JSONObject obj, String key, LocalDate localDate) throws JSONException {
-		if (obj != null && !TextUtils.isEmpty(key) && localDate != null) {
+		if (obj != null && Strings.isNotEmpty(key) && localDate != null) {
 			obj.put(key, localDate.toString());
 		}
 	}
 
-	public static LocalDate getLocalDateFromJsonBackCompat(JSONObject obj, String localDateKey, String oldDateKey) {
-		if (obj.has(oldDateKey)) {
-			Date date = JSONUtils.getJSONable(obj, oldDateKey, Date.class);
-			return Date.toLocalDate(date);
-		}
-		else if (obj.has(localDateKey)) {
+	public static LocalDate getLocalDateFromJson(JSONObject obj, String localDateKey) {
+		if (obj.has(localDateKey)) {
 			return LocalDate.parse(obj.optString(localDateKey));
 		}
 
@@ -115,7 +110,7 @@ public class JodaUtils extends com.mobiata.android.time.util.JodaUtils {
 	}
 
 	public static void putDateTimeInJson(JSONObject obj, String key, DateTime dateTime) throws JSONException {
-		if (obj != null && !TextUtils.isEmpty(key) && dateTime != null) {
+		if (obj != null && Strings.isNotEmpty(key) && dateTime != null) {
 			obj.put(key, dateTime.toString());
 		}
 	}
@@ -134,7 +129,7 @@ public class JodaUtils extends com.mobiata.android.time.util.JodaUtils {
 	}
 
 	public static void putDateTimeListInJson(JSONObject obj, String key, List<DateTime> dateTimes) throws JSONException {
-		if (obj != null && !TextUtils.isEmpty(key) && dateTimes != null) {
+		if (obj != null && Strings.isNotEmpty(key) && dateTimes != null) {
 			JSONArray arr = new JSONArray();
 			for (DateTime dateTime : dateTimes) {
 				arr.put(dateTime.toString());

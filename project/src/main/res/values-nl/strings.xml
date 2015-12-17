@@ -1,13 +1,220 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Cars -->
+    <!-- Cars Calendar Strings -->
+    <!-- Tooltip description for selecting the start date -->
+    <string name="cars_calendar_start_date_label">Selecteer nu de inleverdatum</string>
+    <!-- Tooltip description when both start and end dates are selected -->
+    <string name="cars_calendar_end_date_label">Sleep om te wijzigen</string>
+    <!-- SeekBar tooltip description for pick up time-->
+    <string name="cars_time_slider_pick_up_label">Ophaaltijd</string>
+    <!-- SeekBar tooltip description for drop off time-->
+    <string name="cars_time_slider_drop_off_label">Inlevertijd</string>
+    <!-- Cars price templates-->
+    <string name="cars_hourly_text">/ uur</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_text">/ dag</string>
+    <!-- Cars checkout price breakdown for POS same as pickup location templates-->
+    <string name="cars_checkout_breakdown_us_text">Tarieven vermeld in %s.</string>
+    <!-- Cars checkout price breakdown for pickup location different than POS templates-->
+    <string name="cars_checkout_breakdown_non_us_text">Tarieven vermeld in %1$s. Alle bij aankomst te betalen belastingen en toeslagen worden verrekend in de lokale valuta (%2$s).</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_weekly_text">/ week</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_monthly_text">/ maand</string>
+    <!-- Cars price templates-->
+    <string name="cars_total_template">%s in totaal</string>
+    <!-- Slide to reserve -->
+    <string name="cars_slider_text">Swipe om te reserveren</string>
+    <!-- Text for checkout toolbar-->
+    <string name="cars_checkout_text">Betaling</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_dupe_trip_text">Dubbele reis</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_session_timeout_text">Sessie verlopen</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_price_change_text">Prijs gewijzigd</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_payment_failed_text">Betaling mislukt</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_invalid_input_text">Ongeldige info</string>
+    <!-- Text for generic error toolbar-->
+    <string name="cars_error_text">Fout</string>
+    <!-- Text for toolbar on no search results -->
+    <string name="cars_no_results_text">Geen resultaten</string>
+    <!-- Text for reserving car-->
+    <string name="cars_reserve_text">Reserveren</string>
+    <!-- Text for viewing details-->
+    <string name="cars_view_details_text">Details bekijken</string>
+    <!-- Text for driver details toolbar-->
+    <string name="cars_driver_details_text">Bestuurdersinfo</string>
+    <!-- Text for payment details toolbar-->
+    <string name="cars_payment_details_text">Betalingsinfo</string>
+    <!-- Text for enter driver details-->
+    <string name="enter_driver_details">Bestuurdersinfo invoeren</string>
+    <!-- Text for select saved contacts-->
+    <string name="cars_saved_contacts_text">Kies uit opgeslagen contacten</string>
+    <!-- Text for enter payment details-->
+    <string name="enter_payment_details">Betalingsinfo invoeren</string>
+    <!-- Template for selected credit card-->
+    <string name="selected_card_template">Vervaldatum: %s</string>
+    <!-- Car doors text-->
+    <string name="car_doors_text">Deuren</string>
+    <!-- Car bags text-->
+    <string name="car_bags_text">Stuks bagage</string>
+    <!-- Car automatic transmission text-->
+    <string name="car_auto_tran_text">Automaat</string>
+    <!-- Car manual transmission text-->
+    <string name="car_man_tran_text">Handgeschakeld</string>
+
+    <!-- car result -->
+    <!-- car door range -->
+    <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
+    <!-- car details template -->
+    <string name="car_details_TEMPLATE">%1$s %2$s</string>
+
+    <!-- Cars Confirmation Screen -->
+    <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
+    <string name="calendar_car_title_TEMPLATE">Ophaallocatie %1$s</string>
+    <!-- Location for calendar event.  %1$s is the name of the pick up location -->
+    <string name="calendar_car_location_TEMPLATE">%1$s</string>
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_desc_itinerary_TEMPLATE">{brand}-reisplannr.: {itinerary}</string>
+    <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
+    <string name="calendar_desc_support_TEMPLATE">{brand}-klantenservice: {localphone} en {phone}</string>
+
+    <!-- Label for hotel search toolbar -->
+    <string name="hotel_toolbar_title">Hotels zoeken</string>
+    <!-- Label for hotel suggestion -->
+    <string name="search_location">Locatie zoeken</string>
+    <!-- Label for pickup location selector -->
+    <string name="pick_up_location">Ophaallocatie</string>
+    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
+    <string name="drop_off_location">Inleverlocatie</string>
+    <!-- Label for Car Search Screen header -->
+    <string name="toolbar_search_cars">Auto\&apos;s zoeken</string>
+    <!-- Label for Cars date button -->
+    <string name="select_pickup_and_dropoff_dates">Selecteer ophaal- en inleverdatums</string>
+    <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
+    <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
+    <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
+    <string name="select_return_date_TEMPLATE">%1$s - Selecteer retourdatum</string>
+    <!-- Label for pick-up time picker -->
+    <string name="pick_up_time_label">Ophalen</string>
+    <!-- Label for drop-up time picker -->
+    <string name="drop_off_time_label">Inleveren</string>
+    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
+    <string name="drop_off_same_as_pick_up">Binnenkort! We zijn hard aan het werk om enkele vluchten toe te voegen aan een volgende versie.</string>
+    <!-- Car search error -->
+    <string name="error_car_search_message">Jouw zoekopdracht leverde geen resultaten op. Zoek opnieuw met andere zoekcriteria</string>
+    <!-- Car no filtered search results -->
+    <string name="filter_no_car_search_results_message">Je zoekopdracht leverde geen resultaten op. Probeer het aantal filters te reduceren.</string>
+    <!-- Transmission options filter label for a car rental -->
+    <string name="options">Opties</string>
+    <!-- Automatic transmission filter button-->
+    <string name="car_filter_automatic">Automaat</string>
+    <!-- Manual transmission filter button-->
+    <string name="car_filter_manual">Handgeschakeld</string>
+    <!-- Any transmission type filter button -->
+    <string name="car_filter_all">Alle</string>
+    <!-- Air conditioning option checkbox filter -->
+    <string name="car_filter_checkbox_air_conditioning">Airconditioning</string>
+    <!-- Unlimited mileage option checkbox filter -->
+    <string name="car_filter_checkbox_unlimited_mileage">Onbeperkt aantal km</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_types">Autotypes</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_vendors">Autoverhuurders</string>
+    <!-- Button label to clear user selected filters -->
+    <string name="clear_filters">Filters wissen</string>
+    <!-- Label to tell the user how many products match thier filter -->
+    <plurals name="number_results_template">
+        <item quantity="one">{number} resultaat</item>
+        <item quantity="other">{number} resultaten</item>
+    </plurals>
+
+    <!-- Checkout -->
+    <!-- Car model templates-->
+    <string name="car_model_name_template">%1$s of soortgelijk</string>
+    <string name="car_model_unknown_template">Exact model n.v.t.</string>
+
+    <!-- Desk & vehicle at terminal -->
+    <string name="desk_and_vehicle_terminal">Balie &amp; voertuig bij terminal</string>
+    <!-- Car checkout cost breakdown total due today -->
+    <string name="car_cost_breakdown_due_today">Vandaag te betalen</string>
+    <!-- Car checkout cost breakdown total due at pick up -->
+    <string name="car_cost_breakdown_total_due">Te betalen bij ophalen</string>
+    <!-- Car checkout cost breakdown for alert button -->
+    <string name="car_cost_breakdown_button_text">Gereed</string>
+    <!-- Car checkout rental fare breakdown types -->
+    <!--Cost breakdown type base -->
+    <string name="car_rental_breakdown_base">Autoverhuur</string>
+    <!--Cost breakdown type insurance -->
+    <string name="car_rental_breakdown_insurance">Verzekering</string>
+    <!--Cost breakdown type drop off charge -->
+    <string name="car_rental_breakdown_drop_off_charges">Inleverkosten</string>
+    <!-- Unlimited mileage -->
+    <string name="unlimited_mileage">Onbeperkt aantal km</string>
+    <!-- Insurance included -->
+    <string name="insurance_included">Verzekering inbegrepen</string>
+    <!-- Checkout confirmation message (temporary) -->
+    <string name="successful_checkout_TEMPLATE">Reisplannr. %1$s</string>
+    <!-- Error message for some missing checkout params -->
+    <string name="error_missing_checkout_params">Ontbrekende betalingsparameters.</string>
+    <!--Adding hotel from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_hotel">Hotels in %1$s</string>
+    <!--Adding flight from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_flight">Vluchten naar %1$s</string>
+    <!-- Car confirmation screen label -->
+    <string name="successful_checkout_pickup_label">Ophalen om</string>
+    <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
+    <string name="car_confirmation_pickup_time_TEMPLATE">%1$s tot</string>
+    <!-- Car confirmation itin text -->
+    <string name="successful_checkout_email_label">Reisplan gestuurd naar</string>
+    <!-- Car confirmation directions text -->
+    <string name="car_confirmation_directions">Route naar %1$s</string>
+
+    <!-- Car error strings -->
+    <!-- Message for user that pick-up time is too early."  -->
+    <string name="pick_up_time_error">Pas de ophaal- of inlevertijden aan</string>
+    <!-- Message for user  to choose a closer date.""  -->
+    <string name="drop_off_too_far_error">Kies een datum die minder ver in de toekomst ligt.</string>
+    <!-- Message for user that date is too far out."  -->
+    <string name="date_out_of_range">Kies een datum die minder ver in de toekomst ligt.</string>
+    <!-- Message for user that increase your reservation duration. -->
+    <string name="reservation_time_too_short">Verleng de huurperiode voor deze reservering.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_time_out">Ben je er nog? Je sessie is verlopen. probeer opnieuw te zoeken.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_already_exists">Wacht even. Het lijkt erop dat je deze reis al hebt geboekt. Controleer je reizen of je e-mailadres.</string>
+    <!-- Show to user when the price of a car they are trying to book has changed -->
+    <string name="reservation_price_change">De prijs van je huurauto is gewijzigd. Bevestig a.u.b. de prijs voordat je doorgaat.</string>
+    <!-- Show to user when the their traveler information is invalid -->
+    <string name="reservation_invalid_name">Namen mogen geen nummers of speciale tekens bevatten.</string>
+    <!-- Show to user when their phone number is invalid -->
+    <string name="reservation_invalid_phone">Telefoonnummer dient tussen 4 en 20 tekens te bevatten.</string>
+
+    <!-- Shown to a user when there is an issue with their credit card -->
+    <string name="reservation_payment_failed">Sorry, de betaling was niet succesvol. Controleer even je betalingsinfo en probeer opnieuw.</string>
+    <!-- Shown to a user when their ability to rent a specific car expires -->
+    <string name="error_cars_product_expired">Je zoekopdracht is verlopen. Kies een geldige ophaaltijd.</string>
+    <!-- Price changed button text that takes you back to checkout -->
+    <string name="view_price_change">Prijswijziging weergeven</string>
+    <!-- My Trips button that takes you to Itins -->
+    <string name="my_trips">Mijn reizen</string>
+    <!-- Button text that takes you back to the payment widget to edit your payment -->
+    <string name="edit_payment">Betaling bewerken</string>
+    <!-- Button text that takes you back to the traveler info widget to edit your driver information -->
+    <string name="edit_info">Info bewerken</string>
+
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">Voer je bestemming in</string>
     <!-- Fly From Template where %s is the origin e.g. "Fly from Boston,MA" -->
     <string name="fly_from_TEMPLATE">Vlieg vanaf %1$s</string>
     <!-- Fly from… -->
-    <string name="Fly_from_dot_dot_dot">Vlieg vanaf…</string>
+    <string name="Fly_from_dot_dot_dot">Vlieg vanaf …</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">Datums selecteren</string>
     <!-- Hotels Tonight -->
@@ -20,6 +227,8 @@
     <string name="missing_dates_flight_TEMPLATE">Vertel ons waar je naartoe wilt vliegen om door vluchten naar %s te bladeren.\n</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">Vertel ons vanaf waar je vliegt\nzodat we vluchtprijstrends kunnen ophalen</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
+    <string name="flight_trends_tool_tip">Flight Trends geeft je een idee hoe vluchtprijzen over tijd kunnen fluctueren. Aangezien de getoonde prijzen zijn gebaseerd op live informatie van reële zoekopdrachten, is het mogelijk dat sommige routes minder informatie bevatten dan andere.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Begindatum reis</string>
     <!-- Denotes the end date of the trip -->
@@ -28,6 +237,392 @@
     <string name="trip_end_optional">Optioneel</string>
     <!-- Button text for when flight origin is missing -->
     <string name="missing_flight_info_button_prompt">Kies luchthaven</string>
+
+    <!-- LX -->
+    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- Search widget header text -->
+    <string name="lx_search_title">Activiteiten zoeken</string>
+    <!-- Button to show calendar and selected dates -->
+    <string name="select_lx_search_dates">Selecteer datum</string>
+    <!-- Activity details highlights heading -->
+    <string name="highlights_activity_details">Hoogtepunten</string>
+    <!-- Activity details description heading -->
+    <string name="description_activity_details">Beschrijving</string>
+    <!-- Activity details location heading -->
+    <string name="location_activity_details">Locatie</string>
+    <!-- Activity details inclusions heading -->
+    <string name="inclusions_activity_details">Inbegrepen</string>
+    <!-- Activity details exclusions heading -->
+    <string name="exclusions_activity_details">Niet inbegrepen</string>
+    <!-- Activity details know before you book heading -->
+    <string name="know_before_you_book_activity_details">Belangrijke info voor vertrek</string>
+    <!-- Template for ticket details -->
+    <string name="ticket_details_template">%1$s %2$s (%3$s)</string>
+    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
+    <!-- Template for ticket selection summary -->
+    <string name="offer_book_now_TEMPLATE">Boek voor %1$s</string>
+    <!-- Template for multiple duration text on Search results Eg: 2d+ -->
+    <string name="search_result_multiple_duration_TEMPLATE">+%1$s</string>
+    <!-- Cancellation policy template -->
+    <string name="lx_cancellation_policy_TEMPLATE">Annuleer gratis tot {hours} uur voor aanvang van de reservering. Annuleringen, wijzigingen of restituties zijn nadien niet mogelijk.</string>
+    <!-- Cancellation policy text for non-cancellable activities -->
+    <string name="lx_policy_non_cancellable">Deze reservering is niet restitueerbaar en kan na het boeken niet gewijzigd of geannuleerd worden.</string>
+    <!-- LX checkout cost breakdown total due today -->
+    <string name="lx_cost_breakdown_due_today">Vandaag te betalen</string>
+    <!-- LX checkout cost breakdown total due today -->
+    <string name="lx_cost_breakdown_taxes_included">Incl. belastingen en toeslagen</string>
+    <!-- LX checkout cost breakdown for alert button -->
+    <string name="lx_cost_breakdown_button_text">Gereed</string>
+    <!-- LX checkout price breakdown for POS same as pickup location templates-->
+    <string name="lx_checkout_breakdown_price_disclaimer_text">Tarieven vermeld in %s.</string>
+    <!-- Checkout price breakdown Total Price Label -->
+    <string name="checkout_breakdown_total_price">Totaalprijs</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_price_change_text">Prijs gewijzigd</string>
+    <!-- LX Ticket type names -->
+    <string name="ticket_type_traveler">Reiziger</string>
+    <string name="ticket_type_adult">Volwassene</string>
+    <string name="ticket_type_child">Kind</string>
+    <string name="ticket_type_infant">Baby</string>
+    <string name="ticket_type_youth">Jongere</string>
+    <string name="ticket_type_senior">Senior</string>
+    <string name="ticket_type_group">Groep</string>
+    <string name="ticket_type_couple">Stel</string>
+    <string name="ticket_type_two_adults">2 volwassenen</string>
+    <string name="ticket_type_military">Militair</string>
+    <string name="ticket_type_student">Student</string>
+    <string name="ticket_type_sedan">Sedan</string>
+    <string name="ticket_type_minivan">MPV</string>
+    <string name="ticket_type_water_taxi">Watertaxi</string>
+    <string name="ticket_type_suv">SUV</string>
+    <string name="ticket_type_executive_car">Executive auto</string>
+    <string name="ticket_type_luxury_car">Luxury auto</string>
+    <string name="ticket_type_limousine">Limousine</string>
+    <string name="ticket_type_towncar">Town car</string>
+    <string name="ticket_type_vehicle_parking_spot">Parkeerplaats</string>
+    <string name="ticket_type_book">Boek</string>
+    <string name="ticket_type_guide">Gids</string>
+    <string name="ticket_type_travel_card">Vervoerspas</string>
+    <string name="ticket_type_boat">Boot</string>
+    <string name="ticket_type_motorcycle">Motor</string>
+    <string name="ticket_type_ceremony">Ceremonie</string>
+    <string name="ticket_type_calling_card">Belkaart</string>
+    <string name="ticket_type_pass">Pas</string>
+    <string name="ticket_type_minibus">Personenbus</string>
+    <string name="ticket_type_helicopter">Helikopter</string>
+    <string name="ticket_type_device">Toestel</string>
+    <string name="ticket_type_room">Kamer</string>
+    <string name="ticket_type_carriage">Koets</string>
+    <string name="ticket_type_buggy">Buggy</string>
+    <string name="ticket_type_atv">ATV</string>
+    <string name="ticket_type_jet_ski">Jetski</string>
+    <string name="ticket_type_scooter">Scooter</string>
+    <string name="ticket_type_scooter_car">Scooter car</string>
+    <string name="ticket_type_snowmobile">Sneeuwscooter</string>
+    <string name="ticket_type_day">dag</string>
+    <string name="ticket_type_bike">Fiets</string>
+    <string name="ticket_type_week">Week</string>
+    <string name="ticket_type_subscription">Abonnement</string>
+    <string name="ticket_type_electric_bike">Elektrische fiets</string>
+    <string name="ticket_type_segway">Segway</string>
+    <string name="ticket_type_vehicle">Voertuig</string>
+    <!-- LX Ticket type Plurals -->
+    <plurals name="ticket_type_traveler_TEMPLATE">
+        <item quantity="one">%1$s reiziger</item>
+        <item quantity="other">%1$s reizigers</item>
+    </plurals>
+    <plurals name="ticket_type_adult_TEMPLATE">
+        <item quantity="one">%1$s volwassene</item>
+        <item quantity="other">%1$s volwassenen</item>
+    </plurals>
+    <plurals name="ticket_type_child_TEMPLATE">
+        <item quantity="one">%1$s kind</item>
+        <item quantity="other">%1$s kinderen</item>
+    </plurals>
+    <plurals name="ticket_type_infant_TEMPLATE">
+        <item quantity="one">%1$s baby</item>
+        <item quantity="other">%1$s baby\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_youth_TEMPLATE">
+        <item quantity="one">%1$s jongere</item>
+        <item quantity="other">%1$s jongeren</item>
+    </plurals>
+    <plurals name="ticket_type_senior_TEMPLATE">
+        <item quantity="one">%1$s senior</item>
+        <item quantity="other">%1$s senioren</item>
+    </plurals>
+    <plurals name="ticket_type_group_TEMPLATE">
+        <item quantity="one">%1$s groep</item>
+        <item quantity="other">%1$s groepen</item>
+    </plurals>
+    <plurals name="ticket_type_couple_TEMPLATE">
+        <item quantity="one">%1$s stel</item>
+        <item quantity="other">%1$s stellen</item>
+    </plurals>
+    <plurals name="ticket_type_two_adults_TEMPLATE">
+        <item quantity="one">%1$s 2 volwassenen</item>
+        <item quantity="other">%1$s 2 volwassenen</item>
+    </plurals>
+    <plurals name="ticket_type_military_TEMPLATE">
+        <item quantity="one">%1$s militair</item>
+        <item quantity="other">%1$s militairen</item>
+    </plurals>
+    <plurals name="ticket_type_student_TEMPLATE">
+        <item quantity="one">%1$s student</item>
+        <item quantity="other">%1$s studenten</item>
+    </plurals>
+    <plurals name="ticket_type_sedan_TEMPLATE">
+        <item quantity="one">%1$s sedan</item>
+        <item quantity="other">%1$s sedans</item>
+    </plurals>
+    <plurals name="ticket_type_minivan_TEMPLATE">
+        <item quantity="one">%1$s MPV</item>
+        <item quantity="other">%1$s MPV\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_water_taxi_TEMPLATE">
+        <item quantity="one">%1$s watertaxi</item>
+        <item quantity="other">%1$s watertaxi\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_suv_TEMPLATE">
+        <item quantity="one">%1$s SUV</item>
+        <item quantity="other">%1$s SUV\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_executive_car_TEMPLATE">
+        <item quantity="one">%1$s Executive auto</item>
+        <item quantity="other">%1$s Executive auto\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_luxury_car_TEMPLATE">
+        <item quantity="one">%1$s Luxury auto</item>
+        <item quantity="other">%1$s Luxury auto\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_limousine_TEMPLATE">
+        <item quantity="one">%1$s limousine</item>
+        <item quantity="other">%1$s limousines</item>
+    </plurals>
+    <plurals name="ticket_type_towncar_TEMPLATE">
+        <item quantity="one">%1$s town car</item>
+        <item quantity="other">%1$s town cars</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
+        <item quantity="one">%1$s parkeerplaats</item>
+        <item quantity="other">%1$s parkeerplaatsen</item>
+    </plurals>
+    <plurals name="ticket_type_book_TEMPLATE">
+        <item quantity="one">%1$s boek</item>
+        <item quantity="other">%1$s boeken</item>
+    </plurals>
+    <plurals name="ticket_type_guide_TEMPLATE">
+        <item quantity="one">%1$s gids</item>
+        <item quantity="other">%1$s gidsen</item>
+    </plurals>
+    <plurals name="ticket_type_travel_card_TEMPLATE">
+        <item quantity="one">%1$s vervoerspas</item>
+        <item quantity="other">%1$s vervoerspassen</item>
+    </plurals>
+    <plurals name="ticket_type_boat_TEMPLATE">
+        <item quantity="one">%1$s boot</item>
+        <item quantity="other">%1$s boten</item>
+    </plurals>
+    <plurals name="ticket_type_motorcycle_TEMPLATE">
+        <item quantity="one">%1$s motor</item>
+        <item quantity="other">%1$s motoren</item>
+    </plurals>
+    <plurals name="ticket_type_ceremony_TEMPLATE">
+        <item quantity="one">%1$s ceremonie</item>
+        <item quantity="other">%1$s ceremonies</item>
+    </plurals>
+    <plurals name="ticket_type_calling_card_TEMPLATE">
+        <item quantity="one">%1$s belkaart</item>
+        <item quantity="other">%1$s belkaarten</item>
+    </plurals>
+    <plurals name="ticket_type_pass_TEMPLATE">
+        <item quantity="one">%1$s pas</item>
+        <item quantity="other">%1$s passen</item>
+    </plurals>
+    <plurals name="ticket_type_minibus_TEMPLATE">
+        <item quantity="one">%1$s personenbus</item>
+        <item quantity="other">%1$s personenbussen</item>
+    </plurals>
+    <plurals name="ticket_type_helicopter_TEMPLATE">
+        <item quantity="one">%1$s helikopter</item>
+        <item quantity="other">%1$s helikopters</item>
+    </plurals>
+    <plurals name="ticket_type_device_TEMPLATE">
+        <item quantity="one">%1$s toestel</item>
+        <item quantity="other">%1$s toestellen</item>
+    </plurals>
+    <plurals name="ticket_type_room_TEMPLATE">
+        <item quantity="one">%1$s kamer</item>
+        <item quantity="other">%1$s kamers</item>
+    </plurals>
+    <plurals name="ticket_type_carriage_TEMPLATE">
+        <item quantity="one">%1$s koets</item>
+        <item quantity="other">%1$s koetsen</item>
+    </plurals>
+    <plurals name="ticket_type_buggy_TEMPLATE">
+        <item quantity="one">%1$s buggy</item>
+        <item quantity="other">%1$s buggy\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_atv_TEMPLATE">
+        <item quantity="one">%1$s ATV</item>
+        <item quantity="other">%1$s ATV\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_jet_ski_TEMPLATE">
+        <item quantity="one">%1$s jetski</item>
+        <item quantity="other">%1$s jetski\&apos;s</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_TEMPLATE">
+        <item quantity="one">%1$s scooter</item>
+        <item quantity="other">%1$s scooters</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_car_TEMPLATE">
+        <item quantity="one">%1$s scooter car</item>
+        <item quantity="other">%1$s scooter cars</item>
+    </plurals>
+    <plurals name="ticket_type_snowmobile_TEMPLATE">
+        <item quantity="one">%1$s sneeuwscooter</item>
+        <item quantity="other">%1$s sneeuwscooters</item>
+    </plurals>
+    <plurals name="ticket_type_day_TEMPLATE">
+        <item quantity="one">%1$s dag</item>
+        <item quantity="other">%1$s dagen</item>
+    </plurals>
+    <plurals name="ticket_type_bike_TEMPLATE">
+        <item quantity="one">%1$s fiets</item>
+        <item quantity="other">%1$s fietsen</item>
+    </plurals>
+    <plurals name="ticket_type_week_TEMPLATE">
+        <item quantity="one">%1$s week</item>
+        <item quantity="other">%1$s weken</item>
+    </plurals>
+    <plurals name="ticket_type_subscription_TEMPLATE">
+        <item quantity="one">%1$s abonnement</item>
+        <item quantity="other">%1$s abonnementen</item>
+    </plurals>
+    <plurals name="ticket_type_electric_bike_TEMPLATE">
+        <item quantity="one">%1$s elektrische fiets</item>
+        <item quantity="other">%1$s elektrische fietsen</item>
+    </plurals>
+    <plurals name="ticket_type_segway_TEMPLATE">
+        <item quantity="one">%1$s segway</item>
+        <item quantity="other">%1$s segways</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_TEMPLATE">
+        <item quantity="one">%1$s voertuig</item>
+        <item quantity="other">%1$s voertuigen</item>
+    </plurals>
+    <!-- Activity search results per ticket type -->
+    <string name="per_ticket_type_traveler">per reiziger</string>
+    <string name="per_ticket_type_adult">per volwassene</string>
+    <string name="per_ticket_type_child">per kind</string>
+    <string name="per_ticket_type_infant">per baby</string>
+    <string name="per_ticket_type_youth">per jongere</string>
+    <string name="per_ticket_type_senior">per senior</string>
+    <string name="per_ticket_type_group">per groep</string>
+    <string name="per_ticket_type_couple">per stel</string>
+    <string name="per_ticket_type_two_adults">per 2 volwassenen</string>
+    <string name="per_ticket_type_military">per militair</string>
+    <string name="per_ticket_type_student">per student</string>
+    <string name="per_ticket_type_sedan">per sedan</string>
+    <string name="per_ticket_type_minivan">per MPV</string>
+    <string name="per_ticket_type_water_taxi">per watertaxi</string>
+    <string name="per_ticket_type_suv">per SUV</string>
+    <string name="per_ticket_type_executive_car">per executive car</string>
+    <string name="per_ticket_type_luxury_car">per luxury car</string>
+    <string name="per_ticket_type_limousine">per limousine</string>
+    <string name="per_ticket_type_towncar">per town car</string>
+    <string name="per_ticket_type_vehicle_parking_spot">per parkeerplaats</string>
+    <string name="per_ticket_type_book">per boek</string>
+    <string name="per_ticket_type_guide">per gids</string>
+    <string name="per_ticket_type_travel_card">per vervoerspas</string>
+    <string name="per_ticket_type_boat">per boot</string>
+    <string name="per_ticket_type_motorcycle">per motor</string>
+    <string name="per_ticket_type_ceremony">per ceremonie</string>
+    <string name="per_ticket_type_calling_card">per belkaart</string>
+    <string name="per_ticket_type_pass">per pas</string>
+    <string name="per_ticket_type_minibus">per personenbus</string>
+    <string name="per_ticket_type_helicopter">per helikopter</string>
+    <string name="per_ticket_type_device">per toestel</string>
+    <string name="per_ticket_type_room">per kamer</string>
+    <string name="per_ticket_type_carriage">per koets</string>
+    <string name="per_ticket_type_buggy">per buggy</string>
+    <string name="per_ticket_type_atv">per ATV</string>
+    <string name="per_ticket_type_jet_ski">per jetski</string>
+    <string name="per_ticket_type_scooter">per scooter</string>
+    <string name="per_ticket_type_scooter_car">per scooter car</string>
+    <string name="per_ticket_type_snowmobile">per sneeuwscooter</string>
+    <string name="per_ticket_type_day">per dag</string>
+    <string name="per_ticket_type_bike">per fiets</string>
+    <string name="per_ticket_type_week">per week</string>
+    <string name="per_ticket_type_subscription">per abonnement</string>
+    <string name="per_ticket_type_electric_bike">per elektrische fiets</string>
+    <string name="per_ticket_type_segway">per segway</string>
+    <string name="per_ticket_type_vehicle">per voertuig</string>
+
+    <!-- LX Strings -->
+    <!-- Slide to book -->
+    <string name="lx_slider_text">Swipe om te boeken</string>
+    <!-- Enter contact details-->
+    <string name="lx_enter_contact_details">Contactinfo invoeren</string>
+    <!-- LX search error -->
+    <string name="error_lx_search_message">Je zoekopdracht leverde geen resultaten op. Zoek opnieuw met andere zoekcriteria</string>
+    <!-- LX search error -->
+    <string name="error_lx_current_location_search_message">We konden je huidige locatie voor lokale activiteiten niet bepalen.</string> 
+    <!-- Text for generic error toolbar-->
+    <string name="lx_error_text">Fout</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_invalid_input_text">Ongeldige info</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_duplicate_trip_text">Dubbele reis</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_session_timeout_text">Sessie verlopen</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_payment_failed_text">Betaling mislukt</string>
+    <!-- Offers show more string -->
+    <string name="lx_show_more_offers">Meer tonen</string>
+    <!-- Text for traveler details toolbar-->
+    <string name="lx_traveler_details_text">Reizigersinfo</string>
+    <!-- Text for enter traveler details-->
+    <string name="lx_traveler_enter_details_text">Reizigersinfo invoeren</string>
+    <!-- Text for lx sort and filter-->
+    <string name="lx_sort_filter">Sorteer &amp; Filter</string>
+    <!--Price sort button -->
+    <string name="lx_price_sort_button">Prijs</string>
+    <!-- Popularity sort button -->
+    <string name="lx_popularity_sort_button">Populariteit</string>
+    <!-- Select ticket button -->
+    <string name="lx_select_ticket">Kies tickets</string>
+    <!-- Free cancellation text in offer  -->
+    <string name="lx_free_cancellation">Gratis annulering</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_voucherless_offer">Online coupon</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_print_voucher_offer">Afgedrukte coupon nodig</string>
+    <!-- Card brand not supported (e.g. "Visa not accepted") -->
+    <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s niet geaccepteerd</string>
+    <!-- LX Error Activity Price Changed -->
+    <string name="lx_error_price_changed">Sorry, maar de prijs van de activiteit is gewijzigd. Probeer opnieuw te boeken.</string>
+    <!-- LX confirmation itin text -->
+    <string name="lx_successful_checkout_email_label">Jouw tickets werden verzonden naar</string>
+    <!-- LX reservation confirmation text -->
+    <string name="lx_successful_checkout_reservation_label">Jouw reservering is bevestigd!</string>
+    <!-- Text for getting current location suggestion -->
+    <string name="lx_getting_current_location">Locatie aan het bepalen …</string>
+    <!-- LX Error Fetching activity details -->
+    <string name="lx_error_details">Details konden niet opgehaald worden. Probeer het opnieuw.</string>
+    <!-- Current location failed toolbar text -->
+    <string name="lx_error_current_location_toolbar_text">Probeer het opnieuw</string>
+    <!-- LX No Activities for Current location -->
+    <string name="lx_error_current_location_no_results">We konden geen lokale activiteiten vinden. Zoek opnieuw met andere zoekcriteria</string>
+
+    <!-- Ground Transport bags text-->
+    <string name="lx_ground_transport_bags_text">%1$sStuks bagage</string>
+    <!-- Ground Transport passengers text-->
+    <string name="lx_ground_transport_passengers_text">%1$sPassagiers</string>
+    <!-- Incorrect date search for LX -->
+    <string name="lx_start_date_error">Deze datum ligt in het verleden, kies een nieuwe datum.</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -79,6 +674,10 @@
         <item quantity="many">%s terugvluchten</item>
         <item quantity="other">%s terugvluchten</item>
     </plurals>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_roundtrip_label">Retourprijzen per persoon</string>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_oneway_label">Prijzen per persoon (enkele vlucht)</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Je reis is leeg.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -103,6 +702,8 @@
     <string name="tablet_search_results_hotels_unavailable_tonight">Sorry, er zijn voor vanavond \n geen hotels beschikbaar.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">Sorry, er zijn momenteel \n geen vluchten beschikbaar.</string>
+    <!-- Tablet search results, no flights available due to invalid start date -->
+    <string name="flight_search_range_error_TEMPLATE">Onze excuses, maar we kunnen niet zoeken naar vluchten op meer dan %1$s dagen van vandaag.</string>
     <!-- Remove Trip Bucket Flight - Undo messaging -->
     <string name="tablet_tripbucket_item_removed">Verwijderd</string>
     <!-- Label indicating how many items are being booked for the current trip -->
@@ -115,6 +716,11 @@
         <item quantity="other">Items in reis</item>
     </plurals>
 
+    <!-- LX Sort & Filter "Sort By" section header -->
+    <string name="lx_sort_by">Sorteer op</string>
+    <!-- LX Sort & Filter "Categories" header -->
+    <string name="lx_categories">Categorieën</string>
+
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
     <string name="Sort_By">Sorteer op</string>
@@ -125,23 +731,15 @@
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">Andere buurten</string>
     <!-- Short label for "sort by popular" button -->
-    <string name="popular">populariteit</string>
+    <string name="popular">Populariteit</string>
     <!-- Short label for "sort by price" button -->
-    <string name="price">prijs</string>
+    <string name="price">Prijs</string>
     <!-- Short label for "sort by rating" button -->
-    <string name="rating">score</string>
+    <string name="rating">Score</string>
     <!-- Short label for "sort by distance" button -->
-    <string name="distance">afstand</string>
+    <string name="distance">Afstand</string>
     <!-- Short label for "sort by discounts" button -->
-    <string name="discounts">korting</string>
-    <!-- Content description for "sort by popular" button -->
-    <string name="cd_sort_by_popular">Druk om te sorteren op de populairste hotels.</string>
-    <!-- Content description for "sort by price" button -->
-    <string name="cd_sort_by_price">Druk om te sorteren op de goedkoopste hotels.</string>
-    <!-- Content description for "sort by rating" button -->
-    <string name="cd_sort_by_rating">Druk om te sorteren op de hotels met de beste gastenscores.</string>
-    <!-- Content description for "sort by distance" button -->
-    <string name="cd_sort_by_distance">Druk om te sorteren op de dichtstbijzijnde hotels.</string>
+    <string name="discounts">Kortingen</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">Vanaf %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
@@ -189,10 +787,18 @@
     <string name="all_airports">Alle luchthavens</string>
 
     <!-- Tablet hotel details -->
+    <!-- Rooms and rates pay later -->
+    <string name="room_rate_pay_later">Betaal later</string>
+    <!-- Rooms and rates pay now -->
+    <string name="room_rate_pay_now">Betaal nu</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="room_rate_pay_later_due_now">Nu te betalen</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/nacht</string>
-    <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_template">Extra hoteltoeslagen voor dit verblijf: &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_included_template">Hoteltoeslagen voor dit verblijf (inbegrepen): &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_not_included_template">Hoteltoeslagen voor dit verblijf (niet inbegrepen): &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">Aan reis toevoegen</string>
     <!-- Rooms and rates button to select a particular room and view details -->
@@ -202,9 +808,9 @@
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">Aanbevolen door %s%%</string>
     <!-- A message stating this hotel is all sold out for the given dates searched -->
-    <string name="sorry_rooms_sold_out">Sorry, alle kamers zijn uitverkocht bij Expedia.</string>
+    <string name="sorry_rooms_sold_out_TEMPLATE">Sorry, alle kamers zijn uitverkocht bij {brand}.</string>
     <!-- A message stating this hotel is sold out on Expedia -->
-    <string name="sold_out_on_expedia">Uitverkocht op Expedia</string>
+    <string name="sold_out_on_TEMPLATE">Uitverkocht bij {brand}</string>
     <!-- Hotel gallery title -->
     <string name="photos_for_TEMPLATE">Foto\&apos;s voor %s</string>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
@@ -231,7 +837,9 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">Retourreis</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">Totaal</string>
+    <string name="total_with_tax">Totaal incl. belastingen</string>
+    <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
+    <string name="trip_total">Totaal reis</string>
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
@@ -251,57 +859,71 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">Beste &lt;b&gt;%1$s&lt;/b&gt;, we hebben je Expedia-account gevonden! Voer hieronder het wachtwoord van je Expedia-account in om het met je Facebook-account te kunnen koppelen.</string>
+    <string name="facebook_weve_found_your_account_TEMPLATE">Beste &lt;b&gt;{name}&lt;/b&gt;, we hebben je {brand}-account gevonden! Voer hieronder het wachtwoord van je {brand}-account in om je Facebook- en {brand}-accounts te koppelen.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">Beste &lt;b&gt;%1$s&lt;/b&gt;, we hebben je gegevens van Facebook geladen!</string>
-    <!-- Log in with facebook (button text) -->
-    <string name="Log_in_with_Facebook">Aanmelden met Facebook</string>
+    <!-- Sign in with facebook (button text) -->
+    <string name="Sign_in_with_Facebook">Aanmelden via Facebook</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Facebook-gegevens aan het ophalen…</string>
-    <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">Bezig met aanmelden via Facebook…</string>
+    <!-- Attempting to sign you in with facebook credentials -->
+    <string name="attempting_to_sign_in_with_facebook">Bezig met aanmelden via Facebook …</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">Er deed zich een onbekende fout voor. Probeer het later opnieuw.</string>
-    <!-- Unable to log in to Facebook -->
-    <string name="unable_to_log_into_facebook">Aanmelden via Facebook mislukt.</string>
-    <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="login_failed_try_again">Aanmelding mislukt. Bevestig of de Landinstellingen van je app kloppen als je e-mail en wachtwoord correct zijn.</string>
-    <!-- Facebook connect expedia password hint -->
-    <string name="expedia_password_hint">Expedia-wachtwoord</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="unable_to_sign_into_facebook">Aanmelden via Facebook mislukt.</string>
+    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
+    <string name="sign_in_failed_try_again">Aanmelden mislukt. Bevestig of de Landinstellingen van je app kloppen als je e-mail en wachtwoord correct zijn.</string>
+    <!-- Facebook connect password hint -->
+    <string name="brand_password_hint_TEMPLATE">{brand}-wachtwoord</string>
     <!-- Link accounts -->
     <string name="link_accounts">Accounts koppelen</string>
-    <!-- Failure to update the user -->
-    <string name="failure_to_update_user">Bijgewerkte gebruikersgegevens ophalen mislukt.</string>
+    <!-- User Denied email permission Heading -->
+    <string name="user_denied_permission_email_heading">E-mailtoestemming</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">Accounts aan het koppelen…</string>
-    <!-- Log In -->
-    <string name="Log_In">Aanmelden</string>
-    <!-- Log in with Expedia -->
-    <string name="Log_in_with_Expedia">Aanmelden bij Expedia</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">E-mailtoestemming geven</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message_TEMPLATE">Om je te kunnen aanmelden bij Facebook, hebben wij je toestemming nodig om je e-mailadres te controleren. \n\n{brand}Tik op de onderstaande Facebook-knop om toestemming te geven je e-mailadres te controleren. Hartelijk bedankt.</string>
+
+    <!-- Sign in with Expedia -->
+    <string name="Sign_in_with_TEMPLATE">Aanmelden via {brand}</string>
     <!-- or -->
     <string name="or">of</string>
-    <!-- Already logged in -->
-    <string name="already_logged_in">Al aangemeld</string>
 
     <!-- Restricted Profile -->
-    <!-- Restricted profile login message -->
-    <string name="restricted_profile_login_message">Om aan te melden dien je te beschikken over een onbeperkt gebruikersprofiel op je apparaat.</string>
+    <!-- Restricted profile sign in message -->
+    <string name="restricted_profile_sign_in_message_TEMPLATE">Om aan te melden bij {brand} dien je een onbeperkt gebruikersprofiel te hebben op je toestel.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
     <string name="nav_flights">Vluchten</string>
     <!-- Hotels -->
     <string name="nav_hotels">Hotels</string>
+    <!-- Cars -->
+    <string name="nav_cars">Auto\&apos;s</string>
+    <!-- Activities -->
+    <string name="nav_lx">Activiteiten</string>
 
-    <!-- Launch screen -->
-    <!-- Label for launch screen hotel button secondary text -->
-    <string name="launch_hotel_secondary_text">Boek een kamer.</string>
-    <!-- Label for launch screen flight button secondary text -->
-    <string name="launch_flight_secondary_text">Trek eropuit.</string>
-    <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
-    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;Vlieg naar&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
-    <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
-    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;Verblijf in&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
+    <!-- New launch screen -->
+    <!-- Top deals tonight -->
+    <string name="nearby_deals_title">Populaire hotels voor vandaag</string>
+    <!-- See all nearby deals -->
+    <string name="nearby_deals_expand">Meer tonen</string>
+    <!-- Percent off template, e.g. 50% off -->
+    <string name="percent_off_TEMPLATE">-%2.0f%%</string>
+    <!-- List loading header -->
+    <string name="loading_header">Laden …</string>
+    <!-- Hotel launch list rating text -->
+    <string name="hotel_rating_text">/ 5 - gastenscore</string>
+    <!-- Hotel search list rating text -->
+    <string name="hotel_search_rating_text">/ 5</string>
+    <!-- Expedia Deal for a given property, Mobile exclusive -->
+    <string name="launch_mobile_exclusive">alleen mobiel!</string>
+    <!-- Expedia Deal for a given property, tonight only -->
+    <string name="launch_tonight_only">Alleen vandaag!</string>
+
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">Helaas, we kunnen geen verbinding maken</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
@@ -322,9 +944,11 @@
     <string name="explore_now">Verken nu</string>
     <!-- Label for Collection tile that, when clicked, takes you to search results with your last state -->
     <string name="your_search">Je zoekopdracht</string>
+    <!-- Label for Current Location Collection tile that, when clicked, takes you to hotel search results with current location  -->
+    <string name="current_location_tile">Lokale deals voor vandaag</string>
     <!-- Subtitle for "Your Search" collection tile, indicating number of items in TripBucket -->
     <plurals name="num_items_TEMPLATE">
-        <item quantity="zero">%s producten</item>
+        <item quantity="zero">%s items</item>
         <item quantity="one">%s product</item>
         <item quantity="two">%s producten</item>
         <item quantity="few">%s producten</item>
@@ -335,10 +959,16 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">Check-in beschikbaar</string>
+    <!-- Title for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_title">Deel je vlucht</string>
+    <!-- Content for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_content">Zorg ervoor dat anderen live updates ontvangen terwijl je reist.</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%1$s vlucht naar %2$s</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
     <string name="your_flight_to_x_TEMPLATE">Je vlucht naar %1$s</string>
+    <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
+    <string name="your_selected_flight_to_x_TEMPLATE">Je geselecteerde vlucht naar %1$s</string>
     <!-- Notification title for car pick up -->
     <string name="Car_Pick_Up_X_TEMPLATE">Auto ophalen – %s</string>
     <!-- Notification text for car pick up -->
@@ -351,6 +981,9 @@
     <string name="Activity_starting_soon">Activiteit binnenkort van start</string>
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">Je ticket voor %s kan vanaf morgen gebruikt worden.</string>
+    <!-- Notification text for a desktop booking itinerary being available on the user's device -->
+    <string name="Itinerary_ready">Reisplan klaar</string>
+
 
     <!-- Itineraries -->
     <!-- Itinerary -->
@@ -359,12 +992,16 @@
     <string name="shop">Shop</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Vind reisplan</string>
+    <!-- Enter Itinerary Details -->
+    <string name="enter_itinerary_details">Voer je reisplangegevens in</string>
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">Reisplannr. zoeken</string>
     <!-- Expedia Itinerary -->
-    <string name="expedia_itinerary">Expedia reisplannr.</string>
-    <!-- Elite plus customer support -->
-    <string name="elite_plus_customer_support">Elite Plus klantenservice</string>
+    <string name="itinerary_TEMPLATE">{brand}-reisplannr.</string>
+    <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
+    <string name="Expedia_plus_Silver_Customer_Support">Klantenservice Expedia +silver</string>
+    <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
+    <string name="Expedia_plus_Gold_Customer_Support">Klantenservice Expedia +gold</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Geen toekomstige reizen</string>
     <!-- Enter itinerary number -->
@@ -373,8 +1010,8 @@
     <string name="fetching_your_itinerary">Reisplannen ophalen…</string>
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">Reisplannen ophalen mislukt</string>
-    <!-- Log in for your trips -->
-    <string name="log_in_for_your_trips">&lt;b&gt;Aanmelden&lt;/b&gt; voor reisplannen</string>
+    <!-- Sign in for your trips -->
+    <string name="sign_in_for_your_trips">Aanmelden voor je reizen</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">Morgen</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -492,8 +1129,8 @@
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;Op %1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Vanaf %1$s&lt;/b&gt; - %2$s</string>
-    <!-- Itin logout confirmation message -->
-    <string name="itin_logout_confirmation_message_TEMPLATE">Wanneer je je afmeldt bij %1$s verwijder je alle reisplanitems die aan dit account gekoppeld zijn. Weet je zeker dat je je wil afmelden?</string>
+    <!-- Itin sign out confirmation message -->
+    <string name="itin_sign_out_confirmation_message_TEMPLATE">Wanneer je je afmeldt bij %1$s verwijder je alle reisplanitems die aan dit account gekoppeld zijn. Weet je zeker dat je je wilt afmelden?</string>
     <!-- Directions -->
     <string name="directions">Routebeschrijving</string>
     <!-- Terminal Map -->
@@ -576,77 +1213,20 @@
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">Verbergen</string>
     <!-- Menu label: Never show this type of itin button again -->
-    <string name="itin_button_hide_forever">Altijd verbergen</string>
+    <string name="itin_button_hide_forever">Alles verbergen</string>
 
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
     <string name="add_hotel_TEMPLATE">Hotel toevoegen in %1$s</string>
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">Voeg een hotel toe op je bestemming</string>
+    <!-- Button label to add a hotel in the air attach case. -->
+    <string name="add_hotel_air_attach">Hotel toevoegen</string>
 
-    <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="talk_to_local_expert">Spreek met een Local Expert</string>
-
-    <!-- Local Expert Sites -->
-    <!-- Name of Hawaii (for local expert) -->
-    <string name="site_hawaii">Hawaii</string>
-    <!-- Name of Orlando, FL (for local expert) -->
-    <string name="site_orlando">Orlando</string>
-    <!-- Name of Las Vegas (for local expert) -->
-    <string name="site_las_vegas">Las Vegas</string>
-
-    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
-    <string name="local_expert_title_TEMPLATE">Geniet van %1$s</string>
-    <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="local_expert_description">Je Local Expert conciërge is een telefoontje\nverwijderd voor het plannen van activiteiten.</string>
-    <!-- Text for the button on Local Expert pages, to call the concierge -->
-    <string name="local_expert_call_button_text">Bel hen even op</string>
-
-    <!-- Local Expert attractions; these are all split into two lines (second line is bolded) -->
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_first">Wondermooie</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_second">dieren</string>
-    <!-- First half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_first">Ervaar de</string>
-    <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_second">leukste achtbanen</string>
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">Ontdek de</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_second">prachtigste stranden</string>
-    <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_first">Vlieg mee in</string>
-    <!-- Second half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_second">een helikopter</string>
-    <!-- First half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_first">Ga scubaduiken</string>
-    <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_second">met de vissen</string>
-    <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_first">Beproef je geluk</string>
-    <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_second">in de casino\&apos;s</string>
-    <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_first">Maak een testrit</string>
-    <!-- Second half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_second">in een Ferrari</string>
-    <!-- First half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_first">Activiteiten</string>
-    <!-- Second half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_second">voor families</string>
-    <!-- First half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_first">Geniet van de</string>
-    <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_second">fijnste gerechten</string>
-    <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_first">Profiteer van het</string>
-    <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_second">beste entertainment</string>
-    <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_first">Ontdek lokale</string>
-    <!-- Second half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_second">muziekconcerten</string>
+    <!-- Button label to search for an activity in the hotel city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_lx_TEMPLATE">Vind activiteiten in %1$s</string>
+    <!-- Button label to search for an activity in the hotel city. Used only when we don't know the destination city. -->
+    <string name="add_lx_fallback">Vind activiteiten op je bestemming</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -685,6 +1265,42 @@
     <string name="car_category_special">Speciale auto</string>
     <!-- Car category: oversize -->
     <string name="car_category_oversize">Oversize auto</string>
+
+    <!-- Car category for results and details screen -->
+    <!-- Car category: mini -->
+    <string name="car_category_result_mini">Mini</string>
+    <!-- Car category: economy -->
+    <string name="car_category_result_economy">Economy</string>
+    <!-- Car category: compact -->
+    <string name="car_category_result_compact">Compact</string>
+    <!-- Car category: midize -->
+    <string name="car_category_result_midsize">Midsize</string>
+    <!-- Car category: standard -->
+    <string name="car_category_result_standard">Standaard</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_result_fullsize">Fullsize</string>
+    <!-- Car category: premium -->
+    <string name="car_category_result_premium">Premium</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_result_luxury">Luxury</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_result_mini_elite">Mini Elite</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_result_economy_elite">Economy Elite</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_result_compact_elite">Compact Elite</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_result_midsize_elite">Midsize Elite</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_result_standard_elite">Standaard Elite</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_result_fullsize_elite">Fullsize Elite</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_result_premium_elite">Premium Elite</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_result_luxury_elite">Luxury Elite</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_result_oversize">Oversize</string>
 
     <!-- Car types -->
     <string name="car_type_two_door">2-deurs Auto</string>
@@ -786,6 +1402,7 @@
     <string name="itin_action_redeem">Inwisselen</string>
     <string name="itin_action_support">Ondersteuning</string>
     <string name="itin_action_share">Delen</string>
+    <string name="itin_action_view">Reisplan weergeven</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">Coupons afdrukken</string>
@@ -810,7 +1427,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">Telefoon\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">Boek hotels, vluchten en bekijk &amp; deel je reisplannen. Download vandaag nog de gratis Expedia mobiele app.\n%s</string>
+    <string name="share_long_ad_TEMPLATE">Boek hotels, vluchten en bekijk &amp; deel je reisplannen. Download vandaag nog de gratis {brand} App.\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">Ik vlieg op %2$s naar %1$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -906,7 +1523,7 @@
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Expedia_Flights">Expedia Vluchten</string>
+    <string name="Flights_TEMPLATE">{brand}-vluchten</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">Zoeken naar een vlucht</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -933,8 +1550,8 @@
     <string name="outbound_TEMPLATE">Heenvluchten naar %s</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">Terugvluchten naar %s</string>
-    <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">We konden geen verbinding maken met de servers van Expedia.  Probeer het later opnieuw.</string>
+    <!-- Template string for error when we simple can't connect to E3 servers-->
+    <string name="error_server_TEMPLATE">We konden geen verbinding maken met de servers van {brand}. Probeer het later opnieuw.</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">Vertrektijd</string>
     <!-- Sort by arrival time label -->
@@ -971,9 +1588,9 @@
     <!-- Hint when no dates are selected for a flight trip -->
     <string name="hint_select_departure">Kies een vertrekdatum</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
-    <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt; (enkele reis)</string>
+    <string name="one_way_TEMPLATE">%1$s (enkele reis)</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; tot &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="round_trip_TEMPLATE">%1$s naar %2$s</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">Vluchten sorteren</string>
     <!-- Edit search title -->
@@ -1025,7 +1642,8 @@
     <string name="calendar_instructions_date_range_with_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">Kies de incheckdatum</string>
-
+    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests} gasten</string>
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">Enkele reis voor &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1090,6 +1708,12 @@
     <string name="select_payment">Kies betaalmethode</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">Betalingsinfo</string>
+    <!-- Select payment sentence case AB Test variate1 -->
+    <string name="select_payment_sentence_case_variate1">Betalingsinfo invoeren</string>
+    <!-- Select payment sentence case AB Test variate2 -->
+    <string name="select_payment_sentence_case_variate2">Betaling</string>
+    <!-- Select payment callout AB Test variate2 -->
+    <string name="select_payment_callout">details invoeren</string>
     <!-- Add new card -->
     <string name="add_new_card">Nieuwe creditcard toevoegen</string>
     <!-- Overview button -->
@@ -1110,6 +1734,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Airline aanvaardt geen %1$s</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
     <string name="hotel_does_not_accept_cardtype_TEMPLATE">Hotels aanvaardt geen %1$s</string>
+    <!-- Car supplier does not accept <Credit Card Brand> (e.g. "Enterprise does not accept Visa") -->
+    <string name="car_does_not_accept_cardtype_TEMPLATE">%1$s aanvaardt geen %2$s</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">Betaalpassen worden niet aanvaard.</string>
 
@@ -1117,7 +1743,7 @@
     <!-- Label for Overview activity in task manager -->
     <string name="Overview">Overzicht</string>
     <!-- Trip total price label -->
-    <string name="total_price_label">Totaalprijs</string>
+    <string name="total_price_label">Totaal reis</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Reis naar %1$s</string>
     <!-- Includes taxes and fees -->
@@ -1148,6 +1774,12 @@
     <string name="airline_card_not_supported_TEMPLATE">De airline ondersteunt %1$s niet.</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, but when we don't know the type of the card -->
     <string name="airline_card_not_supported_generic">De airline accepteert dit creditcardmerk niet.</string>
+    <!-- Message shown to user explaining a hotel fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The hotel charges a fee of $8.50 to use VISA." -->
+    <string name="hotel_card_fee_select_TEMPLATE">Het hotel heft een toeslag van %1$s wanneer je boekt met %2$s.</string>
+    <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The hotel does not support VISA." -->
+    <string name="hotel_card_not_supported_TEMPLATE">het hotel accepteert geen %1$s.</string>
+    <!-- Message shown to user when they can't use their credit card to book with the hotel, but when we don't know the type of the card -->
+    <string name="hotel_card_not_supported_generic">Het hotel accepteert dit creditcardmerk niet.</string>
 
     <!-- Checkout Activity -->
     <!-- Checkout Information label -->
@@ -1157,15 +1789,17 @@
     <!-- I Accept button label -->
     <string name="I_Accept">Ik ga akkoord</string>
     <!-- Slide to purchase -->
-    <string name="slide_to_purchase">Sleep om te boeken.</string>
+    <string name="slide_to_purchase">Swipe om te boeken.</string>
     <!-- Slide-to-book widget prompt for hotels -->
     <string name="slide_to_book_hotel">sleep om hotel te boeken</string>
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">sleep om vlucht te boeken</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Op je creditcard wordt %1$s in rekening gebracht</string>
+    <!-- Cars amount due today without a required credit card -->
+    <string name="amount_due_today_TEMPLATE">Vandaag te betalen: %1$s</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Nu te betalen: %1$s</string>
+    <string name="Amount_to_be_paid_now_TEMPLATE">Nu te betalen bedrag: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">Te betalen bij hotelreceptie: %1$s</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -1174,16 +1808,22 @@
     <string name="menu_checkout">Betaling</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Prijsgarantie</string>
+    <!-- Label for address of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_address">Adres:</string>
+    <!-- Label to view map of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_view_map">Kaart weergeven</string>
+    <!-- Expedia Rate - Non merchant default infosite messaging -->
+    <string name="non_merchant_rate_TEMPLATE">{brand}-tarief</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis annulering&lt;/b&gt; tot &lt;b&gt;%s&lt;/b&gt;</string>
-    <!-- Log out -->
-    <string name="log_out">Afmelden</string>
+    <!-- Sign out -->
+    <string name="sign_out">Afmelden</string>
+    <!-- AB Test 3x messaging for hotel points -->
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">Je verzamelt %1$s punten — 3x zo veel punten omdat je boekt met de app!</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">Je verdient %1$s punten voor deze reis!</string>
-    <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">%1$s punten deze reis!</string>
-    <!-- You'll earn bonus points for this booking -->
-    <string name="youll_earn_bonus_points_for_this_booking">Je verdient bonuspunten voor deze reis</string>
+    <string name="youll_earn_points_TEMPLATE">Je verdient %1$s bonuspunten voor deze boeking!</string>
+    <!-- Blurb text displayed on account sign in button when already signed in -->
+    <string name="x_points_for_this_trip_TEMPLATE">Je verdient %1$s punten voor deze reis!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">Belastingen en toeslagen aan het berekenen…</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -1192,12 +1832,28 @@
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">Goed nieuws! De prijs voor je verblijf is net verlaagd van %1$s naar %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Gereed</string>
-    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">Totaal nu te betalen</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Gebruik alleen latijnse tekens</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">Voer een geldig e-mailadres in</string>
+    <!-- Row header for when we show resort fees as its own line item -->
+    <string name="fees_paid_at_hotel">Toeslagen verrekend in hotel:</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
+    <string name="due_to_brand_today_TEMPLATE">Nu te betalen aan {brand}:</string>
+    <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
+    <string name="resort_fee_disclaimer_TEMPLATE">De resortkosten van &lt;b&gt;%1$s&lt;/b&gt; worden in het hotel verrekend. De totaalprijs voor je verblijf is &lt;b&gt;%2$s&lt;/b&gt;.</string>
+    <!-- Pay later disclaimer at bottom of checkout -->
+    <string name="pay_later_disclaimer_TEMPLATE">Het totaal voor je reis is &lt;b&gt;%1$s&lt;/b&gt;. Je betaalt pas tijdens je verblijf de totale boekingskosten aan het hotel (in de lokale valuta van het hotel).</string>
+    <!-- Pay later disclaimer with deposit -->
+    <string name="pay_later_deposit_disclaimer_TEMPLATE">Er wordt nu een aanbetaling van &lt;b&gt;%1$s&lt;/b&gt; in rekening gebracht. Je betaalt pas tijdens je verblijf de resterende boekingskosten aan het hotel (in de lokale valuta van het hotel).</string>
+    <!-- Pay later disclaimer with resort fees -->
+    <string name="pay_later_resort_disclaimer_TEMPLATE">Het totaal voor je reis, incl. &lt;b&gt;%1$s&lt;/b&gt; resortkosten, is &lt;b&gt;%2$s&lt;/b&gt;. Je betaalt pas tijdens je verblijf de totale boekingskosten aan het hotel (in de lokale valuta van het hotel).</string>
+    <!-- Pay later disclaimer with deposit and resort fees -->
+    <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Het totaal voor je reis, incl. &lt;b&gt;%1$s&lt;/b&gt; resortkosten, is &lt;b&gt;%2$s&lt;/b&gt;. Je betaalt pas tijdens je verblijf de resterende boekingskosten aan het hotel (in de lokale valuta van het hotel).</string>
+    <!-- Flights AB Test Free Cancellation-->
+    <string name="ab_test_flights_free_cancellation">Gratis annulering binnen 24 uur</string>
+    <!-- Flights AB Test Traveler info missing callout label -->
+    <string name="ab_test_flights_missing_info_callout">Reizigersinfo invoeren</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1220,7 +1876,7 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Belastingen &amp; toeslagen</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">Expedia boekingskosten</string>
+    <string name="brand_booking_fee">Boekingskosten van {brand}</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">Creditcardtoeslag airline</string>
     <!-- Flight -->
@@ -1238,24 +1894,66 @@
     <string name="enter_traveler_info">Reizigersinformatie</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">Info hoofdreiziger</string>
+    <!-- Saved button for traveler/payment -->
+    <string name="saved_button">Opgeslagen</string>
+    <!-- Edit button for traveler/payment -->
+    <string name="edit_button">Bewerken</string>
+    <!-- Select traveler/contact from checkout saved travelers list -->
+    <string name="select_traveler">Contact selecteren</string>
+    <!-- Add new traveler, checkout saved travelers list -->
+    <string name="add_new_traveler">Nieuwe reiziger toevoegen</string>
+    <!-- Select card from checkout saved credit cards list -->
+    <string name="saved_creditcards">Opgeslagen creditcards</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="select_saved_cards">Opgeslagen kaarten selecteren</string>
+    <!-- Add new card, checkout saved credit cards list -->
+    <string name="add_new_creditcard">Nieuwe creditcard toevoegen</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Reizigersinfo</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Info volwassene %1$s</string>
+    <!-- AB test variate 1 - Add adult traveler number template -->
+    <string name="add_adult_number_variate1_TEMPLATE">Info volwassene %1$s invoeren</string>
+    <!-- AB test variate 2 - Add adult traveler number template -->
+    <string name="add_adult_number_variate2_TEMPLATE">Volwassene %1$s</string>
     <!-- Add adult traveler details label -->
     <string name="add_adult">Info volwassene</string>
+    <!-- AB test variate 1 - Add adult traveler details label -->
+    <string name="add_adult_variate1">Info volwassene invoeren</string>
+    <!-- AB test variate 2 - Add adult traveler details label -->
+    <string name="add_adult_variate2">Volwassene</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Info kind %1$s</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_TEMPLATE">Info kind van %1$s jaar</string>
+    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate1_TEMPLATE">Info kind van %1$s jaar invoeren</string>
+    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate2_TEMPLATE">Kind van %1$s jaar</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Info baby op schoot %1$s</string>
+    <!-- AB test variate 1 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate1_TEMPLATE">Info baby op schoot %1$s invoeren</string>
+    <!-- AB test variate 2 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate2_TEMPLATE">Baby op schoot %1$s</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap">Info baby op schoot</string>
+    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate1">Info baby op schoot invoeren</string>
+    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate2">Baby op schoot</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">Info baby op stoel %1$s</string>
+    <!-- AB test variate 1- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate1_TEMPLATE">Info baby op stoel %1$s invoeren</string>
+    <!-- AB test variate 2- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate2_TEMPLATE">Baby op stoel %1$s</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat">Info baby op stoel</string>
+    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate1">Baby op stoel invoeren</string>
+    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate2">Baby op stoel</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Mogelijk wordt toegang tot het vliegtuig geweigerd als de naam van de reiziger niet overeenstemt met die op het identiteitsbewijs.</string>
 
@@ -1266,9 +1964,9 @@
     <!-- Born on -->
     <string name="born_on_TEMPLATE">Geboren op %1$s</string>
     <!-- Born on colored -->
-    <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;Geboren op&lt;/font&gt; %1$s</string>
+    <string name="born_on_colored_TEMPLATE">Geboren op %1$s</string>
     <!-- <brand> expiring <date> template -->
-    <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; vervalt op %2$s</string>
+    <string name="brand_expiring_TEMPLATE">%1$s vervalt op %2$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -1281,14 +1979,19 @@
     <string name="cardholder">Kaarthouder</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">Je bevestigingsbericht wordt hier naartoe gestuurd</string>
-    <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;Vervalt&lt;/font&gt; %1$s</string>
+    <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">Ik wil geen e-mails van {brand} ontvangen met reisaanbiedingen, speciale deals en andere informatie.</string>
+    <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_in_TEMPLATE">Ik wil e-mails van {brand} ontvangen met reisaanbiedingen, speciale deals en andere informatie.</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
     <string name="single_line_street_address_TEMPLATE">%1$s, %2$s</string>
     <!-- Single Line City State Zip -->
     <string name="single_line_city_state_zip_TEMPLATE">%1$s, %2$s, %3$s</string>
+
+    <!-- Airport to LX template (e.g. "Boise, ID or Paris, France" -->
+    <string name="lx_destination_TEMPLATE">%1$s, %2$s</string>
 
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
@@ -1318,7 +2021,7 @@
     <!-- save billing info -->
     <string name="save_billing_info">Betaalinfo opslaan</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">Wil je deze betaalmethode in je Expedia-account opslaan om in de toekomst sneller te kunnen boeken?</string>
+    <string name="save_billing_info_message_TEMPLATE">Wil je deze betaalmethode in je {brand}-account opslaan om later sneller te kunnen boeken?</string>
     <!-- save -->
     <string name="save">Opslaan</string>
 
@@ -1326,7 +2029,7 @@
     <!-- save traveler -->
     <string name="save_traveler">Reiziger opslaan</string>
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">Wil je de gegevens van %1$s in je Expedia-account opslaan om in de toekomst sneller te kunnen boeken?</string>
+    <string name="save_traveler_message_TEMPLATE">Wil je de gegevens van {name} in je {brand}-account opslaan om in de toekomst sneller te kunnen boeken?</string>
     <!-- no thanks -->
     <string name="no_thanks">Nee, bedankt</string>
 
@@ -1391,13 +2094,13 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">Voorkeur voor stoel bij %1$s</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;Voorkeur voor stoel bij &lt;/font&gt;%1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE">Voorkeur voor stoel bij %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Bezig met laden reizigersinformatie…</string>
     <!-- Passport -->
     <string name="passport">Paspoort</string>
     <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;Huidige reiziger -&lt;/font&gt; %1$s %2$s</string>
+    <string name="current_traveler_TEMPLATE">Huidige reiziger - %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -1438,8 +2141,14 @@
     <string name="itinerary_confirmation_TEMPLATE">Reisplannummer%s verstuurd naar</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">Boek een kamer</string>
+    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
+    <string name="add_to_your_trip">Toevoegen aan reis</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotels in %s</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
+    <string name="cars_in_TEMPLATE">Auto\&apos;s in %s</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
+    <string name="lx_in_TEMPLATE">Activiteiten in %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Meer opties</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -1451,13 +2160,28 @@
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
     <string name="add_to_flighttrack">Volg met FlightTrack</string>
     <!-- Button label for calling expedia customer support -->
-    <string name="call_expedia_customer_support">Bel de Expedia klantenservice</string>
-    <!-- Button label for VSC support webpage link -->
-    <string name="vsc_customer_support">Neem contact met ons op</string>
+    <string name="call_customer_support_TEMPLATE">Bel de {brand}-klantenservice</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">Verzekering toevoegen</string>
     <!-- Insurance -->
     <string name="insurance">Verzekering</string>
+    <!-- Insurance label on itin section -->
+    <string name="insurance_itin_label">Reisverzekering</string>
+    <!-- Air attach messaging -->
+    <string name="air_attach_alert">Omdat je een vlucht hebt geboekt</string>
+    <!-- Air attach savings messaging -->
+    <string name="air_attach_potential_savings">bespaar je tot 55% op een hotel.</string>
+    <!-- Air attach discounted hotel messaging -->
+    <string name="air_attach_amount_discounted_TEMPLATE">bespaar je %s als je je hotel nu boekt!</string>
+    <!-- Air attach offer expiration alert -->
+    <string name="air_attach_expires">Aanbieding verloopt over</string>
+    <!-- Air attach expires today alert -->
+    <string name="air_attach_expires_today">Aanbieding verloopt vandaag</string>
+    <!-- Air attach add hotel button -->
+    <string name="air_attach_add_hotel">Hotel toevoegen</string>
+    <!-- Air attach add hotel button subtitle -->
+    <string name="air_attach_with_discounts">met kortingen</string>
+
 
     <!-- Hotel confirmation page -->
     <!-- Title for section helping users get flights after booking a hotel -->
@@ -1473,11 +2197,11 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">Expedia reisplannummer: %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">{brand}-reisplannr.: {itinerary}</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">Routebeschrijving naar luchthaven: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE">Expedia klantenservice: %s</string>
+    <string name="calendar_flight_desc_support_TEMPLATE">{brand}-klantenservice: {phone}</string>
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
@@ -1508,6 +2232,8 @@
     <string name="accept">Goedkeuren</string>
     <!-- Button label for retrying after getting an error -->
     <string name="retry">Opnieuw proberen</string>
+    <!-- Button label for adjusting filters after getting no results -->
+    <string name="edit_filters">Filters bewerken</string>
     <!-- Button label for calling -->
     <string name="call_support">Ondersteuning</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
@@ -1529,11 +2255,11 @@
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">Het spijt ons, we kunnen je boeking momenteel niet verwerken. Probeer het opnieuw.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">Het spijt ons, we kunnen je boeking momenteel niet verwerken. Probeer het opnieuw of bel de Expedia klantenservice en geef het volgende reisplannummer op: %s</string>
+    <string name="error_flight_unhandled_TEMPLATE">Het spijt ons, we kunnen je boeking momenteel niet verwerken. Probeer het opnieuw of bel de {brand}-klantenservice en geef dit reisplannummer: {itinerary}</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_expedia">Helaas, je vlucht is niet meer beschikbaar bij Expedia.</string>
+    <string name="error_flight_no_longer_available_TEMPLATE">Sorry, je vlucht is niet meer beschikbaar bij {brand}.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_expedia">Helaas, een van je vluchten is niet meer beschikbaar bij Expedia.</string>
+    <string name="error_flights_no_longer_available_TEMPLATE">Sorry, één van je vluchten is niet meer beschikbaar bij {brand}.</string>
     <!-- Error shown to user if their flight is no longer available or expired -->
     <string name="error_flight_hold_expired">Sorry, maar je reservering voor deze vlucht is vervallen.</string>
     <!-- Error shown to user if one of multiple flights is no longer available or expired -->
@@ -1611,15 +2337,14 @@
     <string name="share_flight_section_outbound">Heenreis:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">Terugreis:</string>
-    <string name="app_name">Expedia</string>
 
     <!-- Search Fragment -->
     <!-- Label for picking checkin/checkout dates -->
     <string name="drag_to_extend_your_stay">&lt;b&gt;Sleep&lt;/b&gt; om je verblijf te verlengen</string>
     <!-- Child age dialog button -->
     <string name="button_done">Gereed</string>
-    <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">Gereed</string>
+    <!-- Done button text in Confirmation screens -->
+    <string name="button_confirmation_done">Gereed</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">Selecteer de leeftijd van kind</item>
@@ -1675,6 +2400,10 @@
     <string name="DONE">KLAAR</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">Op kaart zoeken</string>
+    <!-- Button label for toggling to the map -->
+    <string name="map_text">Kaart</string>
+    <!-- Button label for toggling to the hotel list -->
+    <string name="list_text">Lijst</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="sort">Sorteren</string>
     <!-- Label to swtich between map and list search results -->
@@ -1683,6 +2412,10 @@
     <string name="mobile_exclusive">Exclusieve mobiele deal</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">Alleen vandaag!</string>
+    <!-- Expedia sponsored listing -->
+    <string name="sponsored">Gesponsord</string>
+    <!-- Expedia ETP book now/pay later search results -->
+    <string name="book_now_pay_later">Boek nu, betaal later</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">Helaas, we kunnen geen zoekopdracht doen van meer dan %1$s overnachtingen.</string>
     <!-- Search Error title text "Search Error" -->
@@ -1699,7 +2432,7 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">Om je huidige locatie te gebruiken moet je naar" Locatie en beveiliging" gaan in Instellingen.\nNaar Instellingen gaan en inschakelen?</string>
+    <string name="EnableLocationSettings">Om je huidige locatie te gebruiken dien je het in te schakelen in het menu \&apos;Locatie en beveiliging\&apos;.\n\nNaar Instellingen gaan en inschakelen?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">Je locatieprovider is uitgeschakeld. Schakel deze opnieuw in als je op jouw locatie wilt zoeken.</string>
 
@@ -1742,7 +2475,9 @@
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
     <string name="progress_finding_location">Huidige locatie zoeken…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">Zoeken naar hotels…</string>
+    <string name="progress_searching_message">Aan het zoeken …</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_hundreds">We zoeken nu door honderden hotels voor jou!</string>
     <!-- Message displayed when app is searching for a particular hotel -->
     <string name="progress_searching_selected_hotel">Op zoek naar hotel…</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1754,7 +2489,7 @@
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">Geen kamers beschikbaar</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out_expedia">Helaas, dit hotel is niet meer beschikbaar bij Expedia.</string>
+    <string name="error_hotel_is_now_sold_out_TEMPLATE">Sorry, dit hotel is niet meer beschikbaar bij {brand}.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1767,6 +2502,8 @@
     <string name="per_night">/nacht</string>
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
     <string name="per_nt">/nacht</string>
+    <!-- The label for abbreviated price per night - "$120/nt", for example -->
+    <string name="per_nt_TEMPLATE">{price}/nacht</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Niet beoordeeld</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -1780,7 +2517,7 @@
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">Vanaf %s</string>
-    <string name="From_x_per_night_template">Vanaf &lt;font color="#3c7cf2"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;/nacht</string>
+    <string name="From_x_per_night_template">Vanaf %s/nacht</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -1795,6 +2532,8 @@
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
     <string name="book_now">Boek nu</string>
+    <!-- Label for button that lets the user complete the booking through the normal flow -->
+    <string name="book_now_ab_test">Kamer selecteren</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">Boek via telefoon</string>
 
@@ -1814,14 +2553,17 @@
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- Discount percent shown in hotel results list -->
     <string name="minus_x_percent">-%2.0f%%</string>
-    <!-- Discount percent shown in hotel details fragment -->
-    <string name="x_percent_OFF_TEMPLATE">-%2.0f%%</string>
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% gasten bevelen dit hotel aan.</string>
+    <!-- new material Hotel results cell guest rating -->
+    <string name="customer_rating_percent_Template">{rating}{percent}</string>
+    <!-- new material Hotel results cell guest recommend-->
+    <string name="guest_recommend">van gasten bevelen dit aan</string>
+    <string name="hotel_guest_recommend">/ 5 - gastenscore</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
-    <string name="AmenityNone">Geen aangeboden voorzieningen</string>
+    <string name="AmenityNone">Geen voorzieningen aangeboden</string>
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">Businesscentrum</string>
     <!-- Fitness center amenity -->
@@ -1928,15 +2670,21 @@
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">De beoordelingen zijn voorlopig niet beschikbaar</string>
 
+    <!-- ETP pay later info message -->
+    <string name="pay_later_info_text">Boek nu, betaal later</string>
+    <string name="etp_payment_options_text">Jouw betaalmethodes</string>
+    <string name="etp_pay_later_option_text">Betaal later</string>
+    <string name="etp_pay_later_charges_text">Er wordt niets in rekening gebracht tot wanneer je verblijft, tenzij een aanbetaling nodig is.</string>
+    <string name="etp_pay_later_currency_text_TEMPLATE">Betaal het hotel rechtstreeks, in de plaatselijke valuta van het hotel (%s).</string>
+    <string name="etp_pay_later_payment_info_text">De betaalgegevens zijn alleen nodig om je reservering te garanderen.</string>
+    <string name="etp_pay_later_cancellation_text">Annuleren is gratis, tot op de annuleringsdeadline van het hotel.</string>
+    <string name="etp_pay_now_option_text">Betaal nu online</string>
+    <string name="etp_pay_now_charges_text_TEMPLATE">{brand} verwerkt je betaalgegevens.</string>
+    <string name="etp_pay_now_currency_text_TEMPLATE">Je betaalt in je lokale valuta (%s).</string>
+    <string name="etp_pay_now_cancellation_text">Annuleren is gratis, tot op de annuleringsdeadline van het hotel.</string>
+    <string name="etp_select_room">Kamer selecteren</string>
+
     <!-- Room and rates list -->
-    <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
-    <plurals name="staying_nights">
-        <item quantity="zero">Verblijf van %d nachten</item>
-        <item quantity="one">Verblijf van %d nacht</item>
-        <item quantity="two">Verblijf van %d nachten</item>
-        <item quantity="many">Verblijf van %d nachten</item>
-        <item quantity="other">Verblijf van %d nachten</item>
-    </plurals>
     <!-- Loading message for rooms & rates -->
     <string name="room_rates_loading">Bezig met zoeken naar beschikbare kamers…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
@@ -1971,8 +2719,15 @@
     <string name="Tonight">Vandaag</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">Gratis annulering</string>
-    <!-- This fee is not included in the total -->
-    <string name="fee_not_included_in_total">Deze toeslagen zijn niet inbegrepen bij de totaalprijs</string>
+    <!-- Top line of resort fee text -->
+    <string name="hotel_fees_for_this_stay">Hoteltoeslagen voor dit verblijf</string>
+    <!-- Included in the price -->
+    <string name="included_in_the_price">Inbegrepen bij de prijs</string>
+    <!-- Not included in the price -->
+    <string name="not_included_in_the_price">Niet inbegrepen bij de prijs</string>
+    <!-- View Room button text -->
+    <string name="view_room_button_text">Kamer bekijken</string>
+
     <!-- Renovation Notice -->
     <string name="renovation_notice">Renovatiewerken</string>
     <!-- This property is undergoing renovations -->
@@ -1981,8 +2736,6 @@
     <string name="more_info">Meer info</string>
 
     <!-- Booking info -->
-    <!-- Label for room type -->
-    <string name="room_type">Kamertype</string>
     <!-- Error if we couldn't find the room type details -->
     <string name="error_room_type_nonexistant">Het spijt ons, we kunnen geen extra kamergegevens vinden.</string>
     <!-- Quantity for the length of stay -->
@@ -1999,7 +2752,7 @@
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_msg">Zo verwijder je alle opgeslagen betalings- en contactgegevens.</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_log_out_and_clear_private_data_msg">Zo wordt je afgemeld en verwijder je alle opgeslagen betalings- en contactgegevens.</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg">Zo wordt je afgemeld en verwijder je alle opgeslagen betalings- en contactgegevens.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">Privégegevens gewist</string>
     <!-- Error shown to user if their credit card postal code is invalid -->
@@ -2019,62 +2772,37 @@
     <!-- Itinerary number label -->
     <string name="itinerary_number">Reisplannr.</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">Als je vragen hebt over je boeking, bel Expedia op %s.</string>
-
+    <string name="contact_phone_TEMPLATE">Als je vragen hebt over je boeking, bel dan {brand} op {phone}.</string>
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">Wachtwoord vergeten</string>
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">Belastingen &amp; toeslagen</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">Inbegrepen</string>
-    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
-    <string name="MandatoryFees">Hoteltoeslagen (te betalen in het hotel)</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">Korting</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
     <string name="unknown">Onbekend</string>
 
-    <!-- Expedia policy strings -->
-    <!-- Policy displayed to user when an immediate charge is required -->
-    <string name="PolicyImmediateChargeRequired">Het volledige bedrag wordt onmiddellijk bij het boeken op je creditcard in rekening gebracht.</string>
-    <!-- Policy displayed to user when the room is non-refundable -->
-    <string name="PolicyNonRefundable">We bieden een uitzonderlijk laag tarief op deze accommodatie. Om dit aan te kunnen bieden is het tarief niet restitueerbaar. Als je ervoor kiest om later te annuleren, ontvang je geen restitutie.</string>
-    <!-- Policy displayed to user when a deposit is required -->
-    <string name="PolicyDepositRequired">Er wordt een aanbetaling op je creditcard in rekening gebracht. Het hotel brengt het bedrag rechtstreeks op je creditcard in rekening nadat je de reservering geplaatst hebt.</string>
-    <!-- Policy displayed to user when a guarantee is required -->
-    <string name="PolicyGuaranteeRequired">De creditcardgegevens zijn verplicht om je reservering te kunnen garanderen. Er wordt niets op je creditcard in rekening gebracht totdat je bij het hotel aankomt of voordat de annuleringsdeadline voorbij is.</string>
-    <!-- Expedia merchant hotel policies -->
-    <string name="PolicyExpediaMerchant">Door deze boeking te voltooien bevestig je alle Algemene Voorwaarden, inclusief het Privacybeleid en alle gebruiksvoorwaarden, gelezen en goedgekeurd te hebben.\n\nJe gaat akkoord de kosten van je boeking te betalen. Als je deze kosten niet betaalt zodat deze via een incassobureau, een deurwaarder of andere wettelijke procedures moeten worden gevorderd, ga je akkoord met alle daaruit voortvloeiende kosten, inclusief deurwaarders- en procedurekosten, die verband houden met deze invorderingspogingen.</string>
-    <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">Je boekt een accommodatie zonder korting. Alle getoonde tarieven zijn per nacht, en zijn op basis van twee personen per kamer, tenzij anders aangegeven. Lees de kamerbeschrijvingen en de tariefregels goed na om te verzekeren dat de gekozen kamer groot genoeg is. Voor sommige tarieven kan speciale identificatie worden vereist. Onze boekingstoeslag, belastingen en andere kosten die worden berekend door het hotel zijn niet inbegrepen. De accommodatie rekent mogelijk een toeslag aan wanneer extra volwassenen of kinderen aan de kamer worden toegevoegd.\n\nVerzoeken voor meer dan 2 personen of voor meer gasten dan het geselecteerde tarief opgeeft worden naar het hotel gestuurd maar zijn niet gegarandeerd. Als de accommodatie het verzoek aanvaardt, kan het naar eigen goeddunken extra kosten in rekening brengen.</string>
-
     <!-- Expedia Accounts -->
-    <!-- Label for menu item to log into account -->
-    <string name="log_in">Aanmelden</string>
-    <!-- Login blurb: descriptive second line of text on login button on larger screens -->
-    <string name="Earn_points_and_book_fast">Verdien punten en boek snel.</string>
-    <!-- Hint for user to enter password into a field -->
-    <string name="hint_password">Wachtwoord</string>
-    <!-- Progress dialog text when we are logging the user into Expedia -->
-    <string name="logging_in">Bezig met aanmelden…</string>
-    <!-- Message that tells user they failed to log in -->
-    <string name="login_failed">Meld je opnieuw aan</string>
-    <!-- Label for logout confirmation -->
-    <string name="logout_confirmation">Ben je zeker dat je je wil afmelden bij je Expedia account?</string>
-    <!-- Label for account status -->
-    <string name="enrolled_in_expedia_rewards">Ingeschreven voor Expedia+ Rewards\u2122</string>
-    <!-- Label for account status -->
-    <string name="enrolled_in_expedia_elite_plus_rewards">Elite Plus-lid</string>
-    <!-- Label for account name -->
-    <string name="logged_in_as">Aangemeld als</string>
-    <!-- Label for signin screen -->
-    <string name="expedia_account">Expedia account</string>
-    <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">Bezig met laden van Expedia-account</string>
-    <!-- Label for password recovery -->
-    <string name="forgot_your_password">Je wachtwoord vergeten?</string>
-    <!-- Webview title for password recovery -->
-    <string name="title_forgot_password">Wachtwoord vergeten</string>
+    <!-- Label for menu item to sign into account -->
+    <string name="sign_in">Aanmelden</string>
+    <!-- Progress dialog text when we are signing the user into Expedia -->
+    <string name="signing_in">Bezig met aanmelden …</string>
+    <!-- Message that tells user they failed to sign in -->
+    <string name="sign_in_failed">Meld je opnieuw aan</string>
+    <!-- Label for sign out confirmation -->
+    <string name="sign_out_confirmation_TEMPLATE">Ben je zeker dat je je wilt afmelden bij je {brand}-account?</string>
+    <!-- Label for Expedia +blue rewards program name -->
+    <string name="Expedia_plus_blue">Expedia +blue</string>
+    <!-- Label for Expedia +silver rewards program name -->
+    <string name="Expedia_plus_silver">Expedia +silver</string>
+    <!-- Label for Expedia +gold rewards program name -->
+    <string name="Expedia_plus_gold">Expedia +gold</string>
+    <!-- Label for loading user profile from Expedia -->
+    <string name="loading_brand_account_TEMPLATE">Bezig met laden van {brand}-account</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">Voer een coupon of promocode in</string>
     <!-- Label for coupon code hint -->
@@ -2100,11 +2828,11 @@
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">Sorry, maar deze coupon is verlopen.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">Sorry, maar er deed zich een probleem voor. Probeer het opnieuw.</string>
+    <string name="coupon_error_not_redeemed">Sorry, er deed zich een interne fout voor. Probeer het opnieuw.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
     <string name="coupon_error_duplicate">Sorry, maar deze coupon is al gebruikt geweest.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">Sorry, maar er deed zich een probleem voor. Probeer het opnieuw.</string>
+    <string name="coupon_error_fallback">Sorry, er deed zich een interne fout voor. Probeer het opnieuw.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
     <string name="coupon_error_price_change">De coupon werd niet toegepast omdat de boekingsprijs werd gewijzigd. Controleer en probeer opnieuw.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
@@ -2120,11 +2848,19 @@
     <!-- Error when applying coupon - the hotel does not accept coupons -->
     <string name="coupon_error_hotel_excluded">Sorry, maar dit hotel accepteert geen coupons.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_invalid_hotel">Sorry, maar dit hotel accepteert geen coupons.</string>
+    <string name="coupon_error_invalid_hotel">Sorry, maar de coupon kan niet gebruikt bij dit hotel.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
     <string name="coupon_error_service_down">Sorry, maar we kunnen coupons op dit moment niet verwerken. Probeer het opnieuw.</string>
     <!-- Error when applying coupon - session timeout -->
     <string name="coupon_error_service_timeout">Sorry, maar het duurde te lang om de code toe te passen. Probeer het opnieuw.</string>
+    <!-- Error when applying coupon - Invalid Stay Dates -->
+    <string name="coupon_error_invalid_stay_dates">Sorry, maar de coupon kan niet gebruikt voor deze reisdatums.</string>
+    <!-- Error when applying coupon - Exceeded Earn Limit -->
+    <string name="coupon_error_exceeded_earn_limit">Sorry, maar deze coupon werd al te vaak gebruikt en kan niet meer toegepast worden.</string>
+    <!-- Error when applying coupon - Invalid Average Price -->
+    <string name="coupon_error_invalid_average_price">Sorry, maar de gemiddelde prijs per nacht voldoet niet aan de minimumvoorwaarden van deze coupon.</string>
+    <!-- Error when applying coupon - Pay Later Hotel -->
+    <string name="coupon_error_pay_later_hotel">Coupons kunnen niet gebruikt worden als je in het hotel betaalt. Kies een kamer die je betaalt bij het boeken.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2134,37 +2870,29 @@
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">Hulp bij het boeken</string>
     <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_expedia_via">Neem contact op met Expedia via…</string>
+    <string name="contact_via_TEMPLATE">Neem contact op met {brand} via …</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">Telefoon</string>
-    <!-- Contact Expedia via email subject -->
-    <string name="contact_expedia_email_subject">Expedia klantenservice</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">Website</string>
     <!-- Label for "Expedia website" button in info page -->
-    <string name="expedia_website">Expedia-website</string>
+    <string name="website_TEMPLATE">{brand}-website</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App-support</string>
-    <!-- Subject line for "tell a friend" feature -->
-    <string name="tell_a_friend_subject">Expedia Hotels</string>
-    <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">Hallo,\n\ndownload Expedia Hotels voor de iPhone en Android-telefoons. Het is GRATIS en je kunt heel eenvoudig kamers zoeken en boeken bij meer dan 140,000 hotels over de hele wereld. Het is de eenvoudigste manier om met je mobieltje hotelkamers te boeken.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Algemene Voorwaarden</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Privacybeleid</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2014 Expedia, Inc.\nAlle rechten voorbehouden.</string>
+    <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAlle rechten voorbehouden.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_logged_out_and_cleared_private_data">Afgemeld en gegevens gewist</string>
+    <string name="dialog_title_signed_out_and_cleared_private_data">Afgemeld en gegevens gewist</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">Je bent nu afgemeld bij je Expedia account en alle betaal-en contactgegevens werden gewist.</string>
+    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">Je bent nu afgemeld bij je {brand}-account en alle betaal- en contactgegevens werden gewist.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">Privégegevens gewist</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">Alle opgeslagen betaal- en contactgegevens zijn verwijderd.</string>
-    <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
-    <string name="dialog_message_launch_expedia_mobile_site">Wil je Expedia\&apos;s mobiele website opstarten?</string>
     <!-- Action button label to Subscribe to our mailing list -->
     <string name="Subscribe">Abonneren</string>
     <!-- Action button label to follow on twitter -->
@@ -2278,7 +3006,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">Door een fout konden we je boeking niet afronden. Probeer het opnieuw.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">Je hebt je boeking bij dit hotel voltooid! Bel de Expedia klantenservice als je onmiddellijk een reisplan nodig hebt.</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">Je hebt je reservering bij dit hotel geboekt! Als je onmiddellijk een reisplan nodig hebt, bel dan de {brand}-klantenservice.</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">Het spijt ons, maar de kamer waar je naar zocht is niet meer beschikbaar op Expedia.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -2303,7 +3031,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">Het spijt ons! De deal op deze kamer is niet langer geldig, maar we hebben nog andere deals.</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">Het spijt ons, maar de kamer waar je naar zocht is niet meer beschikbaar op Expedia.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">Het spijt ons, maar we konden geen verbinding maken met Expedia. Probeer het opnieuw.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">Sorry, maar we konden geen verbinding maken met {brand}. Probeer het opnieuw.</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">Het spijt ons! De deal op deze kamer is niet langer geldig, maar we hebben nog andere deals.</string>
     <!-- There are no longer any rooms for the hotel offer -->
@@ -2563,8 +3291,6 @@
     <string name="country_ax">Ålandseilanden</string>
 
     <!-- Google Wallet -->
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">Expedia, Inc.</string>
     <!-- Loading message -->
     <string name="loading">Laden…</string>
     <!-- Google Wallet label -->
@@ -2574,31 +3300,19 @@
     <!-- Error if you've exceeded your overall Google Wallet spending limit -->
     <string name="spending_limit_exceeded">Je hebt je Google Wallet-limiet overschreden</string>
     <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">Betalen met Google Wallet</string>
+    <string name="wallet_buy_with_google_wallet">Kopen met Google Wallet</string>
     <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Profiteer van <b>10% korting</b> met Google Wallet!</string>
-    <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Je hebt 10%% bespaard met Google Wallet!</string>
+    <string name="wallet_promo_offer">Bespaar <b>$ 50</b> op een <b>$ 200+ reis </b> met Google Wallet!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Max. 1 coupon per boeking. We hebben je vorige coupon vervangen door de 10% korting voor het gebruik van Google Wallet.</string>
+    <string name="coupon_replaced_message">Max. 1 coupon per boeking. We hebben je vorige coupon vervangen door de $ 50 korting voor het gebruik van Google Wallet.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Google Wallet-korting wordt toegepast…</string>
-    <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
-    <string name="error_wallet_promo_cannot_apply">Helaas, maar de Google Wallet-korting kan niet toegepast worden op deze boeking.</string>
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Couponvoorwaarden van Google Wallet</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Coupon moet gebruikt worden via de Android Expedia-app voor een reis tussen 17 juni en 31 december 2013. Dit is een aanbieding van Expedia.com en is alleen geldig voor Expedia.com-klanten uit de VS.\n\nboekingen zijn onder voorbehoud van beschikbaarheid bij Expedia Rate-hotels wanneer je boekt en onderhevig aan de toepasselijke voorwaarden en bepalingen. Coupon mag niet gebruikt worden in combinatie met andere coupons, deals of speciale aanbiedingen. De korting kan niet gebruikt worden voor de betaling van belastingen, leverancierstoeslagen, annulerings- of wijzigingskosten en administratieve of andere toeslagen, waarvoor de klant als enige verantwoordelijk is. Als je een deel van je boeking dient te wijzigen of annuleren, dan wordt de coupon niet toegepast op het gewijzigde deel.\n\nDeze couponvoorwaarden kunnen niet gewijzigd worden door enige verklaring van onbevoegde personen, inclusief medewerkers van Expedia, Inc. De coupon kan niet overgedragen of ingewisseld worden voor contanten. De coupon is ongeldig waar deze wettelijk verboden is. Expedia, Inc. kan deze actie altijd intrekken of wijzigen.</string>
-    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
-    <string name="wallet_promo_expired">Helaas, de Google Wallet-korting is alleen geldig voor boekingen met reisdatums in 2013.</string>
-
-    <!-- Samsung Wallet -->
-    <!-- Label to use when the ticket already exists in the wallet -->
-    <string name="view_in_samsung_wallet">Bekijken in Samsung Wallet</string>
-    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
-    <string name="load_to_samsung_wallet">Toevoegen aan Samsung Wallet</string>
-    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
-    <string name="download_samsung_wallet">Download Samsung Wallet</string>
+    <string name="wallet_promo_tc_message">Aanbieding: Ontvang onmiddellijk $ 50 korting op een hotelverblijf. De prijs van de geldige boeking dient minstens $ 200 te zijn. Gebruiksinstructies: Selecteer een geldig hotelverblijf. Kies \&apos;Kopen met Google Wallet\&apos; op de betalingspagina. De coupon dient gebruikt te worden in de Expedia Android app tegen 23.59 uur (PST) op 31 december 2014 voor een reis tussen nu en 31 maart 2015. Tijdelijke aanbieding: onderhevig aan wijzigingen. Beperkt tot één (1) coupon per gebruikersaccount en per geldige hotelboeking. Dit is een aanbieding van Expedia.com en is alleen geldig voor Expedia.com Android app-klanten uit de VS. Klanten uit Expedia\&apos;s Travel Agent Affiliate Program komen niet in aanmerking voor de aanbieding. De coupon is uitsluitend geldig bij Expedia Rate-hotels. Boekingen zijn onderhevig aan beschikbaarheid en aan alle toepasselijke voorwaarden en bepalingen. Coupon mag niet gebruikt worden in combinatie met andere coupons, deals of speciale aanbiedingen. De korting kan niet gebruikt worden voor de betaling van belastingen, leverancierstoeslagen, annulerings- of wijzigingskosten en administratieve of andere toeslagen, waarvoor de klant als enige verantwoordelijk is. Een coupon wordt geacht volledig gebruikt te zijn wanneer een geldige boeking geplaatst is en kan niet opnieuw gebruikt worden. Als je een deel van je boeking dient te wijzigen of annuleren, dan wordt de coupon niet toegepast op het gewijzigde deel. Deze couponvoorwaarden kunnen niet gewijzigd worden door enige verklaring van onbevoegde personen, inclusief medewerkers van Expedia, Inc. De coupon kan niet overgedragen of ingewisseld worden voor contanten. Expedia, Inc. kan deze actie altijd intrekken of wijzigen. De coupon is ongeldig waar deze wettelijk verboden is.</string>
+    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
+    <string name="wallet_coupon_not_applied_manually">Deze coupon kan uitsluitend gebruikt worden wanneer Google Wallet als betalingsmethode geselecteerd wordt.</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2626,9 +3340,9 @@
 
     <!-- Handling sold out hotels -->
     <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
-    <string name="not_currently_available">Voorlopig niet beschikbaar bij Expedia</string>
+    <string name="not_currently_available_from_brand_TEMPLATE">Voorlopig niet beschikbaar bij {brand}</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
-    <string name="not_currently_available_TEMPLATE">Niet beschikbaar bij Expedia op %s</string>
+    <string name="not_currently_available_from_brand_dates_TEMPLATE">Niet beschikbaar bij {brand} voor {dates}</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -2715,27 +3429,12 @@
     <string name="S_Push_flight_CITY_gate_GATE">Je vlucht naar %1$s vertrekt nu vanaf gate %2$s.</string>
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">Je bagage komt aan op bagageband %1$s.</string>
-
-    <!-- VSC Info Screen -->
-    <!-- Header for a list of apps also written by VSC -->
-    <string name="AlsoByVSC">Ook van VSC</string>
-    <!-- Name of VSC Train app -->
-    <string name="VSC_Voyages_SNF">Voyages-SNCF</string>
-    <!-- Description for FT Free app -->
-    <string name="VSC_Voyages_SNF_description">Voyages-sncf.com applicatie</string>
+    <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
+    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s, je boeking is bevestigd! Bekijk deze in de app.</string>
+    <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
+    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">Je boeking is bevestigd! Bekijk deze in de app.</string>
 
     <!-- Content Description Labels -->
-    <!-- Expedia Bookings Launch Screen -->
-    <!-- Content description for action: Press button to launch Hotels -->
-    <string name="cd_launch_hotels">Hotels zoeken</string>
-    <!-- Content description for action: Press button to launch Flights -->
-    <string name="cd_launch_flights">Vluchten zoeken</string>
-    <!-- Content description for action: Press button to open menu list -->
-    <string name="cd_launch_open_menu_list">Open menulijst</string>
-    <!-- Content description for action: Open Settings Menu -->
-    <string name="cd_launch_open_settings_menu">Open instellingen</string>
-    <!-- Content description for action: Open App Info Screen -->
-    <string name="cd_launch_open_eb_info_screen">Open Expedia boekingsinformatie</string>
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">Tik om lijst te updaten</string>
@@ -2744,32 +3443,8 @@
     <string name="cd_hotel_search_edittext">Tekst invoeren in zoekveld</string>
     <!-- Content description for action: Open hotel booking dates calendar -->
     <string name="cd_hotel_search_open_calendar">Open boekingskalender</string>
-    <!-- Content description for action: Press "Search" from hotel calendar fragment -->
-    <string name="cd_hotel_search_press_search_from_calendar">Tik om naar hotels te zoeken</string>
     <!-- Content description for action: Open hotel guest picker -->
     <string name="cd_hotel_search_open_guest_picker">Open keuzeoptie gasten</string>
-    <!-- Content description for action: Press "Search" from hotel guest picker fragment -->
-    <string name="cd_hotel_search_press_search_from_guest_picker">Tik om naar hotels te zoeken</string>
-    <!-- Content description for action: Press to open hotel sort options -->
-    <string name="cd_hotel_search_open_sort_options">Open sorteeropties</string>
-    <!-- Content description for action: Switch to map view - hotels search -->
-    <string name="cd_hotel_search_switch_to_map_view">Naar kaartweergave</string>
-    <!-- Content description for action: Switch to list view - hotels search -->
-    <string name="cd_hotel_search_switch_to_list_view">Naar lijstweergave</string>
-    <!-- Hotel sort options -->
-    <!-- Content description for action: Press to sort hotels by popularity -->
-    <string name="cd_sort_hotels_by_popularity">Sorteer volgens populariteit</string>
-    <!-- Content description for action: Press to sort hotels by deals -->
-    <string name="cd_sort_hotels_by_deals">Sorteer op deals</string>
-    <!-- Content description for action: Press to sort hotels by price -->
-    <string name="cd_sort_hotels_by_price">Sorteer volgens prijs</string>
-    <!-- Content description for action: Press to sort hotels by rating -->
-    <string name="cd_sort_hotels_by_rating">Sorteer volgens score</string>
-    <!-- Content description for action: Press to open hotel filter options -->
-    <string name="cd_filter_open_hotel_filter_options">Open filteropties</string>
-    <!-- Hotel filter options -->
-    <!-- Content description for action: Entering text into hotel filter text field -->
-    <string name="cd_filter_by_hotel_name">Tekst invoeren in filterveld</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
     <string name="cd_filter_hotels_for_three_or_more_stars">Tik om te filteren op 3-sterrenhotels of beter</string>
@@ -2814,30 +3489,10 @@
     <!-- Content description for action: Press to display critical reviews -->
     <string name="cd_display_critical_reviews">Tik voor negatieve beoordelingen</string>
     <!-- Flight Search -->
-    <!-- Content description for action: Edit departure airport -->
-    <string name="cd_flights_search_departure_edit_text">Bewerk luchthaven van vertrek</string>
-    <!-- Content description for action: Edit arrival airport -->
-    <string name="cd_flights_search_arrival_edit_text">Bewerk luchthaven van aankomst</string>
-    <!-- Content description for action: Press to edit departure and arrival dates -->
-    <string name="cd_flights_search_dates_edit">Tik om vertrek- en aankomstdatums te bewerken</string>
     <!-- Content description for action: Press to clear selected dates -->
     <string name="cd_flights_clear_selected_dates">Tik om geselecteerde datums te wissen</string>
     <!-- Content description for action: Press to edit number of travelers -->
     <string name="cd_flights_search_number_of_travelers_edit">Tik om aantal reizigers te wijzigen</string>
-    <!-- Flight Search Results -->
-    <!-- Content description for action: Press to return to flight search -->
-    <string name="cd_flights_search_search_button">Tik om terug te keren naar vluchten</string>
-    <!-- Content description for action: Press to open flight sort options -->
-    <string name="cd_flights_search_results_sort">Tik om sorteeropties te openen</string>
-    <!-- Flight sort options -->
-    <!-- Content description for action: Press to sort flights by price -->
-    <string name="cd_sort_flights_by_price">Tik om te sorteren op prijs</string>
-    <!-- Content description for action: Press to sort flights by when they depart -->
-    <string name="cd_sort_flights_by_departs">Tik om te sorteren op vertrektijd</string>
-    <!-- Content description for action: Press to sort flights by when they arrive -->
-    <string name="cd_sort_flights_by_arrives">Tik om te sorteren op aankomsttijd</string>
-    <!-- Content description for action: Press to sort flights by their durations -->
-    <string name="cd_sort_flights_by_duration">Tik om te sorteren op vliegduur</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
     <string name="cd_flight_leg_cancel">Annuleer de selectie en keer terug naar zoekresultaten</string>
@@ -2851,27 +3506,12 @@
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="cd_checkout">Tik voor betaalpagina</string>
-    <!-- Content description for action: Press to log in with your Expedia account -->
-    <string name="cd_checkout_log_in_with_expedia">Tik om je aan te melden bij je account</string>
-    <!-- Content description for action: Press to make this purchase with Google Wallet -->
-    <string name="cd_checkout_buy_with_google">Tik om te boeken met Google Wallet</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">Tik om een reiziger aan de boeking toe te voegen</string>
     <!-- Content description for action: Press to select payment for this booking -->
     <string name="cd_checkout_select_payment">Tik om een betaalmethode te kiezen</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">Tik om een coupon- of promocode in te voeren</string>
-    <!-- Content description for action: Enter coupon or promotional code into text field -->
-    <string name="cd_checkout_coupon_code_entry_field">Coupon- of promocode invoeren in tekstveld</string>
-    <!-- Content description for action: Press to apply coupon -->
-    <string name="cd_checkout_apply_coupon_button">Tik om coupon toe te passen</string>
-    <!-- Log in screen -->
-    <!-- Content description for action: Enter Expedia account email address -->
-    <string name="cd_log_in_email_edit_text">Voer e-mailadres van Expedia-account in</string>
-    <!-- Content description for action: Enter Expedia account password -->
-    <string name="cd_log_in_password_edit_text">Voer wachtwoord van Expedia-account in</string>
-    <!-- Content description for action: Press to log into Expedia with your Facebook account -->
-    <string name="cd_log_in_with_facebook">Tik om aan te melden via je Facebook-account</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">Tik om nieuwe reiziger in te voeren</string>
@@ -2880,53 +3520,18 @@
     <!-- Content description for action: Press to edit traveler's passport country -->
     <string name="cd_traveler_edit_passport_country">Bewerk land van paspoort reiziger</string>
     <!-- Traveler Information edit/entry screen -->
-    <!-- Content description for action: Enter first name -->
-    <string name="cd_traveler_first_name_edit_text">Voer voornaam in</string>
-    <!-- Content description for action: Enter middle name -->
-    <string name="cd_traveler_middle_name_edit_text">Voer andere voornamen in</string>
-    <!-- Content description for action: Enter last name -->
-    <string name="cd_traveler_last_name_edit_text">Voer achternaam in</string>
-    <!-- Content description for action: Press to select country calling codes -->
-    <string name="cd_traveler_list_international_phone_codes">Tik om landcodes te selecteren</string>
-    <!-- Content description for action: Enter phone number -->
-    <string name="cd_traveler_phone_number">Voer telefoonnummer in</string>
     <!-- Content description for action: Press to finish entering traveler information -->
     <string name="cd_traveler_information_done">Tik om reizigersinfo te voltooien</string>
     <!-- Extra traveler information - flights -->
-    <!-- Content description for action: Press to select traveler's birthday -->
-    <string name="cd_traveler_birthday_edit">Tik om geboortedatum reiziger te selecteren</string>
     <!-- Content description for action: Press to select traveler's gender -->
     <string name="cd_traveler_gender_edit">Tik om geslacht reiziger te selecteren</string>
-    <!-- Content description for action: Enter redress number, if applicable -->
-    <string name="cd_traveler_redress_number_edit_text">Voer redress nr. in, indien van toepassing</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
     <string name="cd_traveler_special_assistance_edit">Selecteer type speciale assistentie</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
     <string name="cd_traveler_seat_preference_edit">Selecteer een voorkeursstoel</string>
     <!-- Credit Card Information -->
-    <!-- Button text for choosing a stored payment. Clicking this button will open a popup listing all stored cards. -->
-    <string name="Stored_Cards">Opgeslagen creditcards</string>
-    <!-- Content description for action: Enter credit card number -->
-    <string name="cd_card_info_card_number_edit_text">Voer creditcardnummer in</string>
-    <!-- Content description for action: Enter cardholder name -->
-    <string name="cd_card_info_cardholder_name">Voer naam kaarthouder in</string>
-    <!-- Content description for action: Enter cardholder's email address -->
-    <string name="cd_card_info_email_address">Voer e-mailadres kaarthouder in</string>
-    <!-- Content description for action: Enter billing address - line 1 -->
-    <string name="cd_card_info_billing_address_line_1">Voer factuuradres in - regel 1</string>
-    <!-- Content description for action: Enter billing address - line 2 -->
-    <string name="cd_card_info_billing_address_line_2">Voer factuuradres in - regel 2</string>
-    <!-- Content description for action: Enter billing address city -->
-    <string name="cd_card_info_billing_address_city">Voer stad factuuradres in</string>
-    <!-- Content description for action: Enter billing address state -->
-    <string name="cd_card_info_billing_address_state">Voer provincie factuuradres in</string>
-    <!-- Content description for action: Enter billing address postal code -->
-    <string name="cd_card_info_billing_address_postal_code">Voer postcode factuuradres in</string>
     <!-- Content description for action: Select billing address country -->
     <string name="cd_card_info_billing_address_country">Voer land factuuradres in</string>
-    <!-- Common actionbar elements -->
-    <!-- Content description for action: Press to go back to previous screen -->
-    <string name="cd_go_back">Tik om naar vorige pagina terug te keren</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="cd_share_menu_btn">Druk om de opties voor het delen van je reisplan te tonen</string>
@@ -2937,13 +3542,18 @@
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">Zoekresultaten vluchten</string>
 
+    <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
+    <string name="cd_pay_now">Druk op de knop om nu te betalen</string>
+    <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
+    <string name="cd_pay_later">Druk op de knop om later te betalen</string>
+
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">Je hotel is geboekt!</string>
     <!-- Header text to indicating booking confirmed for flight -->
     <string name="tablet_confirmation_flight_booked">Je vlucht is geboekt!</string>
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
-    <string name="tablet_confirmation_summary">%1$s, %2$s</string>
+    <string name="tablet_confirmation_summary">%1$s\n%2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
     <string name="tablet_itinerary_confirmation_TEMPLATE">Reisplannr. %1$s verstuurd naar %2$s</string>
     <!-- Share button text for hotels -->
@@ -2984,5 +3594,26 @@
     <string name="tablet_mismatched_products_message">Je geselecteerde datums voor je hotel en vlucht verschillen. Wil je je huidige hotelselectie wissen en zoeken naar hotels voor datums die overeenkomen met die van je vluchten?</string>
     <!-- Dialog positive button message -->
     <string name="yes">Ja</string>
+    <!-- Dialog negative button message -->
+    <string name="no">Nee</string>
 
+    <!-- Template for generating textview clicks -->
+    <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
+    <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="legal_TEMPLATE">Door deze boeking te voltooien, bevestig ik de %1$s, de %2$s en het %3$s te hebben gelezen en goedgekeurd.</string>
+    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="account_creation_legal_TEMPLATE">Ik heb de %1$s en het %2$s gelezen en goedgekeurd.</string>
+
+    <!-- Used in hotel search for specifying traveler -->
+    <string name="child_age_label">Selecteer de leeftijd van elk kind</string>
+
+    <string name="lob_not_supported_error_message">Sorry, boekingen van {lob} zijn nog niet beschikbaar voor jouw regio.</string>
+
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_an_Expedia_account">Expedia-account aanmaken</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_Expedia">Welkom bij Expedia</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_Expedia_account_already_exists">Er bestaat al een Expedia-account met dit e-mailadres</string>
 </resources>

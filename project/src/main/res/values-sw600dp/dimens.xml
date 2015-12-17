@@ -9,13 +9,10 @@
     <fraction name="stack_blur_darken_multiplier">70%</fraction>
     <dimen name="stack_blur_radius">50dp</dimen>
 
-    <!-- No extra padding is needed for the status bar unless kitkat -->
-    <dimen name="extra_status_bar_padding">0dp</dimen>
     <!-- No extra padding is needed for the nav bar unless kitkat -->
     <dimen name="extra_navigation_bar_padding">0dp</dimen>
 
     <dimen name="tablet_search_width">460dp</dimen>
-    <dimen name="tablet_result_corner_radius">2dp</dimen>
     <dimen name="tablet_result_row_primary_text_size">15sp</dimen>
     <dimen name="tablet_result_row_secondary_text_size">14sp</dimen>
     <dimen name="tablet_result_row_price_size">18sp</dimen>
@@ -28,7 +25,6 @@
     <dimen name="launch_pin_detail_size">175dp</dimen>
     <dimen name="launch_pin_detail_padding">10dp</dimen>
     <dimen name="launch_your_search_subtitle_size">13sp</dimen>
-    <dimen name="waypoint_fragment_top_margin">23dp</dimen>
 
     <!-- For map pins on tablet launch screen -->
     <dimen name="destination_search_stack_width">220dp</dimen>
@@ -47,23 +43,37 @@
     <dimen name="hotel_map_price_pin_text_size">14px</dimen>
 
     <!-- Account / Login button -->
-    <dimen name="account_button_margin_top">0dp</dimen>
+    <dimen name="account_button_height">52dp</dimen>
     <dimen name="account_button_padding">6dp</dimen>
     <dimen name="login_button_text_size">17sp</dimen>
-    <dimen name="card_icon_padding_left">0dp</dimen>
+    <dimen name="account_button_rewards_text_size">19sp</dimen>
+    <dimen name="account_button_points_text_size">15sp</dimen>
+    <dimen name="account_rewards_container_height">23dp</dimen>
     <dimen name="card_icon_padding">6dp</dimen>
     <dimen name="wallet_button_bottom_margin">-2dp</dimen>
+    <dimen name="wallet_button_left_padding">13.5dp</dimen>
 
     <!-- Search Results -->
     <dimen name="results_list_header_text_size">16sp</dimen>
     <dimen name="results_list_header_height">43dp</dimen>
+    <dimen name="results_list_header_height_expanded">63dp</dimen>
+    <dimen name="results_list_header_reveal_height">20dp</dimen>
+    <dimen name="results_list_header_text_margin_top">10dp</dimen>
+    <dimen name="results_list_subtitle_text_margin_top">30dp</dimen>
     <dimen name="results_guest_picker_padding_x">19dp</dimen>
     <dimen name="checkbox_filter_widget_padding_left">38dp</dimen>
     <dimen name="sliding_filter_row_height">44dp</dimen>
     <dimen name="results_column_spacing">2dp</dimen>
     <dimen name="results_list_spacer_height">8dp</dimen>
+    <dimen name="gde_tool_tip_margin_top">15dp</dimen>
+    <dimen name="gde_tool_tip_margin_sides">44dp</dimen>
+    <dimen name="gde_tool_tip_button_margin_top">31dp</dimen>
+    <dimen name="gde_tool_tip_text_size">15dp</dimen>
     <!-- note: make sure that results_list_margin_top = results_list_header_height - results_list_spacer_height -->
-    <dimen name="results_list_margin_top">35dp</dimen>
+    <dimen name="results_list_margin_top">34.5dp</dimen>
+    <dimen name="results_list_flight_subtitle_text_size">14sp</dimen>
+    <dimen name="results_flight_filters_header_margin_top">10dp</dimen>
+    <dimen name="results_flight_filters_header_margin_bottom">26dp</dimen>
     <!-- The height by which the bottom gradient starts above the search bar -->
     <dimen name="results_bottom_gradient_offset">32dp</dimen>
     <!-- Text size for destination label - search screen, left container element -->
@@ -71,7 +81,6 @@
     <!-- Text size for search param labels - search screen, right container elements -->
     <dimen name="search_params_right_container_text_size">15sp</dimen>
     <dimen name="calender_header_height">42dp</dimen>
-    <dimen name="calender_month_advance_padding">10dp</dimen>
 
     <!-- Hotel Results Selected Checkmark Margin -->
     <dimen name="tablet_hotel_selected_checkmark_margin">15dp</dimen>
@@ -104,8 +113,6 @@
     <dimen name="hotel_details_horizontal_padding">20dp</dimen>
     <dimen name="hotel_details_callout_text_margin_x">12dp</dimen>
     <dimen name="hotel_details_callout_text_margin_y">12dp</dimen>
-    <dimen name="hotel_details_callout_text_padding_x">12dp</dimen>
-    <dimen name="hotel_details_callout_text_padding_y">5dp</dimen>
     <dimen name="hotel_room_rate_thumbnail_width">140dp</dimen>
     <dimen name="hotel_room_rate_thumbnail_height">95dp</dimen>
     <dimen name="non_refundable_tweak">0dp</dimen>
@@ -113,6 +120,7 @@
     <dimen name="tablet_reviews_header_height">112dp</dimen>
     <dimen name="hotel_details_star_rating_margin">15dp</dimen>
     <dimen name="hotel_details_hotel_name_margin">4dp</dimen>
+    <dimen name="hotel_details_pin_padding">36dp</dimen>
     <dimen name="hotel_details_reviews_section_height">72dp</dimen>
     <dimen name="hotel_details_reviews_section_top_padding">0dp</dimen>
     <dimen name="hotel_details_ring_size">36dp</dimen>
@@ -151,6 +159,8 @@
     <dimen name="tablet_flight_details_header_height">68dp</dimen>
     <dimen name="tablet_flight_details_addtotrip_height">36dp</dimen>
     <dimen name="tablet_flight_details_header_margin">0dp</dimen>
+    <dimen name="tablet_flight_route_desc_text_size">20sp</dimen>
+    <dimen name="tablet_flight_route_desc_stroke_size">5dp</dimen>
 
     <dimen name="hotel_checkout_overview_image_height">240dp</dimen>
 
@@ -166,10 +176,10 @@
 
     <!-- Tablet User review dimens -->
     <dimen name="user_review_text_padding_right">32dp</dimen>
+    <dimen name="row_user_review_horizontal_padding">32dp</dimen>
 
     <!-- Hotel/Flight/Tripbucket Card dimensions -->
     <dimen name="hotel_flight_card_height">120dp</dimen>
-    <dimen name="hotel_flight_card_height_with_padding">120dp</dimen>
     <dimen name="hotel_flight_card_width">263dp</dimen>
     <dimen name="hotel_flight_card_padding_x">27dp</dimen>
     <dimen name="hotel_flight_card_padding_y">0dp</dimen>
@@ -178,7 +188,6 @@
     <dimen name="tripbucket_bookbutton_height">40dp</dimen>
     <dimen name="trip_bucket_sold_out_container_padding">2dp</dimen>
     <dimen name="trip_bucket_sold_out_container_padding_bottom">6dp</dimen>
-    <dimen name="trip_bucket_undo_bar_width">265dp</dimen>
 
     <!-- Checkout -->
     <dimen name="slide_to_purchase_container_height">136dp</dimen>
@@ -201,11 +210,9 @@
     <dimen name="tablet_checkout_payment_button_new_cc_left_margin">1.5dp</dimen>
     <dimen name="data_display_primary_text">@dimen/checkout_data_button_text_size</dimen>
     <dimen name="stored_credit_card_button_padding">10dp</dimen>
-    <dimen name="tablet_checkout_trip_bucket_expanded_item_height">0dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_header_height">0dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_expanded_image_width">216dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_expanded_padding_x">12dp</dimen>
-    <dimen name="tablet_checkout_trip_bucket_expanded_padding_major_y">16dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_expanded_padding_minor_y">8dp</dimen>
 
     <!-- CVV Screen -->
@@ -224,7 +231,6 @@
     <dimen name="confirmation_checkmark_size">50dp</dimen>
     <!-- confirmation_image_height - (confirmation_checkmark_size/2) -->
     <dimen name="confirmation_checkmark_margin">90dp</dimen>
-    <dimen name="confirmation_button_bar_height">48dp</dimen>
     <dimen name="confirmation_custom_action_textsize">13sp</dimen>
 
     <!-- Select Airport button top margin (used when no origin is set) -->

@@ -8,11 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
+import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -38,7 +38,7 @@ import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
@@ -60,16 +60,12 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 
 	// Containers
 	private ViewGroup mRootC;
-	private ViewGroup mBucketHotelContainer;
-	private ViewGroup mBucketHotelContainerContainer;
-	private ViewGroup mBucketFlightContainer;
 	private ViewGroup mBucketFlightContainerContainer;
 	private ViewGroup mPortraitShowHideContainer;
-	private FrameLayoutTouchController mTouchBlocker;
+	private TouchableFrameLayout mTouchBlocker;
 
 	// Views
 	private ViewGroup mBucketContainer;
-	private ScrollView mBucketScrollView;
 	private View mBucketDimmer;
 	private View mBucketShowHideButton;
 	private View mCollapsedIndicator;
@@ -117,14 +113,10 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = Ui.inflate(inflater, R.layout.fragment_tablet_checkout_trip_bucket_controller, null, false);
 
-		mBucketHotelContainer = Ui.findView(mRootC, R.id.bucket_hotel_frag_container);
-		mBucketHotelContainerContainer = Ui.findView(mRootC, R.id.bucket_hotel_frag_container_container);
-		mBucketFlightContainer = Ui.findView(mRootC, R.id.bucket_flight_frag_container);
 		mBucketFlightContainerContainer = Ui.findView(mRootC, R.id.bucket_flight_frag_container_container);
 
 		mBucketContainer = Ui.findView(mRootC, R.id.trip_bucket_container);
 		mPortraitShowHideContainer = Ui.findView(mRootC, R.id.trip_bucket_show_hide_container);
-		mBucketScrollView = Ui.findView(mRootC, R.id.trip_bucket_scroll);
 		mBucketDimmer = Ui.findView(mRootC, R.id.trip_bucket_dimmer);
 		mTouchBlocker = Ui.findView(mRootC, R.id.trip_bucket_dimmer);
 		mCollapsedIndicator = Ui.findView(mRootC, R.id.collapsed_indicator);
@@ -141,7 +133,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 					if (getState() == CheckoutTripBucketState.SHOWING) {
 						other = CheckoutTripBucketState.OPEN;
 					}
-					OmnitureTracking.trackTripBucketPortraitToggle(getActivity(), getLob(), other);
+					OmnitureTracking.trackTripBucketPortraitToggle(getLob(), other);
 					setState(other, true);
 				}
 			});
@@ -221,7 +213,7 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 				TextView yourTrip = Ui.findView(mRootC, R.id.your_trip_tv);
 				if (bucketDateRange.getWidth() > 0 && yourTrip.getWidth() > 0) {
 					bucketDateRange.setVisibility(yourTrip.getRight() > bucketDateRange.getLeft() ? View.INVISIBLE : View.VISIBLE);
-					mRootC.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+					mRootC.getViewTreeObserver().removeOnGlobalLayoutListener(this);
 				}
 			}
 		});
@@ -375,9 +367,18 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 			if (state == TripBucketItemState.DEFAULT && item.isSelected()) {
 				state = TripBucketItemState.EXPANDED;
 			}
+			if (checkoutState == CheckoutState.CONFIRMATION) {
 
-			if (lobMatches && state == TripBucketItemState.PURCHASED && checkoutState == CheckoutState.CONFIRMATION) {
-				state = TripBucketItemState.CONFIRMATION;
+				if (lobMatches && state == TripBucketItemState.PURCHASED) {
+					state = TripBucketItemState.CONFIRMATION;
+				}
+
+				else if (!lobMatches && item.getLineOfBusiness() == LineOfBusiness.HOTELS &&
+					item.hasPriceChanged() &&
+					item.canBePurchased()) {
+					state = TripBucketItemState.SHOWING_AIR_ATTACH_PRICE_CHANGE;
+				}
+
 			}
 
 			if (lobMatches && item.hasPriceChanged() && CheckoutState.shouldShowPriceChange(checkoutState)) {
@@ -513,6 +514,16 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 	}
 
 	@Subscribe
+	public void onCreateTripSuccess(Events.CreateTripDownloadSuccess event) {
+		// In the case of hotels with resort fees, the data received from /create
+		// is different enough to warrant a complete re-bind. This has to do with
+		// rate types, etc.
+		if (event.createTripResponse instanceof CreateTripResponse) {
+			mBucketHotelFrag.refreshRate();
+		}
+	}
+
+	@Subscribe
 	public void onFlightTripPriceChange(Events.FlightPriceChange event) {
 		mBucketFlightFrag.refreshTripOnPriceChanged();
 		setBucketState(true);
@@ -538,8 +549,8 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 			if (hotel != null && !hotel.hasBeenPurchased()) {
 				updateNumberOfItems();
-				updateDateRange();
 				mBucketHotelFrag.triggerTripBucketBookAction(LineOfBusiness.HOTELS);
+				updateDateRange();
 				setFragmentState(mStateManager.getState());
 			}
 			else {
@@ -550,8 +561,8 @@ public class TabletCheckoutTripBucketControllerFragment extends LobableFragment 
 			TripBucketItemFlight flight = Db.getTripBucket().getFlight();
 			if (flight != null && !flight.hasBeenPurchased()) {
 				updateNumberOfItems();
-				updateDateRange();
 				mBucketFlightFrag.triggerTripBucketBookAction(LineOfBusiness.FLIGHTS);
+				updateDateRange();
 				setFragmentState(mStateManager.getState());
 			}
 			else {

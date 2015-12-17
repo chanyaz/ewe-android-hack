@@ -7,7 +7,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,10 +19,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.Location;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.SpannableBuilder;
-import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CheckBoxFilterWidget.OnCheckedChangeListener;
 import com.mobiata.android.Log;
@@ -92,11 +90,10 @@ public class AirportFilterWidget extends TextView {
 
 		SpannableBuilder sb = new SpannableBuilder();
 		if (airportsInFilter.size() >= airportsAll.size()) {
-			sb.append(getResources().getString(R.string.all_airports), FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
+			sb.append(getResources().getString(R.string.all_airports));
 		}
 		else {
-			sb.append(StrUtils.joinWithoutEmpties(", ", airportsInFilter),
-					FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
+			sb.append(Strings.joinWithoutEmpties(", ", airportsInFilter));
 		}
 		setText(sb.build(), android.widget.TextView.BufferType.SPANNABLE);
 	}
@@ -149,7 +146,7 @@ public class AirportFilterWidget extends TextView {
 				flightTrip = cheapestPerAirport.get(airport.mAirportCode);
 				widget.setDescription(sb.build());
 				if (flightTrip != null) {
-					widget.setPrice(flightTrip.getTotalFare(), false);
+					widget.setPrice(flightTrip.getAverageTotalFare(), false);
 					widget.setEnabled(true);
 				}
 				else {

@@ -4,24 +4,12 @@
 [submodule "lib/Utils"]
 	path = lib/Utils
 	url = git@github.com:/ExpediaInc/ewe-android-utils.git
-[submodule "lib/FlightLib"]
-	path = lib/FlightLib
-	url = git@github.com:/ExpediaInc/ewe-android-flight-lib.git
-[submodule "lib/FacebookSdk"]
-	path = lib/FacebookSdk
-	url = git@github.com:/ExpediaInc/ewe-android-facebook-sdk.git
 [submodule "project/assets/ExpediaSharedData"]
 	path = project/src/main/assets/ExpediaSharedData
 	url = git@github.com:/ExpediaInc/ewe-nativeapps-shared-data.git
 [submodule "project/assets/FlightStatsDb"]
 	path = project/src/main/assets/FlightStatsDb
 	url = git@github.com:/ExpediaInc/ewe-android-flight-stats-db.git
-[submodule "lib/svg-android"]
-	path = lib/svg-android
-	url = git@github.com:/ExpediaInc/ewe-android-svg-android.git
-[submodule "lib/ShareEverywhere"]
-	path = lib/ShareEverywhere
-	url = git@github.com:/ExpediaInc/ewe-android-share-everywhere.git
 [submodule "lib/AndroidTime"]
 	path = lib/AndroidTime
 	url = git@github.com:/ExpediaInc/ewe-android-time.git

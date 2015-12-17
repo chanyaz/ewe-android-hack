@@ -8,9 +8,10 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 public class UnhandledErrorDialogFragment extends DialogFragment implements OnClickListener {
 
@@ -44,7 +45,13 @@ public class UnhandledErrorDialogFragment extends DialogFragment implements OnCl
 		// This can happen when we get a null response from the server.
 		String caseNumber = getArguments().getString(ARG_CASE_NUMBER);
 		if (!TextUtils.isEmpty(caseNumber)) {
-			builder.setMessage(getString(Ui.obtainThemeResID(getActivity(), R.attr.flightUnhandledErrorMessage), caseNumber));
+			CharSequence message = Phrase.from(getActivity(),
+				R.string.error_flight_unhandled_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.put("itinerary", caseNumber)
+				.format();
+
+			builder.setMessage(message);
 			builder.setNeutralButton(R.string.call_support, this);
 		}
 		else {

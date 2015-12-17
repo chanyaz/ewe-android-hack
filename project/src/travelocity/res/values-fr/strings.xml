@@ -1,103 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
-    <string name="travelocity_app_name">Travelocity</string>
     <string name="travelocity_best_price_guarantee">Garantie de prix Travelocity</string>
 
     <string name="customer_support_text">Appeler l’assistance clientèle Travelocity</string>
-    <string name="call_travelocity_customer_support">Appeler l’assistance clientèle Travelocity</string>
 
-    <!-- Log in with Travelocity -->
-    <string name="Log_in_with_Travelocity">Se connecter avec Travelocity</string>
-    <!-- Label for signin screen -->
-    <string name="travelocity_account">Compte Travelocity</string>
     <!-- Content description for action: Press to log in with your Travelocity account -->
     <string name="cd_checkout_log_in_with_travelocity">Appuyez pour vous connecter à votre compte Travelocity</string>
 
     <string name="contact_travelocity">Contacter Travelocity</string>
-    <string name="travelocity_website">Site web de Travelocity</string>
-    <string name="travelocity_app_support">Assistance pour l’App Travelocity</string>
-    <string name="travelocity_copyright">© Copyright 2012-2014 Travelocity\nTous droits réservés.</string>
     <string name="travelocity_info_url">http://www.travelocity.com/</string>
 
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation_travelocity">Êtes-vous sûr de vouloir vous déconnecter de votre compte Travelocity ?</string>
 
-    <!-- Expedia booking fee -->
-    <string name="travelocity_booking_fee">Frais de réservation Travelocity</string>
 
-    <string name="error_flight_unhandled_travelocity_TEMPLATE">Désolés, nous ne sommes pas en mesure de traiter votre demande pour le moment. Veuillez réessayer ou bien appeler l’assistance clientèle Travelocity et communiquer le numéro de voyage suivant : %s</string>
-    <string name="error_server_travelocity">Désolés, la connexion aux serveurs Travelocity a échoué. Veuillez réessayer plus tard.</string>
 
-    <!-- save billing info message -->
-    <string name="save_billing_travelocity_info_message">Enregistrer ce mode de paiement dans votre compte Travelocity pour réserver plus rapidement dans le futur ?</string>
 
-    <!-- Save traveler name Template -->
-    <string name="save_traveler_travelocity_message_TEMPLATE">Sauvegarder les informations sur %1$s sur votre compte Travelocity pour réserver plus rapidement dans le futur ?</string>
 
-    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE_tvly">N° de voyage Travelocity : %s</string>
-    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE_tvly">Assistance clientèle Travelocity : %s</string>
 
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data_tvly">Vous vous êtes déconnecté de votre compte Travelocity. Toutes les coordonnées et les données de facturation sauvegardées ont été supprimées.</string>
 
-    <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure_tvly">Désolés, nous n’avons pas pu vous connecter à Travelocity. Veuillez réessayer.</string>
-
-    <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_travelocity_via">Contacter Travelocity par…</string>
     <!-- Contact Expedia via email subject -->
     <string name="contact_travelocity_email_subject">Assistance réservations Travelocity</string>
-    <!-- Travelocity- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template_tvly">Si vous avez des questions au sujet de votre réservation, veuillez appeler Travelocity au %s.</string>
-    <!-- Travelocity Itinerary -->
-    <string name="tvly_itinerary">N° de voyage Travelocity</string>
 
-    <!-- Google Wallet -->
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">Travelocity</string>
 
-    <string name="share_template_long_ad_tvly">Réservez des hôtels et des billets d’avion. Consultez et partagez vos voyages.
-    Téléchargez l’appli gratuite Travelocity !\\n%s
-    </string>
-    <string name="sorry_rooms_sold_out_tvly">Désolé, plus aucune chambre n’est libre sur Travelocity.</string>
-    <string name="dialog_message_launch_tvly_mobile_site">Ouvrir le site mobile de Travelocity ?
-    </string>
-    <string name="tvly_password_hint">Mot de passe Travelocity</string>
-    <string name="not_currently_available_TEMPLATE_tvly">Non disponible depuis Travelocity %s</string>
-    <string name="e3_error_checkout_booking_succeeded_with_errors_tvly">Votre hôtel a bien été
-    réservé ! Veuillez contacter le service clientèle Travelocity si vous avez besoin d’un numéro de voyage immédiatement.
-    </string>
-    <string name="loading_tvly_account">Chargement du compte Travelocity</string>
-    <string name="cd_launch_open_eb_info_screen_tvly">Ouvrez la page de vos réservations Travelocity.</string>
-    <string name="cd_log_in_password_edit_text_tvly">Saisissez le mot de passe de votre compte Travelocity.</string>
-    <string name="restricted_profile_login_message_tvly">Pour vous connecter à Travelocity, vous devez avoir un
-    profil utilisateur sans aucune restriction sur votre appareil.
-    </string>
-    <string name="tell_a_friend_subject_tvly">Hôtels Travelocity</string>
-    <string name="cd_log_in_email_edit_text_tvly">Saisissez l’adresse e-mail rattachée à votre compte Travelocity</string>
-    <string name="tell_a_friend_body_tvly">Bonjour,\\n\\nVenez découvrir  les hôtels Travelocity pour iPhone et téléphones
-    Android. Cette application est GRATUITE et vous permettra facilement de rechercher et de réserver plus de 140 000 hôtels dans
-    le monde entier. C’est le moyen le plus simple de réserver un hôtel avec votre
-    téléphone !\\n
-    </string>
-    <string name="Travelocity_Flights">Vols Travelocity</string>
-
-    <string name="error_flight_no_longer_available_tvly">Désolés, votre vol n’est plus disponible sur Travelocity.</string>
-
-    <string name="error_flights_no_longer_available_tvly">Désolés, un de vos vols n’est plus disponible sur Travelocity.</string>
 
     <!-- Message displayed when the hotel room is sold out -->
     <string name="error_room_is_now_sold_out_tvly">Désolés, cette chambre n’est plus disponible sur Travelocity.</string>
-    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out_tvly">Désolés, cet hôtel n’est plus disponible sur Travelocity.</string>
     <!--A message stating this hotel is Not currently available on Travelocity -->
     <string name="not_currently_available_tvly">Actuellement non disponible sur Travelocity</string>
-    <!-- A message stating this hotel is sold out on Travelocity -->
-    <string name="sold_out_on_tvly">Complet sur Travelocity</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Travelocity Nov. 3-4" -->
     <string name="not_currently_available_tvly_TEMPLATE">Non disponible sur Travelocity %s</string>
 
+    <!-- Missing strings for Travelocity from Expedia-->
+    <string name="tell_a_friend_body_tvly">Bonjour,\n\nVenez découvrir Hôtels Travelocity pour iPhone et téléphones Android. Cette application est gratuite et vous permettra de rechercher et de réserver plus de 140 000 hôtels dans le monde entier. C’est le moyen le plus simple de réserver un hôtel avec votre téléphone !</string>
+    <string name="cd_log_in_email_edit_text_tvly">Saisissez l’adresse e-mail rattachée à votre compte Travelocity</string>
+    <string name="tell_a_friend_subject_tvly">Hôtels Travelocity</string>
+    <string name="cd_log_in_password_edit_text_tvly">Saisissez le mot de passe de votre compte Travelocity.</string>
+    <string name="cd_launch_open_eb_info_screen_tvly">Ouvrez la page de vos réservations Travelocity.</string>
+    <string name="loading_tvly_account">Chargement du compte Travelocity</string>
+    <string name="tvly_password_hint">Mot de passe Travelocity</string>
+    <string name="dialog_message_launch_tvly_mobile_site">Ouvrir le site mobile de Travelocity ?</string>
+    <!-- Travelocity App download link -->
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">Total à payer à Travelocity aujourd’hui :</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">Vous devez créer un nouvel identifiant de connexion international pour tous les sites Travelocity.&lt;br&gt;Veuillez réinitialiser votre mot de passe en utilisant le lien « Mot de passe oublié ? » situé ci-dessous.</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today">À payer aujourd’hui à Travelocity</string>
+
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_a_Travelocity_account">Créer un nouveau compte Travelocity</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_Travelocity">Bienvenue sur Travelocity</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_Travelocity_account_already_exists">Un compte Travelocity est déjà associé à cette adresse e-mail</string>
 </resources>

@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity.Validatable;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
@@ -28,6 +26,7 @@ import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.utils.FocusViewRunnable;
 import com.expedia.bookings.utils.Ui;
 
@@ -65,16 +64,6 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 		mCreditCardMessageTv = Ui.findView(v, R.id.card_message);
 		hideCardMessageOrDisplayDefault(true);
 
-		if (ExpediaBookingApp.IS_VSC) {
-			// 1600. VSC Hide zipCode Field from CCEntry Screen
-			View view = Ui.findView(v, R.id.section_location_address);
-			view.setVisibility(View.INVISIBLE);
-
-			// 1601. VSC Disable predictive text input for "Name on card" field in CCEntry Screen
-			EditText nameOnCard = (EditText)Ui.findView(v, R.id.edit_name_on_card);
-			nameOnCard.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-		}
-
 		mAttemptToLeaveMade = savedInstanceState != null ? savedInstanceState.getBoolean(STATE_TAG_ATTEMPTED_LEAVE,
 				false) : false;
 
@@ -105,7 +94,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentEditCard(getActivity());
+		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentEditCard();
 	}
 
 	@Override
@@ -158,8 +147,6 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 					mSectionLocation.performValidation();
 				}
 			}
-			//Attempt to save on change
-			Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
 		}
 	};
 
@@ -168,7 +155,7 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 		public void onChange() {
 			if (mBillingInfo.getCardType() != null) {
 				if (!Db.getTripBucket().getHotel().isCardTypeSupported(mBillingInfo.getCardType())) {
-					String cardName = mBillingInfo.getCardType().getHumanReadableName(getActivity());
+					String cardName = CreditCardUtils.getHumanReadableName(getActivity(), mBillingInfo.getCardType());
 					String message = getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName);
 					updateCardMessage(message, getResources().getColor(R.color.flight_card_unsupported_warning));
 					toggleCardMessage(true, true);

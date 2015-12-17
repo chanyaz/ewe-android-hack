@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="call_wotif_customer_support">Hubungi Layanan Pelanggan Wotif</string>
+
+    <!-- Log in with Wotif -->
+    <string name="Log_in_with_Wotif">Login dengan Wotif</string>
+    <!-- Label for signin screen -->
+    <string name="wotif_account">Akun Wotif</string>
+    <!-- Content description for action: Press to log in with your Wotif account -->
+    <string name="cd_checkout_log_in_with_wotif">Silakan login ke akun Wotif Anda</string>
+
+    <string name="wotif_website">Website Wotif</string>
+    <string name="wotif_app_support">Bantuan Aplikasi Wotif</string>
+    <string name="wotif_copyright_TEMPLATE">© Hak Cipta 2012-%1$sWotif\nSemua hak dilindungi.</string>
+    <string name="wotif_info_url">http://www.wotif.com/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_wotif">Yakin mau keluar dari akun Wotif Anda?</string>
+
+    <!-- Expedia booking fee -->
+    <string name="wotif_booking_fee">Biaya Pemesanan Wotif</string>
+
+    <string name="error_flight_unhandled_wotif_TEMPLATE">Maaf, sepertinya kami tidak bisa memproses pemesanan Anda sekarang. Silakan coba lagi atau hubungi Layanan Pelanggan Wotif dan sebutkan nomor itinerary ini: %s</string>
+    <string name="error_server_wotif">Maaf, kami sedang tidak bisa tersambung ke server Wotif.  Silakan coba lagi nanti.</string>
+
+    <!-- save billing info message -->
+    <string name="save_billing_wotif_info_message">Simpan rincian pembayaran ini di akun Wotif Anda untuk pembelian berikutnya?</string>
+
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_wotif_message_TEMPLATE">Simpan informasi %1$s ini di akun Wotif Anda untuk pembelian berikutnya?</string>
+
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE_wotif">Nomor Itinerary Wotif: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE_wotif">Layanan Pelanggan Wotif: %s</string>
+
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data_wotif">Anda telah keluar dari akun Wotif Anda, dan semua informasi kontak dan tagihan telah dihapus.</string>
+
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure_wotif">Maaf, kami sedang tidak bisa tersambung ke Wotif. Silakan coba lagi.</string>
+
+    <!-- Phone Fragment Header-->
+    <string name="nav_accommodation">Akomodasi</string>
+    
+    <!-- Shop travel label -->
+    <string name="shop_travel">Pesan perjalanan</string>
+
+    <!-- Title for different ways to connect to Expedia -->
+    <string name="contact_wotif_via">Hubungi Wotif Via...</string>
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_wotif_email_subject">Bantuan Pemesanan Wotif</string>
+    <!-- Wotif- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_wotif">Jika Anda memiliki pertanyaan tentang pemesanan Anda, hubungi Wotif di %s.</string>
+    <!-- Wotif Itinerary -->
+    <string name="wotif_itinerary">Nomor Itinerary Wotif</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Wotif</string>
+
+    <string name="error_flight_no_longer_available_wotif">Maaf, penerbangan Anda tidak lagi tersedia di Wotif.</string>
+
+    <string name="error_flights_no_longer_available_wotif">Maaf, salah satu penerbangan Anda tidak lagi tersedia di Wotif.</string>
+
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out_wotif">Maaf, hotel ini tidak lagi tersedia di Wotif.</string>
+    <!--A message stating this hotel is Not currently available on Wotif -->
+    <string name="not_currently_available_wotif">Saat ini tidak tersedia di Wotif</string>
+    <!-- A message stating this hotel is sold out on Wotif -->
+    <string name="sold_out_on_wotif">Terjual habis di Wotif</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Wotif Nov. 3-4" -->
+    <string name="not_currently_available_wotif_TEMPLATE">Tidak tersedia di Wotif %s</string>
+
+    <!-- Missing strings for Wotif from Expedia-->
+    <string name="tell_a_friend_body_wotif">Halo,\n\nSudah coba aplikasi Hotel Wotif untuk iPhone dan Android? Aplikasi ini GRATIS dan Anda dapat mencari sekaligus memesan kamar dengan mudah di lebih dari 140.000 hotel di seluruh dunia. Ini cara termudah untuk memesan kamar hotel dari ponsel Anda.</string>
+    <string name="tell_a_friend_subject_wotif">Hotel Wotif</string>
+    <string name="restricted_profile_login_message_wotif">Untuk login ke akun Wotif, Anda harus menggunakan unrestricted user profile di perangkat Anda.</string>
+    <string name="loading_wotif_account">Memuat Akun Wotif</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_wotif">Hotel Anda telah berhasil dipesan! Jika Anda memerlukan itinerary segera, silakan hubungi Layanan Pelanggan Wotif.</string>
+    <string name="wotif_password_hint">Kata Sandi Wotif</string>
+    <string name="dialog_message_launch_wotif_mobile_site">Buka website mobile Wotif?</string>
+    <string name="sorry_rooms_sold_out_wotif">Maaf, semua kamar sudah terjual habis di Wotif.</string>
+    <!-- Wotif App download link -->
+    <string name="share_template_long_ad_wotif">Pesan hotel dan penerbangan, lihat dan kirim itinerary. Download aplikasi mobile Wotif gratis sekarang juga.\n%s</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">Total Dibayar ke Wotif Hari Ini:</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">Kami butuh Anda untuk membuat satu rincian login universal yang akan digunakan di semua situs Wotif.&lt;br&gt;Harap reset kata sandi Anda menggunakan link ’Lupa kata sandi?’ di bawah ini.</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today_wotif">Untuk Dibayar ke Wotif Hari Ini:</string>
+    <string name="etp_pay_now_charges_text_wotif">Wotif akan memproses rincian pembayaran Anda.</string>
+</resources>

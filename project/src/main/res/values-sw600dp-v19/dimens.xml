@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Extra padding used to offset views to account for a translucent status bar -->
-    <dimen name="extra_status_bar_padding">25dp</dimen>
     <!-- Extra padding used to offset views to account for a translucent navigation bar -->
     <dimen name="extra_navigation_bar_padding">48dp</dimen>
-
-    <dimen name="waypoint_fragment_top_margin">48dp</dimen>
 </resources>

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -97,6 +96,7 @@ public class ExpirationPicker extends LinearLayout {
 
 	@Override
 	public Parcelable onSaveInstanceState() {
+		super.onSaveInstanceState();
 		Bundle bundle = new Bundle();
 		bundle.putInt(TAG_CURRENT_MONTH, mCurrentMonth);
 		bundle.putInt(TAG_CURRENT_YEAR, mCurrentYear);

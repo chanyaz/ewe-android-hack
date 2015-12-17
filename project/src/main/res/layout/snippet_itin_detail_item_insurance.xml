@@ -13,7 +13,7 @@
         style="@style/TextView.Itin.SectionHeader.Padded"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/insurance" />
+        android:text="@string/insurance_itin_label" />
 
     <LinearLayout
         android:id="@+id/insurance_container"

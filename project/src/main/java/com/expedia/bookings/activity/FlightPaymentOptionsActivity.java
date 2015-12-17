@@ -22,7 +22,6 @@ import com.expedia.bookings.fragment.FlightPaymentOptionsFragment.FlightPaymentY
 import com.expedia.bookings.fragment.FlightPaymentSaveDialogFragment;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.model.FlightPaymentFlowState;
-import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
@@ -93,22 +92,6 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 			}
 		}
 
-		//If we have a working BillingInfo object that was cached we try to load it from disk
-		WorkingBillingInfoManager billMan = Db.getWorkingBillingInfoManager();
-		if (billMan.getAttemptToLoadFromDisk() && billMan.hasBillingInfoOnDisk(this)) {
-			//Load working billing info from disk
-			billMan.loadWorkingBillingInfoFromDisk(this);
-			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
-				//If we don't have a saved state, but we do have a saved temp billingInfo go ahead to the entry screens
-				mPos = YoYoPosition.ADDRESS;
-				mMode = YoYoMode.YOYO;
-			}
-		}
-		else {
-			//If we don't load from disk, then we delete the file
-			billMan.deleteWorkingBillingInfoFile(this);
-		}
-
 		boolean hasPositionData = false;
 
 		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_DEST)) {
@@ -176,12 +159,6 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 	}
 
 	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
 	public void onPause() {
 		super.onPause();
 
@@ -189,8 +166,6 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 		if (mPos.equals(YoYoPosition.SAVE)) {
 			this.closeSaveDialog();
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -376,7 +351,7 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 				break;
 			case SAVE:
 				displayCheckout();
-				OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditSave(getApplicationContext());
+				OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditSave();
 				break;
 			default:
 				Ui.showToast(this, "FAIL");
@@ -590,7 +565,7 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 	@Override
 	public void displayCheckout() {
 		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
-		Db.getWorkingBillingInfoManager().clearWorkingBillingInfo(this);
+		Db.getWorkingBillingInfoManager().clearWorkingBillingInfo();
 
 		Intent gotoCheckoutOverviewIntent = new Intent(FlightPaymentOptionsActivity.this,
 				FlightTripOverviewActivity.class);

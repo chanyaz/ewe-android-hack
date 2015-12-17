@@ -13,6 +13,8 @@ public interface ISectionEditable {
 	 */
 	public boolean performValidation();
 
+	public void resetValidation();
+
 	public void addChangeListener(SectionChangeListener listener);
 
 	public void removeChangeListener(SectionChangeListener listener);

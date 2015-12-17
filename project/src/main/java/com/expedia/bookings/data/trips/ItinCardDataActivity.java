@@ -128,6 +128,7 @@ public class ItinCardDataActivity extends ItinCardData {
 		builder.setTitle(R.string.webview_title_print_vouchers);
 		builder.setTheme(R.style.ItineraryTheme);
 		builder.setAllowMobileRedirects(false);
+		builder.setInjectExpediaCookies(true);
 		return builder.getIntent();
 	}
 

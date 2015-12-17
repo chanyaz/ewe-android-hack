@@ -170,7 +170,8 @@ public class SuggestionProvider extends ContentProvider {
 			}
 
 			if (sShowNearbyAirports) {
-				List<SuggestionV2> airportSuggestions = SuggestionUtils.getNearbyAirportSuggestions(getContext(), MAX_NUM_NEARBY_AIRPORTS);
+				List<SuggestionV2> airportSuggestions = SuggestionUtils
+					.getNearbyAirportSuggestions(getContext(), MAX_NUM_NEARBY_AIRPORTS);
 				for (SuggestionV2 suggestion : airportSuggestions) {
 					addSuggestion(suggestion);
 				}
@@ -184,7 +185,7 @@ public class SuggestionProvider extends ContentProvider {
 		else {
 			// Try getting suggestions from server
 			ExpediaServices services = new ExpediaServices(getContext());
-			SuggestionResponse response = services.suggestions(query, 0);
+			SuggestionResponse response = services.suggestions(query);
 			if (response != null) {
 
 				// #3200 special-case sorting for 3 char queries. We suspect the user may be entering
@@ -252,11 +253,29 @@ public class SuggestionProvider extends ContentProvider {
 			suggestion.fromJson(obj);
 			mRecents.addItem(suggestion);
 			mRecents.saveList(getContext(), RECENTS_FILENAME);
-			return getContentFilterUri(getContext());
+			getContext().getContentResolver().notifyChange(uri, null);
+			return uri;
 		}
 		catch (JSONException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	/**
+	 * Delete will always delete all of them. It'll ignore the selection and selectionArgs.
+	 *
+	 * @param uri
+	 * @param selection
+	 * @param selectionArgs
+	 * @return
+	 */
+	@Override
+	public int delete(Uri uri, String selection, String[] selectionArgs) {
+		int count = mRecents.getList().size();
+		mRecents.clear();
+		mRecents.saveList(getContext(), RECENTS_FILENAME);
+		getContext().getContentResolver().notifyChange(uri, null);
+		return count;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -326,6 +345,15 @@ public class SuggestionProvider extends ContentProvider {
 	public static SuggestionV2 rowToSuggestion(Cursor c) {
 		SuggestionV2 suggestion = new SuggestionV2();
 
+		Location location = new Location();
+		location.addStreetAddressLine(c.getString(COL_ADDRESS));
+		location.setCity(c.getString(COL_CITY));
+		location.setStateCode(c.getString(COL_STATE_CODE));
+		location.setCountryCode(c.getString(COL_COUNTRY_CODE));
+		location.setLatitude(c.getDouble(COL_LATITUDE));
+		location.setLongitude(c.getDouble(COL_LONGITUDE));
+		suggestion.setLocation(location);
+
 		int resultTypeOrdinal = c.getInt(COL_RESULT_TYPE);
 		if (resultTypeOrdinal != -1) {
 			suggestion.setResultType(ResultType.values()[resultTypeOrdinal]);
@@ -339,6 +367,7 @@ public class SuggestionProvider extends ContentProvider {
 		int regionTypeOrdinal = c.getInt(COL_REGION_TYPE);
 		if (regionTypeOrdinal != -1) {
 			suggestion.setRegionType(RegionType.values()[regionTypeOrdinal]);
+			location.setRegionType(suggestion.getRegionType().name());
 		}
 
 		suggestion.setFullName(c.getString(COL_FULL_NAME));
@@ -347,15 +376,7 @@ public class SuggestionProvider extends ContentProvider {
 		suggestion.setMultiCityRegionId(c.getInt(COL_MULTI_CITY_REGION_ID));
 		suggestion.setRegionId(c.getInt(COL_REGION_ID));
 		suggestion.setAirportCode(c.getString(COL_AIRPORT_CODE));
-
-		Location location = new Location();
-		location.addStreetAddressLine(c.getString(COL_ADDRESS));
-		location.setCity(c.getString(COL_CITY));
-		location.setStateCode(c.getString(COL_STATE_CODE));
-		location.setCountryCode(c.getString(COL_COUNTRY_CODE));
-		location.setLatitude(c.getDouble(COL_LATITUDE));
-		location.setLongitude(c.getDouble(COL_LONGITUDE));
-		suggestion.setLocation(location);
+		suggestion.setIcon(c.getInt(COL_ICON_1));
 
 		return suggestion;
 	}
@@ -373,17 +394,11 @@ public class SuggestionProvider extends ContentProvider {
 		throw new UnsupportedOperationException("You cannot update suggestions.");
 	}
 
-	@Override
-	public int delete(Uri uri, String selection, String[] selectionArgs) {
-		throw new UnsupportedOperationException("You cannot delete suggestions.");
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Clear
 
 	public static void clearRecents(Context context) {
-		RecentList<SuggestionV2> recents = new RecentList<SuggestionV2>(SuggestionV2.class, context, RECENTS_FILENAME, MAX_RECENTS);
-		recents.clear();
-		recents.saveList(context, RECENTS_FILENAME);
+		Uri uri = getContentFilterUri(context);
+		context.getContentResolver().delete(uri, null, null);
 	}
 }

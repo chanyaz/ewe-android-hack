@@ -6,6 +6,8 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.expedia.bookings.data.AirAttach;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
@@ -28,7 +30,7 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 
 		try {
 			// Check for errors, return if found
-			checkoutResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.FLIGHT_CHECKOUT, response));
+			checkoutResponse.addErrors(ParserUtils.parseErrors(ApiMethod.FLIGHT_CHECKOUT, response));
 			if (!checkoutResponse.isSuccess()) {
 				// Some errors require special parsing
 				JSONObject detailResponse = response.optJSONObject("flightDetailResponse");
@@ -47,6 +49,11 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 					checkoutResponse.setNewOffer(newOffer);
 				}
 			}
+			else {
+				// Region id for cross-sell
+				JSONObject detailResponse = response.optJSONObject("flightDetailResponse");
+				checkoutResponse.setDestinationRegionId(detailResponse.optString("destinationRegionId"));
+			}
 
 			// Continue parsing other fields even if we got an error.  This is
 			// important when we get a TRIP_ALREADY_BOOKED error.
@@ -56,6 +63,18 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 			if (!TextUtils.isEmpty(currencyCode) && response.has("totalCharges")) {
 				checkoutResponse.setTotalCharges(ParserUtils.createMoney(response.optString("totalCharges"),
 						currencyCode));
+			}
+
+			// Air Attach - Booking a flight tends to qualify the user for a discounted hotel room
+			JSONObject airAttachJson = response.optJSONObject("mobileAirAttachQualifier");
+			if (airAttachJson != null) {
+				AirAttach airAttach = new AirAttach(airAttachJson);
+
+				if (airAttach.isAirAttachQualified()) {
+					if (Db.getTripBucket().setAirAttach(airAttach)) {
+						Db.saveTripBucket(mContext);
+					}
+				}
 			}
 		}
 		catch (JSONException e) {

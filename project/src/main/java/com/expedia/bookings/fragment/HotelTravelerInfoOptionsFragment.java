@@ -1,5 +1,6 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.Activity;
@@ -15,12 +16,14 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.HotelPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.section.SectionTravelerInfo;
@@ -32,6 +35,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.util.ViewUtils;
+import com.squareup.phrase.Phrase;
 
 public class HotelTravelerInfoOptionsFragment extends Fragment {
 
@@ -92,13 +96,17 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 				mListener.setMode(YoYoMode.YOYO);
 				mListener.displayTravelerEntryOne();
 
-				OmnitureTracking.trackLinkHotelsCheckoutTravelerEnterManually(getActivity());
+				OmnitureTracking.trackLinkHotelsCheckoutTravelerEnterManually();
 			}
 		});
 
 		//Associated Travelers (From Expedia Account)
 		mAssociatedTravelersContainer.removeAllViews();
-		List<Traveler> alternativeTravelers = BookingInfoUtils.getAlternativeTravelers(getActivity());
+		List<Traveler> alternativeTravelers = new ArrayList<Traveler>();
+		if (User.isLoggedIn(getActivity()) && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
+			alternativeTravelers.add(Db.getUser().getPrimaryTraveler());
+		}
+		alternativeTravelers.addAll(BookingInfoUtils.getAlternativeTravelers(getActivity()));
 		int numAltTravelers = alternativeTravelers.size();
 		Resources res = getResources();
 		for (int i = 0; i < numAltTravelers; i++) {
@@ -132,7 +140,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 						bd.startDownload(TRAVELER_DETAILS_DOWNLOAD, mTravelerDetailsDownload,
 								mTravelerDetailsCallback);
 
-						OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting(getActivity());
+						OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting();
 					}
 				}
 			});
@@ -164,7 +172,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadHotelsTravelerSelect(getActivity());
+		OmnitureTracking.trackPageLoadHotelsTravelerSelect();
 	}
 
 	@Override
@@ -242,7 +250,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 
 			if (results == null) {
 				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null,
-						getString(Ui.obtainThemeResID(getActivity(), R.attr.serverErrorMessageString)));
+						Phrase.from(getActivity(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
 				dialogFragment.show(getFragmentManager(), "errorFragment");
 			}
 			else if (results.hasErrors()) {

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <include
         android:id="@+id/flight_leg"
@@ -14,7 +15,7 @@
         android:layout_marginTop="-6dp"
         layout="@layout/section_flight_leg_summary" />
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/num_flights_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,6 +28,23 @@
         android:shadowRadius=".1"
         android:singleLine="true"
         android:textColor="@android:color/white"
-        android:textSize="14dp" />
+        android:textSize="14dp"
+        app:textStyle="light" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/flight_price_label_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="6dp"
+        android:ellipsize="end"
+        android:shadowColor="@android:color/black"
+        android:shadowDx="0"
+        android:shadowDy="1"
+        android:shadowRadius=".1"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textSize="13dp"
+        app:textStyle="light" />
 
 </LinearLayout>

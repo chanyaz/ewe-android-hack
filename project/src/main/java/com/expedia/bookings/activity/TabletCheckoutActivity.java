@@ -11,10 +11,9 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
-import android.view.ViewGroup;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Sp;
@@ -24,7 +23,6 @@ import com.expedia.bookings.fragment.BookingUnavailableFragment.BookingUnavailab
 import com.expedia.bookings.fragment.TabletCheckoutControllerFragment;
 import com.expedia.bookings.fragment.TabletCheckoutTripBucketControllerFragment;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
-import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.ITripBucketBookClickListener;
 import com.expedia.bookings.interfaces.helpers.BackManager;
@@ -34,14 +32,13 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 
 /**
  * TabletCheckoutActivity: The checkout activity designed for tablet 2014
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class TabletCheckoutActivity extends FragmentActivity implements IBackButtonLockListener,
-	IBackManageable, ITripBucketBookClickListener, IAcceptingListenersListener, BookingUnavailableFragmentListener {
+public class TabletCheckoutActivity extends FragmentActivity implements IBackManageable,
+	ITripBucketBookClickListener, IAcceptingListenersListener, BookingUnavailableFragmentListener {
 
 	public static Intent createIntent(Context context, LineOfBusiness lob) {
 		Intent intent = new Intent(context, TabletCheckoutActivity.class);
@@ -57,17 +54,12 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	private static final String TRIP_BUCKET_FRAG_TAG = "TRIP_BUCKET_FRAG_TAG";
 
 	private static final String INSTANCE_CURRENT_LOB = "INSTANCE_CURRENT_LOB";
-	private static final String INSTANCE_LOADED_CACHED_DATA = "INSTANCE_LOADED_CACHED_DATA";
-
-	//Containers..
-	private ViewGroup mRootC;
 
 	//Fragments
 	TabletCheckoutControllerFragment mFragCheckoutController;
 	TabletCheckoutTripBucketControllerFragment mFragTripBucketController;
 
 	//Other
-	private boolean mBackButtonLocked = false;
 	private LineOfBusiness mLob;
 
 	boolean mIsBailing = false;
@@ -86,17 +78,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		}
 
 		setContentView(R.layout.activity_tablet_checkout);
-
-		if (savedInstanceState != null) {
-			mLoadedDbInfo = savedInstanceState.getBoolean(INSTANCE_LOADED_CACHED_DATA, false) && Db.hasBillingInfo();
-		}
-
-		// Loading checkout data and blocking. this is disk i/o but we need the data loaded at this
-		// point due to how the code is structured.
-		loadCachedData(true);
-
-		// Containers
-		mRootC = Ui.findView(this, R.id.root_layout);
 
 		// Args
 		if (savedInstanceState == null) {
@@ -118,15 +99,11 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 	}
 
 	@Override
-	public void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
 	public void onPause() {
 		super.onPause();
-		OmnitureTracking.onPause();
+		if (isFinishing()) {
+			clearCCNumber();
+		}
 	}
 
 	@Override
@@ -136,7 +113,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		if (lob != null) {
 			outState.putString(INSTANCE_CURRENT_LOB, lob.name());
 		}
-		outState.putBoolean(INSTANCE_LOADED_CACHED_DATA, mLoadedDbInfo);
 	}
 
 	@Override
@@ -164,7 +140,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		updateLob(lob);
 	}
 
-	private void updateLob(LineOfBusiness lob) {
+	public void updateLob(LineOfBusiness lob) {
 		mLob = lob;
 		if (mFragCheckoutController != null) {
 			mFragCheckoutController.setLob(lob);
@@ -191,7 +167,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
 		//We allow debug users to jump between states
-		if (!AndroidUtils.isRelease(this)) {
+		if (BuildConfig.DEBUG) {
 			//We use ordinal() + 1 for all ids and groups because 0 == Menu.NONE
 			SubMenu subMen = menu.addSubMenu(Menu.NONE, Menu.NONE, 0, "Checkout State");
 			subMen.add(CheckoutState.OVERVIEW.ordinal() + 1, CheckoutState.OVERVIEW.ordinal() + 1,
@@ -221,6 +197,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		switch (item.getItemId()) {
 		case android.R.id.home: {
 			onBackPressed();
+			clearCCNumber();
 			return true;
 		}
 		}
@@ -230,7 +207,7 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		}
 
 		//We allow debug users to jump between states
-		if (!AndroidUtils.isRelease(this) && mFragCheckoutController != null) {
+		if (BuildConfig.DEBUG && mFragCheckoutController != null) {
 
 			//All of our groups/ids are .ordinal() + 1 so we subtract here to make things easier
 			int groupId = item.getGroupId() - 1;
@@ -336,10 +313,9 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 
 	@Override
 	public void onBackPressed() {
-		if (!mBackButtonLocked) {
-			if (!mBackManager.doOnBackPressed()) {
-				super.onBackPressed();
-			}
+		if (!mBackManager.doOnBackPressed()) {
+			clearCCNumber();
+			super.onBackPressed();
 		}
 	}
 
@@ -357,11 +333,6 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		}
 
 	};
-
-	@Override
-	public void setBackButtonLockState(boolean locked) {
-		mBackButtonLocked = locked;
-	}
 
 	/*
 	 * CACHED DATA LOADING...
@@ -384,20 +355,17 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 			state = mFragCheckoutController.getCheckoutInformationIsValid() ? CheckoutState.READY_FOR_CHECKOUT : CheckoutState.OVERVIEW;
 		}
 
+		// Tracking
+		boolean isAirAttachScenario = lob == LineOfBusiness.HOTELS &&
+			Db.getTripBucket().getHotel().hasAirAttachRate();
+		OmnitureTracking.trackBookNextClick(lob, isAirAttachScenario);
+
 		updateBucketItems(true);
 		setCheckoutState(state, true);
 	}
 
 	private void loadCachedData(boolean wait) {
-		if (!mLoadedDbInfo) {
-			CheckoutDataLoader.CheckoutDataLoadedListener listener = new CheckoutDataLoader.CheckoutDataLoadedListener() {
-				@Override
-				public void onCheckoutDataLoaded(boolean wasSuccessful) {
-					mLoadedDbInfo = wasSuccessful;
-				}
-			};
-			CheckoutDataLoader.getInstance().loadCheckoutData(this, true, true, listener, wait);
-		}
+
 	}
 
 	/*
@@ -416,4 +384,13 @@ public class TabletCheckoutActivity extends FragmentActivity implements IBackBut
 		// ignore
 	}
 
+	private void clearCCNumber() {
+		try {
+			Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setNumber(null);
+			Db.getBillingInfo().setNumber(null);
+		}
+		catch (Exception ex) {
+			Log.e("Error clearing billingInfo card number", ex);
+		}
+	}
 }

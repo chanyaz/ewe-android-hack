@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -32,12 +33,12 @@ import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.section.AfterChangeTextWatcher;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
-import com.mobiata.android.util.NetUtils;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 
 /**
  * A large search fragment only suitable for tablet sizes.
@@ -62,7 +63,7 @@ public class TabletWaypointFragment extends Fragment
 	private CurrentLocationFragment mLocationFragment;
 
 	private ViewGroup mRootC;
-	private FrameLayoutTouchController mBg;
+	private TouchableFrameLayout mBg;
 	private View mCancelButton;
 	private ViewGroup mSearchBarC;
 	private ViewGroup mSuggestionsC;
@@ -97,13 +98,14 @@ public class TabletWaypointFragment extends Fragment
 			mHasBackground = savedInstanceState.getBoolean(STATE_HAS_BACKGROUND);
 			mWayPointString = savedInstanceState.getString(STATE_WAYPOINT_EDIT_TEXT);
 		}
-		
+
 		//The background wont let any touches pass through it...
 		mBg = Ui.findView(view, R.id.bg);
 		mBg.setConsumeTouch(true);
 		if (!mHasBackground) {
 			mBg.setBackgroundDrawable(null);
 		}
+		mBg.setTouchListener(mBgTouchListener);
 
 		mWaypointEditText = Ui.findView(view, R.id.waypoint_edit_text);
 		mCancelButton = Ui.findView(view, R.id.cancel_button);
@@ -152,16 +154,10 @@ public class TabletWaypointFragment extends Fragment
 			}
 		});
 
-		mCancelButton.setOnClickListener(new View.OnClickListener(){
+		mCancelButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Fragment parent = getParentFragment();
-				if (parent instanceof TabletLaunchControllerFragment) {
-					((TabletLaunchControllerFragment)parent).setLaunchState(LaunchState.OVERVIEW, true);
-				}
-				else if (parent instanceof TabletResultsSearchControllerFragment) {
-					((TabletResultsSearchControllerFragment)parent).setStateToBaseState(true);
-				}
+				dismissWayPointFragment();
 			}
 		});
 
@@ -172,6 +168,16 @@ public class TabletWaypointFragment extends Fragment
 		setupStateTransitions();
 
 		return view;
+	}
+
+	private void dismissWayPointFragment() {
+		Fragment parent = getParentFragment();
+		if (parent instanceof TabletLaunchControllerFragment) {
+			((TabletLaunchControllerFragment)parent).setLaunchState(LaunchState.OVERVIEW, true);
+		}
+		else if (parent instanceof TabletResultsSearchControllerFragment) {
+			((TabletResultsSearchControllerFragment)parent).setStateToBaseState(true);
+		}
 	}
 
 	@Override
@@ -274,10 +280,10 @@ public class TabletWaypointFragment extends Fragment
 		@Override
 		public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
 			if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-				if (mSuggestionsFragment != null && mLoadingLocation == false) {
+				if (mSuggestionsFragment != null && !mLoadingLocation) {
 					SuggestionV2 suggest = mSuggestionsFragment.getBestChoiceForFilter();
 					if (suggest != null) {
-						handleSuggestion(suggest, mWaypointEditText.getText().toString());
+						handleSuggestion(suggest);
 						return true;
 					}
 					else {
@@ -298,7 +304,7 @@ public class TabletWaypointFragment extends Fragment
 				&& suggestion.getLocation().getLongitude() == 0));
 	}
 
-	protected void handleSuggestion(SuggestionV2 suggestion, String qryText) {
+	protected void handleSuggestion(SuggestionV2 suggestion) {
 		Location fakeLocation = ExpediaDebugUtil.getFakeLocation(getActivity());
 		if (suggestion.getResultType() == ResultType.CURRENT_LOCATION && fakeLocation != null) {
 			com.expedia.bookings.data.Location location = new com.expedia.bookings.data.Location();
@@ -316,7 +322,7 @@ public class TabletWaypointFragment extends Fragment
 		}
 		else {
 			unsetLoading();
-			Events.post(new Events.SearchSuggestionSelected(suggestion, qryText));
+			Events.post(new Events.SearchSuggestionSelected(suggestion));
 		}
 	}
 
@@ -325,11 +331,11 @@ public class TabletWaypointFragment extends Fragment
 
 	@Override
 	public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion) {
-		if (!NetUtils.isOnline(getActivity())) {
+		if (!ExpediaNetUtils.isOnline(getActivity())) {
 			Events.post(new Events.ShowNoInternetDialog(SimpleCallbackDialogFragment.CODE_TABLET_NO_NET_CONNECTION_SEARCH));
 		}
 		else {
-			handleSuggestion(suggestion, null);
+			handleSuggestion(suggestion);
 		}
 	}
 
@@ -508,6 +514,23 @@ public class TabletWaypointFragment extends Fragment
 		}
 	}
 
+	/**
+	 * This is a {@link TouchableFrameLayout.TouchListener} that listens to user touches/taps
+	 * outside the autocomplete real estate. When user taps/touches outside the view
+	 * let's close the search fragment.
+	 */
+	public TouchableFrameLayout.TouchListener mBgTouchListener = new TouchableFrameLayout.TouchListener() {
+		@Override
+		public void onInterceptTouch(MotionEvent ev) {
+			// Nothing to do here
+		}
+
+		@Override
+		public void onTouch(MotionEvent ev) {
+			dismissWayPointFragment();
+		}
+	};
+
 	//////////////////////////////////////////////////////////////////////////
 	// ICurrentLocationListener
 
@@ -518,7 +541,7 @@ public class TabletWaypointFragment extends Fragment
 			suggestion.getLocation().setLatitude(location.getLatitude());
 			suggestion.getLocation().setLongitude(location.getLongitude());
 			suggestion.setResultType(ResultType.CURRENT_LOCATION);
-			Events.post(new Events.SearchSuggestionSelected(suggestion, null));
+			Events.post(new Events.SearchSuggestionSelected(suggestion));
 		}
 	}
 

@@ -18,16 +18,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -82,20 +81,21 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 
 	@Override
 	public int getHeaderImagePlaceholderResId() {
-		return Ui.obtainThemeResID(getContext(), R.attr.itinCarPlaceholderDrawable);
+		return Ui.obtainThemeResID(getContext(), R.attr.skin_itinCarPlaceholderDrawable);
 	}
 
 	@Override
-	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
+	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
 		Car car = getItinCardData().getCar();
 
-		final String url = new Akeakamai(Images.getCarRental(car)) //
-			.resizeExactly(width, height) //
-			.build();
+		String url = Images.getCarRental(car, getResources().getDimension(R.dimen.car_image_width));
 
-		UrlBitmapDrawable drawable = new UrlBitmapDrawable(getResources(), url, getHeaderImagePlaceholderResId());
+		new PicassoHelper.Builder(getContext())
+			.setPlaceholder(getHeaderImagePlaceholderResId())
+			.setError(R.drawable.cars_fallback)
+			.setTarget(target.getCallBack())
+			.build().load(url);
 		setSharableImageURL(url);
-		return drawable;
 	}
 
 	@Override
@@ -275,7 +275,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 						if (intent != null) {
 							NavUtils.startActivitySafe(getContext(), intent);
 
-							OmnitureTracking.trackItinCarDirections(getContext());
+							OmnitureTracking.trackItinCarDirections();
 						}
 					}
 				});
@@ -290,7 +290,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 				public void onClick(View v) {
 					SocialUtils.call(getContext(), vendorPhone);
 
-					OmnitureTracking.trackItinCarCall(getContext());
+					OmnitureTracking.trackItinCarCall();
 				}
 			});
 		}
@@ -349,7 +349,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		notification.setNotificationType(NotificationType.CAR_PICK_UP);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 
-		final String carUrl = Images.getCarRental(car);
+		final String carUrl = Images.getCarRental(car, getResources().getDimension(R.dimen.car_image_width));
 		notification.setImageCar(carUrl);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
 		notification.setIconResId(R.drawable.ic_stat_car);
@@ -387,7 +387,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		notification.setNotificationType(NotificationType.CAR_DROP_OFF);
 		notification.setExpirationTimeMillis(expirationTimeMillis);
 
-		final String carUrl = Images.getCarRental(car);
+		final String carUrl = Images.getCarRental(car, getResources().getDimension(R.dimen.car_image_width));
 		notification.setImageCar(carUrl);
 		notification.setFlags(Notification.FLAG_LOCAL | Notification.FLAG_DIRECTIONS | Notification.FLAG_CALL);
 		notification.setIconResId(R.drawable.ic_stat_car);

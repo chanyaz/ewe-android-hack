@@ -56,9 +56,14 @@ public abstract class SectionField<FieldType extends View, Data extends Object> 
 		}
 	}
 
+	public int getFieldId() {
+		return mFieldId;
+	}
+
 	/***
 	 * This gets called after we update the field or data, and both are present
 	 */
 	protected abstract void onHasFieldAndData(FieldType field, Data data);
+
 
 }

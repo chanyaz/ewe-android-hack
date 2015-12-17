@@ -54,7 +54,6 @@ public class FlightTravelerInfoTwoFragment extends Fragment implements Validatab
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
 					mSectionTravelerInfo.performValidation();
 				}
-				Db.getWorkingTravelerManager().attemptWorkingTravelerSave(getActivity(), false);
 			}
 		});
 
@@ -64,7 +63,7 @@ public class FlightTravelerInfoTwoFragment extends Fragment implements Validatab
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightTravelerEditDetails(getActivity());
+		OmnitureTracking.trackPageLoadFlightTravelerEditDetails();
 	}
 
 	@Override

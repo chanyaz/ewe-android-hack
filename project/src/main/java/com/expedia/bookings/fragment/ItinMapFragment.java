@@ -16,7 +16,6 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncAdapter;
 import com.expedia.bookings.data.trips.Trip;
-import com.expedia.bookings.maps.SupportMapFragment;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -29,11 +28,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.mobiata.flightlib.maps.MapAnimationUtils;
 
 public class ItinMapFragment extends SupportMapFragment implements OnMyLocationChangeListener {
-
-	private static final float BOUNDS_PADDING_PERCENT = .05f;
 
 	private static final float ZOOM_LEVEL = 13;
 
@@ -146,7 +142,7 @@ public class ItinMapFragment extends SupportMapFragment implements OnMyLocationC
 
 				MarkerOptions opts = new MarkerOptions();
 				opts.position(loc);
-				opts.icon(BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.hotelListMapMarkerDrawable)));
+				opts.icon(BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerDrawable)));
 				Marker marker = map.addMarker(opts);
 
 				mMarkerToCard.put(marker, card);
@@ -155,13 +151,13 @@ public class ItinMapFragment extends SupportMapFragment implements OnMyLocationC
 
 				// Increase bounds only if the lonspan is not too great
 				LatLngBounds currBounds = builder.build();
-				if (MapAnimationUtils.getLonSpan(currBounds) < MAX_LON_SPAN) {
+				if (getLonSpan(currBounds) < MAX_LON_SPAN) {
 					mMarkerBounds = currBounds;
 				}
 			}
 
 			// This can easily happen if we only have on itin card (or they are all close to each other)
-			if (MapAnimationUtils.getLonSpan(mMarkerBounds) < MIN_LON_SPAN) {
+			if (getLonSpan(mMarkerBounds) < MIN_LON_SPAN) {
 				double adjust = MIN_LON_SPAN / 2;
 				mMarkerBounds = new LatLngBounds(
 						new LatLng(mMarkerBounds.southwest.latitude - adjust,
@@ -174,6 +170,17 @@ public class ItinMapFragment extends SupportMapFragment implements OnMyLocationC
 		else {
 			mMarkerBounds = null;
 		}
+	}
+
+	private static double getLonSpan(LatLngBounds bounds) {
+		double span = bounds.northeast.longitude - bounds.southwest.longitude;
+
+		if (span < 0) {
+			// spans int'l date line
+			span = (bounds.northeast.longitude + 180) + (180 - bounds.southwest.longitude);
+		}
+
+		return span;
 	}
 
 	/**

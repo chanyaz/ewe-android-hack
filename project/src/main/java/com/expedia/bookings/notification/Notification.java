@@ -21,7 +21,7 @@ import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
@@ -34,6 +34,7 @@ public class Notification extends Model implements JSONable {
 	public static final long FLAG_SHARE = 0x8;
 	public static final long FLAG_CALL = 0x10;
 	public static final long FLAG_REDEEM = 0x20;
+	public static final long FLAG_VIEW = 0x40;
 
 	/**
 	 * NEW = This notification has never been displayed to the user.
@@ -77,6 +78,7 @@ public class Notification extends Model implements JSONable {
 		ACTIVITY_START,
 		CAR_DROP_OFF,
 		CAR_PICK_UP,
+		FLIGHT_SHARE,
 		FLIGHT_CHECK_IN,
 		FLIGHT_CANCELLED,
 		FLIGHT_GATE_TIME_CHANGE,
@@ -104,6 +106,7 @@ public class Notification extends Model implements JSONable {
 		R.drawable.ic_stat_car,
 		R.drawable.ic_stat_hotel,
 		R.drawable.bg_itin_placeholder_flight,
+		R.drawable.ic_itin_ready,
 	};
 
 	@Column(name = "UniqueId")
@@ -213,16 +216,11 @@ public class Notification extends Model implements JSONable {
 	public int getIconResId() {
 		int resId = unmarshallResId(mIconId);
 
-		// Show travelocity logo in notification for Tvly app
-		if (ExpediaBookingApp.IS_TRAVELOCITY && (resId == 0 || mIconId == 1)) {
-			return R.drawable.ic_stat_travelocity;
+		if (resId == 0 || mIconId == 1) {
+			resId = ProductFlavorFeatureConfiguration.getInstance().getNotificationIconResourceId();
 		}
 
-		else if (ExpediaBookingApp.IS_AAG && (resId == 0 || mIconId == 1)) {
-			return R.drawable.ic_stat_aag;
-		}
-
-		return resId == 0 ? R.drawable.ic_stat_expedia : resId;
+		return resId;
 	}
 
 	public void setIconResId(int iconResId) {

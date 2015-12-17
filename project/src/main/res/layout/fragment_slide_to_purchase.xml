@@ -19,6 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
             android:text="@string/Do_you_accept"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
             android:textColor="@color/slide_to_purchase_text" />
 
         <!-- We build this whole oval manually instead of as a simple 9patch for l337 animation effects -->
@@ -81,6 +83,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
             android:textColor="@color/slide_to_purchase_text"
             android:textSize="@dimen/slide_to_purchase_price_text_size" />
     </LinearLayout>

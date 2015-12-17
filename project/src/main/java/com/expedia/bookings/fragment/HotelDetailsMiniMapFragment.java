@@ -1,70 +1,85 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.widget.MapImageView;
-import com.mobiata.android.util.Ui;
+import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.utils.Ui;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
-public class HotelDetailsMiniMapFragment extends Fragment {
+public class HotelDetailsMiniMapFragment extends SupportMapFragment {
 
-	private MapImageView mStaticMapImageView;
-
-	private HotelMiniMapFragmentListener mListener;
+	private static final float ZOOM_LEVEL = 13;
+	private GoogleMap mMap;
 
 	public static HotelDetailsMiniMapFragment newInstance() {
 		return new HotelDetailsMiniMapFragment();
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
 
-		mListener = Ui.findFragmentListener(this, HotelMiniMapFragmentListener.class);
-	}
+		mMap = getMap();
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.fragment_hotel_details_mini_map, container, false);
-		mStaticMapImageView = Ui.findView(view, R.id.mini_map);
-		mStaticMapImageView.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				mListener.onMiniMapClicked();
-			}
-		});
+		// Initial configuration
+		mMap.getUiSettings().setMyLocationButtonEnabled(false);
+		mMap.getUiSettings().setZoomControlsEnabled(false);
 
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 		Property searchProperty = Db.getHotelSearch().getSelectedProperty();
 		if (searchParams != null && searchProperty != null) {
-			mStaticMapImageView.setCenterPoint(searchProperty.getLocation());
-
-			// Fill in the POI / current location point appropriately
-			switch (searchParams.getSearchType()) {
-			case POI:
-			case ADDRESS:
-			case MY_LOCATION:
-				mStaticMapImageView.setPoiPoint(searchParams.getSearchLatitude(), searchParams.getSearchLongitude());
-				break;
-			}
+			addMarker(searchProperty);
+			checkIfSearchIsCurrentLocation(searchParams);
+			mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(searchProperty.getLocation().getLatitude(), searchProperty.getLocation().getLongitude()), ZOOM_LEVEL));
 		}
-
-		return view;
 	}
-
-	//////////////////////////////////////////////////////////////////////////
 	// Listener
 
-	public interface HotelMiniMapFragmentListener {
-		public void onMiniMapClicked();
+	private void addMarker(Property property) {
+		MarkerOptions marker = new MarkerOptions();
+		Location location = property.getLocation();
+
+		marker.position(new LatLng(location.getLatitude(), location.getLongitude()));
+
+		Rate lowestRate = property.getLowestRate();
+		boolean isOnSale = lowestRate != null && lowestRate.isSaleTenPercentOrBetter();
+		boolean isAirAttach = lowestRate != null && lowestRate.isAirAttached();
+		boolean isUserBucketedForSalePinGreenTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHSRSalePinTest);
+		int pinSaleAttrID;
+		if (isUserBucketedForSalePinGreenTest) {
+			pinSaleAttrID = R.attr.skin_hotelListMapMarkerSaleGreenABTestDrawable;
+		}
+		else {
+			pinSaleAttrID = R.attr.skin_hotelListMapMarkerSaleDrawable;
+		}
+
+		if (isOnSale) {
+			if (isAirAttach) {
+				marker.icon(BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerAirAttachDrawable)));
+			}
+			else {
+				marker.icon(BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), pinSaleAttrID)));
+			}
+		}
+		else {
+			marker.icon(BitmapDescriptorFactory.fromResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelListMapMarkerDrawable)));
+		}
+		mMap.addMarker(marker);
+	}
+
+	private void checkIfSearchIsCurrentLocation(HotelSearchParams searchParams) {
+		boolean showCurrentLocation = searchParams.getSearchType() == HotelSearchParams.SearchType.MY_LOCATION;
+		mMap.setMyLocationEnabled(showCurrentLocation);
 	}
 }

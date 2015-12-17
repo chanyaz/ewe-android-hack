@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.Html;
@@ -23,16 +22,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Insurance;
@@ -40,25 +40,28 @@ import com.expedia.bookings.data.trips.Insurance.InsuranceLineOfBusiness;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
+import com.expedia.bookings.data.trips.ItinCardDataAirAttach;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.ItinCardDataFallback;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
-import com.expedia.bookings.data.trips.ItinCardDataLocalExpert;
+import com.expedia.bookings.data.trips.ItinCardDataLXAttach;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.ItinConfirmRemoveDialogFragment;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.TravelerIconUtils;
-import com.expedia.bookings.widget.LinearLayout;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.Ui;
+import com.squareup.phrase.Phrase;
 
 public abstract class ItinContentGenerator<T extends ItinCardData> {
 
@@ -108,8 +111,8 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		else if (itinCardData instanceof ItinCardDataHotelAttach) {
 			return new HotelAttachItinContentGenerator(context, (ItinCardDataHotelAttach) itinCardData);
 		}
-		else if (itinCardData instanceof ItinCardDataLocalExpert) {
-			return new LocalExpertItinContentGenerator(context, (ItinCardDataLocalExpert) itinCardData);
+		else if (itinCardData instanceof ItinCardDataAirAttach) {
+			return new AirAttachItinContentGenerator(context, (ItinCardDataAirAttach) itinCardData);
 		}
 		else if (itinCardData instanceof ItinCardDataFallback) {
 			return new FallbackItinContentGenerator(context, (ItinCardDataFallback) itinCardData);
@@ -117,7 +120,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		else if (itinCardData != null && itinCardData.getTripComponentType() == Type.CRUISE) {
 			return new CruiseItinContentGenerator(context, itinCardData);
 		}
-
+		else if (itinCardData instanceof ItinCardDataLXAttach) {
+			return new LXAttachItinContentGenerator(context, (ItinCardDataLXAttach) itinCardData);
+		}
 		return null;
 	}
 
@@ -145,7 +150,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	/**
 	 * @return a UrlBitmapDrawable to display, or null if we want to use the placeholder
 	 */
-	public abstract UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height);
+	public abstract void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target);
 
 	public abstract String getHeaderText();
 
@@ -229,7 +234,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	}
 
 	private Bitmap fetchIconBitmap(String displayName) {
-		return TravelerIconUtils.generateCircularInitialIcon(mContext, displayName, getSharedItinIconBackground());
+		return TravelerIconUtils.generateInitialIcon(mContext, displayName, getSharedItinIconBackground(), true, true);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -315,7 +320,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					SocialUtils.call(getContext(), PointOfSale.getPointOfSale().getSupportPhoneNumber());
+					SocialUtils.call(getContext(), PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
 				}
 			});
 	}
@@ -326,24 +331,23 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * Currently supported shared elemenets (in this order)
 	 * - Confirmation Code (selectable)
 	 * - Itinerary number
-	 * - Elite Plus support phone number
+	 * - Special Expedia+ Rewards support phone numbers
 	 * - Booking Info (additional information link)
 	 * - Insurance
 	 * <p/>
 	 * These get added to the viewgroup only if they exist (or have fallback behavior defined)
 	 *
 	 * @param container
-	 * @param infalter
 	 */
 	protected void addSharedGuiElements(ViewGroup container) {
 		boolean addedConfNumber = addConfirmationNumber(container);
 		boolean addedItinNumber = addItineraryNumber(container);
-		boolean addedElitePlusNumber = addElitePlusNumber(container);
+		boolean addedSupportNumber = addGoldOrSilverSupportNumber(container);
 		boolean addedBookingInfo = addBookingInfo(container);
 		boolean addedInsurance = addInsurance(container);
 		boolean addedSharedoptions = addSharedOptions(container);
 		Log.d("ITIN: ItinCard.addSharedGuiElements - addedConfNumber:" + addedConfNumber + " addedItinNumber:"
-			+ addedItinNumber + " addedElitePlusNumber:" + addedElitePlusNumber + " addedBookingInfo:"
+			+ addedItinNumber + " addedGoldOrSilverNumber:" + addedSupportNumber + " addedBookingInfo:"
 			+ addedBookingInfo + " addedInsurance:" + addedInsurance + " addedSharedoptions:" + addedSharedoptions);
 	}
 
@@ -368,15 +372,10 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		if (hasItinNumber() && !isSharedItin()) {
 			String itineraryNumber = this.getItinCardData().getTripComponent().getParentTrip().getTripNumber();
 
-			int itineraryLabelResId = R.string.expedia_itinerary;
-			if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				itineraryLabelResId = R.string.tvly_itinerary;
-			}
-			else if (ExpediaBookingApp.IS_AAG) {
-				itineraryLabelResId = R.string.aag_itinerary;
-			}
+			String itineraryLabel = Phrase.from(mContext, R.string.itinerary_TEMPLATE).put("brand",
+				BuildConfig.brand).format().toString();
 
-			View view = getClickToCopyItinDetailItem(itineraryLabelResId, itineraryNumber, false);
+			View view = getClickToCopyItinDetailItem(itineraryLabel, itineraryNumber, false);
 			if (view != null) {
 				Log.d("ITIN: addItineraryNumber to container");
 				container.addView(view);
@@ -386,25 +385,47 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		return false;
 	}
 
-	protected boolean addElitePlusNumber(ViewGroup container) {
-		Log.d("ITIN: addElitePlusNumber");
-		if (hasElitePlusNumber() && !isSharedItin()) {
-			final String elitePlusNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus();
-			View view = getItinDetailItem(R.string.elite_plus_customer_support, elitePlusNumber, false,
-				new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						SocialUtils.call(getContext(), elitePlusNumber);
-					}
-				});
-			if (view != null) {
-				Log.d("ITIN: addElitePlusNumber to container");
-				container.addView(view);
-				return true;
-			}
+	protected boolean addGoldOrSilverSupportNumber(ViewGroup container) {
+		Log.d("ITIN: addSupportNumber");
+		if (isSharedItin()) {
+			return false;
 		}
 
-		return false;
+		int labelResId = 0;
+		final String supportPhoneNumber;
+
+		switch(User.getLoggedInLoyaltyMembershipTier(mContext)) {
+		case SILVER:
+			labelResId = R.string.Expedia_plus_Silver_Customer_Support;
+			supportPhoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberSilver();
+			break;
+		case GOLD:
+			labelResId = R.string.Expedia_plus_Gold_Customer_Support;
+			supportPhoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberGold();
+			break;
+		default:
+			supportPhoneNumber = null;
+		}
+
+		if (TextUtils.isEmpty(supportPhoneNumber)) {
+			return false;
+		}
+
+		View view = getItinDetailItem(labelResId, supportPhoneNumber, false,
+			new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					SocialUtils.call(getContext(), supportPhoneNumber);
+				}
+			});
+
+		if (view == null) {
+			return false;
+		}
+
+		Log.d("ITIN: addSupportNumber to container");
+		container.addView(view);
+		return true;
 	}
 
 	protected boolean addSharedOptions(ViewGroup container) {
@@ -447,7 +468,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				ClipboardUtils.setText(getContext(), text);
 				Toast.makeText(getContext(), R.string.toast_copied_to_clipboard, Toast.LENGTH_SHORT).show();
 				if (isConfNumber && getItinCardData().getTripComponent().getType() == Type.FLIGHT) {
-					OmnitureTracking.trackItinFlightCopyPNR(getContext());
+					OmnitureTracking.trackItinFlightCopyPNR();
 				}
 			}
 		});
@@ -498,7 +519,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 						builder.setAttemptForceMobileSite(true);
 						getContext().startActivity(builder.getIntent());
 
-						OmnitureTracking.trackItinInfoClicked(getContext(), getItinCardData().getTripComponent()
+						OmnitureTracking.trackItinInfoClicked(getItinCardData().getTripComponent()
 							.getType());
 					}
 
@@ -524,7 +545,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 						reloadImageView.setVisibility(View.INVISIBLE);
 					}
 
-					OmnitureTracking.trackItinReload(getContext(), getType());
+					OmnitureTracking.trackItinReload(getType());
 				}
 			});
 
@@ -538,63 +559,40 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	/**
 	 * Add this trip's insurance to the passed in container
 	 *
-	 * @param inflater
-	 * @param insuranceContainer
+	 * @param container
 	 */
 	protected boolean addInsurance(ViewGroup container) {
-		if (hasInsurance()) {
-			View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_insurance, null);
-			ViewGroup insuranceContainer = Ui.findView(item, R.id.insurance_container);
-
-			int divPadding = getResources().getDimensionPixelSize(R.dimen.itin_flight_segment_divider_padding);
-			int viewAddedCount = 0;
-			List<Insurance> insuranceList = this.getItinCardData().getTripComponent().getParentTrip()
-				.getTripInsurance();
-
-			for (final Insurance insurance : insuranceList) {
-				//Air insurance should only be added for flights, other types should be added to all itin card details
-				if (!insurance.getLineOfBusiness().equals(InsuranceLineOfBusiness.AIR) || getType().equals(Type.FLIGHT)) {
-					if (viewAddedCount > 0) {
-						insuranceContainer.addView(getHorizontalDividerView(divPadding));
-					}
-					View insuranceRow = getLayoutInflater().inflate(R.layout.snippet_itin_insurance_row, null);
-					TextView insuranceName = Ui.findView(insuranceRow, R.id.insurance_name);
-					insuranceName.setText(Html.fromHtml(insurance.getPolicyName()).toString());
-
-					View insuranceLinkView = Ui.findView(insuranceRow, R.id.insurance_button);
-
-					if (ExpediaBookingApp.IS_TRAVELOCITY) {
-						insuranceLinkView.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View arg0) {
-								Intent viewInsuranceIntent = new Intent(Intent.ACTION_VIEW);
-								viewInsuranceIntent.setData(Uri.parse(insurance.getTermsUrl()));
-								getContext().startActivity(viewInsuranceIntent);
-							}
-						});
-					}
-					else {
-						insuranceLinkView.setOnClickListener(new OnClickListener() {
-							@Override
-							public void onClick(View arg0) {
-								WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
-								builder.setUrl(insurance.getTermsUrl());
-								builder.setTheme(R.style.ItineraryTheme);
-								builder.setTitle(R.string.insurance);
-								builder.setAllowMobileRedirects(false);
-								getContext().startActivity(builder.getIntent());
-							}
-						});
-					}
-
-					insuranceContainer.addView(insuranceRow);
-					viewAddedCount++;
-				}
-			}
-			container.addView(item);
-			return true;
+		if (!ProductFlavorFeatureConfiguration.getInstance().shouldDisplayInsuranceDetailsIfAvailableOnItinCard() ||
+			!hasInsurance()) {
+			return false;
 		}
-		return false;
+
+		View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_insurance, null);
+		ViewGroup insuranceContainer = Ui.findView(item, R.id.insurance_container);
+
+		int divPadding = getResources().getDimensionPixelSize(R.dimen.itin_flight_segment_divider_padding);
+		int viewAddedCount = 0;
+		List<Insurance> insuranceList = this.getItinCardData().getTripComponent().getParentTrip()
+			.getTripInsurance();
+
+		for (final Insurance insurance : insuranceList) {
+			//Air insurance should only be added for flights, other types should be added to all itin card details
+			if (!insurance.getLineOfBusiness().equals(InsuranceLineOfBusiness.AIR) || getType().equals(Type.FLIGHT)) {
+				if (viewAddedCount > 0) {
+					insuranceContainer.addView(getHorizontalDividerView(divPadding));
+				}
+				View insuranceRow = getLayoutInflater().inflate(R.layout.snippet_itin_insurance_row, null);
+				TextView insuranceName = Ui.findView(insuranceRow, R.id.insurance_name);
+				insuranceName.setText(Html.fromHtml(insurance.getPolicyName()).toString());
+
+				insuranceRow.setOnClickListener(ProductFlavorFeatureConfiguration.getInstance().getInsuranceLinkViewClickListener(mContext, insurance.getTermsUrl()));
+
+				insuranceContainer.addView(insuranceRow);
+				viewAddedCount++;
+			}
+		}
+		container.addView(item);
+		return true;
 	}
 
 	/**
@@ -603,11 +601,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * @return
 	 */
 	protected boolean hasInsurance() {
-		if (ExpediaBookingApp.IS_AAG) {
-			// No insurance on AAG
-			return false;
-		}
-
 		boolean hasInsurance = false;
 		if (this.getItinCardData() != null && this.getItinCardData().getTripComponent() != null
 			&& this.getItinCardData().getTripComponent().getParentTrip() != null) {
@@ -636,11 +629,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			hasItinNum = !TextUtils.isEmpty(this.getItinCardData().getTripComponent().getParentTrip().getTripNumber());
 		}
 		return hasItinNum;
-	}
-
-	protected boolean hasElitePlusNumber() {
-		return User.isElitePlus(mContext)
-				&& !TextUtils.isEmpty(PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus());
 	}
 
 	protected boolean hasConfirmationNumber() {
@@ -778,7 +766,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		// TODO: consider changing to something like "in less than 1 minute"
 		if (hours == 0 && minutes == 0) {
 			Resources res = context.getResources();
-			int resId = past ? R.plurals.num_minutes_ago : R.plurals.in_num_minutes;
+			int resId = past ? R.plurals.joda_time_android_num_minutes_ago : R.plurals.joda_time_android_in_num_minutes;
 			return res.getQuantityString(resId, 1, 1);
 		}
 

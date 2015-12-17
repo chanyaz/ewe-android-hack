@@ -22,7 +22,7 @@ public class BookingResponseHandler extends JsonResponseHandler<HotelBookingResp
 		HotelBookingResponse bookingResponse = new HotelBookingResponse();
 		try {
 			// Check for errors
-			bookingResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.CHECKOUT, response));
+			bookingResponse.addErrors(ParserUtils.parseErrors(ApiMethod.CHECKOUT, response));
 
 			if (bookingResponse.isSuccess() || bookingResponse.succeededWithErrors()) {
 

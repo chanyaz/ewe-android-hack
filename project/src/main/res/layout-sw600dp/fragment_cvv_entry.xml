@@ -52,9 +52,9 @@
             android:paddingLeft="48dp"
             android:paddingRight="48dp"
             android:gravity="center"
-            android:background="?attr/cvvBookButtonKeypadDrawable"
+            android:background="?attr/skin_cvvBookButtonKeypadDrawable"
             android:text="@string/Finish_Booking"
-            android:textColor="?attr/cvvBookButtonTextColor"
+            android:textColor="?attr/skin_cvvBookButtonTextColor"
             android:textSize="@dimen/cvv_keypad_book_text_size"
             app:textStyle="light"/>
 
@@ -71,40 +71,14 @@
         android:gravity="center_vertical"
         android:orientation="@integer/vertical_in_portrait">
 
-        <!-- Credit card to the left -->
+        <!-- Credit card with logo and signature -->
 
-        <FrameLayout
-            android:id="@+id/credit_card_section_holder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-            <!-- Credit card with logo and signature -->
-
-            <include
-                android:id="@+id/credit_card_section"
-                android:layout_width="@dimen/cvv_credit_card_section_width"
-                android:layout_height="@dimen/cvv_credit_card_section_height"
-                android:layout_gravity="center"
-                layout="@layout/section_credit_card" />
-
-            <!-- CVV text entry -->
-
-            <com.expedia.bookings.widget.CVVTextView
-                android:id="@+id/cvv_text_view"
-                android:layout_width="84dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|right"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/div_cvv"
-                android:freezesText="true"
-                android:gravity="center_horizontal"
-                android:maxLength="4"
-                android:paddingTop="4dp"
-                android:textColor="@color/cvv_normal"
-                android:textSize="20dp" />
-
-        </FrameLayout>
+        <include
+            android:id="@+id/credit_card_section"
+            android:layout_width="@dimen/cvv_credit_card_section_width"
+            android:layout_height="@dimen/cvv_credit_card_section_height"
+            android:layout_gravity="center"
+            layout="@layout/section_credit_card" />
 
         <!-- Spacer: 48dp width for landscape and 48dp height for portrait -->
 

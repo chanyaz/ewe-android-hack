@@ -16,232 +16,296 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp" >
+            android:paddingLeft="14dp"
+            android:paddingRight="14dp" >
 
             <com.expedia.bookings.widget.HotelReceipt
                 android:id="@+id/receipt"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp" />
+                android:layout_marginLeft="1.5dp"
+                android:layout_marginRight="1.5dp"
+                android:layout_marginTop="8dp"/>
 
-            <com.expedia.bookings.widget.LinearLayout
+            <com.expedia.bookings.widget.FrameLayout
                 android:id="@+id/checkout_layout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:layout_height="wrap_content" >
 
-                <include
-                    android:id="@+id/account_button_layout"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginTop="4dp"
-                    layout="@layout/include_account_button" />
-
-                <include
-                    android:id="@+id/wallet_button_layout"
+                <com.expedia.bookings.widget.TouchableFrameLayout
+                    android:id="@+id/checkout_layout_touch_blocker"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    layout="@layout/include_wallet_button" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="14dp"
-                    android:layout_marginTop="8dp"
-                    android:src="@drawable/div_checkout" />
-
-                <TextView
-                    android:id="@+id/checkout_information_header_text_view"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="8dp"
-                    android:text="@string/checkout_information"
-                    android:textColor="@android:color/white" />
-
-                <!-- Traveler(s) -->
-
-                <LinearLayout
-                    android:id="@+id/traveler_outer_container"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:addStatesFromChildren="true"
-                    android:background="@drawable/bg_hotel_checkout_information_top_tab"
-                    android:orientation="vertical"
-                    android:padding="8dp" >
+                    android:layout_height="wrap_content" >
 
                     <LinearLayout
-                        android:id="@+id/traveler_info_btn"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="@string/cd_checkout_add_traveler"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:visibility="visible" >
-
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_marginRight="@dimen/checkout_info_container_padding"
-                            android:layout_weight="0"
-                            android:src="@drawable/ic_traveler" />
-
-                        <TextView
-                            android:id="@+id/traveler_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="?attr/travelerLabelOnCheckout"
-                            android:textColor="#464646"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <include
-                        android:id="@+id/traveler_section"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        layout="@layout/section_hotel_display_traveler_info_btn"
-                        android:visibility="gone" />
-                </LinearLayout>
-
-                <!-- Divider -->
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="#C4C4C4" />
-
-                <!-- Payment -->
-
-                <LinearLayout
-                    android:id="@+id/payment_outer_container"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:addStatesFromChildren="true"
-                    android:background="@drawable/bg_hotel_checkout_information_bottom_tab"
-                    android:orientation="vertical"
-                    android:padding="8dp" >
-
-                    <LinearLayout
-                        android:id="@+id/payment_info_btn"
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content"
-                        android:contentDescription="@string/cd_checkout_select_payment"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:visibility="visible" >
-
-                        <ImageView
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_marginRight="@dimen/checkout_info_container_padding"
-                            android:layout_weight="0"
-                            android:src="@drawable/ic_credit_card" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/select_payment_sentence_case"
-                            android:textColor="#464646"
-                            android:textSize="16sp" />
-                    </LinearLayout>
-
-                    <include
-                        android:id="@+id/creditcard_section_button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        layout="@layout/section_hotel_display_creditcard_btn" />
+                        android:orientation="vertical" >
 
-                    <com.expedia.bookings.section.SectionStoredCreditCard
-                        android:id="@+id/stored_creditcard_section_button"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        app:cardIcon="@drawable/ic_credit_card_gray" />
-                </LinearLayout>
+                        <com.expedia.bookings.widget.AccountButton
+                            android:id="@+id/account_button_root"
+                            style="@style/CarsCardView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="16dp"
+                            android:layout_marginLeft="1.5dp"
+                            android:layout_marginRight="1.5dp"
+                            android:layout_marginTop="4dp"
+                            android:orientation="vertical"
+                            android:paddingTop="@dimen/account_button_margin_top" />
 
-                <!-- Coupon codes -->
+                        <include
+                            android:id="@+id/wallet_button_layout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="1.5dp"
+                            android:layout_marginRight="1.5dp"
+                            layout="@layout/include_wallet_button" />
 
-                <TextView
-                    android:id="@+id/coupon_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="16dp"
-                    android:contentDescription="@string/cd_checkout_enter_coupon"
-                    android:text="@string/coupon_code"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
+                        <LinearLayout
+                            android:id="@+id/hint_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="14dp"
+                            android:orientation="horizontal">
 
-                <!-- Applied coupon layout -->
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="1.5dp"
+                                android:layout_marginRight="9dp"
+                                android:layout_weight="1"
+                                android:background="#979797" />
 
-                <RelativeLayout
-                    android:id="@+id/coupon_applied_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:visibility="gone" >
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:text="or"
+                                android:textColor="#676767" />
 
-                    <ImageView
-                        android:id="@+id/coupon_tag"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:layout_marginTop="14dp"
-                        android:src="@drawable/ic_coupon_tag_applied" />
+                            <View
+                                android:layout_width="0dp"
+                                android:layout_height="1dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="9dp"
+                                android:layout_marginRight="1.5dp"
+                                android:layout_weight="1"
+                                android:background="#979797" />
 
-                    <ImageView
-                        android:id="@+id/coupon_clear"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_alignParentRight="true"
-                        android:paddingBottom="8dp"
-                        android:paddingLeft="12dp"
-                        android:paddingRight="8dp"
-                        android:paddingTop="10dp"
-                        android:src="@drawable/ic_coupon_clear" />
+                        </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/coupon_applied_text_view"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:layout_toLeftOf="@+id/coupon_clear"
-                        android:layout_toRightOf="@+id/coupon_tag"
-                        android:text="@string/coupon_applied"
-                        android:textSize="18dp"
-                        android:textStyle="bold" />
+                        <ImageView
+                            android:id="@+id/checkout_divider"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="14dp"
+                            android:layout_marginTop="8dp"
+                            android:src="@drawable/div_checkout" />
 
-                    <TextView
-                        android:id="@+id/coupon_saved_text_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignLeft="@+id/coupon_applied_text_view"
-                        android:layout_alignRight="@+id/coupon_applied_text_view"
-                        android:layout_below="@+id/coupon_applied_text_view"
-                        android:ellipsize="end"
-                        android:singleLine="true"
-                        android:textColor="?attr/couponSuccessMessageColor"
-                        android:textSize="16dp" />
-                </RelativeLayout>
+                        <TextView
+                            android:id="@+id/checkout_information_header_text_view"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="8dp"
+                            android:layout_marginLeft="1.5dp"
+                            android:layout_marginRight="1.5dp"
+                            android:text="@string/checkout_information"
+                            android:textColor="@android:color/white" />
 
-                <!-- Legal text -->
+                        <!-- Traveler(s) -->
 
-                <TextView
-                    android:id="@+id/legal_information_text_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="16dp"
-                    android:textColor="@android:color/white" />
-            </com.expedia.bookings.widget.LinearLayout>
+                        <LinearLayout
+                            android:id="@+id/traveler_outer_container"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:addStatesFromChildren="true"
+                            android:background="@drawable/bg_checkout_information_top_tab"
+                            android:orientation="vertical"
+                            android:padding="8dp" >
+
+                            <LinearLayout
+                                android:id="@+id/traveler_info_btn"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:contentDescription="@string/cd_checkout_add_traveler"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:visibility="visible" >
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_marginRight="@dimen/checkout_info_container_padding"
+                                    android:layout_weight="0"
+                                    android:src="@drawable/ic_traveler" />
+
+                                <TextView
+                                    android:id="@+id/traveler_label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="?attr/skin_travelerLabelOnCheckout"
+                                    android:textColor="#464646"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+
+                            <include
+                                android:id="@+id/traveler_section"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                layout="@layout/section_hotel_display_traveler_info_btn"
+                                android:visibility="gone" />
+                        </LinearLayout>
+
+                        <!-- Divider -->
+
+                        <include layout="@layout/include_checkout_information_divider" />
+
+                        <!-- Payment -->
+
+                        <LinearLayout
+                            android:id="@+id/payment_outer_container"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:addStatesFromChildren="true"
+                            android:background="@drawable/bg_checkout_information_bottom_tab"
+                            android:orientation="vertical"
+                            android:padding="8dp" >
+
+                            <LinearLayout
+                                android:id="@+id/payment_info_btn"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:contentDescription="@string/cd_checkout_select_payment"
+                                android:gravity="center_vertical"
+                                android:orientation="horizontal"
+                                android:visibility="visible" >
+
+                                <ImageView
+                                    android:layout_width="32dp"
+                                    android:layout_height="32dp"
+                                    android:layout_marginRight="@dimen/checkout_info_container_padding"
+                                    android:layout_weight="0"
+                                    android:src="@drawable/ic_credit_card" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/select_payment_sentence_case"
+                                    android:textColor="#464646"
+                                    android:textSize="16sp" />
+                            </LinearLayout>
+
+                            <include
+                                android:id="@+id/creditcard_section_button"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                layout="@layout/section_hotel_display_creditcard_btn" />
+
+                            <com.expedia.bookings.section.SectionStoredCreditCard
+                                android:id="@+id/stored_creditcard_section_button"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:cardIcon="@drawable/ic_credit_card_gray" />
+                        </LinearLayout>
+
+                        <!-- Coupon codes -->
+
+                        <TextView
+                            android:id="@+id/coupon_button"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1.5dp"
+                            android:layout_marginRight="1.5dp"
+                            android:layout_marginTop="16dp"
+                            android:contentDescription="@string/cd_checkout_enter_coupon"
+                            android:text="@string/coupon_code"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <!-- Applied coupon layout -->
+
+                        <RelativeLayout
+                            android:id="@+id/coupon_applied_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:visibility="gone" >
+
+                            <ImageView
+                                android:id="@+id/coupon_tag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="8dp"
+                                android:layout_marginTop="14dp"
+                                android:src="@drawable/ic_coupon_tag_applied" />
+
+                            <ImageView
+                                android:id="@+id/coupon_clear"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentRight="true"
+                                android:paddingBottom="8dp"
+                                android:paddingLeft="12dp"
+                                android:paddingRight="8dp"
+                                android:paddingTop="10dp"
+                                android:src="@drawable/ic_coupon_clear" />
+
+                            <TextView
+                                android:id="@+id/coupon_applied_text_view"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="12dp"
+                                android:layout_toLeftOf="@+id/coupon_clear"
+                                android:layout_toRightOf="@+id/coupon_tag"
+                                android:text="@string/coupon_applied"
+                                android:textSize="18dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/coupon_saved_text_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@+id/coupon_applied_text_view"
+                                android:layout_alignRight="@+id/coupon_applied_text_view"
+                                android:layout_below="@+id/coupon_applied_text_view"
+                                android:ellipsize="end"
+                                android:singleLine="true"
+                                android:textColor="?attr/skin_couponSuccessMessageColor"
+                                android:textSize="16dp" />
+                        </RelativeLayout>
+
+                        <!-- Legal text -->
+
+                        <TextView
+                            android:id="@+id/legal_information_text_view"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1.5dp"
+                            android:layout_marginRight="1.5dp"
+                            android:layout_marginTop="16dp"
+                            android:textColor="@android:color/white" />
+
+                        <TextView
+                            android:id="@+id/checkout_disclaimer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1.5dp"
+                            android:layout_marginRight="1.5dp"
+                            android:layout_marginTop="16dp"
+                            android:textColor="@android:color/white"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+                </com.expedia.bookings.widget.TouchableFrameLayout>
+            </com.expedia.bookings.widget.FrameLayout>
 
             <View
                 android:id="@+id/scroll_spacer_view"

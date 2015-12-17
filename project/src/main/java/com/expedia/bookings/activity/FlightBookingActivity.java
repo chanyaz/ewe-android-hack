@@ -6,7 +6,6 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -16,16 +15,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoPosition;
-import com.expedia.bookings.bitmaps.BitmapDrawable;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError;
-import com.expedia.bookings.data.TripBucket;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.BookingInProgressDialogFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment;
@@ -41,7 +39,6 @@ import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.otto.Subscribe;
 
@@ -99,13 +96,8 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			.resizeExactly(portrait.x, portrait.y) //
 			.build();
 
-		Bitmap bitmap = L2ImageCache.sDestination.getImage(url, true /*blurred*/, true /*checkDisk*/);
-		if (bitmap != null) {
-			onBitmapLoaded(bitmap);
-		}
-		else {
-			onBitmapLoadFailed();
-		}
+		new PicassoHelper.Builder(mBgImageView).applyBlurTransformation(true).setPlaceholder(
+			R.drawable.default_flights_background_blurred).build().load(url);
 
 		mActionBarTextView = Ui.inflate(this, R.layout.actionbar_cvv, null);
 
@@ -135,7 +127,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			ft.commit();
 
 			// If the debug setting is made to fake a price change, then fake the current price (by changing it)
-			if (!AndroidUtils.isRelease(mContext)) {
+			if (BuildConfig.DEBUG) {
 				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 
 				BigDecimal fakePriceChange = getFakePriceChangeAmount();
@@ -159,7 +151,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			return;
 		}
 
-		OmnitureTracking.trackPageLoadFlightCheckoutPaymentCid(this);
+		OmnitureTracking.trackPageLoadFlightCheckoutPaymentCid();
 	}
 
 	@Override
@@ -171,8 +163,6 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 		}
 
 		setCvvErrorMode(mCvvErrorModeEnabled);
-
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -189,8 +179,6 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 		if (shouldBail()) {
 			return;
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -260,7 +248,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 		// Set header bg
 		int bgResId = isError
 			? R.drawable.bg_flight_action_bar_top_red
-			: Ui.obtainThemeResID(this, R.attr.actionBarBackgroundDrawable);
+			: Ui.obtainThemeResID(this, R.attr.skin_actionBarBackgroundDrawable);
 
 		actionBar.setBackgroundDrawable(getResources().getDrawable(bgResId));
 
@@ -364,6 +352,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 
 		switch (callbackId) {
 		case SimpleCallbackDialogFragment.CODE_INVALID_CC:
+		case SimpleCallbackDialogFragment.CODE_INVALID_PAYMENT:
 			//Go to CC number entry page
 			Intent gotoCCEntryIntent = new Intent(FlightBookingActivity.this, FlightPaymentOptionsActivity.class);
 			if (Db.getBillingInfo() != null && Db.getBillingInfo().hasStoredCard()) {
@@ -382,6 +371,13 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());
 			gotoCCOverviewIntent.putExtra(FlightPaymentOptionsActivity.INTENT_TAG_DEST, YoYoPosition.OPTIONS.name());
 			startActivity(gotoCCOverviewIntent);
+			break;
+		case SimpleCallbackDialogFragment.CODE_NAME_ONCARD_MISMATCH:
+			Intent gotoCCNameIntent = new Intent(FlightBookingActivity.this, FlightPaymentOptionsActivity.class);
+			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());
+			gotoCCNameIntent
+				.putExtra(FlightPaymentOptionsActivity.INTENT_TAG_DEST, YoYoPosition.CREDITCARD.name());
+			startActivity(gotoCCNameIntent);
 			break;
 		default:
 			// For now, do the same thing - leave this activity
@@ -444,7 +440,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 		dismissProgressDialog();
 
 		// Modify the response to fake online booking fees
-		if (!AndroidUtils.isRelease(mContext) && response != null && response.getNewOffer() != null) {
+		if (BuildConfig.DEBUG && response != null && response.getNewOffer() != null) {
 			BigDecimal fakeObFees = getFakeObFeesAmount();
 			if (!fakeObFees.equals(BigDecimal.ZERO)) {
 				Money amount = new Money(response.getNewOffer().getTotalFare());
@@ -453,7 +449,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			}
 		}
 
-		if (!AndroidUtils.isRelease(mContext) && response != null &&
+		if (BuildConfig.DEBUG && response != null &&
 			SettingUtils.get(this, R.string.preference_force_passenger_category_error, false)) {
 			ServerError passengerCategoryError = new ServerError();
 			passengerCategoryError.setCode("INVALID_INPUT");
@@ -471,7 +467,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			AdTracker.trackFlightBooked();
 			launchConfirmationActivity();
 
-			OmnitureTracking.trackPageLoadFlightCheckoutConfirmation(mContext);
+			OmnitureTracking.trackPageLoadFlightCheckoutConfirmation();
 		}
 	}
 
@@ -490,15 +486,5 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 				getString(R.string.preference_flight_fake_obfees),
 				getString(R.string.preference_flight_fake_obfees_default));
 		return new BigDecimal(amount);
-	}
-
-	public void onBitmapLoaded(Bitmap bitmap) {
-		BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
-		mBgImageView.setImageDrawable(drawable);
-	}
-
-	public void onBitmapLoadFailed() {
-		Bitmap bitmap = L2ImageCache.sDestination.getImage(getResources(), R.drawable.default_flights_background, true /*blurred*/);
-		onBitmapLoaded(bitmap);
 	}
 }

@@ -6,22 +6,17 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Rect;
 import android.text.TextUtils;
 import android.text.style.TextAppearanceSpan;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewPropertyAnimator;
-import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.animation.OvershootInterpolator;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.TypefaceSpan;
 import com.expedia.bookings.utils.Ui;
@@ -79,54 +74,10 @@ public class LaunchPin extends FrameLayout {
 		return mLocation;
 	}
 
-	/**
-	 * Returns a Rect matching the global location of the circle on the screen.
-	 *
-	 * @return
-	 */
-	public Rect getPinGlobalPosition() {
-		Rect origin = ScreenPositionUtils.getGlobalScreenPosition(mImageView, true, true);
-		return origin;
-	}
-
-	public void retrieveImageAndStartAnimation() {
-		setVisibility(View.INVISIBLE);
-		UrlBitmapDrawable bitmap = UrlBitmapDrawable.loadImageView(mLocation.getImageUrl(), mImageView);
-		bitmap.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
-			@Override
-			public void onBitmapLoaded(String url, Bitmap bitmap) {
-				setPinBitmap(bitmap);
-				getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
-					@Override
-					public boolean onPreDraw() {
-						getViewTreeObserver().removeOnPreDrawListener(this);
-						startPopinAnimation();
-						return true;
-					}
-				});
-			}
-
-			@Override
-			public void onBitmapLoadFailed(String url) {
-				setPinBitmap(null);
-				getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
-					@Override
-					public boolean onPreDraw() {
-						getViewTreeObserver().removeOnPreDrawListener(this);
-						startPopinAnimation();
-						return true;
-					}
-				});
-			}
-		});
-	}
-
 	public void setPinBitmap(Bitmap bitmap) {
-		if (bitmap == null) {
-			bitmap = L2ImageCache.sGeneralPurpose.getImage(getResources(), R.drawable.launch_circle_placeholder, false);
+		if (bitmap != null) {
+			mImageView.setImageBitmap(bitmap);
 		}
-
-		mImageView.setImageBitmap(bitmap);
 	}
 
 	private void setPinText(String upper) {
@@ -177,5 +128,15 @@ public class LaunchPin extends FrameLayout {
 		anim.setDuration(500);
 		anim.setStartDelay(mRandom.nextInt(400));
 		anim.start();
+	}
+
+	public static Bitmap createViewBitmap(Context context, LaunchLocation launchLocation, Bitmap bitmap) {
+		final LaunchPin pin = Ui.inflate(LayoutInflater.from(context),
+			R.layout.snippet_tablet_launch_map_pin, null, false);
+		pin.bind(launchLocation);
+		pin.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+		pin.layout(0, 0, pin.getMeasuredWidth(), pin.getMeasuredHeight());
+		pin.setPinBitmap(bitmap);
+		return Ui.createBitmapFromView(pin);
 	}
 }

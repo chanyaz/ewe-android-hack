@@ -2,6 +2,7 @@ package com.expedia.bookings.data;
 
 import java.util.List;
 
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 
 import com.expedia.bookings.utils.Images;
@@ -14,9 +15,16 @@ public class LaunchCollection {
 
 	// Not parsed from json
 	public CharSequence stylizedTitle;
+	public boolean isDestinationImageCode;
+	public transient Drawable imageDrawable;
 
 	public String getImageUrl() {
-		return Images.getTabletLaunch(imageCode);
+		if (!isDestinationImageCode) {
+			return Images.getTabletLaunch(imageCode);
+		}
+		else {
+			return Images.getTabletDestination(imageCode);
+		}
 	}
 
 	public boolean hasStylizedTitle() {

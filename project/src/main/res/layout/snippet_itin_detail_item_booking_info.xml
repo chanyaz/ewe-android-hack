@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:background="@drawable/list_selector_holo_dark"
+        android:background="?android:attr/selectableItemBackground"
         android:drawableLeft="@drawable/ic_info"
         android:drawablePadding="8dp"
         android:gravity="center_vertical"
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:background="@drawable/list_selector_holo_dark" >
+        android:background="?android:attr/selectableItemBackground">
 
         <ImageView
             android:id="@+id/itin_details_reload_image_view"

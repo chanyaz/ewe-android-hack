@@ -42,25 +42,6 @@
         android:drawableLeft="@drawable/ic_calendar_add"
         android:text="@string/add_to_calendar" />
 
-    <View
-        android:id="@+id/vsc_app_divider"
-        style="@style/Confirmation.Divider.Action.Hotel"
-        android:visibility="gone" />
-
-    <include
-        layout="@layout/vsc_train_confirmation_row"
-        android:visibility="gone" />
-
-    <View
-        android:id="@+id/samsung_divider"
-        style="@style/Confirmation.Divider.Action.Hotel"
-        android:visibility="gone" />
-
-    <com.expedia.bookings.widget.TextView
-        android:id="@+id/samsung_wallet_action_text_view"
-        style="@style/Confirmation.Action"
-        android:drawableLeft="@drawable/ic_samsung_wallet"
-        android:text="@string/load_to_samsung_wallet"
-        android:visibility="gone" />
+    <include layout="@layout/other_apps_crosssell_confirmation_row"/>
 
 </merge>

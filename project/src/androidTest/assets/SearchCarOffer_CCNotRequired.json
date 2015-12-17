@@ -1,0 +1,57 @@
+{
+  "dropOffLocation": {
+    "locationCode": "SFO",
+    "locationDescription": "San Francisco (SFO)",
+    "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+    "latitude": 37.61594,
+    "longitude": -122.387996
+  },
+  "fare": {
+    "rate": {
+      "amount": "32.50",
+      "currencyCode": "USD",
+      "formattedPrice": "$32.50",
+      "formattedWholePrice": "$32"
+    },
+    "rateTerm": "WEEKEND",
+    "total": {
+      "amount": "32.50",
+      "currencyCode": "USD",
+      "formattedPrice": "$32.50",
+      "formattedWholePrice": "$32"
+    }
+  },
+  "pickUpLocation": {
+    "airportInstructions": "Shuttle to counter and car",
+    "locationCode": "SFO",
+    "locationDescription": "San Francisco (SFO)",
+    "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
+    "latitude": 37.61594,
+    "longitude": -122.387996
+  },
+  "productKey": "happy",
+  "reservationGuaranteeRequired": true,
+  "vehicleInfo": {
+    "adultCapacity": 4,
+    "category": "STANDARD",
+    "childCapacity": 0,
+    "drive": "TWO_WHEEL_DRIVE",
+    "fuel": "UNKNOWN",
+    "hasAirConditioning": true,
+    "largeLuggageCapacity": 2,
+    "makes": [
+      "Toyota Yaris"
+    ],
+    "maxDoors": 4,
+    "minDoors": 4,
+    "smallLuggageCapacity": 0,
+    "carCategoryDisplayLabel": "Standard",
+    "transmission": "AUTOMATIC_TRANSMISSION",
+    "type": "TWO_DOOR_CAR"
+  },
+  "vendor": {
+    "code": "NoCCRequired",
+    "id": 71,
+    "name": "NoCCRequired"
+  }
+}

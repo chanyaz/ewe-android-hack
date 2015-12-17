@@ -35,12 +35,7 @@ public class FlightStatsRating implements JSONable {
 	}
 
 	public boolean hasValidPercent() {
-		if (mNumObservations < 20 || mOnTimePercent == INVALID_PERCENT) {
-			return false;
-		}
-		else {
-			return true;
-		}
+		return mNumObservations > 20 && mOnTimePercent != INVALID_PERCENT;
 	}
 
 	// JSONable

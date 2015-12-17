@@ -1,0 +1,30 @@
+{
+    "q": "SFO",
+    "rc": "OK",
+    "rid": "62d8ba60-7f1d-41a6-9bed-7b4aa5a948f5",
+    "sr": [
+        {
+            "@type": "regionResult",
+            "a": "SFO",
+            "amc": "178305",
+            "c": "United States of America",
+            "cc": "US",
+            "ccc": "USA",
+            "d": "San Francisco, CA, United States (<B>SFO</B>-San Francisco Intl.)",
+            "f": "San Francisco, CA, United States (SFO-San Francisco Intl.)",
+            "hc": "349",
+            "i": "0",
+            "id": "6000581",
+            "isMinorAirport": "false",
+            "l": "San Francisco, CA, United States (SFO-San Francisco Intl.)",
+            "ll": {
+                "lat": "37.615940",
+                "lng": "-122.387996"
+            },
+            "pb": "false",
+            "rt": "AIRPORT",
+            "s": "San Francisco, CA (SFO-San Francisco Intl.)",
+            "t": "AIRPORT"
+        }
+    ]
+}

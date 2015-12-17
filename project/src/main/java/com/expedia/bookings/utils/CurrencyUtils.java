@@ -1,40 +1,29 @@
 package com.expedia.bookings.utils;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
+
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.expedia.bookings.data.CreditCardType;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.mobiata.android.Log;
 
 public class CurrencyUtils {
-
-	private static final String[] AMEX_CURRENCIES = new String[] {
-		"CAD",
-		"CHF",
-		"DKK",
-		"EUR",
-		"GBP",
-		"HKD",
-		"NOK",
-		"SEK",
-		"SGD",
-		"USD",
-	};
-
-	public static boolean currencySupportedByAmex(Context context, String currencyCode) {
-		for (String currency : AMEX_CURRENCIES) {
-			if (currency.equals(currencyCode)) {
-				return true;
-			}
-		}
-		return false;
-	}
+	private final static String mPath = "currency/currency.json";
+	private static Map<String, String> mCurrencyMap;
 
 	/**
 	 * Determines the type of credit card based on the card number.
-	 *
+	 * <p/>
 	 * Here is the information from Shelli Garcia:
-	 *
+	 * <p/>
 	 * CARD                LENGTH           PREFIX
 	 * American Express    15               34, 37
 	 * Carte Blanche       14               94, 95
@@ -45,13 +34,13 @@ public class CurrencyUtils {
 	 * Maestro             16, 18, 19       50, 63, 67
 	 * MasterCard          16               51, 52, 53, 54, 55
 	 * Visa                13, 16           4
-	 * @param cardNumber the number of the card (as entered so far)
 	 *
+	 * @param cardNumber the number of the card (as entered so far)
 	 * @return the credit card brand if detected, null if not detected
 	 */
 	public static CreditCardType detectCreditCardBrand(String cardNumber) {
 		//If we dont have any input, we dont get any output
-		if (TextUtils.isEmpty(cardNumber)) {
+		if (Strings.isEmpty(cardNumber)) {
 			return null;
 		}
 
@@ -84,7 +73,7 @@ public class CurrencyUtils {
 
 		// Diners
 		if (numDigits == 14
-				&& (twoDigitPrefix == 30 || twoDigitPrefix == 36 || twoDigitPrefix == 38 || twoDigitPrefix == 60)) {
+			&& (twoDigitPrefix == 30 || twoDigitPrefix == 36 || twoDigitPrefix == 38 || twoDigitPrefix == 60)) {
 			return CreditCardType.DINERS_CLUB;
 		}
 
@@ -100,7 +89,7 @@ public class CurrencyUtils {
 
 		// Maestro
 		if ((numDigits == 16 || numDigits == 18 || numDigits == 19)
-				&& (twoDigitPrefix == 50 || twoDigitPrefix == 63 || twoDigitPrefix == 67)) {
+			&& (twoDigitPrefix == 50 || twoDigitPrefix == 63 || twoDigitPrefix == 67)) {
 			return CreditCardType.MAESTRO;
 		}
 
@@ -159,4 +148,26 @@ public class CurrencyUtils {
 			return CreditCardType.UNKNOWN;
 		}
 	}
+
+	public static void initMap(Context c) {
+		Map<String, String> map = new HashMap<String, String>();
+		try {
+			InputStream is = c.getAssets().open(mPath);
+			Reader reader = new InputStreamReader(is);
+			Type mapType = new TypeToken<Map<String, String>>() {
+			}.getType();
+			map = new Gson().fromJson(reader, mapType);
+		}
+		catch (IOException ex) {
+			Log.d("Currency Utils Error: " + ex);
+		}
+		mCurrencyMap = map;
+	}
+
+	//Takes a three letter country code
+	public static String currencyForLocale(String code) {
+		return mCurrencyMap.get(code);
+	}
+
 }
+

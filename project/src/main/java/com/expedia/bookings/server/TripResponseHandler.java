@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import android.content.Context;
 
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.data.trips.TripResponse;
 import com.mobiata.android.Log;
@@ -26,7 +27,7 @@ public class TripResponseHandler extends JsonResponseHandler<TripResponse> {
 
 		try {
 			// Check for errors, return if found
-			tripResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.TRIPS, response));
+			tripResponse.addErrors(ParserUtils.parseErrors(ApiMethod.TRIPS, response));
 			if (!tripResponse.isSuccess()) {
 				return tripResponse;
 			}
@@ -43,6 +44,11 @@ public class TripResponseHandler extends JsonResponseHandler<TripResponse> {
 				JSONObject tripJson = tripsArr.optJSONObject(a);
 				tripResponse.addTrip(parser.parseTrip(tripJson));
 			}
+
+			// TripParser.parseTrip modifies global air attach qualification state.
+			// We save the trip bucket to disk here to ensure we show air attach
+			// messaging when re-launching the app.
+			Db.saveTripBucket(mContext);
 		}
 		catch (JSONException e) {
 			Log.e("Could not parse JSON trip response", e);

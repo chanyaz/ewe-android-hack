@@ -8,8 +8,8 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.trips.ItinCardData;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 
 public abstract class ItinButtonContentGenerator<T extends ItinCardData> extends ItinContentGenerator<T> {
 	public ItinButtonContentGenerator(Context context, T itinCardData) {
@@ -52,8 +52,7 @@ public abstract class ItinButtonContentGenerator<T extends ItinCardData> extends
 	}
 
 	@Override
-	public final UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
-		return null;
+	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
 	}
 
 	@Override

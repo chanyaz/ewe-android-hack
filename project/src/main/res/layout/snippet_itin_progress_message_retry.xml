@@ -31,16 +31,14 @@
 
         <Button
             android:id="@+id/no_trips_try_again_button"
-            style="@style/LoginFormButton"
+            style="@style/ItinLoginRefreshButton"
             android:layout_width="wrap_content"
             android:layout_marginTop="0dp"
-            android:background="@drawable/btn_cancel"
             android:bufferType="spannable"
             android:gravity="center"
             android:paddingLeft="32dp"
             android:paddingRight="32dp"
-            android:text="@string/try_again"
-            android:textStyle="bold" />
+            android:text="@string/try_again"/>
     </LinearLayout>
 
 </LinearLayout>

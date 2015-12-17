@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import android.content.Context;
@@ -10,7 +11,7 @@ import android.widget.ArrayAdapter;
 import com.expedia.bookings.R;
 
 public class TelephoneSpinnerAdapter extends ArrayAdapter<String> {
-	private static Map<String, Integer> COUNTRY_CODES = new HashMap<String, Integer>();
+	private static final Map<String, Integer> COUNTRY_CODES = new HashMap<String, Integer>();
 
 	private int[] mCountryPhoneCodes;
 	private String[] mCountryNames;
@@ -42,7 +43,7 @@ public class TelephoneSpinnerAdapter extends ArrayAdapter<String> {
 
 	@Override
 	public String getItem(int position) {
-		return String.format("%s (%d)", getCountryName(position), getCountryCode(position));
+		return String.format(Locale.getDefault(), "%s (%d)", getCountryName(position), getCountryCode(position));
 	}
 
 	public String getCountryName(int position) {

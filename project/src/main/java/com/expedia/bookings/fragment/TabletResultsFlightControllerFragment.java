@@ -1,7 +1,9 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -12,7 +14,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -39,6 +40,7 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
@@ -46,7 +48,8 @@ import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.expedia.bookings.widget.TextView;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -70,10 +73,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	// Containers
 	private ViewGroup mRootC;
-	private FrameLayoutTouchController mFlightMapC;
-	private FrameLayoutTouchController mFlightLegsC;
-	private FrameLayoutTouchController mLoadingC;
-	private FrameLayoutTouchController mSearchErrorC;
+	private TouchableFrameLayout mFlightMapC;
+	private TouchableFrameLayout mFlightLegsC;
+	private TouchableFrameLayout mLoadingC;
+	private TouchableFrameLayout mSearchErrorC;
 	private FrameLayout mRouteDescriptionC;
 
 	private ArrayList<View> mVisibilityControlledViews = new ArrayList<View>();
@@ -196,7 +199,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		if (PointOfSale.getPointOfSale().displayFlightDropDownRoutes()) {
 			return ResultsFlightsState.NO_FLIGHTS_DROPDOWN_POS;
 		}
-		else if (!PointOfSale.getPointOfSale().supportsFlights()) {
+		else if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS)) {
 			return ResultsFlightsState.NO_FLIGHTS_POS;
 		}
 		else if (TextUtils.isEmpty(Sp.getParams().getOriginAirportCode()) || isOriginDestinationSame()) {
@@ -211,6 +214,9 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		}
 		else if (mFlightsStateManager != null && mFlightsStateManager.getState() == ResultsFlightsState.ZERO_RESULT) {
 			return ResultsFlightsState.ZERO_RESULT;
+		}
+		else if (mFlightsStateManager != null && mFlightsStateManager.getState() == ResultsFlightsState.INVALID_START_DATE) {
+			return ResultsFlightsState.INVALID_START_DATE;
 		}
 		else if (Db.getFlightSearch() != null && Db.getFlightSearch().getSearchResponse() != null) {
 			return ResultsFlightsState.FLIGHT_LIST_DOWN;
@@ -358,12 +364,12 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		}
 
 		for (View vg : mVisibilityControlledViews) {
-			if (vg instanceof FrameLayoutTouchController) {
+			if (vg instanceof TouchableFrameLayout) {
 				if (touchableViews.contains(vg)) {
-					((FrameLayoutTouchController) vg).setBlockNewEventsEnabled(false);
+					((TouchableFrameLayout) vg).setBlockNewEventsEnabled(false);
 				}
 				else {
-					((FrameLayoutTouchController) vg).setBlockNewEventsEnabled(true);
+					((TouchableFrameLayout) vg).setBlockNewEventsEnabled(true);
 				}
 			}
 		}
@@ -644,7 +650,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	@Override
 	public void updateStateTransition(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
-		float percentage) {
+									  float percentage) {
 		mFlightsStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
 	}
 
@@ -704,7 +710,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
-			float percentage) {
+											float percentage) {
 			if ((stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN && stateTwo == ResultsFlightsState.CHOOSING_FLIGHT)
 				|| (stateOne == ResultsFlightsState.CHOOSING_FLIGHT
 				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN)) {
@@ -722,9 +728,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionEnd(ResultsFlightsState stateOne, ResultsFlightsState stateTwo) {
-			if (stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN && stateTwo == ResultsFlightsState.CHOOSING_FLIGHT) {
+			if (stateOne == ResultsFlightsState.FLIGHT_LIST_DOWN && stateTwo == ResultsFlightsState.CHOOSING_FLIGHT
+				|| stateOne == ResultsFlightsState.CHOOSING_FLIGHT
+				&& stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mCouldShowInfantPrompt = true;
-				mFlightMapC.setVisibility(View.GONE);
 			}
 			else if (stateOne == ResultsFlightsState.LOADING && stateTwo == ResultsFlightsState.FLIGHT_LIST_DOWN) {
 				mLoadingC.setAlpha(0.0f);
@@ -747,6 +754,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			}
 			else {
 				mFlightMapC.setAlpha(1f);
+			}
+
+			if (!state.isFlightListState()) {
+				mFlightMapC.setVisibility(View.GONE);
 			}
 
 			// Make sure we are loading using the most recent params
@@ -776,7 +787,8 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 					popInfantPromptIfNeeded();
 				}
 				if (mFlightLegsFrag.isFirstLeg()) {
-					OmnitureTracking.trackPageLoadFlightSearchResults(getActivity(), 0);
+					OmnitureTracking.trackPageLoadFlightSearchResults(0);
+					AdTracker.trackPageLoadFlightSearchResults(0);
 				}
 			}
 		}
@@ -794,15 +806,20 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 				return;
 			}
 
-			String routeDescription = getString(R.string.flight_cities_TEMPLATE, firstCity, secondCity);
+			String routeDescription = getString(R.string.flight_cities_TEMPLATE, firstCity, secondCity).toUpperCase(Locale.getDefault());
 
 			SpannableStringBuilder ssb = new SpannableStringBuilder(routeDescription);
+
 			int endOfOriginText = firstCity.length();
 			int startOfDestinationText = routeDescription.length() - secondCity.length();
 
 			ssb.setSpan(FontCache.getSpan(FontCache.Font.ROBOTO_LIGHT), endOfOriginText, startOfDestinationText, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-			((TextView) mRouteDescriptionC.findViewById(R.id.route_description_text)).setText(ssb, android.widget.TextView.BufferType.SPANNABLE);
+			TextView tv = Ui.findView(mRouteDescriptionC, R.id.route_description_text);
+			int strokeBorder = (int) getResources().getDimension(R.dimen.tablet_flight_route_desc_stroke_size);
+			tv.setStrokeColor(Color.parseColor("#687887"));
+			tv.setStrokeWidth(strokeBorder);
+			tv.setText(ssb, android.widget.TextView.BufferType.SPANNABLE);
 		}
 	}
 
@@ -818,7 +835,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			if (!mInfantFrag.isAdded()) {
 				mInfantFrag.show(getFragmentManager(), "infantChooser");
 			}
-			OmnitureTracking.trackFlightInfantDialog(getActivity());
+			OmnitureTracking.trackFlightInfantDialog();
 		}
 	}
 
@@ -829,7 +846,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			boolean newLapPref = !Db.getFlightSearch().getSearchParams().getInfantSeatingInLap();
 			Sp.getParams().setInfantsInLaps(newLapPref);
 			Sp.reportSpUpdate();
-			OmnitureTracking.trackTabletSearchResultsPageLoad(getActivity(), Sp.getParams());
+			OmnitureTracking.trackTabletSearchResultsPageLoad(Sp.getParams());
 		}
 	}
 
@@ -845,7 +862,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 		FlightSearchResponse flightResponse = event.response;
 
 		if (flightResponse != null) {
-			Db.kickOffBackgroundFlightSearchSave(getActivity());
 			Db.addAirlineNames(flightResponse.getAirlineNames());
 		}
 		else {
@@ -858,6 +874,10 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 			flightResponse.addError(serverError);
 		}
 
+		if (!FlightUtils.dateRangeSupportsFlightSearch(getActivity())) {
+			setFlightsState(ResultsFlightsState.INVALID_START_DATE, false);
+			return;
+		}
 		Db.getFlightSearch().setSearchResponse(flightResponse);
 
 		boolean isBadResponse = flightResponse.hasErrors();
@@ -891,7 +911,7 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightLegState stateOne, ResultsFlightLegState stateTwo,
-			float percentage) {
+											float percentage) {
 			if (validTransition(stateOne, stateTwo)) {
 				updateStateTransition(translate(stateOne), translate(stateTwo), percentage);
 			}

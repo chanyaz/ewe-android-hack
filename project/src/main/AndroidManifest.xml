@@ -30,10 +30,10 @@
     <!-- For Push Notifications (GCM) -->
 
     <permission
-        android:name="com.expedia.bookings.permission.C2D_MESSAGE"
+        android:name="${applicationId}.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.expedia.bookings.permission.C2D_MESSAGE" />
+    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
 
     <!-- App receives GCM messages. -->
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
@@ -77,8 +77,8 @@
 
         <activity
             android:name="com.expedia.bookings.activity.RouterActivity"
-            android:theme="@android:style/Theme.NoDisplay"
-            android:exported="true"/>
+            android:exported="true"
+            android:theme="@android:style/Theme.NoDisplay"/>
         <activity-alias
             android:name="com.expedia.bookings.activity.SearchActivity"
             android:targetActivity="com.expedia.bookings.activity.RouterActivity" >
@@ -135,10 +135,6 @@
             android:name="com.expedia.bookings.activity.StandaloneShareActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name="com.expedia.bookings.activity.LocalExpertActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/Theme" />
-        <activity
             android:name="com.expedia.bookings.activity.FacebookShareActivity"
             android:icon="@drawable/ic_share_facebook"
             android:label="@string/Facebook" >
@@ -148,82 +144,135 @@
 
         <activity
             android:name="com.expedia.bookings.activity.HotelSearchActivity"
-            android:theme="@style/Theme.Phone"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Phone.HotelSearchActivity"
             android:uiOptions="splitActionBarWhenNarrow"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name="com.expedia.bookings.activity.HotelDetailsFragmentActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone" />
         <activity
             android:name="com.expedia.bookings.activity.HotelMapActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone" />
         <activity
             android:name="com.expedia.bookings.activity.UserReviewsListActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone" />
         <activity
-            android:name="com.expedia.bookings.activity.RoomsAndRatesListActivity"
+            android:name="com.expedia.bookings.activity.HotelPayLaterInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.Phone" />
+        <activity
+            android:name="com.expedia.bookings.activity.HotelRoomsAndRatesActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone" />
         <activity
             android:name="com.expedia.bookings.activity.HotelOverviewActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone.Dark"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name="com.expedia.bookings.activity.HotelRulesActivity"
-            android:theme="@style/FlightTheme" />
+            android:label="@string/legal_information"
+            android:theme="@style/Theme.Phone.Rules" />
         <activity
             android:name="com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity"
             android:label="@string/Add_Traveler"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone.Dark" />
         <activity
             android:name="com.expedia.bookings.activity.HotelPaymentOptionsActivity"
             android:label="@string/Add_Payment"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone.Dark" />
         <activity
             android:name="com.expedia.bookings.activity.HotelBookingActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone.Dark" />
         <activity
             android:name="com.expedia.bookings.activity.HotelConfirmationActivity"
             android:label="@string/booking_complete"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone.Dark" />
 
         <!-- Flights activities -->
 
         <activity
             android:name="com.expedia.bookings.activity.FlightSearchActivity"
-            android:label="@string/Expedia_Flights"
+            android:screenOrientation="portrait"
             android:theme="@style/FlightTheme"
             android:windowSoftInputMode="stateUnchanged" />
         <activity
             android:name="com.expedia.bookings.activity.FlightSearchResultsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/FlightTheme.OverlayMode"
             android:uiOptions="splitActionBarWhenNarrow" />
         <activity
             android:name="com.expedia.bookings.activity.FlightUnsupportedPOSActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/FlightTheme" />
         <activity
             android:name="com.expedia.bookings.activity.FlightSearchOverlayActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/FlightTheme.Transparent"
             android:windowSoftInputMode="stateUnchanged" />
         <activity
             android:name="com.expedia.bookings.activity.FlightTripOverviewActivity"
             android:label="@string/Overview"
+            android:screenOrientation="portrait"
             android:theme="@style/FlightTheme.Transparent" />
         <activity
             android:name="com.expedia.bookings.activity.FlightBookingActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/FlightTheme" />
         <activity
             android:name="com.expedia.bookings.activity.FlightPaymentOptionsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/FlightTheme.CheckoutForms" />
         <activity
             android:name="com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/FlightTheme.CheckoutForms" />
         <activity
             android:name="com.expedia.bookings.activity.FlightRulesActivity"
-            android:theme="@style/FlightTheme" />
+            android:label="@string/legal_information"
+            android:theme="@style/FlightTheme.Rules" />
         <activity
             android:name="com.expedia.bookings.activity.FlightConfirmationActivity"
             android:label="@string/booking_complete"
+            android:screenOrientation="portrait"
             android:theme="@style/FlightTheme" />
+
+        <activity
+            android:name="com.expedia.bookings.activity.AccountLibActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:theme="@style/AccountLibTheme"
+            android:windowSoftInputMode="adjustResize" />
+
+        <!-- Cars activity -->
+
+        <activity
+            android:name="com.expedia.ui.CarActivity"
+            android:taskAffinity="com.expedia.bookings.activity.CarActivity"
+            android:screenOrientation="portrait"
+            android:label="Cars"
+            android:theme="@style/V2.Theme.Cars"
+            android:windowSoftInputMode="adjustNothing">
+        </activity>
+
+        <!-- LX activity -->
+
+        <activity
+            android:name="com.expedia.ui.LXBaseActivity"
+            android:taskAffinity="com.expedia.bookings.activity.LXBaseActivity"
+            android:screenOrientation="portrait"
+            android:label="Activities"
+            android:theme="@style/V2.Theme.LX"
+            android:windowSoftInputMode="adjustNothing">
+        </activity>
 
         <!-- About/Preferences/WebView activities -->
 
@@ -232,6 +281,7 @@
             android:theme="@style/Theme.Phone.WebView" />
         <activity
             android:name="com.expedia.bookings.activity.ExpediaBookingPreferenceActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone.Preferences" />
         <activity
             android:name="com.expedia.bookings.activity.TabletPreferenceActivity"
@@ -241,12 +291,6 @@
         <activity android:name="com.expedia.bookings.activity.AboutWebViewActivity" />
 
         <!-- Login/Facebook activities -->
-        <activity
-            android:name="com.expedia.bookings.activity.LoginActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/LoginTheme"
-            android:windowSoftInputMode="adjustPan" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -256,12 +300,6 @@
             android:name="com.expedia.bookings.activity.RestrictedProfileActivity"
             android:theme="@style/LoginTheme"
             android:windowSoftInputMode="adjustPan" />
-
-        <!-- Testing activities -->
-
-        <activity
-            android:name="com.expedia.bookings.activity.StubConfigActivity"
-            android:theme="@style/Theme.Phone" />
 
         <!-- Notifications -->
 
@@ -284,7 +322,7 @@
                 <!-- Receives the registration id. -->
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
-                <category android:name="com.expedia.bookings" />
+                <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
 
@@ -314,14 +352,6 @@
         </receiver>
 
         <!-- Tracking -->
-
-        <receiver
-            android:name="com.expedia.bookings.activity.PosChangedReceiver"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="com.expedia.bookings.action.pos_changed" />
-            </intent-filter>
-        </receiver>
 
         <!-- Google Play Campaign Tracking -->
         <!-- Note: Only the first defined INSTALL_REFERRER BroadcastReceiver receives the Broadcast from the system -->

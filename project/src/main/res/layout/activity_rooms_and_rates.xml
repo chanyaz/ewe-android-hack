@@ -20,7 +20,7 @@
             android:layout_height="64dp"
             android:background="@drawable/bg_rooms_hotel_photo"
             android:scaleType="centerCrop"
-            android:src="?attr/hotelImagePlaceHolderDrawable" />
+            android:src="?attr/skin_hotelImagePlaceHolderDrawable" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -50,48 +50,33 @@
                 android:textColor="@color/text_sub_header" />
 
             <RatingBar
-                android:id="@+id/hotel_rating_bar"
+                android:id="@+id/hotel_rating_bar_stars"
                 style="@style/RatingBar.Star.Gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:isIndicator="true"
                 android:numStars="5"
-                android:stepSize=".5" />
-        </LinearLayout>
+                android:stepSize=".5"
+                android:visibility="gone" />
 
-        <LinearLayout
-            android:id="@+id/nights_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:gravity="right"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/nights_text_view"
+            <RatingBar
+                android:id="@+id/hotel_rating_bar_circles"
+                style="@style/RatingBar.Circle.Gray"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:textColor="@color/text_sub_header"
-                android:textSize="15sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/dates_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ellipsize="end"
-                android:singleLine="true"
-                android:textColor="@color/text_sub_header" />
+                android:layout_marginTop="2dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize=".5"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 
     <!-- List of rooms/rates -->
 
     <fragment
-        android:name="com.expedia.bookings.fragment.RoomsAndRatesFragment"
+        android:name="com.expedia.bookings.fragment.HotelRoomsAndRatesFragment"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

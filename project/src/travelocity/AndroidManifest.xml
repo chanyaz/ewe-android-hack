@@ -21,13 +21,21 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="trvly" />
+                <data android:scheme="http" />
+                <data android:host="t.tvly.co" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tvly" />
                 <data android:host="home" />
                 <data android:host="trips" />
                 <data android:host="showTrips" />
                 <data android:host="hotelSearch" />
                 <data android:host="flightSearch" />
-
                 <!-- We will handle iOS implementation of ItinSharing as well, just cause we can -->
                 <data android:host="addSharedItinerary" />
             </intent-filter>

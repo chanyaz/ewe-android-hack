@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
+import android.os.Bundle;
 import android.preference.ListPreference;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -52,6 +53,14 @@ public class DomainPreference extends ListPreference {
 
 	public DomainPreference(Context context) {
 		this(context, null);
+	}
+
+	@Override
+	public CharSequence getSummary() {
+		PointOfSale info = PointOfSale.getPointOfSale(mContext);
+		final String country = mContext.getString(info.getCountryNameResId());
+		final String url = info.getUrl();
+		return country + " - " + url;
 	}
 
 	@Override
@@ -107,7 +116,7 @@ public class DomainPreference extends ListPreference {
 			Builder builder = new AlertDialog.Builder(mContext);
 			builder.setTitle(R.string.dialog_clear_private_data_title);
 			if (User.isLoggedIn(mContext)) {
-				builder.setMessage(R.string.dialog_log_out_and_clear_private_data_msg);
+				builder.setMessage(R.string.dialog_sign_out_and_clear_private_data_msg);
 			}
 			else {
 				builder.setMessage(R.string.dialog_clear_private_data_msg);
@@ -234,6 +243,13 @@ public class DomainPreference extends ListPreference {
 			holder.mDomainTextView.setText(d.mDomain);
 
 			return convertView;
+		}
+	}
+
+	@Override
+	protected void showDialog(Bundle state) {
+		if (mEntries != null && mEntries.length > 1) {
+			super.showDialog(state);
 		}
 	}
 }

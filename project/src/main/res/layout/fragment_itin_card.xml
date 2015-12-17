@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/itinTabletCardPopupBackgroundDrawable"
+    android:background="?attr/skin_itinTabletCardPopupBackgroundDrawable"
     android:orientation="vertical" >
 
     <!-- Header -->
@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="52dp"
-        android:background="?attr/itinTabletCardPopupHeaderDrawable"
+        android:background="?attr/skin_itinTabletCardPopupHeaderDrawable"
         android:orientation="horizontal" >
 
         <FrameLayout
@@ -47,12 +47,12 @@
                 android:layout_width="48dp"
                 android:layout_height="46dp"
                 android:layout_marginRight="3dp"
-                android:background="@drawable/list_selector_holo_dark"
+                android:background="?android:attr/selectableItemBackground"
                 android:paddingBottom="6dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:paddingTop="6dp"
-                android:src="@drawable/abs__ic_menu_moreoverflow_holo_dark" />
+                android:src="?attr/skin_itinActionOverflowDrawable" />
         </FrameLayout>
     </LinearLayout>
 

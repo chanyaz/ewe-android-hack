@@ -37,7 +37,19 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />
 
-                <com.expedia.bookings.widget.FrameLayoutTouchController
+                <TextView
+                    android:id="@+id/free_cancellation_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="?attr/skin_checkmarkFlightDrawable"
+                    android:drawablePadding="8dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:visibility="gone"
+                    android:text="@string/ab_test_flights_free_cancellation"
+                    android:textColor="?attr/skin_flightFreeCancellationTextColor"/>
+
+                <com.expedia.bookings.widget.TouchableFrameLayout
                     android:id="@+id/checkout_event_blocker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
@@ -53,7 +65,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:visibility="invisible" />
-                </com.expedia.bookings.widget.FrameLayoutTouchController>
+                </com.expedia.bookings.widget.TouchableFrameLayout>
             </LinearLayout>
         </com.expedia.bookings.widget.ScrollView>
 

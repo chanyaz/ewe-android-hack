@@ -3,11 +3,14 @@ package com.expedia.bookings.fragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -20,6 +23,7 @@ import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.text.StrikethroughTagHandler;
+import com.squareup.phrase.Phrase;
 
 
 public class HotelDetailsPricePromoFragment extends Fragment {
@@ -68,13 +72,18 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 
 			HotelSearchParams params = Db.getHotelSearch().getSearchParams();
 			if (params.isDefaultStay()) {
-				mSoldOutTextView.setText((Ui.obtainThemeResID(getActivity(), R.attr.hotelSearchResultNotAvailale)));
+				mSoldOutTextView.setText(
+					Phrase.from(getActivity(), R.string.not_currently_available_from_brand_TEMPLATE)
+					.put("brand", BuildConfig.brand)
+					.format());
 			}
 			else {
-				String dates = DateFormatUtils.formatDateRange(getActivity(), params.getCheckInDate(),
-					params.getCheckOutDate(), DateFormatUtils.FLAGS_DATE_ABBREV_ALL);
-				mSoldOutTextView
-					.setText(getString(Ui.obtainThemeResID(getActivity(), R.attr.hotelSearchResultTEMPLATE), dates));
+				String dates = DateFormatUtils.formatDateRange(getActivity(), params, DateFormatUtils.FLAGS_DATE_ABBREV_ALL);
+				mSoldOutTextView.setText(
+					Phrase.from(getActivity(), R.string.not_currently_available_from_brand_dates_TEMPLATE)
+					.put("brand", BuildConfig.brand)
+					.put("dates", dates)
+					.format());
 			}
 		}
 		else {
@@ -83,10 +92,21 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 
 			// Sale banner
 			TextView saleBannerTextView = Ui.findView(view, R.id.sale_banner_text_view);
-			TextView promoTextView = Ui.findView(view, R.id.promo_text_view);
+			final TextView promoTextView = Ui.findView(view, R.id.promo_text_view);
+			final View centerFiller = Ui.findView(view, R.id.center_filler);
+			TextView airAttachBannerTextView = Ui.findView(view, R.id.air_attach_banner_text_view);
+
 			if (rate.isSaleTenPercentOrBetter()) {
-				saleBannerTextView.setVisibility(View.VISIBLE);
-				saleBannerTextView.setText(getString(R.string.minus_x_percent, rate.getDiscountPercent()));
+				if (rate.isAirAttached()) {
+					airAttachBannerTextView.setVisibility(View.VISIBLE);
+					saleBannerTextView.setVisibility(View.GONE);
+					airAttachBannerTextView.setText(getString(R.string.minus_x_percent, rate.getDiscountPercent()));
+				}
+				else {
+					airAttachBannerTextView.setVisibility(View.GONE);
+					saleBannerTextView.setVisibility(View.VISIBLE);
+					saleBannerTextView.setText(getString(R.string.minus_x_percent, rate.getDiscountPercent()));
+				}
 			}
 			else {
 				saleBannerTextView.setVisibility(View.GONE);
@@ -102,6 +122,9 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 				promoTextView.setVisibility(View.VISIBLE);
 			}
 			else {
+				if (centerFiller != null) {
+					centerFiller.setVisibility(View.VISIBLE);
+				}
 				promoTextView.setVisibility(View.GONE);
 			}
 
@@ -109,9 +132,9 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 			TextView strikethroughTextView = Ui.findView(view, R.id.strikethrough_price_text_view);
 			if (rate.isOnSale()) {
 				strikethroughTextView.setText(Html.fromHtml(
-						getString(R.string.strike_template, StrUtils.formatHotelPrice(rate.getDisplayBasePrice())),
-						null,
-						new StrikethroughTagHandler()));
+					getString(R.string.strike_template, StrUtils.formatHotelPrice(rate.getDisplayBasePrice())),
+					null,
+					new StrikethroughTagHandler()));
 				strikethroughTextView.setVisibility(View.VISIBLE);
 			}
 			else {
@@ -122,7 +145,27 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 			TextView rateTextView = Ui.findView(view, R.id.rate_text_view);
 			rateTextView.setText(StrUtils.formatHotelPrice(rate.getDisplayPrice()));
 			view.findViewById(R.id.per_nt_text_view).setVisibility(
-					rate.getUserPriceType() != UserPriceType.PER_NIGHT_RATE_NO_TAXES ? View.GONE : View.VISIBLE);
+				rate.getUserPriceType() != UserPriceType.PER_NIGHT_RATE_NO_TAXES ? View.GONE : View.VISIBLE);
+
+			if (centerFiller != null) {
+				//3858. Let's check to see if the promoText can fit in the available space. If not let's pull the plug on it.
+				promoTextView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+					@Override
+					public void onGlobalLayout() {
+						promoTextView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+						Layout textLayout = promoTextView.getLayout();
+						if (textLayout != null) {
+							int lines = textLayout.getLineCount();
+							if (lines > 0) {
+								if (textLayout.getEllipsisCount(lines - 1) > 0) {
+									centerFiller.setVisibility(View.VISIBLE);
+									promoTextView.setVisibility(View.GONE);
+								}
+							}
+						}
+					}
+				});
+			}
 		}
 	}
 

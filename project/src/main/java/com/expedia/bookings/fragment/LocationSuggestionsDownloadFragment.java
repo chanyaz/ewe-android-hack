@@ -108,7 +108,7 @@ public class LocationSuggestionsDownloadFragment extends Fragment {
 	private final BackgroundDownloader.Download<SuggestionResponse> mSearchDownload = new BackgroundDownloader.Download<SuggestionResponse>() {
 		@Override
 		public SuggestionResponse doDownload() {
-			return mServices.suggestionsNearby(mLat, mLon, SuggestionSort.POPULARITY, 0);
+			return mServices.suggestionsAirportsNearby(mLat, mLon, SuggestionSort.POPULARITY);
 		}
 	};
 

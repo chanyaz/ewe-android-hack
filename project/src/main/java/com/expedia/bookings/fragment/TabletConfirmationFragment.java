@@ -1,8 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +12,9 @@ import android.view.animation.OvershootInterpolator;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -38,7 +37,8 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 	protected abstract void addItineraryToCalendar();
 
 	private ViewGroup mBookNextContainer;
-	private ViewGroup mDoneBookingContainer;
+	private ViewGroup mDoneBookingContainerRight;
+	private ViewGroup mDoneBookingContainerStandalone;
 	private View mImageCard;
 
 	@Override
@@ -69,6 +69,9 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 					return false;
 				}
 			});
+
+			// Add guest itin to itin manager
+			addGuestTripToItin();
 		}
 
 		//////////////////////////
@@ -79,7 +82,6 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 
 			@Override
 			public void onClick(View v) {
-				OmnitureTracking.trackBookNextClick(getActivity(), getLob());
 				LineOfBusiness nextLob = getNextBookingItem();
 				if (nextLob == LineOfBusiness.HOTELS) {
 					Db.getTripBucket().getHotel().setSelected(true);
@@ -90,24 +92,43 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 					Db.getTripBucket().getHotel().setSelected(false);
 				}
 				Events.post(new Events.BookingConfirmationBookNext(nextLob));
+
+				// Tracking
+				boolean isAirAttachScenario = getLob() == LineOfBusiness.FLIGHTS &&
+					Db.getTripBucket().getHotel().hasAirAttachRate();
+				OmnitureTracking.trackBookNextClick(getLob(), isAirAttachScenario);
+			}
+		});
+
+		mDoneBookingContainerRight = Ui.findView(v, R.id.confirmation_done_booking_container);
+		mDoneBookingContainerRight.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				OmnitureTracking.trackDoneBookingClick(getLob());
+				NavUtils.goToItin(getActivity());
+				getActivity().finish();
+			}
+		});
+
+		mDoneBookingContainerStandalone = Ui.findView(v, R.id.confirmation_done_booking_standalone_container);
+		mDoneBookingContainerStandalone.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				OmnitureTracking.trackDoneBookingClick(getLob());
+				NavUtils.goToItin(getActivity());
+				getActivity().finish();
 			}
 		});
 
 		if (getNextBookingItem() == null) {
 			mBookNextContainer.setVisibility(View.GONE);
-			Ui.findView(v, R.id.confirmation_booking_bar_separator).setVisibility(View.GONE);
+			mDoneBookingContainerRight.setVisibility(View.GONE);
 		}
-
-		mDoneBookingContainer = Ui.findView(v, R.id.confirmation_done_booking_container);
-		mDoneBookingContainer.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				OmnitureTracking.trackDoneBookingClick(getActivity(), getLob());
-				NavUtils.goToItin(getActivity());
-				getActivity().finish();
-			}
-		});
+		else {
+			mDoneBookingContainerStandalone.setVisibility(View.GONE);
+		}
 
 		//////////////////////////
 		/// Action button layout related
@@ -115,7 +136,7 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 		Ui.setOnClickListener(v, R.id.call_action_text_view, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				SocialUtils.call(getActivity(), PointOfSale.getPointOfSale().getSupportPhoneNumber());
+				SocialUtils.call(getActivity(), PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
 			}
 		});
 
@@ -152,20 +173,7 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 		animator.translationY(0);
 		animator.setDuration(getResources().getInteger(android.R.integer.config_longAnimTime) * 2);
 		animator.setInterpolator(new OvershootInterpolator());
-
-		if (Build.VERSION.SDK_INT >= 16) {
-			animator.withLayer();
-		}
-		else {
-			mImageCard.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-			animator.setListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					mImageCard.setLayerType(View.LAYER_TYPE_NONE, null);
-				}
-			});
-		}
-
+		animator.withLayer();
 		animator.start();
 	}
 
@@ -186,4 +194,11 @@ public abstract class TabletConfirmationFragment extends LobableFragment {
 		//We don't need to do anything else.
 	}
 
+	private void addGuestTripToItin() {
+		if (Db.getBillingInfo() != null && !User.isLoggedIn(getActivity())) {
+			String email = Db.getBillingInfo().getEmail();
+			String tripId = getItinNumber();
+			ItineraryManager.getInstance().addGuestTrip(email, tripId);
+		}
+	}
 }

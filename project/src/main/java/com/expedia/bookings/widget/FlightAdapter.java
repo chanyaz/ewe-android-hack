@@ -1,10 +1,10 @@
 package com.expedia.bookings.widget;
 
-import java.util.Calendar;
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import android.database.DataSetObserver;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -24,8 +24,8 @@ public class FlightAdapter extends BaseAdapter {
 
 	private FlightTripQuery mFlightTripQuery;
 
-	private Calendar mMinTime;
-	private Calendar mMaxTime;
+	private DateTime mMinTime;
+	private DateTime mMaxTime;
 
 	protected int mLegPosition;
 
@@ -33,7 +33,7 @@ public class FlightAdapter extends BaseAdapter {
 		setFlightTripQuery(query, null, null);
 	}
 
-	public void setFlightTripQuery(FlightTripQuery query, Calendar minTime, Calendar maxTime) {
+	public void setFlightTripQuery(FlightTripQuery query, DateTime minTime, DateTime maxTime) {
 		if (query != mFlightTripQuery) {
 			if (mFlightTripQuery != null) {
 				mFlightTripQuery.unregisterDataSetObserver(mDataSetObserver);
@@ -46,18 +46,18 @@ public class FlightAdapter extends BaseAdapter {
 			}
 
 			if (mFlightTripQuery != null && mFlightTripQuery.getCount() > 0) {
-				mMinTime = (Calendar) mFlightTripQuery.getMinTime().clone();
-				mMaxTime = (Calendar) mFlightTripQuery.getMaxTime().clone();
+				mMinTime = new DateTime(mFlightTripQuery.getMinTime());
+				mMaxTime = new DateTime(mFlightTripQuery.getMaxTime());
 
 				// F1306: Make current timelines relative to old timelines, if the old
 				// timeline has a longer span.
 				if (minTime != null && minTime != null) {
-					long duration = mMaxTime.getTimeInMillis() - mMinTime.getTimeInMillis();
-					long lastDuration = maxTime.getTimeInMillis() - minTime.getTimeInMillis();
+					long duration = mMaxTime.getMillis() - mMinTime.getMillis();
+					long lastDuration = maxTime.getMillis() - minTime.getMillis();
 					if (duration < lastDuration) {
 						int toAdd = (int) ((lastDuration - duration) / 2);
-						mMinTime.add(Calendar.MILLISECOND, -toAdd);
-						mMaxTime.add(Calendar.MILLISECOND, toAdd);
+						mMinTime.plusMillis(-toAdd);
+						mMaxTime.plusMillis(toAdd);
 					}
 				}
 			}
@@ -122,7 +122,7 @@ public class FlightAdapter extends BaseAdapter {
 			}
 		}
 
-		FlightLegSummarySection section = (FlightLegSummarySection) convertView;
+		FlightLegSummarySection section = Ui.findView(convertView, R.id.flight_card_container);
 		FlightTrip trip = getItem(position);
 		FlightLeg leg = trip.getLeg(mLegPosition);
 		section.bind(trip, leg, mMinTime, mMaxTime);

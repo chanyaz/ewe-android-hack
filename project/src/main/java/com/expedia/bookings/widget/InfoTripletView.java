@@ -4,6 +4,8 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;
@@ -33,7 +35,9 @@ public class InfoTripletView extends LinearLayout {
 
 	private TextView[] mValues;
 	private TextView[] mLabels;
+	private View[] mDividers;
 
+	private int mInfoCountToDisplay;
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -74,6 +78,13 @@ public class InfoTripletView extends LinearLayout {
 	protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
 		super.onLayout(changed, left, top, right, bottom);
 
+		// Hide guest count for activities if api returns it as 0.
+		if (mInfoCountToDisplay == 2) {
+			mLabels[2].setVisibility(View.GONE);
+			mValues[2].setVisibility(View.GONE);
+			mDividers[1].setVisibility(View.GONE);
+		}
+
 		if (changed || mNeedsResize) {
 			resizeValues();
 			resizeLabels();
@@ -89,6 +100,7 @@ public class InfoTripletView extends LinearLayout {
 			mLabels[i].setText(labels[i]);
 		}
 		mNeedsResize = true;
+		mInfoCountToDisplay = labels.length;
 	}
 
 	public void setValues(CharSequence... values) {
@@ -109,12 +121,15 @@ public class InfoTripletView extends LinearLayout {
 
 		mValues = new TextView[3];
 		mLabels = new TextView[3];
+		mDividers = new View[2];
 		mValues[0] = Ui.findView(this, R.id.value1);
 		mValues[1] = Ui.findView(this, R.id.value2);
 		mValues[2] = Ui.findView(this, R.id.value3);
 		mLabels[0] = Ui.findView(this, R.id.label1);
 		mLabels[1] = Ui.findView(this, R.id.label2);
 		mLabels[2] = Ui.findView(this, R.id.label3);
+		mDividers[0] = Ui.findView(this, R.id.divider1);
+		mDividers[1] = Ui.findView(this, R.id.divider2);
 
 		mDesiredValueTextSizeSp = mValues[0].getTextSize() / getResources().getDisplayMetrics().scaledDensity;
 		mDesiredLabelTextSizeSp = mLabels[0].getTextSize() / getResources().getDisplayMetrics().scaledDensity;
@@ -132,7 +147,7 @@ public class InfoTripletView extends LinearLayout {
 		float combinedTextSizeSp = targetTextSizeSp;
 
 		// Figure out if we have to shrink targetTextSizeSp to make room for all the text.
-		for (int i = 0; i < views.length; i++) {
+		for (int i = 0; i < mInfoCountToDisplay; i++) {
 			TextView view = views[i];
 			CharSequence text = view.getText();
 
@@ -156,7 +171,7 @@ public class InfoTripletView extends LinearLayout {
 		}
 
 		// Now set the text size for all the views.
-		for (int i = 0; i < views.length; i++) {
+		for (int i = 0; i < mInfoCountToDisplay; i++) {
 			// Some devices try to auto adjust line spacing, so force default line spacing
 			// and invalidate the layout as a side effect
 			views[i].setTextSize(TypedValue.COMPLEX_UNIT_SP, combinedTextSizeSp);

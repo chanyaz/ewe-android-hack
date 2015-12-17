@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="call_wotif_customer_support">Appeler le soutien à la clientèle Wotif</string>
+
+    <!-- Log in with Wotif -->
+    <string name="Log_in_with_Wotif">Se connecter avec Wotif</string>
+    <!-- Label for signin screen -->
+    <string name="wotif_account">Compte Wotif</string>
+    <!-- Content description for action: Press to log in with your Wotif account -->
+    <string name="cd_checkout_log_in_with_wotif">Appuyez pour ouvrir une session sur votre compte Wotif</string>
+
+    <string name="wotif_website">Site Web Wotif</string>
+    <string name="wotif_app_support">Soutien pour l’application Wotif</string>
+    <string name="wotif_copyright_TEMPLATE">© Wotif\n2012-%1$s. Tous droits réservés.</string>
+    <string name="wotif_info_url">https://www.wotif.com/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_wotif">Voulez-vous vraiment vous déconnecter de votre compte Wotif?</string>
+
+    <!-- Expedia booking fee -->
+    <string name="wotif_booking_fee">Frais de réservation Wotif</string>
+
+    <string name="error_flight_unhandled_wotif_TEMPLATE">Désolés, nous ne pouvons pas traiter votre commande en ce moment. Veuillez réessayer ou appeler le soutien à la clientèle Wotif en mentionnant le numéro d’itinéraire : %s</string>
+    <string name="error_server_wotif">Désolé, la connexion aux serveurs Wotif a échoué. Veuillez réessayer plus tard.</string>
+
+    <!-- save billing info message -->
+    <string name="save_billing_wotif_info_message">Enregistrer ce mode de paiement sous votre compte Wotif pour accélérer vos achats futurs?</string>
+
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_wotif_message_TEMPLATE">Enregistrer l’information sur %1$s sous votre compte Wotif pour accélérer vos achats futurs?</string>
+
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE_wotif">Numéro d’itinéraire Wotif : %s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE_wotif">Soutien à la clientèle Wotif : %s</string>
+
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data_wotif">Votre session à votre compte Wotif a été fermée et tous les renseignements de facturation et coordonnées ont été supprimés.</string>
+
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure_wotif">Désolé, nous n’avons pas pu établir la connexion à Wotif. Veuillez réessayer.</string>
+
+    <!-- Phone Fragment Header-->
+    <string name="nav_accommodation">Hébergement</string>
+    
+    <!-- Shop travel label -->
+    <string name="shop_travel">Magasiner un voyage</string>
+
+    <!-- Title for different ways to connect to Expedia -->
+    <string name="contact_wotif_via">Communiquer avec Wotif…</string>
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_wotif_email_subject">Soutien pour les réservations sur Wotif</string>
+    <!-- Wotif- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_wotif">Si vous avez des questions au sujet de votre réservation, veuillez communiquer avec Wotif au %s.</string>
+    <!-- Wotif Itinerary -->
+    <string name="wotif_itinerary">Numéro d’itinéraire Wotif</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Wotif</string>
+
+    <string name="error_flight_no_longer_available_wotif">Nous sommes désolés, le vol sélectionné n’est plus disponible sur Wotif.</string>
+
+    <string name="error_flights_no_longer_available_wotif">Nous sommes désolés, un des vols sélectionnés n’est plus disponible sur Wotif.</string>
+
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out_wotif">Nous sommes désolés, cet hôtel n’est plus disponible sur Wotif.</string>
+    <!--A message stating this hotel is Not currently available on Wotif -->
+    <string name="not_currently_available_wotif">Non disponible présentement sur Wotif</string>
+    <!-- A message stating this hotel is sold out on Wotif -->
+    <string name="sold_out_on_wotif">Complet sur Wotif</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Wotif Nov. 3-4" -->
+    <string name="not_currently_available_wotif_TEMPLATE">Non disponible sur Wotif pour les dates suivantes : %s</string>
+
+    <!-- Missing strings for Wotif from Expedia-->
+    <string name="tell_a_friend_body_wotif">Bonjour,\n\nJetez un coup d’œil à l’application Wotif Hotels pour téléphones iPhone et Android. Elle est gratuite et vous permet de chercher et de réserver des chambres dans plus de 140 000 hôtels dans le monde. C’est la façon la plus simple de réserver une chambre à partir de votre téléphone.</string>
+    <string name="tell_a_friend_subject_wotif">Wotif Hotels</string>
+    <string name="restricted_profile_login_message_wotif">Pour vous connecter à Wotif, vous devez utiliser un profil utilisateur non restreint sur votre appareil.</string>
+    <string name="loading_wotif_account">Chargement du compte Wotif</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_wotif">Votre réservation d’hôtel a bien été effectuée! Pour obtenir un itinéraire dès maintenant, veuillez communiquer avec le soutien à la clientèle Wotif.</string>
+    <string name="wotif_password_hint">Mot de passe Wotif</string>
+    <string name="dialog_message_launch_wotif_mobile_site">Lancer le site Web Wotif mobile?</string>
+    <string name="sorry_rooms_sold_out_wotif">Désolé, aucune chambre n’est disponible sur Wotif.</string>
+    <!-- Wotif App download link -->
+    <string name="share_template_long_ad_wotif">Réservez hôtels, vols, consultez et partagez vos itinéraires. Téléchargez l’application mobile gratuite Wotif dès aujourd’hui.\n%s</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">Montant total dû à Wotif aujourd’hui :</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">Vous devez créer un nouvel identifiant international vous donnant accès à tous les sites Wotif.&lt;br&gt;Veuillez réinitialiser votre mot de passe à l’aide du lien « Oublié votre mot de passe? » ci-dessous.</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today_wotif">Montant dû à Wotif aujourd’hui</string>
+    <string name="etp_pay_now_charges_text_wotif">Wotif traitera les détails de vos paiements.</string>
+</resources>

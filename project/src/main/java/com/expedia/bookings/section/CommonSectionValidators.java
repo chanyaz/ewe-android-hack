@@ -10,7 +10,6 @@ import android.widget.RadioGroup;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.PatternValidator;
-import com.mobiata.android.validation.PatternValidator.EmailValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
 import com.mobiata.android.validation.TextViewValidator;
 import com.mobiata.android.validation.ValidationError;
@@ -137,6 +136,31 @@ public class CommonSectionValidators {
 				return InvalidCharacterHelper.getSupportedCharacterPattern(Mode.NAME).matcher(obj.getText()).matches() ? ValidationError.NO_ERROR
 						: ValidationError.ERROR_DATA_INVALID;
 			}
+		}
+	};
+
+	public static final Validator<EditText> ADDRESS_STATE_VALIDATOR = new Validator<EditText>() {
+		@Override
+		public int validate(EditText obj) {
+			if (obj == null) {
+				return ValidationError.ERROR_DATA_MISSING;
+			}
+			else {
+				return STATE_VALIDATOR_LENGTH.validate(obj.getText().toString());
+			}
+		}
+	};
+
+	public static final Validator<String> STATE_VALIDATOR_LENGTH = new Validator<String>() {
+		@Override
+		public int validate(String text) {
+			if (TextUtils.isEmpty(text)) {
+				return ValidationError.ERROR_DATA_MISSING;
+			}
+			else if (text.length() < 2 || text.length() > 100) {
+				return ValidationError.ERROR_DATA_INVALID;
+			}
+			return ValidationError.NO_ERROR;
 		}
 	};
 

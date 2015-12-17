@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.mobiata.android.util.AndroidUtils;
 
 /**
  * This class implements a parallax-like scrolling effect specifically for
@@ -21,11 +20,15 @@ import com.mobiata.android.util.AndroidUtils;
  *
  */
 public class HotelDetailsScrollView extends CustomScrollerScrollView {
-	private static final String TAG = HotelDetailsScrollView.class.getSimpleName();
 
-	ViewGroup mMapContainer;
+	public interface HotelDetailsMiniMapClickedListener {
+		public void onHotelDetailsMiniMapClicked();
+	}
+
+	ViewGroup mMapOuterContainer;
+	TouchableFrameLayout mMapContainer;
 	View mGalleryContainer;
-	HotelDetailsGallery mGallery;
+	RecyclerGallery mGallery;
 	AlphaImageView mVipAccessIcon;
 
 	private int mGalleryHeight = 0;
@@ -36,6 +39,8 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	ValueAnimator mAnimator;
 
 	SegmentedLinearInterpolator mIGalleryScroll, mIGalleryScale, mIMapScroll;
+
+	private HotelDetailsMiniMapClickedListener mListener;
 
 	public HotelDetailsScrollView(Context context) {
 		this(context, null);
@@ -98,8 +103,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 			return;
 		}
 		if (mGallery == null) {
-			mGallery = (HotelDetailsGallery) findViewById(R.id.images_gallery);
-			mGallery.setInvalidateView(mGalleryContainer);
+			mGallery = (RecyclerGallery) findViewById(R.id.images_gallery);
 		}
 
 		ViewGroup.LayoutParams lp = mGalleryContainer.getLayoutParams();
@@ -109,8 +113,31 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		mInitialScrollTop = h - mGalleryHeight;
 	}
 
+	public void setHotelDetailsMiniMapClickedListener(HotelDetailsMiniMapClickedListener listener) {
+		mListener = listener;
+	}
+
 	private void initMap() {
-		mMapContainer = (ViewGroup) findViewById(R.id.hotel_details_map_fragment_container);
+		mMapOuterContainer = (ViewGroup) findViewById(R.id.hotel_details_map_fragment_outer_container);
+		if (mMapOuterContainer != null) {
+			mMapContainer = (TouchableFrameLayout) mMapOuterContainer.findViewById(R.id.hotel_details_map_fragment_container);
+			mMapContainer.setBlockNewEventsEnabled(true);
+			mMapContainer.setTouchListener(new TouchableFrameLayout.TouchListener() {
+				@Override
+				public void onInterceptTouch(MotionEvent ev) {
+					// ignore
+				}
+
+				@Override
+				public void onTouch(MotionEvent ev) {
+					if (mListener != null) {
+						if (ev.getAction() == MotionEvent.ACTION_UP) {
+							mListener.onHotelDetailsMiniMapClicked();
+						}
+					}
+				}
+			});
+		}
 	}
 
 	private void initVipAccessIcon() {
@@ -162,7 +189,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 		if (mGalleryContainer != null) {
 			galleryCounterscroll(t);
 		}
-		if (mMapContainer != null) {
+		if (mMapOuterContainer != null) {
 			mapCounterscroll(t);
 		}
 	}
@@ -231,10 +258,10 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 	private void mapCounterscroll(int parentScroll) {
 		// Setup interpolator for Map counterscroll (if needed)
 		if (mIMapScroll == null) {
-			int mapHeight = mMapContainer.findViewById(R.id.mini_map).getHeight();
+			int mapHeight = mMapContainer.getHeight();
 			int screenHeight = this.getHeight();
-			int mapTop = mMapContainer.getTop() + mMapContainer.getPaddingTop();
-			int mapBottom = mMapContainer.getBottom() - mMapContainer.getPaddingBottom();
+			int mapTop = mMapOuterContainer.getTop() + mMapOuterContainer.getPaddingTop();
+			int mapBottom = mMapOuterContainer.getBottom() - mMapOuterContainer.getPaddingBottom();
 			int frameHeight = mapBottom - mapTop;
 
 			int mapTopScreenBottom = mapTop - screenHeight; // when map top is at screen bottom
@@ -254,7 +281,7 @@ public class HotelDetailsScrollView extends CustomScrollerScrollView {
 
 		int counterscroll = (int) mIMapScroll.get(parentScroll);
 
-		mMapContainer.scrollTo(0, counterscroll);
+		mMapOuterContainer.scrollTo(0, counterscroll);
 	}
 
 	@Override

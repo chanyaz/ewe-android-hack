@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:orientation="horizontal"
-        android:background="?attr/itinHotelAttachButtonDrawable"
+        android:background="?attr/skin_itinHotelAttachButtonDrawable"
         android:gravity="center">
 
         <FrameLayout
@@ -26,8 +26,8 @@
             android:id="@+id/dismiss_image_view"
             android:layout_width="48dp"
             android:layout_height="match_parent"
-            android:background="?attr/itinDismissListSelectorDrawable"
-            android:src="@drawable/abs__ic_menu_moreoverflow_holo_dark"
+            android:background="?attr/skin_itinDismissListSelectorDrawable"
+            android:src="@drawable/ic_itin_action_overflow_white"
             android:scaleType="centerInside"/>
 
     </LinearLayout>

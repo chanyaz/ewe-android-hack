@@ -84,7 +84,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 		mListener = Ui.findFragmentListener(this, TravelerInfoYoYoListener.class);
 
-		mTuidDownloadTimesType = new TypeToken<HashMap<Long, Long>>() {}.getType();
+		mTuidDownloadTimesType = new TypeToken<HashMap<Long, Long>>() { }.getType();
 	}
 
 	@Override
@@ -127,13 +127,19 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 				mListener.setMode(YoYoMode.YOYO);
 				mListener.displayTravelerEntryOne();
 
-				OmnitureTracking.trackLinkFlightCheckoutTravelerEnterManually(getActivity());
+				OmnitureTracking.trackLinkFlightCheckoutTravelerEnterManually();
 			}
 		});
 
 		//Associated Travelers (From Expedia Account)
 		mAssociatedTravelersContainer.removeAllViews();
-		List<Traveler> alternativeTravelers = BookingInfoUtils.getAlternativeTravelers(getActivity());
+		List<Traveler> alternativeTravelers = new ArrayList<Traveler>();
+
+		if (User.isLoggedIn(getActivity()) && Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
+			alternativeTravelers.add(Db.getUser().getPrimaryTraveler());
+		}
+		alternativeTravelers.addAll(BookingInfoUtils.getAlternativeTravelers(getActivity()));
+
 		int numAltTravelers = alternativeTravelers.size();
 		Resources res = getResources();
 		for (int i = 0; i < numAltTravelers; i++) {
@@ -211,7 +217,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightTravelerSelect(getActivity());
+		OmnitureTracking.trackPageLoadFlightTravelerSelect();
 	}
 
 	@Override
@@ -276,7 +282,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 		if (enable) {
 			if (section.getTraveler().hasTuid()) {
-				pic.setImageResource(Ui.obtainThemeResID(getActivity(), R.attr.travellerInfoPageLogo));
+				pic.setImageResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_travellerInfoPageLogo));
 			}
 			else {
 				pic.setImageResource(R.drawable.ic_traveler_blue_entered);
@@ -295,7 +301,9 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 					else if (!state.allTravelerInfoValid(mCurrentTraveler,
 						Db.getTripBucket().getFlight().getFlightTrip().isInternational())) {
 						Db.getWorkingTravelerManager().setWorkingTravelerAndBase(mCurrentTraveler);
-						mListener.setMode(YoYoMode.EDIT);
+						// force customer through flow when they don't have a passport
+						YoYoMode yoYoMode = (mCurrentTraveler.getPrimaryPassportCountry() == null) ? YoYoMode.YOYO : YoYoMode.EDIT;
+						mListener.setMode(yoYoMode);
 						mListener.displayTravelerEntryOne();
 					}
 					else if (!bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
@@ -311,7 +319,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 								mTravelerDetailsCallback);
 						}
 
-						OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting(getActivity());
+						OmnitureTracking.trackLinkFlightCheckoutTravelerSelectExisting();
 					}
 				}
 			});
@@ -319,7 +327,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 
 		else {
 			if (section.getTraveler().hasTuid()) {
-				pic.setImageResource(Ui.obtainThemeResID(getActivity(), R.attr.travellerInfoPageLogoDisabled));
+				pic.setImageResource(Ui.obtainThemeResID(getActivity(), R.attr.skin_travellerInfoPageLogoDisabled));
 			}
 			else {
 				pic.setImageResource(R.drawable.ic_traveler_grey);
@@ -340,8 +348,10 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		if (traveler != null) {
 			Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler);
 			mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
-			mCurrentTraveler.setSaveTravelerToExpediaAccount(!mCurrentTraveler
-				.fromGoogleWallet());//We default account travelers to save, unless the user alters the name
+			// We default account travelers to save, unless the user alters the name, or
+			// they have more than one passport on their account and are required to manually choose one (#4832)
+			boolean isAutoSaveTraveler = !mCurrentTraveler.fromGoogleWallet() && (traveler.getPassportCountries().size() <= 1);
+			mCurrentTraveler.setSaveTravelerToExpediaAccount(isAutoSaveTraveler);
 			FlightTravelerFlowState state = FlightTravelerFlowState.getInstance(getActivity());
 			if (state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler)) {
 				boolean flightIsInternational = Db.getTripBucket().getFlight().getFlightTrip().isInternational();
@@ -386,6 +396,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	private void refreshCurrentTraveler() {
 		FlightTravelerFlowState state = FlightTravelerFlowState.getInstance(getActivity());
 		boolean international = Db.getTripBucket().getFlight().getFlightTrip().isInternational();
+		boolean isPassportNeeded = Db.getTripBucket().getFlight().getFlightTrip().isPassportNeeded();
 		boolean validDomesticTraveler = (state != null)
 			&& state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler);
 		boolean validInternationalTraveler = validDomesticTraveler && state.hasValidTravelerPartThree(mCurrentTraveler);
@@ -404,7 +415,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			mEditTravelerContainer.setVisibility(View.VISIBLE);
 			mEditTravelerLabel.setVisibility(View.VISIBLE);
 			mSelectTravelerLabel.setText(getString(R.string.select_a_different_traveler));
-			if (international) {
+			if (international || isPassportNeeded) {
 				mInternationalDivider.setVisibility(View.VISIBLE);
 				mTravelerPassportCountry.setVisibility(View.VISIBLE);
 			}
@@ -431,7 +442,7 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	//This list contains the keys of our downloads, since we are generating our download keys we need to keep track.
 	private ArrayList<String> mCurrentTravelerDownloads = new ArrayList<String>();
 	//If a traveler's last update was older than this, don't hesitate to refresh again (this would be an app backgrounded case)
-	private long TRAVELER_EXPIRATION_MS = 1000 * 60 * 5;
+	private static final long TRAVELER_EXPIRATION_MS = 1000 * 60 * 5;
 
 	private String genDlTag(long tuid) {
 		return "TRAV_DL_TUID_" + tuid;

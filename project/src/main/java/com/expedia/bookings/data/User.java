@@ -7,22 +7,22 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.RestrictedProfileActivity;
 import com.expedia.bookings.data.trips.ItineraryManager;
-import com.expedia.bookings.model.WorkingBillingInfoManager;
-import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.tracking.AdTracker;
 import com.facebook.Session;
 import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
@@ -45,15 +45,10 @@ public class User implements JSONable {
 	// against someone getting the plaintext file but not the app itself.
 	static final String PASSWORD = "M2MBDdEjbFTXTgNynBY2uvMPcUd8g3k9";
 
-	//The lock used to synchronize the cleanup operation
-	private static Object sSignOutCleanupLock = new Object();
-
 	private Traveler mPrimaryTraveler;
 	private List<Traveler> mAssociatedTravelers = new ArrayList<Traveler>();
 
 	private List<StoredCreditCard> mStoredCreditCards = new ArrayList<StoredCreditCard>();
-
-	private boolean mIsFacebookUser;
 
 	private static final String[] ADDRESS_LINE_KEYS = new String[] { "firstAddressLine", "secondAddressLine" };
 
@@ -63,10 +58,6 @@ public class User implements JSONable {
 
 	public User(Context context) {
 		load(context);
-	}
-
-	public User(JSONObject obj) {
-		this.fromJson(obj);
 	}
 
 	public void setPrimaryTraveler(Traveler traveler) {
@@ -81,10 +72,6 @@ public class User implements JSONable {
 		mStoredCreditCards.add(cc);
 	}
 
-	public boolean hasStoredCreditCards() {
-		return mStoredCreditCards.size() > 0;
-	}
-
 	public List<StoredCreditCard> getStoredCreditCards() {
 		return mStoredCreditCards;
 	}
@@ -97,30 +84,8 @@ public class User implements JSONable {
 		return mAssociatedTravelers;
 	}
 
-	public boolean isFacebookUser() {
-		return mIsFacebookUser;
-	}
-
-	public void setIsFacebookUser(boolean isFacebookUser) {
-		mIsFacebookUser = isFacebookUser;
-	}
-
 	public boolean isRewardsUser() {
-		if (mPrimaryTraveler != null) {
-			return !TextUtils.isEmpty(mPrimaryTraveler.getLoyaltyMembershipNumber());
-		}
-		return false;
-	}
-
-	/**
-	 * Returns true if this user is an Elite Plus Member. Used for VIP badges,
-	 * special dial in phone numbers, etc.
-	 * @param context
-	 * @return
-	 */
-	public boolean isElitePlus() {
-		return this.getPrimaryTraveler() != null
-				&& this.getPrimaryTraveler().getIsElitePlusMember();
+		return mPrimaryTraveler != null && mPrimaryTraveler.isLoyaltyMember();
 	}
 
 	public String getTuidString() {
@@ -214,45 +179,7 @@ public class User implements JSONable {
 		performSignOutCleanupActions(context);
 		logger.addSplit("performSignOutCleanupActions");
 
-		logger.dumpToLog();
-	}
-
-	/**
-	 * Log out the current user and clean up user related state.
-	 * 
-	 * After this method returns User.isLoggedIn will return false,
-	 * however cleanup happens in a background thread and may still
-	 * be working.
-	 * 
-	 * SignOutCompleteListener will fire on completion on the UI thread.
-	 * 
-	 * @param context
-	 */
-	public static void signOutAsync(final Context context, final SignOutCompleteListener listener) {
-		TimingLogger logger = new TimingLogger("ExpediaBookings", "User.signOut");
-
-		//Do the actual sign out
-		performSignOutCriticalActions(context);
-		logger.addSplit("performSignOutCriticalActions");
-
-		AsyncTask<Object, Object, Object> cleanUpTask = new AsyncTask<Object, Object, Object>() {
-
-			@Override
-			protected Object doInBackground(Object... arg0) {
-				performSignOutCleanupActions(context);
-				return null;
-			}
-
-			@Override
-			protected void onPostExecute(Object object) {
-				if (listener != null) {
-					listener.onSignOutComplete();
-				}
-			}
-
-		};
-		cleanUpTask.execute();
-		logger.addSplit("performSignOutCleanupActions thread initialized and started");
+		AdTracker.trackLogout();
 
 		logger.dumpToLog();
 	}
@@ -297,68 +224,63 @@ public class User implements JSONable {
 	 */
 	private static void performSignOutCleanupActions(Context context) {
 		TimingLogger logger = new TimingLogger("ExpediaBookings", "User.performSignOutCleanupActions");
-		// NOTE: Synchronization could be improved here. We are relying on the sign in flow taking longer than it takes to call this method.
-		synchronized (sSignOutCleanupLock) {
-			logger.addSplit("sSignOutCleanupLock aquired");
 
-			//Itinerary Manager
-			ItineraryManager.getInstance().clear();
-			logger.addSplit("ItineraryManager.getInstance().clear();");
+		//Itinerary Manager
+		ItineraryManager.getInstance().clear();
+		logger.addSplit("ItineraryManager.getInstance().clear();");
 
-			//Delete all Notifications
-			Notification.deleteAll(context);
-			logger.addSplit("Notification.deleteAll(context);");
+		//Delete all Notifications
+		Notification.deleteAll(context);
+		logger.addSplit("Notification.deleteAll(context);");
 
-			WorkingBillingInfoManager biManager = new WorkingBillingInfoManager();
-			biManager.deleteWorkingBillingInfoFile(context);
-
-			WorkingTravelerManager travManager = new WorkingTravelerManager();
-			travManager.deleteWorkingTravelerFile(context);
-
-			//If the data has already been populated in memory, we should clear that....
-			if (Db.getWorkingBillingInfoManager() != null) {
-				Db.getWorkingBillingInfoManager().clearWorkingBillingInfo(context);
-			}
-
-			if (Db.getWorkingTravelerManager() != null) {
-				Db.getWorkingTravelerManager().clearWorkingTraveler(context);
-			}
-
-			Db.loadBillingInfo(context);
-			Db.getBillingInfo().delete(context);
-			Db.getTravelers().clear();
-			logger.addSplit("User billing and traveler info deletion.");
+		//If the data has already been populated in memory, we should clear that....
+		if (Db.getWorkingBillingInfoManager() != null) {
+			Db.getWorkingBillingInfoManager().clearWorkingBillingInfo();
 		}
+
+		if (Db.getWorkingTravelerManager() != null) {
+			Db.getWorkingTravelerManager().clearWorkingTraveler();
+		}
+
+		// Trip Bucket
+		if (Db.getTripBucket() != null && Db.getTripBucket().isUserAirAttachQualified()) {
+			Db.getTripBucket().clearAirAttach();
+			Db.saveTripBucket(context);
+		}
+
+		Db.resetBillingInfo();
+		Db.getTravelers().clear();
+		logger.addSplit("User billing and traveler info deletion.");
 		logger.dumpToLog();
 	}
 
 	/**
 	 * This method signs us into an expedia account. It uses the AccountManager and ensures
 	 * that all of our User data is set up correctly. This will open the login GUI (if need be).
-	 * 
-	 * @param context - Must be an activity
+	 *
+	 * @param activityContext - Must be an activity
 	 * @param options - Typically this should be a Bundle instance generated by LoginActivity.createArgumentsBundle(...);
 	 */
-	public static void signIn(android.app.Activity context, Bundle options) {
-		if (AndroidUtils.isRestrictedProfile(context)) {
-			Intent restrictedProfileIntent = RestrictedProfileActivity.createIntent(context);
-			context.startActivity(restrictedProfileIntent);
+	public static void signIn(Activity activityContext, Bundle options) {
+		if (AndroidUtils.isRestrictedProfile(activityContext)) {
+			Intent restrictedProfileIntent = RestrictedProfileActivity.createIntent(activityContext);
+			activityContext.startActivity(restrictedProfileIntent);
 		}
 		else {
-			AccountManager manager = AccountManager.get(context);
-			String accountType = context.getString(R.string.expedia_account_type_identifier);
-			String tokenType = context.getString(R.string.expedia_account_token_type_tuid_identifier);
+			AccountManager manager = AccountManager.get(activityContext);
+			String accountType = activityContext.getString(R.string.expedia_account_type_identifier);
+			String tokenType = activityContext.getString(R.string.expedia_account_token_type_tuid_identifier);
 			Account[] accounts = manager.getAccountsByType(accountType);
 			if (accounts == null || accounts.length == 0) {
-				manager.addAccount(accountType, tokenType, null, options, context, null, null);
+				manager.addAccount(accountType, tokenType, null, options, activityContext, null, null);
 			}
 			else if (accounts != null && accounts.length >= 1) {
 				Account activeAccount = accounts[0];
 				if (activeAccount != null) {
-					manager.getAuthToken(activeAccount, accountType, options, context, null, null);
+					manager.getAuthToken(activeAccount, accountType, options, activityContext, null, null);
 				}
 				else {
-					manager.addAccount(accountType, tokenType, null, options, context, null, null);
+					manager.addAccount(accountType, tokenType, null, options, activityContext, null, null);
 				}
 			}
 		}
@@ -396,7 +318,7 @@ public class User implements JSONable {
 	 * still return false, and user data will not be allowed to sync.
 	 */
 	public static void addUserToAccountManager(Context context, User usr) {
-		if (context != null && usr != null) {
+		if (context != null && usr != null && Strings.isNotEmpty(usr.getPrimaryTraveler().getEmail())) {
 			//Add the account to the account manager
 			String accountType = context.getString(R.string.expedia_account_type_identifier);
 			String tokenType = context.getString(R.string.expedia_account_token_type_tuid_identifier);
@@ -418,35 +340,6 @@ public class User implements JSONable {
 			//Set data syncing enabled/disabled
 			String contentAuthority = context.getString(R.string.authority_account_sync);
 			ContentResolver.setSyncAutomatically(account, contentAuthority, false);
-		}
-	}
-
-	/**
-	 * Sync account data in the background. This will only work if the user is logged in.
-	 * 
-	 * @param context
-	 * @param usr
-	 */
-	public static void syncAcocuntData(Context context) {
-		if (context != null && User.isLoggedIn(context)) {
-			String accountType = context.getString(R.string.expedia_account_type_identifier);
-			String contentAuthority = context.getString(R.string.authority_account_sync);
-
-			AccountManager manager = AccountManager.get(context);
-			Account[] accounts = manager.getAccountsByType(accountType);
-			if (accounts.length > 0) {
-				Account account = accounts[0];
-
-				//We need to make the account syncable to sync data...
-				ContentResolver.setIsSyncable(account, contentAuthority, 1);
-
-				//This is required to do a manual sync
-				Bundle settingsBundle = new Bundle();
-				settingsBundle.putBoolean(ContentResolver.SYNC_EXTRAS_MANUAL, true);
-
-				Log.d("User.syncAccountData - Calling ContentResolver.requestSync for our account");
-				ContentResolver.requestSync(account, contentAuthority, settingsBundle);
-			}
 		}
 	}
 
@@ -504,7 +397,7 @@ public class User implements JSONable {
 	 * @param context the context
 	 * @return true if successfully deleted
 	 */
-	public static boolean delete(Context context) {
+	private static boolean delete(Context context) {
 		boolean success = true;
 
 		// Backwards compatible delete
@@ -531,7 +424,6 @@ public class User implements JSONable {
 
 		try {
 			obj.put("version", VERSION);
-			obj.put("isFacebookUser", mIsFacebookUser);
 			JSONUtils.putJSONable(obj, "primaryTraveler", mPrimaryTraveler);
 			JSONUtils.putJSONableList(obj, "storedCreditCards", mStoredCreditCards);
 			JSONUtils.putJSONableList(obj, "associatedTravelers", mAssociatedTravelers);
@@ -553,7 +445,6 @@ public class User implements JSONable {
 
 			mPrimaryTraveler.setTuid(obj.optLong("tuid"));
 			mPrimaryTraveler.setExpediaUserId(obj.optLong("expUserId"));
-			mPrimaryTraveler.setLoyaltyMembershipNumber(obj.optString("loyaltyMembershipNumber", null));
 
 			mPrimaryTraveler.setFirstName(obj.optString("firstName", null));
 			mPrimaryTraveler.setMiddleName(obj.optString("middleName", null));
@@ -598,8 +489,6 @@ public class User implements JSONable {
 
 		mAssociatedTravelers = JSONUtils.getJSONableList(obj, "associatedTravelers", Traveler.class);
 
-		mIsFacebookUser = obj.optBoolean("isFacebookUser");
-
 		return true;
 	}
 
@@ -615,21 +504,22 @@ public class User implements JSONable {
 	}
 
 	/**
-	 * An interface for notifying us when the SignOutAsync task is complete.
-	 */
-	public interface SignOutCompleteListener {
-		public void onSignOutComplete();
-	}
-
-	/**
-	 * Returns true if the currently logged in user is an Elite Plus Member. Used for VIP badges,
-	 * special dial in phone numbers, etc.
+	 * Returns the logged in user's LoyaltyMembershipTier. If the user is not logged in, this
+	 * will return LoyaltyMembershipTier.NONE
 	 * @param context
 	 * @return
 	 */
-	public static boolean isElitePlus(Context context) {
-		return isLoggedIn(context)
-				&& Db.getUser() != null
-				&& Db.getUser().isElitePlus();
+	public static Traveler.LoyaltyMembershipTier getLoggedInLoyaltyMembershipTier(Context context) {
+		if (User.isLoggedIn(context)) {
+
+			if (Db.getUser() == null) {
+				Db.loadUser(context);
+			}
+			if (Db.getUser().getPrimaryTraveler() != null) {
+				return Db.getUser().getPrimaryTraveler().getLoyaltyMembershipTier();
+			}
+		}
+
+		return Traveler.LoyaltyMembershipTier.NONE;
 	}
 }

@@ -32,8 +32,7 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 	private float mCompactHeaderHeight;
 	private ColorDrawable mDominantColorBackground;
 
-	private View mHotelHeaderImage;
-	private View mSaleTextView;
+	private View mHotelHeaderImageFrame;
 	private View mVipBadge;
 	private View mStarRatingContainer;
 	private View mGradientMask;
@@ -90,8 +89,7 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 	public void onFinishInflate() {
 		super.onFinishInflate();
 
-		mHotelHeaderImage = Ui.findView(this, R.id.hotel_header_image);
-		mSaleTextView = Ui.findView(this, R.id.sale_text_view);
+		mHotelHeaderImageFrame = Ui.findView(this, R.id.hotel_header_image_touch_target);
 		mVipBadge = Ui.findView(this, R.id.vip_badge);
 		mStarRatingContainer = Ui.findView(this, R.id.star_rating_container);
 		mHotelName = Ui.findView(this, R.id.hotel_header_hotel_name);
@@ -127,7 +125,7 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 
 		mDominantColorBackground.setAlpha((int) (extraPct * 229f));
 
-		mHotelHeaderImage.setTranslationY(extra / 2);
+		mHotelHeaderImageFrame.setTranslationY(extra / 2);
 
 		mGradientMask.setAlpha(1 - extraPct);
 
@@ -135,9 +133,6 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 		mHotelName.setTranslationY(extraPct * nameOffset);
 
 		mStarRatingContainer.setAlpha(1 - extraPct);
-
-		mSaleTextView.setTranslationY(extra);
-		mSaleTextView.setAlpha(1 - extraPct);
 
 		mVipBadge.setTranslationY(extra);
 		mVipBadge.setAlpha(1 - extraPct);
@@ -158,5 +153,5 @@ public class HotelDetailsStickyHeaderLayout extends StickyRelativeLayout {
 		mDominantColorBackground.setAlpha(alpha);
 		mDominantColorBackground.invalidateSelf();
 	}
-
+	
 }

@@ -1,10 +1,5 @@
 {
-    "Hotel Count": "1", 
-    "Mock Proxy IP": "172.17.249.23", 
-    "Mock Proxy Port": "3000", 
-    "Mock Server IP": "172.17.249.246", 
-    "Mock Server Port": "3000", 
-    "Rotations": "false", 
-    "Screenshots": "false", 
-    "Server": "Integration"
+    "country": "US",
+    "language": "en",
+    "server": "Production"
 }

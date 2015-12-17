@@ -8,8 +8,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightSegmentAttributes;
@@ -34,8 +32,6 @@ import com.squareup.okhttp.Response;
  */
 public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearchResponse> {
 
-	private Context mContext;
-
 	private FlightSearchResponse mResponse;
 
 	private Map<String, FlightLeg> mLegs;
@@ -44,10 +40,6 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 	// when it's not an operating airline.
 	private Map<String, String> mAirlineNames;
 	private Map<String, String> mOperatingAirlineNames;
-
-	public FlightSearchResponseHandler(Context context) {
-		mContext = context;
-	}
 
 	@Override
 	public FlightSearchResponse handleResponse(Response response) throws IOException {
@@ -69,7 +61,7 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 		// Handle errors
 		try {
-			mResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.FLIGHT_SEARCH, response));
+			mResponse.addErrors(ParserUtils.parseErrors(ApiMethod.FLIGHT_SEARCH, response));
 			if (!mResponse.isSuccess()) {
 				return mResponse;
 			}
@@ -174,14 +166,16 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 			}
 
 			// Parse departure
-			Waypoint departure = segment.mOrigin = new Waypoint(Waypoint.ACTION_DEPARTURE);
+			segment.setOriginWaypoint(new Waypoint(Waypoint.ACTION_DEPARTURE));
+			Waypoint departure = segment.getOriginWaypoint();
 			departure.mAirportCode = segmentJson.optString("departureAirportCode");
 			departure.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN,
 				segmentJson.optLong("departureTimeEpochSeconds") * 1000,
 				segmentJson.optInt("departureTimeZoneOffsetSeconds") * 1000);
 
 			// Parse arrival
-			Waypoint arrival = segment.mDestination = new Waypoint(Waypoint.ACTION_ARRIVAL);
+			segment.setDestinationWaypoint(new Waypoint(Waypoint.ACTION_ARRIVAL));
+			Waypoint arrival = segment.getDestinationWaypoint();
 			arrival.mAirportCode = segmentJson.optString("arrivalAirportCode");
 			arrival.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_UNKNOWN,
 				segmentJson.optLong("arrivalTimeEpochSeconds") * 1000,
@@ -229,6 +223,8 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 			trip.setBaseFare(ParserUtils.createMoney(tripJson.optString("baseFare"), currencyCode));
 			trip.setTotalFare(ParserUtils.createMoney(tripJson.optString("totalFare"), currencyCode));
+			String avgTotalFare = tripJson.optJSONObject("averageTotalPricePerTicket").optString("amount");
+			trip.setAverageTotalFare(ParserUtils.createMoney(avgTotalFare, currencyCode));
 			trip.setTaxes(ParserUtils.createMoney(tripJson.optString("taxes"), currencyCode));
 			trip.setFees(ParserUtils.createMoney(tripJson.optString("fees"), currencyCode));
 

@@ -35,12 +35,13 @@ import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
+import com.expedia.bookings.widget.itin.ItinAirAttachCard;
 import com.expedia.bookings.widget.itin.ItinButtonCard;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 
 @SuppressWarnings("rawtypes")
 public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener, OnItinCardClickListener {
@@ -278,7 +279,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			childEvent.offsetLocation(0, -child.getTop());
 
 			if (child instanceof ItinButtonCard
-					|| (child instanceof ItinCard && ((ItinCard) child).isTouchOnSummaryButtons(childEvent))) {
+				|| (child instanceof ItinAirAttachCard
+				&& (((ItinAirAttachCard) child).isTouchOnAirAttachButton(childEvent)
+				|| ((ItinAirAttachCard) child).isTouchOnDismissButton(childEvent)))
+				|| (child instanceof ItinCard && ((ItinCard) child).isTouchOnSummaryButtons(childEvent))) {
 				isChildConsumedTouch = true;
 			}
 		}
@@ -707,7 +711,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
 				public void onGlobalLayout() {
 					if (mFooterView.getHeight() == getHeight() && mFooterView.getHasDrawn()) {
-						getViewTreeObserver().removeGlobalOnLayoutListener(this);
+						getViewTreeObserver().removeOnGlobalLayoutListener(this);
 						synchronizedShowDetails(position, animate);
 					}
 				}
@@ -797,6 +801,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		ResizeAnimator.setHeight(mDetailsCardView, expandedHeight);
 		onScroll(ItinListView.this, mDetailPosition, getChildCount(), mAdapter.getCount());
 		trackOmnitureItinExpanded(mDetailsCardView);
+		AdTracker.trackViewItinExpanded();
 	}
 
 	private void registerDataSetObserver() {
@@ -860,6 +865,9 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		ItinCardData data = mAdapter.getItem(position);
 		if (view instanceof ItinButtonCard) {
 			// Do nothing
+		}
+		else if (view instanceof ItinAirAttachCard) {
+			return;
 		}
 		else if (data.hasDetailData()) {
 			showDetails(position, true);

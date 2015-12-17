@@ -1,0 +1,14 @@
+{
+  "errors": [
+    {
+      "errorCode": "INVALID_INPUT",
+      "errorInfo": {
+        "summary": "ProductKey has expired",
+        "field": "productKey"
+      },
+      "diagnosticId": 358317182,
+      "diagnosticFullText": "com.expedia.www.domain.services.hotel.exception.LodgingInventoryException"
+    }
+  ],
+  "activityId": "86581b48-5173-4c40-9121-f421039bf9a1"
+}

@@ -1,35 +1,42 @@
 package com.expedia.bookings.fragment;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoTarget;
+import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.data.LaunchLocation;
 import com.expedia.bookings.enums.LaunchState;
-import com.expedia.bookings.fragment.base.Fragment;
 import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.ContentClickableRelativeLayout;
 import com.expedia.bookings.widget.RoundImageView;
 import com.squareup.otto.Subscribe;
+import com.squareup.picasso.Picasso;
 
 public class TabletLaunchPinDetailFragment extends Fragment {
-	private ViewGroup mRootC;
+	private ContentClickableRelativeLayout mRootC;
 	private RoundImageView mRoundImage;
 	private View mRoundImageTarget;
 	private View mTextLayout;
 
 	private Rect mPinOrigin;
 	private Rect mPinDest;
+
+	private LaunchLocation mLaunchLocation;
 
 	public static TabletLaunchPinDetailFragment newInstance() {
 		TabletLaunchPinDetailFragment frag = new TabletLaunchPinDetailFragment();
@@ -44,7 +51,10 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 		mRoundImageTarget = Ui.findView(mRootC, R.id.round_image_target);
 		mTextLayout = Ui.findView(mRootC, R.id.text_layout);
 
-		((TabletLaunchControllerFragment) getParentFragment()).registerStateListener(mDetailsStateListener, false);
+		mRootC.setOutsideContentClickedListener(mDismissListener);
+
+		TabletLaunchControllerFragment parent = (TabletLaunchControllerFragment) getParentFragment();
+		parent.registerStateListener(mDetailsStateListener, false);
 
 		return mRootC;
 	}
@@ -66,31 +76,39 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 		onLaunchMapPinClicked(new Events.LaunchMapPinClicked(event.selectedLocation));
 	}
 
+	private PicassoTarget callback = new PicassoTarget() {
+
+		@Override
+		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+			super.onBitmapLoaded(bitmap, from);
+			mRoundImage.setImageBitmap(bitmap);
+		}
+
+		@Override
+		public void onBitmapFailed(Drawable errorDrawable) {
+			super.onBitmapFailed(errorDrawable);
+			mRoundImage.setImageDrawable(errorDrawable);
+		}
+
+		@Override
+		public void onPrepareLoad(Drawable placeHolderDrawable) {
+			super.onPrepareLoad(placeHolderDrawable);
+			mRoundImage.setImageDrawable(placeHolderDrawable);
+		}
+	};
+
 	@Subscribe
 	public void onLaunchMapPinClicked(final Events.LaunchMapPinClicked event) {
 		if (event.launchLocation != null) {
-			int width = getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
-			final String imageUrl = new Akeakamai(event.launchLocation.getImageUrl()) //
-				.downsize(Akeakamai.pixels(width), Akeakamai.preserve()) //
-				.build();
+			clearOldImageDownloadCallback();
+			mLaunchLocation = event.launchLocation;
+			final String imageUrl = getResizedImageUrl(getActivity(), event.launchLocation);
 
-			Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(imageUrl, true /*checkDisk*/);
-			mRoundImage.setImageBitmap(bitmap);
-
-			if (bitmap == null) {
-				L2ImageCache.sGeneralPurpose.loadImage(imageUrl, new L2ImageCache.OnBitmapLoaded() {
-					@Override
-					public void onBitmapLoaded(String url, Bitmap bitmap) {
-						mRoundImage.setImageBitmap(bitmap);
-					}
-
-					@Override
-					public void onBitmapLoadFailed(String url) {
-						Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(getResources(), R.drawable.launch_circle_placeholder, false);
-						mRoundImage.setImageBitmap(bitmap);
-					}
-				});
-			}
+			new PicassoHelper.Builder(mRoundImage)
+				.setError(Ui.obtainThemeResID(getActivity(), R.attr.skin_launchCirclePlaceholderDrawable))
+				.setPlaceholder(Ui.obtainThemeResID(getActivity(), R.attr.skin_launchCirclePlaceholderDrawable))
+				.setTarget(callback).build().load(
+				imageUrl);
 
 			TextView textTitle = Ui.findView(mRootC, R.id.text_title);
 			textTitle.setText(event.launchLocation.title);
@@ -104,10 +122,21 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 				public void onClick(View view) {
 					boolean fromLastSearch = event.launchLocation.id.equals("last-search");
 					event.launchLocation.location.setImageCode(event.launchLocation.imageCode);
-					Events.post(new Events.SearchSuggestionSelected(event.launchLocation.location, null, fromLastSearch));
+					Events.post(new Events.SearchSuggestionSelected(event.launchLocation.location,  fromLastSearch));
 				}
 			});
 		}
+	}
+
+	private void clearOldImageDownloadCallback() {
+	}
+
+	public static String getResizedImageUrl(Context context, LaunchLocation launchLocation) {
+		String url = launchLocation.getImageUrl();
+		int width = context.getResources().getDimensionPixelSize(R.dimen.launch_pin_detail_size);
+		return new Akeakamai(url) //
+			.downsize(Akeakamai.pixels(width), Akeakamai.preserve()) //
+			.build();
 	}
 
 	public void setOriginRect(Rect origin) {
@@ -177,4 +206,14 @@ public class TabletLaunchPinDetailFragment extends Fragment {
 			return (end - start) * percentage + start;
 		}
 	});
+
+	private View.OnClickListener mDismissListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			TabletLaunchControllerFragment parent = (TabletLaunchControllerFragment) getParentFragment();
+			parent.setLaunchState(LaunchState.OVERVIEW, true);
+		}
+	};
+
+
 }

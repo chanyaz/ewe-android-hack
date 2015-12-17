@@ -38,15 +38,12 @@ public class FlightAdditionalFeesDialogFragment extends DialogFragment {
 		Bundle args = getArguments();
 
 		final int numUrls = 2;
-		final int[] itemNamesResIds = new int[numUrls];
 		final String[] itemNames = new String[numUrls];
 		final String[] itemUrls = new String[numUrls];
 
-		itemNamesResIds[0] = R.string.baggage_fees;
 		itemNames[0] = getString(R.string.baggage_fees);
 		itemUrls[0] = args.getString(ARG_BAGGAGE_FEES_URL);
 
-		itemNamesResIds[1] = R.string.payment_processing_fees;
 		itemNames[1] = getString(R.string.payment_processing_fees);
 		itemUrls[1] = args.getString(ARG_OB_FEES_URL);
 

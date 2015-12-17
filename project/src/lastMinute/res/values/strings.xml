@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <!-- Content description for action: Press to log in with your lastminute.com.au account -->
+    <string name="cd_checkout_log_in_with_lm">Press to log in to your lastminute.com.au account</string>
+
+    <string name="lm_info_url">http://www.lastminute.com.au/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_lm">Are you sure you want to log out of your lastminute.com.au account?</string>
+
+    <!-- Expedia booking fee -->
+    <string name="lm_booking_fee">lastminute.com.au Booking Fee</string>
+
+
+
+
+
+
+
+    <!-- Phone Fragment Header-->
+    <string name="nav_accommodation">Accommodation</string>
+    
+    <!-- Shop travel label -->
+    <string name="shop_travel">Shop travel</string>
+
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_lm_email_subject">lastminute.com.au Reservations Support</string>
+
+
+
+    <!--A message stating this hotel is Not currently available on lastminute.com.au -->
+    <string name="not_currently_available_lm">Not currently available from lastminute.com.au</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from lastminute.com.au Nov. 3-4" -->
+    <string name="not_currently_available_lm_TEMPLATE">Not available from lastminute.com.au %s</string>
+
+    <!-- Missing strings for lastminute.com.au from Expedia-->
+    <string name="tell_a_friend_body_lm">Hi there,\n\nCheck out lastminute.com.au Hotels for iPhone and Android phones. It\'s FREE and you can easily search and book rooms from over 140,000 hotels all over the world. It\'s the easiest way to book hotel rooms on your phone.</string>
+    <string name="tell_a_friend_subject_lm">lastminute.com.au Hotels</string>
+    <string name="loading_lm_account">Loading lastminute.com.au Account</string>
+    <string name="lm_password_hint">lastminute.com.au Password</string>
+    <string name="dialog_message_launch_lm_mobile_site">Launch the lastminute.com.au mobile website?</string>
+    <!-- lastminute.com.au App download link -->
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">Total Due to lastminute.com.au Today:</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">We need you to create a new, international sign in for all lastminute.com.au sites.&lt;br&gt;Please reset your password using the ‘Forgot your password?’ link below.</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today_lm">Due to lastminute.com.au Today</string>
+</resources>

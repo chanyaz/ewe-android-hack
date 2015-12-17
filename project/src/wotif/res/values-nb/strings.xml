@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="call_wotif_customer_support">Ring Wotifs kundeservice</string>
+
+    <!-- Log in with Wotif -->
+    <string name="Log_in_with_Wotif">Logg på med Wotif</string>
+    <!-- Label for signin screen -->
+    <string name="wotif_account">Wotif-konto</string>
+    <!-- Content description for action: Press to log in with your Wotif account -->
+    <string name="cd_checkout_log_in_with_wotif">Trykk for å logge på din Wotif-konto</string>
+
+    <string name="wotif_website">Wotifs nettsted</string>
+    <string name="wotif_app_support">Wotifs appstøtte</string>
+    <string name="wotif_copyright_TEMPLATE">© Copyright 2012–%1$s Wotif\nMed enerett.</string>
+    <string name="wotif_info_url">https://www.wotif.com/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_wotif">Er du sikker på at du vil logge av Wotif-kontoen din?</string>
+
+    <!-- Expedia booking fee -->
+    <string name="wotif_booking_fee">Wotifs bestillingsgebyr</string>
+
+    <string name="error_flight_unhandled_wotif_TEMPLATE">Dessverre kan vi ikke behandle din bestilling akkurat nå. Prøv på nytt eller ring Wotifs kundeservice og oppgi dette reiserutenummeret: %s</string>
+    <string name="error_server_wotif">Beklager, vi kunne ikke koble til Wotifs server. Prøv igjen senere.</string>
+
+    <!-- save billing info message -->
+    <string name="save_billing_wotif_info_message">Vil du lagre denne betalingsmetoden på Wotif-kontoen din for å fullføre fremtidige betalinger raskere?</string>
+
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_wotif_message_TEMPLATE">Vil du lagre %1$ss informasjon på Wotif-kontoen din for å fullføre fremtidige betalinger raskere?</string>
+
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE_wotif">Wotif-reiserutenummer: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE_wotif">Wotifs kundeservice: %s</string>
+
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data_wotif">Du er nå logget av Wotif-kontoen din, og alle lagrede fakturerings- og kontaktopplysninger er blitt slettet.</string>
+
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure_wotif">Beklager, vi kunne ikke koble til Wotif. Prøv på nytt.</string>
+
+    <!-- Phone Fragment Header-->
+    <string name="nav_accommodation">Overnatting</string>
+    
+    <!-- Shop travel label -->
+    <string name="shop_travel">Se etter reise</string>
+
+    <!-- Title for different ways to connect to Expedia -->
+    <string name="contact_wotif_via">Kontakt Wotif via...</string>
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_wotif_email_subject">Wotifs bestillingsstøtte</string>
+    <!-- Wotif- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_wotif">Har du spørsmål vedrørende bestillingen, kan du ringe Wotif på %s.</string>
+    <!-- Wotif Itinerary -->
+    <string name="wotif_itinerary">Wotif-reiserutenummer</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Wotif</string>
+
+    <string name="error_flight_no_longer_available_wotif">Beklager, denne flyvningen er ikke lenger tilgjengelig på Wotif.</string>
+
+    <string name="error_flights_no_longer_available_wotif">Beklager, én av flyvningene dine er ikke lenger tilgjengelig på Wotif.</string>
+
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out_wotif">Beklager, dette hotellet er ikke lenger tilgjengelig på Wotif.</string>
+    <!--A message stating this hotel is Not currently available on Wotif -->
+    <string name="not_currently_available_wotif">Ikke tilgjengelig på Wotif for øyeblikket</string>
+    <!-- A message stating this hotel is sold out on Wotif -->
+    <string name="sold_out_on_wotif">Utsolgt på Wotif</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Wotif Nov. 3-4" -->
+    <string name="not_currently_available_wotif_TEMPLATE">Ikke tilgjengelig på Wotif for %s</string>
+
+    <!-- Missing strings for Wotif from Expedia-->
+    <string name="tell_a_friend_body_wotif">Hei!\n\nPrøv Wotif Hotels for iPhone og Android-telefoner. Det er gratis, og du kan på en enkel måte bestille rom på flere enn 140 000 hotell over hele verden. Det er den enkleste måten å bestille hoteller på telefonen din.</string>
+    <string name="tell_a_friend_subject_wotif">Wotif Hotels</string>
+    <string name="restricted_profile_login_message_wotif">For å logge på Wotif må du bruke en brukerprofil uten begrensninger på enheten din.</string>
+    <string name="loading_wotif_account">Laster Wotif-konto</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_wotif">Bestillingen var vellykket! Har du behov for en reiserute umiddelbart, kan du ringe Wotifs kundeservice.</string>
+    <string name="wotif_password_hint">Wotif-passord</string>
+    <string name="dialog_message_launch_wotif_mobile_site">Vil du laste inn Wotifs mobilnettsted?</string>
+    <string name="sorry_rooms_sold_out_wotif">Beklager, alle rommene er utsolgt på Wotif.</string>
+    <!-- Wotif App download link -->
+    <string name="share_template_long_ad_wotif">Bestill hotell og fly, eller se og del reiserutene dine. Last ned Wotifs mobilapp i dag, helt gratis.\n%s</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">Totalbeløp som må betales til Wotif i dag:</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">Du må opprette en ny, internasjonal pålogging for alle Wotifs nettsider.&lt;br&gt;Nullstill passordet ditt ved å klikke på "Glemt passordet ditt?" nedenfor.</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today_wotif">Totalbeløp som må betales til Wotif i dag</string>
+    <string name="etp_pay_now_charges_text_wotif">Wotif vil behandle betalingsinformasjonen din.</string>
+</resources>

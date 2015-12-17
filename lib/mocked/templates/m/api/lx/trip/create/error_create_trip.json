@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "errorCode": "UNKNOWN_ERROR",
+      "errorInfo": {
+        "summary": "An unknown or unexpected error occurred."
+      },
+      "diagnosticId": 236123535,
+      "diagnosticFullText": "java.lang.IllegalArgumentException"
+    }
+  ],
+  "activityId": "fa3977fc-8f82-40ff-9030-552d5eef0ada"
+}

@@ -2,92 +2,66 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools">
 
     <style name="Theme.Travelocity" parent="@style/Theme.Expedia">
-        <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_travelocity</item>
-        <item name="HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_travelocity</item>
-        <item name="hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_travelocity_detail_screen</item>
-        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
-        <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
-        <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal_travelocity</item>
-        <item name="bestPriceGuaranteeString">@string/travelocity_best_price_guarantee</item>
-        <item name="costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
-        <item name="flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
-        <item name="costSummaryBookingFeesString">@string/travelocity_booking_fee</item>
-        <item name="actionBarSpinnerBackground">@drawable/ab_spinner_travelocity</item>
-        <item name="actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark_blue_travelocity</item>
-        <item name="actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_blue_travelocity</item>
-        <item name="actionBarButtonTextColor">@color/action_bar_text_blue_travelocity</item>
-        <item name="loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
-        <item name="hotelConfirmationCallActionText">@string/call_travelocity_customer_support</item>
-        <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
-        <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
-        <item name="hotelCheckoutLoginButtonText">@string/Log_in_with_Travelocity</item>
-        <item name="hotelCheckoutLoginLogoDrawable">@drawable/ic_log_in_travelocity</item>
-        <item name="hotelCheckoutLogoutLogoDrawable">@drawable/ic_travelocity_logo</item>
-        <item name="loginWithExpediaTitleText">@string/travelocity_account</item>
-        <item name="loginWithExpediaButtonText">@string/Log_in_with_Travelocity</item>
-        <item name="loginWithExpediaContentDescription">@string/cd_checkout_log_in_with_travelocity</item>
-        <item name="loginButtonColor">@android:color/white</item>
-        <item name="hotelBookButtonColor">@android:color/white</item>
-        <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_tvly</item>
-        <item name="webViewPreferencesActionBarLogo">@drawable/ic_action_bar_travelocity_logo_small</item>
-        <item name="aboutWebsiteString">@string/travelocity_website</item>
-        <item name="aboutAppSupportString">@string/travelocity_app_support</item>
-        <item name="aboutCopyrightString">@string/travelocity_copyright</item>
-        <item name="aboutInfoUrlString">@string/travelocity_info_url</item>
-        <item name="aboutAppNameString">@string/launcher_name</item>
-        <item name="aboutAppLogoDrawable">@drawable/ic_launcher</item>
-        <item name="logoutConfirmationString">@string/logout_confirmation_travelocity</item>
-        <item name="webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_travelocity_logo_small</item>
-        <item name="actionBarBackgroundDrawable">@drawable/bg_action_bar_travelocity</item>
-        <item name="cvvBookButtonTextColor">@android:color/white</item>
-        <item name="flightLoadingMessagePosition">@id/search_progress_flight_tvly</item>
-        <item name="flightUnhandledErrorMessage">@string/error_flight_unhandled_travelocity_TEMPLATE</item>
-        <item name="serverErrorMessageString">@string/error_server_travelocity</item>
-        <item name="savePaymentToAccountString">@string/save_billing_travelocity_info_message</item>
-        <item name="saveTravelerToAccountString">@string/save_traveler_travelocity_message_TEMPLATE</item>
-        <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_tvly_white_logo_small</item>
-        <item name="bgFindItineraryButton">@drawable/btn_find_tvly</item>
+        <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_travelocity</item>
+        <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_travelocity</item>
+        <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_travelocity_detail_screen</item>
+        <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
+        <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
+        <item name="skin_hotelListMapMarkerDrawable">@drawable/map_pin_normal_travelocity</item>
+        <item name="skin_bestPriceGuaranteeString">@string/travelocity_best_price_guarantee</item>
+        <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
+        <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_travelocity</item>
+        <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner_travelocity</item>
+        <item name="skin_actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark_blue_travelocity</item>
+        <item name="skin_actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_blue_travelocity</item>
+        <item name="skin_actionBarButtonTextColor">@color/action_bar_text_blue_travelocity</item>
+        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_travelocity</item>
+        <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
+        <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_tvly_logo_small</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_travelocity_logo</item>
+        <item name="skin_loginButtonColor">@android:color/white</item>
+        <item name="skin_hotelBookButtonColor">@android:color/white</item>
+        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_tvly</item>
+        <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_action_bar_travelocity_logo_small</item>
+        <item name="skin_aboutInfoUrlString">@string/travelocity_info_url</item>
+        <item name="skin_aboutAppNameString">@string/launcher_name</item>
+        <item name="skin_aboutAppLogoDrawable">@drawable/ic_launcher</item>
+        <item name="skin_webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_travelocity_logo_small</item>
+        <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar_travelocity</item>
+        <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
+        <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_tvly_white_logo_small</item>
+        <item name="skin_bgFindItineraryButton">@drawable/btn_find_tvly</item>
 
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_hotels_travelocity</item>
-        <item name="hotelwebViewActionBarLogo">@drawable/ic_logo_hotels_travelocity</item>
-        <item name="hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_travelocity</item>
-        <item name="couponSuccessMessageColor">@color/coupon_success_message_color_tvly</item>
+        <item name="skin_hotelWebViewActionBarLogo">@drawable/ic_logo_hotels_travelocity</item>
+        <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_travelocity</item>
+        <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color_tvly</item>
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_travelocity</item>
-        <item name="infoContactUsString">@string/contact_travelocity_via</item>
-        <item name="infoContactEmailSubjectString">@string/contact_travelocity_email_subject</item>
-        <item name="emailUserNameString">@string/email_user_name_tvly</item>
-        <item name="travellerInfoPageLogo">@drawable/ic_tvly_traveller_logo</item>
-        <item name="travellerInfoPageLogoDisabled">@drawable/ic_tvly_white_logo_small</item>
-        <item name="singleFlightNotAvailableError">@string/error_flight_no_longer_available_tvly</item>
-        <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_tvly</item>
-        <item name="clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data_tvly</item>
-        <item name="hotelSearchResultNotAvailale">@string/not_currently_available_tvly</item>
-        <item name="hotelSearchResultSoldOut">@string/sold_out_on_tvly</item>
-        <item name="hotelSearchResultTEMPLATE">@string/not_currently_available_tvly_TEMPLATE</item>
-        <item name="userRatingBarDrawable">@drawable/ratingbar_userreview_blue</item>
-        <item name="clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
-        <item name="addToCalenderMessage">@string/contact_phone_template_tvly</item>
-        <item name="sorryRoomsSoldOut">@string/sorry_rooms_sold_out_tvly</item>
-        <item name="passwordHint">@string/tvly_password_hint</item>
-        <item name="loadingAccount">@string/loading_tvly_account</item>
-        <item name="restrictedProfileLoginMessage">@string/restricted_profile_login_message_tvly</item>
-        <item name="tellAFriendSubject">@string/tell_a_friend_subject_tvly</item>
-        <item name="tellAFriendBody">@string/tell_a_friend_body_tvly</item>
-        <item name="dialogMessageLaunchMobileSite">@string/dialog_message_launch_tvly_mobile_site</item>
-        <item name="calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_tvly</item>
-        <item name="calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_tvly</item>
-        <item name="sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_tvly</item>
+        <item name="skin_travellerInfoPageLogo">@drawable/ic_tvly_traveller_logo</item>
+        <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_tvly_white_logo_small</item>
+        <item name="skin_cvvDivDrawable">@drawable/div_cvv_tvly</item>
+        <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error_tvly</item>
+        <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_tvly</item>
+        <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_log_in_travelocity</item>
+        <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_tvly</item>
+        <item name="skin_tablet_pin_detail_image_size">@dimen/launch_pin_detail_size_travelocity</item>
+        <item name="skin_tablet_ab_launch_text1_base">@string/brand_name</item>
+        <item name="skin_tablet_ab_launch_text2_pin_detail">@string/Destination</item>
+        <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen_tvly</item>
+        <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_travelocity</item>
+        <item name="skin_menuAboutWebViewActivity">@menu/menu_webview</item>
+        <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_travelocity_logo_small</item>
+        <item name="skin_flightRulesActionBarLogo">@drawable/ic_logo_flights_travelocity</item>
+        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_action_bar_travelocity_logo_small</item>
+        <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights_travelocity</item>
+        <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
+        <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_signin_travelocity</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Travelocity">
-        <item name="airPickerBackground">@android:color/white</item>
-        <item name="airPickerHeaderBackground">@android:color/white</item>
-        <item name="airPickerTextColor">@android:color/black</item>
-        <item name="airPickerMessageTextColor">@android:color/black</item>
-        <item name="airPickerActionTextColor">@android:color/black</item>
-        <item name="rowDividerBackground">@android:color/black</item>
-        <item name="rowBackground">@android:color/white</item>
-        <item name="rowHeaderBackground">@android:color/white</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_flights_travelocity</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/FlightActionBarTravelocity</item>
@@ -96,41 +70,45 @@
         <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone.Flights</item>
         <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoComplete</item>
-        <item name="travelerLabelOnCheckout">@string/Add_Traveler</item>
-        <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
-        <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
-        <item name="flightCheckoutAccountLabel">@string/travelocity_account</item>
+        <item name="skin_travelerLabelOnCheckout">@string/Add_Traveler</item>
+        <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
+        <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
+        <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color</item>
     </style>
 
     <!-- Override the phone theme -->
     <style name="Theme.Phone" parent="@style/Theme.Travelocity">
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.Travelocity</item>
+        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabTravelocityStyle</item>
     </style>
 
-    <style name="LaunchTheme" parent="@android:style/Theme.Holo">
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_travelocity_logo</item>
-        <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.Travelocity</item>
-        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabTravelocityStyle</item>
+    <style name="LaunchTheme" parent="Theme.AppCompat">
+        <item name="android:logo">@drawable/ic_ab_travelocity_logo</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
         <!-- PopupMenu -->
-        <item name="logoutConfirmationString">@string/logout_confirmation_travelocity</item>
-        <item name="itinActivityPlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_activities</item>
-        <item name="itinCarPlaceholderDrawable">@drawable/default_cars_travelocity_background</item>
-        <item name="itinCruisePlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_cruises</item>
-        <item name="itinHotelPlaceholderDrawable">@drawable/placeholder_lg_travelocity</item>
-        <item name="itinFlightPlaceholderDrawable">@drawable/bg_itin_travelocity_placeholder_flight</item>
-        <item name="itinDefaultPlaceholderDrawable">@drawable/bg_itin_travelocity_fallback_activity</item>
-        <item name="itinCardTitleBackground">@drawable/bg_itin_card_title_travelocity</item>
-        <item name="itinCardBackground">@drawable/bg_itin_card_tvly</item>
-        <item name="itinFlightsTripLineColor">@color/itin_flight_line_color_tvly</item>
-        <item name="itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach_travelocity</item>
-        <item name="itinDismissListSelectorDrawable">@drawable/list_selector_travelocity</item>
-        <item name="candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_tvly</item>
-        <item name="addToCalenderMessage">@string/contact_phone_template_tvly</item>
-        <item name="calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE_tvly</item>
-        <item name="calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE_tvly</item>
-        <item name="icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
-        <item name="icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
+        <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_activities</item>
+        <item name="skin_itinCarPlaceholderDrawable">@drawable/default_cars_travelocity_background</item>
+        <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_cruises</item>
+        <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_travelocity</item>
+        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_travelocity_placeholder_flight</item>
+        <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_travelocity_fallback_activity</item>
+        <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title_travelocity</item>
+        <item name="skin_itinCardBackground">@drawable/bg_itin_card_tvly</item>
+        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color_tvly</item>
+        <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach_travelocity</item>
+        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
+        <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_travelocity</item>
+        <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_tvly</item>
+        <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
+        <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
+        <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
+        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
+        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
+        <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator_tvly</item>
+        <item name="skin_launchActionBarBackgroundColor">@color/launch_actionbar_color_tvly</item>
     </style>
 
     <style name="LaunchActionBarTabTravelocityStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
@@ -143,26 +121,30 @@
     </style>
 
     <style name="ItineraryTheme" parent="Theme.Travelocity">
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_action_bar_travelocity_logo_small</item>
+        <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_travelocity_logo</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.Travelocity</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
-        <item name="itinActivityPlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_activities</item>
-        <item name="itinCarPlaceholderDrawable">@drawable/default_cars_travelocity_background</item>
-        <item name="itinCruisePlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_cruises</item>
-        <item name="itinHotelPlaceholderDrawable">@drawable/placeholder_lg_travelocity</item>
-        <item name="itinFlightPlaceholderDrawable">@drawable/bg_itin_travelocity_placeholder_flight</item>
-        <item name="itinDefaultPlaceholderDrawable">@drawable/bg_itin_travelocity_fallback_activity</item>
-        <item name="itinCardTitleBackground">@drawable/bg_itin_card_title_travelocity</item>
-        <item name="itinCardBackground">@drawable/bg_itin_card_tvly</item>
-        <item name="itinFlightsTripLineColor">@color/itin_flight_line_color_tvly</item>
-        <item name="itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach_travelocity</item>
-        <item name="itinDismissListSelectorDrawable">@drawable/list_selector_travelocity</item>
-        <item name="itinTabletCardPopupBackgroundDrawable">@drawable/bg_itin_card_tvly</item>
-        <item name="itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title_travelocity</item>
-        <item name="icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
-        <item name="icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
+        <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_activities</item>
+        <item name="skin_itinCarPlaceholderDrawable">@drawable/default_cars_travelocity_background</item>
+        <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_cruises</item>
+        <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_travelocity</item>
+        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_travelocity_placeholder_flight</item>
+        <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_travelocity_fallback_activity</item>
+        <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title_travelocity</item>
+        <item name="skin_itinCardBackground">@drawable/bg_itin_card_tvly</item>
+        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color_tvly</item>
+        <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach_travelocity</item>
+        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
+        <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_travelocity</item>
+        <item name="skin_itinTabletCardPopupBackgroundDrawable">@drawable/bg_itin_card_tvly</item>
+        <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title_travelocity</item>
+        <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
+        <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
+        <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
+        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
+        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
@@ -172,8 +154,8 @@
     </style>
 
 	<style name="HotelWebViewActionBar" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:background" tools:targetApi="11">?attr/actionBarBackgroundDrawable</item>
-        <item name="android:logo" tools:targetApi="11">?attr/hotelwebViewActionBarLogo</item>
+        <item name="android:background" tools:targetApi="11">?attr/skin_actionBarBackgroundDrawable</item>
+        <item name="android:logo" tools:targetApi="11">?attr/skin_hotelWebViewActionBarLogo</item>
         <item name="android:titleTextStyle" tools:targetApi="11">@style/FlightActionBarTextAppearance</item>
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_travelocity</item>
     </style>
@@ -190,6 +172,30 @@
 
     <style name="Theme.Phone.WebView">
         <item name="android:logo" tools:targetApi="11">@drawable/icon_home_tvly</item>
+    </style>
+
+    <style name="Theme.Tablet.Preferences" parent="@style/Theme.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:listSeparatorTextViewStyle">@style/TabletPreferenceSeparator</item>
+    </style>
+
+    <style name="Whitelabel.AccountLibTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="acct__input_text_error_color">@color/acct__bg_input_text_error_tvly</item>
+        <item name="acct__input_text_good_color">@color/acct__bg_input_text_good_tvly</item>
+        <item name="acct__sign_in_button_background_drawable">@drawable/btn_signin_travelocity</item>
+        <item name="acct__sign_in_button_text_color">@color/acct__btn_sign_in_text_tvly</item>
+        <item name="acct__logo_small_drawable">@drawable/acct__logo_small_tvly</item>
+        <item name="acct__logo_large_drawable">@drawable/acct__logo_large_tvly</item>
+        <item name="acct__logo_text_drawable">@drawable/acct__logo_text_tvly</item>
+        <item name="acct__checkmark_good_drawable">@drawable/acct__ic_checkmark_tvly</item>
+        <item name="acct__checkmark_warning_drawable">@drawable/acct__ic_warning_tvly</item>
+        <item name="skin_accountCreationBackgroundDrawable">@drawable/bg_mtfuji_crop_tvly</item>
+        <item name="acct__create_account_prompt_string">@string/acct_Create_a_Travelocity_account</item>
+        <item name="acct__welcome_message_string">@string/acct_Welcome_to_Travelocity</item>
+        <item name="acct__account_already_exists_string">@string/acct_Travelocity_account_already_exists</item>
+        <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
+        <item name="acct__logo_text_drawable_margin_left">0dp</item>
+        <item name="acct__logo_text_drawable_margin_top">20dp</item>
     </style>
 
 </resources>

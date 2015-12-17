@@ -7,10 +7,11 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.interfaces.IDialogForwardBackwardListener;
-import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 public class FlightTravelerSaveDialogFragment extends DialogFragment {
 
@@ -26,10 +27,12 @@ public class FlightTravelerSaveDialogFragment extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-		String messageTemplate = getString(Ui.obtainThemeResID(getActivity(), R.attr.saveTravelerToAccountString));
-		String message = String.format(messageTemplate, Db.getWorkingTravelerManager().getWorkingTraveler()
-			.getFirstName()
-			+ " " + Db.getWorkingTravelerManager().getWorkingTraveler().getLastName());
+		String message =
+			Phrase.from(getActivity(), R.string.save_traveler_message_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.put("name", Db.getWorkingTravelerManager().getWorkingTraveler().getFirstName()
+					+ " " + Db.getWorkingTravelerManager().getWorkingTraveler().getLastName())
+				.format().toString();
 
 		return new AlertDialog.Builder(getActivity()).setCancelable(false)
 			.setTitle(R.string.save_traveler)

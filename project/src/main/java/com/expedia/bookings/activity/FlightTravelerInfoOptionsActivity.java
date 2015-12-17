@@ -30,13 +30,13 @@ import com.expedia.bookings.fragment.FlightTravelerInfoTwoFragment;
 import com.expedia.bookings.fragment.FlightTravelerSaveDialogFragment;
 import com.expedia.bookings.fragment.OverwriteExistingTravelerDialogFragment;
 import com.expedia.bookings.interfaces.IDialogForwardBackwardListener;
-import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.model.WorkingTravelerManager.ITravelerUpdateListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
@@ -130,22 +130,6 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 			}
 		}
 
-		//If we have a working traveler that was cached we try to load it from disk...
-		WorkingTravelerManager travMan = Db.getWorkingTravelerManager();
-		if (travMan.getAttemptToLoadFromDisk() && travMan.hasTravelerOnDisk(this)) {
-			//Load up the traveler from disk
-			travMan.loadWorkingTravelerFromDisk(this);
-			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
-				//If we don't have a saved state, but we do have a saved temp traveler go ahead to the entry screens
-				mPos = YoYoPosition.ONE;
-				mMode = YoYoMode.YOYO;
-			}
-		}
-		else {
-			//If we don't load it from disk, then we delete the file.
-			travMan.deleteWorkingTravelerFile(this);
-		}
-
 		switch (mPos) {
 		case OPTIONS:
 			displayOptions();
@@ -200,12 +184,12 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 	protected void onResume() {
 		super.onResume();
 		Events.register(this);
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
+		Events.unregister(this);
 
 		//If the save dialog is showing, we close it, and then we show it again from the onCreate method.
 		if (mPos.equals(YoYoPosition.SAVE)) {
@@ -216,8 +200,6 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 		if (mPos.equals(YoYoPosition.OVERWRITE_TRAVELER)) {
 			this.closeOverwriteDialog();
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -296,7 +278,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 				setShowDoneButton(false);
 				break;
 			case TWO:
-				if (Db.getTripBucket().getFlight().getFlightTrip().isInternational() || ExpediaBookingApp.IS_AAG) {
+				if (Db.getTripBucket().getFlight().getFlightTrip().isInternational() || Db.getTripBucket().getFlight().getFlightTrip().isPassportNeeded()) {
 					setShowNextButton(true);
 					setShowDoneButton(false);
 				}
@@ -403,7 +385,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 				break;
 			case TWO:
 				if (validate(mTwoFragment)) {
-					if (Db.getTripBucket().getFlight().getFlightTrip().isInternational() || ExpediaBookingApp.IS_AAG) {
+					if (Db.getTripBucket().getFlight().getFlightTrip().isInternational() || Db.getTripBucket().getFlight().getFlightTrip().isPassportNeeded()) {
 						displayTravelerEntryThree();
 					}
 					else {
@@ -435,12 +417,12 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 					displayOverwriteDialog();
 				}
 				else {
-					OmnitureTracking.trackPageLoadFlightTravelerEditSave(mContext);
+					OmnitureTracking.trackPageLoadFlightTravelerEditSave();
 					displayCheckout();
 				}
 				break;
 			case OVERWRITE_TRAVELER:
-				OmnitureTracking.trackPageLoadFlightTravelerEditSave(mContext);
+				OmnitureTracking.trackPageLoadFlightTravelerEditSave();
 				displayCheckout();
 				break;
 			default:
@@ -550,13 +532,8 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 	private boolean workingTravelerNameChanged() {
 		if (Db.getWorkingTravelerManager().getBaseTraveler() != null) {
 			Traveler working = Db.getWorkingTravelerManager().getWorkingTraveler();
-			if (mStartFirstName.trim().compareTo(working.getFirstName().trim()) == 0
-					&& mStartLastName.trim().compareTo(working.getLastName().trim()) == 0) {
-				return false;
-			}
-			else {
-				return true;
-			}
+			return !Strings.equals(mStartFirstName.trim(), working.getFirstName().trim())
+				|| !Strings.equals(mStartLastName.trim(), working.getLastName().trim());
 		}
 		return false;
 	}
@@ -755,13 +732,13 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 		//First we commit our traveler stuff...
 		// TODO consider background kill / resume scenario, this code crashes out because Db.getTravelers() is not valid
 		PassengerCategory passengerCategoryToSave = Db.getTravelers().get(mTravelerIndex).getPassengerCategory();
-		Traveler trav = Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex, this);
+		Traveler trav = Db.getWorkingTravelerManager().commitWorkingTravelerToDB(mTravelerIndex);
 		// If we're going back to checkout without the working traveler having a birthdate,
 		// we retain the previously set birthdate.
 		if (trav.getBirthDate() == null) {
 			trav.setPassengerCategory(passengerCategoryToSave);
 		}
-		Db.getWorkingTravelerManager().clearWorkingTraveler(this);
+		Db.getWorkingTravelerManager().clearWorkingTraveler();
 		if (trav.getSaveTravelerToExpediaAccount() && User.isLoggedIn(this)) {
 			if (trav.hasTuid()) {
 				//Background save..

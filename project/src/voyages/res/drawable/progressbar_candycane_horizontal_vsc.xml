@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/candycane_loading_6_vsc" android:duration="75" />
+    <item android:drawable="@drawable/candycane_loading_5_vsc" android:duration="75" />
+    <item android:drawable="@drawable/candycane_loading_4_vsc" android:duration="75" />
+    <item android:drawable="@drawable/candycane_loading_3_vsc" android:duration="75" />
+    <item android:drawable="@drawable/candycane_loading_2_vsc" android:duration="75" />
+    <item android:drawable="@drawable/candycane_loading_1_vsc" android:duration="75" />
+</animation-list>

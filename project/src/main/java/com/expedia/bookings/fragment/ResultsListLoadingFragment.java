@@ -8,7 +8,6 @@ import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
-import com.mobiata.android.Log;
 
 /**
  * Results loading fragment for Tablet

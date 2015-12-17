@@ -23,7 +23,7 @@
                 android:layout_height="@dimen/hotel_header_height"
                 android:background="#2a2a2a"
                 android:scaleType="centerCrop"
-                android:src="?attr/hotelImagePlaceHolderDrawable" />
+                android:src="?attr/skin_hotelImagePlaceHolderDrawable" />
 
             <View
                 android:id="@+id/dominant_color_header_mask"
@@ -86,7 +86,7 @@
                     android:layout_height="56dp"
                     android:orientation="horizontal" >
 
-                    <com.gridlayout.Space
+                    <Space
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1" />
@@ -103,7 +103,7 @@
                         android:textSize="14dp"
                         android:textStyle="bold" />
 
-                    <com.gridlayout.Space
+                    <Space
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1" />
@@ -120,7 +120,7 @@
                         android:textSize="14dp"
                         android:textStyle="bold" />
 
-                    <com.gridlayout.Space
+                    <Space
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1" />
@@ -137,7 +137,7 @@
                         android:textSize="14dp"
                         android:textStyle="bold" />
 
-                    <com.gridlayout.Space
+                    <Space
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1" />
@@ -169,7 +169,6 @@
                 android:drawablePadding="8dp"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/sorry_rooms_sold_out"
                 android:textColor="#5e6b7a"
                 android:textSize="16dp"
                 app:textStyle="light"

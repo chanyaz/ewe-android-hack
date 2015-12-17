@@ -35,11 +35,10 @@ public class BookingInfoUtils {
 	 * @param context
 	 * @param lob
 	 * @param traveler
-	 * @param save - should we save the Db billing info after we migrate data.
 	 * @return false if we couldnt find a valid email address to use, true otherwise.
 	 */
 	public static boolean migrateRequiredCheckoutDataToDbBillingInfo(Context context, LineOfBusiness lob,
-		Traveler traveler, boolean save) {
+		Traveler traveler) {
 
 		//Ensure the correct (and valid) email address makes it to billing info
 		String checkoutEmail = BookingInfoUtils.getCheckoutEmail(context, lob);
@@ -60,12 +59,6 @@ public class BookingInfoUtils {
 		}
 		billingInfo.setTelephone(traveler.getPhoneNumber());
 		billingInfo.setTelephoneCountryCode(traveler.getPhoneCountryCode());
-
-
-		if (save) {
-			//Save it!
-			Db.getBillingInfo().save(context);
-		}
 
 		return true;
 	}
@@ -92,16 +85,49 @@ public class BookingInfoUtils {
 
 	public static List<StoredCreditCard> getStoredCreditCards(Context context) {
 		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
+		boolean seenSelectedCard = false;
 
 		if (Db.getMaskedWallet() != null) {
-			cards.add(WalletUtils.convertToStoredCreditCard(Db.getMaskedWallet()));
+			StoredCreditCard walletCard = WalletUtils.convertToStoredCreditCard(Db.getMaskedWallet());
+			StoredCreditCard currentCard = Db.getBillingInfo().getStoredCard();
+			if (currentCard != null && currentCard.compareTo(walletCard) == 0) {
+				walletCard.setIsSelectable(false);
+				seenSelectedCard = true;
+			}
+			cards.add(walletCard);
 		}
 
 		if (User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
-			cards.addAll(Db.getUser().getStoredCreditCards());
+			List<StoredCreditCard> dbCards = Db.getUser().getStoredCreditCards();
+			StoredCreditCard currentCard = Db.getBillingInfo().getStoredCard();
+			if (currentCard != null && !seenSelectedCard) {
+				for (int i = 0; i < dbCards.size(); i++) {
+					if (currentCard.compareTo(dbCards.get(i)) == 0) {
+						Db.getUser().getStoredCreditCards().get(i).setIsSelectable(false);
+					}
+				}
+			}
+			cards.addAll(dbCards);
 		}
 
 		return cards;
+	}
+
+	/**
+	 * If the current card is replaced by another stored card from the list, let's reset {@link StoredCreditCard#isSelectable()} state.
+	 * We need to do this so that the stored card is available to be selected again.
+	 * @param creditCard
+	 */
+	public static void resetPreviousCreditCardSelectState(Context context, StoredCreditCard creditCard) {
+		// Check to find the desired credit card and reset his selectable state
+		if (creditCard != null && User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
+			List<StoredCreditCard> dbCards = Db.getUser().getStoredCreditCards();
+			for (int i = 0; i < dbCards.size(); i++) {
+				if (creditCard.compareTo(dbCards.get(i)) == 0) {
+					Db.getUser().getStoredCreditCards().get(i).setIsSelectable(true);
+				}
+			}
+		}
 	}
 
 	public static List<Traveler> getAlternativeTravelers(Context context) {
@@ -244,7 +270,6 @@ public class BookingInfoUtils {
 	 * @return true if billing info was updated;
 	 */
 	public static boolean populatePaymentDataFromUser(Context context, LineOfBusiness lob) {
-		Db.loadBillingInfo(context);
 		BillingInfo info = Db.getBillingInfo();
 		if (User.isLoggedIn(context)) {
 			// Populate Credit Card only if the user doesn't have any manually entered (or selected) data
@@ -265,9 +290,11 @@ public class BookingInfoUtils {
 					}
 				}
 				else {
-					//TODO: Investigate hotel restrictions
-					info.setStoredCard(scc);
-					return true;
+					if (Db.getTripBucket().getHotel() != null &&
+						Db.getTripBucket().getHotel().isCardTypeSupported(scc.getType())) {
+						info.setStoredCard(scc);
+						return true;
+					}
 				}
 			}
 		}
@@ -325,9 +352,6 @@ public class BookingInfoUtils {
 	public static String getCheckoutEmail(Context context, LineOfBusiness lob) {
 		Log.d("getCheckoutEmail");
 		//Ensure we have billingInfo (this is called getCheckoutEmail after all, so we should have checkout information)
-		if (!Db.hasBillingInfo()) {
-			Db.loadBillingInfo(context);
-		}
 
 		//Get User email...
 		String userEmail = null;

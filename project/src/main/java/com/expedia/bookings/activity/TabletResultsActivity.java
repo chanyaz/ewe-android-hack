@@ -6,6 +6,8 @@ import org.joda.time.LocalDate;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +23,7 @@ import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
@@ -40,7 +43,6 @@ import com.expedia.bookings.fragment.TabletResultsHotelControllerFragment;
 import com.expedia.bookings.fragment.TabletResultsSearchControllerFragment;
 import com.expedia.bookings.fragment.TripBucketFragment;
 import com.expedia.bookings.interfaces.IAcceptingListenersListener;
-import com.expedia.bookings.interfaces.IBackButtonLockListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IMeasurementListener;
 import com.expedia.bookings.interfaces.IMeasurementProvider;
@@ -60,10 +62,9 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TextView;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -80,12 +81,14 @@ import com.squareup.otto.Subscribe;
  * will be offloaded to elsewhere in the app eventually (if for nothing other than performance/ load time reasons).
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-public class TabletResultsActivity extends FragmentActivity implements IBackButtonLockListener,
-	IFragmentAvailabilityProvider, IStateProvider<ResultsState>, IMeasurementProvider,
-	IBackManageable, IAcceptingListenersListener, ITripBucketBookClickListener, TripBucketFragment.UndoAnimationEndListener, ISiblingListTouchListener {
+public class TabletResultsActivity extends FragmentActivity implements IFragmentAvailabilityProvider,
+	IStateProvider<ResultsState>, IMeasurementProvider, IBackManageable, IAcceptingListenersListener,
+	ITripBucketBookClickListener, TripBucketFragment.UndoAnimationEndListener, ISiblingListTouchListener {
 
 	//State
 	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
+
+	public static final String INTENT_EXTRA_DEEP_LINK_HOTEL_STATE = "INTENT_EXTRA_DEEP_LINK_HOTEL_STATE";
 
 	//Tags
 	private static final String FTAG_FLIGHTS_CONTROLLER = "FTAG_FLIGHTS_CONTROLLER";
@@ -96,10 +99,10 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 	//Containers..
 	private ViewGroup mRootC;
-	private FrameLayoutTouchController mBgDestImageC;
-	private FrameLayoutTouchController mTripBucketC;
-	private FrameLayoutTouchController mFlightsC;
-	private FrameLayoutTouchController mHotelC;
+	private TouchableFrameLayout mBgDestImageC;
+	private TouchableFrameLayout mTripBucketC;
+	private TouchableFrameLayout mFlightsC;
+	private TouchableFrameLayout mHotelC;
 	private ViewGroup mSearchC;
 
 	private View mShadeView;
@@ -115,16 +118,27 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	//Other
 	private GridManager mGrid = new GridManager();
 	private StateManager<ResultsState> mStateManager = new StateManager<ResultsState>(ResultsState.OVERVIEW, this);
-	private boolean mBackButtonLocked = false;
 	private Interpolator mCenterColumnUpDownInterpolator = new AccelerateInterpolator(1.2f);
 	private boolean mDoingFlightsAddToBucket = false;
 	private boolean mDoingHotelsAddToBucket = false;
 
 	boolean mIsBailing = false;
+	boolean showHotels = false;
+
+	/**
+	 * Create intent to open this activity in a standard way.
+	 * @param context
+	 * @return
+	 */
+	public static Intent createIntent(Context context) {
+		Intent intent = new Intent(context, TabletResultsActivity.class);
+		return intent;
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		if (Sp.isEmpty()) {
+			Log.d("TabletResultsActivity - Not enough info, bailing");
 			finish();
 			mIsBailing = true;
 		}
@@ -179,6 +193,19 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		transaction.commit();
 		manager.executePendingTransactions();//These must be finished before we continue..
 
+		// Deep linking
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+			if (extras.getBoolean(INTENT_EXTRA_DEEP_LINK_HOTEL_STATE, false)) {
+				showHotels = true;
+			}
+		}
+		if (showHotels && savedInstanceState == null) {
+			mHotelsController.enterViaDeepLink();
+			mSearchController.setDeepLink(true);
+			mStateManager.setState(ResultsState.HOTELS, false);
+		}
+
 		//TODO: This is just for logging so it can be removed if we want to turn off state logging.
 		registerStateListener(new StateListenerLogger<ResultsState>(), false);
 		registerStateListener(mStateListener, false);
@@ -219,8 +246,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		Sp.getBus().register(this);
 		Events.register(this);
 		mTripBucketFrag.bindToDb();
-		OmnitureTracking.trackTabletSearchResultsPageLoad(this, Sp.getParams());
-		OmnitureTracking.onResume(this);
+		if (!showHotels) {
+			OmnitureTracking.trackTabletSearchResultsPageLoad(Sp.getParams());
+		}
 	}
 
 	@Override
@@ -229,7 +257,6 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		Sp.saveSearchParamsToDisk(this);
 		Sp.getBus().unregister(this);
 		Events.unregister(this);
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -239,7 +266,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		DebugMenu.onCreateOptionsMenu(this, menu);
 
 		//We allow debug users to jump between states
-		if (!AndroidUtils.isRelease(this)) {
+		if (BuildConfig.DEBUG) {
 			//We use ordinal() + 1 for all ids and groups because 0 == Menu.NONE
 			SubMenu subMen = menu.addSubMenu(Menu.NONE, Menu.NONE, 0, "Results State");
 
@@ -293,7 +320,7 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 		}
 
 		//We allow debug users to jump between states
-		if (!AndroidUtils.isRelease(this)) {
+		if (BuildConfig.DEBUG) {
 
 			//All of our groups/ids are .ordinal() + 1 so we subtract here to make things easier
 			int groupId = item.getGroupId() - 1;
@@ -326,10 +353,8 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 
 	@Override
 	public void onBackPressed() {
-		if (!mBackButtonLocked) {
-			if (!mBackManager.doOnBackPressed()) {
-				super.onBackPressed();
-			}
+		if (!mBackManager.doOnBackPressed()) {
+			super.onBackPressed();
 		}
 	}
 
@@ -383,16 +408,11 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 	public void doFragmentSetup(String tag, Fragment frag) {
 	}
 
-	@Override
-	public void setBackButtonLockState(boolean locked) {
-		mBackButtonLocked = locked;
-	}
-
 	/*
 	 * State management
 	 */
 
-	public void setState(ResultsState state, boolean animate) {
+	private void setState(ResultsState state, boolean animate) {
 		mStateManager.setState(state, animate);
 	}
 
@@ -766,6 +786,9 @@ public class TabletResultsActivity extends FragmentActivity implements IBackButt
 			if (stateOne.showsActionBar() != stateTwo.showsActionBar()) {
 				float p = stateTwo.showsActionBar() ? percentage : 1f - percentage;
 				mHotelC.findViewById(R.id.action_bar_background).setAlpha(p);
+				if (mFlightsC != null) {
+					mFlightsC.findViewById(R.id.action_bar_background).setAlpha(0f);
+				}
 			}
 		}
 

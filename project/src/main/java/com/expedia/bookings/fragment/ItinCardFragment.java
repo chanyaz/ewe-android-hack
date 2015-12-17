@@ -17,7 +17,6 @@ import android.widget.ScrollView;
 
 import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ShareUtils;
@@ -149,7 +148,7 @@ public class ItinCardFragment extends Fragment implements PopupMenu.OnMenuItemCl
 
 	@Override
 	public void onShareTargetSelected(ShareView view, Intent intent) {
-		OmnitureTracking.trackItinShareNew(getActivity(), mCurrentData.getTripComponentType(), intent);
+		OmnitureTracking.trackItinShareNew(mCurrentData.getTripComponentType(), intent);
 	}
 
 }

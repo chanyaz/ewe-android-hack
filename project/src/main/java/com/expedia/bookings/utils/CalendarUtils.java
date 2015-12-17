@@ -5,10 +5,8 @@ import org.joda.time.LocalDate;
 
 import android.content.Context;
 import android.text.Html;
-import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.mobiata.android.text.format.Time;
@@ -35,21 +33,26 @@ public class CalendarUtils {
 	 * @param mode
 	 */
 	public static void configureCalendarDatePicker(CalendarDatePicker calendarDatePicker,
-			CalendarDatePicker.SelectionMode mode, LineOfBusiness business) {
+		CalendarDatePicker.SelectionMode mode, LineOfBusiness business) {
+		// Set max calendar date
+		Time maxTime = new Time(System.currentTimeMillis());
 		// Always set these variables
 		calendarDatePicker.setSelectionMode(mode);
 		if (business == LineOfBusiness.FLIGHTS) {
 			calendarDatePicker.setMaxRange(330);
+			maxTime.monthDay += 330;
 		}
 		else if (business == LineOfBusiness.HOTELS) {
 			if (mode == CalendarDatePicker.SelectionMode.HYBRID) {
 				calendarDatePicker.setMinRange(2);
-				calendarDatePicker.setMaxRange(330);
+				calendarDatePicker.setMaxRange(500);
 			}
 			else {
 				calendarDatePicker.setMaxRange(29);
 			}
+			maxTime.monthDay += 500;
 		}
+		maxTime.normalize(true);
 
 		// Reset the calendar's today cache
 		calendarDatePicker.resetTodayCache();
@@ -60,11 +63,6 @@ public class CalendarUtils {
 
 		// Reset the calendar's today cache
 		calendarDatePicker.resetTodayCache();
-
-		// Set max calendar date
-		Time maxTime = new Time(System.currentTimeMillis());
-		maxTime.monthDay += 330;
-		maxTime.normalize(true);
 
 		calendarDatePicker.setMaxDate(maxTime.year, maxTime.month, maxTime.monthDay);
 	}

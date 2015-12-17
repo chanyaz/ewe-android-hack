@@ -16,13 +16,13 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.fragment.HotelPaymentCreditCardFragment;
 import com.expedia.bookings.fragment.HotelPaymentOptionsFragment;
 import com.expedia.bookings.fragment.HotelPaymentOptionsFragment.HotelPaymentYoYoListener;
 import com.expedia.bookings.fragment.HotelPaymentSaveDialogFragment;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.model.HotelPaymentFlowState;
-import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.BookingInfoUtils;
@@ -42,6 +42,8 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 
 	private MenuItem mMenuDone;
 	private MenuItem mMenuNext;
+
+	boolean isUserBucketedForTest;
 
 	private YoYoMode mMode = YoYoMode.NONE;
 	private YoYoPosition mPos = YoYoPosition.OPTIONS;
@@ -79,21 +81,8 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		//If we have a working BillingInfo object that was cached we try to load it from disk
-		WorkingBillingInfoManager billMan = Db.getWorkingBillingInfoManager();
-		if (billMan.getAttemptToLoadFromDisk() && billMan.hasBillingInfoOnDisk(this)) {
-			//Load working billing info from disk
-			billMan.loadWorkingBillingInfoFromDisk(this);
-			if (mPos.compareTo(YoYoPosition.OPTIONS) == 0) {
-				//If we don't have a saved state, but we do have a saved temp billingInfo go ahead to the entry screens
-				mPos = YoYoPosition.CREDITCARD;
-				mMode = YoYoMode.YOYO;
-			}
-		}
-		else {
-			//If we don't load from disk, then we delete the file
-			billMan.deleteWorkingBillingInfoFile(this);
-		}
+		isUserBucketedForTest = Db.getAbacusResponse()
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHCKOTraveler);
 
 		Bundle bundle = savedInstanceState;
 		if (savedInstanceState == null) {
@@ -138,18 +127,6 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 		mMode = YoYoMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
 		mPos = YoYoPosition.valueOf(savedInstanceState.getString(STATE_TAG_DEST));
 		super.onRestoreInstanceState(savedInstanceState);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -309,13 +286,15 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 						displaySaveDialog();
 					}
 					else {
+						setIntentResultOk();
 						displayCheckout();
 					}
 				}
 				break;
 			case SAVE:
+				setIntentResultOk();
 				displayCheckout();
-				OmnitureTracking.trackPageLoadHotelsCheckoutPaymentEditSave(getApplicationContext());
+				OmnitureTracking.trackPageLoadHotelsCheckoutPaymentEditSave();
 				break;
 			default:
 				Ui.showToast(this, "FAIL");
@@ -333,8 +312,14 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 					}
 					else {
 						Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-								Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
-						displayOptions();
+							Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
+						if (isUserBucketedForTest) {
+							setIntentResultOk();
+							displayCheckout();
+						}
+						else {
+							displayOptions();
+						}
 					}
 				}
 				break;
@@ -389,9 +374,15 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 				//If we are backing up we want to restore the base billing info...
 				if (Db.getWorkingBillingInfoManager().getBaseBillingInfo() != null) {
 					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
-							Db.getWorkingBillingInfoManager().getBaseBillingInfo());
+						Db.getWorkingBillingInfoManager().getBaseBillingInfo());
 				}
-				displayOptions();
+				//show options only if user is logged in or have selected google wallet as payment method
+				if (!User.isLoggedIn(this) && Db.getMaskedWallet() == null) {
+					displayCheckout();
+				}
+				else {
+					displayOptions();
+				}
 				break;
 			case SAVE:
 				closeSaveDialog();
@@ -434,6 +425,9 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 			}
 		}
 		else if (mMode.equals(YoYoMode.NONE)) {
+			if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() != null) {
+				setIntentResultOk();
+			}
 			displayCheckout();
 		}
 		return true;
@@ -494,8 +488,14 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 	@Override
 	public void displayCheckout() {
 		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
-		Db.getWorkingBillingInfoManager().clearWorkingBillingInfo(this);
+		Db.getWorkingBillingInfoManager().clearWorkingBillingInfo();
 		finish();
+	}
+
+	public void setIntentResultOk() {
+		if (isUserBucketedForTest) {
+			setResult(RESULT_OK);
+		}
 	}
 
 	// Private helper methods

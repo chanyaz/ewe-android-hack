@@ -97,6 +97,8 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 		ViewUtils.setAllCaps(mCurrentPaymentLabel);
 		ViewUtils.setAllCaps(mNewPaymentLabel);
 
+		mSectionStoredPayment.setLineOfBusiness(LineOfBusiness.FLIGHTS);
+
 		if (!PointOfSale.getPointOfSale().requiresBillingAddressFlights()) {
 			mCurrentPaymentCcAddressDiv.setVisibility(View.GONE);
 			mSectionCurrentBillingAddress.setVisibility(View.GONE);
@@ -123,7 +125,7 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 					mListener.setMode(YoYoMode.YOYO);
 					mListener.moveForward();
 
-					OmnitureTracking.trackLinkFlightCheckoutPaymentEnterManually(getActivity());
+					OmnitureTracking.trackLinkFlightCheckoutPaymentEnterManually();
 				}
 			}
 		});
@@ -170,6 +172,12 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 		if (cards != null && cards.size() > 0) {
 			int paymentOptionPadding = getResources().getDimensionPixelSize(R.dimen.payment_option_vertical_padding);
 			boolean firstCard = true;
+			String selectedId = null;
+			if (Db.getWorkingBillingInfoManager() != null
+				&& Db.getWorkingBillingInfoManager().getWorkingBillingInfo() != null
+				&& Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
+				selectedId = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard().getId();
+			}
 
 			//Inflate stored cards
 			Resources res = getResources();
@@ -177,12 +185,12 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 				final StoredCreditCard storedCard = cards.get(i);
 
 				//Skip this card if it is the selected card
-				BillingInfo bi = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
-				if (bi.hasStoredCard() && bi.getStoredCard().getId().compareToIgnoreCase(storedCard.getId()) == 0) {
+				if (selectedId != null && storedCard.getId() != null  && selectedId.compareToIgnoreCase(storedCard.getId()) == 0) {
 					continue;
 				}
 
 				SectionStoredCreditCard card = new SectionStoredCreditCard(getActivity());
+				card.setLineOfBusiness(LineOfBusiness.FLIGHTS);
 				card.configure(R.drawable.ic_credit_card, 0, 0);
 				card.bind(storedCard);
 				card.setPadding(0, paymentOptionPadding, 0, paymentOptionPadding);
@@ -198,14 +206,14 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 							else {
 								onStoredCardSelected(storedCard);
 
-								OmnitureTracking.trackLinkFlightCheckoutPaymentSelectExisting(getActivity());
+								OmnitureTracking.trackLinkFlightCheckoutPaymentSelectExisting();
 							}
 						}
 					});
 				}
 				else {
 					card.setEnabled(false);
-					card.bindCardNotSupportedLcc();
+					card.bindCardNotSupported();
 				}
 
 				//Add dividers
@@ -232,7 +240,7 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightCheckoutPaymentSelect(getActivity());
+		OmnitureTracking.trackPageLoadFlightCheckoutPaymentSelect();
 	}
 
 	@Override

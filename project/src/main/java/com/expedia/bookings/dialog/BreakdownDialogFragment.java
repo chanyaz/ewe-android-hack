@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightTrip;
@@ -32,7 +33,10 @@ import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.AndroidUtils;
+import com.squareup.phrase.Phrase;
 
 /**
  * Generalized class which displays a breakdown of some sort - i.e., line items.
@@ -140,7 +144,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		// Title
 		builder.setTitle(context.getString(R.string.cost_summary));
-		builder.setTitleDivider(Ui.obtainThemeResID(context, R.attr.costSummaryDialogStripeDrawable));
+		builder.setTitleDivider(Ui.obtainThemeResID(context, R.attr.skin_costSummaryDialogStripeDrawable));
 
 		// Breakdown summary
 		int numNights = params.getStayDuration();
@@ -158,7 +162,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		// Breakdown of each night
 		if (originalRate.getRateBreakdownList() != null) {
 			for (RateBreakdown breakdown : originalRate.getRateBreakdownList()) {
-				String date = JodaUtils.formatLocalDate(context, breakdown.getDate(), DateFormatUtils.FLAGS_DATE_NUMERIC);
+				String date = JodaUtils.formatLocalDate(context, breakdown.getDate(), DateFormatUtils.FLAGS_DATE_NUMERIC | DateFormatUtils.FLAGS_MEDIUM_DATE_FORMAT);
 				Money amount = breakdown.getAmount();
 				CharSequence amountStr = (amount.isZero()) ? context.getString(R.string.free) :
 					amount.getFormattedMoney();
@@ -178,7 +182,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		}
 
 		// Discount
-		if (couponRate != null) {
+		if (couponRate != null && !couponRate.getTotalPriceAdjustments().isZero()) {
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
 					.setText(context.getString(R.string.discount))
@@ -228,35 +232,59 @@ public class BreakdownDialogFragment extends DialogFragment {
 				.build());
 		}
 
-		builder.addDivider();
+		Money total;
+		Rate rateWeCareAbout = couponRate == null ? originalRate : couponRate;
+		boolean resortCase = rateWeCareAbout.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES;
+		boolean payLaterCase = rateWeCareAbout.isPayLater() && !AndroidUtils.isTablet(context);
 
-		// Mandatory fees
-		if (originalRate.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
+		// Show amount to be paid today in resort or ETP cases
+		if (resortCase || payLaterCase) {
+			Money dueToday;
+			if (payLaterCase) {
+				dueToday = rateWeCareAbout.getDepositAmount();
+			}
+			else {
+				dueToday = rateWeCareAbout.getTotalAmountAfterTax();
+			}
+
+			CharSequence dueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format();
+
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
-					.setText(context.getString(R.string.total_due_today))
+					.setText(dueTodayText)
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())
-					.setText(originalRate.getTotalAmountAfterTax().getFormattedMoney())
+					.setText(dueToday.getFormattedMoney())
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.build());
-
+		}
+		// Mandatory fees:
+		// Show fees to be paid at hotel in resort case
+		if (resortCase) {
+			total = rateWeCareAbout.getTotalPriceWithMandatoryFees();
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
-					.setText(context.getString(R.string.MandatoryFees))
+					.setText(context.getString(R.string.fees_paid_at_hotel))
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())
-					.setText(originalRate.getTotalMandatoryFees().getFormattedMoney())
+					.setText(rateWeCareAbout.getTotalMandatoryFees().getFormattedMoney())
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.build());
 		}
 
+		else {
+			total = rateWeCareAbout.getDisplayTotalPrice();
+		}
+
+		builder.addDivider();
+
 		// Total
-		Money total = couponRate == null ? originalRate.getDisplayTotalPrice() : couponRate.getDisplayTotalPrice();
 		builder.addLineItem((new LineItemBuilder())
 			.setItemLeft((new ItemBuilder())
 				.setText(context.getString(R.string.total_price_label))
@@ -277,7 +305,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		// Title
 		builder.setTitle(context.getString(R.string.cost_summary));
-		builder.setTitleDivider(Ui.obtainThemeResID(context, R.attr.flightsCostSummaryDialogStripeDrawable));
+		builder.setTitleDivider(Ui.obtainThemeResID(context, R.attr.skin_flightsCostSummaryDialogStripeDrawable));
 
 		Money totalFarePerTraveler;
 		Money totalBaseFarePerTraveler;
@@ -387,7 +415,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		if (trip.getFees() != null) {
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
-					.setText(context.getString(Ui.obtainThemeResID(context, R.attr.costSummaryBookingFeesString)))
+					.setText(StrUtils.getBrandedString(context, R.string.brand_booking_fee))
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())
@@ -527,7 +555,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		private Params(Parcel in) {
 			mTitle = TextUtils.CHAR_SEQUENCE_CREATOR.createFromParcel(in);
 			mTitleDividerResId = in.readInt();
-			in.readList(mLineItems, null);
+			in.readList(mLineItems, getClass().getClassLoader());
 		}
 
 		@Override
@@ -574,8 +602,8 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 		private LineItem(Parcel in) {
 			mIsDivider = in.readByte() == 1;
-			mLeftItem = in.readParcelable(null);
-			mRightItem = in.readParcelable(null);
+			mLeftItem = in.readParcelable(getClass().getClassLoader());
+			mRightItem = in.readParcelable(getClass().getClassLoader());
 			mIndent = in.readByte() == 1;
 			mAddTopMargin = in.readByte() == 1;
 		}

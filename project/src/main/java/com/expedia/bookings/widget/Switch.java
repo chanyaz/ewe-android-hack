@@ -152,14 +152,14 @@ public class Switch extends CompoundButton {
 		final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.Switch, defStyle, 0);
 
 		mThumbDrawable = a.getDrawable(R.styleable.Switch_thumb);
-		mTrackDrawable = a.getDrawable(R.styleable.Switch_track);
+		mTrackDrawable = a.getDrawable(R.styleable.Switch_thumbTrack);
 		mTextOn = a.getText(R.styleable.Switch_textOn);
 		mTextOff = a.getText(R.styleable.Switch_textOff);
-		mThumbTextPadding = a.getDimensionPixelSize(R.styleable.Switch_thumbTextPadding, 0);
-		mSwitchMinWidth = a.getDimensionPixelSize(R.styleable.Switch_switchMinWidth, 0);
-		mSwitchPadding = a.getDimensionPixelSize(R.styleable.Switch_switchPadding, 0);
+		mThumbTextPadding = a.getDimensionPixelSize(R.styleable.Switch_textPadding, 0);
+		mSwitchMinWidth = a.getDimensionPixelSize(R.styleable.Switch_thumbMinWidth, 0);
+		mSwitchPadding = a.getDimensionPixelSize(R.styleable.Switch_thumbPadding, 0);
 
-		final int appearance = a.getResourceId(R.styleable.Switch_switchTextAppearance, 0);
+		final int appearance = a.getResourceId(R.styleable.Switch_thumbTextAppearance, 0);
 		if (appearance != 0) {
 			setSwitchTextAppearance(context, appearance);
 		}

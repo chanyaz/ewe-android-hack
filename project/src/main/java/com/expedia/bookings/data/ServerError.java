@@ -9,11 +9,12 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
+import com.squareup.phrase.Phrase;
 
 @SuppressWarnings("serial")
 public class ServerError implements JSONable {
@@ -36,7 +37,6 @@ public class ServerError implements JSONable {
 		BACKGROUND_IMAGE,
 		TRIPS,
 		TRIP_DETAILS,
-		SAMSUNG_WALLET,
 	}
 
 	public static enum ErrorCode {
@@ -76,6 +76,9 @@ public class ServerError implements JSONable {
 		COUPON_SERVICE_DOWN,
 		COUPON_FALLBACK,
 		COUPON_INVALID_HOTEL,
+		COUPON_INVALID_STAY_DATES,
+		COUPON_EXCEEDED_EARN_LIMIT,
+		COUPON_INVALID_AVERAGE_PRICE,
 	}
 
 	public static final String FLAG_ITINERARY_BOOKED = "itineraryBooked";
@@ -92,18 +95,10 @@ public class ServerError implements JSONable {
 		}
 	};
 
-	public static final HashMap<ErrorCode, Integer> ERROR_MAP_CHECKOUT = new HashMap<ErrorCode, Integer>() {
+	private static final HashMap<ErrorCode, Integer> ERROR_MAP_CHECKOUT = new HashMap<ErrorCode, Integer>() {
 		{
 			put(ErrorCode.BOOKING_FAILED, R.string.e3_error_checkout_booking_failed);
-			if (ExpediaBookingApp.IS_EXPEDIA) {
-				put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, R.string.e3_error_checkout_booking_succeeded_with_errors);
-			}
-			else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, R.string.e3_error_checkout_booking_succeeded_with_errors_tvly);
-			}
-			else if (ExpediaBookingApp.IS_AAG) {
-				put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, R.string.e3_error_checkout_booking_succeeded_with_errors_aag);
-			}
+			put(ErrorCode.BOOKING_SUCCEEDED_WITH_ERRORS, R.string.e3_error_checkout_booking_succeeded_with_errors_TEMPLATE);
 			put(ErrorCode.HOTEL_ROOM_UNAVAILABLE, R.string.e3_error_checkout_hotel_room_unavailable);
 			put(ErrorCode.INVALID_INPUT, R.string.e3_error_checkout_invalid_input);
 			put(ErrorCode.PAYMENT_FAILED, R.string.e3_error_checkout_payment_failed);
@@ -119,25 +114,17 @@ public class ServerError implements JSONable {
 		}
 	};
 
-	public static final HashMap<ErrorCode, Integer> ERROR_MAP_HOTEL_OFFERS = new HashMap<ErrorCode, Integer>() {
+	private static final HashMap<ErrorCode, Integer> ERROR_MAP_HOTEL_OFFERS = new HashMap<ErrorCode, Integer>() {
 		{
 			put(ErrorCode.HOTEL_OFFER_UNAVAILABLE, R.string.e3_error_hotel_offers_hotel_offer_unavailable);
 			put(ErrorCode.HOTEL_ROOM_UNAVAILABLE, R.string.e3_error_hotel_offers_hotel_room_unavailable);
-			if (ExpediaBookingApp.IS_TRAVELOCITY) {
-				put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure_tvly);
-			}
-			else if (ExpediaBookingApp.IS_AAG) {
-				put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure_aag);
-			}
-			else {
-				put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure);
-			}
+			put(ErrorCode.HOTEL_SERVICE_FATAL_FAILURE, R.string.e3_error_hotel_offers_hotel_service_failure_TEMPLATE);
 			put(ErrorCode.INVALID_INPUT, R.string.e3_error_hotel_offers_invalid_input);
 			put(ErrorCode.UNKNOWN_ERROR, R.string.e3_error_hotel_offers_unknown_error);
 		}
 	};
 
-	public static final HashMap<ErrorCode, Integer> ERROR_MAP_HOTEL_PRODUCT = new HashMap<ErrorCode, Integer>() {
+	private static final HashMap<ErrorCode, Integer> ERROR_MAP_HOTEL_PRODUCT = new HashMap<ErrorCode, Integer>() {
 		{
 			put(ErrorCode.INVALID_INPUT, R.string.e3_error_hotel_product_invalid_input);
 			put(ErrorCode.UNKNOWN_ERROR, R.string.e3_error_hotel_product_unknown_error);
@@ -168,6 +155,9 @@ public class ServerError implements JSONable {
 			put("PriceChange", ErrorCode.COUPON_PRICE_CHANGE);
 			put("ServiceDown", ErrorCode.COUPON_SERVICE_DOWN);
 			put("Unrecognized", ErrorCode.COUPON_UNRECOGNIZED);
+			put("InvalidAveragePrice", ErrorCode.COUPON_INVALID_AVERAGE_PRICE);
+			put("InvalidStayDates", ErrorCode.COUPON_INVALID_STAY_DATES);
+			put("ExceededEarnLimit", ErrorCode.COUPON_EXCEEDED_EARN_LIMIT);
 		}
 	};
 
@@ -187,6 +177,9 @@ public class ServerError implements JSONable {
 			put(ErrorCode.COUPON_PRICE_CHANGE, R.string.coupon_error_price_change);
 			put(ErrorCode.COUPON_SERVICE_DOWN, R.string.coupon_error_service_down);
 			put(ErrorCode.COUPON_UNRECOGNIZED, R.string.coupon_error_unrecognized);
+			put(ErrorCode.COUPON_INVALID_AVERAGE_PRICE, R.string.coupon_error_invalid_average_price);
+			put(ErrorCode.COUPON_INVALID_STAY_DATES, R.string.coupon_error_invalid_stay_dates);
+			put(ErrorCode.COUPON_EXCEEDED_EARN_LIMIT, R.string.coupon_error_exceeded_earn_limit);
 		}
 	};
 
@@ -198,7 +191,6 @@ public class ServerError implements JSONable {
 	private String mDiagnosticFullText;
 
 	// Expedia-specific items
-	private String mVerboseMessage;
 	private String mPresentationMessage;
 
 	// Expedia-specific error handling codes
@@ -215,14 +207,6 @@ public class ServerError implements JSONable {
 	}
 
 	public ServerError(ApiMethod apiMethod) {
-		mApiMethod = apiMethod;
-	}
-
-	public ApiMethod getApiMethod() {
-		return mApiMethod;
-	}
-
-	public void setApiMethod(ApiMethod apiMethod) {
 		mApiMethod = apiMethod;
 	}
 
@@ -283,14 +267,6 @@ public class ServerError implements JSONable {
 		this.mMessage = message;
 	}
 
-	public String getVerboseMessage() {
-		return mVerboseMessage;
-	}
-
-	public void setVerboseMessage(String verboseMessage) {
-		this.mVerboseMessage = verboseMessage;
-	}
-
 	public String getPresentationMessage() {
 		return mPresentationMessage;
 	}
@@ -340,7 +316,8 @@ public class ServerError implements JSONable {
 			switch (mApiMethod) {
 			case CHECKOUT: {
 				if (ERROR_MAP_CHECKOUT.containsKey(mErrorCode)) {
-					message = context.getString(ERROR_MAP_CHECKOUT.get(mErrorCode));
+					message = Phrase.from(context, ERROR_MAP_CHECKOUT.get(mErrorCode))
+						.putOptional("brand", BuildConfig.brand).format().toString();
 				}
 				break;
 			}
@@ -352,7 +329,8 @@ public class ServerError implements JSONable {
 			}
 			case HOTEL_OFFERS: {
 				if (ERROR_MAP_HOTEL_OFFERS.containsKey(mErrorCode)) {
-					message = context.getString(ERROR_MAP_HOTEL_OFFERS.get(mErrorCode));
+					message = Phrase.from(context, ERROR_MAP_HOTEL_OFFERS.get(mErrorCode)).putOptional("brand",
+						BuildConfig.brand).format().toString();
 				}
 				break;
 			}
@@ -371,19 +349,9 @@ public class ServerError implements JSONable {
 			}
 		}
 
-		if (TextUtils.isEmpty(message)) {
-			message = mVerboseMessage;
-			if (TextUtils.isEmpty(message)) {
-				message = mMessage;
-			}
-		}
-
 		if (mExtras != null && mExtras.containsKey("emailSent") && mExtras.get("emailSent").equals("unknown")) {
 			// This is a special case for E3
 			message = context.getString(R.string.error_unable_to_send_email);
-		}
-		else if (message.equals("TravelNow.com cannot service this request.") && mVerboseMessage != null) {
-			message = mVerboseMessage.replace("Data in this request could not be validated: ", "");
 		}
 		else if (ERRORS.containsKey(message)) {
 			message = context.getString(ERRORS.get(message));
@@ -419,17 +387,17 @@ public class ServerError implements JSONable {
 		return message;
 	}
 
-	public ErrorCode getCouponErrorCode() {
-		return mCouponErrorCode;
-	}
-
 	public String getCouponErrorMessage(Context context) {
-		// Let's make this the default message in case the errorCode sent is either null or not recognized.
-		String message = context.getString(R.string.coupon_error_service_timeout);
+		// Let's make this the default message in case the errorCode sent is not recognized.
+		String message = context.getString(R.string.coupon_error_fallback);
 		if (mCouponErrorCode != null && ERROR_MAP_COUPON_MESSAGES.containsKey(mCouponErrorCode)) {
 			message = context.getString(ERROR_MAP_COUPON_MESSAGES.get(mCouponErrorCode));
 		}
 		return message;
+	}
+
+	public boolean isProductKeyExpiration() {
+		return mErrorCode == ServerError.ErrorCode.INVALID_INPUT && getExtra("field").equals("productKey");
 	}
 
 	@Override
@@ -439,7 +407,6 @@ public class ServerError implements JSONable {
 			obj.putOpt("code", mCode);
 			obj.putOpt("message", mMessage);
 			obj.putOpt("diagnosticFullText", mDiagnosticFullText);
-			obj.putOpt("verboseMessage", mVerboseMessage);
 			obj.putOpt("presentationMessage", mPresentationMessage);
 			obj.putOpt("category", mCategory);
 			obj.putOpt("handling", mHandling);
@@ -458,7 +425,6 @@ public class ServerError implements JSONable {
 		setCode(obj.optString("code")); // handles mCode, mErrorCode
 		mMessage = obj.optString("message");
 		mDiagnosticFullText = obj.optString("diagnosticFullText");
-		mVerboseMessage = obj.optString("verboseMessage");
 		mPresentationMessage = obj.optString("presentationMessage");
 		mCategory = obj.optString("category");
 		mHandling = obj.optString("handling");

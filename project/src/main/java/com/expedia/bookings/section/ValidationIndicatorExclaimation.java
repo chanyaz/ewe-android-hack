@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.Ui;
 
 /**
  * Validation indicator field for textviews and subclasses that sets the error icon and changes the text color if things aren't valid
@@ -17,16 +18,25 @@ public class ValidationIndicatorExclaimation<Data extends Object> extends
 
 	//Was this valid last time - this is to improve performance
 	Boolean mWasValid = true;
-
+	Drawable mDrawableRight;
 	public ValidationIndicatorExclaimation(int fieldId) {
 		super(fieldId);
+	}
+
+	@Override
+	protected void onFieldBind() {
+		super.onFieldBind();
+		if (hasBoundField()) {
+			mDrawableRight = getField().getCompoundDrawables()[2];
+		}
 	}
 
 	@Override
 	protected void onPostValidate(TextView field, boolean isValid, boolean force) {
 		if (!isValid && (force || mWasValid)) {
 			//Not valid, but it was the last time we validated
-			Drawable errorIcon = field.getContext().getResources().getDrawable(R.drawable.ic_error_blue);
+			Drawable errorIcon = field.getContext().getResources()
+				.getDrawable(Ui.obtainThemeResID(field.getContext(), R.attr.skin_errorIndicationExclaimationDrawable));
 			errorIcon.setBounds(new Rect(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight()));
 			Drawable[] compounds = field.getCompoundDrawables();
 			field.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], errorIcon, compounds[3]);
@@ -35,7 +45,7 @@ public class ValidationIndicatorExclaimation<Data extends Object> extends
 		else if (isValid && (force || !mWasValid)) {
 			//Freshly valid
 			Drawable[] compounds = field.getCompoundDrawables();
-			field.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], null, compounds[3]);
+			field.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], mDrawableRight, compounds[3]);
 			mWasValid = true;
 		}
 	}

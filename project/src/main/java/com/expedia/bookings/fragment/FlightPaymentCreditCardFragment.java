@@ -20,7 +20,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.Validatable;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.User;
@@ -31,6 +30,7 @@ import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListe
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.utils.FocusViewRunnable;
 import com.expedia.bookings.utils.Ui;
 
@@ -79,8 +79,6 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
 					mSectionCreditCard.performValidation();
 				}
-				//Attempt to save on change
-				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
 			}
 		});
 
@@ -91,8 +89,8 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 				if (mBillingInfo.getCardType() != null) {
 					TripBucketItemFlight flightItem = Db.getTripBucket().getFlight();
 					if (!flightItem.isCardTypeSupported(mBillingInfo.getCardType())) {
-						String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, mBillingInfo
-								.getCardType().getHumanReadableName(getActivity()));
+						String cardName = CreditCardUtils.getHumanReadableName(getActivity(), mBillingInfo.getCardType());
+						String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, cardName);
 						updateCardMessage(message, getResources().getColor(R.color.flight_card_unsupported_warning));
 						toggleCardMessage(true, true);
 					}
@@ -125,7 +123,7 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditCard(getActivity());
+		OmnitureTracking.trackPageLoadFlightCheckoutPaymentEditCard();
 	}
 
 	@Override

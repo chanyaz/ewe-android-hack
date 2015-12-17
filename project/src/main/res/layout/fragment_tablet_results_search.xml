@@ -12,14 +12,14 @@
         android:layout_gravity="top"
         android:background="@drawable/top_gradient_global" />
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/search_bar_container"
         android:layout_width="match_parent"
         android:layout_height="?android:attr/actionBarSize">
 
         <include layout="@layout/snippet_search_controls" />
 
-    </com.expedia.bookings.widget.FrameLayoutTouchController>
+    </com.expedia.bookings.widget.TouchableFrameLayout>
 
     <FrameLayout
         android:id="@+id/search_popup_container"
@@ -138,14 +138,14 @@
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:drawablePadding="8dp"
-                android:drawableLeft="@drawable/ic_tablet_search_results_popup_done_check"
+                android:drawableLeft="?attr/skin_skin_tablet_dates_popup_done_drawable"
                 android:paddingLeft="16dp"
                 android:paddingTop="22dp"
                 android:paddingRight="24dp"
                 android:paddingBottom="34dp"
                 android:text="@string/done"
                 android:textAllCaps="true"
-                android:textColor="@color/tablet_results_search_blue"
+                android:textColor="?attr/skin_tablet_dates_popup_done_color"
                 android:textSize="14dp"
                 app:textStyle="bold"
                 android:background="@drawable/bg_tablet_search_results_popup_done_btn" />
@@ -154,12 +154,12 @@
 
     </FrameLayout>
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/bottom_center_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.expedia.bookings.widget.FrameLayoutTouchController
+        <com.expedia.bookings.widget.TouchableFrameLayout
             android:id="@+id/gde_container"
             android:visibility="invisible"
             android:layout_width="match_parent"
@@ -172,28 +172,28 @@
             android:layout_height="match_parent"
             android:background="@color/results_cal_trav_bg" />
 
-    </com.expedia.bookings.widget.FrameLayoutTouchController>
+    </com.expedia.bookings.widget.TouchableFrameLayout>
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/bottom_right_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.expedia.bookings.widget.FrameLayoutTouchController
+        <com.expedia.bookings.widget.TouchableFrameLayout
             android:id="@+id/calendar_container"
             android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <com.expedia.bookings.widget.FrameLayoutTouchController
+        <com.expedia.bookings.widget.TouchableFrameLayout
             android:id="@+id/traveler_container"
             android:visibility="invisible"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </com.expedia.bookings.widget.FrameLayoutTouchController>
+    </com.expedia.bookings.widget.TouchableFrameLayout>
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/waypoint_container"
         android:visibility="invisible"
         android:layout_width="match_parent"

@@ -10,7 +10,7 @@ public enum ReviewSort {
 	public String getSortByApiParam() {
 		switch (this) {
 		case NEWEST_REVIEW_FIRST:
-			return "DATEDESC";
+			return "DATEDESCWITHLANGBUCKETS";
 		case HIGHEST_RATING_FIRST:
 			return "RATINGDESC";
 		case LOWEST_RATING_FIRST:

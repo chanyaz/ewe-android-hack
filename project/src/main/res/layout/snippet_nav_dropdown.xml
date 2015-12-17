@@ -17,7 +17,7 @@
         android:overScrollFooter="@null"
         android:overScrollHeader="@null"
         android:fadingEdge="none"
-        android:listSelector="@drawable/abs__item_background_holo_dark" >
+        android:listSelector="?android:attr/selectableItemBackground" >
     </ListView>
 
 </LinearLayout>

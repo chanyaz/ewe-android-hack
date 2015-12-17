@@ -1,38 +1,44 @@
 package com.expedia.bookings.section;
 
+import java.text.DecimalFormat;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.StateListDrawable;
 import android.text.Html;
 import android.util.AttributeSet;
+import android.util.StateSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
-import com.expedia.bookings.bitmaps.BitmapUtils;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PaletteCallback;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
-import com.expedia.bookings.utils.ColorBuilder;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.text.StrikethroughTagHandler;
+import com.squareup.phrase.Phrase;
 
 /**
  * Note: This is somewhat overloaded to be able to represent either an entire
@@ -41,29 +47,11 @@ import com.mobiata.android.text.StrikethroughTagHandler;
  */
 public class HotelSummarySection extends RelativeLayout {
 
-	private static final int[] DEFAULT_GRADIENT_COLORS = new int[] {
-		0x00000000,
-		0x40000000,
-		0xa4000000,
-	};
-	private static final float[] DEFAULT_GRADIENT_POSITIONS = null; // Distribute the gradient colors evenly
-
-	private static final int[] SELECTED_GRADIENT_COLORS = new int[] {
-		0xb34180d9,
-		0xb34180d9,
-		0xba3d72bc,
-		0xb33867a9,
-	};
-	private static final float[] SELECTED_GRADIENT_POSITIONS = new float[] {
-		0f,
-		0.28f,
-		0.85f,
-		1f,
-	};
-
 	public static final int ROOMS_LEFT_CUTOFF = 5;
 
 	private static final int HOTEL_PRICE_TOO_LONG = 7;
+
+	private static final String PICASSO_TAG = "hotel_list";
 
 	// "ViewHolder" views
 	private ImageView mThumbnailView;
@@ -74,7 +62,10 @@ public class HotelSummarySection extends RelativeLayout {
 	private TextView mPriceText;
 	private TextView mSaleText;
 	private ImageView mSaleImageView;
+	private ViewGroup mAirAttachC;
+	private TextView mAirAttachTv;
 	private RatingBar mUserRatingBar;
+	private TextView mUserRating;
 	private TextView mNotRatedText;
 	private TextView mProximityText;
 	private TextView mSoldOutText;
@@ -82,12 +73,20 @@ public class HotelSummarySection extends RelativeLayout {
 	private boolean mDoUrgencyTextColorMatching = false;
 	private View mCardCornersBottom;
 	private View mBgImgOverlay;
+	private View mSelectedOverlay;
+	private ViewGroup ratingInfo;
 
 	// Properties extracted from the view.xml
 	private Drawable mUnselectedBackground;
 	private Drawable mSelectedBackground;
 	private int mSalePriceTextColor;
+	private int mAirAttachPriceTextColor;
 	private int mPriceTextColor;
+	private boolean mIsSelected;
+
+	//Value for AB test
+	boolean isUserBucketedForTest = false;
+	private DecimalFormat df = new DecimalFormat("#.0");
 
 	public HotelSummarySection(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -98,9 +97,11 @@ public class HotelSummarySection extends RelativeLayout {
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.hotel_summary_section);
 			mSelectedBackground = a.getDrawable(R.styleable.hotel_summary_section_selectedBackground);
 			mSalePriceTextColor = a.getColor(R.styleable.hotel_summary_section_salePriceTextColor,
-				R.color.hotel_price_sale_text_color);
+				getResources().getColor(R.color.hotel_price_sale_text_color));
+			mAirAttachPriceTextColor = a.getColor(R.styleable.hotel_summary_section_airAttachPriceTextColor,
+				getResources().getColor(R.color.hotel_price_air_attach_text_color));
 			mPriceTextColor = a.getColor(R.styleable.hotel_summary_section_priceTextColor,
-				R.color.hotel_price_text_color);
+				getResources().getColor(R.color.hotel_price_text_color));
 			a.recycle();
 		}
 	}
@@ -118,12 +119,16 @@ public class HotelSummarySection extends RelativeLayout {
 		mPriceText = Ui.findView(this, R.id.price_text_view);
 		mSaleText = Ui.findView(this, R.id.sale_text_view);
 		mSaleImageView = Ui.findView(this, R.id.sale_image_view);
+		mAirAttachC = Ui.findView(this, R.id.air_attach_sale_container);
+		mAirAttachTv = Ui.findView(this, R.id.air_attach_sale_text_view);
 		mUserRatingBar = Ui.findView(this, R.id.user_rating_bar);
 		mNotRatedText = Ui.findView(this, R.id.not_rated_text_view);
 		mProximityText = Ui.findView(this, R.id.proximity_text_view);
 		mSoldOutText = Ui.findView(this, R.id.sold_out_text_view);
 		mCardCornersBottom = Ui.findView(this, R.id.card_corners_bottom);
 		mBgImgOverlay = Ui.findView(this, R.id.gradient_header_mask);
+		mUserRating = Ui.findView(this, R.id.rating);
+		ratingInfo = Ui.findView(this, R.id.rating_info);
 
 		// We'll fill mUrgencyText either from urgency_text_view or urgency_text_view_color_matched
 		// and if it's from color_matched, then we know we'll need to do color matching later on.
@@ -131,6 +136,11 @@ public class HotelSummarySection extends RelativeLayout {
 		if (mUrgencyText == null) {
 			mUrgencyText = Ui.findView(this, R.id.urgency_text_view_color_matched);
 			mDoUrgencyTextColorMatching = true;
+		}
+
+		mSelectedOverlay = Ui.findView(this, R.id.selected_hotel_overlay);
+		if (!ExpediaBookingApp.useTabletInterface(getContext())) {
+			isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppSRPercentRecommend);
 		}
 	}
 
@@ -156,7 +166,7 @@ public class HotelSummarySection extends RelativeLayout {
 	 * @param isSelected
 	 */
 	public void bind(final Property property, boolean shouldShowVipIcon, float priceTextSize,
-		boolean showDistance, DistanceUnit distanceUnit, boolean isSelected) {
+					 boolean showDistance, DistanceUnit distanceUnit, boolean isSelected) {
 
 		Rate lowestRate = property.getLowestRate();
 		bind(property, lowestRate, shouldShowVipIcon, priceTextSize, showDistance, distanceUnit, isSelected, false);
@@ -174,9 +184,10 @@ public class HotelSummarySection extends RelativeLayout {
 	 * @param isSelected
 	 */
 	public void bind(final Property property, final Rate rate, boolean shouldShowVipIcon, float priceTextSize,
-		boolean showDistance, DistanceUnit distanceUnit, boolean isSelected, boolean showTotal) {
+					 boolean showDistance, DistanceUnit distanceUnit, boolean isSelected, boolean showTotal) {
 		final Context context = getContext();
 		final Resources res = context.getResources();
+		mIsSelected = isSelected;
 
 		mNameText.setText(property.getName());
 
@@ -221,12 +232,39 @@ public class HotelSummarySection extends RelativeLayout {
 				}
 
 				mPriceText.setTextColor(mSalePriceTextColor);
-				mSaleText.setVisibility(View.VISIBLE);
-				if (mSaleImageView != null) {
-					mSaleImageView.setVisibility(View.VISIBLE);
+				if (rate.isAirAttached()) {
+					// Story #3586. Air Attach Phone - Search Results.
+					if (!ExpediaBookingApp.useTabletInterface(getContext())) {
+						if (mSaleImageView != null) {
+							mSaleImageView.setVisibility(View.VISIBLE);
+							mSaleImageView.setImageResource(R.drawable.bg_hotel_cell_sale_air_attach);
+						}
+						mPriceText.setTextColor(getResources().getColor(mAirAttachPriceTextColor));
+						mSaleText.setVisibility(View.VISIBLE);
+						mSaleText.setText(context.getString(R.string.percent_minus_template,
+							(float) rate.getDiscountPercent()));
+					}
+					// Story #3512. Air Attach Tablet - Search Results.
+					else if (mAirAttachC != null) {
+						mSaleText.setVisibility(View.GONE);
+						mAirAttachC.setVisibility(View.VISIBLE);
+						mAirAttachTv.setText(context.getString(R.string.percent_minus_template,
+							(float) rate.getDiscountPercent()));
+					}
 				}
-				mSaleText.setText(context.getString(R.string.percent_minus_template,
-					(float) rate.getDiscountPercent()));
+				else {
+					if (mAirAttachC != null) {
+						mAirAttachC.setVisibility(View.GONE);
+					}
+					if (mSaleImageView != null) {
+						mSaleImageView.setVisibility(View.VISIBLE);
+						int hotelSaleCellBgResId = Ui.obtainThemeResID(getContext(), R.attr.skin_hotelListingSaleDrawable);
+						mSaleImageView.setImageResource(hotelSaleCellBgResId);
+					}
+					mSaleText.setVisibility(View.VISIBLE);
+					mSaleText.setText(context.getString(R.string.percent_minus_template,
+						(float) rate.getDiscountPercent()));
+				}
 			}
 
 			// Story #790. Expedia's way of making it seem like they are offering a discount.
@@ -243,6 +281,9 @@ public class HotelSummarySection extends RelativeLayout {
 					mSaleImageView.setVisibility(View.GONE);
 				}
 				mPriceText.setTextColor(mPriceTextColor);
+				if (mAirAttachC != null) {
+					mAirAttachC.setVisibility(View.GONE);
+				}
 			}
 
 			else {
@@ -252,54 +293,100 @@ public class HotelSummarySection extends RelativeLayout {
 				if (mSaleImageView != null) {
 					mSaleImageView.setVisibility(View.GONE);
 				}
+				if (mAirAttachC != null) {
+					mAirAttachC.setVisibility(View.GONE);
+				}
 			}
 		}
 
-		int roomsLeft = property.getRoomsLeftAtThisRate();
-		// 1400. VSC - remove urgency messages throughout the app
 		if (mUrgencyText != null) {
-			if (ExpediaBookingApp.IS_VSC) {
-				mUrgencyText.setVisibility(View.GONE);
+			boolean isEtpSearchResultsBucket =
+				(!ExpediaBookingApp.useTabletInterface(getContext())) && Db.getAbacusResponse()
+					.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelETPSearchResults);
+
+			int roomsLeft = property.getRoomsLeftAtThisRate();
+			mUrgencyText.setTextSize(14f);
+			if (property.isSponsored()) {
+				if (!property.hasShownImpression()) {
+					//Ad is being inflated for the first time, fire impression tracking
+					property.setHasShownImpression(true);
+					AdImpressionTracking
+						.trackAdClickOrImpression(context, property.getImpressionTrackingUrl(), null);
+				}
+				mUrgencyText.setText(context.getString(R.string.sponsored));
+				mUrgencyText.setVisibility(View.VISIBLE);
+			}
+			else if (isEtpSearchResultsBucket && property.isETPHotel()) {
+				mUrgencyText.setText(context.getString(R.string.book_now_pay_later));
+				mUrgencyText.setVisibility(View.VISIBLE);
+				mUrgencyText.setTextSize(12f);
+			}
+			else if (property.isLowestRateTonightOnly()) {
+				mUrgencyText.setText(context.getString(R.string.tonight_only));
+				mUrgencyText.setVisibility(View.VISIBLE);
+			}
+			else if (property.isLowestRateMobileExclusive()) {
+				mUrgencyText.setText(context.getString(R.string.mobile_exclusive));
+				mUrgencyText.setVisibility(View.VISIBLE);
+			}
+			else if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
+				mUrgencyText.setText(res.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft));
+				mUrgencyText.setVisibility(View.VISIBLE);
 			}
 			else {
-				if (property.isLowestRateTonightOnly()) {
-					mUrgencyText.setText(context.getString(R.string.tonight_only));
-					mUrgencyText.setVisibility(View.VISIBLE);
-				}
-				else if (property.isLowestRateMobileExclusive()) {
-					mUrgencyText.setText(context.getString(R.string.mobile_exclusive));
-					mUrgencyText.setVisibility(View.VISIBLE);
-				}
-				else if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
-					mUrgencyText.setText(res.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft));
-					mUrgencyText.setVisibility(View.VISIBLE);
-				}
-				else {
-					mUrgencyText.setVisibility(View.GONE);
-				}
-
-				if (mVipView != null && shouldShowVipIcon) {
-					int visibility = property.isVipAccess() ? View.VISIBLE : View.INVISIBLE;
-					mVipView.setVisibility(visibility);
-				}
+				mUrgencyText.setVisibility(View.GONE);
 			}
 		}
 
+		if (mVipView != null && shouldShowVipIcon) {
+			int visibility = property.isVipAccess() ? View.VISIBLE : View.INVISIBLE;
+			mVipView.setVisibility(visibility);
+		}
+
+
 		if (mDoUrgencyTextColorMatching && mUrgencyText.getVisibility() == View.VISIBLE) {
-			setDominantColor(getResources().getColor(R.color.transparent_dark));
+			if (mIsSelected) {
+				mUrgencyText.setSelected(true);
+				setDominantColor(getResources().getColor(R.color.tablet_hotel_urgency_msg_selected_unpressed_overlay));
+			}
+			else {
+				setDominantColor(getResources().getColor(R.color.transparent_dark));
+			}
+		}
+
+		if (mSelectedOverlay != null && mIsSelected) {
+			mSelectedOverlay.setVisibility(VISIBLE);
 		}
 
 		mPriceText.setTextSize(priceTextSize);
 		mPriceText.setText(hotelPrice);
 
-		mUserRatingBar.setRating((float) property.getAverageExpediaRating());
-		if (mUserRatingBar.getRating() == 0f) {
+		if (isUserBucketedForTest) {
 			mUserRatingBar.setVisibility(View.GONE);
-			mNotRatedText.setVisibility(View.VISIBLE);
+			double rating = property.getAverageExpediaRating();
+			if (rating == 0f) {
+				ratingInfo.setVisibility(GONE);
+				mNotRatedText.setVisibility(View.VISIBLE);
+			}
+			else {
+				mNotRatedText.setVisibility(View.GONE);
+				mUserRating.setText(df.format(rating));
+				ratingInfo.setVisibility(VISIBLE);
+			}
 		}
 		else {
-			mUserRatingBar.setVisibility(View.VISIBLE);
-			mNotRatedText.setVisibility(View.GONE);
+			if (!ExpediaBookingApp.useTabletInterface(getContext())) {
+				ratingInfo.setVisibility(GONE);
+			}
+			mUserRatingBar.setRating((float) property.getAverageExpediaRating());
+			if (mUserRatingBar.getRating() == 0f) {
+				mUserRatingBar.setVisibility(View.GONE);
+				mNotRatedText.setVisibility(View.VISIBLE);
+			}
+			else {
+				mUserRatingBar.setVisibility(View.VISIBLE);
+				mNotRatedText.setVisibility(View.GONE);
+			}
 		}
 
 		if (showDistance && property.getDistanceFromUser() != null) {
@@ -324,13 +411,13 @@ public class HotelSummarySection extends RelativeLayout {
 
 		// See if there's a first image; if there is, use that as the thumbnail
 		if (mThumbnailView != null) {
-			int placeholderResId = Ui.obtainThemeResID((Activity) context, R.attr.HotelRowThumbPlaceHolderDrawable);
+			int placeholderResId = Ui
+				.obtainThemeResID(context, R.attr.skin_HotelRowThumbPlaceHolderDrawable);
 			if (property.getThumbnail() != null) {
-				property.getThumbnail().fillImageView(mThumbnailView, placeholderResId);
+				property.getThumbnail().fillImageView(mThumbnailView, placeholderResId, null, PICASSO_TAG);
 			}
 			else {
-				Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(context.getResources(), placeholderResId, false /*blurred*/);
-				mThumbnailView.setImageBitmap(bitmap);
+				new PicassoHelper.Builder(mThumbnailView).setTag(PICASSO_TAG).build().load(placeholderResId);
 			}
 		}
 
@@ -344,7 +431,6 @@ public class HotelSummarySection extends RelativeLayout {
 		boolean useHeaderGradient = !useSelectedBackground;
 
 		if (mHotelBackgroundView != null) {
-			final HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
 
 			if (isSoldOut) {
 				ColorMatrix cm = new ColorMatrix();
@@ -357,23 +443,26 @@ public class HotelSummarySection extends RelativeLayout {
 				mBgImgOverlay.setBackgroundResource(R.drawable.bg_hotel_details_header_gradient);
 			}
 
-			if (useHeaderGradient && isSelected) {
-				headerBitmapDrawable.setGradient(SELECTED_GRADIENT_COLORS, SELECTED_GRADIENT_POSITIONS);
-			}
-			else {
-				headerBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
-			}
-			headerBitmapDrawable.setCornerMode(CornerMode.ALL);
-			headerBitmapDrawable.setCornerRadius(res.getDimensionPixelSize(R.dimen.tablet_result_corner_radius));
-
-			int placeholderResId = Ui.obtainThemeResID((Activity) context, R.attr.HotelRowThumbPlaceHolderDrawable);
+			int placeholderResId = Ui
+				.obtainThemeResID((Activity) context, R.attr.skin_HotelRowThumbPlaceHolderDrawable);
 			if (property.getThumbnail() != null) {
-				property.getThumbnail().fillImageView(mHotelBackgroundView, placeholderResId, mHeaderBitmapLoadedCallback);
+				PaletteCallback callback = new PaletteCallback(mHotelBackgroundView) {
+					@Override
+					public void onSuccess(int color) {
+						setDominantColor(color);
+					}
+
+					@Override
+					public void onFailed() {
+						if (mDoUrgencyTextColorMatching && !mIsSelected) {
+							setDominantColor(getResources().getColor(R.color.transparent_dark));
+						}
+					}
+				};
+				property.getThumbnail().fillImageView(mHotelBackgroundView, placeholderResId, callback, PICASSO_TAG);
 			}
 			else {
-				Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(context.getResources(), placeholderResId, false /*blurred*/);
-				headerBitmapDrawable.setBitmap(bitmap);
-				mHotelBackgroundView.setImageDrawable(headerBitmapDrawable);
+				new PicassoHelper.Builder(mHotelBackgroundView).build().load(placeholderResId);
 			}
 		}
 
@@ -385,6 +474,8 @@ public class HotelSummarySection extends RelativeLayout {
 		if (ExpediaBookingApp.useTabletInterface(getContext())) {
 			if (mSoldOutText != null) {
 				mSoldOutText.setVisibility(View.VISIBLE);
+				mSoldOutText.setText(
+					Phrase.from(getContext(), R.string.sold_out_on_TEMPLATE).put("brand", BuildConfig.brand).format());
 			}
 			if (mNotRatedText != null) {
 				mNotRatedText.setVisibility(View.GONE);
@@ -398,42 +489,36 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 		else {
 			mProximityText.setVisibility(View.VISIBLE);
-			mProximityText.setText(Ui.obtainThemeResID(getContext(), R.attr.hotelSearchResultSoldOut));
+			mProximityText.setText(Phrase.from(getContext(), R.string.sold_out_on_TEMPLATE).put("brand", BuildConfig.brand).format());
 		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Async handling of Mobile Exclusive Deals / ColorScheme
 
-	L2ImageCache.OnBitmapLoaded mHeaderBitmapLoadedCallback = new L2ImageCache.OnBitmapLoaded() {
-		@Override
-		public void onBitmapLoaded(String url, Bitmap bitmap) {
-			if (mDoUrgencyTextColorMatching) {
-				ColorBuilder builder = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)).darkenBy(0.4f)
-					.setAlpha(204);
-				setDominantColor(builder.build());
-			}
-		}
-
-		@Override
-		public void onBitmapLoadFailed(String url) {
-			if (mDoUrgencyTextColorMatching) {
-				setDominantColor(getResources().getColor(R.color.transparent_dark));
-			}
-		}
-	};
-
 	private void setDominantColor(int color) {
-		mUrgencyText.setBackgroundColor(color);
+		StateListDrawable stateListDrawable = new StateListDrawable();
+		stateListDrawable.addState(new int[] {
+			android.R.attr.state_pressed, android.R.attr.state_selected
+		}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_pressed_selected_overlay)));
+		stateListDrawable.addState(new int[] {
+			android.R.attr.state_pressed
+		}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_pressed_unselected_overlay)));
+		stateListDrawable.addState(new int[] {
+			android.R.attr.state_selected
+		}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_selected_unpressed_overlay)));
+
+		stateListDrawable.addState(StateSet.WILD_CARD, new ColorDrawable(color));
+		mUrgencyText.setBackground(stateListDrawable);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// Show/hide MED callout
-
 	@TargetApi(11)
 	public void collapseBy(float pixels) {
 		mUrgencyText.setTranslationY(-pixels);
 		mCardCornersBottom.setTranslationY(-pixels);
 	}
+
 
 }

@@ -9,6 +9,12 @@
         <item name="android:maxHeight">15dp</item>
     </style>
 
+    <style name="RatingBar.Circle.HotelDetails">
+        <item name="android:progressDrawable">@drawable/ratingbar_circle_hotel_details</item>
+        <item name="android:minHeight">15dp</item>
+        <item name="android:maxHeight">15dp</item>
+    </style>
+
     <style name="RatingBar.UserReview.HotelDetails">
         <item name="android:progressDrawable">@drawable/ratingbar_userreview_hotel_details</item>
         <item name="android:minHeight">19dp</item>

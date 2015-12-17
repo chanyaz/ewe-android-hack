@@ -13,64 +13,23 @@
         android:layout_centerInParent="true"
         android:visibility="invisible" />
 
-    <!-- Credit card at top of screen -->
+    <!-- Credit card with logo and signature -->
 
-    <FrameLayout
-        android:id="@+id/credit_card_section_holder"
+    <include
+        android:id="@+id/credit_card_section"
+        layout="@layout/section_credit_card"
         android:layout_width="@dimen/credit_card_checkout_width"
         android:layout_height="@dimen/credit_card_checkout_height"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="55dp"
-        android:layout_above="@id/center">
-
-        <!-- Credit card with logo and signature -->
-
-        <include
-            android:id="@+id/credit_card_section"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical|right"
-            layout="@layout/section_credit_card" />
-
-        <!-- CVV text entry -->
-
-        <com.expedia.bookings.widget.CVVTextView
-            android:id="@+id/cvv_text_view"
-            android:layout_width="84dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|right"
-            android:layout_marginRight="@dimen/cvv_text_view_right_margin_other"
-            android:layout_marginTop="@dimen/cvv_text_view_top_margin_other"
-            android:background="@drawable/div_cvv"
-            android:freezesText="true"
-            android:gravity="center_horizontal"
-            android:maxLength="4"
-            android:paddingBottom="15dp"
-            android:paddingTop="15dp"
-            android:textColor="@color/cvv_normal"
-            android:textSize="20dp" />
-    </FrameLayout>
+        android:layout_above="@id/center"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_vertical|right"
+        android:layout_margin="10dp"/>
 
     <com.expedia.bookings.widget.MaskView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:exposedPadding="-4dp"
-        app:exposedView="@id/cvv_text_view" />
-
-    <!-- "Security Code for Doug's VISA" prompt -->
-
-    <com.mobiata.android.widget.AutoResizeTextView
-        android:id="@+id/cvv_prompt_text_view"
-        style="@style/Widget.TextView.CVVPrompt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/credit_card_section_holder"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="80dp"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:singleLine="true" />
+        app:exposedView="@+id/cvv_text_view" />
 
     <!-- Input buttons at bottom -->
 

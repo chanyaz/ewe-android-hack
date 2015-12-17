@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center_vertical"
     android:contentDescription="@string/cd_checkout"
-    android:drawableLeft="?attr/actionBarCheckoutDrawable"
+    android:drawableLeft="?attr/skin_actionBarCheckoutDrawable"
     android:focusable="true"
     android:gravity="center_vertical"
     android:minHeight="?android:attr/actionBarSize"
@@ -13,4 +13,4 @@
     android:paddingRight="@dimen/yoyo_navigation_padding_right"
     android:text="@string/checkout_btn"
     android:textAppearance="?android:attr/actionMenuTextAppearance"
-    android:textColor="?attr/actionBarButtonTextColor" />
+    android:textColor="?attr/skin_actionBarButtonTextColor" />

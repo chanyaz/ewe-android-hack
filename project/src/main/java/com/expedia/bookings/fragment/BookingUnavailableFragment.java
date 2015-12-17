@@ -13,7 +13,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
 

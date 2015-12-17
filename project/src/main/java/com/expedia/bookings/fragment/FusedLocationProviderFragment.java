@@ -11,16 +11,15 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
-import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
-import com.google.android.gms.location.LocationClient;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.mobiata.android.Log;
 
 /**
  * This is a non-ui fragment that makes using the FusedLocationProvider easy.
- *
+ * <p/>
  * To use it, add this fragment and then call <code>find()</code> passing in a Listener:
- * 
+ * <p/>
  * <pre>
  *   mLocationFragment = FusedLocationProviderFragment.getInstance(this);
  *   ...
@@ -33,25 +32,24 @@ import com.mobiata.android.Log;
  *       }
  *   });
  * </pre>
- * 
  */
-public class FusedLocationProviderFragment extends Fragment implements ConnectionCallbacks, OnConnectionFailedListener {
+public class FusedLocationProviderFragment extends Fragment implements
+	GoogleApiClient.ConnectionCallbacks,
+	GoogleApiClient.OnConnectionFailedListener {
 
 	// Use this for the FragmentManager too
 	private static final String TAG = FusedLocationProviderFragment.class.getSimpleName();
 
-	private LocationClient mLocationClient;
+	private GoogleApiClient mGoogleApiClient;
 
-	// Global variable to hold the current location
-	private Location mCurrentLocation;
-
-	private Queue<FusedLocationProviderListener> mListeners = new LinkedList<FusedLocationProviderListener>();
+	private Queue<FusedLocationProviderListener> mListeners = new LinkedList<>();
 
 	//////////////////////////////////////////////////////////////////////////
 	// Static methods
 
 	/**
 	 * Finds or creates a FusedLocationProviderFragment using the FragmentManager
+	 *
 	 * @return
 	 */
 	public static FusedLocationProviderFragment getInstance(Fragment host) {
@@ -67,6 +65,7 @@ public class FusedLocationProviderFragment extends Fragment implements Connectio
 
 	/**
 	 * Finds or creates a FusedLocationProviderFragment using the FragmentManager
+	 *
 	 * @return
 	 */
 	public static FusedLocationProviderFragment getInstance(FragmentActivity host) {
@@ -87,7 +86,9 @@ public class FusedLocationProviderFragment extends Fragment implements Connectio
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mLocationClient = new LocationClient(getActivity(), this, this);
+		mGoogleApiClient = new GoogleApiClient.Builder(getActivity(), this, this)
+			.addApi(LocationServices.API)
+			.build();
 	}
 
 	/*
@@ -98,7 +99,7 @@ public class FusedLocationProviderFragment extends Fragment implements Connectio
 		super.onStart();
 
 		// Connect the client.
-		mLocationClient.connect();
+		mGoogleApiClient.connect();
 	}
 
 	/*
@@ -107,7 +108,7 @@ public class FusedLocationProviderFragment extends Fragment implements Connectio
 	@Override
 	public void onStop() {
 		// Disconnecting the client invalidates it.
-		mLocationClient.disconnect();
+		mGoogleApiClient.disconnect();
 
 		super.onStop();
 	}
@@ -122,8 +123,8 @@ public class FusedLocationProviderFragment extends Fragment implements Connectio
 	}
 
 	@Override
-	public void onDisconnected() {
-		Log.d(TAG, "onDisconnected()");
+	public void onConnectionSuspended(int i) {
+		Log.d(TAG, "onConnectionSuspended()");
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -148,19 +149,19 @@ public class FusedLocationProviderFragment extends Fragment implements Connectio
 	}
 
 	private synchronized void deliverLocation() {
-		if (mLocationClient == null || !mLocationClient.isConnected()) {
+		if (mGoogleApiClient == null || !mGoogleApiClient.isConnected()) {
 			return;
 		}
 
-		mCurrentLocation = mLocationClient.getLastLocation();
+		Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 		while (!mListeners.isEmpty()) {
-			if (mCurrentLocation == null) {
+			if (location == null) {
 				Log.d(TAG, "location error");
 				mListeners.poll().onError();
 			}
 			else {
 				Log.d(TAG, "location found");
-				mListeners.poll().onFound(mCurrentLocation);
+				mListeners.poll().onFound(location);
 			}
 		}
 	}

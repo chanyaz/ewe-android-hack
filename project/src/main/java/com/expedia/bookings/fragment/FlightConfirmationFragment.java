@@ -1,10 +1,8 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.joda.time.DateTime;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -21,19 +19,22 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
-import com.expedia.bookings.data.FlightSearch;
-import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.Itinerary;
+import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.FlightLegSummarySection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
+import com.expedia.bookings.utils.CarDataUtils;
+import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
@@ -42,8 +43,6 @@ import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
-import com.mobiata.flightlib.data.Flight;
-import com.mobiata.flightlib.utils.AddFlightsIntentUtils;
 
 // We can assume that if this fragment loaded we successfully booked, so most
 // data we need to grab is available.
@@ -123,21 +122,79 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 		// Fill out all the actions
 		Ui.setText(v, R.id.going_to_text_view, getString(R.string.yay_going_somewhere_TEMPLATE, destinationCity));
-
 		if (PointOfSale.getPointOfSale().showHotelCrossSell()) {
-			Ui.setText(v, R.id.hotels_action_text_view, getString(R.string.hotels_in_TEMPLATE, destinationCity));
-			Ui.setOnClickListener(v, R.id.hotels_action_text_view, new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					searchForHotels();
-				}
-			});
+			// Check for air attach qualification
+			if (Db.getTripBucket() != null && Db.getTripBucket().isUserAirAttachQualified()) {
+				Ui.findView(v, R.id.hotels_action_text_view).setVisibility(View.GONE);
+				Ui.findView(v, R.id.air_attach_confirmation_banner).setVisibility(View.VISIBLE);
+				Ui.setOnClickListener(v, R.id.button_action_layout, new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						searchForHotels();
+						OmnitureTracking.trackAddHotelClick();
+					}
+				});
+				// Set air attach expiration date
+				DateTime expirationDate = Db.getTripBucket().getAirAttach().getExpirationDate();
+				DateTime currentDate = new DateTime();
+				int daysRemaining = JodaUtils.daysBetween(currentDate, expirationDate);
+				TextView expirationDateTv = Ui.findView(v, R.id.itin_air_attach_expiration_date_text_view);
+				expirationDateTv.setText(getResources().getQuantityString(R.plurals.days_from_now, daysRemaining, daysRemaining));
+
+
+				OmnitureTracking.trackFlightConfirmationAirAttach();
+			}
+			else {
+				Ui.findView(v, R.id.hotels_action_text_view).setVisibility(View.VISIBLE);
+				Ui.findView(v, R.id.air_attach_confirmation_banner).setVisibility(View.GONE);
+				Ui.setText(v, R.id.hotels_action_text_view, getString(R.string.hotels_in_TEMPLATE, destinationCity));
+				Ui.setOnClickListener(v, R.id.hotels_action_text_view, new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						searchForHotels();
+						OmnitureTracking.trackCrossSellFlightToHotel();
+					}
+				});
+			}
 		}
 		else {
 			Ui.findView(v, R.id.hotels_action_text_view).setVisibility(View.GONE);
 			Ui.findView(v, R.id.get_a_room_text_view).setVisibility(View.GONE);
 			Ui.findView(v, R.id.get_a_room_divider).setVisibility(View.GONE);
 		}
+
+		boolean isUserBucketedForTest = Db.getAbacusResponse()
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightConfCarsXsell);
+		if (PointOfSale.getPointOfSale().supports(LineOfBusiness.CARS) && isUserBucketedForTest) {
+			Ui.setText(v, R.id.get_a_room_text_view, getString(R.string.add_to_your_trip));
+			Ui.findView(v, R.id.car_divider).setVisibility(View.VISIBLE);
+			Ui.findView(v, R.id.cars_action_text_view).setVisibility(View.VISIBLE);
+			Ui.setText(v, R.id.cars_action_text_view, getString(R.string.cars_in_TEMPLATE, destinationCity));
+			Ui.setOnClickListener(v, R.id.cars_action_text_view, new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					searchForCars();
+					OmnitureTracking.trackAddCarClick();
+				}
+			});
+		}
+
+		isUserBucketedForTest = Db.getAbacusResponse()
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightConfLXXsell);
+		if (PointOfSale.getPointOfSale().supports(LineOfBusiness.LX) && isUserBucketedForTest) {
+			Ui.setText(v, R.id.get_a_room_text_view, getString(R.string.add_to_your_trip));
+			Ui.findView(v, R.id.lx_divider).setVisibility(View.VISIBLE);
+			Ui.findView(v, R.id.lx_action_text_view).setVisibility(View.VISIBLE);
+			Ui.setText(v, R.id.lx_action_text_view, getString(R.string.lx_in_TEMPLATE, destinationCity));
+			Ui.setOnClickListener(v, R.id.lx_action_text_view, new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					searchForActivities();
+					OmnitureTracking.trackAddLxClick();
+				}
+			});
+		}
+
 
 		Ui.setOnClickListener(v, R.id.share_action_text_view, new OnClickListener() {
 			@Override
@@ -156,19 +213,6 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		else {
 			Ui.findView(v, R.id.calendar_action_text_view).setVisibility(View.GONE);
 			Ui.findView(v, R.id.calendar_divider).setVisibility(View.GONE);
-		}
-
-		if (canTrackWithFlightTrack()) {
-			Ui.setOnClickListener(v, R.id.flighttrack_action_text_view, new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					startActivity(getFlightTrackIntent());
-				}
-			});
-		}
-		else {
-			Ui.findView(v, R.id.flighttrack_action_text_view).setVisibility(View.GONE);
-			Ui.findView(v, R.id.flighttrack_divider).setVisibility(View.GONE);
 		}
 
 		// Only display an insurance url if it exists. Currently only present for CA POS.
@@ -216,16 +260,21 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 	// Search for hotels
 
 	private void searchForHotels() {
-		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-		FlightLeg firstLeg = trip.getLeg(0);
-		FlightLeg secondLeg = trip.getLegCount() > 1 ? trip.getLeg(1) : null;
-		FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
-		int numTravelers = params.getNumAdults() + params.getNumChildren();
-		HotelSearchParams sp = HotelSearchParams.fromFlightParams(firstLeg, secondLeg, numTravelers);
-
+		HotelSearchParams sp = HotelSearchParams.fromFlightParams(Db.getTripBucket().getFlight());
 		NavUtils.goToHotels(getActivity(), sp);
+	}
 
-		OmnitureTracking.trackCrossSellFlightToHotel(getActivity());
+	//////////////////////////////////////////////////////////////////////////
+	// Search for cars
+
+	private void searchForCars() {
+		CarSearchParams sp = CarDataUtils.fromFlightParams(Db.getTripBucket().getFlight().getFlightTrip());
+		NavUtils.goToCars(getActivity(), null, sp, NavUtils.FLAG_OPEN_SEARCH);
+	}
+
+	private void searchForActivities() {
+		LXSearchParams sp = LXDataUtils.fromFlightParams(getActivity(), Db.getTripBucket().getFlight().getFlightTrip());
+		NavUtils.goToActivities(getActivity(), null, sp, NavUtils.FLAG_OPEN_SEARCH);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -253,7 +302,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 
 		SocialUtils.email(getActivity(), subject, body);
 
-		OmnitureTracking.trackFlightConfirmationShareEmail(getActivity());
+		OmnitureTracking.trackFlightConfirmationShareEmail();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -266,7 +315,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 			startActivity(intent);
 		}
 
-		OmnitureTracking.trackFlightConfirmationAddToCalendar(getActivity());
+		OmnitureTracking.trackFlightConfirmationAddToCalendar();
 	}
 
 	@SuppressLint("NewApi")
@@ -275,22 +324,4 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		String itineraryNumber = Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber();
 		return AddToCalendarUtils.generateFlightAddToCalendarIntent(getActivity(), pointOfSale, itineraryNumber, leg);
 	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// FlightTrack integration
-
-	public Intent getFlightTrackIntent() {
-		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-		List<Flight> flights = new ArrayList<Flight>();
-		for (int a = 0; a < trip.getLegCount(); a++) {
-			flights.addAll(trip.getLeg(a).getSegments());
-		}
-		return AddFlightsIntentUtils.getIntent(flights);
-	}
-
-	public boolean canTrackWithFlightTrack() {
-		//Track with Flight track only for expedia.
-		return ExpediaBookingApp.IS_EXPEDIA ? NavUtils.isIntentAvailable(getActivity(), getFlightTrackIntent()) : false;
-	}
-
 }

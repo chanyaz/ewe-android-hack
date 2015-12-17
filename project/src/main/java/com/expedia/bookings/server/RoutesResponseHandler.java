@@ -31,7 +31,7 @@ public class RoutesResponseHandler extends JsonResponseHandler<RoutesResponse> {
 
 		try {
 			// Check for errors, return if found
-			routesResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.FLIGHT_ROUTES, response));
+			routesResponse.addErrors(ParserUtils.parseErrors(ApiMethod.FLIGHT_ROUTES, response));
 			if (!routesResponse.isSuccess()) {
 				return routesResponse;
 			}

@@ -21,7 +21,7 @@ public class ClearPrivateDataDialog extends DialogFragment {
 
 		builder.setTitle(R.string.dialog_clear_private_data_title);
 		if (User.isLoggedIn(getActivity())) {
-			builder.setMessage(R.string.dialog_log_out_and_clear_private_data_msg);
+			builder.setMessage(R.string.dialog_sign_out_and_clear_private_data_msg);
 		}
 		else {
 			builder.setMessage(R.string.dialog_clear_private_data_msg);

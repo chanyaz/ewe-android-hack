@@ -6,17 +6,13 @@ import android.content.res.TypedArray;
 import android.net.Uri;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.enums.ResultsSearchState;
-import com.expedia.bookings.otto.Events;
 import com.larvalabs.svgandroid.widget.SVGView;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 public class CenteredCaptionedIcon extends RelativeLayout {

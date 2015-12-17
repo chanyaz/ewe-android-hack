@@ -88,7 +88,7 @@ public class FlightSearchLeg implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mDepartureDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "departureLocalDate", "departureDate");
+		mDepartureDate = JodaUtils.getLocalDateFromJson(obj, "departureLocalDate");
 		mDepartureLocation = JSONUtils.getJSONable(obj, "departureLocation", Location.class);
 		mArrivalLocation = JSONUtils.getJSONable(obj, "arrivalLocation", Location.class);
 		return true;

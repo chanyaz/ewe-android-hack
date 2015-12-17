@@ -76,7 +76,6 @@
                 android:layout_weight="1"
                 android:bufferType="spannable"
                 android:gravity="center_vertical"
-                android:imeOptions="flagNoExtractUi"
                 android:hint="@string/expiration_date"
                 android:paddingLeft="5dp"
                 android:textSize="18dp"/>
@@ -89,12 +88,7 @@
 
             <EditText
                 android:id="@+id/edit_name_on_card"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/name_on_card_hint"
-                android:inputType="textPersonName|textCapWords"
-                android:singleLine="true"/>
+                style="?attr/skin_HotelCheckout_CreditCardEditTextStyle" />
 
             <include
                 android:id="@+id/section_location_address"

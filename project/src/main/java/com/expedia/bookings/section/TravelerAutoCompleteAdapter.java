@@ -1,10 +1,10 @@
 package com.expedia.bookings.section;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
@@ -25,22 +25,39 @@ import com.mobiata.android.util.Ui;
 
 public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implements Filterable {
 
+	private static final int ITEM_VIEW_TYPE_SELECT_CONTACT = 0;
+	private static final int ITEM_VIEW_TYPE_TRAVELER = 1;
+	private static final int ITEM_VIEW_TYPE_ADD_TRAVELER = 2;
+	private static final int ITEM_VIEW_TYPE_COUNT = 3;
+
 	private TravelersFilter mFilter = new TravelersFilter();
 	private String mFilterStr;
 	private int mTravelerNumber = -1;
+
+	private boolean isAddTravelerEnabled = true;
+	private int mTravelerBackgroundDrawable = R.drawable.traveler_circle;
 
 	public TravelerAutoCompleteAdapter(Context context) {
 		super(context, R.layout.traveler_autocomplete_row);
 	}
 
+	public TravelerAutoCompleteAdapter(Context context, boolean addTravelerEnabled, int travelerDrawable) {
+		super(context, R.layout.traveler_autocomplete_row);
+		isAddTravelerEnabled = addTravelerEnabled;
+		mTravelerBackgroundDrawable = travelerDrawable;
+	}
+
 	@Override
 	public int getCount() {
-		return getAvailableTravelers().size();
+		return getAvailableTravelers().size() + (isAddTravelerEnabled ? 2 : 1);
 	}
 
 	@Override
 	public long getItemId(int position) {
-		return getItem(position).getTuid();
+		if (getItem(position) != null) {
+			return getItem(position).getTuid();
+		}
+		return position;
 	}
 
 	@Override
@@ -50,8 +67,11 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 	@Override
 	public Traveler getItem(int position) {
-		if (getCount() > position) {
-			return getAvailableTravelers().get(position);
+		int itemType = getItemViewType(position);
+		if (itemType == ITEM_VIEW_TYPE_TRAVELER) {
+			if (getCount() > position - 1) {
+				return getAvailableTravelers().get(position - 1);
+			}
 		}
 		return null;
 	}
@@ -71,64 +91,115 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 		return null;
 	}
 
+	private static class ViewHolder {
+		TextView tv;
+		TextView initials;
+		ImageView icon;
+		public ViewHolder(View v) {
+			tv = Ui.findView(v, R.id.text1);
+			icon = Ui.findView(v, R.id.icon);
+			initials = Ui.findView(v, R.id.initials);
+		}
+	}
+
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		final int itemType = getItemViewType(position);
 		Traveler trav = getItem(position);
-
+		ViewHolder vh;
 		View retView = convertView;
-		if (retView == null) {
-			retView = View.inflate(getContext(), R.layout.traveler_autocomplete_row, null);
-		}
-		TextView tv = Ui.findView(retView, android.R.id.text1);
-		ImageView icon = Ui.findView(retView, android.R.id.icon);
-		tv.setText(trav.getFullName());
 
-		//TODO: This might be sort of heavy because we are generating a new bitmap every time...
-		icon.setImageBitmap(TravelerIconUtils.generateCircularInitialIcon(getContext(), trav.getFullName(),
-			Color.parseColor("#FF373F4A")));
+		switch (itemType) {
+		case ITEM_VIEW_TYPE_SELECT_CONTACT:
+			if (retView == null) {
+				retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);
+				vh = new ViewHolder(retView);
+				retView.setTag(vh);
+			}
+			else {
+				vh = (ViewHolder) retView.getTag();
+			}
+			vh.tv.setText(R.string.select_traveler);
+			vh.icon.setBackgroundResource(R.drawable.select_contact);
+			retView.setEnabled(false);
+			break;
+		case ITEM_VIEW_TYPE_TRAVELER:
+			if (retView == null) {
+				retView = View.inflate(getContext(), R.layout.traveler_autocomplete_row, null);
+				vh = new ViewHolder(retView);
+				retView.setTag(vh);
+			}
+			else {
+				vh = (ViewHolder) retView.getTag();
+			}
+			vh.tv.setText(trav.getFullName());
+			vh.initials.setBackgroundResource(mTravelerBackgroundDrawable);
+			vh.initials.setText(TravelerIconUtils.getInitialsFromDisplayName(trav.getFullName()));
+			if (!trav.isSelectable()) {
+				vh.tv.setAlpha(0.15f);
+				vh.initials.setAlpha(0.15f);
+			}
+			else {
+				vh.tv.setAlpha(1);
+				vh.initials.setAlpha(1);
+			}
+			break;
+		case ITEM_VIEW_TYPE_ADD_TRAVELER:
+			if (retView == null) {
+				retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);
+				vh = new ViewHolder(retView);
+				retView.setTag(vh);
+			}
+			else {
+				vh = (ViewHolder) retView.getTag();
+			}
+			vh.tv.setText(R.string.add_new_traveler);
+			vh.icon.setBackgroundResource(R.drawable.add_plus);
+			break;
+		}
 
 		return retView;
 	}
 
-	private ArrayList<Traveler> getAvailableTravelers() {
-		boolean removeWorkingTraveler = true;
-		boolean removeDbTravelers = true;
+	@Override
+	public int getViewTypeCount() {
+		return ITEM_VIEW_TYPE_COUNT;
+	}
 
+	@Override
+	public int getItemViewType(int position) {
+		if (isAddTravelerEnabled && position == getCount() - 1) {
+			return ITEM_VIEW_TYPE_ADD_TRAVELER;
+		}
+		else if (position == 0) {
+			return ITEM_VIEW_TYPE_SELECT_CONTACT;
+		}
+		else {
+			return ITEM_VIEW_TYPE_TRAVELER;
+		}
+	}
+
+	private ArrayList<Traveler> getAvailableTravelers() {
 		if (User.isLoggedIn(getContext()) && Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null) {
 			ArrayList<Traveler> availableTravelers = new ArrayList<Traveler>(Db.getUser().getAssociatedTravelers());
+			availableTravelers.add(Db.getUser().getPrimaryTraveler());
 			for (int i = availableTravelers.size() - 1; i >= 0; i--) {
 				Traveler trav = availableTravelers.get(i);
 
 				//Remove the working traveler from the list of available travelers
-				if (removeWorkingTraveler && Db.getWorkingTravelerManager() != null
+				if (Db.getWorkingTravelerManager() != null
 					&& Db.getWorkingTravelerManager().getWorkingTraveler() != null) {
 					Traveler workingTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 					if (trav.compareNameTo(workingTraveler) == 0) {
-						availableTravelers.remove(i);
-						continue;
-					}
-				}
-
-				//Remove the travelers already in Db from the list of available travelers
-				if (removeDbTravelers && Db.getTravelers() != null) {
-					boolean removed = false;
-					for (int j = 0; j < Db.getTravelers().size(); j++) {
-						Traveler dbTrav = Db.getTravelers().get(j);
-						if ((!removeWorkingTraveler || j != mTravelerNumber) && dbTrav.compareNameTo(trav) == 0) {
-							availableTravelers.remove(i);
-							removed = true;
-							break;
-						}
-					}
-					if (removed) {
+						availableTravelers.get(i).setIsSelectable(false);
 						continue;
 					}
 				}
 
 				//Remove travelers based on filter text
 				if (!TextUtils.isEmpty(mFilterStr) && !TextUtils.isEmpty(trav.getFullName()) && !trav.getFullName()
-					.toLowerCase().contains(mFilterStr.toLowerCase())) {
+					.toLowerCase(Locale.getDefault()).contains(mFilterStr.toLowerCase(Locale.getDefault()))) {
 					availableTravelers.remove(i);
 					continue;
 				}
@@ -178,4 +249,16 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 		}
 	}
 
+	@Override
+	public boolean isEnabled(int position) {
+		Traveler traveler = getItem(position);
+		if (traveler != null) {
+			return traveler.isSelectable();
+		}
+		else if (position != 0) { // add new traveler button
+			return true;
+		}
+		// "Select Contact" button (list position:0)
+		return false;
+	}
 }

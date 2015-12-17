@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
@@ -12,33 +13,27 @@ public class FlightRulesActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		setTitle(R.string.legal_information);
-		setContentView(R.layout.activity_flight_rules);
-
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		if(ExpediaBookingApp.IS_EXPEDIA) {
-			getActionBar().setLogo(R.drawable.ic_expedia_action_bar_logo_dark);
+		if (!ExpediaBookingApp.useTabletInterface(this)) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		}
+
+		if (shouldBail()) {
+			return;
+		}
+
+		setContentView(R.layout.activity_flight_rules);
+		getActionBar().setDisplayHomeAsUpEnabled(true);
+	}
+
+	private boolean shouldBail() {
+		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
 
-		OmnitureTracking.trackPageLoadFlightCheckoutWarsaw(this);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
+		OmnitureTracking.trackPageLoadFlightCheckoutWarsaw();
 	}
 
 	@Override

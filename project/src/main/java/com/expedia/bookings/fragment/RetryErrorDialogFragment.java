@@ -9,8 +9,10 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 // For now spits out a single message, but could be modified to spit out
 // a given message.
@@ -60,7 +62,7 @@ public class RetryErrorDialogFragment extends DialogFragment implements OnClickL
 			}
 		}
 
-		return getString(Ui.obtainThemeResID(getActivity(), R.attr.serverErrorMessageString));
+		return Phrase.from(getActivity(), R.string.error_server_TEMPLATE).put("brand", BuildConfig.brand).format().toString();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

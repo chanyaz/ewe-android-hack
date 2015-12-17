@@ -1,10 +1,6 @@
 package com.expedia.bookings.server;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,9 +11,8 @@ import org.json.JSONObject;
 import android.text.TextUtils;
 
 import com.expedia.bookings.data.Activity;
+import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.Car;
-import com.expedia.bookings.data.Car.Category;
-import com.expedia.bookings.data.Car.Type;
 import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
@@ -27,13 +22,14 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.Gender;
+import com.expedia.bookings.data.cars.CarCategory;
+import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.trips.BookingStatus;
 import com.expedia.bookings.data.trips.CustomerSupport;
 import com.expedia.bookings.data.trips.FlightConfirmation;
 import com.expedia.bookings.data.trips.Insurance;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.Trip.LevelOfDetail;
-import com.expedia.bookings.data.trips.Trip.TimePeriod;
 import com.expedia.bookings.data.trips.TripActivity;
 import com.expedia.bookings.data.trips.TripCar;
 import com.expedia.bookings.data.trips.TripComponent;
@@ -41,8 +37,6 @@ import com.expedia.bookings.data.trips.TripCruise;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.data.trips.TripPackage;
-import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
@@ -78,11 +72,10 @@ public class TripParser {
 		trip.setTitle(tripJson.optString("title"));
 		trip.setDescription(tripJson.optString("description"));
 		trip.setDetailsUrl(tripJson.optString("webDetailsURL"));
-		trip.setStartDate(parseDateTime(tripJson.opt("startTime")));
-		trip.setEndDate(parseDateTime(tripJson.opt("endTime")));
+		trip.setStartDate(DateTimeParser.parseDateTime(tripJson.opt("startTime")));
+		trip.setEndDate(DateTimeParser.parseDateTime(tripJson.opt("endTime")));
 
 		trip.setBookingStatus(parseBookingStatus(tripJson.optString("bookingStatus")));
-		trip.setTimePeriod(parseTimePeriod(tripJson.optString("timePeriod")));
 
 		/*
 		 *  The api returns the sharableUrl in the form of /api/trips/shared. But this is NOT the link that is to be shared to any users.
@@ -100,6 +93,11 @@ public class TripParser {
 			for (int b = 0; b < insurance.length(); b++) {
 				trip.addInsurance(parseTripInsurance(insurance.optJSONObject(b)));
 			}
+		}
+
+		// Parse air attach qualification
+		if (tripJson.has("airAttachQualificationInfo")) {
+			trip.setAirAttach(new AirAttach(tripJson.optJSONObject("airAttachQualificationInfo")));
 		}
 
 		return trip;
@@ -160,50 +158,6 @@ public class TripParser {
 		return tripComponents;
 	}
 
-	private DateTime parseDateTime(Object obj) {
-		if (obj == null) {
-			return null;
-		}
-		else if (obj instanceof JSONObject) {
-			JSONObject json = (JSONObject) obj;
-			long millisFromEpoch = json.optLong("epochSeconds") * 1000;
-			int tzOffsetMillis = json.optInt("timeZoneOffsetSeconds") * 1000;
-			return JodaUtils.fromMillisAndOffset(millisFromEpoch, tzOffsetMillis);
-		}
-		else if (obj instanceof String) {
-			// TODO: DELETE ONCE OBSELETE
-			String str = (String) obj;
-
-			for (DateFormat df : DATE_FORMATS) {
-				try {
-					Date date = df.parse(str);
-
-					// We are going to do this hacky way of parsing the timezone for fun and profit
-					String sign = StrUtils.slice(str, -6, -5);
-					String hourStr = StrUtils.slice(str, -5, -3);
-					String minuteStr = StrUtils.slice(str, -2);
-					int offset = (60 * 60 * Integer.parseInt(hourStr)) + (60 * Integer.parseInt(minuteStr));
-					if (sign.equals("-")) {
-						offset *= -1;
-					}
-
-					return JodaUtils.fromMillisAndOffset(date.getTime(), offset * 1000);
-				}
-				catch (ParseException e) {
-					// Ignore
-				}
-			}
-		}
-
-		throw new RuntimeException("Could not parse date time: " + obj);
-	}
-
-	// Until all date formats are normalized, we must support all of them.
-	private static final DateFormat[] DATE_FORMATS = {
-		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ"),
-		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'"),
-	};
-
 	private CustomerSupport parseCustomerSupport(JSONObject customerSupportJson) {
 		CustomerSupport support = new CustomerSupport();
 		if (customerSupportJson != null) {
@@ -233,20 +187,6 @@ public class TripParser {
 		return null;
 	}
 
-	private TimePeriod parseTimePeriod(String period) {
-		if ("UPCOMING".equals(period)) {
-			return TimePeriod.UPCOMING;
-		}
-		else if ("INPROGRESS".equals(period)) {
-			return TimePeriod.INPROGRESS;
-		}
-		else if ("COMPLETED".equals(period)) {
-			return TimePeriod.COMPLETED;
-		}
-
-		return null;
-	}
-
 	private TripHotel parseTripHotel(JSONObject obj) {
 		TripHotel hotel = new TripHotel();
 
@@ -254,13 +194,13 @@ public class TripParser {
 		hotel.getShareInfo().setSharableDetailsUrl(obj.optString("sharableItemDetailURL").replace("/api/", "/m/"));
 
 		if (obj.has("checkInDateTime") && obj.has("checkOutDateTime")) {
-			hotel.setStartDate(parseDateTime(obj.opt("checkInDateTime")));
-			hotel.setEndDate(parseDateTime(obj.opt("checkOutDateTime")));
+			hotel.setStartDate(DateTimeParser.parseDateTime(obj.opt("checkInDateTime")));
+			hotel.setEndDate(DateTimeParser.parseDateTime(obj.opt("checkOutDateTime")));
 		}
 		else {
 			// Old version of code, kept because I'm not sure which servers support newer version yet
-			hotel.setStartDate(parseDateTime(obj.opt("checkInDate")));
-			hotel.setEndDate(parseDateTime(obj.opt("checkOutDate")));
+			hotel.setStartDate(DateTimeParser.parseDateTime(obj.opt("checkInDate")));
+			hotel.setEndDate(DateTimeParser.parseDateTime(obj.opt("checkOutDate")));
 		}
 
 		Property property = new Property();
@@ -340,18 +280,18 @@ public class TripParser {
 		return hotel;
 	}
 
-	private TripFlight parseTripFlight(JSONObject obj) {
+	public TripFlight parseTripFlight(JSONObject obj) {
 		TripFlight flight = new TripFlight();
 
 		parseTripCommon(obj, flight);
 
 		if (obj.has("startTime") && obj.has("endTime")) {
-			flight.setStartDate(parseDateTime(obj.opt("startTime")));
-			flight.setEndDate(parseDateTime(obj.opt("endTime")));
+			flight.setStartDate(DateTimeParser.parseDateTime(obj.opt("startTime")));
+			flight.setEndDate(DateTimeParser.parseDateTime(obj.opt("endTime")));
 		}
 		else {
-			flight.setStartDate(parseDateTime(obj.opt("startDate")));
-			flight.setEndDate(parseDateTime(obj.opt("endDate")));
+			flight.setStartDate(DateTimeParser.parseDateTime(obj.opt("startDate")));
+			flight.setEndDate(DateTimeParser.parseDateTime(obj.opt("endDate")));
 		}
 
 		// We're taking a lack of legs info to mean that this is a non-details call;
@@ -360,7 +300,7 @@ public class TripParser {
 			return flight;
 		}
 
-		//Parse confirmations
+		// Parse confirmations
 		JSONArray confirmationArr = obj.optJSONArray("confirmationNumbers");
 		if (confirmationArr != null) {
 			for (int a = 0; a < confirmationArr.length(); a++) {
@@ -373,6 +313,9 @@ public class TripParser {
 				}
 			}
 		}
+
+		// Parse destination regionId
+		flight.setDestinationRegionId(obj.optString("destinationRegionId"));
 
 		FlightTrip flightTrip = new FlightTrip();
 		flight.setFlightTrip(flightTrip);
@@ -410,12 +353,13 @@ public class TripParser {
 				//required for flight map
 				segment.mStatusCode = Flight.STATUS_UNKNOWN;
 
-				segment.mOrigin = parseWaypoint(segmentJson, Waypoint.F_DEPARTURE);
-				segment.mDestination = parseWaypoint(segmentJson, Waypoint.F_ARRIVAL);
+				segment.setOriginWaypoint(parseWaypoint(segmentJson, Waypoint.F_DEPARTURE));
+				segment.setDestinationWaypoint(parseWaypoint(segmentJson, Waypoint.F_ARRIVAL));
 
 				FlightCode flightCode = new FlightCode();
 				flightCode.mAirlineCode = segmentJson.optString("externalAirlineCode");
 				flightCode.mNumber = segmentJson.optString("flightNumber").trim();
+				flightCode.mAirlineName = segmentJson.optString("airlineName");
 				segment.addFlightCode(flightCode, Flight.F_PRIMARY_AIRLINE_CODE);
 
 				String operatedBy = segmentJson.optString("operatedByAirCarrierName", null);
@@ -454,8 +398,8 @@ public class TripParser {
 
 		parseTripCommon(obj, tripCar);
 
-		tripCar.setStartDate(parseDateTime(obj.optJSONObject("pickupTime")));
-		tripCar.setEndDate(parseDateTime(obj.optJSONObject("dropOffTime")));
+		tripCar.setStartDate(DateTimeParser.parseDateTime(obj.optJSONObject("pickupTime")));
+		tripCar.setEndDate(DateTimeParser.parseDateTime(obj.optJSONObject("dropOffTime")));
 
 		if (obj.has("uniqueID")) {
 			Car car = new Car();
@@ -469,8 +413,8 @@ public class TripParser {
 						priceJson.optString("currency", null)));
 			}
 
-			car.setPickUpDateTime(parseDateTime(obj.optJSONObject("pickupTime")));
-			car.setDropOffDateTime(parseDateTime(obj.optJSONObject("dropOffTime")));
+			car.setPickUpDateTime(DateTimeParser.parseDateTime(obj.optJSONObject("pickupTime")));
+			car.setDropOffDateTime(DateTimeParser.parseDateTime(obj.optJSONObject("dropOffTime")));
 
 			car.setPickUpLocation(parseCarLocation(obj.optJSONObject("pickupLocation")));
 			car.setDropOffLocation(parseCarLocation(obj.optJSONObject("dropOffLocation")));
@@ -501,8 +445,8 @@ public class TripParser {
 
 		parseTripCommon(obj, tripCruise);
 
-		tripCruise.setStartDate(parseDateTime(obj.optJSONObject("startTime")));
-		tripCruise.setEndDate(parseDateTime(obj.optJSONObject("endTime")));
+		tripCruise.setStartDate(DateTimeParser.parseDateTime(obj.optJSONObject("startTime")));
+		tripCruise.setEndDate(DateTimeParser.parseDateTime(obj.optJSONObject("endTime")));
 
 		return tripCruise;
 	}
@@ -512,28 +456,23 @@ public class TripParser {
 
 		parseTripCommon(obj, tripActivity);
 
-		tripActivity.setStartDate(parseDateTime(obj.optJSONObject("startTime")));
-		tripActivity.setEndDate(parseDateTime(obj.optJSONObject("endTime")));
+		tripActivity.setStartDate(DateTimeParser.parseDateTime(obj.optJSONObject("startTime")));
+		tripActivity.setEndDate(DateTimeParser.parseDateTime(obj.optJSONObject("endTime")));
 
 		if (obj.has("uniqueID")) {
 			Activity activity = new Activity();
 
 			activity.setId(obj.optString("uniqueID", null));
 			activity.setTitle(obj.optString("activityTitle", null));
-			activity.setDetailsUrl(obj.optString("activityDetailsURL", null));
 			activity.setGuestCount(obj.optInt("travelerCount"));
 			activity.setVoucherPrintUrl(obj.optString("voucherPrintURL"));
 
-			JSONObject priceJson = obj.optJSONObject("price");
-			if (priceJson != null) {
-				activity.setPrice(ParserUtils.createMoney(priceJson.optString("total", null),
-						priceJson.optString("currency", null)));
-			}
-
 			// Parse travelers
 			JSONArray travelersArr = obj.optJSONArray("travelers");
-			for (int i = 0; i < travelersArr.length(); i++) {
-				activity.addTraveler(parseTraveler(travelersArr.optJSONObject(i)));
+			if (travelersArr != null) {
+				for (int i = 0; i < travelersArr.length(); i++) {
+					activity.addTraveler(parseTraveler(travelersArr.optJSONObject(i)));
+				}
 			}
 
 			tripActivity.setActivity(activity);
@@ -561,8 +500,8 @@ public class TripParser {
 	private Insurance parseTripInsurance(JSONObject obj) {
 		Insurance retVal = new Insurance();
 
-		if (obj.has("name")) {
-			retVal.setPolicyName(obj.optString("name", null));
+		if (obj.has("displayName")) {
+			retVal.setPolicyName(obj.optString("displayName", null));
 			retVal.setTermsUrl(obj.optString("termsURL", null));
 			retVal.setInsuranceLineOfBusiness(obj.optString("lineOfBusiness", ""));
 		}
@@ -576,6 +515,7 @@ public class TripParser {
 		traveler.setMiddleName(obj.optString("middleName"));
 		traveler.setLastName(obj.optString("lastName"));
 		traveler.setFullName(obj.optString("fullName"));
+		traveler.setAge(obj.optInt("age"));
 
 		String gender = obj.optString("gender");
 		if ("Male".equals(gender)) {
@@ -592,8 +532,6 @@ public class TripParser {
 			traveler.setPhoneCountryCode(firstPhoneJson.optString("countryCode"));
 			traveler.setPhoneNumber(firstPhoneJson.optString("phone"));
 		}
-
-		traveler.setIsRedeemer(obj.optBoolean("isRedeemer"));
 
 		return traveler;
 	}
@@ -616,139 +554,139 @@ public class TripParser {
 
 	}
 
-	private Car.Category parseCarCategory(String category) {
+	private CarCategory parseCarCategory(String category) {
 		if (TextUtils.isEmpty(category)) {
 			return null;
 		}
 
 		if (category.equals("Mini")) {
-			return Category.MINI;
+			return CarCategory.MINI;
 		}
 		else if (category.equals("Economy")) {
-			return Category.ECONOMY;
+			return CarCategory.ECONOMY;
 		}
 		else if (category.equals("Compact")) {
-			return Category.COMPACT;
+			return CarCategory.COMPACT;
 		}
 		else if (category.equals("Midsize")) {
-			return Category.MIDSIZE;
+			return CarCategory.MIDSIZE;
 		}
 		else if (category.equals("Standard")) {
-			return Category.STANDARD;
+			return CarCategory.STANDARD;
 		}
 		else if (category.equals("Fullsize")) {
-			return Category.FULLSIZE;
+			return CarCategory.FULLSIZE;
 		}
 		else if (category.equals("Premium")) {
-			return Category.PREMIUM;
+			return CarCategory.PREMIUM;
 		}
 		else if (category.equals("Luxury")) {
-			return Category.LUXURY;
+			return CarCategory.LUXURY;
 		}
 		else if (category.equals("Special")) {
-			return Category.SPECIAL;
+			return CarCategory.SPECIAL;
 		}
 		else if (category.equals("MiniElite")) {
-			return Category.MINI_ELITE;
+			return CarCategory.MINI_ELITE;
 		}
 		else if (category.equals("EconomyElite")) {
-			return Category.ECONOMY_ELITE;
+			return CarCategory.ECONOMY_ELITE;
 		}
 		else if (category.equals("CompactElite")) {
-			return Category.COMPACT_ELITE;
+			return CarCategory.COMPACT_ELITE;
 		}
 		else if (category.equals("MidsizeElite")) {
-			return Category.MIDSIZE_ELITE;
+			return CarCategory.MIDSIZE_ELITE;
 		}
 		else if (category.equals("StandardElite")) {
-			return Category.STANDARD_ELITE;
+			return CarCategory.STANDARD_ELITE;
 		}
 		else if (category.equals("FullsizeElite")) {
-			return Category.FULLSIZE_ELITE;
+			return CarCategory.FULLSIZE_ELITE;
 		}
 		else if (category.equals("PremiumElite")) {
-			return Category.PREMIUM_ELITE;
+			return CarCategory.PREMIUM_ELITE;
 		}
 		else if (category.equals("LuxuryElite")) {
-			return Category.LUXURY_ELITE;
+			return CarCategory.LUXURY_ELITE;
 		}
 		else if (category.equals("Oversize")) {
-			return Category.OVERSIZE;
+			return CarCategory.OVERSIZE;
 		}
 
 		return null;
 	}
 
-	private Car.Type parseCarType(String type) {
+	private CarType parseCarType(String type) {
 		if (TextUtils.isEmpty(type)) {
 			return null;
 		}
 
 		if (type.equals("TwoDoorCar")) {
-			return Type.TWO_DOOR_CAR;
+			return CarType.TWO_DOOR_CAR;
 		}
 		else if (type.equals("ThreeDoorCar")) {
-			return Type.THREE_DOOR_CAR;
+			return CarType.THREE_DOOR_CAR;
 		}
 		else if (type.equals("FourDoorCar")) {
-			return Type.FOUR_DOOR_CAR;
+			return CarType.FOUR_DOOR_CAR;
 		}
 		else if (type.equals("Van")) {
-			return Type.VAN;
+			return CarType.VAN;
 		}
 		else if (type.equals("Wagon")) {
-			return Type.WAGON;
+			return CarType.WAGON;
 		}
 		else if (type.equals("Limousine")) {
-			return Type.LIMOUSINE;
+			return CarType.LIMOUSINE;
 		}
 		else if (type.equals("RecreationalVehicle")) {
-			return Type.RECREATIONAL_VEHICLE;
+			return CarType.RECREATIONAL_VEHICLE;
 		}
 		else if (type.equals("Convertible")) {
-			return Type.CONVERTIBLE;
+			return CarType.CONVERTIBLE;
 		}
 		else if (type.equals("SportsCar")) {
-			return Type.SPORTS_CAR;
+			return CarType.SPORTS_CAR;
 		}
 		else if (type.equals("SUV")) {
-			return Type.SUV;
+			return CarType.SUV;
 		}
 		else if (type.equals("PickupRegularCab")) {
-			return Type.PICKUP_REGULAR_CAB;
+			return CarType.PICKUP_REGULAR_CAB;
 		}
 		else if (type.equals("OpenAirAllTerrain")) {
-			return Type.OPEN_AIR_ALL_TERRAIN;
+			return CarType.OPEN_AIR_ALL_TERRAIN;
 		}
 		else if (type.equals("Special")) {
-			return Type.SPECIAL;
+			return CarType.SPECIAL;
 		}
 		else if (type.equals("CommercialVanTruck")) {
-			return Type.COMMERCIAL_VAN_TRUCK;
+			return CarType.COMMERCIAL_VAN_TRUCK;
 		}
 		else if (type.equals("PickupExtendedCab")) {
-			return Type.PICKUP_EXTENDED_CAB;
+			return CarType.PICKUP_EXTENDED_CAB;
 		}
 		else if (type.equals("SpecialOfferCar")) {
-			return Type.SPECIAL_OFFER_CAR;
+			return CarType.SPECIAL_OFFER_CAR;
 		}
 		else if (type.equals("Coupe")) {
-			return Type.COUPE;
+			return CarType.COUPE;
 		}
 		else if (type.equals("Monospace")) {
-			return Type.MONOSPACE;
+			return CarType.MONOSPACE;
 		}
 		else if (type.equals("Motorhome")) {
-			return Type.MOTORHOME;
+			return CarType.MOTORHOME;
 		}
 		else if (type.equals("TwoWheelVehicle")) {
-			return Type.TWO_WHEEL_VEHICLE;
+			return CarType.TWO_WHEEL_VEHICLE;
 		}
 		else if (type.equals("Roadster")) {
-			return Type.ROADSTER;
+			return CarType.ROADSTER;
 		}
 		else if (type.equals("Crossover")) {
-			return Type.CROSSOVER;
+			return CarType.CROSSOVER;
 		}
 
 		return null;
@@ -802,7 +740,7 @@ public class TripParser {
 
 			JSONObject timeJson = obj.optJSONObject(timeName);
 			if (timeJson != null) {
-				DateTime time = parseDateTime(timeJson);
+				DateTime time = DateTimeParser.parseDateTime(timeJson);
 				waypoint.addDateTime(Waypoint.POSITION_UNKNOWN, Waypoint.ACCURACY_SCHEDULED,
 						time.getMillis(), time.getZone().getStandardOffset(0));
 			}

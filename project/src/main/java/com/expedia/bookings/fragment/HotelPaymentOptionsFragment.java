@@ -70,6 +70,7 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 		//Sections
 		mSectionCurrentCreditCard = Ui.findView(v, R.id.current_payment_cc_section);
 		mSectionStoredPayment = Ui.findView(v, R.id.stored_creditcard_section);
+		mSectionStoredPayment.setLineOfBusiness(LineOfBusiness.HOTELS);
 
 		//Section error indicators
 		mPaymentInformationErrorImage = Ui.findView(mSectionCurrentCreditCard, R.id.error_image);
@@ -109,7 +110,7 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 					mListener.setMode(YoYoMode.YOYO);
 					mListener.moveForward();
 
-					OmnitureTracking.trackLinkHotelsCheckoutPaymentEnterManually(getActivity());
+					OmnitureTracking.trackLinkHotelsCheckoutPaymentEnterManually();
 				}
 			}
 		});
@@ -133,38 +134,53 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 		if (cards != null && cards.size() > 0) {
 			int paymentOptionPadding = getResources().getDimensionPixelSize(R.dimen.payment_option_vertical_padding);
 			boolean firstCard = true;
+			String selectedId = null;
+			if (Db.getWorkingBillingInfoManager() != null
+				&& Db.getWorkingBillingInfoManager().getWorkingBillingInfo() != null
+				&& Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
+				selectedId = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard().getId();
+			}
 
 			//Inflate stored cards
 			Resources res = getResources();
 			for (int i = 0; i < cards.size(); i++) {
 				final StoredCreditCard storedCard = cards.get(i);
+				if (storedCard == null) {
+					continue;
+				}
 
 				//Skip this card if it is the selected card
-				if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()
-						&& Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard().getId()
-								.compareToIgnoreCase(storedCard.getId()) == 0) {
+				if (selectedId != null && storedCard.getId() != null && selectedId.compareToIgnoreCase(storedCard.getId()) == 0) {
 					continue;
 				}
 
 				SectionStoredCreditCard card = new SectionStoredCreditCard(getActivity());
+				card.setLineOfBusiness(LineOfBusiness.HOTELS);
 				card.configure(R.drawable.ic_credit_card_white, android.R.color.white,
 						R.color.hotels_cc_text_color_secondary);
 				card.bind(storedCard);
 				card.setPadding(0, paymentOptionPadding, 0, paymentOptionPadding);
 				card.setBackgroundResource(R.drawable.bg_payment_method_row);
-				card.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if (storedCard.isGoogleWallet()) {
-							changeMaskedWallet();
-						}
-						else {
-							onStoredCardSelected(storedCard);
 
-							OmnitureTracking.trackLinkHotelsCheckoutPaymentSelectExisting(getActivity());
+				if (Db.getTripBucket().getHotel().isCardTypeSupported(card.getStoredCreditCard().getType())) {
+					card.setOnClickListener(new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							if (storedCard.isGoogleWallet()) {
+								changeMaskedWallet();
+							}
+							else {
+								onStoredCardSelected(storedCard);
+
+								OmnitureTracking.trackLinkHotelsCheckoutPaymentSelectExisting();
+							}
 						}
-					}
-				});
+					});
+				}
+				else {
+					card.setEnabled(false);
+					card.bindCardNotSupported();
+				}
 
 				//Add dividers
 				if (!firstCard) {
@@ -189,7 +205,7 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentSelect(getActivity());
+		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentSelect();
 	}
 
 	@Override

@@ -12,9 +12,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.util.HtmlUtils;
@@ -33,11 +33,11 @@ public class HotelRulesFragment extends Fragment {
 
 		Rate rate = Db.getTripBucket().getHotel().getRate();
 		if (rate != null) {
-			Policy cancellationPolicy = rate.getRateRules().getPolicy(Policy.TYPE_CANCEL);
+			String cancellationPolicy = rate.getCancellationPolicy();
 
-			if (cancellationPolicy != null) {
+			if (Strings.isNotEmpty(cancellationPolicy)) {
 				TextView cancellationPolicyTextView = Ui.findView(view, R.id.cancellation_policy_text_view);
-				cancellationPolicyTextView.setText(Html.fromHtml(cancellationPolicy.getDescription()));
+				cancellationPolicyTextView.setText(Html.fromHtml(cancellationPolicy));
 			}
 
 			// Show Google Wallet promo terms & condition if it's being offered
@@ -58,6 +58,9 @@ public class HotelRulesFragment extends Fragment {
 
 	private void populateHeaderRows(View view) {
 
+		final int themeId = ExpediaBookingApp.useTabletInterface(getActivity()) ?
+			R.style.FlightTheme : R.style.HotelWebViewTheme;
+
 		final PointOfSale pos = PointOfSale.getPointOfSale();
 
 		// Terms and Conditions
@@ -67,7 +70,7 @@ public class HotelRulesFragment extends Fragment {
 			public void onClick(View v) {
 				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 				builder.setUrl(pos.getTermsAndConditionsUrl());
-				builder.setTheme(R.style.HotelWebViewTheme);
+				builder.setTheme(themeId);
 				builder.setTitle(R.string.terms_and_conditions);
 				startActivity(builder.getIntent());
 			}
@@ -81,7 +84,7 @@ public class HotelRulesFragment extends Fragment {
 				public void onClick(View v) {
 					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 					builder.setUrl(pos.getTermsOfBookingUrl());
-					builder.setTheme(R.style.HotelWebViewTheme);
+					builder.setTheme(themeId);
 					builder.setTitle(R.string.Terms_of_Booking);
 					startActivity(builder.getIntent());
 				}
@@ -99,7 +102,7 @@ public class HotelRulesFragment extends Fragment {
 			public void onClick(View v) {
 				WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 				builder.setUrl(PointOfSale.getPointOfSale().getPrivacyPolicyUrl());
-				builder.setTheme(R.style.HotelWebViewTheme);
+				builder.setTheme(themeId);
 				builder.setTitle(R.string.privacy_policy);
 				startActivity(builder.getIntent());
 			}
@@ -113,8 +116,8 @@ public class HotelRulesFragment extends Fragment {
 				public void onClick(View v) {
 					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
 					builder.setUrl(PointOfSale.getPointOfSale().getBestPriceGuaranteeUrl());
-					builder.setTheme(R.style.HotelWebViewTheme);
-					builder.setTitle(Ui.obtainThemeResID(getActivity(), R.attr.bestPriceGuaranteeString));
+					builder.setTheme(themeId);
+					builder.setTitle(Ui.obtainThemeResID(getActivity(), R.attr.skin_bestPriceGuaranteeString));
 					startActivity(builder.getIntent());
 				}
 			});

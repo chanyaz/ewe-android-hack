@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ChildTraveler;
@@ -28,16 +28,18 @@ public class GuestPicker extends LinearLayout {
 
 	private TextView mAdultText;
 	private TextView mChildText;
-	private View mAdultMinus;
-	private View mAdultPlus;
-	private View mChildMinus;
-	private View mChildPlus;
+	private ImageView mAdultMinus;
+	private ImageView mAdultPlus;
+	private ImageView mChildMinus;
+	private ImageView mChildPlus;
 	private View mChildAgesLayout;
 
 	private GuestPickerListener mListener;
 
 	private int mAdultCount;
 	private List<ChildTraveler> mChildren = new ArrayList<ChildTraveler>();
+
+	private String trackingBase;
 
 	public GuestPicker(Context context) {
 		super(context, null);
@@ -69,19 +71,16 @@ public class GuestPicker extends LinearLayout {
 		mChildPlus = Ui.findView(this, R.id.children_plus);
 
 		mChildAgesLayout = Ui.findView(this, R.id.child_ages_layout);
-		mChildAgesLayout.setVisibility(getChildAgesVisibility());
+		GuestsPickerUtils.showOrHideChildAgeSpinners(getContext(), mChildren, mChildAgesLayout, mChildAgeSelectedListener);
 
 		boolean isTablet = getContext().getResources().getBoolean(R.bool.tablet);
-		final String trackingBase = isTablet ? OmnitureTracking.PICKER_TRACKING_BASE_TABLET :
+		trackingBase = isTablet ? OmnitureTracking.PICKER_TRACKING_BASE_TABLET :
 			OmnitureTracking.PICKER_TRACKING_BASE_FLIGHT;
 		// Click listeners
 		mAdultMinus.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
 				performHapticFeedback(view);
-				if (mAdultCount > 1) {
-					OmnitureTracking.trackRemoveTravelerLink(getContext(), trackingBase, OmnitureTracking.PICKER_ADULT);
-				}
 				removeAdult();
 			}
 		});
@@ -90,9 +89,6 @@ public class GuestPicker extends LinearLayout {
 			@Override
 			public void onClick(View view) {
 				performHapticFeedback(view);
-				if (canAddAnotherTraveler()) {
-					OmnitureTracking.trackAddTravelerLink(getContext(), trackingBase, OmnitureTracking.PICKER_ADULT);
-				}
 				addAdult();
 			}
 		});
@@ -101,10 +97,7 @@ public class GuestPicker extends LinearLayout {
 			@Override
 			public void onClick(View view) {
 				performHapticFeedback(view);
-				if (mChildren.size() > 0) {
-					OmnitureTracking.trackRemoveTravelerLink(getContext(), trackingBase, OmnitureTracking.PICKER_CHILD);
-				}
-				removeChild(mChildren.size() - 1);
+				removeChild();
 			}
 		});
 
@@ -112,10 +105,7 @@ public class GuestPicker extends LinearLayout {
 			@Override
 			public void onClick(View view) {
 				performHapticFeedback(view);
-				if (mChildren.size() < MAX_CHILDREN && canAddAnotherTraveler()) {
-					OmnitureTracking.trackAddTravelerLink(getContext(), trackingBase, OmnitureTracking.PICKER_CHILD);
-					addChild(10);
-				}
+				addChild();
 			}
 		});
 	}
@@ -132,11 +122,20 @@ public class GuestPicker extends LinearLayout {
 		return mAdultCount + mChildren.size() < MAX_TRAVELERS;
 	}
 
+	public boolean canAddAnotherAdult() {
+		return (mAdultCount < MAX_ADULTS) && canAddAnotherTraveler();
+	}
+
+	public boolean canAddAnotherChild() {
+		return (mChildren.size() < MAX_CHILDREN) && canAddAnotherTraveler();
+	}
+
 	public void addAdult() {
-		if (mAdultCount < MAX_ADULTS && canAddAnotherTraveler()) {
+		if (canAddAnotherAdult()) {
 			mAdultCount++;
 			mListener.onGuestsChanged(mAdultCount, mChildren);
 			bindViews();
+			OmnitureTracking.trackAddTravelerLink(trackingBase, OmnitureTracking.PICKER_ADULT);
 		}
 	}
 
@@ -145,22 +144,25 @@ public class GuestPicker extends LinearLayout {
 			mAdultCount--;
 			mListener.onGuestsChanged(mAdultCount, mChildren);
 			bindViews();
+			OmnitureTracking.trackRemoveTravelerLink(trackingBase, OmnitureTracking.PICKER_ADULT);
 		}
 	}
 
-	public void addChild(int age) {
-		if (mChildren.size() < MAX_CHILDREN && canAddAnotherTraveler()) {
-			mChildren.add(new ChildTraveler(age, false));
+	public void addChild() {
+		if (canAddAnotherChild()) {
+			mChildren.add(new ChildTraveler(10, false));
 			mListener.onGuestsChanged(mAdultCount, mChildren);
 			bindViews();
+			OmnitureTracking.trackAddTravelerLink(trackingBase, OmnitureTracking.PICKER_CHILD);
 		}
 	}
 
-	public void removeChild(int index) {
-		if (index >= 0 && index < mChildren.size()) {
-			mChildren.remove(index);
+	public void removeChild() {
+		if (mChildren.size() > 0) {
+			mChildren.remove(mChildren.size() - 1);
 			mListener.onGuestsChanged(mAdultCount, mChildren);
 			bindViews();
+			OmnitureTracking.trackRemoveTravelerLink(trackingBase, OmnitureTracking.PICKER_CHILD);
 		}
 	}
 
@@ -171,15 +173,15 @@ public class GuestPicker extends LinearLayout {
 	}
 
 	private void bindViews() {
+		mAdultPlus.setEnabled(canAddAnotherAdult());
+		mChildPlus.setEnabled(canAddAnotherChild());
+		mAdultMinus.setEnabled(mAdultCount > 1);
+		mChildMinus.setEnabled(mChildren.size() > 0);
+
 		mAdultText.setText(getResources().getQuantityString(R.plurals.number_of_adults, mAdultCount, mAdultCount));
 		mChildText.setText(getResources().getQuantityString(R.plurals.number_of_children, mChildren.size(), mChildren.size()));
 		GuestsPickerUtils.setChildSpinnerPositions(this, mChildren);
-		GuestsPickerUtils.showOrHideChildAgeSpinners(getContext(), mChildren, this, mChildAgeSelectedListener);
-		mChildAgesLayout.setVisibility(getChildAgesVisibility());
-	}
-
-	private int getChildAgesVisibility() {
-		return mChildren.size() > 0 ? View.VISIBLE : View.INVISIBLE;
+		GuestsPickerUtils.showOrHideChildAgeSpinners(getContext(), mChildren, mChildAgesLayout, mChildAgeSelectedListener);
 	}
 
 	private final android.widget.AdapterView.OnItemSelectedListener mChildAgeSelectedListener = new android.widget.AdapterView.OnItemSelectedListener() {

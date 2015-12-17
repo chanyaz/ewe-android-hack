@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.tracking.AdTracker;
 import com.mobiata.android.Log;
 
 public class LocaleChangeReceiver extends BroadcastReceiver {
@@ -14,5 +15,8 @@ public class LocaleChangeReceiver extends BroadcastReceiver {
 
 		// Clear out saved flight route data
 		Db.deleteCachedFlightRoutes(context);
+
+		//Update Locale
+		AdTracker.updatePOS();
 	}
 }

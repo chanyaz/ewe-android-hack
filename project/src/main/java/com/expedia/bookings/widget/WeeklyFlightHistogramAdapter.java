@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.joda.time.LocalDate;
 
-import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -18,8 +17,6 @@ import com.expedia.bookings.utils.Ui;
 
 public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 
-	private Context mContext;
-
 	private FlightSearchHistogramResponse mFlightHistogramResponse;
 
 	List<FlightHistogram> mHistograms = null;
@@ -27,8 +24,7 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 
 	private LocalDate mSelectedDepartureDate;
 
-	public WeeklyFlightHistogramAdapter(Context context) {
-		mContext = context;
+	public WeeklyFlightHistogramAdapter() {
 	}
 
 	public void setHistogramData(FlightSearchHistogramResponse histogramResponse) {
@@ -64,13 +60,16 @@ public class WeeklyFlightHistogramAdapter extends BaseAdapter {
 			mHistograms = getHistograms();
 
 			if (mHistograms != null && mHistograms.size() > 0) {
-				LocalDate startDate = mHistograms.get(0).getKeyDate();
+				LocalDate startDate = LocalDate.now();
 				LocalDate endDate = mHistograms.get(mHistograms.size() - 1).getKeyDate();
 
 				WeeklyFlightHistogram current = new WeeklyFlightHistogram(startDate);
 				mWeeklyHistograms.add(current);
 				for (FlightHistogram gram : mHistograms) {
 					if (mSelectedDepartureDate != null && gram.getKeyDate().isBefore(mSelectedDepartureDate)) {
+						continue;
+					}
+					if (gram.getKeyDate().isBefore(current.getWeekStart())) {
 						continue;
 					}
 					while (current.getWeekEnd().isBefore(gram.getKeyDate())) {

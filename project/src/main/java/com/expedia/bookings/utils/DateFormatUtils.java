@@ -9,6 +9,8 @@ import android.text.format.DateUtils;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.lx.LXSearchParams;
 
 /**
  */
@@ -53,7 +55,8 @@ public class DateFormatUtils {
 	 * <p/>
 	 * When used in {@link DateFormatUtils#formatDateRange(Context, LocalDate, LocalDate, int)} returns Apr 12 - 15
 	 */
-	public static final int FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY = DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_ABBREV_WEEKDAY;
+	public static final int FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY =
+		DateUtils.FORMAT_NO_YEAR | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_ABBREV_WEEKDAY;
 
 	/**
 	 * Formatted Date example: Apr 12
@@ -65,13 +68,11 @@ public class DateFormatUtils {
 	// #9770: Add an hour of buffer so that the date range is always > the number of days
 	private static final long DATE_RANGE_BUFFER = DateUtils.HOUR_IN_MILLIS;
 
-	public static String formatDateRange(Context context, LocalDate start, LocalDate end, int flags) {
-		return formatDateRange(context, start.toDateTimeAtStartOfDay(), end.toDateTimeAtStartOfDay(), flags);
-	}
-
-	public static String formatDateRange(Context context, DateTime start, DateTime end, int flags) {
-		return DateUtils.formatDateRange(context, start.getMillis(), end.getMillis() + 1000, flags
-			| DateUtils.FORMAT_UTC);
+	// Called by the formatDateRange methods below
+	private static String formatDateRange(Context context, LocalDate startDate, LocalDate endDate, int flags) {
+		final long start = startDate.toDateTimeAtStartOfDay().getMillis();
+		final long end = endDate.toDateTimeAtStartOfDay().getMillis() + DATE_RANGE_BUFFER;
+		return DateUtils.formatDateRange(context, start, end, flags);
 	}
 
 	/**
@@ -86,22 +87,43 @@ public class DateFormatUtils {
 	}
 
 	public static String formatDateRange(Context context, HotelSearchParams searchParams, int flags) {
-		return DateUtils.formatDateRange(context, searchParams.getCheckInDate().toDateTimeAtStartOfDay().getMillis(),
-			searchParams.getCheckOutDate().toDateTimeAtStartOfDay().getMillis() + DATE_RANGE_BUFFER, flags);
+		return formatDateRange(context, searchParams.getCheckInDate(), searchParams.getCheckOutDate(), flags);
 	}
 
 	public static String formatDateRange(Context context, FlightSearchParams searchParams, int flags) {
-		// If it's a two-way flight, let's format the date range from departure - arrival
 		if (searchParams.getReturnDate() != null) {
-			return DateUtils.formatDateRange(context, searchParams.getDepartureDate().toDateTimeAtStartOfDay()
-					.getMillis(),
-				searchParams.getReturnDate().toDateTimeAtStartOfDay().getMillis() + DATE_RANGE_BUFFER, flags);
+			// If it's a two-way flight, let's format the date range from departure - arrival
+			return formatDateRange(context, searchParams.getDepartureDate(), searchParams.getReturnDate(), flags);
 		}
-		else {
-			// If it's a one-way flight, let's just send the formatted departure date.
-			return DateUtils.formatDateTime(context, searchParams.getDepartureDate().toDateTimeAtStartOfDay()
-				.getMillis(), flags);
+
+		// If it's a one-way flight, let's just send the formatted departure date.
+		return JodaUtils.formatLocalDate(context, searchParams.getDepartureDate(), flags);
+	}
+
+	public static String formatDateRange(Context context, SearchParams params, int flags) {
+		if (params.getEndDate() != null) {
+			return formatDateRange(context, params.getStartDate(), params.getEndDate(), flags);
 		}
+
+		return JodaUtils.formatLocalDate(context, params.getStartDate(), flags);
+	}
+
+	public static String formatCarDateTimeRange(Context context, DateTime startDateTime, DateTime endDateTime) {
+		String formattedStartDateTime = com.expedia.bookings.utils.DateUtils
+			.dateTimeToMMMdhmma(startDateTime);
+		if (endDateTime != null) {
+			String formattedEndDateTime = com.expedia.bookings.utils.DateUtils.dateTimeToMMMdhmma(
+				endDateTime);
+			return context.getResources()
+				.getString(R.string.date_time_range_TEMPLATE, formattedStartDateTime, formattedEndDateTime);
+		}
+
+
+		return context.getResources().getString(R.string.select_return_date_TEMPLATE, formattedStartDateTime);
+	}
+
+	public static String formatLXDateRange(Context context, LXSearchParams params, int flags) {
+		return formatDateRange(context, params.startDate, params.endDate, flags);
 	}
 
 	/**

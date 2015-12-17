@@ -7,6 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.expedia.bookings.enums.TripBucketItemState;
+import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -26,6 +27,9 @@ public abstract class TripBucketItem implements JSONable {
 
 	// Boolean check to indicate if this bucket item is actively being viewed/selected.
 	private boolean mIsSelected;
+
+	boolean mIsMerEmailOptIn;
+	boolean mIsMerEmailOptInShownOnce;
 
 	public boolean hasPriceChanged() {
 		return mHasPriceChanged;
@@ -68,6 +72,22 @@ public abstract class TripBucketItem implements JSONable {
 
 	public boolean hasBeenPurchased() {
 		return mState == TripBucketItemState.PURCHASED;
+	}
+
+	public boolean isMerEmailOptIn() {
+		return mIsMerEmailOptIn;
+	}
+
+	public void setIsMerEmailOptIn(boolean optIn) {
+		this.mIsMerEmailOptIn = optIn;
+	}
+
+	public boolean isMerEmailOptInShownOnce() {
+		return mIsMerEmailOptInShownOnce;
+	}
+
+	public void setIsMerEmailOptInShownOnce(boolean shown) {
+		this.mIsMerEmailOptInShownOnce = shown;
 	}
 
 	public void addValidPayments(List<ValidPayment> payments) {
@@ -127,8 +147,9 @@ public abstract class TripBucketItem implements JSONable {
 			JSONUtils.putEnum(obj, "state", mState);
 			obj.put("isSelected", mIsSelected);
 			obj.put("hasPriceChanged", mHasPriceChanged);
+			obj.put("isMerEmailOptIn", mIsMerEmailOptIn);
 
-			JSONUtils.putJSONableList(obj, "validPayments", mValidPayments);
+			GsonUtil.putListForJsonable(obj, "validPayments", mValidPayments);
 
 			return obj;
 		}
@@ -142,8 +163,9 @@ public abstract class TripBucketItem implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		mState = JSONUtils.getEnum(obj, "state", TripBucketItemState.class);
 		mIsSelected = obj.optBoolean("isSelected");
+		mIsMerEmailOptIn = obj.optBoolean("isMerEmailOptIn");
 		mHasPriceChanged = obj.optBoolean("hasPriceChanged");
-		mValidPayments = JSONUtils.getJSONableList(obj, "validPayments", ValidPayment.class);
+		mValidPayments = GsonUtil.getListForJsonable(obj, "validPayments", ValidPayment.gsonListTypeToken);
 		return true;
 	}
 

@@ -11,11 +11,9 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.format.DateUtils;
@@ -89,7 +87,6 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 		if (checkFinishConditionsAndFinish()) {
 			return;
 		}
-		OmnitureTracking.onResume(this);
 	}
 
 	private boolean checkFinishConditionsAndFinish() {
@@ -127,23 +124,16 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 		switch (item.getItemId()) {
 		case android.R.id.home: {
 			// app icon in action bar clicked; go back
-			Intent intent = HotelDetailsFragmentActivity.createIntent(this);
-			NavUtils.navigateUpTo(this, intent);
+			onBackPressed();
 			return true;
 		}
 		case R.id.menu_select_hotel: {
-			startActivity(RoomsAndRatesListActivity.createIntent(this));
+			startActivity(HotelRoomsAndRatesActivity.createIntent(this));
 		}
 		default:
 			break;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -162,7 +152,7 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 				int numReviewsSeen = mViewedReviews.size();
 				Log.d("Tracking # of reviews seen: " + numReviewsSeen);
 				String referrerId = "App.Hotels.Reviews." + numReviewsSeen + "ReviewsViewed";
-				OmnitureTracking.trackSimpleEvent(this, null, null, referrerId);
+				OmnitureTracking.trackSimpleEvent(null, null, referrerId);
 			}
 		}
 	}
@@ -273,7 +263,7 @@ public class UserReviewsListActivity extends FragmentActivity implements UserRev
 			referrerId = "App.Hotels.Reviews.Sort.Critical";
 		}
 		Log.d("Tracking \"App.Hotels.Reviews\" pageLoad");
-		OmnitureTracking.trackSimpleEvent(this, "App.Hotels.Reviews", null, referrerId);
+		OmnitureTracking.trackSimpleEvent("App.Hotels.Reviews", null, referrerId);
 	}
 
 	@Override

@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="brand_name">Agence Voyages-SNCF.com</string>
+
+    <!-- VSC app name for the about screen-->
+    <string name="vsc_full_app_name">Agence Voyages-SNCF.com</string>
+
+    <string name="app_name">Agence Voyages-SNCF.com</string>
+    <string name="app_vsc_info_url">https://agence.voyages-sncf.com/accueil</string>
+
+    <!-- The PointOfSale code looks this identifier up with reflection, do not remove! -->
+    <string tools:ignore="UnusedResources" name="country_vs">VSC</string>
 
     <!-- Facebook -->
     <!-- Production Facebook app id -->
@@ -9,12 +19,9 @@
     <string name="calendar_date_picker_date_format_vsc">dd MMM</string>
     <string name="hotel_receipt_cancellation_policy_date_format_vsc">"k'h'mm, MMM dd"</string>
 
-    <!-- For app launcher name -->
-    <string name="launcher_name">@string/vsc_app_name</string>
     <!-- Email addresses -->
     <string name="email_app_support">vsc-android@mobiata.com</string>
-    <!-- User name label for support email sent to user happiness team -->
-    <string name="email_user_name_vsc">VSC user name:</string>
-    <!-- App Support URL -->
-    <string name="app_support_url_vsc">http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/aide.html</string>
+
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Agence Voyages-SNCF.com</string>
 </resources>

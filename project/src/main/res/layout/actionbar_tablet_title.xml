@@ -13,7 +13,7 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:singleLine="true"
-        android:textColor="#f3f3f3"
+        android:textColor="?attr/skin_actionbarTabletTitleColor"
         app:textStyle="condensed"
         android:textSize="18sp"/>
 
@@ -24,7 +24,7 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:singleLine="true"
-        android:textColor="#f3f3f3"
+        android:textColor="?attr/skin_actionbarTabletTitleColor"
         app:textStyle="condensed"
         android:textSize="18sp"/>
 

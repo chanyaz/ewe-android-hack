@@ -2,11 +2,12 @@ package com.expedia.bookings.section;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -16,10 +17,9 @@ import com.expedia.bookings.utils.FontCache.Font;
 import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AutoResizeTextView;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
 
-public class CreditCardSection extends LinearLayout {
+public class CreditCardSection extends RelativeLayout {
 
 	private ImageView mLogoImageView;
 	private AutoResizeTextView mSignatureTextView;
@@ -39,7 +39,7 @@ public class CreditCardSection extends LinearLayout {
 		// Configure custom typefaces
 		// #2350: 4.4 kitkat has issue with custom fonts and bolding
 		// https://code.google.com/p/android/issues/detail?id=61771
-		if (AndroidUtils.getSdkVersion() == 19) {
+		if (Build.VERSION.SDK_INT == 19) {
 			mSignatureTextView.setTypeface(FontCache.getTypeface(Font.SIGNERICA_FAT));
 		}
 		else {
@@ -115,8 +115,8 @@ public class CreditCardSection extends LinearLayout {
 
 		// Show front or back of card (front for amex, back for everything else)
 		boolean amex = type == CreditCardType.AMERICAN_EXPRESS;
-		showHide(amex, R.id.svg_amex_logo, R.id.svg_amex_head, R.id.obscured_card_digits, R.id.member_text, R.id.member_name_text);
-		showHide(!amex, R.id.magnetic_stripe, R.id.authorized_signature_text, R.id.signature_strip_frame, R.id.not_valid_unless_signed_text, R.id.spring, R.id.cc_logo_image_view);
+		showHide(amex, R.id.amex_container);
+		showHide(!amex, R.id.other_cards_container, R.id.signature_strip_frame, R.id.cvv_prompt_text_view, R.id.not_valid_unless_signed_text, R.id.cc_logo_image_view);
 	}
 
 	private void showHide(boolean visible, int... resIds) {

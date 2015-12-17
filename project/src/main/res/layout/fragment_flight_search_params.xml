@@ -89,6 +89,8 @@
                 android:id="@id/num_travelers_container"
                 android:layout_width="52dp"
                 android:layout_height="48dp"
+                android:background="?android:attr/selectableItemBackground"
+                android:addStatesFromChildren="true"
                 android:layout_alignParentRight="true">
 
                 <ImageButton
@@ -96,7 +98,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:layout_gravity="center_vertical"
-                    android:background="@drawable/ab_spinner"
+                    android:background="?attr/skin_actionBarSpinnerBackground"
                     android:contentDescription="@string/cd_flights_search_number_of_travelers_edit"
                     android:padding="0dp"
                     android:src="@drawable/ic_traveler_picker"/>
@@ -154,8 +156,8 @@
             mobiata:drawGridLines="false"
             mobiata:headerInstructionText="@string/calendar_instructions_nothing_selected"
             mobiata:headerInstructionTextSpaceReserved="true"
-            mobiata:popupBackground="?attr/flightCalendarDatePickerPopupDrawable"
-            mobiata:stateCellDrawable="?attr/flightCalendarDatePickerCellDrawable"
+            mobiata:popupBackground="?attr/skin_flightCalendarDatePickerPopupDrawable"
+            mobiata:stateCellDrawable="?attr/skin_flightCalendarDatePickerCellDrawable"
             mobiata:toolTipBackground="@drawable/calendar_tooltip_background"
             mobiata:toolTipEnabled="true"
             mobiata:toolTipEndBottomText="@string/calendar_tooltip_bottom_drag_to_modify"
@@ -200,6 +202,7 @@
                 android:layout_height="wrap_content" />
 
             <LinearLayout
+                android:id="@+id/infant_preference_seating_layout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -220,7 +223,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="right"
+                    android:gravity="right|center"
                     android:orientation="horizontal">
 
                     <RadioButton

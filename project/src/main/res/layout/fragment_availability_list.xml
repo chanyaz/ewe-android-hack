@@ -2,8 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@color/bg_expedia_list"
     android:gravity="center"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/header_layout"
@@ -11,7 +12,7 @@
         android:layout_height="48dp"
         android:background="@color/header_background"
         android:gravity="center_vertical"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
 
         <TextView
             style="@style/TextAppearance.Header"
@@ -22,49 +23,57 @@
     </LinearLayout>
 
     <!-- Hotel Notices : Resort fees, Renovation notices, etc? -->
-
-    <LinearLayout
-        android:id="@+id/hotel_notice_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/rooms_and_rates_notice_bg"
-        android:orientation="vertical" />
-
-    <ListView
-        android:id="@android:id/list"
-        style="@style/HotelList"
+    <FrameLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:divider="@drawable/divider_horizontal_dark_opaque" />
+        android:layout_height="fill_parent">
 
-    <LinearLayout
-        android:id="@android:id/empty"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/bg_expedia_list"
-        android:gravity="center"
-        android:orientation="vertical" >
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            style="@style/ProgressBar.Large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:indeterminate="true" />
-
-        <TextView
-            android:id="@+id/empty_text_view"
+        <ListView
+            android:id="@android:id/list"
+            style="@style/HotelList"
             android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:divider="@drawable/divider_horizontal_dark_opaque" />
+
+        <LinearLayout
+            android:id="@+id/hotel_notice_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/header_background"
+            android:orientation="vertical" />
+
+        <include
+            layout="@layout/include_rooms_and_rates_radio_group"
+            android:id="@+id/sticky_header" />
+
+        <LinearLayout
+            android:id="@android:id/empty"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:gravity="center"
-            android:padding="20dp"
-            android:shadowColor="#88FFFFFF"
-            android:shadowDx="0"
-            android:shadowDy="-1"
-            android:shadowRadius="0.1"
-            android:textColor="#FF666666"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="@style/ProgressBar.Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
+
+            <TextView
+                android:id="@+id/empty_text_view"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:padding="20dp"
+                android:shadowColor="#88FFFFFF"
+                android:shadowDx="0"
+                android:shadowDy="-1"
+                android:shadowRadius="0.1"
+                android:textColor="#FF666666"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </FrameLayout>
 
 </LinearLayout>

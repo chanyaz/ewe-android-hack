@@ -3,6 +3,7 @@ package com.expedia.bookings.data;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
@@ -11,13 +12,16 @@ import org.json.JSONObject;
 
 import com.expedia.bookings.data.trips.ItinShareInfo;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
-import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.Strings;
+import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.maps.MapUtils;
+import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
 
 public class FlightLeg implements JSONable, ItinSharable {
@@ -29,6 +33,8 @@ public class FlightLeg implements JSONable, ItinSharable {
 	private List<Flight> mSegments = new ArrayList<Flight>();
 
 	private String mBaggageFeesUrl;
+
+	private String mFareType;
 
 	public String getLegId() {
 		return mLegId;
@@ -52,6 +58,14 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	public List<Flight> getSegments() {
 		return mSegments;
+	}
+
+	public String getFareType() {
+		return mFareType;
+	}
+
+	public void setFareType(String fareType) {
+		mFareType = fareType;
 	}
 
 	public String getBaggageFeesUrl() {
@@ -85,14 +99,14 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	public Waypoint getFirstWaypoint() {
 		if (mSegments != null && mSegments.size() > 0) {
-			return mSegments.get(0).mOrigin;
+			return mSegments.get(0).getOriginWaypoint();
 		}
 		return null;
 	}
 
 	public Waypoint getLastWaypoint() {
 		if (mSegments != null && mSegments.size() > 0) {
-			return mSegments.get(mSegments.size() - 1).mDestination;
+			return mSegments.get(mSegments.size() - 1).getDestinationWaypoint();
 		}
 		return null;
 	}
@@ -115,9 +129,9 @@ public class FlightLeg implements JSONable, ItinSharable {
 				if (flight.mDistanceToTravel > 0) {
 					totalDistance += flight.mDistanceToTravel;
 				}
-				else if (flight.mOrigin != null && flight.mDestination != null) {
-					origin = flight.mOrigin.getAirport();
-					destination = flight.mDestination.getAirport();
+				else if (flight.getOriginWaypoint() != null && flight.getDestinationWaypoint() != null) {
+					origin = flight.getOriginWaypoint().getAirport();
+					destination = flight.getDestinationWaypoint().getAirport();
 
 					// Airports shouldn't be null here, but we'll check anyway since this
 					// else if block should be relatively uncommon
@@ -144,11 +158,20 @@ public class FlightLeg implements JSONable, ItinSharable {
 	//
 	// F1060: Returned as a LinkedHashSet, in order of flights
 	public LinkedHashSet<String> getPrimaryAirlines() {
-		LinkedHashSet<String> airlines = new LinkedHashSet<String>();
+		LinkedHashSet<String> airlines = new LinkedHashSet<>();
 
-		if (mSegments != null) {
-			for (Flight flight : mSegments) {
-				airlines.add(flight.getPrimaryFlightCode().mAirlineCode);
+		if (mSegments == null) {
+			Log.w("FlightLeg", "Attempting to retrieve primaryAirlines with null mSegments");
+			return airlines;
+		}
+
+		for (Flight flight : mSegments) {
+			FlightCode code = flight.getPrimaryFlightCode();
+			if (code == null) {
+				Log.w("FlightLeg", "Attempting to retrieve primaryAirlines with null code");
+			}
+			else {
+				airlines.add(code.mAirlineCode);
 			}
 		}
 
@@ -165,11 +188,37 @@ public class FlightLeg implements JSONable, ItinSharable {
 			return null;
 		}
 
-		return mSegments.get(0).getPrimaryFlightCode().mAirlineCode;
+		FlightCode code = mSegments.get(0).getPrimaryFlightCode();
+		if (code == null) {
+			return null;
+		}
+
+		return code.mAirlineCode;
 	}
 
-	public String getAirlinesFormatted() {
-		return FlightUtils.getFormattedAirlinesList(getPrimaryAirlines());
+	public String getPrimaryAirlineNamesFormatted() {
+		if (mSegments == null) {
+			Log.w("FlightLeg", "Attempting to retrieve primaryAirlineNamesFormatted with null mSegments");
+			return "";
+		}
+
+		Set<String> airlineNames = new LinkedHashSet<>();
+		for (int i = 0; i < mSegments.size(); i++) {
+			// 1. FlightCode.mAirlineCode has precedence as this is information given from API
+			// 2. Fallback to use FS.db if we don't have information from the API.
+			FlightCode code = mSegments.get(i).getPrimaryFlightCode();
+			Airline airline = Db.getAirline(code.mAirlineCode);
+			if (Strings.isNotEmpty(code.mAirlineName)) {
+				airlineNames.add(code.mAirlineName);
+			}
+			else if (Strings.isNotEmpty(airline.mAirlineName)) {
+				airlineNames.add(airline.mAirlineName);
+			}
+			else {
+				Log.w("FlightLeg", "Attempting to retrieve primaryAirlineNamesFormatted with null code");
+			}
+		}
+		return Strings.joinWithoutEmpties(", ", airlineNames);
 	}
 
 	public boolean isSpirit() {
@@ -179,6 +228,14 @@ public class FlightLeg implements JSONable, ItinSharable {
 			}
 		}
 		return false;
+	}
+
+	public boolean isLCC() {
+		return mFareType.equals("LOW_COST_CARRIER");
+	}
+
+	public boolean isCharter() {
+		return mFareType.equals("CHARTER") || mFareType.equals("CHARTER_NET");
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -192,6 +249,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 			JSONUtils.putJSONableList(obj, "segments", mSegments);
 			JSONUtils.putJSONable(obj, "shareInfo", mShareInfo);
 			obj.putOpt("baggageFeesUrl", mBaggageFeesUrl);
+			obj.putOpt("fareType", mFareType);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -206,6 +264,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 		mShareInfo = JSONUtils.getJSONable(obj, "shareInfo", ItinShareInfo.class);
 		mShareInfo = mShareInfo == null ? new ItinShareInfo() : mShareInfo;
 		mBaggageFeesUrl = obj.optString("baggageFeesUrl");
+		mFareType = obj.optString("fareType", "");
 		return true;
 	}
 

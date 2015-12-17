@@ -1,21 +1,19 @@
 package com.expedia.bookings.fragment;
 
-import java.util.concurrent.TimeUnit;
-
-import org.joda.time.LocalDate;
-
+import java.util.Locale;
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -26,10 +24,11 @@ import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
+import com.expedia.bookings.section.HotelReceiptExtraSection;
 import com.expedia.bookings.utils.DateFormatUtils;
-import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 /**
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013
@@ -46,11 +45,11 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	private TextView mRoomTypeTv;
 	private TextView mBedTypeTv;
 	private TextView mDatesTv;
-	private TextView mFreeCancellationTv;
-	private TextView mPriceGuaranteeTv;
+	private LinearLayout mExtrasContainer;
 	private TextView mNumTravelersTv;
 	private ViewGroup mPriceContainer;
 	private TextView mPriceTv;
+	private TextView mTotalTitleTv;
 
 
 	@Override
@@ -87,9 +86,8 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		mDatesTv = Ui.findView(vg, R.id.dates_text_view);
 		mNumTravelersTv = Ui.findView(vg, R.id.num_travelers_text_view);
 
-		mFreeCancellationTv = Ui.findView(vg, R.id.free_cancellation_text_view);
-
-		mPriceGuaranteeTv = Ui.findView(vg, R.id.price_guarantee_text_view);
+		mExtrasContainer = Ui.findView(vg, R.id.extras_layout);
+		mTotalTitleTv = Ui.findView(vg, R.id.total_text);
 
 		// Price
 		mPriceContainer = Ui.findView(vg, R.id.price_expanded_bucket_container);
@@ -137,26 +135,10 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 				}
 				if (mNowBookingTv != null) {
 					String hotelName = itemHotel.getProperty().getName();
-					mNowBookingTv.setText(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, hotelName).toUpperCase()));
+					mNowBookingTv.setText(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, hotelName).toUpperCase(Locale.getDefault())));
 				}
 
-				String price = rate.getDisplayTotalPrice().getFormattedMoney();
-				mPriceTv.setText(price);
-
-				//Amenities
-				if (rate.shouldShowFreeCancellation()) {
-					mFreeCancellationTv.setVisibility(View.VISIBLE);
-					mFreeCancellationTv.setText(HotelUtils.getRoomCancellationText(getActivity(), rate));
-
-					if (PointOfSale.getPointOfSale().displayBestPriceGuarantee() && getResources().getBoolean(R.bool.landscape)) {
-						mPriceGuaranteeTv.setVisibility(View.VISIBLE);
-						mPriceGuaranteeTv.setText(Ui.obtainThemeResID(getActivity(), R.attr.bestPriceGuaranteeString));
-					}
-				}
-				else if (PointOfSale.getPointOfSale().displayBestPriceGuarantee()) {
-					mPriceGuaranteeTv.setVisibility(View.VISIBLE);
-					mPriceGuaranteeTv.setText(Ui.obtainThemeResID(getActivity(), R.attr.bestPriceGuaranteeString));
-				}
+				refreshRate();
 			}
 		}
 		bindToDbHotelSearch();
@@ -167,12 +149,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		if (hotel != null) {
 			HotelSearchParams params = hotel.getHotelSearchParams();
 			if (params != null) {
-				//Dates
-				LocalDate checkIn = params.getCheckInDate();
-				LocalDate checkOut = params.getCheckOutDate();
-
-				String dateRange = DateFormatUtils
-					.formatDateRange(getActivity(), checkIn, checkOut, DateFormatUtils.FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY);
+				String dateRange = DateFormatUtils.formatDateRange(getActivity(), params, DateFormatUtils.FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY);
 				mDatesTv.setText(dateRange);
 
 				//Guests
@@ -185,17 +162,54 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		}
 	}
 
+	private void addResortFeeRows(Rate rate) {
+		String feesPaidAtHotel = getResources().getString(R.string.fees_paid_at_hotel);
+		addExtraRow(feesPaidAtHotel, rate.getTotalMandatoryFees().getFormattedMoney(), false);
+
+		String totalDueToOurBrandToday = Phrase.from(getActivity(), R.string.due_to_brand_today_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format()
+			.toString();
+		addExtraRow(totalDueToOurBrandToday, rate.getTotalAmountAfterTax().getFormattedMoney(), false);
+	}
+
+	private static final int LANDSCAPE_EXTRAS_LIMIT = 3;
+	private static final int PORTRAIT_EXTRAS_LIMIT = 2;
+
+	private void addPrioritizedAmenityRows(Rate rate) {
+		int extrasSizeLimit = getResources().getBoolean(R.bool.landscape) ?
+			LANDSCAPE_EXTRAS_LIMIT : PORTRAIT_EXTRAS_LIMIT;
+
+		if (rate.shouldShowFreeCancellation() && mExtrasContainer.getChildCount() < extrasSizeLimit) {
+			addExtraRow(HotelUtils.getRoomCancellationText(getActivity(), rate).toString(), null, true);
+		}
+		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee() && mExtrasContainer.getChildCount() < extrasSizeLimit) {
+			addExtraRow(getResources().getString(Ui.obtainThemeResID(getActivity(),R.attr.skin_bestPriceGuaranteeString)), null, true);
+		}
+	}
+
+	public void addExtraRow(String title, String optionalPrice, boolean addToTop) {
+		HotelReceiptExtraSection row = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasContainer, false);
+		row.bind(title, optionalPrice);
+		if (addToTop) {
+			mExtrasContainer.addView(row, 0);
+		}
+		else {
+			mExtrasContainer.addView(row);
+		}
+	}
+
 	@Override
 	public void addTripBucketImage(ImageView imageView, HeaderBitmapColorAveragedDrawable headerBitmapDrawable) {
-		int placeholderResId = Ui.obtainThemeResID((Activity) getActivity(), R.attr.HotelRowThumbPlaceHolderDrawable);
+		int placeholderResId = Ui.obtainThemeResID((Activity) getActivity(), R.attr.skin_HotelRowThumbPlaceHolderDrawable);
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null && hotel.getProperty() != null) {
 			if (hotel.getProperty().getThumbnail() != null) {
 				hotel.getProperty().getThumbnail().fillHeaderBitmapDrawable(imageView, headerBitmapDrawable, placeholderResId);
 			}
 			else {
-				Bitmap bitmap = L2ImageCache.sGeneralPurpose.getImage(getResources(), placeholderResId, false /*blurred*/);
-				headerBitmapDrawable.setBitmap(bitmap);
+				new PicassoHelper.Builder(getActivity()).setTarget(
+					headerBitmapDrawable.getCallBack()).build().load(placeholderResId);
 				imageView.setImageDrawable(headerBitmapDrawable);
 			}
 		}
@@ -278,9 +292,22 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null) {
 			Rate rate = hotel.getRate();
-			String price = rate.getDisplayTotalPrice().getFormattedMoney();
-			mPriceTv.setText(price);
+			String totalTitle;
+			String price;
 
+			mExtrasContainer.removeAllViews();
+			if (PointOfSale.getPointOfSale().showFTCResortRegulations() && rate.showResortFeesMessaging()) {
+				addResortFeeRows(rate);
+				totalTitle = getResources().getString(R.string.trip_total);
+				price = rate.getTotalPriceWithMandatoryFees().getFormattedMoney();
+			}
+			else {
+				totalTitle = getResources().getString(R.string.total_with_tax);
+				price = rate.getDisplayTotalPrice().getFormattedMoney();
+			}
+			mTotalTitleTv.setText(totalTitle);
+			mPriceTv.setText(price);
+			addPrioritizedAmenityRows(rate);
 			refreshPriceChange();
 		}
 	}
@@ -290,12 +317,32 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null) {
 			Rate oldRate = hotel.getOldRate();
-			String amount = oldRate.getTotalAmountAfterTax().getFormattedMoney();
+			Money weCareAbout = hotel.getRate().getCheckoutPriceType() == Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES ?
+				oldRate.getTotalPriceWithMandatoryFees() : oldRate.getDisplayTotalPrice();
+			String amount = weCareAbout.getFormattedMoney();
 			String message = getString(R.string.price_changed_from_TEMPLATE, amount);
 			return message;
 		}
 
 		return null;
+	}
+
+	@Override
+	public int getPriceChangeDrawable() {
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		if (hotel != null && hotel.hasAirAttachRate()) {
+			return R.drawable.plane_gray;
+		}
+		return super.getPriceChangeDrawable();
+	}
+
+	@Override
+	public int getPriceChangeTextColor() {
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		if (hotel != null && hotel.hasAirAttachRate()) {
+			return R.color.price_change_air_attach;
+		}
+		return super.getPriceChangeTextColor();
 	}
 
 	@Override

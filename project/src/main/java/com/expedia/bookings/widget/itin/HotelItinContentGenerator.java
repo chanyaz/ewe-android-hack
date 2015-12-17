@@ -20,12 +20,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.FailedUrlCache;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripHotel;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -59,7 +61,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			return R.drawable.ic_itin_shared_placeholder_hotel;
 		}
 		else {
-			return Ui.obtainThemeResID(getContext(), R.attr.icTypeCircleHotel);
+			return Ui.obtainThemeResID(getContext(), R.attr.skin_icTypeCircleHotel);
 		}
 	}
 
@@ -93,17 +95,17 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public int getHeaderImagePlaceholderResId() {
-		return Ui.obtainThemeResID(getContext(), R.attr.itinHotelPlaceholderDrawable);
+		return Ui.obtainThemeResID(getContext(), R.attr.skin_itinHotelPlaceholderDrawable);
 	}
 
 	@Override
-	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
+	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
 		List<String> urls = getItinCardData().getHeaderImageUrls();
 		if (urls != null && urls.size() > 0) {
 			setSharableImageURL(urls.get(0));
-			return new UrlBitmapDrawable(getResources(), urls, getHeaderImagePlaceholderResId());
+			new PicassoHelper.Builder(getContext()).setPlaceholder(getHeaderImagePlaceholderResId()).setTarget(
+				target.getCallBack()).build().load(urls);
 		}
-		return null;
 	}
 
 	@Override
@@ -147,8 +149,10 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 			vh = new TitleViewHolder();
 			vh.mHotelNameTextView = Ui.findView(convertView, R.id.hotel_name_text_view);
-			vh.mHotelRatingBar = Ui.findView(convertView, R.id.hotel_rating_bar);
+			boolean shouldShowCircleForRatings = PointOfSale.getPointOfSale().shouldShowCircleForRatings();
+			vh.mHotelRatingBar = Ui.findView(convertView, shouldShowCircleForRatings ? R.id.hotel_rating_bar_circles :  R.id.hotel_rating_bar);
 
+			vh.mHotelRatingBar.setVisibility(View.VISIBLE);
 			convertView.setTag(vh);
 		}
 		else {
@@ -333,7 +337,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 						final Intent intent = getItinCardData().getDirectionsIntent();
 						if (intent != null) {
 							NavUtils.startActivitySafe(getContext(), intent);
-							OmnitureTracking.trackItinHotelDirections(getContext());
+							OmnitureTracking.trackItinHotelDirections();
 						}
 					}
 				});
@@ -351,7 +355,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			public void onClick(final View v) {
 				if (phone != null) {
 					SocialUtils.call(getContext(), phone);
-					OmnitureTracking.trackItinHotelCall(getContext());
+					OmnitureTracking.trackItinHotelCall();
 				}
 			}
 		};
@@ -505,21 +509,20 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public String getSharableImageURL() {
-		/*
-		 *  #2320. Let's get the previously set sharableImageURL and test to see if it actually exists.
-		 *  Easiest way to do it is to ask TwoLevelImageCache, since it would already have been loaded if it did.
-		 *  In the case it doesn't exist, then we will get the list of urls and then go thru each to find one.
-		 */
+
 		String sharableImgURL = super.getSharableImageURL();
-		if (!L2ImageCache.sGeneralPurpose.hasImageInDiskCache(sharableImgURL)) {
+		//If its in the cache the url failed
+		if (FailedUrlCache.getInstance().contains(sharableImgURL)) {
 			List<String> urls = getItinCardData().getHeaderImageUrls();
 			for (String url : urls) {
-				if (L2ImageCache.sGeneralPurpose.hasImageInDiskCache(url)) {
+				//If its not in the cache it works!
+				if (!FailedUrlCache.getInstance().contains(url)) {
 					sharableImgURL = url;
 					break;
 				}
 			}
 		}
+
 		return sharableImgURL;
 	}
 }

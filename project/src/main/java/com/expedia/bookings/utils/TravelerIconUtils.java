@@ -11,14 +11,15 @@ import android.text.TextUtils;
 public class TravelerIconUtils {
 
 	/**
-	 * Generate a circular icon containing the initials of the provided travelerDisplayName
+	 * Generate an  icon containing the initials of the provided travelerDisplayName
 	 *
 	 * @param context
 	 * @param travelerDisplayName - human readable full name e.g. "John Doe"
 	 * @param backgroundColor     - The background color of the initials icon
+	 * @param isCircular		  - Is shape of icon circular or a square
 	 * @return
 	 */
-	public static Bitmap generateCircularInitialIcon(Context context, String travelerDisplayName, int backgroundColor) {
+	public static Bitmap generateInitialIcon(Context context, String travelerDisplayName, int backgroundColor, boolean isCircular, boolean hasStroke) {
 		String name = getInitialsFromDisplayName(travelerDisplayName);
 
 		float density = context.getResources().getDisplayMetrics().density;
@@ -43,15 +44,24 @@ public class TravelerIconUtils {
 		iconBgPaint.setColor(backgroundColor);
 		txtPaint.setColor(0xFFFFFFFF);
 		txtPaint.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
-		txtPaint.setTextSize(32 * density);
+		txtPaint.setTextSize(30 * density);
 
 		float textHeight = txtPaint.descent() - txtPaint.ascent();
 		float textOffset = (textHeight / 2) - txtPaint.descent();
 
-		int borderWidth = (int) (2.5 * density);
-		canvas.drawCircle(size / 2, size / 2, size / 2, bgPaintWhite);
-		canvas.drawCircle(size / 2, size / 2, size / 2 - borderWidth, iconBgPaint);
-		canvas.drawText(TextUtils.isEmpty(name) ? "?" : name, size / 2, (size / 2) + (textOffset), txtPaint);
+		if (isCircular) {
+			int borderWidth = (int) (2.5 * density);
+			if (hasStroke) {
+				canvas.drawCircle(size / 2, size / 2, size / 2, bgPaintWhite);
+			}
+			canvas.drawCircle(size / 2, size / 2, size / 2 - borderWidth, iconBgPaint);
+			canvas.drawText(TextUtils.isEmpty(name) ? "?" : name, size / 2, (size / 2) + (textOffset), txtPaint);
+		}
+		else {
+			canvas.drawRect(0, 0, size, size, iconBgPaint);
+			canvas.drawText(TextUtils.isEmpty(name) ? "?" : name, size / 2, (size / 2) + (textOffset), txtPaint);
+		}
+
 		return iconBmp;
 	}
 

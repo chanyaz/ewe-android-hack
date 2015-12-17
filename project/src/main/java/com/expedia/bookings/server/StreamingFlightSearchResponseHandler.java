@@ -12,6 +12,7 @@ import java.util.zip.GZIPInputStream;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightSegmentAttributes;
@@ -22,11 +23,9 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.ServerError.ApiMethod;
 import com.expedia.bookings.enums.PassengerCategory;
-import com.expedia.bookings.utils.LoggingInputStream;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
@@ -54,7 +53,7 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 	private List<List<FlightSegmentAttributes>> mAttributes = new ArrayList<List<FlightSegmentAttributes>>();
 
 	public StreamingFlightSearchResponseHandler(Context context) {
-		mIsRelease = AndroidUtils.isRelease(context);
+		mIsRelease = BuildConfig.RELEASE;
 	}
 
 	@Override
@@ -75,11 +74,6 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		String contentEncoding = response.headers().get("Content-Encoding");
 		if (!TextUtils.isEmpty(contentEncoding) && "gzip".equalsIgnoreCase(contentEncoding)) {
 			in = new GZIPInputStream(in);
-		}
-
-		if (!mIsRelease) {
-			// Only wire this up on debug builds
-			in = new LoggingInputStream(in);
 		}
 
 		return handleResponse(in);
@@ -189,6 +183,9 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 			else if (name.equals("baggageFeesUrl")) {
 				leg.setBaggageFeesUrl(reader.nextString());
 			}
+			else if (name.equals("fareType")) {
+				leg.setFareType(reader.nextString());
+			}
 			else {
 				reader.skipValue();
 			}
@@ -200,8 +197,10 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 
 	private Flight readSegment(JsonReader reader) throws IOException {
 		Flight segment = new Flight();
-		Waypoint departure = segment.mOrigin = new Waypoint(Waypoint.ACTION_DEPARTURE);
-		Waypoint arrival = segment.mDestination = new Waypoint(Waypoint.ACTION_ARRIVAL);
+		segment.setOriginWaypoint(new Waypoint(Waypoint.ACTION_DEPARTURE));
+		Waypoint departure = segment.getOriginWaypoint();
+		segment.setDestinationWaypoint(new Waypoint(Waypoint.ACTION_ARRIVAL));
+		Waypoint arrival = segment.getDestinationWaypoint();
 		FlightCode flightCode = new FlightCode();
 
 		// Add a default status code
@@ -324,10 +323,11 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 	private FlightTrip readTrip(JsonReader reader) throws IOException {
 		FlightTrip trip = new FlightTrip();
 
-		// Vars that we need to handle in conjuction later, after parsing the stream
+		// Vars that we need to handle in conjunction later, after parsing the stream
 		String currencyCode = null;
 		String baseFare = null;
 		String totalFare = null;
+		String avgTotalFare = null;
 		String taxes = null;
 		String fees = null;
 
@@ -387,6 +387,24 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 				}
 				reader.endArray();
 			}
+			else if (name.equals("averageTotalPricePerTicket")) {
+				expectToken(reader, JsonToken.BEGIN_OBJECT);
+				reader.beginObject();
+				avgTotalFare = null;
+				while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+					name = reader.nextName();
+					if (name.equals("amount")) {
+						avgTotalFare = reader.nextString();
+					}
+					else {
+						reader.skipValue();
+					}
+				}
+				reader.endObject();
+			}
+			else if (name.equals("isPassportNeeded")) {
+				trip.setPassportNeeded(reader.nextBoolean());
+			}
 			else {
 				reader.skipValue();
 			}
@@ -396,6 +414,7 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 		if (!TextUtils.isEmpty(currencyCode)) {
 			trip.setBaseFare(ParserUtils.createMoney(baseFare, currencyCode));
 			trip.setTotalFare(ParserUtils.createMoney(totalFare, currencyCode));
+			trip.setAverageTotalFare(ParserUtils.createMoney(avgTotalFare, currencyCode));
 			trip.setTaxes(ParserUtils.createMoney(taxes, currencyCode));
 			trip.setFees(ParserUtils.createMoney(fees, currencyCode));
 		}

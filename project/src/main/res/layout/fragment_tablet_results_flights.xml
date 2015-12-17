@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <!-- BG FLIGHT MAP -->
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/bg_flight_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -20,9 +20,7 @@
     <com.expedia.bookings.widget.FrameLayout
         android:id="@+id/route_desc_container"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp">
+        android:layout_height="match_parent">
 
         <com.expedia.bookings.widget.AutoResizeTextView
             android:id="@+id/route_description_text"
@@ -30,31 +28,28 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:shadowColor="#88000000"
-            android:shadowDx="0"
-            android:shadowDy="4"
-            android:shadowRadius="5"
+            android:padding="4dp"
             android:textColor="#FFFFFF"
-            android:textSize="22sp"
+            android:textSize="@dimen/tablet_flight_route_desc_text_size"
             app:minTextSize="16sp"
-            app:maxTextSize="22sp"
+            app:maxTextSize="@dimen/tablet_flight_route_desc_text_size"
             app:textStyle="medium"/>
     </com.expedia.bookings.widget.FrameLayout>
 
     <!-- FLIGHT LEG CONTAINER -->
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/flight_leg_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <!-- LOADING  -->
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/loading_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <!-- SEARCH ERROR -->
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/search_error_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

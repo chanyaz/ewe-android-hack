@@ -84,6 +84,7 @@ public class SuggestionV2TypeAdapter extends TypeAdapter<SuggestionV2> {
 						else if (!TextUtils.isEmpty(regionType)) {
 							Log.w("Unknown suggest region type: \"" + regionType + "\"");
 						}
+						location.setRegionType(regionType);
 						break;
 					}
 					case "f": {

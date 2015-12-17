@@ -34,8 +34,8 @@ public class CVVTextView extends TextView implements CreditCardInputSection.Cred
 		int top = getPaddingTop();
 		int right = getPaddingRight();
 		int bottom = getPaddingBottom();
-		int bgResId = (enabled) ? Ui.obtainThemeResID(getContext(), R.attr.cvvDivErrorDrawable)
-			: Ui.obtainThemeResID(getContext(), R.attr.cvvDivDrawable);
+		int bgResId = (enabled) ? Ui.obtainThemeResID(getContext(), R.attr.skin_cvvDivErrorDrawable)
+			: Ui.obtainThemeResID(getContext(), R.attr.skin_cvvDivDrawable);
 		setBackgroundResource(bgResId);
 		setPadding(left, top, right, bottom);
 	}

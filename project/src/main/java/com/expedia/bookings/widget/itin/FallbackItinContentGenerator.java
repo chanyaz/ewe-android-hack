@@ -9,9 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.trips.ItinCardDataFallback;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.utils.Ui;
 
 public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardDataFallback> {
@@ -29,9 +29,9 @@ public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardD
 	public int getTypeIconResId() {
 		switch (this.getItinCardData().getTripComponentType()) {
 		case FLIGHT:
-			return Ui.obtainThemeResID(getContext(), R.attr.icTypeCircleFlight);
+			return Ui.obtainThemeResID(getContext(), R.attr.skin_icTypeCircleFlight);
 		case HOTEL:
-			return Ui.obtainThemeResID(getContext(), R.attr.icTypeCircleHotel);
+			return Ui.obtainThemeResID(getContext(), R.attr.skin_icTypeCircleHotel);
 		case CAR:
 			return R.drawable.ic_type_circle_car;
 		case CRUISE:
@@ -70,21 +70,20 @@ public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardD
 	public int getHeaderImagePlaceholderResId() {
 		switch (this.getItinCardData().getTripComponentType()) {
 		case FLIGHT:
-			return Ui.obtainThemeResID(getContext(), R.attr.itinFlightPlaceholderDrawable);
+			return Ui.obtainThemeResID(getContext(), R.attr.skin_itinFlightPlaceholderDrawable);
 		case HOTEL:
-			return Ui.obtainThemeResID(getContext(), R.attr.itinHotelPlaceholderDrawable);
+			return Ui.obtainThemeResID(getContext(), R.attr.skin_itinHotelPlaceholderDrawable);
 		case CAR:
-			return Ui.obtainThemeResID(getContext(), R.attr.itinCarPlaceholderDrawable);
+			return Ui.obtainThemeResID(getContext(), R.attr.skin_itinCarPlaceholderDrawable);
 		case CRUISE:
-			return Ui.obtainThemeResID(getContext(), R.attr.itinCruisePlaceholderDrawable);
+			return Ui.obtainThemeResID(getContext(), R.attr.skin_itinCruisePlaceholderDrawable);
 		default:
-			return Ui.obtainThemeResID(getContext(), R.attr.itinDefaultPlaceholderDrawable);
+			return Ui.obtainThemeResID(getContext(), R.attr.skin_itinDefaultPlaceholderDrawable);
 		}
 	}
 
 	@Override
-	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
-		return null;
+	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
 	}
 
 	@Override

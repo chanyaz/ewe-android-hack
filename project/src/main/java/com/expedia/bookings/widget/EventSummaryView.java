@@ -9,6 +9,7 @@ import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
@@ -23,7 +24,7 @@ public class EventSummaryView extends LinearLayout {
 
 	private TextView mTimeTextView;
 	private TextView mDateTextView;
-	private TextView mLocationtextView;
+	private TextView mLocationTextView;
 	private ImageButton mLocationMapImageButton;
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -55,7 +56,7 @@ public class EventSummaryView extends LinearLayout {
 		mDateTextView.setText(JodaUtils.formatDateTime(context, dateTime, DateUtils.FORMAT_SHOW_DATE
 				| DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR
 				| DateUtils.FORMAT_ABBREV_MONTH));
-		mLocationtextView.setText(String.format(context.getString(R.string.car_rental_agency_name_location),
+		mLocationTextView.setText(String.format(context.getString(R.string.car_rental_agency_name_location),
 				vendorName, location.getCity(), location.getStateCode()));
 		mLocationMapImageButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -80,7 +81,7 @@ public class EventSummaryView extends LinearLayout {
 
 		mTimeTextView = Ui.findView(this, R.id.time_text_view);
 		mDateTextView = Ui.findView(this, R.id.date_text_view);
-		mLocationtextView = Ui.findView(this, R.id.location_text_view);
+		mLocationTextView = Ui.findView(this, R.id.location_text_view);
 		mLocationMapImageButton = Ui.findView(this, R.id.location_map_image_button);
 	}
 }

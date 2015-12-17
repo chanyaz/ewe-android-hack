@@ -5,6 +5,7 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.json.JSONUtils;
 
 public class CreateItineraryResponse extends Response {
@@ -52,7 +53,7 @@ public class CreateItineraryResponse extends Response {
 		try {
 			JSONUtils.putJSONable(obj, "itinerary", mItinerary);
 			JSONUtils.putJSONable(obj, "offer", mOffer);
-			JSONUtils.putJSONableList(obj, "validPayments", mValidPayments);
+			GsonUtil.putListForJsonable(obj, "validPayments", mValidPayments);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -66,7 +67,7 @@ public class CreateItineraryResponse extends Response {
 
 		mItinerary = JSONUtils.getJSONable(obj, "itinerary", Itinerary.class);
 		mOffer = JSONUtils.getJSONable(obj, "offer", FlightTrip.class);
-		mValidPayments = JSONUtils.getJSONableList(obj, "validPayments", ValidPayment.class);
+		mValidPayments = GsonUtil.getListForJsonable(obj, "validPayments", ValidPayment.gsonListTypeToken);
 
 		return true;
 	}

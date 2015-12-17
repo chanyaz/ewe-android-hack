@@ -2,17 +2,20 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
 public class RoundImageView extends ImageView {
+
+
 
 	public RoundImageView(Context context) {
 		super(context);
@@ -34,6 +37,12 @@ public class RoundImageView extends ImageView {
 	public void setImageBitmap(Bitmap bm) {
 		updateDrawingVars(bm);
 		super.setImageBitmap(bm);
+	}
+
+	@Override
+	public void setImageDrawable(Drawable dr) {
+		updateDrawingVars(((BitmapDrawable) dr).getBitmap());
+		super.setImageDrawable(dr);
 	}
 
 	private void updateDrawingVars(Bitmap bm) {

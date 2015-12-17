@@ -18,7 +18,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.utils.LayoutUtils;
+import com.expedia.bookings.widget.HotelSectionExpandableText;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
@@ -41,7 +43,14 @@ public class HotelDetailsDescriptionFragment extends Fragment {
 
 	private void populateViews(View view) {
 		setupAmenities(view, Db.getHotelSearch().getSelectedProperty());
-		setupDescriptionSections(view, Db.getHotelSearch().getSelectedProperty());
+		// #4761 AB Test: Collapse Amenities, Policies, and fees on Infosite
+		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCollapseAmenities);
+		if (isUserBucketedForTest) {
+			setupDescriptionWithCollapsableSections(view, Db.getHotelSearch().getSelectedProperty());
+		}
+		else {
+			setupDescriptionSections(view, Db.getHotelSearch().getSelectedProperty());
+		}
 	}
 
 	private void setupAmenities(View view, Property property) {
@@ -100,7 +109,7 @@ public class HotelDetailsDescriptionFragment extends Fragment {
 		LinearLayout allSectionsContainer = Ui.findView(view, R.id.description_details_sections_container);
 		allSectionsContainer.removeAllViews();
 
-		List<HotelTextSection> sections = property.getAllHotelText(getActivity());
+		List<HotelTextSection> sections = property.getAllHotelText();
 
 		if (sections != null && sections.size() > 1) {
 			LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -116,6 +125,71 @@ public class HotelDetailsDescriptionFragment extends Fragment {
 				bodyText.setText(Html.fromHtml(section.getContentFormatted(getActivity())));
 				allSectionsContainer.addView(sectionContainer);
 			}
+		}
+	}
+
+	private void setupDescriptionWithCollapsableSections(View view, Property property) {
+		if (property == null) {
+			return;
+		}
+
+		LinearLayout allSectionsContainer = Ui.findView(view, R.id.description_details_sections_container);
+		allSectionsContainer.removeAllViews();
+
+		List<HotelTextSection> sections = property.getAllHotelText();
+		if (sections == null || sections.size() == 0) {
+			return;
+		}
+
+		HotelSectionExpandableText hotelExpandableText;
+		// We should preserve the order in which the texts are laid out. See property.getAllHotelText() for the order.
+		// Adding hotel overview text section(s)
+		if (property.getOverviewText() != null) {
+			// Skipping 1st overviewText since it appears to be the same as intro (as is)
+			for (int i = 1; i < property.getOverviewText().size(); i++) {
+				HotelTextSection section = property.getOverviewText().get(i);
+				hotelExpandableText = new HotelSectionExpandableText(getActivity());
+				hotelExpandableText.setHotelSection(section);
+				allSectionsContainer.addView(hotelExpandableText);
+			}
+		}
+
+		// Adding hotel amenities text section
+		if (property.getAmenitiesText() != null) {
+				hotelExpandableText = new HotelSectionExpandableText(getActivity());
+				hotelExpandableText.setHotelSection(property.getAmenitiesText());
+				hotelExpandableText.setAlwaysCut(true);
+				allSectionsContainer.addView(hotelExpandableText);
+		}
+
+		// Adding hotel policies text section
+		if (property.getPoliciesText() != null) {
+			hotelExpandableText = new HotelSectionExpandableText(getActivity());
+			hotelExpandableText.setHotelSection(property.getPoliciesText());
+			hotelExpandableText.showMinBulletPoints(2);
+			allSectionsContainer.addView(hotelExpandableText);
+		}
+
+		// Adding hotel fees text section
+		if (property.getFeesText() != null) {
+			hotelExpandableText = new HotelSectionExpandableText(getActivity());
+			hotelExpandableText.setHotelSection(property.getFeesText());
+			hotelExpandableText.showMinBulletPoints(2);
+			allSectionsContainer.addView(hotelExpandableText);
+		}
+
+		// Adding hotel mandatory fees text section
+		if (property.getMandatoryFeesText() != null) {
+			hotelExpandableText = new HotelSectionExpandableText(getActivity());
+			hotelExpandableText.setHotelSection(property.getMandatoryFeesText());
+			allSectionsContainer.addView(hotelExpandableText);
+		}
+
+		// Adding hotel renovation text section
+		if (property.getRenovationText() != null) {
+			hotelExpandableText = new HotelSectionExpandableText(getActivity());
+			hotelExpandableText.setHotelSection(property.getRenovationText());
+			allSectionsContainer.addView(hotelExpandableText);
 		}
 	}
 

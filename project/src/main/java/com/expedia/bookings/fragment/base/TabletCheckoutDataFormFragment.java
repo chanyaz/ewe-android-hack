@@ -1,24 +1,17 @@
 package com.expedia.bookings.fragment.base;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.CheckoutLoginButtonsFragment;
 import com.expedia.bookings.utils.FragmentBailUtils;
 import com.mobiata.android.util.Ui;
@@ -27,7 +20,7 @@ import com.mobiata.android.util.Ui;
 public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 	implements CheckoutLoginButtonsFragment.ILoginStateChangedListener {
 
-	public interface ICheckoutDataFormListener{
+	public interface ICheckoutDataFormListener {
 		public void onFormRequestingClosure(TabletCheckoutDataFormFragment caller, boolean animate);
 	}
 
@@ -41,7 +34,7 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 	private ICheckoutDataFormListener mListener;
 
 	@Override
-	public void onAttach(Activity activity){
+	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		mListener = Ui.findFragmentListener(this, ICheckoutDataFormListener.class);
 	}
@@ -72,7 +65,7 @@ public abstract class TabletCheckoutDataFormFragment extends LobableFragment
 		return mFormEntryMessageTv;
 	}
 
-	public void closeForm(boolean animate){
+	public void closeForm(boolean animate) {
 		mListener.onFormRequestingClosure(this, animate);
 	}
 

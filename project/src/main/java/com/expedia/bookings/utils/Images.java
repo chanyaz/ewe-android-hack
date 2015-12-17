@@ -1,31 +1,173 @@
 package com.expedia.bookings.utils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
-import com.expedia.bookings.activity.ExpediaBookingApp;
+import android.content.Context;
+
+import com.expedia.bookings.BuildConfig;
+import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Car;
+import com.expedia.bookings.data.HotelMedia;
+import com.expedia.bookings.data.cars.CarCategory;
+import com.expedia.bookings.data.cars.CarType;
+import com.expedia.bookings.data.collections.CollectionLocation;
+import com.expedia.bookings.data.hotels.Hotel;
+import com.expedia.bookings.data.hotels.HotelOffersResponse;
+import com.expedia.bookings.data.lx.LXImage;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 
 public class Images {
+
 	private Images() {
 		// ignore
 	}
 
+	private static String sCustomHost = null;
+
+	public static void setCustomHost(String customHost) {
+		sCustomHost = customHost;
+	}
+
+	public static String getMediaHost() {
+		if (Strings.isNotEmpty(sCustomHost)) {
+			return sCustomHost;
+		}
+
+		return BuildConfig.MEDIA_URL;
+	}
+
+	public static String getCollectionImageUrl(CollectionLocation location, int widthPx) {
+		String url = getTabletLaunch(location.imageCode);
+		return new Akeakamai(url) //
+			.downsize(Akeakamai.pixels(widthPx), Akeakamai.preserve()) //
+			.build();
+	}
+
 	public static String getTabletLaunch(String destination) {
-		return ExpediaBookingApp.MEDIA_URL + "/mobiata/mobile/apps/ExpediaBooking/LaunchDestinations/images/" + destination + ".jpg";
+		return getMediaHost() + "/mobiata/mobile/apps/ExpediaBooking/LaunchDestinations/images/" + destination + ".jpg";
 	}
 
 	public static String getFlightDestination(String destination) {
-		return ExpediaBookingApp.MEDIA_URL + "/mobiata/mobile/apps/ExpediaBooking/FlightDestinations/images/" + destination + ".jpg";
+		return getMediaHost() + "/mobiata/mobile/apps/ExpediaBooking/FlightDestinations/images/" + destination + ".jpg";
 	}
 
 	public static String getTabletDestination(String destination) {
-		return ExpediaBookingApp.MEDIA_URL + "/mobiata/mobile/apps/ExpediaBooking/TabletDestinations/images/" + destination + ".jpg";
+		return getMediaHost() + "/mobiata/mobile/apps/ExpediaBooking/TabletDestinations/images/" + destination + ".jpg";
 	}
 
-	public static String getCarRental(Car car) {
-		final String category = car.getCategory().toString().replace("_", "").toLowerCase(Locale.ENGLISH);
-		final String type = car.getType().toString().replace("_", "").toLowerCase(Locale.ENGLISH);
-		final String code = category + "_" + type;
-		return ExpediaBookingApp.MEDIA_URL + "/mobiata/mobile/apps/ExpediaBooking/CarRentals/images/" + code + ".jpg";
+	public static String getCarRental(Car car, float width) {
+		return getCarRental(car.getCategory(), car.getType(), width);
+	}
+
+	public static String getCarRental(CarCategory category, CarType type, float width) {
+		final String categoryString = category.toString().replace("_", "").toLowerCase(Locale.ENGLISH);
+		final String typeString = type.toString().replace("_", "").toLowerCase(Locale.ENGLISH);
+		final String code = categoryString + "_" + typeString;
+		return new Akeakamai(getMediaHost() + "/mobiata/mobile/apps/ExpediaBooking/CarRentals/images/" + code + ".jpg")
+			.downsize(Akeakamai.pixels((int) width), Akeakamai.preserve())
+			.build();
+	}
+
+	/**
+	 * Returns list of image URLs based on the screen size.
+	 * List contains the best match at 0th index followed by higher resolution and then lower resolution image URLs
+	 *
+	 * @param lxImages List of images in ascending order of size
+	 * @param width    of the device
+	 * @return sorted imageURLs
+	 */
+	public static List<String> getLXImageURLBasedOnWidth(List<LXImage> lxImages, int width) {
+		List<String> imageURLs = new ArrayList<>();
+		if (lxImages.size() > 1) {
+			lxImages = sortLXImagesBasedOnWidth(lxImages, width);
+		}
+
+		for (LXImage image : lxImages) {
+			imageURLs.add("https:" + image.imageURL);
+		}
+		return imageURLs;
+	}
+
+	private static List<LXImage> sortLXImagesBasedOnWidth(List<LXImage> lxImages, int width) {
+		List<LXImage> sortedImages = new ArrayList<>();
+		int index = 0;
+		for (LXImage image : lxImages) {
+			index++;
+			if (image.imageSize.width >= width) {
+				break;
+			}
+		}
+
+		if (index != 0) {
+			sortedImages.add(lxImages.get(index - 1));
+			// Add higher res images if available
+			sortedImages.addAll(lxImages.subList(index, lxImages.size()));
+
+			// Add lower res images in reverse
+			List<LXImage> lowerResImages = lxImages.subList(0, index - 1);
+			Collections.reverse(lowerResImages);
+			sortedImages.addAll(lowerResImages);
+		}
+		else {
+			Collections.reverse(lxImages);
+			return lxImages;
+		}
+		return sortedImages;
+	}
+
+	public static String getNearbyHotelImage(Hotel offer) {
+		return getMediaHost() + offer.largeThumbnailUrl;
+	}
+
+	public static List<HotelMedia> getHotelImages(HotelOffersResponse offer) {
+		List<HotelMedia> urlList = new ArrayList<>();
+		for (int index = 0; index < offer.photos.size() - 1; index++) {
+			HotelMedia hotelMedia = new HotelMedia(getMediaHost() + offer.photos.get(index).url);
+			urlList.add(hotelMedia);
+		}
+		return urlList;
+	}
+
+	public static HeaderBitmapDrawable makeLaunchListBitmapDrawable(Context context) {
+		HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
+		headerBitmapDrawable.setCornerMode(HeaderBitmapDrawable.CornerMode.ALL);
+		headerBitmapDrawable.setCornerRadius(
+			context.getResources().getDimensionPixelSize(R.dimen.launch_list_corner_radius));
+		headerBitmapDrawable.setScaleType(HeaderBitmapDrawable.ScaleType.CENTER_CROP);
+
+		return headerBitmapDrawable;
+	}
+
+	public static HeaderBitmapDrawable makeHotelBitmapDrawable(Context context, HeaderBitmapDrawable.CallbackListener listener, int width, String url, String tag) {
+		HeaderBitmapDrawable headerBitmapDrawable = makeLaunchListBitmapDrawable(context);
+		headerBitmapDrawable.setCallbackListener(listener);
+		HotelMedia hotelMedia = new HotelMedia(url);
+
+		new PicassoHelper.Builder(context)
+			.setPlaceholder(R.drawable.results_list_placeholder)
+			.setTarget(headerBitmapDrawable.getCallBack())
+			.setTag(tag)
+			.build()
+			.load(hotelMedia.getBestUrls(width));
+
+		return headerBitmapDrawable;
+	}
+
+	public static HeaderBitmapDrawable makeCollectionBitmapDrawable(Context context, HeaderBitmapDrawable.CallbackListener listener, String url, String tag) {
+		HeaderBitmapDrawable headerBitmapDrawable = makeLaunchListBitmapDrawable(context);
+		headerBitmapDrawable.setCallbackListener(listener);
+
+		new PicassoHelper.Builder(context)
+			.setPlaceholder(R.drawable.results_list_placeholder)
+			.setTarget(headerBitmapDrawable.getCallBack())
+			.setTag(tag)
+			.build()
+			.load(url);
+
+		return headerBitmapDrawable;
 	}
 }

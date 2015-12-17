@@ -11,23 +11,22 @@ import android.content.Context;
 import android.text.Html;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Media;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
-import com.expedia.bookings.utils.LoggingInputStream;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchResponse> {
@@ -40,7 +39,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 	private boolean mFilterMerchants = false;
 
 	public HotelSearchResponseHandler(Context context) {
-		mIsRelease = AndroidUtils.isRelease(context);
+		mIsRelease = BuildConfig.RELEASE;
 		if (!mIsRelease) {
 			mFilterMerchants = SettingUtils.get(context, context.getString(R.string.preference_filter_merchant_properties), false);
 		}
@@ -73,11 +72,6 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		String contentEncoding = response.headers().get("Content-Encoding");
 		if (!TextUtils.isEmpty(contentEncoding) && "gzip".equalsIgnoreCase(contentEncoding)) {
 			in = new GZIPInputStream(in);
-		}
-
-		if (!mIsRelease) {
-			// Only wire this up on debug builds
-			in = new LoggingInputStream(in);
 		}
 
 		JsonReader reader = new JsonReader(new InputStreamReader(in, "UTF-8"));
@@ -142,6 +136,9 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 					readHotelSummary(reader, searchResponse);
 				}
 				reader.endArray();
+			}
+			else if (name.equals("pageViewBeaconPixelUrl")) {
+				searchResponse.setBeaconUrl(reader.nextString());
 			}
 			else {
 				reader.skipValue();
@@ -266,9 +263,9 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 						mediaName = reader.nextName();
 						mediaToken = reader.peek();
 						if (mediaName.equals("url") && !mediaToken.equals(JsonToken.NULL)) {
-							Media media = ParserUtils.parseUrl(reader.nextString());
-							if (media != null) {
-								property.addMedia(media);
+							HotelMedia hotelMedia = ParserUtils.parseUrl(reader.nextString());
+							if (hotelMedia != null) {
+								property.addMedia(hotelMedia);
 							}
 						}
 					}
@@ -278,7 +275,6 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			}
 			else if (name.equals("lowRateInfo")) {
 				Rate lowestRate = readLowRateInfo(reader);
-				lowestRate.setNumberOfNights(mNumNights);
 				property.setLowestRate(lowestRate);
 			}
 			else if (name.equals("roomsLeftAtThisRate")) {
@@ -290,6 +286,21 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			else if (name.equals("isSameDayDRR")) {
 				property.setIsLowestRateTonightOnly(reader.nextBoolean());
 			}
+			else if (name.equals("isSponsoredListing")) {
+				property.setIsSponsored(reader.nextBoolean());
+			}
+			else if (name.equals("clickTrackingUrl")) {
+				property.setClickTrackingUrl(reader.nextString());
+			}
+			else if (name.equals("impressionTrackingUrl")) {
+				property.setImpressionTrackingUrl(reader.nextString());
+			}
+			else if (name.equals("omnitureAdDisplayedUrl")) {
+				property.setOmnitureAdDisplayedUrl(reader.nextString());
+			}
+			else if (name.equals("omnitureAdClickedUrl")) {
+				property.setOmnitureAdClickedUrl(reader.nextString());
+			}
 			else if (name.equals("highestSurveyPriceAsPrice")) {
 				Money money = readMoney(reader);
 				property.setHighestPriceFromSurvey(money);
@@ -297,15 +308,19 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			else if (name.equals("isVipAccess")) {
 				property.setIsVipAccess(reader.nextBoolean());
 			}
+			else if (name.equals("allowedToDisplayRatingAsStars")) {
+				boolean allowedToDisplayRatingAsStars = reader.nextBoolean();
+				// ignore for 4.3
+				//property.setShowCircles(!allowedToDisplayRatingAsStars);
+			}
+			else if (name.equals("isShowEtpChoice")) {
+				property.setIsETPHotel(reader.nextBoolean());
+			}
 			else {
 				reader.skipValue();
 			}
 		}
 		reader.endObject();
-
-		if (promoDesc != null && property.getLowestRate() != null) {
-			property.getLowestRate().setPromoDescription(promoDesc);
-		}
 
 		// If we didn't get a distance but we have a search latitude/longitude,
 		// calculate the distance based on the params.
@@ -329,6 +344,10 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 				searchResponse.addProperty(property);
 			}
 		}
+
+		if (!searchResponse.hasSponsoredListing() && property.isSponsored()) {
+			searchResponse.setHasSponsoredListing(true);
+		}
 	}
 
 	private Rate readLowRateInfo(JsonReader reader) throws IOException {
@@ -348,6 +367,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		String priceToShowUsers = null;
 		String userPriceType = null;
 		String checkoutPriceType = null;
+		boolean airAttached = false;
 
 		reader.beginObject();
 		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
@@ -389,6 +409,9 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 			else if (name.equals("priceToShowUsers")) {
 				priceToShowUsers = reader.nextString();
 			}
+			else if (name.equals("airAttached")) {
+				airAttached = reader.nextBoolean();
+			}
 			else {
 				reader.skipValue();
 			}
@@ -396,8 +419,6 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		reader.endObject();
 
 		Rate rate = new Rate();
-		rate.setAverageRate(ParserUtils.createMoney(averageRate, currencyCode));
-		rate.setAverageBaseRate(ParserUtils.createMoney(averageBaseRate, currencyCode));
 		rate.setDiscountPercent(discountPercent);
 		rate.setTotalSurcharge(ParserUtils.createMoney(surchargeTotalForEntireStay, currencyCode));
 		rate.setTotalMandatoryFees(ParserUtils.createMoney(totalMandatoryFees, currencyCode));
@@ -405,7 +426,8 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 		rate.setUserPriceType(userPriceType);
 		rate.setCheckoutPriceType(checkoutPriceType);
 		rate.setPriceToShowUsers(ParserUtils.createMoney(priceToShowUsers, currencyCode));
-		rate.setStrikethroughPriceToShowUsers(ParserUtils.createMoney(strikethroughPriceToShowUsers, currencyCode));
+		rate.setStrikeThroughPriceToShowUsers(ParserUtils.createMoney(strikethroughPriceToShowUsers, currencyCode));
+		rate.setAirAttached(airAttached);
 		return rate;
 	}
 

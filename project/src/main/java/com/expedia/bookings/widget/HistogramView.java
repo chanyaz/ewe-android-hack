@@ -53,6 +53,7 @@ public class HistogramView extends View {
 	 */
 	public void setPaint(Paint paint) {
 		mPaint = paint;
+		invalidate();
 	}
 
 	/**
@@ -63,6 +64,7 @@ public class HistogramView extends View {
 	 */
 	public void setData(float[] data) {
 		mData = data;
+		invalidate();
 	}
 
 	/**

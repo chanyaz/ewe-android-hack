@@ -40,8 +40,7 @@
     <!-- This is actually the "right" text -->
     <style name="LoginButtonBottomTextStyle">
         <item name="android:textColor">#cc363636</item>
-        <item name="android:textSize">@dimen/login_button_text_size</item>
-        <item name="textStyle">light</item>
+        <item name="android:textSize">@dimen/account_button_rewards_text_size</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">right</item>
         <item name="android:layout_marginRight">10dp</item>
@@ -61,6 +60,12 @@
         <item name="android:maxHeight">13dp</item>
     </style>
 
+    <style name="RatingBar.Circle.HotelDetails">
+        <item name="android:progressDrawable">@drawable/ratingbar_circle_hotel_details_small</item>
+        <item name="android:minHeight">13dp</item>
+        <item name="android:maxHeight">13dp</item>
+    </style>
+
     <style name="RatingBar.UserReview.HotelDetails">
         <item name="android:progressDrawable">@drawable/ratingbar_userreview_hotel_details_small</item>
         <item name="android:minHeight">17dp</item>
@@ -69,6 +74,91 @@
 
     <style name="V2.Fragment.Tablet.Confirmation">
         <item name="android:layout_gravity">center_horizontal</item>
+    </style>
+
+    <style name="CenterCaptionedIcon" />
+
+    <style name="CenterCaptionedIcon.Caption">
+        <item name="android:layout_marginLeft">36dp</item>
+        <item name="android:layout_marginRight">36dp</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:textColor">#a5180e0d</item>
+        <item name="android:textSize">18sp</item>
+        <item name="textStyle">condensed</item>
+    </style>
+
+    <style name="CenterCaptionedIcon.Caption.ToolTip">
+        <item name="android:layout_marginLeft">@dimen/gde_tool_tip_margin_sides</item>
+        <item name="android:layout_marginRight">@dimen/gde_tool_tip_margin_sides</item>
+        <item name="android:textSize">@dimen/gde_tool_tip_text_size</item>
+        <item name="textStyle">light</item>
+    </style>
+
+    <style name="CenterCaptionedIcon.ActionButton">
+        <item name="android:layout_width">182dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginTop">@dimen/pick_airport_button_top_margin</item>
+        <item name="android:background">?attr/skin_tablet_search_result_error_button_drawable</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">?attr/skin_tablet_search_result_error_button_text_color</item>
+        <item name="android:textSize">14sp</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="CenterCaptionedIcon.ActionButton.Done">
+        <item name="android:layout_marginTop">@dimen/gde_tool_tip_button_margin_top</item>
+    </style>
+
+    <style name="CheckoutTravelerButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_weight">0</item>
+        <item name="android:drawablePadding">10dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textSize">13dp</item>
+        <item name="textStyle">medium</item>
+        <item name="android:textColor">#323232</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:background">@drawable/bg_tablet_confirmation_actionbutton</item>
+    </style>
+
+    <style name="CheckoutTravelerButton.Saved">
+        <item name="android:text">@string/saved_button</item>
+        <item name="android:drawableRight">@drawable/saved_traveler_fake_spinner</item>
+    </style>
+
+    <style name="CheckoutTravelerButton.Edit">
+        <item name="android:text">@string/edit_button</item>
+        <item name="android:drawableRight">@drawable/edit_pencil</item>
+    </style>
+
+    <style name="CheckoutPaymentButton" parent="CheckoutTravelerButton"/>
+
+    <style name="CheckoutPaymentButton.Saved" parent="CheckoutTravelerButton.Saved">
+        <item name="android:drawableRight">@drawable/saved_card_fake_spinner</item>
+    </style>
+
+    <style name="CheckoutPaymentButton.Edit" parent="CheckoutTravelerButton.Edit"/>
+
+    <!-- Credit Card Edit Text on hotel checkout -->
+    <style name="CreditCardEditText">
+        <item name="android:hint">@string/name_on_card_hint</item>
+        <item name="android:inputType">textPersonName|textCapWords</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- Postal Code Section on hotel checkout -->
+    <style name="PostalCodeSection">
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:visibility">visible</item>
     </style>
 
 </resources>

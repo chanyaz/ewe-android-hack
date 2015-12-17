@@ -1,7 +1,9 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import org.joda.time.LocalDate;
 import org.joda.time.Years;
@@ -16,8 +18,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.UserPreference.Category;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.StrUtils;
-import com.mobiata.android.Log;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
@@ -28,10 +29,9 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	// Expedia
 	private Long mTuid = 0L;
-	private String mLoyaltyMembershipNumber;
 	private String mLoyaltyMembershipName;
 	private boolean mIsLoyaltyMembershipActive = false;
-	private String mMembershipTierName;
+	private LoyaltyMembershipTier mLoyaltyMembershipTier = LoyaltyMembershipTier.NONE;
 	private Long mExpediaUserId;
 
 	// General
@@ -55,13 +55,12 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private AssistanceType mAssistance = AssistanceType.NONE;
 	private PassengerCategory mPassengerCategory;
 	private int mSearchedAge = -1;
+	private int mAge;
+
 
 	private static final int MIN_CHILD_AGE = 2;
 	private static final int MIN_ADULT_CHILD_AGE = 12;
 	private static final int MIN_ADULT_AGE = 18;
-
-	// Activities
-	private boolean mIsRedeemer;
 
 	// Utility - not actually coming from the Expedia
 	private boolean mSaveTravelerToExpediaAccount = false;
@@ -69,8 +68,24 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	// Is the Traveler from Google Wallet?  Treat them differently!
 	private boolean mFromGoogleWallet;
 
+	// (Tablet Checkout) When user is logged in, can this traveler be selected from the list of saved travelers or disabled?
+	private boolean mIsSelectable = true;
+
+	// (Tablet Checkout) Is the current Traveler being newly added. ONLY used when a user is logged in.
+	private boolean mIsNew;
+
+	private boolean mChangedPrimaryPassportCountry;
+
 	public enum Gender {
 		MALE, FEMALE, OTHER
+	}
+
+	public enum LoyaltyMembershipTier {
+		NONE, BLUE, SILVER, GOLD;
+
+		public boolean isGoldOrSilver() {
+			return this == SILVER || this == GOLD;
+		}
 	}
 
 	//This is silly, we only want to offer WINDOW and AISLE, but when downloading from an expedia account
@@ -112,28 +127,16 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mTuid = 0L;
 	}
 
-	public String getLoyaltyMembershipNumber() {
-		if (!mIsLoyaltyMembershipActive || TextUtils.isEmpty(mLoyaltyMembershipNumber)) {
-			return null;
-		}
-		return mLoyaltyMembershipNumber;
-	}
-
 	public boolean getIsLoyaltyMembershipActive() {
 		return mIsLoyaltyMembershipActive;
 	}
 
-	public String getLoyaltyMembershipName() {
-		return mLoyaltyMembershipName;
+	public LoyaltyMembershipTier getLoyaltyMembershipTier() {
+		return mLoyaltyMembershipTier;
 	}
 
-	public String membershipTierName() {
-		return mMembershipTierName;
-	}
-
-	public boolean getIsElitePlusMember() {
-		return mIsLoyaltyMembershipActive && !TextUtils.isEmpty(mLoyaltyMembershipName)
-				&& mLoyaltyMembershipName.equalsIgnoreCase("Elite Plus");
+	public boolean isLoyaltyMember() {
+		return mLoyaltyMembershipTier != LoyaltyMembershipTier.NONE;
 	}
 
 	public String getFirstName() {
@@ -202,10 +205,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return phone;
 	}
 
-	public List<Phone> getPhoneNumbers() {
-		return mPhoneNumbers;
-	}
-
 	public String getEmail() {
 		return mEmail;
 	}
@@ -231,13 +230,17 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	}
 
 	public String getPrimaryPassportCountry() {
-		if (mPassportCountries == null || mPassportCountries.size() == 0) {
+		if (mPassportCountries == null || mPassportCountries.size() == 0 || Strings.isEmpty(mPassportCountries.get(0))) {
 			return null;
 		}
+
 		return mPassportCountries.get(0);
 	}
 
 	public List<String> getPassportCountries() {
+		if (mPassportCountries == null) {
+			return Collections.emptyList();
+		}
 		return mPassportCountries;
 	}
 
@@ -361,20 +364,12 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return !TextUtils.isEmpty(getFirstName()) && !TextUtils.isEmpty(getLastName());
 	}
 
-	public boolean hasEmail() {
-		return !TextUtils.isEmpty(getEmail());
-	}
-
 	public boolean getSaveTravelerToExpediaAccount() {
 		if (mFromGoogleWallet) {
 			return false;
 		}
 
 		return mSaveTravelerToExpediaAccount;
-	}
-
-	public boolean getIsRedeemer() {
-		return mIsRedeemer;
 	}
 
 	public int getSearchedAge() {
@@ -392,10 +387,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mExpediaUserId = expediaUserId;
 	}
 
-	public void setLoyaltyMembershipNumber(String loyaltyMembershipNumber) {
-		mLoyaltyMembershipNumber = loyaltyMembershipNumber;
-	}
-
 	public void setLoyaltyMembershipActive(boolean active) {
 		mIsLoyaltyMembershipActive = active;
 	}
@@ -404,8 +395,21 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mLoyaltyMembershipName = loyaltyMembershipName;
 	}
 
-	public void setMembershipTierName(String membershipTierName) {
-		mMembershipTierName = membershipTierName;
+	public void setLoyaltyMembershipTier(String tierString) {
+		try {
+			if (tierString != null) {
+				setLoyaltyMembershipTier(LoyaltyMembershipTier.valueOf(tierString.toUpperCase(Locale.US)));
+				return;
+			}
+		}
+		catch (IllegalArgumentException e) {
+			// tierString doesn't match anything
+		}
+		setLoyaltyMembershipTier(LoyaltyMembershipTier.NONE);
+	}
+
+	public void setLoyaltyMembershipTier(LoyaltyMembershipTier loyaltyMembershipTier) {
+		mLoyaltyMembershipTier = loyaltyMembershipTier;
 	}
 
 	public void setFirstName(String firstName) {
@@ -460,16 +464,20 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	}
 
 	public void setPrimaryPassportCountry(String passportCountry) {
+		mChangedPrimaryPassportCountry = true;
 		if (mPassportCountries != null && mPassportCountries.size() > 0) {
 			boolean countryFound = false;
 
-			//See if the country is already in the list, if so set it as primary and move old primary
-			for (int i = 0; i < mPassportCountries.size(); i++) {
-				if (passportCountry.compareToIgnoreCase(mPassportCountries.get(i)) == 0) {
-					mPassportCountries.set(i, mPassportCountries.get(0));
-					mPassportCountries.set(0, passportCountry);
-					countryFound = true;
-					break;
+			// See if the country is already in the list, if so set it as primary and move old primary
+			if (passportCountry != null) {
+				for (int i = 0; i < mPassportCountries.size(); i++) {
+					String pCountry = mPassportCountries.get(i);
+					if (pCountry != null && passportCountry.compareToIgnoreCase(pCountry) == 0) {
+						mPassportCountries.set(i, mPassportCountries.get(0));
+						mPassportCountries.set(0, passportCountry);
+						countryFound = true;
+						break;
+					}
 				}
 			}
 
@@ -492,7 +500,12 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	}
 
 	public void setSeatPreference(SeatPreference pref) {
-		mSeatPreference = pref;
+		if (pref == null) {
+			mSeatPreference = SeatPreference.WINDOW;
+		}
+		else {
+			mSeatPreference = pref;
+		}
 	}
 
 	public void setAssistance(AssistanceType assistance) {
@@ -501,10 +514,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public void setSaveTravelerToExpediaAccount(boolean save) {
 		mSaveTravelerToExpediaAccount = save;
-	}
-
-	public void setIsRedeemer(boolean isRedeemer) {
-		mIsRedeemer = isRedeemer;
 	}
 
 	public void setFromGoogleWallet(boolean fromGoogleWallet) {
@@ -549,7 +558,22 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return getOrCreatePrimaryPhoneNumber().getCountryName();
 	}
 
-	//////////////////////////////////////////////////////////////////////////
+	public boolean isSelectable() {
+		return mIsSelectable;
+	}
+
+	public void setIsSelectable(boolean isSelectable) {
+		mIsSelectable = isSelectable;
+	}
+
+	public boolean isNew() {
+		return mIsNew;
+	}
+
+	public void setIsNew(boolean isNew) {
+		mIsNew = isNew;
+	}
+//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
 	@Override
@@ -559,10 +583,9 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		try {
 			obj.putOpt("tuid", mTuid);
 			obj.putOpt("expUserId", mExpediaUserId);
-			obj.putOpt("loyaltyMembershipNumber", mLoyaltyMembershipNumber);
 			obj.putOpt("loyaltyMemebershipActive", mIsLoyaltyMembershipActive);
 			obj.putOpt("loyaltyMemebershipName", mLoyaltyMembershipName);
-			obj.putOpt("membershipTierName", mMembershipTierName);
+			obj.putOpt("membershipTier", mLoyaltyMembershipTier.name());
 
 			obj.putOpt("firstName", mFirstName);
 			obj.putOpt("middleName", mMiddleName);
@@ -578,7 +601,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			JodaUtils.putLocalDateInJson(obj, "birthLocalDate", mBirthDate);
 			obj.putOpt("redressNumber", mRedressNumber);
 			JSONUtils.putStringList(obj, "passportCountries", mPassportCountries);
-			if (mSeatPreference.equals(SeatPreference.ANY) || mSeatPreference.equals(SeatPreference.UNASSIGNED)) {
+			if (mSeatPreference == null || mSeatPreference.equals(SeatPreference.ANY) || mSeatPreference.equals(SeatPreference.UNASSIGNED)) {
 				//We only want to support window and AISLE with window being the default
 				JSONUtils.putEnum(obj, "seatPreference", SeatPreference.WINDOW);
 			}
@@ -591,11 +614,17 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 			obj.putOpt("searchedAge", mSearchedAge);
 
-			obj.putOpt("isRedeemer", mIsRedeemer);
-
 			obj.putOpt("saveToExpediaAccount", mSaveTravelerToExpediaAccount);
 
 			obj.putOpt("fromGoogleWallet", mFromGoogleWallet);
+
+			obj.putOpt("age", mAge);
+
+			obj.putOpt("isSelectable", mIsSelectable);
+
+			obj.putOpt("isNew", mIsNew);
+
+			obj.putOpt("isChangedPrimaryPassportCountry", mChangedPrimaryPassportCountry);
 
 			return obj;
 		}
@@ -608,10 +637,9 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	public boolean fromJson(JSONObject obj) {
 		mTuid = obj.optLong("tuid");
 		mExpediaUserId = obj.optLong("expUserId");
-		mLoyaltyMembershipNumber = obj.optString("loyaltyMembershipNumber", null);
 		mIsLoyaltyMembershipActive = obj.optBoolean("loyaltyMemebershipActive", false);
 		mLoyaltyMembershipName = obj.optString("loyaltyMemebershipName", null);
-		mMembershipTierName = obj.optString("membershipTierName", null);
+		setLoyaltyMembershipTier(obj.optString("membershipTier", null));
 
 		mFirstName = obj.optString("firstName", null);
 		mMiddleName = obj.optString("middleName", null);
@@ -624,11 +652,11 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mIsSmokingPreferred = obj.optBoolean("isSmokingPreferred");
 
 		mGender = JSONUtils.getEnum(obj, "gender", Gender.class);
-		mBirthDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "birthLocalDate", "birthDate");
+		mBirthDate = JodaUtils.getLocalDateFromJson(obj, "birthLocalDate");
 		mRedressNumber = obj.optString("redressNumber");
 		mPassportCountries = JSONUtils.getStringList(obj, "passportCountries");
 		mSeatPreference = JSONUtils.getEnum(obj, "seatPreference", SeatPreference.class);
-		if (mSeatPreference.equals(SeatPreference.ANY) || mSeatPreference.equals(SeatPreference.UNASSIGNED)) {
+		if (mSeatPreference == null || mSeatPreference.equals(SeatPreference.ANY) || mSeatPreference.equals(SeatPreference.UNASSIGNED)) {
 			//We only want to support window and AISLE with window being the default
 			mSeatPreference = SeatPreference.WINDOW;
 		}
@@ -638,11 +666,17 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 		mSearchedAge = obj.optInt("searchedAge");
 
-		mIsRedeemer = obj.optBoolean("isRedeemer");
-
 		mSaveTravelerToExpediaAccount = obj.optBoolean("saveToExpediaAccount");
 
 		mFromGoogleWallet = obj.optBoolean("fromGoogleWallet");
+
+		mAge = obj.optInt("age");
+
+		mIsSelectable = obj.optBoolean("isSelectable");
+
+		mIsNew = obj.optBoolean("isNew");
+
+		mChangedPrimaryPassportCountry = obj.optBoolean("isChangedPrimaryPassportCountry");
 
 		return true;
 	}
@@ -658,6 +692,9 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		}
 	}
 
+	private static final int NOT_EQUAL = -1;
+	private static final int EQUAL = 0;
+
 	/**
 	 * Compare the name of this traveler to another traveler (currently we just compare first and last name)
 	 * If either traveler has null for their first or last name we consider them not equal
@@ -665,8 +702,6 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	 * @return
 	 */
 	public int compareNameTo(Traveler another) {
-		final int NOT_EQUAL = -1;
-		final int EQUAL = 0;
 
 		if (this == another) {
 			//same ref
@@ -676,10 +711,11 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			return NOT_EQUAL;
 		}
 
-		if (this.getFirstName() != null && this.getLastName() != null && another.getFirstName() != null
-				&& another.getLastName() != null) {
+		if (this.getFirstName() != null && this.getLastName() != null && this.getMiddleName() != null && another.getFirstName() != null
+			&& another.getLastName() != null && another.getMiddleName() != null) {
 			if (this.getFirstName().trim().compareToIgnoreCase(another.getFirstName().trim()) == 0
-					&& this.getLastName().trim().compareToIgnoreCase(another.getLastName().trim()) == 0) {
+				&& this.getLastName().trim().compareToIgnoreCase(another.getLastName().trim()) == 0
+				&& this.getMiddleName().trim().compareToIgnoreCase(another.getMiddleName().trim()) == 0) {
 				return EQUAL;
 			}
 			else {
@@ -689,12 +725,11 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return NOT_EQUAL;
 	}
 
+	private static final int BEFORE = -1;
+	private static final int AFTER = 1;
+
 	@Override
 	public int compareTo(Traveler another) {
-		final int BEFORE = -1;
-		final int EQUAL = 0;
-		final int AFTER = 1;
-
 		if (this == another) {
 			//same ref
 			return EQUAL;
@@ -706,19 +741,19 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		int diff = 0;
 
 		// First name
-		diff = StrUtils.compareTo(getFirstName(), another.getFirstName());
+		diff = Strings.compareTo(getFirstName(), another.getFirstName());
 		if (diff != 0) {
 			return diff;
 		}
 
 		// Middle name
-		diff = StrUtils.compareTo(getMiddleName(), another.getMiddleName());
+		diff = Strings.compareTo(getMiddleName(), another.getMiddleName());
 		if (diff != 0) {
 			return diff;
 		}
 
 		// Last name
-		diff = StrUtils.compareTo(getLastName(), another.getLastName());
+		diff = Strings.compareTo(getLastName(), another.getLastName());
 		if (diff != 0) {
 			return diff;
 		}
@@ -730,19 +765,19 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		}
 
 		// Phone number
-		diff = StrUtils.compareTo(getPhoneNumber(), another.getPhoneNumber());
+		diff = Strings.compareTo(getPhoneNumber(), another.getPhoneNumber());
 		if (diff != 0) {
 			return diff;
 		}
 
 		// Phone country code
-		diff = StrUtils.compareTo(getPhoneCountryCode(), another.getPhoneCountryCode());
+		diff = Strings.compareTo(getPhoneCountryCode(), another.getPhoneCountryCode());
 		if (diff != 0) {
 			return diff;
 		}
 
 		// Email
-		diff = StrUtils.compareTo(getEmail(), another.getEmail());
+		diff = Strings.compareTo(getEmail(), another.getEmail());
 		if (diff != 0) {
 			return diff;
 		}
@@ -769,7 +804,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		}
 
 		// Redress #
-		diff = StrUtils.compareTo(getRedressNumber(), another.getRedressNumber());
+		diff = Strings.compareTo(getRedressNumber(), another.getRedressNumber());
 		if (diff != 0) {
 			return diff;
 		}
@@ -789,7 +824,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 			// Compare each item
 			for (int a = 0; a < mySize; a++) {
-				diff = StrUtils.compareTo(mPassportCountries.get(a), another.mPassportCountries.get(a));
+				diff = Strings.compareTo(mPassportCountries.get(a), another.mPassportCountries.get(a));
 				if (diff != 0) {
 					return diff;
 				}
@@ -834,5 +869,17 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		String jsonA = a != null ? a.toJson().toString() : "";
 		String jsonB = b != null ? b.toJson().toString() : "";
 		return jsonA.compareTo(jsonB);
+	}
+
+	public int getAge() {
+		return mAge;
+	}
+
+	public void setAge(int age) {
+		mAge = age;
+	}
+
+	public boolean isChangedPrimaryPassportCountry() {
+		return mChangedPrimaryPassportCountry;
 	}
 }

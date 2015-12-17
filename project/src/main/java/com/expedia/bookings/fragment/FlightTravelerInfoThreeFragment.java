@@ -46,7 +46,6 @@ public class FlightTravelerInfoThreeFragment extends Fragment implements Validat
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
 					mSectionTravelerInfo.performValidation();
 				}
-				Db.getWorkingTravelerManager().attemptWorkingTravelerSave(getActivity(), false);
 			}
 		});
 
@@ -56,7 +55,7 @@ public class FlightTravelerInfoThreeFragment extends Fragment implements Validat
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightTravelerEditPassport(getActivity());
+		OmnitureTracking.trackPageLoadFlightTravelerEditPassport();
 	}
 
 	@Override

@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
@@ -142,14 +143,6 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 		super.onPause();
 
 		Events.unregister(this);
-
-		if (Db.getTravelersAreDirty()) {
-			Db.kickOffBackgroundTravelerSave(getActivity());
-		}
-
-		if (Db.getBillingInfoIsDirty()) {
-			Db.kickOffBackgroundBillingInfoSave(getActivity());
-		}
 	}
 
 	@Override
@@ -214,7 +207,8 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 			Property property = hotel.getProperty();
 			Rate rate = hotel.getRate();
-			setTotalPriceString(HotelUtils.getSlideToPurchaseString(getActivity(), property, rate));
+			setTotalPriceString(HotelUtils.getSlideToPurchaseString(getActivity(), property, rate,
+				ExpediaBookingApp.useTabletInterface(getActivity())));
 			break;
 		}
 		}

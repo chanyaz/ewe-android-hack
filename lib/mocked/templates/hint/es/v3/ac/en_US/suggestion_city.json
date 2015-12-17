@@ -1,0 +1,76 @@
+{
+    "q": "san",
+    "rid": "969fd8eb-90f0-4201-8175-d35622060e69",
+    "rc": "OK",
+    "sr": [
+        {
+            "@type": "regionResult",
+            "i": "0",
+            "f": "San Francisco (and vicinity), California, United States of America",
+            "d": "<B>San</B> Francisco, CA",
+            "id": "178305",
+            "gaiaId": "319476384680380393",
+            "t": "CITY",
+            "rt": "MULTICITY",
+            "s": "San Francisco (and vicinity)",
+            "l": "San Francisco (and vicinity), California, United States of America",
+            "ll": {
+                "lat": "37.787400",
+                "lng": "-122.408200"
+            },
+            "a": "QSF",
+            "amc": "178305",
+            "c": "United States of America",
+            "cc": "US",
+            "ccc": "USA",
+            "hc": "422",
+            "pb": "false"
+        },
+        {
+            "@type": "regionResult",
+            "i": "1",
+            "f": "San Diego (county), California, United States of America",
+            "d": "<B>San</B> Diego (county), CA",
+            "id": "178304",
+            "gaiaId": "319476384680380392",
+            "t": "CITY",
+            "rt": "MULTICITY",
+            "s": "San Diego (county)",
+            "l": "San Diego (county), California, United States of America",
+            "ll": {
+                "lat": "32.714440",
+                "lng": "-117.162370"
+            },
+            "a": "SAN",
+            "amc": "178304",
+            "c": "United States of America",
+            "cc": "US",
+            "ccc": "USA",
+            "hc": "566",
+            "pb": "false"
+        },
+        {
+            "@type": "regionResult",
+            "i": "2",
+            "f": "Fisherman's Wharf, San Francisco, California, United States of America",
+            "d": "Fisherman's Wharf, <B>San</B> Francisco, CA",
+            "id": "800128",
+            "gaiaId": "319476412505392337",
+            "t": "CITY",
+            "rt": "NEIGHBORHOOD",
+            "s": "Fisherman's Wharf",
+            "l": "Fisherman's Wharf, San Francisco, California, United States of America",
+            "ll": {
+                "lat": "37.802871",
+                "lng": "-122.415554"
+            },
+            "a": "SFO",
+            "amc": "178305",
+            "c": "United States of America",
+            "cc": "US",
+            "ccc": "USA",
+            "hc": "19",
+            "pb": "false"
+        }
+    ]
+}

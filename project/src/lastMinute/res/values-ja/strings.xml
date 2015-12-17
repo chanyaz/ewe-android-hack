@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="call_lm_customer_support">lastminute.com.au カスタマー サポートに電話する</string>
+
+    <!-- Log in with lastminute.com.au -->
+    <string name="Log_in_with_lm">lastminute.com.au でログイン</string>
+    <!-- Label for signin screen -->
+    <string name="lm_account">lastminute.com.au アカウント</string>
+    <!-- Content description for action: Press to log in with your lastminute.com.au account -->
+    <string name="cd_checkout_log_in_with_lm">タップして lastminute.com.au アカウントにログイン</string>
+
+    <string name="lm_website">lastminute.com.au サイト</string>
+    <string name="lm_app_support">lastminute.com.au アプリ サポート</string>
+    <string name="lm_copyright_TEMPLATE">© Copyright 2012-%1$s lastminute.com.au\nAll rights reserved.</string>
+    <string name="lm_info_url">http://www.lastminute.com/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_lm">lastminute.com.au アカウントからログアウトしてもよろしいですか ?</string>
+
+    <!-- Expedia booking fee -->
+    <string name="lm_booking_fee">lastminute.com.au 予約手数料</string>
+
+    <string name="error_flight_unhandled_lm_TEMPLATE">申し訳ありません。現在お客様のご予約を完了できません。後でもう一度お試しいただくか、lastminute.com.au カスタマーサポートまでご連絡ください。お問い合わせの際にはこの旅程番号 : %s をお伝えください。</string>
+    <string name="error_server_lm">申し訳ありません。lastminute.com.au のサーバーに接続できません。後ほど再度お試しください。</string>
+
+    <!-- save billing info message -->
+    <string name="save_billing_lm_info_message">このお支払い方法をお客様の lastminute.com.au アカウントに保存しますか ? 保存すると、次回ご購入時に便利です。</string>
+
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_lm_message_TEMPLATE">%1$s様の情報をお客様の lastminute.com.au アカウントに保存しますか ? 保存すると、次回ご購入時に便利です。</string>
+
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE_lm">lastminute.com.au 旅程番号 : %s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE_lm">lastminute.com.au カスタマー サポート : %s</string>
+
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data_lm">lastminute.com.au アカウントからログアウトしています。セーブした全ての請求情報および連絡先が削除されました。</string>
+
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure_lm">申し訳ありません。lastminute.com.au に接続することができませんでした。もう一度お試しください。</string>
+
+    <!-- Phone Fragment Header-->
+    <string name="nav_accommodation">宿泊施設</string>
+    
+    <!-- Shop travel label -->
+    <string name="shop_travel">旅行を予約</string>
+
+    <!-- Title for different ways to connect to Expedia -->
+    <string name="contact_lm_via">lastminute.com.au へのご連絡方法…</string>
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_lm_email_subject">lastminute.com.au 予約サポート窓口</string>
+    <!-- lastminute.com.au- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_lm">ご予約に関するお問い合わせは、lastminute.com.au (%s) までご連絡ください。</string>
+    <!-- lastminute.com.au Itinerary -->
+    <string name="lm_itinerary">lastminute.com.au 旅程番号</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">lastminute.com.au</string>
+
+    <string name="error_flight_no_longer_available_lm">申し訳ありません。lastminute.com.au ではご希望のフライトはご利用いただけません。</string>
+
+    <string name="error_flights_no_longer_available_lm">申し訳ありません。lastminute.com.au ではご希望のフライトの一部がご利用いただけません。</string>
+
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out_lm">申し訳ありません。lastminute.com.au ではこのホテルはご利用いただけません。</string>
+    <!--A message stating this hotel is Not currently available on lastminute.com.au -->
+    <string name="not_currently_available_lm">lastminute.com.au では現在ご利用いただけません</string>
+    <!-- A message stating this hotel is sold out on lastminute.com.au -->
+    <string name="sold_out_on_lm">lastminute.com.au では完売しました</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from lastminute.com.au Nov. 3-4" -->
+    <string name="not_currently_available_lm_TEMPLATE">lastminute.com.au では %s にご利用いただけません</string>
+
+    <!-- Missing strings for lastminute.com.au from Expedia-->
+    <string name="tell_a_friend_body_lm">こんにちは。\n \niPhone と Android スマートフォン用の lastminute.com.au ホテル予約アプリがオススメです。無料でダウンロードできて、世界中 14 万軒以上ものホテルを検索、予約可能。スマートフォンからホテルを予約するなら、このアプリが一番便利です。</string>
+    <string name="tell_a_friend_subject_lm">lastminute.com.au ホテル</string>
+    <string name="restricted_profile_login_message_lm">lastminute.com.au にログインするには、ご使用のデバイスで制限なしのユーザー プロフィールをお使いください。</string>
+    <string name="loading_lm_account">lastminute.com.au アカウントを読み込み中</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_lm">ホテルのご予約が完了しました。すぐに旅程が必要な場合は、lastminute.com.au カスタマーサポートまでお電話ください。</string>
+    <string name="lm_password_hint">lastminute.com.au パスワード</string>
+    <string name="dialog_message_launch_lm_mobile_site">lastminute.com.au のモバイルサイトを開きますか ?</string>
+    <string name="sorry_rooms_sold_out_lm">申し訳ありません。lastminute.com.au では完売しました。</string>
+    <!-- lastminute.com.au App download link -->
+    <string name="share_template_long_ad_lm">ホテルとフライトを予約して、旅程を表示 &amp; シェアできます。無料の lastminute.com.au モバイル アプリを今すぐダウンロードしてください。\n%s</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">本日 lastminute.com.au にお支払いの合計金額 :</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">すべての lastminute.com.au サイト共通のグローバル アカウントの作成が必要です。&lt;br&gt;以下の「パスワードをお忘れですか ?」リンクをクリックして、パスワードをリセットしてください。</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today_lm">本日 lastminute.com.au にお支払いの金額</string>
+    <string name="etp_pay_now_charges_text_lm">お客様のお支払い情報の処理は lastminute.com.au が行います。</string>
+</resources>

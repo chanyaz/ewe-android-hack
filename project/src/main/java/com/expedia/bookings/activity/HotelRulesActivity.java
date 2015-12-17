@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
@@ -12,31 +13,31 @@ public class HotelRulesActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setTitle(R.string.legal_information);
-		setTheme(ExpediaBookingApp.IS_TRAVELOCITY ||ExpediaBookingApp.IS_AAG ? R.style.Theme_Phone_WebView_WithTitle : R.style.Theme_Phone_WebView);
+		if (ExpediaBookingApp.useTabletInterface(this)) {
+			// Use FlightTheme on hotel checkout for tablet.
+			int themeId = R.style.FlightTheme_Rules;
+			setTheme(themeId);
+		}
+		else {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
+
+		if (shouldBail()) {
+			return;
+		}
+
 		setContentView(R.layout.activity_hotel_rules);
 		getActionBar().setDisplayHomeAsUpEnabled(true);
-		if(ExpediaBookingApp.IS_EXPEDIA) {
-			getActionBar().setLogo(R.drawable.ic_expedia_action_bar_logo_dark);
-		}
+	}
+
+	private boolean shouldBail() {
+		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadHotelsCheckoutWarsaw(this);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
+		OmnitureTracking.trackPageLoadHotelsCheckoutWarsaw();
 	}
 
 	@Override

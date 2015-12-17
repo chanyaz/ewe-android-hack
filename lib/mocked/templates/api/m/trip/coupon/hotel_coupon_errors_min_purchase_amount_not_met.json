@@ -1,0 +1,13 @@
+{
+    "activityId": "58b6be8a-d533-4eb0-aaa6-0228e000056c",
+    "errors": [
+        {
+            "diagnosticId": 14141,
+            "errorCode": "APPLY_COUPON_ERROR",
+            "errorInfo": {
+                "couponErrorType": "MinPurchaseAmountNotMet",
+                "summary": "Calculated Activity total rate is out of Coupon's per stay min/ per stay max range."
+            }
+        }
+    ]
+}

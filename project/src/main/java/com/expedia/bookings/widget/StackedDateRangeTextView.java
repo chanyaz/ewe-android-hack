@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.util.Locale;
+
 import org.joda.time.LocalDate;
 
 import android.content.Context;
@@ -44,7 +46,7 @@ public class StackedDateRangeTextView extends TextView {
 	// and has font tracking = 200. The date range is condensed bold.
 	public void setDates(LocalDate from, LocalDate to) {
 
-		String month = from.toString("MMM").toUpperCase();
+		String month = from.toString("MMM").toUpperCase(Locale.getDefault());
 		String fromDay = from.toString("d");
 		String toDay = to.toString("d");
 

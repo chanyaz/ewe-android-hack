@@ -8,15 +8,17 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.data.HotelBookingResponse;
+import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
+import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -33,7 +35,8 @@ public class HotelConfirmationActivity extends FragmentActivity {
 
 		// The app will get in to this state if being restored after background kill. In this case let's just be a good
 		// guy and send them to the itin screen.
-		HotelBookingResponse bookingResponse = Db.getTripBucket().getHotel().getBookingResponse();
+		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+		HotelBookingResponse bookingResponse = hotel == null ? null : hotel.getBookingResponse();
 		if (bookingResponse == null) {
 			Log.d("HotelConfirmationActivity launched without confirmation data, sending to itin");
 			NavUtils.goToItin(this);
@@ -60,18 +63,18 @@ public class HotelConfirmationActivity extends FragmentActivity {
 			Property property = Db.getTripBucket().getHotel().getProperty();
 			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 			Rate selectedRate = Db.getTripBucket().getHotel().getRate();
-			OmnitureTracking.trackAppHotelsCheckoutConfirmation(this, params, property, Db.getBillingInfo(),
-					selectedRate, bookingResponse);
+
+			CreateTripResponse tripResponse = hotel.getCreateTripResponse();
+
+			OmnitureTracking.trackAppHotelsCheckoutConfirmation(this, params, property, tripResponse.getSupplierType(),
+				selectedRate, bookingResponse);
+
+			if (tripResponse != null) {
+				AdImpressionTracking.trackAdConversion(this, tripResponse.getTripId());
+			}
 		}
 
 		setContentView(R.layout.activity_hotel_confirmation);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -90,11 +93,7 @@ public class HotelConfirmationActivity extends FragmentActivity {
 			Db.getHotelSearch().resetSearchData();
 			Db.getHotelSearch().resetSearchParams();
 
-			// Clear the cache just to be safe
-			L2ImageCache.sGeneralPurpose.clearMemoryCache();
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -117,13 +116,8 @@ public class HotelConfirmationActivity extends FragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_confirmation, menu);
 		ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
-
-		// 1615. VSC Asking for a different translation text for FR
-		if (ExpediaBookingApp.IS_VSC) {
-			TextView actionButton = (TextView) menu.findItem(R.id.menu_done).getActionView();
-			actionButton.setText(R.string.button_done_vsc_confirmation);
-		}
-
+		TextView actionButton = (TextView) menu.findItem(R.id.menu_done).getActionView();
+		actionButton.setText(R.string.button_confirmation_done);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -131,14 +125,7 @@ public class HotelConfirmationActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case R.id.menu_done:
-			//1370. VSC After hotel confirmation redirect back to HotelListing since VSC doesnt support Itins
-			if (ExpediaBookingApp.IS_VSC) {
-				Db.getHotelSearch().resetSearchParams();
-				NavUtils.goToVSC(this);
-			}
-			else {
-				NavUtils.goToItin(this);
-			}
+			NavUtils.goToItin(this);
 			finish();
 			return true;
 		}

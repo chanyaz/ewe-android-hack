@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget.gl;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -167,10 +165,10 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 		mCropWorkspace = new int[4];
 		sBitmapOptions.inPreferredConfig = Bitmap.Config.RGB_565;
 
-		mTagSprite = new GLSprite(Ui.obtainThemeResID((Activity)mContext, R.attr.hangTagProgressDrawable));
-		mRingFillSprite = new GLSprite(Ui.obtainThemeResID((Activity)mContext, R.attr.hangTagProgressRingFillDrawable));
-		mKnobSprite = new GLSprite(Ui.obtainThemeResID((Activity)mContext, R.attr.hangTagKnobDrawable));
-		mKnobBgSprite = new GLSprite(Ui.obtainThemeResID((Activity)mContext, R.attr.hangTagKnobBackgroundDrawable));
+		mTagSprite = new GLSprite(Ui.obtainThemeResID((Activity)mContext, R.attr.skin_hangTagProgressDrawable));
+		mRingFillSprite = new GLSprite(Ui.obtainThemeResID((Activity)mContext, R.attr.skin_hangTagProgressRingFillDrawable));
+		mKnobSprite = new GLSprite(Ui.obtainThemeResID((Activity)mContext, R.attr.skin_hangTagKnobDrawable));
+		mKnobBgSprite = new GLSprite(Ui.obtainThemeResID((Activity)mContext, R.attr.skin_hangTagKnobBackgroundDrawable));
 
 		// Setup sprites
 		mSprites = new GLSprite[4];
@@ -735,19 +733,8 @@ public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 
 			gl.glTexEnvf(GL10.GL_TEXTURE_ENV, GL10.GL_TEXTURE_ENV_MODE, GL10.GL_REPLACE);
 
-			InputStream is = context.getResources().openRawResource(resourceId);
-			Bitmap bitmap;
-			try {
-				bitmap = BitmapFactory.decodeStream(is, null, sBitmapOptions);
-			}
-			finally {
-				try {
-					is.close();
-				}
-				catch (IOException e) {
-					// Ignore.
-				}
-			}
+			// use decodeResource since we use scaledDensity everywhere for calculations
+			Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, sBitmapOptions);
 
 			GLUtils.texImage2D(GL10.GL_TEXTURE_2D, 0, bitmap, 0);
 

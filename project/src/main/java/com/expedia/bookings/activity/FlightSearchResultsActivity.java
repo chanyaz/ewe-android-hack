@@ -20,10 +20,10 @@ import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentManager.OnBackStackChangedListener;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Pair;
@@ -35,8 +35,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightFilter.Sort;
@@ -60,15 +61,17 @@ import com.expedia.bookings.fragment.FlightDetailsFragment.FlightDetailsFragment
 import com.expedia.bookings.fragment.FlightListFragment;
 import com.expedia.bookings.fragment.FlightListFragment.FlightListFragmentListener;
 import com.expedia.bookings.fragment.FlightNoFlightsFragment;
-import com.expedia.bookings.fragment.FlightSearchLoadingFragment;
 import com.expedia.bookings.fragment.FlightNoFlightsFragment.NoFlightsFragmentListener;
+import com.expedia.bookings.fragment.FlightSearchLoadingFragment;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment;
 import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFragmentListener;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -80,15 +83,13 @@ import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.ViewUtils;
+import com.squareup.phrase.Phrase;
 
 public class FlightSearchResultsActivity extends FragmentActivity implements FlightListFragmentListener,
 		OnBackStackChangedListener, RetryErrorDialogFragmentListener, NoFlightsFragmentListener,
 		FlightDetailsFragmentListener {
-
-	public static final String EXTRA_DESELECT_LEG_ID = "EXTRA_DESELECT_LEG_ID";
 
 	private static final String DOWNLOAD_KEY = "com.expedia.bookings.flights";
 
@@ -124,10 +125,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	// you may not have resumed yet, use this variable.
 	private boolean mStartSearchOnPostResume;
 
-	// Sets up a leg to be deselected in post resume (for fragment state
-	// reasons, this must be done later).
-	private int mDeselectLegPos = -1;
-
 	// Action bar views
 	private ViewGroup mFlightSummaryContainer;
 	private TextView mTitleTextView;
@@ -151,17 +148,11 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		mKillReceiver = new ActivityKillReceiver(this);
 		mKillReceiver.onCreate();
 
-		// Recover data if it was flushed from memory
+		// Bail if missing data
 		if (savedInstanceState != null && !BackgroundDownloader.getInstance().isDownloading(DOWNLOAD_KEY)
 				&& Db.getFlightSearch().getSearchResponse() == null) {
-			if (!Db.loadCachedFlightData(this)) {
-				NavUtils.onDataMissing(this);
-				return;
-			}
-			else {
-				// If we did successfully reload the search, try to restore the state.
-				restoreSearchState();
-			}
+			NavUtils.onDataMissing(this);
+			return;
 		}
 
 		if (savedInstanceState != null) {
@@ -215,24 +206,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	}
 
 	@Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-
-		if (intent.hasExtra(EXTRA_DESELECT_LEG_ID)) {
-			String legId = intent.getStringExtra(EXTRA_DESELECT_LEG_ID);
-
-			Log.i("Got new intent, deselecting leg id=" + legId);
-
-			FlightTripLeg selectedLegs[] = Db.getFlightSearch().getSelectedLegs();
-			for (mDeselectLegPos = 0; mDeselectLegPos < selectedLegs.length; mDeselectLegPos++) {
-				if (selectedLegs[mDeselectLegPos].getFlightLeg().getLegId().equals(legId)) {
-					break;
-				}
-			}
-		}
-	}
-
-	@Override
 	protected void onStart() {
 		super.onStart();
 
@@ -242,7 +215,9 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	@Override
 	protected void onResume() {
 		super.onResume();
-		OmnitureTracking.onResume(this);
+		if (mMenu != null) {
+			setMenusEnabled(true);
+		}
 	}
 
 	@Override
@@ -252,10 +227,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		if (mStartSearchOnPostResume) {
 			mStartSearchOnPostResume = false;
 			startSearch();
-		}
-		else if (mDeselectLegPos != -1) {
-			deselectBackToLegPosition(mDeselectLegPos);
-			mDeselectLegPos = -1;
 		}
 		else {
 			BackgroundDownloader.getInstance().registerDownloadCallback(DOWNLOAD_KEY, mDownloadCallback);
@@ -285,8 +256,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		if (mCurrentAnimator != null && mCurrentAnimator.isRunning()) {
 			mCurrentAnimator.end();
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -368,14 +337,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		}
 	}
 
-	private void popBackStack(String name) {
-		if (!mCurrentlyPoppingBackStack) {
-			mCurrentlyPoppingBackStack = true;
-			getSupportFragmentManager().popBackStack(name, 0);
-			mSkipAnimation = true;
-		}
-	}
-
 	private void showLoadingFragment() {
 		if (mStatusFragment == null) {
 			mStatusFragment = new FlightSearchLoadingFragment();
@@ -437,21 +398,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		}
 
 		mAnimForward = true;
-	}
-
-	private void deselectBackToLegPosition(int newLegPosition) {
-		Log.d("deselectBackToLegPosition(" + newLegPosition + ")");
-
-		if (!mCurrentlyPoppingBackStack) {
-
-			// Clear the selected flight legs
-			setNewLegPosition(newLegPosition);
-
-			// Pop back stack to proper location
-			popBackStack(getFlightListBackStackName(newLegPosition));
-
-			OmnitureTracking.trackLinkFlightRemoveOutboundSelection(mContext);
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -626,6 +572,10 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		if (isFinishing()) {
+			return false;
+		}
+
 		// Either show standard action bar options, or just show the custom
 		// flight details action view, depending on whether flight details
 		// are currently visible
@@ -707,13 +657,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home: {
-			// Either go back one leg, or go back to the search page
-			if (mLegPosition != 0) {
-				deselectBackToLegPosition(mLegPosition - 1);
-			}
-			else {
-				onBackPressed();
-			}
+			onBackPressed();
 			return true;
 		}
 		case R.id.menu_select_sort_price:
@@ -738,7 +682,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			filter.notifyFilterChanged();
 			item.setChecked(true);
 
-			OmnitureTracking.trackLinkFlightSort(mContext, filter.getSort().name());
+			OmnitureTracking.trackLinkFlightSort(filter.getSort().name());
 
 			return true;
 		case R.id.menu_search: {
@@ -774,7 +718,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		Intent intent = new Intent(this, FlightSearchOverlayActivity.class);
 		startActivityForResult(intent, REQUEST_CODE_SEARCH_PARAMS);
 
-		OmnitureTracking.trackLinkFlightRefine(mContext, mLegPosition);
+		OmnitureTracking.trackLinkFlightRefine(mLegPosition);
 		OmnitureTracking.setPageLoadTrackingFromFSRAEnabled(false);
 	}
 
@@ -782,7 +726,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		// #445: Need to reset the search results before starting a new one
 		Db.getFlightSearch().setSearchResponse(null);
 		mLegPosition = 0;
-		Db.kickOffBackgroundFlightSearchSave(this);
 		deleteSearchState();
 
 		showLoadingFragment();
@@ -799,7 +742,7 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			.resizeExactly(portrait.x, portrait.y) //
 			.build();
 
-		L2ImageCache.sDestination.loadImage(url, true /*blurred*/, new L2ImageCache.OnBitmapLoadedAdapter());
+		new PicassoHelper.Builder(this).build().load(url);
 	}
 
 	private Download<FlightSearchResponse> mDownload = new Download<FlightSearchResponse>() {
@@ -864,13 +807,15 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			if (response == null) {
 				response = new FlightSearchResponse();
 				ServerError error = new ServerError(ApiMethod.FLIGHT_SEARCH);
-				if (!NetUtils.isOnline(mContext)) {
+				if (!ExpediaNetUtils.isOnline(mContext)) {
 					// 821: If we get a null response and the user is offline,
 					// we can assume it was a lack of internet that caused the problem.
 					error.setPresentationMessage(getString(R.string.error_no_internet));
 				}
 				else {
-					error.setPresentationMessage(getString(Ui.obtainThemeResID(mContext, R.attr.serverErrorMessageString)));
+					error.setPresentationMessage(
+						Phrase.from(FlightSearchResultsActivity.this, R.string.error_server_TEMPLATE)
+							.put("brand", BuildConfig.brand).format().toString());
 				}
 				error.setCode(ERROR_CODE_SIMULATED);
 				response.addError(error);
@@ -879,8 +824,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			FlightSearch search = Db.getFlightSearch();
 			search.setSearchResponse(response);
 			Db.addAirlineNames(response.getAirlineNames());
-
-			Db.kickOffBackgroundFlightSearchSave(mContext);
 
 			// We may need the bg fragment, depending on what we need to show next
 			if (mBgFragment == null) {
@@ -891,13 +834,14 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 				handleErrors(response);
 			}
 			else {
-				mBgFragment.loadBitmapFromCache(FlightSearchResultsActivity.this);
+				mBgFragment.loadBitmapFromCache();
 
 				if (response.getTripCount() == 0) {
 					showNoFlights(null);
 				}
 				else {
 					showResultsListFragment(0);
+					AdTracker.trackFlightSearch();
 				}
 			}
 		}
@@ -956,11 +900,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 
 	private static final String PREF_SEARCH_STATE = "com.expedia.bookings.flights.search.state";
 
-	private void saveSearchState() {
-		String searchState = Db.getFlightSearch().getSearchState().toJson().toString();
-		SettingUtils.save(this, PREF_SEARCH_STATE, searchState);
-	}
-
 	private void restoreSearchState() {
 		String searchState = SettingUtils.get(this, PREF_SEARCH_STATE, null);
 		if (!TextUtils.isEmpty(searchState)) {
@@ -1016,12 +955,14 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 		public void onClick(View v) {
 			Log.d("Selected flight leg!");
 
+			// disable buttons to prevent duplicate events firing
+			setMenusEnabled(false);
+
 			// Set the selected leg
 			FlightTripLeg ftl = mFlightDetailsFragment.getFlightTripLeg();
 			FlightSearch flightSearch = Db.getFlightSearch();
-			flightSearch.setSelectedLeg(mLegPosition, new FlightTripLeg(ftl.getFlightTrip(), ftl.getFlightLeg()));
-
-			saveSearchState();
+			flightSearch.setSelectedLeg(mLegPosition,
+				new FlightTripLeg(ftl.getFlightTrip(), ftl.getFlightLeg()));
 
 			if (flightSearch.getSelectedFlightTrip() == null) {
 				// Remove the flight details fragment, show new list results
@@ -1080,8 +1021,6 @@ public class FlightSearchResultsActivity extends FragmentActivity implements Fli
 			Db.getFlightSearch().setSelectedLeg(mLegPosition, null);
 			Db.getFlightSearch().clearQuery(mLegPosition); // #443: Clear cached query
 		}
-
-		saveSearchState();
 
 		mLegPosition = legPosition;
 	}

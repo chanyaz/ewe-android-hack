@@ -1,57 +1,61 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Typeface;
-import android.support.v4.widget.CursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.content.AutocompleteProvider;
+import com.expedia.bookings.data.AutocompleteSuggestion;
 
-public class SearchSuggestionAdapter extends CursorAdapter {
+public class SearchSuggestionAdapter extends ArrayAdapter<AutocompleteSuggestion> implements Filterable {
 	private LayoutInflater mInflater;
 	private String mCurrentLocationString;
+	private ArrayList<AutocompleteSuggestion> data = new ArrayList<>();
 
 	public SearchSuggestionAdapter(Context context) {
-		super(context, null, 0);
+		super(context, R.layout.row_suggestion);
 		mInflater = LayoutInflater.from(context);
 		mCurrentLocationString = context.getResources().getString(R.string.current_location);
 	}
 
-	static class SuggestionViewHolder {
-		TextView locationTextView;
-		ImageView iconImageView;
+	@Override
+	public int getCount() {
+		return data.size();
 	}
 
 	@Override
-	public CharSequence convertToString (Cursor cursor) {
-		return cursor.getString(AutocompleteProvider.COLUMN_TEXT_INDEX);
+	public AutocompleteSuggestion getItem(int position) {
+		return data.get(position);
 	}
 
 	@Override
-	public View newView(Context context, Cursor cursor, ViewGroup parent) {
-		View convertView = mInflater.inflate(R.layout.row_suggestion, parent, false);
+	public View getView(int position, View convertView, ViewGroup parent) {
+		AutocompleteSuggestion suggestionV2 = data.get(position);
+		SuggestionViewHolder holder;
 
-		SuggestionViewHolder holder = new SuggestionViewHolder();
-		holder.locationTextView = (TextView) convertView.findViewById(R.id.location);
-		holder.iconImageView = (ImageView) convertView.findViewById(R.id.icon);
+		if (convertView == null) {
+			convertView = mInflater.inflate(R.layout.row_suggestion, parent, false);
+			holder = new SuggestionViewHolder();
+			holder.locationTextView = (TextView) convertView.findViewById(R.id.location);
+			holder.iconImageView = (ImageView) convertView.findViewById(R.id.icon);
+			convertView.setTag(holder);
+		}
+		else {
+			holder = (SuggestionViewHolder) convertView.getTag();
+		}
 
-		convertView.setTag(holder);
-
-		return convertView;
-	}
-
-	@Override
-	public void bindView(View view, Context context, Cursor cursor) {
-		SuggestionViewHolder holder = (SuggestionViewHolder) view.getTag();
-
-		String searchText = cursor.getString(AutocompleteProvider.COLUMN_TEXT_INDEX);
-		int iconResId = cursor.getInt(AutocompleteProvider.COLUMN_ICON_INDEX);
+		String searchText = suggestionV2.getText();
+		int iconResId = suggestionV2.getIcon();
 
 		holder.iconImageView.setImageResource(iconResId);
 		holder.locationTextView.setText(searchText);
@@ -62,5 +66,20 @@ public class SearchSuggestionAdapter extends CursorAdapter {
 		else {
 			holder.locationTextView.setTypeface(null, Typeface.NORMAL);
 		}
+
+		return convertView;
+	}
+
+	static class SuggestionViewHolder {
+		TextView locationTextView;
+		ImageView iconImageView;
+	}
+
+	public void updateData(Cursor c) {
+		data.clear();
+		while (c != null && c.moveToNext()) {
+			data.add(AutocompleteProvider.rowToSuggestion(c));
+		}
+		notifyDataSetChanged();
 	}
 }

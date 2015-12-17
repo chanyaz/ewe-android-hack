@@ -2,7 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="27dp" >
+    android:paddingTop="27dp"
+    android:paddingLeft="@dimen/row_user_review_horizontal_padding"
+    android:paddingRight="@dimen/row_user_review_horizontal_padding">
 
     <View
         android:id="@+id/user_review_separator"
@@ -35,7 +37,7 @@
 
         <RatingBar
             android:id="@+id/user_review_rating_bar"
-            style="@style/V2.Widget.RatingBar.UserReview.Yellow"
+            style="@style/V2.Widget.RatingBar.UserReview.Square"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:isIndicator="true"

@@ -2,17 +2,19 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.util.Ui;
 
 public class WalletButton extends RelativeLayout {
 
-	private View mButton;
+	protected View mButton;
 	private ProgressBar mProgressBar;
 	private View mPromo;
 
@@ -43,11 +45,6 @@ public class WalletButton extends RelativeLayout {
 	}
 
 	@Override
-	public void setOnClickListener(OnClickListener l) {
-		mButton.setOnClickListener(l);
-	}
-
-	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 
@@ -68,5 +65,14 @@ public class WalletButton extends RelativeLayout {
 			mPromo.setVisibility(mPromoVisible && WalletUtils.offerGoogleWalletCoupon(getContext()) ? View.VISIBLE
 					: View.GONE);
 		}
+	}
+
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		mButton.dispatchTouchEvent(ev);
+		if (ProductFlavorFeatureConfiguration.getInstance().isGoogleWalletPromoEnabled()) {
+			mPromo.dispatchTouchEvent(ev);
+		}
+		return true;
 	}
 }

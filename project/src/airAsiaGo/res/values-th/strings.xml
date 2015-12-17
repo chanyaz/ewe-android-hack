@@ -1,89 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
+    <string name="loading_air_asia_routes_aag">กำลังโหลดเส้นทาง AirAsiaGo...</string>
 
-    <string name="aag_app_name">AirAsiaGo</string>
-   
-    <string name="customer_support_text">โทรติดต่อฝ่ายบริการลูกค้า AirAsiaGo</string>
-
-    <!-- Log in with AirAsiaGo -->
-    <string name="Log_in_with_aag">เข้าสู่ระบบด้วย AirAsiaGo</string>
-    <!-- Label for signin screen -->
-    <string name="aag_account">บัญชี AirAsiaGo</string>
-    <!-- Content description for action: Press to log in with your AirAsiaGo account -->
-    <string name="cd_checkout_log_in_with_aag">โปรดเข้าสู่ระบบบัญชี AirAsiaGo ของคุณ</string>
-
-    <string name="contact_aag">ติดต่อ AirAsiaGo</string>
-    <string name="aag_website">เว็บไซต์ AirAsiaGo</string>
-    <string name="aag_app_support">ความช่วยเหลือเกี่ยวกับแอพ AirAsiaGo</string>
-    <string name="aag_copyright">© ลิขสิทธิ์ 2012-2014 AirAsiaGo\nสงวนลิขสิทธิ์</string>
-    
-
-    <!-- Label for logout confirmation -->
-    <string name="logout_confirmation_aag">คุณต้องการออกจากบัญชี AirAsiaGo หรือไม่</string>
-
-    <!-- AirAsiaGo booking fee -->
-    <string name="aag_booking_fee">ค่าธรรมเนียมการจองของ AirAsiaGo</string>
-
-    <string name="error_flight_unhandled_aag_TEMPLATE">ขออภัย เราไม่สามารถดำเนินการคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองอีกครั้งหรือโทรติดต่อฝ่ายบริการลูกค้า AirAsiaGo และแจ้งหมายเลขแผนเดินทางนี้:%s</string>
-    <string name="error_server_aag">ขออภัย เราไม่สามารถเชื่อมต่อกับเซิร์ฟเวอร์ AirAsiaGo  โปรดลองอีกครั้งภายหลัง</string>
-
-    <!-- save billing info message -->
-    <string name="save_billing_aag_info_message">บันทึกวิธีการชำระเงินนี้ไว้ในบัญชี AirAsiaGo ของคุณเพื่อชำระเงินครั้งถัดไปได้รวดเร็วขึ้นหรือไม่</string>
-
-    <!-- Save traveler name Template -->
-    <string name="save_traveler_aag_message_TEMPLATE">บันทึกข้อมูลของ %1$s ไว้ในบัญชี AirAsiaGo ของคุณเพื่อชำระเงินครั้งถัดไปได้รวดเร็วขึ้นหรือไม่</string>
-
-    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "AirAsiaGo Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE_aag">หมายเลขแผนการเดินทาง AirAsiaGo: %s</string>
-    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "AirAsiaGo Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE_aag">ฝ่ายบริการลูกค้า AirAsiaGo: %s</string>
-
-    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data_aag">คุณออกจากระบบบัญชี AirAsiaGo และล้างข้อมูลการเงินและข้อมูลติดต่อทั้งหมดแล้ว</string>
-
-    <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure_aag">ขออภัย ระบบไม่สามารถเชื่อมต่อกับ AirAsiaGo ได้ โปรดลองอีกครั้ง</string>
-
-    <!-- Title for different ways to connect to AirAsiaGo -->
-    <string name="contact_aag_via">ติดต่อ AirAsiaGo ผ่าน…</string>
-    <!-- Contact AirAsiaGo via email subject -->
-    <string name="contact_aag_email_subject">ความช่วยเหลือเกี่ยวกับการจอง AirAsiaGo</string>
-    <!-- AirAsiaGo- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template_aag">หากคุณมีคำถามเกี่ยวกับการจอง โปรดโทรติดต่อ AirAsiaGo ที่ %s</string>
-    <!-- AirAsiaGo Itinerary -->
-    <string name="aag_itinerary">หมายเลขแผนการเดินทาง AirAsiaGo</string>
-
-    <string name="error_flight_no_longer_available_aag">ขออภัย เที่ยวบินของคุณไม่มีให้บริการแล้วบน AirAsiaGo</string>
-
-    <string name="error_flights_no_longer_available_aag">ขออภัย หนึ่งในเที่ยวบินของคุณไม่มีให้บริการแล้วบน AirAsiaGo</string>
-
-    <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out_aag">ขออภัย ห้องพักนี้ขายหมดแล้วบน AirAsiaGo</string>
-
-    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out_aag">ขออภัย โรงแรมนี้ขายหมดแล้วบน AirAsiaGo</string>
-    <string name="not_currently_available_aag">ไม่มีให้บริการในขณะนี้บน AirAsiaGo</string>
-    <string name="sold_out_on_agg">ขายหมดแล้วบน AirAsiaGo</string>
-    <string name="not_currently_available_aag_TEMPLATE">ขายหมดแล้วบน AirAsiaGo %s</string>
-    <string name="search">ค้นหา</string>
-    <string name="nav_flights">เที่ยวบิน</string>
-    <string name="nav_hotels">โรงแรม</string>
-
-
-    <!-- Missing strings for AirAsiaGo from Expedia-->
-    <string name="tell_a_friend_body_aag">สวัสดีค่ะ \\n\\n คุณดาวน์โหลดแอพ AirAsiaGo Hotels สำหรับ iPhone และ Android ไปลองใช้แล้วหรือยัง แอพฟรีนี้ช่วยให้คุณค้นหาและจองโรงแรมกว่า 140,000 แห่งทั่วโลกได้ง่ายๆ วิธีที่ง่ายที่สุดในการจองโรงแรมผ่านมือถือของคุณ\\n</string>
-    <string name="cd_log_in_email_edit_text_aag">ป้อนอีเมลของบัญชี AirAsiaGo</string>
-    <string name="tell_a_friend_subject_aag">โรงแรม AirAsiaGo</string>
-    <string name="restricted_profile_login_message_aag">เพื่อเข้าสู่ระบบ AirAsiaGo คุณต้องใช้โปรไฟล์ที่ไม่จำกัดการใช้งานบนอุปกรณ์ของคุณ</string>
-    <string name="cd_log_in_password_edit_text_aag">ป้อนรหัสผ่านบัญชี AirAsiaGo</string>
-    <string name="cd_launch_open_eb_info_screen_aag">เปิดหน้าจอข้อมูลการจอง AirAsiaGo</string>
-    <string name="loading_aag_account">กำลังโหลดบัญชี AirAsiaGo </string>
-    <string name="e3_error_checkout_booking_succeeded_with_errors_aag">คุณจองโรงแรมเรียบร้อยแล้ว! หากคุณต้องการแผนการเดินทางทันที โปรดโทรติดต่อฝ่ายบริการลูกค้า AirAsiaGo</string>
-    <string name="not_currently_available_TEMPLATE_aag">ขายหมดแล้วบน AirAsiaGo %s</string>
-    <string name="aag_password_hint">รหัสผ่าน AirAsiaGo</string>
-    <string name="dialog_message_launch_aag_mobile_site">เปิดใช้เว็บไซต์สำหรับมือถือของ AirAsiaGo หรือไม่</string>
-    <string name="sorry_rooms_sold_out_aag">ขออภัย ห้องพักทั้งหมดขายหมดแล้วบน AirAsiaGo</string>
-    <string name="share_template_long_ad_aag">จองโรงแรม เที่ยวบิน ดูและแชร์แผนการเดินทางของคุณได้ง่ายๆ ดาวน์โหลดแอพฟรีจาก AirAsiaGo เลยวันนี้\\n%s</string>
-
-    <string name="call_aag_customer_support">โทรติดต่อฝ่ายบริการลูกค้า AirAsiaGo</string>
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_an_aag_account">สร้างบัญชี AirAsiaGo</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_aag">ยินดีต้อนรับสู่ AirAsiaGo</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_aag_account_already_exists">อีเมลนี้มีบัญชี AirAsiaGo อยู่แล้ว</string>
 </resources>

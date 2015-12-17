@@ -10,6 +10,7 @@ public enum ResultsFlightsState {
 	NO_FLIGHTS_POS,
 	MISSING_ORIGIN,
 	MISSING_STARTDATE,
+	INVALID_START_DATE,
 	ZERO_RESULT;
 
 	public ResultsState getResultsState() {
@@ -22,6 +23,7 @@ public enum ResultsFlightsState {
 		case FLIGHT_LIST_DOWN:
 		case ZERO_RESULT:
 		case SEARCH_ERROR:
+		case INVALID_START_DATE:
 			return ResultsState.OVERVIEW;
 		case CHOOSING_FLIGHT:
 		case ADDING_FLIGHT_TO_TRIP:
@@ -41,6 +43,7 @@ public enum ResultsFlightsState {
 		case NO_FLIGHTS_POS:
 		case ZERO_RESULT:
 		case SEARCH_ERROR:
+		case INVALID_START_DATE:
 			return true;
 		default:
 			return false;
@@ -69,6 +72,7 @@ public enum ResultsFlightsState {
 		case FLIGHT_LIST_DOWN:
 		case ZERO_RESULT:
 		case SEARCH_ERROR:
+		case INVALID_START_DATE:
 			return false;
 		case CHOOSING_FLIGHT:
 		case ADDING_FLIGHT_TO_TRIP:

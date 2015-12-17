@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import android.view.animation.Interpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Db;
@@ -44,6 +44,7 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -51,9 +52,7 @@ import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
-import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.NetUtils;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.squareup.otto.Subscribe;
 
 /**
@@ -92,15 +91,15 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	//Containers
 	private ViewGroup mRootC;
-	private FrameLayoutTouchController mSearchBarC;
-	private FrameLayoutTouchController mBottomRightC;
-	private FrameLayoutTouchController mBottomCenterC;
+	private TouchableFrameLayout mSearchBarC;
+	private TouchableFrameLayout mBottomRightC;
+	private TouchableFrameLayout mBottomCenterC;
 
 	//Fragment Containers
-	private FrameLayoutTouchController mCalC;
-	private FrameLayoutTouchController mTravC;
-	private FrameLayoutTouchController mWaypointC;
-	private FrameLayoutTouchController mGdeC;
+	private TouchableFrameLayout mCalC;
+	private TouchableFrameLayout mTravC;
+	private TouchableFrameLayout mWaypointC;
+	private TouchableFrameLayout mGdeC;
 	private View mTravPickWhiteSpace;
 
 	//Search action buttons
@@ -137,6 +136,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	public TabletResultsSearchControllerFragment() {
 		importParams();
 	}
+
+	private boolean mIsDeepLink = false;
+	private boolean mIsExpandRightContainer = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -254,6 +256,11 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 	private ResultsSearchState getDefaultBaseState(Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
+			if (!mGrid.isLandscape()
+				&& ResultsSearchState.valueOf(savedInstanceState.getString(INSTANCE_RESULTS_SEARCH_STATE))
+				== ResultsSearchState.TRAVELER_PICKER) {
+				mIsExpandRightContainer = true;
+			}
 			return ResultsSearchState.valueOf(savedInstanceState.getString(INSTANCE_RESULTS_SEARCH_STATE));
 		}
 		else if (Db.getTripBucket() != null && !Db.getTripBucket().isEmpty()) {
@@ -301,16 +308,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private void bindCalBtn() {
 		// Search bar
 		if (mLocalParams != null && mLocalParams.getStartDate() != null) {
-			String dateStr;
 			int flags = DateFormatUtils.FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY;
-			if (mLocalParams.getEndDate() != null) {
-				dateStr = DateFormatUtils
-					.formatDateRange(getActivity(), mLocalParams.getStartDate(), mLocalParams.getEndDate(), flags);
-
-			}
-			else {
-				dateStr = JodaUtils.formatLocalDate(getActivity(), mLocalParams.getStartDate(), flags);
-			}
+			String dateStr = DateFormatUtils.formatDateRange(getActivity(), mLocalParams, flags);
 			mCalBtn.setText(dateStr);
 		}
 		else {
@@ -376,7 +375,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	protected void doSpUpdate() {
 		if (getActivity() != null && isAdded() && isResumed()) {
 			Sp.reportSpUpdate();
-			OmnitureTracking.trackTabletSearchResultsPageLoad(getActivity(), Sp.getParams());
+			OmnitureTracking.trackTabletSearchResultsPageLoad(Sp.getParams());
 		}
 	}
 
@@ -493,7 +492,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mDestClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			OmnitureTracking.trackChooseDestinationLinkClick(getActivity());
+			OmnitureTracking.trackChooseDestinationLinkClick();
 			setState(ResultsSearchState.DESTINATION, mAnimateButtonClicks);
 		}
 	};
@@ -501,7 +500,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mOrigClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			OmnitureTracking.trackChooseOriginLinkClick(getActivity());
+			OmnitureTracking.trackChooseOriginLinkClick();
 			setState(ResultsSearchState.FLIGHT_ORIGIN, mAnimateButtonClicks);
 		}
 	};
@@ -509,7 +508,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	private View.OnClickListener mCalClick = new View.OnClickListener() {
 		@Override
 		public void onClick(View view) {
-			OmnitureTracking.trackChooseDatesLinkClick(getActivity());
+			OmnitureTracking.trackChooseDatesLinkClick();
 			setState(ResultsSearchState.CALENDAR_WITH_POPUP, mAnimateButtonClicks);
 		}
 	};
@@ -539,7 +538,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		@Override
 		public void onClick(View v) {
 			if (getState().showsSearchControls() || getState().showsSearchPopup()) {
-				if (NetUtils.isOnline(getActivity())) {
+				if (ExpediaNetUtils.isOnline(getActivity())) {
 					if (copyTempValuesToParams()) {
 						doSpUpdate();
 					}
@@ -683,6 +682,16 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 
 			}
 
+			if (!mGrid.isLandscape()) {
+				if (stateTwo == ResultsSearchState.TRAVELER_PICKER || (stateOne == ResultsSearchState.TRAVELER_PICKER
+					&& stateTwo == ResultsSearchState.DEFAULT)) {
+					mGrid.setContainerToRowSpan(mBottomRightC, 4, 5);
+				}
+				else {
+					mGrid.setContainerToRow(mBottomRightC, 4);
+				}
+			}
+
 			if (stateOne.showsSearchPopup() != stateTwo.showsSearchPopup()) {
 				setPopupAnimationPercentage(percentage, stateTwo.showsSearchPopup());
 			}
@@ -772,7 +781,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 			if (mGrid.isLandscape()) {
 				// This is only to ensure the search controls shift left of the overflow menu. This
 				// overflow menu is only present for debug builds.
-				if (!AndroidUtils.isRelease(getActivity())) {
+				if (BuildConfig.DEBUG) {
 					float transX = percentage * -searchBarHeight;
 					mOrigBtn.setTranslationX(transX);
 					mCalBtn.setTranslationX(transX);
@@ -983,7 +992,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	public void doFragmentSetup(String tag, Fragment frag) {
 		switch (tag) {
 		case FTAG_CALENDAR: {
-			((ResultsDatesFragment) frag).setDates(mLocalParams.getStartDate(), mLocalParams.getEndDate());
+			// Don't reset the calendar month unless the user has set a start or end date
+			if (mLocalParams.getStartDate() != null || mLocalParams.getEndDate() != null) {
+				((ResultsDatesFragment) frag).setDates(mLocalParams.getStartDate(), mLocalParams.getEndDate());
+			}
 			break;
 		}
 		case FTAG_TRAV_PICKER: {
@@ -1135,7 +1147,12 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				mGrid.setContainerToRowSpan(mPopupC, 0, 3);
 				mGrid.setContainerToRow(mSearchBarC, 3);
 				mGrid.setContainerToRowSpan(mWaypointC, 0, 5);
-				mGrid.setContainerToRow(mBottomRightC, 4);
+				if (mIsExpandRightContainer) {
+					mGrid.setContainerToRowSpan(mBottomRightC, 4, 5);
+				}
+				else {
+					mGrid.setContainerToRow(mBottomRightC, 4);
+				}
 				mGrid.setContainerToColumn(mBottomRightC, 2);
 
 				mGrid.setContainerToRow(mBottomCenterC, 5);
@@ -1227,7 +1244,8 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 	@Override
 	public void onCurrentLocation(Location location, SuggestionV2 suggestion) {
 		// Let's not update the origin when destination is CURRENT_LOCATION
-		if (!mLocalParams.hasOrigin() && mLocalParams.getDestination().getResultType() != SuggestionV2.ResultType.CURRENT_LOCATION) {
+		// Also, lets not kick off a new search if the user entered via deep link
+		if (!mLocalParams.hasOrigin() && mLocalParams.getDestination().getResultType() != SuggestionV2.ResultType.CURRENT_LOCATION && !mIsDeepLink) {
 			mLocalParams.setOrigin(suggestion);
 			if (copyTempValuesToParams()) {
 				doSpUpdate();
@@ -1255,6 +1273,7 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		if (event.suggestion != null && (mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN
 			|| mSearchStateManager.getState() == ResultsSearchState.DESTINATION)) {
 			boolean usingOrigin = mSearchStateManager.getState() == ResultsSearchState.FLIGHT_ORIGIN;
+			Db.resetFilter();
 			if (usingOrigin) {
 				mLocalParams.setOrigin(event.suggestion);
 			}
@@ -1264,12 +1283,6 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				if (mLocalParams.getOrigin() != null && mLocalParams.getOrigin().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION
 					&& mLocalParams.getDestination() != null && mLocalParams.getDestination().getResultType() == SuggestionV2.ResultType.CURRENT_LOCATION) {
 					mLocalParams.setOrigin(null);
-				}
-				if (!TextUtils.isEmpty(event.queryText)) {
-					mLocalParams.setCustomDestinationQryText(event.queryText);
-				}
-				else {
-					mLocalParams.setDefaultCustomDestinationQryText();
 				}
 			}
 			if (copyTempValuesToParams()) {
@@ -1288,10 +1301,10 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				getString(R.string.tablet_redeye_products_message), //
 				getString(R.string.yes) /*button*/, //
 				SimpleCallbackDialogFragment.CODE_TABLET_MISMATCHED_ITEMS, //
-				getString(R.string.cancel) /*negativeButton*/);
+				getString(R.string.no) /*negativeButton*/);
 		}
 		if (!mRedeyeDialogFrag.isAdded()) {
-			OmnitureTracking.trackRedeyeAlert(getActivity());
+			OmnitureTracking.trackRedeyeAlert();
 			mRedeyeDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
 		}
 	}
@@ -1305,17 +1318,17 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 				getString(R.string.tablet_mismatched_products_message), //
 				getString(R.string.yes) /*button*/, //
 				SimpleCallbackDialogFragment.CODE_TABLET_MISMATCHED_ITEMS, //
-				getString(R.string.cancel) /*negativeButton*/);
+				getString(R.string.no) /*negativeButton*/);
 		}
 		if (!mMismatchedDialogFrag.isAdded()) {
-			OmnitureTracking.trackDateMismatchAlert(getActivity());
+			OmnitureTracking.trackDateMismatchAlert();
 			mMismatchedDialogFrag.show(getFragmentManager(), FTAG_REDEYE_ITEMS_DIALOG);
 		}
 	}
 
 	@Subscribe
 	public void onShowSearchFragment(Events.ShowSearchFragment event) {
-		OmnitureTracking.trackChooseDestinationLinkClick(getActivity());
+		OmnitureTracking.trackChooseDestinationLinkClick();
 		setState(event.searchState, mAnimateButtonClicks);
 	}
 
@@ -1329,5 +1342,9 @@ public class TabletResultsSearchControllerFragment extends Fragment implements I
 		else {
 			setState(ResultsSearchState.CALENDAR_WITH_POPUP, true);
 		}
+	}
+
+	public void setDeepLink(boolean isDeepLink) {
+		mIsDeepLink = isDeepLink;
 	}
 }

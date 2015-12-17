@@ -1,7 +1,29 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Used by tests only. Do not include in production apps unless necessary! -->
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application>
+        <activity
+            android:name="com.expedia.bookings.activity.PlaygroundActivity"
+            android:taskAffinity="com.expedia.bookings.activity.PlaygroundActivity"
+            android:label="Playground"
+            android:theme="@style/V2.Theme.Cars" >
+        </activity>
+
+        <activity
+            android:name="com.expedia.ui.HotelActivity"
+            android:taskAffinity="com.expedia.bookings.ui.HotelActivity"
+            android:label="New Hotels"
+            android:theme="@style/V2.Theme.Hotels" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    </application>
 
 </manifest>

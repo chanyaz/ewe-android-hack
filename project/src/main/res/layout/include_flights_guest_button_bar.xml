@@ -30,14 +30,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:background="@drawable/bg_actionbar_button"
-        android:drawableLeft="?attr/actionBarCheckMarkDrawable"
+        android:background="?android:attr/selectableItemBackground"
+        android:drawableLeft="?attr/skin_actionBarCheckMarkDrawable"
         android:gravity="center_vertical"
         android:paddingBottom="6dp"
         android:paddingRight="6dp"
         android:paddingTop="6dp"
         android:text="@string/DONE"
-        android:textColor="?attr/actionBarButtonTextColor"
+        android:textColor="?attr/skin_actionBarButtonTextColor"
         android:textSize="12dp"
         android:textStyle="bold" />
 

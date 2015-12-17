@@ -1,7 +1,6 @@
 package com.expedia.bookings.data;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -12,6 +11,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.joda.time.DateTime;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -282,8 +282,8 @@ public class FlightSearch implements JSONable {
 
 		private ArrayList<Integer> mNumberOfStops;
 
-		private Calendar mMinTime;
-		private Calendar mMaxTime;
+		private DateTime mMinTime;
+		private DateTime mMaxTime;
 
 		public FlightTripQuery(int legPosition) {
 			mLegPosition = legPosition;
@@ -340,6 +340,7 @@ public class FlightSearch implements JSONable {
 					}
 				}
 				mNumberOfStops = new ArrayList<Integer>(stopsSet);
+				Collections.sort(mNumberOfStops);
 
 				// Filter results (if user called for it)
 				FlightFilter filter = getFilter(mLegPosition);
@@ -401,13 +402,13 @@ public class FlightSearch implements JSONable {
 					trip = mTrips.get(a);
 					leg = trip.getLeg(mLegPosition);
 
-					Calendar minTime = leg.getFirstWaypoint().getMostRelevantDateTime();
-					Calendar maxTime = leg.getLastWaypoint().getMostRelevantDateTime();
+					DateTime minTime = leg.getFirstWaypoint().getMostRelevantDateTime();
+					DateTime maxTime = leg.getLastWaypoint().getMostRelevantDateTime();
 
-					if (minTime.before(mMinTime)) {
+					if (minTime.isBefore(mMinTime)) {
 						mMinTime = minTime;
 					}
-					if (maxTime.after(mMaxTime)) {
+					if (maxTime.isAfter(mMaxTime)) {
 						mMaxTime = maxTime;
 					}
 
@@ -495,7 +496,7 @@ public class FlightSearch implements JSONable {
 		// If this trip is in fact cheapest, add it to the cheapest trip map
 		private void evaluateTripPrice(String key, FlightTrip trip, Map<String, FlightTrip> lowestPriceMap) {
 			FlightTrip cheapest = lowestPriceMap.get(key);
-			if (cheapest == null || trip.getTotalFare().compareTo(cheapest.getTotalFare()) < 0) {
+			if (cheapest == null || trip.getAverageTotalFare().compareTo(cheapest.getAverageTotalFare()) < 0) {
 				lowestPriceMap.put(key, trip);
 			}
 		}
@@ -568,7 +569,7 @@ public class FlightSearch implements JSONable {
 			}
 		}
 
-		public Calendar getMinTime() {
+		public DateTime getMinTime() {
 			if (mMinTime == null) {
 				getTrips();
 			}
@@ -576,7 +577,7 @@ public class FlightSearch implements JSONable {
 			return mMinTime;
 		}
 
-		public Calendar getMaxTime() {
+		public DateTime getMaxTime() {
 			if (mMinTime == null) {
 				getTrips();
 			}

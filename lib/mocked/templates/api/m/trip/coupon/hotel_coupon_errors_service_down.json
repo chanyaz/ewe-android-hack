@@ -1,0 +1,13 @@
+{
+    "activityId": "58b6be8a-d533-4eb0-aaa6-0228e000056c",
+    "errors": [
+        {
+            "diagnosticId": 2001,
+            "errorCode": "APPLY_COUPON_ERROR",
+            "errorInfo": {
+                "couponErrorType": "ServiceDown",
+                "summary": "Unknown exception or service interruption."
+            }
+        }
+    ]
+}

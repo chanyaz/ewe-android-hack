@@ -37,13 +37,12 @@
     <style name="Theme.Light.Fullscreen.Panel" parent="@style/Theme.Light.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowNoTitle">true</item>
-        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Yellow</item>
+        <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.Yellow</item>
     </style>
 
     <style name="Theme.Tablet.Preferences" parent="@style/Theme.Light.Dialog">
         <item name="android:windowNoTitle">true</item>
         <item name="android:listSeparatorTextViewStyle">@style/TabletPreferenceSeparator</item>
-        <item name="clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data</item>
     </style>
 
     <style name="TabletPreferenceSeparator">
@@ -57,141 +56,166 @@
         <item name="android:padding">8dp</item>
     </style>
 
+    <style name="DarkPopupMenuStyle" parent="android:style/Widget.Holo.Light.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/bg_autocomplete</item>
+    </style>
+
+    <style name="DarkPopupMenuTextAppearanceSmall" parent="@android:style/TextAppearance.Holo.Widget.PopupMenu.Small">
+        <item name="android:textColor">#F3F3F3</item>
+    </style>
+
+    <style name="DarkPopupMenuTextAppearanceLarge" parent="@android:style/TextAppearance.Holo.Widget.PopupMenu.Large">
+        <item name="android:textColor">#F3F3F3</item>
+    </style>
+
     <style name="Theme.Expedia" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="android:actionBarItemBackground">@drawable/bg_actionbar_button</item>
+        <!-- Fixes a bug in Theme.Holo.Light.DarkActionBar on lollipop where popup menus are white -->
+        <item name="android:popupMenuStyle">@style/DarkPopupMenuStyle</item>
+        <item name="android:textAppearanceLargePopupMenu">@style/DarkPopupMenuTextAppearanceLarge</item>
+        <item name="android:textAppearanceSmallPopupMenu">@style/DarkPopupMenuTextAppearanceSmall</item>
+
         <item name="android:actionBarStyle">@style/Dark.ActionBar</item>
         <item name="android:actionBarTabBarStyle">@style/ActionBarTabBar</item>
         <item name="android:actionBarTabStyle">@style/ActionBarTabView</item>
         <item name="android:actionBarTabTextStyle">@style/ActionBarTabText</item>
-        <item name="android:actionDropDownStyle">@style/Dark.DropDown</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
         <item name="android:actionMenuTextColor">@color/actionbar_text</item>
         <item name="android:actionModeBackground">@drawable/bg_action_mode</item>
         <item name="android:actionModeCloseDrawable">@drawable/btn_navigation_cancel</item>
-        <item name="android:actionModeCloseButtonStyle">@style/ActionModeCloseMode</item>
         <item name="android:buttonStyle">@style/Widget.Button.Phone</item>
-        <item name="android:dropDownListViewStyle">@style/Dark.DropDownListView</item>
         <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
         <item name="android:textViewStyle">@style/Widget.TextView.Phone</item>
-        <item name="android:selectableItemBackground">@drawable/bg_actionbar_button</item>
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone</item>
         <item name="simpleNumberPickerDownButtonStyle">@style/NumberPickerButton.Down</item>
         <item name="simpleNumberPickerInputTextStyle">@style/NumberPickerText</item>
         <item name="simpleNumberPickerUpButtonStyle">@style/NumberPickerButton.Up</item>
         <item name="android:logo">@drawable/ic_logo_hotels</item>
-        <item name="actionBarSpinnerBackground">@drawable/ab_spinner</item>
+        <item name="skin_actionBarSpinnerBackground">@drawable/ic_ab_arrow</item>
+        <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
+        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
+
         <!-- Custom attrs for Expedia/VSC switching -->
-        <item name="hotelPriceStandardColor">@color/hotel_price_text_color</item>
-        <item name="hotelPriceSaleColor">@color/hotel_price_sale_text_color</item>
-        <item name="hotelSearchActionBarPadding">0dp</item>
-        <item name="webViewPreferencesActionBarLogo">@drawable/ic_action_bar_expedia_logo</item>
-        <item name="webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_expedia_logo_small</item>
-        <item name="actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark</item>
-        <item name="actionBarButtonTextColor">@color/action_bar_text_yellow</item>
-        <item name="actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow</item>
-        <item name="costSummaryHeaderTextColor">@color/cost_summary_header_text_color</item>
-        <item name="actionBarBackgroundDrawable">@drawable/bg_action_bar</item>
-        <item name="ratingBarUserReviewStyle">@style/RatingBar.UserReview.White</item>
-        <item name="calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
-        <item name="calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
-        <item name="calendarDatePickerDateFormat">@string/calendar_date_picker_date_format</item>
-        <item name="hotelCancellationPolicyDateFormat">@string/hotel_receipt_cancellation_policy_date_format</item>
-        <item name="hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
-        <item name="hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon</item>
-        <item name="roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon</item>
-        <item name="hotelListingUserRatingStyle">@style/RatingBar.UserReview.Yellow</item>
-        <item name="hotelListingSortPriceDrawable">@drawable/ic_sort_price</item>
-        <item name="hotelListingFilterGroupStyle">@style/Widget.SegmentedControlGroup.DarkFilterControls</item>
-        <item name="hotelListingFilterToggleButtonStyle">@style/Widget.Button.DarkFilterControls</item>
-        <item name="hotelListingFilterPriceCheapString">@string/filter_price_cheap</item>
-        <item name="hotelListingFilterPriceModerateString">@string/filter_price_moderate</item>
-        <item name="hotelListingFilterPriceExpensiveString">@string/filter_price_expensive</item>
-        <item name="hangTagProgressDrawable">@drawable/gl_progress_tag</item>
-        <item name="hangTagProgressRingFillDrawable">@drawable/gl_progress_ring_fill</item>
-        <item name="hangTagKnobDrawable">@drawable/gl_progress_knob</item>
-        <item name="hangTagKnobBackgroundDrawable">@drawable/gl_progress_knob_bg</item>
-        <item name="HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder</item>
-        <item name="costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
-        <item name="flightsCostSummaryDialogStripeDrawable">@drawable/border_horizontal_expedia_striped</item>
-        <item name="costSummaryBookingFeesString">@string/expedia_booking_fee</item>
-        <item name="loginBookNowButtonDrawable">@drawable/btn_signin</item>
-        <item name="loginWithExpediaButtonText">@string/Log_in_with_Expedia</item>
-        <item name="loginWithExpediaTitleText">@string/expedia_account</item>
-        <item name="loginButtonColor">@android:color/black</item>
-        <item name="hotelBookButtonColor">@android:color/black</item>
-        <item name="hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg</item>
-        <item name="hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
-        <item name="hotelConfirmationCallActionText">@string/call_expedia_customer_support</item>
-        <item name="hotelCheckoutLogoutLogoDrawable">@drawable/ic_expedia_logo</item>
-        <item name="hotelCheckoutLoginLogoDrawable">@drawable/ic_log_in</item>
-        <item name="hotelCheckoutLoginButtonText">@string/Log_in_with_Expedia</item>
-        <item name="hotelCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
-        <item name="hotelCheckoutLoginButtonTextColor">@color/login_text_hotels</item>
-        <item name="flightCheckoutLoginButtonTextColor">@color/login_text_flight</item>
-        <item name="tabletCheckoutLoginButtonTextColor">@color/login_text_tablet</item>
-        <item name="cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
-        <item name="hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
-        <item name="hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale</item>
-        <item name="hotelListMapMarkerDrawable">@drawable/map_pin_normal</item>
-        <item name="hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder</item>
-        <item name="hotelwebViewActionBarLogo">@drawable/ic_logo_hotels</item>
-        <item name="travelerLabelOnCheckout">@string/guest_details</item>
-        <item name="bestPriceGuaranteeString">@string/best_price_guarantee</item>
-        <item name="hotelBookButtonString">@string/book_now</item>
-        <item name="aboutWebsiteString">@string/expedia_website</item>
-        <item name="aboutAppSupportString">@string/app_support</item>
-        <item name="aboutCopyrightString">@string/copyright</item>
-        <item name="aboutInfoUrlString">@string/app_mobiata_info_url</item>
-        <item name="aboutAppNameString">@string/app_name</item>
-        <item name="aboutAppLogoDrawable">@drawable/mobiata</item>
-        <item name="logoutConfirmationString">@string/logout_confirmation</item>
-        <item name="cvvBookButtonTextColor">@android:color/black</item>
-        <item name="flightLoadingMessagePosition">@id/plane_window_view</item>
-        <item name="flightUnhandledErrorMessage">@string/error_flight_unhandled_TEMPLATE</item>
-        <item name="serverErrorMessageString">@string/error_server</item>
-        <item name="savePaymentToAccountString">@string/save_billing_info_message</item>
-        <item name="saveTravelerToAccountString">@string/save_traveler_message_TEMPLATE</item>
-        <item name="loginWithExpediaContentDescription">@string/cd_checkout_log_in_with_expedia</item>
-        <item name="cvvEntryTitleText">@string/security_code_TEMPLATE</item>
-        <item name="bgFindItineraryButton">@drawable/btn_find</item>
-        <item name="hotelConfirmationPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
-        <item name="couponSuccessMessageColor">@color/coupon_success_message_color</item>
-        <item name="infoContactUsString">@string/contact_expedia_via</item>
-        <item name="infoContactEmailSubjectString">@string/contact_expedia_email_subject</item>
-        <item name="loadingAirAsiaRoutesString">@string/loading_air_asia_routes</item>
-        <item name="emailUserNameString">@string/email_user_name</item>
-        <item name="travellerInfoPageLogo">@drawable/ic_expedia_traveler_logo</item>
-        <item name="travellerInfoPageLogoDisabled">@drawable/ic_expedia_traveler_logo_disabled</item>
-        <item name="singleFlightNotAvailableError">@string/error_flight_no_longer_available_expedia</item>
-        <item name="flightsNotAvailableError">@string/error_flights_no_longer_available_expedia</item>
-        <item name="cvvDivDrawable">@drawable/div_cvv</item>
-        <item name="cvvDivErrorDrawable">@drawable/div_cvv_error</item>
-        <item name="clearPrivateDataMsg">@string/dialog_message_logged_out_and_cleared_private_data</item>
-        <item name="hotelSearchResultNotAvailale">@string/not_currently_available</item>
-        <item name="hotelSearchResultSoldOut">@string/sold_out_on_expedia</item>
-        <item name="hotelSearchResultTEMPLATE">@string/not_currently_available_TEMPLATE</item>
-        <item name="userRatingBarDrawable">@drawable/ratingbar_userreview_flat_yellow</item>
-        <item name="clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
-        <item name="icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>
-        <item name="addToCalenderMessage">@string/contact_phone_template</item>
-        <item name="sorryRoomsSoldOut">@string/sorry_rooms_sold_out</item>
-        <item name="passwordHint">@string/expedia_password_hint</item>
-        <item name="loadingAccount">@string/loading_expedia_account</item>
-        <item name="restrictedProfileLoginMessage">@string/restricted_profile_login_message</item>
-        <item name="tellAFriendSubject">@string/tell_a_friend_subject</item>
-        <item name="tellAFriendBody">@string/tell_a_friend_body</item>
-        <item name="dialogMessageLaunchMobileSite">@string/dialog_message_launch_expedia_mobile_site</item>
-        <item name="flightPriceTextColor">@color/flight_trip_price</item>
+        <item name="skin_hotelPriceStandardColor">@color/hotel_price_text_color</item>
+        <item name="skin_hotelPriceSaleColor">@color/hotel_price_sale_text_color</item>
+        <item name="skin_hotelPriceAirAttachColor">@color/hotel_price_air_attach_text_color</item>
+        <item name="skin_hotelSearchActionBarPadding">0dp</item>
+        <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_action_bar_expedia_logo</item>
+        <item name="skin_webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_expedia_logo_small</item>
+        <item name="skin_actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark</item>
+        <item name="skin_actionBarButtonTextColor">@color/action_bar_text_yellow</item>
+        <item name="skin_actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow</item>
+        <item name="skin_costSummaryHeaderTextColor">@color/cost_summary_header_text_color</item>
+        <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar</item>
+        <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.White</item>
+        <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
+        <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
+        <item name="skin_calendarDatePickerDateFormat">@string/calendar_date_picker_date_format</item>
+        <item name="skin_hotelCancellationPolicyDateFormat">@string/hotel_receipt_cancellation_policy_date_format</item>
+        <item name="skin_hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
+        <item name="skin_hotelDetailAirAttachRibbonDrawable">@drawable/bg_sale_airattach_ribbon</item>
+        <item name="skin_hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon</item>
+        <item name="skin_roomsRatesAirAttachRibbonDrawable">@drawable/rooms_rates_airattach_ribbon</item>
+        <item name="skin_roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon</item>
+        <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.Yellow</item>
+        <item name="skin_hotelListingSortPriceDrawable">@drawable/ic_sort_price</item>
+        <item name="skin_hotelListingFilterGroupStyle">@style/Widget.SegmentedControlGroup.DarkFilterControls</item>
+        <item name="skin_hotelListingFilterToggleButtonStyle">@style/Widget.Button.DarkFilterControls</item>
+        <item name="skin_hotelListingFilterPriceCheapString">@string/filter_price_cheap</item>
+        <item name="skin_hotelListingFilterPriceModerateString">@string/filter_price_moderate</item>
+        <item name="skin_hotelListingFilterPriceExpensiveString">@string/filter_price_expensive</item>
+        <item name="skin_hangTagProgressDrawable">@drawable/gl_progress_tag</item>
+        <item name="skin_hangTagProgressRingFillDrawable">@drawable/gl_progress_ring_fill</item>
+        <item name="skin_hangTagKnobDrawable">@drawable/gl_progress_knob</item>
+        <item name="skin_hangTagKnobBackgroundDrawable">@drawable/gl_progress_knob_bg</item>
+        <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder</item>
+        <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
+        <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/border_horizontal_expedia_striped</item>
+        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
+        <item name="skin_loginButtonColor">@android:color/black</item>
+        <item name="skin_hotelBookButtonColor">@android:color/black</item>
+        <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg</item>
+        <item name="skin_hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_tablet_checkout_expedia_logo</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
+        <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
+        <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_hotels</item>
+        <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_tablet</item>
+        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
+        <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
+        <item name="skin_hotelListMapMarkerAirAttachDrawable">@drawable/map_pin_airattach</item>
+        <item name="skin_hotelListMapMarkerSaleDrawable">@drawable/map_pin_sale</item>
+        <item name="skin_hotelListMapMarkerSaleGreenABTestDrawable">@drawable/map_pin_sale_green</item>
+        <item name="skin_hotelListMapMarkerDrawable">@drawable/map_pin_normal</item>
+        <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder</item>
+        <item name="skin_hotelWebViewActionBarLogo">@drawable/ic_logo_hotels</item>
+        <item name="skin_travelerLabelOnCheckout">@string/guest_details</item>
+        <item name="skin_bestPriceGuaranteeString">@string/best_price_guarantee</item>
+        <item name="skin_hotelBookButtonString">@string/book_now</item>
+        <item name="skin_etpHotelSelectRoomString">@string/etp_select_room</item>
+        <item name="skin_aboutInfoUrlString">@string/app_mobiata_info_url</item>
+        <item name="skin_aboutAppNameString">@string/launcher_name</item>
+        <item name="skin_aboutAppLogoDrawable">@drawable/mobiata</item>
+        <item name="skin_cvvBookButtonTextColor">@android:color/black</item>
+        <item name="skin_cvvEntryTitleText">@string/security_code_TEMPLATE</item>
+        <item name="skin_bgFindItineraryButton">@drawable/btn_find</item>
+        <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
+        <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color</item>
+        <item name="skin_loadingAirAsiaRoutesString">@string/loading_air_asia_routes</item>
+        <item name="skin_travellerInfoPageLogo">@drawable/ic_expedia_traveler_logo</item>
+        <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_expedia_traveler_logo_disabled</item>
+        <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
+        <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error</item>
+        <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_yellow</item>
+        <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
+        <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>
+        <item name="skin_flightPriceTextColor">@color/flight_trip_price</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
-        <item name="icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_blue</item>
-        <item name="calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE</item>
-        <item name="calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE</item>
-        <item name="flightLoginActionBarIcon">@drawable/ic_logo_flights</item>
-        <item name="candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
-        <item name="sorryRoomsSoldOutErrorMessage">@string/error_hotel_is_now_sold_out_expedia</item>
+        <item name="skin_icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_blue</item>
+        <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_tablet_checkout_expedia_logo</item>
+        <item name="skin_actionMenuDoneButtonText">@string/button_confirmation_done</item>
+        <item name="skin_tablet_pin_detail_image_size">@dimen/launch_pin_detail_size</item>
+        <item name="skin_tablet_ab_launch_text1_base">@string/Explore</item>
+        <item name="skin_tablet_ab_launch_text2_pin_detail">@string/Destination</item>
+        <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen</item>
+        <item name="skin_tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text</item>
+        <item name="skin_menuAboutWebViewActivity">@menu/menu_webview</item>
+        <item name="skin_HotelCheckout_CreditCardEditTextStyle">@style/CreditCardEditText</item>
+        <item name="skin_HotelCheckout_PostalCodeSectionStyle">@style/PostalCodeSection</item>
+        <item name="skin_HotelCheckout_couponEditTextStyle">@style/CouponEditText</item>
+        <item name="skin_hotelRulesActionBarLogo">@drawable/ic_expedia_action_bar_logo_dark</item>
+        <item name="skin_flightRulesActionBarLogo">@drawable/ic_expedia_action_bar_logo_dark</item>
+        <item name="skin_hotelLoginActionBarIcon">@drawable/ic_expedia_action_bar_logo_dark</item>
+        <item name="skin_flightLoginActionBarIcon">@drawable/ic_expedia_action_bar_logo_dark</item>
+        <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
+        <item name="skin_itinActionOverflowDrawable">@drawable/ic_itin_action_overflow_white</item>
+        <item name="skin_launchCirclePlaceholderDrawable">@drawable/launch_circle_placeholder</item>
+        <item name="skin_tablet_legal_blurb_text_color">@color/tablet_legal_blurb_text_color</item>
+        <item name="skin_tablet_confirmation_book_next_arrow_icon">@drawable/ic_tablet_confirmation_book_next_arrow</item>
+        <item name="skin_tablet_confirmation_book_next_arrow_color">@color/tablet_confirmation_color</item>
+        <item name="skin_tablet_confirmation_done_booking_icon">@drawable/ic_tablet_confirmation_done_booking</item>
+        <item name="skin_tablet_confirmation_done_booking_color">@color/tablet_confirmation_color</item>
+        <item name="skin_tablet_confirmation_calendar_icon">@drawable/ic_tablet_confirmation_calendar</item>
+        <item name="skin_tablet_confirmation_phone_icon">@drawable/ic_tablet_confirmation_phone</item>
+        <item name="skin_tablet_confirmation_share_icon">@drawable/ic_tablet_confirmation_share</item>
+        <item name="skin_tablet_confirmation_action_color">@color/tablet_confirmation_action_color</item>
+        <item name="skin_tablet_price_expanded_bucket_text_color">@color/tablet_confirmation_action_color</item>
+        <item name="skin_tablet_checkout_price_breakdown_icon">@drawable/ic_tablet_checkout_price_breakdown</item>
+        <item name="skin_confirmationHeaderHotelDividerLineColor">@color/confirmation_header_divider_hotel</item>
+        <item name="skin_confirmationHeaderFlightDividerLineColor">@color/confirmation_header_divider_flight</item>
+        <item name="skin_checkmarkFlightDrawable">@drawable/checkmark_flight</item>
+        <item name="skin_icTabletConfirmationCheckmarkDrawable">@drawable/ic_tablet_confirmation_checkmark</item>
+        <item name="skin_tabletFilterPriceTextColor">@color/tablet_filter_price_text</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
     <style name="Theme.Phone" parent="@style/Theme.Expedia" />
+
+    <!-- Inherit Wotif or others theme based on desired project -->
+    <style name="Theme.Phone.HotelSearchActivity" parent="@style/Theme.Phone">
+        <item name="skin_hotelSearchPopupFilterTextColor">@color/actionbar_text</item>
+    </style>
 
     <style name="Theme.Phone.NoActionBar">
         <item name="android:windowActionBar">false</item>
@@ -199,15 +223,15 @@
     </style>
 
     <style name="Theme.Phone.WebView">
-        <item name="android:logo">?attr/webViewPreferencesActionBarLogo</item>
+        <item name="android:logo">?attr/skin_webViewPreferencesActionBarLogo</item>
     </style>
 
     <style name="Theme.Phone.WebView.WithTitle">
-        <item name="android:logo">?attr/webViewPreferencesActionBarLogoWithTitle</item>
+        <item name="android:logo">?attr/skin_webViewPreferencesActionBarLogoWithTitle</item>
     </style>
 
     <style name="Theme.Phone.Preferences">
-        <item name="android:logo">?attr/webViewPreferencesActionBarLogo</item>
+        <item name="android:logo">?attr/skin_webViewPreferencesActionBarLogo</item>
     </style>
 
     <style name="Theme.Phone.Dark" parent="Theme.Phone">
@@ -223,32 +247,97 @@
         <item name="android:windowActionBarOverlay">true</item>
     </style>
 
-    <style name="LaunchTheme" parent="@android:style/Theme.Holo">
-        <item name="android:logo">@drawable/ic_ab_expedia_logo</item>
+    <style name="MyThemeLeamPLum">
+        <item name="android:dialogTheme">@style/CustomDialogTheme</item>
+        <item name="android:alertDialogStyle">@style/CustomDialogTheme</item>
+    </style>
+
+    <style name="CustomDialogTheme" parent="@android:style/Theme.Dialog">
+        <item name="android:bottomBright">#ffffff</item>
+        <item name="android:bottomDark">#ffffff</item>
+        <item name="android:bottomMedium">#ffffff</item>
+        <item name="android:centerBright">#ffffff</item>
+        <item name="android:centerDark">#ffffff</item>
+        <item name="android:centerMedium">#ffffff</item>
+        <item name="android:fullBright">#ffffff</item>
+        <item name="android:fullDark">#ffffff</item>
+        <item name="android:topBright">#ffffff</item>
+        <item name="android:topDark">#ffffff</item>
+    </style>
+
+    <style name="LaunchTheme" parent="Theme.AppCompat">
+
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
-        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
-        <item name="skin_flightLineColor">@color/flight_trip</item>
+        <item name="actionBarStyle">@style/LaunchActionBar</item>
+        <item name="android:colorPrimaryDark">#3A464F</item>
+        <item name="android:colorPrimary">#495863</item>
+        <item name="android:actionOverflowButtonStyle">@style/LaunchOverflowStyle</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
-        <item name="logoutConfirmationString">@string/logout_confirmation</item>
-        <item name="itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
-        <item name="itinCarPlaceholderDrawable">@drawable/default_flights_background</item>
-        <item name="itinCruisePlaceholderDrawable">@drawable/itin_header_placeholder_cruises</item>
-        <item name="itinHotelPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
-        <item name="itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
-        <item name="itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
-        <item name="itinCardTitleBackground">@drawable/bg_itin_card_title</item>
-        <item name="itinCardBackground">@drawable/bg_itin_card</item>
-        <item name="itinFlightsTripLineColor">@color/itin_flight_line_color</item>
-        <item name="itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
-        <item name="itinDismissListSelectorDrawable">@drawable/list_selector_holo_dark</item>
-        <item name="candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
-        <item name="icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
-        <item name="icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
-        <item name="addToCalenderMessage">@string/contact_phone_template</item>
-        <item name="calendarFlightDescItinerary">@string/calendar_flight_desc_itinerary_TEMPLATE</item>
-        <item name="calendarFlightDescSupport">@string/calendar_flight_desc_support_TEMPLATE</item>
+        <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
+        <item name="skin_itinCarPlaceholderDrawable">@drawable/default_flights_background</item>
+        <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_placeholder_cruises</item>
+        <item name="skin_itinHotelPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
+        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
+        <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
+        <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
+        <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
+        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
+        <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
+        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
+        <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
+        <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
+        <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
+        <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
+        <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
+        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
+        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
+        <item name="skin_flightLineColor">@color/flight_trip</item>
+        <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
+        <item name="skin_launchActionBarBackgroundColor">@color/launch_actionbar_bg_color</item>
+    </style>
+
+    <!--
+        Override this theme in whitelabels to provide whitelabel specific theme values.
+
+        Note: If any attr which is in AccountLibTheme and need to be customized per whitelabel,
+        that attr should be removed from AccountLibTheme and
+        must be added in all Whitelabel.AccountLibTheme for all whitelabels
+    -->
+    <style name="Whitelabel.AccountLibTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="acct__input_text_error_color">@color/acct__bg_input_text_error</item>
+        <item name="acct__input_text_good_color">@color/acct__bg_input_text_good</item>
+        <item name="acct__sign_in_button_background_drawable">@drawable/acct__bg_btn_sign_in</item>
+        <item name="acct__sign_in_button_text_color">@drawable/ac_color_list</item>
+        <item name="acct__logo_small_drawable">@drawable/acct__logo_small</item>
+        <item name="acct__logo_large_drawable">@drawable/acct__logo_large</item>
+        <item name="acct__logo_text_drawable">@drawable/acct__logo_text</item>
+        <item name="acct__checkmark_good_drawable">@drawable/acct__ic_checkmark</item>
+        <item name="acct__checkmark_warning_drawable">@drawable/acct__ic_warning</item>
+        <item name="skin_accountCreationBackgroundDrawable">@drawable/bg_mtfuji_crop</item>
+        <item name="acct__create_account_prompt_string">@string/acct_Create_an_Expedia_account</item>
+        <item name="acct__welcome_message_string">@string/acct_Welcome_to_Expedia</item>
+        <item name="acct__account_already_exists_string">@string/acct_Expedia_account_already_exists</item>
+        <item name="acct__logo_text_drawable_margin_left">6dp</item>
+        <item name="acct__logo_text_drawable_margin_top">5dp</item>
+    </style>
+
+    <!--
+        Base app theme for AccountLib, all the properties which are common for all whitelabels should be added here
+    -->
+    <style name="AccountLibTheme" parent="Whitelabel.AccountLibTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="acct__flavor_text_color">@color/acct__flavor_text</item>
+        <item name="acct__input_text_default_color">@color/acct__bg_input_text_default</item>
+        <item name="acct__toolbar_icon_color">@color/toolbar_icon</item>
+        <item name="acct__user_info_text_color">@color/acct__user_info_text_color</item>
+    </style>
+
+    <style name="LaunchOverflowStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_overflow_white</item>
     </style>
 
     <style name="ItineraryTheme" parent="Theme.Expedia">
@@ -256,42 +345,39 @@
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
-        <item name="itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
-        <item name="itinCarPlaceholderDrawable">@drawable/default_flights_background</item>
-        <item name="itinCruisePlaceholderDrawable">@drawable/itin_header_placeholder_cruises</item>
-        <item name="itinHotelPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
-        <item name="itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
-        <item name="itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
-        <item name="itinCardTitleBackground">@drawable/bg_itin_card_title</item>
-        <item name="itinCardBackground">@drawable/bg_itin_card</item>
-        <item name="itinFlightsTripLineColor">@color/itin_flight_line_color</item>
-        <item name="itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
-        <item name="itinDismissListSelectorDrawable">@drawable/list_selector_holo_dark</item>
-        <item name="itinTabletCardPopupBackgroundDrawable">@drawable/bg_itinerary_card_popup</item>
-        <item name="itinTabletCardPopupHeaderDrawable">@drawable/bg_itinerary_card_popup_header</item>
-        <item name="icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
-        <item name="icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
+        <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
+        <item name="skin_itinCarPlaceholderDrawable">@drawable/default_flights_background</item>
+        <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_placeholder_cruises</item>
+        <item name="skin_itinHotelPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
+        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
+        <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
+        <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
+        <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
+        <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
+        <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
+        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
+        <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
+        <item name="skin_itinTabletCardPopupBackgroundDrawable">@drawable/bg_itinerary_card_popup</item>
+        <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itinerary_card_popup_header</item>
+        <item name="skin_icTypeCircleFlight">@drawable/ic_type_circle_flight</item>
+        <item name="skin_icTypeCircleHotel">@drawable/ic_type_circle_hotel</item>
+        <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
+        <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
+        <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
     </style>
 
-    <style name="LaunchActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:displayOptions">showHome|useLogo</item>
-        <item name="android:background">@drawable/bg_launch_ab</item>
+    <style name="LaunchActionBar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:icon">@android:color/transparent</item>
+        <item name="android:displayOptions">showHome|showTitle</item>
+        <item name="android:background">@color/launch_actionbar_bg_color</item>
     </style>
 
-    <style name="LaunchActionBarTabStyle" parent="@android:style/Widget.Holo.ActionBar.TabView">
+    <style name="LaunchActionBarTabStyle" parent="@style/Widget.AppCompat.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_launch</item>
     </style>
 
     <!-- Temporary theme for flights -->
     <style name="FlightTheme" parent="Theme.Expedia">
-        <item name="airPickerBackground">@android:color/white</item>
-        <item name="airPickerHeaderBackground">@android:color/white</item>
-        <item name="airPickerTextColor">@android:color/black</item>
-        <item name="airPickerMessageTextColor">@android:color/black</item>
-        <item name="airPickerActionTextColor">@android:color/black</item>
-        <item name="rowDividerBackground">@android:color/black</item>
-        <item name="rowBackground">@android:color/white</item>
-        <item name="rowHeaderBackground">@android:color/white</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView</item>
         <item name="android:logo">@drawable/ic_logo_flights</item>
         <item name="android:actionBarStyle">@style/FlightActionBar</item>
@@ -300,10 +386,10 @@
         <item name="android:editTextStyle">@style/Widget.EditText.Phone</item>
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone.Flights</item>
         <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoComplete</item>
-        <item name="travelerLabelOnCheckout">@string/Add_Traveler</item>
-        <item name="flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
-        <item name="flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
-        <item name="flightCheckoutAccountLabel">@string/expedia_account</item>
+        <item name="skin_travelerLabelOnCheckout">@string/Add_Traveler</item>
+        <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
+        <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
+        <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color</item>
     </style>
 
     <style name="FlightTheme.DropDownSearch">
@@ -323,8 +409,8 @@
     </style>
 
     <style name="HotelWebViewActionBar" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:background">?attr/actionBarBackgroundDrawable</item>
-        <item name="android:logo">?attr/hotelwebViewActionBarLogo</item>
+        <item name="android:background">?attr/skin_actionBarBackgroundDrawable</item>
+        <item name="android:logo">?attr/skin_hotelWebViewActionBarLogo</item>
         <item name="android:titleTextStyle">@style/FlightActionBarTextAppearance</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_action_bar_back_arrow</item>
     </style>
@@ -380,8 +466,29 @@
         <item name="android:colorBackgroundCacheHint">@null</item>
     </style>
 
-    <style name="TerminalMapTheme" parent="@style/LaunchTheme">
+    <style name="TerminalMapActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:displayOptions">showHome|useLogo</item>
+        <item name="android:background">@drawable/bg_launch_ab</item>
+    </style>
+
+    <style name="TerminalMapTheme" parent="@android:style/Theme.Holo">
+        <item name="android:logo">@drawable/ic_ab_expedia_logo</item>
+        <item name="android:actionBarStyle">@style/TerminalMapActionBar</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
         <item name="android:windowBackground">@android:color/white</item>
+
+        <!-- PopupMenu -->
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
+        <item name="skin_terminalChooserTextColor">@color/itin_white_text</item>
+
+    </style>
+
+    <style name="FlightTheme.Rules">
+        <item name="android:logo">?attr/skin_flightRulesActionBarLogo</item>
+    </style>
+
+    <style name="Theme.Phone.Rules">
+        <item name="android:logo">?attr/skin_hotelRulesActionBarLogo</item>
     </style>
 
 </resources>

@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
@@ -12,10 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.section.HotelSummarySection;
-import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.ViewUtils;
 
 /**
@@ -52,11 +49,10 @@ public class TabletHotelAdapter extends HotelAdapter {
 	@Override
 	public boolean isRowExpandable(int position) {
 		// The logic here should basically mirror what's in HotelSummarySection
-		if (ExpediaBookingApp.IS_VSC) {
-			return false;
-		}
-
 		Property property = (Property) getItem(position);
+		if (property.isSponsored()) {
+			return true;
+		}
 		if (property.isLowestRateTonightOnly()) {
 			return true;
 		}
@@ -131,11 +127,6 @@ public class TabletHotelAdapter extends HotelAdapter {
 
 		section.collapseBy(mCollapseNewViewsPercent * estimateExpandableHeight(position));
 		section.setTranslationY(-estimateExpandableOffset(position));
-
-		if(isRowSelected(position)) {
-			View v = Ui.findView(section, R.id.selected_hotel_overlay);
-			v.setVisibility(View.VISIBLE);
-		}
 
 		return section;
 	}

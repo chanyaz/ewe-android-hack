@@ -11,7 +11,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -27,7 +27,6 @@ import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVTextView;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.util.AndroidUtils;
 
 public class CVVEntryFragment extends Fragment implements CreditCardInputListener {
 
@@ -187,7 +186,7 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		resetCVVText();
 
 		//1752. VSC Change cvv prompt text
-		int cvvEntryTitleResId = Ui.obtainThemeResID(getActivity(), R.attr.cvvEntryTitleText);
+		int cvvEntryTitleResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_cvvEntryTitleText);
 		mCVVPromptTextView.setText(Html.fromHtml(getString(cvvEntryTitleResId, cardName)));
 
 		// Subprompt, i.e. "see front/back of card"
@@ -214,13 +213,21 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 		// A few minor UI tweaks on phone, depending on if amex
 		boolean amex = cardType == CreditCardType.AMERICAN_EXPRESS;
 
-		if (!AndroidUtils.isTablet(getActivity())) {
-			mCVVPromptTextView.setVisibility(amex ? View.GONE : View.VISIBLE);
-			FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) mCVVTextView.getLayoutParams();
+		mCVVPromptTextView.setVisibility(amex ? View.GONE : View.VISIBLE);
+		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mCVVTextView.getLayoutParams();
+		if (amex) {
+			params.addRule(RelativeLayout.ALIGN_RIGHT, 0);
+			params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+			params.addRule(RelativeLayout.CENTER_VERTICAL);
+		}
+		else {
+			params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, 0);
+			params.addRule(RelativeLayout.ALIGN_RIGHT, R.id.signature_strip_frame);
+			params.addRule(RelativeLayout.ALIGN_BOTTOM, R.id.signature_strip_frame);
+			params.addRule(RelativeLayout.ALIGN_TOP, R.id.signature_strip_frame);
+
 			int right = amex ? R.dimen.cvv_text_view_right_margin_amex : R.dimen.cvv_text_view_right_margin_other;
-			int top = amex ? R.dimen.cvv_text_view_top_margin_amex : R.dimen.cvv_text_view_top_margin_other;
 			params.rightMargin = getResources().getDimensionPixelOffset(right);
-			params.topMargin = getResources().getDimensionPixelOffset(top);
 			mCVVTextView.setLayoutParams(params);
 		}
 

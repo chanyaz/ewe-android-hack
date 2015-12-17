@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<com.expedia.bookings.widget.ContentClickableRelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:layoutContentPadding="16dp">
 
     <View
         android:id="@+id/center"
@@ -54,8 +55,8 @@
             android:paddingTop="11dp"
             android:paddingBottom="13dp"
             android:includeFontPadding="false"
-            android:background="@drawable/btn_tablet_launch_screen"
-            android:textColor="#3e69b3"
+            android:background="?attr/skin_tablet_pin_detail_button_background"
+            android:textColor="?attr/skin_tablet_pin_detail_button_text_color"
             android:textSize="16sp"
             android:textStyle="bold"
             android:text="@string/explore_now"/>
@@ -80,6 +81,6 @@
         android:layout_toLeftOf="@id/center"
         android:layout_marginRight="130dp"
         android:padding="@dimen/launch_pin_detail_padding"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter"/>
 
-</RelativeLayout>
+</com.expedia.bookings.widget.ContentClickableRelativeLayout>

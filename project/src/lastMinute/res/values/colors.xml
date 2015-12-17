@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="action_bar_bg_color">#E40088</color>
+    <color name="action_bar_text_color">#FFFFFF</color>
+    <color name="action_bar_selected_tab_underline_color">#FFFFFF</color>
+
+    <color name="launch_lob_bg">#2D2D2D</color>
+
+    <!-- Lob box shadow gradient -->
+    <color name="lob_box_shadow_start_color">#FF000000</color>
+    <color name="lob_box_shadow_center_color">#99000000</color>
+    <color name="lob_box_shadow_end_color">#00000000</color>
+
+    <color name="actionbar_button_background_pressed">#004888</color>
+    <color name="action_bar_text_white_lm">#FFFFFF</color>
+    <color name="bg_btn_pressed_color_lm">#FFFFFF</color>
+    <color name="itin_flight_line_color_lm">#7da426</color>
+    <color name="login_text_hotels">#FFFFFF</color>
+    <color name="login_text_flight">#FFFFFF</color>
+    <color name="coupon_success_message_color_lm">#E40088</color>
+    <color name="collection_overlay_color">#56a1d5</color>
+    <color name="hotel_room_rate_select_room_button_lm">#0079A1</color>
+    <color name="hotel_room_rate_select_room_button_pressed_lm">#005B79</color>
+    <color name="hotel_room_rate_add_room_button_lm">@color/action_bar_bg_color</color>
+    <color name="hotel_room_rate_add_room_button_pressed_lm">#A1266C</color>
+    <color name="launch_pin_detail_button_text_lm">@color/action_bar_bg_color</color>
+
+    <color name="hotel_price_text_color">#4F4F4F</color>
+    <color name="hotel_price_sale_text_color">#0079a1</color>
+    <color name="actionbar_text_lm">#FFFFFF</color>
+    <color name="actionbar_text">#FFFFFF</color>
+    <color name="actionbar_menu_text_color">#FFFFFF</color>
+    <color name="menu_bar_text_color">#FFFFFF</color>
+    <color name="actionbar_suggestion_text_color">#FFFFFF</color>
+
+    <color name="flight_trip">#0079A1</color>
+    <color name="flight_trip_price">#4F4F4F</color>
+    <color name="flight_free_cancellation_text_color_lm">#7AC231</color>
+
+    <color name="action_bar_flight_text_color">@color/actionbar_text_lm</color>
+    <color name="action_bar_flight_cancel_text_color">@color/actionbar_text_lm</color>
+    <color name="action_bar_flight_result_separator_color">#FFFFFF</color>
+
+    <color name="bg_sale_text_view_color_lm">#E5E40088</color>
+    <color name="confirmation_header_divider_color">#4D555D</color>
+
+    <color name="tablet_book_button_text_color_lm">@color/action_bar_bg_color</color>
+    <color name="tablet_trip_bucket_text_color_lm">#FFFFFF</color>
+    <color name="tablet_search_result_error_button_pressed_lm">#005B79</color>
+    <color name="tablet_search_result_error_button_lm">#0079A1</color>
+    <color name="tablet_results_search_blue_lm">#00568F</color>
+    <color name="tablet_map_pin_text_color">#DDDFE1</color>
+    <color name="flight_results_row_bg_lm">#0079A1</color>
+    <color name="flight_results_row_return_leg_bg_lm">#005B79</color>
+    <color name="tablet_legal_blurb_text_color_lm">@color/action_bar_bg_color</color>
+    <color name="tablet_confirmation_action_color_lm">#2CA2E2</color>
+    <color name="tablet_price_expanded_bucket_text_color_lm">@color/action_bar_bg_color</color>
+    <color name="tablet_calender_results_search_blue_lm">#0079A1</color>
+
+    <color name="section_flight_edit_traveler_link_color_lm">@color/action_bar_bg_color</color>
+    <color name="room_rate_refundable_cancellation_text_color_lm">#599027</color>
+    <color name="tablet_hotel_coupon_text_color_lm">@color/action_bar_bg_color</color>
+</resources>

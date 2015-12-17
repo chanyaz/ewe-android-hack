@@ -1,0 +1,1528 @@
+{
+	"collections": [
+		{
+		   "title":"Byer, der aldrig sover",
+		   "id":"global-nightlife",
+		   "imageCode":"global-nightlife",
+		   "locations":[
+				{
+					"title": "Ibiza",
+					"subtitle": "Spanien",
+					"id": "global-nightlife.ibiza",
+					"description": "Ibiza er et mekka for natklubber, og enhver med hang til gode fester er nødt til at lægge vejen forbi øen mindst én gang. Festerne på Ibiza er mere en oplevelse for livet end en natkluboplevelse.",
+					"imageCode": "ibiza",
+					"location": {
+						"s": "Ibiza, Spanien",
+						"a": "IBZ",
+						"d": "<B>Ibiza</B>, Spanien",
+						"id": "602653",
+						"t": "CITY",
+						"ll": {
+							"lat": "39.020010",
+							"lng": "1.482148"
+						},
+						"amc": "602653"
+					}
+				},
+				{
+					"title": "Hongkong",
+					"subtitle": "Hongkong",
+					"id": "global-nightlife.hong-kong",
+					"description": "Hongkongs liv og røre slutter ikke, når mørket falder på. Det store udvalg af klubber, barer og aftenmarkeder i denne kosmopolitiske by tilbyder et væld af underholdningsmuligheder til lang ud på natten.",
+					"imageCode": "hong-kong",
+					"location": {
+						"s": "Hongkong (alle), Hongkong",
+						"a": "HKG",
+						"d": "<B><B>Hong</B></B><B><B>kong</B></B> (alle), <B><B>Hong</B></B><B><B>kong</B></B>",
+						"id": "178263",
+						"t": "CITY",
+						"ll": {
+							"lat": "22.283330",
+							"lng": "114.158750"
+						},
+						"amc": "178263"
+					}
+				},
+				{
+					"title": "Bangkok",
+					"subtitle": "Thailand",
+					"id": "global-nightlife.bangkok",
+					"description": "Rejsende til Bangkok kan vælge blandt et stort udvalg af nattelivsaktiviteter; fra backpacker-kvarteret ved Khao San Road og rockbarerne nær Ratchathewi til de trendy pubber i Thlonglor og Ekamai.",
+					"imageCode": "bangkok",
+					"location": {
+						"s": "Bangkok (og omegn), Thailand",
+						"a": "BKK",
+						"d": "<B>Bangkok</B>, <B>Thailand</B>",
+						"id": "178236",
+						"t": "CITY",
+						"ll": {
+							"lat": "13.747500",
+							"lng": "100.536010"
+						},
+						"amc": "178236"
+					}
+				},
+				{
+					"title": "Buenos Aires",
+					"subtitle": "Argentina",
+					"id": "global-nightlife.buenos-aires",
+					"description": "En bytur i Buenos Aires er ikke for sarte sjæle. Festen starter ikke før langt over midnat i tangoens hjemby.",
+					"imageCode": "buenos-aires",
+					"location": {
+						"s": "Buenos Aires (og omegn), Argentina",
+						"a": "BUE",
+						"d": "<B>Buenos</B> <B>Aires</B>, <B>Argentina</B>",
+						"id": "178242",
+						"t": "CITY",
+						"ll": {
+							"lat": "-34.609500",
+							"lng": "-58.387200"
+						},
+						"amc": "178242"
+					}
+				},
+				{
+					"title": "Berlin",
+					"subtitle": "Tyskland",
+					"id": "global-nightlife.berlin",
+					"description": "Indbyggerne i Berlin lever for natten, uanset om de bruger den på kabareter i ægte 1920’er stil, chikke retrobarer eller hyggelige øl-haver. Nogle af Europas mest populære DJs spiller i store klubber såsom det chikke industrikompleks, Berghain. Om sommeren kan du feste dagen lang i udendørsbarerne langs floden Spree.",
+					"imageCode": "berlin",
+					"location": {
+						"s": "Berlin (og omegn), Tyskland",
+						"a": "BER",
+						"d": "<B>Berlin</B>, Tyskland",
+						"id": "179892",
+						"t": "CITY",
+						"ll": {
+							"lat": "52.446063",
+							"lng": "13.257560"
+						},
+						"amc": "179892"
+					}
+				},
+				{
+					"title": "Las Vegas",
+					"subtitle": "Nevada",
+					"id": "global-nightlife.las-vegas",
+					"description": "Vegas har noget for enhver. Her kan du tilfredsstille alle dine syndige lyster på “The Strip”. “The Strip” er hovedattraktionen, men rejsende på udkig efter et mindre støjende alternativ kan med fordel lægge vejen forbi Fremont Street.",
+					"imageCode": "las-vegas",
+					"location": {
+						"s": "Las Vegas (og omegn), Nevada, USA",
+						"a": "LAS",
+						"d": "<B>Las</B> <B>Vegas</B>, <B>Nevada</B>, USA",
+						"id": "178276",
+						"t": "CITY",
+						"ll": {
+							"lat": "36.114666",
+							"lng": "-115.172872"
+						},
+						"amc": "178276"
+					}
+				},
+				{
+					"title": "Miami",
+					"subtitle": "Florida",
+					"id": "global-nightlife.miami",
+					"description": "Nattelivet har altid været pulserende, og det chikke South Beach-kvarter kan bryste sig af at være det mest populære feststed. Her ligger luksuriøse lounger og øredøvende natklubber med dance-musik side om side på gaderne i art deco-stil. Sørg for at tage festtøjet på.",
+					"imageCode": "miami",
+					"location": {
+						"s": "Miami (og omegn), Florida, USA",
+						"a": "FLL",
+						"d": "<B>Miami</B>, <B>Florida</B>, USA",
+						"id": "178286",
+						"t": "CITY",
+						"ll": {
+							"lat": "25.771780",
+							"lng": "-80.190090"
+						},
+						"amc": "601750"
+					}
+				},
+				{
+					"title": "Rio de Janeiro",
+					"subtitle": "Brasilien",
+					"id": "global-nightlife.rio-de-janeiro",
+					"description": "Rios natteliv er fuld af passion, sjæl og atmosfære - og det stopper ikke, fordi karnevallet stopper. Turister såvel som lokale drikker, flirter og danser året rundt på natklubber og barer samt til gade- og strandfester.",
+					"imageCode": "rio-de-janeiro",
+					"location": {
+						"s": "Rio de Janeiro (og omegn), Brasilien",
+						"a": "RIO",
+						"d": "<B>Rio</B> <B>de</B> <B>Janeiro</B>, Brasilien",
+						"id": "178301",
+						"t": "CITY",
+						"ll": {
+							"lat": "-22.845835",
+							"lng": "-43.231352"
+						},
+						"amc": "178301"
+					}
+				},
+				{
+					"title": "New York",
+					"subtitle": "New York",
+					"id": "global-nightlife.new-york",
+					"description": "Hvad enten du er til en “bar-crawl” i East Village, cocktails i en trendy lounge i SoHo eller at danse natten lang i et pakhus i Brooklyn, kan du være sikker på at finde noget, der falder i din smag i byen, der aldrig sover.",
+					"imageCode": "new-york",
+					"location": {
+						"s": "New York (og omegn), New York, USA",
+						"a": "NYC",
+						"d": "<B><B>New</B></B> <B><B>York</B></B>, <B><B>New</B></B> <B><B>York</B></B>, USA",
+						"id": "178293",
+						"t": "CITY",
+						"ll": {
+							"lat": "40.689044",
+							"lng": "-73.942843"
+						},
+						"amc": "178293"
+					}
+				},
+				{
+					"title": "Tokyo",
+					"subtitle": "Japan",
+					"id": "global-nightlife.tokyo",
+					"description": "Tokyos internationale atmosfære afspejles i byens natteliv. Her kan besøgende finde alt fra live-musik til traditionelle japanske Kabuki-shows.",
+					"imageCode": "tokyo",
+					"location": {
+						"s": "Tokyo (og omegn), Japan",
+						"a": "TYO",
+						"d": "<B>Tokyo</B>, <B>Japan</B>",
+						"id": "179900",
+						"t": "CITY",
+						"ll": {
+							"lat": "35.675000",
+							"lng": "139.760000"
+						},
+						"amc": "179900"
+					}
+				},
+				{
+					"title": "Montreal",
+					"subtitle": "Canada",
+					"id": "global-nightlife.montreal",
+					"description": "Oplev livsglæden i de gammeldags caféer, coole jazzklubber, pakkede diskoteker og støjende barer på dette feststed i Nordamerika, der endnu ikke er så kendt.",
+					"imageCode": "montreal",
+					"location": {
+						"s": "Montreal (og omegn), Quebec, Canada",
+						"a": "YMQ",
+						"d": "<B>Montreal</B>, Quebec, <B>Canada</B>",
+						"id": "178288",
+						"t": "CITY",
+						"ll": {
+							"lat": "45.501950",
+							"lng": "-73.567140"
+						},
+						"amc": "178288"
+					}
+				}
+			]
+		},
+		{
+            "title": "Eventyr og seværdigheder",
+            "id": "adventure-abounds",
+            "imageCode": "adventure-abounds",
+            "locations": [
+                {
+                    "title": "Beijing",
+                    "subtitle": "Kina",
+                    "id": "adventure-abounds.beijing-adventure",
+                    "description": "Den ikoniske Kinesiske Mur, der allerede blev bygget i det 7. århundrede f.Kr., er 21.195 km lang og tiltrækker mere end ti millioner besøgende hvert år. Kør ned af Den Kinesiske Mur på en særlig slæde, og få et stort adrenalinkick såvel som en uforglemmelig udsigt.",
+                    "image": "beijing-adventure",
+                    "imageCode": "beijing-adventure",
+                    "location": {
+                        "s": "Beijing (og omegn), Kina",
+                        "a": "BJS",
+                        "d": "<B>Beijing</B>, <B>Kina</B>",
+                        "id": "178237",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "39.906000",
+                            "lng": "116.385000"
+                        },
+                        "amc": "178237"
+                    }
+                },
+                {
+                    "title": "Lima",
+                    "subtitle": "Peru",
+                    "id": "adventure-abounds.lima-adventure",
+                    "description": "Paragliding giver dig mulighed for at svæve højt over havet og klipperne, hvorfra du har en magisk udsigt over Perus kystlinje. Lima er også kendt for sine kulinariske delikatesser, så sørg for at undersøge hvilke restauranter og markeder, du bare må opleve, inden du rejser hjemmefra.",
+                    "image": "lima-adventure",
+                    "imageCode": "lima-adventure",
+                    "location": {
+                        "s": "Lima (og omegn), Peru",
+                        "a": "LIM",
+                        "d": "<B>Lima</B>, <B>Peru</B>",
+                        "id": "178277",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-12.040150",
+                            "lng": "-77.036160"
+                        },
+                        "amc": "178277"
+                    }
+                },
+                {
+                    "title": "München",
+                    "subtitle": "Tyskland",
+                    "id": "adventure-abounds.munich-adventure",
+                    "description": "Hvis øl og bratwurst ikke er nok, byder Bayern også på en anden særlig oplevelse: hængende telte. Med en overnatning i et telt, der hænger fra et træ, kan du opleve natten på en helt unik måde og ikke mindst nyde den smukke udsigt over solnedgangen såvel som solopgangen.",
+                    "image": "munich-adventure",
+                    "imageCode": "munich-adventure",
+                    "location": {
+                        "s": "München (og omegn), Tyskland",
+                        "a": "MUC",
+                        "d": "<B>München</B>, <B>Tyskland</B>",
+                        "id": "179896",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "48.139800",
+                            "lng": "11.560050"
+                        },
+                        "amc": "179896"
+                    }
+                },
+                {
+                    "title": "Benidorm",
+                    "subtitle": "Spanien",
+                    "id": "adventure-abounds.benidorm-adventure",
+                    "description": "Hvem siger, man ikke kan klatre i klipper om vinteren? Benidorm byder på en solrig himmel og ideelle klatreforhold fra efterår til forår. Hvis du foretrækker at have begge ben på jorden, er Playa Levantes krystalklare vand og rige natteliv en stor attraktion for eventyrlystne.",
+                    "image": "benidorm-adventure",
+                    "imageCode": "benidorm-adventure",
+                    "location": {
+                        "s": "Benidorm, Spanien",
+                        "a": "ALC",
+                        "d": "<B>Benidorm</B>, <B>Spanien</B>",
+                        "id": "6049283",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "38.549603",
+                            "lng": "-0.127095"
+                        },
+                        "amc": "6023825"
+                    }
+                },
+                {
+                    "title": "Boracay",
+                    "subtitle": "Filippinerne",
+                    "id": "adventure-abounds.boracay-adventure",
+                    "description": "Kitesurfing er en livsstil her! Takket være vejrforhold i verdensklasse og en fremragende kitesurfing-skole kan begyndere såvel som eksperter deltage i denne spændende sport.",
+                    "image": "boracay-adventure",
+                    "imageCode": "boracay-adventure",
+                    "location": {
+                        "s": "Boracay, Filippinerne",
+                        "a": "MPH",
+                        "d": "<B>Boracay</B>, <B>Filippinerne</B>",
+                        "id": "601371",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "11.959059",
+                            "lng": "121.926270"
+                        },
+                        "amc": "6184368"
+                    }
+                },
+                {
+                    "title": "Port Lincoln",
+                    "subtitle": "Australien",
+                    "id": "adventure-abounds.portlincoln-adventure",
+                    "description": "Hvis dykning i sig selv ikke er nok, byder Port Lincoln også på en masse andre spændende oplevelser såsom dykning med hvidhajer!",
+                    "image": "portlincoln-adventure",
+                    "imageCode": "portlincoln-adventure",
+                    "location": {
+                        "s": "Port Lincoln (og omegn), South Australia, Australien",
+                        "a": "PLO",
+                        "d": "<B>Port</B> <B>Lincoln</B>, South Australia, <B>Australien</B>",
+                        "id": "6142927",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-34.734804",
+                            "lng": "135.852622"
+                        },
+                        "amc": "6142927"
+                    }
+                },
+                {
+                    "title": "Dubai",
+                    "subtitle": "De Forenede Arabiske Emirater",
+                    "id": "adventure-abounds.dubai-adventure",
+                    "description": "Sandboarding, sommerens alternativ til snowboarding, giver dig mulighed for at opleve naturen på en helt ny måde. Efter en glidetur i Dubais sandklitter vil du aldrig se på ørkenen med samme øjne igen.",
+                    "image": "dubai-adventure",
+                    "imageCode": "dubai-adventure",
+                    "location": {
+                        "s": "Dubai (og omegn), De Forenede Arabiske Emirater",
+                        "a": "DXB",
+                        "d": "<B>Dubai</B>, <B>De</B> <B>Forenede</B> <B>Arabiske</B> <B>Emirater</B>",
+                        "id": "1079",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "25.110714",
+                            "lng": "55.394882"
+                        },
+                        "amc": "1079"
+                    }
+                },
+                {
+                    "title": "Livingstone",
+                    "subtitle": "Zambia",
+                    "id": "adventure-abounds.livingstone-adventure",
+                    "description": "Oplev det tryllebindende Victoria Falls, en af verdens største vandfald, mens du krydser hængebroen over kløften mellem Zambia og Zimbabwe. Er du på udkig efter et større adrenalinkick? Du kan også springe bungee-jump fra selve broen, som befinder sig 120 meter over vandet.",
+                    "image": "livingstone-adventure",
+                    "imageCode": "livingstone-adventure",
+                    "location": {
+                        "s": "Livingstone, Zambia",
+                        "a": "LVI",
+                        "d": "<B>Livingstone</B>, <B>Zambia</B>",
+                        "id": "2170",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-17.872034",
+                            "lng": "25.858815"
+                        },
+                        "amc": "2170"
+                    }
+                },
+                {
+                    "title": "Arusha",
+                    "subtitle": "Tanzania",
+                    "id": "adventure-abounds.arusha-adventure",
+                    "description": "Serengeti Nationalpark er kendt for at have en af verdens ældste økosystemer og besøges af mere end 90.000 turister om året. Planlæg din tur i oktober og november, og oplev gnuerne og zebraernes store vandring - et fantastisk syn.",
+                    "image": "arusha-adventure",
+                    "imageCode": "arusha-adventure",
+                    "location": {
+                        "s": "Arusha, Tanzania",
+                        "a": "JRO",
+                        "d": "<B>Arusha</B>, <B>Tanzania</B>",
+                        "id": "178011",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-3.369788",
+                            "lng": "36.840055"
+                        },
+                        "amc": "6128668"
+                    }
+                }
+            ]
+        },
+		{
+            "title": "Vores favoritter",
+            "id": "staff-picks",
+            "imageCode": "staff-picks",
+            "locations": [
+                {
+                    "title": "Kyoto",
+                    "subtitle": "Japan",
+                    "id": "staff-picks.staff-kyoto",
+                    "description": "Kyotos rige kultur og smukke naturomgivelser skuffer sjældent. I denne smukke japanske by kan du udforske de mange templer og helligdomme, der optræder på UNESCO's Verdensarvsliste. -Nao K.",
+                    "image": "staff-kyoto",
+                    "imageCode": "staff-kyoto",
+                    "location": {
+                        "s": "Kyoto (og omegn), Japan",
+                        "a": "OSA",
+                        "d": "<B>Kyoto</B>, <B>Japan</B>",
+                        "id": "6131486",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "35.011229",
+                            "lng": "135.768125"
+                        },
+                        "amc": "179897"
+                    }
+                },
+                {
+                    "title": "Pensacola",
+                    "subtitle": "Florida",
+                    "id": "staff-picks.staff-pensacola",
+                    "description": "Nationalparken Fort Pickens ligger i Pensacola og er det perfekte sted at udforske gamle fort, tage på teltur, betragte dyrelivet og nyde solen. Parkens strande er mere afsides end den travle Pensacola Beach, men kan stadig prale af den Mexicanske Golfs hvide sand. -Tarran V.",
+                    "image": "staff-pensacola",
+                    "imageCode": "staff-pensacola",
+                    "location": {
+                        "s": "Pensacola (og omegn), Florida, USA",
+                        "a": "PNS",
+                        "d": "<B>Pensacola</B>, <B>Florida</B>, USA",
+                        "id": "6023331",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "30.410358",
+                            "lng": "-87.214783"
+                        },
+                        "amc": "6023392"
+                    }
+                },
+                {
+                    "title": "Corniglia",
+                    "subtitle": "Italien",
+                    "id": "staff-picks.staff-corniglia",
+                    "description": "Selvom Corniglia er den mindste by i området Cinque Terre, er den bestemt ikke den mindst smukke. Byen ligger højt over havet, så der er generelt færre turister. Det er deres tab! -Lacie T.",
+                    "image": "staff-corniglia",
+                    "imageCode": "staff-corniglia",
+                    "location": {
+                        "s": "Corniglia, Vernazza, Italien",
+                        "a": "PSA",
+                        "d": "<B>Corniglia</B>, Vernazza, Italien",
+                        "id": "179977",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "44.122589",
+                            "lng": "9.708674"
+                        },
+                        "amc": "179893"
+                    }
+                },
+                {
+                    "title": "Marrakech",
+                    "subtitle": "Marokko",
+                    "id": "staff-picks.staff-marrakech",
+                    "description": "Besøg Marrakech, og bestig det nærliggende bjerg Toubkal, som ligger i den fantastiske bjergkæde Atlasbjergene. Oplev ørkenen fra en kamelryg, smag på lokale retter og lær mere om Marrakechs antikke historie og kultur. -Steven V.",
+                    "image": "staff-marrakech",
+                    "imageCode": "staff-marrakech",
+                    "location": {
+                        "s": "Marrakech (og omegn), Marokko",
+                        "a": "RAK",
+                        "d": "<B>Marrakech</B>, Marokko",
+                        "id": "6084756",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "31.631600",
+                            "lng": "-8.009210"
+                        },
+                        "amc": "6084756"
+                    }
+                },
+                {
+                    "title": "Williamsburg",
+                    "subtitle": "Virginia",
+                    "id": "staff-picks.staff-williamsburg",
+                    "description": "Fordyb dig i de historiske loyalister og patrioter på friluftsmuseet Colonial Williamsburg og i de nærliggende byer Yorktown og Jamestown. Tag på en tidsrejse tilbage til en svunden tid, og bliv klogere på tilværelsen i det tidlige koloniale USA gennem mad, historisk arkitektur, skibe og mere. -Eric W.",
+                    "image": "staff-williamsburg",
+                    "imageCode": "staff-williamsburg",
+                    "location": {
+                        "s": "Williamsburg, Virginia, USA",
+                        "a": "PHF",
+                        "d": "<B>Williamsburg</B>, <B>Virginia</B>, USA",
+                        "id": "6296",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "37.297399",
+                            "lng": "-76.737958"
+                        },
+                        "amc": "6056964"
+                    }
+                },
+                {
+                    "title": "Baltra",
+                    "subtitle": "Ecuador",
+                    "id": "staff-picks.staff-baltra",
+                    "description": "Lige så snart du ser Galápagosøerne, ved du, hvorfor Darwin var besat af dem. Hver ø har en række arter, som har udviklet sig forskelligt på grund af den geografiske isolation. Et besøg på øen Baltra vil være ligesom at deltage i en biologitime på et af jordens smukkeste steder. -Eric G.",
+                    "image": "staff-baltra",
+                    "imageCode": "staff-baltra",
+                    "location": {
+                        "s": "Baltra, Ecuador",
+                        "a": "GPS",
+                        "d": "<B>Baltra</B>, <B>Ecuador</B>",
+                        "id": "6223000",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-0.454779",
+                            "lng": "-90.276524"
+                        },
+                        "amc": "6053670"
+                    }
+                },
+                {
+                    "title": "San Pedro de Atacama",
+                    "subtitle": "Chile",
+                    "id": "staff-picks.staff-atacama",
+                    "description": "San Pedro de Atacama er en oase i verdens tørreste ørken. San Pedro er det perfekte sted at mountainbike, se på flamingoer i saltørkenen eller svømme i de naturlige varme kilder. Sandboarding er i øvrigt lige så fantastisk! -Eric G.",
+                    "image": "staff-atacama",
+                    "imageCode": "staff-atacama",
+                    "location": {
+                        "s": "San Pedro de Atacama, Chile",
+                        "a": "CJC",
+                        "d": "<B>San</B> <B>Pedro</B> <B>de</B> <B>Atacama</B>, <B>Chile</B>",
+                        "id": "500224",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-22.910600",
+                            "lng": "-68.200352"
+                        },
+                        "amc": "500224"
+                    }
+                },
+                {
+                    "title": "Cape Town",
+                    "subtitle": "Sydafrika",
+                    "id": "staff-picks.staff-capetown",
+                    "description": "Franschhoek ligger mellem bjergene i de smukke Cape Winelands og har nogle af landets bedste restauranter og vingårde. Som en af Sydafrikas ældste byer er den imponerende historie og de flotte omgivelser blandt højdepunkterne. -Susanna V.",
+                    "image": "staff-capetown",
+                    "imageCode": "staff-capetown",
+                    "location": {
+                        "s": "Kapstaden (og omegn), Sydafrika",
+                        "a": "CPT",
+                        "d": "Kapstaden, Sydafrika",
+                        "id": "6046820",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-33.922012",
+                            "lng": "18.423134"
+                        },
+                        "amc": "6046820"
+                    }
+                },
+                {
+                    "title": "Gent",
+                    "subtitle": "Belgien",
+                    "id": "staff-picks.staff-ghent",
+                    "description": "Gent er en charmerende by med en spændende blanding af historiske og moderne seværdigheder - fra middelalderarkitektur og smukke kanaler til bryggerier og hyggelige caféer. Det er en sand skjult skat, som også har masser at tilbyde eventyrlystne besøgende. – Cristen D.",
+                    "image": "staff-ghent",
+                    "imageCode": "staff-ghent",
+                    "location": {
+                        "s": "Gent",
+                        "a": "BRU",
+                        "d": "Gent, Belgien",
+                        "id": "7490",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "51.054108",
+                            "lng": "3.725160"
+                        },
+                        "amc": "178241"
+                    }
+                },
+                {
+                    "title": "Traverse City",
+                    "subtitle": "Michigan",
+                    "id": "staff-picks.staff-traversecity",
+                    "description": "Traverse City ligger ved den smukke bugt Grand Traverse Bay og byder på udsøgte restauranter, filmfestivaler, cykling, golf, vin og kirsebærtræer. Den afslappede atmosfære, den gode mad og den flotte udsigt gør det til et fantastisk rejsemål. -Shawn P.",
+                    "image": "staff-traversecity",
+                    "imageCode": "staff-traversecity",
+                    "location": {
+                        "s": "Traverse City (og omegn), Michigan, USA",
+                        "a": "TVC",
+                        "d": "<B>Traverse</B> <B>City</B>, <B>Michigan</B>, USA",
+                        "id": "3577",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "44.763420",
+                            "lng": "-85.620972"
+                        },
+                        "amc": "3577"
+                    }
+                },
+                {
+                    "title": "La Fortuna",
+                    "subtitle": "Costa Rica",
+                    "id": "staff-picks.staff-lafortuna",
+                    "description": "I La Fortuna kan du bestige den store vulkan Arenal og slappe af i de nærliggende spaers geotermiske varme kilder. Du må heller ikke snyde dig selv for et besøg i Monteverdes tågeskov kun en kort køretur derfra, hvor du kan udforske den eksotiske flora og fauna. -Suzi F.",
+                    "image": "staff-lafortuna",
+                    "imageCode": "staff-lafortuna",
+                    "location": {
+                        "s": "Fortuna (Alajuela), Costa Rica",
+                        "a": "SJO",
+                        "d": "<B>Fortuna</B> (Alajuela), <B>Costa</B> <B>Rica</B>",
+                        "id": "6052925",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "10.471122",
+                            "lng": "-84.645862"
+                        },
+                        "amc": "603085"
+                    }
+                },
+                {
+                    "title": "Siem Reap",
+                    "subtitle": "Cambodja",
+                    "id": "staff-picks.staff-siemreap",
+                    "description": "Siem Reap er hjemsted for antikke templer såsom Angkor Wat og Angkor Thom. Byens fantastiske historiske områder byder på en uforglemmelig kulturel oplevelse og en rejse for livet. -David Y.",
+                    "image": "staff-siemreap",
+                    "imageCode": "staff-siemreap",
+                    "location": {
+                        "s": "Siem Reap, Cambodja",
+                        "a": "REP",
+                        "d": "<B>Siem</B> <B>Reap</B>, Cambodja",
+                        "id": "2975",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "13.354465",
+                            "lng": "103.854790"
+                        },
+                        "amc": "2975"
+                    }
+                }
+            ]
+        },
+		{
+            "title": "Eventyrlige vinterlandskaber",
+            "id": "winter-wonderlands",
+            "imageCode": "winter-wonderlands",
+            "locations": [
+                {
+                    "title": "København",
+                    "subtitle": "Danmark",
+                    "id": "winter-wonderlands.copenhagen-winter",
+                    "description": "Oplev eller genoplev den særlige julestemning i Tivoli. Traditionen tro kan du nyde gløgg og æbleskiver, mens du går fra den ene hyggelige julebod til den anden i den smukke, oplyste have.",
+                    "image": "copenhagen-winter",
+                    "imageCode": "copenhagen-winter",
+                    "location": {
+                        "s": "København (og omegn), Danmark",
+                        "a": "CPH",
+                        "d": "København, Danmark",
+                        "id": "178252",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "55.675981",
+                            "lng": "12.568926"
+                        },
+                        "amc": "178252"
+                    }
+                },
+                {
+                    "title": "New York City",
+                    "subtitle": "New York",
+                    "id": "winter-wonderlands.nyc-winter",
+                    "description": "Der er altid noget at lave i The Big Apple, og vintersæsonen er ingen undtagelse. Her kan besøgende opleve Radio City Rockettes, lægge vejen forbi det kæmpestore juletræ i Rockefeller Center eller gå en tur gennem snedækkede Central Park.",
+                    "image": "nyc-winter",
+                    "imageCode": "nyc-winter",
+                    "location": {
+                        "s": "New York (og omegn), New York, USA",
+                        "a": "NYC",
+                        "d": "<B>New</B> <B>York</B>, <B>New</B> <B>York</B>, USA",
+                        "id": "178293",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "40.756680",
+                            "lng": "-73.986470"
+                        },
+                        "amc": "178293"
+                    }
+                },
+                {
+                    "title": "Reykjavik",
+                    "subtitle": "Island",
+                    "id": "winter-wonderlands.reykjavik-winter",
+                    "description": "De lange nætter er det perfekte tidspunkt at opleve nordlyset danse hen over himlen på. Besøgende kan også få varmen i de geotermiske pools under stjernerne eller opleve spændingen ved at bestige en gletsjer.",
+                    "image": "reykjavik-winter",
+                    "imageCode": "reykjavik-winter",
+                    "location": {
+                        "s": "Reykjavik (og omegn), Island",
+                        "a": "REK",
+                        "d": "<B>Reykjavik</B>, Island",
+                        "id": "6054688",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "64.148417",
+                            "lng": "-21.941398"
+                        },
+                        "amc": "6054688"
+                    }
+                },
+                {
+                    "title": "Anchorage",
+                    "subtitle": "Alaska",
+                    "id": "winter-wonderlands.anchorage-winter",
+                    "description": "En smuk udsigt over et fantastisk vinterlandskab er det perfekte terræn til snevandring eller isfiskeri. Besøgende kan desuden opleve vinterfestivallen Anchorage Fur Rendezvous, som byder på konkurrencer inden for sneskulpturer, forlystelser og musikoptrædener.",
+                    "image": "anchorage-winter",
+                    "imageCode": "anchorage-winter",
+                    "location": {
+                        "s": "Anchorage (og omegn), Alaska, USA",
+                        "a": "ANC",
+                        "d": "<B>Anchorage</B>, <B>Alaska</B>, USA",
+                        "id": "178230",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "61.217110",
+                            "lng": "-149.892410"
+                        },
+                        "amc": "178230"
+                    }
+                },
+                {
+                    "title": "London",
+                    "subtitle": "Storbritannien",
+                    "id": "winter-wonderlands.london-winter",
+                    "description": "Oplev den hyggelige stemning i Hyde Park, der forvandles til et magisk vinterlandskab om vinteren. Her kan du se parkens spektakulære cirkus, prøve spændende forlystelser og besøge de festlige juleboder.",
+                    "image": "london-winter",
+                    "imageCode": "london-winter",
+                    "location": {
+                        "s": "London (og omegn), England, Storbritannien",
+                        "a": "LON",
+                        "d": "<B>London</B>, <B>England</B>, Storbritannien",
+                        "id": "178279",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "51.507538",
+                            "lng": "-0.127804"
+                        },
+                        "amc": "178279"
+                    }
+                },
+                {
+                    "title": "Ebensee",
+                    "subtitle": "Østrig",
+                    "id": "winter-wonderlands.ebensee-winter",
+                    "description": "Hvis du altid har drømt om at lære, hvordan man bygger en igloo, er en vinterferie i Østrig det perfekte tidspunkt at prøve kræfter med dette på. Populære aktiviteter tæller desuden sneskovandring, kælkning og skiløb.",
+                    "image": "ebensee-winter",
+                    "imageCode": "ebensee-winter",
+                    "location": {
+                        "s": "Ebensee, Østrig",
+                        "a": "LNZ",
+                        "d": "<B>Ebensee</B>, Østrig",
+                        "id": "6160078",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "47.782091",
+                            "lng": "13.772507"
+                        },
+                        "amc": "6055554"
+                    }
+                },
+                {
+                    "title": "Harbin",
+                    "subtitle": "Kina",
+                    "id": "winter-wonderlands.harbin-winter",
+                    "description": "Oplev den imponerende kunstsamling på Harbin Isfestival. Her kan besøgende se udstillingen af islanterner i Zhaolin-haven og de kæmpestore bygninger af sne, der er lavet af tykke isblokke fra floden Songhua.",
+                    "image": "harbin-winter",
+                    "imageCode": "harbin-winter",
+                    "location": {
+                        "s": "Harbin, Kina",
+                        "a": "HRB",
+                        "d": "<B>Harbin</B>, Kina",
+                        "id": "1510",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "45.658669",
+                            "lng": "127.948756"
+                        },
+                        "amc": "6140852"
+                    }
+                },
+                {
+                    "title": "Asahikawa",
+                    "subtitle": "Japan",
+                    "id": "winter-wonderlands.asahikawa-winter",
+                    "description": "Asahikawa Vinterfestival hylder den lange vinter i Hokkaido med spektakulære isskulpturer og musikoptrædener. Hvis du befinder dig i byen, må du ikke gå glip af Sapporo Snefestival i nærheden.",
+                    "image": "asahikawa-winter",
+                    "imageCode": "asahikawa-winter",
+                    "location": {
+                        "s": "Asahikawa (og omegn), Japan",
+                        "a": "AKJ",
+                        "d": "<B>Asahikawa</B>, <B>Japan</B>",
+                        "id": "6143139",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "43.774547",
+                            "lng": "142.365571"
+                        },
+                        "amc": "6143139"
+                    }
+                },
+                {
+                    "title": "Park City",
+                    "subtitle": "Utah",
+                    "id": "winter-wonderlands.parkcity-winter",
+                    "description": "Foruden at have fremragende skiforhold er Park City vært for den årlige Sundance Film Festival, en af verdens førende festivaller for uafhængige film.",
+                    "image": "parkcity-winter",
+                    "imageCode": "parkcity-winter",
+                    "location": {
+                        "s": "Park City (og omegn), Utah, USA",
+                        "a": "SLC",
+                        "d": "<B>Park</B> <B>City</B>, <B>Ut</B>ah, <B>USA</B>",
+                        "id": "602285",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "40.644230",
+                            "lng": "-111.496071"
+                        },
+                        "amc": "178302"
+                    }
+                },
+                {
+                    "title": "Saas-Fee",
+                    "subtitle": "Schweiz",
+                    "id": "winter-wonderlands.saasfee-winter",
+                    "description": "Der venter besøgende glitrende isskulpturer ved Feegletscher. Tag verdens højest beliggende tunnelbane til en af verdens største ispavillioner, hvor en 70 meter lang tunnel leder til is, der er flere tusinde år gammel.",
+                    "image": "saasfee-winter",
+                    "imageCode": "saasfee-winter",
+                    "location": {
+                        "s": "Saas-Fee, Schweiz",
+                        "a": "GVA",
+                        "d": "<B>Saas</B>-<B>Fee</B>, Schweiz",
+                        "id": "4352",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "46.088787",
+                            "lng": "7.900798"
+                        },
+                        "amc": "180003"
+                    }
+                }
+            ]
+        },
+		{
+		   "title":"Gourmetdestinationer",
+		   "id":"us-foodie",
+		   "imageCode":"us-foodie",
+		   "locations":[
+				{
+					"title": "Austin",
+					"subtitle": "Texas",
+					"id": "us-foodie.austin",
+					"description": "Selvom Texas’ hovedstad er kendt for nogle af de bedste barbecues i landet, må du ikke tro at spidsbryst og spareribs er det eneste, der er at finde her. Austin er også hjembyen for fantastiske spisesteder med Tex-Mex og japansk mad samt et stort udvalg af madvogne.",
+					"imageCode": "austin",
+					"location": {
+						"s": "Austin (og omegn), Texas, USA",
+						"a": "AUS",
+						"d": "<B>Austin</B>, <B>Texas</B>, USA",
+						"id": "178234",
+						"t": "CITY",
+						"ll": {
+							"lat": "30.268050",
+							"lng": "-97.742810"
+						},
+						"amc": "178234"
+					}
+				},
+				{
+					"title": "Honolulu",
+					"subtitle": "Hawaii",
+					"id": "us-foodie.honolulu",
+					"description": "Mens du nyder solen på en af Oahus lækre strande vil dine smagsløg henrykkes over kalua-svinekød (langtidsstegt), blandede multietniske retter, poke og de såkaldte \"barberede is\".",
+					"imageCode": "honolulu",
+					"location": {
+						"s": "Honolulu, Hawaii, USA",
+						"a": "HNL",
+						"d": "<B>Honolulu</B>, <B>Hawaii</B>, USA",
+						"id": "1488",
+						"t": "CITY",
+						"ll": {
+							"lat": "21.309540",
+							"lng": "-157.861600"
+						},
+						"amc": "180077"
+					}
+				},
+				{
+					"title": "Boston",
+					"subtitle": "Massachusetts",
+					"id": "us-foodie.boston",
+					"description": "Selvom byen er kendt for sine fantastiske fiskeretter (muslinge-chowder, hummer og \"fish and chips\" for at nævne nogle få), har Boston også en blomstrende etnisk madscene, fantastiske eksklusive gourmetrestauranter og landbrugsmarkeder.",
+					"imageCode": "boston",
+					"location": {
+						"s": "Boston (og omegn), Massachusetts, USA",
+						"a": "BOS",
+						"d": "<B>Boston</B>, <B>Massachusetts</B>, USA",
+						"id": "178239",
+						"t": "CITY",
+						"ll": {
+							"lat": "42.357690",
+							"lng": "-71.063240"
+						},
+						"amc": "178239"
+					}
+				},
+				{
+					"title": "Chicago",
+					"subtitle": "Illinois",
+					"id": "us-foodie.chicago",
+					"description": "Udover dets ikoniske \"deep-dish\"-pizzaer, hotdogs og italienske oksekødssandwich er \"The Windy City\" hurtigt ved at etablere sig som en gourmetdestination med kokke, der driver uformelle spinoff-restauranter med overkommelige priser.",
+					"imageCode": "chicago",
+					"location": {
+						"s": "Chicago (og omegn), Illinois, USA",
+						"a": "CHI",
+						"d": "<B>Chicago</B>, <B>Illinois</B>, USA",
+						"id": "178248",
+						"t": "CITY",
+						"ll": {
+							"lat": "41.880780",
+							"lng": "-87.628130"
+						},
+						"amc": "178248"
+					}
+				},
+				{
+					"title": "Las Vegas",
+					"subtitle": "Nevada",
+					"id": "us-foodie.las-vegas",
+					"description": "De mange hovednavne er ikke de eneste store navne i Las Vegas. I de seneste år har berømte kokke (Michelin- og TV-kokke) åbnet deres egne kulinariske residenser i \"Sin City\".",
+					"imageCode": "las-vegas",
+					"location": {
+						"s": "Las Vegas (og omegn), Nevada, USA",
+						"a": "LAS",
+						"d": "<B>Las</B> <B>Vegas</B>, <B>Nevada</B>, USA",
+						"id": "178276",
+						"t": "CITY",
+						"ll": {
+							"lat": "36.128174",
+							"lng": "-115.147728"
+						},
+						"amc": "178276"
+					}
+				},
+				{
+					"title": "New Orleans",
+					"subtitle": "Louisiana",
+					"id": "us-foodie.new-orleans",
+					"description": "Lad de gode tider rulle i \"Nawlins\", mens du nyder det bedste, som det kreolske og cajunske køkken har at tilbyde såsom jambalaya, gumbo, krebse-etouffe og beignet!",
+					"imageCode": "new-orleans",
+					"location": {
+						"s": "New Orleans (og omegn), Louisiana, USA",
+						"a": "MSY",
+						"d": "<B>New</B> <B>Orleans</B>, <B>Louisiana</B>, USA",
+						"id": "178292",
+						"t": "CITY",
+						"ll": {
+							"lat": "29.948980",
+							"lng": "-90.070800"
+						},
+						"amc": "178292"
+					}
+				},
+				{
+					"title": "San Francisco",
+					"subtitle": "Californien",
+					"id": "us-foodie.san-francisco",
+					"description": "Med mere end 3.500 restauranter (de fleste restauranter per capita end nogen anden by i landet) og kulinariske lækkerier fra landbrugsmarkeder og madvogne er det ikke noget under, at besøgende efterlader både deres hjerte og mave i San Francisco.",
+					"imageCode": "san-francisco",
+					"location": {
+						"s": "San Francisco (og omegn), Californien, USA",
+						"a": "QSF",
+						"d": "<B>San</B> <B>Francisco</B>, Californien, USA",
+						"id": "178305",
+						"t": "CITY",
+						"ll": {
+							"lat": "37.787400",
+							"lng": "-122.408200"
+						},
+						"amc": "178305"
+					}
+				},
+				{
+					"title": "New York",
+					"subtitle": "New York",
+					"id": "us-foodie.new-york",
+					"description": "Velkommen til \"The Big Apple\", hvor du bogstaveligt talt kan finde alle slags køkkener og spise godt til alle prisniveauer. Dette madmekka vil med garanti have noget for enhver smag, med alt fra udsøgte middage til berømte kokke og etniske retter fra nogle af byens mest berømte gadekøkkener.",
+					"imageCode": "new-york",
+					"location": {
+						"s": "New York (og omegn), New York, USA",
+						"a": "NYC",
+						"d": "<B><B>New</B></B> <B><B>York</B></B>, <B><B>New</B></B> <B><B>York</B></B>, USA",
+						"id": "178293",
+						"t": "CITY",
+						"ll": {
+							"lat": "40.756680",
+							"lng": "-73.986470"
+						},
+						"amc": "178293"
+					}
+				},
+				{
+					"title": "Los Angeles",
+					"subtitle": "Californien",
+					"id": "us-foodie.los-angeles",
+					"description": "\"The City of Angels\" sætter en ære i at være en kulinarisk trendsætter og er hjemstedet for berømte kokke, en konvoj af madvogne og pop op-restauranter.",
+					"imageCode": "los-angeles",
+					"location": {
+						"s": "Los Angeles (og omegn), Californien, USA",
+						"a": "QLA",
+						"d": "<B>Los</B> <B>Angeles</B>, Californien, USA",
+						"id": "178280",
+						"t": "CITY",
+						"ll": {
+							"lat": "34.050720",
+							"lng": "-118.254770"
+						},
+						"amc": "178280"
+					}
+				},
+				{
+					"title": "Portland",
+					"subtitle": "Oregon",
+					"id": "us-foodie.portland",
+					"description": "Med mere end 200 madvogne, et stort udvalg af gård-til-gaffel spisesteder, dygtige mikrobryggerier og kaffebarer har grønne Portland fortjent sin titel som en ung, dynamisk og trendy by med nye madtrends.",
+					"imageCode": "portland",
+					"location": {
+						"s": "Portland (og omegn), Oregon, USA",
+						"a": "PDX",
+						"d": "<B>Portland</B>, <B>Oregon</B>, USA",
+						"id": "178299",
+						"t": "CITY",
+						"ll": {
+							"lat": "45.516740",
+							"lng": "-122.680950"
+						},
+						"amc": "178299"
+					}
+				}
+			]
+		},
+		{
+		   "title":"Klassiske storbyferier",
+		   "id":"emea-classic-cities",
+		   "imageCode":"emea-classic-cities",
+		   "locations":[
+				{
+					"title": "Barcelona",
+					"subtitle": "Spanien",
+					"id": "emea-classic-cities.barcelona",
+					"description": "Den ideelle storbyferie! Efter at have oplevet atmosfæren i denne unikke catalanske by, kan du slappe af på stranden, inden du udforsker en af Barcelonas mange tapasbarer.",
+					"imageCode": "barcelona",
+					"location": {
+						"s": "Barcelona (og område), Spanien",
+						"a": "BCN",
+						"d": "<B>Barcelona</B> (og område), Spanien",
+						"id": "179992",
+						"t": "CITY",
+						"ll": {
+							"lat": "41.377850",
+							"lng": "2.170550"
+						},
+						"amc": "179992"
+					}
+				},
+				{
+					"title": "Rom",
+					"subtitle": "Italien",
+					"id": "emea-classic-cities.rome",
+					"description": "Fra Antikkens Rom til en af de mest fascinerende hovedstæder i verden. Rom har meget mere at byde på end det udsøgte italienske køkken.",
+					"imageCode": "rome",
+					"location": {
+						"s": "Rom (og omegn), Italien",
+						"a": "ROM",
+						"d": "Rom, Italien",
+						"id": "179899",
+						"t": "CITY",
+						"ll": {
+							"lat": "41.903755",
+							"lng": "12.479556"
+						},
+						"amc": "179899"
+					}
+				},
+				{
+					"title": "Paris",
+					"subtitle": "Frankrig",
+					"id": "emea-classic-cities.paris",
+					"description": "Paris! Gå en tur langs Seinen efter en romantisk middag i nærheden af Eiffeltårnet...ren kærlighed!",
+					"imageCode": "paris",
+					"location": {
+						"s": "Paris (og omegn), Frankrig",
+						"a": "PAR",
+						"d": "<B>Paris</B>, Frankrig",
+						"id": "179898",
+						"t": "CITY",
+						"ll": {
+							"lat": "48.862720",
+							"lng": "2.343750"
+						},
+						"amc": "179898"
+					}
+				},
+				{
+					"title": "Berlin",
+					"subtitle": "Tyskland",
+					"id": "emea-classic-cities.berlin",
+					"description": "Den tyske hovedstad er verdenskendt for sin udbredte festkultur, når mørket falder på, mens du kan opleve byens rige historie i løbet af dagen.",
+					"imageCode": "berlin",
+					"location": {
+						"s": "Berlin (og omegn), Tyskland",
+						"a": "BER",
+						"d": "<B>Berlin</B>, Tyskland",
+						"id": "179892",
+						"t": "CITY",
+						"ll": {
+							"lat": "52.513840",
+							"lng": "13.350080"
+						},
+						"amc": "179892"
+					}
+				},
+				{
+					"title": "London",
+					"subtitle": "Storbritannien",
+					"id": "emea-classic-cities.london",
+					"description": "En fantastisk by med rig mulighed for at udforske museer, parker og restauranter for enhver smag. Tag også del i det pulserende natteliv, der byder på musicals, teateroplevelser og natklubber. London er stedet, hvor det sker!",
+					"imageCode": "london",
+					"location": {
+						"s": "London (og omegn), England, Storbritannien",
+						"a": "LON",
+						"d": "<B>London</B>, England, Storbritannien",
+						"id": "178279",
+						"t": "CITY",
+						"ll": {
+							"lat": "51.507538",
+							"lng": "-0.127804"
+						},
+						"amc": "178279"
+					}
+				},
+				{
+					"title": "Prag",
+					"subtitle": "Tjekkiet",
+					"id": "emea-classic-cities.prague",
+					"description": "Gå en tur langs de brostensbelagte gader i denne smukke østeuropæiske by, og mærk romantikken og musikken i luften omkring dig.",
+					"imageCode": "prague",
+					"location": {
+						"s": "Prag (og omegn), Tjekkiet",
+						"a": "PRG",
+						"d": "Prag, Tjekkiet",
+						"id": "180014",
+						"t": "CITY",
+						"ll": {
+							"lat": "50.087180",
+							"lng": "14.425640"
+						},
+						"amc": "180014"
+					}
+				},
+				{
+					"title": "Wien",
+					"subtitle": "Østrig",
+					"id": "emea-classic-cities.vienna",
+					"description": "Denne by er fyldt med storslåede paladser, barokparker og -haver, der vil skrue tiden tilbage for en stund! Gå ikke glip af at opleve en typisk østrigsk kaffepause i et såkaldt “Kaffeehaus”.",
+					"imageCode": "vienna",
+					"location": {
+						"s": "Wien (og omegn), Østrig",
+						"a": "VIE",
+						"d": "Wien, Østrig",
+						"id": "178316",
+						"t": "CITY",
+						"ll": {
+							"lat": "48.213110",
+							"lng": "16.364340"
+						},
+						"amc": "178316"
+					}
+				},
+				{
+					"title": "Amsterdam",
+					"subtitle": "Holland",
+					"id": "emea-classic-cities.amsterdam",
+					"description": "Oplev det autentiske Amsterdam på en cykeltur langs kanalerne, og gør holdt ved de mange museer, der ligger rundt omkring i byen.",
+					"imageCode": "amsterdam",
+					"location": {
+						"s": "Amsterdam (og omegn), Holland",
+						"a": "AMS",
+						"d": "<B>Amsterdam</B>, Holland",
+						"id": "178229",
+						"t": "CITY",
+						"ll": {
+							"lat": "52.373040",
+							"lng": "4.892370"
+						},
+						"amc": "178229"
+					}
+				},
+				{
+					"title": "Stockholm",
+					"subtitle": "Sverige",
+					"id": "emea-classic-cities.stockholm",
+					"description": "Denne moderne, men afslappede by blev bygget på 14 øer og udgør en fantastisk blanding af idyllisk øhav krydret med en trendsættende bykultur.",
+					"imageCode": "stockholm",
+					"location": {
+						"s": "Stockholm (og omegn), Sverige",
+						"a": "STO",
+						"d": "<B>Stockholm</B>, Sverige",
+						"id": "178311",
+						"t": "CITY",
+						"ll": {
+							"lat": "59.332508",
+							"lng": "18.064720"
+						},
+						"amc": "178311"
+					}
+				},
+				{
+					"title": "København",
+					"subtitle": "Danmark",
+					"id": "emea-classic-cities.copenhagen",
+					"description": "København er en fantastisk shoppingdestination. Opdag nye trends, og oplev alle de historiske seværdigheder.",
+					"imageCode": "copenhagen",
+					"location": {
+						"s": "København (og omegn), Danmark",
+						"a": "CPH",
+						"d": "København, Danmark",
+						"id": "178252",
+						"t": "CITY",
+						"ll": {
+							"lat": "55.675981",
+							"lng": "12.568926"
+						},
+						"amc": "178252"
+					}
+				},
+				{
+					"title": "Oslo",
+					"subtitle": "Norge",
+					"id": "emea-classic-cities.oslo",
+					"description": "Udforsk Oslos forskelligartede bydele; fra Grünerløkka med de mange kaffebarer til det vestlige Oslo, der byder på eksklusive butikker og et rigt natteliv.",
+					"imageCode": "oslo",
+					"location": {
+						"s": "Oslo (og omegn), Norge",
+						"a": "OSL",
+						"d": "<B>Oslo</B>, Norge",
+						"id": "178295",
+						"t": "CITY",
+						"ll": {
+							"lat": "59.910400",
+							"lng": "10.749750"
+						},
+						"amc": "178295"
+					}
+				},
+				{
+					"title": "Istanbul",
+					"subtitle": "Tyrkiet",
+					"id": "emea-classic-cities.istanbul",
+					"description": "Denne fantastiske by er rig på farverig arkitektur, udsøgt tyrkisk cuisine og stærk, sort kaffe! Lad batterierne op i et tyrkisk bad efter en travl dag med sightseeing!",
+					"imageCode": "istanbul",
+					"location": {
+						"s": "Istanbul (og omegn), Tyrkiet",
+						"a": "IST",
+						"d": "<B>Istanbul</B>, Tyrkiet",
+						"id": "178267",
+						"t": "CITY",
+						"ll": {
+							"lat": "41.013570",
+							"lng": "28.963520"
+						},
+						"amc": "178267"
+					}
+				}
+			]
+		},
+		{
+		   "title":"Sol og sand",
+		   "id":"emea-beach",
+		   "imageCode":"emea-beach",
+		   "locations":[
+				{
+					"title": "Malta",
+					"subtitle": "Malta",
+					"id": "emea-beach.malta",
+					"description": "Malta er en magisk eventyrø med små bjerglandsbyer og små bugter, hvis vand er i så mørkeblå nuancer, at det næsten er for perfekt.",
+					"imageCode": "malta",
+					"location": {
+						"s": "Malta (alle)",
+						"a": "MLA",
+						"d": "<B><B>Malta</B></B> (alle)",
+						"id": "6049429",
+						"t": "CITY",
+						"ll": {
+							"lat": "35.937496",
+							"lng": "14.375416"
+						},
+						"amc": "6049429"
+					}
+				},
+				{
+					"title": "Mallorca",
+					"subtitle": "Spanien",
+					"id": "emea-beach.mallorca",
+					"description": "Mallorca er den største af De Baleariske Øer. Øen byder velkommen til mere end 6 millioner turister hvert år, takket være øens historiske arv, det maleriske landskab og det imødekommende lokalsamfund.",
+					"imageCode": "mallorca",
+					"location": {
+						"s": "Mallorca, Spanien",
+						"a": "PMI",
+						"d": "<B>Mallorca</B>, Spanien",
+						"id": "602317",
+						"t": "CITY",
+						"ll": {
+							"lat": "39.695263",
+							"lng": "3.017571"
+						},
+						"amc": "602317"
+					}
+				},
+				{
+					"title": "Santorini",
+					"subtitle": "Grækenland",
+					"id": "emea-beach.santorini",
+					"description": "Santorini er kendt for sine smukke solnedgange og ikke mindst landskabet. Her kan du opleve hvide, røde og sorte sandstrande, imponerende traditionelle huse, balkoner med flotte udsigter og et livligt natteliv!",
+					"imageCode": "santorini",
+					"location": {
+						"s": "Santorini - ø, Grækenland",
+						"a": "JTR",
+						"d": "<B>Santorini</B> - ø, Grækenland",
+						"id": "1735",
+						"t": "CITY",
+						"ll": {
+							"lat": "36.393156",
+							"lng": "25.461509"
+						},
+						"amc": "1735"
+					}
+				},
+				{
+					"title": "Tenerife",
+					"subtitle": "Spanien",
+					"id": "emea-beach.tenerife",
+					"description": "Nyd det evige solskin med 300 solskinsdage om året – en af årsagerne til, at denne smukke ø er blevet en populær feriedestination for millioner af turister hvert år.",
+					"imageCode": "tenerife",
+					"location": {
+						"s": "Tenerife, Spanien",
+						"a": "TCI",
+						"d": "<B>Tenerife</B>, Spanien",
+						"id": "6047194",
+						"t": "CITY",
+						"ll": {
+							"lat": "28.291564",
+							"lng": "-16.629130"
+						},
+						"amc": "6047194"
+					}
+				},
+				{
+					"title": "Málaga",
+					"subtitle": "Spanien",
+					"id": "emea-beach.malaga",
+					"description": "Málaga vil overraske dig med sine chikke butikker ved vandet, gastro-barer og hyggelige caféer, som ligger side om side med traditionelle kroer i hjertet af byen.",
+					"imageCode": "malaga",
+					"location": {
+						"s": "Málaga (provins), Spanien",
+						"a": "AGP",
+						"d": "<B>Málaga</B> (provins), Spanien",
+						"id": "603258",
+						"t": "CITY",
+						"ll": {
+							"lat": "36.719460",
+							"lng": "-4.421420"
+						},
+						"amc": "603258"
+					}
+				},
+				{
+					"title": "Ibiza",
+					"subtitle": "Spanien",
+					"id": "emea-beach.ibiza",
+					"description": "Er du på udkig efter fester i lange baner, et smukt landskab og en fantastisk udsigt over havet? Ibiza har det hele!",
+					"imageCode": "ibiza",
+					"location": {
+						"s": "Ibiza, Spanien",
+						"a": "IBZ",
+						"d": "<B>Ibiza</B>, Spanien",
+						"id": "602653",
+						"t": "CITY",
+						"ll": {
+							"lat": "39.020010",
+							"lng": "1.482148"
+						},
+						"amc": "602653"
+					}
+				},
+				{
+					"title": "Marbella",
+					"subtitle": "Spanien",
+					"id": "emea-beach.marbella",
+					"description": "Marbella er stedet, hvor du kan gå en tur langs ‘Paseo Maritimo’, prøve kræfter med golf, tage på shopping og nyde godt af et pulserende natteliv...",
+					"imageCode": "marbella",
+					"location": {
+						"s": "Marbella, Spanien",
+						"a": "AGP",
+						"d": "<B>Marbella</B>, Spanien",
+						"id": "6049151",
+						"t": "CITY",
+						"ll": {
+							"lat": "36.524380",
+							"lng": "-4.983921"
+						},
+						"amc": "603258"
+					}
+				},
+				{
+					"title": "Gran Canaria",
+					"subtitle": "Spanien",
+					"id": "emea-beach.gran-canaria",
+					"description": "Ønsker du at slappe af i en bar ved stranden, mens du sipper kolde, forfriskende cocktails og lytter til bølgerne? Så er Gran Canaria stedet!",
+					"imageCode": "gran-canaria",
+					"location": {
+						"s": "Gran Canaria, Spanien",
+						"a": "LPA",
+						"d": "<B>Gran</B> <B>Canaria</B>, Spanien",
+						"id": "6047134",
+						"t": "CITY",
+						"ll": {
+							"lat": "27.920220",
+							"lng": "-15.547437"
+						},
+						"amc": "6047134"
+					}
+				},
+				{
+					"title": "Mykonos",
+					"subtitle": "Grækenland",
+					"id": "emea-beach.mykonos",
+					"description": "Ligner et postkort! En sofistikeret ø med et glamourøst landskab…",
+					"imageCode": "mykonos",
+					"location": {
+						"s": "Mykonos Ø, Grækenland",
+						"a": "JMK",
+						"d": "<B>Mykonos</B> Ø, Grækenland",
+						"id": "6051956",
+						"t": "CITY",
+						"ll": {
+							"lat": "37.441460",
+							"lng": "25.366722"
+						},
+						"amc": "6051956"
+					}
+				},
+				{
+					"title": "Lanzarote",
+					"subtitle": "Spanien",
+					"id": "emea-beach.lanzarote",
+					"description": "Oplev magiske Lanzarote ved at udforske det spektakulære vulkanlandskab, og slap af på de fredelige strande med hvidt sand og klart vand.",
+					"imageCode": "lanzarote",
+					"location": {
+						"s": "Lanzarote, Spanien",
+						"a": "ACE",
+						"d": "<B>Lanzarote</B>, Spanien",
+						"id": "282",
+						"t": "CITY",
+						"ll": {
+							"lat": "29.046854",
+							"lng": "-13.589973"
+						},
+						"amc": "282"
+					}
+				},
+				{
+					"title": "Antalya",
+					"subtitle": "Tyrkiet",
+					"id": "emea-beach.antalya",
+					"description": "Den perfekte kombination af sol, blåt hav og bjerge!",
+					"imageCode": "antalya",
+					"location": {
+						"s": "Antalya (region), Tyrkiet",
+						"a": "AYT",
+						"d": "<B>Antalya</B> (region), Tyrkiet",
+						"id": "6046791",
+						"t": "CITY",
+						"ll": {
+							"lat": "36.886208",
+							"lng": "30.706440"
+						},
+						"amc": "6046791"
+					}
+				},
+				{
+					"title": "Algarve",
+					"subtitle": "Portugal",
+					"id": "emea-beach.algarve",
+					"description": "Ideelt for natur- og strandelskere!",
+					"imageCode": "algarve",
+					"location": {
+						"s": "Algarve, Portugal",
+						"a": "FAO",
+						"d": "<B>Algarve</B>, Portugal",
+						"id": "182215",
+						"t": "CITY",
+						"ll": {
+							"lat": "37.017954",
+							"lng": "-7.930834"
+						},
+						"amc": "182215"
+					}
+				}
+			]
+		}
+	]
+}

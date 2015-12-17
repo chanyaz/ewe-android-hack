@@ -3,6 +3,7 @@ package com.expedia.bookings.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
@@ -14,6 +15,8 @@ public class FlightCheckoutResponse extends Response implements JSONable {
 
 	// A new offer can be returned in some error cases, like price changes
 	private FlightTrip mNewOffer;
+
+	private String mDestinationRegionId;
 
 	public void setOrderId(String orderId) {
 		mOrderId = orderId;
@@ -39,6 +42,14 @@ public class FlightCheckoutResponse extends Response implements JSONable {
 		return mNewOffer;
 	}
 
+	public void setDestinationRegionId(String destinationRegionId) {
+		mDestinationRegionId = destinationRegionId;
+	}
+
+	public String getDestinationRegionId() {
+		return mDestinationRegionId;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable interface
 
@@ -51,8 +62,9 @@ public class FlightCheckoutResponse extends Response implements JSONable {
 
 		try {
 			obj.put("orderId", mOrderId);
-			JSONUtils.putJSONable(obj, "totalCharges", mTotalCharges);
+			GsonUtil.putForJsonable(obj, "totalCharges", mTotalCharges);
 			JSONUtils.putJSONable(obj, "newOffer", mNewOffer);
+			obj.put("destinationRegionId", mDestinationRegionId);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -63,11 +75,10 @@ public class FlightCheckoutResponse extends Response implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		super.fromJson(obj);
-
 		mOrderId = obj.optString("orderId", null);
-		mTotalCharges = JSONUtils.getJSONable(obj, "totalCharges", Money.class);
+		mTotalCharges = GsonUtil.getForJsonable(obj, "totalCharges", Money.class);
 		mNewOffer = JSONUtils.getJSONable(obj, "newOffer", FlightTrip.class);
-
+		mDestinationRegionId = obj.optString("destinationRegionId");
 		return true;
 	}
 }

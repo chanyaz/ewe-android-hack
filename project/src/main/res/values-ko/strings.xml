@@ -1,6 +1,213 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
 
+    <!-- Cars -->
+    <!-- Cars Calendar Strings -->
+    <!-- Tooltip description for selecting the start date -->
+    <string name="cars_calendar_start_date_label">다음 단계: 반납 날짜 선택</string>
+    <!-- Tooltip description when both start and end dates are selected -->
+    <string name="cars_calendar_end_date_label">수정하려면 드래그하세요.</string>
+    <!-- SeekBar tooltip description for pick up time-->
+    <string name="cars_time_slider_pick_up_label">인수 시간</string>
+    <!-- SeekBar tooltip description for drop off time-->
+    <string name="cars_time_slider_drop_off_label">반납 시간</string>
+    <!-- Cars price templates-->
+    <string name="cars_hourly_text">시간당</string>
+    <!-- Cars price templates-->
+    <string name="cars_daily_text">일별</string>
+    <!-- Cars checkout price breakdown for POS same as pickup location templates-->
+    <string name="cars_checkout_breakdown_us_text">요금은 %s 기준입니다.</string>
+    <!-- Cars checkout price breakdown for pickup location different than POS templates-->
+    <string name="cars_checkout_breakdown_non_us_text">요금은 %1$s 기준입니다. 인수 시 결제할 모든 세금이나 수수료는 현지 통화로 결제하셔야 합니다(%2$s).</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_weekly_text">주별</string>
+    <!-- Cars weekly price templates-->
+    <string name="cars_monthly_text">월별</string>
+    <!-- Cars price templates-->
+    <string name="cars_total_template">총 합계 %s</string>
+    <!-- Slide to reserve -->
+    <string name="cars_slider_text">밀어서 예약하기</string>
+    <!-- Text for checkout toolbar-->
+    <string name="cars_checkout_text">결제</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_dupe_trip_text">중복된 여행</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_session_timeout_text">세션 시간 초과</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_price_change_text">가격 변동됨</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_payment_failed_text">결제 실패함</string>
+    <!-- Text for error toolbar-->
+    <string name="cars_invalid_input_text">잘못된 정보</string>
+    <!-- Text for generic error toolbar-->
+    <string name="cars_error_text">오류</string>
+    <!-- Text for toolbar on no search results -->
+    <string name="cars_no_results_text">검색 결과 없음</string>
+    <!-- Text for reserving car-->
+    <string name="cars_reserve_text">예약</string>
+    <!-- Text for viewing details-->
+    <string name="cars_view_details_text">세부 정보 보기</string>
+    <!-- Text for driver details toolbar-->
+    <string name="cars_driver_details_text">운전자 정보</string>
+    <!-- Text for payment details toolbar-->
+    <string name="cars_payment_details_text">결제 정보</string>
+    <!-- Text for enter driver details-->
+    <string name="enter_driver_details">운전자 정보 입력</string>
+    <!-- Text for select saved contacts-->
+    <string name="cars_saved_contacts_text">저장된 연락처 선택</string>
+    <!-- Text for enter payment details-->
+    <string name="enter_payment_details">결제 정보 입력</string>
+    <!-- Template for selected credit card-->
+    <string name="selected_card_template">만료일: %s</string>
+    <!-- Car doors text-->
+    <string name="car_doors_text">도어</string>
+    <!-- Car bags text-->
+    <string name="car_bags_text">짐</string>
+    <!-- Car automatic transmission text-->
+    <string name="car_auto_tran_text">자동 변속기</string>
+    <!-- Car manual transmission text-->
+    <string name="car_man_tran_text">수동 변속기</string>
+
+    <!-- car result -->
+    <!-- car door range -->
+    <string name="car_door_range_TEMPLATE">%1$d-%2$d</string>
+    <!-- car details template -->
+    <string name="car_details_TEMPLATE">%1$s %2$s</string>
+
+    <!-- Cars Confirmation Screen -->
+    <!-- Title for calendar event .  %1$s is the pick up location code, e.g. "SFO" -->
+    <string name="calendar_car_title_TEMPLATE">인수 위치 %1$s</string>
+    <!-- Location for calendar event.  %1$s is the name of the pick up location -->
+    <string name="calendar_car_location_TEMPLATE">%1$s</string>
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_desc_itinerary_TEMPLATE">{brand} 일정 번호: {itinerary}</string>
+    <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
+    <string name="calendar_desc_support_TEMPLATE">{brand} 고객 지원: {localphone} 및 {phone}</string>
+
+    <!-- Label for hotel search toolbar -->
+    <string name="hotel_toolbar_title">호텔 검색</string>
+    <!-- Label for hotel suggestion -->
+    <string name="search_location">위치 검색</string>
+    <!-- Label for pickup location selector -->
+    <string name="pick_up_location">인수 위치</string>
+    <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
+    <string name="drop_off_location">반납</string>
+    <!-- Label for Car Search Screen header -->
+    <string name="toolbar_search_cars">렌터카 검색</string>
+    <!-- Label for Cars date button -->
+    <string name="select_pickup_and_dropoff_dates">인수 및 반납 날짜 선택</string>
+    <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
+    <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
+    <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
+    <string name="select_return_date_TEMPLATE">%1$s – 반납 날짜를 선택하세요.</string>
+    <!-- Label for pick-up time picker -->
+    <string name="pick_up_time_label">인수</string>
+    <!-- Label for drop-up time picker -->
+    <string name="drop_off_time_label">반납</string>
+    <!-- Label for showing users that drop-off location has to be same as pick-up location -->
+    <string name="drop_off_same_as_pick_up">제공 예정! 다음 버전에서는 타지점 반납의 편도 예약을 추가하도록 지금 열심히 준비 중입니다.</string>
+    <!-- Car search error -->
+    <string name="error_car_search_message">검색 결과가 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
+    <!-- Car no filtered search results -->
+    <string name="filter_no_car_search_results_message">검색 결과가 없습니다. 필터 개수를 줄여보세요.</string>
+    <!-- Transmission options filter label for a car rental -->
+    <string name="options">옵션</string>
+    <!-- Automatic transmission filter button-->
+    <string name="car_filter_automatic">자동</string>
+    <!-- Manual transmission filter button-->
+    <string name="car_filter_manual">수동</string>
+    <!-- Any transmission type filter button -->
+    <string name="car_filter_all">모두</string>
+    <!-- Air conditioning option checkbox filter -->
+    <string name="car_filter_checkbox_air_conditioning">에어컨</string>
+    <!-- Unlimited mileage option checkbox filter -->
+    <string name="car_filter_checkbox_unlimited_mileage">무제한 마일리지</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_types">차량 종류</string>
+    <!-- Car types checkbox filter label for a car rental-->
+    <string name="car_vendors">렌터카 회사</string>
+    <!-- Button label to clear user selected filters -->
+    <string name="clear_filters">필터 지우기</string>
+    <!-- Label to tell the user how many products match thier filter -->
+    <plurals name="number_results_template">
+        <item quantity="one">{number}개의 결과</item>
+        <item quantity="other">{number}개의 결과</item>
+    </plurals>
+
+    <!-- Checkout -->
+    <!-- Car model templates-->
+    <string name="car_model_name_template">%1$s 또는 동급 차량</string>
+    <string name="car_model_unknown_template">정확한 모델 없음</string>
+
+    <!-- Desk & vehicle at terminal -->
+    <string name="desk_and_vehicle_terminal">터미널 내 데스크 및 차량</string>
+    <!-- Car checkout cost breakdown total due today -->
+    <string name="car_cost_breakdown_due_today">오늘 결제할 금액</string>
+    <!-- Car checkout cost breakdown total due at pick up -->
+    <string name="car_cost_breakdown_total_due">인수 시 결제할 금액</string>
+    <!-- Car checkout cost breakdown for alert button -->
+    <string name="car_cost_breakdown_button_text">완료</string>
+    <!-- Car checkout rental fare breakdown types -->
+    <!--Cost breakdown type base -->
+    <string name="car_rental_breakdown_base">렌터카</string>
+    <!--Cost breakdown type insurance -->
+    <string name="car_rental_breakdown_insurance">보험</string>
+    <!--Cost breakdown type drop off charge -->
+    <string name="car_rental_breakdown_drop_off_charges">반납 요금</string>
+    <!-- Unlimited mileage -->
+    <string name="unlimited_mileage">무제한 마일리지</string>
+    <!-- Insurance included -->
+    <string name="insurance_included">보험 포함됨</string>
+    <!-- Checkout confirmation message (temporary) -->
+    <string name="successful_checkout_TEMPLATE">일정 번호 %1$s</string>
+    <!-- Error message for some missing checkout params -->
+    <string name="error_missing_checkout_params">체크아웃 매개변수가 없습니다.</string>
+    <!--Adding hotel from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_hotel">%1$s 호텔</string>
+    <!--Adding flight from Car Confirmation -->
+    <string name="successful_checkout_cross_sell_flight">%1$s행 항공편</string>
+    <!-- Car confirmation screen label -->
+    <string name="successful_checkout_pickup_label">인수 위치:</string>
+    <!-- Car confirmation pickup time label e.g. March 10, 12:30pm to -->
+    <string name="car_confirmation_pickup_time_TEMPLATE">%1$s -</string>
+    <!-- Car confirmation itin text -->
+    <string name="successful_checkout_email_label">일정이 전송된 수신 주소:</string>
+    <!-- Car confirmation directions text -->
+    <string name="car_confirmation_directions">%1$s까지의 길 안내</string>
+
+    <!-- Car error strings -->
+    <!-- Message for user that pick-up time is too early."  -->
+    <string name="pick_up_time_error">인수 또는 반납 시간을 조정해 주세요.</string>
+    <!-- Message for user  to choose a closer date.""  -->
+    <string name="drop_off_too_far_error">이 날짜는 너무 멉니다. 좀 더 가까운 날짜를 선택해 주세요.</string>
+    <!-- Message for user that date is too far out."  -->
+    <string name="date_out_of_range">이 날짜는 너무 멉니다. 좀 더 가까운 날짜를 선택해 주세요.</string>
+    <!-- Message for user that increase your reservation duration. -->
+    <string name="reservation_time_too_short">예약 기간을 늘려주세요.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_time_out">아직 계시나요? 세션이 초과되었습니다. 다시 검색해 주세요.</string>
+    <!-- Shown to user when they try to book something already booked -->
+    <string name="reservation_already_exists">잠시만요, 이 여행은 이미 예약하신 것 같네요. 여행 일정 또는 이메일을 확인해 보세요.</string>
+    <!-- Show to user when the price of a car they are trying to book has changed -->
+    <string name="reservation_price_change">고객님의 렌터카 가격이 변동되었습니다. 계속하려면 새 가격을 확인해 주세요.</string>
+    <!-- Show to user when the their traveler information is invalid -->
+    <string name="reservation_invalid_name">이름에는 숫자나 특수 문자가 포함되면 안 됩니다.</string>
+    <!-- Show to user when their phone number is invalid -->
+    <string name="reservation_invalid_phone">전화번호는 4 ~ 20자 길이여야 합니다.</string>
+
+    <!-- Shown to a user when there is an issue with their credit card -->
+    <string name="reservation_payment_failed">잠시만요… 결제가 제대로 되지 않았어요. 결제 세부 정보를 확인하고 다시 시도해 주세요.</string>
+    <!-- Shown to a user when their ability to rent a specific car expires -->
+    <string name="error_cars_product_expired">수행하신 검색은 만료되었습니다. 유효한 인수 시간을 선택해 주세요.</string>
+    <!-- Price changed button text that takes you back to checkout -->
+    <string name="view_price_change">가격 변동 보기</string>
+    <!-- My Trips button that takes you to Itins -->
+    <string name="my_trips">내 일정</string>
+    <!-- Button text that takes you back to the payment widget to edit your payment -->
+    <string name="edit_payment">결제 정보 수정</string>
+    <!-- Button text that takes you back to the traveler info widget to edit your driver information -->
+    <string name="edit_info">정보 수정</string>
+
     <!-- Tablet search strings -->
     <!-- Hint asking users to search for anything -->
     <string name="search_all_hint">목적지 입력</string>
@@ -20,6 +227,8 @@
     <string name="missing_dates_flight_TEMPLATE">%s행 항공편을 검색하려면\n언제 출발하는지 알려주세요.</string>
     <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
     <string name="flight_trends_missing_origin">항공 요금 추세를 보려면\n어디서 출발하는지 알려주세요.</string>
+    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
+    <string name="flight_trends_tool_tip">항공 요금 추세를 통해 항공 요금의 변동을 확인하실 수 있어요. 표시된 요금은 실제로 검색되는 데이터를 기반으로 하기 때문에 일부 경로의 경우 정보가 부족할 수 있습니다.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">여행 시작</string>
     <!-- Denotes the end date of the trip -->
@@ -29,9 +238,395 @@
     <!-- Button text for when flight origin is missing -->
     <string name="missing_flight_info_button_prompt">공항 선택</string>
 
+    <!-- LX -->
+    <!-- LX toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="lx_toolbar_date_range_template">%1$s - %2$s</string>
+    <!-- Search widget header text -->
+    <string name="lx_search_title">즐길거리 검색</string>
+    <!-- Button to show calendar and selected dates -->
+    <string name="select_lx_search_dates">날짜 선택</string>
+    <!-- Activity details highlights heading -->
+    <string name="highlights_activity_details">하이라이트</string>
+    <!-- Activity details description heading -->
+    <string name="description_activity_details">설명</string>
+    <!-- Activity details location heading -->
+    <string name="location_activity_details">위치</string>
+    <!-- Activity details inclusions heading -->
+    <string name="inclusions_activity_details">포함 사항</string>
+    <!-- Activity details exclusions heading -->
+    <string name="exclusions_activity_details">불포함 사항</string>
+    <!-- Activity details know before you book heading -->
+    <string name="know_before_you_book_activity_details">예약 전 알아두기</string>
+    <!-- Template for ticket details -->
+    <string name="ticket_details_template">%1$s, %2$s(%3$s)</string>
+    <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
+    <!-- Template for ticket selection summary -->
+    <string name="offer_book_now_TEMPLATE">지금 예약 %1$s</string>
+    <!-- Template for multiple duration text on Search results Eg: 2d+ -->
+    <string name="search_result_multiple_duration_TEMPLATE">%1$s +</string>
+    <!-- Cancellation policy template -->
+    <string name="lx_cancellation_policy_TEMPLATE">예약이 시작되기 {hours}시간 전까지 무료로 취소하실 수 있습니다. 이 시간 이후로는 취소나 변경 또는 환불이 불가능합니다.</string>
+    <!-- Cancellation policy text for non-cancellable activities -->
+    <string name="lx_policy_non_cancellable">이 예약은 환불되지 않으며 예약 후 변경이나 취소하실 수 없습니다.</string>
+    <!-- LX checkout cost breakdown total due today -->
+    <string name="lx_cost_breakdown_due_today">오늘 결제할 금액</string>
+    <!-- LX checkout cost breakdown total due today -->
+    <string name="lx_cost_breakdown_taxes_included">세금 및 수수료 포함</string>
+    <!-- LX checkout cost breakdown for alert button -->
+    <string name="lx_cost_breakdown_button_text">완료</string>
+    <!-- LX checkout price breakdown for POS same as pickup location templates-->
+    <string name="lx_checkout_breakdown_price_disclaimer_text">요금은 %s 기준입니다.</string>
+    <!-- Checkout price breakdown Total Price Label -->
+    <string name="checkout_breakdown_total_price">총 금액</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_price_change_text">가격 변동됨</string>
+    <!-- LX Ticket type names -->
+    <string name="ticket_type_traveler">여행객</string>
+    <string name="ticket_type_adult">어른</string>
+    <string name="ticket_type_child">아동</string>
+    <string name="ticket_type_infant">유아</string>
+    <string name="ticket_type_youth">청소년</string>
+    <string name="ticket_type_senior">고령자</string>
+    <string name="ticket_type_group">단체</string>
+    <string name="ticket_type_couple">커플</string>
+    <string name="ticket_type_two_adults">어른 2명</string>
+    <string name="ticket_type_military">군인</string>
+    <string name="ticket_type_student">학생</string>
+    <string name="ticket_type_sedan">세단</string>
+    <string name="ticket_type_minivan">미니밴</string>
+    <string name="ticket_type_water_taxi">수상 택시</string>
+    <string name="ticket_type_suv">SUV</string>
+    <string name="ticket_type_executive_car">이그제큐티브 차량</string>
+    <string name="ticket_type_luxury_car">럭셔리 차량</string>
+    <string name="ticket_type_limousine">리무진</string>
+    <string name="ticket_type_towncar">타운카</string>
+    <string name="ticket_type_vehicle_parking_spot">주차 공간</string>
+    <string name="ticket_type_book">책</string>
+    <string name="ticket_type_guide">가이드</string>
+    <string name="ticket_type_travel_card">관광 카드</string>
+    <string name="ticket_type_boat">보트</string>
+    <string name="ticket_type_motorcycle">오토바이</string>
+    <string name="ticket_type_ceremony">행사</string>
+    <string name="ticket_type_calling_card">전화 카드</string>
+    <string name="ticket_type_pass">패스</string>
+    <string name="ticket_type_minibus">미니버스</string>
+    <string name="ticket_type_helicopter">헬리콥터</string>
+    <string name="ticket_type_device">기기</string>
+    <string name="ticket_type_room">객실</string>
+    <string name="ticket_type_carriage">마차</string>
+    <string name="ticket_type_buggy">버기카</string>
+    <string name="ticket_type_atv">ATV</string>
+    <string name="ticket_type_jet_ski">제트스키</string>
+    <string name="ticket_type_scooter">스쿠터</string>
+    <string name="ticket_type_scooter_car">스쿠터카</string>
+    <string name="ticket_type_snowmobile">스노모빌</string>
+    <string name="ticket_type_day">일별</string>
+    <string name="ticket_type_bike">자전거</string>
+    <string name="ticket_type_week">주별</string>
+    <string name="ticket_type_subscription">구독</string>
+    <string name="ticket_type_electric_bike">전기자전거</string>
+    <string name="ticket_type_segway">세그웨이</string>
+    <string name="ticket_type_vehicle">차량</string>
+    <!-- LX Ticket type Plurals -->
+    <plurals name="ticket_type_traveler_TEMPLATE">
+        <item quantity="one">여행객 %1$s명</item>
+        <item quantity="other">여행객 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_adult_TEMPLATE">
+        <item quantity="one">어른 %1$s명</item>
+        <item quantity="other">어른 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_child_TEMPLATE">
+        <item quantity="one">아동 %1$s명</item>
+        <item quantity="other">아동 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_infant_TEMPLATE">
+        <item quantity="one">유아 %1$s명</item>
+        <item quantity="other">유아 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_youth_TEMPLATE">
+        <item quantity="one">청소년 %1$s명</item>
+        <item quantity="other">청소년 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_senior_TEMPLATE">
+        <item quantity="one">고령자 %1$s명</item>
+        <item quantity="other">고령자 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_group_TEMPLATE">
+        <item quantity="one">단체 %1$s팀</item>
+        <item quantity="other">단체 %1$s팀</item>
+    </plurals>
+    <plurals name="ticket_type_couple_TEMPLATE">
+        <item quantity="one">커플 %1$s쌍</item>
+        <item quantity="other">커플 %1$s쌍</item>
+    </plurals>
+    <plurals name="ticket_type_two_adults_TEMPLATE">
+        <item quantity="one">%1$s장에 어른 2명</item>
+        <item quantity="other">%1$s장에 어른 2명</item>
+    </plurals>
+    <plurals name="ticket_type_military_TEMPLATE">
+        <item quantity="one">군인 %1$s명</item>
+        <item quantity="other">군인 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_student_TEMPLATE">
+        <item quantity="one">학생 %1$s명</item>
+        <item quantity="other">학생 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_sedan_TEMPLATE">
+        <item quantity="one">세단 %1$s대</item>
+        <item quantity="other">세단 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_minivan_TEMPLATE">
+        <item quantity="one">미니밴 %1$s대</item>
+        <item quantity="other">미니밴 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_water_taxi_TEMPLATE">
+        <item quantity="one">수상 택시 %1$s대</item>
+        <item quantity="other">수상 택시 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_suv_TEMPLATE">
+        <item quantity="one">SUV %1$s대</item>
+        <item quantity="other">SUV %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_executive_car_TEMPLATE">
+        <item quantity="one">이그제큐티브 차량 %1$s대</item>
+        <item quantity="other">이그제큐티브 차량 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_luxury_car_TEMPLATE">
+        <item quantity="one">고급대형 %1$s대</item>
+        <item quantity="other">고급대형 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_limousine_TEMPLATE">
+        <item quantity="one">리무진 %1$s대</item>
+        <item quantity="other">리무진 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_towncar_TEMPLATE">
+        <item quantity="one">타운카 %1$s대</item>
+        <item quantity="other">타운카 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
+        <item quantity="one">주차 공간 %1$s개</item>
+        <item quantity="other">주차 공간 %1$s개</item>
+    </plurals>
+    <plurals name="ticket_type_book_TEMPLATE">
+        <item quantity="one">책 %1$s권</item>
+        <item quantity="other">책 %1$s권</item>
+    </plurals>
+    <plurals name="ticket_type_guide_TEMPLATE">
+        <item quantity="one">가이드 %1$s명</item>
+        <item quantity="other">가이드 %1$s명</item>
+    </plurals>
+    <plurals name="ticket_type_travel_card_TEMPLATE">
+        <item quantity="one">관광 카드 %1$s장</item>
+        <item quantity="other">관광 카드 %1$s장</item>
+    </plurals>
+    <plurals name="ticket_type_boat_TEMPLATE">
+        <item quantity="one">보트 %1$s대</item>
+        <item quantity="other">보트 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_motorcycle_TEMPLATE">
+        <item quantity="one">오토바이 %1$s대</item>
+        <item quantity="other">오토바이 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_ceremony_TEMPLATE">
+        <item quantity="one">행사 %1$s회</item>
+        <item quantity="other">행사 %1$s회</item>
+    </plurals>
+    <plurals name="ticket_type_calling_card_TEMPLATE">
+        <item quantity="one">전화 카드 %1$s장</item>
+        <item quantity="other">전화 카드 %1$s장</item>
+    </plurals>
+    <plurals name="ticket_type_pass_TEMPLATE">
+        <item quantity="one">패스 %1$s개</item>
+        <item quantity="other">패스 %1$s개</item>
+    </plurals>
+    <plurals name="ticket_type_minibus_TEMPLATE">
+        <item quantity="one">미니버스 %1$s대</item>
+        <item quantity="other">미니버스 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_helicopter_TEMPLATE">
+        <item quantity="one">헬리콥터 %1$s대</item>
+        <item quantity="other">헬리콥터 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_device_TEMPLATE">
+        <item quantity="one">기기 %1$s개</item>
+        <item quantity="other">기기 %1$s개</item>
+    </plurals>
+    <plurals name="ticket_type_room_TEMPLATE">
+        <item quantity="one">객실 %1$s개</item>
+        <item quantity="other">객실 %1$s개</item>
+    </plurals>
+    <plurals name="ticket_type_carriage_TEMPLATE">
+        <item quantity="one">마차 %1$s대</item>
+        <item quantity="other">마차 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_buggy_TEMPLATE">
+        <item quantity="one">버기카 %1$s대</item>
+        <item quantity="other">버기카 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_atv_TEMPLATE">
+        <item quantity="one">ATV %1$s대</item>
+        <item quantity="other">ATV %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_jet_ski_TEMPLATE">
+        <item quantity="one">제트스키 %1$s대</item>
+        <item quantity="other">제트스키 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_TEMPLATE">
+        <item quantity="one">스쿠터 %1$s대</item>
+        <item quantity="other">스쿠터 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_scooter_car_TEMPLATE">
+        <item quantity="one">스쿠터카 %1$s대</item>
+        <item quantity="other">스쿠터카 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_snowmobile_TEMPLATE">
+        <item quantity="one">스노모빌 %1$s대</item>
+        <item quantity="other">스노모빌 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_day_TEMPLATE">
+        <item quantity="one">%1$s일</item>
+        <item quantity="other">%1$s일</item>
+    </plurals>
+    <plurals name="ticket_type_bike_TEMPLATE">
+        <item quantity="one">자전거 %1$s대</item>
+        <item quantity="other">자전거 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_week_TEMPLATE">
+        <item quantity="one">%1$s주</item>
+        <item quantity="other">%1$s주</item>
+    </plurals>
+    <plurals name="ticket_type_subscription_TEMPLATE">
+        <item quantity="one">구독 %1$s건</item>
+        <item quantity="other">구독 %1$s건</item>
+    </plurals>
+    <plurals name="ticket_type_electric_bike_TEMPLATE">
+        <item quantity="one">전기자전거 %1$s대</item>
+        <item quantity="other">전기자전거 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_segway_TEMPLATE">
+        <item quantity="one">세그웨이 %1$s대</item>
+        <item quantity="other">세그웨이 %1$s대</item>
+    </plurals>
+    <plurals name="ticket_type_vehicle_TEMPLATE">
+        <item quantity="one">차량 %1$s대</item>
+        <item quantity="other">차량 %1$s대</item>
+    </plurals>
+    <!-- Activity search results per ticket type -->
+    <string name="per_ticket_type_traveler">여행객 1명당</string>
+    <string name="per_ticket_type_adult">어른 1명당</string>
+    <string name="per_ticket_type_child">아동 1명당</string>
+    <string name="per_ticket_type_infant">유아 1명당</string>
+    <string name="per_ticket_type_youth">청소년 1명당</string>
+    <string name="per_ticket_type_senior">고령자 1명당</string>
+    <string name="per_ticket_type_group">단체 1팀당</string>
+    <string name="per_ticket_type_couple">커플 1쌍당</string>
+    <string name="per_ticket_type_two_adults">어른 2명당</string>
+    <string name="per_ticket_type_military">군인 1명당</string>
+    <string name="per_ticket_type_student">학생 1명당</string>
+    <string name="per_ticket_type_sedan">세단 1대당</string>
+    <string name="per_ticket_type_minivan">미니밴 1대당</string>
+    <string name="per_ticket_type_water_taxi">수상 택시 1대당</string>
+    <string name="per_ticket_type_suv">SUV 1대당</string>
+    <string name="per_ticket_type_executive_car">이그제큐티브 차량 1대당</string>
+    <string name="per_ticket_type_luxury_car">럭셔리 차량 1대당</string>
+    <string name="per_ticket_type_limousine">리무진 1대당</string>
+    <string name="per_ticket_type_towncar">타운카 1대당</string>
+    <string name="per_ticket_type_vehicle_parking_spot">주차 공간 1개당</string>
+    <string name="per_ticket_type_book">책 1권당</string>
+    <string name="per_ticket_type_guide">가이드 1명당</string>
+    <string name="per_ticket_type_travel_card">관광 카드 1개당</string>
+    <string name="per_ticket_type_boat">보트 1대당</string>
+    <string name="per_ticket_type_motorcycle">오토바이 1대당</string>
+    <string name="per_ticket_type_ceremony">행사 1회당</string>
+    <string name="per_ticket_type_calling_card">전화 카드 1개당</string>
+    <string name="per_ticket_type_pass">패스 1개당</string>
+    <string name="per_ticket_type_minibus">미니버스 1대당</string>
+    <string name="per_ticket_type_helicopter">헬리콥터 1대당</string>
+    <string name="per_ticket_type_device">기기 1개당</string>
+    <string name="per_ticket_type_room">객실 1개당</string>
+    <string name="per_ticket_type_carriage">마차 1대당</string>
+    <string name="per_ticket_type_buggy">버기카 1대당</string>
+    <string name="per_ticket_type_atv">ATV 1대당</string>
+    <string name="per_ticket_type_jet_ski">제트스키 1대당</string>
+    <string name="per_ticket_type_scooter">스쿠터 1대당</string>
+    <string name="per_ticket_type_scooter_car">스쿠터카 1대당</string>
+    <string name="per_ticket_type_snowmobile">스노모빌 1대당</string>
+    <string name="per_ticket_type_day">일당</string>
+    <string name="per_ticket_type_bike">자전거 1대당</string>
+    <string name="per_ticket_type_week">주당</string>
+    <string name="per_ticket_type_subscription">구독 1건당</string>
+    <string name="per_ticket_type_electric_bike">전기자전거 1대당</string>
+    <string name="per_ticket_type_segway">세그웨이 1대당</string>
+    <string name="per_ticket_type_vehicle">차량 1대당</string>
+
+    <!-- LX Strings -->
+    <!-- Slide to book -->
+    <string name="lx_slider_text">밀어서 예약하기</string>
+    <!-- Enter contact details-->
+    <string name="lx_enter_contact_details">연락처 정보 입력</string>
+    <!-- LX search error -->
+    <string name="error_lx_search_message">검색 결과가 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
+    <!-- LX search error -->
+    <string name="error_lx_current_location_search_message">주변 즐길거리 검색에 필요한 고객님의 현재 위치를 확인할 수 없습니다.</string> 
+    <!-- Text for generic error toolbar-->
+    <string name="lx_error_text">오류</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_invalid_input_text">잘못된 정보</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_duplicate_trip_text">중복된 여행</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_session_timeout_text">세션 시간 초과</string>
+    <!-- Text for error toolbar-->
+    <string name="lx_payment_failed_text">결제 실패함</string>
+    <!-- Offers show more string -->
+    <string name="lx_show_more_offers">더 보기</string>
+    <!-- Text for traveler details toolbar-->
+    <string name="lx_traveler_details_text">여행객 정보</string>
+    <!-- Text for enter traveler details-->
+    <string name="lx_traveler_enter_details_text">여행객 정보 입력</string>
+    <!-- Text for lx sort and filter-->
+    <string name="lx_sort_filter">정렬 및 필터</string>
+    <!--Price sort button -->
+    <string name="lx_price_sort_button">가격순</string>
+    <!-- Popularity sort button -->
+    <string name="lx_popularity_sort_button">인기순</string>
+    <!-- Select ticket button -->
+    <string name="lx_select_ticket">티켓 선택</string>
+    <!-- Free cancellation text in offer  -->
+    <string name="lx_free_cancellation">무료 취소</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_voucherless_offer">전자 형태 바우처</string>
+    <!-- Message for voucherless offers  -->
+    <string name="lx_print_voucher_offer">출력한 바우처 필요</string>
+    <!-- Card brand not supported (e.g. "Visa not accepted") -->
+    <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s 결제가 지원되지 않습니다.</string>
+    <!-- LX Error Activity Price Changed -->
+    <string name="lx_error_price_changed">죄송합니다. 이 즐길거리의 가격이 변동되었습니다. 다시 예약해 주세요.</string>
+    <!-- LX confirmation itin text -->
+    <string name="lx_successful_checkout_email_label">고객님의 티켓을 다음 주소로 보내드렸습니다:</string>
+    <!-- LX reservation confirmation text -->
+    <string name="lx_successful_checkout_reservation_label">고객님 예약이 확정되었습니다!</string>
+    <!-- Text for getting current location suggestion -->
+    <string name="lx_getting_current_location">위치 확인 중…</string>
+    <!-- LX Error Fetching activity details -->
+    <string name="lx_error_details">세부 정보를 가져올 수 없습니다. 다시 시도해 주세요.</string>
+    <!-- Current location failed toolbar text -->
+    <string name="lx_error_current_location_toolbar_text">다시 시도해 주세요.</string>
+    <!-- LX No Activities for Current location -->
+    <string name="lx_error_current_location_no_results">고객님 주변의 즐길거리를 찾을 수 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
+
+    <!-- Ground Transport bags text-->
+    <string name="lx_ground_transport_bags_text">짐 %1$s개</string>
+    <!-- Ground Transport passengers text-->
+    <string name="lx_ground_transport_passengers_text">승객 %1$s명</string>
+    <!-- Incorrect date search for LX -->
+    <string name="lx_start_date_error">이 날짜는 지났습니다. 새로운 날짜를 선택해 주세요.</string>
+
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
-    <string name="Sort_and_Filter">정렬 &amp; 필터</string>
+    <string name="Sort_and_Filter">정렬 및 필터</string>
     <!-- "Done" list header label -->
     <string name="Done">완료</string>
     <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
@@ -79,6 +674,10 @@
         <item quantity="many">%s개 귀국 항공편</item>
         <item quantity="other">%s개 귀국 항공편</item>
     </plurals>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_roundtrip_label">1인당 왕복 요금</string>
+    <!-- Label indicating the price shown is the price per person rather than the total-->
+    <string name="prices_oneway_label">1인당 편도 요금</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">고객님의 여행이 비어 있습니다.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -94,7 +693,7 @@
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">%1$s행 항공편</string>
     <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">항공 추세</string>
+    <string name="flight_trends">항공 요금 추세</string>
     <!-- Flight fare calendar header for return flights -->
     <string name="when_to_return">돌아오는 날짜</string>
     <!-- Tablet search results, no hotels available -->
@@ -103,6 +702,8 @@
     <string name="tablet_search_results_hotels_unavailable_tonight">죄송합니다. \n오늘밤 이용 가능한 호텔이 없습니다.</string>
     <!-- Tablet search results, no flights available -->
     <string name="tablet_search_results_flights_unavailable">죄송합니다. \n현재 이용 가능한 항공편이 없습니다.</string>
+    <!-- Tablet search results, no flights available due to invalid start date -->
+    <string name="flight_search_range_error_TEMPLATE">죄송합니다. 오늘을 기준으로 %1$s일을 초과하는 항공편은 검색할 수 없습니다.</string>
     <!-- Remove Trip Bucket Flight - Undo messaging -->
     <string name="tablet_tripbucket_item_removed">삭제됨</string>
     <!-- Label indicating how many items are being booked for the current trip -->
@@ -115,6 +716,11 @@
         <item quantity="other">여행 항목</item>
     </plurals>
 
+    <!-- LX Sort & Filter "Sort By" section header -->
+    <string name="lx_sort_by">정렬 기준</string>
+    <!-- LX Sort & Filter "Categories" header -->
+    <string name="lx_categories">범주</string>
+
     <!-- Tablet hotel filters -->
     <!-- "Sort By" section header -->
     <string name="Sort_By">정렬 기준</string>
@@ -125,23 +731,15 @@
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">기타 지역</string>
     <!-- Short label for "sort by popular" button -->
-    <string name="popular">인기</string>
+    <string name="popular">인기순</string>
     <!-- Short label for "sort by price" button -->
-    <string name="price">가격</string>
+    <string name="price">가격순</string>
     <!-- Short label for "sort by rating" button -->
-    <string name="rating">평점</string>
+    <string name="rating">평점순</string>
     <!-- Short label for "sort by distance" button -->
-    <string name="distance">거리</string>
+    <string name="distance">거리순</string>
     <!-- Short label for "sort by discounts" button -->
-    <string name="discounts">할인</string>
-    <!-- Content description for "sort by popular" button -->
-    <string name="cd_sort_by_popular">누르면 가장 인기 많은 호텔별로 정렬됩니다.</string>
-    <!-- Content description for "sort by price" button -->
-    <string name="cd_sort_by_price">누르면 가장 낮은 가격의 호텔별로 정렬됩니다.</string>
-    <!-- Content description for "sort by rating" button -->
-    <string name="cd_sort_by_rating">누르면 평점이 가장 높은 호텔별로 정렬됩니다.</string>
-    <!-- Content description for "sort by distance" button -->
-    <string name="cd_sort_by_distance">누르면 가장 가까운 호텔별로 정렬됩니다.</string>
+    <string name="discounts">할인율순</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
     <string name="From_x_TEMPLATE">%s~</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
@@ -189,10 +787,18 @@
     <string name="all_airports">모든 공항</string>
 
     <!-- Tablet hotel details -->
+    <!-- Rooms and rates pay later -->
+    <string name="room_rate_pay_later">나중에 결제</string>
+    <!-- Rooms and rates pay now -->
+    <string name="room_rate_pay_now">지금 결제</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="room_rate_pay_later_due_now">지금 결제할 금액</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/1박</string>
-    <!-- Rooms and rates resort fees template. i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_template">이 숙박에 대한 추가 호텔 수수료: &lt;font color="#666666"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_included_template">이 숙박에 대한 호텔 수수료(포함됨): &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
+    <string name="tablet_room_rate_resort_fees_not_included_template">이 숙박에 대한 호텔 수수료(포함 안 됨): &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">여행에 추가</string>
     <!-- Rooms and rates button to select a particular room and view details -->
@@ -202,9 +808,9 @@
     <!-- Caption for percent of guests who recommend this hotel including the percentage, i.e. "90% recommend" -->
     <string name="n_recommend_TEMPLATE">%s%% 고객이 추천</string>
     <!-- A message stating this hotel is all sold out for the given dates searched -->
-    <string name="sorry_rooms_sold_out">죄송합니다. 익스피디아에서 모든 객실이 매진되었습니다.</string>
+    <string name="sorry_rooms_sold_out_TEMPLATE">죄송합니다. {brand}에서 모든 객실이 매진되었습니다.</string>
     <!-- A message stating this hotel is sold out on Expedia -->
-    <string name="sold_out_on_expedia">익스피디아에서 매진됨</string>
+    <string name="sold_out_on_TEMPLATE">{brand}에서 매진</string>
     <!-- Hotel gallery title -->
     <string name="photos_for_TEMPLATE">%s 사진</string>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
@@ -231,11 +837,13 @@
     <!-- Label describing this flight is a round trip flight. -->
     <string name="round_trip">왕복</string>
     <!-- Label describing the total price of the flight or hotel that is going to be booked -->
-    <string name="total_with_tax">총 합계</string>
+    <string name="total_with_tax">세금 포함 총계</string>
+    <!-- Label describing the total price of the flight or hotel, when we're including mandatory taxes & fees -->
+    <string name="trip_total">총 금액</string>
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_hotel_create_trip">여행 작성 중…</string>
+    <string name="spinner_text_hotel_create_trip">여행 만드는 중…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
@@ -251,57 +859,71 @@
 
     <!-- Facebook -->
     <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt; 님! 익스피디아 계정을 갖고 계신 것 같네요. Facebook과 익스피디아 계정을 연결하려면 아래에 익스피디아 비밀번호를 입력해 주세요.</string>
+    <string name="facebook_weve_found_your_account_TEMPLATE">&lt;b&gt;{name}&lt;/b&gt; 님, 고객님의 {brand} 계정을 찾은 것 같아요! Facebook과 {brand} 계정을 연결하려면 아래에 {brand} 비밀번호를 입력해 주세요.</string>
     <!-- Weve fetched your facebook info -->
     <string name="facebook_weve_fetched_your_info">&lt;b&gt;%1$s&lt;/b&gt; 님! 고객님의 Facebook 정보를 가져왔습니다.</string>
-    <!-- Log in with facebook (button text) -->
-    <string name="Log_in_with_Facebook">Facebook 계정으로 로그인</string>
+    <!-- Sign in with facebook (button text) -->
+    <string name="Sign_in_with_Facebook">Facebook 계정으로 로그인</string>
     <!-- fetching information from Facebook -->
     <string name="fetching_facebook_info">Facebook에서 정보 가져오는 중…</string>
-    <!-- Attempting to log you in with facebook credentials -->
-    <string name="attempting_to_log_in_with_facebook">Facebook 인증으로 로그인 시도 중…</string>
+    <!-- Attempting to sign you in with facebook credentials -->
+    <string name="attempting_to_sign_in_with_facebook">Facebook 인증으로 로그인 시도 중…</string>
     <!-- We have encountered an error -->
     <string name="unspecified_error">알 수 없는 오류가 발생했습니다. 나중에 다시 시도해 주세요.</string>
-    <!-- Unable to log in to Facebook -->
-    <string name="unable_to_log_into_facebook">Facebook으로 로그인할 수 없습니다.</string>
-    <!-- Login failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="login_failed_try_again">로그인하지 못했습니다. 이메일과 비밀번호가 올바른 경우 앱의 국가 설정이 올바른지 확인해 주세요.</string>
-    <!-- Facebook connect expedia password hint -->
-    <string name="expedia_password_hint">익스피디아 비밀번호</string>
+    <!-- Unable to sign in to Facebook -->
+    <string name="unable_to_sign_into_facebook">Facebook에 로그인할 수 없습니다.</string>
+    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
+    <string name="sign_in_failed_try_again">로그인하지 못했습니다. 이메일과 비밀번호가 올바른 경우 앱의 국가 설정이 올바른지 확인해 주세요.</string>
+    <!-- Facebook connect password hint -->
+    <string name="brand_password_hint_TEMPLATE">{brand} 비밀번호</string>
     <!-- Link accounts -->
     <string name="link_accounts">계정 연결</string>
-    <!-- Failure to update the user -->
-    <string name="failure_to_update_user">업데이트된 사용자 정보를 가져오지 못했습니다.</string>
+    <!-- User Denied email permission Heading -->
+    <string name="user_denied_permission_email_heading">이메일 권한</string>
     <!-- Linking your accounts -->
     <string name="linking_your_accounts">계정 연결 중…</string>
-    <!-- Log In -->
-    <string name="Log_In">로그인</string>
-    <!-- Log in with Expedia -->
-    <string name="Log_in_with_Expedia">익스피디아로 로그인</string>
+    <!-- User Denied email permission try again button text -->
+    <string name="authorize_email_facebook_button">이메일 권한 부여하기</string>
+    <!-- User Denied email permission re-request message -->
+    <string name="user_denied_permission_email_message_TEMPLATE">Facebook 계정으로 로그인하려면 저희에게 고객님의 이메일 주소를 확인할 권한을 주셔야 합니다. \n\n아래의 Facebook 버튼을 눌러 {brand}에 고객님 이메일 주소를 확인할 권한을 주세요. 감사합니다!</string>
+
+    <!-- Sign in with Expedia -->
+    <string name="Sign_in_with_TEMPLATE">{brand} 계정으로 로그인</string>
     <!-- or -->
     <string name="or">또는</string>
-    <!-- Already logged in -->
-    <string name="already_logged_in">이미 로그인 상태입니다.</string>
 
     <!-- Restricted Profile -->
-    <!-- Restricted profile login message -->
-    <string name="restricted_profile_login_message">익스피디아에 로그인하려면 기기에서 무제한 사용자 프로필을 사용해야 합니다.</string>
+    <!-- Restricted profile sign in message -->
+    <string name="restricted_profile_sign_in_message_TEMPLATE">{brand}에 로그인하려면 기기에서 무제한 사용자 프로필을 사용하셔야 합니다.</string>
 
     <!-- Nav Dropdown menu -->
     <!-- Flights -->
     <string name="nav_flights">항공</string>
     <!-- Hotels -->
     <string name="nav_hotels">호텔</string>
+    <!-- Cars -->
+    <string name="nav_cars">렌터카</string>
+    <!-- Activities -->
+    <string name="nav_lx">즐길거리</string>
 
-    <!-- Launch screen -->
-    <!-- Label for launch screen hotel button secondary text -->
-    <string name="launch_hotel_secondary_text">객실 예약하기</string>
-    <!-- Label for launch screen flight button secondary text -->
-    <string name="launch_flight_secondary_text">항공 예약하기</string>
-    <!-- Label for flight destination tile from launch screen e.g. Fly to San Francisco -->
-    <string name="launch_flight_tile_prompt">&lt;font color="#b2b2b2"&gt;목적지:&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
-    <!-- Label for hotel destination tile from launch screen e.g. Stay in New York -->
-    <string name="launch_hotel_fallback_tile_prompt">&lt;font color="#b2b2b2"&gt;숙박지:&lt;/font&gt; &lt;font color="#f3f3f3"&gt;%s&lt;/font&gt;</string>
+    <!-- New launch screen -->
+    <!-- Top deals tonight -->
+    <string name="nearby_deals_title">오늘 밤 인기 호텔</string>
+    <!-- See all nearby deals -->
+    <string name="nearby_deals_expand">더 보기</string>
+    <!-- Percent off template, e.g. 50% off -->
+    <string name="percent_off_TEMPLATE">-%2.0f%%</string>
+    <!-- List loading header -->
+    <string name="loading_header">로드 중…</string>
+    <!-- Hotel launch list rating text -->
+    <string name="hotel_rating_text">(5점 만점 – 고객 평점)</string>
+    <!-- Hotel search list rating text -->
+    <string name="hotel_search_rating_text">/5점 만점</string>
+    <!-- Expedia Deal for a given property, Mobile exclusive -->
+    <string name="launch_mobile_exclusive">모바일 전용!</string>
+    <!-- Expedia Deal for a given property, tonight only -->
+    <string name="launch_tonight_only">오늘 밤 한정!</string>
+
     <!-- Error message when we can't connect -->
     <string name="error_launch_connection">죄송합니다. 지금 연결할 수 없습니다.</string>
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
@@ -309,9 +931,9 @@
     <!-- Tablet. Error message when the device is not connected to internet/network unavailable. -->
     <string name="error_network_unavailable">WiFi 또는 모바일 데이터에 연결하고\n계속해 주세요.</string>
     <!-- Menu option for going to see your trips/itineraries -->
-    <string name="trips">여행</string>
+    <string name="trips">일정</string>
     <!-- Menu option for going to see your trips/itineraries -->
-    <string name="Your_Trips">내 여행</string>
+    <string name="Your_Trips">내 일정</string>
     <!-- Actionbar Title on main launch screen -->
     <string name="Explore">둘러보기</string>
     <!-- Actionbar Title when an exotic destination is being displayed -->
@@ -322,6 +944,8 @@
     <string name="explore_now">지금 둘러보기</string>
     <!-- Label for Collection tile that, when clicked, takes you to search results with your last state -->
     <string name="your_search">최근 내 검색</string>
+    <!-- Label for Current Location Collection tile that, when clicked, takes you to hotel search results with current location  -->
+    <string name="current_location_tile">오늘밤 인근 특가 상품</string>
     <!-- Subtitle for "Your Search" collection tile, indicating number of items in TripBucket -->
     <plurals name="num_items_TEMPLATE">
         <item quantity="zero">%s개 항목</item>
@@ -335,10 +959,16 @@
     <!-- Notifications -->
     <!-- Title for flight Check In Local Notification -->
     <string name="Check_in_available">탑승 수속 가능</string>
+    <!-- Title for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_title">항공편 공유</string>
+    <!-- Content for flight share In Local Notification -->
+    <string name="Share_flight_itinerary_content">여행 중 실시간 업데이트를 제공하실 수 있어요.</string>
     <!-- Content for flight Check In Local Notification -->
     <string name="x_flight_to_x_TEMPLATE">%2$s행 %1$s 항공편</string>
     <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
     <string name="your_flight_to_x_TEMPLATE">고객님의 %1$s행 항공편</string>
+    <!-- Shortened push notification title. %1$s = city name. E.g. "Your flight to Minneapolis" -->
+    <string name="your_selected_flight_to_x_TEMPLATE">선택하신 %1$s행 항공편</string>
     <!-- Notification title for car pick up -->
     <string name="Car_Pick_Up_X_TEMPLATE">차량 인수 - %s</string>
     <!-- Notification text for car pick up -->
@@ -351,20 +981,27 @@
     <string name="Activity_starting_soon">즐길거리 곧 시작</string>
     <!-- Notification text for activity start -->
     <string name="Your_X_ticket_can_be_redeemed_TEMPLATE">고객님의 %s 티켓은 내일부터 이용하실 수 있습니다.</string>
+    <!-- Notification text for a desktop booking itinerary being available on the user's device -->
+    <string name="Itinerary_ready">일정 준비 완료</string>
+
 
     <!-- Itineraries -->
     <!-- Itinerary -->
     <string name="itinerary">일정</string>
     <!-- Shop -->
-    <string name="shop">쇼핑</string>
+    <string name="shop">예약</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">일정 찾기</string>
+    <!-- Enter Itinerary Details -->
+    <string name="enter_itinerary_details">일정 정보 입력</string>
     <!-- Find Itinerary # -->
     <string name="find_itinerary_pound">일정 번호 찾기</string>
     <!-- Expedia Itinerary -->
-    <string name="expedia_itinerary">익스피디아 일정 번호</string>
-    <!-- Elite plus customer support -->
-    <string name="elite_plus_customer_support">Elite Plus 고객 지원</string>
+    <string name="itinerary_TEMPLATE">{brand} 일정 번호</string>
+    <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
+    <string name="Expedia_plus_Silver_Customer_Support">익스피디아 +실버 고객 지원</string>
+    <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
+    <string name="Expedia_plus_Gold_Customer_Support">익스피디아 +골드 고객 지원</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">예정된 여행이 없습니다.</string>
     <!-- Enter itinerary number -->
@@ -373,8 +1010,8 @@
     <string name="fetching_your_itinerary">고객님의 일정을 가져오는 중…</string>
     <!-- Error fetching itinerary -->
     <string name="itinerary_fetch_error">일정을 가져오는 도중 오류 발생</string>
-    <!-- Log in for your trips -->
-    <string name="log_in_for_your_trips">고객님 여행을 보려면 &lt;b&gt;로그인&lt;/b&gt;해 주세요.</string>
+    <!-- Sign in for your trips -->
+    <string name="sign_in_for_your_trips">고객님 여행을 보시려면 로그인해 주세요.</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">오늘</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -492,8 +1129,8 @@
     <string name="at_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s 도착&lt;/b&gt; - %2$s</string>
     <!-- Itin flight summary second line for departure waypoint; first parameter is airport code; second parameter is a string describing the terminal and/or gate where the flight departs/ed -->
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;%1$s 출발&lt;/b&gt; - %2$s</string>
-    <!-- Itin logout confirmation message -->
-    <string name="itin_logout_confirmation_message_TEMPLATE">%1$s에서 로그아웃하면 이 계정과 연결된 모든 일정 항목이 제거됩니다. 그래도 로그아웃하시겠어요?</string>
+    <!-- Itin sign out confirmation message -->
+    <string name="itin_sign_out_confirmation_message_TEMPLATE">%1$s에서 로그아웃하시면 이 계정과 연결된 모든 일정 항목이 삭제됩니다. 그래도 로그아웃하시겠어요?</string>
     <!-- Directions -->
     <string name="directions">길 안내</string>
     <!-- Terminal Map -->
@@ -576,77 +1213,20 @@
     <!-- Menu label: Hide this itin button for this trip -->
     <string name="itin_button_hide">숨기기</string>
     <!-- Menu label: Never show this type of itin button again -->
-    <string name="itin_button_hide_forever">항상 숨기기</string>
+    <string name="itin_button_hide_forever">모두 숨기기</string>
 
     <!-- Hotel attach -->
     <!-- Button label to search for a hotel in the flight destination city. %1$s is the city, e.g. "Washington, DC" -->
     <string name="add_hotel_TEMPLATE">%1$s의 호텔 추가</string>
     <!-- Button label to search for a hotel in the flight destination city. Used only when we don't know the destination city. -->
     <string name="add_hotel_fallback">목적지의 호텔 추가</string>
+    <!-- Button label to add a hotel in the air attach case. -->
+    <string name="add_hotel_air_attach">호텔 추가</string>
 
-    <!-- Itin Local Expert.  Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="talk_to_local_expert">Local Expert에 문의</string>
-
-    <!-- Local Expert Sites -->
-    <!-- Name of Hawaii (for local expert) -->
-    <string name="site_hawaii">하와이</string>
-    <!-- Name of Orlando, FL (for local expert) -->
-    <string name="site_orlando">올랜도</string>
-    <!-- Name of Las Vegas (for local expert) -->
-    <string name="site_las_vegas">라스베이거스</string>
-
-    <!-- Template for the city title on Local Expert pages. %1$s is the name of the city -->
-    <string name="local_expert_title_TEMPLATE">%1$s 100배 즐기기!</string>
-    <!-- Description body for the Local Expert pages.    Do not translate the "Local Expert" part because it is the title of a product. -->
-    <string name="local_expert_description">여행 계획과 관련하여 어떤 문제든지 전화 한 통이면 쉽게\nLocal Expert의 도움을 받으실 수 있습니다.</string>
-    <!-- Text for the button on Local Expert pages, to call the concierge -->
-    <string name="local_expert_call_button_text">언제든지 전화주세요!</string>
-
-    <!-- Local Expert attractions; these are all split into two lines (second line is bolded) -->
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_first">놀라운</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Amazing creatures" -->
-    <string name="attraction_creatures_second">자연의 세계</string>
-    <!-- First half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_first">지상 최고의</string>
-    <!-- Second half of phrase about local expert theme parks attraction.  Full phrase: "See the best theme parks" -->
-    <string name="attraction_theme_parks_second">테마파크</string>
-    <!-- First half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_first">지상 최고의</string>
-    <!-- Second half of phrase about local expert beaches attraction.  Full phrase: "Find the best beaches" -->
-    <string name="attraction_beaches_second">해변</string>
-    <!-- First half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_first">짜릿한</string>
-    <!-- Second half of phrase about local expert helicopter attraction.  Full phrase: "Ride in a helicopter" -->
-    <string name="attraction_helicopter_second">헬리콥터 탑승</string>
-    <!-- First half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_first">신비한 바닷속</string>
-    <!-- Second half of phrase about local expert scuba diving attraction.  Full phrase: "Jump in & go scuba diving" -->
-    <string name="attraction_scuba_second">스쿠버 다이빙</string>
-    <!-- First half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_first">행운 예감</string>
-    <!-- Second half of phrase about local expert casinos attraction.  Full phrase: "World class casinos" -->
-    <string name="attraction_casinos_second">카지노</string>
-    <!-- First half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_first">럭셔리 라이드</string>
-    <!-- Second half of phrase about local expert ferrari attraction.  Full phrase: "Drive a ferrari" -->
-    <string name="attraction_ferrari_second">페라리</string>
-    <!-- First half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_first">함께하는</string>
-    <!-- Second half of phrase about local expert family activities attraction.  Full phrase: "Activities for families" -->
-    <string name="attraction_family_second">온 가족 즐길거리</string>
-    <!-- First half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_first">꼭 맛봐야 하는</string>
-    <!-- Second half of phrase about local expert food attraction.  Full phrase: "Experience great food" -->
-    <string name="attraction_food_second">현지 음식</string>
-    <!-- First half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_first">지상 최고의</string>
-    <!-- Second half of phrase about local expert entertainment attraction.  Full phrase: "Find the best entertainment" -->
-    <string name="attraction_entertainment_second">엔터테인먼트</string>
-    <!-- First half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_first">매력적인</string>
-    <!-- Second half of phrase about local expert local music attraction.  Full phrase: "Find local music" -->
-    <string name="attraction_music_second">현지 음악</string>
+    <!-- Button label to search for an activity in the hotel city. %1$s is the city, e.g. "Washington, DC" -->
+    <string name="add_lx_TEMPLATE">%1$s에서의 즐길거리 찾기</string>
+    <!-- Button label to search for an activity in the hotel city. Used only when we don't know the destination city. -->
+    <string name="add_lx_fallback">목적지에서의 즐길거리 찾기</string>
 
     <!-- Car category -->
     <!-- Car category: mini -->
@@ -685,6 +1265,42 @@
     <string name="car_category_special">스페셜</string>
     <!-- Car category: oversize -->
     <string name="car_category_oversize">특대형</string>
+
+    <!-- Car category for results and details screen -->
+    <!-- Car category: mini -->
+    <string name="car_category_result_mini">미니</string>
+    <!-- Car category: economy -->
+    <string name="car_category_result_economy">소형</string>
+    <!-- Car category: compact -->
+    <string name="car_category_result_compact">중소형</string>
+    <!-- Car category: midize -->
+    <string name="car_category_result_midsize">중형</string>
+    <!-- Car category: standard -->
+    <string name="car_category_result_standard">표준</string>
+    <!-- Car category: fullsize -->
+    <string name="car_category_result_fullsize">대형</string>
+    <!-- Car category: premium -->
+    <string name="car_category_result_premium">프리미엄</string>
+    <!-- Car category: luxury -->
+    <string name="car_category_result_luxury">고급대형</string>
+    <!-- Car category: mini elite -->
+    <string name="car_category_result_mini_elite">미니 엘리트</string>
+    <!-- Car category: economy elite -->
+    <string name="car_category_result_economy_elite">소형 엘리트</string>
+    <!-- Car category: compact elite -->
+    <string name="car_category_result_compact_elite">중소형 엘리트</string>
+    <!-- Car category: midize elite -->
+    <string name="car_category_result_midsize_elite">중형 엘리트</string>
+    <!-- Car category: standard elite -->
+    <string name="car_category_result_standard_elite">표준 엘리트</string>
+    <!-- Car category: fullsize elite -->
+    <string name="car_category_result_fullsize_elite">대형 엘리트</string>
+    <!-- Car category: premium elite -->
+    <string name="car_category_result_premium_elite">프리미엄 엘리트</string>
+    <!-- Car category: luxury elite -->
+    <string name="car_category_result_luxury_elite">고급대형 엘리트</string>
+    <!-- Car category: oversize -->
+    <string name="car_category_result_oversize">특대형</string>
 
     <!-- Car types -->
     <string name="car_type_two_door">2도어 차량</string>
@@ -786,6 +1402,7 @@
     <string name="itin_action_redeem">사용하기</string>
     <string name="itin_action_support">고객 지원</string>
     <string name="itin_action_share">공유하기</string>
+    <string name="itin_action_view">일정 보기</string>
 
     <!-- Itin webview titles -->
     <string name="webview_title_print_vouchers">바우처 인쇄</string>
@@ -810,7 +1427,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">전화:\n%s</string>
     <!-- App download link -->
-    <string name="share_template_long_ad">호텔과 항공을 예약하고 일정을 확인 및 공유하세요. 오늘 바로 익스피디아 모바일 앱을 다운로드하세요.\n%s</string>
+    <string name="share_long_ad_TEMPLATE">호텔과 항공을 예약하고 일정을 확인 및 공유하세요. 오늘 바로 무료 {brand} 앱을 다운로드하세요.\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">항공편으로 %1$s에 가요!(%2$s)</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -906,7 +1523,7 @@
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Expedia_Flights">익스피디아 항공</string>
+    <string name="Flights_TEMPLATE">{brand} 항공편</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">항공편 검색</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -933,8 +1550,8 @@
     <string name="outbound_TEMPLATE">%s행 출국 항공편</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
     <string name="inbound_TEMPLATE">%s행 귀국 항공편</string>
-    <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">죄송합니다. 익스피디아 서버에 연결할 수 없습니다. 나중에 다시 시도해 주세요.</string>
+    <!-- Template string for error when we simple can't connect to E3 servers-->
+    <string name="error_server_TEMPLATE">죄송합니다. 지금 {brand} 서버에 연결할 수 없습니다.  나중에 다시 시도해 주세요.</string>
     <!-- Sort by departure timelabel -->
     <string name="sort_description_departure">출발</string>
     <!-- Sort by arrival time label -->
@@ -971,9 +1588,9 @@
     <!-- Hint when no dates are selected for a flight trip -->
     <string name="hint_select_departure">출발 날짜를 선택하세요.</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
-    <string name="one_way_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt;&lt;/font&gt;(편도)</string>
+    <string name="one_way_TEMPLATE">%1$s(편도)</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
-    <string name="round_trip_TEMPLATE">&lt;font color="#343434"&gt;&lt;b&gt;%1$s&lt;/b&gt; - &lt;b&gt;%2$s&lt;/b&gt;&lt;/font&gt;</string>
+    <string name="round_trip_TEMPLATE">%1$s - %2$s</string>
     <!-- Label for "sort" button -->
     <string name="sort_flights">항공편 정렬</string>
     <!-- Edit search title -->
@@ -1025,7 +1642,8 @@
     <string name="calendar_instructions_date_range_with_nights_TEMPLATE">%1$s - %2$s (%3$s)</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
     <string name="calendar_instructions_hotels_no_dates_selected">체크인 날짜 선택</string>
-
+    <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
+    <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} ~ {enddate}, 숙박객 {guests} 명</string>
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">편도 항공 가격: &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1053,9 +1671,9 @@
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class. For example: "4h 10m - Economy (K)" -->
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
-    <string name="cabin_code_coach">일반석</string>
+    <string name="cabin_code_coach">이코노미석</string>
     <!-- Label for "premium coach" cabin code -->
-    <string name="cabin_code_premium_coach">프리미엄 일반석</string>
+    <string name="cabin_code_premium_coach">프리미엄 이코노미석</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">비즈니스석</string>
     <!-- Label for "first" cabin code -->
@@ -1090,6 +1708,12 @@
     <string name="select_payment">결제 선택</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">결제 정보</string>
+    <!-- Select payment sentence case AB Test variate1 -->
+    <string name="select_payment_sentence_case_variate1">결제 정보 입력</string>
+    <!-- Select payment sentence case AB Test variate2 -->
+    <string name="select_payment_sentence_case_variate2">결제</string>
+    <!-- Select payment callout AB Test variate2 -->
+    <string name="select_payment_callout">세부 정보 입력</string>
     <!-- Add new card -->
     <string name="add_new_card">새 카드 추가</string>
     <!-- Overview button -->
@@ -1110,6 +1734,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">항공사에서 %1$s 결제를 지원하지 않습니다.</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
     <string name="hotel_does_not_accept_cardtype_TEMPLATE">호텔에서 %1$s 결제를 지원하지 않습니다.</string>
+    <!-- Car supplier does not accept <Credit Card Brand> (e.g. "Enterprise does not accept Visa") -->
+    <string name="car_does_not_accept_cardtype_TEMPLATE">%1$s에서 %2$s 결제를 지원하지 않습니다.</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">직불카드로는 결제하실 수 없습니다.</string>
 
@@ -1148,6 +1774,12 @@
     <string name="airline_card_not_supported_TEMPLATE">이 항공사는 %1$s 결제를 지원하지 않습니다.</string>
     <!-- Message shown to user when they can't use their credit card to book with the airline, but when we don't know the type of the card -->
     <string name="airline_card_not_supported_generic">항공사에서 이 신용카드 브랜드를 지원하지 않습니다.</string>
+    <!-- Message shown to user explaining a hotel fee is being charged to use their credit card brand, %1$s is the fee amount and %2$s is the credit card brand e.g. "The hotel charges a fee of $8.50 to use VISA." -->
+    <string name="hotel_card_fee_select_TEMPLATE">이 호텔에서는 %1$s의 금액을 %2$s 결제 수수료로 부과합니다.</string>
+    <!-- Message shown to user when they can't use their credit card to book with the airline, %1$s is the credit card brand. e.g. "The hotel does not support VISA." -->
+    <string name="hotel_card_not_supported_TEMPLATE">이 호텔에서는 %1$s 결제를 지원하지 않습니다.</string>
+    <!-- Message shown to user when they can't use their credit card to book with the hotel, but when we don't know the type of the card -->
+    <string name="hotel_card_not_supported_generic">이 호텔에서는 이 신용카드 브랜드의 결제를 지원하지 않습니다.</string>
 
     <!-- Checkout Activity -->
     <!-- Checkout Information label -->
@@ -1164,8 +1796,10 @@
     <string name="slide_to_book_flight">밀어서 항공 예약하기</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">고객님의 신용카드로 %1$s의 금액이 청구됩니다.</string>
+    <!-- Cars amount due today without a required credit card -->
+    <string name="amount_due_today_TEMPLATE">오늘 결제할 금액: %1$s</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">지금 결제할 금액은 %1$s입니다.</string>
+    <string name="Amount_to_be_paid_now_TEMPLATE">지금 결제할 금액: %1$s</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
     <string name="collected_by_the_hotel_TEMPLATE">호텔에서 결제: %1$s</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
@@ -1174,16 +1808,22 @@
     <string name="menu_checkout">예약하기</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">최저가격보장</string>
+    <!-- Label for address of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_address">주소:</string>
+    <!-- Label to view map of hotel in checkout/receipt screen-->
+    <string name="hotel_receipt_view_map">지도 보기</string>
+    <!-- Expedia Rate - Non merchant default infosite messaging -->
+    <string name="non_merchant_rate_TEMPLATE">{brand} 요금</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;무료 취소 마감기한&lt;/b&gt;: &lt;b&gt;%s&lt;/b&gt;</string>
-    <!-- Log out -->
-    <string name="log_out">로그아웃</string>
+    <!-- Sign out -->
+    <string name="sign_out">로그아웃</string>
+    <!-- AB Test 3x messaging for hotel points -->
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">%1$s포인트가 적립됩니다. 앱에서 예약하면 포인트가 3배 적립됩니다!</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">이 여행에 대해 %1$s포인트가 적립됩니다!</string>
-    <!-- Blurb text displayed on account login button when already logged in -->
-    <string name="x_points_for_this_trip_TEMPLATE">이 여행에 대해 %1$s포인트 적립!</string>
-    <!-- You'll earn bonus points for this booking -->
-    <string name="youll_earn_bonus_points_for_this_booking">이 예약에 대해 보너스 포인트가 적립됩니다.</string>
+    <string name="youll_earn_points_TEMPLATE">이 예약으로 %1$s포인트가 적립됩니다!</string>
+    <!-- Blurb text displayed on account sign in button when already signed in -->
+    <string name="x_points_for_this_trip_TEMPLATE">이 여행에 대해 %1$s포인트가 적립됩니다!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">세금 및 수수료 계산 중…</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -1192,12 +1832,28 @@
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">반가운 소식을 알려드릴게요! 고객님의 숙박 요금이 %1$s에서 %2$s의 금액으로 방금 내려갔습니다.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">완료</string>
-    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">오늘 결제할 총액</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">영문자를 사용해 주세요.</string>
     <!-- Label to show user when they use unsupported characters in their email -->
     <string name="please_enter_a_valid_email_address">유효한 이메일 주소를 입력해 주세요.</string>
+    <!-- Row header for when we show resort fees as its own line item -->
+    <string name="fees_paid_at_hotel">호텔에서 결제되는 수수료:</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
+    <string name="due_to_brand_today_TEMPLATE">{brand}에 오늘 결제할 금액:</string>
+    <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
+    <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 리조트 요금을 호텔에서 결제하시게 됩니다. 고객님 숙박의 총 금액은 &lt;b&gt;%2$s&lt;/b&gt;입니다.</string>
+    <!-- Pay later disclaimer at bottom of checkout -->
+    <string name="pay_later_disclaimer_TEMPLATE">고객님 여행의 총 금액은 &lt;b&gt;%1$s&lt;/b&gt;입니다. 고객님은 숙박 시 호텔에 예약의 총 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
+    <!-- Pay later disclaimer with deposit -->
+    <string name="pay_later_deposit_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 보증금은 지금 결제됩니다. 고객님은 숙박 시 호텔에 예약의 나머지 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
+    <!-- Pay later disclaimer with resort fees -->
+    <string name="pay_later_resort_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 리조트 요금을 포함하여 고객님 여행의 총 금액은 &lt;b&gt;%2$s&lt;/b&gt;입니다. 고객님은 숙박 시 호텔에 예약의 총 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
+    <!-- Pay later disclaimer with deposit and resort fees -->
+    <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 리조트 요금을 포함하여 고객님 여행의 총 금액은 &lt;b&gt;%2$s&lt;/b&gt;입니다. 고객님은 숙박 시 호텔에 예약의 나머지 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
+    <!-- Flights AB Test Free Cancellation-->
+    <string name="ab_test_flights_free_cancellation">예약 후 24시간 이내 무료 취소</string>
+    <!-- Flights AB Test Traveler info missing callout label -->
+    <string name="ab_test_flights_missing_info_callout">여행객 정보 입력</string>
 
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
@@ -1220,7 +1876,7 @@
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">세금 및 수수료</string>
     <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">익스피디아 예약 수수료</string>
+    <string name="brand_booking_fee">{brand} 예약 수수료</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">카드 결제 수수료</string>
     <!-- Flight -->
@@ -1238,24 +1894,66 @@
     <string name="enter_traveler_info">여행객 정보</string>
     <!-- Traveler Details (for flights) -->
     <string name="traveler_details">주 여행객 정보</string>
+    <!-- Saved button for traveler/payment -->
+    <string name="saved_button">저장된 정보</string>
+    <!-- Edit button for traveler/payment -->
+    <string name="edit_button">수정</string>
+    <!-- Select traveler/contact from checkout saved travelers list -->
+    <string name="select_traveler">연락할 여행객 선택</string>
+    <!-- Add new traveler, checkout saved travelers list -->
+    <string name="add_new_traveler">새 여행객 추가</string>
+    <!-- Select card from checkout saved credit cards list -->
+    <string name="saved_creditcards">저장된 카드</string>
+    <!-- Select card from checkout saved cards list -->
+    <string name="select_saved_cards">저장된 카드 선택</string>
+    <!-- Add new card, checkout saved credit cards list -->
+    <string name="add_new_creditcard">새 카드 추가</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">숙박객 정보</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">어른 %1$s 정보</string>
+    <!-- AB test variate 1 - Add adult traveler number template -->
+    <string name="add_adult_number_variate1_TEMPLATE">어른 %1$s 정보 입력</string>
+    <!-- AB test variate 2 - Add adult traveler number template -->
+    <string name="add_adult_number_variate2_TEMPLATE">어른 %1$s</string>
     <!-- Add adult traveler details label -->
     <string name="add_adult">어른 정보</string>
+    <!-- AB test variate 1 - Add adult traveler details label -->
+    <string name="add_adult_variate1">어른 정보 입력</string>
+    <!-- AB test variate 2 - Add adult traveler details label -->
+    <string name="add_adult_variate2">어른</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">아동 %1$s 정보</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_TEMPLATE">만 %1$s세 아동 정보</string>
+    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate1_TEMPLATE">만 %1$s세 아동 정보 입력</string>
+    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
+    <string name="add_child_with_age_variate2_TEMPLATE">만 %1$s세</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">무릎에 앉히는 영유아 %1$s 정보</string>
+    <!-- AB test variate 1 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate1_TEMPLATE">무릎에 앉히는 영유아 %1$s 정보 입력</string>
+    <!-- AB test variate 2 - Add infant in lap traveler number template -->
+    <string name="add_infant_in_lap_number_variate2_TEMPLATE">무릎에 앉히는 영유아 %1$s</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap">무릎에 앉히는 영유아 정보</string>
+    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate1">무릎에 앉히는 영유아 정보 입력</string>
+    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
+    <string name="add_infant_in_lap_variate2">무릎에 앉히는 영유아</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">좌석에 앉는 영유아 %1$s 정보</string>
+    <!-- AB test variate 1- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate1_TEMPLATE">좌석에 앉는 영유아 %1$s 정보 입력</string>
+    <!-- AB test variate 2- Add infant in seat traveler number template -->
+    <string name="add_infant_in_seat_number_variate2_TEMPLATE">좌석에 앉는 영유아 %1$s</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat">좌석에 앉는 영유아 정보</string>
+    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate1">좌석에 앉는 영유아 정보 입력</string>
+    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
+    <string name="add_infant_in_seat_variate2">좌석에 앉는 영유아</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">여행객 이름이 정부가 발급한 사진이 부착된 ID와 맞지 않는 경우 탑승이 거부될 수 있습니다.</string>
 
@@ -1266,9 +1964,9 @@
     <!-- Born on -->
     <string name="born_on_TEMPLATE">생년월일: %1$s</string>
     <!-- Born on colored -->
-    <string name="born_on_colored_TEMPLATE">&lt;font color="#919191"&gt;생년월일:&lt;/font&gt; %1$s</string>
+    <string name="born_on_colored_TEMPLATE">생년월일: %1$s</string>
     <!-- <brand> expiring <date> template -->
-    <string name="brand_expiring_TEMPLATE">&lt;font color="#38597D"&gt;%1$s&lt;/font&gt; 만료일: %2$s</string>
+    <string name="brand_expiring_TEMPLATE">%1$s 만료일: %2$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -1281,14 +1979,19 @@
     <string name="cardholder">카드 소유자 이름</string>
     <!-- email disclaimer -->
     <string name="email_disclaimer">예약 일정이 고객님의 이메일로 전송됩니다.</string>
-    <!-- Expires on colored template -->
-    <string name="expires_colored_TEMPLATE">&lt;font color="#919191"&gt;만료일:&lt;/font&gt; %1$s</string>
+    <!-- Label for merchandise opt out confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_out_TEMPLATE">여행 특가 상품, 특별 혜택 및 기타 정보가 들어 있는 {brand}의 이메일을 받지 않겠습니다.</string>
+    <!-- Label for erchandise opt in confirmation for hotel guest checkout -->
+    <string name="hotel_checkout_merchandise_guest_opt_in_TEMPLATE">여행 특가 상품, 특별 혜택 및 기타 정보가 들어 있는 {brand}의 이메일을 받겠습니다.</string>
 
     <!-- Section display address -->
     <!-- Two address lines to one -->
     <string name="single_line_street_address_TEMPLATE">%1$s, %2$s</string>
     <!-- Single Line City State Zip -->
     <string name="single_line_city_state_zip_TEMPLATE">%1$s, %2$s, %3$s</string>
+
+    <!-- Airport to LX template (e.g. "Boise, ID or Paris, France" -->
+    <string name="lx_destination_TEMPLATE">%1$s, %2$s</string>
 
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
@@ -1318,7 +2021,7 @@
     <!-- save billing info -->
     <string name="save_billing_info">청구 정보 저장</string>
     <!-- save billing info message -->
-    <string name="save_billing_info_message">앞으로 더욱 간편한 구매를 위해 고객님의 익스피디아 계정에 이 결제 방법을 저장하시겠어요?</string>
+    <string name="save_billing_info_message_TEMPLATE">나중에 간편하게 결제하시도록 이 결제 방법을 고객님의 {brand} 계정에 저장할까요?</string>
     <!-- save -->
     <string name="save">저장</string>
 
@@ -1326,7 +2029,7 @@
     <!-- save traveler -->
     <string name="save_traveler">여행객 저장</string>
     <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">앞으로 더욱 간편한 구매를 위해 고객님의 익스피디아 계정에 %1$s 님 정보를 저장하시겠어요?</string>
+    <string name="save_traveler_message_TEMPLATE">나중에 간편하게 결제하시도록 {name} 님의 정보를 고객님의 {brand} 계정에 저장할까요?</string>
     <!-- no thanks -->
     <string name="no_thanks">나중에 하기</string>
 
@@ -1391,13 +2094,13 @@
     <!-- prefers seat template -->
     <string name="prefers_seat_TEMPLATE">%1$s 좌석 선호</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">&lt;font color="#919191"&gt;&lt;/font&gt;%1$s 좌석 선호</string>
+    <string name="prefers_seat_colored_TEMPLATE">%1$s 좌석 선호</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">여행객 정보 로드 중…</string>
     <!-- Passport -->
     <string name="passport">여권</string>
     <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">&lt;font color="#38597D"&gt;현재 여행객 - &lt;/font&gt; %1$s %2$s</string>
+    <string name="current_traveler_TEMPLATE">현재 여행객 - %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -1438,8 +2141,14 @@
     <string name="itinerary_confirmation_TEMPLATE">여행 일정 번호(%s)가 전송되었습니다.</string>
     <!-- Title for section helping users get hotel rooms after booking a flight -->
     <string name="get_a_room">객실 예약하기</string>
+    <!-- Title for section helping users get hotel rooms and cars after booking a flight -->
+    <string name="add_to_your_trip">여행에 추가</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">%s 호텔</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
+    <string name="cars_in_TEMPLATE">%s 렌터카</string>
+    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
+    <string name="lx_in_TEMPLATE">%s에서의 즐길거리</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">고객 지원 더 보기</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -1451,13 +2160,28 @@
     <!-- Button label for tracking recently booked flights to FlightTrack (another application) -->
     <string name="add_to_flighttrack">FlightTrack으로 항공 정보 확인</string>
     <!-- Button label for calling expedia customer support -->
-    <string name="call_expedia_customer_support">익스피디아 고객 지원에 연락</string>
-    <!-- Button label for VSC support webpage link -->
-    <string name="vsc_customer_support">문의</string>
+    <string name="call_customer_support_TEMPLATE">{brand} 고객 지원에 전화</string>
     <!-- Add Insurance label -->
     <string name="add_insurance">보험 추가</string>
     <!-- Insurance -->
     <string name="insurance">보험</string>
+    <!-- Insurance label on itin section -->
+    <string name="insurance_itin_label">여행자 보험</string>
+    <!-- Air attach messaging -->
+    <string name="air_attach_alert">항공편을 예약하셨으므로</string>
+    <!-- Air attach savings messaging -->
+    <string name="air_attach_potential_savings">호텔이 최대 55% 할인됩니다.</string>
+    <!-- Air attach discounted hotel messaging -->
+    <string name="air_attach_amount_discounted_TEMPLATE">지금 호텔을 예약하시면 %s 할인을 받으시게 됩니다!</string>
+    <!-- Air attach offer expiration alert -->
+    <string name="air_attach_expires">혜택 만료까지 남은 시간:</string>
+    <!-- Air attach expires today alert -->
+    <string name="air_attach_expires_today">혜택이 오늘 만료됩니다!</string>
+    <!-- Air attach add hotel button -->
+    <string name="air_attach_add_hotel">호텔 추가</string>
+    <!-- Air attach add hotel button subtitle -->
+    <string name="air_attach_with_discounts">할인 적용</string>
+
 
     <!-- Hotel confirmation page -->
     <!-- Title for section helping users get flights after booking a hotel -->
@@ -1473,11 +2197,11 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">익스피디아 일정 번호: %s</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">{brand} 일정 번호: {itinerary}</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">공항까지 가는 길 안내: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
-    <string name="calendar_flight_desc_support_TEMPLATE">익스피디아 고객 지원: %s</string>
+    <string name="calendar_flight_desc_support_TEMPLATE">{brand} 고객 지원: {phone}</string>
 
     <!-- Add to calendar (hotels) -->
     <!-- Title for calendar entry for when you check into a hotel -->
@@ -1508,6 +2232,8 @@
     <string name="accept">계속</string>
     <!-- Button label for retrying after getting an error -->
     <string name="retry">다시 시도</string>
+    <!-- Button label for adjusting filters after getting no results -->
+    <string name="edit_filters">필터 수정</string>
     <!-- Button label for calling -->
     <string name="call_support">고객 지원</string>
     <!-- Error shown to user if the flight's price has increased since they last checked.  %1$s is the difference in price, %2$s is the new total, both are cash (e.g. "$5.99"). -->
@@ -1529,11 +2255,11 @@
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
     <string name="error_flight_unhandled">죄송합니다. 현재 고객님의 주문을 처리해 드릴 수 없습니다. 다시 시도해 주세요.</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">죄송합니다. 현재 고객님의 주문을 처리해 드릴 수 없습니다. 다시 시도하시거나 익스피디아 고객 지원에 연락하여 이 일정 번호를 말씀해 주세요: %s</string>
+    <string name="error_flight_unhandled_TEMPLATE">죄송합니다. 현재 고객님의 주문을 처리해 드릴 수 없습니다. 다시 시도해 보시거나 {brand} 고객 지원에 전화하여 이 일정 번호를 말씀해 주세요: {itinerary}</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flight_no_longer_available_expedia">정말 죄송합니다. 고객님 항공편은 익스피디아에서 더 이상 이용하실 수 없습니다.</string>
+    <string name="error_flight_no_longer_available_TEMPLATE">정말 죄송합니다. 고객님의 항공편은 더 이상 {brand}에서 제공되지 않습니다.</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
-    <string name="error_flights_no_longer_available_expedia">정말 죄송합니다. 고객님 항공편 중 한 개는 익스피디아에서 더 이상 이용하실 수 없습니다.</string>
+    <string name="error_flights_no_longer_available_TEMPLATE">정말 죄송합니다. 고객님의 항공편 중 한 편은 더 이상 {brand}에서 제공되지 않습니다.</string>
     <!-- Error shown to user if their flight is no longer available or expired -->
     <string name="error_flight_hold_expired">죄송합니다. 이 항공편에 대한 고객님의 확보가 만료되었습니다.</string>
     <!-- Error shown to user if one of multiple flights is no longer available or expired -->
@@ -1611,15 +2337,14 @@
     <string name="share_flight_section_outbound">출국편:</string>
     <!-- Header for the return flight details section of the share flight email -->
     <string name="share_flight_section_return">귀국편:</string>
-    <string name="app_name">익스피디아</string>
 
     <!-- Search Fragment -->
     <!-- Label for picking checkin/checkout dates -->
     <string name="drag_to_extend_your_stay">&lt;b&gt;드래그하여&lt;/b&gt; 숙박 일을 추가해 주세요.</string>
     <!-- Child age dialog button -->
     <string name="button_done">완료</string>
-    <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">완료</string>
+    <!-- Done button text in Confirmation screens -->
+    <string name="button_confirmation_done">완료</string>
     <!-- Label for child age selection prompt -->
     <plurals name="select_each_childs_age">
         <item quantity="one">아동 나이 선택</item>
@@ -1675,6 +2400,10 @@
     <string name="DONE">완료</string>
     <!-- Button label for searching the visible map area -->
     <string name="map_search_button">지도 검색</string>
+    <!-- Button label for toggling to the map -->
+    <string name="map_text">지도</string>
+    <!-- Button label for toggling to the hotel list -->
+    <string name="list_text">목록</string>
     <!-- Label for sort hotels in hotel list -->
     <string name="sort">정렬</string>
     <!-- Label to swtich between map and list search results -->
@@ -1683,6 +2412,10 @@
     <string name="mobile_exclusive">모바일 전용</string>
     <!-- Expedia Deal for a given property, tonight only -->
     <string name="tonight_only">오늘 밤 한정!</string>
+    <!-- Expedia sponsored listing -->
+    <string name="sponsored">스폰서 링크</string>
+    <!-- Expedia ETP book now/pay later search results -->
+    <string name="book_now_pay_later">지금 예약하고 나중에 결제</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">죄송합니다. %1$s일을 초과하는 숙박을 위한 호텔은 검색할 수 없습니다.</string>
     <!-- Search Error title text "Search Error" -->
@@ -1699,9 +2432,9 @@
     </plurals>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">"내 위치"를 사용하려면 먼저 "설정"에서 "위치"를 사용하도록 설정해야 합니다.\n"설정"으로 이동하여 지금 설정하시겠어요?</string>
+    <string name="EnableLocationSettings">현재 위치를 사용하려면 환경설정에서 위치 서비스를 켜셔야 합니다.\n\n환경설정으로 이동하여 지금 설정하시겠어요?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
-    <string name="ProviderDisabled">위치 제공자가 설정 해제되어 있습니다. 현재 위치로 검색하려면 다시 설정해 주세요.</string>
+    <string name="ProviderDisabled">위치 제공 설정이 해제되어 있습니다. 현재 위치로 검색하려면 다시 설정해 주세요.</string>
 
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by distance label -->
@@ -1742,7 +2475,9 @@
     <!-- Message displayed when app is trying to find where it is (via network/GPS) -->
     <string name="progress_finding_location">현재 위치 찾는 중…</string>
     <!-- Message displayed when app is searching a location for hotels -->
-    <string name="progress_searching_hotels">호텔 검색 중…</string>
+    <string name="progress_searching_message">찾는 중이에요!</string>
+    <!-- Message displayed when app is searching a location for hotels -->
+    <string name="progress_searching_hotels_hundreds">수백 개 호텔 중에서 찾는 중이에요!</string>
     <!-- Message displayed when app is searching for a particular hotel -->
     <string name="progress_searching_selected_hotel">호텔 검색 중…</string>
     <!-- Message displayed when search comes up with zero results -->
@@ -1754,7 +2489,7 @@
     <!-- Message displayed when no hotel rooms are available -->
     <string name="error_no_hotel_rooms_available">이용 가능한 객실이 없습니다.</string>
     <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out_expedia">죄송합니다. 이 호텔은 익스피디아에서 더 이상 이용하실 수 없습니다.</string>
+    <string name="error_hotel_is_now_sold_out_TEMPLATE">죄송합니다. 이 호텔은 더 이상 {brand}에서 제공되지 않습니다.</string>
 
     <!-- Suggestion adapter -->
     <!-- Suggestion to search the user's current location (instead of entering a specific place) -->
@@ -1767,6 +2502,8 @@
     <string name="per_night">/1박</string>
     <!-- The label for abbreviated price per night - "$120/nt", for example -->
     <string name="per_nt">/1박</string>
+    <!-- The label for abbreviated price per night - "$120/nt", for example -->
+    <string name="per_nt_TEMPLATE">{price}/1박</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">평점 없음</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -1780,7 +2517,7 @@
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
     <string name="map_snippet_price_template">%s~</string>
-    <string name="From_x_per_night_template">1박당 &lt;font color="#3c7cf2"&gt;&lt;b&gt;%s&lt;/b&gt;&lt;/font&gt;~</string>
+    <string name="From_x_per_night_template">1박당 %s ~</string>
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -1795,6 +2532,8 @@
     <string name="bullet_point">•</string>
     <!-- Label for button that lets the user complete the booking through the normal flow -->
     <string name="book_now">지금 예약</string>
+    <!-- Label for button that lets the user complete the booking through the normal flow -->
+    <string name="book_now_ab_test">객실 선택</string>
     <!-- Label for button that lets the user complete the booking by calling a phone number -->
     <string name="book_by_phone">전화로 예약</string>
 
@@ -1802,7 +2541,7 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">+VIP Access 호텔에서 +silver 및 +gold 회원은 체크인 시 이용 가능한 경우 무료 객실 업그레이드와 기타 특전을 받으시게 됩니다.</string>
+    <string name="vip_access_message">+VIP Access 호텔에서 +실버 및 +골드 회원은 체크인 시 이용 가능한 경우 무료 객실 업그레이드와 기타 특전을 받으시게 됩니다.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">+VIP Access 호텔만</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -1814,14 +2553,17 @@
     <!-- HotelDetailsFragmentActivity and friends -->
     <!-- Discount percent shown in hotel results list -->
     <string name="minus_x_percent">-%2.0f%%</string>
-    <!-- Discount percent shown in hotel details fragment -->
-    <string name="x_percent_OFF_TEMPLATE">%2.0f%% 할인</string>
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">고객 중 %2.0f%%가 이 호텔을 추천하셨습니다!</string>
+    <!-- new material Hotel results cell guest rating -->
+    <string name="customer_rating_percent_Template">{rating}{percent}</string>
+    <!-- new material Hotel results cell guest recommend-->
+    <string name="guest_recommend">명의 고객이 추천</string>
+    <string name="hotel_guest_recommend">점(총 5점 만점)의 고객 평점</string>
 
     <!-- Amenity strings -->
     <!-- Text that indicates no amenities at this property -->
-    <string name="AmenityNone">편의시설 제공 안 함</string>
+    <string name="AmenityNone">제공된 편의 시설 없음</string>
     <!-- Business center amenity -->
     <string name="AmenityBusinessCenter">비즈니스 센터</string>
     <!-- Fitness center amenity -->
@@ -1928,15 +2670,21 @@
     <!-- User reviews server/parsing error -->
     <string name="user_review_unavailable">이용 후기를 일시적으로 이용하실 수 없습니다.</string>
 
+    <!-- ETP pay later info message -->
+    <string name="pay_later_info_text">지금 예약하고 나중에 결제</string>
+    <string name="etp_payment_options_text">고객님의 호텔 결제 옵션</string>
+    <string name="etp_pay_later_option_text">나중에 결제</string>
+    <string name="etp_pay_later_charges_text">보증금이 요구되지 않는 한 숙박일까지 결제하실 필요가 없습니다.</string>
+    <string name="etp_pay_later_currency_text_TEMPLATE">호텔에서 직접 호텔의 현지 통화(%s)로 결제하시면 됩니다.</string>
+    <string name="etp_pay_later_payment_info_text">결제 정보는 예약을 유지하는 데만 필요합니다.</string>
+    <string name="etp_pay_later_cancellation_text">호텔의 취소 마감까지 무료 취소가 가능합니다.</string>
+    <string name="etp_pay_now_option_text">지금 온라인 결제</string>
+    <string name="etp_pay_now_charges_text_TEMPLATE">{brand}에서 고객님의 결제 세부 정보를 처리합니다.</string>
+    <string name="etp_pay_now_currency_text_TEMPLATE">고객님은 고객님께서 사용하시는 통화(%s)로 결제하시게 됩니다.</string>
+    <string name="etp_pay_now_cancellation_text">호텔의 취소 마감까지 무료 취소가 가능합니다.</string>
+    <string name="etp_select_room">객실 선택</string>
+
     <!-- Room and rates list -->
-    <!-- The number of nights the customer is staying at a hotel.  %d is the number of nights (e.g., "Staying 3 nights") -->
-    <plurals name="staying_nights">
-        <item quantity="zero">%d박 숙박 중</item>
-        <item quantity="one">%d박 숙박 중</item>
-        <item quantity="two">%d박 숙박 중</item>
-        <item quantity="many">%d박 숙박 중</item>
-        <item quantity="other">%d박 숙박 중</item>
-    </plurals>
     <!-- Loading message for rooms & rates -->
     <string name="room_rates_loading">예약 가능한 객실 검색 중…</string>
     <!-- Error message (no response) for not being able to download room and rates information -->
@@ -1952,7 +2700,7 @@
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">남은 객실이 없습니다!</item>
-        <item quantity="one">1개 객실만 남았습니다!</item>
+        <item quantity="one">객실이 1개 남았습니다!</item>
         <item quantity="two">객실이 %d개 남았습니다!</item>
         <item quantity="many">객실이 %d개 남았습니다!</item>
         <item quantity="other">객실이 %d개 남았습니다!</item>
@@ -1968,11 +2716,18 @@
     <!-- Instruction as the header of the list to select a room from the list -->
     <string name="select_a_room_instruction">객실 선택</string>
     <!-- The text we use when the search date it tonight -->
-    <string name="Tonight">오늘 밤</string>
+    <string name="Tonight">오늘 밤 특가 상품</string>
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">무료 취소</string>
-    <!-- This fee is not included in the total -->
-    <string name="fee_not_included_in_total">이들 요금은 총 금액에 포함되어 있지 않습니다.</string>
+    <!-- Top line of resort fee text -->
+    <string name="hotel_fees_for_this_stay">이 숙박에 대한 호텔 수수료</string>
+    <!-- Included in the price -->
+    <string name="included_in_the_price">요금에 포함됨</string>
+    <!-- Not included in the price -->
+    <string name="not_included_in_the_price">요금에 포함 안 됨</string>
+    <!-- View Room button text -->
+    <string name="view_room_button_text">객실 보기</string>
+
     <!-- Renovation Notice -->
     <string name="renovation_notice">새단장 공사 알림</string>
     <!-- This property is undergoing renovations -->
@@ -1981,8 +2736,6 @@
     <string name="more_info">자세히</string>
 
     <!-- Booking info -->
-    <!-- Label for room type -->
-    <string name="room_type">객실 유형</string>
     <!-- Error if we couldn't find the room type details -->
     <string name="error_room_type_nonexistant">죄송합니다. 이 객실에 대한 추가 정보를 찾을 수 없습니다.</string>
     <!-- Quantity for the length of stay -->
@@ -1999,7 +2752,7 @@
     <!-- Message for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_msg">그러면 저장된 모든 청구 및 연락처 정보가 삭제됩니다.</string>
     <!-- Message for dialog confirming the clearing of private data -->
-    <string name="dialog_log_out_and_clear_private_data_msg">그러면 로그아웃되고 저장된 모든 청구 및 연락처 정보가 삭제됩니다.</string>
+    <string name="dialog_sign_out_and_clear_private_data_msg">그러면 로그아웃되고 저장된 모든 청구 및 연락처 정보가 삭제됩니다.</string>
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">개인 정보가 삭제되었습니다.</string>
     <!-- Error shown to user if their credit card postal code is invalid -->
@@ -2019,62 +2772,37 @@
     <!-- Itinerary number label -->
     <string name="itinerary_number">일정 번호</string>
     <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">예약 관련 문의 사항이 있으시면 익스피디아 전화 %s번으로 연락해 주세요.</string>
-
+    <string name="contact_phone_TEMPLATE">예약 관련 문의 사항이 있으시면 {brand}({phone})에 전화해 주시기 바랍니다.</string>
+    <!-- Webview title for password recovery -->
+    <string name="title_forgot_password">비밀번호를 잊으셨나요?</string>
 
     <!-- Rate template strings -->
     <!-- Label for the taxes and fees for a hotel room booking. -->
     <string name="taxes_and_fees">세금 및 수수료</string>
     <!-- Label indicating that the taxes and fees are included in the price for a hotel room booking -->
     <string name="included">포함됨</string>
-    <!-- Label for the "Mandatory Fees" (bait & switch fees) -->
-    <string name="MandatoryFees">호텔 수수료(호텔에서 결제)</string>
     <!-- Label to display the amount you save after applying a coupon code in the receipt -->
     <string name="discount">할인</string>
     <!-- Label indicating that the taxes for a hotel room booking is unknown (as returned from API) -->
     <string name="unknown">알 수 없음</string>
 
-    <!-- Expedia policy strings -->
-    <!-- Policy displayed to user when an immediate charge is required -->
-    <string name="PolicyImmediateChargeRequired">예약하시면 고객님의 신용카드로 총 예약 금액이 바로 청구됩니다.</string>
-    <!-- Policy displayed to user when the room is non-refundable -->
-    <string name="PolicyNonRefundable">익스피디아는 이 호텔에 대해 특별 할인 요금을 제공하고 있습니다. 따라서 이 호텔 요금은 환불되지 않습니다. 이 예약을 취소하시는 경우에도 결제하신 금액이 환불되지 않습니다.</string>
-    <!-- Policy displayed to user when a deposit is required -->
-    <string name="PolicyDepositRequired">고객님의 신용카드로 예약을 위한 보증금이 청구됩니다. 예약을 완료하시면 호텔 측에서 직접 고객님의 신용카드에 청구합니다.</string>
-    <!-- Policy displayed to user when a guarantee is required -->
-    <string name="PolicyGuaranteeRequired">고객님의 예약을 보장하기 위해 신용카드 정보가 필요합니다. 고객님이 호텔에 도착할 때까지 또는 취소 만료일이 지날 때까지 고객님의 신용카드에 청구되지는 않습니다.</string>
-    <!-- Expedia merchant hotel policies -->
-    <string name="PolicyExpediaMerchant">이 예약을 진행하시면 취소 정책 및 사용자 계약을 포함한 모든 이용약관에 동의하시게 됩니다.\n\n예약 비용 결제에 동의하시는 것으로 간주합니다. 고객님께서 이 비용을 지불하지 않고 수금대행업체, 변호사 또는 기타 법적 절차를 통해 지불이 진행될 경우, 변호사 비용과 재판 비용을 포함해 이러한 절차와 관련하여 발생하는 모든 합당한 비용과 수수료는 고객님이 지불하는 데 동의하신 것으로 간주합니다.</string>
-    <!-- Expedia agent hotel policies -->
-    <string name="PolicyExpediaAgent">할인 혜택이 없는 호텔을 예약하고 계십니다. 달리 명시되지 않는 한 모든 요금은 2인용 객실 1개 기준 1박 요금을 나타냅니다. 선택하신 객실에서 일행이 모두 머물 수 있는지 객실 세부 정보와 요금 규정을 자세히 살펴보시기 바랍니다. 일부 객실의 경우 특별 신분증이 필요할 수 있습니다. 예약 수수료, 세금 및 기타 호텔 부과 수수료는 포함되어 있지 않습니다. 해당 객실에 명시된 인원 외 추가 숙박(어른 또는 아동)하는 경우 해당 호텔 재량에 따라 추가 요금이 부과될 수 있습니다.\n\n2명 이상 또는 선택한 요금이 명시하는 것보다 많은 인원수에 대한 요청은 해당 호텔에 전달되지만 보장되지는 않습니다. 요청이 수용되는 경우 호텔 재량에 따라 추가 요금이 청구될 수 있습니다.</string>
-
     <!-- Expedia Accounts -->
-    <!-- Label for menu item to log into account -->
-    <string name="log_in">로그인</string>
-    <!-- Login blurb: descriptive second line of text on login button on larger screens -->
-    <string name="Earn_points_and_book_fast">포인트도 적립하고 빠르게 예약하세요.</string>
-    <!-- Hint for user to enter password into a field -->
-    <string name="hint_password">비밀번호</string>
-    <!-- Progress dialog text when we are logging the user into Expedia -->
-    <string name="logging_in">로그인 중…</string>
-    <!-- Message that tells user they failed to log in -->
-    <string name="login_failed">다시 로그인해 주세요.</string>
-    <!-- Label for logout confirmation -->
-    <string name="logout_confirmation">익스피디아 계정에서 로그아웃하시겠어요?</string>
-    <!-- Label for account status -->
-    <string name="enrolled_in_expedia_rewards">Expedia+ Rewards\u2122에 등록됨</string>
-    <!-- Label for account status -->
-    <string name="enrolled_in_expedia_elite_plus_rewards">Elite Plus 회원</string>
-    <!-- Label for account name -->
-    <string name="logged_in_as">로그인된 고객님:</string>
-    <!-- Label for signin screen -->
-    <string name="expedia_account">익스피디아 계정</string>
-    <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">익스피디아 계정 로드 중</string>
-    <!-- Label for password recovery -->
-    <string name="forgot_your_password">비밀번호를 잊으셨나요?</string>
-    <!-- Webview title for password recovery -->
-    <string name="title_forgot_password">비밀번호를 잊으셨나요?</string>
+    <!-- Label for menu item to sign into account -->
+    <string name="sign_in">로그인</string>
+    <!-- Progress dialog text when we are signing the user into Expedia -->
+    <string name="signing_in">로그인하는 중…</string>
+    <!-- Message that tells user they failed to sign in -->
+    <string name="sign_in_failed">다시 로그인해 주세요.</string>
+    <!-- Label for sign out confirmation -->
+    <string name="sign_out_confirmation_TEMPLATE">{brand} 계정에서 로그아웃하시겠어요?</string>
+    <!-- Label for Expedia +blue rewards program name -->
+    <string name="Expedia_plus_blue">익스피디아 +블루</string>
+    <!-- Label for Expedia +silver rewards program name -->
+    <string name="Expedia_plus_silver">익스피디아 +실버</string>
+    <!-- Label for Expedia +gold rewards program name -->
+    <string name="Expedia_plus_gold">익스피디아 +골드</string>
+    <!-- Label for loading user profile from Expedia -->
+    <string name="loading_brand_account_TEMPLATE">{brand} 계정 가져오는 중</string>
     <!-- Label for coupon code area of booking form -->
     <string name="coupon_code">쿠폰 또는 프로모션 코드를 입력해 주세요.</string>
     <!-- Label for coupon code hint -->
@@ -2096,35 +2824,43 @@
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't recognized -->
-    <string name="coupon_error_unrecognized">죄송합니다. 유효한 쿠폰 코드가 아닙니다.</string>
+    <string name="coupon_error_unrecognized">죄송합니다. 이 쿠폰 코드는 유효하지 않습니다.</string>
     <!-- Error when applying coupon - the coupon has expired -->
     <string name="coupon_error_expired">죄송합니다. 이 쿠폰은 만료되었습니다.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
-    <string name="coupon_error_not_redeemed">죄송합니다. 문제가 있는 것 같습니다. 다시 시도해 주세요.</string>
+    <string name="coupon_error_not_redeemed">죄송합니다. 저희 쪽에 문제가 있는 것 같습니다. 다시 시도해 주세요.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
     <string name="coupon_error_duplicate">죄송합니다. 이 쿠폰 코드는 이미 사용되었습니다.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
-    <string name="coupon_error_fallback">죄송합니다. 문제가 있는 것 같습니다. 다시 시도해 주세요.</string>
+    <string name="coupon_error_fallback">죄송합니다. 저희 쪽에 문제가 있는 것 같습니다. 다시 시도해 주세요.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">예약 비용이 변경되었기 때문에 쿠폰을 적용해 드리지 못했습니다. 확인하고 다시 시도해 주세요.</string>
+    <string name="coupon_error_price_change">예약 요금이 변동되어 쿠폰이 적용되지 않았습니다. 확인하고 다시 시도해 주세요.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">죄송합니다. 이 쿠폰 코드는 다른 국가용입니다.</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
     <string name="coupon_error_min_stay_not_met">죄송합니다. 최소 숙박 일수를 선택하지 않으셨습니다.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
-    <string name="coupon_error_invalid_travel_dates">죄송합니다. 이 쿠폰 코드는 이들 날짜에 사용하실 수 없습니다.</string>
+    <string name="coupon_error_invalid_travel_dates">죄송합니다. 이 쿠폰은 이들 날짜에 유효하지 않습니다.</string>
     <!-- Error when applying coupon - the hotel does not accept any coupons -->
-    <string name="coupon_error_invalid_product">죄송합니다. 이 호텔 예약에는 쿠폰을 사용하실 수 없습니다.</string>
+    <string name="coupon_error_invalid_product">죄송합니다. 이 호텔은 쿠폰을 받지 않습니다.</string>
     <!-- Error when applying coupon - the coupon is only valid with a minimum purchase -->
-    <string name="coupon_error_min_purchase_amount_not_met">죄송합니다. 최소 비용 요구 조건을 충족하지 않습니다.</string>
+    <string name="coupon_error_min_purchase_amount_not_met">죄송합니다. 요구되는 최소 비용이 충족되지 않습니다.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_hotel_excluded">죄송합니다. 이 호텔 예약에는 쿠폰을 사용하실 수 없습니다.</string>
+    <string name="coupon_error_hotel_excluded">죄송합니다. 이 호텔은 쿠폰을 받지 않습니다.</string>
     <!-- Error when applying coupon - the hotel does not accept coupons -->
-    <string name="coupon_error_invalid_hotel">죄송합니다. 이 호텔 예약에는 쿠폰을 사용하실 수 없습니다.</string>
+    <string name="coupon_error_invalid_hotel">죄송합니다. 해당 쿠폰은 이 호텔에 적용되지 않습니다.</string>
     <!-- Error when applying coupon - our coupon servers are down -->
-    <string name="coupon_error_service_down">죄송합니다. 현재 쿠폰을 처리할 수 없습니다.  다시 시도해 주세요.</string>
+    <string name="coupon_error_service_down">죄송합니다. 현재 쿠폰을 처리할 수 없습니다. 다시 시도해 주세요.</string>
     <!-- Error when applying coupon - session timeout -->
     <string name="coupon_error_service_timeout">죄송합니다. 시간이 초과되어 코드를 적용할 수 없습니다. 다시 시도해 주세요.</string>
+    <!-- Error when applying coupon - Invalid Stay Dates -->
+    <string name="coupon_error_invalid_stay_dates">죄송합니다. 해당 쿠폰은 이 여행 날짜에 적용되지 않습니다.</string>
+    <!-- Error when applying coupon - Exceeded Earn Limit -->
+    <string name="coupon_error_exceeded_earn_limit">죄송합니다. 이 쿠폰은 이미 여러 번 사용되었으며 더 이상 적용되지 않습니다.</string>
+    <!-- Error when applying coupon - Invalid Average Price -->
+    <string name="coupon_error_invalid_average_price">죄송합니다. 1박 평균 요금이 이 쿠폰의 최소 사용 조건을 충족하지 않습니다.</string>
+    <!-- Error when applying coupon - Pay Later Hotel -->
+    <string name="coupon_error_pay_later_hotel">쿠폰은 나중에 결제 객실에 적용되지 않습니다. 지금 결제 객실을 선택해 주세요.</string>
 
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
@@ -2134,37 +2870,29 @@
     <!-- Label for "Booking Support" button in info page -->
     <string name="booking_support">예약 지원</string>
     <!-- Title for different ways to connect to Expedia -->
-    <string name="contact_expedia_via">익스피디아 고객센터 문의 방법</string>
+    <string name="contact_via_TEMPLATE">다음을 통해 {brand}에 연락</string>
     <!-- Contact Expedia via phone -->
     <string name="contact_expedia_phone">전화</string>
-    <!-- Contact Expedia via email subject -->
-    <string name="contact_expedia_email_subject">익스피디아 예약 지원</string>
     <!-- Contact Expedia via website -->
     <string name="contact_expedia_website">웹사이트</string>
     <!-- Label for "Expedia website" button in info page -->
-    <string name="expedia_website">익스피디아 웹사이트</string>
+    <string name="website_TEMPLATE">{brand} 웹사이트</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">앱 기술 지원</string>
-    <!-- Subject line for "tell a friend" feature -->
-    <string name="tell_a_friend_subject">익스피디아 호텔</string>
-    <!-- Message body for "tell a friend" feature -->
-    <string name="tell_a_friend_body">안녕하세요.\n\niPhone과 Android 스마트폰용 익스피디아 호텔 앱을 다운로드해 보세요. 무료입니다! 전 세계 140,000여 개의 호텔을 간편하게 검색하고 예약하실 수 있습니다. 휴대폰에서 호텔을 예약하는 가장 쉬운 방법이에요.\n\nhttp://www.expedia.com/app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">이용약관</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">개인정보 보호정책</string>
     <!-- Copyright information -->
-    <string name="copyright">© Copyright 2012-2014 Expedia, Inc.\nAll rights reserved.</string>
+    <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nAll rights reserved.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_title_logged_out_and_cleared_private_data">로그아웃되고 데이터가 삭제되었습니다.</string>
+    <string name="dialog_title_signed_out_and_cleared_private_data">로그아웃되고 데이터가 삭제되었습니다.</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
-    <string name="dialog_message_logged_out_and_cleared_private_data">익스피디아 계정에서 로그아웃되었습니다. 저장된 모든 청구 및 연락처 정보가 삭제되었습니다.</string>
+    <string name="dialog_message_signed_out_and_cleared_private_data_TEMPLATE">{brand} 계정에서 로그아웃되었습니다. 저장된 모든 청구 및 연락처 정보가 삭제되었습니다.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_title_cleared_private_data">개인 정보가 삭제되었습니다.</string>
     <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
     <string name="dialog_message_cleared_private_data">저장된 모든 청구 및 연락처 정보가 삭제되었습니다.</string>
-    <!-- Dialog Message asking the user to confirm that they want to open the expedia mobile site in an external browser -->
-    <string name="dialog_message_launch_expedia_mobile_site">익스피디아 모바일 웹사이트를 실행할까요?</string>
     <!-- Action button label to Subscribe to our mailing list -->
     <string name="Subscribe">가입하기</string>
     <!-- Action button label to follow on twitter -->
@@ -2258,7 +2986,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s %2$s</string>
+    <string name="distance_template_short">%1$s%2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
@@ -2278,7 +3006,7 @@
     <!-- The hotel booking failed -->
     <string name="e3_error_checkout_booking_failed">오류가 발생하여 예약을 완료하지 못했습니다. 다시 시도해 주세요.</string>
     <!-- The hotel booking succeeded, but there were some errors. Likely an email was not sent -->
-    <string name="e3_error_checkout_booking_succeeded_with_errors">호텔 예약이 완료되었습니다! 여행 일정이 당장 필요하시면 익스피디아 고객 지원에 연락해 주세요.</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_TEMPLATE">호텔 예약이 완료되었습니다! 일정이 즉시 필요하시면 {brand} 고객 지원에 전화해 주세요.</string>
     <!-- The hotel room is no longer available -->
     <string name="e3_error_checkout_hotel_room_unavailable">죄송합니다. 요청하신 객실은 더 이상 이용하실 수 없습니다.</string>
     <!-- There is invalid input in the hotel booking form. Please fix it. -->
@@ -2303,7 +3031,7 @@
     <string name="e3_error_hotel_offers_hotel_offer_unavailable">죄송합니다. 이 객실에 대한 프로모션은 끝났지만 다른 프로모션이 진행 중입니다. 확인해 보세요.</string>
     <string name="e3_error_hotel_offers_hotel_room_unavailable">죄송합니다. 요청하신 객실은 더 이상 이용하실 수 없습니다.</string>
     <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">죄송합니다. 익스피디아에 연결할 수 없습니다. 다시 시도해 주세요.</string>
+    <string name="e3_error_hotel_offers_hotel_service_failure_TEMPLATE">죄송합니다. {brand}에 연결할 수 없습니다. 다시 시도해 주세요.</string>
     <!-- There are no longer any rooms for the hotel offer -->
     <string name="e3_error_hotel_offers_invalid_input">죄송합니다. 이 객실에 대한 프로모션은 끝났지만 다른 프로모션이 진행 중입니다. 확인해 보세요.</string>
     <!-- There are no longer any rooms for the hotel offer -->
@@ -2563,8 +3291,6 @@
     <string name="country_ax">알랜드 제도</string>
 
     <!-- Google Wallet -->
-    <!-- The merchant name to display to the user for Google Wallet -->
-    <string name="merchant_name">Expedia, Inc.</string>
     <!-- Loading message -->
     <string name="loading">로드 중</string>
     <!-- Google Wallet label -->
@@ -2576,29 +3302,17 @@
     <!-- Content description for "buy with wallet" button -->
     <string name="wallet_buy_with_google_wallet">Google Wallet으로 구매</string>
     <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Google Wallet으로 <b>10% 할인</b>받으세요!</string>
-    <!-- Message informing users that they are saving money with the Google Wallet promo -->
-    <string name="wallet_promo_in_use_message">Google Wallet 사용으로 10% 할인되었습니다!</string>
+    <string name="wallet_promo_offer">Google Wallet으로 <b>$200+ 여행</b>에서 <b>$50</b> 할인받으세요!</string>
     <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">예약 1회당 한 개 쿠폰만 사용하실 수 있습니다. 따라서 이전의 쿠폰을 Google Wallet 사용에 대한 10% 할인 쿠폰으로 대체했습니다.</string>
+    <string name="coupon_replaced_message">예약 1회당 한 개 쿠폰만 사용하실 수 있습니다. 이전 쿠폰을 Google Wallet 사용에 대한 $50 할인으로 대체해드렸습니다.</string>
     <!-- Message shown while loading Wallet coupon -->
     <string name="wallet_promo_applying">Google Wallet 할인 적용 중…</string>
-    <!-- Error message shown in dialog when we could not (for some reason) add the Google Wallet promo discount -->
-    <string name="error_wallet_promo_cannot_apply">죄송하게도 이 예약에는 Google Wallet 할인을 적용할 수 없습니다.</string>
     <!-- Title for Google Wallet promo terms & conditions -->
     <string name="wallet_promo_tc_title">Google Wallet 쿠폰 이용약관</string>
     <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">쿠폰은 익스피디아 안드로이드 앱에서 2013년 6월 17일 ~ 2013년 12월 31일에 해당하는 여행을 예약하는 경우 사용하실 수 있습니다. 이 혜택은 Expedia.com에서 제공하는 것이며 Expedia.com 미국 고객께만 적용됩니다.\n\n또한 예약 시 익스피디아 요금 호텔이 이용 가능한 경우에만 해당하며 모든 해당 이용약관이 적용됩니다. 이 쿠폰은 다른 쿠폰이나 프로모션 또는 특별 혜택과 함께 사용하실 수 없습니다. 쿠폰 할인은 세금, 공급업체가 부과하는 요금, 취소 또는 변경에 대한 위약금, 행정 수수료 및 기타 부과금에는 적용되지 않으며 이러한 부과금은 고객님 본인의 단독 책임입니다. 예약의 전체 또는 일부를 변경하거나 취소하는 경우, 변경된 일정의 여행에는 이 쿠폰이 적용되지 않습니다.\n\n이 쿠폰의 이용약관은 기술된 바와 같으며 Expedia, Inc.의 직원을 포함하여 누구도 승인 없이 대표로 변경할 수 없습니다. 쿠폰은 양도가 불가능하며 현금으로 환급되지 않습니다. 법으로 금지되는 경우에는 효력이 없습니다. Expedia, Inc.는 언제든지 이 혜택을 취소 또는 변경할 수 있습니다.</string>
-    <!-- Error message shown when user tries to apply promo to trips in 2014 and beyond -->
-    <string name="wallet_promo_expired">죄송합니다. Google Wallet 할인은 2013년 여행에만 적용됩니다.</string>
-
-    <!-- Samsung Wallet -->
-    <!-- Label to use when the ticket already exists in the wallet -->
-    <string name="view_in_samsung_wallet">Samsung Wallet에서 보기</string>
-    <!-- Label to use when the ticket does not already exist in the wallet and we want the user to add it -->
-    <string name="load_to_samsung_wallet">Samsung Wallet으로 로드하기</string>
-    <!-- Label to use when the user does not have the Samsung Wallet app installed -->
-    <string name="download_samsung_wallet">Samsung Wallet 다운로드하기</string>
+    <string name="wallet_promo_tc_message">혜택: 호텔 숙박비에서 $50 쿠폰 할인을 바로 받으실 수 있어요. 해당되는 예약의 가격이 $200 이상이어야 합니다. 이용 방법: 적용되는 호텔 숙박을 선택합니다. 예약 페이지에서 "Google Wallet으로 구매"를 선택합니다. 쿠폰은 지금부터 2015년 3월 31일까지에 해당하는 여행에 대해 익스피디아 안드로이드 앱으로 2014년 12월 31일 11:59 PM(태평양 시간 기준)까지 이용하셔야 합니다. 시간 한정 혜택: 변경될 수 있습니다. 사용자 계정과 적용 가능한 호텔 예약별로 1개 쿠폰으로 제한됩니다. 이 혜택은 Expedia.com에서 제공하는 것이며 Expedia.com 미국 사이트 안드로이드 앱 고객에게만 유효합니다. 익스피디아의 여행사 제휴 프로그램과 연계된 고객은 이 혜택을 이용하실 수 없습니다. 쿠폰은 해당되는 익스피디아 요금 호텔에만 적용됩니다. 예약에는 예약 가능 여부와 해당되는 모든 이용약관이 적용됩니다. 이 쿠폰은 다른 쿠폰이나 프로모션 또는 특별 혜택과 함께 사용하실 수 없습니다. 쿠폰 할인은 세금, 공급업체가 부과하는 요금, 취소 또는 변경에 대한 위약금, 행정 수수료 및 기타 부과금에는 적용되지 않으며 이러한 부과금은 고객님 본인의 단독 책임입니다. 적용되는 예약이 수행되면 쿠폰은 완전히 사용된 것으로 간주되며 다시 사용할 수 없습니다. 예약을 일부라도 변경하거나 취소하는 경우, 변경된 일정의 여행에는 이 쿠폰이 적용되지 않습니다. 이 쿠폰의 이용약관은 기술된 바와 같으며 Expedia, Inc.의 직원을 포함하여 누구도 승인 없이 대표로 변경할 수 없습니다. 쿠폰은 양도가 불가능하며 현금으로 환급되지 않습니다. Expedia, Inc.는 언제든지 이 혜택을 취소 또는 변경할 수 있습니다. 법으로 금지되는 경우에는 효력이 없습니다.</string>
+    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
+    <string name="wallet_coupon_not_applied_manually">이 쿠폰은 Google Wallet을 결제 수단으로 선택할 때만 적용됩니다.</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -2626,9 +3340,9 @@
 
     <!-- Handling sold out hotels -->
     <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
-    <string name="not_currently_available">익스피디아에서 현재 제공 안 됨</string>
+    <string name="not_currently_available_from_brand_TEMPLATE">현재 {brand}에서 이용 불가</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
-    <string name="not_currently_available_TEMPLATE">%s에 익스피디아에서 제공 안 됨</string>
+    <string name="not_currently_available_from_brand_dates_TEMPLATE">{dates}에 {brand}에서 이용 불가</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
@@ -2715,27 +3429,12 @@
     <string name="S_Push_flight_CITY_gate_GATE">고객님의 %1$s행 항공편이 게이트 %2$s에서 출발합니다.</string>
     <!-- Your bags will be at baggage claim _  TEMPLATE -->
     <string name="S_Push_baggage_BAGGAGE">수하물 찾는 곳 %1$s에서 고객님의 짐을 찾으실 수 있습니다.</string>
-
-    <!-- VSC Info Screen -->
-    <!-- Header for a list of apps also written by VSC -->
-    <string name="AlsoByVSC">VSC의 다른 앱 보기</string>
-    <!-- Name of VSC Train app -->
-    <string name="VSC_Voyages_SNF">Voyages-SNCF</string>
-    <!-- Description for FT Free app -->
-    <string name="VSC_Voyages_SNF_description">Voyages-sncf.com 앱</string>
+    <!-- <First Name>, your booking is confirmed! View it in the app. TEMPLATE -->
+    <string name="S_Push_Hey_VALUE_your_booking_is_confirmed">%1$s 님, 고객님의 예약이 확정되었습니다! 앱에서 확인해 보세요.</string>
+    <!--Your booking is confirmed! View it in the app. (For when we can't or don't want to address by first name -->
+    <string name="S_Push_Your_booking_is_confirmed_View_it_in_app">고객님 예약이 확정되었습니다! 앱에서 확인해 보세요.</string>
 
     <!-- Content Description Labels -->
-    <!-- Expedia Bookings Launch Screen -->
-    <!-- Content description for action: Press button to launch Hotels -->
-    <string name="cd_launch_hotels">호텔을 검색합니다.</string>
-    <!-- Content description for action: Press button to launch Flights -->
-    <string name="cd_launch_flights">항공편을 검색합니다.</string>
-    <!-- Content description for action: Press button to open menu list -->
-    <string name="cd_launch_open_menu_list">메뉴 목록을 엽니다.</string>
-    <!-- Content description for action: Open Settings Menu -->
-    <string name="cd_launch_open_settings_menu">설정 메뉴를 엽니다.</string>
-    <!-- Content description for action: Open App Info Screen -->
-    <string name="cd_launch_open_eb_info_screen">익스피디아 예약 정보 화면을 엽니다.</string>
     <!-- Trips Screen -->
     <!-- Content description for action: Press to refresh trips list -->
     <string name="cd_trips_refresh_trips_list">누르면 여행 목록이 새로고침됩니다.</string>
@@ -2744,32 +3443,8 @@
     <string name="cd_hotel_search_edittext">호텔 검색 필드에 텍스트를 입력합니다.</string>
     <!-- Content description for action: Open hotel booking dates calendar -->
     <string name="cd_hotel_search_open_calendar">호텔 예약 달력을 엽니다.</string>
-    <!-- Content description for action: Press "Search" from hotel calendar fragment -->
-    <string name="cd_hotel_search_press_search_from_calendar">누르면 호텔을 검색하실 수 있습니다.</string>
     <!-- Content description for action: Open hotel guest picker -->
     <string name="cd_hotel_search_open_guest_picker">호텔 숙박 인원 선택기를 엽니다.</string>
-    <!-- Content description for action: Press "Search" from hotel guest picker fragment -->
-    <string name="cd_hotel_search_press_search_from_guest_picker">누르면 호텔을 검색하실 수 있습니다.</string>
-    <!-- Content description for action: Press to open hotel sort options -->
-    <string name="cd_hotel_search_open_sort_options">호텔 정렬 옵션을 엽니다.</string>
-    <!-- Content description for action: Switch to map view - hotels search -->
-    <string name="cd_hotel_search_switch_to_map_view">지도 보기로 전환합니다.</string>
-    <!-- Content description for action: Switch to list view - hotels search -->
-    <string name="cd_hotel_search_switch_to_list_view">목록 보기로 전환합니다.</string>
-    <!-- Hotel sort options -->
-    <!-- Content description for action: Press to sort hotels by popularity -->
-    <string name="cd_sort_hotels_by_popularity">호텔을 인기순으로 정렬합니다.</string>
-    <!-- Content description for action: Press to sort hotels by deals -->
-    <string name="cd_sort_hotels_by_deals">호텔을 특가 상품순으로 정렬합니다.</string>
-    <!-- Content description for action: Press to sort hotels by price -->
-    <string name="cd_sort_hotels_by_price">호텔을 가격순으로 정렬합니다.</string>
-    <!-- Content description for action: Press to sort hotels by rating -->
-    <string name="cd_sort_hotels_by_rating">호텔을 평점순으로 정렬합니다.</string>
-    <!-- Content description for action: Press to open hotel filter options -->
-    <string name="cd_filter_open_hotel_filter_options">호텔 필터링 옵션을 엽니다.</string>
-    <!-- Hotel filter options -->
-    <!-- Content description for action: Entering text into hotel filter text field -->
-    <string name="cd_filter_by_hotel_name">호텔 필터링 텍스트 필드에 텍스트를 입력합니다.</string>
     <!-- Hotel star filters -->
     <!-- Content description for action: Press to filter for hotels hotels with three or more stars -->
     <string name="cd_filter_hotels_for_three_or_more_stars">3성급 이상 호텔을 필터링합니다.</string>
@@ -2814,30 +3489,10 @@
     <!-- Content description for action: Press to display critical reviews -->
     <string name="cd_display_critical_reviews">누르면 부정적인 이용후기가 표시됩니다.</string>
     <!-- Flight Search -->
-    <!-- Content description for action: Edit departure airport -->
-    <string name="cd_flights_search_departure_edit_text">출발 공항을 수정합니다.</string>
-    <!-- Content description for action: Edit arrival airport -->
-    <string name="cd_flights_search_arrival_edit_text">도착 공항을 수정합니다.</string>
-    <!-- Content description for action: Press to edit departure and arrival dates -->
-    <string name="cd_flights_search_dates_edit">누르면 출발 및 도착 날짜를 수정하실 수 있습니다.</string>
     <!-- Content description for action: Press to clear selected dates -->
     <string name="cd_flights_clear_selected_dates">누르면 선택한 날짜가 지워집니다.</string>
     <!-- Content description for action: Press to edit number of travelers -->
     <string name="cd_flights_search_number_of_travelers_edit">누르면 여행객 인원을 수정하실 수 있습니다.</string>
-    <!-- Flight Search Results -->
-    <!-- Content description for action: Press to return to flight search -->
-    <string name="cd_flights_search_search_button">누르면 항공편 검색으로 돌아갑니다.</string>
-    <!-- Content description for action: Press to open flight sort options -->
-    <string name="cd_flights_search_results_sort">누르면 항공편 정렬 옵션을 엽니다.</string>
-    <!-- Flight sort options -->
-    <!-- Content description for action: Press to sort flights by price -->
-    <string name="cd_sort_flights_by_price">누르면 항공편을 가격순으로 정렬합니다.</string>
-    <!-- Content description for action: Press to sort flights by when they depart -->
-    <string name="cd_sort_flights_by_departs">누르면 항공편을 출발 시간순으로 정렬합니다.</string>
-    <!-- Content description for action: Press to sort flights by when they arrive -->
-    <string name="cd_sort_flights_by_arrives">누르면 항공편을 도착 시간순으로 정렬합니다.</string>
-    <!-- Content description for action: Press to sort flights by their durations -->
-    <string name="cd_sort_flights_by_duration">누르면 항공편을 비행 시간순으로 정렬합니다.</string>
     <!-- Flight Search Results - Flight Leg Selection -->
     <!-- Content description for action: Press to cancel your flight selection and go back to flight search results -->
     <string name="cd_flight_leg_cancel">항공편 선택을 취소하고 항공편 검색 결과로 돌아갑니다.</string>
@@ -2851,27 +3506,12 @@
     <!-- Checkout screen -->
     <!-- Content description for action: Press to begin checkout -->
     <string name="cd_checkout">누르면 예약 진행이 시작됩니다.</string>
-    <!-- Content description for action: Press to log in with your Expedia account -->
-    <string name="cd_checkout_log_in_with_expedia">누르면 고객님의 익스피디아 계정으로 로그인하실 수 있습니다.</string>
-    <!-- Content description for action: Press to make this purchase with Google Wallet -->
-    <string name="cd_checkout_buy_with_google">누르면 Google Wallet을 사용하여 이 상품을 구매하실 수 있습니다.</string>
     <!-- Content description for action: Press to add a traveler to this booking -->
     <string name="cd_checkout_add_traveler">누르면 이 예약에 여행객이 추가됩니다.</string>
     <!-- Content description for action: Press to select payment for this booking -->
     <string name="cd_checkout_select_payment">누르면 이 예약을 위한 지불을 선택하실 수 있습니다.</string>
     <!-- Content description for action: Press to enter a coupon or promotional code -->
     <string name="cd_checkout_enter_coupon">누르면 쿠폰 또는 프로모션 코드를 입력하실 수 있습니다.</string>
-    <!-- Content description for action: Enter coupon or promotional code into text field -->
-    <string name="cd_checkout_coupon_code_entry_field">텍스트 필드에 쿠폰 또는 프로모션 코드를 입력합니다.</string>
-    <!-- Content description for action: Press to apply coupon -->
-    <string name="cd_checkout_apply_coupon_button">누르면 쿠폰이 적용됩니다.</string>
-    <!-- Log in screen -->
-    <!-- Content description for action: Enter Expedia account email address -->
-    <string name="cd_log_in_email_edit_text">익스피디아 계정 이메일 주소를 입력합니다.</string>
-    <!-- Content description for action: Enter Expedia account password -->
-    <string name="cd_log_in_password_edit_text">익스피디아 계정 비밀번호를 입력합니다.</string>
-    <!-- Content description for action: Press to log into Expedia with your Facebook account -->
-    <string name="cd_log_in_with_facebook">Facebook 계정으로 익스피디아에 로그인하시려면 눌러주세요.</string>
     <!-- Traveler Information screen -->
     <!-- Content description for action: Press to enter a new traveler -->
     <string name="cd_traveler_enter_new_traveler">누르면 새로운 여행객을 입력하실 수 있습니다.</string>
@@ -2880,53 +3520,18 @@
     <!-- Content description for action: Press to edit traveler's passport country -->
     <string name="cd_traveler_edit_passport_country">여행객의 여권 국가를 수정합니다.</string>
     <!-- Traveler Information edit/entry screen -->
-    <!-- Content description for action: Enter first name -->
-    <string name="cd_traveler_first_name_edit_text">이름을 영문으로 입력합니다.</string>
-    <!-- Content description for action: Enter middle name -->
-    <string name="cd_traveler_middle_name_edit_text">중간 이름을 영문으로 입력합니다.</string>
-    <!-- Content description for action: Enter last name -->
-    <string name="cd_traveler_last_name_edit_text">성을 영문으로 입력합니다.</string>
-    <!-- Content description for action: Press to select country calling codes -->
-    <string name="cd_traveler_list_international_phone_codes">누르면 국제 전화용 국가 코드를 선택하실 수 있습니다.</string>
-    <!-- Content description for action: Enter phone number -->
-    <string name="cd_traveler_phone_number">전화번호를 입력합니다.</string>
     <!-- Content description for action: Press to finish entering traveler information -->
     <string name="cd_traveler_information_done">누르면 여행객 정보 입력을 완료하실 수 있습니다.</string>
     <!-- Extra traveler information - flights -->
-    <!-- Content description for action: Press to select traveler's birthday -->
-    <string name="cd_traveler_birthday_edit">누르면 여행객의 생일을 선택하실 수 있습니다.</string>
     <!-- Content description for action: Press to select traveler's gender -->
     <string name="cd_traveler_gender_edit">누르면 여행객의 성별을 선택하실 수 있습니다.</string>
-    <!-- Content description for action: Enter redress number, if applicable -->
-    <string name="cd_traveler_redress_number_edit_text">해당하는 경우 리드레스 번호를 입력합니다.</string>
     <!-- Content description for action: Press to select type of special assistance traveler requires -->
     <string name="cd_traveler_special_assistance_edit">여행객의 특별 요청 사항 유형을 선택합니다.</string>
     <!-- Content description for action: Press to select window type that the traveler prefers -->
     <string name="cd_traveler_seat_preference_edit">여행객이 선호하는 좌석 유형을 선택합니다.</string>
     <!-- Credit Card Information -->
-    <!-- Button text for choosing a stored payment. Clicking this button will open a popup listing all stored cards. -->
-    <string name="Stored_Cards">저장된 카드</string>
-    <!-- Content description for action: Enter credit card number -->
-    <string name="cd_card_info_card_number_edit_text">신용카드 번호를 입력합니다.</string>
-    <!-- Content description for action: Enter cardholder name -->
-    <string name="cd_card_info_cardholder_name">카드 소유자 이름을 입력합니다.</string>
-    <!-- Content description for action: Enter cardholder's email address -->
-    <string name="cd_card_info_email_address">카드 소유자의 이메일 주소를 입력합니다.</string>
-    <!-- Content description for action: Enter billing address - line 1 -->
-    <string name="cd_card_info_billing_address_line_1">청구 주소를 입력란 1에 입력합니다.</string>
-    <!-- Content description for action: Enter billing address - line 2 -->
-    <string name="cd_card_info_billing_address_line_2">청구 주소를 입력란 2에 입력합니다.</string>
-    <!-- Content description for action: Enter billing address city -->
-    <string name="cd_card_info_billing_address_city">청구 주소의 도시를 입력합니다.</string>
-    <!-- Content description for action: Enter billing address state -->
-    <string name="cd_card_info_billing_address_state">청구 주소의 도를 입력합니다.</string>
-    <!-- Content description for action: Enter billing address postal code -->
-    <string name="cd_card_info_billing_address_postal_code">청구 주소의 우편번호를 입력합니다.</string>
     <!-- Content description for action: Select billing address country -->
     <string name="cd_card_info_billing_address_country">청구 주소의 국가를 선택합니다.</string>
-    <!-- Common actionbar elements -->
-    <!-- Content description for action: Press to go back to previous screen -->
-    <string name="cd_go_back">누르면 이전 화면으로 돌아갑니다.</string>
     <!-- Itinerary card elements -->
     <!-- Content description for action: Press to view share options -->
     <string name="cd_share_menu_btn">일정 공유 옵션을 보려면 누르세요.</string>
@@ -2937,13 +3542,18 @@
     <!-- Content description for Flight Search Results -->
     <string name="cd_tablet_results_flight_list">항공편 검색 결과</string>
 
+    <!-- Content description for action: Press to filter for the nearest hotels within a small radius from your search location -->
+    <string name="cd_pay_now">버튼을 눌러 지금 결제</string>
+    <!-- Content description for action: Press to filter for hotels within a mid-distance radius from your search location -->
+    <string name="cd_pay_later">버튼을 눌러 나중에 결제</string>
+
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">고객님 호텔이 예약되었습니다!</string>
     <!-- Header text to indicating booking confirmed for flight -->
     <string name="tablet_confirmation_flight_booked">고객님 항공편이 예약되었습니다!</string>
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
-    <string name="tablet_confirmation_summary">%1$s, %2$s</string>
+    <string name="tablet_confirmation_summary">%1$s\n%2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
     <string name="tablet_itinerary_confirmation_TEMPLATE">일정 번호(%1$s)가 %2$s 주소로 전송되었습니다.</string>
     <!-- Share button text for hotels -->
@@ -2984,5 +3594,26 @@
     <string name="tablet_mismatched_products_message">선택하신 호텔과 항공 날짜가 서로 다릅니다. 현재 선택하신 호텔을 삭제하고 항공편 날짜와 일치하는 호텔을 검색하시겠어요?</string>
     <!-- Dialog positive button message -->
     <string name="yes">예</string>
+    <!-- Dialog negative button message -->
+    <string name="no">아니요</string>
 
+    <!-- Template for generating textview clicks -->
+    <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
+    <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="legal_TEMPLATE">이 예약을 완료함으로써 본인은 %1$s, %2$s 및 %3$s을 읽었으며 이를 수락하는 데 동의합니다.</string>
+    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
+    <string name="account_creation_legal_TEMPLATE">%1$s 및 %2$s 내용을 읽었고 이에 동의합니다.</string>
+
+    <!-- Used in hotel search for specifying traveler -->
+    <string name="child_age_label">각 아동의 나이 선택</string>
+
+    <string name="lob_not_supported_error_message">죄송합니다. 고객님의 위치에서는 아직 {lob} 예약을 이용하실 수 없습니다.</string>
+
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_an_Expedia_account">익스피디아에 회원가입</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_Expedia">익스피디아에 오신 걸 환영합니다!</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_Expedia_account_already_exists">이 이메일로 익스피디아 계정이 이미 있습니다.</string>
 </resources>

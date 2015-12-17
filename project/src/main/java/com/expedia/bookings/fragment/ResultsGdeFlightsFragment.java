@@ -13,6 +13,7 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.expedia.bookings.R;
@@ -28,8 +29,8 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CenteredCaptionedIcon;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.TextView;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
@@ -46,12 +47,15 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	private static final String FTAG_GDE_DOWNLOADER = "FTAG_GDE_DOWNLOADER";
 
 	private View mRootC;
-	private FrameLayoutTouchController mHistogramC;
+	private TouchableFrameLayout mHistogramC;
 
 	private CenteredCaptionedIcon mGdeErrorMessageView;
 	private TextView mGdeHeaderTv;
 	private ProgressBar mGdeProgressBar;
 	private TextView mGdePriceRangeTv;
+	private ViewGroup mToolTipInvokeButton;
+	private LinearLayout mToolTipView;
+	private TextView mToolTipDoneButton;
 
 	private ResultsFlightHistogramFragment mHistogramFrag;
 	private GdeDownloadFragment mGdeDownloadFrag;
@@ -59,6 +63,8 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	private Location mOrigin;
 	private Location mDestination;
 	private LocalDate mDepartureDate;
+	private String mPriceString;
+	private String mHeaderString;
 
 	public static ResultsGdeFlightsFragment newInstance() {
 		ResultsGdeFlightsFragment frag = new ResultsGdeFlightsFragment();
@@ -101,9 +107,18 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		mRootC = inflater.inflate(R.layout.fragment_results_gde_flights, container, false);
 		mHistogramC = Ui.findView(mRootC, R.id.histogram_container);
+		mToolTipView = Ui.findView(mRootC, R.id.gde_tool_tip_view);
 		mGdeHeaderTv = Ui.findView(mRootC, R.id.flight_histogram_header);
 		mGdeProgressBar = Ui.findView(mRootC, R.id.flight_histogram_progress_bar);
 		mGdePriceRangeTv = Ui.findView(mRootC, R.id.flight_histogram_price_range);
+		mToolTipInvokeButton = Ui.findView(mRootC, R.id.flight_trends_tool_tip_button);
+		mToolTipDoneButton = Ui.findView(mRootC, R.id.action_button);
+		mToolTipInvokeButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				setToolTipView();
+			}
+		});
 
 		mGdeErrorMessageView = Ui.findView(mRootC, R.id.gde_error_message_view);
 		mGdeErrorMessageView.setVisibility(View.GONE);
@@ -195,11 +210,12 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 
 		if (mRootC != null) {
 			if (departureDate != null) {
-				mGdeHeaderTv.setText(R.string.when_to_return);
+				mHeaderString = getString(R.string.when_to_return);
 			}
 			else {
-				mGdeHeaderTv.setText(R.string.flight_trends);
+				mHeaderString = getString(R.string.flight_trends);
 			}
+			mGdeHeaderTv.setText(mHeaderString);
 		}
 	}
 
@@ -211,6 +227,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		else {
 			mGdeErrorMessageView.setCaption(getString(R.string.invalid_flights_pos));
 		}
+		mGdeErrorMessageView.clearActionButton();
 		mGdeErrorMessageView.setVisibility(View.VISIBLE);
 		mGdeHeaderTv.setVisibility(View.INVISIBLE);
 		mGdeProgressBar.setVisibility(View.INVISIBLE);
@@ -247,6 +264,28 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		mGdePriceRangeTv.setText("");
 	}
 
+	private void setToolTipView() {
+		mGdeHeaderTv.setText(R.string.flight_trends);
+		mGdeHeaderTv.setVisibility(View.VISIBLE);
+		mHistogramC.setVisibility(View.GONE);
+		mGdeErrorMessageView.setVisibility(View.GONE);
+		mGdePriceRangeTv.setText("");
+		mToolTipInvokeButton.setVisibility(View.INVISIBLE);
+		mToolTipView.setVisibility(View.VISIBLE);
+
+		mToolTipDoneButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mGdeHeaderTv.setText(mHeaderString);
+				mGdeHeaderTv.setVisibility(View.VISIBLE);
+				mHistogramC.setVisibility(View.VISIBLE);
+				mGdePriceRangeTv.setText(mPriceString);
+				mToolTipInvokeButton.setVisibility(View.VISIBLE);
+				mToolTipView.setVisibility(View.GONE);
+			}
+		});
+	}
+
 	private void setStateLoading() {
 		mGdeErrorMessageView.setVisibility(View.GONE);
 		mGdeErrorMessageView.clearActionButton();
@@ -261,7 +300,12 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		}
 
 		frag.startOrResumeForRoute(mOrigin, mDestination, mDepartureDate);
-		setStateLoading();
+		if (mOrigin == null) {
+			setErrorNoOrigin();
+		}
+		else {
+			setStateLoading();
+		}
 	}
 
 	/**
@@ -308,6 +352,8 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 		}
 		mGdeErrorMessageView.setVisibility(View.GONE);
 		mHistogramC.setVisibility(View.GONE);
+		mToolTipView.setVisibility(View.GONE);
+		mToolTipInvokeButton.setVisibility(View.INVISIBLE);
 		mGdeHeaderTv.setVisibility(View.VISIBLE);
 
 		FlightSearchHistogramResponse response = event.response;
@@ -354,6 +400,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 			}
 			else if (mHistogramFrag != null) {
 				mHistogramC.setVisibility(View.VISIBLE);
+				mToolTipInvokeButton.setVisibility(View.VISIBLE);
 				mHistogramFrag.setHistogramData(response);
 			}
 
@@ -371,6 +418,7 @@ public class ResultsGdeFlightsFragment extends Fragment implements
 				priceAsString = minMoney.getFormattedMoney(Money.F_NO_DECIMAL)
 					+ "-" + maxMoney.getFormattedMoney(Money.F_NO_DECIMAL);
 			}
+			mPriceString = priceAsString;
 			mGdePriceRangeTv.setText(priceAsString);
 		}
 	}

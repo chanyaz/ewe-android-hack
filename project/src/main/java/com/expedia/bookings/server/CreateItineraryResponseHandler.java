@@ -36,7 +36,7 @@ public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateIt
 		ParserUtils.logActivityId(response);
 
 		try {
-			createItinerary.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.CREATE_FLIGHT_ITINERARY, response));
+			createItinerary.addErrors(ParserUtils.parseErrors(ApiMethod.CREATE_FLIGHT_ITINERARY, response));
 			if (!createItinerary.isSuccess()) {
 				return createItinerary;
 			}

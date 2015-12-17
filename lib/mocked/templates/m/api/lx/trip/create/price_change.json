@@ -1,0 +1,98 @@
+{
+  "errors": [
+    {
+      "errorCode": "PRICE_CHANGE",
+      "errorInfo": {
+        "summary": "Detected price change, no fa/coupon applied."
+      },
+      "diagnosticId": 0
+    }
+  ],
+  "tripId": "52b1f6a4-9fc0-46a8-bf66-46cab3326218",
+  "itineraryNumber": 11593364684,
+  "newTotalPrice": {
+    "amount": "185.00",
+    "formattedPrice": "$185.00",
+    "formattedWholePrice": "$185",
+    "currencyCode": "USD"
+  },
+  "activityId": "5575e7f8-c647-4a27-b2d9-fc66d56bca94",
+  "lxProduct": {
+    "totalPrice": {
+      "amount": "185.00",
+      "formattedPrice": "$185.00",
+      "formattedWholePrice": "$185",
+      "currencyCode": "USD"
+    },
+    "lxBookableItems": [
+      {
+        "tickets": [
+          {
+            "priceBreakdownItemList": [
+              {
+                "type": "PER_PASSENGER_TOTAL",
+                "price": {
+                  "amount": "185.00",
+                  "formattedPrice": "$185.00",
+                  "formattedWholePrice": "$185",
+                  "currencyCode": "USD"
+                }
+              },
+              {
+                "type": "PER_CATEGORY_TOTAL",
+                "price": {
+                  "amount": "185.00",
+                  "formattedPrice": "$185.00",
+                  "formattedWholePrice": "$185",
+                  "currencyCode": "USD"
+                }
+              }
+            ],
+            "count": 1,
+            "code": "Adult",
+            "ticketId": "4074"
+          }
+        ],
+        "activityDate": {
+          "raw": "2015-07-31T00:00:00-07:00",
+          "localized": "Jul 31, 2015 12:00:00 AM",
+          "epochSeconds": 1438326000,
+          "timeZoneOffsetSeconds": -25200,
+          "localizedShortDate": "Fri, 31 Jul"
+        },
+        "activityId": "181752",
+        "activityItemId": "182075",
+        "amount": "185.00",
+        "allDayActivity": true,
+        "regionId": "800001"
+      }
+    ],
+    "tripName": "My Lx Trip"
+  },
+  "validFormsOfPayment": [
+    {
+      "name": "AmericanExpress"
+    },
+    {
+      "name": "Diner's Club International"
+    },
+    {
+      "name": "Discover"
+    },
+    {
+      "name": "JCB"
+    },
+    {
+      "name": "MasterCard"
+    },
+    {
+      "name": "Visa"
+    }
+  ],
+  "expediaRewards": {
+    "totalPointsToEarn": 740,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "guestUserPromoEmailOptInStatus": "ALWAYS"
+}

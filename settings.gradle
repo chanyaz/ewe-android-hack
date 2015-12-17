@@ -1,11 +1,10 @@
-// Main app
+// Main projects
+include ':lib:ExpediaBookings'
 include ':project'
 
 // libraries, order does not matter
 // Order matters in the dependencies block of individual projects
-include ':lib:FacebookSdk:facebook'
-include ':lib:svg-android:svgandroid'
-include ':lib:FlightLib'
+//include ':lib:FlightLib'
 include ':lib:Utils'
-include ':lib:ShareEverywhere:shareeverywhere'
 include ':lib:AndroidTime'
+include ':lib:mocked:mocke3'

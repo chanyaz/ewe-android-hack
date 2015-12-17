@@ -1,15 +1,15 @@
 package com.expedia.bookings.fragment;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+
+import org.joda.time.DateTime;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.PropertyValuesHolder;
 import android.app.Activity;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -33,6 +33,7 @@ import com.expedia.bookings.section.FlightSegmentSection;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FlightUtils;
+import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -89,6 +90,10 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		final View v = inflater.inflate(R.layout.fragment_flight_details, container, false);
 
+		if (FragmentBailUtils.shouldBail(getActivity())) {
+			return v;
+		}
+
 		LayoutUtils.adjustPaddingForOverlayMode(getActivity(), v, false);
 
 		final FlightTrip trip = getFlightTrip();
@@ -109,13 +114,13 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 		// Depart from row
 		FlightInfoSection departFromSection = FlightInfoSection.inflate(inflater, container);
 		departFromSection.bind(R.drawable.ic_departure_arrow_small, getString(R.string.depart_from_TEMPLATE,
-				StrUtils.formatWaypoint(leg.getSegment(0).mOrigin)));
+				StrUtils.formatWaypoint(leg.getSegment(0).getOriginWaypoint())));
 		mInfoContainer.addView(departFromSection);
 
 		// Add each card, with layovers in between
 		final int cardMargins = (int) getResources().getDimension(R.dimen.flight_segment_margin);
-		Calendar minTime = leg.getFirstWaypoint().getMostRelevantDateTime();
-		Calendar maxTime = leg.getLastWaypoint().getMostRelevantDateTime();
+		DateTime minTime = leg.getFirstWaypoint().getMostRelevantDateTime();
+		DateTime maxTime = leg.getLastWaypoint().getMostRelevantDateTime();
 		int segmentCount = leg.getSegmentCount();
 		for (int a = 0; a < segmentCount; a++) {
 			Flight flight = leg.getSegment(a);
@@ -125,7 +130,7 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 				Flight prevFlight = leg.getSegment(a - 1);
 				Layover layover = new Layover(prevFlight, flight);
 				String duration = DateTimeUtils.formatDuration(getResources(), layover.mDuration);
-				String waypoint = StrUtils.formatWaypoint(flight.mOrigin);
+				String waypoint = StrUtils.formatWaypoint(flight.getOriginWaypoint());
 				flightLayoverSection.bind(R.drawable.ic_clock_small,
 						Html.fromHtml(getString(R.string.layover_duration_location_TEMPLATE, duration, waypoint)));
 				mInfoContainer.addView(flightLayoverSection);
@@ -142,7 +147,7 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 		// Arrive at row
 		FlightInfoSection arriveAtSection = FlightInfoSection.inflate(inflater, container);
 		arriveAtSection.bind(R.drawable.ic_return_arrow_small, getString(R.string.arrive_at_TEMPLATE,
-				StrUtils.formatWaypoint(leg.getSegment(segmentCount - 1).mDestination)));
+				StrUtils.formatWaypoint(leg.getSegment(segmentCount - 1).getDestinationWaypoint())));
 		mInfoContainer.addView(arriveAtSection);
 
 		// Footer: https://mingle/projects/eb_ad_app/cards/660
@@ -195,8 +200,8 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 	@Override
 	public void onStart() {
 		super.onStart();
-		OmnitureTracking.trackPageLoadFlightSearchResultsDetails(getActivity(),
-				getArguments().getInt(ARG_LEG_POSITION, 0));
+		OmnitureTracking.trackPageLoadFlightSearchResultsDetails(
+			getArguments().getInt(ARG_LEG_POSITION, 0));
 	}
 
 	public FlightTripLeg getFlightTripLeg() {
@@ -309,23 +314,21 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 
 		AnimatorSet animSet = AnimUtils.playTogether(set);
 
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-			animSet.addListener(new AnimatorListenerAdapter() {
-				@Override
-				public void onAnimationStart(Animator animation) {
-					for (View view : hwLayerViews) {
-						view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-					}
+		animSet.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationStart(Animator animation) {
+				for (View view : hwLayerViews) {
+					view.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 				}
+			}
 
-				@Override
-				public void onAnimationEnd(Animator animation) {
-					for (View view : hwLayerViews) {
-						view.setLayerType(View.LAYER_TYPE_NONE, null);
-					}
+			@Override
+			public void onAnimationEnd(Animator animation) {
+				for (View view : hwLayerViews) {
+					view.setLayerType(View.LAYER_TYPE_NONE, null);
 				}
-			});
-		}
+			}
+		});
 
 		return animSet;
 	}

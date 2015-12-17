@@ -3,17 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="48dp"
-    android:background="@drawable/bg_clickable_row"
+    android:background="@drawable/bg_checkout_saved_spinner_row"
     android:orientation="horizontal">
 
-    <ImageView
-        android:id="@android:id/icon"
+    <TextView
+        android:id="@+id/initials"
+        android:background="@drawable/traveler_circle"
         android:layout_width="32dp"
+        android:textColor="@android:color/white"
         android:layout_height="32dp"
-        android:layout_margin="8dp" />
+        android:gravity="center"
+        android:layout_margin="8dp"
+        android:textSize="16sp"
+        android:duplicateParentState="true" />
 
     <com.expedia.bookings.widget.TextView
-        android:id="@android:id/text1"
+        android:id="@+id/text1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -22,5 +27,6 @@
         android:ellipsize="marquee"
         android:singleLine="true"
         app:textStyle="light"
-        android:textSize="18sp" />
+        android:textSize="18sp"
+        android:duplicateParentState="true" />
 </LinearLayout>

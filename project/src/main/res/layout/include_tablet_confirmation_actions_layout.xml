@@ -2,41 +2,21 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
-
     <com.expedia.bookings.widget.TextView
         android:id="@+id/calendar_action_text_view"
         style="@style/Confirmation.Tablet.Action"
-        android:drawableLeft="@drawable/ic_tablet_confirmation_calendar"
+        android:drawableLeft="?attr/skin_tablet_confirmation_calendar_icon"
         android:text="@string/add_to_calendar" />
-
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/share_action_text_view"
         style="@style/Confirmation.Tablet.Action"
-        android:drawableLeft="@drawable/ic_tablet_confirmation_share" />
-
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
+        android:drawableLeft="?attr/skin_tablet_confirmation_share_icon" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/call_action_text_view"
         style="@style/Confirmation.Tablet.Action"
-        android:drawableLeft="@drawable/ic_tablet_confirmation_phone"
+        android:drawableLeft="?attr/skin_tablet_confirmation_phone_icon"
         android:text="@string/tablet_confirmation_call_support" />
-
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1" />
 
 </merge>

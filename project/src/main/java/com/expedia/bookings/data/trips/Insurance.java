@@ -55,7 +55,7 @@ public class Insurance implements JSONable {
 		JSONObject json = new JSONObject();
 
 		try {
-			json.putOpt("name", mPolicyName);
+			json.putOpt("displayName", mPolicyName);
 			json.putOpt("termsUrl", mTermsUrl);
 			JSONUtils.putEnum(json, "lineOfBusiness", mLineOfBusiness);
 		}
@@ -68,7 +68,7 @@ public class Insurance implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mPolicyName = obj.optString("name");
+		mPolicyName = obj.optString("displayName");
 		mTermsUrl = obj.optString("termsUrl");
 		mLineOfBusiness = JSONUtils.getEnum(obj, "lineOfBusiness", InsuranceLineOfBusiness.class);
 		return true;

@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.section.SectionTravelerInfo xmlns:android="http://schemas.android.com/apk/res/android"
+<com.expedia.bookings.section.SectionTravelerInfo
+    xmlns:android="http://schemas.android.com/apk/res/android"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:paddingTop="2.5dp"
     android:paddingBottom="5.5dp"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:addStatesFromChildren="false" >
 
-    <ImageView
+    <com.expedia.bookings.widget.CheckoutInfoStatusImageView
         android:id="@+id/display_picture"
         android:layout_width="@dimen/checkout_data_button_icon_size"
         android:layout_height="@dimen/checkout_data_button_icon_size"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="@dimen/checkout_info_container_padding"
-        android:layout_weight="0"
-        android:src="@drawable/ic_tablet_checkout_generic_traveler" />
+        android:layout_weight="0" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -48,14 +50,12 @@
             android:textSize="@dimen/tablet_data_button_sub_text_size" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/validation_checkmark"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="10dp"
-        android:layout_weight="0"
-        android:src="@drawable/ic_checkout_checkmark"
-        android:visibility="gone" />
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/saved_traveler_fake_spinner"
+        style="@style/CheckoutTravelerButton.Saved"/>
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/edit_traveler_button"
+        style="@style/CheckoutTravelerButton.Edit"/>
 
 </com.expedia.bookings.section.SectionTravelerInfo>

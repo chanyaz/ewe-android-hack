@@ -9,10 +9,10 @@ import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.text.style.UpdateAppearance;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.widget.CheckBox;
 import android.widget.Checkable;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -125,7 +125,7 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable, Com
 
 		setChecked(isChecked);
 		setDescription(sb.build());
-		setPrice(trip.getTotalFare());
+		setPrice(trip.getAverageTotalFare());
 	}
 
 	private void buildDescriptionString() {
@@ -149,14 +149,15 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable, Com
 			SpannableStringBuilder builder = new SpannableStringBuilder(priceString);
 			int start = priceString.indexOf(str);
 			int end = start + str.length();
-			ForegroundColorSpan span = new ForegroundColorSpan(getResources().getColorStateList(
-					R.color.tablet_filter_price_text));
+			ForegroundColorSpan span = new ForegroundColorSpan(getResources()
+				.getColorStateList(Ui.obtainThemeResID(getContext(), R.attr.skin_tabletFilterPriceTextColor)));
 			builder.setSpan(span, start, end, 0);
 			mPriceTextView.setText(builder);
 		}
 		else {
 			mPriceTextView.setText(str);
-			mPriceTextView.setTextColor(getResources().getColorStateList(R.color.tablet_filter_price_text));
+			mPriceTextView.setTextColor(getResources()
+				.getColorStateList(Ui.obtainThemeResID(getContext(), R.attr.skin_tabletFilterPriceTextColor)));
 
 		}
 	}
@@ -198,4 +199,5 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable, Com
 			ds.setColor(color);
 		}
 	}
+
 }

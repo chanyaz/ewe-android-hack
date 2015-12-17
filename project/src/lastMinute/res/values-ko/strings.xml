@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="call_lm_customer_support">lastminute.com.au 고객 지원 전화 문의</string>
+
+    <!-- Log in with lastminute.com.au -->
+    <string name="Log_in_with_lm">lastminute.com.au 계정으로 로그인</string>
+    <!-- Label for signin screen -->
+    <string name="lm_account">lastminute.com.au 계정</string>
+    <!-- Content description for action: Press to log in with your lastminute.com.au account -->
+    <string name="cd_checkout_log_in_with_lm">lastminute.com.au 계정에 로그인하려면 누르세요.</string>
+
+    <string name="lm_website">lastminute.com.au 웹사이트</string>
+    <string name="lm_app_support">lastminute.com.au 앱 지원</string>
+    <string name="lm_copyright_TEMPLATE">© Copyright 2012-%1$s Expedia, Inc.\nAll rights reserved.</string>
+    <string name="lm_info_url">http://www.lastminute.com/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_lm">lastminute.com.au 계정에서 로그아웃하시겠어요?</string>
+
+    <!-- Expedia booking fee -->
+    <string name="lm_booking_fee">lastminute.com.au 예약 수수료</string>
+
+    <string name="error_flight_unhandled_lm_TEMPLATE">죄송합니다. 지금 고객님의 주문을 처리해 드릴 수 없습니다. 다시 시도해 보시거나 lastminute.com.au 고객 지원에 전화하여 이 일정 번호를 말씀해 주세요: %s</string>
+    <string name="error_server_lm">죄송합니다. 지금 lastminute.com.au 서버에 연결할 수 없습니다.  나중에 다시 시도해 주세요.</string>
+
+    <!-- save billing info message -->
+    <string name="save_billing_lm_info_message">나중에 간편하게 결제하시도록 이 결제 방법을 고객님의 lastminute.com.au 계정에 저장할까요?</string>
+
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_lm_message_TEMPLATE">나중에 간편하게 결제하시도록 %1$s 님의 정보를 고객님의 lastminute.com.au 계정에 저장할까요?</string>
+
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE_lm">lastminute.com.au 일정 번호: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE_lm">lastminute.com.au 고객 지원: %s</string>
+
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data_lm">lastminute.com.au 계정에서 로그아웃되었습니다. 저장된 모든 청구 및 연락처 정보가 삭제되었습니다.</string>
+
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure_lm">죄송합니다. lastminute.com.au에 연결할 수 없습니다. 다시 시도해 주세요.</string>
+
+    <!-- Phone Fragment Header-->
+    <string name="nav_accommodation">숙박 시설</string>
+    
+    <!-- Shop travel label -->
+    <string name="shop_travel">여행 예약</string>
+
+    <!-- Title for different ways to connect to Expedia -->
+    <string name="contact_lm_via">다음을 통해 lastminute.com.au에 문의…</string>
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_lm_email_subject">lastminute.com.au 예약 지원</string>
+    <!-- lastminute.com.au- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_lm">예약 관련 문의 사항이 있으시면 %s번으로 lastminute.com.au에 전화해 주세요.</string>
+    <!-- lastminute.com.au Itinerary -->
+    <string name="lm_itinerary">lastminute.com.au 일정 번호</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">lastminute.com.au</string>
+
+    <string name="error_flight_no_longer_available_lm">죄송합니다. 고객님 항공편은 lastminute.com.au에서 더 이상 이용하실 수 없습니다.</string>
+
+    <string name="error_flights_no_longer_available_lm">죄송합니다. 고객님 항공편 중 한 개는 lastminute.com.au에서 더 이상 이용하실 수 없습니다.</string>
+
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out_lm">죄송합니다. 이 호텔은 lastminute.com.au에서 더 이상 이용하실 수 없습니다.</string>
+    <!--A message stating this hotel is Not currently available on lastminute.com.au -->
+    <string name="not_currently_available_lm">lastminute.com.au에서 현재 이용 불가</string>
+    <!-- A message stating this hotel is sold out on lastminute.com.au -->
+    <string name="sold_out_on_lm">lastminute.com.au에서 매진</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from lastminute.com.au Nov. 3-4" -->
+    <string name="not_currently_available_lm_TEMPLATE">lastminute.com.au에서 %s에 이용 불가</string>
+
+    <!-- Missing strings for lastminute.com.au from Expedia-->
+    <string name="tell_a_friend_body_lm">안녕하세요,\n\niPhone과 Android 스마트폰용 lastminute.com.au 호텔 앱을 한 번 확인해 보세요. 무료입니다! 전 세계 140,000여 개의 호텔을 간편하게 검색하고 예약하실 수 있어요. 휴대폰에서 호텔을 예약하는 가장 쉬운 방법이에요.</string>
+    <string name="tell_a_friend_subject_lm">lastminute.com.au 호텔</string>
+    <string name="restricted_profile_login_message_lm">lastminute.com.au에 로그인하려면 기기에서 무제한 사용자 프로필을 사용하셔야 합니다.</string>
+    <string name="loading_lm_account">lastminute.com.au 계정 가져오는 중</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_lm">호텔 예약이 완료되었습니다! 일정이 즉시 필요하시면 lastminute.com.au 고객 지원에 전화해 주세요.</string>
+    <string name="lm_password_hint">lastminute.com.au 비밀번호</string>
+    <string name="dialog_message_launch_lm_mobile_site">lastminute.com.au 모바일 웹사이트를 실행하시겠어요?</string>
+    <string name="sorry_rooms_sold_out_lm">죄송합니다. lastminute.com.au에서 모든 객실이 매진되었습니다.</string>
+    <!-- lastminute.com.au App download link -->
+    <string name="share_template_long_ad_lm">호텔과 항공을 예약하고 일정을 확인 및 공유하세요. 오늘 바로 무료 lastminute.com.au 모바일 앱을 다운로드하세요.\n%s</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">lastminute.com.au에 오늘 결제할 총 금액:</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">모든 lastminute.com.au 사이트에 사용할 새로운 글로벌 로그인을 생성해 주셔야 합니다.&lt;br&gt;아래의 ’비밀번호를 잊으셨나요?’ 링크를 이용해 비밀번호를 재설정해 주세요.</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today_lm">lastminute.com.au에 오늘 결제할 금액</string>
+    <string name="etp_pay_now_charges_text_lm">lastminute.com.au에서 고객님의 결제 세부 정보를 처리합니다.</string>
+</resources>

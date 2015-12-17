@@ -24,21 +24,6 @@ import com.mobiata.android.util.TimingLogger;
 public class BitmapUtils {
 
 	/**
-	 * Get the avg color of a bitmap via shrinking the bmap down to one pixel and sampling the color of that pixel
-	 * <p/>
-	 * Note: This will not return the true average color. It makes use of some pretty serious optomizations to be able
-	 * to do this so quickly. If we are really after the true average we need to iteratively shrink the image by half
-	 * until only 1px remains, and that pixel should be the true average. This is faster and what iOS is doing.
-	 *
-	 * @param bmap - bitmap to determine the average color of
-	 * @return average color of image.
-	 */
-	public static int getAvgColorOnePixelTrick(Bitmap bmap) {
-		Bitmap px = Bitmap.createScaledBitmap(bmap, 1, 1, false);
-		return px.getPixel(0, 0);
-	}
-
-	/**
 	 * This will return a copy of a the supplied bitmap that has been stack blurred and darkened
 	 * according to the supplied params
 	 *
@@ -60,7 +45,7 @@ public class BitmapUtils {
 		int scaledBlurRadius = Math.round(blurRadius / reductionFactor);
 
 		//Blur and darken it
-		if (AndroidUtils.getSdkVersion() >= Build.VERSION_CODES.JELLY_BEAN_MR1 && !AndroidUtils.isGenymotion()) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 && !AndroidUtils.isGenymotion()) {
 			return stackBlurAndDarkenRenderscript(shrunk, context, scaledBlurRadius, darkenMultiplier);
 		}
 		else if (!AndroidUtils.isGenymotion()) {
@@ -145,15 +130,15 @@ public class BitmapUtils {
 		int[] pix = new int[wh];
 		bitmap.getPixels(pix, 0, w, 0, 0, w, h);
 
-		int r[] = new int[wh];
-		int g[] = new int[wh];
-		int b[] = new int[wh];
+		int[] r = new int[wh];
+		int[] g = new int[wh];
+		int[] b = new int[wh];
 		int rsum, gsum, bsum, x, y, i, p, yp, yi, yw;
-		int vmin[] = new int[Math.max(w, h)];
+		int[] vmin = new int[Math.max(w, h)];
 
 		int divsum = (div + 1) >> 1;
 		divsum *= divsum;
-		int dv[] = new int[256 * divsum];
+		int[] dv = new int[256 * divsum];
 		for (i = 0; i < 256 * divsum; i++) {
 			dv[i] = (i / divsum);
 		}
@@ -387,4 +372,5 @@ public class BitmapUtils {
 
 		return matrix;
 	}
+
 }

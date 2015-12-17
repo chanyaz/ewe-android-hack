@@ -2,44 +2,32 @@ package com.expedia.bookings.activity;
 
 import android.app.ActionBar;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.CheckoutDataLoader;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.fragment.HotelOverviewFragment;
 import com.expedia.bookings.fragment.HotelOverviewFragment.BookingOverviewFragmentListener;
-import com.expedia.bookings.fragment.LoginFragment.LogInListener;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 import com.squareup.otto.Subscribe;
 
-public class HotelOverviewActivity extends FragmentActivity implements BookingOverviewFragmentListener,
-	LogInListener, ISlideToListener {
-
-	public static final String STATE_TAG_LOADED_DB_INFO = "STATE_TAG_LOADED_DB_INFO";
-
-	//We only want to load from disk once: when the activity is first started
-	private boolean mLoadedDbInfo = false;
+public class HotelOverviewActivity extends FragmentActivity implements BookingOverviewFragmentListener, ISlideToListener {
 
 	private HotelOverviewFragment mBookingOverviewFragment;
 
@@ -50,27 +38,11 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (!ExpediaBookingApp.useTabletInterface(this)) {
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
-			// #1106: Don't continue to load onCreate() as
-			// we're just about to recreate the activity
-			if (!getResources().getBoolean(R.bool.portrait)) {
-				return;
-			}
-		}
-
 		if (Db.getTripBucket().getHotel() == null) {
 			Log.i("Detected expired DB, finishing activity.");
 			finish();
 			return;
 		}
-
-		if (savedInstanceState != null) {
-			mLoadedDbInfo = savedInstanceState.getBoolean(STATE_TAG_LOADED_DB_INFO, false);
-		}
-
-		loadCachedData(false);
 
 		mKillReceiver = new ActivityKillReceiver(this);
 		mKillReceiver.onCreate();
@@ -84,24 +56,17 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 	protected void onResume() {
 		super.onResume();
 		Events.register(this);
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
 		Events.unregister(this);
-		OmnitureTracking.onPause();
 
 		if (isFinishing()) {
+			clearCCNumber();
 			Db.getTripBucket().getHotel().clearCheckoutData();
 		}
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle out) {
-		super.onSaveInstanceState(out);
-		out.putBoolean(STATE_TAG_LOADED_DB_INFO, mLoadedDbInfo);
 	}
 
 	@Override
@@ -121,7 +86,7 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 
 			return;
 		}
-
+		clearCCNumber();
 		super.onBackPressed();
 	}
 
@@ -144,8 +109,6 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 
-		ViewGroup titleView = Ui.inflate(this, R.layout.actionbar_hotel_name_with_stars, null);
-
 		Property property;
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel == null) {
@@ -157,10 +120,7 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 			property = hotel.getProperty();
 		}
 
-		((TextView) titleView.findViewById(R.id.title)).setText(property.getName());
-		((RatingBar) titleView.findViewById(R.id.rating)).setRating((float) property.getHotelRating());
-
-		actionBar.setCustomView(titleView);
+		HotelUtils.setupActionBarHotelNameAndRating(this, property);
 
 		final MenuItem checkoutItem = menu.findItem(R.id.menu_checkout);
 		Button tv = Ui.inflate(this, R.layout.actionbar_checkout, null);
@@ -182,6 +142,7 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 		switch (item.getItemId()) {
 		case android.R.id.home: {
 			onBackPressed();
+			clearCCNumber();
 			return true;
 		}
 		case R.id.menu_checkout: {
@@ -207,31 +168,6 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 		return super.onPrepareOptionsMenu(menu);
 	}
 
-	// Private methods
-
-	private void loadCachedData(boolean wait) {
-
-		if (!mLoadedDbInfo) {
-			CheckoutDataLoader.CheckoutDataLoadedListener listener = new CheckoutDataLoader.CheckoutDataLoadedListener() {
-				@Override
-				public void onCheckoutDataLoaded(boolean wasSuccessful) {
-					mLoadedDbInfo = wasSuccessful;
-					Runnable refreshDataRunner = new Runnable() {
-						@Override
-						public void run() {
-							if (mBookingOverviewFragment != null) {
-								mBookingOverviewFragment.refreshData();
-							}
-						}
-					};
-					runOnUiThread(refreshDataRunner);
-				}
-
-			};
-			CheckoutDataLoader.getInstance().loadCheckoutData(this, true, true, listener, wait);
-		}
-	}
-
 	//BookingOverviewFragmentListener implementation
 
 	@Override
@@ -244,21 +180,6 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 		supportInvalidateOptionsMenu();
 	}
 
-	// LogInListener implementation
-
-	@Override
-	public void onLoginStarted() {
-	}
-
-	@Override
-	public void onLoginCompleted() {
-		mBookingOverviewFragment.onLoginCompleted();
-	}
-
-	@Override
-	public void onLoginFailed() {
-	}
-
 	// ISlideToListener implementation
 
 	@Override
@@ -269,7 +190,7 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 	public void onSlideAllTheWay() {
 
 		if (!BookingInfoUtils
-			.migrateRequiredCheckoutDataToDbBillingInfo(this, LineOfBusiness.HOTELS, Db.getTravelers().get(0), true)) {
+			.migrateRequiredCheckoutDataToDbBillingInfo(this, LineOfBusiness.HOTELS, Db.getTravelers().get(0))) {
 			if (mBookingOverviewFragment != null) {
 				mBookingOverviewFragment.resetSlider();
 			}
@@ -302,5 +223,14 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 	@Subscribe
 	public void onSimpleDialogCancel(Events.SimpleCallBackDialogOnCancel event) {
 		mBookingOverviewFragment.onSimpleDialogCancel(event);
+	}
+
+	private void clearCCNumber() {
+		try {
+			Db.getBillingInfo().setNumber(null);
+		}
+		catch (Exception ex) {
+			Log.e("Error clearing billingInfo card number", ex);
+		}
 	}
 }

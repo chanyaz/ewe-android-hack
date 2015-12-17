@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:background="@drawable/bg_checkout_saved_spinner_row"
+    android:orientation="horizontal">
+
+    <com.expedia.bookings.widget.RoundImageView
+        android:id="@+id/icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:gravity="center"
+        android:layout_margin="8dp"
+        android:duplicateParentState="true" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/text1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:paddingRight="8dp"
+        android:layout_gravity="center_vertical"
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        app:textStyle="light"
+        android:textSize="18sp"
+        android:duplicateParentState="true" />
+</LinearLayout>

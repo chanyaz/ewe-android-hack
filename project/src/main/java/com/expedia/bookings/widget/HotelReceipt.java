@@ -2,7 +2,6 @@ package com.expedia.bookings.widget;
 
 import java.text.SimpleDateFormat;
 
-import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -15,10 +14,8 @@ import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextUtils.TruncateAt;
-import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,25 +24,34 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.Media;
-import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
+import com.expedia.bookings.section.HotelReceiptExtraSection;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.HotelUtils;
-import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 public class HotelReceipt extends LinearLayout {
 	public interface OnSizeChangedListener {
 		public void onReceiptSizeChanged(int w, int h, int oldw, int oldh);
 
 		public void onMiniReceiptSizeChanged(int w, int h, int oldw, int oldh);
+	}
+
+	public interface OnViewMapClickListener {
+		public void onViewMapClicked();
 	}
 
 	public HotelReceipt(Context context) {
@@ -70,12 +76,15 @@ public class HotelReceipt extends LinearLayout {
 
 	private OnSizeChangedListener mOnSizeChangedListener;
 	private OnClickListener mRateBreakdownClickListener;
+	private OnViewMapClickListener mMapClickListener;
 
 	private ImageView mHeaderImageView;
 	private TextView mRoomTypeDesciptionTextView;
 	private TextView mBedTypeNameTextView;
+	private ViewGroup mRoomAddressLayout;
 	private View mRoomLongDescriptionDivider;
 	private TextView mRoomLongDescriptionTextView;
+	private TextView mRoomAddressTextView;
 	private ViewGroup mExtrasLayout;
 	private View mExtrasDivider;
 
@@ -87,8 +96,9 @@ public class HotelReceipt extends LinearLayout {
 	private TextView mGuestsTextView;
 	private TextView mPriceTextView;
 	private TextView mGrandTotalTextView;
+	private TextView mViewMapTextButton;
 
-	private TextView mWalletPromoAppliedTextView;
+	private boolean mIsABTestViewMapClicked;
 
 	@Override
 	public void onFinishInflate() {
@@ -99,6 +109,9 @@ public class HotelReceipt extends LinearLayout {
 		mBedTypeNameTextView = Ui.findView(this, R.id.bed_type_name_text_view);
 		mRoomLongDescriptionDivider = Ui.findView(this, R.id.room_long_description_divider);
 		mRoomLongDescriptionTextView = Ui.findView(this, R.id.room_long_description_text_view);
+		mRoomAddressTextView = Ui.findView(this, R.id.room_address_text_view);
+		mRoomAddressLayout = Ui.findView(this, R.id.room_address_layout);
+		mViewMapTextButton = Ui.findView(this, R.id.hotel_receipt_view_map_textbutton);
 
 		mExtrasLayout = Ui.findView(this, R.id.extras_layout);
 		mExtrasDivider = Ui.findView(this, R.id.extras_divider);
@@ -115,7 +128,15 @@ public class HotelReceipt extends LinearLayout {
 		mPriceTextView = Ui.findView(this, R.id.price_text);
 		mGrandTotalTextView = Ui.findView(this, R.id.grand_total_text);
 
-		mWalletPromoAppliedTextView = Ui.findView(this, R.id.wallet_promo_applied_text_view);
+		mViewMapTextButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				if (mMapClickListener != null) {
+					mMapClickListener.onViewMapClicked();
+					mIsABTestViewMapClicked = true;
+				}
+			}
+		});
 	}
 
 	@Override
@@ -136,18 +157,31 @@ public class HotelReceipt extends LinearLayout {
 		}
 	};
 
-	public void bind(boolean showMiniReceipt, Property property, HotelSearchParams params, Rate rate,
-			boolean usingGoogleWalletCoupon) {
+	private static String getAvailableLongDesc(TripBucketItemHotel hotel) {
+		String ret = null;
+		if (!TextUtils.isEmpty(hotel.getRate().getRoomLongDescription())) {
+			ret = hotel.getRate().getRoomLongDescription();
+		}
+		else if (hotel.getOldRate() != null && !TextUtils.isEmpty(hotel.getOldRate().getRoomLongDescription())) {
+			ret = hotel.getOldRate().getRoomLongDescription();
+		}
+		return ret;
+	}
+
+	public void bind(boolean showMiniReceipt, TripBucketItemHotel hotel) {
+		HotelSearchParams params = hotel.getHotelSearchParams();
+		Rate rate = hotel.getRate();
+
 		HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
 		headerBitmapDrawable.setCornerMode(CornerMode.TOP);
 		headerBitmapDrawable.setCornerRadius(getResources().getDimensionPixelSize(R.dimen.itin_card_corner_radius));
 		mHeaderImageView.setImageDrawable(headerBitmapDrawable);
 
-		Media media = HotelUtils.getRoomMedia(property, rate);
-		int placeholderResId = Ui.obtainThemeResID((Activity) getContext(), R.attr.hotelImagePlaceHolderDrawable);
-		if (media != null) {
-			headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), media.getHighResUrls(),
-					placeholderResId));
+		HotelMedia hotelMedia = HotelUtils.getRoomMedia(hotel);
+		int placeholderResId = Ui.obtainThemeResID((Activity) getContext(), R.attr.skin_hotelImagePlaceHolderDrawable);
+		if (hotelMedia != null) {
+			new PicassoHelper.Builder(getContext()).setPlaceholder(placeholderResId)
+				.setTarget(headerBitmapDrawable.getCallBack()).build().load(hotelMedia.getHighResUrls());
 		}
 		else {
 			headerBitmapDrawable.setBitmap(BitmapFactory.decodeResource(getResources(), placeholderResId));
@@ -155,15 +189,25 @@ public class HotelReceipt extends LinearLayout {
 
 		mRoomTypeDesciptionTextView.setText(rate.getRoomDescription());
 		mBedTypeNameTextView.setText(rate.getFormattedBedNames());
+		String roomLongDesc = getAvailableLongDesc(hotel);
 
-		if (TextUtils.isEmpty(rate.getRoomLongDescription())) {
+		// 4764 - AB Test: Add address/link to map overlay on Hotel CKO
+		boolean isUserBucketedInTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelShowAddressMapInReceipt);
+
+		if (isUserBucketedInTest) {
+			mRoomAddressLayout.setVisibility(VISIBLE);
+			Location hotelLocation = hotel.getProperty().getLocation();
+			mRoomAddressTextView.setText(hotelLocation.getStreetAddressString() + "\n" + hotelLocation.toShortFormattedString());
+		}
+
+		if (TextUtils.isEmpty(roomLongDesc)) {
 			mRoomLongDescriptionDivider.setVisibility(View.GONE);
 			mRoomLongDescriptionTextView.setVisibility(View.GONE);
 		}
 		else {
 			mRoomLongDescriptionDivider.setVisibility(View.VISIBLE);
 			mRoomLongDescriptionTextView.setVisibility(View.VISIBLE);
-			mRoomLongDescriptionTextView.setText(rate.getRoomLongDescription());
+			mRoomLongDescriptionTextView.setText(roomLongDesc);
 
 			// #817. Let user tap to expand or contract the room description text.
 			mRoomLongDescriptionTextView.setOnClickListener(new OnClickListener() {
@@ -183,13 +227,22 @@ public class HotelReceipt extends LinearLayout {
 		}
 
 		mExtrasLayout.removeAllViews();
-		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee()) {
-			addExtraRow(Ui.obtainThemeResID(getContext(), R.attr.bestPriceGuaranteeString));
+		if (PointOfSale.getPointOfSale().showFTCResortRegulations() &&
+			hotel.getRate().showResortFeesMessaging()) {
+			addResortFeeRows(hotel.getRate());
+			mGrandTotalTextView.setText(getResources().getString(R.string.trip_total));
+			mPriceTextView.setText(rate.getTotalPriceWithMandatoryFees().getFormattedMoney());
 		}
-
-		if (rate.shouldShowFreeCancellation()) {
-			addExtraRow(HotelUtils.getRoomCancellationText(getContext(), rate));
+		else if (rate.isPayLater()) {
+			addPayLaterRow(rate);
+			mGrandTotalTextView.setText(getResources().getString(R.string.total_with_tax));
+			mPriceTextView.setText(rate.getDisplayTotalPrice().getFormattedMoney());
 		}
+		else {
+			mGrandTotalTextView.setText(getResources().getString(R.string.total_with_tax));
+			mPriceTextView.setText(rate.getDisplayTotalPrice().getFormattedMoney());
+		}
+		addPrioritizedAmenityRows(rate);
 
 		final Resources res = getContext().getResources();
 
@@ -201,8 +254,6 @@ public class HotelReceipt extends LinearLayout {
 
 		int numberOfGuests = params.getNumAdults() + params.getNumChildren();
 		mGuestsTextView.setText(res.getQuantityString(R.plurals.number_of_guests, numberOfGuests, numberOfGuests));
-
-		mPriceTextView.setText(rate.getDisplayTotalPrice().getFormattedMoney());
 
 		if (showMiniReceipt) {
 			mMiniReceiptLoading.setVisibility(View.VISIBLE);
@@ -232,7 +283,11 @@ public class HotelReceipt extends LinearLayout {
 					// ignore
 				}
 			});
-			crossfade.start();
+
+			// Let's not show the crossfade animation when they are coming back from map view AB test.
+			if (!mIsABTestViewMapClicked) {
+				crossfade.start();
+			}
 
 			mMiniReceipt.setOnClickListener(new OnClickListener() {
 				@Override
@@ -250,12 +305,6 @@ public class HotelReceipt extends LinearLayout {
 
 			mMiniReceipt.setOnClickListener(null);
 		}
-
-		bind(usingGoogleWalletCoupon);
-	}
-
-	public void bind(boolean usingGoogleWalletCoupon) {
-		mWalletPromoAppliedTextView.setVisibility(usingGoogleWalletCoupon ? View.VISIBLE : View.GONE);
 	}
 
 	private String getFormattedDateRange(HotelSearchParams params) {
@@ -269,19 +318,78 @@ public class HotelReceipt extends LinearLayout {
 		return "(" + rangeString + ")";
 	}
 
-	private void addExtraRow(int stringId) {
-		addExtraRow(getContext().getString(stringId));
+	private void addExtraRow(int stringId, boolean addToTop) {
+		addExtraRow(getContext().getString(stringId), addToTop);
 	}
 
-	private void addExtraRow(CharSequence label) {
+	private void addExtraRow(CharSequence label, boolean addToTop) {
+		mExtrasLayout.setVisibility(View.VISIBLE);
+		mExtrasDivider.setVisibility(View.VISIBLE);
+		HotelReceiptExtraSection extraRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
+		extraRow.bind(label, null);
+		if (addToTop) {
+			mExtrasLayout.addView(extraRow, 0);
+		}
+		else {
+			mExtrasLayout.addView(extraRow);
+		}
+	}
+
+	private void addResortFeeRows(Rate rate) {
 		mExtrasLayout.setVisibility(View.VISIBLE);
 		mExtrasDivider.setVisibility(View.VISIBLE);
 
-		LayoutInflater inflater = LayoutInflater.from(getContext());
-		View extraRow = inflater.inflate(R.layout.snippet_hotel_receipt_extra, mExtrasLayout, false);
-		TextView labelView = (TextView) extraRow.findViewById(R.id.extra_label);
-		labelView.setText(label);
-		mExtrasLayout.addView(extraRow);
+		HotelReceiptExtraSection resortFeesRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
+		String feesPaidAtHotel = getResources().getString(R.string.fees_paid_at_hotel);
+		resortFeesRow.bind(feesPaidAtHotel, rate.getTotalMandatoryFees().getFormattedMoney());
+		mExtrasLayout.addView(resortFeesRow);
+
+		if (rate.isPayLater()) {
+			addPayLaterRow(rate);
+		}
+		else {
+			HotelReceiptExtraSection dueToExpediaRow = Ui
+				.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
+
+			String totalDueToOurBrandToday = Phrase.from(this, R.string.due_to_brand_today_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format()
+				.toString();
+			dueToExpediaRow.bind(totalDueToOurBrandToday, rate.getTotalAmountAfterTax().getFormattedMoney());
+			mExtrasLayout.addView(dueToExpediaRow);
+		}
+	}
+
+	private void addPayLaterRow(Rate rate) {
+		mExtrasLayout.setVisibility(View.VISIBLE);
+		mExtrasDivider.setVisibility(View.VISIBLE);
+
+		HotelReceiptExtraSection dueToOurBrandRow = Ui.inflate(R.layout.snippet_hotel_receipt_price_extra, mExtrasLayout, false);
+		String totalDueToOurBrandToday = Phrase.from(this, R.string.due_to_brand_today_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.format()
+			.toString();
+		dueToOurBrandRow.bind(totalDueToOurBrandToday, rate.getDepositAmount().getFormattedMoney());
+
+		if (rate.getDepositAmount().isZero()) {
+			TextView labelView = (TextView) dueToOurBrandRow.findViewById(R.id.price_title);
+			TextView rateView = (TextView) dueToOurBrandRow.findViewById(R.id.price_text_view);
+			labelView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_etp_overview_checkmark, 0, 0, 0);
+			labelView.setTextColor(getResources().getColor(R.color.etp_text_color));
+			rateView.setTextColor(getResources().getColor(R.color.etp_text_color));
+		}
+		mExtrasLayout.addView(dueToOurBrandRow);
+	}
+
+	private static final int MAX_AMENITY_ROWS = 3;
+	private void addPrioritizedAmenityRows(Rate rate) {
+		if (rate.shouldShowFreeCancellation() && mExtrasLayout.getChildCount() < MAX_AMENITY_ROWS) {
+			addExtraRow(HotelUtils.getRoomCancellationText(getContext(), rate), true);
+		}
+		// Amenity rows
+		if (PointOfSale.getPointOfSale().displayBestPriceGuarantee() && mExtrasLayout.getChildCount() < MAX_AMENITY_ROWS) {
+			addExtraRow(Ui.obtainThemeResID(getContext(), R.attr.skin_bestPriceGuaranteeString), true);
+		}
 	}
 
 	public void saveInstanceState(Bundle outState) {
@@ -298,5 +406,9 @@ public class HotelReceipt extends LinearLayout {
 
 	public void setRateBreakdownClickListener(OnClickListener listener) {
 		mRateBreakdownClickListener = listener;
+	}
+
+	public void setOnViewMapClickListener(OnViewMapClickListener listener) {
+		mMapClickListener = listener;
 	}
 }

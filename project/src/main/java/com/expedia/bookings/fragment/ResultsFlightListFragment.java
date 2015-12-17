@@ -24,6 +24,7 @@ import com.expedia.bookings.fragment.base.ResultsListFragment;
 import com.expedia.bookings.interfaces.IResultsFlightSelectedListener;
 import com.expedia.bookings.widget.FlightAdapter;
 import com.expedia.bookings.widget.TabletFlightAdapter;
+import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -38,12 +39,16 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 
 	private static final String STATE_LEG_NUMBER = "STATE_LEG_NUMBER";
 
+	private TextView mStickySubtitleTv;
+
 	private ListAdapter mAdapter;
 	private int mLegNumber = -1;
 	private IResultsFlightSelectedListener mFlightSelectedListener;
 	private IFlightListHeaderClickListener mListHeaderClickListener;
 
 	private boolean mEnableOnListItemClick = true;
+
+	private float mListHeaderRevealHeight;
 
 	public static ResultsFlightListFragment getInstance(int legPosition) {
 		ResultsFlightListFragment frag = new ResultsFlightListFragment();
@@ -52,12 +57,38 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 	}
 
 	@Override
+	public int getLayoutResId() {
+		return R.layout.fragment_tablet_results_flight_list;
+	}
+
+	@Override
+	public float getMaxHeaderTranslateY() {
+		if (getActivity() == null) {
+			return 0f;
+		}
+		return getListView().getTop()
+			+ getListView().getMaxDistanceFromTop()
+			+ getListView().getPaddingTop()
+			+ getResources().getDimension(R.dimen.results_list_header_reveal_height)
+			- getStickyHeader().getTop()
+			- getStickyHeader().getHeight();
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
 			mLegNumber = savedInstanceState.getInt(STATE_LEG_NUMBER, -1);
 		}
 		setListViewContentDescription(R.string.cd_tablet_results_flight_list);
-		return super.onCreateView(inflater, container, savedInstanceState);
+		View v = super.onCreateView(inflater, container, savedInstanceState);
+		mStickySubtitleTv = Ui.findView(v, R.id.sticky_subtitle);
+		setSubtitleText();
+		return v;
+	}
+
+	public void setListHeaderExpansionPercentage(float percentage) {
+		getListView().setTranslationY(mListHeaderRevealHeight * percentage);
+		mStickySubtitleTv.setAlpha(percentage);
 	}
 
 	@Override
@@ -72,6 +103,8 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 
 		mFlightSelectedListener = Ui.findFragmentListener(this, IResultsFlightSelectedListener.class);
 		mListHeaderClickListener = Ui.findFragmentListener(this, IFlightListHeaderClickListener.class, false);
+
+		mListHeaderRevealHeight = getResources().getDimension(R.dimen.results_list_header_reveal_height);
 	}
 
 	@Override
@@ -127,10 +160,6 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 		FlightAdapter adapter = new TabletFlightAdapter();
 		mAdapter = adapter;
 		mAdapter.registerDataSetObserver(mDataSetObserver);
-
-		// Make sure mLegNumber is in-bounds (should not be needed in production)
-		// TODO still needed?
-		mLegNumber = Math.min(mLegNumber, Db.getFlightSearch().getSelectedLegs().length - 1);
 
 		// Setup data
 		adapter.setLegPosition(mLegNumber);
@@ -194,8 +223,17 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 		@Override
 		public void onChanged() {
 			setStickyHeaderText(initializeStickyHeaderString());
+			setSubtitleText();
 		}
 	};
+
+	private void setSubtitleText() {
+		if (mStickySubtitleTv != null) {
+			int labelResId = Db.getFlightSearch().getSearchParams().isRoundTrip() ? R.string.prices_roundtrip_label :
+				R.string.prices_oneway_label;
+			mStickySubtitleTv.setText(getString(labelResId));
+		}
+	}
 
 	@Override
 	protected ResultsFlightsListState translateState(ResultsListState state) {
@@ -212,15 +250,4 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 	protected ResultsFlightsListState getDefaultState() {
 		return ResultsFlightsListState.FLIGHTS_LIST_AT_BOTTOM;
 	}
-
-	@Override
-	protected String getEmptyListText() {
-		return getString(R.string.tablet_search_results_flights_unavailable);
-	}
-
-	@Override
-	protected int getEmptyListImageResource() {
-		return R.raw.ic_tablet_sold_out_flight;
-	}
-
 }

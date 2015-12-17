@@ -15,7 +15,7 @@
             android:id="@+id/hotel_details_mini_gallery_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#262626" />
+            android:background="@color/bg_hotel_details_mini_gallery" />
 
         <FrameLayout
             android:id="@+id/hotel_details_price_promo_fragment_container"
@@ -23,42 +23,56 @@
             android:layout_height="@dimen/promo_banner_height"
             android:layout_marginTop="@dimen/hotel_details_intro_offset" />
 
-        <LinearLayout
+        <FrameLayout
             android:id="@+id/hotel_details_intro_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#efefef" />
-
-        <FrameLayout
-            android:id="@+id/hotel_details_map_fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/hotel_details_map_visible_size" />
-
-        <FrameLayout
-            android:id="@+id/hotel_details_description_fragment_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#efefef"
-            android:minHeight="100dp" />
+            android:background="@color/bg_row_state_default" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#efefef"
+            android:background="@color/bg_row_state_default"
             android:orientation="vertical"
-            android:paddingBottom="8dp"
+            android:paddingBottom="22dp"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp" >
+            android:paddingRight="8dp">
 
             <Button
                 android:id="@+id/book_now_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/loginBookNowButtonDrawable"
+                android:background="?attr/skin_loginBookNowButtonDrawable"
                 android:contentDescription="@string/cd_hotel_info_press_book_now"
-                android:text="?attr/hotelBookButtonString"
-                android:textSize="18sp"
-                android:textColor="?attr/hotelBookButtonColor" />
+                android:text="@string/book_now_ab_test"
+                android:textColor="?attr/skin_hotelBookButtonColor"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:id="@+id/hotel_details_map_fragment_outer_container"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/hotel_details_map_visible_size">
+            <com.expedia.bookings.widget.TouchableFrameLayout
+                android:id="@+id/hotel_details_map_fragment_container"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/hotel_details_map_total_size"/>
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/hotel_details_description_fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_row_state_default"
+            android:minHeight="100dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg_row_state_default"
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp" >
 
             <Button
                 android:id="@+id/book_by_phone_button"

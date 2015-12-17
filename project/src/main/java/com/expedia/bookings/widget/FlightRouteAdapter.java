@@ -8,7 +8,6 @@ import java.util.List;
 import android.content.Context;
 import android.text.Html;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -72,7 +71,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	@Override
 	public int getViewTypeCount() {
-		return RowType.values().length;
+		return 1;
 	}
 
 	@Override
@@ -295,7 +294,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 			holder.mAirportDetailsTextView.setVisibility(View.GONE);
 			holder.mHeaderTextView.setVisibility(View.VISIBLE);
 
-			setDropDownRowBackground(holder, R.drawable.bg_textview_divider_large);
+			setDropDownRowBackground(holder, R.drawable.bg_textview_divider_large_dark);
 
 			holder.mHeaderTextView.setText(mText);
 
@@ -347,7 +346,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 				setDropDownRowBackground(holder, 0);
 			}
 			else {
-				setDropDownRowBackground(holder, R.drawable.bg_textview_divider_small);
+				setDropDownRowBackground(holder, R.drawable.bg_textview_divider_small_dark);
 			}
 
 			holder.mAirportLocationTextView.setText(mAirport.mName + ", " + mAirport.mCountryCode);

@@ -2,18 +2,32 @@ package com.expedia.bookings.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.FrameLayout;
+import android.widget.ListAdapter;
+import android.widget.ListPopupWindow;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.dialog.ThrobberDialog;
+import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.section.SectionTravelerInfo;
+import com.expedia.bookings.section.TravelerAutoCompleteAdapter;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.TravelerUtils;
+import com.expedia.bookings.widget.CheckoutInfoStatusImageView;
+import com.expedia.bookings.widget.TextView;
+import com.mobiata.android.BackgroundDownloader;
+import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 public class TravelerButtonFragment extends LobableFragment {
@@ -25,20 +39,28 @@ public class TravelerButtonFragment extends LobableFragment {
 		return frag;
 	}
 
-	public interface ITravelerIsValidProvider {
+	public interface ITravelerButtonListener {
 		public boolean travelerIsValid(int travelerNumber);
+		public void onTravelerEditButtonPressed(int travelerNumber);
+		public void onTravelerChosen();
+		public void onAddNewTravelerSelected(int travelerNumber);
 	}
 
 	private static final String STATE_TRAVELER_NUMBER = "STATE_TRAVELER_NUMBER";
+	private static final String DL_FETCH_TRAVELER_INFO = "DL_FETCH_TRAVELER_INFO";
+	private static final String FTAG_FETCH_TRAVELER_INFO = "FTAG_FETCH_TRAVELER_INFO";
 
 	private int mTravelerNumber = -1;
 	private SectionTravelerInfo mSectionTraveler;
 	private ViewGroup mTravelerSectionContainer;
 	private ViewGroup mEmptyViewContainer;
-	private String mEmptyViewLabel;
-	private ITravelerIsValidProvider mValidationProvider;
+	private TextView mEditTravelerButton;
+	private TextView mSavedTravelerSpinner;
+	private TravelerAutoCompleteAdapter mTravelerAdapter;
+	private ListPopupWindow mStoredTravelerPopup;
 
-	private boolean mShowValidMarker = false;
+	private String mEmptyViewLabel;
+	private ITravelerButtonListener mTravelerButtonListener;
 
 	public void setEnabled(boolean enable) {
 		mTravelerSectionContainer.setEnabled(enable);
@@ -49,7 +71,7 @@ public class TravelerButtonFragment extends LobableFragment {
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
-		mValidationProvider = Ui.findFragmentListener(this, ITravelerIsValidProvider.class);
+		mTravelerButtonListener = Ui.findFragmentListener(this, ITravelerButtonListener.class);
 	}
 
 	@Override
@@ -65,19 +87,79 @@ public class TravelerButtonFragment extends LobableFragment {
 		mSectionTraveler = addTravelerSectionToLayout(mTravelerSectionContainer);
 		TravelerUtils.setPhoneTextViewVisibility(mTravelerSectionContainer, mTravelerNumber);
 
+		mTravelerAdapter = new TravelerAutoCompleteAdapter(getActivity());
+		setUpStoredTravelers(mTravelerSectionContainer);
+
 		addEmptyTravelerToLayout(mEmptyViewContainer);
 
 		return rootView;
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		BackgroundDownloader dl = BackgroundDownloader.getInstance();
+		if (dl.isDownloading(getTravelerDownloadKey())) {
+			dl.registerDownloadCallback(getTravelerDownloadKey(), mTravelerDetailsCallback);
+		}
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+		BackgroundDownloader dl = BackgroundDownloader.getInstance();
+		if (getActivity().isFinishing()) {
+			dl.cancelDownload(getTravelerDownloadKey());
+		}
+		else {
+			dl.unregisterDownloadCallback(getTravelerDownloadKey(), mTravelerDetailsCallback);
+		}
+	}
+
+	private void onStoredTravelerSelected(int position) {
+		if (position == mTravelerAdapter.getCount() - 1) {
+			/*
+			 Let's reset selectable state for the current traveler and remove him from DB.
+			 Since we are adding a new traveler, let's add a new blank traveler and set state to new.
+			*/
+			Traveler currentTraveler = Db.getTravelers().get(mTravelerNumber);
+			TravelerUtils.resetPreviousTravelerSelectState(currentTraveler);
+			Db.getTravelers().remove(mTravelerNumber);
+			Traveler traveler = new Traveler();
+			traveler.setIsNew(true);
+			Db.getTravelers().add(mTravelerNumber, traveler);
+			bindToDb();
+			mTravelerButtonListener.onAddNewTravelerSelected(mTravelerNumber);
+			mStoredTravelerPopup.dismiss();
+			return;
+		}
+		else if (position == 0) {
+			return;
+		}
+		Traveler traveler = mTravelerAdapter.getItem(position);
+		if (traveler.isSelectable()) {
+			Db.getWorkingTravelerManager().setWorkingTravelerAndBase(traveler);
+			//Cancel previous download
+			BackgroundDownloader dl = BackgroundDownloader.getInstance();
+			if (dl.isDownloading(getTravelerDownloadKey())) {
+				dl.cancelDownload(getTravelerDownloadKey());
+			}
+
+			// Begin loading flight details in the background, if we haven't already
+			// Show a loading dialog
+			ThrobberDialog df = ThrobberDialog
+				.newInstance(getString(R.string.loading_traveler_info));
+			df.show(getChildFragmentManager(), FTAG_FETCH_TRAVELER_INFO);
+			dl.startDownload(getTravelerDownloadKey(), mTravelerDetailsDownload,
+				mTravelerDetailsCallback);
+			mStoredTravelerPopup.dismiss();
+		}
+	}
+
+	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt(STATE_TRAVELER_NUMBER, mTravelerNumber);
-	}
-
-	public void enableShowValidMarker(boolean enabled) {
-		mShowValidMarker = enabled;
 	}
 
 	public void setTravelerNumber(int travelerNumber) {
@@ -104,19 +186,19 @@ public class TravelerButtonFragment extends LobableFragment {
 				//Valid traveler
 				bindTravelerSection();
 				setShowTravelerView(true);
-				setShowValidMarker(mShowValidMarker, true);
+				setTravelerCheckoutStatus(true);
 
 			}
 			else if (isPartiallyFilled()) {
 				//Partially filled button
 				mSectionTraveler.bind(getDbTraveler());
 				setShowTravelerView(true);
-				setShowValidMarker(mShowValidMarker, false);
+				setTravelerCheckoutStatus(false);
 			}
 			else {
 				//Empty button
 				setShowTravelerView(false);
-				setShowValidMarker(mShowValidMarker, false);
+				setShowSavedTravelers(User.isLoggedIn(getActivity()));
 			}
 		}
 	}
@@ -134,30 +216,69 @@ public class TravelerButtonFragment extends LobableFragment {
 
 	public boolean isPartiallyFilled() {
 		Traveler trav = getDbTraveler();
-		if (trav != null) {
+		if (trav != null && !trav.isNew()) {
 			return trav.hasName();
 		}
 		return false;
 	}
 
 	public boolean isValid() {
-		return mValidationProvider.travelerIsValid(mTravelerNumber);
+		// Short circuit in case if the last unsaved traveler was a new one.
+		if (getDbTraveler() != null && getDbTraveler().isNew()) {
+			return false;
+		}
+		return mTravelerButtonListener.travelerIsValid(mTravelerNumber);
 	}
 
-	private void setShowValidMarker(boolean showMarker, boolean valid) {
-		int visibility = showMarker && valid ? View.VISIBLE : View.GONE;
-		Ui.findView(mTravelerSectionContainer, R.id.validation_checkmark).setVisibility(visibility);
+	private void setTravelerCheckoutStatus(boolean valid) {
+		CheckoutInfoStatusImageView v = Ui.findView(mTravelerSectionContainer, R.id.display_picture);
+		v.setTraveler(getDbTraveler());
+		v.setStatusComplete(valid);
+		setShowSavedTravelers(User.isLoggedIn(getActivity()));
+	}
+
+	private void setShowSavedTravelers(boolean showSpinner) {
+		mSavedTravelerSpinner.setVisibility(showSpinner ? View.VISIBLE : View.GONE);
 	}
 
 	private void setShowTravelerView(boolean showTraveler) {
 		if (showTraveler) {
 			mEmptyViewContainer.setVisibility(View.GONE);
+			setUpStoredTravelers(mTravelerSectionContainer);
 			mTravelerSectionContainer.setVisibility(View.VISIBLE);
 		}
 		else {
 			mEmptyViewContainer.setVisibility(View.VISIBLE);
+			setUpStoredTravelers(mEmptyViewContainer);
 			mTravelerSectionContainer.setVisibility(View.GONE);
 		}
+	}
+
+	private ViewGroup mMeasureParent;
+
+	// Copied from AOSP, ListPopupWindow.java
+	private int measureContentWidth(ListAdapter adapter) {
+		// Menus don't tend to be long, so this is more sane than it looks.
+		int width = 0;
+		View itemView = null;
+		int itemType = 0;
+		final int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		final int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+		final int count = adapter.getCount();
+		for (int i = 0; i < count; i++) {
+			final int positionType = adapter.getItemViewType(i);
+			if (positionType != itemType) {
+				itemType = positionType;
+				itemView = null;
+			}
+			if (mMeasureParent == null) {
+				mMeasureParent = new FrameLayout(getActivity());
+			}
+			itemView = adapter.getView(i, itemView, mMeasureParent);
+			itemView.measure(widthMeasureSpec, heightMeasureSpec);
+			width = Math.max(width, itemView.getMeasuredWidth());
+		}
+		return width + 32;
 	}
 
 	/*
@@ -190,7 +311,107 @@ public class TravelerButtonFragment extends LobableFragment {
 		View v = Ui.inflate(getActivity(), R.layout.snippet_booking_overview_traveler, group);
 		TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
 		tv.setText(mEmptyViewLabel);
+		setUpStoredTravelers(v);
 		return v;
 	}
+
+	public void setUpStoredTravelers(View v) {
+		mSavedTravelerSpinner = Ui.findView(v, R.id.saved_traveler_fake_spinner);
+		if (User.isLoggedIn(getActivity())) {
+			mSavedTravelerSpinner.setVisibility(View.VISIBLE);
+			mSavedTravelerSpinner.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					showSavedTravelers();
+				}
+			});
+		}
+		mEditTravelerButton = Ui.findView(v, R.id.edit_traveler_button);
+		mEditTravelerButton.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mTravelerButtonListener.onTravelerEditButtonPressed(mTravelerNumber);
+			}
+		});
+	}
+
+	private void showSavedTravelers() {
+		if (mStoredTravelerPopup == null) {
+			mStoredTravelerPopup = new ListPopupWindow(getActivity());
+			mStoredTravelerPopup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+				@Override
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					onStoredTravelerSelected(position);
+				}
+			});
+		}
+		mStoredTravelerPopup.setAnchorView(mSavedTravelerSpinner);
+		// TODO Need to ask design for specific offSet for landscape/portrait and devices.
+		mStoredTravelerPopup.setHorizontalOffset(200);
+		mStoredTravelerPopup.setAdapter(mTravelerAdapter);
+		mStoredTravelerPopup.setContentWidth(measureContentWidth(mTravelerAdapter));
+		mStoredTravelerPopup.show();
+	}
+
+	/**
+	 * There can be more than one instance of {@link TravelerButtonFragment}, so let's make sure the download key used is unique.
+	 *
+	 * @return
+	 */
+	private String getTravelerDownloadKey() {
+		return DL_FETCH_TRAVELER_INFO + mTravelerNumber;
+	}
+
+	private BackgroundDownloader.Download<SignInResponse> mTravelerDetailsDownload = new BackgroundDownloader.Download<SignInResponse>() {
+		@Override
+		public SignInResponse doDownload() {
+			ExpediaServices services = new ExpediaServices(getActivity());
+			BackgroundDownloader.getInstance().addDownloadListener(getTravelerDownloadKey(), services);
+			return services.travelerDetails(Db.getWorkingTravelerManager().getWorkingTraveler(), 0);
+		}
+	};
+
+	private BackgroundDownloader.OnDownloadComplete<SignInResponse> mTravelerDetailsCallback = new BackgroundDownloader.OnDownloadComplete<SignInResponse>() {
+		@Override
+		public void onDownload(SignInResponse results) {
+
+			ThrobberDialog df = (ThrobberDialog) getChildFragmentManager().findFragmentByTag(FTAG_FETCH_TRAVELER_INFO);
+			if (df != null) {
+				df.dismiss();
+			}
+
+			if (results == null || results.hasErrors()) {
+				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null,
+					getString(R.string.unable_to_load_traveler_message));
+				dialogFragment.show(getFragmentManager(), "errorFragment");
+				if (results != null && results.hasErrors()) {
+					String error = results.getErrors().get(0).getPresentableMessage(getActivity());
+					Log.e("Traveler Details Error:" + error);
+				}
+				else {
+					Log.e("Traveler Details Results == null!");
+				}
+			}
+			else {
+				PassengerCategory category;
+				// The traveler MUST be an adult if he or she is the traveler on
+				// a hotel booking.
+				if (getLob() == LineOfBusiness.HOTELS) {
+					category = PassengerCategory.ADULT;
+				}
+				else {
+					category = Db.getTravelers().get(mTravelerNumber).getPassengerCategory();
+				}
+				results.getTraveler().setPassengerCategory(category);
+				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(results.getTraveler());
+				Traveler currentTraveler = Db.getTravelers().get(mTravelerNumber);
+				TravelerUtils.resetPreviousTravelerSelectState(currentTraveler);
+				Db.getTravelers().remove(mTravelerNumber);
+				Db.getTravelers().add(mTravelerNumber, results.getTraveler());
+				bindToDb();
+				mTravelerButtonListener.onTravelerChosen();
+			}
+		}
+	};
 
 }

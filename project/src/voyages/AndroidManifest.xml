@@ -1,15 +1,65 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" >
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <application>
 
         <receiver
             android:name="com.expedia.bookings.activity.VSCLocaleChangeReceiver"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.expedia.bookings.action.vsc_locale_changed" />
             </intent-filter>
         </receiver>
 
+        <!-- Deep link routing activity -->
+        <activity
+            android:name="com.expedia.bookings.activity.DeepLinkRouterActivity"
+            android:theme="@android:style/Theme.NoDisplay">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:host="v.vygs.co" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="vygs" />
+                <data android:host="home" />
+                <data android:host="trips" />
+                <data android:host="showTrips" />
+                <data android:host="hotelSearch" />
+                <data android:host="flightSearch" />
+                <data android:host="destination" />
+                <data android:host="carSearch"/>
+                <data android:host="activitySearch"/>
+                <data android:host="signIn"/>
+
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:pathPrefix="/m/trips/shared"
+                    android:scheme="https"/>
+                <data android:host="agence.voyages-sncf.com" />
+
+                <!-- Integration Server -->
+                <data android:host="expediavoyages-sncf.integration.sb.karmalab.net" />
+
+                <!-- Trunk Server -->
+                <data android:host="expediavoyages-sncf.trunk.sb.karmalab.net" />
+            </intent-filter>
+
+        </activity>
     </application>
 
 </manifest>

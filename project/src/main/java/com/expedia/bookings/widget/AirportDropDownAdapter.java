@@ -1,156 +1,89 @@
 package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import org.joda.time.DateTime;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
-import android.support.v4.widget.CursorAdapter;
 import android.text.TextUtils;
-import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.content.AirportAutocompleteProvider;
+import com.expedia.bookings.data.AirportSuggestion;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RecentList;
-import com.expedia.bookings.data.SuggestionResponse;
-import com.expedia.bookings.data.SuggestionSort;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.fragment.FlightSearchParamsFragment;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SuggestionUtils;
-import com.mobiata.android.LocationServices;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
-public class AirportDropDownAdapter extends CursorAdapter {
+public class AirportDropDownAdapter extends ArrayAdapter<AirportSuggestion> implements Filterable {
 	// Where we save the recent airport searches
 	public static final String RECENT_AIRPORTS_FILE = "recent-airports-list.dat";
 
-	// Minimum time ago that we will use location stats
-	private static final long MINIMUM_TIME_AGO = DateUtils.HOUR_IN_MILLIS;
-
 	private static final int DEFAULT_MAX_NEARBY = 2;
 
-	// Maximum # of nearby airports to report
-	private int mMaxNearby = DEFAULT_MAX_NEARBY;
-
-	// Maximum classification of a pre-populated airport
-	private static final int MAX_CLASSIFICATION = 3;
-
 	private Context mContext;
-
-	private Map<String, String> mCountryCodeMap;
-
-	private ContentResolver mContent;
-
 	private RecentList<Location> mRecentSearches;
-
 	private boolean mShowNearbyAirports;
 
-	// If you want to specify your own current location, do it here
-	private android.location.Location mCurrentLocation;
+	private ArrayList<AirportSuggestion> data = new ArrayList<>();
+	private ContentResolver mContent;
+	private SuggestFilter mFilter = new SuggestFilter();
+	private LayoutInflater mInflater;
 
 	public AirportDropDownAdapter(Context context) {
-		super(context, null, 0);
+		super(context, R.layout.simple_dropdown_item_2line);
 
 		mContext = context;
-
 		mContent = context.getContentResolver();
+		mInflater = LayoutInflater.from(getContext());
 
-		mRecentSearches = new RecentList<Location>(Location.class, context, RECENT_AIRPORTS_FILE,
-				FlightSearchParamsFragment.MAX_RECENTS);
-
-		Resources r = context.getResources();
-		mCountryCodeMap = new HashMap<String, String>();
-		String[] countryCodes = r.getStringArray(R.array.country_codes);
-		String[] countryNames = r.getStringArray(R.array.country_names);
-		for (int a = 0; a < countryCodes.length; a++) {
-			mCountryCodeMap.put(countryCodes[a], countryNames[a]);
-		}
-	}
-
-	public void setShowNearbyAirports(boolean showNearbyAirports) {
-		mShowNearbyAirports = showNearbyAirports;
-	}
-
-	public void setMaxNearbyAirports(int num) {
-		mMaxNearby = num;
-	}
-
-	public void setCurrentLocation(android.location.Location location) {
-		mCurrentLocation = location;
+		mRecentSearches = new RecentList<>(Location.class, context, RECENT_AIRPORTS_FILE, FlightSearchParamsFragment.MAX_RECENTS);
 	}
 
 	@Override
-	public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
-		if (TextUtils.isEmpty(constraint)) {
-			int a = 0;
-			MatrixCursor cursor = new MatrixCursor(AirportAutocompleteProvider.COLUMNS);
+	public int getCount() {
+		return data.size();
+	}
 
-			if (mShowNearbyAirports) {
-				List<SuggestionV2> airportSuggestions = SuggestionUtils.getNearbyAirportSuggestions(mContext, mMaxNearby);
-				Airport airport;
+	@Override
+	public AirportSuggestion getItem(int position) {
+		return data.get(position);
+	}
 
-				for (SuggestionV2 suggestion : airportSuggestions) {
-					airport = FlightStatsDbUtils.getAirport(suggestion.getAirportCode());
-					Object[] row = new Object[AirportAutocompleteProvider.COLUMNS.length];
-					row[0] = a++;
-					row[1] = StrUtils.formatAirport(airport);
-					row[2] = airport.mAirportCode + "-" + airport.mName;
-					row[3] = airport.mAirportCode;
-					row[4] = R.drawable.ic_nearby_search;
-					cursor.addRow(row);
-				}
-			}
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		AirportSuggestion suggestionV2 = data.get(position);
+		ViewHolder vh;
 
-			for (Location location : mRecentSearches.getList()) {
-				Object[] row = new Object[AirportAutocompleteProvider.COLUMNS.length];
-				row[0] = a++;
-				row[1] = location.getCity();
-				row[2] = location.getDescription();
-				row[3] = location.getDestinationId();
-				row[4] = R.drawable.ic_recent_search;
-				row[5] = location.getCountryCode();
-				cursor.addRow(row);
-			}
-
-			return cursor;
+		if (convertView == null) {
+			convertView = mInflater.inflate(R.layout.simple_dropdown_item_2line, parent, false);
+			vh = new ViewHolder();
+			vh.mIcon1 = Ui.findView(convertView, R.id.icon1);
+			vh.mTextView1 = Ui.findView(convertView, R.id.text1);
+			vh.mTextView2 = Ui.findView(convertView, R.id.text2);
+			convertView.setTag(vh);
 		}
 		else {
-			Uri uri = Uri.withAppendedPath(
-					AirportAutocompleteProvider.getContentFilterUri(mContext),
-					Uri.encode(constraint.toString()));
-
-			return mContent.query(uri, null, null, null, null);
+			vh = (ViewHolder) convertView.getTag();
 		}
-	}
 
-	@Override
-	public CharSequence convertToString(Cursor cursor) {
-		return cursor.getString(AirportAutocompleteProvider.COL_SUGGEST_COLUMN_TEXT_2);
-	}
-
-	@Override
-	public void bindView(View view, Context context, Cursor cursor) {
-		ViewHolder vh = (ViewHolder) view.getTag();
-
-		int iconResId = cursor.getInt(AirportAutocompleteProvider.COL_SUGGEST_COLUMN_ICON_1);
+		int iconResId = suggestionV2.getIcon();
 		if (iconResId == 0) {
 			vh.mIcon1.setVisibility(View.GONE);
 		}
@@ -159,22 +92,91 @@ public class AirportDropDownAdapter extends CursorAdapter {
 			vh.mIcon1.setVisibility(View.VISIBLE);
 		}
 
-		vh.mTextView1.setText(cursor.getString(AirportAutocompleteProvider.COL_SUGGEST_COLUMN_TEXT_1));
-		vh.mTextView2.setText(cursor.getString(AirportAutocompleteProvider.COL_SUGGEST_COLUMN_TEXT_2));
+		vh.mTextView1.setText(suggestionV2.getText1());
+		vh.mTextView2.setText(suggestionV2.getText2());
+		return convertView;
 	}
 
-	@Override
-	public View newView(Context context, Cursor cursor, ViewGroup parent) {
-		LayoutInflater inflater = LayoutInflater.from(context);
-		View v = inflater.inflate(R.layout.simple_dropdown_item_2line, parent, false);
+	public Filter getFilter() {
+		return mFilter;
+	}
 
-		ViewHolder vh = new ViewHolder();
-		vh.mIcon1 = Ui.findView(v, android.R.id.icon1);
-		vh.mTextView1 = Ui.findView(v, android.R.id.text1);
-		vh.mTextView2 = Ui.findView(v, android.R.id.text2);
-		v.setTag(vh);
+	private class SuggestFilter extends Filter {
+		@Override
+		protected FilterResults performFiltering(CharSequence constraint) {
+			FilterResults results = new FilterResults();
 
-		return v;
+			final ArrayList<AirportSuggestion> suggestionV2s = new ArrayList<>();
+
+			Cursor c;
+
+			if (TextUtils.isEmpty(constraint)) {
+				int a = 0;
+				MatrixCursor cursor = new MatrixCursor(AirportAutocompleteProvider.COLUMNS);
+
+				if (mShowNearbyAirports) {
+					List<SuggestionV2> airportSuggestions = SuggestionUtils
+						.getNearbyAirportSuggestions(mContext, DEFAULT_MAX_NEARBY);
+					Airport airport;
+
+					for (SuggestionV2 suggestion : airportSuggestions) {
+						airport = FlightStatsDbUtils.getAirport(suggestion.getAirportCode());
+						Object[] row = new Object[AirportAutocompleteProvider.COLUMNS.length];
+						row[0] = a++;
+						row[1] = StrUtils.formatAirport(airport);
+						row[2] = airport.mAirportCode + "-" + airport.mName;
+						row[3] = airport.mAirportCode;
+						row[4] = R.drawable.ic_nearby_search;
+						cursor.addRow(row);
+					}
+				}
+
+				for (Location location : mRecentSearches.getList()) {
+					Object[] row = new Object[AirportAutocompleteProvider.COLUMNS.length];
+					row[0] = a++;
+					row[1] = location.getCity();
+					row[2] = location.getDescription();
+					row[3] = location.getDestinationId();
+					row[4] = R.drawable.ic_recent_search;
+					row[5] = location.getCountryCode();
+					cursor.addRow(row);
+				}
+
+				c = cursor;
+			}
+			else {
+				Uri uri = Uri.withAppendedPath(
+					AirportAutocompleteProvider.getContentFilterUri(mContext),
+					Uri.encode(constraint.toString()));
+
+				c = mContent.query(uri, null, null, null, null);
+			}
+
+			while (c.moveToNext()) {
+				suggestionV2s.add(AirportAutocompleteProvider.rowToSuggestion(c));
+			}
+
+			results.values = suggestionV2s;
+			results.count = suggestionV2s.size();
+
+			return results;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		protected void publishResults(CharSequence constraint, FilterResults results) {
+			data = (ArrayList<AirportSuggestion>) results.values;
+			if (data == null) {
+				data = new ArrayList<>();
+			}
+			notifyDataSetChanged();
+		}
+
+	}
+
+
+	public void setShowNearbyAirports(boolean showNearbyAirports) {
+		mShowNearbyAirports = showNearbyAirports;
 	}
 
 	private static class ViewHolder {
@@ -184,15 +186,11 @@ public class AirportDropDownAdapter extends CursorAdapter {
 	}
 
 	public Location getLocation(int position) {
-		Cursor c = getCursor();
-
-		if (c == null || c.getCount() <= position) {
+		if (data == null || position >= data.size()) {
 			return null;
 		}
 
-		c.moveToPosition(position);
-
-		return AirportAutocompleteProvider.createLocationFromRow(c);
+		return data.get(position).getLocation();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -214,7 +212,7 @@ public class AirportDropDownAdapter extends CursorAdapter {
 
 	public static void addAirportToRecents(Context context, Location location) {
 		RecentList<Location> recents = new RecentList<Location>(Location.class, context, RECENT_AIRPORTS_FILE,
-				FlightSearchParamsFragment.MAX_RECENTS);
+			FlightSearchParamsFragment.MAX_RECENTS);
 		recents.addItem(location);
 		recents.saveList(context, RECENT_AIRPORTS_FILE);
 	}

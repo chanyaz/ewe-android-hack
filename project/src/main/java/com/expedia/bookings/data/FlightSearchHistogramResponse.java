@@ -101,6 +101,7 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 	public void apply8WeekFilter() {
 		// 2. If there are less than 10 data points within the first 8 weeks, don't show GDE at all
 
+		// Less than 10 total. So obvi that means less than 10 in the first 8 weeks.
 		if (getCount() < 10) {
 			mFlightHistograms.clear();
 			mMin = null;
@@ -108,7 +109,9 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 			return;
 		}
 
-		if (calendarWeeksBetween(0, 9) > 8) {
+		// If the 10th data point is more than 8 weeks in the future, that means there
+		// are less than 10 data points in the first 8 weeks.
+		if (weeksFromToday(9) > 8) {
 			mFlightHistograms.clear();
 			mMin = null;
 			mMax = null;
@@ -119,12 +122,17 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 		// consecutive weeks with zero data points, cut off the GDE calendar above these two weeks.
 
 		for (int i = 10; i < getCount(); i++) {
-			while (i < getCount() && calendarWeeksBetween(0, i) > 8 && calendarWeeksBetween(i - 1, i) > 2) {
+			while (i < getCount() && weeksFromToday(i) > 8 && calendarWeeksBetween(i - 1, i) > 2) {
 				mFlightHistograms.remove(i);
 				mMin = null;
 				mMax = null;
 			}
 		}
+	}
+
+	private int weeksFromToday(int b) {
+		return Weeks.weeksBetween(getWeekStartDate(LocalDate.now()),
+			getWeekStartDate(mFlightHistograms.get(b))).getWeeks();
 	}
 
 	private int calendarWeeksBetween(int a, int b) {
@@ -133,7 +141,10 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 	}
 
 	private LocalDate getWeekStartDate(FlightHistogram gram) {
-		LocalDate date = gram.getKeyDate();
+		return getWeekStartDate(gram.getKeyDate());
+	}
+
+	private LocalDate getWeekStartDate(LocalDate date) {
 		return date.minusDays(JodaUtils.getDayOfWeekNormalized(date));
 	}
 
@@ -169,7 +180,7 @@ public class FlightSearchHistogramResponse extends Response implements JSONable 
 			return obj;
 		}
 		catch (JSONException e) {
-			throw new RuntimeException("Unable to FlightSearchHistogramResponse.toJson()");
+			throw new RuntimeException("Unable to FlightSearchHistogramResponse.toJson()", e);
 		}
 	}
 

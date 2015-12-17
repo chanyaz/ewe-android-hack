@@ -6,8 +6,9 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 public class HotelErrorDialog extends DialogFragment {
 	private static final String ARG_SHOULD_FINISH_ACTIVITY = "ARG_SHOULD_FINISH_ACTIVITY";
@@ -22,28 +23,23 @@ public class HotelErrorDialog extends DialogFragment {
 		return frag;
 	}
 
-	public void setMessage(int stringId) {
+	public void setMessage(String message) {
 		Bundle args = getArguments();
-		args.putInt(ARG_MESSAGE, stringId);
-		setArguments(args);
-	}
-
-	public void shouldFinishActivity(boolean shouldFinish) {
-		Bundle args = getArguments();
-		args.putBoolean(ARG_SHOULD_FINISH_ACTIVITY, shouldFinish);
+		args.putString(ARG_MESSAGE, message);
 		setArguments(args);
 	}
 
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		Bundle args = getArguments();
-		int messageId = args
-			.getInt(ARG_MESSAGE, Ui.obtainThemeResID(getActivity(), R.attr.sorryRoomsSoldOutErrorMessage));
+		String message = args
+			.getString(ARG_MESSAGE, Phrase.from(getActivity(), R.string.error_hotel_is_now_sold_out_TEMPLATE)
+				.put("brand", BuildConfig.brand).format().toString());
 		mShouldFinishActivity = args.getBoolean(ARG_SHOULD_FINISH_ACTIVITY, true);
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-		builder.setMessage(getString(messageId));
+		builder.setMessage(message);
 
 		builder.setNeutralButton(com.mobiata.android.R.string.ok, null);
 

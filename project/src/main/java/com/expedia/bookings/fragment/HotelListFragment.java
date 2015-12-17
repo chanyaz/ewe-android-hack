@@ -11,6 +11,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
@@ -26,6 +27,7 @@ import com.mobiata.android.util.Ui;
 public class HotelListFragment extends ListFragment {
 
 	private static final String INSTANCE_SHOW_DISTANCES = "INSTANCE_SHOW_DISTANCES";
+	private static final String PICASSO_TAG = "HOTEL_LIST";
 
 	private boolean mShowDistances;
 	private boolean mListNeedsReset = false;
@@ -73,6 +75,7 @@ public class HotelListFragment extends ListFragment {
 
 		// Configure ListView
 		ListView listView = Ui.findView(view, android.R.id.list);
+		listView.setOnScrollListener(new PicassoScrollListener(getActivity(), PICASSO_TAG));
 
 		mHotelListHeader = Ui.inflate(inflater, R.layout.include_hotel_list_header, null, false);
 
@@ -101,7 +104,7 @@ public class HotelListFragment extends ListFragment {
 
 		if (getActivity() != null) {
 			boolean shouldShowVipIcon = PointOfSale.getPointOfSale().supportsVipAccess()
-					&& User.isElitePlus(getActivity());
+				&& User.getLoggedInLoyaltyMembershipTier(getActivity()).isGoldOrSilver();
 			mAdapter.setShowVipIcon(shouldShowVipIcon);
 		}
 

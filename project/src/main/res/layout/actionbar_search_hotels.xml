@@ -1,8 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:mobiata="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:paddingBottom="?attr/hotelSearchActionBarPadding" >
+    android:paddingBottom="?attr/skin_hotelSearchActionBarPadding" >
 
     <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
         android:id="@+id/search_edit_text"
@@ -10,7 +9,6 @@
         android:layout_height="fill_parent"
         android:layout_centerVertical="true"
         android:layout_toLeftOf="@+id/calendar_button_container"
-        android:autoText="false"
         android:background="@drawable/edit_text_holo_dark"
         android:contentDescription="@string/cd_hotel_search_edittext"
         android:dropDownHorizontalOffset="-38dp"
@@ -31,7 +29,7 @@
         android:layout_centerVertical="true"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:src="?attr/clearEditTextImage"
+        android:src="?attr/skin_clearEditTextImage"
         android:visibility="gone" />
 
     <RelativeLayout
@@ -39,6 +37,8 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
+        android:background="?android:attr/selectableItemBackground"
+        android:addStatesFromChildren="true"
         android:contentDescription="@string/cd_hotel_search_open_guest_picker" >
 
         <ImageButton
@@ -46,7 +46,7 @@
             android:layout_width="@dimen/actionbar_refinement_width"
             android:layout_height="fill_parent"
             android:layout_gravity="center_vertical"
-            android:background="?attr/actionBarSpinnerBackground"
+            android:background="?attr/skin_actionBarSpinnerBackground"
             android:padding="0dp"
             android:src="@drawable/ic_menu_guests" />
 
@@ -71,6 +71,8 @@
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:layout_toLeftOf="@id/guests_button_container"
+        android:background="?android:attr/selectableItemBackground"
+        android:addStatesFromChildren="true"
         android:contentDescription="@string/cd_hotel_search_open_calendar" >
 
         <ImageButton
@@ -79,7 +81,7 @@
             android:layout_height="fill_parent"
             android:layout_gravity="center_vertical"
             android:layout_margin="0dp"
-            android:background="?attr/actionBarSpinnerBackground"
+            android:background="?attr/skin_actionBarSpinnerBackground"
             android:padding="0dp"
             android:src="@drawable/ic_menu_date" />
 
@@ -92,7 +94,7 @@
             android:layout_alignRight="@id/dates_button"
             android:layout_alignTop="@id/dates_button"
             android:gravity="center"
-            android:paddingTop="1dp"
+            android:paddingTop="2dp"
             android:textColor="@color/actionbar_text"
             android:textSize="11dp"
             android:textStyle="bold" />

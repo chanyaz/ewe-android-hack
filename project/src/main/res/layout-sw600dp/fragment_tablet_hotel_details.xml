@@ -6,12 +6,13 @@
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_tablet_hotel_details">
+    android:background="?attr/skin_tablet_hotel_details_background_drawable">
 
     <com.expedia.bookings.widget.ScrollView
         android:id="@+id/scrolling_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/hotel_details_pin_padding"
         android:gravity="top">
 
         <RelativeLayout
@@ -99,11 +100,12 @@
                     android:layout_toRightOf="@id/reviews_section_divider"
                     android:layout_alignParentRight="true"
                     android:layout_alignWithParentIfMissing="true"
+                    android:background="@drawable/bg_clickable_row"
                     android:gravity="center">
 
                     <RatingBar
                         android:id="@+id/user_rating_bar"
-                        style="?attr/hotelDetailsUserRatingStyle"
+                        style="?attr/skin_hotelDetailsUserRatingStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -118,7 +120,7 @@
                         android:includeFontPadding="false"
                         android:paddingLeft="4dp"
                         android:singleLine="true"
-                        android:textColor="#1b5698"
+                        android:textColor="@color/hotel_details_user_rating_text"
                         android:textSize="@dimen/hotel_details_rooms_left_text_size"
                         app:textStyle="bold" />
                 </LinearLayout>
@@ -181,16 +183,16 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/amenities_container"
-                android:background="@color/bg_row_state_pressed"
+                android:background="@drawable/bg_clickable_row"
                 android:visibility="gone">
 
                 <com.expedia.bookings.widget.TextView
+                    android:id="@+id/all_rooms_sold_out"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawableLeft="@drawable/ic_tablet_sold_out_hotel_details"
                     android:drawablePadding="8dp"
                     android:layout_gravity="center"
-                    android:text="@string/sorry_rooms_sold_out"
                     android:textColor="#5e6b7a"
                     android:textSize="16dp"
                     app:textStyle="light"/>
@@ -222,13 +224,21 @@
 
                 <!-- Hotel image (#1822) -->
 
-                <ImageView
-                    android:id="@+id/hotel_header_image"
+                <FrameLayout
+                    android:id="@+id/hotel_header_image_touch_target"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="#2a2a2a"
-                    android:scaleType="centerCrop"
-                    android:src="?attr/hotelImagePlaceHolderDrawable" />
+                    android:foreground="?android:attr/selectableItemBackground">
+
+                    <ImageView
+                        android:id="@+id/hotel_header_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="#2a2a2a"
+                        android:scaleType="centerCrop"
+                        android:src="?attr/skin_hotelImagePlaceHolderDrawable" />
+
+                </FrameLayout>
 
                 <!-- Gradient mask over just the hotel picture -->
 
@@ -257,27 +267,6 @@
                     android:visibility="gone"
                     app:textStyle="expedia_light" />
 
-                <!-- Sale/discount rate -->
-
-                <TextView
-                    android:id="@+id/sale_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/hotel_details_callout_text_margin_x"
-                    android:layout_marginTop="@dimen/hotel_details_callout_text_margin_y"
-                    android:background="@drawable/bg_sale_text_view"
-                    android:paddingBottom="@dimen/hotel_details_callout_text_padding_y"
-                    android:paddingLeft="@dimen/hotel_details_callout_text_padding_x"
-                    android:paddingRight="@dimen/hotel_details_callout_text_padding_x"
-                    android:paddingTop="@dimen/hotel_details_callout_text_padding_y"
-                    android:includeFontPadding="false"
-                    android:singleLine="true"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    android:visibility="gone" />
-
                 <FrameLayout
                     android:id="@+id/star_rating_container"
                     android:layout_width="wrap_content"
@@ -300,13 +289,25 @@
 
                     <RatingBar
                         android:id="@+id/star_rating_bar"
-                        style="?attr/hotelDetailsStarRatingStyle"
+                        style="?attr/skin_tabletHotelDetailsStarRatingStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:isIndicator="true"
                         android:numStars="5"
-                        android:stepSize=".5" />
+                        android:stepSize=".5"
+                        android:visibility="gone" />
+
+                    <RatingBar
+                        android:id="@+id/circle_rating_bar"
+                        style="?attr/skin_tabletHotelDetailsCircleRatingStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:isIndicator="true"
+                        android:numStars="5"
+                        android:stepSize=".5"
+                        android:visibility="gone" />
 
                 </FrameLayout>
 

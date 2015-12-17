@@ -1,6 +1,6 @@
 package com.expedia.bookings.section;
 
-import java.util.Calendar;
+import org.joda.time.DateTime;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -35,7 +35,7 @@ public class FlightSegmentSection extends LinearLayout {
 		mDetailsTextView = Ui.findView(this, R.id.details_text_view);
 	}
 
-	public void bind(Flight flight, FlightSegmentAttributes attrs, Calendar minTime, Calendar maxTime) {
+	public void bind(Flight flight, FlightSegmentAttributes attrs, DateTime minTime, DateTime maxTime) {
 		Resources r = getResources();
 
 		mFlightLegSummary.bindFlight(flight, minTime, maxTime);

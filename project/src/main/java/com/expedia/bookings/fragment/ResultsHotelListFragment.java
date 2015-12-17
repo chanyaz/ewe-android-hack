@@ -15,6 +15,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.PicassoScrollListener;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelFilter.OnFilterChangedListener;
 import com.expedia.bookings.data.HotelSearch;
@@ -31,6 +32,8 @@ import com.expedia.bookings.interfaces.IResultsHotelSelectedListener;
 import com.expedia.bookings.interfaces.IStateListener;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.section.HotelSummarySection;
+import com.expedia.bookings.tracking.AdImpressionTracking;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.FruitList;
 import com.expedia.bookings.widget.TabletHotelAdapter;
 import com.mobiata.android.util.Ui;
@@ -52,6 +55,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	private List<ISortAndFilterListener> mSortAndFilterListeners = new ArrayList<ResultsHotelListFragment.ISortAndFilterListener>();
 	private ResultsHotelsListState mState = getDefaultState();
 
+	private static final String PICASSO_TAG = "HOTEL_LIST";
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -62,10 +66,27 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	}
 
 	@Override
+	public int getLayoutResId() {
+		return R.layout.fragment_tablet_results_hotel_list;
+	}
+
+	@Override
+	public float getMaxHeaderTranslateY() {
+		return getListView().getTop()
+			+ getListView().getMaxDistanceFromTop()
+			+ getListView().getPaddingTop()
+			+ getListView().getDividerHeight() // To overlap the divider at the top of the list
+			- getStickyHeader().getTop()
+			- getStickyHeader().getHeight();
+	}
+
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		setListViewContentDescription(R.string.cd_tablet_results_hotel_list);
 		View view = super.onCreateView(inflater, container, savedInstanceState);
 		view.setBackgroundResource(R.drawable.bg_half_white);
+		FruitList listView = getListView();
+		listView.addPicassoScrollListener(new PicassoScrollListener(getActivity(), PICASSO_TAG));
 		return view;
 	}
 
@@ -144,7 +165,7 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 
 		if (getActivity() != null) {
 			boolean shouldShowVipIcon = PointOfSale.getPointOfSale().supportsVipAccess()
-				&& User.isElitePlus(getActivity());
+				&& User.getLoggedInLoyaltyMembershipTier(getActivity()).isGoldOrSilver();
 			mAdapter.setShowVipIcon(shouldShowVipIcon);
 		}
 	}
@@ -193,6 +214,10 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 			Property property = (Property) mAdapter.getItem(itemPosition);
 			Db.getHotelSearch().setSelectedProperty(property);
 			mHotelSelectedListener.onHotelSelected();
+			if (property.isSponsored()) {
+				AdImpressionTracking.trackAdClickOrImpression(getActivity(), property.getClickTrackingUrl(), null);
+				OmnitureTracking.trackHotelSponsoredListingClick();
+			}
 		}
 	}
 
@@ -299,16 +324,6 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 		return ResultsHotelsListState.HOTELS_LIST_AT_BOTTOM;
 	}
 
-	@Override
-	protected String getEmptyListText() {
-		return getString(R.string.tablet_search_results_hotels_unavailable);
-	}
-
-	@Override
-	protected int getEmptyListImageResource() {
-		return R.raw.ic_tablet_sold_out_hotel;
-	}
-
 	@Subscribe
 	public void onHotelAvailabilityUpdated(Events.HotelAvailabilityUpdated event) {
 		if (hasList()) {
@@ -319,5 +334,10 @@ public class ResultsHotelListFragment extends ResultsListFragment<ResultsHotelsL
 	public void onHotelSelected() {
 		Property property = Db.getHotelSearch().getSelectedProperty();
 		getListView().setSelection(getListView().getHeaderViewsCount() + mAdapter.getPositionOfProperty(property));
+	}
+
+	public void clearSelectedProperty() {
+		mAdapter.setSelectedPosition(-1);
+		mAdapter.notifyDataSetChanged();
 	}
 }

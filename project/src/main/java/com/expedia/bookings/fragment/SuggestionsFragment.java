@@ -54,7 +54,7 @@ public class SuggestionsFragment extends ListFragment {
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 
-		SuggestionV2 suggestion = mAdapter.getSuggestion(position);
+		SuggestionV2 suggestion = mAdapter.getItem(position);
 
 		SuggestionProvider.addSuggestionToRecents(getActivity(), suggestion);
 
@@ -75,7 +75,7 @@ public class SuggestionsFragment extends ListFragment {
 
 	public SuggestionV2 getBestChoiceForFilter() {
 		if (mAdapter != null && mAdapter.getCount() > 0) {
-			return mAdapter.getSuggestion(0);
+			return mAdapter.getItem(0);
 		}
 		return null;
 	}

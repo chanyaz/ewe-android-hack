@@ -4,6 +4,7 @@ import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
 
 /**
@@ -182,12 +183,12 @@ public class TouchControlHelper {
 			viewEventReturnValue = true;
 		}
 
-		return new Pair<Boolean, Boolean>(consumedTouchEvent, viewEventReturnValue);
+		return new Pair<>(consumedTouchEvent, viewEventReturnValue);
 	}
 
 	private void log(String msg) {
 		if (mLoggingEnabled) {
-			Log.d(mLoggingTag + " FrameLayoutTouchController " + msg);
+			Log.d(mLoggingTag + " " + TouchableFrameLayout.class.getSimpleName() + " " + msg);
 		}
 	}
 }

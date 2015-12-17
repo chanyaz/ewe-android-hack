@@ -112,7 +112,7 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 			return;
 		}
 
-		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentCid(this);
+		OmnitureTracking.trackPageLoadHotelsCheckoutPaymentCid();
 	}
 
 	@Override
@@ -125,8 +125,6 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 		}
 
 		setCvvErrorMode(mCvvErrorModeEnabled);
-
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -148,8 +146,6 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 		if (shouldBail()) {
 			return;
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -216,7 +212,6 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 			traveler.getPrimaryPhoneNumber().setNumber(null);
 		}
 		Db.getWorkingTravelerManager().setWorkingTravelerAndBase(Db.getTravelers().get(0));
-		Db.getWorkingTravelerManager().setAttemptToLoadFromDisk(false);
 
 		startActivity(intent);
 	}
@@ -248,7 +243,7 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 
 		Drawable actionBarDrawable = isError
 			? getResources().getDrawable(R.drawable.bg_flight_action_bar_top_red)
-			: Ui.obtainThemeDrawable(this, R.attr.actionBarBackgroundDrawable);
+			: Ui.obtainThemeDrawable(this, R.attr.skin_actionBarBackgroundDrawable);
 
 		actionBar.setBackgroundDrawable(actionBarDrawable);
 
@@ -355,6 +350,10 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 
 			finish();
 			break;
+		case SimpleCallbackDialogFragment.CODE_NAME_ONCARD_MISMATCH:
+			launchHotelPaymentCreditCardFragment();
+			finish();
+			break;
 		case SimpleCallbackDialogFragment.CODE_INVALID_PHONENUMBER:
 			launchHotelTravelerPhoneNumberFragment();
 			finish();
@@ -383,7 +382,7 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 
 	@Subscribe
 	public void onCallCustomerSupport(Events.UnhandledErrorDialogCallCustomerSupport event) {
-		SocialUtils.call(this, PointOfSale.getPointOfSale().getSupportPhoneNumber());
+		SocialUtils.call(this, PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
 	}
 
 	@Subscribe
@@ -418,7 +417,7 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 			DialogFragment df = UnhandledErrorDialogFragment.newInstance(null);
 			df.show(getSupportFragmentManager(), "noResultsErrorDialog");
 
-			OmnitureTracking.trackErrorPage(mContext, "ReservationRequestFailed");
+			OmnitureTracking.trackErrorPage("ReservationRequestFailed");
 		}
 		else if (!results.isSuccess() && !response.succeededWithErrors()) {
 			response.setProperty(property);

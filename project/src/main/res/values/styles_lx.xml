@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="V2.Theme.LX" parent="Whitelabel.LXTheme.Base"/>
+
+    <!--
+        Override this theme in whitelabels to provide whitelabel specific theme values.
+
+        Note: If any attr which is in AppTheme.Base.LX and need to be customized per whitelabel,
+        that attr should be removed from AppTheme.Base.LX and
+        must be added in all Whitelabel.LXTheme.Base for all whitelabels
+    -->
+    <style name="Whitelabel.LXTheme.Base" parent="AppTheme.Base.LX">
+        <!-- Required white label attr for login widget -->
+        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="primary_color">@color/lx_primary_color</item>
+        <item name="android:colorPrimaryDark">#A8540D</item>
+        <item name="android:colorButtonNormal">@color/lx_primary_color</item>
+        <item name="colorAccent">@color/lx_primary_color</item>
+
+        <!-- Skins added for whitelabel -->
+        <item name="skin_loginBrandLogoDrawable">@drawable/expedia</item>
+        <item name="skin_costSummaryAlertDrawable">@drawable/border_horizontal_expedia_striped</item>
+        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
+        <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
+        <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_cars</item>
+        <item name="skin_checkoutLoginButtonColor">#836B11</item>
+        <item name="skin_loginBrandIconDrawable">@drawable/expedia_login</item>
+        <item name="skin_lxPrimaryColor">@color/lx_primary_color</item>
+
+        <item name="skin_lxBookNowButtonSelectorDrawable">@drawable/lx_book_now_button_selector</item>
+        <item name="skin_lxOfferDateSelectorDrawable">@drawable/lx_offer_date_selector</item>
+        <item name="skin_lxSelectTicketButtonSelectorDrawable">@drawable/lx_select_ticket_button_selector</item>
+        <item name="skin_lxShowMoreBackgroundDrawable">@drawable/lx_show_more_background</item>
+        <item name="skin_lxSortButtonSelectorDrawable">@drawable/lx_sort_button_selector</item>
+        <item name="skin_lxSortButtonTextSelectorDrawable">@drawable/lx_sort_button_text_selector</item>
+        <item name="traveler_checkout_circle_drawable">@drawable/lx_traveler_checkout_circle</item>
+        <item name="skin_lxTextSelectorDrawable">@drawable/lx_text_selector</item>
+        <item name="skin_lxUncheckedToggleTextColor">@color/lx_unchecked_toggle_text_color</item>
+        <item name="skin_lxTicketPlusButtonSelectorDrawable">@drawable/lx_ticket_plus_button_selector</item>
+        <item name="skin_lxTicketMinusButtonSelectorDrawable">@drawable/lx_ticket_minus_button_selector</item>
+        <item name="skin_lxErrorDefaultDrawable">@drawable/error_default</item>
+        <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_lx</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
+
+    </style>
+
+    <!--
+        Base app theme for LX, all the properties of LX which are common for all whitelabels should be added here
+    -->
+    <style name="AppTheme.Base.LX">
+        <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
+        <item name="checkout_card_view_style">@style/LXCardView</item>
+        <item name="checkout_slider_text">@string/lx_slider_text</item>
+        <item name="toolbar_title_style">@style/LXToolbarTitleTextAppearance</item>
+        <item name="android:textColorSecondary">@color/lx_actionbar_text_color</item>
+
+        <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>
+
+        <!-- CVV attrs -->
+        <item name="traveler_toolbar_text">@string/lx_traveler_details_text</item>
+        <item name="traveler_details_text">@string/lx_traveler_enter_details_text</item>
+
+        <item name="card_list_image_container_height">@dimen/lx_search_list_image_container_height</item>
+        <item name="card_details_container_height">@dimen/lx_search_details_container_height</item>
+
+        <!-- Action Bar Attrs -->
+        <item name="skin_actionbarTextColor">@color/lx_actionbar_text_color</item>
+
+        <item name="checkout_unexpanded_space_height">@dimen/lx_unexpanded_space_height</item>
+        <item name="toolbarNavigationButtonStyle">@style/LXNavigationButtonStyle</item>
+    </style>
+
+    <style name="DateRadioButton" parent="V2.Theme.LX">
+        <item name="android:padding">10dp</item>
+        <item name="android:background">?attr/skin_lxOfferDateSelectorDrawable</item>
+        <item name="android:button">@android:color/transparent</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/lx_offer_date_text_selector</item>
+    </style>
+
+    <style name="DropDownListViewStyle">
+        <item name="android:divider">@android:color/transparent</item>
+        <item name="android:dividerHeight">0dp</item>
+    </style>
+
+    <style name="LXAutocomplete" parent="Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColorHint">#FFFFFF</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:background">@drawable/autocomplete_background</item>
+        <item name="android:theme">@style/LXAutocompleteTheme</item>
+    </style>
+
+    <style name="LXAutocompleteTheme">
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="colorControlActivated">#FFFFFF</item>
+        <item name="colorControlHighlight">#FFFFFF</item>
+    </style>
+
+    <style name="LXActionBarTitle" parent="V2.Theme.LX">
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="LXToolbarTitleTextAppearance" parent="V2.Theme.LX">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">#FFFFFF</item>
+    </style>
+
+    <style name="LXToolbarSubtitleTextAppearance" parent="V2.Theme.LX">
+        <item name="android:textSize">11sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="LXCardView" parent="V2.Theme.LX">
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:animateLayoutChanges">true</item>
+        <item name="android:textColor">@color/lx_actionbar_text_color</item>
+        <item name="cardCornerRadius">3dp</item>
+        <item name="cardElevation">1dp</item>
+    </style>
+
+    <style name="LXConfirmationButton" parent="V2.Theme.LX">   
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:background">@drawable/itin_button</item>
+        <item name="android:height">60dp</item>
+        <item name="android:textColor">@android:color/white</item>     
+        <item name="android:textSize">18sp</item>     
+        <item name="android:paddingLeft">25dp</item>
+        <item name="android:drawablePadding">15dp</item>
+    </style>
+
+    <style name="LXButton" parent="android:Widget.Button" >
+        <item name="android:background">?attr/skin_lxPrimaryColor</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+    </style>
+
+    <style name="LXBookingButton" parent="V2.Theme.LX">   
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:background">@drawable/itin_button</item>
+        <item name="android:textColor">@color/lx_confirmation_action_text_color</item>     
+        <item name="android:textSize">15sp</item>     
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>     
+        <item name="android:drawablePadding">12dp</item>
+    </style>
+
+    <style name="LXRobotoFont">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="LXFilterTitleTextAppearance" parent="V2.Theme.LX">
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/lx_sort_filter_top_bar_text_color</item>
+    </style>
+
+    <style name="LXNavigationButtonStyle" parent="Widget.AppCompat.Toolbar.Button.Navigation">
+        <item name="android:background">?android:selectableItemBackground</item>
+    </style>
+
+    <style name="LxLegalInformationHeader">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingLeft">22dp</item>
+        <item name="android:paddingRight">22dp</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:background">?android:selectableItemBackground</item>
+    </style>
+
+    <style name="LegalInformationTextView.Blue.LX">
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingLeft">22dp</item>
+        <item name="android:paddingRight">22dp</item>
+    </style>
+
+</resources>

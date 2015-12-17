@@ -1,16 +1,13 @@
 package com.expedia.bookings.utils;
 
-import android.graphics.Rect;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.expedia.bookings.widget.NavigationButton;
 import com.mobiata.android.util.ViewUtils;
 
 /**
@@ -45,36 +42,5 @@ public class ActionBarNavUtils {
 		});
 
 		return item;
-	}
-
-	public static boolean removePopupDropdownIfNecessaryOnBackPressed(NavigationButton navButton) {
-		boolean dropdownRemoved = false;
-		if (isPopupDropdownShowing(navButton)) {
-			togglePopupDropdown(navButton);
-			dropdownRemoved = true;
-		}
-
-		return dropdownRemoved;
-	}
-
-	public static boolean removePopupDropdownIfNecessaryOnTouch(MotionEvent ev, NavigationButton navButton) {
-		boolean dropdownRemoved = false;
-		if (navButton != null && navButton.getImageDropdown().getPopupWindow().isShowing()) {
-			Rect bounds = new Rect();
-			navButton.getImageDropdown().getPopupWindow().getContentView().getHitRect(bounds);
-			if (!bounds.contains((int) ev.getX(), (int) ev.getY())) {
-				togglePopupDropdown(navButton);
-				dropdownRemoved = true;
-			}
-		}
-		return dropdownRemoved;
-	}
-
-	private static boolean isPopupDropdownShowing(final NavigationButton navButton) {
-		return navButton == null ? false : navButton.getImageDropdown().getPopupWindow().isShowing();
-	}
-
-	private static void togglePopupDropdown(NavigationButton navButton) {
-		navButton.getImageDropdown().toggleDisplayDropdown();
 	}
 }

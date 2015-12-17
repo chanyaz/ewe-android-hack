@@ -10,9 +10,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
 
 public class HotelPriceChangeDialog extends DialogFragment {
-	private static String ARG_IS_PRICE_HIGHER = "ARG_IS_PRICE_HIGHER";
-	private static String ARG_OLD_TOTAL = "ARG_OLD_TOTAL";
-	private static String ARG_NEW_TOTAL = "ARG_NEW_TOTAL";
+	private static final String ARG_IS_PRICE_HIGHER = "ARG_IS_PRICE_HIGHER";
+	private static final String ARG_OLD_TOTAL = "ARG_OLD_TOTAL";
+	private static final String ARG_NEW_TOTAL = "ARG_NEW_TOTAL";
 
 	public static HotelPriceChangeDialog newInstance(boolean isPriceHigher, Money oldTotal, Money newTotal) {
 		HotelPriceChangeDialog frag = new HotelPriceChangeDialog();

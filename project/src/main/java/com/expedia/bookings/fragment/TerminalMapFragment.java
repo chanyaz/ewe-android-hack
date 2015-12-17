@@ -19,7 +19,6 @@ import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.AirportMap;
 
 public class TerminalMapFragment extends Fragment {
@@ -45,10 +44,7 @@ public class TerminalMapFragment extends Fragment {
 
 		mSvgView = Ui.findView(view, R.id.svg_view);
 		mProgressSpinner = Ui.findView(view, R.id.loading_progress_bar);
-
-		if (AndroidUtils.isHoneycombVersionOrHigher()) {
-			mSvgView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
-		}
+		mSvgView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
 
 		if (savedInstanceState != null) {
 			if (savedInstanceState.containsKey(STATE_SVG) && savedInstanceState.containsKey(STATE_AIRPORT_MAP)) {

@@ -25,10 +25,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.ImageType;
 import com.expedia.bookings.notification.Notification.NotificationType;
@@ -89,12 +89,11 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 	@Override
 	public int getHeaderImagePlaceholderResId() {
-		return Ui.obtainThemeResID(getContext(), R.attr.itinActivityPlaceholderDrawable);
+		return Ui.obtainThemeResID(getContext(), R.attr.skin_itinActivityPlaceholderDrawable);
 	}
 
 	@Override
-	public UrlBitmapDrawable getHeaderBitmapDrawable(int width, int height) {
-		return null;
+	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
 	}
 
 	@Override
@@ -115,7 +114,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		}
 
 		TextView view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_title_generic, container,
-				false);
+			false);
 		view.setText(R.string.activity_information);
 		return view;
 	}
@@ -125,11 +124,11 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		TextView view = (TextView) convertView;
 		if (view == null) {
 			view = (TextView) getLayoutInflater()
-					.inflate(R.layout.include_itin_card_summary_activity, container, false);
+				.inflate(R.layout.include_itin_card_summary_activity, container, false);
 		}
 
 		view.setText(Html.fromHtml(getContext().getString(R.string.itin_card_activity_summary_TEMPLATE,
-				getItinCardData().getLongFormattedValidDate(getContext()))));
+			getItinCardData().getLongFormattedValidDate(getContext()))));
 
 		return view;
 	}
@@ -147,21 +146,42 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 		// Bind
 		Resources res = getResources();
-		infoTriplet.setValues(
-				itinCardData.getFormattedValidDate(getContext()),
-				itinCardData.getFormattedExpirationDate(getContext()),
-				itinCardData.getFormattedGuestCount());
-		infoTriplet.setLabels(
+		CharSequence[] infoTripletValues;
+		CharSequence[] infoTripletLabels;
+		/**
+		 * Activity read trip returns guest count as 0 when only Summary details are present for the trip.
+		 * Displaying only Start and Expire in such cases.
+		 */
+		if (itinCardData.getGuestCount() != 0) {
+			infoTripletValues = new CharSequence[] {
+				itinCardData.getFormattedValidDate(getContext()), itinCardData.getFormattedExpirationDate(getContext()),
+				itinCardData.getFormattedGuestCount()
+			};
+			infoTripletLabels = new CharSequence[] {
 				res.getString(R.string.itin_card_details_active),
 				res.getString(R.string.itin_card_details_expires),
-				res.getQuantityText(R.plurals.number_of_guests_label, itinCardData.getGuestCount()));
+				res.getQuantityText(R.plurals.number_of_guests_label, itinCardData.getGuestCount())
+			};
+		}
+		else {
+			infoTripletValues = new CharSequence[] {
+				itinCardData.getFormattedValidDate(getContext()), itinCardData.getFormattedExpirationDate(getContext())
+			};
+			infoTripletLabels = new CharSequence[] {
+				res.getString(R.string.itin_card_details_active),
+				res.getString(R.string.itin_card_details_expires)
+			};
+		}
+
+		infoTriplet.setValues(infoTripletValues);
+		infoTriplet.setLabels(infoTripletLabels);
 
 		final List<Traveler> travelers = itinCardData.getTravelers();
 		final int size = travelers == null ? 0 : travelers.size();
 		if (size > 0) {
 			for (int i = 0; i < size; i++) {
 				final TextView guestView = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_guest,
-						null);
+					null);
 				final Traveler traveler = travelers.get(i);
 				final int resId = GUEST_ICONS[i % GUEST_ICONS.length];
 
@@ -184,15 +204,15 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 	@Override
 	public SummaryButton getSummaryLeftButton() {
 		return new SummaryButton(R.drawable.ic_printer_redeem, getContext().getString(R.string.itin_action_redeem),
-				new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Context context = getContext();
-						Intent intent = getItinCardData().buildRedeemIntent(context);
-						context.startActivity(intent);
-						OmnitureTracking.trackItinActivityRedeem(context);
-					}
-				});
+			new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Context context = getContext();
+					Intent intent = getItinCardData().buildRedeemIntent(context);
+					context.startActivity(intent);
+					OmnitureTracking.trackItinActivityRedeem();
+				}
+			});
 	}
 
 	@Override
@@ -207,14 +227,14 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		}
 
 		return new SummaryButton(R.drawable.ic_phone, getContext().getString(
-				R.string.itin_action_support),
-				new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						SocialUtils.call(getContext(), finalPhoneNumber);
-						OmnitureTracking.trackItinActivitySupport(getContext());
-					}
-				});
+			R.string.itin_action_support),
+			new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					SocialUtils.call(getContext(), finalPhoneNumber);
+					OmnitureTracking.trackItinActivitySupport();
+				}
+			});
 	}
 
 	@SuppressLint("DefaultLocale")

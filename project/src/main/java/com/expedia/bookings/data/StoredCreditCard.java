@@ -3,11 +3,14 @@ package com.expedia.bookings.data;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.text.TextUtils;
+
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
-public class StoredCreditCard implements JSONable {
+public class StoredCreditCard implements JSONable, Comparable<StoredCreditCard> {
 
 	private CreditCardType mType;
 	private String mDescription;
@@ -15,6 +18,9 @@ public class StoredCreditCard implements JSONable {
 	private String mCardNumber;
 
 	private boolean mIsGoogleWallet;
+
+	// (Tablet Checkout) When user is logged in, can this credit card be selected from the list of stored credit cards or disabled?
+	private boolean mIsSelectable = true;
 
 	public void setType(CreditCardType type) {
 		mType = type;
@@ -64,6 +70,14 @@ public class StoredCreditCard implements JSONable {
 		return mIsGoogleWallet;
 	}
 
+	public boolean isSelectable() {
+		return mIsSelectable;
+	}
+
+	public void setIsSelectable(boolean isSelectable) {
+		mIsSelectable = isSelectable;
+	}
+
 	@Override
 	public JSONObject toJson() {
 		JSONObject obj = new JSONObject();
@@ -74,6 +88,7 @@ public class StoredCreditCard implements JSONable {
 			obj.putOpt("paymentsInstrumentsId", mRemoteId);
 			obj.putOpt("isGoogleWallet", mIsGoogleWallet);
 			obj.putOpt("cardNumber", mCardNumber);
+			obj.putOpt("isSelectable", mIsSelectable);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -89,6 +104,55 @@ public class StoredCreditCard implements JSONable {
 		mRemoteId = obj.optString("paymentsInstrumentsId", null);
 		mIsGoogleWallet = obj.optBoolean("isGoogleWallet");
 		mCardNumber = obj.optString("cardNumber");
+		mIsSelectable = obj.optBoolean("isSelectable");
 		return true;
+	}
+
+	private static final int BEFORE = -1;
+	private static final int EQUAL = 0;
+
+	@Override
+	public int compareTo(StoredCreditCard another) {
+		if (this == another) {
+			//same ref
+			return EQUAL;
+		}
+		if (another == null) {
+			return BEFORE;
+		}
+
+		int diff = 0;
+
+		// Compare card number
+		diff = Strings.compareTo(getCardNumber(), another.getCardNumber());
+		if (diff != 0) {
+			return diff;
+		}
+
+		// Compare card type
+		if (another.getType() != null && getType() != null) {
+			diff = another.getType().compareTo(getType());
+			if (diff != 0) {
+				return diff;
+			}
+		}
+
+		// Compare remoteID
+		if (!TextUtils.isEmpty(another.getId()) && !TextUtils.isEmpty(getId())) {
+			diff = Strings.compareTo(getId(), another.getId());
+			if (diff != 0) {
+				return diff;
+			}
+		}
+
+		// Compare description
+		if (!TextUtils.isEmpty(another.getDescription()) && !TextUtils.isEmpty(getDescription())) {
+			diff = Strings.compareTo(getDescription(), another.getDescription());
+			if (diff != 0) {
+				return diff;
+			}
+		}
+
+		return EQUAL;
 	}
 }

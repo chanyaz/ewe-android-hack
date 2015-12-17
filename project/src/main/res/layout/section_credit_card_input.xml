@@ -96,10 +96,10 @@
         <Button
             android:id="@+id/book_button"
             style="@style/CreditCardButton"
-            android:background="?attr/cvvBookButtonKeypadDrawable"
+            android:background="?attr/skin_cvvBookButtonKeypadDrawable"
             android:includeFontPadding="true"
             android:text="@string/book"
-            android:textColor="?attr/cvvBookButtonTextColor"
+            android:textColor="?attr/skin_cvvBookButtonTextColor"
             android:textSize="@dimen/cvv_keypad_book_text_size" />
     </TableRow>
 

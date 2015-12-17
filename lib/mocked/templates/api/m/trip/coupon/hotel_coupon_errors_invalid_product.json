@@ -1,0 +1,13 @@
+{
+    "activityId": "58b6be8a-d533-4eb0-aaa6-0228e000056c",
+    "errors": [
+        {
+            "diagnosticId": 14101,
+            "errorCode": "APPLY_COUPON_ERROR",
+            "errorInfo": {
+                "couponErrorType": "InvalidProduct",
+                "summary": "Coupon\u2019s LOB (not Stand-Alone Merchant Hotel) can not be applied for purchase LOB (Merchant hotels only)."
+            }
+        }
+    ]
+}

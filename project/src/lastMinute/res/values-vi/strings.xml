@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="call_lm_customer_support">Gọi bộ phận Hỗ trợ Khách hàng lastminute.com.au</string>
+
+    <!-- Log in with lastminute.com.au -->
+    <string name="Log_in_with_lm">Đăng nhập lastminute.com.au</string>
+    <!-- Label for signin screen -->
+    <string name="lm_account">Tài khoản lastminute.com.au</string>
+    <!-- Content description for action: Press to log in with your lastminute.com.au account -->
+    <string name="cd_checkout_log_in_with_lm">Bấm để đăng nhập tài khoản lastminute.com.au</string>
+
+    <string name="lm_website">Trang web lastminute.com.au</string>
+    <string name="lm_app_support">Hỗ trợ app lastminute.com.au</string>
+    <string name="lm_copyright_TEMPLATE">© Copyright 2012-%1$s lastminute.com.au\nMọi quyền được bảo lưu.</string>
+    <string name="lm_info_url">http://www.lastminute.com/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_lm">Quý vị có chắc chắn muốn thoát khỏi tài khoản lastminute.com.au không?</string>
+
+    <!-- Expedia booking fee -->
+    <string name="lm_booking_fee">Phí đặt chỗ lastminute.com.au</string>
+
+    <string name="error_flight_unhandled_lm_TEMPLATE">Rất tiếc, chúng tôi hiện không thể xử lý yêu cầu của quý vị. Vui lòng thử lại hoặc gọi Bộ phận Hỗ trợ Khách hàng lastminute.com.au và cho biết số lịch trình: %s</string>
+    <string name="error_server_lm">Rất tiếc, chúng tôi không thể kết nối với máy chủ lastminute.com.au. Vui lòng thử lại sau.</string>
+
+    <!-- save billing info message -->
+    <string name="save_billing_lm_info_message">Lưu hình thức thanh toán này vào tài khoản lastminute.com.au của quý vị để thanh toán nhanh hơn trong những lần sau?</string>
+
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_lm_message_TEMPLATE">Lưu thông tin %1$s vào tài khoản lastminute.com.au của quý vị để tiết kiệm thời gian trong những lần đặt sau?</string>
+
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE_lm">Số lịch trình lastminute.com.au: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE_lm">Hỗ trợ Khách hàng lastminute.com.au: %s</string>
+
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data_lm">Quý vị đã thoát khỏi tài khoản lastminute.com.au; mọi thông tin thanh toán và liên hệ đã được xóa.</string>
+
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure_lm">Rất tiếc, chúng tôi không thể kết nối với lastminute.com.au. Vui lòng thử lại.</string>
+
+    <!-- Phone Fragment Header-->
+    <string name="nav_accommodation">Khách sạn</string>
+    
+    <!-- Shop travel label -->
+    <string name="shop_travel">Tìm và đặt</string>
+
+    <!-- Title for different ways to connect to Expedia -->
+    <string name="contact_lm_via">Liên hệ lastminute.com.au qua…</string>
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_lm_email_subject">Hỗ trợ đặt phòng lastminute.com.au</string>
+    <!-- lastminute.com.au- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_lm">Nếu có câu hỏi về đặt chỗ của mình, vui lòng liên hệ lastminute.com.au qua %s.</string>
+    <!-- lastminute.com.au Itinerary -->
+    <string name="lm_itinerary">Số lịch trình lastminute.com.au</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">lastminute.com.au</string>
+
+    <string name="error_flight_no_longer_available_lm">Rất tiếc, hiện lastminute.com.au không còn chuyến bay của quý vị.</string>
+
+    <string name="error_flights_no_longer_available_lm">Rất tiếc, hiện lastminute.com.au không còn một trong những chuyến bay của quý vị.</string>
+
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out_lm">Rất tiếc, lastminute.com.au không còn phòng tại khách sạn này.</string>
+    <!--A message stating this hotel is Not currently available on lastminute.com.au -->
+    <string name="not_currently_available_lm">Hiện không có tại lastminute.com.au</string>
+    <!-- A message stating this hotel is sold out on lastminute.com.au -->
+    <string name="sold_out_on_lm">lastminute.com.au đã hết phòng</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from lastminute.com.au Nov. 3-4" -->
+    <string name="not_currently_available_lm_TEMPLATE">lastminute.com.au không có phòng vào %s</string>
+
+    <!-- Missing strings for lastminute.com.au from Expedia-->
+    <string name="tell_a_friend_body_lm">Xin chào,\n\nHãy thử ứng dụng lastminute.com.au Hotels cho iPhone và điện thoại Android. MIỄN PHÍ và quý vị có thể tìm và đặt phòng tại hơn 140.000 khách sạn trên toàn thế giới. Đây là cách đặt phòng dễ dàng nhất từ điện thoại di động.</string>
+    <string name="tell_a_friend_subject_lm">lastminute.com.au Hotels</string>
+    <string name="restricted_profile_login_message_lm">Để đăng nhập lastminute.com.au, quý vị phải sử dụng tài khoản người dùng không giới hạn trên thiết bị của mình.</string>
+    <string name="loading_lm_account">Đang tải tài khoản lastminute.com.au</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_lm">Quý vị đã đặt phòng khách sạn thành công! Nếu cần lịch trình ngay, vui lòng liên hệ Bộ phận Hỗ trợ Khách hàng lastminute.com.au.</string>
+    <string name="lm_password_hint">Mật khẩu lastminute.com.au</string>
+    <string name="dialog_message_launch_lm_mobile_site">Mở trang web di động lastminute.com.au?</string>
+    <string name="sorry_rooms_sold_out_lm">Rất tiếc, hiện lastminute.com.au đã hết phòng.</string>
+    <!-- lastminute.com.au App download link -->
+    <string name="share_template_long_ad_lm">Đặt phòng khách sạn, chuyến bay; xem &amp; chia sẻ lịch trình của quý vị. Tải ứng dụng di động lastminute.com.au miễn phí ngay hôm nay.\n%s</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">Tổng cần thanh toán cho lastminute.com.au hôm nay:</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">Vui lòng tạo tài khoản mới, dùng cho cho tất cả các trang web lastminute.com.au.&lt;br&gt;Vui lòng thiết lập lại mật khẩu bằng cách bấm vào ‘Quên mật khẩu?’ dưới đây.</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today_lm">Cần thanh toán cho lastminute.com.au hôm nay</string>
+    <string name="etp_pay_now_charges_text_lm">lastminute.com.au sẽ xử lý chi tiết thanh toán của quý vị.</string>
+</resources>

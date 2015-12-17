@@ -15,11 +15,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListPopupWindow;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -36,8 +32,8 @@ import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
-import com.expedia.bookings.section.StoredCreditCardSpinnerAdapter;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.CreditCardUtils;
 import com.mobiata.android.util.Ui;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -51,14 +47,11 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 
 	private static final String STATE_FORM_IS_OPEN = "STATE_FORM_IS_OPEN";
 
-	private StoredCreditCardSpinnerAdapter mStoredCreditCardAdapter;
 	private boolean mAttemptToLeaveMade = false;
 	private SectionBillingInfo mSectionBillingInfo;
 	private SectionLocation mSectionLocation;
 	private ICheckoutDataListener mListener;
 	private boolean mFormOpen = false;
-
-	private ViewGroup mMeasureParent;
 
 	private TextView mCreditCardMessageTv;
 
@@ -75,22 +68,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		if (savedInstanceState != null) {
-			if (Db.getWorkingBillingInfoManager().getAttemptToLoadFromDisk() && Db.getWorkingBillingInfoManager()
-				.hasBillingInfoOnDisk(getActivity())) {
-				Db.getWorkingBillingInfoManager().loadWorkingBillingInfoFromDisk(getActivity());
-			}
 			mFormOpen = savedInstanceState.getBoolean(STATE_FORM_IS_OPEN, false);
 		}
-
-		TripBucketItem item = null;
-		if (getLob() == LineOfBusiness.FLIGHTS) {
-			item = Db.getTripBucket().getFlight();
-		}
-		if (getLob() == LineOfBusiness.HOTELS) {
-			item = Db.getTripBucket().getHotel();
-		}
-		mStoredCreditCardAdapter = new StoredCreditCardSpinnerAdapter(getActivity(), item);
-
 		return super.onCreateView(inflater, container, savedInstanceState);
 	}
 
@@ -126,7 +105,6 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		if (mSectionLocation != null) {
 			mSectionLocation.bind(Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getLocation());
 		}
-
 	}
 
 	private OnClickListener mTopRightClickListener = new OnClickListener() {
@@ -134,7 +112,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		public void onClick(View arg0) {
 			mAttemptToLeaveMade = true;
 
-			if (Db.getWorkingBillingInfoManager().getWorkingBillingInfo().hasStoredCard()) {
+			if (Db.getBillingInfo().hasStoredCard()) {
 				//If we have a saved card we're good to go
 				commitAndLeave();
 			}
@@ -151,8 +129,19 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		}
 	};
 
+	private void resetValidation() {
+		if (mSectionBillingInfo != null) {
+			mSectionBillingInfo.resetValidation();
+		}
+		if (mSectionLocation != null) {
+			mSectionLocation.resetValidation();
+		}
+	}
+
+
 	private void commitAndLeave() {
 		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+		resetValidation();
 		mListener.onCheckoutDataUpdated();
 		Ui.hideKeyboard(getActivity(), InputMethodManager.HIDE_NOT_ALWAYS);
 		closeForm(true);
@@ -191,17 +180,14 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 					mSectionBillingInfo.performValidation();
 				}
 
-				//We attempt to save on change
-				Db.getWorkingBillingInfoManager().attemptWorkingBillingInfoSave(getActivity(), false);
-
 				// Let's show airline fees (LCC Fees) or messages if any
 				if (getLob() == LineOfBusiness.FLIGHTS) {
 					BillingInfo mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
 					if (mBillingInfo.getCardType() != null) {
 						TripBucketItem item = Db.getTripBucket().getFlight();
 						if (!item.isCardTypeSupported(mBillingInfo.getCardType())) {
-							String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, mBillingInfo
-								.getCardType().getHumanReadableName(getActivity()));
+							String cardName = CreditCardUtils.getHumanReadableName(getActivity(), mBillingInfo.getCardType());
+							String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, cardName);
 							updateCardMessageText(message);
 							toggleCardMessage(true, true);
 						}
@@ -225,8 +211,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 					if (mBillingInfo.getCardType() != null) {
 						TripBucketItem item = Db.getTripBucket().getHotel();
 						if (!item.isCardTypeSupported(mBillingInfo.getCardType())) {
-							String message = getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, mBillingInfo
-								.getCardType().getHumanReadableName(getActivity()));
+							String cardName = CreditCardUtils.getHumanReadableName(getActivity(), mBillingInfo.getCardType());
+							String message = getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName);
 							updateCardMessageText(message);
 							toggleCardMessage(true, true);
 						}
@@ -254,26 +240,20 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			}
 		});
 
-		setUpStoredCards();
 	}
 
 	@Override
 	public void onFormClosed() {
 		if (isResumed() && mFormOpen) {
 			mAttemptToLeaveMade = false;
-			Db.getWorkingBillingInfoManager().deleteWorkingBillingInfoFile(getActivity());
+			resetValidation();
 			mListener.onCheckoutDataUpdated();
-			if (mStoredCardPopup != null) {
-				mStoredCardPopup.dismiss();
-				mStoredCardPopup.setAdapter(null);
-			}
 		}
 		mFormOpen = false;
 	}
 
 	@Override
 	public void onFormOpened() {
-		setUpStoredCards();
 		if (Db.getBillingInfo().hasStoredCard()) {
 			if (Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
 				showStoredCardContainerGoogleWallet();
@@ -281,6 +261,7 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			else {
 				showStoredCardContainer();
 			}
+			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());
 		}
 		else {
 			showNewCardContainer();
@@ -389,20 +370,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	//////////////////////////////////////////////////////////////////////////
 	// Stored cards
 
-	private ListPopupWindow mStoredCardPopup;
-
-	private void setUpStoredCards() {
-		int count = mStoredCreditCardAdapter.getCount();
-		clearExtraHeadingView();
-		if (count != 0) {
-			TextView storedCardButton = Ui.inflate(getParentFragment(), R.layout.include_stored_card_spinner, null);
-			storedCardButton.setOnClickListener(mStoredCardButtonClickListener);
-			attachExtraHeadingView(storedCardButton);
-		}
-	}
-
 	private void showStoredCardContainer() {
-		StoredCreditCard card = Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard();
+		StoredCreditCard card = Db.getBillingInfo().getStoredCard();
 		String cardName = card.getDescription();
 		CreditCardType cardType = card.getType();
 		showStoredCardContainer(cardName, cardType);
@@ -433,6 +402,11 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		Ui.findView(storedCardContainer, R.id.remove_stored_card_button).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
+				// Let's reset the selectable/clickable state (in the stored card picker, checkout overview screen) of the currentCC
+				StoredCreditCard currentCC = Db.getBillingInfo().getStoredCard();
+				if (currentCC != null) {
+					BookingInfoUtils.resetPreviousCreditCardSelectState(getParentFragment().getActivity(), currentCC);
+				}
 				Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
 				Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setLocation(new Location());
 
@@ -444,7 +418,6 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 				//after they had removed it completely and started entering a card # manually. So we clear the Db version.
 				Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 
-				setUpStoredCards();
 				showNewCardContainer();
 			}
 		});
@@ -455,70 +428,4 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		Ui.findView(getParentFragment().getActivity(), R.id.new_card_container).setVisibility(View.VISIBLE);
 		mSectionBillingInfo.bind(Db.getWorkingBillingInfoManager().getWorkingBillingInfo());
 	}
-
-	private OnClickListener mStoredCardButtonClickListener = new OnClickListener() {
-		@Override
-		public void onClick(View view) {
-			if (mStoredCardPopup == null) {
-				mStoredCardPopup = new ListPopupWindow(getActivity());
-				mStoredCardPopup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-					@Override
-					public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-						StoredCreditCard card = mStoredCreditCardAdapter.getItem(position);
-						if (card != null) {
-							Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());
-							// Don't allow selection of invalid card types.
-
-							boolean isValidCard = true;
-							if (getLob() == LineOfBusiness.FLIGHTS &&
-								!Db.getTripBucket().getFlight().isCardTypeSupported(card.getType())) {
-								isValidCard = false;
-							}
-							if (getLob() == LineOfBusiness.HOTELS &&
-								!Db.getTripBucket().getHotel().isCardTypeSupported(card.getType())) {
-								isValidCard = false;
-							}
-
-							if (isValidCard) {
-								Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(card);
-								commitAndLeave();
-								showStoredCardContainer();
-								mStoredCardPopup.dismiss();
-							}
-						}
-					}
-				});
-			}
-			mStoredCardPopup.setAnchorView(view);
-			mStoredCardPopup.setAdapter(mStoredCreditCardAdapter);
-			mStoredCardPopup.setContentWidth(measureContentWidth(mStoredCreditCardAdapter));
-			mStoredCardPopup.show();
-		}
-	};
-
-	// Copied from AOSP, ListPopupWindow.java
-	private int measureContentWidth(ListAdapter adapter) {
-		// Menus don't tend to be long, so this is more sane than it looks.
-		int width = 0;
-		View itemView = null;
-		int itemType = 0;
-		final int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-		final int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-		final int count = adapter.getCount();
-		for (int i = 0; i < count; i++) {
-			final int positionType = adapter.getItemViewType(i);
-			if (positionType != itemType) {
-				itemType = positionType;
-				itemView = null;
-			}
-			if (mMeasureParent == null) {
-				mMeasureParent = new FrameLayout(getActivity());
-			}
-			itemView = adapter.getView(i, itemView, mMeasureParent);
-			itemView.measure(widthMeasureSpec, heightMeasureSpec);
-			width = Math.max(width, itemView.getMeasuredWidth());
-		}
-		return width + 32;
-	}
-
 }

@@ -1,10 +1,8 @@
 package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -16,28 +14,48 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.BulletSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.text.style.URLSpan;
+import android.text.style.UnderlineSpan;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.LocationServices;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
+import com.squareup.phrase.Phrase;
 
 public class StrUtils {
 
 	// e.g. San Francisco, CA, United States (SFO-San Francisco Int'l Airport) -> San Francisco, CA
-	private static Pattern CITY_STATE_PATTERN = Pattern.compile("^([^,]+,[^,]+)");
+	private static final Pattern CITY_STATE_PATTERN = Pattern.compile("^([^,]+,[^,]+)");
 	// e.g. Kuantan, Malaysia (KUA-Sultan Haji Ahmad Shah) -> Kuantan, Malyasia
-	private static Pattern CITY_COUNTRY_PATTERN = Pattern.compile("^([^,]+,[^,]+(?= \\(.*\\)))");
+	private static final Pattern CITY_COUNTRY_PATTERN = Pattern.compile("^([^,]+,[^,]+(?= \\(.*\\)))");
+	// e.g. Kuantan, Malaysia (KUA-Sultan Haji Ahmad Shah) -> KUA-Sultan Haji Ahmad Shah
+	private static final Pattern AIRPORT_CODE_PATTERN = Pattern.compile("\\((.*?)\\)");
+	// e.g. San Francisco, CA, United States (SFO-San Francisco Int'l Airport) -> San Francisco, CA, United States
+	private static final Pattern DISPLAY_NAME_PATTERN = Pattern.compile("^((.+)(?= \\(.*\\)))");
+	public static final String HTML_TAGS_REGEX = "<[^>]*>";
 	/**
 	 * Formats the display of how many adults and children are picked currently.
 	 * This will display 0 adults or children.
@@ -65,6 +83,10 @@ public class StrUtils {
 
 	public static String formatAddressCity(Location location) {
 		return formatAddress(location, F_CITY + F_STATE_CODE + F_POSTAL_CODE);
+	}
+
+	public static String formatAddressCityState(Location location) {
+		return formatAddress(location, F_CITY + F_STATE_CODE);
 	}
 
 	public static String formatAddress(Location location) {
@@ -260,90 +282,26 @@ public class StrUtils {
 		return waypoint.mAirportCode;
 	}
 
+	public static String getWaypointCodeOrCityStateString(Waypoint waypoint) {
+		Airport airport = waypoint.getAirport();
+		if (airport == null || Strings.isEmpty(airport.mCity)) {
+			return waypoint.mAirportCode;
+		}
+		StringBuilder builder = new StringBuilder();
+		builder.append(airport.mCity);
+		if (Strings.isNotEmpty(airport.mStateCode)) {
+			builder.append(", ");
+			builder.append(airport.mStateCode);
+		}
+		return builder.toString();
+	}
+
 	public static String getLocationCityOrCode(Location location) {
 		String city = location.getCity();
 		if (!TextUtils.isEmpty(location.getCity())) {
 			return city;
 		}
 		return location.getDestinationId();
-	}
-
-	/**
-	 * Joins together a bunch of Strings, much like in Python,
-	 * except that it ignores nulls and empty strings
-	 *
-	 * For example, joining [ "a", "", "b", "c" ] with ", " would
-	 * result in "a, b, c"
-	 *
-	 * @param items a collection of strings
-	 * @param sep the separator between each item
-	 * @return joined string
-	 */
-	public static String joinWithoutEmpties(final CharSequence sep, final Collection<? extends CharSequence> items) {
-		if (items == null) {
-			return null;
-		}
-
-		StringBuilder sb = new StringBuilder();
-		int a = 0;
-		Iterator<? extends CharSequence> it = items.iterator();
-		while (it.hasNext()) {
-			CharSequence str = it.next();
-			if (!TextUtils.isEmpty(str)) {
-				if (a > 0) {
-					sb.append(sep);
-				}
-				sb.append(str);
-			}
-			a++;
-		}
-
-		return sb.toString();
-	}
-
-	public static int compareTo(String a, String b) {
-		if (TextUtils.equals(a, b)) {
-			return 0;
-		}
-
-		if (a == null) {
-			a = "";
-		}
-		if (b == null) {
-			b = "";
-		}
-		return a.compareTo(b);
-	}
-
-	public static String slice(String str, int start) {
-		return slice(str, start, null);
-	}
-
-	/**
-	 * Does a string slice in the style of Python
-	 *
-	 * If you enter bullshit params, you will get an empty string.
-	 */
-	public static String slice(String str, int start, Integer end) {
-		int len = str.length();
-
-		if (start < 0) {
-			start = len + start;
-		}
-
-		if (end == null) {
-			end = len;
-		}
-		else if (end < 0) {
-			end = len + end;
-		}
-
-		// If the user put us in an awkward place, just return the empty string
-		if (start > len || end < start) {
-			return "";
-		}
-
-		return str.substring(start, end);
 	}
 
 	public static String printIntent(Intent intent) {
@@ -405,14 +363,6 @@ public class StrUtils {
 		return Collections.unmodifiableSet(names);
 	}
 
-	public static String formatHexString(String str) {
-		StringBuilder sb = new StringBuilder();
-		for (byte b: str.getBytes()) {
-			sb.append(String.format("%02x", b & 0xff));
-		}
-		return sb.toString();
-	}
-
 	public static String formatCity(SuggestionV2 suggestion) {
 		String city = null;
 		if (suggestion.getLocation() != null) {
@@ -421,6 +371,12 @@ public class StrUtils {
 		if (TextUtils.isEmpty(city)) {
 			city = Html.fromHtml(suggestion.getDisplayName()).toString();
 		}
+		return formatCityName(city);
+	}
+
+	public static String formatCityName(String suggestion) {
+		String city = suggestion;
+
 		Matcher cityCountryMatcher = CITY_COUNTRY_PATTERN.matcher(city);
 		if (cityCountryMatcher.find()) {
 			city = cityCountryMatcher.group(1);
@@ -432,5 +388,153 @@ public class StrUtils {
 			}
 		}
 		return city;
+	}
+
+	public static String formatCityStateCountryName(String suggestion) {
+		String displayName = suggestion;
+		Matcher displayNameMatcher = DISPLAY_NAME_PATTERN.matcher(displayName);
+		if (displayNameMatcher.find()) {
+			displayName = displayNameMatcher.group(1);
+		}
+		return displayName;
+	}
+
+	public static String formatAirport(Suggestion suggestion) {
+		String airportName = formatAirportName(suggestion.fullName);
+		if (!airportName.equals(suggestion.airportCode)) {
+			return airportName;
+		}
+		else {
+			return formatCityName(suggestion.fullName);
+		}
+	}
+
+	public static String formatAirportName(String suggestion) {
+		String city = suggestion;
+		Matcher cityCountryMatcher = AIRPORT_CODE_PATTERN.matcher(city);
+		if (cityCountryMatcher.find()) {
+			city = cityCountryMatcher.group(1);
+		}
+		return city;
+	}
+
+	public static String formatDisplayName(SuggestionResponse suggestionResponse) {
+		String displayName = suggestionResponse.getSuggestions().get(0).getDisplayName();
+		if (displayName.indexOf(",") != displayName.lastIndexOf(",")
+			&& suggestionResponse.getSuggestions().size() > 1) {
+			for (int i = 1; i < suggestionResponse.getSuggestions().size(); i++) {
+				if (suggestionResponse.getSuggestions().get(i).getDisplayName().indexOf(",") == suggestionResponse
+					.getSuggestions()
+					.get(i).getDisplayName().lastIndexOf(",")) {
+					displayName = suggestionResponse.getSuggestions().get(i).getDisplayName();
+					break;
+				}
+			}
+		}
+		return displayName;
+	}
+
+	public static SpannableStringBuilder generateLegalClickableLink(Context context, String rulesAndRestrictionsURL) {
+		SpannableStringBuilder legalTextSpan = new SpannableStringBuilder();
+
+		String spannedRules = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			rulesAndRestrictionsURL, context.getResources().getString(R.string.rules_and_restrictions));
+		String spannedTerms = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getTermsAndConditionsUrl(),
+			context.getResources().getString(R.string.info_label_terms_conditions));
+		String spannedPrivacy = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(), context.getResources().getString(R.string.privacy_policy));
+		String statement = context.getResources()
+			.getString(R.string.legal_TEMPLATE, spannedRules, spannedTerms, spannedPrivacy);
+
+		legalTextSpan.append(Html.fromHtml(statement));
+		URLSpan[] spans = legalTextSpan.getSpans(0, statement.length(), URLSpan.class);
+
+		for (final URLSpan span : spans) {
+			int start = legalTextSpan.getSpanStart(span);
+			int end = legalTextSpan.getSpanEnd(span);
+			// Replace URL span with ClickableSpan to redirect to our own webview
+			legalTextSpan.removeSpan(span);
+			legalTextSpan.setSpan(new LegalClickableSpan(span.getURL(), legalTextSpan.subSequence(start, end).toString(), true), start,
+				end, 0);
+			legalTextSpan.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
+			legalTextSpan.setSpan(new UnderlineSpan(), start, end, 0);
+			legalTextSpan.setSpan(new ForegroundColorSpan(Ui.obtainThemeColor(context, R.attr.primary_color)), start,
+				end,
+				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		}
+
+		return legalTextSpan;
+	}
+
+	public static SpannableStringBuilder generateAccountCreationLegalLink(Context context) {
+		SpannableStringBuilder legalTextSpan = new SpannableStringBuilder();
+
+		String spannedTerms = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getTermsAndConditionsUrl(),
+			context.getResources().getString(R.string.info_label_terms_conditions));
+		String spannedPrivacy = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(), context.getResources().getString(R.string.privacy_policy));
+		String statement = context.getResources()
+			.getString(R.string.account_creation_legal_TEMPLATE, spannedTerms, spannedPrivacy);
+
+		legalTextSpan.append(Html.fromHtml(statement));
+		URLSpan[] spans = legalTextSpan.getSpans(0, statement.length(), URLSpan.class);
+
+		for (final URLSpan span : spans) {
+			int start = legalTextSpan.getSpanStart(span);
+			int end = legalTextSpan.getSpanEnd(span);
+			// Replace URL span with ClickableSpan to redirect to our own webview
+			legalTextSpan.removeSpan(span);
+			legalTextSpan.setSpan(new LegalClickableSpan(span.getURL(), legalTextSpan.subSequence(start, end).toString(), false), start,
+				end, 0);
+			legalTextSpan.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
+			legalTextSpan.setSpan(new ForegroundColorSpan(Color.WHITE), start,
+				end,
+				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		}
+
+		return legalTextSpan;
+	}
+
+	public static SpannableStringBuilder generateBulletedList(List<String> contentList) {
+		SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();
+		for (int i = 0; i < contentList.size(); i++) {
+			String content = stripHTMLTags(contentList.get(i));
+			if (i < contentList.size() - 1) {
+				content = content + "\n";
+			}
+			Spannable spannable = new SpannableString(content);
+			spannable.setSpan(new BulletSpan(20), 0, spannable.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
+			spannableStringBuilder.append(spannable);
+		}
+		return spannableStringBuilder;
+
+	}
+
+	public static String stripHTMLTags(String htmlContent) {
+		return Html.fromHtml(htmlContent.replaceAll(HTML_TAGS_REGEX, "")).toString();
+	}
+
+	public static CharSequence getBrandedString(Context context, int stringResId) {
+		return Phrase.from(context.getString(stringResId))
+			.put("brand", context.getString(R.string.brand_name))
+			.format();
+	}
+
+	/**
+	 * Fetch text of the child traveler in the spinner.
+	 */
+	public static String getChildTravelerAgeText(Resources res, int age) {
+		age = age + GuestsPickerUtils.MIN_CHILD_AGE;
+		String str = null;
+		if (age == 0) {
+			str = res.getString(R.string.child_age_less_than_one);
+		}
+		else {
+			str = res.getQuantityString(R.plurals.child_age, age, age);
+		}
+		return Html.fromHtml(str).toString();
 	}
 }

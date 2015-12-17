@@ -16,19 +16,24 @@ import android.view.ViewGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.activity.HotelPayLaterInfoActivity;
 import com.expedia.bookings.activity.UserReviewsListActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.util.Ui;
+import com.squareup.phrase.Phrase;
 
 public class HotelDetailsIntroFragment extends Fragment {
 
@@ -70,6 +75,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 		View verticalSep = Ui.findView(view, R.id.vertical_sep);
 		TextView bannerTextView = Ui.findView(view, R.id.banner_message_text_view);
 		RatingBar userRatingBar = Ui.findView(view, R.id.user_rating_bar);
+		View payLaterInfo = Ui.findView(view, R.id.pay_later_info_banner);
 
 		reviewsLayout.setVisibility(View.VISIBLE);
 		bannerTextView.setVisibility(View.VISIBLE);
@@ -85,8 +91,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 			calendarTextView.setText(Integer.toString(searchParams.getCheckInDate().getDayOfMonth()));
 
 			TextView searchDatesTextView = Ui.findView(view, R.id.search_dates_text_view);
-			searchDatesTextView.setText(DateFormatUtils.formatDateRange(getActivity(), searchParams.getCheckInDate(),
-				searchParams.getCheckOutDate(), DateFormatUtils.FLAGS_DATE_ABBREV_ALL));
+			searchDatesTextView.setText(DateFormatUtils.formatDateRange(getActivity(), searchParams, DateFormatUtils.FLAGS_DATE_ABBREV_ALL));
 
 			TextView searchGuestsTextView = Ui.findView(view, R.id.search_guests_text_view);
 			searchGuestsTextView.setText(StrUtils.formatGuests(getActivity(), searchParams));
@@ -116,16 +121,21 @@ public class HotelDetailsIntroFragment extends Fragment {
 			reviewsSummaryLayout.setOnClickListener(null);
 		}
 		else {
-			reviewsSummaryLayout.setBackgroundResource(R.drawable.bg_clickable_row);
-			reviewsSummaryLayout.setOnClickListener(new OnClickListener() {
+			OnClickListener userReviewsClickListener = new OnClickListener() {
 				public synchronized void onClick(final View v) {
 					Intent newIntent = new Intent(getActivity(), UserReviewsListActivity.class);
 					newIntent.fillIn(getActivity().getIntent(), 0);
-					OmnitureTracking.trackPageLoadHotelsDetailsReviews(getActivity());
+					OmnitureTracking.trackPageLoadHotelsDetailsReviews();
 					startActivity(newIntent);
 				}
-			});
+			};
+			reviewsSummaryLayout.setBackgroundResource(R.drawable.bg_clickable_row);
+			reviewsSummaryLayout.setOnClickListener(userReviewsClickListener);
 		}
+
+		String selectedId = Db.getHotelSearch().getSelectedPropertyId();
+		HotelOffersResponse infoResponse = Db.getHotelSearch().getHotelOffersResponse(selectedId);
+		boolean hasAtleastOneFreeCancellationRate = infoResponse != null && infoResponse.hasAtLeastOnFreeCancellationRate();
 
 		// Banner messages
 		int roomsLeft = property.getRoomsLeftAtThisRate();
@@ -141,8 +151,7 @@ public class HotelDetailsIntroFragment extends Fragment {
 		}*/
 		// Only xx rooms left
 		/*else*/
-		// 1400. VSC - remove urgency messages throughout the app
-		if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF && !ExpediaBookingApp.IS_VSC) {
+		if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
 			String banner = resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft);
 			if (!bannerTextView.getText().equals(banner)) {
 				bannerTextView.setText(banner);
@@ -150,14 +159,20 @@ public class HotelDetailsIntroFragment extends Fragment {
 				bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_urgency_clock, 0, 0, 0);
 			}
 		}
-
+		else if (hasAtleastOneFreeCancellationRate) {
+			bannerTextView.setText(getString(R.string.free_cancellation));
+			bannerTextView.setVisibility(View.VISIBLE);
+			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_hotel_details_free_cancellation_checkmark, 0, 0, 0);
+		}
 		// Special case if no urgency and no recommendations: hide this while banner section.
 		else if (percentRecommend == 0 && numReviews == 0) {
-			reviewsSummaryLayout.setVisibility(View.GONE);
-			view.findViewById(R.id.reviews_banner_divider).setVisibility(View.GONE);
-			return;
+			String banner = property.isMerchant() ? getString(R.string.best_price_guarantee) : Phrase.from(getActivity(), R.string.non_merchant_rate_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format().toString();
+			bannerTextView.setText(banner);
+			bannerTextView.setVisibility(View.VISIBLE);
+			bannerTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_hotel_details_free_cancellation_checkmark, 0, 0, 0);
 		}
-
 		// xx% recommend this hotel
 		else {
 			String banner = resources.getString(R.string.x_percent_guests_recommend, percentRecommend);
@@ -182,72 +197,75 @@ public class HotelDetailsIntroFragment extends Fragment {
 
 			mAnimSet.start();
 		}
+
+		// ETP pay later offer info
+		if (ProductFlavorFeatureConfiguration.getInstance().isETPEnabled() && property.hasEtpOffer()) {
+			payLaterInfo.setVisibility(View.VISIBLE);
+			payLaterInfo.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					Intent payLaterIntent = new Intent(getActivity(), HotelPayLaterInfoActivity.class);
+					startActivity(payLaterIntent);
+				}
+			});
+		}
+		else {
+			payLaterInfo.setVisibility(View.GONE);
+		}
 	}
 
+	private boolean isSectionExpanded = false;
+	private CharSequence sectionBody;
+
 	private void populateIntroParagraph(View view, Property property) {
-		List<HotelTextSection> sections = property.getAllHotelText(getActivity());
+		List<HotelTextSection> sections = property.getAllHotelText();
 
 		final TextView titleView = Ui.findView(view, R.id.title_text);
 		final TextView bodyView = Ui.findView(view, R.id.body_text);
 
-		CharSequence title, body;
+		CharSequence title;
 		if (sections != null && sections.size() >= 1) {
 			title = sections.get(0).getNameWithoutHtml();
-			body = Html.fromHtml(sections.get(0).getContentFormatted(getActivity()));
+			sectionBody = Html.fromHtml(sections.get(0).getContentFormatted(getActivity()));
 		}
 		else {
 			title = Html.fromHtml("");
-			body = Html.fromHtml(property.getDescriptionText());
+			sectionBody = Html.fromHtml(property.getDescriptionText());
 		}
 
 		// Add "read more" button if the intro paragraph is too long
-		if (body.length() > INTRO_PARAGRAPH_CUTOFF) {
-			final CharSequence untruncated = body;
+		if (sectionBody.length() > INTRO_PARAGRAPH_CUTOFF) {
+			final CharSequence untruncated = sectionBody;
 			final View readMoreView = Ui.findView(view, R.id.read_more);
 			final View fadeOverlay = Ui.findView(view, R.id.body_text_fade_bottom);
 			readMoreView.setVisibility(View.VISIBLE);
 			fadeOverlay.setVisibility(View.VISIBLE);
-			readMoreView.setOnClickListener(new OnClickListener() {
+			OnClickListener asd = new OnClickListener() {
 				@Override
-				public void onClick(View v) {
-					bodyView.setText(untruncated);
-					readMoreView.setVisibility(View.GONE);
-					fadeOverlay.setVisibility(View.GONE);
+				public void onClick(View view) {
+					if (!isSectionExpanded) {
+						bodyView.setText(untruncated);
+						readMoreView.setVisibility(View.GONE);
+						fadeOverlay.setVisibility(View.GONE);
+						isSectionExpanded = true;
+					}
+					else {
+						bodyView.setText(sectionBody);
+						readMoreView.setVisibility(View.VISIBLE);
+						fadeOverlay.setVisibility(View.VISIBLE);
+						isSectionExpanded = false;
+					}
 				}
-			});
+			};
+			bodyView.setOnClickListener(asd);
+			readMoreView.setOnClickListener(asd);
 
-			body = String.format(getString(R.string.ellipsize_text_template),
-					body.subSequence(0, cutAtWordBarrier(body)));
+			sectionBody = String.format(getString(R.string.ellipsize_text_template),
+					sectionBody.subSequence(0, Strings.cutAtWordBarrier(sectionBody, INTRO_PARAGRAPH_CUTOFF)));
 		}
 
 		// Always hide this for the intro
 		titleView.setVisibility(View.GONE);
-		bodyView.setText(body);
-	}
-
-	public static int cutAtWordBarrier(CharSequence body) {
-		int before = INTRO_PARAGRAPH_CUTOFF;
-		for (int i = INTRO_PARAGRAPH_CUTOFF; i > 0; i--) {
-			char c = body.charAt(i);
-			if (c == ' ' || c == ',' || c == '.') {
-				before = i;
-				break;
-			}
-		}
-		while (body.charAt(before) == ' ' || body.charAt(before) == ',' || body.charAt(before) == '.') {
-			before--;
-		}
-		before++;
-		int after = INTRO_PARAGRAPH_CUTOFF;
-		for (int i = INTRO_PARAGRAPH_CUTOFF; i < body.length(); i++) {
-			char c = body.charAt(i);
-			if (c == ' ' || c == ',' || c == '.') {
-				after = i;
-				break;
-			}
-		}
-		int leftDistance = Math.abs(INTRO_PARAGRAPH_CUTOFF - before);
-		int rightDistance = Math.abs(after - INTRO_PARAGRAPH_CUTOFF);
-		return (leftDistance < rightDistance) ? before : after;
+		bodyView.setText(sectionBody);
 	}
 }

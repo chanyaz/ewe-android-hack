@@ -1,0 +1,73 @@
+{
+    "q": "${query}",
+    "rc": "OK",
+    "rid": "d91e6d5b-da9f-483d-9769-0c61a8e39a55",
+    "sr": [
+        {
+            "@type": "regionResult",
+            "a": "SFO",
+            "amc": "178305",
+            "c": "United States of America",
+            "cc": "US",
+            "ccc": "USA",
+            "d": "<B>San</B> <B>Francisco</B>, <B>CA</B>",
+            "f": "San Francisco (and vicinity), California, United States of America",
+            "hc": "387",
+            "i": "0",
+            "id": "178305",
+            "l": "San Francisco (and vicinity), California, United States of America",
+            "ll": {
+                "lat": "37.787400",
+                "lng": "-122.408200"
+            },
+            "pb": "false",
+            "rt": "AIRPORT",
+            "s": "results",
+            "t": "AIRPORT"
+        },
+        {
+            "@type": "regionResult",
+            "a": "DTW",
+            "amc": "178255",
+            "c": "United States of America",
+            "cc": "US",
+            "ccc": "USA",
+            "d": "<B>Detroit</B>, <B>MI</B>",
+            "f": "Detroit (and vicinity), Michigan, United States of America",
+            "hc": "277",
+            "i": "0",
+            "id": "178255",
+            "l": "Detroit (and vicinity), Michigan, United States of America",
+            "ll": {
+                "lat": "42.331620",
+                "lng": "-83.046530"
+            },
+            "pb": "false",
+            "rt": "AIRPORT",
+            "s": "invalid input",
+            "t": "AIRPORT"
+        },
+        {
+            "@type": "regionResult",
+            "a": "KTM",
+            "amc": "180066",
+            "c": "Nepal",
+            "cc": "NP",
+            "ccc": "NPL",
+            "d": "<B>Kathmandu</B>, <B>Nepal</B>",
+            "f": "Kathmandu, Nepal (KTM-Tribhuvan Intl.)",
+            "hc": "147",
+            "i": "0",
+            "id": "178255",
+            "l": "Kathmandu, Nepal (KTM-Tribhuvan Intl.)",
+            "ll": {
+                "lat": "27.699137",
+                "lng": "85.356699"
+            },
+            "pb": "false",
+            "rt": "AIRPORT",
+            "s": "no results",
+            "t": "AIRPORT"
+        }
+    ]
+}

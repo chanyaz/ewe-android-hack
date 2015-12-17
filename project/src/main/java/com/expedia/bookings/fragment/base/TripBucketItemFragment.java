@@ -68,6 +68,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	private TextView mNameText;
 	private TextView mDurationText;
 	private android.widget.TextView mPriceChangedTv;
+	private ImageView mExclamationIv;
 	private ImageView mBookingCompleteCheckImg;
 	private HeaderBitmapColorAveragedDrawable mHeaderBitmapDrawable;
 	private ColorDrawable mSoldOutSelectedOverlay;
@@ -102,10 +103,13 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mStateManager.setDefaultState(state);
 		}
 
+		final int defaultOverlayColor = getResources().getColor(R.color.transparent_dark);
+
 		// Top Part
 		if (mTopC != null) {
 			mTripBucketImageView = Ui.findView(mTopC, R.id.tripbucket_card_background_view);
 			mHeaderBitmapDrawable = new HeaderBitmapColorAveragedDrawable();
+			mHeaderBitmapDrawable.setDefaultOverlayColor(defaultOverlayColor);
 			mHeaderBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
 			mTripBucketImageView.setImageDrawable(mHeaderBitmapDrawable);
 
@@ -122,6 +126,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		else {
 			mTripBucketImageView = Ui.findView(mRootC, R.id.tripbucket_card_background_view);
 			mHeaderBitmapDrawable = new HeaderBitmapColorAveragedDrawable();
+			mHeaderBitmapDrawable.setDefaultOverlayColor(defaultOverlayColor);
 			mHeaderBitmapDrawable.setGradient(DEFAULT_GRADIENT_COLORS, DEFAULT_GRADIENT_POSITIONS);
 			mTripBucketImageView.setImageDrawable(mHeaderBitmapDrawable);
 		}
@@ -133,6 +138,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		mPriceChangedClipC = Ui.findView(mRootC, R.id.trip_bucket_item_price_change_clip_container);
 		mPriceChangedC = Ui.findView(mPriceChangedClipC, R.id.price_change_notification_container);
 		mPriceChangedTv = Ui.findView(mPriceChangedC, R.id.price_change_notification_text);
+		mExclamationIv = Ui.findView(mPriceChangedC, R.id.exclaimation);
 
 		registerStateListener(new StateListenerLogger<TripBucketItemState>(), false);
 		registerStateListener(mStateHelper, false);
@@ -232,7 +238,6 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			}
 
 			if (doTripBucketImageRefresh()) {
-				mHeaderBitmapDrawable.enableOverlay();
 				addTripBucketImage(mTripBucketImageView, mHeaderBitmapDrawable);
 			}
 
@@ -247,11 +252,18 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	}
 
 	public void refreshPriceChange() {
-		if (mPriceChangedTv != null) {
-			if (getItem() != null && getItem().hasPriceChanged()) {
+
+		if (getItem() != null && getItem().hasPriceChanged()) {
+			if (mTripPriceText != null) {
+				mTripPriceText.setText(getTripPrice());
+				mTripPriceText.setTextColor(getResources().getColor(getPriceChangeTextColor()));
+			}
+			if (mPriceChangedTv != null) {
 				mPriceChangedTv.setText(getPriceChangeMessage());
+				mExclamationIv.setImageResource(getPriceChangeDrawable());
 			}
 		}
+
 	}
 
 	public void setRoundedCornersVisible(boolean visible) {
@@ -393,6 +405,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 				&& stateTwo == TripBucketItemState.EXPIRED) {
 				setItemSoldOutSelected(isSelected());
 			}
+
 		}
 
 		@Override
@@ -582,6 +595,16 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 			mHeaderBitmapDrawable.setOverlayAlpha(1f);
 			break;
 
+		case SHOWING_AIR_ATTACH_PRICE_CHANGE:
+			mBookingCompleteCheckImg.setVisibility(View.GONE);
+			mBookBtnContainer.setVisibility(View.VISIBLE);
+			mSoldOutContainer.setVisibility(View.GONE);
+			mExpandedC.setVisibility(View.GONE);
+			mPriceChangedC.setVisibility(View.VISIBLE);
+			setNameAndDurationSlidePercentage(0f);
+			mHeaderBitmapDrawable.setOverlayAlpha(0f);
+			break;
+
 		case DISABLED:
 			mBookingCompleteCheckImg.setVisibility(View.GONE);
 			mBookBtnContainer.setVisibility(View.INVISIBLE);
@@ -706,7 +729,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 		setSelected(true);
 		if (getTripBucketBookClickedListener() != null) {
 			getTripBucketBookClickedListener().onTripBucketBookClicked(lob);
-			OmnitureTracking.trackTabletCheckoutPageLoad(getActivity(), lob);
+			OmnitureTracking.trackTabletCheckoutPageLoad(lob);
 		}
 	}
 
@@ -740,5 +763,13 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	public abstract void setSelected(boolean isSelected);
 
 	public abstract CharSequence getPriceChangeMessage();
+
+	protected int getPriceChangeDrawable() {
+		return R.drawable.ic_price_alert_exclamation;
+	}
+
+	protected int getPriceChangeTextColor() {
+		return R.color.price_change_default;
+	}
 
 }

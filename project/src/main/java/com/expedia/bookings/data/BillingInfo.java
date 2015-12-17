@@ -1,32 +1,20 @@
 package com.expedia.bookings.data;
 
-import java.io.File;
-
 import org.joda.time.LocalDate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-
 import com.expedia.bookings.utils.CurrencyUtils;
-import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 
-	private static final String SAVED_INFO_FILENAME = "billing.dat";
-
-	// Kind of pointless when this is just stored as a static field, but at least protects
-	// against someone getting the plaintext file but not the app itself.
-	private static final String PASSWORD = "7eGeDr4jaD6jut9aha3hAyupAC6ZE9a";
-
 	private String mFirstName;
 	private String mLastName;
 	private String mNameOnCard;
 	private String mTelephoneCountryCode;
-	private String mTelephoneCountry;
 	private String mTelephone;
 	private String mEmail;
 	private Location mLocation;
@@ -38,9 +26,8 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 	private StoredCreditCard mStoredCard;
 	private boolean mSaveCardToExpediaAccount = false;
 
-	private boolean mExistsOnDisk = false;
-
 	public BillingInfo() {
+		// default
 	}
 
 	//Copy constructor
@@ -50,7 +37,6 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 			mLastName = base.getLastName();
 			mNameOnCard = base.getNameOnCard();
 			mTelephoneCountryCode = base.getTelephoneCountryCode();
-			mTelephoneCountry = base.getTelephoneCountry();
 			mTelephone = base.getTelephone();
 			mEmail = base.getEmail();
 			Location loc = new Location();
@@ -93,14 +79,6 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 
 	public void setTelephoneCountryCode(String telephoneCountryCode) {
 		this.mTelephoneCountryCode = telephoneCountryCode;
-	}
-
-	public String getTelephoneCountry() {
-		return this.mTelephoneCountry;
-	}
-
-	public void setTelephoneCountry(String telephoneCountry) {
-		this.mTelephoneCountry = telephoneCountry;
 	}
 
 	public String getTelephone() {
@@ -149,6 +127,14 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 
 	public void setNumber(String number) {
 		this.mNumber = number;
+	}
+
+	public void setNumberAndDetectType(String number) {
+		setNumber(number);
+
+		CreditCardType type = CurrencyUtils.detectCreditCardBrand(getNumber());
+		setBrandCode(type.getCode());
+		setBrandName(type.name());
 	}
 
 	public String getSecurityCode() {
@@ -221,113 +207,6 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 		return selectedCardType;
 	}
 
-	public boolean save(Context context) {
-		Log.d("Saving user's billing info.");
-
-		// Initialize a cipher
-		FileCipher fileCipher = new FileCipher(PASSWORD);
-
-		if (!fileCipher.isInitialized()) {
-			return false;
-		}
-
-		JSONObject data = toJson();
-
-		// Remove sensitive data
-		data.remove("number");
-		data.remove("securityCode");
-
-		// If we're booking using Google Wallet, we'll have a lot of data just from
-		// Wallet but we don't want to save any of it
-		StoredCreditCard scc = getStoredCard();
-		if (scc != null && scc.isGoogleWallet()) {
-			data.remove("nameOnCard");
-			data.remove("email");
-			data.remove("location");
-			data.remove("expMonth");
-			data.remove("expYear");
-		}
-
-		mExistsOnDisk = true;
-
-		return fileCipher.saveSecureData(context.getFileStreamPath(SAVED_INFO_FILENAME), data.toString());
-	}
-
-	public boolean load(Context context) {
-		Log.d("Loading saved billing info.");
-
-		// Check that the saved billing info file exists
-		File f = context.getFileStreamPath(SAVED_INFO_FILENAME);
-		if (!f.exists()) {
-			mExistsOnDisk = false;
-			return false;
-		}
-
-		// Initialize a cipher
-		FileCipher fileCipher = new FileCipher(PASSWORD);
-		if (!fileCipher.isInitialized()) {
-			mExistsOnDisk = false;
-			return false;
-		}
-
-		String results = fileCipher.loadSecureData(f);
-		if (results == null || results.length() == 0) {
-			mExistsOnDisk = false;
-			return false;
-		}
-
-		try {
-			fromJson(new JSONObject(results));
-			mExistsOnDisk = true;
-			return true;
-		}
-		catch (JSONException e) {
-			Log.e("Could not restore saved billing info.", e);
-			mExistsOnDisk = false;
-			return false;
-		}
-	}
-
-	public boolean doesExistOnDisk() {
-		return mExistsOnDisk;
-	}
-
-	// Returns true if the file does not exist by the end of the method;
-	// If it didn't exist at the beginning, it doesn't matter.
-	public boolean delete(Context context) {
-		Log.i("Deleting saved billing info.");
-
-		// Reset internal fields
-		mFirstName = null;
-		mLastName = null;
-		mNameOnCard = null;
-		mTelephoneCountryCode = null;
-		mTelephone = null;
-		mEmail = null;
-		mLocation = null;
-		mBrandName = null;
-		mBrandCode = null;
-		mNumber = null;
-		mSecurityCode = null;
-		mExpirationDate = null;
-		mExistsOnDisk = false;
-		mSaveCardToExpediaAccount = false;
-		mStoredCard = null;
-
-		// Check that the saved billing info file exists before trying to delete
-		File f = context.getFileStreamPath(SAVED_INFO_FILENAME);
-		if (!f.exists()) {
-			return true;
-		}
-
-		return f.delete();
-	}
-
-	public static boolean hasSavedBillingInfo(Context context) {
-		File f = context.getFileStreamPath(SAVED_INFO_FILENAME);
-		return f.exists();
-	}
-
 	public JSONObject toJson() {
 		try {
 			JSONObject obj = new JSONObject();
@@ -335,7 +214,6 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 			obj.putOpt("lastName", mLastName);
 			obj.putOpt("nameOnCard", mNameOnCard);
 			obj.putOpt("telephoneCountryCode", mTelephoneCountryCode);
-			obj.putOpt("telephoneCountry", mTelephoneCountry);
 			obj.putOpt("telephone", mTelephone);
 			obj.putOpt("email", mEmail);
 			JSONUtils.putJSONable(obj, "location", mLocation);
@@ -362,7 +240,6 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 		mLastName = obj.optString("lastName", null);
 		mNameOnCard = obj.optString("nameOnCard", null);
 		mTelephoneCountryCode = obj.optString("telephoneCountryCode", null);
-		mTelephoneCountry = obj.optString("telephoneCountry", null);
 		if (mTelephoneCountryCode != null) {
 			// Blow away the telephone number in case we are upgrading and now ask the user for the country code
 			// This handles cases where they put the country code in the phone number to begin with

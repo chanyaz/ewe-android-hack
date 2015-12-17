@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="UnusedResources" >
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/lx_details_content_text_color"
+        android:lineSpacingExtra="3dp"
+        android:textSize="12sp"
+        android:layout_marginTop="2dp"
+        android:layout_weight="0.9"
+        app:textStyle="normal"/>
+
+    <ImageButton
+        android:id="@+id/read_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        android:clickable="false"
+        android:layout_gravity="right|center"
+        android:src="@drawable/read_more"
+        android:visibility="gone" />
+
+</merge>

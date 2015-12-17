@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.LXCheckoutSummaryWidget xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:showIn="@layout/widget_lx_checkout">
+
+    <LinearLayout
+        android:paddingBottom="16dp"
+        android:paddingLeft="14dp"
+        android:paddingRight="16dp"
+        android:paddingTop="14dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:orientation="vertical"
+        android:layout_weight="3">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/lx_offer_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#3C3C3C"
+            android:textSize="17sp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            app:textStyle="medium" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/lx_group_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lx_checkout_text_color"
+            android:textSize="12sp"
+            android:paddingBottom="8dp" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/lx_offer_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lx_checkout_text_color"
+            android:textSize="12sp" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/lx_offer_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lx_checkout_text_color"
+            android:textSize="12sp" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/free_cancellation_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:layout_marginRight="12dp"
+            android:drawableLeft="@drawable/check"
+            android:drawableRight="@drawable/info"
+            android:drawablePadding="8dp"
+            android:gravity="center_vertical"
+            android:text="@string/free_cancellation"
+            android:textColor="@color/lx_checkout_text_color"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="2"
+        android:layout_marginTop="3dp">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/grand_total_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:text="@string/total_with_tax"
+            android:textSize="11sp" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/price_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/grand_total_text"
+            android:layout_gravity="right"
+            android:drawablePadding="6dp"
+            android:drawableRight="@drawable/info"
+            android:gravity="right"
+            android:maxLines="3"
+            android:textColor="@color/lx_checkout_text_color"
+            android:textSize="16sp"
+            app:textStyle="medium" />
+    </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/price_change_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#f2f2f2"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#D5D5D5" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/price_change_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="8dp"
+            android:textColor="@color/lx_checkout_text_color"
+            android:textSize="14sp"
+            app:textStyle="light" />
+
+    </LinearLayout>
+
+</com.expedia.bookings.widget.LXCheckoutSummaryWidget>

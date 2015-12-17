@@ -1,9 +1,7 @@
 package com.expedia.bookings.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
+import org.joda.time.DateTime;
+
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
@@ -12,21 +10,19 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
-import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
-import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -34,24 +30,28 @@ import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.fragment.HotelDetailsDescriptionFragment;
 import com.expedia.bookings.fragment.HotelDetailsIntroFragment;
 import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment;
-import com.expedia.bookings.fragment.HotelDetailsMiniGalleryFragment.HotelMiniGalleryFragmentListener;
 import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment;
-import com.expedia.bookings.fragment.HotelDetailsMiniMapFragment.HotelMiniMapFragmentListener;
 import com.expedia.bookings.fragment.HotelDetailsPricePromoFragment;
 import com.expedia.bookings.server.CrossContextHelper;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.HotelUtils;
+import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.AlphaImageView;
 import com.expedia.bookings.widget.HotelDetailsScrollView;
+import com.expedia.bookings.widget.HotelDetailsScrollView.HotelDetailsMiniMapClickedListener;
+import com.expedia.bookings.widget.RecyclerGallery;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
-import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
+import com.squareup.phrase.Phrase;
 
-public class HotelDetailsFragmentActivity extends FragmentActivity implements HotelMiniMapFragmentListener,
-		HotelMiniGalleryFragmentListener {
+public class HotelDetailsFragmentActivity extends FragmentActivity implements HotelDetailsMiniMapClickedListener,
+	RecyclerGallery.GalleryItemListener {
+
+	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
+	private static final String INSTANCE_LAST_SEARCH_TIME = "INSTANCE_LAST_SEARCH_TIME";
 
 	// Tags for this activity's fragments
 	private static final String FRAGMENT_MINI_GALLERY_TAG = "FRAGMENT_MINI_GALLERY_TAG";
@@ -63,11 +63,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	// This is the position in the list that the hotel had when the user clicked on it
 	public static final String EXTRA_POSITION = "EXTRA_POSITION";
 
-	// Flag set in the intent if this activity was opened from the widget
-	public static final String OPENED_FROM_WIDGET = "OPENED_FROM_WIDGET";
-
 	private Context mContext;
-	private ExpediaBookingApp mApp;
 
 	private HotelDetailsMiniGalleryFragment mGalleryFragment;
 	private HotelDetailsPricePromoFragment mPricePromoFragment;
@@ -77,12 +73,12 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	private TextView mBookNowButton;
 	private TextView mBookByPhoneButton;
 
-	// In case you try to toggle too quickly
-	private AnimatorSet mGalleryToggleAnimator;
+	private DateTime mLastSearchTime;
 
 	// For tracking - tells you when a user paused the Activity but came back to it
 	private boolean mWasStopped;
-
+	// For tracking - if you get there directly from Launchscreen, clear SearchResponse
+	private boolean fromLaunch;
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
 
@@ -92,33 +88,12 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 
 	/**
 	 * Create intent to open this activity in a standard way.
+	 *
 	 * @param context
 	 * @return
 	 */
 	public static Intent createIntent(Context context) {
 		Intent intent = new Intent(context, HotelDetailsFragmentActivity.class);
-		return intent;
-	}
-
-	/**
-	 * Create intent to open this Activity from a widget.
-	 * @param context
-	 * @param appWidgetId
-	 * @param params
-	 * @param property
-	 * @return
-	 */
-	public static Intent createIntent(Context context, int appWidgetId, HotelSearchParams params, Property property) {
-		Intent intent = new Intent(context, HotelDetailsFragmentActivity.class);
-
-		intent.putExtra(OPENED_FROM_WIDGET, true);
-
-		intent.putExtra(Codes.APP_WIDGET_ID, appWidgetId);
-		intent.putExtra(Codes.SEARCH_PARAMS, params.toJson().toString());
-		if (property != null) {
-			intent.putExtra(Codes.PROPERTY, property.toJson().toString());
-		}
-
 		return intent;
 	}
 
@@ -135,32 +110,12 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		super.onCreate(savedInstanceState);
 
 		mContext = this;
-		mApp = (ExpediaBookingApp) getApplicationContext();
 
 		Intent intent = getIntent();
 
-		if (intent.getBooleanExtra(OPENED_FROM_WIDGET, false)) {
-			com.expedia.bookings.utils.NavUtils.sendKillActivityBroadcast(mContext);
-
-			Property property = JSONUtils.getJSONable(getIntent(), Codes.PROPERTY, Property.class);
-			if (property != null) {
-				// #1496: We need to create a fake SearchResponse and stuff this Property into it, based on
-				// how things are architected now
-				HotelSearch search = Db.getHotelSearch();
-				search.resetSearchData();
-				HotelSearchResponse searchResponse = new HotelSearchResponse();
-				searchResponse.addProperty(property);
-				search.setSearchResponse(searchResponse);
-				search.setSelectedProperty(property);
-			}
-			else {
-				// It means we came back from the reviews activity and Db.getSelectedProperty is already valid
-			}
-		}
-
 		if (intent.hasExtra(Codes.SEARCH_PARAMS)) {
 			HotelSearchParams params = JSONUtils.parseJSONableFromIntent(intent, Codes.SEARCH_PARAMS,
-					HotelSearchParams.class);
+				HotelSearchParams.class);
 			Db.getHotelSearch().setSearchParams(params);
 		}
 
@@ -175,6 +130,13 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			BackgroundDownloader bd = BackgroundDownloader.getInstance();
 			bd.cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
 		}
+		else {
+			mLastSearchTime = (DateTime) savedInstanceState.getSerializable(INSTANCE_LAST_SEARCH_TIME);
+		}
+
+		if (mLastSearchTime == null) {
+			mLastSearchTime = DateTime.now();
+		}
 
 		setupHotelActivity(savedInstanceState);
 
@@ -185,11 +147,17 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	}
 
 	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putSerializable(INSTANCE_LAST_SEARCH_TIME, mLastSearchTime);
+	}
+
+	@Override
 	protected void onStart() {
 		super.onStart();
 
 		if (mWasStopped) {
-			OmnitureTracking.trackPageLoadHotelsInfosite(mContext, getIntent().getIntExtra(EXTRA_POSITION, -1));
+			doOmnitureTracking();
 			mWasStopped = false;
 		}
 	}
@@ -220,12 +188,11 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			}
 			else {
 				bd.startDownload(CrossContextHelper.KEY_INFO_DOWNLOAD,
-						CrossContextHelper.getHotelOffersDownload(this, CrossContextHelper.KEY_INFO_DOWNLOAD),
-						mInfoCallback);
+					CrossContextHelper.getHotelOffersDownload(this, CrossContextHelper.KEY_INFO_DOWNLOAD),
+					mInfoCallback);
 			}
+			mLastSearchTime = DateTime.now();
 		}
-
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -247,26 +214,36 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (isFinishing()) {
 			bd.cancelDownload(CrossContextHelper.KEY_INFO_DOWNLOAD);
-
-			// Don't keep widget HotelSearch in Db after leaving, otherwise it will stick around. 1811
-			if (getIntent().getBooleanExtra(OPENED_FROM_WIDGET, false)) {
-				Db.getHotelSearch().resetSearchData();
-			}
 		}
 		else {
 			bd.unregisterDownloadCallback(CrossContextHelper.KEY_INFO_DOWNLOAD);
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		if (fromLaunch) {
+			Db.getHotelSearch().setSearchResponse(null);
+		}
 
 		if (mKillReceiver != null) {
 			mKillReceiver.onDestroy();
 		}
+	}
+
+	private boolean checkFinishConditionsAndFinish() {
+
+		if (HotelUtils.checkPhoneFinishConditionsAndFinish(this)) {
+			return true;
+		}
+
+		if (JodaUtils.isExpired(mLastSearchTime, RESUME_TIMEOUT)) {
+			finish();
+			return true;
+		}
+
+		return false;
 	}
 
 	//----------------------------------
@@ -288,16 +265,8 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayUseLogoEnabled(true);
 
-		ViewGroup titleView = Ui.inflate(this, R.layout.actionbar_hotel_name_with_stars, null);
-
 		Property property = Db.getHotelSearch().getSelectedProperty();
-		String title = property.getName();
-		((TextView) titleView.findViewById(R.id.title)).setText(title);
-
-		float rating = (float) property.getHotelRating();
-		((RatingBar) titleView.findViewById(R.id.rating)).setRating(rating);
-
-		actionBar.setCustomView(titleView);
+		HotelUtils.setupActionBarHotelNameAndRating(this, property);
 
 		final MenuItem select = menu.findItem(R.id.menu_select_hotel);
 		HotelUtils.setupActionBarCheckmark(this, select, property.isAvailable());
@@ -313,7 +282,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			return true;
 		}
 		case R.id.menu_select_hotel: {
-			startActivity(RoomsAndRatesListActivity.createIntent(this));
+			startActivity(HotelRoomsAndRatesActivity.createIntent(this));
 			return true;
 		}
 		default: {
@@ -331,15 +300,13 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	//----------------------------------
 
 	private void setupHotelActivity(Bundle savedInstanceState) {
-		final Intent intent = getIntent();
-
 		setContentView(R.layout.hotel_details_main);
 		getWindow().setBackgroundDrawable(null);
 
 		mGalleryFragment = (HotelDetailsMiniGalleryFragment) getSupportFragmentManager().findFragmentByTag(
-				FRAGMENT_MINI_GALLERY_TAG);
+			FRAGMENT_MINI_GALLERY_TAG);
 		if (mGalleryFragment == null) {
-			boolean fromLaunch = getIntent().getBooleanExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, false);
+			fromLaunch = getIntent().getBooleanExtra(HotelDetailsMiniGalleryFragment.ARG_FROM_LAUNCH, false);
 			mGalleryFragment = HotelDetailsMiniGalleryFragment.newInstance(fromLaunch);
 		}
 		if (!mGalleryFragment.isAdded()) {
@@ -349,24 +316,26 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		}
 
 		mPricePromoFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_price_promo_fragment_container,
-				HotelDetailsPricePromoFragment.class, FRAGMENT_PRICE_PROMO_TAG);
+			HotelDetailsPricePromoFragment.class, FRAGMENT_PRICE_PROMO_TAG);
 
 		mIntroFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_intro_fragment_container,
-				HotelDetailsIntroFragment.class, FRAGMENT_INTRO_TAG);
+			HotelDetailsIntroFragment.class, FRAGMENT_INTRO_TAG);
 
 		mMapFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_map_fragment_container,
-				HotelDetailsMiniMapFragment.class, FRAGMENT_MINI_MAP_TAG);
+			HotelDetailsMiniMapFragment.class, FRAGMENT_MINI_MAP_TAG);
 
 		mDescriptionFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_description_fragment_container,
-				HotelDetailsDescriptionFragment.class, FRAGMENT_DESCRIPTION_TAG);
+			HotelDetailsDescriptionFragment.class, FRAGMENT_DESCRIPTION_TAG);
 
+		// 3840. Abacus AB Winner. Book now -> Select Room above fold
 		mBookNowButton = Ui.findView(this, R.id.book_now_button);
+
 		if (Db.getHotelSearch().getSelectedProperty().isAvailable()) {
 			mBookNowButton.setVisibility(View.VISIBLE);
 			mBookNowButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					startActivity(RoomsAndRatesListActivity.createIntent(HotelDetailsFragmentActivity.this));
+					startActivity(HotelRoomsAndRatesActivity.createIntent(HotelDetailsFragmentActivity.this));
 				}
 			});
 		}
@@ -378,18 +347,18 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 
 		// Tracking
 		if (savedInstanceState == null) {
-			OmnitureTracking.trackPageLoadHotelsInfosite(mContext, getIntent().getIntExtra(EXTRA_POSITION, -1));
-
-			// Track here if user opened app from widget.  Currently assumes that all widget searches
-			// are "nearby" - if this ever changes, this needs to be updated.
-			if (intent.getBooleanExtra(OPENED_FROM_WIDGET, false)) {
-				OmnitureTracking.trackSimpleEvent(this, null, null, "App.Widget.Deal.Nearby");
-				mApp.broadcastSearchParamsChangedInWidget(JSONUtils.getJSONable(intent, Codes.SEARCH_PARAMS,
-						HotelSearchParams.class));
-			}
+			doOmnitureTracking();
 		}
 
-		initLandscapeGalleryLayout();
+		HotelDetailsScrollView scrollView = (HotelDetailsScrollView) findViewById(R.id.hotel_details_portrait);
+		if (scrollView != null) {
+			scrollView.setHotelDetailsMiniMapClickedListener(this);
+		}
+	}
+
+	private void doOmnitureTracking() {
+		OmnitureTracking.trackPageLoadHotelsInfosite(mContext);
+		AdTracker.trackHotelInfoSite();
 	}
 
 	private void setupBookByPhoneButton(HotelOffersResponse response) {
@@ -399,20 +368,29 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 
 		final Property property = response.getProperty();
 		boolean showBookByPhone = property != null
-				&& !TextUtils.isEmpty(property.getTelephoneSalesNumber())
-				&& !property.isDesktopOverrideNumber()
-				&& property.isAvailable();
+			&& !TextUtils.isEmpty(property.getTelephoneSalesNumber())
+			&& !property.isDesktopOverrideNumber()
+			&& property.isAvailable();
+
 		if (showBookByPhone) {
 			mBookByPhoneButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (User.isElitePlus(mContext)) {
-						SocialUtils.call(HotelDetailsFragmentActivity.this,
-								PointOfSale.getPointOfSale().getSupportPhoneNumberElitePlus());
+					String number = null;
+
+					switch (User.getLoggedInLoyaltyMembershipTier(mContext)) {
+					case SILVER:
+						number = PointOfSale.getPointOfSale().getSupportPhoneNumberSilver();
+						break;
+					case GOLD:
+						number = PointOfSale.getPointOfSale().getSupportPhoneNumberGold();
+						break;
 					}
-					else {
-						SocialUtils.call(HotelDetailsFragmentActivity.this, property.getTelephoneSalesNumber());
+
+					if (TextUtils.isEmpty(number)) {
+						number = property.getTelephoneSalesNumber();
 					}
+					SocialUtils.call(HotelDetailsFragmentActivity.this, number);
 				}
 			});
 			mBookByPhoneButton.setVisibility(View.VISIBLE);
@@ -420,44 +398,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		else {
 			mBookByPhoneButton.setVisibility(View.GONE);
 		}
-	}
-
-	// Initialize the gallery if we're in landscape mode. The gallery should be scooched
-	// a little to the left to center it within the left 45% of the screen, and the
-	// price promo banner should take up the left 45% of the screen. "post" it to make
-	// sure that windowWidth is populated when this runs.
-	@TargetApi(11)
-	private void initLandscapeGalleryLayout() {
-		final View details = findViewById(R.id.hotel_details_landscape);
-		if (details != null) {
-			details.post(new Runnable() {
-				@Override
-				public void run() {
-					View gallery = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
-					View pricePromo = findViewById(R.id.hotel_details_price_promo_fragment_container);
-					int windowWidth = getWindow().getDecorView().getWidth();
-					gallery.setTranslationX(-windowWidth * 0.275f);
-					ViewGroup.LayoutParams lp = pricePromo.getLayoutParams();
-					lp.width = (int) (windowWidth * .45f) + 1;
-					pricePromo.setLayoutParams(lp);
-				}
-			});
-		}
-	}
-
-	private boolean checkFinishConditionsAndFinish() {
-		// Attempt to load hotel data from disk
-		if (Db.getHotelSearch().getSelectedProperty() == null) {
-			Db.loadHotelSearchFromDisk(this);
-		}
-
-		if (Db.getHotelSearch().getSelectedProperty() == null) {
-			Log.i("Detected expired DB, finishing activity.");
-			finish();
-			return true;
-		}
-
-		return false;
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -478,42 +418,28 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			}
 
 			if (response == null) {
-				if (ExpediaBookingApp.IS_TRAVELOCITY) {
-					showErrorDialog(R.string.e3_error_hotel_offers_hotel_service_failure_tvly);
-				}
-				else if (ExpediaBookingApp.IS_AAG) {
-					showErrorDialog(R.string.e3_error_hotel_offers_hotel_service_failure_aag);
-				}
-				else {
-					showErrorDialog(R.string.e3_error_hotel_offers_hotel_service_failure);
-				}
+				showErrorDialog(Phrase.from(mContext, R.string.e3_error_hotel_offers_hotel_service_failure_TEMPLATE)
+					.put("brand", BuildConfig.brand).format().toString());
 				return;
 			}
 			else if (response.hasErrors()) {
-				int messageResId;
+				String message;
 				if (response.isHotelUnavailable()) {
-					messageResId = Ui.obtainThemeResID(mContext, R.attr.sorryRoomsSoldOutErrorMessage);
+					message = Phrase.from(mContext, R.string.error_hotel_is_now_sold_out_TEMPLATE)
+						.put("brand", BuildConfig.brand).format().toString();
+
 				}
 				else {
-					if (ExpediaBookingApp.IS_TRAVELOCITY) {
-						messageResId = R.string.e3_error_hotel_offers_hotel_service_failure_tvly;
-					}
-					else if (ExpediaBookingApp.IS_AAG) {
-						messageResId = R.string.e3_error_hotel_offers_hotel_service_failure_aag;
-					}
-					else {
-						messageResId = R.string.e3_error_hotel_offers_hotel_service_failure;
-					}
+					message = Phrase.from(mContext, R.string.e3_error_hotel_offers_hotel_service_failure_TEMPLATE)
+						.put("brand", BuildConfig.brand).format().toString();
 				}
-				showErrorDialog(messageResId);
+
+				showErrorDialog(message);
 			}
 			else if ((Db.getHotelSearch().getAvailability(selectedId) == null
-					|| Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0)
-					&& Db.getHotelSearch().getSearchParams().getSearchType() != SearchType.HOTEL) {
-				showErrorDialog(Ui.obtainThemeResID(mContext, R.attr.sorryRoomsSoldOutErrorMessage));
-			}
-			else {
-				Db.kickOffBackgroundHotelSearchSave(mContext);
+				|| Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0)
+				&& Db.getHotelSearch().getSearchParams().getSearchType() != SearchType.HOTEL) {
+				showErrorDialog(Phrase.from(mContext, R.string.error_hotel_is_now_sold_out_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
 			}
 
 			// Notify affected child fragments to refresh.
@@ -527,7 +453,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			}
 
 			if (mGalleryFragment != null && mGalleryFragment.isAdded()) {
-				mGalleryFragment.populateViews();
+				mGalleryFragment.populateViews(response.getProperty());
 			}
 
 			if (mBookByPhoneButton != null) {
@@ -536,17 +462,17 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 		}
 	};
 
-	private void showErrorDialog(int messageResId) {
+	private void showErrorDialog(String message) {
 		HotelErrorDialog dialog = HotelErrorDialog.newInstance();
-		dialog.setMessage(messageResId);
+		dialog.setMessage(message);
 		dialog.show(getSupportFragmentManager(), "errorDialog");
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
-	// HotelMiniMapFragmentListener implementation
+	// HotelDetailsMiniMapClickedListener implementation
 
 	@Override
-	public void onMiniMapClicked() {
+	public void onHotelDetailsMiniMapClicked() {
 		Intent intent = HotelMapActivity.createIntent(this);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
@@ -557,84 +483,12 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	//////////////////////////////////////////////////////////////////////////////////////////
 	// HotelMiniGalleryFragmentListener implementation
 
-	boolean isGalleryFullscreen = false;
-
 	@Override
-	public void onMiniGalleryItemClicked(Property property, Object item) {
+	public void onGalleryItemClicked(Object item) {
 		// Do this if in portrait
 		HotelDetailsScrollView scrollView = (HotelDetailsScrollView) findViewById(R.id.hotel_details_portrait);
 		if (scrollView != null) {
 			scrollView.toggleFullScreenGallery();
-			return;
 		}
-
-		View details = findViewById(R.id.hotel_details_landscape);
-		if (details != null) {
-			toggleFullScreenGalleryLandscape();
-		}
-	}
-
-	private void toggleFullScreenGalleryLandscape() {
-		// Do this if in landscape
-		final View detailsFragment = findViewById(R.id.hotel_details_landscape);
-		final View galleryFragment = findViewById(R.id.hotel_details_mini_gallery_fragment_container);
-		final View pricePromoFragment = findViewById(R.id.hotel_details_price_promo_fragment_container);
-		final View pricePromoLayout = findViewById(R.id.price_and_promo_layout);
-		final AlphaImageView vipAccessIcon = (AlphaImageView) findViewById(R.id.vip_badge);
-		final int windowWidth = getWindow().getDecorView().getWidth();
-		final float rightSideWidth = windowWidth * .55f;
-
-		if (mGalleryToggleAnimator != null && mGalleryToggleAnimator.isRunning()) {
-			mGalleryToggleAnimator.cancel();
-		}
-		if (!isGalleryFullscreen) {
-			mGalleryToggleAnimator = new AnimatorSet();
-			mGalleryToggleAnimator.playTogether(
-				ObjectAnimator.ofFloat(detailsFragment, "translationX", windowWidth),
-				ObjectAnimator.ofFloat(galleryFragment, "translationX", 0.0f),
-				ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth, 0.0f),
-				ObjectAnimator.ofFloat(vipAccessIcon, "translationX", -rightSideWidth, 0.0f),
-				ObjectAnimator.ofInt(vipAccessIcon, "drawAlpha", 255, 0)
-			);
-			mGalleryToggleAnimator.addListener(new AnimatorListenerAdapter() {
-				@TargetApi(11)
-				@Override
-				public void onAnimationStart(Animator arg0) {
-					ViewGroup.LayoutParams lp = pricePromoFragment.getLayoutParams();
-					lp.width = windowWidth;
-					pricePromoFragment.setLayoutParams(lp);
-
-					mPricePromoFragment.setVipIconEnabled(false);
-				}
-			});
-			mGalleryToggleAnimator.start();
-		}
-		else {
-			mGalleryToggleAnimator = new AnimatorSet();
-			mGalleryToggleAnimator.playTogether(
-				ObjectAnimator.ofFloat(detailsFragment, "translationX", 0.0f),
-				ObjectAnimator.ofFloat(galleryFragment, "translationX", -rightSideWidth / 2.0f),
-				ObjectAnimator.ofFloat(pricePromoLayout, "translationX", -rightSideWidth),
-				ObjectAnimator.ofFloat(vipAccessIcon, "translationX", -rightSideWidth),
-				ObjectAnimator.ofInt(vipAccessIcon, "drawAlpha", 0, 255)
-			);
-			mGalleryToggleAnimator.addListener(new AnimatorListenerAdapter() {
-				@TargetApi(11)
-				@Override
-				public void onAnimationEnd(Animator arg0) {
-					ViewGroup.LayoutParams lp = pricePromoFragment.getLayoutParams();
-					lp.width = (int) (windowWidth * .45f) + 1;
-					pricePromoFragment.setLayoutParams(lp);
-
-					pricePromoLayout.setTranslationX(0f);
-					vipAccessIcon.setTranslationX(0f);
-
-					mPricePromoFragment.setVipIconEnabled(true);
-				}
-			});
-			mGalleryToggleAnimator.start();
-		}
-
-		isGalleryFullscreen = !isGalleryFullscreen;
 	}
 }

@@ -69,43 +69,48 @@
                     android:gravity="center_horizontal"
                     android:text="@string/no_upcoming_trips"
                     android:textColor="@color/itin_offwhite_text"
-                    android:textSize="24sp"
-                    app:textStyle="normal" />
+                    android:textSize="18sp"
+                    app:textStyle="light" />
 
                 <Button
                     android:id="@+id/login_button"
+                    style="@style/ItinLoginRefreshButton"
+                    android:layout_marginTop="0dp"
+                    android:bufferType="spannable"
+                    android:gravity="center"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/find_itinerary_button"
                     style="@style/LoginFormButton"
                     android:layout_marginTop="0dp"
                     android:background="@drawable/btn_cancel"
-                    android:bufferType="spannable"
                     android:gravity="center"
                     android:padding="12dp"
+                    android:text="@string/enter_itinerary_number"
                     android:textStyle="normal"
                     android:visibility="gone" />
 
                 <Button
                     android:id="@+id/no_trips_refresh_button"
-                    style="@style/LoginFormButton"
+                    style="@style/ItinLoginRefreshButton"
                     android:layout_marginTop="0dp"
-                    android:background="@drawable/btn_cancel"
                     android:bufferType="spannable"
                     android:contentDescription="@string/cd_trips_refresh_trips_list"
                     android:gravity="center"
-                    android:padding="12dp"
                     android:text="@string/refresh"
-                    android:textStyle="bold"
                     android:visibility="gone" />
             </LinearLayout>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/or_enter_itin_number_tv"
+                style="@style/Widget.BorderlessButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/enter_itinerary_number"
-                android:drawableLeft="@drawable/ic_enter_itin_number"
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
                 android:padding="16dp"
@@ -150,7 +155,7 @@
                     android:layout_marginTop="0dp"
                     android:background="@drawable/btn_cancel"
                     android:bufferType="spannable"
-                    android:contentDescription="@string/log_in_for_your_trips"
+                    android:contentDescription="@string/sign_in_for_your_trips"
                     android:gravity="center"
                     android:paddingLeft="32dp"
                     android:paddingRight="32dp"

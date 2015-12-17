@@ -7,10 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
@@ -25,11 +25,23 @@ import com.expedia.bookings.activity.ItineraryActivity;
 import com.expedia.bookings.activity.PhoneLaunchActivity;
 import com.expedia.bookings.activity.TabletCheckoutActivity;
 import com.expedia.bookings.activity.TabletLaunchActivity;
+import com.expedia.bookings.activity.TabletResultsActivity;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.SearchParams;
+import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.HotelBookingFragment;
+import com.expedia.bookings.services.CarServices;
+import com.expedia.ui.CarActivity;
+import com.expedia.ui.LXBaseActivity;
+import com.google.gson.Gson;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 
@@ -41,18 +53,14 @@ public class NavUtils {
 
 	public static final int FLAG_DEEPLINK = 1;
 	public static final int FLAG_OPEN_SEARCH = 2;
+	public static final int FLAG_OPEN_RESULTS = 3;
 
 	public static boolean canHandleIntent(Context context, Intent intent) {
 		return intent.resolveActivity(context.getPackageManager()) != null;
 	}
 
 	public static void startActivity(Context context, Intent intent, Bundle options) {
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-			context.startActivity(intent, options);
-		}
-		else {
-			context.startActivity(intent);
-		}
+		context.startActivity(intent, options);
 	}
 
 	public static boolean startActivitySafe(Context context, Intent intent) {
@@ -62,7 +70,7 @@ public class NavUtils {
 		}
 		else {
 			// Future thought: Should we be showing a toast at all and let app handle it?
-			Toast.makeText(context, R.string.app_not_available, Toast.LENGTH_LONG).show();
+				Toast.makeText(context, R.string.app_not_available, Toast.LENGTH_LONG).show();
 			return false;
 		}
 	}
@@ -72,15 +80,66 @@ public class NavUtils {
 	}
 
 	public static void goToLaunchScreen(Context context, boolean forceShowWaterfall) {
-		Intent intent = new Intent(context, PhoneLaunchActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		if (ExpediaBookingApp.useTabletInterface(context)) {
+			Intent intent = new Intent(context, TabletLaunchActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(intent);
+		}
+		else {
+			Intent intent = new Intent(context, PhoneLaunchActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-		if (forceShowWaterfall) {
-			intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+			if (forceShowWaterfall) {
+				intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+			}
+			sendKillActivityBroadcast(context);
+			context.startActivity(intent);
+		}
+	}
+
+	public static void goToLaunchScreen(Context context, boolean forceShowWaterfall, LineOfBusiness lobNotSupported) {
+		Intent intent;
+		if (ExpediaBookingApp.useTabletInterface(context)) {
+			intent = new Intent(context, TabletLaunchActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+		}
+		else {
+			intent = new Intent(context, PhoneLaunchActivity.class);
+			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+			if (forceShowWaterfall) {
+				intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true);
+			}
+
+			sendKillActivityBroadcast(context);
+		}
+		intent.putExtra(Codes.LOB_NOT_SUPPORTED, lobNotSupported);
+		context.startActivity(intent);
+	}
+
+	public static void goToTabletResults(Context context, SearchParams searchParams, LineOfBusiness lob) {
+		Sp.setParams(searchParams, false);
+
+		// Reset HotelFilter
+		if (Db.getFilter() != null) {
+			HotelFilter filter = Db.getFilter();
+			filter.reset();
+			filter.notifyFilterChanged();
 		}
 
-		sendKillActivityBroadcast(context);
-		context.startActivity(intent);
+		Intent intent;
+		TaskStackBuilder builder = TaskStackBuilder.create(context);
+		intent = new Intent(context, TabletLaunchActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		builder.addNextIntent(intent);
+
+		intent = TabletResultsActivity.createIntent(context);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		if (lob == LineOfBusiness.HOTELS) {
+			intent.putExtra(TabletResultsActivity.INTENT_EXTRA_DEEP_LINK_HOTEL_STATE, true);
+		}
+		builder.addNextIntent(intent);
+		builder.startActivities();
 	}
 
 	public static void goToItin(Context context) {
@@ -101,6 +160,27 @@ public class NavUtils {
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 			intent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_ITIN, true);
 			context.startActivity(intent);
+		}
+	}
+
+	public static void goToSignIn(Context context) {
+		if (User.isLoggedIn(context) && Db.getUser() != null && !TextUtils.isEmpty(Db.getUser().getTuidString())) {
+			//User is already logged in, launch itins
+			goToItin(context);
+		}
+		else {
+			Intent intent;
+			TaskStackBuilder builder = TaskStackBuilder.create(context);
+			if (ExpediaBookingApp.useTabletInterface(context)) {
+				intent = new Intent(context, TabletLaunchActivity.class);
+			}
+			else {
+				intent = new Intent(context, PhoneLaunchActivity.class);
+			}
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+			builder.addNextIntent(intent);
+			builder.startActivities();
+			User.signIn((Activity) context, new Bundle());
 		}
 	}
 
@@ -128,6 +208,7 @@ public class NavUtils {
 		}
 
 		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			intent.putExtra(Codes.FROM_DEEPLINK, true);
 		}
 
@@ -148,8 +229,10 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
-	public static void goToFlights(Context context) {
-		goToFlights(context, false, null);
+	public static void goToActivities(Context context, Bundle animOptions) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, LXBaseActivity.class);
+		startActivity(context, intent, animOptions);
 	}
 
 	public static void goToFlights(Context context, boolean usePresetSearchParams) {
@@ -160,12 +243,16 @@ public class NavUtils {
 		goToFlights(context, false, animOptions);
 	}
 
+	public static void goToFlightsUsingSearchParams(Context context) {
+		goToFlights(context, true, null);
+	}
+
 	public static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions) {
 		goToFlights(context, usePresetSearchParams, animOptions, 0);
 	}
 
 	public static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions, int flags) {
-		if (!PointOfSale.getPointOfSale().supportsFlights()) {
+		if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS)) {
 			// Because the user can't actually navigate forward from here, perhaps it makes sense to preserve the
 			// backstack so as not to add insult to injury (can't access Flights, lost activity backstack)
 			Intent intent = new Intent(context, FlightUnsupportedPOSActivity.class);
@@ -181,6 +268,84 @@ public class NavUtils {
 			}
 			startActivity(context, intent, animOptions);
 		}
+	}
+
+	public static void goToCars(Context context, Bundle animOptions) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, CarActivity.class);
+		startActivity(context, intent, animOptions);
+	}
+
+	public static void goToCars(Context context, Bundle animOptions, CarSearchParams searchParams, String productKey, int flags) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, CarActivity.class);
+		if (searchParams != null) {
+			Gson gson = CarServices.generateGson();
+			intent.putExtra("carSearchParams", gson.toJson(searchParams));
+		}
+
+		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intent.putExtra(Codes.FROM_DEEPLINK, true);
+		}
+
+		intent.putExtra(Codes.CARS_PRODUCT_KEY, productKey);
+		startActivity(context, intent, animOptions);
+	}
+
+	public static void goToCars(Context context, Bundle animOptions, CarSearchParams searchParams, int flags) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, CarActivity.class);
+		if (searchParams != null) {
+			Gson gson = CarServices.generateGson();
+			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, gson.toJson(searchParams));
+		}
+
+		if ((flags & FLAG_OPEN_SEARCH) != 0) {
+			intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
+		}
+
+		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intent.putExtra(Codes.FROM_DEEPLINK, true);
+		}
+
+		startActivity(context, intent, animOptions);
+	}
+
+	public static void goToActivities(Context context, Bundle animOptions, LXSearchParams searchParams, int flags) {
+		sendKillActivityBroadcast(context);
+		Intent intent = new Intent(context, LXBaseActivity.class);
+		if (searchParams != null) {
+			intent.putExtra("startDateStr", DateUtils.localDateToyyyyMMdd(searchParams.startDate));
+			intent.putExtra("location", searchParams.location);
+		}
+
+		if (flags == FLAG_OPEN_SEARCH) {
+			intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
+		}
+
+		if (flags == FLAG_OPEN_RESULTS) {
+			intent.putExtra(Codes.EXTRA_OPEN_RESULTS, true);
+		}
+
+		if (flags == FLAG_DEEPLINK) {
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			// If we don't have filters, open search box.
+			if (Strings.isNotEmpty(searchParams.activityId)) {
+				intent.putExtra("activityId", searchParams.activityId);
+				intent.putExtra(Codes.FROM_DEEPLINK_TO_DETAILS, true);
+			}
+			else if (searchParams.filters == null) {
+				intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
+			}
+			else {
+				intent.putExtra("filters", searchParams.filters);
+				intent.putExtra(Codes.FROM_DEEPLINK, true);
+			}
+		}
+
+		startActivity(context, intent, animOptions);
 	}
 
 	// Assumes we are already searching in flights, but are not on the flight
@@ -242,21 +407,6 @@ public class NavUtils {
 	public static boolean skipLaunchScreenAndStartEHTablet(Context context) {
 		Intent intent = generateStartEHTabletIntent(context);
 		if (intent != null) {
-			context.startActivity(intent);
-			return true;
-		}
-		return false;
-	}
-
-	/**
-	 * Sometimes we want to get out of flights (or anyplace) and want to go back to our start page.
-	 * @param context
-	 * @return true if we called startActivity on the way to EhTabletStart, false if not
-	 */
-	public static boolean goBackToEhTabletStart(Context context) {
-		Intent intent = generateStartEHTabletIntent(context);
-		if (intent != null) {
-			sendKillActivityBroadcast(context);
 			context.startActivity(intent);
 			return true;
 		}
@@ -345,19 +495,5 @@ public class NavUtils {
 		final PackageManager packageManager = context.getPackageManager();
 		List<ResolveInfo> list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
 		return list.size() > 0;
-	}
-
-	// Takes care of the VSC flow. For now we only support for phone UI.
-	// TODO: How do we handle for tablets?
-	public static void goToVSC(Context context) {
-		sendKillActivityBroadcast(context);
-
-		Class<? extends Activity> routingTarget;
-
-		// Send user to hotelListing by default
-		routingTarget = HotelSearchActivity.class;
-
-		Intent intent = new Intent(context, routingTarget);
-		context.startActivity(intent);
 	}
 }

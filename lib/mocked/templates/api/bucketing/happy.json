@@ -1,0 +1,28 @@
+{
+  "guid": "17f495A7448E43a3adff46B05a530687",
+  "tpid": 1,
+  "eapid": 1,
+  "evaluatedExperiments": [
+    {
+      "id": 3391,
+      "value": 1,
+      "instanceId": 17886
+    },
+    {
+      "id": 3243,
+      "value": 1,
+      "instanceId": 17887
+    },
+    {
+      "id": 6591,
+      "value": 1,
+      "instanceId": 27091
+    },
+    {
+      "id": 6716,
+      "value": 0,
+      "instanceId": 28140
+    }
+  ],
+  "successGettingPreserveData": true
+}

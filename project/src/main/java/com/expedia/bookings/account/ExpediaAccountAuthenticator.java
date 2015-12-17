@@ -10,12 +10,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import com.expedia.bookings.activity.LoginActivity;
+import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.server.ExpediaServices;
-import com.expedia.bookings.tracking.AdTracker;
 
 /**
  * ExpediaAccountAuthenticator - for using the AccountManager with expedia accounts.
@@ -47,7 +46,7 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
 							 String[] requiredFeatures, Bundle options)
 		throws NetworkErrorException {
 
-		final Intent intent = LoginActivity.createIntent(mContext, options);
+		final Intent intent = AccountLibActivity.createIntent(mContext, options);
 		intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
 		final Bundle bundle = new Bundle();
 		bundle.putParcelable(AccountManager.KEY_INTENT, intent);
@@ -92,14 +91,13 @@ public class ExpediaAccountAuthenticator extends AbstractAccountAuthenticator {
 			if (signInResponse != null && !signInResponse.hasErrors()) {
 				User user = signInResponse.getUser();
 				Db.setUser(user);
-				AdTracker.trackLogin();
 				user.save(mContext);
 				tuidStr = user.getTuidString();
 			}
 		}
 		else {
 			//Send the user to the login activity
-			final Intent intent = LoginActivity.createIntent(mContext, options);
+			final Intent intent = AccountLibActivity.createIntent(mContext, options);
 			intent.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);
 			final Bundle bundle = new Bundle();
 			bundle.putParcelable(AccountManager.KEY_INTENT, intent);

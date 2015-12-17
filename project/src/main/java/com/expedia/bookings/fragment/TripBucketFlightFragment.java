@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import org.joda.time.LocalDate;
-
+import java.util.Locale;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
@@ -41,6 +40,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	private TextView mNumTravelersTv;
 	private TextView mDatesTv;
 	private TextView mNowBookingTv;;
+	private TextView mTotalTitleTv;
 
 	//Other
 	private FlightTrip mFlightTrip;
@@ -87,6 +87,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		mNumTravelersTv = Ui.findView(mExpandedView, R.id.num_travelers_text_view);
 		mPriceContainer = Ui.findView(mExpandedView, R.id.price_expanded_bucket_container);
 		mPriceTv = Ui.findView(mExpandedView, R.id.price_expanded_bucket_text_view);
+		mTotalTitleTv = Ui.findView(mExpandedView, R.id.total_text);
 
 		mPriceContainer.setOnClickListener(new OnClickListener() {
 			@Override
@@ -94,6 +95,8 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 				showBreakdownDialog(LineOfBusiness.FLIGHTS);
 			}
 		});
+
+		mTotalTitleTv.setText(getResources().getString(R.string.total_with_tax));
 
 		// Portrait only
 		mNowBookingTv = Ui.findView(mExpandedView, R.id.now_booking_text_view);
@@ -117,18 +120,15 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 		if (flight != null) {
 			mNewDestination = flight.getFlightSearchParams().getArrivalLocation().getDestinationId();
 		}
-		if (mPreviousDestination != null && mPreviousDestination.equals(mNewDestination)) {
-			return false;
-		}
-		else {
-			return true;
-		}
+
+		return mPreviousDestination == null || !mPreviousDestination.equals(mNewDestination);
 	}
 
 	@Override
 	public void addTripBucketImage(ImageView imageView, HeaderBitmapColorAveragedDrawable drawable) {
 		imageView.setImageDrawable(drawable);
 
+		// Note: hotel_flight_card_width is an estimation and is used only for downloading the image
 		final int width = getResources().getDimensionPixelSize(R.dimen.hotel_flight_card_width);
 		final int height = getResources().getDimensionPixelSize(R.dimen.hotel_flight_card_height);
 
@@ -138,9 +138,9 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 			.resizeExactly(width, height) //
 			.build();
 
-		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.HotelRowThumbPlaceHolderDrawable);
-		UrlBitmapDrawable urlBitmapDrawable = new UrlBitmapDrawable(getResources(), url, placeholderResId);
-		drawable.setUrlBitmapDrawable(urlBitmapDrawable);
+		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_HotelRowThumbPlaceHolderDrawable);
+		new PicassoHelper.Builder(getActivity()).setPlaceholder(placeholderResId).setTarget(
+			drawable.getCallBack()).disableFallback().build().load(url);
 	}
 
 	@Override
@@ -198,7 +198,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 			if (mNowBookingTv != null) {
 				String cityName = StrUtils.getWaypointCityOrCode(mFlightTrip.getLeg(0).getLastWaypoint());
 				String flightTo = getString(R.string.flights_to_TEMPLATE, cityName);
-				mNowBookingTv.setText(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, flightTo).toUpperCase()));
+				mNowBookingTv.setText(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, flightTo).toUpperCase(Locale.getDefault())));
 			}
 		}
 

@@ -1,0 +1,21 @@
+{
+  "errors": [
+    {
+      "errorCode": "INVALID_INPUT",
+      "errorInfo": {
+        "field": "creditCardNumber",
+        "summary": "Invalid input error"
+      },
+      "diagnosticId": 0
+    },
+    {
+      "errorCode": "INVALID_INPUT",
+      "errorInfo": {
+        "field": "cvv",
+        "summary": "Invalid input error"
+      },
+      "diagnosticId": 0
+    }
+  ],
+  "activityId": "21a8dd5b-d70a-4f85-9cfe-c2de27529f50"
+}

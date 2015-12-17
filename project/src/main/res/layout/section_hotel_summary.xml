@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.expedia.bookings.section.HotelSummarySection xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mobiata="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/bg_row"
-    mobiata:priceTextColor="?attr/hotelPriceStandardColor"
-    mobiata:salePriceTextColor="?attr/hotelPriceSaleColor"
+    android:background="@drawable/bg_clickable_row"
+    mobiata:priceTextColor="?attr/skin_hotelPriceStandardColor"
+    mobiata:salePriceTextColor="?attr/skin_hotelPriceSaleColor"
     mobiata:selectedBackground="@drawable/bg_row_selected" >
 
     <com.expedia.bookings.widget.OptimizedImageView
@@ -45,7 +46,7 @@
 
         <RatingBar
             android:id="@+id/user_rating_bar"
-            style="?attr/hotelListingUserRatingStyle"
+            style="?attr/skin_hotelListingUserRatingStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/name_text_view"
@@ -53,6 +54,38 @@
             android:isIndicator="true"
             android:numStars="5"
             android:stepSize=".5" />
+
+        <LinearLayout
+            android:id="@+id/rating_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/name_text_view"
+            android:layout_toLeftOf="@+id/strikethrough_price_text_view"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/rating"
+                android:layout_width="28dp"
+                android:layout_height="18dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/result_rating_bg"
+                android:gravity="center"
+                android:textColor="@color/itin_white_text"
+                android:textSize="12sp"
+                app:textStyle="bold" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/rating_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/hotel_search_rating_text"
+                android:textColor="#696969"
+                android:textSize="14sp"
+                app:textStyle="normal" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/proximity_text_view"
@@ -91,7 +124,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:includeFontPadding="false"
-            android:textColor="?attr/hotelPriceStandardColor"
+            android:textColor="?attr/skin_hotelPriceStandardColor"
             android:textSize="@dimen/hotel_row_price_text_size"
             android:textStyle="bold" />
 
@@ -127,7 +160,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:src="?attr/hotelListingSaleDrawable" />
+        android:src="?attr/skin_hotelListingSaleDrawable" />
 
     <com.mobiata.android.widget.TiltedTextView
         android:id="@+id/sale_text_view"

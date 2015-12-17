@@ -70,7 +70,7 @@
         android:layout_height="48dp"
         android:layout_marginRight="8dp"
         android:layout_weight="0"
-        android:background="@drawable/list_selector_holo_dark"
+        android:background="?android:attr/selectableItemBackground"
         android:scaleType="centerInside"
         android:src="@drawable/ic_airport_map_actions" />
 

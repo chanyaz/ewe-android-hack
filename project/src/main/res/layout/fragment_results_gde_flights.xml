@@ -39,6 +39,22 @@
             android:textColor="#666666"
             app:textStyle="light" />
 
+        <LinearLayout
+            android:id="@+id/flight_trends_tool_tip_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:duplicateParentState="true"
+                android:paddingLeft="12dp"
+                android:src="@drawable/flighttrends_info_icon" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
     <ProgressBar
@@ -49,7 +65,30 @@
         android:indeterminate="true"
         android:visibility="gone" />
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <LinearLayout
+        android:id="@+id/gde_tool_tip_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/gde_tool_tip_margin_top"
+        android:layout_marginBottom="@dimen/gde_tool_tip_margin_top"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <com.expedia.bookings.widget.TextView
+            style="@style/CenterCaptionedIcon.Caption.ToolTip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/flight_trends_tool_tip" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/action_button"
+            style="@style/CenterCaptionedIcon.ActionButton.Done"
+            android:text="@string/DONE"/>
+
+    </LinearLayout>
+
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/histogram_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -60,5 +99,7 @@
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         app:svg="@raw/ic_tablet_sold_out_flight"/>
+
+
 </FrameLayout>
 

@@ -2,6 +2,9 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.text.TextPaint;
 import android.util.AttributeSet;
 
 import com.expedia.bookings.R;
@@ -20,6 +23,12 @@ public class TextView extends android.widget.TextView {
 	private static final int CONDENSED_BOLD = 256;
 	private static final int CONDENSED_LIGHT = 512;
 	private static final int EXPEDIASANS_LIGHT = 1024;
+
+	// fields
+	private boolean mShouldSetUpStroke = false;
+	private int mStrokeColor;
+	private int mStrokeWidth;
+	private TextPaint mStrokePaint;
 
 	public TextView(Context context) {
 		super(context);
@@ -126,4 +135,58 @@ public class TextView extends android.widget.TextView {
 		}
 		}
 	}
+
+	// Stroke
+
+	public void setStrokeColor(int color) {
+		mStrokeColor = color;
+		mShouldSetUpStroke = true;
+	}
+
+	public void setStrokeWidth(int width) {
+		mStrokeWidth = width;
+		mShouldSetUpStroke = true;
+	}
+
+	public boolean getShouldStroke() {
+		return mShouldSetUpStroke;
+	}
+
+	public int getStrokeColor() {
+		return mStrokeColor;
+	}
+
+	public int getStrokeWidth() {
+		return mStrokeWidth;
+	}
+
+
+	@Override
+	protected void onDraw(Canvas canvas) {
+		// Only if we've set a stroke value should we do this.
+		if (mShouldSetUpStroke) {
+			if (mStrokePaint == null) {
+				mStrokePaint = new TextPaint();
+			}
+
+			if (mStrokePaint.getTextSize() != getPaint().getTextSize()) {
+				mStrokePaint.setTextSize(getPaint().getTextSize());
+			}
+
+			// Get the information we have
+			mStrokePaint.setTextSize(getTextSize());
+			mStrokePaint.setTypeface(getTypeface());
+			mStrokePaint.setFlags(getPaintFlags());
+
+			// Set our new effects
+			mStrokePaint.setStyle(Paint.Style.STROKE);
+			mStrokePaint.setColor(mStrokeColor);
+			mStrokePaint.setStrokeWidth(mStrokeWidth);
+
+			String text = getText().toString();
+			canvas.drawText(text, (getWidth() - mStrokePaint.measureText(text)) / 2, getBaseline(), mStrokePaint);
+		}
+		super.onDraw(canvas);
+	}
+
 }

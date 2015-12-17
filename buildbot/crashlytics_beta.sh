@@ -9,7 +9,10 @@ if [ -e "$PROPERTIES_FILE" ] ; then
     echo "=== End Properties ==="
 
     echo "Build: $BUILD_NUMBER" > "$CHANGE_LOG_FILE"
-    ./buildbot/CreateChangelog.py "$PROPERTIES_FILE" >> "$CHANGE_LOG_FILE"
+    ./buildbot/CreateChangelog.py "$PROPERTIES_FILE" | head -c 14000 >> "$CHANGE_LOG_FILE"
+else
+    echo "Build: $BUILD_NUMBER" > "$CHANGE_LOG_FILE"
+    git log "HEAD~1..HEAD" >> "$CHANGE_LOG_FILE"
 fi
 
 if [ -e "$CHANGE_LOG_FILE" ] ; then
@@ -18,15 +21,20 @@ if [ -e "$CHANGE_LOG_FILE" ] ; then
     echo "=== End Changelog ==="
 fi
 
-TARGET=$(echo ${BUILDER_NAME} | perl -ne 'print ucfirst($_)')
-
 if [ -z "${TARGET}" ] ; then
-    echo "Must supply a proper BUILDER_NAME so we can figure out which flavor to build"
+    echo "Must supply TARGET so we can figure out which flavor to upload"
     exit 1
 fi
+echo "TARGET=$TARGET"
 
-./gradlew --info --stacktrace --no-daemon -PdisablePreDex "clean" "assemble${TARGET}Latest" \
-    && ./gradlew "crashlyticsUploadDistribution${TARGET}Latest"
+if [ -z "${APPLICATION_ID_SUFFIX}" ] ; then
+    echo "Must supply APPLICATION_ID_SUFFIX so we can figure out which crashlytics build to upload"
+    exit 1
+fi
+echo "APPLICATION_ID_SUFFIX=${APPLICATION_ID_SUFFIX}"
+
+TERM=dumb
+./gradlew "-Pid=${APPLICATION_ID_SUFFIX}" "crashlyticsUploadDistribution${TARGET}Debug"
 
 RESULT=$?
 

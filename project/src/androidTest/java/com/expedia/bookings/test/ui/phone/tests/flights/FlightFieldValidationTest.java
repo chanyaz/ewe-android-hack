@@ -1,0 +1,133 @@
+package com.expedia.bookings.test.ui.phone.tests.flights;
+
+import org.joda.time.LocalDate;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.BillingAddressScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.CVVEntryScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.CardInfoScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.CommonTravelerInformationScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.ConfirmationScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.LaunchScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.common.SettingsScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightLegScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchResultsScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsSearchScreen;
+import com.expedia.bookings.test.ui.phone.pagemodels.flights.FlightsTravelerInfoScreen;
+import com.expedia.bookings.test.ui.tablet.pagemodels.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
+
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.expedia.bookings.test.espresso.ViewActions.setText;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickCheckoutButton;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickNewPaymentCard;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickSelectPaymentButton;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.clickTravelerDetails;
+import static com.expedia.bookings.test.ui.phone.pagemodels.common.CommonCheckoutScreen.slideToCheckout;
+
+public class FlightFieldValidationTest extends PhoneTestCase {
+
+	/*
+ 	* #373 eb_tp test plan
+ 	*/
+
+	public void testFieldValidation() throws Throwable {
+		LaunchScreen.launchFlights();
+		FlightsSearchScreen.enterDepartureAirport("LAX");
+		FlightsSearchScreen.enterArrivalAirport("SFO");
+		FlightsSearchScreen.clickSelectDepartureButton();
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		LocalDate endDate = LocalDate.now().plusDays(36);
+		FlightsSearchScreen.clickDate(startDate, endDate);
+		FlightsSearchScreen.clickSearchButton();
+		FlightsSearchResultsScreen.clickListItem(1);
+		FlightLegScreen.clickSelectFlightButton();
+		FlightsSearchResultsScreen.clickListItem(1);
+		FlightLegScreen.clickSelectFlightButton();
+		clickCheckoutButton();
+
+		clickTravelerDetails();
+
+		//test field validation for multibyte character
+		onView(withId(R.id.edit_first_name)).perform(setText("ш"));
+		assertPopup();
+		onView(withId(R.id.edit_last_name)).perform(setText("ш"));
+		assertPopup();
+
+		FlightsTravelerInfoScreen.enterFirstName("Mobiata");
+		FlightsTravelerInfoScreen.enterLastName("Auto");
+		FlightsTravelerInfoScreen.enterPhoneNumber("1112223333");
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.phoneNumberEditText());
+		FlightsTravelerInfoScreen.clickBirthDateButton();
+		try {
+			FlightsTravelerInfoScreen.clickSetButton();
+		}
+		catch (Exception e) {
+			CommonTravelerInformationScreen.clickDoneString();
+		}
+		BillingAddressScreen.clickNextButton();
+		FlightsTravelerInfoScreen.clickDoneButton();
+		Common.pressBack();
+		clickCheckoutButton();
+		clickSelectPaymentButton();
+		try {
+			clickNewPaymentCard();
+		}
+		catch (Exception e) {
+			// No add new card option
+		}
+		try {
+			//test field validation for multibyte character
+			onView(withId(R.id.edit_address_line_one)).perform(setText("ш"));
+			assertPopup();
+			onView(withId(R.id.edit_address_city)).perform(setText("ш"));
+			assertPopup();
+			onView(withId(R.id.edit_address_postal_code)).perform(setText("ш"));
+			assertPopup();
+
+			BillingAddressScreen.typeTextAddressLineOne("123 California Street");
+			BillingAddressScreen.typeTextCity("San Francisco");
+			BillingAddressScreen.typeTextPostalCode("94105");
+			BillingAddressScreen.clickNextButton();
+		}
+		catch (Exception e) {
+			//Billing address not needed
+		}
+		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
+		CardInfoScreen.clickOnExpirationDateButton();
+		CardInfoScreen.clickMonthUpButton();
+		CardInfoScreen.clickYearUpButton();
+		CardInfoScreen.clickSetButton();
+
+		//test field validation for multibyte character
+		onView(withId(R.id.edit_name_on_card)).perform(setText("ш"));
+		assertPopup();
+		onView(withId(R.id.edit_email_address)).perform(setText("ш"));
+		assertPopup();
+
+		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+		CardInfoScreen.nameOnCardEditText().perform(click());
+		CardInfoScreen.typeTextEmailEditText("mobiataauto@gmail.com");
+		CardInfoScreen.clickOnDoneButton();
+		try {
+			CommonCheckoutScreen.clickIAcceptButton();
+		}
+		catch (Exception e) {
+			//No I accept
+		}
+		slideToCheckout();
+		CVVEntryScreen.parseAndEnterCVV("111");
+		CVVEntryScreen.clickBookButton();
+		ConfirmationScreen.clickDoneButton();
+	}
+
+	private void assertPopup() {
+		EspressoUtils.assertViewWithTextIsDisplayed(mRes.getString(R.string.please_use_the_roman_alphabet));
+		SettingsScreen.clickOkString();
+	}
+}

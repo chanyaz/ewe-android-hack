@@ -36,24 +36,35 @@
     <!-- Account / Login button -->
     <dimen name="account_button_padding">10dp</dimen>
     <dimen name="login_button_text_size">18sp</dimen>
+    <dimen name="account_button_rewards_text_size">20sp</dimen>
     <dimen name="card_icon_padding">12dp</dimen>
     <dimen name="wallet_button_bottom_margin">8dp</dimen>
+    <dimen name="wallet_button_left_padding">11.5dp</dimen>
 
     <!-- Search Results -->
     <dimen name="results_list_header_text_size">19sp</dimen>
     <dimen name="results_list_header_height">56dp</dimen>
+    <dimen name="results_list_header_height_expanded">72dp</dimen>
+    <dimen name="results_list_header_reveal_height">16dp</dimen>
+    <dimen name="results_list_header_text_margin_top">14dp</dimen>
+    <dimen name="results_list_subtitle_text_margin_top">36dp</dimen>
     <dimen name="results_guest_picker_padding_x">24dp</dimen>
     <dimen name="tablet_result_row_primary_text_size">16sp</dimen>
     <dimen name="tablet_result_row_price_size">21sp</dimen>
     <dimen name="results_list_spacer_height">20dp</dimen>
+    <dimen name="gde_tool_tip_margin_top">22dp</dimen>
+    <dimen name="gde_tool_tip_margin_sides">60dp</dimen>
+    <dimen name="gde_tool_tip_button_margin_top">39dp</dimen>
+    <dimen name="gde_tool_tip_text_size">18dp</dimen>
     <!-- note: make sure that results_list_margin_top = results_list_header_height - results_list_spacer_height -->
     <dimen name="results_list_margin_top">36dp</dimen>
+    <dimen name="results_list_flight_subtitle_text_size">15sp</dimen>
+    <dimen name="results_flight_filters_header_margin_top">14dp</dimen>
     <!-- Text size for destination label - search screen, left container element -->
     <dimen name="search_params_destination_text_size">25sp</dimen>
     <!-- Text size for search param labels - search screen, right container elements -->
     <dimen name="search_params_right_container_text_size">17sp</dimen>
     <dimen name="calender_header_height">56dp</dimen>
-    <dimen name="calender_month_advance_padding">16dp</dimen>
 
     <!-- Hotel Details Fragment -->
     <dimen name="tablet_hotel_details_top_padding">64dp</dimen>
@@ -100,18 +111,17 @@
     <dimen name="flight_trip_view_height">42dp</dimen>
     <dimen name="flight_trip_view_airport_top_margin">2dp</dimen>
     <dimen name="flight_trip_view_airport_text_size">14dp</dimen>
+    <dimen name="tablet_flight_route_desc_text_size">22sp</dimen>
 
 
     <!-- Hotel/Flight/Tripbucket Card dimensions -->
     <dimen name="hotel_flight_card_height">150dp</dimen>
-    <dimen name="hotel_flight_card_height_with_padding">162dp</dimen>
     <dimen name="hotel_flight_card_width">352dp</dimen>
     <dimen name="hotel_flight_card_padding_x">32dp</dimen>
     <dimen name="hotel_flight_card_padding_y">6dp</dimen>
     <dimen name="hotel_flight_card_content_margin_x">17dp</dimen>
     <dimen name="hotel_flight_card_content_margin_y">18dp</dimen>
     <dimen name="tripbucket_bookbutton_height">50dp</dimen>
-    <dimen name="trip_bucket_undo_bar_width">362dp</dimen>
 
     <!-- Trip Bucket Fragment -->
     <dimen name="bucket_card_divider_size">20dp</dimen>
@@ -136,7 +146,6 @@
     <dimen name="stored_credit_card_button_padding">10dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_expanded_image_width">276dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_expanded_padding_x">18dp</dimen>
-    <dimen name="tablet_checkout_trip_bucket_expanded_padding_major_y">24dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_expanded_padding_minor_y">10dp</dimen>
 
     <!-- CVV Screen -->
@@ -147,10 +156,36 @@
     <dimen name="confirmation_image_height">235dp</dimen>
     <!-- confirmation_image_height - (confirmation_checkmark_size/2) -->
     <dimen name="confirmation_checkmark_margin">210dp</dimen>
-    <dimen name="confirmation_button_bar_height">72dp</dimen>
     <dimen name="confirmation_custom_action_textsize">15sp</dimen>
 
     <!-- Select Airport button top margin (used when no origin is set) -->
     <dimen name="pick_airport_button_top_margin">20dp</dimen>
+
+    <!-- The limiting dimension of the gallery (either height or width, depending on orientation) -->
+    <dimen name="gallery_size">600dp</dimen>
+
+    <!-- Login screen -->
+    <dimen name="login_field_text_size">22sp</dimen>
+    <dimen name="login_field_padding">12dp</dimen>
+    <dimen name="login_field_width">508dp</dimen>
+    <dimen name="login_button_width">328dp</dimen>
+    <dimen name="login_header_text_size">33sp</dimen>
+    <dimen name="login_divider_height">3dp</dimen>
+    <dimen name="login_field_spacing">28dp</dimen>
+
+    <dimen name="hotel_row_thumbnail_width">115dp</dimen>
+    <dimen name="hotel_row_thumbnail_height">105dp</dimen>
+    <dimen name="hotel_row_price_text_size">25sp</dimen>
+    <dimen name="hotel_row_proximity_text_size">16sp</dimen>
+
+    <!-- Ripped from ABS -->
+    <!-- The platform's desired minimum size for a dialog's width when it
+         is along the major axis (that is the screen is landscape).  This may
+         be either a fraction or a dimension. -->
+    <item type="dimen" name="abs__dialog_min_width_major">45%</item>
+    <!-- The platform's desired minimum size for a dialog's width when it
+         is along the minor axis (that is the screen is portrait).  This may
+         be either a fraction or a dimension. -->
+    <item type="dimen" name="abs__dialog_min_width_minor">72%</item>
 
 </resources>

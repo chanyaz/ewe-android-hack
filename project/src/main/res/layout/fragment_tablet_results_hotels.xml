@@ -6,17 +6,17 @@
 
     <!-- BACKGROUND CONTAINERS -->
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/bg_hotel_map_touch_delegate"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/bg_hotel_map"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/bg_map_dimmer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -33,42 +33,42 @@
 
     <!-- FORGROUND CONTAINERS -->
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/column_two_hotel_filters"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/column_one_hotel_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/column_one_hotel_search_error"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/column_three_hotel_filtered_count"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/hotel_details"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/hotel_reviews"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/hotel_gallery"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/loading_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -41,7 +41,7 @@ public class ResultsFlightHistogramFragment extends ListFragment {
 
 		// Adapter setup
 		if (mAdapter == null) {
-			mAdapter = new WeeklyFlightHistogramAdapter(getActivity());
+			mAdapter = new WeeklyFlightHistogramAdapter();
 		}
 		setHistogramData(Db.getFlightSearchHistogramResponse());
 		mList.setAdapter(mAdapter);

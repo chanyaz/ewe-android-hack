@@ -9,7 +9,7 @@
     <style name="Widget" />
 
     <style name="Widget.Button.Phone">
-        <item name="android:background">@drawable/btn_default_holo_light</item>
+        <item name="android:background">@drawable/btn_default_grey</item>
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:gravity">center_vertical|center_horizontal</item>
@@ -177,7 +177,7 @@
     </style>
 
     <style name="ProgressBar.CandyCane" parent="@android:style/Widget.Holo.ProgressBar.Horizontal">
-        <item name="android:indeterminateDrawable">?attr/candycaneProgressDrawable</item>
+        <item name="android:indeterminateDrawable">?attr/skin_candycaneProgressDrawable</item>
         <item name="android:indeterminateOnly">true</item>
     </style>
 
@@ -200,18 +200,35 @@
         <item name="android:progressDrawable">@drawable/ratingbar_star_gray</item>
     </style>
 
+    <style name="RatingBar.Circle" parent="@style/RatingBar.Star"/>
+
+    <style name="RatingBar.Circle.White">
+        <item name="android:progressDrawable">@drawable/ratingbar_circle_white</item>
+    </style>
+
+    <style name="RatingBar.Circle.Gray">
+        <item name="android:progressDrawable">@drawable/ratingbar_circle_gray</item>
+    </style>
+
     <style name="RatingBar.UserReview">
         <item name="android:progressDrawable">@drawable/ratingbar_userreview_yellow</item>
         <item name="android:minHeight">12dp</item>
         <item name="android:maxHeight">12dp</item>
     </style>
 
-    <style name="RatingBar.UserReview.Yellow" />
-
-    <!-- VSC Rating bar -->
-    <style name="RatingBar.UserReview.Orange">
-        <item name="android:progressDrawable">@drawable/ratingbar_userreview_orange</item>
+    <style name="RatingBar.UserReview.Material">
+        <item name="android:progressDrawable">@drawable/ratingbar_star_material</item>
+        <item name="android:minHeight">14dp</item>
+        <item name="android:maxHeight">14dp</item>
     </style>
+
+    <style name="RatingBar.UserReview.Material.Yellow">
+        <item name="android:progressDrawable">@drawable/ratingbar_star_material_yellow</item>
+        <item name="android:minHeight">14dp</item>
+        <item name="android:maxHeight">14dp</item>
+    </style>
+
+    <style name="RatingBar.UserReview.Yellow" />
 
     <style name="RatingBar.UserReview.White">
         <item name="android:progressDrawable">@drawable/ratingbar_userreview_white</item>
@@ -230,18 +247,6 @@
     <style name="Widget.Button" parent="@android:style/Widget.Button">
         <item name="android:background">@drawable/btn_default</item>
         <item name="android:textColor">#FF000000</item>
-    </style>
-
-    <style name="Widget.Button.LocalExpert" parent="@android:style/Widget.Button">
-        <item name="android:background">@drawable/btn_call_local_expert_hawaii</item>
-        <item name="android:minHeight">48dp</item>
-        <item name="android:maxHeight">48dp</item>
-        <item name="android:textColor">@color/itin_white_text</item>
-        <item name="android:textSize">18dp</item>
-        <item name="android:shadowColor">#a5000000</item>
-        <item name="android:shadowRadius">0.1</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">-1</item>
     </style>
 
     <style name="Widget.SegmentedControlGroup" parent="@android:style/Widget" />
@@ -293,16 +298,6 @@
     <style name="Widget.Button.Yellow.Confirmation">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="Widget.Button.Small" parent="@android:style/Widget.Button">
-        <item name="android:background">@drawable/btn_default_small</item>
-        <item name="android:textColor">#FF000000</item>
-    </style>
-
-    <style name="Widget.Button.Small.Orange" parent="@android:style/Widget.Button.Small">
-        <item name="android:background">@drawable/btn_default_small_orange</item>
-        <item name="android:textColor">#FF000000</item>
     </style>
 
     <style name="Widget.Spinner" parent="@android:style/Widget.Spinner">
@@ -360,7 +355,7 @@
 
     <style name="BookingSection">
         <item name="android:padding">8dp</item>
-        <item name="android:background">@drawable/bg_hotel_checkout_information</item>
+        <item name="android:background">@drawable/bg_checkout_information_single</item>
     </style>
 
     <style name="Animation.Popup" parent="android:Animation">
@@ -415,7 +410,7 @@
     </style>
 
     <style name="Dark.ActionBar" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:background">?attr/actionBarBackgroundDrawable</item>
+        <item name="android:background">?attr/skin_actionBarBackgroundDrawable</item>
         <item name="android:backgroundSplit">@drawable/bg_action_bar_bottom</item>
         <item name="android:titleTextStyle">@style/ActionBarTitle</item>
     </style>
@@ -454,10 +449,6 @@
         <item name="android:textAllCaps">false</item>
     </style>
 
-    <style name="ActionModeCloseMode">
-        <item name="android:background">@drawable/bg_actionbar_button</item>
-    </style>
-
     <style name="TextAppearance.Dark.ActionBar.SearchText" parent="android:style/TextAppearance.Small">
         <item name="android:textColor">@color/actionbar_text</item>
         <item name="android:textSize">18dp</item>
@@ -468,12 +459,12 @@
         <item name="android:textSize">16dp</item>
     </style>
 
-    <style name="Dark.DropDown" parent="android:style/Widget.Holo.Spinner">
-        <item name="android:dropDownSelector">@drawable/bg_actionbar_button</item>
+    <style name="Widget.ActionBar.ActionButton.Overflow" parent="@android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_action_overflow</item>
     </style>
 
-    <style name="Dark.DropDownListView" parent="android:style/Widget.Holo.ListView.DropDown">
-        <item name="android:listSelector">@drawable/bg_actionbar_button</item>
+    <style name="Widget.ActionBar.ActionButton.Overflow.White">
+        <item name="android:src">@drawable/ic_overflow_white</item>
     </style>
 
     <!-- Expedia Flights styles -->
@@ -494,7 +485,7 @@
 
     <style name="FlightAirportAutocomplete">
         <item name="android:drawablePadding">8dp</item>
-        <item name="android:dropDownSelector">@drawable/abs__list_selector_holo_dark</item>
+        <item name="android:dropDownSelector">?android:attr/selectableItemBackground</item>
         <item name="android:ellipsize">end</item>
         <item name="android:imeOptions">actionNext</item>
         <item name="android:inputType">textCapWords|textNoSuggestions</item>
@@ -519,7 +510,7 @@
         <item name="android:hint">@string/hint_arrival_airport</item>
     </style>
 
-    <style name="FlightAirportSpinner" parent="android:style/Widget.ListView.DropDown" />
+    <style name="FlightAirportSpinner" parent="android:style/Widget.Holo.ListView.DropDown" />
 
     <style name="FlightAirportSpinner.Implementation">
         <item name="android:divider">@null</item>
@@ -634,14 +625,14 @@
 
     <!-- Styles for our custom Switch -->
     <style name="Widget.CompoundButton.Switch" parent="android:Widget.CompoundButton">
-        <item name="track">@drawable/btn_tablet_filter_normal</item>
+        <item name="thumbTrack">@drawable/btn_tablet_filter_normal</item>
         <item name="thumb">@drawable/btn_tablet_filter_switch</item>
-        <item name="switchTextAppearance">@style/TextAppearance.Widget.Switch</item>
+        <item name="thumbTextAppearance">@style/TextAppearance.Widget.Switch</item>
         <item name="textOn">@string/switch_on</item>
         <item name="textOff">@string/switch_off</item>
-        <item name="thumbTextPadding">13dip</item>
-        <item name="switchMinWidth">100dip</item>
-        <item name="switchPadding">15dip</item>
+        <item name="textPadding">13dip</item>
+        <item name="thumbMinWidth">100dip</item>
+        <item name="thumbPadding">15dip</item>
     </style>
     <style name="TextAppearance.Widget.Switch" parent="android:TextAppearance.Small">
         <item name="android:textColor">@color/sliding_group_text_bright</item>
@@ -673,7 +664,7 @@
         <item name="android:gravity">center</item>
         <item name="android:padding">8dp</item>
         <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">#2970CC</item>
+        <item name="android:textColor">?attr/skin_tablet_confirmation_action_color</item>
         <item name="android:textSize">@dimen/confirmation_custom_action_textsize</item>
         <item name="textStyle">condensed_bold</item>
     </style>
@@ -701,7 +692,7 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">18dp</item>
-        <item name="android:background">@drawable/abs__item_background_holo_dark</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
         <item name="android:drawablePadding">10dp</item>
     </style>
 
@@ -729,11 +720,11 @@
     </style>
 
     <style name="Confirmation.Divider.Header.Flight">
-        <item name="android:background">@color/confirmation_header_divider_flight</item>
+        <item name="android:background">?attr/skin_confirmationHeaderHotelDividerLineColor</item>
     </style>
 
     <style name="Confirmation.Divider.Header.Hotel">
-        <item name="android:background">@color/confirmation_header_divider_hotel</item>
+        <item name="android:background">?attr/skin_confirmationHeaderFlightDividerLineColor</item>
     </style>
 
     <style name="FauxActionBarTitleText">
@@ -758,7 +749,7 @@
     </style>
 
     <style name="ActionBarButton">
-        <item name="android:background">@drawable/abs__item_background_holo_dark</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
     <style name="DropDownListView" parent="@android:style/Widget.ListView.DropDown">
@@ -787,13 +778,24 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="ItinLoginRefreshButton" parent="android:Widget.Button">
+        <item name="android:background">@drawable/itin_login_ripple</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+    </style>
+
     <style name="ItinFindButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/btn_find_color</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:background">?attr/bgFindItineraryButton</item>
+        <item name="android:background">?attr/skin_bgFindItineraryButton</item>
     </style>
 
     <!-- DIALOGS -->
@@ -919,8 +921,18 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <style name="BedTypeTextAppearance">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">#5f6061</item>
+        <item name="android:textSize">@dimen/hotel_details_bed_type_text_size</item>
+        <item name="android:ellipsize">end</item>
+        <item name="textStyle">light</item>
+    </style>
+
     <style name="TripBucketBookButton">
-        <item name="android:layout_width">@dimen/hotel_flight_card_width</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/tripbucket_bookbutton_height</item>
         <item name="android:background">@android:color/white</item>
         <item name="android:gravity">center</item>
@@ -929,13 +941,20 @@
         <item name="android:textColor">#006BB2</item>
     </style>
 
-    <style name="AmenitiesOnTablet">
-        <item name="android:drawableLeft">@drawable/ic_tablet_checkout_free_cancellation_checkmark</item>
-        <item name="android:drawablePadding">8dp</item>
+    <style name="TripBucketAmenitiesText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">#444444</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:visibility">gone</item>
+        <item name="android:textSize">13sp</item>
         <item name="textStyle">light</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="TripBucketAmenitiesText.Landscape">
+        <item name="android:drawableLeft">@drawable/ic_tablet_checkout_free_cancellation_checkmark</item>
+        <item name="android:drawablePadding">12dp</item>
+        <item name="android:layout_marginBottom">1dp</item>
+        <item name="android:layout_marginLeft">3dp</item>
     </style>
 
     <style name="HorizontalOnTablet">
@@ -943,15 +962,21 @@
     </style>
 
     <style name="LoginButtonTopTextStyle">
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">@color/text_dark</item>
     </style>
 
     <style name="LoginButtonBottomTextStyle">
+        <item name="android:layout_marginTop">-2dp</item>
+        <item name="android:layout_marginBottom">1dp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/text_dark</item>
     </style>
 
     <style name="LoginButtonLogoutImageStyle">
         <item name="android:padding">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
     </style>
 
     <!-- Tablet Hotel Details related styles -->
@@ -984,6 +1009,15 @@
         <item name="android:textSize">15sp</item>
     </style>
 
+    <!-- Style of line-item receipt extras -->
+    <style name="CheckoutReceiptExtra">
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:textColor">@color/dark_blue</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <!-- Tablet Sold out screen, buttons style -->
     <style name="TabletSoldOutButtonStyle">
         <item name="android:textSize">18sp</item>
@@ -1004,8 +1038,8 @@
         <item name="android:maxHeight">10dp</item>
     </style>
 
-    <style name="V2.Widget.RatingBar.UserReview.Yellow">
-        <item name="android:progressDrawable">?attr/userRatingBarDrawable</item>
+    <style name="V2.Widget.RatingBar.UserReview.Square">
+        <item name="android:progressDrawable">?attr/skin_userRatingBarDrawable</item>
     </style>
 
     <!-- Dialog styles copied from tablet theme-->
@@ -1015,5 +1049,82 @@
     <style name="V2.Dialog.Coupon" />
 
     <style name="V2.Dialog.Coupon.Phone" />
+
+    <!-- Tablet Sold out screen, buttons style -->
+    <style name="BannerTextView">
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:textColor">@color/price_promo_banner_text_color</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Widget.SlidingRadioButton" />
+
+    <style name="Widget.SlidingRadioButton.Filter">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:button">@android:color/transparent</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/sliding_group_text</item>
+        <item name="android:textSize">16.85sp</item>
+        <item name="textStyle">bold</item>
+    </style>
+
+    <!-- Credit Card Edit Text on hotel checkout -->
+    <style name="CreditCardEditText">
+        <item name="android:hint">@string/name_on_card_hint</item>
+        <item name="android:inputType">textPersonName|textCapWords</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <!-- Postal Code Section on hotel checkout -->
+    <style name="PostalCodeSection">
+        <item name="android:paddingLeft">2dp</item>
+        <item name="android:paddingRight">2dp</item>
+        <item name="android:visibility">visible</item>
+    </style>
+
+    <style name="CouponEditText">
+        <item name="android:hint">@string/optional</item>
+        <item name="android:inputType">textNoSuggestions</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="LXOfferDayTextView">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
+    <style name="LXOfferDateTextView">
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <!-- New hotel material design -->
+    <style name="Widget.SlidingRadioGroup.HotelFilterControls" parent="Widget">
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="dividerWidth">1dp</item>
+        <item name="selectedDividerColor">#ff596a80</item>
+        <item name="selectedDrawable">@color/hotels_primary_color</item>
+        <item name="sluggishness">150</item>
+        <item name="unselectedDividerColor">#40999999</item>
+        <item name="unselectedDrawable">@color/itin_white_text</item>
+    </style>
+
+    <!-- Borderless button for "Enter Itinerary Number" in login screen -->
+    <style name="Widget.BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@drawable/bg_btn_borderless_kitkat</item>
+    </style>
 
 </resources>

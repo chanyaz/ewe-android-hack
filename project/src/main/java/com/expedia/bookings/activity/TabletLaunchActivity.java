@@ -3,6 +3,9 @@ package com.expedia.bookings.activity;
 import java.util.ArrayList;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,9 +16,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.LaunchDb;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Sp;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.TabletLaunchControllerFragment;
 import com.expedia.bookings.fragment.base.MeasurableFragmentListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -23,11 +30,13 @@ import com.expedia.bookings.interfaces.IMeasurementListener;
 import com.expedia.bookings.interfaces.IMeasurementProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.FacebookEvents;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
+import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.AndroidUtils;
+import com.squareup.phrase.Phrase;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletLaunchActivity extends FragmentActivity implements MeasurableFragmentListener,
@@ -60,24 +69,40 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 		transaction.commit();
 		manager.executePendingTransactions();//These must be finished before we continue..
+		Intent intent = getIntent();
+		LineOfBusiness lineOfBusiness = (LineOfBusiness) intent.getSerializableExtra(Codes.LOB_NOT_SUPPORTED);
+		if (lineOfBusiness != null) {
+			CharSequence errorMessage = null;
+			if (lineOfBusiness == LineOfBusiness.CARS) {
+				errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message)
+					.put("lob", getString(R.string.Car))
+					.format();
+			}
+			else if (lineOfBusiness == LineOfBusiness.LX) {
+				errorMessage = Phrase.from(this, R.string.lob_not_supported_error_message)
+					.put("lob", getString(R.string.Activity))
+					.format();
+			}
+			showLOBNotSupportedAlertMessage(this, errorMessage, R.string.ok);
+		}
 
-		OmnitureTracking.trackPageLoadLaunchScreen(this);
+		OmnitureTracking.trackPageLoadLaunchScreen();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-
+		FacebookEvents.Companion.activateAppIfEnabledInConfig(this);
 		Events.register(this);
 		Sp.loadSearchParamsFromDisk(this);
 		LaunchDb.getCollections(this);
-		OmnitureTracking.onResume(this);
+		TuneUtils.startTune(this);
 	}
 
 	@Override
 	protected void onPause() {
 		super.onPause();
-		OmnitureTracking.onPause();
+		FacebookEvents.Companion.deactivateAppIfEnabledInConfig(this);
 		Events.unregister(this);
 	}
 
@@ -106,18 +131,24 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		if (mControllerFragment.shouldDisplayMenu()) {
 			getMenuInflater().inflate(R.menu.menu_launch_tablet, menu);
 			getMenuInflater().inflate(R.menu.menu_fragment_standard, menu);
-			if (!AndroidUtils.isRelease(this)) {
+			if (BuildConfig.DEBUG) {
 				DebugMenu.onCreateOptionsMenu(this, menu);
 			}
 		}
 
+		if (BuildConfig.RELEASE) {
+			MenuItem settingsBtn = menu.findItem(R.id.menu_settings);
+			if (settingsBtn != null) {
+				settingsBtn.setVisible(ProductFlavorFeatureConfiguration.getInstance().isSettingsInMenuVisible());
+			}
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		if (mControllerFragment.shouldDisplayMenu()) {
-			if (!AndroidUtils.isRelease(this)) {
+			if (BuildConfig.DEBUG) {
 				DebugMenu.onPrepareOptionsMenu(this, menu);
 			}
 		}
@@ -249,4 +280,17 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		mMeasurementListeners.remove(listener);
 	}
 
+	public static void showLOBNotSupportedAlertMessage(Context context, CharSequence errorMessage,
+		int confirmButtonResourceId) {
+		AlertDialog.Builder b = new AlertDialog.Builder(context);
+		b.setCancelable(false)
+			.setMessage(errorMessage)
+			.setPositiveButton(confirmButtonResourceId, new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+					dialog.dismiss();
+				}
+			})
+			.show();
+	}
 }

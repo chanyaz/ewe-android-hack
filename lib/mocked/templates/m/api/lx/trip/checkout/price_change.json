@@ -1,0 +1,68 @@
+{
+  "errors":[
+    {
+      "errorCode":"PRICE_CHANGE",
+      "errorInfo":{
+        "summary":"Detected price change, no fa/coupon applied."
+      },
+      "diagnosticId":0
+    }
+  ],
+  "tripId":"4b255826-5541-430a-a47c-54df149a935a",
+  "itineraryNumber":11552159469,
+  "newTotalPrice":{
+    "amount":"25.64",
+    "currencyCode":"USD"
+  },
+  "activityId":"3603886a-e4f1-46ce-b4d2-b3c5e6159f4c",
+  "lxProduct":{
+    "totalPrice":{
+      "amount":"25.64",
+      "currencyCode":"USD"
+    },
+    "lxBookableItems":[
+      {
+        "activityDate":{
+          "raw":"2015-04-23T00:00:00-07:00",
+          "localized":"Apr 23, 2015 12:00:00 AM",
+          "epochSeconds":1429772400,
+          "timeZoneOffsetSeconds":-25200,
+          "localizedShortDate":"Thu, 23 Apr"
+        },
+        "activityId":"213358",
+        "activityItemId":"213364",
+        "amount":"25.64",
+        "allDayActivity":true,
+        "tickets":[
+          {
+            "count":1,
+            "code":"Adult",
+            "ticketId":"116032"
+          }
+        ],
+        "regionId":"180000"
+      }
+    ],
+    "tripName":"Old Delhi, India"
+  },
+  "validFormsOfPayment":[
+    {
+      "name":"AmericanExpress"
+    },
+    {
+      "name":"Diner's Club International"
+    },
+    {
+      "name":"Discover"
+    },
+    {
+      "name":"JCB"
+    },
+    {
+      "name":"MasterCard"
+    },
+    {
+      "name":"Visa"
+    }
+  ]
+}

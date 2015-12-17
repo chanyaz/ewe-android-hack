@@ -6,8 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,13 +20,14 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.Trip;
-import com.expedia.bookings.fragment.ItinMapFragment;
-import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment.DoLogoutListener;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.ItinCardFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment;
 import com.expedia.bookings.fragment.ItinItemListFragment.ItinItemListFragmentListener;
+import com.expedia.bookings.fragment.ItinMapFragment;
 import com.expedia.bookings.fragment.ItinMapFragment.ItineraryMapFragmentListener;
-import com.expedia.bookings.maps.SupportMapFragment.SupportMapFragmentListener;
+import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment.DoLogoutListener;
+import com.expedia.bookings.fragment.SupportMapFragment.SupportMapFragmentListener;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
@@ -155,7 +156,6 @@ public class ItineraryActivity extends FragmentActivity implements ItinItemListF
 				showPopupWindow(mJumpToItinId, true);
 			}
 		}
-		
 	}
 
 	/**
@@ -180,7 +180,7 @@ public class ItineraryActivity extends FragmentActivity implements ItinItemListF
 		}
 
 		mJumpToItinId = notification.getItinId();
-		OmnitureTracking.trackNotificationClick(this, notification);
+		OmnitureTracking.trackNotificationClick(notification);
 
 		// There's no need to dismiss with the notification manager, since it was set to
 		// auto dismiss when clicked.
@@ -322,8 +322,8 @@ public class ItineraryActivity extends FragmentActivity implements ItinItemListF
 		DebugMenu.onPrepareOptionsMenu(this, menu);
 
 		boolean loggedIn = User.isLoggedIn(this);
-		mLogInMenuItem.setVisible(!loggedIn);
-		mLogOutMenuItem.setVisible(loggedIn);
+		mLogInMenuItem.setVisible(!loggedIn && ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled());
+		mLogOutMenuItem.setVisible(loggedIn && ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled());
 
 		return super.onPrepareOptionsMenu(menu);
 	}

@@ -14,8 +14,8 @@ import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 
 import com.expedia.bookings.bitmaps.BitmapUtils;
-import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoTarget;
+import com.squareup.picasso.Picasso;
 
 /**
  * Used for creating drawables with some special formatting for headers
@@ -29,7 +29,8 @@ import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
  * 
  * Possible TODO: Add ScaleType so that we can center images differently
  */
-public class HeaderBitmapDrawable extends Drawable implements L2ImageCache.OnBitmapLoaded {
+public class HeaderBitmapDrawable extends Drawable {
+
 
 	public enum CornerMode {
 		ALL,
@@ -76,16 +77,14 @@ public class HeaderBitmapDrawable extends Drawable implements L2ImageCache.OnBit
 	private int mBitmapWidth;
 	private int mBitmapHeight;
 
+	// External callback for PicassoTarget
+	private CallbackListener callbackListener;
+
 	// Cached for draw speed
 	private final RectF mRect = new RectF();
 
-	// If you want to use an underlying UrlBitmapDrawable to drive image loading functionality
-	private UrlBitmapDrawable mUrlBitmapDrawable;
-
 	// If you want to use an underlying Drawable to drive placeholder iamges
 	private Drawable mPlaceholderDrawable;
-
-	private L2ImageCache.OnBitmapLoaded mCallback;
 
 	public HeaderBitmapDrawable() {
 		mScaleType = ScaleType.CENTER_CROP;
@@ -103,21 +102,11 @@ public class HeaderBitmapDrawable extends Drawable implements L2ImageCache.OnBit
 		setBitmap(bitmap);
 	}
 
-	public HeaderBitmapDrawable(UrlBitmapDrawable urlBitmapDrawable) {
-		this();
-
-		setUrlBitmapDrawable(urlBitmapDrawable);
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Configuration
 
 	private void clearState() {
-		if (mUrlBitmapDrawable != null) {
-			mUrlBitmapDrawable.setOnBitmapLoadedCallback(null);
-		}
 
-		mUrlBitmapDrawable = null;
 		mPlaceholderDrawable = null;
 		mBitmapShader = null;
 		mBitmapPaint.setShader(null);
@@ -137,15 +126,6 @@ public class HeaderBitmapDrawable extends Drawable implements L2ImageCache.OnBit
 		}
 	}
 
-	public void setUrlBitmapDrawable(UrlBitmapDrawable urlBitmapDrawable) {
-		clearState();
-
-		mUrlBitmapDrawable = urlBitmapDrawable;
-		mUrlBitmapDrawable.setOnBitmapLoadedCallback(this);
-
-		invalidateSelf();
-	}
-
 	private void configureBitmap(Bitmap bitmap) {
 		mBitmapShader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
 		mBitmapWidth = bitmap.getWidth();
@@ -161,10 +141,6 @@ public class HeaderBitmapDrawable extends Drawable implements L2ImageCache.OnBit
 		mPlaceholderDrawable = placeholderDrawable;
 
 		invalidateSelf();
-	}
-
-	public void setCallback(L2ImageCache.OnBitmapLoaded callback) {
-		mCallback = callback;
 	}
 
 	public void setCornerMode(CornerMode cornerMode) {
@@ -252,10 +228,6 @@ public class HeaderBitmapDrawable extends Drawable implements L2ImageCache.OnBit
 	protected void onBoundsChange(Rect bounds) {
 		super.onBoundsChange(bounds);
 
-		if (mUrlBitmapDrawable != null) {
-			mUrlBitmapDrawable.setBounds(bounds);
-		}
-
 		mRect.set(bounds);
 
 		configureOverlayDrawableBounds(bounds);
@@ -267,25 +239,11 @@ public class HeaderBitmapDrawable extends Drawable implements L2ImageCache.OnBit
 
 	@Override
 	public void draw(Canvas canvas) {
-		if (mUrlBitmapDrawable != null) {
-			boolean hasLoadedBitmap = mUrlBitmapDrawable.hasLoadedBitmap();
-			if (hasLoadedBitmap && mSource != Source.BITMAP) {
-				setBitmap(mUrlBitmapDrawable.getBitmap(), false);
-				mSource = Source.BITMAP;
-			}
-			else if (!hasLoadedBitmap && mSource == Source.BITMAP) {
-				mBitmapPaint.setShader(null);
-				mSource = null;
-			}
-		}
 
 		// If we have nothing, try to upgrade to placeholder
 		if (mSource == null) {
 			Drawable drawable = null;
-			if (mUrlBitmapDrawable != null) {
-				drawable = mUrlBitmapDrawable;
-			}
-			else if (mPlaceholderDrawable != null) {
+			if (mPlaceholderDrawable != null) {
 				drawable = mPlaceholderDrawable;
 			}
 
@@ -405,20 +363,47 @@ public class HeaderBitmapDrawable extends Drawable implements L2ImageCache.OnBit
 		return matrix;
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// L2ImageCache.OnBitmapLoaded
+	public PicassoTarget getCallBack() {
+		return callback;
+	}
 
-	@Override
-	public void onBitmapLoaded(String url, Bitmap bitmap) {
-		if (mCallback != null) {
-			mCallback.onBitmapLoaded(url, bitmap);
+	private PicassoTarget callback = new PicassoTarget() {
+
+		@Override
+		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+			super.onBitmapLoaded(bitmap, from);
+			setBitmap(bitmap);
+			if (callbackListener != null) {
+				callbackListener.onBitmapLoaded();
+			}
 		}
-		setBitmap(bitmap);
+
+		@Override
+		public void onBitmapFailed(Drawable errorDrawable) {
+			super.onBitmapFailed(errorDrawable);
+			invalidateSelf();
+			if (callbackListener != null) {
+				callbackListener.onBitmapFailed();
+			}
+		}
+
+		@Override
+		public void onPrepareLoad(Drawable placeHolderDrawable) {
+			super.onPrepareLoad(placeHolderDrawable);
+			setPlaceholderDrawable(placeHolderDrawable);
+			if (callbackListener != null) {
+				callbackListener.onPrepareLoad();
+			}
+		}
+	};
+
+	public void setCallbackListener(CallbackListener listener) {
+		callbackListener = listener;
 	}
 
-	@Override
-	public void onBitmapLoadFailed(String url) {
-		invalidateSelf();
+	public interface CallbackListener {
+		void onBitmapLoaded();
+		void onBitmapFailed();
+		void onPrepareLoad();
 	}
-
 }

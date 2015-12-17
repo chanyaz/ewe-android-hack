@@ -15,7 +15,37 @@
     <TextView
         android:id="@+id/hotels_action_text_view"
         style="@style/Confirmation.Action"
-        android:drawableLeft="@drawable/ic_bed" />
+        android:drawableLeft="@drawable/ic_bed"/>
+
+    <View
+        android:id="@+id/car_divider"
+        android:visibility="gone"
+        style="@style/Confirmation.Divider.Action.Flight" />
+
+    <TextView
+        android:id="@+id/cars_action_text_view"
+        style="@style/Confirmation.Action"
+        android:visibility="gone"
+        android:drawableLeft="@drawable/ic_car" />
+
+    <View
+        android:id="@+id/lx_divider"
+        android:visibility="gone"
+        style="@style/Confirmation.Divider.Action.Flight" />
+
+    <TextView
+        android:id="@+id/lx_action_text_view"
+        style="@style/Confirmation.Action"
+        android:visibility="gone"
+        android:drawableLeft="@drawable/ic_activity" />
+
+    <include layout="@layout/include_air_attach_button"
+        android:id="@+id/air_attach_confirmation_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:visibility="gone"/>
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/more_actions_text_view"
@@ -52,14 +82,6 @@
         android:drawableLeft="@drawable/ic_calendar_add"
         android:text="@string/add_to_calendar" />
 
-    <View
-        android:id="@+id/flighttrack_divider"
-        style="@style/Confirmation.Divider.Action.Flight" />
-
-    <com.expedia.bookings.widget.ConfirmationActionTextView
-        android:id="@+id/flighttrack_action_text_view"
-        style="@style/Confirmation.Action"
-        android:drawableLeft="@drawable/ic_flight_track"
-        android:text="@string/add_to_flighttrack" />
+    <include layout="@layout/other_apps_crosssell_confirmation_row"/>
 
 </merge>

@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -16,21 +15,17 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.BirthDateInvalidDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
-import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.enums.TravelerFormState;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
@@ -44,12 +39,9 @@ import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfoTablet;
-import com.expedia.bookings.section.TravelerAutoCompleteAdapter;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.TravelerUtils;
-import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
@@ -65,9 +57,6 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		return frag;
 	}
 
-	private static final String DL_FETCH_TRAVELER_INFO = "DL_FETCH_TRAVELER_INFO";
-
-	private static final String FTAG_FETCH_TRAVELER_INFO = "FTAG_FETCH_TRAVELER_INFO";
 	private static final String FTAG_SAVE_DIALOG = "FTAG_SAVE_DIALOG";
 	private static final String FTAG_OVERWRITE_DIALOG = "FTAG_OVERWRITE_DIALOG";
 	private static final String FTAG_SAVING = "FTAG_SAVING";
@@ -82,7 +71,6 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	private String mHeaderString;
 	private SectionTravelerInfoTablet mSectionTraveler;
 	private AutoCompleteTextView mTravelerAutoComplete;
-	private TravelerAutoCompleteAdapter mTravelerAdapter;
 	private boolean mAttemptToLeaveMade = false;
 	private ICheckoutDataListener mListener;
 
@@ -113,36 +101,11 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	public void onResume() {
 		super.onResume();
 		bindToDb(mTravelerNumber);
-
-		BackgroundDownloader dl = BackgroundDownloader.getInstance();
-
-		if (isFormOpen()) {
-			onFormOpened();
-
-			if (dl.isDownloading(DL_FETCH_TRAVELER_INFO)) {
-				dl.registerDownloadCallback(DL_FETCH_TRAVELER_INFO, mTravelerDetailsCallback);
-			}
-		}
-		else {
-			onFormClosed();
-
-			if (dl.isDownloading(DL_FETCH_TRAVELER_INFO)) {
-				dl.cancelDownload(DL_FETCH_TRAVELER_INFO);
-			}
-
-		}
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		BackgroundDownloader dl = BackgroundDownloader.getInstance();
-		if (getActivity().isFinishing()) {
-			dl.cancelDownload(DL_FETCH_TRAVELER_INFO);
-		}
-		else {
-			dl.unregisterDownloadCallback(DL_FETCH_TRAVELER_INFO, mTravelerDetailsCallback);
-		}
 	}
 
 	@Override
@@ -150,13 +113,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		if (savedInstanceState != null) {
 			mTravelerNumber = savedInstanceState.getInt(STATE_TRAVELER_NUMBER, mTravelerNumber);
 			mHeaderString = savedInstanceState.getString(STATE_HEADER_STRING, mHeaderString);
-			if (Db.getWorkingTravelerManager().getAttemptToLoadFromDisk() && Db.getWorkingTravelerManager()
-				.hasTravelerOnDisk(getActivity())) {
-				Db.getWorkingTravelerManager().loadWorkingTravelerFromDisk(getActivity());
-			}
 		}
-
-		mTravelerAdapter = new TravelerAutoCompleteAdapter(getActivity());
 
 		registerStateListener(mStateHelper, false);
 
@@ -179,14 +136,21 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	}
 
 	public void bindToDb(int travelerNumber) {
-		if (mTravelerNumber != travelerNumber || Db.getWorkingTravelerManager().getWorkingTraveler() == null) {
+		if (travelerNumber == -1) {
+			// This is expected behavior
+			return;
+		}
+		if (Db.getTravelers() == null || travelerNumber >= Db.getTravelers().size()) {
+			Log.w("Cannot bind traveler number " + travelerNumber + ". Not enough known travelers.");
+			return;
+		}
+
+		if (mTravelerNumber != travelerNumber
+			|| Db.getWorkingTravelerManager().getWorkingTraveler() == null) {
 			Db.getWorkingTravelerManager().setWorkingTravelerAndBase(Db.getTravelers().get(travelerNumber));
 		}
 		mTravelerNumber = travelerNumber;
-		if (mTravelerAdapter != null) {
-			mTravelerAdapter.setTravelerNumber(mTravelerNumber);
-		}
-		if (mSectionTraveler != null && travelerNumber >= 0 && travelerNumber < Db.getTravelers().size()) {
+		if (mSectionTraveler != null) {
 			mSectionTraveler.resetValidation();
 
 			//We only show the email field for the first traveler, if we aren't logged in.
@@ -335,7 +299,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		}
 
 		// Commit our changes
-		travMan.commitWorkingTravelerToDB(mTravelerNumber, getActivity());
+		travMan.commitWorkingTravelerToDB(mTravelerNumber);
 
 		mListener.onCheckoutDataUpdated();
 		clearForm();
@@ -350,7 +314,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			mSectionTraveler.resetValidation();
 		}
 
-		Db.getWorkingTravelerManager().clearWorkingTraveler(getActivity());
+		Db.getWorkingTravelerManager().clearWorkingTraveler();
 		mTravelerNumber = -1;
 	}
 
@@ -437,9 +401,6 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 					//If we tried to leave, but we had invalid input, we should update the validation feedback with every change
 					mSectionTraveler.performValidation();
 				}
-
-				//We attempt a save on change
-				Db.getWorkingTravelerManager().attemptWorkingTravelerSave(getActivity(), false);
 			}
 		});
 
@@ -466,39 +427,6 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			PointOfSale.getPointOfSale().showLastNameFirst() ? R.id.edit_last_name : R.id.edit_first_name);
 		if (editName != null && editName instanceof AutoCompleteTextView) {
 			mTravelerAutoComplete = (AutoCompleteTextView) editName;
-			//Create a filter that
-			InputFilter[] filters = new InputFilter[] { this };
-			mTravelerAutoComplete.setFilters(filters);
-			mTravelerAutoComplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					Traveler trav = mTravelerAdapter.getItemFromId(id);
-					if (trav != null) {
-						Db.getWorkingTravelerManager().setWorkingTravelerAndBase(trav);
-
-						if (!trav.fromGoogleWallet()) {
-							//Cancel previous download
-							BackgroundDownloader dl = BackgroundDownloader.getInstance();
-							if (dl.isDownloading(DL_FETCH_TRAVELER_INFO)) {
-								dl.cancelDownload(DL_FETCH_TRAVELER_INFO);
-							}
-
-							// Begin loading flight details in the background, if we haven't already
-							// Show a loading dialog
-							ThrobberDialog df = ThrobberDialog
-								.newInstance(getString(R.string.loading_traveler_info));
-							df.show(getChildFragmentManager(), FTAG_FETCH_TRAVELER_INFO);
-							dl.startDownload(DL_FETCH_TRAVELER_INFO, mTravelerDetailsDownload,
-								mTravelerDetailsCallback);
-
-							//We update the traveler and bind again on the download callback
-						}
-
-						//This will refresh the ui with our new traveler (just with the name if we are downoading details).
-						bindToDb(mTravelerNumber);
-					}
-				}
-			});
 		}
 
 		formContainer.addView(mSectionTraveler);
@@ -512,10 +440,6 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	public void onFormClosed() {
 		if (isResumed() && isFormOpen()) {
 			mAttemptToLeaveMade = false;
-			Db.getWorkingTravelerManager().deleteWorkingTravelerFile(getActivity());
-			mTravelerAdapter.clearFilter();
-			mTravelerAutoComplete.dismissDropDown();
-			mTravelerAutoComplete.setAdapter((ArrayAdapter<Traveler>) null);
 			clearForm();
 		}
 		mStateManager.setState(TravelerFormState.COLLAPSED, false);
@@ -526,17 +450,6 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		if (isResumed() && (!isFormOpen() || mTravelerAutoComplete.hasFocus())) {
 			mTravelerAutoComplete.setOnFocusChangeListener(mNameFocusListener);
 			mTravelerAutoComplete.requestFocus();//<-- This fires the onFocusChangeListener
-			mTravelerAutoComplete.postDelayed(new Runnable() {
-				@Override
-				public void run() {
-					Context context = getActivity();
-					if (context != null) {
-						InputMethodManager imm = (InputMethodManager) context
-							.getSystemService(Context.INPUT_METHOD_SERVICE);
-						imm.showSoftInput(mTravelerAutoComplete, 0);
-					}
-				}
-			}, 250);
 		}
 		if (!isFormOpen()) {
 			mStateManager.setState(TravelerFormState.EDITING, false);
@@ -545,12 +458,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 
 	@Override
 	public boolean showBoardingMessage() {
-		if (getLob() == LineOfBusiness.FLIGHTS) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		return getLob() == LineOfBusiness.FLIGHTS;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -561,19 +469,12 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 		public void onFocusChange(View v, boolean hasFocus) {
 			if (mTravelerAutoComplete != null) {
 				if (hasFocus) {
-					mTravelerAutoComplete.setAdapter(mTravelerAdapter);
-					mTravelerAutoComplete.showDropDown();
 					/*
 					 * mTravelerAutoComplete is based on POS and hence the previously set mAllNamesFocusListener might be overwritten by this.
 					 */
 					if (AndroidUtils.is7InchTablet(getActivity()) && getResources().getBoolean(R.bool.portrait) && showBoardingMessage()) {
 						showNameMatchHeaderText(hasFocus);
 					}
-				}
-				else {
-					mTravelerAutoComplete.dismissDropDown();
-					mTravelerAutoComplete.setAdapter((ArrayAdapter<Traveler>) null);
-
 				}
 			}
 		}
@@ -682,56 +583,4 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 	public void onDialogMoveBackwards() {
 		commitAndCloseForm();
 	}
-
-
-	//////////////////////////////////////////////////////////////////////////
-	// Flight details download
-
-
-	private BackgroundDownloader.Download<SignInResponse> mTravelerDetailsDownload = new BackgroundDownloader.Download<SignInResponse>() {
-		@Override
-		public SignInResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(getActivity());
-			BackgroundDownloader.getInstance().addDownloadListener(DL_FETCH_TRAVELER_INFO, services);
-			return services.travelerDetails(Db.getWorkingTravelerManager().getWorkingTraveler(), 0);
-		}
-	};
-
-	private BackgroundDownloader.OnDownloadComplete<SignInResponse> mTravelerDetailsCallback = new BackgroundDownloader.OnDownloadComplete<SignInResponse>() {
-		@Override
-		public void onDownload(SignInResponse results) {
-
-			ThrobberDialog df = (ThrobberDialog) getChildFragmentManager().findFragmentByTag(FTAG_FETCH_TRAVELER_INFO);
-			if (df != null) {
-				df.dismiss();
-			}
-
-			if (results == null || results.hasErrors()) {
-				DialogFragment dialogFragment = SimpleSupportDialogFragment.newInstance(null,
-					getString(R.string.unable_to_load_traveler_message));
-				dialogFragment.show(getFragmentManager(), "errorFragment");
-				if (results != null && results.hasErrors()) {
-					String error = results.getErrors().get(0).getPresentableMessage(getActivity());
-					Log.e("Traveler Details Error:" + error);
-				}
-				else {
-					Log.e("Traveler Details Results == null!");
-				}
-			}
-			else {
-				PassengerCategory category;
-				// The traveler MUST be an adult if he or she is the traveler on
-				// a hotel booking.
-				if (getLob() == LineOfBusiness.HOTELS) {
-					category = PassengerCategory.ADULT;
-				}
-				else {
-					category = Db.getTravelers().get(mTravelerNumber).getPassengerCategory();
-				}
-				results.getTraveler().setPassengerCategory(category);
-				Db.getWorkingTravelerManager().setWorkingTravelerAndBase(results.getTraveler());
-				bindToDb(mTravelerNumber);
-			}
-		}
-	};
 }

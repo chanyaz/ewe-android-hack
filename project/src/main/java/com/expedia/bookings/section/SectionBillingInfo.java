@@ -15,10 +15,9 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
-import android.text.Html;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -30,7 +29,6 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.User;
@@ -39,6 +37,7 @@ import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListe
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.SectionBillingInfo.ExpirationPickerFragment.OnSetExpirationListener;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.Ui;
@@ -81,7 +80,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 	private void init(Context context) {
 		mContext = context;
-
 		//Display fields
 		mFields.add(this.mDisplayCreditCardBrandIconGrey);
 		mFields.add(this.mDisplayCreditCardBrandIconBlack);
@@ -171,6 +169,14 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		return mFields.hasValidInput();
 	}
 
+	public void resetValidation() {
+		mFields.setValidationIndicatorState(true);
+	}
+
+	public void resetValidation(int fieldID, boolean status) {
+		mFields.setValidationIndicatorState(fieldID, status);
+	}
+
 	public void onChange() {
 		for (SectionChangeListener listener : mChangeListeners) {
 			listener.onChange();
@@ -222,7 +228,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		R.id.display_creditcard_generic_name) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			String cardName = data.getCardType().getHumanReadableName(getContext());
+			String cardName = CreditCardUtils.getHumanReadableName(getContext(), data.getCardType());
 			String last4Digits = data.getNumber().substring(data.getNumber().length() - 4);
 			field.setText(getContext().getString(R.string.x_card_ending_in_y_digits_TEMPLATE, cardName, last4Digits));
 		}
@@ -413,7 +419,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				String brandName = data.getBrandName().replace("_", " ");
 				String formatStr = mContext.getString(R.string.brand_expiring_TEMPLATE);
 				String formatted = String.format(formatStr, brandName, exprStr);
-				field.setText(Html.fromHtml(formatted));
+				SpannableString stringToSpan = new SpannableString(formatted);
+				int color = mContext.getResources().getColor(R.color.checkout_card_brand_color);
+				Ui.setTextStyleNormalText(stringToSpan, color, 0, brandName.length());
+				field.setText(stringToSpan);
 			}
 			else {
 				field.setText("");
@@ -437,7 +446,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					field.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							String card = CreditCardType.getHumanReadableCardTypeName(mContext, type);
+							String card = CreditCardUtils.getHumanReadableCardTypeName(mContext, type);
 							String text = mContext.getString(R.string.airline_card_fee_select_TEMPLATE, feeText, card);
 							SimpleSupportDialogFragment.newInstance(null, text).show(fa.getSupportFragmentManager(),
 								"lccDialog");
@@ -586,8 +595,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -631,8 +640,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -676,8 +685,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.NAME));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.NAME);
 		}
 
 		@Override
@@ -716,8 +725,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionBillingInfo.this, Mode.EMAIL));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionBillingInfo.this, Mode.EMAIL);
 		}
 
 		@Override
@@ -797,6 +806,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		public static interface OnSetExpirationListener {
 			public void onExpirationSet(int month, int year);
+			public void resetValidationOnExpiryField();
 		}
 
 		public static ExpirationPickerFragment newInstance(LocalDate expDate, OnSetExpirationListener listener) {
@@ -827,6 +837,11 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					mMonth = month;
 					mYear = year;
 					listener.onExpirationSet(month, year);
+				}
+
+				@Override
+				public void resetValidationOnExpiryField() {
+					listener.resetValidationOnExpiryField();
 				}
 			};
 			mListener = tListener;
@@ -888,7 +903,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				@Override
 				public void onClick(View v) {
 					mListener.onExpirationSet(mMonth, mYear);
+					mListener.resetValidationOnExpiryField();
 					ExpirationPickerFragment.this.dismiss();
+
 				}
 
 			});
@@ -917,8 +934,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		private final static String TAG_EXPR_DATE_PICKER = "TAG_EXPR_DATE_PICKER";
 
 		@Override
-		public void setChangeListener(TextView field) {
-
+		public void setChangeListener(final TextView field) {
 			if (mContext instanceof FragmentActivity) {
 				final FragmentActivity fa = (FragmentActivity) mContext;
 				final OnSetExpirationListener listener = new OnSetExpirationListener() {
@@ -930,6 +946,11 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							refreshText();
 							onChange(SectionBillingInfo.this);
 						}
+					}
+
+					@Override
+					public void resetValidationOnExpiryField() {
+						resetValidation(field.getId(),true);
 					}
 				};
 
@@ -952,7 +973,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 						ExpirationPickerFragment datePickerFragment = Ui.findSupportFragment(fa, TAG_EXPR_DATE_PICKER);
 						if (datePickerFragment == null) {
-							datePickerFragment = ExpirationPickerFragment.newInstance(expDate, listener);
+							datePickerFragment = ExpirationPickerFragment
+								.newInstance(expDate, listener);
 						}
 						datePickerFragment.show(fa.getSupportFragmentManager(), TAG_EXPR_DATE_PICKER);
 					}
@@ -986,14 +1008,11 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected void onHasFieldAndData(TextView field, BillingInfo data) {
-
 			String btnTxt = "";
 			if (data.getExpirationDate() != null) {
-				String formatStr = mContext.getString(R.string.expires_colored_TEMPLATE);
-				String bdayStr = MONTHYEAR_FORMATTER.print(data.getExpirationDate());
-				btnTxt = String.format(formatStr, bdayStr);
+				btnTxt = MONTHYEAR_FORMATTER.print(data.getExpirationDate());
 			}
-			field.setText(Html.fromHtml(btnTxt));
+			field.setText(btnTxt);
 		}
 
 		Validator<TextView> mValidator = new Validator<TextView>() {
@@ -1003,9 +1022,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				int retVal = ValidationError.NO_ERROR;
 				if (hasBoundData()) {
 					if (getData().getExpirationDate() != null) {
-						LocalDate expDate = getData().getExpirationDate();
-						LocalDate lastMonth = LocalDate.now().minusMonths(1);
-						if (expDate.isBefore(lastMonth)) {
+						LocalDate expDate = getData().getExpirationDate().dayOfMonth().withMaximumValue();
+						LocalDate currentDate = LocalDate.now();
+						if (expDate.isBefore(currentDate)) {
 							retVal = ValidationError.ERROR_DATA_INVALID;
 						}
 						else {
@@ -1033,7 +1052,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		if (info == null || info.getCardType() == null) {
 			return false;
 		}
-
+		if (lob == LineOfBusiness.HOTELSV2) {
+			return Db.getTripBucket().getHotelV2() != null &&
+				Db.getTripBucket().getHotelV2().isCardTypeSupported(info.getCardType());
+		}
 		if (lob == LineOfBusiness.HOTELS) {
 			return Db.getTripBucket().getHotel() != null &&
 				Db.getTripBucket().getHotel().isCardTypeSupported(info.getCardType());
@@ -1042,8 +1064,17 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			return Db.getTripBucket().getFlight() != null
 				&& Db.getTripBucket().getFlight().isCardTypeSupported(info.getCardType());
 		}
+		if (lob == LineOfBusiness.CARS) {
+			return Db.getTripBucket().getCar() != null
+				&& Db.getTripBucket().getCar().isCardTypeSupported(info.getCardType());
+		}
+		if (lob == LineOfBusiness.LX) {
+			return Db.getTripBucket().getLX() != null
+				&& Db.getTripBucket().getLX().isCardTypeSupported(info.getCardType());
+		}
 
 		throw new RuntimeException("Line of business required");
 	}
-
 }
+
+

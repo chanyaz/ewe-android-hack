@@ -67,6 +67,7 @@
     <declare-styleable name="SlideToWidget">
         <attr name="sliderText" format="string" />
         <attr name="sliderImage" format="reference" />
+        <attr name="sliderBackgroundColor" format="color" />
         <attr name="dragImage" format="reference" />
         <attr name="destImage" format="reference" />
         <attr name="destComplete" format="reference" />
@@ -100,7 +101,8 @@
     <!-- So that we can define this in the layout xml rather than in code -->
     <declare-styleable name="hotel_summary_section">
         <attr name="selectedBackground" format="color|reference" />
-        <attr name="salePriceTextColor" format="color" />
+        <attr name="salePriceTextColor" format="color"/>
+        <attr name="airAttachPriceTextColor" format="color"/>
         <attr name="priceTextColor" format="color" />
     </declare-styleable>
 
@@ -132,14 +134,6 @@
     <declare-styleable name="ItinListView">
         <attr name="pathViewWidth" format="dimension" />
         <attr name="pathViewColor" format="color" />
-    </declare-styleable>
-
-    <!-- AttractionBubbleView -->
-    <declare-styleable name="AttractionBubbleView">
-        <attr name="size">
-            <enum name="small" value="0" />
-            <enum name="large" value="1" />
-        </attr>
     </declare-styleable>
 
     <!-- RingedCountView -->
@@ -186,11 +180,6 @@
         <attr name="sluggishness" format="integer" />
     </declare-styleable>
 
-    <!-- ImageRadioButton -->
-    <declare-styleable name="ImageRadioButton">
-        <attr name="image" format="reference" />
-    </declare-styleable>
-
     <!-- RoundedCornerFrameLayout -->
     <declare-styleable name="RoundedCornerFrameLayout">
         <attr name="radius" format="dimension" />
@@ -218,146 +207,27 @@
         <attr name="svg" format="reference" />
     </declare-styleable>
 
+    <!-- CheckoutInfoStatusIcon -->
+    <declare-styleable name="CheckoutInfoStatusIcon">
+        <attr name="state_info_complete" format="boolean" />
+    </declare-styleable>
 
-    <!-- VSC/EB attributes used for style switching in themes -->
-    <!-- Hotel Search price styles -->
-    <attr name="hotelPriceStandardColor" format="reference|color" />
-    <attr name="hotelPriceSaleColor" format="reference|color" />
-
-    <!-- PhoneSearchActivity's actionbar padding required in VSC due to rainbow bar -->
-    <attr name="hotelSearchActionBarPadding" format="reference|dimension" />
-
-    <!-- ActionBar icon/logo in WebView/Preference/Info Activities -->
-    <attr name="webViewPreferencesActionBarLogo" format="reference" />
-
-    <!-- ActionBar icon/logo in WebView that also sets a title -->
-    <attr name="webViewPreferencesActionBarLogoWithTitle" format="reference" />
-    <!-- ActionBar icon/logo in HotelRulesActivities -->
-    <attr name="hotelwebViewActionBarLogo" format="reference" />
-
-    <attr name="actionBarSpinnerBackground" format="reference" />
-
-    <attr name="actionBarBackgroundDrawable" format="reference" />
-    <!-- ActionBar checkmark drawable -->
-    <attr name="actionBarCheckMarkDrawable" format="reference" />
-    <!-- ActionBar Done/Search button color -->
-    <attr name="actionBarButtonTextColor" format="reference|color" />
-    <!-- ActionBar checkout arrow drawable -->
-    <attr name="actionBarCheckoutDrawable" format="reference" />
-    <attr name="costSummaryHeaderTextColor" format="reference|color" />
-
-    <!-- Ratingbar style in UserReviewsListActivity -->
-    <attr name="ratingBarUserReviewStyle" format="reference" />
-
-    <!-- Hotel calendar related styling -->
-    <attr name="calendarDatePickerCellDrawable" format="reference" />
-    <attr name="calendarDatePickerPopupDrawable" format="reference" />
-    <attr name="calendarDatePickerDateFormat" format="reference|string" />
-
-
-    <!--Flight Calendar related styling -->
-    <attr name="flightCalendarDatePickerCellDrawable" format="reference" />
-    <attr name="flightCalendarDatePickerPopupDrawable" format="reference" />
-
-    <attr name="hotelCancellationPolicyDateFormat" format="reference|string" />
-
-    <!-- Hotel promo pricing related styling -->
-    <attr name="hotelListingSaleDrawable" format="reference" />
-    <attr name="hotelDetailSaleRibbonDrawable" format="reference" />
-    <attr name="roomsRatesSaleRibbonDrawable" format="reference" />
-
-    <!-- Hotel listing user review rating style -->
-    <attr name="hotelListingUserRatingStyle" format="reference" />
-
-    <!-- Hotel listing Sort by price icon -->
-    <attr name="hotelListingSortPriceDrawable" format="reference" />
-
-    <!-- Hotel filters button style, for SegmentedControlGroups -->
-    <attr name="hotelListingFilterGroupStyle" format="reference" />
-
-    <!-- Hotel filters button style for VIP Toggle Button -->
-    <attr name="hotelListingFilterToggleButtonStyle" format="reference" />
-
-    <!-- Hotel listing Filter price strings -->
-    <attr name="hotelListingFilterPriceCheapString" format="reference|string" />
-    <attr name="hotelListingFilterPriceModerateString" format="reference|string" />
-    <attr name="hotelListingFilterPriceExpensiveString" format="reference|string" />
-
-    <!-- Hotel details tablet popup styles -->
-    <attr name="hotelDetailsUserRatingStyle" format="reference" />
-    <attr name="hotelDetailsStarRatingStyle" format="reference" />
-
-    <!-- HangTag assets -->
-    <attr name="hangTagProgressDrawable" format="reference" />
-    <attr name="hangTagProgressRingFillDrawable" format="reference" />
-    <attr name="hangTagKnobDrawable" format="reference" />
-    <attr name="hangTagKnobBackgroundDrawable" format="reference" />
-
-    <!-- Hotel Listing row thumbnail placeholder -->
-    <attr name="HotelRowThumbPlaceHolderDrawable" format="reference" />
-
-    <!-- Cost Summary Breakdown Dialog Stripe -->
-    <attr name="costSummaryDialogStripeDrawable" format="reference" />
-    <attr name="flightsCostSummaryDialogStripeDrawable" format="reference" />
-    <attr name="costSummaryBookingFeesString" format="reference|string" />
-
-    <!-- Log in with Expedia/VSC screen -->
-    <!-- This drawable is used in hotel detail for Book Now button as well -->
-    <attr name="loginBookNowButtonDrawable" format="reference" />
-    <attr name="loginWithExpediaButtonText" format="reference|string" />
-    <attr name="loginWithExpediaTitleText" format="reference|string" />
-    <attr name="hotelDetailPlaceHolderDrawable" format="reference" />
-    <attr name="loginWithExpediaContentDescription" format="reference|string" />
-    <attr name="loginButtonColor" format="reference" />
-    <attr name="hotelBookButtonColor" format="reference" />
-
-    <!-- Hotel Confirmation, Customer support option drawable -->
-    <attr name="hotelConfirmationCallActionDrawable" format="reference" />
-
-    <!-- Hotel Confirmation Customer support text-->
-    <attr name="hotelConfirmationCallActionText" format="reference" />
-
-    <!-- Hotel confirmation screen, login button text and icons -->
-    <attr name="hotelCheckoutLoginButtonText" format="reference|string" />
-    <attr name="hotelCheckoutLogoutLogoDrawable" format="reference" />
-    <attr name="hotelCheckoutLoginLogoDrawable" format="reference" />
-    <attr name="hotelCheckoutLoginButtonDrawable" format="reference" />
-
-    <!-- Hotel/Flight confirmation screen, login button colors -->
-    <attr name="hotelCheckoutLoginButtonTextColor" format="reference|color" />
-    <attr name="flightCheckoutLoginButtonTextColor" format="reference|color" />
-    <attr name="tabletCheckoutLoginButtonTextColor" format="reference|color" />
-
-    <!-- HotelCheckout CVV, Book button -->
-    <attr name="cvvBookButtonKeypadDrawable" format="reference" />
-    <attr name="cvvBookButtonTextColor" format="reference"/>
-
-    <!-- HotelCheckout Traveler Info screen after logged in, Logo to the left of the primary traveler -->
-    <attr name="hotelPrimaryTravelerInfoLogoDrawable" format="reference" />
-    <attr name="hotelListMapMarkerSaleDrawable" format="reference" />
-    <attr name="hotelListMapMarkerDrawable" format="reference" />
-
-    <!-- Placeholder image used in hotelReciept, Rooms&RatesListActivity -->
-    <attr name="hotelImagePlaceHolderDrawable" format="reference" />
-
-    <!-- Title displayed on the CVV entry screen (defined separately for VSC).
-    The first parameter, if defined, is the user-defined name of the card. -->
-    <attr name="cvvEntryTitleText" format="reference|string" />
-
-    <!-- for hotels and flights travel type -->
-    <attr name="travelerLabelOnCheckout" format="reference|string" />
+    <!-- ContentClickableRelativeLayout -->
+    <declare-styleable name="ContentClickableRelativeLayout">
+        <attr name="layoutContentPadding" format="dimension" />
+    </declare-styleable>
 
     <!-- SwipeOutLayout style -->
-    <declare-styleable name="SwipeOutLayout">
-        <attr name="swipeOutDirection">
+    <declare-styleable name="EBSwipeOutLayout">
+        <attr name="EBSwipeOutDirection">
             <enum name="north" value="0" />
             <enum name="south" value="1" />
             <enum name="east" value="2" />
             <enum name="west" value="3" />
         </attr>
-        <attr name="swipeOutEnabled" format="boolean" />
-        <attr name="swipeOutContentId" format="reference" />
-        <attr name="swipeOutIndicatorId" format="reference" />
+        <attr name="EBSwipeOutEnabled" format="boolean" />
+        <attr name="EBSwipeOutContentId" format="reference" />
+        <attr name="EBSwipeOutIndicatorId" format="reference" />
     </declare-styleable>
 
     <!-- FruitList style -->
@@ -373,19 +243,19 @@
     <!-- Drawable to use as the "thumb" that switches back and forth. -->
         <attr name="thumb" format="reference" />
         <!-- Drawable to use as the "track" that the switch thumb slides within. -->
-        <attr name="track" format="reference" />
+        <attr name="thumbTrack" format="reference" />
         <!-- Text to use when the switch is in the checked/"on" state. -->
         <attr name="textOn" format="reference" />
         <!-- Text to use when the switch is in the unchecked/"off" state. -->
         <attr name="textOff" format="reference" />
         <!-- Amount of padding on either side of text within the switch thumb. -->
-        <attr name="thumbTextPadding" format="dimension" />
+        <attr name="textPadding" format="dimension" />
         <!-- TextAppearance style for text displayed on the switch thumb. -->
-        <attr name="switchTextAppearance" format="reference" />
+        <attr name="thumbTextAppearance" format="reference" />
         <!-- Minimum width for the switch component -->
-        <attr name="switchMinWidth" format="dimension" />
+        <attr name="thumbMinWidth" format="dimension" />
         <!-- Minimum space between the switch and caption text -->
-        <attr name="switchPadding" format="dimension" />
+        <attr name="thumbPadding" format="dimension" />
     </declare-styleable>
     <declare-styleable name="Theme">
         <attr name="switchStyle" format="reference" />
@@ -409,118 +279,26 @@
         <attr name="android:textColorLink" />
     </declare-styleable>
 
-    <!-- for flight showing Expedia/ Tvly Account label-->
-    <attr name="flightCheckoutAccountLabel" format="reference|string"/>
+    <declare-styleable name="ContactDetailsCompleteness">
+        <attr name="state">
+            <enum name="begin" value="0" />
+            <enum name="complete" value="1" />
+            <enum name="incomplete" value="2" />
+        </attr>
+        <attr name="state_default" format="boolean" />
+        <attr name="state_complete" format="boolean" />
+        <attr name="state_incomplete" format="boolean" />
+    </declare-styleable>
 
-    <!-- for hotels best price guarantee type -->
-    <attr name="bestPriceGuaranteeString" format="reference|string" />
-    <!-- for hotels details book button -->
-    <attr name="hotelBookButtonString" format="reference|string" />
-
-    <attr name="aboutWebsiteString" format="reference|string" />
-    <attr name="aboutAppSupportString" format="reference|string" />
-    <attr name="aboutCopyrightString" format="reference|string" />
-    <attr name="aboutInfoUrlString" format="reference|string" />
-    <attr name="aboutAppNameString" format="reference|string" />
-    <attr name="aboutAppLogoDrawable" format="reference" />
-
-    <!-- for logout confirmation -->
-    <attr name="logoutConfirmationString" format="reference|string" />
-
-    <!-- Flight loading screen message position -->
-    <attr name="flightLoadingMessagePosition" format="reference" />
-
-    <attr name="flightUnhandledErrorMessage" format="reference|string" />
-    <attr name="serverErrorMessageString" format="reference|string" />
-    <attr name="savePaymentToAccountString" format="reference|string" />
-    <attr name="saveTravelerToAccountString" format="reference|string" />
-
-    <!-- for traveller_info_page logo-->
-    <attr name="travellerInfoPageLogo" format="reference"/>
-    <attr name="travellerInfoPageLogoDisabled" format="reference"/>
-
-    <!-- for itinerary in Trips tab -->
-    <attr name="bgFindItineraryButton" format="reference"/>
-
-    <!-- Itin placeholder drawables -->
-    <attr name="itinActivityPlaceholderDrawable" format="reference" />
-    <attr name="itinCarPlaceholderDrawable" format="reference" />
-    <attr name="itinCruisePlaceholderDrawable" format="reference" />
-    <attr name="itinHotelPlaceholderDrawable" format="reference" />
-    <attr name="itinFlightPlaceholderDrawable" format="reference" />
-    <attr name="itinDefaultPlaceholderDrawable" format="reference" />
-    <attr name="itinCardTitleBackground" format="reference" />
-
-    <!-- trips tab related -->
-    <attr name="itinCardBackground" format="reference"/>
-    <attr name="itinFlightsTripLineColor" format="reference"/>
-
-    <attr name="companyLogoForReceipt" format="reference"/>
-
-    <attr name="itinHotelAttachButtonDrawable" format="reference"/>
-    <attr name="itinDismissListSelectorDrawable" format="reference"/>
-
-    <attr name="itinTabletCardPopupBackgroundDrawable" format="reference"/>
-    <attr name="itinTabletCardPopupHeaderDrawable" format="reference"/>
-
-    <attr name="hotelConfirmationPlaceholderDrawable" format="reference" />
-    <attr name="couponSuccessMessageColor" fomrat="reference|color"/>
-
-    <attr name="infoContactUsString" format="reference|string"/>
-    <attr name="infoContactEmailSubjectString" format="reference|string"/>
-
-    <attr name="loadingAirAsiaRoutesString" format="reference|string" />
-    <attr name="emailUserNameString" format="reference|string" />
-
-    <!-- Room not Available Error Msg-->
-    <attr name="roomNotAvailableError" format="string"/>
-
-    <!-- Flight(s) not Available Error Msg-->
-    <attr name="singleFlightNotAvailableError" format="string"/>
-    <attr name="flightsNotAvailableError" format="string"/>
-
-    <!--CVV and CVV Error-->
-    <attr name="cvvDivDrawable" format="reference" />
-    <attr name="cvvDivErrorDrawable" format="reference" />
-
-    <!-- Clear Private Data Confirmation Msg-->
-    <attr name="clearPrivateDataMsg" format="string"/>
-
-    <!--Hotel search result messages-->
-    <attr name="hotelSearchResultNotAvailale" format="reference|string" />
-    <attr name="hotelSearchResultSoldOut" format="reference|string" />
-    <attr name="hotelSearchResultTEMPLATE" format="reference|string" />
-
-    <attr name="candycaneProgressDrawable" format="reference" />
-    <attr name="userRatingBarDrawable" format="reference" />
-
-    <attr name="clearEditTextImage" format="reference"/>
-
-    <attr name="icTypeCircleFlight" format="reference" />
-    <attr name="icTypeCircleHotel" format="reference" />
-
-    <attr name="icCheckoutCheckmarkDrawable" format="reference" />
-
-    <!--Add Calender POS Messages-->
-    <attr name="addToCalenderMessage" format="reference|string" />
-
-    <!--Missing string in AirAsiaGo and Travelocity-->
-    <attr name="tellAFriendBody" format="reference|string" />
-    <attr name="tellAFriendSubject" format="reference|string" />
-    <attr name="sorryRoomsSoldOut" format="reference|string" />
-    <attr name="passwordHint" format="reference|string" />
-    <attr name="loadingAccount" format="reference|string" />
-    <attr name="restrictedProfileLoginMessage" format="reference|string" />
-    <attr name="dialogMessageLaunchMobileSite" format="reference|string" />
-    <attr name="sorryRoomsSoldOutErrorMessage" format="reference|string" />
-
-    <!-- calendar description for flight's itinerary and support-->
-    <attr name="calendarFlightDescItinerary" format="reference|string" />
-    <attr name="calendarFlightDescSupport" format="reference|string" />
-    <!--Change the color of flight circles and lines -->
-    <attr name="skin_flightLineColor" format="reference" />
-    <attr name="flightPriceTextColor" format="reference|color" />
-    <attr name="icSuitCaseBaggage" format="reference" />
-    <attr name="flightLoginActionBarIcon" format="reference" />
+    <declare-styleable name="PhoneLaunchButton">
+        <!-- Button text -->
+        <attr name="btn_text" format="string" />
+        <!--Button color -->
+        <attr name="btn_bg" format="color"/>
+        <!-- Button icon -->
+        <attr name="btn_icon" format="reference"/>
+        <!-- Minimum scale factor for icon -->
+        <attr name="icon_min_scale" format="float" />
+    </declare-styleable>
 
 </resources>

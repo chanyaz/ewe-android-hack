@@ -85,10 +85,10 @@ public class SearchParams implements Parcelable, JSONable {
 		if (hasOrigin()) {
 			SuggestionV2 origin = (useAirport && mOriginAirport != null ? mOriginAirport : mOrigin);
 			if (origin != null && origin.getLocation() != null) {
-				Location depLocation = new Location(origin.getLocation());
-				depLocation.setDestinationId(origin.getAirportCode());
-				depLocation.setDescription(origin.getFullName());
-				return depLocation;
+				Location loc = new Location(origin.getLocation());
+				loc.setDestinationId(origin.getAirportCode());
+				loc.setDescription(origin.getFullName());
+				return loc;
 			}
 		}
 		return null;
@@ -234,8 +234,10 @@ public class SearchParams implements Parcelable, JSONable {
 	}
 
 	private void modifyDefaultInfantSeatingPreferenceAsNeeded() {
-		if (GuestsPickerUtils.moreInfantsThanAvailableLaps(mNumAdults, mChildTravelers)) {
-			mInfantsInLaps = false;
+		if (mChildTravelers != null) {
+			if (GuestsPickerUtils.moreInfantsThanAvailableLaps(mNumAdults, mChildTravelers)) {
+				mInfantsInLaps = false;
+			}
 		}
 	}
 
@@ -310,7 +312,8 @@ public class SearchParams implements Parcelable, JSONable {
 	}
 
 	public boolean isDurationValid() {
-		if (mStartDate != null && mEndDate != null && mStartDate.isAfter(mEndDate)) {
+		if (mStartDate != null && mEndDate != null && (mStartDate.isAfter(mEndDate) ||
+			mStartDate.isBefore(org.joda.time.DateTime.now().toLocalDate()))) {
 			Log.w("SearchParams validation error: Start date is after end date");
 			return false;
 		}
@@ -464,6 +467,83 @@ public class SearchParams implements Parcelable, JSONable {
 		params.setInfantSeatingInLap(mInfantsInLaps);
 
 		return params;
+	}
+
+	/**
+	 * TODO support all field conversions
+	 *
+	 * @param hotelParams
+	 * @return
+	 */
+	public static SearchParams fromHotelSearchParams(HotelSearchParams hotelParams) {
+		SearchParams searchParams = new SearchParams();
+
+		// Who
+		searchParams.setNumAdults(hotelParams.getNumAdults());
+		searchParams.setChildTravelers(hotelParams.getChildren());
+
+		// Where
+		SuggestionV2 destination = new SuggestionV2();
+
+		switch (hotelParams.getSearchType()) {
+		case CITY:
+			destination.setSearchType(SuggestionV2.SearchType.CITY);
+			destination.setFullName(hotelParams.getQuery());
+			destination.setDisplayName(hotelParams.getQuery());
+			break;
+		case HOTEL:
+			destination.setSearchType(SuggestionV2.SearchType.HOTEL);
+			destination.setRegionId(Integer.parseInt(hotelParams.getRegionId()));
+			destination.setDisplayName(hotelParams.getQuery());
+			break;
+		default:
+			destination.setSearchType(SuggestionV2.SearchType.ATTRACTION);
+			break;
+		}
+		if (hotelParams.getSearchLatitude() != 0 && hotelParams.getSearchLongitude() != 0) {
+			Location loc = new Location();
+			loc.setLatitude(hotelParams.getSearchLatitude());
+			loc.setLongitude(hotelParams.getSearchLongitude());
+			destination.setLocation(loc);
+		}
+
+		searchParams.setDestination(destination);
+
+		// When
+		if (hotelParams.getCheckInDate() != null) {
+			searchParams.setStartDate(hotelParams.getCheckInDate());
+		}
+		if (hotelParams.getCheckOutDate() != null) {
+			searchParams.setEndDate(hotelParams.getCheckOutDate());
+		}
+
+		return searchParams;
+	}
+
+	public static SearchParams fromFlightSearchParams(FlightSearchParams flightParams) {
+		SearchParams searchParams = new SearchParams();
+
+		// Who
+		searchParams.setNumAdults(flightParams.getNumAdults());
+		searchParams.setChildTravelers(flightParams.getChildren());
+
+		// Where
+		SuggestionV2 destination = new SuggestionV2();
+		destination.setSearchType(SuggestionV2.SearchType.AIRPORT);
+		destination.setRegionId(flightParams.getDestinationId());
+		// Change the Display Name to some more relevant for flights?
+		destination.setDisplayName(flightParams.getArrivalLocation().getDestinationId());
+		searchParams.setDestination(destination);
+
+		// When
+		if (flightParams.getDepartureDate() != null) {
+			searchParams.setStartDate(flightParams.getDepartureDate());
+		}
+		if (flightParams.getReturnDate() != null) {
+			searchParams.setEndDate(flightParams.getReturnDate());
+		}
+
+		return searchParams;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -636,8 +716,8 @@ public class SearchParams implements Parcelable, JSONable {
 		mOriginAirport = JSONUtils.getJSONable(obj, "originAirport", SuggestionV2.class);
 		mDestinationAirport = JSONUtils.getJSONable(obj, "destinationAirport", SuggestionV2.class);
 
-		mStartDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "startDate", null);
-		mEndDate = JodaUtils.getLocalDateFromJsonBackCompat(obj, "endDate", null);
+		mStartDate = JodaUtils.getLocalDateFromJson(obj, "startDate");
+		mEndDate = JodaUtils.getLocalDateFromJson(obj, "endDate");
 
 		mNumAdults = obj.optInt("numAdults", 1);
 		mChildTravelers = JSONUtils.getJSONableList(obj, "children", ChildTraveler.class);

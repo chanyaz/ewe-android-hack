@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -26,6 +27,11 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.maps.MapUtils;
 
 public class HotelSearchResponse extends Response implements OnFilterChangedListener, JSONable {
+	// Sponsored hotels are displayed at the index 1, 51, 52
+	// The server does not return them in this order so they
+	// are currently hardcoded to these indexes.
+	// For a search in SF, the ads came back in pos 0, 198, 199
+	private static final int[] sponsoredIndexes = { 0, 50, 51 };
 
 	// The original list of properties in this response
 	private List<Property> mProperties;
@@ -33,6 +39,9 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	// If the web service was doing the geocoding, here are where
 	// the alternate results will go
 	private List<Location> mLocations;
+
+	private boolean hasSponsoredListing;
+	private String mBeaconUrl;
 
 	public HotelSearchResponse() {
 		mPriceTiers = new HashMap<HotelFilter.PriceRange, PriceTier>();
@@ -42,6 +51,14 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 	public HotelSearchResponse(JSONObject obj) {
 		this();
 		fromJson(obj);
+	}
+
+	public void setBeaconUrl(String url) {
+		this.mBeaconUrl = url;
+	}
+
+	public String getBeaconUrl() {
+		return this.mBeaconUrl;
 	}
 
 	public List<Property> getProperties() {
@@ -82,6 +99,14 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 
 	public List<Location> getLocations() {
 		return mLocations;
+	}
+
+	public boolean hasSponsoredListing() {
+		return hasSponsoredListing;
+	}
+
+	public void setHasSponsoredListing(boolean hasASponsoredListing) {
+		hasSponsoredListing = hasASponsoredListing;
 	}
 
 	/**
@@ -174,6 +199,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		}
 
 		performFiltering(searchParams);
+		removeTravelAdFromFilter(mFilteredProperties);
 
 		return mFilteredProperties;
 	}
@@ -192,9 +218,31 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		}
 
 		performFiltering(searchParams);
+		removeTravelAdFromFilter(mFilteredPropertiesIgnoringNeighborhood);
 
 		return mFilteredPropertiesIgnoringNeighborhood;
 	}
+
+	/**
+	 * This removes a travel ad from the filtered results
+	 * if the only other result is the same listing as the ad.
+	 */
+	public void removeTravelAdFromFilter(Collection<Property> properties) {
+		boolean hasSponsoredAndDuplicatedProperty;
+		if (properties.size() == 2) {
+			Property p1 = (Property) properties.toArray()[0];
+			Property p2 = (Property) properties.toArray()[1];
+
+			hasSponsoredAndDuplicatedProperty =
+				(p1.isSponsored() || p2.isSponsored()) && p1.getPropertyId().equalsIgnoreCase(p2.getPropertyId());
+
+			if (hasSponsoredAndDuplicatedProperty) {
+				properties.remove(p1.isSponsored() ? p1 : p2);
+			}
+
+		}
+	}
+
 
 	/**
 	 * Get properties of a particular sort.  You should probably set a HotelFilter before
@@ -213,6 +261,8 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 
 		// Create a (shallow) list of the filtered results and sort it.
 		ArrayList<Property> sortedProperties = new ArrayList<Property>(getFilteredProperties(searchParams));
+		ArrayList<Property> sponsoredProperties = getSponsoredProperties(sortedProperties);
+
 		Sort sort = mFilter.getSort();
 		switch (sort) {
 		case PRICE:
@@ -256,7 +306,32 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			break;
 		}
 
+		//Put the sponsored listings into their correct position
+		reorderSponsoredProperties(sortedProperties, sponsoredProperties);
+
 		return sortedProperties;
+	}
+
+	private ArrayList<Property> getSponsoredProperties(ArrayList<Property> properties) {
+		ArrayList<Property> sponsored = new ArrayList<Property>();
+		ListIterator<Property> it = properties.listIterator();
+		while (it.hasNext()) {
+			Property prop = it.next();
+			if (prop.isSponsored()) {
+				it.remove();
+				sponsored.add(prop);
+			}
+		}
+
+		return sponsored;
+	}
+
+	private void reorderSponsoredProperties(ArrayList<Property> properties, ArrayList<Property> sponsored) {
+		for (int i = 0; i < sponsored.size() && i < sponsoredIndexes.length; i++) {
+			if (sponsoredIndexes[i] <= properties.size()) {
+				properties.add(sponsoredIndexes[i], sponsored.get(i));
+			}
+		}
 	}
 
 	public List<Property> getFilteredAndSortedProperties(Sort sort, int count, HotelSearchParams searchParams) {
@@ -835,6 +910,8 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 		try {
 			JSONUtils.putJSONableList(obj, "properties", mProperties);
 			JSONUtils.putJSONableList(obj, "locations", mLocations);
+			obj.putOpt("hasSponsoredListing", hasSponsoredListing);
+			obj.putOpt("pageViewBeaconPixelUrl", mBeaconUrl);
 
 			return obj;
 		}
@@ -850,6 +927,8 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 
 		mProperties = (List<Property>) JSONUtils.getJSONableList(obj, "properties", Property.class);
 		mLocations = (List<Location>) JSONUtils.getJSONableList(obj, "locations", Location.class);
+		hasSponsoredListing = obj.optBoolean("hasSponsoredListing", false);
+		mBeaconUrl = obj.optString("pageViewBeaconPixelUrl", null);
 
 		return true;
 	}

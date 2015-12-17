@@ -12,9 +12,6 @@ public abstract class SectionFieldEditable<FieldType extends View, Data extends 
 
 	ArrayList<SectionFieldValidIndicator<?, Data>> mPostValidators = new ArrayList<SectionFieldValidIndicator<?, Data>>();
 
-	boolean valid = true;
-	boolean validationOutdated = true;
-
 	public SectionFieldEditable(int fieldId) {
 		super(fieldId);
 	}
@@ -22,7 +19,6 @@ public abstract class SectionFieldEditable<FieldType extends View, Data extends 
 	@Override
 	protected void onFieldBind() {
 		super.onFieldBind();
-		validationOutdated = true;//If we rebind we want to make sure we revalidate
 		if (this.hasBoundField()) {
 			setChangeListener(this.getField());
 			setPostValidators(this.getPostValidators());
@@ -30,17 +26,16 @@ public abstract class SectionFieldEditable<FieldType extends View, Data extends 
 	}
 
 	public boolean isValid() {
-		return validationOutdated ? doValidation() : valid;
+		return doValidation();
 	}
 
 	private boolean doValidation() {
-		valid = true;
+		boolean valid = true;
 		if (hasBoundField()) {
 			Validator<FieldType> validator = getValidator();
 			valid = (validator == null) ? false : validator.validate(getField()) == ValidationError.NO_ERROR;
 		}
 		firePostValidators(valid);
-		validationOutdated = false;
 		return valid;
 	}
 
@@ -63,7 +58,6 @@ public abstract class SectionFieldEditable<FieldType extends View, Data extends 
 	 * @param parent - SectionFieldEditable instances should always be part of ISectionEditable classes, which also wish to be notified of changes. We call parent.onChange from this onChange method
 	 */
 	public void onChange(ISectionEditable parent) {
-		validationOutdated = true;
 		if (parent != null) {
 			parent.onChange();
 		}

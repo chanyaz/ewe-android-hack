@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/cancel"
                 android:textAppearance="?android:attr/actionMenuTextAppearance"
-                android:textColor="#E9E9E9" />
+                android:textColor="@color/action_bar_flight_cancel_text_color" />
         </LinearLayout>
 
         <View
@@ -65,7 +65,7 @@
             android:layout_height="match_parent"
             android:layout_marginBottom="12dp"
             android:layout_marginTop="12dp"
-            android:background="#5FFF" />
+            android:background="@color/action_bar_flight_result_separator_color" />
 
         <LinearLayout
             android:id="@+id/select_button"
@@ -81,7 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="6dp"
-                android:src="?attr/actionBarCheckMarkDrawable" />
+                android:src="?attr/skin_actionBarCheckMarkDrawable" />
 
             <TextView
                 android:id="@+id/select_text_view"
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/select_flight"
                 android:textAppearance="?android:attr/actionMenuTextAppearance"
-                android:textColor="?attr/actionBarButtonTextColor" />
+                android:textColor="?attr/skin_actionBarButtonTextColor" />
         </LinearLayout>
     </LinearLayout>
 

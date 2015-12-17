@@ -2,20 +2,6 @@
 <resources>
 
     <!-- Please include ONLY the strings that need to be changed for VSC build here. -->
-
-
-    <!-- Facebook -->
-    <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account">&lt;b&gt;%1$s&lt;/b&gt;, nous avons trouvé votre compte VSC ! Veuillez saisir votre mot de passe VSC ci-dessous afin de lier vos comptes Facebook et VSC.</string>
-    <!-- Log in with VSC -->
-    <string name="Log_in_with_VSC">Se connecter</string>
-    <!-- Login button text in hotel Confirmation screen for VSC -->
-    <string name="hotel_checkout_logIn_button_text">Déjà membre?</string>
-    <!-- Login failed try again -->
-    <string name="login_failed_try_again">Echec de connexion. Un compte spécifique pour la réservation d’hôtel est nécessaire.</string>
-    <!-- Facebook connect expedia password hint -->
-    <string name="expedia_password_hint">Mot de passe VSC</string>
-
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
     <!-- Select payment sentence case -->
@@ -34,21 +20,10 @@
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
     <string name="Add_Traveler">Saisir mes coordonnées</string>
-    <!-- Add traveler -->
-    <string name="add_traveler">Saisir mes coordonnées</string>
-
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <!-- Set expiration date button -->
     <string name="btn_set">Valider</string>
-
-    <!-- Save payment info dialog -->
-    <!-- save billing info message -->
-    <string name="save_billing_info_message">Enregistrer ce mode de paiement dans votre compte hôtel Voyages-sncf pour réserver plus rapidement dans le futur?</string>
-
-    <!-- Save traveler dialog -->
-    <!-- Save traveler name Template -->
-    <string name="save_traveler_message_TEMPLATE">Enregistrer les informations sur %1$s dans votre compte VSC pour réserver plus rapidement dans le futur ?</string>
 
     <!-- Section edit traveler -->
     <!-- Traveler Information -->
@@ -67,14 +42,10 @@
     <string name="booking_complete">Confirmation</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
     <string name="actions">Pour vous accompagner</string>
-    <!-- Button label for VSC support webpage link -->
-    <string name="vsc_customer_support">Nous contacter</string>
-    <string name="error_flight_unhandled">Désolé, nous ne sommes pas en mesure de traiter votre demande pour le moment. Veuillez réessayer.</string>
 
     <!-- Credit card input section -->
     <string name="book">Payer</string>
     <string name="cvv_explanation_vsc">Veuillez saisir votre cryptogramme</string>
-    <string name="app_name">Hôtel Voyages-sncf</string>
 
     <!-- Message displayed when search comes up with zero results -->
     <string name="no_hotels_availiable">Aucun hôtel disponible selon vos critères de voyage.</string>
@@ -82,8 +53,8 @@
     <!-- Search Fragment -->
     <!-- Child age dialog button -->
     <string name="button_done">Valider</string>
-    <!-- Done button text in hotel Confirmation screen for VSC -->
-    <string name="button_done_vsc_confirmation">Continuer</string>
+    <!-- Done button text in Confirmation screens -->
+    <string name="button_confirmation_done">Continuer</string>
 
     <!-- Search Activity -->
     <!-- Label indicating that there are no results matching their current filter -->
@@ -96,43 +67,17 @@
     <string name="sort_description_rating">Avis</string>
 
     <!-- Progress messages -->
-    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
-    <string name="error_hotel_is_now_sold_out">Désolé, cet hôtel n\&apos;est plus disponible. Veuillez en sélectionner un autre.</string>
 
     <!-- Booking info -->
     <!-- Title for dialog confirming the clearing of private data -->
     <string name="dialog_clear_private_data_title">Effacer les données personnelles?</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">Paiement en cours…</string>
-    <!-- Error message when we couldn't get a response -->
-    <string name="error_booking_null">Impossible de se connecter aux serveurs VSC.  Veuillez vérifier votre connexion et réessayer plus tard.</string>
 
     <!-- Confirmation activity -->
-    <!-- Contact info for a country with a known support line where %s represents the phone number -->
-    <string name="contact_phone_template">Si vous avez des questions au sujet de votre réservation, veuillez contacter VSC au %s.</string>
 
-    <!-- Rate template strings -->
-    <!-- Label for total cost paid to expedia (not including bait & switch "mandatory fees") -->
-    <string name="PayToExpedia">Montant dû à VSC</string>
-
-    <!-- Label for signin screen -->
-    <string name="vsc_account">Compte hôtel dédié</string>
-
-    <!-- Label for loading user profile from expedia.com -->
-    <string name="loading_expedia_account">Chargement compte VSC…</string>
-
-    <!-- Sharing bookings via email -->
-    <!-- The title of the share subject line -->
-    <string name="share_subject_title">Voyage VSC</string>
     <!-- Subject property name template. -->
-    <string name="share_subject_template">Numéro de voyage VSC -</string>
-
-    <!-- About activity -->
-    <!-- Label for "contact Expedia" button in info page -->
-    <string name="contact_expedia">Nous contacter</string>
-
-    <!-- Label for "app support" button in info page -->
-    <string name="app_support">Aide</string>
+    <string name="share_subject_template">Numéro de voyage L’Agence Voyages-sncf.com -</string>
 
     <!-- Menu strings -->
     <!-- Label for "info about this app" menu item. -->
@@ -144,28 +89,17 @@
     <!-- Name of VSC Train app -->
     <string name="VSC_Voyages_SNF">Réservez un billet de train</string>
     <!-- Description for FT Free app -->
-    <string name="VSC_Voyages_SNF_description">Avec l’application Voyages-sncf.com</string>
-    <!-- VSC Copyright information -->
-    <string name="VSC_copyright">© Copyright 2012-2014 Agence Voyages-SNCF.\nTous droits réservés.</string>
-    <!-- VSC app name -->
-    <string name="VSC_app_name">Agence Voyages-sncf Hôtels</string>
-
-    <!-- Error when we simple can't connect to E3 servers -->
-    <string name="error_server">Désolé, la connexion aux serveurs VSC a échoué. Veuillez réessayer plus tard.</string>
-    <!-- Expedia booking fee -->
-    <string name="expedia_booking_fee">Frais de réservation VSC</string>
-    <!-- For some reason the API failed and we couldn't complete the search -->
-    <string name="e3_error_hotel_offers_hotel_service_failure">Désolés, nous n\&apos;avons pas pu vous connecter à VSC. Veuillez réessayer.</string>
-
-    <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out">Désolé, cette chambre n\&apos;est plus disponible sur notre app.</string>
-
-    <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
-    <string name="e3_error_checkout_payment_failed">Désolé, nous n\&apos;avons pas pu traiter votre paiement. Veuillez vérifier que les informations que vous avez saisies sont correctes.</string>
+    <string name="VSC_Voyages_SNF_description">Avec l’application de </string>
 
     <!-- 1: Hotel name, 2: Formatted length of stay -->
-    <string name="share_template_long_hotel_1_greeting">Merci d’avoir choisi l’application Hôtel Voyages-sncf! Votre réservation est confirmée : %1$s, pendant %2$s.</string>
-    <!-- App download link -->
-    <string name="share_template_long_ad">A bientôt sur notre application. Voyages-sncf vous souhaite un bon voyage.</string>
+    <string name="share_template_long_hotel_1_greeting">Merci d’avoir choisi l’application de L’Agence Voyages-sncf.com ! Votre réservation est confirmée : %1$s, pendant %2$s.</string>
+
+    <!-- Account Creation Strings -->
+    <!-- Button text for account creation button -->
+    <string name="acct_Create_an_vsc_account">Créer un compte Agence Voyages-SNCF.com</string>
+    <!-- Message displayed after a successful create account -->
+    <string name="acct_Welcome_to_vsc">Bienvenue sur Agence\nVoyages-SNCF.com</string>
+    <!-- Title of "Account Already Exists" error dialog box -->
+    <string name="acct_vsc_account_already_exists">Un compte Agence Voyages-SNCF.com est déjà associé à cette adresse e-mail.</string>
 
 </resources>

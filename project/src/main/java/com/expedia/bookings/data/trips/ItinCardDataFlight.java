@@ -1,6 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -21,6 +20,8 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 	private int mLegNumber;
 	private DateTime mEndDate;
 	private DateTime mStartDate;
+	private boolean mShowAirAttach;
+	private FlightLeg mNextFlightLeg;
 
 	public ItinCardDataFlight(TripFlight parent, int leg) {
 		super(parent);
@@ -42,13 +43,13 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 	// otherwise, it is the next segment to take off
 	// UNLESS there is a later flight that has been canceled
 	public Flight getMostRelevantFlightSegment() {
-		Calendar now = Calendar.getInstance();
+		DateTime now = DateTime.now();
 		List<Flight> segments = getFlightLeg().getSegments();
 		Flight relevantSegment = null;
 		for (Flight segment : segments) {
 			if (relevantSegment == null) {
-				if (segment.mOrigin.getMostRelevantDateTime().after(now)
-						|| segment.getArrivalWaypoint().getMostRelevantDateTime().after(now)) {
+				if (segment.getOriginWaypoint().getMostRelevantDateTime().isAfter(now)
+						|| segment.getArrivalWaypoint().getMostRelevantDateTime().isAfter(now)) {
 					relevantSegment = segment;
 				}
 			}
@@ -68,7 +69,7 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 	@Override
 	public DateTime getStartDate() {
 		if (mStartDate == null) {
-			Calendar startCal = getStartCalFromFlightLeg();
+			DateTime startCal = getStartCalFromFlightLeg();
 			if (startCal != null) {
 				mStartDate = new DateTime(startCal);
 			}
@@ -83,7 +84,7 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 	@Override
 	public DateTime getEndDate() {
 		if (mEndDate == null) {
-			Calendar endCal = getEndCalFromFlightLeg();
+			DateTime endCal = getEndCalFromFlightLeg();
 			if (endCal != null) {
 				mEndDate = new DateTime(endCal);
 			}
@@ -122,8 +123,9 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 	public LatLng getLocation() {
 		long now = DateTime.now().getMillis();
 		Flight flight = getMostRelevantFlightSegment();
-		Waypoint waypoint = flight.mOrigin.getMostRelevantDateTime().getTimeInMillis() > now ? flight.mOrigin
-				: flight.getArrivalWaypoint();
+		Waypoint waypoint = flight.getOriginWaypoint().getMostRelevantDateTime().getMillis() > now ?
+			flight.getOriginWaypoint() :
+			flight.getArrivalWaypoint();
 		Airport airport = waypoint.getAirport();
 
 		if (airport != null) {
@@ -135,18 +137,18 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 
 	// Don't trust FlightStats' stats.  Just go off of start/end time.
 	public boolean isEnRoute() {
-		Calendar now = Calendar.getInstance();
-		Calendar start = getStartCalFromFlightLeg();
-		Calendar end = getEndCalFromFlightLeg();
+		DateTime now = DateTime.now();
+		DateTime start = getStartCalFromFlightLeg();
+		DateTime end = getEndCalFromFlightLeg();
 		if (start != null && end != null) {
-			return now.after(start) && now.before(end);
+			return now.isAfter(start) && now.isBefore(end);
 		}
 		else {
 			return false;
 		}
 	}
 
-	private Calendar getStartCalFromFlightLeg() {
+	private DateTime getStartCalFromFlightLeg() {
 		FlightLeg leg = getFlightLeg();
 		if (leg != null && leg.getFirstWaypoint() != null) {
 			return leg.getFirstWaypoint().getMostRelevantDateTime();
@@ -154,12 +156,28 @@ public class ItinCardDataFlight extends ItinCardData implements ConfirmationNumb
 		return null;
 	}
 
-	private Calendar getEndCalFromFlightLeg() {
+	private DateTime getEndCalFromFlightLeg() {
 		FlightLeg leg = getFlightLeg();
 		if (leg != null && leg.getLastWaypoint() != null) {
 			return leg.getLastWaypoint().getMostRelevantDateTime();
 		}
 		return null;
+	}
+
+	public boolean showAirAttach() {
+		return mShowAirAttach;
+	}
+
+	public void setShowAirAttach(boolean show) {
+		mShowAirAttach = show;
+	}
+
+	public FlightLeg getNextFlightLeg() {
+		return mNextFlightLeg;
+	}
+
+	public void setNextFlightLeg(FlightLeg nextLeg) {
+		mNextFlightLeg = nextLeg;
 	}
 
 	@Override

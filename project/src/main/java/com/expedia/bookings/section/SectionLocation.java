@@ -114,6 +114,10 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		return mFields.hasValidInput();
 	}
 
+	public void resetValidation() {
+		mFields.setValidationIndicatorState(true);
+	}
+
 	@Override
 	public void onChange() {
 		for (SectionChangeListener listener : mChangeListeners) {
@@ -260,8 +264,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
@@ -275,9 +279,9 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 					field.setText("");
 				}
 			}
-            else {
-                field.setText("");
-            }
+			else {
+				field.setText("");
+			}
 		}
 
 		@Override
@@ -322,8 +326,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
@@ -390,8 +394,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
@@ -414,7 +418,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			MultiValidator<EditText> addrValidators = new MultiValidator<EditText>();
 			addrValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
 			if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
-				addrValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
+				addrValidators.addValidator(CommonSectionValidators.ADDRESS_STATE_VALIDATOR);
 			}
 			else {
 				addrValidators.addValidator(CommonSectionValidators.ALWAYS_VALID_VALIDATOR_ET);
@@ -434,8 +438,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
@@ -516,8 +520,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
-			field.addTextChangedListener(InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(SectionLocation.this, Mode.ADDRESS));
+			InvalidCharacterHelper
+				.generateInvalidCharacterTextWatcher(field ,SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
@@ -541,7 +545,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				if ((location != null && location.getCountryCode() != null
 						&& location.getCountryCode().equalsIgnoreCase("USA"))
 						|| (!mEditCountrySpinner.hasBoundField() && (posId == PointOfSaleId.UNITED_STATES || posId == PointOfSaleId.TRAVELOCITY))) {
-					this.getField().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
+					this.getField().setInputType(InputType.TYPE_CLASS_NUMBER);
 					this.getField().setHint(R.string.address_postal_code_hint_US);
 				}
 				else {
@@ -569,6 +573,11 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		if (mLineOfBusiness == LineOfBusiness.HOTELS) {
 			// #1056. Postal code for hotels is always optional, regardless of POS or country of billing.
 			return false;
+		}
+
+		if (mLineOfBusiness == LineOfBusiness.CARS) {
+			// TODO Check with product for CARS lob postal code restrictions.
+			return true;
 		}
 
 		return false;
@@ -602,7 +611,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			if (hasBoundField()) {
 				getField().setAdapter(
 					new CountrySpinnerAdapter(mContext, CountryDisplayType.FULL_NAME,
-						R.layout.simple_spinner_item_18, R.layout.simple_spinner_dropdown_item));
+						R.layout.simple_spinner_item_18, R.layout.simple_spinner_dropdown_item, false));
 			}
 		}
 
@@ -670,5 +679,4 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			return null;
 		}
 	};
-
 }

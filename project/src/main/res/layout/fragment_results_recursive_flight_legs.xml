@@ -8,19 +8,19 @@
     <!-- Next Flight Leg -->
     <!-- This ends up being below the active flight, due to how the transition animations work -->
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/next_leg_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
 
     <!-- Active flight leg -->
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/details_container"
         android:layout_width="0dp"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/filters_container"
         android:layout_width="0dp"
         android:layout_height="match_parent" />
@@ -30,17 +30,18 @@
         android:layout_width="0dp"
         android:layout_height="match_parent">
 
-        <com.expedia.bookings.widget.FrameLayoutTouchController
+        <com.expedia.bookings.widget.TouchableFrameLayout
             android:id="@+id/last_flight_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/tablet_white_pane_bg"
+            android:background="#E6E6E6"
             android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:paddingBottom="16dp">
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/last_flight_header"
@@ -58,9 +59,9 @@
                     layout="@layout/section_flight_leg_tablet_blue_card_checked" />
 
             </LinearLayout>
-        </com.expedia.bookings.widget.FrameLayoutTouchController>
+        </com.expedia.bookings.widget.TouchableFrameLayout>
 
-        <com.expedia.bookings.widget.FrameLayoutTouchController
+        <com.expedia.bookings.widget.TouchableFrameLayout
             android:id="@+id/list_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

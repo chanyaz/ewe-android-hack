@@ -11,76 +11,90 @@ This is the code base that builds:
 Building
 ========
 
-1. Download [Android Studio](http://developer.android.com/sdk/installing/studio.html).
+1. Install `JDK7` or `JDK8`.
 
-2. Ensure you have the latest SDK components to build our application. Specifically, you should look at the
-`compileSdkVersion` and `buildToolsVersion` from project/build.gradle and update your SDK to have those versions.
-Update from the Android SDK manager, `<SDK-DIR>/tools/android`. Additionally, we require modules from the Extras
-section: *Android Support Repository* and *Google Repository*.
+2. Clone the `ExpediaInc/ewe-android-eb` repository
 
-3. Open Android Studio and update to the latest version via `Android Studio -> Check for updates...`.
+3. Navigate to the root of the `ewe-android-eb` repository.
 
-4. Import the project via Import, selecting `ExpediaBookings/build.gradle` file to import.
+4. Run `git submodule init` and `git submodule update`.
 
-5. Select the build variant you'd like to build, e.g. `expediaDebug`, `travelocityDebug`, `airAsiaGoDebug`. You can find
-the Build Variants section via Help in the system bar.
+5. Run `./gradlew assembleExpediaDebug`
 
-6. You should now be able to build the APK and then install on a device or emulator.
+Once you have that working, try importing the project into **AndroidStudio** and
+building from there.
 
 Contributing
 ============
 
-Do not commit directly to master unless you want to get yelled at. Submit a
-pull request from a branch created directly under this repository or from your
-fork from the following naming conventions:
-
-- Feature branch - `f/`
-  - Choose a good name so we can tell what the feature does. Try to be concise.
-  - eg. `f/air-attach-pricing`
-- Defect(s) branch - `d/`
-  - Choose a good name so we can tell what the defect fixed. Try to be concise.
-  - It is also fine to fix multiple defects as long as the commits are atomic and
-    have good information in them
-  - eg. `d/fix-air-attach-pricing`
-  - eg. `d/fix-various-flight-list-defects`
-- Release branch - `r/`
-  - Choose a good name so we can tell what the release is. Try to be concise.
-  - eg. `r/expedia-4.1.0`
-  - eg. `r/airasiago-1.0.0`
-- Work in progress/experiment branch - `w/`
-  - Choose a good name so we can tell what the experiment entails. Try to be concise.
-  - eg. `w/nfc-itin-sharing`
+Please see our expectations on [Contributing](https://github.com/ExpediaInc/ewe-android-eb/wiki/Contributing)
 
 Code Style
 ==========
 
-If you're committing code, use the Mobiata Java codestyle which is found in `common/MobiataIntellij.xml`. You
-must copy this file in to your AndroidStudio codestyle preferences folder, which on a Mac will most likely be
-found in your home directory's `Library/Preferences` folder:
+Our Java and XML files follow a specific code style. To import the Mobiata code style first close Android Studio, then:
 
-    $ cp common/MobiataIntellij.xml ~/Library/Preferences/AndroidStudioPreview/codestyles/
+````shell
+./tools/sync-code-style.sh
+````
 
-Restart Android Studio and you should be able to select this codestyle from `Preferences -> Codestyle -> Java -> Scheme`.
+Restart Android Studio and select `MobiataIntellij` via `Preferences -> Code Style -> Java -> Scheme`.
 
-XML style can be set via `Preferences -> Code Style -> XML - > Set from ... -> Predefined Style -> Android`. This
-does not seem to persist across Android Studio restarts so if you notice your XML formatting is all off, be sure to
-do this step again.
+Set XML style via `Preferences -> Code Style -> XML - > Set from ... -> Predefined Style -> Android`.
 
 Unit Tests
-==========
+==============
 
-    $ ./buildbot/build_tests.sh
-    $ ./buildbot/unittest.sh
-    $ open spoon/unit/index.html
+These live in `lib/ExpediaBookings/` and have no Android dependencies so we can
+run them very quickly just on the `JVM`.
 
-Happy Path Tests
-================
-
-Happy path tests are run against the `expediaAutomation` product flavor. Make sure the device that will be running
-the tests has turned off animations: Window Animation, Transition Animation, Animator Duration. Then install and run:
-
-    $ ./buildbot/build_tests.sh
-    $ ./buildbot/happypath.sh
-    $ open spoon/happy/index.html
+There are also android unit tests and robolectric tests living in the android project
 
 
+````shell
+./gradlew :lib:ExpediaBookings:test :lib:mocked:mocke3:test :project:testExpediaDebug
+````
+
+Android Tests
+==================
+
+Make sure the device(s) that will be running the tests has turned off animations:
+Window Animation, Transition Animation, Animator Duration.
+
+````shell
+BUILDER_NAME=expedia # or another product flavor
+./buildbot/build.sh
+
+# Happy path tests
+./buildbot/happypath.sh
+open spoon/happy/index.html
+
+# Subset of the regression tests we want to run on every checkin
+./buildbot/regression.sh
+open spoon/regression/index.html
+````
+
+Creating Feature Builds
+=======================
+
+Suppose you want to create a build so people can see what you've done. You can
+actually give it a unique package name and upload the `apk` to Crashlytics.
+`UNIQUE_FEATURE_NAME` must be a valid Java package name part because the
+resulting `applicationId` becomes `com.expedia.bookings.feature.UNIQUE_FEATURE_NAME`.
+
+````shell
+    $ ./gradlew -Pid="feature.UNIQUE_FEATURE_NAME" assembleExpediaDebug
+    $ ./gradlew -Pid="feature.UNIQUE_FEATURE_NAME" crashlyticsUploadDistributionExpediaDebug
+````
+
+Creating Usability Builds
+=======================
+
+Passing in `-Pid="usability` while assembling a release build triggers special functionality
+to always suppress final bookings for all lines of business. This is behavior deemed important
+for third-party usability testing through www.usertesting.com. We will likely share these builds
+via Crashlytics share link.
+
+````shell
+    $ ./gradlew -Pid="usability" assembleExpediaRelease
+````

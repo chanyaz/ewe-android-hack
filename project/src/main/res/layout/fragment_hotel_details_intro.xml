@@ -71,8 +71,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@drawable/bg_clickable_row"
             android:drawableLeft="@drawable/ic_good_rating"
             android:drawablePadding="8dp"
+            android:contentDescription="@string/cd_hotel_info_go_to_hotel_reviews"
             android:gravity="left|center_vertical"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
@@ -92,6 +94,8 @@
             android:id="@+id/user_review_layout"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:background="@drawable/bg_clickable_row"
+            android:addStatesFromChildren="true"
             android:contentDescription="@string/cd_hotel_info_go_to_hotel_reviews"
             android:gravity="center"
             android:orientation="vertical"
@@ -101,7 +105,7 @@
 
             <RatingBar
                 android:id="@+id/user_rating_bar"
-                style="?attr/hotelListingUserRatingStyle"
+                style="?attr/skin_hotelListingUserRatingStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
@@ -126,6 +130,15 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:background="@color/hotel_details_separator" />
+
+    <!-- ETP pay later info if applicable -->
+
+    <include
+        android:id="@+id/pay_later_info_banner"
+        layout="@layout/include_pay_later_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
     <!-- Hotel intro paragraph -->
 

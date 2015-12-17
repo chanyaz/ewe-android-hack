@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -10,8 +11,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
@@ -19,6 +23,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AirportFilterWidget;
@@ -36,7 +41,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 
 	private FlightFilter mFilter;
 
-	private SlidingRadioGroup mSortGroup;
+	private Spinner mSortGroup;
 	private SlidingRadioGroup mFilterGroup;
 
 	private TextView mFilterGroupHeader;
@@ -90,6 +95,15 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		mArrivalOverlay = Ui.findView(view, R.id.flight_filter_arrival_airports_overlay);
 		mAirlineOverlay = Ui.findView(view, R.id.flight_filter_airline_overlay);
 
+
+		List<String> sortOptions = new ArrayList<>();
+		sortOptions.addAll(Arrays.asList(getResources().getStringArray(R.array.sort_options_flights)));
+
+		ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_sort_item, sortOptions);
+		adapter.setDropDownViewResource(R.layout.spinner_sort_dropdown_item);
+
+		mSortGroup.setAdapter(adapter);
+
 		return view;
 	}
 
@@ -104,6 +118,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			mFilter.notifyFilterChanged();
 		}
 		bindAll();
+		AdTracker.trackFilteredFlightSearch(mLegNumber);
 	}
 
 	public boolean requiredDataInDb() {
@@ -124,11 +139,10 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	}
 
 	private void bindSortFilter() {
-		mSortGroup.setOnCheckedChangeListener(null);
+		mSortGroup.setOnItemSelectedListener(null);
 		mFilterGroup.setOnCheckedChangeListener(null);
 
-		// Sort
-		mSortGroup.check(SORT_RADIO_BUTTON_MAP.get(mFilter.getSort()));
+		mSortGroup.setSelection(mFilter.getSort().ordinal());
 
 		// Stops filter
 		FlightSearch.FlightTripQuery query = Db.getFlightSearch().queryTrips(mLegNumber);
@@ -160,7 +174,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 
 		mFilterGroup.check(FlightFilter.getStopsViewIdFromStopsValue(mFilter.getStops()));
 
-		mSortGroup.setOnCheckedChangeListener(mControlKnobListener);
+		mSortGroup.setOnItemSelectedListener(mSortCheckedChangeListener);
 		mFilterGroup.setOnCheckedChangeListener(mControlKnobListener);
 	}
 
@@ -221,18 +235,10 @@ public class ResultsFlightFiltersFragment extends Fragment {
 	private RadioGroup.OnCheckedChangeListener mControlKnobListener = new RadioGroup.OnCheckedChangeListener() {
 		@Override
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
-			FlightFilter.Sort sort = RES_ID_SORT_MAP.get(Integer.valueOf(checkedId));
-			if (sort != null) {
-				if (mFilter.getSort() != sort) {
-					mFilter.setSort(sort);
-					OmnitureTracking.trackLinkFlightSort(getActivity(), sort.toString());
-				}
-			}
-
 			if (group.getId() == R.id.flight_filter_control) {
 				int newStops = FlightFilter.getStopsValueFromStopsViewId(checkedId);
 				if (mFilter.getStops() != newStops) {
-					OmnitureTracking.trackNumStopsFlightFilter(getActivity(), newStops);
+					OmnitureTracking.trackNumStopsFlightFilter(newStops);
 				}
 				mFilter.setStops(newStops);
 			}
@@ -246,7 +252,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked) {
 			String airlineCode = (String) view.getTag();
 			mFilter.setPreferredAirline(airlineCode, isChecked);
-			OmnitureTracking.trackLinkFlightFilter(getActivity(), "Airline");
+			OmnitureTracking.trackLinkFlightFilter("Airline");
 			onFilterChanged();
 		}
 	};
@@ -263,7 +269,7 @@ public class ResultsFlightFiltersFragment extends Fragment {
 			else {
 				mFilter.removeAirport(departureAirport, airportCode);
 			}
-			OmnitureTracking.trackLinkFlightFilter(getActivity(), "Airport");
+			OmnitureTracking.trackLinkFlightFilter("Airport");
 			onFilterChanged();
 		}
 	};
@@ -285,24 +291,24 @@ public class ResultsFlightFiltersFragment extends Fragment {
 		}
 	};
 
-	/////////////////////////////////////////////////////////////////////////
-	// Static maps for Sort -> resId and resId - Sort
+	private final AdapterView.OnItemSelectedListener mSortCheckedChangeListener = new AdapterView.OnItemSelectedListener() {
 
-	private static final Map<Integer, FlightFilter.Sort> RES_ID_SORT_MAP = new HashMap<Integer, FlightFilter.Sort>() {
-		{
-			put(R.id.flight_sort_arrives, FlightFilter.Sort.ARRIVAL);
-			put(R.id.flight_sort_departs, FlightFilter.Sort.DEPARTURE);
-			put(R.id.flight_sort_duration, FlightFilter.Sort.DURATION);
-			put(R.id.flight_sort_price, FlightFilter.Sort.PRICE);
+		@Override
+		public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+			FlightFilter.Sort sort = FlightFilter.Sort.values()[position];
+			if (sort != null) {
+				if (mFilter.getSort() != sort) {
+					mFilter.setSort(sort);
+					OmnitureTracking.trackLinkFlightSort(sort.toString());
+				}
+			}
+
+			onFilterChanged();
 		}
-	};
 
-	private static final Map<FlightFilter.Sort, Integer> SORT_RADIO_BUTTON_MAP = new HashMap<FlightFilter.Sort, Integer>() {
-		{
-			put(FlightFilter.Sort.ARRIVAL, R.id.flight_sort_arrives);
-			put(FlightFilter.Sort.DEPARTURE, R.id.flight_sort_departs);
-			put(FlightFilter.Sort.DURATION, R.id.flight_sort_duration);
-			put(FlightFilter.Sort.PRICE, R.id.flight_sort_price);
+		@Override
+		public void onNothingSelected(AdapterView<?> parent) {
+
 		}
 	};
 

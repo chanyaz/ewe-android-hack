@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.widget.Spinner;
 
 public class TelephoneSpinner extends Spinner {
@@ -32,6 +34,7 @@ public class TelephoneSpinner extends Spinner {
 
 	@Override
 	public void onFinishInflate() {
+		super.onFinishInflate();
 		updateText();
 	}
 
@@ -56,5 +59,17 @@ public class TelephoneSpinner extends Spinner {
 			return null;
 		}
 		return ((TelephoneSpinnerAdapter) getAdapter()).getCountryName(position);
+	}
+
+	public void selectPOSCountry() {
+		TelephoneSpinnerAdapter adapter = (TelephoneSpinnerAdapter) getAdapter();
+		String targetCountry = getContext().getString(PointOfSale.getPointOfSale()
+			.getCountryNameResId());
+		for (int i = 0; i < adapter.getCount(); i++) {
+			if (targetCountry.equalsIgnoreCase(adapter.getCountryName(i))) {
+				setSelection(i);
+				break;
+			}
+		}
 	}
 }

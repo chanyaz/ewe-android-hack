@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.presenter.hotel.HotelPresenter xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/hotel_presenter"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.expedia.bookings.presenter.hotel.HotelSearchPresenter
+        android:id="@+id/widget_hotel_params"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible"/>
+
+    <com.expedia.bookings.presenter.hotel.HotelResultsPresenter
+        android:id="@+id/widget_hotel_results"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#EAEAEA"
+        android:visibility="gone"/>
+
+    <com.expedia.bookings.presenter.hotel.HotelDetailPresenter
+        android:id="@+id/widget_hotel_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#EAEAEA"
+        android:visibility="gone"/>
+
+    <com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter
+        android:id="@+id/hotel_checkout_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <com.expedia.bookings.presenter.hotel.HotelConfirmationPresenter
+        android:id="@+id/hotel_confirmation_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+</com.expedia.bookings.presenter.hotel.HotelPresenter>

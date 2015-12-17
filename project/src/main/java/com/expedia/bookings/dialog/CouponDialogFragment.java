@@ -7,12 +7,10 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -27,6 +25,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.section.AfterChangeTextWatcher;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.WalletUtils;
+import com.mobiata.android.app.SimpleDialogFragment;
 
 /**
  * Shows a coupon entry dialog.
@@ -71,12 +71,6 @@ public class CouponDialogFragment extends DialogFragment {
 		View view = Ui.inflate(getActivity(), R.layout.dialog_coupon, null);
 		mProgressContainer = Ui.findView(view, R.id.progress_container);
 		mCouponEditText = Ui.findView(view, R.id.coupon_edit_text);
-
-		//1753. VSC Default to all caps character.
-		if (ExpediaBookingApp.IS_VSC) {
-			mCouponEditText.setInputType(InputType.TYPE_TEXT_VARIATION_FILTER
-					| InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
-		}
 
 		mCouponEditText.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
@@ -173,7 +167,12 @@ public class CouponDialogFragment extends DialogFragment {
 
 	private void applyCoupon() {
 		String couponCode = mCouponEditText.getText().toString();
-		if (!TextUtils.isEmpty(couponCode)) {
+		if (WalletUtils.offerGoogleWalletCoupon(getActivity()) && WalletUtils.isCouponWalletCoupon(couponCode)) {
+			SimpleDialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.wallet_coupon_not_applied_manually));
+			df.show(getFragmentManager(), "NO_WALLET_COUPON_FRAG");
+			dismiss();
+		}
+		else if (!TextUtils.isEmpty(couponCode)) {
 			mListener.onApplyCoupon(couponCode);
 			mIsApplying = true;
 			updateViews();

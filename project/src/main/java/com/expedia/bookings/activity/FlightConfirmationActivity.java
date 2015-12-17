@@ -1,22 +1,19 @@
 package com.expedia.bookings.activity;
 
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.BitmapDrawable;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightCheckoutResponse;
-import com.expedia.bookings.data.FlightSearch;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.Images;
@@ -66,20 +63,9 @@ public class FlightConfirmationActivity extends FragmentActivity {
 		final String url = new Akeakamai(Images.getFlightDestination(code)) //
 			.resizeExactly(portrait.x, portrait.y) //
 			.build();
-		Bitmap bitmap = L2ImageCache.sDestination.getImage(url, true /*blurred*/, true /*checkDisk*/);
-		if (bitmap != null) {
-			onBitmapLoaded(bitmap);
-		}
-		else {
-			onBitmapLoadFailed();
-		}
-	}
+		new PicassoHelper.Builder(mBgImageView).applyBlurTransformation(true).setPlaceholder(
+			R.drawable.default_flights_background_blurred).build().load(url);
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-
-		OmnitureTracking.onResume(this);
 	}
 
 	@Override
@@ -89,8 +75,6 @@ public class FlightConfirmationActivity extends FragmentActivity {
 		if (isFinishing()) {
 			Db.setBillingInfo(null);
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -121,6 +105,8 @@ public class FlightConfirmationActivity extends FragmentActivity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_confirmation, menu);
 		ActionBarNavUtils.setupActionLayoutButton(this, menu, R.id.menu_done);
+		TextView actionButton = (TextView) menu.findItem(R.id.menu_done).getActionView();
+		actionButton.setText(R.string.button_confirmation_done);
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -133,15 +119,5 @@ public class FlightConfirmationActivity extends FragmentActivity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	public void onBitmapLoaded(Bitmap bitmap) {
-		BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
-		mBgImageView.setImageDrawable(drawable);
-	}
-
-	public void onBitmapLoadFailed() {
-		Bitmap bitmap = L2ImageCache.sDestination.getImage(getResources(), R.drawable.default_flights_background, true /*blurred*/);
-		onBitmapLoaded(bitmap);
 	}
 }

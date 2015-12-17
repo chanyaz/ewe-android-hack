@@ -30,7 +30,6 @@
             android:layout_marginBottom="8dp"
             android:bufferType="spannable"
             android:gravity="center_horizontal"
-            android:text="?attr/restrictedProfileLoginMessage"
             android:textColor="#f3f3f3"
             android:textSize="@dimen/login_header_text_size" />
     </LinearLayout>

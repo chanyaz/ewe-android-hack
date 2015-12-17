@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.section.FlightLegSummarySectionTablet;
+import com.expedia.bookings.utils.Ui;
 
 /**
  * Most of the functionality extends from FlightAdapter. This class
@@ -21,15 +23,18 @@ public class TabletFlightAdapter extends FlightAdapter {
 		}
 		Drawable background;
 		if (mLegPosition == 0) {
-			background = parent.getContext().getResources().getDrawable(R.drawable.bg_flight_summary_row_tablet);
+			background = parent.getContext().getResources().getDrawable(
+				Ui.obtainThemeResID(parent.getContext(), R.attr.skin_bgFlightSummaryRowTablet));
 		}
 		else {
-			background = parent.getContext().getResources().getDrawable(R.drawable.bg_flight_summary_row_return_leg_tablet);
+			background = parent.getContext().getResources().getDrawable(
+				Ui.obtainThemeResID(parent.getContext(), R.attr.skin_bgFlightSummaryRowReturnLegTabletDrawable));
 		}
-		convertView.setBackgroundDrawable(background);
+		FlightLegSummarySectionTablet flightView = Ui.findView(convertView, R.id.flight_card_container);
+		flightView.setBackgroundDrawable(background);
 		// Setting the background resets padding, so we have to reset it here.
 		int leftRightPadding = (int) parent.getContext().getResources().getDimension(R.dimen.hotel_flight_card_padding_x);
-		convertView.setPadding(leftRightPadding, 0, leftRightPadding, 0);
+		flightView.setPadding(leftRightPadding, 0, leftRightPadding, 0);
 
 		return super.getView(position, convertView, parent);
 	}

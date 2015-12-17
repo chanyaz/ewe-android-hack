@@ -7,8 +7,6 @@ import android.view.MenuItem;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.server.ExpediaServices;
-import com.mobiata.android.util.AndroidUtils;
 
 /**
  * This is a debug menu that you can attach to any Activity in Expedia Bookings.
@@ -21,7 +19,7 @@ import com.mobiata.android.util.AndroidUtils;
 public class DebugMenu {
 
 	public static void onCreateOptionsMenu(Context context, Menu menu) {
-		if (!AndroidUtils.isRelease(context)) {
+		if (BuildConfig.DEBUG) {
 			MenuInflater inflater = new MenuInflater(context);
 			inflater.inflate(R.menu.menu_debug, menu);
 			updateStatus(context, menu);
@@ -39,6 +37,7 @@ public class DebugMenu {
 		case R.id.debug_menu_build_number:
 			return true;
 		}
+
 		return false;
 	}
 
@@ -58,7 +57,7 @@ public class DebugMenu {
 	}
 
 	private static String getBuildServerString(Context context) {
-		String endpoint = ExpediaServices.getEndPoint(context).toString();
+		String endpoint = Ui.getApplication(context).appComponent().endpointProvider().getEndPoint().toString();
 		return context.getString(R.string.connected_server, endpoint);
 	}
 

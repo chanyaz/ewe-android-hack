@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="call_lm_customer_support">lastminute.com.au klantenservice bellen</string>
+
+    <!-- Log in with lastminute.com.au -->
+    <string name="Log_in_with_lm">Aanmelden bij lastminute.com.au</string>
+    <!-- Label for signin screen -->
+    <string name="lm_account">lastminute.com.au-account</string>
+    <!-- Content description for action: Press to log in with your lastminute.com.au account -->
+    <string name="cd_checkout_log_in_with_lm">Tik om je aan te melden bij je lastminute.com.au-account</string>
+
+    <string name="lm_website">lastminute.com.au-website</string>
+    <string name="lm_app_support">lastminute.com.au App Support</string>
+    <string name="lm_copyright_TEMPLATE">© Copyright 2012-%1$s lastminute.com.au\nAlle rechten voorbehouden.</string>
+    <string name="lm_info_url">http://www.lastminute.com/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_lm">Ben je zeker dat je je wilt afmelden bij je lastminute.com.au-account?</string>
+
+    <!-- Expedia booking fee -->
+    <string name="lm_booking_fee">lastminute.com.au boekingstoeslag</string>
+
+    <string name="error_flight_unhandled_lm_TEMPLATE">Het spijt ons, we kunnen je boeking momenteel niet verwerken. Probeer het opnieuw of bel de lastminute.com.au klantenservice en geef het volgende reisplannummer: %s</string>
+    <string name="error_server_lm">We konden geen verbinding maken met de servers van lastminute.com.au. Probeer het later opnieuw.</string>
+
+    <!-- save billing info message -->
+    <string name="save_billing_lm_info_message">Wil je deze betaalmethode in je lastminute.com.au-account opslaan om in de toekomst sneller te kunnen boeken?</string>
+
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_lm_message_TEMPLATE">Wil je de gegevens van %1$s in je lastminute.com.au-account opslaan om in de toekomst sneller te kunnen boeken?</string>
+
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE_lm">lastminute.com.au-reisplannr.: %s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE_lm">lastminute.com.au klantenservice: %s</string>
+
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data_lm">Je bent nu afgemeld bij je lastminute.com.au-account en alle betaal- en contactgegevens werden gewist.</string>
+
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure_lm">Het spijt ons, maar we konden geen verbinding maken met lastminute.com.au. Probeer het opnieuw.</string>
+
+    <!-- Phone Fragment Header-->
+    <string name="nav_accommodation">Accommodatie</string>
+    
+    <!-- Shop travel label -->
+    <string name="shop_travel">Plan &amp; Boek</string>
+
+    <!-- Title for different ways to connect to Expedia -->
+    <string name="contact_lm_via">Neem contact op met lastminute.com.au via ...</string>
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_lm_email_subject">lastminute.com.au boekingsondersteuning</string>
+    <!-- lastminute.com.au- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_lm">Bel lastminute.com.au op %s als je vragen hebt over je boeking.</string>
+    <!-- lastminute.com.au Itinerary -->
+    <string name="lm_itinerary">lastminute.com.au-reisplannr.</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">lastminute.com.au</string>
+
+    <string name="error_flight_no_longer_available_lm">Helaas, je vlucht is niet meer beschikbaar bij lastminute.com.au.</string>
+
+    <string name="error_flights_no_longer_available_lm">Helaas, één van je vluchten is niet meer beschikbaar bij lastminute.com.au.</string>
+
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out_lm">Helaas, dit hotel is niet meer beschikbaar bij lastminute.com.au.</string>
+    <!--A message stating this hotel is Not currently available on lastminute.com.au -->
+    <string name="not_currently_available_lm">Voorlopig niet beschikbaar bij lastminute.com.au</string>
+    <!-- A message stating this hotel is sold out on lastminute.com.au -->
+    <string name="sold_out_on_lm">Uitverkocht bij lastminute.com.au</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from lastminute.com.au Nov. 3-4" -->
+    <string name="not_currently_available_lm_TEMPLATE">Voorlopig niet beschikbaar bij lastminute.com.au %s</string>
+
+    <!-- Missing strings for lastminute.com.au from Expedia-->
+    <string name="tell_a_friend_body_lm">Hallo,\n\ndownload lastminute.com.au Hotels voor iPhone en Android. Het is GRATIS en je kunt heel eenvoudig kamers zoeken en boeken bij meer dan 140.000 hotels over de hele wereld. Het is de eenvoudigste manier om met je mobieltje hotelkamers te boeken.</string>
+    <string name="tell_a_friend_subject_lm">lastminute.com.au Hotels</string>
+    <string name="restricted_profile_login_message_lm">Om je aan te melden bij lastminute.com.au dien je te beschikken over een onbeperkt gebruikersprofiel op je apparaat.</string>
+    <string name="loading_lm_account">lastminute.com.au-account aan het laden</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_lm">Je hebt je reservering bij dit hotel geboekt! Bel de klantenservice van lastminute.com.au als je onmiddellijk een reisplan nodig hebt.</string>
+    <string name="lm_password_hint">lastminute.com.au-wachtwoord</string>
+    <string name="dialog_message_launch_lm_mobile_site">Wil je de mobiele site van lastminute.com.au openen?</string>
+    <string name="sorry_rooms_sold_out_lm">Sorry, alle kamers zijn uitverkocht bij lastminute.com.au.</string>
+    <!-- lastminute.com.au App download link -->
+    <string name="share_template_long_ad_lm">Boek hotels, vluchten en bekijk &amp; deel je reisplannen. Download vandaag nog de gratis mobiele app van lastminute.com.au.\n%s</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">Totaal nu te betalen bij lastminute.com.au:</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">We hebben jouw hulp nodig om nieuwe, universele aanmeldingsinfo voor alle lastminute.com.au-sites te creëren.&lt;br&gt;Stel je wachtwoord opnieuw in via de onderstaande link ’Je wachtwoord vergeten?’.</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today_lm">Nu te betalen bij lastminute.com.au</string>
+    <string name="etp_pay_now_charges_text_lm">lastminute.com.au zal je betaalgegevens verwerken.</string>
+</resources>

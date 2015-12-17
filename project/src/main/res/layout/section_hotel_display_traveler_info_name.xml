@@ -11,7 +11,7 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:layout_marginRight="16dp"
-        android:src="?attr/hotelPrimaryTravelerInfoLogoDrawable" />
+        android:src="?attr/skin_hotelPrimaryTravelerInfoLogoDrawable" />
 
     <TextView
         android:id="@+id/display_full_name"

@@ -5,10 +5,7 @@ import java.util.regex.Pattern;
 
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
-import android.text.InputFilter;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.TextWatcher;
+import android.widget.EditText;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.dialog.TextViewDialog;
@@ -19,8 +16,8 @@ public class InvalidCharacterHelper {
 
 	//Matches only ascii characters (thus disallowing multibyte characters)
 	private static final Pattern SUPPORTED_CHARACTER_PATTERN_ASCII = Pattern.compile("^(\\p{ASCII})*$");
-	//Matches all ascii characters from <space> == 0x20 through 0xFF (where space is hex 20 and 0xFF is the last of the extended ascii characters)
-	private static final Pattern SUPPORTED_CHARACTER_PATTERN_NAMES = Pattern.compile("^[\\x20-\\xFF]*$");
+	//Matches ascii characters that are only letters, latin accents, apostrophe, dash(es), periods, commas or spaces.
+	private static final Pattern SUPPORTED_CHARACTER_PATTERN_NAMES = Pattern.compile("^[a-zA-ZÀ-ÿ',. -]*$");
 
 	private static final String INVALID_CHARACTER_POPUP_TAG = "INVALID_CHARACTER_POPUP_TAG";
 
@@ -64,70 +61,31 @@ public class InvalidCharacterHelper {
 	 * Additionally it supports chaining, so that if the chainListener argument is not null, its callback
 	 * will be fired in the event of invalid characters.
 	 * @param chainListener - listener to fire if invalid characters are present
-	 * @return TextWatcher that removes invalid characters
 	 */
-	public static TextWatcher generateInvalidCharacterTextWatcher(final InvalidCharacterListener chainListener,
+	public static void generateInvalidCharacterTextWatcher(final EditText field, final InvalidCharacterListener chainListener,
 			final Mode mode) {
-		return new AfterChangeTextWatcher() {
-			@Override
-			public synchronized void afterTextChanged(Editable s) {
-				Pattern p = getSupportedCharacterPattern(mode);
-				String str = s.toString();
-				if (!p.matcher(str).matches()) {
-					//This is a bit strange, but using the filter allows us to not duplicate code
-					//and it gives us a bit of flexibility for how we block the questionable characters
-					InputFilter[] origFilters = s.getFilters();
-					CharSequence origStr = s.toString();
-					s.setFilters(new InputFilter[] { generateValidCharacterInputFilter(mode) });
-					s.clear();
-					s.append(origStr);
-					s.setFilters(origFilters);
-
-					if (chainListener != null) {
-						chainListener.onInvalidCharacterEntered(s.toString(), mode);
-					}
-
-				}
-			}
-		};
-	}
-
-	/**
-	 * Generate a new InputFilter that only allows for valid characters
-	 * @return
-	 */
-	public static InputFilter generateValidCharacterInputFilter(final Mode mode) {
-		return new InputFilter() {
-			@Override
-			public CharSequence filter(CharSequence source, int start, int end,
-					Spanned dest, int dstart, int dend) {
-
-				Pattern pattern = getSupportedCharacterPattern(mode);
-				if (!pattern.matcher(source).matches()) {
-					if (source instanceof SpannableStringBuilder) {
-						SpannableStringBuilder sourceAsSpannableBuilder = (SpannableStringBuilder) source;
-						for (int i = end - 1; i >= start; i--) {
-							CharSequence currentChar = source.subSequence(i, i + 1);
-							if (!pattern.matcher(currentChar).matches()) {
-								sourceAsSpannableBuilder.delete(i, i + 1);
+		field.addTextChangedListener(
+			new AfterChangeTextWatcher() {
+				@Override
+				public synchronized void afterTextChanged(Editable s) {
+					field.removeTextChangedListener(this);
+					Pattern p = getSupportedCharacterPattern(mode);
+					if (!p.matcher(s).matches()) {
+						for (int i = s.length() - 1; i >= 0; i--) {
+							CharSequence currentChar = s.subSequence(i, i + 1);
+							if (!p.matcher(currentChar).matches()) {
+								s.delete(i, i + 1);
 							}
 						}
-						return source;
-					}
-					else {
-						StringBuilder filteredStringBuilder = new StringBuilder();
-						for (int i = 0; i < end; i++) {
-							CharSequence currentChar = source.subSequence(i, i + 1);
-							if (pattern.matcher(currentChar).matches()) {
-								filteredStringBuilder.append(currentChar);
-							}
+						field.setText(s);
+						field.setSelection(s.length());
+						if (chainListener != null) {
+							chainListener.onInvalidCharacterEntered(s.toString(), mode);
 						}
-						return filteredStringBuilder.toString();
 					}
+					field.addTextChangedListener(this);
 				}
-				return source;
-			}
-		};
+			});
 	}
 
 	/**

@@ -1,8 +1,6 @@
 package com.expedia.bookings.utils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -18,15 +16,15 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.FacebookShareActivity;
-import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
@@ -35,7 +33,7 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripHotel;
-import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -44,6 +42,7 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Layover;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
+import com.squareup.phrase.Phrase;
 
 public class ShareUtils {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -204,7 +203,7 @@ public class ShareUtils {
 	}
 
 	public String getCarShareTextShort(ItinCardDataCar itinCardData) {
-		Car.Category category = itinCardData.getCar().getCategory();
+		CarCategory category = itinCardData.getCar().getCategory();
 		DateTime pickUpDate = itinCardData.getPickUpDate();
 		DateTime dropOffDate = itinCardData.getDropOffDate();
 		String vendorName = itinCardData.getVendorName();
@@ -238,11 +237,6 @@ public class ShareUtils {
 		return getFlightShareEmail(trip, trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelers, null, false, null);
 	}
 
-	public String getFlightShareEmail(FlightTrip trip, List<Traveler> travelers, String sharableDetailsURL) {
-		return getFlightShareEmail(trip, trip.getLeg(0), trip.getLeg(trip.getLegCount() - 1), travelers,
-				sharableDetailsURL, false, null);
-	}
-
 	public String getFlightShareEmail(FlightLeg leg, List<Traveler> travelers, String sharableDetailsURL, boolean isShared, String travelerFirstName) {
 		return getFlightShareEmail(null, leg, leg, travelers, sharableDetailsURL, isShared, travelerFirstName);
 	}
@@ -263,7 +257,7 @@ public class ShareUtils {
 	}
 
 	public String getCarShareTextLong(ItinCardDataCar itinCardData) {
-		Car.Category category = itinCardData.getCar().getCategory();
+		CarCategory category = itinCardData.getCar().getCategory();
 		DateTime pickUpDate = itinCardData.getPickUpDate();
 		DateTime dropOffDate = itinCardData.getDropOffDate();
 		CarVendor vendor = itinCardData.getCar().getVendor();
@@ -289,11 +283,10 @@ public class ShareUtils {
 
 	public String getFlightShareSubject(FlightLeg firstLeg, FlightLeg lastLeg, int travelerCount, boolean isShared, String travelerName) {
 		String destinationCity = StrUtils.getWaypointCityOrCode(firstLeg.getLastWaypoint());
-
-		long start = DateTimeUtils.getTimeInLocalTimeZone(firstLeg.getFirstWaypoint().getMostRelevantDateTime())
-				.getTime();
-		long end = DateTimeUtils.getTimeInLocalTimeZone(
-				lastLeg.getLastWaypoint().getMostRelevantDateTime()).getTime();
+		DateTime first = firstLeg.getFirstWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();
+		DateTime last = lastLeg.getFirstWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();
+		long start = first.getMillis();
+		long end = last.getMillis();
 		String dateRange = DateUtils.formatDateRange(mContext, start, end, DateUtils.FORMAT_NUMERIC_DATE
 				| DateUtils.FORMAT_SHOW_DATE);
 
@@ -318,22 +311,22 @@ public class ShareUtils {
 		}
 
 		String destinationCity = leg.getLastWaypoint().getAirport().mCity;
-		Calendar departureCal = leg.getFirstWaypoint().getBestSearchDateTime();
-		Date departureDate = DateTimeUtils.getTimeInLocalTimeZone(departureCal);
+		DateTime departureCal = leg.getFirstWaypoint().getBestSearchDateTime();
+		DateTime departureDate = departureCal.toLocalDateTime().toDateTime();
 
 		String shareText = "";
 
 		if (Locale.US.equals(Locale.getDefault())) {
 			if (!isShared) {
 				String template = mContext.getString(R.string.share_msg_template_short_flight);
-				String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getTime(),
+				String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getMillis(),
 						DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
 				shareText = String.format(template, destinationCity, departureDateStr, shareableDetailsURL);
 			}
 			else {
 				// This is a reshare, hence append the primaryTraveler's FirstName to the share message.
 				String template = mContext.getString(R.string.share_msg_template_short_flight_reshare);
-				String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getTime(),
+				String departureDateStr = DateUtils.formatDateTime(mContext, departureDate.getMillis(),
 						DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_NUMERIC_DATE);
 				shareText = String.format(template, travelerFirstName, destinationCity, departureDateStr,
 						shareableDetailsURL);
@@ -429,20 +422,10 @@ public class ShareUtils {
 
 		body.append("\n");
 
-		//1683. VSC Don't show Android App crossSell text and link.
-		if (ExpediaBookingApp.IS_EXPEDIA) {
-			body.append(mContext.getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale()
-				.getAppInfoUrl()));
+		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInFlightShareContentEnabled()) {
+			body.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
 		}
-		else if (ExpediaBookingApp.IS_AAG) {
-			body.append(mContext.getString(R.string.share_template_long_ad_aag, PointOfSale.getPointOfSale()
-				.getAppInfoUrl()));
-		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			body.append(mContext.getString(R.string.share_template_long_ad_tvly, PointOfSale.getPointOfSale()
-				.getAppInfoUrl()));
-		}
-
 
 		return body.toString();
 	}
@@ -520,7 +503,6 @@ public class ShareUtils {
 
 		String checkIn = JodaUtils.formatLocalDate(mContext, startDate, LONG_SHARE_DATE_FLAGS);
 		String checkOut = JodaUtils.formatLocalDate(mContext, endDate, LONG_SHARE_DATE_FLAGS);
-		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
 
 		int nights = JodaUtils.daysBetween(startDate, endDate);
 		String lengthOfStay = mContext.getResources().getQuantityString(R.plurals.length_of_stay, nights, nights);
@@ -555,16 +537,9 @@ public class ShareUtils {
 			builder.append("\n\n");
 		}
 
-		//1683. VSC Don't show Android App crossSell text and link.
-		//1754. VSC Show the requested text which doesn't contain link to app.
-		if (ExpediaBookingApp.IS_EXPEDIA) {
-			builder.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
-		}
-		else if (ExpediaBookingApp.IS_AAG) {
-			builder.append(mContext.getString(R.string.share_template_long_ad_aag, downloadUrl));
-		}
-		else if (ExpediaBookingApp.IS_TRAVELOCITY) {
-			builder.append(mContext.getString(R.string.share_template_long_ad_tvly, downloadUrl));
+		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInHotelShareContentEnabled()) {
+			builder.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
 		}
 
 		return builder.toString();
@@ -587,17 +562,17 @@ public class ShareUtils {
 		return subject;
 	}
 
-	public String getCarShareTextShort(Car.Category carCategory, DateTime pickUpDateTime, DateTime dropOffDateTime,
+	public String getCarShareTextShort(CarCategory carCategory, DateTime pickUpDateTime, DateTime dropOffDateTime,
 			String vendorName, String vendorAddress, String sharableDetailsURL) {
 
-		String category = mContext.getString(carCategory.getCategoryResId());
+		String category = CarDataUtils.getCategoryStringFor(mContext, carCategory);
 		String pickUpDate = JodaUtils.formatDateTime(mContext, pickUpDateTime, SHORT_DATE_FLAGS);
 		String dropOffDate = JodaUtils.formatDateTime(mContext, dropOffDateTime, SHORT_DATE_FLAGS);
 
 		StringBuilder sb = new StringBuilder();
 
 		if (!TextUtils.isEmpty(category)) {
-			sb.append(mContext.getString(carCategory.getShareMessageResId()));
+			sb.append(CarDataUtils.getShareMessageFor(mContext, carCategory));
 		}
 
 		if (!TextUtils.isEmpty(pickUpDate) && !TextUtils.isEmpty(dropOffDate)) {
@@ -624,7 +599,7 @@ public class ShareUtils {
 		return sb.toString();
 	}
 
-	public String getCarShareTextLong(Car.Category carCategory, DateTime pickUpDateTime, DateTime dropOffDateTime,
+	public String getCarShareTextLong(CarCategory carCategory, DateTime pickUpDateTime, DateTime dropOffDateTime,
 			CarVendor vendor, Location pickUpLocation, Location dropOffLocation, String sharableDetailsURL) {
 
 		StringBuilder sb = new StringBuilder();
@@ -637,7 +612,7 @@ public class ShareUtils {
 			sb.append("\n\n");
 		}
 
-		String category = mContext.getString(carCategory.getCategoryResId());
+		String category = CarDataUtils.getCategoryStringFor(mContext, carCategory);
 		if (!TextUtils.isEmpty(category)) {
 			sb.append(mContext.getString(R.string.share_car_vehicle_TEMPLATE, category));
 			sb.append("\n");
@@ -710,10 +685,9 @@ public class ShareUtils {
 
 		sb.append("\n");
 
-		//1683. VSC Don't show Android App crossSell text and link.
-		//  Disabling Android App crossSell for Tvly app also.
-		if (ExpediaBookingApp.IS_EXPEDIA) {
-			sb.append(mContext.getString(R.string.share_template_long_ad, PointOfSale.getPointOfSale().getAppInfoUrl()));
+		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInCarShareContentEnabled()) {
+			sb.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
 		}
 
 		return sb.toString();
@@ -766,7 +740,6 @@ public class ShareUtils {
 
 		String validDate = JodaUtils.formatDateTime(mContext, validDateTime, SHARE_DATE_FLAGS);
 		String expirationDate = JodaUtils.formatDateTime(mContext, expirationDateTime, SHARE_DATE_FLAGS);
-		String downloadUrl = PointOfSale.getPointOfSale().getAppInfoUrl();
 
 		StringBuilder sb = new StringBuilder();
 
@@ -804,26 +777,15 @@ public class ShareUtils {
 
 		sb.append("\n");
 
-		//1683. VSC Don't show Android App crossSell text and link.
-		// Tvly also dont show the App CrossSell text and link
-		if (ExpediaBookingApp.IS_EXPEDIA) {
-			sb.append(mContext.getString(R.string.share_template_long_ad, downloadUrl));
+		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInActivityShareContentEnabled()) {
+			sb.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
 		}
 
 		return sb.toString();
 	}
 
 	// Helper methods
-
-	private void appendLabelValue(Context context, StringBuilder sb, int labelStrId, String value) {
-		appendLabelValue(sb, context.getString(labelStrId), value);
-	}
-
-	private void appendLabelValue(StringBuilder sb, String label, String value) {
-		sb.append(label);
-		sb.append(": ");
-		sb.append(value);
-	}
 
 	private void addShareLeg(StringBuilder sb, FlightLeg flightLeg) {
 		Resources res = mContext.getResources();
@@ -835,29 +797,30 @@ public class ShareUtils {
 			if (a > 0) {
 				Layover layover = new Layover(flightLeg.getSegment(a - 1), flight);
 				String duration = DateTimeUtils.formatDuration(res, layover.mDuration);
-				String waypoint = StrUtils.formatWaypoint(flight.mOrigin);
+				String waypoint = StrUtils.formatWaypoint(flight.getOriginWaypoint());
 				sb.append(Html.fromHtml(mContext.getString(R.string.layover_duration_location_TEMPLATE, duration,
 						waypoint)));
 
 				sb.append("\n\n");
 			}
 
-			sb.append(mContext.getString(R.string.path_template, formatAirport(flight.mOrigin.getAirport()),
-					formatAirport(flight.mDestination.getAirport())));
+			sb.append(mContext.getString(R.string.path_template, formatAirport(flight.getOriginWaypoint().getAirport()),
+					formatAirport(flight.getDestinationWaypoint().getAirport())));
 			sb.append("\n");
-			Date start = DateTimeUtils.getTimeInLocalTimeZone(flight.mOrigin.getBestSearchDateTime());
-			sb.append(DateUtils.formatDateTime(mContext, start.getTime(), DateUtils.FORMAT_SHOW_DATE
+			DateTime start = flight.getOriginWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime();
+			sb.append(DateUtils.formatDateTime(mContext, start.getMillis(), DateUtils.FORMAT_SHOW_DATE
 					| DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR | DateUtils.FORMAT_SHOW_WEEKDAY));
 			sb.append("\n");
-			Date end = DateTimeUtils.getTimeInLocalTimeZone(flight.mDestination.getBestSearchDateTime());
+			DateTime end = flight.getDestinationWaypoint().getBestSearchDateTime().toLocalDateTime().toDateTime();
+
 			String departureTzString = FormatUtils.formatTimeZone(flightLeg.getFirstWaypoint().getAirport(), start,
 					MAX_TIMEZONE_LENGTH);
 			String arrivalTzString = FormatUtils.formatTimeZone(flightLeg.getLastWaypoint().getAirport(), end,
 					MAX_TIMEZONE_LENGTH);
-			sb.append(DateUtils.formatDateTime(mContext, start.getTime(), DateUtils.FORMAT_SHOW_TIME) + " "
+			sb.append(DateUtils.formatDateTime(mContext, start.getMillis(), DateUtils.FORMAT_SHOW_TIME) + " "
 					+ departureTzString);
 			sb.append(" - ");
-			sb.append(DateUtils.formatDateTime(mContext, end.getTime(), DateUtils.FORMAT_SHOW_TIME) + " "
+			sb.append(DateUtils.formatDateTime(mContext, end.getMillis(), DateUtils.FORMAT_SHOW_TIME) + " "
 					+ arrivalTzString);
 			sb.append("\n");
 			sb.append(FormatUtils.formatFlightNumber(flight, mContext));
@@ -880,10 +843,8 @@ public class ShareUtils {
 	public Intent[] getShareIntents(ItinContentGenerator<? extends ItinCardData> generator) {
 		ArrayList<Intent> intents = new ArrayList<Intent>();
 
-		if (generator instanceof FlightItinContentGenerator) {
-			intents.add(((FlightItinContentGenerator) generator).getShareWithFlightTrackIntent());
-		}
-		if ((ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) && AndroidUtils.isPackageInstalled(mContext, "com.facebook.katana")) {
+		if (ProductFlavorFeatureConfiguration.getInstance().isFacebookShareIntegrationEnabled() && AndroidUtils
+			.isPackageInstalled(mContext, "com.facebook.katana")) {
 			intents.add(FacebookShareActivity.createIntent(mContext, generator));
 		}
 

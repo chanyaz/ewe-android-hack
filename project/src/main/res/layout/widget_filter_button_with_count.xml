@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="58dp">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/drop_shadow" />
+
+    <LinearLayout
+        android:id="@+id/sort_filter_button"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/sort_filter_selector"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/filter_number_text"
+            app:textStyle="medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/skin_filterNumberBgDrawable"
+            android:paddingBottom="1dp"
+            android:paddingLeft="5.5dp"
+            android:paddingRight="5.5dp"
+            android:textColor="#ffffff"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/filter_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:src="@drawable/sort" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/filter_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textAllCaps="false"
+            android:textColor="@color/text_black"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</merge>

@@ -1,16 +1,17 @@
 package com.expedia.bookings.activity;
 
+import java.util.Calendar;
+
 import android.app.ActionBar;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GestureDetectorCompat;
-import android.text.TextUtils;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.Menu;
@@ -19,41 +20,28 @@ import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialog;
-import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.dialog.MailChimpDialogFragment;
-import com.mobiata.android.dialog.MailChimpDialogFragment.OnSubscribeEmailClickedListener;
-import com.mobiata.android.dialog.MailChimpFailureDialogFragment;
-import com.mobiata.android.dialog.MailChimpSuccessDialogFragment;
 import com.mobiata.android.fragment.AboutSectionFragment;
 import com.mobiata.android.fragment.AboutSectionFragment.AboutSectionFragmentListener;
-import com.mobiata.android.fragment.AboutSectionFragment.Builder;
-import com.mobiata.android.fragment.AboutSectionFragment.RowDescriptor;
 import com.mobiata.android.fragment.CopyrightFragment;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.HtmlUtils;
-import com.mobiata.android.util.MailChimpUtils;
-import com.mobiata.android.util.MailChimpUtils.MailChimpResult;
+import com.squareup.phrase.Phrase;
 
-public class AboutActivity extends FragmentActivity implements AboutSectionFragmentListener,
-		OnSubscribeEmailClickedListener {
+public class AboutActivity extends FragmentActivity implements AboutSectionFragmentListener {
 	private static final String TAG_CONTACT_US = "TAG_CONTACT_US";
 	private static final String TAG_ALSO_BY_US = "TAG_ALSO_BY_US";
 	private static final String TAG_LEGAL = "TAG_LEGAL";
 	private static final String TAG_COPYRIGHT = "TAG_COPYRIGHT";
-
-	private static final String DOWNLOAD_MAILCHIMP = "DOWNLOAD_MAILCHIMP";
-
-	private static final String TAG_MAILCHIMP_DIALOG = "TAG_MAILCHIMP_DIALOG";
-	private static final String TAG_MAILCHIMP_SUCCESS_DIALOG = "TAG_MAILCHIMP_SUCCESS_DIALOG";
-	private static final String TAG_MAILCHIMP_FAILURE_DIALOG = "TAG_MAILCHIMP_FAILURE_DIALOG";
 
 	private static final int ROW_BOOKING_SUPPORT = 1;
 	private static final int ROW_EXPEDIA_WEBSITE = 2;
@@ -64,10 +52,10 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 	private static final int ROW_ATOL_INFO = 7;
 	private static final int ROW_OPEN_SOURCE_LICENSES = 8;
 
-	private static final int ROW_VSC_VOYAGES = 9;
+	public static final int ROW_VSC_VOYAGES = 9;
 	private final static String PKG_VSC_VOYAGES = "com.vsct.vsc.mobile.horaireetresa.android";
 
-	private static final int ROW_VSC_PRIVATE_DATA = 10;
+	private static final int ROW_CLEAR_PRIVATE_DATA = 10;
 
 	private AboutUtils mAboutUtils;
 
@@ -80,6 +68,13 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		if (!ExpediaBookingApp.useTabletInterface(this)) {
+			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+		}
+
+		if (shouldBail()) {
+			return;
+		}
 
 		mAboutUtils = new AboutUtils(this);
 
@@ -101,20 +96,20 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 
 			builder.addRow(R.string.booking_support, ROW_BOOKING_SUPPORT);
 
-			builder.addRow(Ui.obtainThemeResID(this, R.attr.aboutAppSupportString), ROW_APP_SUPPORT);
-
-			//Add Website link for Expedia, Travelocity and AAG. Disabled only for VSC.
-			if (!ExpediaBookingApp.IS_VSC) {
-				builder.addRow(Ui.obtainThemeResID(this, R.attr.aboutWebsiteString), ROW_EXPEDIA_WEBSITE);
+			if (ProductFlavorFeatureConfiguration.getInstance().isAppSupportUrlEnabled()) {
+				builder.addRow(getResources().getString(R.string.app_support), ROW_APP_SUPPORT);
 			}
 
-			if (ExpediaBookingApp.IS_EXPEDIA) {
+			builder.addRow(
+				Phrase.from(this, R.string.website_TEMPLATE).put("brand", BuildConfig.brand).format().toString(),
+				ROW_EXPEDIA_WEBSITE);
+
+			if (ProductFlavorFeatureConfiguration.getInstance().isWeAreHiringInAboutEnabled()) {
 				builder.addRow(com.mobiata.android.R.string.WereHiring, ROW_WERE_HIRING);
 			}
 
-			// 1170. VSC Add clear private data in info/about screen
-			else if (ExpediaBookingApp.IS_VSC) {
-				builder.addRow(R.string.clear_private_data, ROW_VSC_PRIVATE_DATA);
+			if (ProductFlavorFeatureConfiguration.getInstance().isClearPrivateDataInAboutEnabled()) {
+				builder.addRow(R.string.clear_private_data, ROW_CLEAR_PRIVATE_DATA);
 			}
 
 			contactUsFragment = builder.build();
@@ -123,14 +118,11 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 
 		// Apps also by us
 		AboutSectionFragment alsoByFragment = Ui.findSupportFragment(this, TAG_ALSO_BY_US);
-		if (alsoByFragment == null && (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC)) {
-			if (ExpediaBookingApp.IS_VSC) {
-				alsoByFragment = buildVSCOtherAppsSection(this);
+		if (alsoByFragment == null) {
+			alsoByFragment = ProductFlavorFeatureConfiguration.getInstance().getAboutSectionFragment(this);
+			if 	(alsoByFragment != null) {
+				ft.add(R.id.section_also_by, alsoByFragment, TAG_ALSO_BY_US);
 			}
-			else {
-				alsoByFragment = AboutSectionFragment.buildOtherAppsSection(this);
-			}
-			ft.add(R.id.section_also_by, alsoByFragment, TAG_ALSO_BY_US);
 		}
 
 		// T&C, privacy, etc
@@ -152,15 +144,10 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		CopyrightFragment copyrightFragment = Ui.findSupportFragment(this, TAG_COPYRIGHT);
 		if (copyrightFragment == null) {
 			CopyrightFragment.Builder copyBuilder = new CopyrightFragment.Builder();
-			copyBuilder.setAppName(Ui.obtainThemeResID(this, R.attr.aboutAppNameString));
-			copyBuilder.setCopyright(Ui.obtainThemeResID(this, R.attr.aboutCopyrightString));
-			copyBuilder.setLogo(Ui.obtainThemeResID(this, R.attr.aboutAppLogoDrawable));
-			if (ExpediaBookingApp.IS_EXPEDIA || ExpediaBookingApp.IS_VSC) {
-				copyBuilder.setLogoUrl(this.getString(Ui.obtainThemeResID(this, R.attr.aboutInfoUrlString)));
-			}
-			else {
-				copyBuilder.setLogoUrl(PointOfSale.getPointOfSale().getWebsiteUrl());
-			}
+			copyBuilder.setAppName(Ui.obtainThemeResID(this, R.attr.skin_aboutAppNameString));
+			copyBuilder.setCopyright(getCopyrightString());
+			copyBuilder.setLogo(Ui.obtainThemeResID(this, R.attr.skin_aboutAppLogoDrawable));
+			copyBuilder.setLogoUrl(ProductFlavorFeatureConfiguration.getInstance().getCopyrightLogoUrl(this));
 
 			copyrightFragment = copyBuilder.build();
 			ft.add(R.id.section_copyright, copyrightFragment, TAG_COPYRIGHT);
@@ -184,30 +171,9 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		}
 	}
 
-	private AboutSectionFragment buildVSCOtherAppsSection(Context context) {
-		Builder builder = new Builder(context);
-		builder.setTitle(R.string.AlsoByVSC);
-
-		RowDescriptor app = new RowDescriptor();
-		app.title = context.getString(R.string.VSC_Voyages_SNF);
-		app.description = context.getString(R.string.VSC_Voyages_SNF_description);
-		app.clickId = ROW_VSC_VOYAGES;
-		app.drawableId = R.drawable.ic_vsc_train_app;
-		builder.addRow(app);
-
-		return builder.build();
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		OmnitureTracking.onResume(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		OmnitureTracking.onPause();
+	private String getCopyrightString() {
+		return Phrase.from(this, R.string.copyright_TEMPLATE).put("brand", BuildConfig.brand)
+			.put("year", AndroidUtils.getAppBuildDate(this).get(Calendar.YEAR)).format().toString();
 	}
 
 	@Override
@@ -236,9 +202,7 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-
-		// #1242. For VSC and travelocity don't add social media menu items.
-		if (ExpediaBookingApp.IS_EXPEDIA) {
+		if (ProductFlavorFeatureConfiguration.getInstance().areSocialMediaMenuItemsInAboutEnabled()) {
 			getMenuInflater().inflate(R.menu.menu_about, menu);
 		}
 
@@ -251,10 +215,6 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		case android.R.id.home:
 			onBackPressed();
 			return true;
-		case R.id.about_subscribe:
-			MailChimpDialogFragment dialogFrag = new MailChimpDialogFragment();
-			dialogFrag.show(getSupportFragmentManager(), MailChimpDialogFragment.class.toString());
-			return true;
 		case R.id.about_follow:
 			SocialUtils.openSite(this, "https://twitter.com/intent/user?screen_name=mobiata");
 			return true;
@@ -264,6 +224,10 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		default:
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private boolean shouldBail() {
+		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
 	}
 
 	private static final int DIALOG_CONTACT_EXPEDIA = 100;
@@ -288,13 +252,7 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 	public boolean onAboutRowClicked(int id) {
 		switch (id) {
 		case ROW_BOOKING_SUPPORT: {
-			// 1245. VSC Show app support url
-			if (ExpediaBookingApp.IS_VSC) {
-				mAboutUtils.openContactUsVSC();
-			}
-			else {
-				showDialog(DIALOG_CONTACT_EXPEDIA);
-			}
+			showDialog(DIALOG_CONTACT_EXPEDIA);
 			return true;
 		}
 		case ROW_EXPEDIA_WEBSITE: {
@@ -359,11 +317,10 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		}
 
 		case ROW_VSC_VOYAGES: {
-			SocialUtils.openSite(this, AndroidUtils.getGooglePlayAppLink(PKG_VSC_VOYAGES));
+			SocialUtils.openSite(this, AndroidUtils.getMarketAppLink(this, PKG_VSC_VOYAGES));
 			return true;
 		}
-		// 1170. VSC Add clear private data in info/about screen
-		case ROW_VSC_PRIVATE_DATA: {
+		case ROW_CLEAR_PRIVATE_DATA: {
 			ClearPrivateDataDialog dialog = new ClearPrivateDataDialog();
 			dialog.show(getSupportFragmentManager(), "clearPrivateDataDialog");
 			return true;
@@ -371,34 +328,6 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		}
 
 		return false;
-	}
-
-	private final OnDownloadComplete<MailChimpResult> mMailChimpCallback = new OnDownloadComplete<MailChimpResult>() {
-		@Override
-		public void onDownload(MailChimpResult result) {
-			if (result == null || result.mSuccess == false) {
-				MailChimpFailureDialogFragment dialogFragment = new MailChimpFailureDialogFragment();
-				Bundle args = new Bundle();
-				if (!TextUtils.isEmpty(result.mErrorMessage)) {
-					args.putString("message", result.mErrorMessage);
-				}
-				else {
-					args.putString("message", getString(com.mobiata.android.R.string.MailChimpFailure));
-				}
-				dialogFragment.setArguments(args);
-				dialogFragment.show(getSupportFragmentManager(), MailChimpFailureDialogFragment.class.toString());
-			}
-			else {
-				MailChimpSuccessDialogFragment dialogFragment = new MailChimpSuccessDialogFragment();
-				dialogFragment.show(getSupportFragmentManager(), MailChimpSuccessDialogFragment.class.toString());
-			}
-			return;
-		}
-	};
-
-	@Override
-	public void onSubscribeEmail(String email) {
-		MailChimpUtils.subscribeEmail(this, DOWNLOAD_MAILCHIMP, email, mMailChimpCallback);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -455,6 +384,9 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		ImageView logo = Ui.findView(this, com.mobiata.android.R.id.logo);
 		if (logo != null) {
 			logo.setImageResource(R.drawable.ic_secret);
+			if (BuildConfig.DEBUG) {
+				Db.setMemoryTestActive(true);
+			}
 		}
 	}
 }

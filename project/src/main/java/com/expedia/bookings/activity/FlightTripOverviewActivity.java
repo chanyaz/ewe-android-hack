@@ -1,10 +1,9 @@
 package com.expedia.bookings.activity;
 
-import java.util.Date;
+import org.joda.time.DateTime;
 
 import android.app.ActionBar;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -24,22 +23,22 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.BitmapDrawable;
-import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.data.CheckoutDataLoader;
+import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment.DoLogoutListener;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.dialog.ThrobberDialog;
+import com.expedia.bookings.fragment.FlightBookingFragment;
 import com.expedia.bookings.fragment.FlightCheckoutFragment;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment;
 import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
 import com.expedia.bookings.fragment.FlightTripPriceFragment;
-import com.expedia.bookings.fragment.FlightTripPriceFragment.FlightTripPriceFragmentListener;
-import com.expedia.bookings.fragment.LoginFragment.LogInListener;
+import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.SlideToPurchaseFragment;
 import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.otto.Events;
@@ -52,40 +51,40 @@ import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.SlideToWidget.ISlideToListener;
+import com.expedia.bookings.widget.TouchableFrameLayout;
+import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
-import com.mobiata.flightlib.utils.DateTimeUtils;
+import com.squareup.otto.Subscribe;
 
-public class FlightTripOverviewActivity extends FragmentActivity implements LogInListener,
-	CheckoutInformationListener, ISlideToListener, DoLogoutListener,
-	FlightTripPriceFragmentListener {
+public class FlightTripOverviewActivity extends FragmentActivity implements AccountLibActivity.LogInListener,
+	CheckoutInformationListener, ISlideToListener, DoLogoutListener {
 
 	public static final String TAG_OVERVIEW_FRAG = "TAG_OVERVIEW_FRAG";
 	public static final String TAG_CHECKOUT_FRAG = "TAG_CHECKOUT_FRAG";
 	public static final String TAG_PRICE_BAR_BOTTOM_FRAG = "TAG_PRICE_BAR_BOTTOM_FRAG";
 	public static final String TAG_SLIDE_TO_PURCHASE_FRAG = "TAG_SLIDE_TO_PURCHASE_FRAG";
 
-	public static final String STATE_TAG_MODE = "STATE_TAG_MODE";
-	public static final String STATE_TAG_LOADED_DB_INFO = "STATE_TAG_LOADED_DB_INFO";
+	private static final String KEY_DETAILS = "KEY_DETAILS";
+	private static final String DIALOG_LOADING_DETAILS = "DIALOG_LOADING_DETAILS";
 
-	//We only want to load from disk once: when the activity is first started
-	private boolean mLoadedDbInfo = false;
 	private boolean mSafeToAttach = true;
 
 	private FlightTripOverviewFragment mOverviewFragment;
 	private FlightTripPriceFragment mPriceBottomFragment;
 	private FlightCheckoutFragment mCheckoutFragment;
+	private FlightBookingFragment mFlightBookingFragment;
 	private SlideToPurchaseFragment mSlideToPurchaseFragment;
 
 	private ViewGroup mContentRoot;
 	private ViewGroup mOverviewContainer;
 	private ViewGroup mCheckoutContainer;
-	private FrameLayoutTouchController mCheckoutBlocker;
+	private TouchableFrameLayout mCheckoutBlocker;
 	private View mBelowOverviewSpacer;
 	private ImageView mBgImageView;
+	private TextView mFreeCancellation;
 
 	private ScrollViewListener mScrollViewListener;
 	private ScrollView mContentScrollView;
@@ -97,6 +96,10 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	private int mStackedHeight = 0;
 	private int mUnstackedHeight = 0;
 	private float mLastCheckoutPercentage = 0f;
+	private FlightTrip mTrip;
+
+	private String mPriceChangeString = "";
+	private boolean mRequestedDetails = false;
 
 	// To make up for a lack of FLAG_ACTIVITY_CLEAR_TASK in older Android versions
 	private ActivityKillReceiver mKillReceiver;
@@ -123,6 +126,14 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// Recover data if it was flushed from memory
+
+		// Note: While TripBucketItemFlight is theoretically the only data necessary to exact a checkout
+		// FlightTripLeg references Db.getFlightSearch() to retrieves legs via HashMap.
+		if (Db.getFlightSearch().getSelectedFlightTrip() == null) {
+			finish();
+			mIsBailing = true;
+		}
+
 		if (Db.getTripBucket().isEmpty()) {
 			boolean wasSuccess = Db.loadTripBucket(this);
 			if (!wasSuccess || Db.getTripBucket().getFlight() == null) {
@@ -137,6 +148,12 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 			return;
 		}
 
+		if (savedInstanceState == null) {
+			// If we somehow get back here and a download is already in progress, cancel it so
+			// we don't accidentally use the results of the last details query.
+			BackgroundDownloader.getInstance().cancelDownload(KEY_DETAILS);
+		}
+
 		setContentView(R.layout.activity_flight_overview_and_checkout);
 
 		mKillReceiver = new ActivityKillReceiver(this);
@@ -148,36 +165,38 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		final String url = new Akeakamai(Images.getFlightDestination(code)) //
 			.resizeExactly(portrait.x, portrait.y) //
 			.build();
-		Bitmap bitmap = L2ImageCache.sDestination.getImage(url, true /*blurred*/ , true /*checkdisk*/);
-		if (bitmap != null) {
-			onBitmapLoaded(bitmap);
-		}
-		else {
-			onBitmapLoadFailed();
-		}
-
+		new PicassoHelper.Builder(mBgImageView).applyBlurTransformation(true).setPlaceholder(R.drawable.default_flights_background_blurred).build().load(url);
 		mContentRoot = Ui.findView(this, R.id.content_root);
 		mContentScrollView = Ui.findView(this, R.id.content_scroll_view);
 		mOverviewContainer = Ui.findView(this, R.id.trip_overview_container);
 		mCheckoutContainer = Ui.findView(this, R.id.trip_checkout_container);
 		mBelowOverviewSpacer = Ui.findView(this, R.id.below_overview_spacer);
 		mCheckoutBlocker = Ui.findView(this, R.id.checkout_event_blocker);
-
-		if (savedInstanceState != null) {
-			mLoadedDbInfo = savedInstanceState.getBoolean(STATE_TAG_LOADED_DB_INFO, false) && Db.hasBillingInfo();
-		}
-		//We load things from disk in the background
-		loadCachedData(false);
-
-		if (savedInstanceState != null && savedInstanceState.containsKey(STATE_TAG_MODE)) {
-			mDisplayMode = DisplayMode.valueOf(savedInstanceState.getString(STATE_TAG_MODE));
-		}
+		mFreeCancellation = Ui.findView(this, R.id.free_cancellation_text);
 
 		addOverviewFragment();
+		setUpFreeCancellationAbTest();
 
 		mScrollViewListener = new ScrollViewListener();
 		mContentScrollView.addOnScrollListener(mScrollViewListener);
 		mContentScrollView.setOnTouchListener(mScrollViewListener);
+
+		mFlightBookingFragment = Ui.findOrAddSupportFragment(this, View.NO_ID, FlightBookingFragment.class, FlightBookingFragment.TAG);
+		if (Db.getTripBucket().getFlight().getFlightTrip() != null) {
+			mTrip = Db.getTripBucket().getFlight().getFlightTrip();
+		}
+
+		if (TextUtils.isEmpty(mTrip.getItineraryNumber())) {
+			// Begin loading flight details in the background, if we haven't already
+			if (!mRequestedDetails) {
+				startCreateTripDownload();
+			}
+		}
+		else {
+			//We call this here because though the trip was already created, we want to ensure
+			//that we tell the listener, so it can update the state of Google Wallet
+			onCreateTripFinished();
+		}
 
 		AdTracker.trackFlightCheckoutStarted();
 	}
@@ -185,8 +204,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		OmnitureTracking.onResume(this);
+		Events.register(this);
 	}
 
 	@Override
@@ -231,6 +249,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	@Override
 	public void onPause() {
 		super.onPause();
+		Events.unregister(this);
 
 		mSafeToAttach = false;
 
@@ -238,10 +257,9 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 		//In the case that we go back to the start of the app, we want the CC number to be cleared when we return
 		if (this.isFinishing()) {
+			mFlightBookingFragment.cancelDownload(FlightBookingFragment.FlightBookingState.CREATE_TRIP);
 			clearCCNumber();
 		}
-
-		OmnitureTracking.onPause();
 	}
 
 	@Override
@@ -262,31 +280,12 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		}
 	}
 
-	@Override
-	public void onSaveInstanceState(Bundle out) {
-		super.onSaveInstanceState(out);
-		out.putString(STATE_TAG_MODE, mDisplayMode.name());
-		out.putBoolean(STATE_TAG_LOADED_DB_INFO, mLoadedDbInfo);
-	}
-
 	private void clearCCNumber() {
 		try {
 			Db.getBillingInfo().setNumber(null);
 		}
 		catch (Exception ex) {
 			Log.e("Error clearing billingInfo card number", ex);
-		}
-	}
-
-	private void loadCachedData(boolean wait) {
-		if (!mLoadedDbInfo) {
-			CheckoutDataLoader.CheckoutDataLoadedListener listener = new CheckoutDataLoader.CheckoutDataLoadedListener() {
-				@Override
-				public void onCheckoutDataLoaded(boolean wasSuccessful) {
-					mLoadedDbInfo = wasSuccessful;
-				}
-			};
-			CheckoutDataLoader.getInstance().loadCheckoutData(this, true, true, listener, wait);
 		}
 	}
 
@@ -310,14 +309,11 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 	public void attachCheckoutFragment() {
 		if (mSafeToAttach) {
-			boolean refreshCheckoutData = !mLoadedDbInfo;
-			loadCachedData(
-				true);//because of the sLoaded variable, this will almost always do no work except if we end up in a strange state
 			mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
 			if (mCheckoutFragment == null) {
 				mCheckoutFragment = FlightCheckoutFragment.newInstance();
 			}
-			else if (refreshCheckoutData) {
+			else {
 				//Incase we only now finished loading cached data...
 				mCheckoutFragment.refreshData();
 			}
@@ -347,6 +343,14 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 			transaction.add(R.id.trip_overview_container, mOverviewFragment, TAG_OVERVIEW_FRAG);
 			transaction.commit();
 		}
+	}
+
+	private void setUpFreeCancellationAbTest() {
+		FlightLeg leg =  Db.getTripBucket().getFlight().getFlightTrip().getLeg(0);
+		boolean showFreeCancellation =
+			PointOfSale.getPointOfSale().supportsFlightsFreeCancellation() && !leg.isSpirit() ||
+				leg.isLCC() || leg.isCharter();
+		mFreeCancellation.setVisibility(showFreeCancellation ? View.VISIBLE : View.GONE);
 	}
 
 	private void addSlideToCheckoutFragment() {
@@ -402,7 +406,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 		addPriceBarFragment(true);
 		if (mPriceBottomFragment != null) {
-			mPriceBottomFragment.showPriceChange();
+			mPriceBottomFragment.showPriceChange(mPriceChangeString);
 		}
 
 		if (mOverviewFragment != null && mOverviewFragment.isAdded()) {
@@ -419,7 +423,8 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 		if (mLastTrackingMode != TrackingMode.OVERVIEW) {
 			mLastTrackingMode = TrackingMode.OVERVIEW;
-			OmnitureTracking.trackPageLoadFlightRateDetailsOverview(this);
+			OmnitureTracking.trackPageLoadFlightRateDetailsOverview();
+			AdTracker.trackFlightRateDetailOverview();
 		}
 	}
 
@@ -582,7 +587,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 			if (mOverviewFragment != null) {
 				mOverviewFragment.setExpandedPercentage(1f - percentage);
 			}
-
+			mFreeCancellation.setAlpha(1f - percentage);
 			mCheckoutContainer
 				.setTranslationY((Math.max(mContentRoot.getHeight(), mUnstackedHeight) - mOverviewContainer
 					.getHeight()) * (1f - percentage));
@@ -619,11 +624,10 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
 
-		Date depDate = DateTimeUtils
-			.getTimeInLocalTimeZone(trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime());
-		Date retDate = DateTimeUtils.getTimeInLocalTimeZone(trip.getLeg(trip.getLegCount() - 1).getLastWaypoint()
-			.getMostRelevantDateTime());
-		String dateRange = DateUtils.formatDateRange(this, depDate.getTime(), retDate.getTime(),
+		DateTime depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();
+		DateTime retDate = trip.getLeg(trip.getLegCount() - 1).getLastWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();
+
+		String dateRange = DateUtils.formatDateRange(this, depDate.getMillis(), retDate.getMillis(),
 			DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY
 				| DateUtils.FORMAT_ABBREV_MONTH
 		);
@@ -701,19 +705,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			if (mDisplayMode == DisplayMode.CHECKOUT) {
-				onBackPressed();
-			}
-			else {
-				clearCCNumber();
-
-				Intent intent = new Intent(this, FlightSearchResultsActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-				intent.putExtra(FlightSearchResultsActivity.EXTRA_DESELECT_LEG_ID, trip.getLeg(trip.getLegCount() - 1)
-					.getLegId());
-				startActivity(intent);
-			}
+			onBackPressed();
 			return true;
 		case R.id.menu_checkout:
 			if (mOverviewFragment != null && mDisplayMode == DisplayMode.OVERVIEW) {
@@ -726,18 +718,8 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	}
 
 	@Override
-	public void onLoginStarted() {
-		// Do nothing?
-	}
-
-	@Override
 	public void onLoginCompleted() {
-		mCheckoutFragment.onLoginCompleted();
-	}
-
-	@Override
-	public void onLoginFailed() {
-		// TODO: Update UI to show that we're no longer logged in
+		startCreateTripDownload();
 	}
 
 	//Checkout listener
@@ -747,7 +729,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 			if (mLastTrackingMode != TrackingMode.SLIDE_TO_PURCHASE) {
 				mLastTrackingMode = TrackingMode.SLIDE_TO_PURCHASE;
-				OmnitureTracking.trackPageLoadFlightCheckoutSlideToPurchase(this);
+				OmnitureTracking.trackPageLoadFlightCheckoutSlideToPurchase();
 			}
 
 			//Bring in the slide to checkout view
@@ -764,7 +746,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 
 			if (mLastTrackingMode != TrackingMode.CHECKOUT) {
 				mLastTrackingMode = TrackingMode.CHECKOUT;
-				OmnitureTracking.trackPageLoadFlightCheckoutInfo(this);
+				OmnitureTracking.trackPageLoadFlightCheckoutInfo();
 			}
 
 			//Bring in the price bar
@@ -787,7 +769,6 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	//////////////////////////////////////////////////////////////////////////
 	// FlightTripPriceFragmentListener
 
-	@Override
 	public void onCreateTripFinished() {
 		googleWalletTripPaymentTypeCheck();
 
@@ -807,7 +788,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 	@Override
 	public void onSlideAllTheWay() {
 		if (!BookingInfoUtils
-			.migrateRequiredCheckoutDataToDbBillingInfo(this, LineOfBusiness.FLIGHTS, Db.getTravelers().get(0), true)) {
+			.migrateRequiredCheckoutDataToDbBillingInfo(this, LineOfBusiness.FLIGHTS, Db.getTravelers().get(0))) {
 			if (mSlideToPurchaseFragment != null) {
 				mSlideToPurchaseFragment.resetSlider();
 			}
@@ -840,13 +821,67 @@ public class FlightTripOverviewActivity extends FragmentActivity implements LogI
 		Events.post(new Events.CreateTripDownloadRetry());
 	}
 
-	public void onBitmapLoaded(Bitmap bitmap) {
-		BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
-		mBgImageView.setImageDrawable(drawable);
+	public void startCreateTripDownload() {
+		if (!mFlightBookingFragment.isDownloadingCreateTrip()) {
+			mRequestedDetails = false;
+
+			// Show a loading dialog
+			ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.loading_flight_details));
+			df.show(getSupportFragmentManager(), DIALOG_LOADING_DETAILS);
+			mFlightBookingFragment.startDownload(FlightBookingFragment.FlightBookingState.CREATE_TRIP);
+		}
 	}
 
-	public void onBitmapLoadFailed() {
-		Bitmap bitmap = L2ImageCache.sDestination.getImage(getResources(), R.drawable.default_flights_background, true);
-		onBitmapLoaded(bitmap);
+	@Subscribe
+	public void onCreateTripDownloadSuccess(Events.CreateTripDownloadSuccess event) {
+		dismissDialog();
+		mRequestedDetails = true;
+		onCreateTripFinished();
+	}
+
+	@Subscribe
+	public void onFlightPriceChange(Events.FlightPriceChange event) {
+		String changeString = getPriceChangeString();
+		if (!TextUtils.isEmpty(changeString)) {
+			mPriceChangeString = changeString;
+			mPriceBottomFragment.showPriceChange(mPriceChangeString);
+			mPriceBottomFragment.bind();
+		}
+		else {
+			mPriceBottomFragment.hidePriceChange();
+		}
+	}
+
+	private String getPriceChangeString() {
+		if (Db.getTripBucket().getFlight().getFlightTrip() != null) {
+			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+			String originalPrice = flightTrip.getOldTotalFare().getFormattedMoney();
+			return getString(R.string.price_changed_from_TEMPLATE, originalPrice);
+		}
+
+		return null;
+	}
+
+	@Subscribe
+	public void onCreateTripRetry(Events.CreateTripDownloadRetry event) {
+		startCreateTripDownload();
+	}
+
+	@Subscribe
+	public void onCreateTripRetryCancel(Events.CreateTripDownloadRetryCancel event) {
+		finish();
+	}
+
+	@Subscribe
+	public void onCreateTripError(Events.CreateTripDownloadError event) {
+		dismissDialog();
+		mRequestedDetails = true;
+	}
+
+	private void dismissDialog() {
+		ThrobberDialog df = Ui.findSupportFragment(this, DIALOG_LOADING_DETAILS);
+		if (df != null) {
+			df.dismiss();
+		}
 	}
 }

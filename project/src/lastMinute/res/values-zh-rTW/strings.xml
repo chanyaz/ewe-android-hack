@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <string name="call_lm_customer_support">聯絡 lastminute.com.au 客戶支援</string>
+
+    <!-- Log in with lastminute.com.au -->
+    <string name="Log_in_with_lm">登入 lastminute.com.au</string>
+    <!-- Label for signin screen -->
+    <string name="lm_account">lastminute.com.au 帳戶</string>
+    <!-- Content description for action: Press to log in with your lastminute.com.au account -->
+    <string name="cd_checkout_log_in_with_lm">輕觸以登入您的 lastminute.com.au 帳戶</string>
+
+    <string name="lm_website">lastminute.com.au 網站</string>
+    <string name="lm_app_support">lastminute.com.au App 支援</string>
+    <string name="lm_copyright_TEMPLATE">© 2012-%1$s lastminute.com.au\n著作權所有，並保留一切權利。</string>
+    <string name="lm_info_url">http://www.lastminute.com/</string>
+
+    <!-- Label for logout confirmation -->
+    <string name="logout_confirmation_lm">確定要登出您的 lastminute.com.au 帳戶嗎？</string>
+
+    <!-- Expedia booking fee -->
+    <string name="lm_booking_fee">lastminute.com.au 預訂手續費</string>
+
+    <string name="error_flight_unhandled_lm_TEMPLATE">很抱歉，我們目前無法處理您的預訂。請再試一次，或聯絡 lastminute.com.au 客服中心並告知您的行程編號：%s</string>
+    <string name="error_server_lm">很抱歉，我們無法連線到 lastminute.com.au 的伺服器。請稍後再試一次。</string>
+
+    <!-- save billing info message -->
+    <string name="save_billing_lm_info_message">是否要將此付款方式儲存在您的 lastminute.com.au 帳戶中，以便在日後加快預訂速度？</string>
+
+    <!-- Save traveler name Template -->
+    <string name="save_traveler_lm_message_TEMPLATE">是否要將 %1$s 的資訊儲存在您的 lastminute.com.au 帳戶中，以便在日後加快預訂速度？</string>
+
+    <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
+    <string name="calendar_flight_desc_itinerary_TEMPLATE_lm">lastminute.com.au 行程編號：%s</string>
+    <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
+    <string name="calendar_flight_desc_support_TEMPLATE_lm">lastminute.com.au 客戶支援：%s</string>
+
+    <!-- Dialog Message telling the user they have been signed of their account and all data saved about them has been removed -->
+    <string name="dialog_message_logged_out_and_cleared_private_data_lm">您已經登出 lastminute.com.au 帳戶，同時所有儲存的帳單和聯絡資訊皆已清除。</string>
+
+    <!-- For some reason the API failed and we couldn't complete the search -->
+    <string name="e3_error_hotel_offers_hotel_service_failure_lm">很抱歉，我們無法連接到 lastminute.com.au。請再試一次。</string>
+
+    <!-- Phone Fragment Header-->
+    <string name="nav_accommodation">住宿</string>
+    
+    <!-- Shop travel label -->
+    <string name="shop_travel">搜尋行程</string>
+
+    <!-- Title for different ways to connect to Expedia -->
+    <string name="contact_lm_via">聯絡 lastminute.com.au…</string>
+    <!-- Contact Expedia via email subject -->
+    <string name="contact_lm_email_subject">lastminute.com.au 預訂支援</string>
+    <!-- lastminute.com.au- Contact info for a country with a known support line where %s represents the phone number -->
+    <string name="contact_phone_template_lm">如果您對預訂有任何疑問，請聯絡 lastminute.com.au，電話：%s。</string>
+    <!-- lastminute.com.au Itinerary -->
+    <string name="lm_itinerary">lastminute.com.au 行程編號</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">lastminute.com.au</string>
+
+    <string name="error_flight_no_longer_available_lm">很抱歉，您的班機在 lastminute.com.au 已售完。</string>
+
+    <string name="error_flights_no_longer_available_lm">很抱歉，您的其中一個班機在 lastminute.com.au 已售完。</string>
+
+    <!-- Message displayed when all the hotel rooms at a hotel are sold out -->
+    <string name="error_hotel_is_now_sold_out_lm">很抱歉，此飯店在 lastminute.com.au 已訂滿。</string>
+    <!--A message stating this hotel is Not currently available on lastminute.com.au -->
+    <string name="not_currently_available_lm">目前在 lastminute.com.au 無法提供</string>
+    <!-- A message stating this hotel is sold out on lastminute.com.au -->
+    <string name="sold_out_on_lm">在 lastminute.com.au 已售完</string>
+    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from lastminute.com.au Nov. 3-4" -->
+    <string name="not_currently_available_lm_TEMPLATE">lastminute.com.au 無法提供 %s</string>
+
+    <!-- Missing strings for lastminute.com.au from Expedia-->
+    <string name="tell_a_friend_body_lm">好消息！\n\n現在使用 iPhone 和 Android 手機也可以預訂 lastminute.com.au 的飯店了！它不但完全免費，還有全球超過 14 萬家飯店供您搜尋和預訂。用手機就能訂房，真是再方便不過了！</string>
+    <string name="tell_a_friend_subject_lm">lastminute.com.au 飯店</string>
+    <string name="restricted_profile_login_message_lm">若要登入 lastminute.com.au，您在行動裝置上的使用者設定不得有任何限制。</string>
+    <string name="loading_lm_account">正在載入 lastminute.com.au 帳戶</string>
+    <string name="e3_error_checkout_booking_succeeded_with_errors_lm">您已成功預訂飯店!如需立即取得行程表，請致電 lastminute.com.au 客戶支援。</string>
+    <string name="lm_password_hint">lastminute.com.au 密碼</string>
+    <string name="dialog_message_launch_lm_mobile_site">是否開啟 lastminute.com.au 行動版網站？</string>
+    <string name="sorry_rooms_sold_out_lm">很抱歉，lastminute.com.au 上的所有客房已訂滿。</string>
+    <!-- lastminute.com.au App download link -->
+    <string name="share_template_long_ad_lm">預訂飯店和機票，並查看和分享您的行程。立即下載免費的 lastminute.com.au App！\n%s</string>
+    <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
+    <string name="total_due_to_our_brand_today">現在應付 lastminute.com.au：</string>
+    <!-- User needs to reset password -->
+    <string name="login_reset_password">您必須新建一個所有 lastminute.com.au 網站皆適用的國際登入帳戶。&lt;br&gt;請使用下方的「忘記密碼」連結來重設您的密碼。</string>
+
+    <!-- Label to show user in cost breakdown for the total being charged to them right now -->
+    <string name="total_due_today_lm">現在應付 lastminute.com.au</string>
+    <string name="etp_pay_now_charges_text_lm">lastminute.com.au 將處理您的付款資料。</string>
+</resources>

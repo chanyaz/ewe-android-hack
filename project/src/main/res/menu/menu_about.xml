@@ -2,12 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/about_subscribe"
-        android:icon="@drawable/ic_menu_subscribe"
-        android:showAsAction="always"
-        android:title="@string/Subscribe"/>
-
-    <item
         android:id="@+id/about_follow"
         android:icon="@drawable/ic_menu_twitter"
         android:showAsAction="always"

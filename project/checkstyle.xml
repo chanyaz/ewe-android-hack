@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+    "-//Puppy Crawl//DTD Check Configuration 1.2//EN"
+    "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+
+<module name="Checker">
+
+    <!-- Use unix newlines -->
+    <module name="NewlineAtEndOfFile">
+        <property name="lineSeparator" value="lf"/>
+    </module>
+
+    <!-- Trailing spaces -->
+    <module name="RegexpSingleline">
+        <property name="format" value="[^*]\s+$"/>
+        <property name="message" value="Line has trailing spaces."/>
+    </module>
+
+    <!-- Indenting with spaces -->
+    <module name="RegexpSingleline">
+        <property name="format" value="^\ +[^\*\s]"/>
+        <property name="message" value="Line uses spaces for indenting"/>
+    </module>
+
+    <!-- Tabs then space then tab -->
+    <module name="RegexpSingleline">
+        <property name="format" value="^\t +\t"/>
+        <property name="message" value="Line uses tabs spaces then tabs"/>
+    </module>
+
+    <!-- "Don't use" checks -->
+    <module name="RegexpSingleline">
+        <property name="format" value="android.util.Log"/>
+        <property name="message" value="Don't use android.util.Log, use com.mobiata.android.Log instead"/>
+    </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="AndroidUtils.isRelease"/>
+        <property name="message" value="Don't use AndroidUtils.isRelease, use BuildConfig.DEBUG/BuildConfig.RELEASE instead"/>
+    </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="!BuildConfig.DEBUG"/>
+        <property name="message" value="Don't use !BuildConfig.DEBUG, use BuildConfig.RELEASE instead"/>
+    </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="!BuildConfig.RELEASE"/>
+        <property name="message" value="Don't use !BuildConfig.RELEASE, use BuildConfig.DEBUG instead"/>
+    </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="AndroidUtils.getSdkVersion"/>
+        <property name="message" value="Don't use AndroidUtils.getSdkVersion(), use Build.VERSION.SDK_INT instead"/>
+    </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="AndroidUtils.getAppVersion"/>
+        <property name="message" value="Don't use AndroidUtils.getAppVersion(), use BuildConfig.VERSION_NAME instead"/>
+    </module>
+    <module name="RegexpSingleline">
+        <property name="format" value="removeGlobalOnLayoutListener"/>
+        <property name="message" value="Don't use removeGlobalOnLayoutListener, use removeOnGlobalLayoutListener you fool"/>
+    </module>
+
+    <module name="TreeWalker">
+        <!-- Checks for Naming Conventions.                  -->
+        <!-- See http://checkstyle.sf.net/config_naming.html -->
+        <!--module name="ConstantName"/-->
+        <module name="LocalFinalVariableName"/>
+        <module name="LocalVariableName"/>
+        <module name="MemberName"/>
+        <module name="MethodName"/>
+        <module name="PackageName"/>
+        <module name="ParameterName"/>
+        <module name="StaticVariableName"/>
+        <module name="TypeName"/>
+
+        <!-- Checks for imports -->
+        <!-- See http://checkstyle.sf.net/config_import.html -->
+        <module name="AvoidStarImport" />
+        <!-- <module name="AvoidStaticImport" /> -->
+        <module name="IllegalImport" /> <!-- defaults to sun.* packages -->
+        <module name="RedundantImport" />
+        <module name="UnusedImports" />
+
+
+        <!-- Checks for whitespace                               -->
+        <!-- See http://checkstyle.sf.net/config_whitespace.html -->
+        <module name="WhitespaceAround">
+            <!-- Do this so we can remove STAR and DIV so we can write 4*2 + number/3 -->
+            <property name="tokens" value="ASSIGN, BAND, BAND_ASSIGN, BOR, BOR_ASSIGN, BSR, BSR_ASSIGN, BXOR, BXOR_ASSIGN, COLON, DIV_ASSIGN, EQUAL, GE, GT, LAND, LCURLY, LE, LITERAL_ASSERT, LITERAL_CATCH, LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY, LITERAL_FOR, LITERAL_IF, LITERAL_RETURN, LITERAL_SYNCHRONIZED, LITERAL_TRY, LITERAL_WHILE, LOR, LT, MINUS, MINUS_ASSIGN, MOD, MOD_ASSIGN, NOT_EQUAL, PLUS, PLUS_ASSIGN, QUESTION, RCURLY, SL, SLIST, SL_ASSIGN, SR, SR_ASSIGN, STAR_ASSIGN, TYPE_EXTENSION_AND" />
+        </module>
+        <module name="GenericWhitespace" />
+
+        <!-- Checks for blocks. You know, those {}'s         -->
+        <!-- See http://checkstyle.sf.net/config_blocks.html -->
+        <module name="AvoidNestedBlocks">
+            <property name="allowInSwitchCase" value="true" />
+        </module>
+        <module name="EmptyBlock">
+            <property name="option" value="text" />
+        </module>
+        <module name="LeftCurly" /> <!-- default=eol -->
+        <module name="NeedBraces" />
+        <module name="RightCurly">
+            <property name="option" value="alone" />
+        </module>
+
+        <!-- Checks for common coding problems               -->
+        <!-- See http://checkstyle.sf.net/config_coding.html -->
+        <!--module name="AvoidInlineConditionals"/-->
+        <module name="CovariantEquals"/>
+        <module name="EmptyStatement"/>
+        <module name="IllegalInstantiation"/>
+        <module name="SimplifyBooleanExpression"/>
+        <module name="SimplifyBooleanReturn"/>
+        <module name="StringLiteralEquality"/>
+        <module name="CovariantEquals"/>
+        <module name="NoFinalizer"/>
+        <module name="PackageDeclaration"/>
+        <module name="StringLiteralEquality" />
+        <module name="DefaultComesLast" />
+
+        <!-- Miscellaneous other checks.                   -->
+        <!-- See http://checkstyle.sf.net/config_misc.html -->
+        <module name="ArrayTypeStyle"/>
+        <module name="UpperEll"/>
+
+        <!-- See http://checkstyle.sourceforge.net/config_annotation.html -->
+        <module name="AnnotationLocation"/>
+
+    </module>
+</module>

@@ -29,21 +29,13 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/text_bed_type"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textColor="#5f6061"
-            android:textSize="@dimen/hotel_details_bed_type_text_size"
-            app:textStyle="light" />
+            style="@style/BedTypeTextAppearance"/>
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/text_free_cancellation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:textColor="#008c5d"
-            android:textSize="@dimen/hotel_details_bed_type_text_size"
-            app:textStyle="light" />
+            android:id="@+id/text_bed_type_with_cancellation"
+            style="@style/BedTypeTextAppearance"
+            android:visibility="gone"/>
+
     </LinearLayout>
 
     <com.expedia.bookings.widget.TextView

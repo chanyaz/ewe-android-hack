@@ -12,26 +12,26 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
-import com.expedia.bookings.data.HotelBookingResponse;
+import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.HotelBookingResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Property;
-import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
+import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FragmentBailUtils;
-import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.Ui;
 
 public class TabletHotelConfirmationFragment extends TabletConfirmationFragment {
 
@@ -58,8 +58,6 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 		mShareButtonText = Ui.findView(v, R.id.share_action_text_view);
 		mShareButtonText.setText(R.string.tablet_confirmation_share_hotel);
 
-		Property property = Db.getTripBucket().getHotel().getBookingResponse().getProperty();
-
 		// Construct the hotel card
 		ImageView hotelImageView = Ui.findView(v, R.id.confirmation_image_view);
 		HeaderBitmapDrawable headerBitmapDrawable = new HeaderBitmapDrawable();
@@ -69,18 +67,23 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 		headerBitmapDrawable.setOverlayDrawable(getResources().getDrawable(R.drawable.card_top_lighting));
 		hotelImageView.setImageDrawable(headerBitmapDrawable);
 
-		Rate selectedRate = Db.getTripBucket().getHotel().getRate();
-		Media media = HotelUtils.getRoomMedia(property, selectedRate);
-		if (media != null) {
-			headerBitmapDrawable.setUrlBitmapDrawable(new UrlBitmapDrawable(getResources(), media.getHighResUrls(),
-					R.drawable.bg_itin_placeholder));
+		HotelMedia hotelMedia = Db.getTripBucket().getHotel().getProperty().getThumbnail();
+		if (hotelMedia != null) {
+			new PicassoHelper.Builder(getActivity())
+				.setPlaceholder(Ui.obtainThemeResID(getActivity(), R.attr.skin_tablet_hotel_confirmation_placeholder)).setTarget(headerBitmapDrawable.getCallBack()).build().load(hotelMedia.getHighResUrls());
 		}
 		else {
 			headerBitmapDrawable
-					.setBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.bg_itin_placeholder));
+					.setBitmap(BitmapFactory.decodeResource(getResources(), Ui.obtainThemeResID(getActivity(), R.attr.skin_tablet_hotel_confirmation_placeholder)));
 		}
 
 		setLob(LineOfBusiness.HOTELS);
+
+		CreateTripResponse tripResponse = Db.getTripBucket().getHotel().getCreateTripResponse();
+		if (tripResponse != null) {
+			AdImpressionTracking.trackAdConversion(getActivity(), tripResponse.getTripId());
+		}
+
 		return v;
 	}
 
@@ -121,7 +124,7 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 
 		SocialUtils.email(context, subject, body);
 
-		OmnitureTracking.trackHotelConfirmationShareEmail(getActivity());
+		OmnitureTracking.trackHotelConfirmationShareEmail();
 	}
 
 	@Override
@@ -130,7 +133,7 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 		startActivity(generateHotelCalendarIntent(false));
 		startActivity(generateHotelCalendarIntent(true));
 
-		OmnitureTracking.trackHotelConfirmationAddToCalendar(getActivity());
+		OmnitureTracking.trackHotelConfirmationAddToCalendar();
 	}
 
 	private Intent generateHotelCalendarIntent(boolean checkIn) {

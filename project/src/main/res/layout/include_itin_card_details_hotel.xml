@@ -69,7 +69,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:gravity="center_vertical"
-        android:background="@drawable/list_selector_holo_dark"
+        android:background="?android:attr/selectableItemBackground"
         android:padding="8dp" />
 
     <!-- TOLL FREE PHONE -->
@@ -92,7 +92,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:gravity="center_vertical"
-        android:background="@drawable/list_selector_holo_dark"
+        android:background="?android:attr/selectableItemBackground"
         android:padding="8dp" />
 
     <!-- ROOM TYPE -->

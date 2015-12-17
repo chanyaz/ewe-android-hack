@@ -7,7 +7,7 @@
 
     <!-- BACKGROUND CONTAINERS -->
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/bg_dest_image_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -24,12 +24,12 @@
                 corresponding animation code is updated, otherwise touch handling
                 and visibilities will get wonky -->
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/full_width_hotels_controller_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/full_width_flights_controller_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
@@ -43,13 +43,13 @@
 
     <!-- TRIP BUCKET -->
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/trip_bucket_container"
-        android:background="@drawable/bg_tablet_portrait_trip_bucket_shadow"
+        android:background="@drawable/bg_tablet_trip_bucket_shadow"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/full_width_search_controller_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

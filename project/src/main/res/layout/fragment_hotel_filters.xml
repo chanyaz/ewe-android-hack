@@ -4,13 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/tablet_white_pane_bg"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/sticky_header_container"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:gravity="center_vertical" >
+        android:gravity="center_vertical">
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/sort_and_filter"
@@ -29,7 +29,9 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="16dp"
             android:text="@string/Done"
-            android:textColor="#FF0B4EA4"
+            android:textColor="@color/tablet_sort_filter_done_selector"
+            android:drawableLeft="@drawable/tablet_sort_filter_done_icon_selector"
+            android:drawablePadding="10dp"
             android:textSize="18sp"
             app:textStyle="light" />
 
@@ -38,13 +40,13 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" >
+        android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp" >
+            android:padding="16dp">
 
             <com.expedia.bookings.widget.CustomEditText
                 android:id="@+id/filter_hotel_name_edit_text"
@@ -70,44 +72,13 @@
                 android:textAllCaps="true"
                 android:textColor="#7C7E7F" />
 
-            <com.expedia.bookings.widget.SlidingRadioGroup
-                android:id="@+id/sort_by_button_group"
-                style="?attr/hotelListingFilterGroupStyle"
+            <Spinner
+                android:id="@+id/sort_by_selection_spinner"
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/sliding_filter_row_height"
-                android:layout_marginBottom="8dp" >
-
-                <RadioButton
-                    android:id="@+id/sort_by_price_button"
-                    style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_sort_by_price"
-                    android:text="@string/price" />
-
-                <RadioButton
-                    android:id="@+id/sort_by_rating_button"
-                    style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_sort_by_rating"
-                    android:text="@string/rating" />
-
-                <RadioButton
-                    android:id="@+id/sort_by_distance_button"
-                    style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_sort_by_distance"
-                    android:text="@string/distance" />
-
-                <RadioButton
-                    android:id="@+id/sort_by_popular_button"
-                    style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_sort_by_popular"
-                    android:text="@string/popular" />
-
-                <RadioButton
-                    android:id="@+id/sort_by_deals_button"
-                    style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_sort_hotels_by_deals"
-                    android:text="@string/discounts" />
-
-            </com.expedia.bookings.widget.SlidingRadioGroup>
+                android:dropDownWidth="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/spinner_sort"
+                android:layout_marginBottom="8dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -120,28 +91,28 @@
 
             <com.expedia.bookings.widget.SlidingRadioGroup
                 android:id="@+id/price_filter_button_group"
-                style="?attr/hotelListingFilterGroupStyle"
+                style="?attr/skin_hotelListingFilterGroupStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/sliding_filter_row_height"
-                android:layout_marginBottom="12dp" >
+                android:layout_marginBottom="12dp">
 
                 <RadioButton
                     android:id="@+id/price_cheap_button"
                     style="@style/V2.Widget.RadioButton.Filter"
                     android:contentDescription="@string/cd_filter_for_low_range_hotel_prices"
-                    android:text="?attr/hotelListingFilterPriceCheapString" />
+                    android:text="?attr/skin_hotelListingFilterPriceCheapString" />
 
                 <RadioButton
                     android:id="@+id/price_moderate_button"
                     style="@style/V2.Widget.RadioButton.Filter"
                     android:contentDescription="@string/cd_filter_for_mid_range_hotel_prices"
-                    android:text="?attr/hotelListingFilterPriceModerateString" />
+                    android:text="?attr/skin_hotelListingFilterPriceModerateString" />
 
                 <RadioButton
                     android:id="@+id/price_expensive_button"
                     style="@style/V2.Widget.RadioButton.Filter"
                     android:contentDescription="@string/cd_filter_for_high_range_hotel_prices"
-                    android:text="?attr/hotelListingFilterPriceExpensiveString" />
+                    android:text="?attr/skin_hotelListingFilterPriceExpensiveString" />
 
                 <RadioButton
                     android:id="@+id/price_all_button"
@@ -153,10 +124,10 @@
 
             <com.expedia.bookings.widget.SlidingRadioGroup
                 android:id="@+id/radius_filter_button_group"
-                style="?attr/hotelListingFilterGroupStyle"
+                style="?attr/skin_hotelListingFilterGroupStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/sliding_filter_row_height"
-                android:layout_marginBottom="12dp" >
+                android:layout_marginBottom="12dp">
 
                 <RadioButton
                     android:id="@+id/radius_small_button"
@@ -183,28 +154,25 @@
 
             <com.expedia.bookings.widget.SlidingRadioGroup
                 android:id="@+id/rating_filter_button_group"
-                style="?attr/hotelListingFilterGroupStyle"
+                style="?attr/skin_hotelListingFilterGroupStyle"
                 android:layout_width="fill_parent"
                 android:layout_height="@dimen/sliding_filter_row_height"
-                android:layout_marginBottom="12dp" >
+                android:layout_marginBottom="12dp">
 
                 <com.expedia.bookings.widget.ImageRadioButton
                     android:id="@+id/rating_low_button"
                     style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_filter_hotels_for_three_or_more_stars"
-                    app:image="@drawable/btn_filter_3star" />
+                    android:contentDescription="@string/cd_filter_hotels_for_three_or_more_stars" />
 
                 <com.expedia.bookings.widget.ImageRadioButton
                     android:id="@+id/rating_medium_button"
                     style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_filter_hotels_for_four_or_more_stars"
-                    app:image="@drawable/btn_filter_4star" />
+                    android:contentDescription="@string/cd_filter_hotels_for_four_or_more_stars" />
 
                 <com.expedia.bookings.widget.ImageRadioButton
                     android:id="@+id/rating_high_button"
                     style="@style/V2.Widget.RadioButton.Filter"
-                    android:contentDescription="@string/cd_filter_hotels_for_five_stars"
-                    app:image="@drawable/btn_filter_5star" />
+                    android:contentDescription="@string/cd_filter_hotels_for_five_stars" />
 
                 <RadioButton
                     android:id="@+id/rating_all_button"
@@ -222,7 +190,7 @@
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal"
-                android:visibility="gone" >
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/filter_vip_access_label"
@@ -235,7 +203,7 @@
 
                 <com.expedia.bookings.widget.Switch
                     android:id="@+id/filter_vip_access_switch"
-                    style="?attr/hotelListingFilterToggleButtonStyle"
+                    style="?attr/skin_hotelListingFilterToggleButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="24dp" />
 

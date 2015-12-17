@@ -22,11 +22,11 @@ import android.provider.BaseColumns;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.AutocompleteSuggestion;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.Suggestion;
-import com.expedia.bookings.model.Search;
 import com.expedia.bookings.server.ExpediaServices;
 import com.mobiata.android.Log;
 
@@ -61,6 +61,14 @@ public class AutocompleteProvider extends ContentProvider {
 		return true;
 	}
 
+	public static AutocompleteSuggestion rowToSuggestion(Cursor c) {
+		AutocompleteSuggestion suggestion = new AutocompleteSuggestion();
+		suggestion.setText(c.getString(AutocompleteProvider.COLUMN_TEXT_INDEX));
+		suggestion.setIcon(c.getInt(AutocompleteProvider.COLUMN_ICON_INDEX));
+		suggestion.setSearchJson(c.getString(AutocompleteProvider.COLUMN_JSON_INDEX));
+		return suggestion;
+	}
+
 	@Override
 	public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
 		String query = "";
@@ -81,27 +89,17 @@ public class AutocompleteProvider extends ContentProvider {
 		MatrixCursor cursor = new MatrixCursor(COLUMNS);
 		int id = 1;
 
-		// First check if the query exists in recent searches
-		List<Search> recentSearches = Search.getRecentSearches(context, 5);
-		boolean recentSearchesContainsQuery = false;
-		for (Search search : recentSearches) {
-			if (search.getQuery().equals(query)) {
-				recentSearchesContainsQuery = true;
-				break;
-			}
-		}
-
 		// Don't bother hitting the network in some cases
-		if (!recentSearchesContainsQuery && !query.equals(currentLocation) && !TextUtils.isEmpty(query)) {
+		if (!query.equals(currentLocation) && !TextUtils.isEmpty(query)) {
 			ExpediaServices services = new ExpediaServices(context);
 			SuggestResponse response = services.suggest(query, ExpediaServices.F_HOTELS);
 
 			if (response != null) {
 				for (Suggestion suggestion : response.getSuggestions()) {
-					Search search = suggestion.toSearch();
-					String freeformLocation = search.getQuery();
+					HotelSearchParams hotelSearchParams = suggestion.toHotelSearchParams();
+					String freeformLocation = hotelSearchParams.getQuery();
 					suggestedLocations.add(freeformLocation);
-					JSONObject json = search.toJson();
+					JSONObject json = hotelSearchParams.toJson();
 
 					Object[] row;
 					if (suggestion.getType() == Suggestion.Type.HOTEL) {
@@ -122,36 +120,6 @@ public class AutocompleteProvider extends ContentProvider {
 			final Object[] row = { id, currentLocation, currentLocation, null, R.drawable.ic_suggestion_current_location };
 			cursor.addRow(row);
 			id++;
-		}
-
-		// Then suggest history
-		if (id <= 15) {
-			for (Search search : recentSearches) {
-				HotelSearchParams p = new HotelSearchParams();
-				p.fillFromSearch(search);
-
-				final String freeformLocation = search.getQuery();
-				if (!suggestedLocations.contains(freeformLocation)) {
-					suggestedLocations.add(freeformLocation);
-					int autoSuggestIcon;
-					if (p.getSearchType() == HotelSearchParams.SearchType.HOTEL) {
-						autoSuggestIcon = R.drawable.ic_suggestion_hotel;
-					}
-					else {
-						autoSuggestIcon = R.drawable.ic_suggestion_place;
-					}
-
-					final Object[] historyRow = {
-						id,
-						freeformLocation,
-						freeformLocation,
-						p.toJson(),
-						autoSuggestIcon,
-					};
-					cursor.addRow(historyRow);
-					id++;
-				}
-			}
 		}
 
 		// Then suggest from array of random cool cities
@@ -176,16 +144,16 @@ public class AutocompleteProvider extends ContentProvider {
 		return cursor;
 	}
 
-	public static Object extractSearchOrString(Cursor cursor) {
+	public static Object extractSearchOrString(AutocompleteSuggestion suggestion) {
 		try {
-			String searchJson = cursor.getString(COLUMN_JSON_INDEX);
+			String searchJson = suggestion.getSearchJson();
 			if (!TextUtils.isEmpty(searchJson)) {
-				Search search = new Search();
-				search.fromJson(new JSONObject(searchJson));
-				return search;
+				HotelSearchParams hotelSearchParams = new HotelSearchParams();
+				hotelSearchParams.fromJson(new JSONObject(searchJson));
+				return hotelSearchParams;
 			}
 			else {
-				String text = cursor.getString(COLUMN_TEXT_INDEX);
+				String text = suggestion.getText();
 				return text;
 			}
 		}

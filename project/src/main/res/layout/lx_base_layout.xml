@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.presenter.lx.LXPresenter xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lx_base_presenter"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/search_list_presenter"
+        layout="@layout/lx_result_presenter"
+        android:visibility="gone" />
+
+    <com.expedia.bookings.widget.LXLoadingOverlayWidget
+        android:id="@+id/lx_loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/activity_details_presenter"
+        layout="@layout/lx_details_presenter"
+        android:visibility="gone" />
+
+    <com.expedia.bookings.presenter.lx.LXSearchParamsPresenter
+        android:id="@+id/search_params_widget"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:visibility="invisible" />
+
+    <com.expedia.bookings.presenter.lx.LXCheckoutPresenter
+        android:id="@+id/lx_checkout_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <com.expedia.bookings.widget.LXConfirmationWidget
+        android:id="@+id/confirmation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/lx_confirmation_background"
+        android:visibility="gone"/>
+
+</com.expedia.bookings.presenter.lx.LXPresenter>

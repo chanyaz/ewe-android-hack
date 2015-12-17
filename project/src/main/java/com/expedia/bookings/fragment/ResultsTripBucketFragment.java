@@ -1,6 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -14,9 +13,8 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.TripBucket;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
-import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.widget.CenteredCaptionedIcon;
-import com.expedia.bookings.widget.FrameLayoutTouchController;
+import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.util.Ui;
 
 /**
@@ -30,7 +28,7 @@ public class ResultsTripBucketFragment extends Fragment
 	private TripBucketFragment mBucketFrag;
 
 	private ViewGroup mRootC;
-	private FrameLayoutTouchController mTripBucketC;
+	private TouchableFrameLayout mTripBucketC;
 	private CenteredCaptionedIcon mEmptyBucketView;
 
 	@Override

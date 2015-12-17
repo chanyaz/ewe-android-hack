@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Pair;
 
@@ -74,7 +75,7 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 	private int mIndex;
 
 	// "id" denotes regionId but it denotes the hotel id if RegionType == "HOTEL"
-	private final int UNKNOWN_REGION_ID = -1;
+	private static final int UNKNOWN_REGION_ID = -1;
 	private int mRegionId = UNKNOWN_REGION_ID;
 
 	// "a" denotes the airport TLA
@@ -93,8 +94,18 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 	// Populated via LaunchLocation. We stuff this into SuggestionV2 for convenience.
 	private String mImageCode;
 
+	private int mIcon;
+
 	public SuggestionV2() {
 		// Default constructor, needed for JSONable
+	}
+
+	public int getIcon() {
+		return mIcon;
+	}
+
+	public void setIcon(int icon) {
+		mIcon = icon;
 	}
 
 	public ResultType getResultType() {
@@ -221,6 +232,11 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 				&& mMultiCityRegionId == other.mMultiCityRegionId
 				&& ((mLocation == null && other.mLocation == null) || (mLocation != null && mLocation
 						.equals(other.mLocation)));
+	}
+
+	@Override
+	public String toString() {
+		return Html.fromHtml(mDisplayName).toString();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

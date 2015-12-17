@@ -1,35 +1,35 @@
 package com.expedia.bookings.widget;
 
+import java.util.ArrayList;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.support.v4.widget.CursorAdapter;
 import android.text.Html;
-import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.Ui;
 
-public class SuggestionsAdapter extends CursorAdapter {
+public class SuggestionsAdapter extends ArrayAdapter<SuggestionV2> implements Filterable {
 
+	private ArrayList<SuggestionV2> data = new ArrayList<>();
 	private ContentResolver mContent;
+	private SuggestFilter mFilter = new SuggestFilter();
+	private LayoutInflater mInflater;
 
 	public SuggestionsAdapter(Context context) {
-		super(context, null, 0);
-
+		super(context, R.layout.row_suggestion_dropdown);
 		mContent = context.getContentResolver();
-	}
-
-	public SuggestionV2 getSuggestion(int position) {
-		Cursor c = getCursor();
-		c.moveToPosition(position);
-		return SuggestionProvider.rowToSuggestion(c);
+		mInflater = LayoutInflater.from(getContext());
 	}
 
 	@Override
@@ -39,39 +39,72 @@ public class SuggestionsAdapter extends CursorAdapter {
 	}
 
 	@Override
-	public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
-		Uri uri = Uri.withAppendedPath(
-				SuggestionProvider.getContentFilterUri(mContext),
-				Uri.encode(constraint.toString()));
-
-		return mContent.query(uri, null, null, null, null);
+	public int getCount() {
+		return data.size();
 	}
 
 	@Override
-	public CharSequence convertToString(Cursor cursor) {
-		return cursor.getString(SuggestionProvider.COL_FULL_NAME);
+	public SuggestionV2 getItem(int position) {
+		return data.get(position);
 	}
 
 	@Override
-	public void bindView(View view, Context context, Cursor cursor) {
-		TextView textView = (TextView) view;
+	public View getView(int position, View convertView, ViewGroup parent) {
+		SuggestionV2 suggestionV2 = data.get(position);
+		ViewHolder viewHolder;
 
-		int iconResId = cursor.getInt(SuggestionProvider.COL_ICON_1);
-		textView.setCompoundDrawablesWithIntrinsicBounds(iconResId, 0, 0, 0);
-
-		// We only want to show the bolded text (of the query) if there is actually a query
-		String query = cursor.getString(SuggestionProvider.COL_QUERY);
-		if (TextUtils.isEmpty(query)) {
-			textView.setText(Html.fromHtml(cursor.getString(SuggestionProvider.COL_DISPLAY_NAME)).toString());
+		if (convertView == null) {
+			convertView = mInflater.inflate(R.layout.row_suggestion_dropdown, parent, false);
+			viewHolder = new ViewHolder();
+			viewHolder.txtView = (TextView) convertView.findViewById(R.id.text1);
+			convertView.setTag(viewHolder);
 		}
 		else {
-			textView.setText(Html.fromHtml(cursor.getString(SuggestionProvider.COL_DISPLAY_NAME)));
+			viewHolder = (ViewHolder) convertView.getTag();
 		}
+
+		viewHolder.txtView.setCompoundDrawablesWithIntrinsicBounds(suggestionV2.getIcon(), 0 ,0 ,0);
+		viewHolder.txtView.setText(Html.fromHtml(suggestionV2.getDisplayName()).toString());
+
+		return convertView;
 	}
 
-	@Override
-	public View newView(Context context, Cursor cursor, ViewGroup parent) {
-		return Ui.inflate(R.layout.row_suggestion_dropdown, parent, false);
+	private static class ViewHolder {
+		TextView txtView;
+	}
+
+	public Filter getFilter() {
+		return mFilter;
+	}
+
+	private class SuggestFilter extends Filter {
+		@Override
+		protected FilterResults performFiltering(CharSequence constraint) {
+			FilterResults results = new FilterResults();
+
+			final ArrayList<SuggestionV2> suggestionV2s = new ArrayList<>();
+
+			Uri uri = Uri.withAppendedPath(
+				SuggestionProvider.getContentFilterUri(getContext()),
+				Uri.encode(constraint.toString()));
+			Cursor c =  mContent.query(uri, null, null, null, null);
+			while (c.moveToNext()) {
+				suggestionV2s.add(SuggestionProvider.rowToSuggestion(c));
+			}
+
+			results.values = suggestionV2s;
+			results.count = suggestionV2s.size();
+
+			return results;
+		}
+
+		@SuppressWarnings("unchecked")
+		@Override
+		protected void publishResults(CharSequence constraint, FilterResults results) {
+			data = (ArrayList<SuggestionV2>) results.values;
+			notifyDataSetChanged();
+		}
+
 	}
 
 }

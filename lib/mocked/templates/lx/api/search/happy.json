@@ -1,0 +1,134 @@
+{
+  "regionId": "178293",
+  "startDate": "2015-03-25",
+  "endDate": "2015-04-08",
+  "activities": [
+    {
+      "id": "happy",
+      "title": "happy",
+      "imageUrl": "//a.travel-assets.com/mediavault.le/media/ef98d5da9bdd000ca51dec2b15960f73fe703604.jpeg",
+      "fromPriceValue": "130",
+      "fromOriginalPriceValue": "140",
+      "duration": "2d",
+      "fromPriceTicketCode": "Adult",
+      "isMultiDuration": "true",
+      "freeCancellation": true,
+      "categories": [
+        "Attractions",
+        "Cruises & Water Tours",
+        "Sightseeing Passes",
+        "Tours & Sightseeing"
+      ]
+    },
+    {
+      "id": "error_create_trip",
+      "title": "error_create_trip",
+      "imageUrl": "//a.travel-assets.com/mediavault.le/media/28f1034a4d356fedde4f8b9a91a3dc58b9e2c620.jpeg",
+      "fromPrice": "$159",
+      "fromPriceValue": "159",
+      "fromOriginalPrice": "$169",
+      "duration": "2h 30m",
+      "durationInMillis": 9000000,
+      "fromPriceTicketType": "traveler",
+      "fromPriceTicketCode": "Traveler",
+      "isMultiDuration": null,
+      "freeCancellation": false,
+      "discountPercentage": "5",
+      "formattedTitle": "the-lion-king-on-broadway.a185492.activity-details",
+      "categories": [
+        "Show & Sport Tickets"
+      ],
+      "badgingDiscountPercentage": null
+    },
+    {
+      "id": "price_change",
+      "title": "price_change",
+      "imageUrl": "//a.travel-assets.com/mediavault.le/media/d7464f5c65361cb36b43d74a1bedae89a4222a33.jpeg",
+      "fromPrice": "$72",
+      "fromPriceValue": "72",
+      "fromOriginalPrice": "",
+      "duration": "30d",
+      "durationInMillis": 2592000000,
+      "fromPriceTicketType": "adult",
+      "fromPriceTicketCode": "Adult",
+      "isMultiDuration": null,
+      "freeCancellation": true,
+      "discountPercentage": null,
+      "formattedTitle": "explorer-pass-choose-3-4-or-5-museums-attractions-tours.a182983.activity-details",
+      "categories": [
+        "Attractions",
+        "Hop-on Hop-off",
+        "Sightseeing Passes",
+        "Tours & Sightseeing"
+      ],
+      "badgingDiscountPercentage": null
+    }
+  ],
+  "filterCategories": {
+    "Private Transfers": {
+      "displayValue": "Private Transfers",
+      "checked": false
+    },
+    "Shared Transfers": {
+      "displayValue": "Shared Transfers",
+      "checked": false
+    },
+    "Air, Balloon & Helicopter Tours": {
+      "displayValue": "Air, Balloon & Helicopter Tours",
+      "checked": false
+    },
+    "Attractions": {
+      "displayValue": "Attractions",
+      "checked": false
+    },
+    "Cruises & Water Tours": {
+      "displayValue": "Cruises & Water Tours",
+      "checked": false
+    },
+    "Day Trips & Excursions": {
+      "displayValue": "Day Trips & Excursions",
+      "checked": false
+    },
+    "Food & Drink": {
+      "displayValue": "Food & Drink",
+      "checked": false
+    },
+    "Hop-on Hop-off": {
+      "displayValue": "Hop-on Hop-off",
+      "checked": false
+    },
+    "Nightlife": {
+      "displayValue": "Nightlife",
+      "checked": false
+    },
+    "Private Tours": {
+      "displayValue": "Private Tours",
+      "checked": false
+    },
+    "Show & Sport Tickets": {
+      "displayValue": "Show & Sport Tickets",
+      "checked": false
+    },
+    "Sightseeing Passes": {
+      "displayValue": "Sightseeing Passes",
+      "checked": false
+    },
+    "Spa": {
+      "displayValue": "Spa",
+      "checked": false
+    },
+    "Tours & Sightseeing": {
+      "displayValue": "Tours & Sightseeing",
+      "checked": false
+    },
+    "Walking & Bike Tours": {
+      "displayValue": "Walking & Bike Tours",
+      "checked": false
+    },
+    "Multi-day & Extended Tours": {
+      "displayValue": "Multi-Day & Extended Tours",
+      "checked": false
+    }
+  },
+  "currencyCode": "USD"
+}

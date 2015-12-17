@@ -27,13 +27,14 @@
     <fraction name="tablet_hotel_details_horizontal_spacing_percentage">8%</fraction>
 
     <!-- Trip Bucket -->
-    <dimen name="hotel_flight_card_width">245dp</dimen>
-    <dimen name="trip_bucket_undo_bar_width">247dp</dimen>
     <dimen name="bucket_heading_top_margin">8dp</dimen>
 
     <!-- Checkout -->
     <dimen name="tablet_checkout_data_form_width">@dimen/match_parent</dimen>
-    <dimen name="tablet_checkout_trip_bucket_expanded_item_height">224dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_header_height">60dp</dimen>
+
+    <!-- Confirmation Fragment -->
+    <dimen name="confirmation_image_height">158dp</dimen>
+    <dimen name="confirmation_checkmark_margin">133dp</dimen>
 
 </resources>

@@ -11,7 +11,7 @@ import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.utils.JodaUtils;
@@ -51,16 +51,16 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 
 	public List<String> getHeaderImageUrls() {
 		if (hasProperty()) {
-			Media media;
+			HotelMedia hotelMedia;
 			if (mProperty.getMediaCount() > 0) {
-				media = mProperty.getMedia(0);
+				hotelMedia = mProperty.getMedia(0);
 			}
 			else {
-				media = mProperty.getThumbnail();
+				hotelMedia = mProperty.getThumbnail();
 			}
 
-			if (media != null) {
-				return media.getHighResUrls();
+			if (hotelMedia != null) {
+				return hotelMedia.getHighResUrls();
 			}
 		}
 		return null;

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
@@ -26,7 +27,6 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 public abstract class BookingFragment<T extends Response> extends FullWalletFragment {
@@ -40,6 +40,8 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 
 	// If we need to defer handling till later
 	private int mGoogleWalletErrorCode;
+
+	private static final String UNHANDLED_ERROR_DIALOG_TAG = "unhandledOrNoResultsErrorDialog";
 
 	//////////////////////////////////////////////////////////////////////////
 	// Abstractions/overrideables related to only booking
@@ -240,6 +242,9 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			else if (field.equals("cvv")) {
 				hasPaymentError = true;
 			}
+			else if (field.equals("cardLimitExceeded")) {
+				hasPaymentError = true;
+			}
 			else if (field.equals("phone")) {
 				hasPhoneError = true;
 			}
@@ -272,7 +277,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 
 				// If the debug setting is made to fake a price change, then fake the price here too
 				// This is sort of a second price change, to help figure out testing when we have obfees and a price change...
-				if (!AndroidUtils.isRelease(getActivity())) {
+				if (BuildConfig.DEBUG) {
 					String val = SettingUtils.get(getActivity(),
 						getString(R.string.preference_fake_flight_price_change),
 						getString(R.string.preference_fake_price_change_default));
@@ -282,7 +287,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 
 				FlightPriceChangeDialogFragment fragment = FlightPriceChangeDialogFragment.newInstance(currentOffer, newOffer);
 				fragment.show(getFragmentManager(), FlightPriceChangeDialogFragment.TAG);
-				OmnitureTracking.trackErrorPageLoadFlightPriceChangeTicket(getActivity());
+				OmnitureTracking.trackErrorPageLoadFlightPriceChangeTicket();
 				return;
 			}
 			break;
@@ -300,7 +305,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		case INVALID_INPUT: {
 
 			if (firstError.getErrorCode() == ErrorCode.PAYMENT_FAILED && lob == LineOfBusiness.FLIGHTS) {
-				OmnitureTracking.trackErrorPageLoadFlightPaymentFailed(getActivity());
+				OmnitureTracking.trackErrorPageLoadFlightPaymentFailed();
 			}
 
 			if (hasPaymentError) {
@@ -310,7 +315,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 				frag.show(getFragmentManager(), "badPaymentDialog");
 
 				if (lob == LineOfBusiness.FLIGHTS) {
-					OmnitureTracking.trackErrorPageLoadFlightIncorrectCVV(getActivity());
+					OmnitureTracking.trackErrorPageLoadFlightIncorrectCVV();
 				}
 				return;
 			}
@@ -362,7 +367,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			else {
 				showBookingUnavailableErrorDialog(lob);
 			}
-			OmnitureTracking.trackErrorPageLoadFlightSoldOut(getActivity());
+			OmnitureTracking.trackErrorPageLoadFlightSoldOut();
 		case SESSION_TIMEOUT:
 			if (ExpediaBookingApp.useTabletInterface(getActivity())) {
 				Events.post(new Events.BookingUnavailable(lob));
@@ -371,7 +376,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 				showBookingUnavailableErrorDialog(lob);
 			}
 			if (lob == LineOfBusiness.FLIGHTS) {
-				OmnitureTracking.trackErrorPageLoadFlightSearchExpired(getActivity());
+				OmnitureTracking.trackErrorPageLoadFlightSearchExpired();
 			}
 			return;
 		case CANNOT_BOOK_WITH_MINOR: {
@@ -389,7 +394,7 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			return;
 		default:
 			if (lob == LineOfBusiness.FLIGHTS) {
-				OmnitureTracking.trackErrorPageLoadFlightCheckout(getActivity());
+				OmnitureTracking.trackErrorPageLoadFlightCheckout();
 			}
 			break;
 		}
@@ -407,8 +412,10 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		else {
 			caseNumber = "";
 		}
-		DialogFragment df = UnhandledErrorDialogFragment.newInstance(caseNumber);
-		df.show(getFragmentManager(), "unhandledOrNoResultsErrorDialog");
+		if (getFragmentManager().findFragmentByTag(UNHANDLED_ERROR_DIALOG_TAG) == null) {
+			DialogFragment df = UnhandledErrorDialogFragment.newInstance(caseNumber);
+			df.show(getFragmentManager(), UNHANDLED_ERROR_DIALOG_TAG);
+		}
 	}
 
 	private void showBookingUnavailableErrorDialog(LineOfBusiness lob) {

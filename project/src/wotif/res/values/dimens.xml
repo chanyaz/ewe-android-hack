@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Action Bar selected tab underline height -->
+    <dimen name="action_bar_selected_tab_underline_height">5dp</dimen>
+
+    <dimen name="header_margin_top">8dp</dimen>
+    <dimen name="launch_lob_icon_size">50dp</dimen>
+</resources>

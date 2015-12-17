@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingTop="?android:attr/actionBarSize" >
 
-    <com.expedia.bookings.widget.FrameLayoutTouchController
+    <com.expedia.bookings.widget.TouchableFrameLayout
         android:id="@+id/trip_bucket_dimmer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -31,9 +31,9 @@
                 android:layout_height="18dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="8dp"
-                android:background="@drawable/bg_tablet_portrait_trip_bucket_item_counter"
-                android:gravity="center" />
-
+                android:background="?attr/skin_tablet_bucket_item_counter"
+                android:gravity="center"
+                android:textColor="?attr/skin_tablet_bucket_text_color" />
             <TextView
                 android:id="@+id/items_in_trip_textview"
                 android:layout_width="wrap_content"

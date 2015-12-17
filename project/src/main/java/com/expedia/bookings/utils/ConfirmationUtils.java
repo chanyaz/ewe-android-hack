@@ -2,8 +2,11 @@ package com.expedia.bookings.utils;
 
 import android.content.Context;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.squareup.phrase.Phrase;
 
 public class ConfirmationUtils {
 
@@ -12,8 +15,13 @@ public class ConfirmationUtils {
 
 	public static String determineContactText(Context context) {
 
-		return context.getString(Ui.obtainThemeResID(context, R.attr.addToCalenderMessage), PointOfSale.getPointOfSale()
-			.getSupportPhoneNumber());
+		String message = Phrase.from(context,
+			R.string.contact_phone_TEMPLATE)
+			.put("brand", BuildConfig.brand)
+			.put("phone", PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()))
+			.format().toString();
+
+		return message;
 
 	}
 

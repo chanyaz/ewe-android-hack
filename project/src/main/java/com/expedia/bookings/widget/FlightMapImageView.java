@@ -7,20 +7,22 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.expedia.bookings.bitmaps.L2ImageCache;
-import com.expedia.bookings.bitmaps.UrlBitmapDrawable;
+import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.mobiata.android.Log;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.GoogleServices.MapType;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.Waypoint;
+import com.squareup.picasso.Picasso;
 
 public class FlightMapImageView extends ImageView {
 
-	private static int DENSITY_SCALE_FACTOR = 1; // This has to be calculated at runtime
+	private static int sDensityScaleFactor = 1; // This has to be calculated at runtime
 
 	private String mStaticMapUri;
 	private List<Flight> mFlights;
@@ -45,7 +47,7 @@ public class FlightMapImageView extends ImageView {
 		// High DPI screens should utilize scale=2 for this API
 		// https://developers.google.com/maps/documentation/staticmaps/
 		if (res.getDisplayMetrics().density > 1.5) {
-			DENSITY_SCALE_FACTOR = 2;
+			sDensityScaleFactor = 2;
 		}
 	}
 
@@ -76,27 +78,39 @@ public class FlightMapImageView extends ImageView {
 
 		String oldUri = mStaticMapUri;
 
-		mStaticMapUri = GoogleServices.getStaticPathMapUrl(width / DENSITY_SCALE_FACTOR, height
-				/ DENSITY_SCALE_FACTOR, MapType.SATELLITE,
+		mStaticMapUri = GoogleServices.getStaticPathMapUrl(width / sDensityScaleFactor, height
+				/ sDensityScaleFactor, MapType.SATELLITE,
 				buildStaticMapPathValueString(Color.WHITE, 4, true, mFlights),
-				buildStaticMapMarkerStrings(mFlights)) + "&scale=" + DENSITY_SCALE_FACTOR;
+				buildStaticMapMarkerStrings(mFlights)) + "&scale=" + sDensityScaleFactor;
 		Log.d("ITIN: mapUrl:" + mStaticMapUri);
 
 		if (!mStaticMapUri.equals(oldUri)) {
-			UrlBitmapDrawable drawable = UrlBitmapDrawable.loadImageView(mStaticMapUri, this);
-			drawable.setOnBitmapLoadedCallback(new L2ImageCache.OnBitmapLoaded() {
-				@Override
-				public void onBitmapLoaded(String url, Bitmap bitmap) {
-					FlightMapImageView.this.setBackgroundDrawable(null);
-				}
-
-				@Override
-				public void onBitmapLoadFailed(String url) {
-					// nothing
-				}
-			});
+			new PicassoHelper.Builder(this)
+				.setTarget(callback)
+				.build()
+				.load(mStaticMapUri);
 		}
 	}
+
+	private PicassoTarget callback = new PicassoTarget() {
+		@Override
+		public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+			super.onBitmapLoaded(bitmap, from);
+			setImageBitmap(bitmap);
+			FlightMapImageView.this.setBackgroundDrawable(null);
+		}
+
+		@Override
+		public void onBitmapFailed(Drawable errorDrawable) {
+			super.onBitmapFailed(errorDrawable);
+		}
+
+		@Override
+		public void onPrepareLoad(Drawable placeHolderDrawable) {
+			super.onPrepareLoad(placeHolderDrawable);
+		}
+	};
+
 
 	//path=color:0xFFFFFF%7Cweight:2%7Cgeodesic:true%7C40.644166,-73.782548%7C45.123456,-99.235632%7C37.6190,-122.3749
 	public String buildStaticMapPathValueString(int color, int weight, boolean geodesic, List<Flight> flights) {
@@ -133,7 +147,7 @@ public class FlightMapImageView extends ImageView {
 				//Origin
 				builder.append(getOriginMarkerStyleString());
 				builder.append("|");
-				builder.append(waypointToCoords(flight.mOrigin));
+				builder.append(waypointToCoords(flight.getOriginWaypoint()));
 				markers.add(builder.toString());
 				builder = new StringBuilder();
 			}
@@ -147,7 +161,7 @@ public class FlightMapImageView extends ImageView {
 				builder.append(getWaypointMarkerStyleString());
 			}
 			builder.append("|");
-			builder.append(waypointToCoords(flight.mDestination));
+			builder.append(waypointToCoords(flight.getDestinationWaypoint()));
 
 			markers.add(builder.toString());
 			builder = new StringBuilder();
@@ -176,10 +190,10 @@ public class FlightMapImageView extends ImageView {
 		for (int i = 0; i < flights.size(); i++) {
 			Flight flight = flights.get(i);
 			if (i == 0) {
-				builder.append(waypointToCoords(flight.mOrigin));
+				builder.append(waypointToCoords(flight.getOriginWaypoint()));
 			}
 			builder.append("|");
-			builder.append(waypointToCoords(flight.mDestination));
+			builder.append(waypointToCoords(flight.getDestinationWaypoint()));
 
 		}
 		return builder.toString();

@@ -3,6 +3,7 @@ package com.expedia.bookings.data;
 import org.json.JSONObject;
 
 import com.expedia.bookings.enums.PassengerCategory;
+import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -14,7 +15,7 @@ public class PassengerCategoryPrice implements Comparable<PassengerCategoryPrice
 	private Money mBasePrice;
 	private Money mTaxesPrice;
 
-	public PassengerCategoryPrice(){
+	public PassengerCategoryPrice() {
 		//Default constructor, required by some of our JSONUtils functions
 	}
 
@@ -70,9 +71,9 @@ public class PassengerCategoryPrice implements Comparable<PassengerCategoryPrice
 		JSONObject obj = new JSONObject();
 		try {
 			JSONUtils.putEnum(obj, JSON_PASSENGER_CATEGORY, mPassengerCategory);
-			JSONUtils.putJSONable(obj, JSON_BASE_PRICE, mBasePrice);
-			JSONUtils.putJSONable(obj, JSON_TOTAL_PRICE, mTotalPrice);
-			JSONUtils.putJSONable(obj, JSON_TAXES, mTaxesPrice);
+			GsonUtil.putForJsonable(obj, JSON_BASE_PRICE, mBasePrice);
+			GsonUtil.putForJsonable(obj, JSON_TOTAL_PRICE, mTotalPrice);
+			GsonUtil.putForJsonable(obj, JSON_TAXES, mTaxesPrice);
 			return obj;
 		}
 		catch (Exception ex) {
@@ -85,9 +86,9 @@ public class PassengerCategoryPrice implements Comparable<PassengerCategoryPrice
 	public boolean fromJson(JSONObject obj) {
 		try {
 			mPassengerCategory = JSONUtils.getEnum(obj, JSON_PASSENGER_CATEGORY, PassengerCategory.class);
-			mBasePrice = JSONUtils.getJSONable(obj, JSON_BASE_PRICE, Money.class);
-			mTotalPrice = JSONUtils.getJSONable(obj, JSON_TOTAL_PRICE, Money.class);
-			mTaxesPrice = JSONUtils.getJSONable(obj, JSON_TAXES, Money.class);
+			mBasePrice = GsonUtil.getForJsonable(obj, JSON_BASE_PRICE, Money.class);
+			mTotalPrice = GsonUtil.getForJsonable(obj, JSON_TOTAL_PRICE, Money.class);
+			mTaxesPrice = GsonUtil.getForJsonable(obj, JSON_TAXES, Money.class);
 			return true;
 		}
 		catch (Exception ex) {

@@ -9,22 +9,17 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
 public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 
-	public static enum TimePeriod {
-		UPCOMING,
-		INPROGRESS,
-		COMPLETED
-	}
-
-	public static enum LevelOfDetail {
+	public enum LevelOfDetail {
 		NONE, // Not loaded by API yet
 		SUMMARY, // Loaded by API, only summary
 		SUMMARY_FALLBACK, // Got summary, but for some reason can't get full details
@@ -58,9 +53,9 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 	private DateTime mEndDate;
 
 	private BookingStatus mBookingStatus;
-	private TimePeriod mTimePeriod;
 
 	private CustomerSupport mCustomerSupport;
+	private AirAttach mAirAttach;
 
 	private List<TripComponent> mTripComponents = new ArrayList<TripComponent>();
 	private List<Insurance> mTripInsurance = new ArrayList<Insurance>();
@@ -100,6 +95,14 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 
 	public String getTripId() {
 		return mTripId;
+	}
+
+	public AirAttach getAirAttach() {
+		return mAirAttach;
+	}
+
+	public void setAirAttach(AirAttach airAttach) {
+		mAirAttach = airAttach;
 	}
 
 	public void setTripId(String tripId) {
@@ -160,14 +163,6 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 
 	public void setBookingStatus(BookingStatus bookingStatus) {
 		mBookingStatus = bookingStatus;
-	}
-
-	public TimePeriod getTimePeriod() {
-		return mTimePeriod;
-	}
-
-	public void setTimePeriod(TimePeriod timePeriod) {
-		mTimePeriod = timePeriod;
 	}
 
 	public CustomerSupport getCustomerSupport() {
@@ -293,7 +288,6 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		mCustomerSupport = other.mCustomerSupport;
 
 		mBookingStatus = other.mBookingStatus;
-		mTimePeriod = other.mTimePeriod;
 
 		mTripComponents = other.mTripComponents;
 		associateTripWithComponents();
@@ -353,7 +347,6 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 			JodaUtils.putDateTimeInJson(obj, "endDateTime", mEndDate);
 
 			JSONUtils.putEnum(obj, "bookingStatus", mBookingStatus);
-			JSONUtils.putEnum(obj, "timePeriod", mTimePeriod);
 
 			TripUtils.putTripComponents(obj, mTripComponents);
 			JSONUtils.putJSONableList(obj, "insurance", mTripInsurance);
@@ -392,7 +385,6 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		mEndDate = JodaUtils.getDateTimeFromJsonBackCompat(obj, "endDateTime", "endDate");
 
 		mBookingStatus = JSONUtils.getEnum(obj, "bookingStatus", BookingStatus.class);
-		mTimePeriod = JSONUtils.getEnum(obj, "timePeriod", TimePeriod.class);
 
 		mTripComponents.clear();
 		mTripComponents.addAll(TripUtils.getTripComponents(obj));
@@ -438,7 +430,7 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 				return -1;
 			}
 
-			return StrUtils.compareTo(mTripId, another.mTripId);
+			return Strings.compareTo(mTripId, another.mTripId);
 		}
 
 		if (!TextUtils.equals(mTripNumber, another.mTripNumber)) {
@@ -446,7 +438,7 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 				return -1;
 			}
 
-			return StrUtils.compareTo(mTripNumber, another.mTripNumber);
+			return Strings.compareTo(mTripNumber, another.mTripNumber);
 		}
 
 		return 0;

@@ -24,16 +24,13 @@ public class FontCache {
 		ROBOTO_MEDIUM("fonts/Roboto-Medium.ttf"),
 		ROBOTO_BOLD("fonts/Roboto-Bold.ttf"),
 		ROBOTO_REGULAR("fonts/Roboto-Regular.ttf"),
-		ROBOTOSLAB_BOLD("fonts/RobotoSlab-Bold.ttf"),
-		ROBOTOSLAB_LIGHT("fonts/RobotoSlab-Light.ttf"),
-		ROBOTOSLAB_REGULAR("fonts/RobotoSlab-Regular.ttf"),
-		ROBOTOSLAB_THIN("fonts/RobotoSlab-Thin.ttf"),
 		SIGNERICA_FAT("fonts/Signerica_Fat.ttf"),
 		ROBOTO_CONDENSED_BOLD("fonts/RobotoCondensed-Bold.ttf"),
 		ROBOTO_CONDENSED_LIGHT("fonts/RobotoCondensed-Light.ttf"),
 		ROBOTO_CONDENSED_REGULAR("fonts/RobotoCondensed-Regular.ttf"),
 		BEBAS_NEUE("fonts/BebasNeue.otf"),
 		EXPEDIASANS_LIGHT("fonts/ExpediaSans-Light.ttf"),
+		EXPEDIASANS_REGULAR("fonts/ExpediaSans-Regular.ttf"),
 		;
 
 		private String mPath;

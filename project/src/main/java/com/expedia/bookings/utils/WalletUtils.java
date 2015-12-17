@@ -12,12 +12,12 @@ import org.joda.time.LocalDate;
 import android.content.Context;
 import android.text.TextUtils;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.HotelSearch;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
@@ -28,6 +28,7 @@ import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemHotel;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.google.android.gms.wallet.Address;
 import com.google.android.gms.wallet.Cart;
 import com.google.android.gms.wallet.FullWallet;
@@ -39,7 +40,6 @@ import com.google.android.gms.wallet.NotifyTransactionStatusRequest;
 import com.google.android.gms.wallet.ProxyCard;
 import com.google.android.gms.wallet.WalletConstants;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 
 /**
@@ -62,6 +62,8 @@ public class WalletUtils {
 
 	private static final DecimalFormat MONEY_FORMAT = new DecimalFormat("0.00");
 
+	private static final String WALLET_COUPON_CODE = "MOBILEWALLET50B";
+
 	// Force the separator to be '.', since that's the format that Google Wallet requires
 	static {
 		DecimalFormatSymbols symbols = new DecimalFormatSymbols(new Locale("en", "US"));
@@ -77,7 +79,7 @@ public class WalletUtils {
 	 * (and sandbox otherwise).
 	 */
 	public static int getWalletEnvironment(Context context) {
-		if (AndroidUtils.isRelease(context)) {
+		if (BuildConfig.RELEASE) {
 			Log.v("Using Google Wallet environment: PRODUCTION");
 			return WalletConstants.ENVIRONMENT_PRODUCTION;
 		}
@@ -94,13 +96,21 @@ public class WalletUtils {
 	}
 
 	public static boolean offerGoogleWalletCoupon(Context context) {
-		return SettingUtils.get(context, SETTING_SHOW_WALLET_COUPON, false)
-				&& Db.getTripBucket().getHotel().getProperty().isMerchant();
+		boolean hasHotel = Db.getTripBucket().getHotel() != null;
+
+		return ProductFlavorFeatureConfiguration.getInstance().isGoogleWalletPromoEnabled() && SettingUtils
+			.get(context, SETTING_SHOW_WALLET_COUPON, false)
+			&& hasHotel
+			&& Db.getTripBucket().getHotel().getProperty().isMerchant();
 	}
 
 	public static String getWalletCouponCode(Context context) {
 		// This is the official coupon code for Wallet on Prod
-		return "MOBILEWALLET";
+		return WALLET_COUPON_CODE;
+	}
+
+	public static boolean isCouponWalletCoupon(String coupon) {
+		return WALLET_COUPON_CODE.equalsIgnoreCase(coupon);
 	}
 
 	public static void addStandardFieldsToMaskedWalletRequest(Context context, MaskedWalletRequest.Builder builder,
@@ -113,7 +123,9 @@ public class WalletUtils {
 	public static void bindWalletToBillingInfo(MaskedWallet wallet, BillingInfo billingInfo) {
 		Log.d(TAG, "Binding MASKED wallet data to billing info...");
 
-		billingInfo.setStoredCard(WalletUtils.convertToStoredCreditCard(wallet));
+		StoredCreditCard walletCard = WalletUtils.convertToStoredCreditCard(wallet);
+		walletCard.setIsSelectable(false);
+		billingInfo.setStoredCard(walletCard);
 
 		// With a masked wallet, we actually explicitly *clear* some data from the BillingInfo
 		// The reason why we do this is so that the app does not simultaneously think that we
@@ -309,7 +321,7 @@ public class WalletUtils {
 	}
 
 	public static boolean tryToCreateCvvChallenge(Context context) {
-		return !AndroidUtils.isRelease(context)
+		return BuildConfig.DEBUG
 				&& SettingUtils.get(context, context.getString(R.string.preference_google_wallet_cvv_challenge), false);
 	}
 
@@ -468,9 +480,6 @@ public class WalletUtils {
 
 		// Base rate
 		nightlyRate = originalRate.getNightlyRateTotal();
-		if (nightlyRate == null) {
-			nightlyRate = originalRate.getTotalAmountBeforeTax();
-		}
 
 		// Discount
 		if (couponRate != null) {
@@ -548,7 +557,7 @@ public class WalletUtils {
 		}
 
 		//Sometimes we want to fake a google wallet error, so we created a dev setting
-		if (!AndroidUtils.isRelease(context)
+		if (BuildConfig.DEBUG
 				&& SettingUtils.get(context,
 						context.getString(R.string.preference_fake_invalid_google_wallet_line_item), false)) {
 			Money fakeFee = new Money(total);

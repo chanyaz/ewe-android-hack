@@ -4,8 +4,6 @@
     <bool name="landscape">true</bool>
     <bool name="portrait">false</bool>
 
-    <bool name="ldpi">false</bool>
-
     <!-- Had to copy this from ActionBarSherlock -->
     <bool name="abs__split_action_bar_is_narrow">true</bool>
 

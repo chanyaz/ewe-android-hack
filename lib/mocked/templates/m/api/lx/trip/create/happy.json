@@ -1,0 +1,55 @@
+{
+  "tripId" :"happypath_trip_id",
+  "itineraryNumber" :11528775160,
+  "activityId" :"0c0af1cb-f721-4cbf-8b99-e4f753cb6caa",
+  "lxProduct":{
+    "totalPrice":{
+      "amount":"25.64",
+      "currencyCode":"USD"
+    },
+    "lxBookableItems":[
+      {
+        "activityDate":{
+          "raw":"2015-04-23T00:00:00-07:00",
+          "localized":"Apr 23, 2015 12:00:00 AM",
+          "epochSeconds":1429772400,
+          "timeZoneOffsetSeconds":-25200,
+          "localizedShortDate":"Thu, 23 Apr"
+        },
+        "activityId":"213358",
+        "activityItemId":"213364",
+        "amount":"25.64",
+        "allDayActivity":true,
+        "tickets":[
+          {
+            "count":1,
+            "code":"Adult",
+            "ticketId":"116032"
+          }
+        ],
+        "regionId":"180000"
+      }
+    ],
+    "tripName":"Old Delhi, India"
+  },
+  "validFormsOfPayment" :[
+      {
+        "name":"AmericanExpress"
+      },
+      {
+        "name":"Diner's Club International"
+      },
+      {
+        "name":"Discover"
+      },
+      {
+        "name":"JCB"
+      },
+      {
+        "name":"MasterCard"
+      },
+      {
+        "name":"Visa"
+      }
+  ]
+}

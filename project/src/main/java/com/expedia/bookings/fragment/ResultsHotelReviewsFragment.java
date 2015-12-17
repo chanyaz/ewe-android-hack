@@ -5,7 +5,6 @@ import java.util.Set;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,14 +21,13 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.BitmapUtils;
-import com.expedia.bookings.bitmaps.L2ImageCache;
+import com.expedia.bookings.bitmaps.PaletteCallback;
 import com.expedia.bookings.data.BedType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearch;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.fragment.UserReviewsFragment.UserReviewsFragmentListener;
@@ -38,14 +36,13 @@ import com.expedia.bookings.interfaces.IResultsHotelReviewsBackClickedListener;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.ColorBuilder;
-import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.RowRoomRateLayout;
 import com.expedia.bookings.widget.UserReviewsFragmentPagerAdapter;
 import com.mobiata.android.widget.SegmentedControlGroup;
 import com.squareup.otto.Subscribe;
+import com.squareup.phrase.Phrase;
 
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsHotelReviewsFragment extends Fragment implements UserReviewsFragmentListener,
@@ -139,14 +136,31 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		Events.unregister(this);
 	}
 
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		mPagerAdapter.onSaveInstanceState(getActivity().getSupportFragmentManager(), outState);
+	}
+
 	private void bind(Property property) {
 		mReviewSectionTitle.setText(getString(R.string.reviews_for_TEMPLATE, property.getName()));
 		mPagerAdapter.bind();
 
 		// Hotel Image
-		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.hotelImagePlaceHolderDrawable);
+		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_hotelImagePlaceHolderDrawable);
 		if (property.getThumbnail() != null) {
-			property.getThumbnail().fillImageView(mHotelImage, placeholderResId, mHeaderBitmapLoadedCallback);
+			PaletteCallback mHeaderBitmapLoadedCallback = new PaletteCallback(mHotelImage) {
+				@Override
+				public void onSuccess(int color) {
+					setDominantColor(color);
+				}
+
+				@Override
+				public void onFailed() {
+					resetDominantColor();
+				}
+			};
+			property.getThumbnail().fillImageView(mHotelImage, placeholderResId, mHeaderBitmapLoadedCallback, null);
 		}
 		else {
 			mHotelImage.setImageResource(placeholderResId);
@@ -196,7 +210,10 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 			ViewGroup roomRateContainer = Ui.findView(mRootC, R.id.room_rate_add_select_container);
 			roomRateContainer.setVisibility(View.GONE);
 
-			View soldOut = Ui.findView(mRootC, R.id.all_rooms_sold_out_tv);
+			TextView soldOut = Ui.findView(mRootC, R.id.all_rooms_sold_out_tv);
+			soldOut.setText(
+				Phrase.from(getActivity(), R.string.sorry_rooms_sold_out_TEMPLATE).put("brand", BuildConfig.brand)
+					.format());
 			soldOut.setVisibility(View.VISIBLE);
 		}
 	}
@@ -260,7 +277,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		}
 		// Track change in Reviews filter if it is different than the current.
 		if (mViewPager.getCurrentItem() != position) {
-			OmnitureTracking.trackLinkReviewTypeSelected(getActivity(), referrerId);
+			OmnitureTracking.trackLinkReviewTypeSelected(referrerId);
 		}
 		mViewPager.setCurrentItem(position);
 	}
@@ -317,22 +334,6 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		mDominantColorBackground.setAlpha(229);
 		mDominantColorBackground.invalidateSelf();
 	}
-
-	//////////////////////////////////////////////////////////////////////////////////////////
-	// Async handling of Header / ColorScheme
-
-	L2ImageCache.OnBitmapLoaded mHeaderBitmapLoadedCallback = new L2ImageCache.OnBitmapLoaded() {
-		@Override
-		public void onBitmapLoaded(String url, Bitmap bitmap) {
-			ColorBuilder builder = new ColorBuilder(BitmapUtils.getAvgColorOnePixelTrick(bitmap)).darkenBy(0.4f);
-			setDominantColor(builder.build());
-		}
-
-		@Override
-		public void onBitmapLoadFailed(String url) {
-			resetDominantColor();
-		}
-	};
 
 	/*
 	MEASUREMENT HELPER

@@ -12,7 +12,6 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.Html;
@@ -146,13 +145,14 @@ public class RowRoomRateLayout extends FrameLayout {
 					 OnClickListener selectRateClickListener, OnClickListener addRoomClickListener) {
 		Resources res = getResources();
 
-		setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.bg_row_state_pressed)));
+		setBackgroundColor(res.getColor(R.color.bg_row_state_pressed));
 		getBackground().setAlpha(0);
 
 		setRate(rate);
 		android.widget.TextView description = Ui.findView(this, R.id.text_room_description);
 		android.widget.TextView price = Ui.findView(this, R.id.text_price_per_night);
 		android.widget.TextView bedType = Ui.findView(this, R.id.text_bed_type);
+		android.widget.TextView cancellationBedType = Ui.findView(this, R.id.text_bed_type_with_cancellation);
 
 		// Buttons / Clicks
 		setOnClickListener(selectRateClickListener);
@@ -166,14 +166,14 @@ public class RowRoomRateLayout extends FrameLayout {
 		if (bedTypes != null && bedTypes.iterator().hasNext()) {
 			bedType.setVisibility(View.VISIBLE);
 			String bedTypeText = bedTypes.iterator().next().getBedTypeDescription();
+			bedType.setText(bedTypeText);
+			setCancellationText(cancellationBedType, bedTypeText);
+		}
 
 			if (mRate.shouldShowFreeCancellation()) {
-				setCancellationText(bedType, bedTypeText);
+				bedType.setVisibility(View.GONE);
+				cancellationBedType.setVisibility(VISIBLE);
 			}
-			else {
-				bedType.setText(bedTypeText);
-			}
-		}
 
 		if (price != null) {
 			price.setText(getStyledPrice(res, rate));
@@ -199,16 +199,11 @@ public class RowRoomRateLayout extends FrameLayout {
 
 		// Show resort fees notice
 		View resortFeesContainer = Ui.findView(this, R.id.room_rate_resort_fees_container);
-		Money mandatoryFees = rate == null ? null : rate.getTotalMandatoryFees();
-		boolean hasMandatoryFees = mandatoryFees != null && !mandatoryFees.isZero();
 		boolean hasResortFeesMessage = property.getMandatoryFeesText() != null
 			&& !TextUtils.isEmpty(property.getMandatoryFeesText().getContent());
 
-		if (hasMandatoryFees && hasResortFeesMessage
-			&& rate.getCheckoutPriceType() != Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES) {
-
-			final String resortFeesTemplate = res.getString(R.string.tablet_room_rate_resort_fees_template,
-				mandatoryFees.getFormattedMoney());
+		if (rate.showResortFeesMessaging() && hasResortFeesMessage) {
+			final String resortFeesTemplate = HotelUtils.getTabletResortFeeBannerText(getContext(), rate);
 			final String resortFeesMoreInfoTitle = res.getString(R.string.additional_fees);
 			final String resortFeesMoreInfoText = property.getMandatoryFeesText().getContent();
 
@@ -235,13 +230,13 @@ public class RowRoomRateLayout extends FrameLayout {
 		}
 
 		if (unique.size() > 0) {
-			urgencyMessagingView.setText(Html.fromHtml(getResources().getString(R.string.value_add_template,
+			urgencyMessagingView.setText(Html.fromHtml(res.getString(R.string.value_add_template,
 				FormatUtils.series(getContext(), unique, ",", null).toLowerCase(Locale.getDefault()))));
 			urgencyMessagingView.setVisibility(View.VISIBLE);
 		}
 		else if (showUrgencyMessaging()) {
-			String urgencyString = getResources()
-				.getQuantityString(R.plurals.n_rooms_left_TEMPLATE, mRate.getNumRoomsLeft(), mRate.getNumRoomsLeft());
+			String urgencyString = res.getQuantityString(R.plurals.n_rooms_left_TEMPLATE,
+				mRate.getNumRoomsLeft(), mRate.getNumRoomsLeft());
 			urgencyMessagingView.setText(urgencyString);
 			urgencyMessagingView.setVisibility(View.VISIBLE);
 		}
@@ -261,10 +256,10 @@ public class RowRoomRateLayout extends FrameLayout {
 		int lengthCutOff;
 		// Let's try to show as much text to begin with as possible, without exceeding the row height.
 		if (Ui.findView(this, R.id.room_rate_urgency_text).getVisibility() == View.VISIBLE) {
-			lengthCutOff = getResources().getInteger(R.integer.room_rate_description_body_length_cutoff_less);
+			lengthCutOff = res.getInteger(R.integer.room_rate_description_body_length_cutoff_less);
 		}
 		else {
-			lengthCutOff = getResources().getInteger(R.integer.room_rate_description_body_length_cutoff_more);
+			lengthCutOff = res.getInteger(R.integer.room_rate_description_body_length_cutoff_more);
 		}
 
 		if (roomLongDescription.length() > lengthCutOff) {
@@ -273,7 +268,7 @@ public class RowRoomRateLayout extends FrameLayout {
 			SpannableBuilder builder = new SpannableBuilder();
 			builder.append(descriptionReduced);
 			builder.append(" ");
-			builder.append(getResources().getString(R.string.more), new ForegroundColorSpan(0xFF245FB3),
+			builder.append(res.getString(R.string.more), new ForegroundColorSpan(0xFF245FB3),
 				FontCache.getSpan(FontCache.Font.ROBOTO_BOLD));
 			mIsDescriptionTextSpanned = true;
 			roomLongDescriptionTextView.setText(builder.build());
@@ -305,9 +300,9 @@ public class RowRoomRateLayout extends FrameLayout {
 		}
 
 		// Rooms and Rates detail image media
-		int placeholderResId = Ui.obtainThemeResID(getContext(), R.attr.hotelImagePlaceHolderDrawable);
+		int placeholderResId = Ui.obtainThemeResID(getContext(), R.attr.skin_hotelImagePlaceHolderDrawable);
 		if (mRate.getThumbnail() != null) {
-			int width = getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_thumbnail_width);
+			int width = res.getDimensionPixelSize(R.dimen.hotel_room_rate_thumbnail_width);
 			mRate.getThumbnail().fillImageView(roomDetailImageView, width, placeholderResId, null);
 		}
 		else {
@@ -317,7 +312,16 @@ public class RowRoomRateLayout extends FrameLayout {
 		// Room discount ribbon
 		if (mRate.getDiscountPercent() > 0) {
 			roomRateDiscountRibbon.setVisibility(View.VISIBLE);
-			roomRateDiscountRibbon.setText(getResources().getString(R.string.percent_minus_template, (float) mRate.getDiscountPercent()));
+			roomRateDiscountRibbon.setText(res.getString(R.string.percent_minus_template,
+				(float) mRate.getDiscountPercent()));
+
+			if (mRate.isAirAttached()) {
+				roomRateDiscountRibbon.setBackgroundResource(R.drawable.bg_air_attach_sale_text_view);
+			}
+			else {
+				roomRateDiscountRibbon
+					.setBackgroundResource(Ui.obtainThemeResID(getContext(), R.attr.skin_bgSaleTextViewDrawable));
+			}
 		}
 		else {
 			roomRateDiscountRibbon.setVisibility(View.GONE);
@@ -330,6 +334,11 @@ public class RowRoomRateLayout extends FrameLayout {
 		// Show the room rate detail container
 		Ui.findView(this, R.id.room_rate_detail_container).setVisibility(View.VISIBLE);
 		Ui.findView(this, R.id.notice_container).setVisibility(View.VISIBLE);
+
+		if (mRate.shouldShowFreeCancellation()) {
+			Ui.findView(this, R.id.text_bed_type_with_cancellation).setVisibility(GONE);
+			Ui.findView(this, R.id.text_bed_type).setVisibility(VISIBLE);
+		}
 
 		// Animate children
 		final View addRoomButton = Ui.findView(this, R.id.room_rate_button_add);
@@ -363,12 +372,21 @@ public class RowRoomRateLayout extends FrameLayout {
 		Ui.findView(this, R.id.room_rate_button_add).setAlpha(1f);
 		Ui.findView(this, R.id.room_rate_button_select).setAlpha(0f);
 		Ui.findView(this, R.id.room_rate_button_select).setVisibility(View.GONE);
+		if (mRate.shouldShowFreeCancellation()) {
+			Ui.findView(this, R.id.text_bed_type_with_cancellation).setVisibility(GONE);
+			Ui.findView(this, R.id.text_bed_type).setVisibility(VISIBLE);
+		}
 		getBackground().setAlpha(180);
 		setHeight(LayoutParams.WRAP_CONTENT);
 	}
 
 	private void collapse() {
 		setHeight(getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height));
+
+		if (mRate.shouldShowFreeCancellation()) {
+			Ui.findView(this, R.id.text_bed_type).setVisibility(GONE);
+			Ui.findView(this, R.id.text_bed_type_with_cancellation).setVisibility(VISIBLE);
+		}
 
 		// Animate children
 		View addRoomButton = Ui.findView(this, R.id.room_rate_button_add);
@@ -402,6 +420,10 @@ public class RowRoomRateLayout extends FrameLayout {
 		Ui.findView(this, R.id.room_rate_button_add).setAlpha(0f);
 		Ui.findView(this, R.id.room_rate_button_select).setVisibility(View.VISIBLE);
 		Ui.findView(this, R.id.room_rate_button_select).setAlpha(1f);
+		if (mRate.shouldShowFreeCancellation()) {
+			Ui.findView(this, R.id.text_bed_type).setVisibility(GONE);
+			Ui.findView(this, R.id.text_bed_type_with_cancellation).setVisibility(VISIBLE);
+		}
 		getBackground().setAlpha(0);
 		setHeight(getResources().getDimensionPixelSize(R.dimen.hotel_room_rate_list_height));
 	}

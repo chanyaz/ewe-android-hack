@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:addStatesFromChildren="true"
-            android:background="@drawable/list_selector_holo_dark"
+            android:background="?android:attr/selectableItemBackground"
             android:gravity="center" >
 
             <com.expedia.bookings.widget.AutoResizeTextView
@@ -54,7 +54,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:addStatesFromChildren="true"
-            android:background="@drawable/list_selector_holo_dark"
+            android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:gravity="center" >
 

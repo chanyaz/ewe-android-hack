@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Tracking tags -->
-    <string name="google_analytics_ua">UA-17383042-20</string>
+    <string name="brand_name">Travelocity</string>
 
-    <!-- For app launcher name -->
-    <string name="launcher_name">@string/travelocity_app_name</string>
+    <string name="app_name">Travelocity</string>
+
     <!-- Email addresses -->
     <string name="email_app_support">travelocity-android@mobiata.com</string>
-    <!-- User name label for support email sent to user happiness team -->
-    <string name="email_user_name_tvly">Travelocity user name:</string>
+    <!-- App Support URL -->
+    <string name="app_support_url_tvly">http://www.mobiata.com/support/travelocity/android</string>
+
+    <!-- Google Wallet -->
+    <!-- The merchant name to display to the user for Google Wallet -->
+    <string name="merchant_name">Travelocity</string>
 </resources>

@@ -2,7 +2,6 @@ package com.expedia.bookings.server;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -17,36 +16,28 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.text.TextUtils;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Media;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.Policy;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.RateBreakdown;
-import com.expedia.bookings.data.RateRules;
 import com.expedia.bookings.data.ServerError.ApiMethod;
-import com.mobiata.android.FormatUtils;
-import com.mobiata.android.FormatUtils.Conjunction;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 
 public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersResponse> {
 
-	public static final String DOWNLOAD_KEY_PREFIX = "AVAILABILITY_RESPONSE_HANDLER";
 
 	private Context mContext;
 	private HotelSearchParams mSearchParams;
-	private Property mProperty;
 
-	public HotelOffersResponseHandler(Context context, HotelSearchParams searchParams, Property property) {
+	public HotelOffersResponseHandler(Context context, HotelSearchParams searchParams) {
 		mContext = context;
 		mSearchParams = searchParams;
-		mProperty = property;
 	}
 
 	@Override
@@ -54,7 +45,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		HotelOffersResponse availResponse = new HotelOffersResponse();
 		try {
 			// Check for errors, return if found
-			availResponse.addErrors(ParserUtils.parseErrors(mContext, ApiMethod.HOTEL_OFFERS, response));
+			availResponse.addErrors(ParserUtils.parseErrors(ApiMethod.HOTEL_OFFERS, response));
 			if (!availResponse.isSuccess()) {
 				return availResponse;
 			}
@@ -72,6 +63,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 			property.setTelephoneSalesNumber(response.optString("telesalesNumber", null));
 			property.setIsDesktopOverrideNumber(response.optBoolean("deskTopOverrideNumber", true));
 			property.setIsVipAccess(response.optBoolean("isVipAccess", false));
+			//property.setShowCircles(!response.optBoolean("allowedToDisplayRatingAsStars", true));
 
 			// Parse text sections
 			JSONArray overviewTextArr = response.optJSONArray("hotelOverviewText");
@@ -104,29 +96,21 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 				len = photos.length();
 				for (int a = 0; a < len; a++) {
 					JSONObject photo = photos.optJSONObject(a);
-					Media media = ParserUtils.parseUrl(photo.optString("url"));
-					if (media != null) {
-						property.addMedia(media);
+					HotelMedia hotelMedia = ParserUtils.parseUrl(photo.optString("url"));
+					if (hotelMedia != null) {
+						property.addMedia(hotelMedia);
 					}
 				}
 
 				// Adding the first media as the thumbnail media, if it exists
 				if (property.getMediaCount() > 0) {
-					Media media = property.getMedia(0);
-					Media thumbnailMedia = new Media(media.getUrl(Media.Size.BIG));
-					property.setThumbnail(thumbnailMedia);
+					HotelMedia hotelMedia = property.getMedia(0);
+					HotelMedia thumbnailHotelMedia = new HotelMedia(hotelMedia.getUrl(HotelMedia.Size.BIG));
+					property.setThumbnail(thumbnailHotelMedia);
 				}
 			}
 
 			int numberOfNights = response.optInt("numberOfNights");
-
-			Policy checkInPolicy = null;
-			String checkInInstructions = JSONUtils.optNormalizedString(response, "checkInInstructions", null);
-			if (!TextUtils.isEmpty(checkInInstructions)) {
-				checkInPolicy = new Policy();
-				checkInPolicy.setType(Policy.TYPE_CHECK_IN);
-				checkInPolicy.setDescription(checkInInstructions);
-			}
 
 			JSONArray roomRates = response.optJSONArray("hotelRoomResponse");
 			if (roomRates != null) {
@@ -136,7 +120,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 					property.setIsLowestRateMobileExclusive(jsonRate
 						.optBoolean("isDiscountRestrictedToCurrentSourceType"));
 					property.setIsLowestRateTonightOnly(jsonRate.optBoolean("isSameDayDRR"));
-					Rate rate = parseJsonHotelOffer(jsonRate, numberOfNights, checkInPolicy);
+					Rate rate = parseJsonHotelOffer(jsonRate, numberOfNights);
 					availResponse.addRate(rate);
 
 					property.setAvailable(true); // Once we have a rate, we're available!
@@ -144,6 +128,11 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 					// #1686: The supplier type is only set in these rates; parse here if we don't have one set already
 					if (TextUtils.isEmpty(property.getSupplierType())) {
 						property.setSupplierType(jsonRate.optString("supplierType", null));
+					}
+
+					// If this rate has an associated pay later offer, reflect that in hotel's info
+					if (rate.getEtpRate() != null && !property.hasEtpOffer()) {
+						property.setHasEtpOffer(true);
 					}
 				}
 			}
@@ -312,7 +301,6 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 			Log.e("Could not parse JSON availability response.", e);
 			return null;
 		}
-
 		return availResponse;
 	}
 
@@ -326,25 +314,21 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		return new HotelTextSection(name, content);
 	}
 
-	public Rate parseJsonHotelOffer(JSONObject jsonRate, int numberOfNights, Policy checkInPolicy)
+	public Rate parseJsonHotelOffer(JSONObject jsonRate, int numberOfNights)
 		throws JSONException {
 		Rate rate = new Rate();
-		RateRules rateRules = new RateRules();
-		rate.setRateRules(rateRules);
 
 		JSONObject rateInfo = jsonRate.getJSONObject("rateInfo");
 		JSONObject chargeableRateInfo = rateInfo.optJSONObject("chargeableRateInfo");
 
 		rate.setRateKey(jsonRate.getString("productKey"));
-		rate.setRatePlanCode(jsonRate.optString("rateCode", null));
-		rate.setRoomTypeCode(jsonRate.optString("roomTypeCode", null));
+		rate.setAirAttached(chargeableRateInfo.optBoolean("airAttached", false));
 		rate.setRoomDescription(JSONUtils.getNormalizedString(jsonRate, "roomTypeDescription"));
 		rate.setRoomLongDescription(JSONUtils.optNormalizedString(jsonRate, "roomLongDescription", null));
 		rate.setThumbnail(ParserUtils.parseUrl(jsonRate.optString("roomThumbnailUrl", null)));
-
+		rate.setIsPayLater(jsonRate.optBoolean("isPayLater", false));
 		rate.setRateChange(rateInfo.optBoolean("rateChange", false));
 		rate.setNumRoomsLeft(jsonRate.optInt("currentAllotment", 0));
-		rate.setNumberOfNights(numberOfNights);
 
 		rate.setHasFreeCancellation(jsonRate.optBoolean("hasFreeCancellation", false));
 		if (jsonRate.has("freeCancellationWindowDate")) {
@@ -364,10 +348,6 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		// The rate info passed to merchant vs. agent hotels is very different, so
 		// handle the parsing separately here
 		Money averageRate = ParserUtils.createMoney(chargeableRateInfo.getString("averageRate"), currencyCode);
-		rate.setDailyAmountBeforeTax(averageRate);
-		rate.setAverageRate(averageRate);
-		rate.setAverageBaseRate(ParserUtils.createMoney(chargeableRateInfo.getString("averageBaseRate"),
-			currencyCode));
 		rate.setDiscountPercent(chargeableRateInfo.getDouble("discountPercent"));
 
 		Money totalMandatoryFees = ParserUtils.createMoney(
@@ -384,15 +364,20 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		Money totalBeforeTax = total.copy();
 		totalBeforeTax.subtract(surchargeTotalForEntireStay);
 
-		rate.setTotalAmountBeforeTax(totalBeforeTax);
 		rate.setTotalAmountAfterTax(total);
 		rate.setTotalSurcharge(surchargeTotalForEntireStay);
 
 		rate.setUserPriceType(chargeableRateInfo.optString("userPriceType"));
 		rate.setCheckoutPriceType(chargeableRateInfo.optString("checkoutPriceType"));
+		rate.setShowResortFeesMessaging(chargeableRateInfo.optBoolean("showResortFeeMessage", false));
+		rate.setResortFeesInclusion(chargeableRateInfo.optBoolean("resortFeeInclusion", false));
 
 		rate.setTaxStatusType(chargeableRateInfo.optString("taxStatusType"));
 
+		Money depositAmount = ParserUtils.createMoney(chargeableRateInfo.optString("depositAmount", "0.0"), currencyCode);
+		Money depositToShowUsers = ParserUtils.createMoney(chargeableRateInfo.optString("depositAmountToShowUsers",
+				"0.0"),
+			currencyCode);
 		Money priceToShowUsers = ParserUtils.createMoney(chargeableRateInfo.getString("priceToShowUsers"),
 			currencyCode);
 		Money strikethroughPriceToShowUsers = ParserUtils.createMoney(
@@ -400,13 +385,10 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 		Money nightlyRateTotal = ParserUtils.createMoney(chargeableRateInfo.getString("nightlyRateTotal"),
 			currencyCode);
 		rate.setNightlyRateTotal(nightlyRateTotal);
-
+		rate.setDepositAmount(depositAmount);
+		rate.setDepositToShowUsers(depositToShowUsers);
 		rate.setPriceToShowUsers(priceToShowUsers);
-		rate.setStrikethroughPriceToShowUsers(strikethroughPriceToShowUsers);
-
-		if (jsonRate.has("taxRate")) {
-			rate.setTaxesAndFeesPerRoom(ParserUtils.createMoney(jsonRate.optString("taxRate"), currencyCode));
-		}
+		rate.setStrikeThroughPriceToShowUsers(strikethroughPriceToShowUsers);
 
 		JSONArray nightlyRates = chargeableRateInfo.optJSONArray("nightlyRatesPerRoom");
 		if (mSearchParams != null && nightlyRates != null) {
@@ -445,80 +427,13 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 			rate.setTotalPriceAdjustments(totalAdjustments);
 		}
 
-		if (!mProperty.isMerchant()) {
-			// Taxes here is a policy info rather than a money
-			Policy policy = new Policy();
-			policy.setType(Policy.TYPE_TAX);
-			if (jsonRate.has("taxRate")) {
-				policy.setDescription(jsonRate.getString("taxRate"));
-			}
-			rateRules.addPolicy(policy);
-		}
-
-		// Look for policy info
-		if (checkInPolicy != null) {
-			rateRules.addPolicy(checkInPolicy);
-		}
-
-		boolean immediateChargeRequired = jsonRate.optBoolean("immediateChargeRequired", false);
-		if (immediateChargeRequired) {
-			Policy policy = new Policy();
-			policy.setType(Policy.TYPE_IMMEDIATE_CHARGE);
-			policy.setDescription(mContext.getString(R.string.PolicyImmediateChargeRequired));
-			rateRules.addPolicy(policy);
-		}
-		if (jsonRate.optBoolean("nonRefundable", false)) {
-			Policy policy = new Policy();
-			policy.setType(Policy.TYPE_NONREFUNDABLE);
-			policy.setDescription(mContext.getString(R.string.PolicyNonRefundable));
-			rateRules.addPolicy(policy);
-		}
-		// #5415: It makes no sense to display the "deposit required" warning when we already
-		// tell the user that they're going to be charged in full; so only show this if
-		// there is no immediate charge required.
-		if (!immediateChargeRequired && jsonRate.optBoolean("depositRequired", false)) {
-			Policy policy = new Policy();
-			policy.setType(Policy.TYPE_DEPOSIT);
-			policy.setDescription(mContext.getString(R.string.PolicyDepositRequired));
-			rateRules.addPolicy(policy);
-		}
-		if (jsonRate.optBoolean("guaranteeRequired", false)) {
-			Policy policy = new Policy();
-			policy.setType(Policy.TYPE_GUARANTEE);
-			policy.setDescription(mContext.getString(R.string.PolicyGuaranteeRequired));
-			rateRules.addPolicy(policy);
-		}
-
 		if (jsonRate.has("cancellationPolicy")) {
 			String cancellationPolicy = JSONUtils.getNormalizedString(jsonRate, "cancellationPolicy");
 			if (cancellationPolicy.startsWith("<![CDATA[")) {
 				cancellationPolicy = cancellationPolicy.substring(9, cancellationPolicy.length() - 3);
 			}
-			Policy policy = new Policy();
-			policy.setType(Policy.TYPE_CANCEL);
-			policy.setDescription(cancellationPolicy);
-			rateRules.addPolicy(policy);
+			rate.setCancellationPolicy(cancellationPolicy);
 		}
-
-		// The "general" policy info is composed of policies provided and policies Expedia
-		// wants us to display
-		StringBuilder sb = new StringBuilder();
-		if (jsonRate.has("policy")) {
-			sb.append(JSONUtils.getNormalizedString(jsonRate, "policy"));
-			sb.append("\n\n");
-		}
-
-		if (mProperty.isMerchant()) {
-			sb.append(mContext.getString(R.string.PolicyExpediaMerchant));
-		}
-		else {
-			sb.append(mContext.getString(R.string.PolicyExpediaAgent));
-		}
-
-		Policy policy = new Policy();
-		policy.setType(Policy.TYPE_OTHER_INFO);
-		policy.setDescription(sb.toString());
-		rateRules.addPolicy(policy);
 
 		// Value adds
 		if (jsonRate.has("valueAdds")) {
@@ -529,45 +444,61 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 			}
 		}
 
-		if (mProperty.isMerchant()) {
-			if (jsonRate.has("bedTypes")) {
-				// #6852: If there are multiple bed types, we just "or" them together now
-				JSONArray bedTypes = jsonRate.getJSONArray("bedTypes");
-				List<String> bedTypeElements = new ArrayList<String>();
-				for (int b = 0; b < bedTypes.length(); b++) {
-					JSONObject bedType = bedTypes.getJSONObject(b);
-					if (!bedType.has("description")) {
-						Log.w("No description for bed type. Skipping.");
-						continue;
-					}
+		if (jsonRate.has("bedTypes")) {
+			// #6852: If there are multiple bed types, we just "or" them together now
+			JSONArray bedTypes = jsonRate.getJSONArray("bedTypes");
+			for (int b = 0; b < bedTypes.length(); b++) {
+				JSONObject bedType = bedTypes.getJSONObject(b);
 
-					String bedTypeDescription = JSONUtils.getNormalizedString(bedType, "description");
-					bedTypeElements.add(bedTypeDescription);
+				String id = bedType.optString("id", null);
+				String description = JSONUtils.optNormalizedString(bedType, "description", null);
 
-					if (bedType.has("id") && bedType.getString("id") != null & !"".equals(bedTypeDescription)) {
-						rate.addBedType(bedType.getString("id"), bedTypeDescription);
-					}
+				if (!TextUtils.isEmpty(id) && !TextUtils.isEmpty(description)) {
+					rate.addBedType(id, description);
 				}
-				String ratePlanName = FormatUtils.series(mContext, bedTypeElements, ",", Conjunction.OR);
-				if (!TextUtils.isEmpty(ratePlanName)) {
-					// Do not change the case of the first letter. This isn't ideal but it works for now
-					ratePlanName = ratePlanName.substring(0, 1)
-						+ ratePlanName.substring(1).toLowerCase(Locale.getDefault());
-				}
-				rate.setRatePlanName(ratePlanName);
+			}
+
+			String formattedBedTypes = rate.getFormattedBedNames();
+			if (!TextUtils.isEmpty(formattedBedTypes)) {
+				rate.setRatePlanName(formattedBedTypes);
 			}
 		}
-		else {
+
+		// For some non-merchant hotels
+		if (TextUtils.isEmpty(rate.getRatePlanName())) {
 			String des = rate.getRoomDescription();
 			int cut = des.indexOf(" -");
 			if (cut == -1) {
 				cut = des.indexOf('_');
 			}
 			String bedType = cut <= 0 ? des : des.substring(0, cut);
-			rate.addBedType("UNKNOWN", bedType);
+			if (rate.getBedTypes() == null || rate.getBedTypes().isEmpty()) {
+				rate.addBedType("UNKNOWN", bedType);
+			}
 			rate.setRatePlanName(bedType);
 		}
 
+		if (jsonRate.has("payLaterOffer")) {
+			JSONObject etpOffer = jsonRate.getJSONObject("payLaterOffer");
+			Rate etpOfferRate = parseJsonHotelOffer(etpOffer, numberOfNights);
+			rate.addEtpOffer(etpOfferRate);
+		}
+
 		return rate;
+	}
+
+	public String parseRewardPoints(JSONObject obj) {
+		String points = "";
+		try {
+			JSONObject expediaRewards = obj.getJSONObject("expediaRewards");
+			if (expediaRewards != null) {
+				points = expediaRewards.optString("totalPointsToEarn");
+			}
+		}
+		catch (JSONException e) {
+			Log.e("Error parsing Expedia rewards", e);
+		}
+
+		return points;
 	}
 }

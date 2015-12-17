@@ -16,10 +16,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Region;
+import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
@@ -49,6 +51,7 @@ public class SlideToWidgetJB extends RelativeLayout {
 	private Bitmap mMask;
 	private Bitmap mTargetBitmap;
 	private final Paint mPaint = new Paint();
+	private final Paint mPaintBackground = new Paint();
 
 	private float mPartialSlide = -1;
 	private boolean mIsSliding = false;
@@ -85,6 +88,11 @@ public class SlideToWidgetJB extends RelativeLayout {
 		if (attr != null) {
 			TypedArray ta = context.obtainStyledAttributes(attr, R.styleable.SlideToWidget, 0, 0);
 			setText(ta.getText(R.styleable.SlideToWidget_sliderText));
+			mPaintBackground.setColor(ta.getColor(R.styleable.SlideToWidget_sliderBackgroundColor, Color.TRANSPARENT));
+			Drawable drawable = ta.getDrawable(R.styleable.SlideToWidget_sliderImage);
+			if (drawable != null) {
+				mTouchTarget.setImageDrawable(drawable);
+			}
 			ta.recycle();
 		}
 
@@ -93,6 +101,8 @@ public class SlideToWidgetJB extends RelativeLayout {
 		mTargetBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.slide_dots_pattern);
 		Shader targetShader = new BitmapShader(mTargetBitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
 		mPaint.setShader(targetShader);
+		mPaintBackground.setStyle(Paint.Style.FILL);
+		mPaintBackground.setAntiAlias(true);
 
 		resetSlider();
 	}
@@ -104,6 +114,11 @@ public class SlideToWidgetJB extends RelativeLayout {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+
+		Rect rect = new Rect(mTouchTarget.getLeft(), mTouchTarget.getTop(), mDestinationImage.getRight(),
+			mDestinationImage.getBottom());
+		RectF rectF = new RectF(rect);
+		canvas.drawRoundRect(rectF, mDestinationImage.getMeasuredHeight() / 2, mDestinationImage.getMeasuredHeight() / 2, mPaintBackground);
 
 		if (mMask != null && mIsSliding && !mHitDestination) {
 			int shift = (getHeight() - mMask.getHeight()) / 2;

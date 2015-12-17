@@ -1,0 +1,1058 @@
+{
+	"collections": [
+		{
+		   "title":"Kota yang Tak Pernah Terlelap",
+		   "id":"global-nightlife",
+		   "imageCode":"global-nightlife",
+		   "locations":[
+				{
+					"title": "Berlin",
+					"subtitle": "Jerman",
+					"id": "global-nightlife.berlin",
+					"description": "Masyarakat Berlin senang beraktivitas di malam hari. Mereka menghabiskan waktu di kabaret bergaya tahun 1920-an, bar retro yang trendi, atau taman terbuka nyaman yang menyajikan bir. Beberapa DJ terpopuler Eropa bermain di klub besar seperti Berghain, yakni klub mewah bergaya industri. Di musim panas, bar terbuka yang santai di tepi Sungai Spree membuat pesta terus berlanjut sepanjang hari.",
+					"imageCode": "berlin",
+					"location": {
+						"s": "Berlin (dan sekitarnya), Jerman",
+						"a": "BER",
+						"d": "<B>Berlin</B>, Jerman",
+						"id": "179892",
+						"t": "CITY",
+						"ll": {
+							"lat": "52.513840",
+							"lng": "13.350080"
+						},
+						"amc": "179892"
+					}
+				},
+				{
+					"title": "Buenos Aires",
+					"subtitle": "Argentina",
+					"id": "global-nightlife.buenos-aires",
+					"description": "Hiburan malam di Buenos Aires bukan untuk orang yang lemah. Pesta tidak akan dimulai hingga lewat tengah malam di kota yang terkenal dengan tari tango.",
+					"imageCode": "buenos-aires",
+					"location": {
+						"s": "Buenos Aires (dan sekitarnya), Argentina",
+						"a": "BUE",
+						"d": "<B>Buenos</B> <B>Aires</B>, <B>Argentina</B>",
+						"id": "178242",
+						"t": "CITY",
+						"ll": {
+							"lat": "-34.609500",
+							"lng": "-58.387200"
+						},
+						"amc": "178242"
+					}
+				},
+				{
+					"title": "Hong Kong",
+					"subtitle": "Hong Kong",
+					"id": "global-nightlife.hong-kong",
+					"description": "Keriuhan di Hong Kong belum berakhir saat jam menunjuk ke angka sepuluh. Beragam klub, bar, dan pasar malam di kota kosmopolitan ini menawarkan berbagai keseruan di malam hari.",
+					"imageCode": "hong-kong",
+					"location": {
+						"s": "Hong Kong (semua wilayah), Hong Kong",
+						"a": "HKG",
+						"d": "<B><B>Hong</B></B> <B><B>Kong</B></B> (semua wilayah), <B><B>Hong</B></B> <B><B>Kong</B></B>",
+						"id": "178263",
+						"t": "CITY",
+						"ll": {
+							"lat": "22.321194",
+							"lng": "114.109998"
+						},
+						"amc": "178263"
+					}
+				},
+				{
+					"title": "Ibiza",
+					"subtitle": "Spanyol",
+					"id": "global-nightlife.ibiza",
+					"description": "Ibiza adalah pusatnya klub malam, dan setiap penggemar pesta harus berkunjung ke sana setidaknya sekali. Pesta di Ibiza bukan hanya pesta di klub, namun juga sebuah pengalaman.",
+					"imageCode": "ibiza",
+					"location": {
+						"s": "Pulau Ibiza, Spanyol",
+						"a": "IBZ",
+						"d": "Pulau <B>Ibiza</B>, Spanyol",
+						"id": "602653",
+						"t": "CITY",
+						"ll": {
+							"lat": "39.020010",
+							"lng": "1.482148"
+						},
+						"amc": "602653"
+					}
+				},
+				{
+					"title": "Bangkok",
+					"subtitle": "Thailand",
+					"id": "global-nightlife.bangkok",
+					"description": "Dari tempat menginap murah di Jalan Khao San, bar rock di dekat Ratchathewi, hingga pub trendi di Thlonglor dan Ekamai, pelancong yang ke Bangkok memiliki berbagai opsi untuk menikmati kemeriahan malam mereka.",
+					"imageCode": "bangkok",
+					"location": {
+						"s": "Bangkok (dan sekitarnya), Thailand",
+						"a": "BKK",
+						"d": "<B>Bangkok</B>, <B>Thailand</B>",
+						"id": "178236",
+						"t": "CITY",
+						"ll": {
+							"lat": "13.747500",
+							"lng": "100.536010"
+						},
+						"amc": "178236"
+					}
+				},
+				{
+					"title": "Montreal",
+					"subtitle": "Kanada",
+					"id": "global-nightlife.montreal",
+					"description": "Nikmati kesenangan di kafe antik, klub jazz menarik, disko yang dipenuhi pengunjung, dan bar yang ramai dan buka hingga larut malam di lokasi pesta yang belum terkenal di Amerika Utara.",
+					"imageCode": "montreal",
+					"location": {
+						"s": "Montreal (dan sekitarnya), Quebec, Kanada",
+						"a": "YMQ",
+						"d": "<B>Montreal</B>, Quebec, Kanada",
+						"id": "178288",
+						"t": "CITY",
+						"ll": {
+							"lat": "45.501950",
+							"lng": "-73.567140"
+						},
+						"amc": "178288"
+					}
+				},
+				{
+					"title": "Las Vegas",
+					"subtitle": "Nevada",
+					"id": "global-nightlife.las-vegas",
+					"description": "Vegas memiliki segalanya untuk semua orang. Setiap keinginan Anda akan terpenuhi di suatu tempat di Strip. Meskipun Strip merupakan atraksi utama, namun pelancong yang mencari hiburan yang berbeda dari keriuhan dan kemeriahan harus mengunjungi Fremont Street.",
+					"imageCode": "las-vegas",
+					"location": {
+						"s": "Las Vegas (dan sekitarnya), Nevada, Amerika Serikat",
+						"a": "LAS",
+						"d": "<B>Las</B> <B>Vegas</B>, <B>Nevada</B>, Amerika Serikat",
+						"id": "178276",
+						"t": "CITY",
+						"ll": {
+							"lat": "36.114666",
+							"lng": "-115.172872"
+						},
+						"amc": "178276"
+					}
+				},
+				{
+					"title": "Miami",
+					"subtitle": "Florida",
+					"id": "global-nightlife.miami",
+					"description": "Kehidupan malamnya selalu semarak, dan kawasan South Beach yang modern merupakan lokasi pesta terbaik. Semua ada di sini, dari lounge mewah hingga klub dansa yang memekakkan telinga di sepanjang jalan bergaya art-deco. Kenakan pakaian yang menarik.",
+					"imageCode": "miami",
+					"location": {
+						"s": "Miami (dan sekitarnya), Florida, Amerika Serikat",
+						"a": "MIA",
+						"d": "<B>Miami</B>, <B>Florida</B>, Amerika Serikat",
+						"id": "178286",
+						"t": "CITY",
+						"ll": {
+							"lat": "25.771780",
+							"lng": "-80.190090"
+						},
+						"amc": "178286"
+					}
+				},
+				{
+					"title": "Rio de Janeiro",
+					"subtitle": "Brasil",
+					"id": "global-nightlife.rio-de-janeiro",
+					"description": "Penuh dengan gairah, jiwa, dan semangat, musim pesta di Rio tidak berhenti saat Karnaval selesai. Penduduk lokal dan turis minum, saling menggoda, dan berdansa sepanjang tahun di klub malam, bar, serta pesta di jalan dan pantai.",
+					"imageCode": "rio-de-janeiro",
+					"location": {
+						"s": "Rio de Janeiro (dan sekitarnya), Brazil",
+						"a": "RIO",
+						"d": "<B>Rio</B> <B>de</B> <B>Janeiro</B>, <B>Brazil</B>",
+						"id": "178301",
+						"t": "CITY",
+						"ll": {
+							"lat": "-22.845835",
+							"lng": "-43.231352"
+						},
+						"amc": "178301"
+					}
+				},
+				{
+					"title": "New York",
+					"subtitle": "New York",
+					"id": "global-nightlife.new-york",
+					"description": "Apa pun yang Anda lakukan, baik mengunjungi berbagai bar di East Village, menikmati koktail di lounge SoHo yang trendi, maupun menari sepanjang malam dalam pesta di bangunan gudang di Brooklyn, Anda pasti akan menemukan sesuatu yang menarik di kota yang tidak pernah tidur.",
+					"imageCode": "new-york",
+					"location": {
+						"s": "New York (dan sekitarnya), New York, Amerika Serikat",
+						"a": "NYC",
+						"d": "<B><B>New</B></B> <B><B>York</B></B>, <B><B>New</B></B> <B><B>York</B></B>, Amerika Serikat",
+						"id": "178293",
+						"t": "CITY",
+						"ll": {
+							"lat": "40.756680",
+							"lng": "-73.986470"
+						},
+						"amc": "178293"
+					}
+				},
+				{
+					"title": "Tokyo",
+					"subtitle": "Jepang",
+					"id": "global-nightlife.tokyo",
+					"description": "Semangat internasional Tokyo tercermin dalam kehidupan malamnya, karena pengunjung dapat menikmati semuanya, dari pertunjukan musik langsung, bar, hingga pertunjukan Kabuki tradisional Jepang.",
+					"imageCode": "tokyo",
+					"location": {
+						"s": "Tokyo (dan sekitarnya), Jepang",
+						"a": "TYO",
+						"d": "<B>Tokyo</B>, Jepang",
+						"id": "179900",
+						"t": "CITY",
+						"ll": {
+							"lat": "35.675000",
+							"lng": "139.760000"
+						},
+						"amc": "179900"
+					}
+				}
+			]
+		},
+		{
+            "title": "Kesempatan Berpetualang",
+            "id": "adventure-abounds",
+            "imageCode": "adventure-abounds",
+            "locations": [
+                {
+                    "title": "Beijing",
+                    "subtitle": "Tiongkok",
+                    "id": "adventure-abounds.beijing-adventure",
+                    "description": "Dibangun sejak abad ke-7 SM, Tembok Besar Cina dengan panjang total 550 km ini telah menarik lebih dari 10 juta pengunjung setiap tahunnya. Coba naik Toboggan menuruni Tembok Besar untuk merasakan pengalaman menegangkan, namun dengan pemandangan luar biasa yang tiada duanya.",
+                    "image": "beijing-adventure",
+                    "imageCode": "beijing-adventure",
+                    "location": {
+                        "s": "Beijing (dan sekitarnya)",
+                        "a": "BJS",
+                        "d": "<B>Beijing</B>, Cina",
+                        "id": "178237",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "39.906000",
+                            "lng": "116.385000"
+                        },
+                        "amc": "178237"
+                    }
+                },
+                {
+                    "title": "Lima",
+                    "subtitle": "Peru",
+                    "id": "adventure-abounds.lima-adventure",
+                    "description": "Cobalah petualangan berparalayang untuk merasakan terbang tinggi di atas samudra dan tebing dan menyaksikan pemandangan garis pantai Peru yang menakjubkan. Lima juga terkenal akan kulinernya, jadi pastikan untuk mengunjungi beragam restoran dan pasarnya.",
+                    "image": "lima-adventure",
+                    "imageCode": "lima-adventure",
+                    "location": {
+                        "s": "Lima (dan sekitarnya), Peru",
+                        "a": "LIM",
+                        "d": "<B>Lima</B>, <B>Peru</B>",
+                        "id": "178277",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-12.040150",
+                            "lng": "-77.036160"
+                        },
+                        "amc": "178277"
+                    }
+                },
+                {
+                    "title": "Munich",
+                    "subtitle": "Jerman",
+                    "id": "adventure-abounds.munich-adventure",
+                    "description": "Kalau bir dan bratwurst tidak cukup untuk Anda, Bavaria menawarkan kenikmatan lainnya: berkemah dengan bergelantungan di pohon, untuk menghabiskan malam dengan cara yang unik, ditemani pemandangan matahari terbit dan tenggelam yang menakjubkan.",
+                    "image": "munich-adventure",
+                    "imageCode": "munich-adventure",
+                    "location": {
+                        "s": "Munich (dan sekitarnya), Jerman",
+                        "a": "MUC",
+                        "d": "<B>Munich</B>, <B>Jerman</B>",
+                        "id": "179896",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "48.139800",
+                            "lng": "11.560050"
+                        },
+                        "amc": "179896"
+                    }
+                },
+                {
+                    "title": "Benidorm",
+                    "subtitle": "Spanyol",
+                    "id": "adventure-abounds.benidorm-adventure",
+                    "description": "Siapa bilang panjat tebing tidak bisa dilakukan di musim dingin? Benidorm menawarkan langit yang cerah serta kondisi yang ideal untuk panjat tebing mulai dari musim gugur hingga semi. Namun jika Anda lebih suka yang santai-santai saja di daratan, Playa Levante menawarkan hiburan malam yang mengasyikkan bagi para petualang.",
+                    "image": "benidorm-adventure",
+                    "imageCode": "benidorm-adventure",
+                    "location": {
+                        "s": "Benidorm",
+                        "a": "ALC",
+                        "d": "<B>Benidorm</B>, Spanyol",
+                        "id": "181363",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "38.536713",
+                            "lng": "-0.129450"
+                        },
+                        "amc": "6023825"
+                    }
+                },
+                {
+                    "title": "Boracay",
+                    "subtitle": "Filipina",
+                    "id": "adventure-abounds.boracay-adventure",
+                    "description": "Di sini, hobi favorit para warganya adalah kitesurfing! Dengan keindahan laut yang mendunia serta kursus-kursus kitesurfing yang menjamur, baik pemula maupun yang sudah ahli bisa bebas ikut serta.",
+                    "image": "boracay-adventure",
+                    "imageCode": "boracay-adventure",
+                    "location": {
+                        "s": "Boracay, Filipina",
+                        "a": "KLO",
+                        "d": "<B>Boracay</B>, <B>Filipina</B>",
+                        "id": "601371",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "11.959059",
+                            "lng": "121.926270"
+                        },
+                        "amc": "6184368"
+                    }
+                },
+                {
+                    "title": "Port Lincoln",
+                    "subtitle": "Australia",
+                    "id": "adventure-abounds.portlincoln-adventure",
+                    "description": "Kalau scuba diving tidak cukup menanantang, Port Lincoln punya banyak pilihan lainnya yang mungkin termasuk dalam bucket list Anda, termasuk menyelam bersama hiu putih!",
+                    "image": "portlincoln-adventure",
+                    "imageCode": "portlincoln-adventure",
+                    "location": {
+                        "s": "Pelabuhan Lincoln (dan sekitarnya), Australia Selatan, Australia",
+                        "a": "PLO",
+                        "d": "Pelabuhan <B>Lincoln</B>, <B>Australia</B> Selatan, <B>Australia</B>",
+                        "id": "6142927",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-34.734804",
+                            "lng": "135.852622"
+                        },
+                        "amc": "6142927"
+                    }
+                },
+                {
+                    "title": "Dubai",
+                    "subtitle": "Uni Emirat Arab",
+                    "id": "adventure-abounds.dubai-adventure",
+                    "description": "Sandboarding - gantinya snowboarding untuk musim panas - akan memberikan Anda cara lain dalam menikmati alam. Berselancarlah menuruni bukit-bukit pasir di Dubai dan setelahnya Anda akan punya perspektif berbeda tentang padang pasir.",
+                    "image": "dubai-adventure",
+                    "imageCode": "dubai-adventure",
+                    "location": {
+                        "s": "Dubai Emirate, Uni Emirat Arab",
+                        "a": "DXB",
+                        "d": "<B>Dubai</B> <B>Emirat</B>e, <B>Uni</B> <B>Emirat</B> <B>Arab</B>",
+                        "id": "1079",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "25.110714",
+                            "lng": "55.394882"
+                        },
+                        "amc": "1079"
+                    }
+                },
+                {
+                    "title": "Livingstone",
+                    "subtitle": "Zambia",
+                    "id": "adventure-abounds.livingstone-adventure",
+                    "description": "Saksikan kemegahan Air Terjun Victoria yang menakjubkan, salah satu air terjun terbesar di dunia - sambil melintasi jembatan gantung yang menghubungkan antara Zambia dan Zimbabwe. Atau mau yang lebih menantang? Anda bisa mencoba bungee jumping dari atas jembatan itu sendiri - sekitar 120 meter di atas perairan",
+                    "image": "livingstone-adventure",
+                    "imageCode": "livingstone-adventure",
+                    "location": {
+                        "s": "Livingstone, Zambia",
+                        "a": "LVI",
+                        "d": "<B>Livingstone</B>, <B>Zambia</B>",
+                        "id": "2170",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-17.872034",
+                            "lng": "25.858815"
+                        },
+                        "amc": "2170"
+                    }
+                },
+                {
+                    "title": "Arusha",
+                    "subtitle": "Tanzania",
+                    "id": "adventure-abounds.arusha-adventure",
+                    "description": "Terkenal sebagai lokasi dengan salah satu ekosistem tertua di bumi, Taman Nasional Serengeti telah dikunjungi lebih dari 90.000 petualang setiap tahunnya. Usahakan Anda datang ke sini antara Oktober - November untuk menangkap pemandangan migrasi besar-besaran zebra dan rusa kutub.",
+                    "image": "arusha-adventure",
+                    "imageCode": "arusha-adventure",
+                    "location": {
+                        "s": "Arusha, Tanzania",
+                        "a": "JRO",
+                        "d": "<B>Arusha</B>, <B>Tanzania</B>",
+                        "id": "178011",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-3.369788",
+                            "lng": "36.840055"
+                        },
+                        "amc": "1726"
+                    }
+                }
+            ]
+        },
+		{
+            "title": "Pilihan Staf Kami",
+            "id": "staff-picks",
+            "imageCode": "staff-picks",
+            "locations": [
+                {
+                    "title": "Kyoto",
+                    "subtitle": "Jepang",
+                    "id": "staff-picks.staff-kyoto",
+                    "description": "Dengan kekayaan budaya dan kecantikan alamnya, Kyoto tak pernah mengecewakan. Kunjungi kuil-kuil Situs Warisan Dunia di kota Jepang yang memesona ini. -Nao K.",
+                    "image": "staff-kyoto",
+                    "imageCode": "staff-kyoto",
+                    "location": {
+                        "s": "Kyoto (dan sekitarnya), Jepang",
+                        "a": "OSA",
+                        "d": "<B>Kyoto</B>, Jepang",
+                        "id": "6131486",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "35.011229",
+                            "lng": "135.768125"
+                        },
+                        "amc": "179897"
+                    }
+                },
+                {
+                    "title": "Pensacola",
+                    "subtitle": "Florida",
+                    "id": "staff-picks.staff-pensacola",
+                    "description": "Fort Pickesn adalah sebuah taman nasional di Pensacola yang cocok untuk mengeksplor benteng tua, berkemah, melihat suaka margasatwa, ataupun berjemur. Pantainya lebih terpencil dibandingkan Pantai Pensacola, tapi sama-sama memiliki pasir putih khas Gulf Coast. -Tarran V.",
+                    "image": "staff-pensacola",
+                    "imageCode": "staff-pensacola",
+                    "location": {
+                        "s": "Pensacola (dan sekitarnya), Florida, Amerika Serikat",
+                        "a": "PNS",
+                        "d": "<B>Pensacola</B>, <B>Florida</B>, Amerika Serikat",
+                        "id": "6023331",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "30.410358",
+                            "lng": "-87.214783"
+                        },
+                        "amc": "6023392"
+                    }
+                },
+                {
+                    "title": "Corniglia",
+                    "subtitle": "Italia",
+                    "id": "staff-picks.staff-corniglia",
+                    "description": "Corniglia memiliki ukuran terkecil di antara kota-kota yang ada di Cinque Terre, tapi keindahannya tidak kalah. Kota ini berlokasi jauh dari laut, jadi hanya sedikit wisatawan yang datang berkunjung ke sini. Sayang sekali! -Lacie T.",
+                    "image": "staff-corniglia",
+                    "imageCode": "staff-corniglia",
+                    "location": {
+                        "s": "Corniglia, Vernazza, Italia",
+                        "a": "GOA",
+                        "d": "<B>Corniglia</B>, Vernazza, Italia",
+                        "id": "179977",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "44.122589",
+                            "lng": "9.708674"
+                        },
+                        "amc": "6055038"
+                    }
+                },
+                {
+                    "title": "Marrakesh",
+                    "subtitle": "Maroko",
+                    "id": "staff-picks.staff-marrakech",
+                    "description": "Kunjungi Marrakech dan cobalah mendaki Gunung Toubkal di dekatnya untuk melihat pemandangan Pegunungan Atlas yang begitu menakjubkan. Naiki unta menyusuri gurun, cicipi kuliner lokal, dan pelajari sejarah serta budaya Marrakech. -Steven V.",
+                    "image": "staff-marrakech",
+                    "imageCode": "staff-marrakech",
+                    "location": {
+                        "s": "Marrakesh (dan sekitarnya), Maroko",
+                        "a": "RAK",
+                        "d": "Marrakesh, Maroko",
+                        "id": "6084756",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "31.631600",
+                            "lng": "-8.009210"
+                        },
+                        "amc": "6084756"
+                    }
+                },
+                {
+                    "title": "Williamsburg",
+                    "subtitle": "Virginia",
+                    "id": "staff-picks.staff-williamsburg",
+                    "description": "Perkaya pengetahuan Anda dengan mengenali sejarah Amerika di Colonial Williamsburg dan Yorktowon serta Jamestown di dekatnya. Melangkahlah kembali ke masa lalu dan rasakan pengalaman di masa awal-awal penjajahan Amerika, melalui makanan, aristektur bersejarah, kapal-kapal, dan banyak lagi lainnya. -Eric W.",
+                    "image": "staff-williamsburg",
+                    "imageCode": "staff-williamsburg",
+                    "location": {
+                        "s": "Williamsburg, Virginia, Amerika Serikat",
+                        "a": "PHF",
+                        "d": "<B>Williamsburg</B>, <B>Virginia</B>, Amerika Serikat",
+                        "id": "6296",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "37.297399",
+                            "lng": "-76.737958"
+                        },
+                        "amc": "6056964"
+                    }
+                },
+                {
+                    "title": "Baltra",
+                    "subtitle": "Ekuador",
+                    "id": "staff-picks.staff-baltra",
+                    "description": "Begitu Anda melangkah Kepulauan Galapagos, Anda akan mengerti kenapa Darwin begitu terobsesi dengan tempat ini. Setiap pulau memiliki spesies yang berbeda dan masing-masing telah berevolusi dalam cara yang berbeda pula, dikarenakan struktur geografis kepulauan ini. Perjalanan ke Pulau Baltra rasanya sama seperti belajar Biologi di salah satu ruang kelas tercantik di Bumi. -Eric G.",
+                    "image": "staff-baltra",
+                    "imageCode": "staff-baltra",
+                    "location": {
+                        "s": "Baltra, Ekuador",
+                        "a": "GPS",
+                        "d": "<B>Baltra</B>, Ekuador",
+                        "id": "6223000",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-0.454779",
+                            "lng": "-90.276524"
+                        },
+                        "amc": "6053670"
+                    }
+                },
+                {
+                    "title": "San Pedro de Atacama",
+                    "subtitle": "Chili",
+                    "id": "staff-picks.staff-atacama",
+                    "description": "San Pedro de Atacama adalah sebuah oase di tengah-tengah gurun terkering di dunia. San Pedro cocok untuk bersepeda gunung, melihat burung flamingo, atau menikmati pemandian air panas. Anda juga harus coba pengalaman sandboarding-nya! -Eric G.",
+                    "image": "staff-atacama",
+                    "imageCode": "staff-atacama",
+                    "location": {
+                        "s": "San Pedro de Atacama, Cile",
+                        "a": "CJC",
+                        "d": "<B>San</B> <B>Pedro</B> <B>de</B> <B>Atacama</B>, Cile",
+                        "id": "500224",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-22.910600",
+                            "lng": "-68.200352"
+                        },
+                        "amc": "500224"
+                    }
+                },
+                {
+                    "title": "Cape Town",
+                    "subtitle": "Afrika Selatan",
+                    "id": "staff-picks.staff-capetown",
+                    "description": "Berada di tengah-tengah pegunungan di Semenanjung Winelands yang memesona, di Franschhoek Anda bisa menemukan beberapa restoran dan perkebunan anggur terbaik di Afrike Selatan. Sebagai salah satu kota tertua di negeri, sejarahnya yang panjang dan pemandangannya yang mengesankan membuatnya sangat patut untuk dikunjungi. -Susanna V.",
+                    "image": "staff-capetown",
+                    "imageCode": "staff-capetown",
+                    "location": {
+                        "s": "Cape Town, Afrika Selatan",
+                        "a": "CPT",
+                        "d": "<B>Cape</B> <B>Town</B>, Afrika Selatan",
+                        "id": "6046820",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "-33.922012",
+                            "lng": "18.423134"
+                        },
+                        "amc": "6046820"
+                    }
+                },
+                {
+                    "title": "Ghent",
+                    "subtitle": "Belgia",
+                    "id": "staff-picks.staff-ghent",
+                    "description": "Ghent adalah sebuah kota yang memesona, dengan perpaduan antara kuno dan kontemporer, mulai dari arsitektur dan kanal-kanal khas abad pertengahan, sampai dengan pabrik bir dan kafe-kafe yang cantik. Kota ini menyimpan kecantikan yang tak banyak dikenal, buat Anda yang menginkan sesuatu yang berbeda di Belgia. -Cristen D.",
+                    "image": "staff-ghent",
+                    "imageCode": "staff-ghent",
+                    "location": {
+                        "s": "Ghent, Belgia",
+                        "a": "BRU",
+                        "d": "<B>Ghent</B>, Belgia",
+                        "id": "6052141",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "51.073648",
+                            "lng": "3.724662"
+                        },
+                        "amc": "178241"
+                    }
+                },
+                {
+                    "title": "Traverse City",
+                    "subtitle": "Michigan",
+                    "id": "staff-picks.staff-traversecity",
+                    "description": "Terletak di Teluk Grand Traverse yang mengagumkan, Traverse City cocok bagi mereka yang mencari pengalaman bersantap mewah, festival film, bersepeda, main golf, menyesap anggur, bahkan juga memetik ceri. Suasana yang merilekskan, kuliner yang sedap dan pemandangan yang memikat, adalah alasan yang sangat cukup untuk mengunjungi kota ini. -Shawn P.",
+                    "image": "staff-traversecity",
+                    "imageCode": "staff-traversecity",
+                    "location": {
+                        "s": "Traverse City (dan sekitarnya), Michigan, Amerika Serikat",
+                        "a": "TVC",
+                        "d": "<B>Traverse</B> <B>City</B>, <B>Michigan</B>, Amerika Serikat",
+                        "id": "3577",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "44.763420",
+                            "lng": "-85.620972"
+                        },
+                        "amc": "3577"
+                    }
+                },
+                {
+                    "title": "La Fortuna",
+                    "subtitle": "Kosta Rika",
+                    "id": "staff-picks.staff-lafortuna",
+                    "description": "Di La Fortuna, Anda bisa mendaki gunung api Arenal yang terkenal itu, dilanjutkan dengan berendam di pemandian air panas di spa-spa yang menjamur di sini. Jangan lupa juga untuk mengunjungi Hutan Monteverde Cloud, cuma beberapa menit dengan mobil, di mana Anda bisa melihat-lihat flora fauna yang eksotis. -Suzi F.",
+                    "image": "staff-lafortuna",
+                    "imageCode": "staff-lafortuna",
+                    "location": {
+                        "s": "Fortuna (Alajuela), Kosta Rika",
+                        "a": "SJO",
+                        "d": "<B>Fortuna</B> (Alajuela), Kosta Rika",
+                        "id": "6052925",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "10.471122",
+                            "lng": "-84.645862"
+                        },
+                        "amc": "603085"
+                    }
+                },
+                {
+                    "title": "Siem Reap",
+                    "subtitle": "Kamboja",
+                    "id": "staff-picks.staff-siemreap",
+                    "description": "Dengan sejumlah kuil kuno seperti Angkor Wat dan Angkor Thom, situs-situs bersejarah di Siem Reap akan memberikan Anda sebuah perjalanan dan pengalaman kultural yang tak terlupakan. -David Y.",
+                    "image": "staff-siemreap",
+                    "imageCode": "staff-siemreap",
+                    "location": {
+                        "s": "Siem Reap, Kamboja",
+                        "a": "REP",
+                        "d": "<B>Siem</B> <B>Reap</B>, Kamboja",
+                        "id": "2975",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "13.354465",
+                            "lng": "103.854790"
+                        },
+                        "amc": "2975"
+                    }
+                }
+            ]
+        },
+		{
+            "title": "Festival Musim Dingin",
+            "id": "winter-wonderlands",
+            "imageCode": "winter-wonderlands",
+            "locations": [
+                {
+                    "title": "Kopenhagen",
+                    "subtitle": "Denmark",
+                    "id": "winter-wonderlands.copenhagen-winter",
+                    "description": "Taman Tivoli (salah satu taman hiburan terkenal di dunia) mempercantik diri di musim dingin ini dengan lebih dari 111.000 lampu berdesain khusus yang menerangi bunga dan arsitektur yang ditata dengan cermat.",
+                    "image": "copenhagen-winter",
+                    "imageCode": "copenhagen-winter",
+                    "location": {
+                        "s": "Kopenhagen (dan sekitarnya), Denmark",
+                        "a": "CPH",
+                        "d": "Kopenhagen, <B>Denmark</B>",
+                        "id": "178252",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "55.675981",
+                            "lng": "12.568926"
+                        },
+                        "amc": "178252"
+                    }
+                },
+                {
+                    "title": "New York City",
+                    "subtitle": "New York",
+                    "id": "winter-wonderlands.nyc-winter",
+                    "description": "Selalu ada aktivitas yang dapat dilakukan di New York City, termasuk saat musim dingin. Pengunjung dapat menikmati pertunjukan Rockettes di Radio City, melihat pohon Natal raksasa di Rockefeller Center, atau menelusuri Central Park yang berselimut salju.",
+                    "image": "nyc-winter",
+                    "imageCode": "nyc-winter",
+                    "location": {
+                        "s": "New York (dan sekitarnya), New York, Amerika Serikat",
+                        "a": "NYC",
+                        "d": "<B>New</B> <B>York</B>, <B>New</B> <B>York</B>, Amerika Serikat",
+                        "id": "178293",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "40.756680",
+                            "lng": "-73.986470"
+                        },
+                        "amc": "178293"
+                    }
+                },
+                {
+                    "title": "Reykjavik",
+                    "subtitle": "Islandia",
+                    "id": "winter-wonderlands.reykjavik-winter",
+                    "description": "Malam yang panjang merupakan waktu yang tepat untuk melihat Aurora Borealis yang menari di langit. Pengunjung juga dapat menghangatkan diri di kolam air panas sambil menikmati bintang, atau merasakan sensasi dengan mendaki gletser.",
+                    "image": "reykjavik-winter",
+                    "imageCode": "reykjavik-winter",
+                    "location": {
+                        "s": "Reykjavik (dan sekitarnya), Islandia",
+                        "a": "REK",
+                        "d": "<B>Reykjavik</B>, Islandia",
+                        "id": "6054688",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "64.148417",
+                            "lng": "-21.941398"
+                        },
+                        "amc": "6054688"
+                    }
+                },
+                {
+                    "title": "Anchorage",
+                    "subtitle": "Alaska",
+                    "id": "winter-wonderlands.anchorage-winter",
+                    "description": "Pemandangan musim dingin yang memukau menjadi medan sempurna untuk mendaki menggunakan sepatu salju atau ekspedisi memancing di es. Selain itu, ada Festival Fur Rendezvous di Anchorage yang dimeriahkan dengan perlombaan mengukir es, wahana karnaval, dan pertunjukan musik.",
+                    "image": "anchorage-winter",
+                    "imageCode": "anchorage-winter",
+                    "location": {
+                        "s": "Anchorage (dan sekitarnya), Alaska, Amerika Serikat",
+                        "a": "ANC",
+                        "d": "<B>Anchorage</B>, <B>Alaska</B>, Amerika Serikat",
+                        "id": "178230",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "61.217110",
+                            "lng": "-149.892410"
+                        },
+                        "amc": "178230"
+                    }
+                },
+                {
+                    "title": "London",
+                    "subtitle": "Inggris",
+                    "id": "winter-wonderlands.london-winter",
+                    "description": "Kunjungi Taman Hyde saat musim dingin untuk mengagumi kerajaan es yang memukau. Pencinta hiburan dapat menikmati sirkus yang spektakuler, wahana yang menegangkan, dan pasar liburan yang ramai di taman",
+                    "image": "london-winter",
+                    "imageCode": "london-winter",
+                    "location": {
+                        "s": "London (dan sekitarnya), Inggris, Inggris Raya",
+                        "a": "LON",
+                        "d": "<B>London</B>, Inggris, Inggris Raya",
+                        "id": "178279",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "51.507538",
+                            "lng": "-0.127804"
+                        },
+                        "amc": "178279"
+                    }
+                },
+                {
+                    "title": "Ebensee",
+                    "subtitle": "Austria",
+                    "id": "winter-wonderlands.ebensee-winter",
+                    "description": "Jika Anda ingin belajar cara membangun igloo, musim dingin di Austria adalah waktu yang tepat untuk mencobanya. Tur jalan kaki dengan sepatu salju, bermain toboggan, dan ski juga merupakan aktivitas yang populer.",
+                    "image": "ebensee-winter",
+                    "imageCode": "ebensee-winter",
+                    "location": {
+                        "s": "Ebensee, Austria",
+                        "a": "LNZ",
+                        "d": "<B>Ebensee</B>, <B>Austria</B>",
+                        "id": "6160078",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "47.782091",
+                            "lng": "13.772507"
+                        },
+                        "amc": "6055554"
+                    }
+                },
+                {
+                    "title": "Harbin",
+                    "subtitle": "Cina",
+                    "id": "winter-wonderlands.harbin-winter",
+                    "description": "Datang dan kagumi koleksi seni di Festival Es Harbin. Pengunjung akan terpukau di pameran lampion es di Taman Zhaolin, dan mengagumi bangunan besar dari salju, terbuat dari balok es setebal 2–3 inci yang diambil langsung dari Sungai Songhua.",
+                    "image": "harbin-winter",
+                    "imageCode": "harbin-winter",
+                    "location": {
+                        "s": "Harbin, Cina",
+                        "a": "HRB",
+                        "d": "<B>Harbin</B>, Cina",
+                        "id": "1510",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "45.658669",
+                            "lng": "127.948756"
+                        },
+                        "amc": "6140852"
+                    }
+                },
+                {
+                    "title": "Asahikawa",
+                    "subtitle": "Jepang",
+                    "id": "winter-wonderlands.asahikawa-winter",
+                    "description": "Festival Musim Dingin Asahikawa digelar untuk menyambut musim dingin yang panjang di Hokkaido dengan menampilkan patung es berukuran besar dan pertunjukan musik. Jika berada di kota, pastikan Anda juga mengunjungi Festival Salju Sapporo yang lokasinya cukup dekat.",
+                    "image": "asahikawa-winter",
+                    "imageCode": "asahikawa-winter",
+                    "location": {
+                        "s": "Asahikawa (dan sekitarnya), Japan",
+                        "a": "AKJ",
+                        "d": "<B>Asahikawa</B>, <B>Japan</B>",
+                        "id": "6143139",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "43.774547",
+                            "lng": "142.365571"
+                        },
+                        "amc": "6143139"
+                    }
+                },
+                {
+                    "title": "Park City",
+                    "subtitle": "Utah",
+                    "id": "winter-wonderlands.parkcity-winter",
+                    "description": "Selain sebagai area bermain ski yang luar biasa, setiap tahun Park City juga menyelenggarakan Festival Film Sundance, yakni acara pemutaran perdana untuk film independen.",
+                    "image": "parkcity-winter",
+                    "imageCode": "parkcity-winter",
+                    "location": {
+                        "s": "Park City (dan sekitarnya), Utah, Amerika Serikat",
+                        "a": "SLC",
+                        "d": "<B>Park</B> <B>City</B>, <B>Ut</B>ah, Amerika Serikat",
+                        "id": "602285",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "40.644230",
+                            "lng": "-111.496071"
+                        },
+                        "amc": "178302"
+                    }
+                },
+                {
+                    "title": "Saas-Fee",
+                    "subtitle": "Swiss",
+                    "id": "winter-wonderlands.saasfee-winter",
+                    "description": "Patung es yang berkilauan menanti kedatangan pengunjung negeri es yang fantastis. Naiki kereta bawah tanah tertinggi di dunia menuju salah satu paviliun es terbesar di dunia. Di situ terdapat terowongan sepanjang 70 meter yang mengarah ke es berusia ribuan tahun.",
+                    "image": "saasfee-winter",
+                    "imageCode": "saasfee-winter",
+                    "location": {
+                        "s": "Saas-Fee, Swiss",
+                        "a": "GVA",
+                        "d": "<B>Saas</B>-<B>Fee</B>, Swiss",
+                        "id": "4352",
+                        "t": "CITY",
+                        "ll": {
+                            "lat": "46.088787",
+                            "lng": "7.900798"
+                        },
+                        "amc": "180003"
+                    }
+                }
+            ]
+        },
+		{
+		   "title":"Wisata Kuliner",
+		   "id":"us-foodie",
+		   "imageCode":"us-foodie",
+		   "locations":[
+				{
+					"title": "Honolulu",
+					"subtitle": "Hawaii",
+					"id": "us-foodie.honolulu",
+					"description": "Sambil mandi matahari di salah satu pantai cantik di Oahu, lidah Anda akan dimanjakan saat menikmati daging babi kalua (dimasak lama), hidangan perpaduan berbagai etnis, poke (sejenis salad), dan es serut.",
+					"imageCode": "honolulu",
+					"location": {
+						"s": "Ladang Golf Navy Marine, Honolulu, Hawaii, Amerika Serikat",
+						"a": "HNL",
+						"d": "Ladang Golf Navy Marine, <B>Honolulu</B>, <B>Hawaii</B>, Amerika Serikat",
+						"id": "6181216",
+						"t": "ATTRACTION",
+						"ll": {
+							"lat": "21.341665",
+							"lng": "-157.929221"
+						},
+						"amc": "180077"
+					}
+				},
+				{
+					"title": "Las Vegas",
+					"subtitle": "Nevada",
+					"id": "us-foodie.las-vegas",
+					"description": "Bintang panggung di Vegas bukan lagi hanya para aktor. Dalam beberapa tahun terakhir, koki terkenal (koki berbintang Michelin dan koki TV) telah menjadikan Sin City sebagai tempat tinggal mereka.",
+					"imageCode": "las-vegas",
+					"location": {
+						"s": "Las Vegas (dan sekitarnya), Nevada, Amerika Serikat",
+						"a": "LAS",
+						"d": "<B>Las</B> <B>Vegas</B>, <B>Nevada</B>, Amerika Serikat",
+						"id": "178276",
+						"t": "CITY",
+						"ll": {
+							"lat": "36.128174",
+							"lng": "-115.147728"
+						},
+						"amc": "178276"
+					}
+				},
+				{
+					"title": "Austin",
+					"subtitle": "Texas",
+					"id": "us-foodie.austin",
+					"description": "Meskipun terkenal akan beberapa barbekyu terbaik di Amerika, jangan berpikir Anda hanya akan menemukan brisket dan tulang iga di ibu kota Texas. Di Austin juga terdapat restoran Tex-Mex dan Jepang yang luar biasa, serta truk makanan yang menarik.",
+					"imageCode": "austin",
+					"location": {
+						"s": "Austin (dan sekitarnya), Texas, Amerika Serikat",
+						"a": "AUS",
+						"d": "<B>Austin</B>, <B>Texas</B>, Amerika Serikat",
+						"id": "178234",
+						"t": "CITY",
+						"ll": {
+							"lat": "30.296041",
+							"lng": "-97.730998"
+						},
+						"amc": "178234"
+					}
+				},
+				{
+					"title": "Boston",
+					"subtitle": "Massachusetts",
+					"id": "us-foodie.boston",
+					"description": "Meskipun terkenal akan hidangan lautnya yang luar biasa (misalnya, clam chowder, lobster, ikan dan keripik kentang), Boston juga menawarkan suasana kuliner tradisional, restoran trendi yang menarik, dan pasar petani yang menjual berbagai barang.",
+					"imageCode": "boston",
+					"location": {
+						"s": "Boston (dan sekitarnya), Massachusetts, Amerika Serikat",
+						"a": "BOS",
+						"d": "<B>Boston</B>, <B>Massachusetts</B>, Amerika Serikat",
+						"id": "178239",
+						"t": "CITY",
+						"ll": {
+							"lat": "42.325224",
+							"lng": "-71.105277"
+						},
+						"amc": "178239"
+					}
+				},
+				{
+					"title": "Chicago",
+					"subtitle": "Illinois",
+					"id": "us-foodie.chicago",
+					"description": "Selain pizza yang lezat dan ikonik, hot dog ala Chicago, dan sandwich daging sapi Italia, Kota Angin ini juga terkenal sebagai pusat wisata kuliner berkat koki populer yang menjalankan restoran sederhana yang terjangkau.",
+					"imageCode": "chicago",
+					"location": {
+						"s": "Chicago (dan sekitarnya), Illinois, Amerika Serikat",
+						"a": "CHI",
+						"d": "<B>Chicago</B>, <B>Illinois</B>, Amerika Serikat",
+						"id": "178248",
+						"t": "CITY",
+						"ll": {
+							"lat": "41.881056",
+							"lng": "-87.964655"
+						},
+						"amc": "178248"
+					}
+				},
+				{
+					"title": "Los Angeles",
+					"subtitle": "California",
+					"id": "us-foodie.los-angeles",
+					"description": "City of Angels ini sangat terkenal sebagai pelopor tren kuliner dan merupakan tempat tinggal koki terkenal, dengan deretan truk makanan dan restoran rumahan.",
+					"imageCode": "los-angeles",
+					"location": {
+						"s": "Los Angeles (dan sekitarnya), California, Amerika Serikat",
+						"a": "QLA",
+						"d": "<B>Los</B> <B>Angeles</B>, <B>California</B>, Amerika Serikat",
+						"id": "178280",
+						"t": "CITY",
+						"ll": {
+							"lat": "34.086247",
+							"lng": "-118.299343"
+						},
+						"amc": "178280"
+					}
+				},
+				{
+					"title": "New Orleans",
+					"subtitle": "Louisiana",
+					"id": "us-foodie.new-orleans",
+					"description": "Nikmati suasana menyenangkan di \"Nawlins\" saat Anda mencicipi hidangan Creole dan Cajun terbaik, termasuk jambalaya, gumbo, crawfish etouffe (hidangan dari udang), and beignet (sejenis roti goreng)!",
+					"imageCode": "new-orleans",
+					"location": {
+						"s": "Bandar New Orleans, New Orleans, Louisiana, Amerika Serikat",
+						"a": "MSY",
+						"d": "Bandar <B>New</B> <B>Orleans</B>, <B>New</B> <B>Orleans</B>, <B>Louisiana</B>, Amerika Serikat",
+						"id": "6162435",
+						"t": "ATTRACTION",
+						"ll": {
+							"lat": "29.936650",
+							"lng": "-90.061699"
+						},
+						"amc": "178292"
+					}
+				},
+				{
+					"title": "Portland",
+					"subtitle": "Oregon",
+					"id": "us-foodie.portland",
+					"description": "Dengan lebih dari 200 truk makanan dan berbagai pilihan restoran yang menyajikan bahan-bahan segar, pabrik bir kecil yang menarik, dan kedai kopi unik, Portland yang sangat hijau memiliki reputasi sebagai kota berjiwa muda dan bersemangat yang selalu mengikuti tren kuliner baru.",
+					"imageCode": "portland",
+					"location": {
+						"s": "Portland (dan sekitarnya), Oregon, Amerika Serikat",
+						"a": "PDX",
+						"d": "<B>Portland</B>, <B>Oregon</B>, Amerika Serikat",
+						"id": "178299",
+						"t": "CITY",
+						"ll": {
+							"lat": "45.458054",
+							"lng": "-122.661384"
+						},
+						"amc": "178299"
+					}
+				},
+				{
+					"title": "San Francisco",
+					"subtitle": "California",
+					"id": "us-foodie.san-francisco",
+					"description": "Dengan lebih dari 3.500 restoran (paling banyak per kapita dibandingkan kota lain di Amerika Serikat) dan sajian kuliner dari pasar petani dan truk makanan, tidak heran jika San Francisco berhasil memuaskan pengunjung di hati dan perut.",
+					"imageCode": "san-francisco",
+					"location": {
+						"s": "San Francisco (dan sekitarnya), California, Amerika Serikat",
+						"a": "QSF",
+						"d": "<B>San</B> <B>Francisco</B>, <B>California</B>, Amerika Serikat",
+						"id": "178305",
+						"t": "CITY",
+						"ll": {
+							"lat": "37.624590",
+							"lng": "-122.343839"
+						},
+						"amc": "178305"
+					}
+				},
+				{
+					"title": "New York",
+					"subtitle": "New York",
+					"id": "us-foodie.new-york",
+					"description": "Selamat datang di Big Apple, di mana Anda akan menemukan hampir semua jenis makanan dan menikmati hidangan lezat dengan harga berapa pun. Dari restoran mewah milik koki terkenal hingga hidangan etnik dari pedagang makanan yang populer di kota, kuil pencinta kuliner ini akan memuaskan berbagai selera.",
+					"imageCode": "new-york",
+					"location": {
+						"s": "New York (dan sekitarnya), New York, Amerika Serikat",
+						"a": "NYC",
+						"d": "<B><B>New</B></B> <B><B>York</B></B>, <B><B>New</B></B> <B><B>York</B></B>, Amerika Serikat",
+						"id": "178293",
+						"t": "CITY",
+						"ll": {
+							"lat": "40.756680",
+							"lng": "-73.986470"
+						},
+						"amc": "178293"
+					}
+				}
+			]
+		}
+	]
+}

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <!-- weights -->
-    <integer name="login_or_lines_weight">1</integer>
-    <integer name="login_or_spacers_weight">2</integer>
-
-</resources>

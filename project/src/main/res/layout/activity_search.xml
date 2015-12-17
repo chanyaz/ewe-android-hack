@@ -9,7 +9,8 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:focusable="true"
-        android:focusableInTouchMode="true" />
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal" />
 
     <com.expedia.bookings.widget.DisableableViewPager
         android:id="@+id/content_viewpager"
@@ -39,14 +40,56 @@
             android:background="@color/map_dimmer"
             android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/search_progress_text_view"
+        <Space
+            android:id="@+id/center_anchor"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerInParent="true" />
+
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="16dp"
-            android:textColor="#555555"
-            android:textStyle="bold" />
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/center_anchor">
+
+            <Space
+                android:id="@+id/lowerhalf_center_anchor"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerInParent="true" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/lowerhalf_center_anchor"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/ab_searching_text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/progress_searching_message"
+                    android:textColor="#555555"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/search_progress_text_view"
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:paddingBottom="10dp"
+                    android:textColor="#555555"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 

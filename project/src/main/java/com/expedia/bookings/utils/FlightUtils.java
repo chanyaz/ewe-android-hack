@@ -1,11 +1,10 @@
 package com.expedia.bookings.utils;
 
-import java.util.Set;
+import org.joda.time.LocalDate;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripBucketItemFlight;
@@ -66,21 +66,6 @@ public class FlightUtils {
 
 	public static String formatDuration(Context context, FlightLeg leg) {
 		return DateTimeUtils.formatDuration(context.getResources(), (int) (leg.getDuration() / 60000));
-	}
-
-	public static String getFormattedAirlinesList(Set<String> airlineCodes) {
-		StringBuilder sb = new StringBuilder();
-		for (String airlineCode : airlineCodes) {
-			if (sb.length() != 0) {
-				sb.append(", ");
-			}
-
-			String airlineName = Db.getAirline(airlineCode).mAirlineName;
-			if (!TextUtils.isEmpty(airlineName)) {
-				sb.append(airlineName);
-			}
-		}
-		return sb.toString();
 	}
 
 	/**
@@ -158,4 +143,15 @@ public class FlightUtils {
 		}
 	}
 
+	 /*
+	  * Helper method to check if it's valid to start the flight search.
+	  */
+	public static boolean dateRangeSupportsFlightSearch(Context context) {
+		FlightSearchParams params = Db.getFlightSearch().getSearchParams();
+		LocalDate searchDate = params.getDepartureDate();
+		LocalDate arrivalDate = params.getReturnDate();
+		LocalDate maxSearchDate = LocalDate.now()
+			.plusDays(context.getResources().getInteger(R.integer.calendar_max_days_flight_search) + 1);
+		return arrivalDate != null ? arrivalDate.isBefore(maxSearchDate) : searchDate.isBefore(maxSearchDate);
+	}
 }

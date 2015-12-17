@@ -17,8 +17,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
-import android.text.Html;
 import android.text.InputFilter;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -139,8 +140,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	private View mDoneButton;
 	private View mButtonBarLayout;
 	private TextView mRefinementInfoTextView;
-	private TextView mInfantPreferenceTextView;
 	private RadioGroup mInfantPreferenceRadioGroup;
+	private LinearLayout mInfantPreferenceLayout;
 
 	private FlightSearchParams mSearchParams;
 
@@ -252,8 +253,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		mInfantAlertTextView = Ui.findView(v, R.id.infant_alert_text_view);
 		mButtonBarLayout = Ui.findView(v, R.id.button_bar_layout);
 		mRefinementInfoTextView = Ui.findView(v, R.id.refinement_info_text_view);
-		mInfantPreferenceTextView = Ui.findView(v, R.id.infant_seating_preference_text_view);
 		mInfantPreferenceRadioGroup = Ui.findView(v, R.id.infant_seating_preference_radio_group);
+		mInfantPreferenceLayout = Ui.findView(v, R.id.infant_preference_seating_layout);
 		mDoneButton = Ui.findView(v, R.id.guest_done_button);
 
 		// Configure views
@@ -480,7 +481,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 				if (mProgressDialog == null || !mProgressDialog.isAdded()) {
 					mProgressDialog = SimpleProgressDialogFragment
-						.newInstance(getString(Ui.obtainThemeResID(getActivity(), R.attr.loadingAirAsiaRoutesString)));
+						.newInstance(getString(Ui.obtainThemeResID(getActivity(), R.attr.skin_loadingAirAsiaRoutesString)));
 					mProgressDialog.show(getChildFragmentManager(), TAG_PROGRESS);
 				}
 
@@ -505,6 +506,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			mDepartureAirportEditText.setAdapter((AirportDropDownAdapter) null);
 			mArrivalAirportEditText.setAdapter((AirportDropDownAdapter) null);
 		}
+		mFirstRun = false;
 	}
 
 	@Override
@@ -635,6 +637,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	private void expandAirportEditText(final View focusView, final boolean animate) {
+		mAirportAdapter.setShowNearbyAirports(focusView == mDepartureAirportEditText);
+		((AutoCompleteTextView)focusView).setAdapter(mAirportAdapter);
 		adjustAirportEditTexts(focusView, EDITTEXT_EXPANSION_RATIO, animate);
 	}
 
@@ -972,15 +976,24 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 		if (mSearchParams.getReturnDate() != null) {
 			end = JodaUtils.formatLocalDate(getActivity(), mSearchParams.getReturnDate(), DATE_FORMAT_FLAGS);
 		}
-
+		int color = getResources().getColor(R.color.flight_departure_date_color);
 		if (start == null && end == null) {
 			mDatesTextView.setText(null);
 		}
 		else if (end == null) {
-			mDatesTextView.setText(Html.fromHtml(getString(R.string.one_way_TEMPLATE, start)));
+			Spannable stringToSpan = new SpannableString(getString(R.string.one_way_TEMPLATE, start));
+			int endSpan = start.length();
+			Ui.setTextStyleBoldText(stringToSpan, color, 0, endSpan);
+			mDatesTextView.setText(stringToSpan);
 		}
 		else {
-			mDatesTextView.setText(Html.fromHtml(getString(R.string.round_trip_TEMPLATE, start, end)));
+			Spannable stringToSpan = new SpannableString(getString(R.string.round_trip_TEMPLATE, start, end));
+			int endSpan = start.length();
+			Ui.setTextStyleBoldText(stringToSpan, color, 0, endSpan);
+			endSpan = stringToSpan.length();
+			int startSpan = endSpan - end.length();
+			Ui.setTextStyleBoldText(stringToSpan, color, startSpan, endSpan);
+			mDatesTextView.setText(stringToSpan);
 		}
 	}
 
@@ -1072,8 +1085,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 
 	private void showInfantSeatingPreferenceAsNecessary() {
 		int vis = mSearchParams.hasInfants() ? View.VISIBLE : View.INVISIBLE;
-		mInfantPreferenceTextView.setVisibility(vis);
-		mInfantPreferenceRadioGroup.setVisibility(vis);
+		mInfantPreferenceLayout.setVisibility(vis);
 
 		if (vis == View.VISIBLE) {
 			mInfantPreferenceRadioGroup.setOnCheckedChangeListener(null);

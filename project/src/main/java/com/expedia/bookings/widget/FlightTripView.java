@@ -1,8 +1,9 @@
 package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
+
+import org.joda.time.DateTime;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -40,8 +41,8 @@ public class FlightTripView extends View {
 	private FlightLeg mFlightLegTwo;
 
 	// Min/max time are the minimum and maximum times for the entire result set (not just this flight)
-	private Calendar mMinTime;
-	private Calendar mMaxTime;
+	private DateTime mMinTime;
+	private DateTime mMaxTime;
 
 	// Dimensions loaded in resources
 	private float mMinPaddingBetweenLabels;
@@ -150,7 +151,7 @@ public class FlightTripView extends View {
 		mRightArcBounds = new RectF();
 	}
 
-	public void setUp(FlightLeg flightLeg, Calendar minTime, Calendar maxTime) {
+	public void setUp(FlightLeg flightLeg, DateTime minTime, DateTime maxTime) {
 		mFlightLeg = flightLeg;
 		mMinTime = minTime;
 		mMaxTime = maxTime;
@@ -160,7 +161,7 @@ public class FlightTripView extends View {
 		invalidate();
 	}
 
-	public void setUp(Flight flight, Calendar minTime, Calendar maxTime) {
+	public void setUp(Flight flight, DateTime minTime, DateTime maxTime) {
 		FlightLeg pseudoLeg = new FlightLeg();
 		pseudoLeg.addSegment(flight);
 		setUp(pseudoLeg, minTime, maxTime);
@@ -414,7 +415,7 @@ public class FlightTripView extends View {
 				text = mFlightLeg.getFirstWaypoint().mAirportCode;
 			}
 			else {
-				text = mFlightLeg.getSegment(a).mDestination.mAirportCode;
+				text = mFlightLeg.getSegment(a).getDestinationWaypoint().mAirportCode;
 			}
 
 			float textWidth = mTextPaint.measureText(text);
@@ -426,13 +427,13 @@ public class FlightTripView extends View {
 		float minLineWidth = Math.max(sidePadding * 2 + mMinPaddingBetweenLabels, circleDiameter);
 
 		// Make sure we've got a min/max time that represents the entire width of the View
-		Calendar minTime = (mMinTime != null) ? mMinTime : mFlightLeg.getFirstWaypoint().getBestSearchDateTime();
-		Calendar maxTime = (mMaxTime != null) ? mMaxTime : mFlightLeg.getLastWaypoint().getBestSearchDateTime();
+		DateTime minTime = (mMinTime != null) ? mMinTime : mFlightLeg.getFirstWaypoint().getBestSearchDateTime();
+		DateTime maxTime = (mMaxTime != null) ? mMaxTime : mFlightLeg.getLastWaypoint().getBestSearchDateTime();
 
 		// Calculate the ranges.  If there is a min/max time available,
 		// calibrate to that (otherwise assume we have the full width for the trip view)
 		long tripRangeMillis = mFlightLeg.getDuration();
-		long totalRangeMillis = maxTime.getTimeInMillis() - minTime.getTimeInMillis();
+		long totalRangeMillis = maxTime.getMillis() - minTime.getMillis();
 		float totalPossibleWidth = width - (2 * sidePadding);
 		float totalAvailableWidth = width - (2 * sidePadding) - (2 * circleDiameter); // Discount the start/end circles
 		float tripPreferredWidth = (tripRangeMillis / (float) totalRangeMillis) * totalAvailableWidth;
@@ -451,22 +452,22 @@ public class FlightTripView extends View {
 				// Flight
 				drawComponent.mDrawType = DrawType.FLIGHT_LINE;
 				Flight segment = mFlightLeg.getSegment(a / 2);
-				startMillis = segment.mOrigin.getBestSearchDateTime().getTimeInMillis();
-				endMillis = segment.mDestination.getBestSearchDateTime().getTimeInMillis();
+				startMillis = segment.getOriginWaypoint().getBestSearchDateTime().getMillis();
+				endMillis = segment.getDestinationWaypoint().getBestSearchDateTime().getMillis();
 			}
 			else {
 				// Layover
 				drawComponent.mDrawType = DrawType.AIRPORT_LAYOVER;
 				Flight flight1 = mFlightLeg.getSegment((a - 1) / 2);
 				Flight flight2 = mFlightLeg.getSegment((a + 1) / 2);
-				drawComponent.mAirportCode = flight1.mDestination.mAirportCode;
-				startMillis = flight1.mDestination.getBestSearchDateTime().getTimeInMillis();
-				endMillis = flight2.mOrigin.getBestSearchDateTime().getTimeInMillis();
+				drawComponent.mAirportCode = flight1.getDestinationWaypoint().mAirportCode;
+				startMillis = flight1.getDestinationWaypoint().getBestSearchDateTime().getMillis();
+				endMillis = flight2.getOriginWaypoint().getBestSearchDateTime().getMillis();
 			}
 			// Ensure we don't go over/under our max/min (this can happen if one of our intermediate
 			// waypoints gets rerouted or the max min values provided are bunk)
-			startMillis = startMillis < minTime.getTimeInMillis() ? minTime.getTimeInMillis() : startMillis;
-			endMillis = endMillis > maxTime.getTimeInMillis() ? maxTime.getTimeInMillis() : endMillis;
+			startMillis = startMillis < minTime.getMillis() ? minTime.getMillis() : startMillis;
+			endMillis = endMillis > maxTime.getMillis() ? maxTime.getMillis() : endMillis;
 
 			// Calculate the width as fraction of totalWidth, based on its weight (i.e width)
 			long durationMillis = endMillis - startMillis;
@@ -531,8 +532,8 @@ public class FlightTripView extends View {
 		mDrawComponents.add(endAirport);
 
 		// Determine where to start the graph
-		Calendar firstCal = mFlightLeg.getFirstWaypoint().getBestSearchDateTime();
-		long startMillis = firstCal.getTimeInMillis() - minTime.getTimeInMillis();
+		DateTime firstCal = mFlightLeg.getFirstWaypoint().getBestSearchDateTime();
+		long startMillis = firstCal.getMillis() - minTime.getMillis();
 		float left = (startMillis / (float) totalRangeMillis) * totalAvailableWidth + sidePadding;
 		if (tripActualWidth > tripPreferredWidth + .1) {
 			left -= (tripActualWidth - tripPreferredWidth) / 2.0;
