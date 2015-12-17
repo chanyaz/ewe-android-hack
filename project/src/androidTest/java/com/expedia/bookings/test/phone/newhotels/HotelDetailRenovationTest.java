@@ -17,7 +17,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.not;
 
-public class NewHotelDetailRenovationTest extends HotelTestCase {
+public class HotelDetailRenovationTest extends HotelTestCase {
 	public void testETPHotelWithoutFreeCancellationHavingRenovation() throws Throwable {
 		HotelScreen.doGenericSearch();
 		HotelScreen.selectHotel("hotel_etp_renovation_resort");

@@ -34,20 +34,12 @@ public class CheckoutViewModel {
 		return onView(withId(R.id.main_contact_info_card_view));
 	}
 
-	public static ViewInteraction summaryView() {
-		return onView(withId(R.id.summary_container));
-	}
-
 	public static ViewInteraction paymentInfo() {
 		return onView(withId(R.id.payment_info_card_view));
 	}
 
 	public static ViewInteraction addCreditCard() {
 		return onView(withId(R.id.payment_option_credit_debit));
-	}
-
-	public static ViewInteraction scrollView() {
-		return onView(withId(R.id.checkout_scroll));
 	}
 
 	public static void clickDriverInfo() {
