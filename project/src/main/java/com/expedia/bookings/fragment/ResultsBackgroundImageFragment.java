@@ -8,11 +8,9 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.annotation.TargetApi;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.graphics.Palette;
 import android.text.TextUtils;
@@ -41,7 +39,6 @@ import com.squareup.picasso.Picasso;
  * ResultsBackgroundImageFragment: The fragment that acts as a background image for the whole
  * results activity designed for tablet results 2013
  */
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class ResultsBackgroundImageFragment extends MeasurableFragment {
 
 	private static final String ARG_DEST_CODES = "ARG_DEST_CODES";
@@ -243,7 +240,6 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 		}
 	};
 
-
 	private static ArrayList<String> getMostRelevantDestinationCodes(LineOfBusiness lob) {
 		ArrayList<String> destCodes = new ArrayList<>();
 		if (lob == LineOfBusiness.FLIGHTS) {
@@ -350,7 +346,7 @@ public class ResultsBackgroundImageFragment extends MeasurableFragment {
 							}
 						}
 		);
-		set.playTogether(animators.toArray(new Animator[] { }));
+		set.playTogether(animators.toArray(new Animator[animators.size()]));
 		set.start();
 	}
 }

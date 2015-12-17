@@ -134,7 +134,7 @@
       ]
     },
     {
-      "productKey": "pay_later_room",
+      "productKey": "${hotelId}_0",
       "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Palace Hotel - Luxury Collection charges the following cancellation and change fees.<\/p><p>Cancellations or changes made before 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to the first night's rate plus taxes and fees.<\/p><p>Cancellations or changes made after 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.<\/p><p>Your room will be guaranteed for late arrival.<\/p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking an Expedia Special Rate hotel.<\/p>",
       "rateDescription": "pay_later_room_0",
       "roomTypeDescription": "pay_later_room_0",
@@ -259,7 +259,7 @@
       "ratePlanCode": "202384972",
       "isPayLater": false,
       "payLaterOffer": {
-        "productKey": "0950a457-4c9f-4344-815a-4ace3fe95aa5_V3",
+        "productKey": "${hotelId}_0",
         "cancellationPolicy": "\u003cp\u003eIf you cancel or change your plans, please cancel your reservation in accordance with the hotel\u0027\u0027s cancellation policies to avoid a no-show charge.\u003c/p\u003e\u003cp\u003eCancellations or changes made after 3:00 PM (hotel local time) on 01 September, 2015 or no-shows are subject to a hotel fee equal to the first night\u0027s rate plus taxes and fees.\u003c/p\u003e\u003cp\u003eIf a late check-in is planned, contact this hotel directly for their late check-in policy.\u003c/p\u003e",
         "rateDescription": "Standard Room (Selected Upon Check In)",
         "roomTypeDescription": "Standard Room (Selected Upon Check In)",

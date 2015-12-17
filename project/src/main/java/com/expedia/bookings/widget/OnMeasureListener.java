@@ -1,7 +1,7 @@
 package com.expedia.bookings.widget;
 
 public interface OnMeasureListener {
-	public void onStartMeasure();
+	void onStartMeasure();
 
-	public void onStopMeasure();
+	void onStopMeasure();
 }

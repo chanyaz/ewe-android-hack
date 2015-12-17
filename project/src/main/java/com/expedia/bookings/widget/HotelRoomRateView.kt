@@ -4,7 +4,9 @@ import android.animation.Animator
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Color
+import android.graphics.PorterDuff
 import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.Drawable
 import android.graphics.drawable.TransitionDrawable
 import android.support.v4.content.ContextCompat
 import android.util.TypedValue
@@ -14,21 +16,20 @@ import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import android.widget.ImageView
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.ToggleButton
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.graphics.HeaderBitmapDrawable
+import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
-import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeChecked
 import com.expedia.util.subscribeEnabled
@@ -36,18 +37,15 @@ import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.util.subscribeVisibility
 import com.expedia.util.subscribeToggleButton
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelRoomRateViewModel
 import com.mobiata.android.util.AndroidUtils
-import rx.Observer
 import rx.Observable
 import rx.Subscription
 import kotlin.properties.Delegates
 
 public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView, var rowTopConstraintViewObservable: Observable<View>, var rowIndex: Int) : LinearLayout(context) {
-
-    val PICASSO_HOTEL_ROOM = "HOTEL_ROOMS"
 
     private val ANIMATION_DURATION = 250L
 
@@ -63,7 +61,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
     private val perNight: TextView by bindView(R.id.per_night)
     val viewRoom: ToggleButton by bindView(R.id.view_room_button)
     private val roomHeaderImageContainer: FrameLayout by bindView(R.id.room_header_image_container)
-    private val roomHeaderImage: ImageView by bindView(R.id.room_header_image)
+    public val roomHeaderImage: ImageView by bindView(R.id.room_header_image)
     private val roomDiscountPercentage: TextView by bindView(R.id.discount_percentage)
     private val roomInfoDescriptionText: TextView by bindView(R.id.room_info_description_text)
     private val roomInfoChevron: ImageView by bindView(R.id.room_info_chevron)
@@ -75,6 +73,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
     private val roomDivider: View by bindView(R.id.row_divider)
     private val spaceAboveRoomInfo: View by bindView(R.id.space_above_room_info)
     private val collapsedContainer: RelativeLayout by bindView(R.id.collapsed_container)
+    private val depositTermsButton: TextView by bindView(R.id.deposit_terms_buttons)
 
     private var roomInfoHeaderTextHeight = -1
     private var roomHeaderImageHeight = -1
@@ -86,7 +85,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
     private var toggleExpanded = 0
     private var roomContainerTopBottomPadding = 0
     private var roomContainerLeftRightPadding = 0
-
+    private var showTerms = false
     public var rowTopConstraintView: View by Delegates.notNull()
     var viewsToHideInExpandedState : Array<View> by Delegates.notNull()
     var viewsToShowInExpandedState : Array<View> by Delegates.notNull()
@@ -151,6 +150,8 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
         })
 
         roomInfoContainer.subscribeOnClick(vm.expandCollapseRoomRateInfoDescription)
+        depositTermsButton.subscribeOnClick(vm.depositInfoContainerClick)
+
         vm.roomRateInfoTextObservable.subscribeText(roomInfoDescriptionText)
         vm.roomTypeObservable.subscribeText(roomType)
         vm.discountPercentage.subscribeTextAndVisibility(roomDiscountPercentage)
@@ -167,14 +168,17 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
             freeCancellation.text = expandedMessagePair.first
             freeCancellation.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
         }
-        vm.dailyPricePerNightObservable.subscribeText(dailyPricePerNight)
+        vm.dailyPricePerNightObservable.subscribeTextAndVisibility(dailyPricePerNight)
         vm.viewRoomObservable.subscribe {
             viewRoom.isChecked = true
         }
         vm.roomInfoVisibiltyObservable.subscribeVisibility(roomInfoContainer)
         vm.roomInfoVisibiltyObservable.subscribeVisibility(roomInfoDivider)
         vm.strikeThroughPriceObservable.subscribeTextAndVisibility(strikeThroughPrice)
-
+        vm.depositTerms.subscribe {
+            val depositTerms = it
+            showTerms = depositTerms?.isNotEmpty() ?: false
+        }
         fun AlphaAnimation.commonSetup() {
             this.interpolator = AccelerateDecelerateInterpolator()
             this.fillAfter = true
@@ -190,7 +194,6 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
                 }
 
                 override fun onAnimationEnd(animation: Animation?) {
-                    //ignore
                 }
 
                 override fun onAnimationRepeat(animation: Animation?) {
@@ -230,10 +233,16 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
             viewRoom.isChecked = true
 
             val imageUrl: String? = vm.roomHeaderImageObservable.value
-            if (imageUrl != null && imageUrl.isNotBlank()) {
-                val drawable = Images.makeHotelBitmapDrawable(getContext(), emptyPicassoCallback, roomHeaderImage.maxWidth/2, imageUrl, PICASSO_HOTEL_ROOM, R.drawable.room_fallback)
-                drawable.setCornerMode(HeaderBitmapDrawable.CornerMode.TOP)
-                roomHeaderImage.setImageDrawable(drawable)
+            if (ExpediaBookingApp.isDeviceShitty()) {
+                //ignore dont load image
+            } else if (imageUrl != null && imageUrl.isNotBlank()) {
+                val hotelMedia = HotelMedia(imageUrl)
+                PicassoHelper.Builder(roomHeaderImage)
+                        .setPlaceholder(R.drawable.room_fallback)
+                        .build()
+                        .load(hotelMedia.getBestUrls(scrollAncestor.width/2))
+            } else {
+                roomHeaderImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.room_fallback))
             }
 
             viewsToHideInExpandedState.forEach {
@@ -254,11 +263,20 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
             viewRoom.setPadding(toggleExpanded, 0, toggleExpanded, 0)
             roomInfoContainer.setPadding(roomContainerLeftRightPadding, roomContainerTopBottomPadding, roomContainerLeftRightPadding, roomContainerTopBottomPadding)
             row.isEnabled = false
+
+            var infoIcon : Drawable = ContextCompat.getDrawable(context, R.drawable.details_info)
+            infoIcon.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
+            depositTermsButton.setCompoundDrawablesWithIntrinsicBounds(infoIcon, null, null, null)
+
+            depositTermsButton.visibility = if (showTerms) View.VISIBLE else View.GONE
+            if (showTerms) {
+                dailyPricePerNight.visibility = View.GONE
+            }
             collapsedContainer.setBackgroundColor(Color.WHITE)
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
-            dailyPricePerNight.setTextColor(resources.getColor(R.color.hotels_primary_color))
+            dailyPricePerNight.setTextColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
             perNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
-            perNight.setTextColor(resources.getColor(R.color.hotels_primary_color))
+            perNight.setTextColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
 
             if (animate) (row.background as TransitionDrawable).startTransition(ANIMATION_DURATION.toInt())
 
@@ -313,13 +331,17 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
             }
 
             row.isEnabled = true
+            depositTermsButton.visibility = View.GONE
+            if (showTerms) {
+                dailyPricePerNight.visibility = View.VISIBLE
+            }
             collapsedContainer.background = ContextCompat.getDrawable(context, R.drawable.hotel_detail_ripple)
             viewRoom.setPadding(toggleCollapsed, 0, toggleCollapsed, 0)
             roomInfoContainer.setPadding(0, 0, 0, 0)
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
-            dailyPricePerNight.setTextColor(resources.getColor(R.color.hotel_cell_disabled_text))
+            dailyPricePerNight.setTextColor(ContextCompat.getColor(context, R.color.hotel_cell_disabled_text))
             perNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14f)
-            perNight.setTextColor(resources.getColor(R.color.hotel_cell_disabled_text))
+            perNight.setTextColor(ContextCompat.getColor(context, R.color.hotel_cell_disabled_text))
 
             if (animate) (row.background as TransitionDrawable).reverseTransition(ANIMATION_DURATION.toInt())
 
@@ -338,7 +360,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
 
             resizeAnimator.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationEnd(p0: Animator?) {
-                    roomHeaderImage.setImageDrawable(null)
+                    recycleImageView(roomHeaderImage)
                     if (roomInfoDescriptionText.visibility == View.VISIBLE)
                         vm.roomInfoExpandCollapseObservable.onNext(Unit)
                 }
@@ -357,6 +379,12 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
             })
             resizeAnimator.start()
         }
+    }
+
+    fun recycleImageView(imageView: ImageView) {
+        var drawable = imageView.drawable;
+        drawable?.callback = null
+        drawable = null
     }
 
     init {
@@ -385,7 +413,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
 
         viewSetup(scrollAncestor, rowTopConstraintViewObservable, rowIndex)
 
-        val transitionDrawable = TransitionDrawable(arrayOf(ColorDrawable(Color.parseColor("#00000000")), resources.getDrawable(R.drawable.card_background)))
+        val transitionDrawable = TransitionDrawable(arrayOf(ColorDrawable(Color.parseColor("#00000000")), ContextCompat.getDrawable(context, R.drawable.card_background)))
         transitionDrawable.isCrossFadeEnabled = true
         if(rowIndex == 0) transitionDrawable.startTransition(0)
         row.background = transitionDrawable
@@ -395,8 +423,6 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
         roomContainerLeftRightPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15f, context.resources.displayMetrics).toInt()
     }
 
-
-
     fun viewSetup(scrollAncestor: ScrollView, rowTopConstraintViewObservable: Observable<View>, rowIndex: Int) {
         this.scrollAncestor = scrollAncestor
         this.rowTopConstraintViewObservable = rowTopConstraintViewObservable
@@ -405,7 +431,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
         rowTopConstraintSubscription?.unsubscribe()
         rowTopConstraintSubscription = rowTopConstraintViewObservable.subscribe { rowTopConstraintView = it }
 
-        val transitionDrawable = TransitionDrawable(arrayOf(ColorDrawable(Color.parseColor("#00000000")), resources.getDrawable(R.drawable.card_background)))
+        val transitionDrawable = TransitionDrawable(arrayOf(ColorDrawable(Color.parseColor("#00000000")), ContextCompat.getDrawable(context, R.drawable.card_background)))
         transitionDrawable.isCrossFadeEnabled = true
         if (rowIndex == 0) {
             transitionDrawable.startTransition(0)
@@ -417,6 +443,12 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
         row.background = transitionDrawable
         roomInfoDescriptionText.visibility = View.VISIBLE
 
+        if (ExpediaBookingApp.isDeviceShitty()) {
+            roomHeaderImage.visibility = View.GONE
+        } else {
+            roomHeaderImage.visibility = View.VISIBLE
+        }
+
     }
 
     fun topMarginForView(view: View, margin: Int) {
@@ -427,13 +459,3 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
 
 }
 
-val emptyPicassoCallback = object : HeaderBitmapDrawable.CallbackListener {
-    override fun onBitmapLoaded() {
-    }
-
-    override fun onBitmapFailed() {
-    }
-
-    override fun onPrepareLoad() {
-    }
-}

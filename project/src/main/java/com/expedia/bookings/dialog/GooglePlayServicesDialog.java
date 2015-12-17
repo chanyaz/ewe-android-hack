@@ -17,7 +17,7 @@ public class GooglePlayServicesDialog {
 	private GooglePlayServicesConnectionSuccessListener mListener;
 
 	public interface GooglePlayServicesConnectionSuccessListener {
-		public void onGooglePlayServicesConnectionSuccess();
+		void onGooglePlayServicesConnectionSuccess();
 	}
 
 	public GooglePlayServicesDialog(Activity activity) {

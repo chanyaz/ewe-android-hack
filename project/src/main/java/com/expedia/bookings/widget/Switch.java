@@ -25,7 +25,6 @@ package com.expedia.bookings.widget;
  * limitations under the License.
  */
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
@@ -35,7 +34,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -109,7 +107,7 @@ public class Switch extends CompoundButton {
 
 	private final Rect mTempRect = new Rect();
 
-	private static final int[] CHECKED_STATE_SET = {android.R.attr.state_checked};
+	private static final int[] CHECKED_STATE_SET = { android.R.attr.state_checked };
 
 	/**
 	 * Construct a new Switch with default styling.
@@ -308,7 +306,6 @@ public class Switch extends CompoundButton {
 	}
 
 	@Override
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
 		int heightMode = MeasureSpec.getMode(heightMeasureSpec);
@@ -332,7 +329,8 @@ public class Switch extends CompoundButton {
 			width = widthSize;
 		}
 		else {
-			width = Math.max(mSwitchMinWidth, maxTextWidth * 2 + mThumbTextPadding * 4 + mTempRect.left + mTempRect.right);
+			width = Math
+				.max(mSwitchMinWidth, maxTextWidth * 2 + mThumbTextPadding * 4 + mTempRect.left + mTempRect.right);
 		}
 
 		if (heightMode == MeasureSpec.EXACTLY) {
@@ -352,36 +350,13 @@ public class Switch extends CompoundButton {
 		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 		final int measuredHeight = getMeasuredHeight();
 		if (measuredHeight < height) {
-			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
-				setMeasuredDimension(getMeasuredWidth(), height);
-			}
-			else {
-				setMeasuredDimension(getMeasuredWidthAndState(), height);
-			}
+			setMeasuredDimension(getMeasuredWidthAndState(), height);
 		}
 	}
 
-	// XXX Was on the Android source, but had to comment it out (doesn't exist in 2.1). -- BoD
-	// @Override
-	// public void onPopulateAccessibilityEvent(AccessibilityEvent event) {
-	//     super.onPopulateAccessibilityEvent(event);
-	//     if (isChecked()) {
-	//         CharSequence text = mOnLayout.getText();
-	//         if (TextUtils.isEmpty(text)) {
-	//             text = getContext().getString(R.string.switch_on);
-	//         }
-	//         event.getText().add(text);
-	//     } else {
-	//         CharSequence text = mOffLayout.getText();
-	//         if (TextUtils.isEmpty(text)) {
-	//             text = getContext().getString(R.string.switch_off);
-	//         }
-	//         event.getText().add(text);
-	//     }
-	// }
-
 	private Layout makeLayout(CharSequence text) {
-		return new StaticLayout(text, mTextPaint, (int) Math.ceil(Layout.getDesiredWidth(text, mTextPaint)), Layout.Alignment.ALIGN_NORMAL, 1.f, 0, true);
+		return new StaticLayout(text, mTextPaint, (int) Math.ceil(Layout.getDesiredWidth(text, mTextPaint)),
+			Layout.Alignment.ALIGN_NORMAL, 1.f, 0, true);
 	}
 
 	/**
@@ -400,15 +375,7 @@ public class Switch extends CompoundButton {
 	public boolean onTouchEvent(MotionEvent ev) {
 		mVelocityTracker.addMovement(ev);
 
-		final int action;
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.FROYO) {
-			action = ev.getAction();
-		}
-		else {
-			action = ev.getActionMasked();
-		}
-
-		switch (action) {
+		switch (ev.getActionMasked()) {
 		case MotionEvent.ACTION_DOWN: {
 			final float x = ev.getX();
 			final float y = ev.getY();
@@ -454,7 +421,7 @@ public class Switch extends CompoundButton {
 			break;
 		}
 
-		case MotionEvent.ACTION_UP:
+		case MotionEvent.ACTION_UP: //FALL THRU
 		case MotionEvent.ACTION_CANCEL: {
 			if (mTouchMode == TOUCH_MODE_DRAGGING) {
 				stopDrag(ev);
@@ -545,7 +512,7 @@ public class Switch extends CompoundButton {
 			switchTop = switchBottom - mSwitchHeight;
 			break;
 
-		case Gravity.TOP:
+		case Gravity.TOP: //FALL THRU
 		default:
 			switchTop = getPaddingTop();
 			switchBottom = switchTop + mSwitchHeight;
@@ -596,7 +563,8 @@ public class Switch extends CompoundButton {
 
 		final Layout switchText = getTargetCheckedState() ? mOnLayout : mOffLayout;
 
-		canvas.translate((thumbLeft + thumbRight) / 2 - switchText.getWidth() / 2, (switchInnerTop + switchInnerBottom) / 2 - switchText.getHeight() / 2);
+		canvas.translate((thumbLeft + thumbRight) / 2 - switchText.getWidth() / 2,
+			(switchInnerTop + switchInnerBottom) / 2 - switchText.getHeight() / 2);
 		switchText.draw(canvas);
 
 		canvas.restore();
@@ -650,12 +618,4 @@ public class Switch extends CompoundButton {
 	protected boolean verifyDrawable(Drawable who) {
 		return super.verifyDrawable(who) || who == mThumbDrawable || who == mTrackDrawable;
 	}
-
-	// XXX Was on the Android source, but had to comment it out (doesn't exist in 2.1). -- BoD
-	// @Override
-	// public void jumpDrawablesToCurrentState() {
-	//     super.jumpDrawablesToCurrentState();
-	//     mThumbDrawable.jumpToCurrentState();
-	//     mTrackDrawable.jumpToCurrentState();
-	// }
 }

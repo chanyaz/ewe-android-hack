@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
@@ -24,7 +23,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SuggestionV2;
-import com.expedia.bookings.data.WeeklyFlightHistogram;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.cars.CarCategory;
 import com.expedia.bookings.data.cars.CarCheckoutParamsBuilder;
@@ -51,6 +49,7 @@ import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.enums.ResultsSearchState;
+import com.expedia.bookings.widget.LXOfferDatesButton;
 import com.google.android.gms.maps.model.LatLng;
 import com.mobiata.android.Log;
 import com.squareup.otto.Bus;
@@ -487,22 +486,6 @@ public class Events {
 		}
 	}
 
-	public static class GdeItemSelected {
-		public final WeeklyFlightHistogram week;
-
-		public GdeItemSelected(WeeklyFlightHistogram week) {
-			this.week = week;
-		}
-	}
-
-	public static class GdeDataAvailable {
-		public final FlightSearchHistogramResponse response;
-
-		public GdeDataAvailable(FlightSearchHistogramResponse response) {
-			this.response = response;
-		}
-	}
-
 	/**
 	 * This event is used to trigger the search fragment to show up.
 	 */
@@ -784,14 +767,16 @@ public class Events {
 			lxSearchParams = params;
 		}
 
-		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate,
+		public LXNewSearchParamsAvailable(String locationName, String airportCode, LocalDate startDate,
+			LocalDate endDate,
 			SearchType searchType) {
-			lxSearchParams = new LXSearchParams().location(locationName).startDate(startDate).endDate(endDate)
+			lxSearchParams = new LXSearchParams().location(locationName).imageCode(airportCode).startDate(startDate)
+				.endDate(endDate)
 				.searchType(searchType);
 		}
 
 		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate) {
-			this(locationName, startDate, endDate, SearchType.EXPLICIT_SEARCH);
+			this(locationName, null, startDate, endDate, SearchType.EXPLICIT_SEARCH);
 		}
 
 		public LXNewSearchParamsAvailable(String locationName, LocalDate startDate, LocalDate endDate, String filters) {
@@ -954,9 +939,11 @@ public class Events {
 
 	public static class LXDetailsDateChanged {
 		public LocalDate dateSelected;
+		public LXOfferDatesButton buttonSelected;
 
-		public LXDetailsDateChanged(LocalDate dateSelected) {
+		public LXDetailsDateChanged(LocalDate dateSelected, LXOfferDatesButton buttonSelected) {
 			this.dateSelected = dateSelected;
+			this.buttonSelected = buttonSelected;
 		}
 	}
 

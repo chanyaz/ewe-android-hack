@@ -81,7 +81,7 @@ public class HotelCreateTripViewModelTests {
         hotelCreateTripParams = HotelCreateTripParams(happyMockProductKey, false, 1, listOf(1))
     }
 
-    public class TestHotelCreateTripViewModel(val testSubscriber: TestSubscriber<HotelCreateTripResponse>, hotelServices: HotelServices): HotelCreateTripViewModel(hotelServices: HotelServices ) {
+    public class TestHotelCreateTripViewModel(val testSubscriber: TestSubscriber<HotelCreateTripResponse>, hotelServices: HotelServices): HotelCreateTripViewModel(hotelServices) {
 
         override fun getCreateTripResponseObserver(): Observer<HotelCreateTripResponse> {
             return testSubscriber

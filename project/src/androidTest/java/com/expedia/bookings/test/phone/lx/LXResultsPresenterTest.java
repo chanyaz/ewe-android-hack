@@ -17,11 +17,14 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
@@ -48,11 +51,7 @@ public class LXResultsPresenterTest {
 
 	@Test
 	public void testSearchResultsList() {
-		LXSearchParams searchParams = new LXSearchParams();
-		searchParams.location = "New York";
-		searchParams.startDate = LocalDate.now();
-		searchParams.endDate = LocalDate.now().plusDays(14);
-		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
+		buildSearchParams();
 
 		LXScreen.waitForSearchResultsWidgetDisplayed();
 		LXScreen.searchResultsWidget().check(matches(isDisplayed()));
@@ -61,13 +60,33 @@ public class LXResultsPresenterTest {
 		Matcher<View> identifyingMatcher = allOf
 			(hasDescendant(withText(startsWith("happy"))),
 				hasDescendant(withText("$130")));
-		ViewInteraction searchResultItem = LXScreen.resultsListItemView(identifyingMatcher);
+		ViewInteraction searchResultItem = LXScreen.listItemView(identifyingMatcher, R.id.lx_search_results_list);
 
 		searchResultItem.check(matches(isDisplayed()));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_title))));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_image))));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_price))));
 		searchResultItem.check(matches(hasDescendant(withId(R.id.activity_duration))));
+	}
+
+	@Test
+	public void testCategoryResultsList() {
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLXCategoryABTest,AbacusUtils.DefaultVariate.BUCKETED.ordinal());
+		buildSearchParams();
+
+		LXScreen.waitForCategoryResultsWidgetDisplayed();
+		LXScreen.searchCategoryResultsWidget().check(matches(isDisplayed()));
+		LXScreen.waitForCategoryListDisplayed();
+		LXScreen.categoryList().check(matches(isDisplayed()));
+		Matcher<View> identifyingMatcher = allOf
+			(hasDescendant(withText(startsWith("Attractions"))));
+		ViewInteraction searchResultItem = LXScreen.listItemView(identifyingMatcher, R.id.lx_category_list);
+
+		searchResultItem.check(matches(isDisplayed()));
+		searchResultItem.check(matches(hasDescendant(withId(R.id.category_title))));
+		searchResultItem.check(matches(hasDescendant(withId(R.id.category_image))));
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLXCategoryABTest,
+			AbacusUtils.DefaultVariate.CONTROL.ordinal());
 	}
 
 	@Test
@@ -122,6 +141,27 @@ public class LXResultsPresenterTest {
 	}
 
 	@Test
+	public void testCategoryListAdapter() throws Throwable {
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLXCategoryABTest,
+			AbacusUtils.DefaultVariate.BUCKETED.ordinal());
+		String title = "Attractions";
+		buildSearchParams();
+
+		final List<LXCategoryMetadata> categories = new ArrayList<>();
+		LXCategoryMetadata categoryMetadata = new LXCategoryMetadata();
+		categoryMetadata.displayValue = title;
+		categoryMetadata.categoryKeyEN = title;
+		categories.add(categoryMetadata);
+
+		LXScreen.waitForCategoryListDisplayed();
+		onView(withId(R.id.lx_category_list)).perform(LXScreen.setLXCategories(categories));
+		onView(withId(R.id.lx_category_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0,
+			LXScreen.performCategoryViewHolderComparison(title)));
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLXCategoryABTest,
+			AbacusUtils.DefaultVariate.CONTROL.ordinal());
+	}
+
+	@Test
 	public void testNoSearchResults() {
 		LXSearchParams searchParams = new LXSearchParams();
 		searchParams.location = "search_failure";
@@ -131,16 +171,13 @@ public class LXResultsPresenterTest {
 		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 		Common.delay(2);
 		LXScreen.searchFailed().check(matches(isDisplayed()));
+
 		LXScreen.searchFailed().check(matches(hasDescendant(withText(R.string.error_car_search_message))));
 	}
 
 	@Test
 	public void testSortAndFilterWidgetOpenAndClose() {
-		LXSearchParams searchParams = new LXSearchParams();
-		searchParams.location = "New York";
-		searchParams.startDate = LocalDate.now();
-		searchParams.endDate = LocalDate.now().plusDays(14);
-		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
+		buildSearchParams();
 
 		LXScreen.waitForSearchResultsWidgetDisplayed();
 		LXScreen.searchResultsWidget().check(matches(isDisplayed()));
@@ -151,5 +188,13 @@ public class LXResultsPresenterTest {
 		LXScreen.sortAndFilterWidget().check(matches(isDisplayed()));
 		Events.post(new Events.LXFilterDoneClicked());
 		LXScreen.sortAndFilterWidget().perform(waitFor(not(isDisplayed()), 10L, TimeUnit.SECONDS));
+	}
+
+	public void buildSearchParams() {
+		LXSearchParams searchParams = new LXSearchParams();
+		searchParams.location = "New York";
+		searchParams.startDate = LocalDate.now();
+		searchParams.endDate = LocalDate.now().plusDays(14);
+		Events.post(new Events.LXNewSearchParamsAvailable(searchParams));
 	}
 }

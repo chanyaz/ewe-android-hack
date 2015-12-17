@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.SparseArray;
@@ -23,7 +22,7 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 		 * If onNeighborhoodsChanged is called with *null*, that means do not filter by
 		 * neighborhood (i.e. all neighborhoods are selected).
 		 */
-		public void onNeighborhoodsChanged(Set<Integer> neighborhoods);
+		void onNeighborhoodsChanged(Set<Integer> neighborhoods);
 	}
 
 	private OnNeighborhoodsChangedListener mListener;
@@ -46,7 +45,6 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 		super(context, attrs);
 	}
 
-	@TargetApi(11)
 	public HotelNeighborhoodLayout(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 	}
@@ -124,7 +122,8 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 
 		// Look through the filtered properties, enable that filter widget
 		// and modify its price if appropriate.
-		for (Property property : response.getFilteredPropertiesIgnoringNeighborhood(Db.getHotelSearch().getSearchParams())) {
+		for (Property property : response
+			.getFilteredPropertiesIgnoringNeighborhood(Db.getHotelSearch().getSearchParams())) {
 			int locationId = property.getLocation().getLocationId();
 			CheckBoxFilterWidget widget = mWidgetMap.get(locationId);
 			if (widget.isEnabled()) {
@@ -171,7 +170,8 @@ public class HotelNeighborhoodLayout extends LinearLayout {
 	};
 
 	private void triggerOnNeighborhoodsChanged() {
-		mListener.onNeighborhoodsChanged(areAllNeighborhoodsChecked() || mCheckedNeighborhoods.size() == 0 ? null : mCheckedNeighborhoods);
+		mListener.onNeighborhoodsChanged(
+			areAllNeighborhoodsChecked() || mCheckedNeighborhoods.size() == 0 ? null : mCheckedNeighborhoods);
 	}
 
 	private boolean areAllNeighborhoodsChecked() {

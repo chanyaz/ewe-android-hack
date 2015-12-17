@@ -19,7 +19,7 @@ import com.mobiata.android.util.Ui;
 public class GuestPicker extends LinearLayout {
 
 	public interface GuestPickerListener {
-		public void onGuestsChanged(int numAdults, List<ChildTraveler> children);
+		void onGuestsChanged(int numAdults, List<ChildTraveler> children);
 	}
 
 	public static final int MAX_ADULTS = 6;
@@ -210,5 +210,4 @@ public class GuestPicker extends LinearLayout {
 		}
 		return sb.toString();
 	}
-
 }

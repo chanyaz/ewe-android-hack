@@ -115,6 +115,8 @@
     <string name="hotel_toolbar_title">ค้นหาโรงแรม</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">ค้นหาตำแหน่ง</string>
+    <!-- Label for recent searches -->
+    <string name="recent_searches">ผลลัพธ์ล่าสุด</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">สถานที่รับรถ</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -273,12 +275,6 @@
     <string name="missing_flight_info_message_TEMPLATE">โปรดบอกเราว่าคุณจะบินจากที่ไหน เพื่อเลือกดูเที่ยวบินไปยัง%s</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">โปรดเลือกวันที่หรือช่วงวันที่ที่ถูกต้อง</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">เพื่อดูเที่ยวบินไปยัง%s \nโปรดระบุวันเดินทางของคุณ</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">บอกเราว่าคุณจะออกเดินทางจากไหน\nเพื่อดูแนวโน้มราคาเที่ยวบิน</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">ฟีเจอร์แนวโน้มราคาเที่ยวบินช่วยให้คุณทราบการเปลี่ยนแปลงของราคาเที่ยวบินที่ผันผวนขึ้นลงได้คร่าวๆ ราคาที่แสดงอ้างอิงจากข้อมูลสดที่รวบรวมจากการค้นหาจริง ดังนั้นบางเส้นทางบินจะมีข้อมูลน้อยกว่าเส้นทางบินอื่นๆ</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">วันเริ่มออกเดินทาง</string>
     <!-- Denotes the end date of the trip -->
@@ -348,9 +344,9 @@
     <string name="ticket_type_sedan">รถเก๋ง</string>
     <string name="ticket_type_minivan">มินิแวน</string>
     <string name="ticket_type_water_taxi">แท็กซี่น้ำ</string>
-    <string name="ticket_type_suv">SUV</string>
+    <string name="ticket_type_suv">รถเอสยูวี</string>
     <string name="ticket_type_executive_car">รถนั่งขนาดใหญ่</string>
-    <string name="ticket_type_luxury_car">รถหรู</string>
+    <string name="ticket_type_luxury_car">รถหรูหรา</string>
     <string name="ticket_type_limousine">ลิมูซีน</string>
     <string name="ticket_type_towncar">รถทาวน์คาร์</string>
     <string name="ticket_type_vehicle_parking_spot">จุดจอดรถ</string>
@@ -438,7 +434,7 @@
         <item quantity="other">แท็กซี่น้ำ %1$s ลำ</item>
     </plurals>
     <plurals name="ticket_type_suv_TEMPLATE">
-        <item quantity="one">รถ SUV %1$s คัน</item>
+        <item quantity="one">รถเอสยูวี %1$s คัน</item>
         <item quantity="other">รถ SUV %1$s คัน</item>
     </plurals>
     <plurals name="ticket_type_executive_car_TEMPLATE">
@@ -446,8 +442,8 @@
         <item quantity="other">รถนั่งขนาดใหญ่ %1$s คัน</item>
     </plurals>
     <plurals name="ticket_type_luxury_car_TEMPLATE">
-        <item quantity="one">รถหรู %1$s คัน</item>
-        <item quantity="other">รถหรู %1$s คัน</item>
+        <item quantity="one">รถหรูหรา %1$s คัน</item>
+        <item quantity="other">รถหรูหรา %1$s คัน</item>
     </plurals>
     <plurals name="ticket_type_limousine_TEMPLATE">
         <item quantity="one">ลิมูซีน %1$s คัน</item>
@@ -580,9 +576,9 @@
     <string name="per_ticket_type_sedan">ต่อรถเก๋ง</string>
     <string name="per_ticket_type_minivan">ต่อมินิแวน</string>
     <string name="per_ticket_type_water_taxi">ต่อแท็กซี่น้ำ</string>
-    <string name="per_ticket_type_suv">ต่อ SUV</string>
+    <string name="per_ticket_type_suv">ต่อรถเอสยูวี</string>
     <string name="per_ticket_type_executive_car">ต่อรถนั่งขนาดใหญ่</string>
-    <string name="per_ticket_type_luxury_car">ต่อรถหรู</string>
+    <string name="per_ticket_type_luxury_car">ต่อรถหรูหรา</string>
     <string name="per_ticket_type_limousine">ต่อลิมูซีน</string>
     <string name="per_ticket_type_towncar">ต่อรถทาวน์คาร์</string>
     <string name="per_ticket_type_vehicle_parking_spot">ต่อจุดจอดรถ</string>
@@ -658,6 +654,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">ไม่รับ %1$s</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">ขออภัย ราคาของกิจกรรมนี้มีการเปลี่ยนแปลง โปรดลองจองใหม่อีกครั้ง</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">ขออภัย เรามีตั๋วไม่พอสำหรับวันที่เลือก โปรดลองเลือกวันอื่นหรือลดจำนวนตั๋วลง</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">ตั๋วของคุณส่งไปยัง</string>
     <!-- LX reservation confirmation text -->
@@ -679,6 +677,9 @@
     <string name="lx_ground_transport_passengers_text">ผู้โดยสาร %1$s คน</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">วันที่คุณเลือกเป็นวันในอดีต โปรดเลือกวันที่ใหม่</string>
+
+    <!-- Category Title "All Things To Do" -->
+    <string name="lx_category_all_things_to_do">กิจกรรมทั้งหมด</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -734,6 +735,10 @@
     <string name="prices_roundtrip_label">ราคาไป-กลับต่อคน</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">ราคาเที่ยวเดียวต่อคน</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_roundtrip_minimum_label">ราคาไป-กลับต่อคน เริ่มที่</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_oneway_minimum_label">ราคาเที่ยวเดียวต่อคน เริ่มที่</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">ทริปของคุณว่างเปล่า</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -748,10 +753,6 @@
     <string name="trip_bucket_label_flight_roundtrip">เที่ยวบินไป-กลับไปยัง%1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">เที่ยวบินไปยัง%1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">แนวโน้มราคาเที่ยวบิน</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">วันเดินทางกลับ</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">ขออภัย ไม่มีโรงแรมว่าง\nในขณะนี้</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -851,6 +852,8 @@
     <string name="room_rate_pay_now">จ่ายตอนนี้</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">จ่ายตอนนี้ {amount}</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">จ่ายตอนนี้</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/คืน</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -914,36 +917,6 @@
     <string name="now_booking_TEMPLATE">จอง &lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
-
-    <!-- Facebook -->
-    <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account_TEMPLATE">สวัสดี คุณ &lt;b&gt;{name}&lt;/b&gt; ดูเหมือนว่าเราจะพบบัญชี {brand} ของคุณ! โปรดป้อนรหัสผ่าน {brand} ของคุณด้านล่างเพื่อลิงก์บัญชี Facebook กับบัญชี {brand} ของคุณ</string>
-    <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">สวัสดี &lt;b&gt;%1$s&lt;/b&gt; เราโหลดข้อมูล Facebook ของคุณแล้ว</string>
-    <!-- Sign in with facebook (button text) -->
-    <string name="Sign_in_with_Facebook">เข้าสู่ระบบด้วย Facebook</string>
-    <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">กำลังรับข้อมูลจาก Facebook…</string>
-    <!-- Attempting to sign you in with facebook credentials -->
-    <string name="attempting_to_sign_in_with_facebook">กำลังเข้าสู่ระบบโดยใช้ Facebook…</string>
-    <!-- We have encountered an error -->
-    <string name="unspecified_error">เราพบข้อผิดพลาดที่ไม่สามารถระบุได้ โปรดลองอีกครั้งภายหลัง</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">ไม่สามารถลงชื่อเข้าใช้ Facebook</string>
-    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="sign_in_failed_try_again">ไม่สามารถเข้าสู่ระบบ หากอีเมลและรหัสผ่านของคุณถูกต้อง โปรดตรวจสอบให้แน่ใจว่าการตั้งค่าประเทศในแอพของคุณถูกต้อง</string>
-    <!-- Facebook connect password hint -->
-    <string name="brand_password_hint_TEMPLATE">รหัสผ่าน {brand}</string>
-    <!-- Link accounts -->
-    <string name="link_accounts">เชื่อมต่อบัญชี</string>
-    <!-- User Denied email permission Heading -->
-    <string name="user_denied_permission_email_heading">การอนุญาตอีเมล</string>
-    <!-- Linking your accounts -->
-    <string name="linking_your_accounts">กำลังเชื่อมต่อบัญชีของคุณ…</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">อนุญาตให้เข้าถึงอีเมล</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">ในการเข้าสู่ระบบด้วย Facebook เราต้องขออนุญาตตรวจสอบที่อยู่อีเมลของคุณ \n\nโปรดแตะที่ปุ่ม Facebook ด้านล่างเพื่ออนุญาตให้ {brand} ตรวจสอบอีเมลของคุณ ขอบคุณ</string>
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">เข้าสู่ระบบด้วย {brand}</string>
@@ -1052,6 +1025,10 @@
     <string name="shop">จอง</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">ค้นหาแผนการเดินทาง</string>
+    <!-- Unable to find itinerary -->
+    <string name="unable_to_find_itinerary">หาแผนการเดินทางไม่พบ โปรดตรวจสอบว่าประเทศ (ในการตั้งค่าของแอพ) ตรงกับประเทศของเว็บไซต์ที่คุณทำการจอง</string>
+    <!-- Find Guest Itinerary -->
+    <string name="find_guest_itinerary">ค้นหาแผนการเดินทาง</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">ป้อนรายละเอียดแผนการเดินทาง</string>
     <!-- Find Itinerary # -->
@@ -1066,6 +1043,8 @@
     <string name="no_upcoming_trips">ไม่มีการเดินทางในเร็วๆ นี้</string>
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">ป้อนหมายเลขแผนการเดินทาง</string>
+    <!-- Enter a Guest itinerary number -->
+    <string name="or_enter_a_guest_itinerary_number">หรือป้อนแผนการเดินทาง</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">กำลังเรียกแผนการเดินทางของคุณ…</string>
     <!-- Error fetching itinerary -->
@@ -1292,7 +1271,7 @@
     <!-- Car category: mini -->
     <string name="car_category_mini">รถขนาดมินิ</string>
     <!-- Car category: economy -->
-    <string name="car_category_economy">รถประหยัดน้ำมัน</string>
+    <string name="car_category_economy">รถราคาประหยัด</string>
     <!-- Car category: compact -->
     <string name="car_category_compact">รถขนาดเล็ก</string>
     <!-- Car category: midize -->
@@ -1302,25 +1281,25 @@
     <!-- Car category: fullsize -->
     <string name="car_category_fullsize">รถขนาดใหญ่</string>
     <!-- Car category: premium -->
-    <string name="car_category_premium">รถระดับพรีเมียม</string>
+    <string name="car_category_premium">รถพรีเมียม</string>
     <!-- Car category: luxury -->
-    <string name="car_category_luxury">รถหรู</string>
+    <string name="car_category_luxury">รถหรูหรา</string>
     <!-- Car category: mini elite -->
-    <string name="car_category_mini_elite">รถขนาดมินิแบบหรู</string>
+    <string name="car_category_mini_elite">รถหรูหราขนาดมินิ</string>
     <!-- Car category: economy elite -->
-    <string name="car_category_economy_elite">รถประหยัดน้ำมันแบบหรู</string>
+    <string name="car_category_economy_elite">รถหรูหราแบบราคาประหยัด</string>
     <!-- Car category: compact elite -->
-    <string name="car_category_compact_elite">รถขนาดเล็กแบบหรู</string>
+    <string name="car_category_compact_elite">รถหรูหราขนาดเล็ก</string>
     <!-- Car category: midize elite -->
     <string name="car_category_midsize_elite">รถขนาดกลางแบบหรู</string>
     <!-- Car category: standard elite -->
-    <string name="car_category_standard_elite">รถขนาดมาตรฐานแบบหรู</string>
+    <string name="car_category_standard_elite">รถหรูหราขนาดมาตรฐาน</string>
     <!-- Car category: fullsize elite -->
     <string name="car_category_fullsize_elite">รถขนาดใหญ่แบบหรู</string>
     <!-- Car category: premium elite -->
-    <string name="car_category_premium_elite">รถระดับพรีเมียมแบบหรู</string>
+    <string name="car_category_premium_elite">รถหรูหราพรีเมียม</string>
     <!-- Car category: luxury elite -->
-    <string name="car_category_luxury_elite">รถเอลีทระดับหรู</string>
+    <string name="car_category_luxury_elite">รถหรูมีระดับ</string>
     <!-- Car category: special -->
     <string name="car_category_special">รถพิเศษ</string>
     <!-- Car category: oversize -->
@@ -1328,58 +1307,58 @@
 
     <!-- Car category for results and details screen -->
     <!-- Car category: mini -->
-    <string name="car_category_result_mini">มินิ</string>
+    <string name="car_category_result_mini">รถขนาดมินิ</string>
     <!-- Car category: economy -->
-    <string name="car_category_result_economy">ประหยัดน้ำมัน</string>
+    <string name="car_category_result_economy">รถราคาประหยัด</string>
     <!-- Car category: compact -->
-    <string name="car_category_result_compact">ขนาดเล็ก</string>
+    <string name="car_category_result_compact">รถขนาดเล็ก</string>
     <!-- Car category: midize -->
     <string name="car_category_result_midsize">ขนาดกลาง</string>
     <!-- Car category: standard -->
-    <string name="car_category_result_standard">ขนาดมาตรฐาน</string>
+    <string name="car_category_result_standard">รถขนาดมาตรฐาน</string>
     <!-- Car category: fullsize -->
     <string name="car_category_result_fullsize">ขนาดใหญ่</string>
     <!-- Car category: premium -->
-    <string name="car_category_result_premium">ระดับพรีเมียม</string>
+    <string name="car_category_result_premium">รถพรีเมียม</string>
     <!-- Car category: luxury -->
-    <string name="car_category_result_luxury">หรู</string>
+    <string name="car_category_result_luxury">รถหรูหรา</string>
     <!-- Car category: mini elite -->
-    <string name="car_category_result_mini_elite">ขนาดมินิแบบหรู</string>
+    <string name="car_category_result_mini_elite">รถหรูหราขนาดมินิ</string>
     <!-- Car category: economy elite -->
-    <string name="car_category_result_economy_elite">ประหยัดน้ำมันแบบหรู</string>
+    <string name="car_category_result_economy_elite">รถหรูหราแบบราคาประหยัด</string>
     <!-- Car category: compact elite -->
-    <string name="car_category_result_compact_elite">ขนาดเล็กแบบหรู</string>
+    <string name="car_category_result_compact_elite">รถหรูหราขนาดเล็ก</string>
     <!-- Car category: midize elite -->
     <string name="car_category_result_midsize_elite">ขนาดกลางแบบหรู</string>
     <!-- Car category: standard elite -->
-    <string name="car_category_result_standard_elite">ขนาดมาตรฐานแบบหรู</string>
+    <string name="car_category_result_standard_elite">รถหรูหราขนาดมาตรฐาน</string>
     <!-- Car category: fullsize elite -->
     <string name="car_category_result_fullsize_elite">ขนาดใหญ่แบบหรู</string>
     <!-- Car category: premium elite -->
-    <string name="car_category_result_premium_elite">ระดับพรีเมียมแบบหรู</string>
+    <string name="car_category_result_premium_elite">รถหรูหราพรีเมียม</string>
     <!-- Car category: luxury elite -->
-    <string name="car_category_result_luxury_elite">เอลีทระดับหรู</string>
+    <string name="car_category_result_luxury_elite">รถหรูมีระดับ</string>
     <!-- Car category: oversize -->
-    <string name="car_category_result_oversize">ขนาดใหญ่พิเศษ</string>
+    <string name="car_category_result_oversize">รถขนาดใหญ่พิเศษ</string>
 
     <!-- Car types -->
     <string name="car_type_two_door">รถสองประตู</string>
     <string name="car_type_three_door">รถสามประตู</string>
     <string name="car_type_four_door">รถสี่ประตู</string>
     <string name="car_type_van">รถตู้</string>
-    <string name="car_type_wagon">รถแวกอน</string>
+    <string name="car_type_wagon">รถวากอน</string>
     <string name="car_type_limousine">ลิมูซีน</string>
     <string name="car_type_recreational_vehicle">รถบ้าน</string>
-    <string name="car_type_convertible">เปิดประทุน</string>
+    <string name="car_type_convertible">รถเปิดประทุน</string>
     <string name="car_type_sports_car">รถสปอร์ต</string>
-    <string name="car_type_suv">SUV</string>
-    <string name="car_type_pickup_regular_cab">รถปิคอัพ</string>
+    <string name="car_type_suv">รถเอสยูวี</string>
+    <string name="car_type_pickup_regular_cab">รถกระบะตอนเดียว</string>
     <string name="car_type_open_air_all_terrain">เอทีวี</string>
     <string name="car_type_special">พิเศษ</string>
     <string name="car_type_commercial_van_truck">รถตู้/รถบรรทุกเพื่อการพาณิชย์</string>
     <string name="car_type_pickup_extended_cab">รถปิคอัพแบบที่นั่งตอนครึ่ง</string>
     <string name="car_type_special_offer_car">รถราคาพิเศษ</string>
-    <string name="car_type_coupe">คูเป้</string>
+    <string name="car_type_coupe">รถคูเป้</string>
     <string name="car_type_monospace">รถอเนกประสงค์</string>
     <string name="car_type_motor_home">รถบ้าน</string>
     <string name="car_type_two_wheel_vehicle">ยานพาหนะสองล้อ</string>
@@ -1422,6 +1401,7 @@
     <string name="itin_card_details_address">ที่อยู่</string>
     <string name="itin_card_details_local_phone">โทรศัพท์ในประเทศ</string>
     <string name="itin_card_details_room_type">ประเภทห้อง</string>
+    <string name="itin_card_details_non_price_promotion_includes">ราคารวม</string>
     <string name="itin_card_details_bed_type">ประเภทเตียง</string>
     <string name="toast_copied_to_clipboard">คัดลอกไปยังคลิปบอร์ด</string>
     <string name="itin_card_details_reload">โหลดข้อมูลใหม่</string>
@@ -1508,18 +1488,18 @@
     <string name="share_template_short_car_type_midsize">ฉันเช่ารถขนาดกลาง</string>
     <string name="share_template_short_car_type_standard">ฉันเช่ารถขนาดมาตรฐาน</string>
     <string name="share_template_short_car_type_fullsize">ฉันเช่ารถขนาดใหญ่</string>
-    <string name="share_template_short_car_type_premium">ฉันเช่ารถระดับพรีเมียม</string>
-    <string name="share_template_short_car_type_luxury">ฉันเช่ารถหรู</string>
+    <string name="share_template_short_car_type_premium">ฉันเช่ารถพรีเมียม</string>
+    <string name="share_template_short_car_type_luxury">ฉันเช่ารถหรูหรา</string>
     <string name="share_template_short_car_type_special">ฉันเช่ารถพิเศษ</string>
-    <string name="share_template_short_car_type_mini_elite">ฉันเช่ารถขนาดมินิแบบหรู</string>
-    <string name="share_template_short_car_type_compact_elite">ฉันเช่ารถขนาดเล็กแบบหรู</string>
+    <string name="share_template_short_car_type_mini_elite">ฉันเช่ารถหรูหราขนาดมินิ</string>
+    <string name="share_template_short_car_type_compact_elite">ฉันเช่ารถหรูหราขนาดเล็ก</string>
     <string name="share_template_short_car_type_midsize_elite">ฉันเช่ารถขนาดกลางแบบหรู</string>
     <string name="share_template_short_car_type_standard_elite">ฉันเช่ารถขนาดมาตรฐานแบบหรู</string>
     <string name="share_template_short_car_type_fullsize_elite">ฉันเช่ารถขนาดใหญ่แบบหรู</string>
-    <string name="share_template_short_car_type_premium_elite">ฉันเช่ารถพรีเมียมแบบหรู</string>
-    <string name="share_template_short_car_type_luxury_elite">ฉันเช่ารถเอลีทระดับหรู</string>
-    <string name="share_template_short_car_type_economy">ฉันเช่ารถประหยัดน้ำมัน</string>
-    <string name="share_template_short_car_type_economy_elite">ฉันเช่ารถประหยัดน้ำมันแบบหรู</string>
+    <string name="share_template_short_car_type_premium_elite">ฉันเช่ารถหรูหราพรีเมียม</string>
+    <string name="share_template_short_car_type_luxury_elite">ฉันเช่ารถหรูมีระดับ</string>
+    <string name="share_template_short_car_type_economy">ฉันเช่ารถราคาประหยัด</string>
+    <string name="share_template_short_car_type_economy_elite">ฉันเช่ารถหรูหราแบบราคาประหยัด</string>
     <string name="share_template_short_car_type_oversize">ฉันเช่ารถขนาดใหญ่พิเศษ</string>
     <!-- 1: pick up date 2: drop off date -->
     <string name="share_template_short_car_dates">ตั้งแต่ %1$s - %2$s</string>
@@ -1711,6 +1691,10 @@
     <string name="round_trip_price_TEMPLATE">ตั๋วไป-กลับเริ่มที่ &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">จองเลยในราคา &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Variants of the previous few templates, for Australian compliance rules (d/5810) -->
+    <string name="one_way_price_min_TEMPLATE">ราคาเที่ยวเดียวเริ่มที่ &lt;b&gt;%s&lt;/b&gt; ต่อคน</string>
+    <string name="round_trip_price_min_TEMPLATE">ราคาไป-กลับเริ่มที่ &lt;b&gt;%s&lt;/b&gt; ต่อคน</string>
+    <string name="book_now_price_min_TEMPLATE">จองเลยในราคาเริ่มที่ &lt;b&gt;%s&lt;/b&gt; ต่อคน</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
         <item quantity="zero">เหลือ %1$s ที่นั่งในราคา &lt;b&gt;%2$s&lt;/b&gt;</item>
@@ -1720,8 +1704,20 @@
         <item quantity="many">เหลือ %1$s ที่นั่งในราคา &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="other">เหลือ %1$s ที่นั่งในราคา &lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
+    <!-- Book now info label, when there are only a few seats left. Variant for Australian
+         compliance rules (d/5810) -->
+    <plurals name="urgency_book_min_TEMPLATE">
+        <item quantity="zero">เหลือ %1$s ที่นั่ง เริ่มที่ &lt;b&gt;%2$s&lt;/b&gt; ต่อคน</item>
+        <item quantity="one">เหลือ %1$s ที่นั่ง เริ่มที่ &lt;b&gt;%2$s&lt;/b&gt; ต่อคน</item>
+        <item quantity="two">เหลือ %1$s ที่นั่ง เริ่มที่ &lt;b&gt;%2$s&lt;/b&gt; ต่อคน</item>
+        <item quantity="few">เหลือ %1$s ที่นั่ง เริ่มที่ &lt;b&gt;%2$s&lt;/b&gt; ต่อคน</item>
+        <item quantity="many">เหลือ %1$s ที่นั่ง เริ่มที่ &lt;b&gt;%2$s&lt;/b&gt; ต่อคน</item>
+        <item quantity="other">เหลือ %1$s ที่นั่ง เริ่มที่ &lt;b&gt;%2$s&lt;/b&gt; ต่อคน</item>
+    </plurals>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
+    <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
+    <string name="fare_name_and_price_min_TEMPLATE">%1$s เริ่มที่ %2$s ต่อคน</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">ข้อมูลเกี่ยวกับค่าสัมภาระ</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -1804,10 +1800,14 @@
     <string name="Overview">ดูข้อมูล</string>
     <!-- Trip total price label -->
     <string name="total_price_label">ราคารวม</string>
+    <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
+    <string name="total_price_min_label">ยอดรวมการเดินทาง เริ่มที่</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">การเดินทางไปยัง %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">รวมภาษีและค่าธรรมเนียม</string>
+    <!-- Includes taxes (but not necessarily fees) -->
+    <string name="includes_taxes">รวมภาษี</string>
     <!-- Date and trip from _ to _ -->
     <string name="trip_to_with_date">%1$s: %2$s ถึง %3$s</string>
     <!-- Number of traverlers template -->
@@ -1858,6 +1858,8 @@
     <string name="slide_to_book_flight">เลื่อนเพื่อจองเที่ยวบิน</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">จะมีการตัดยอดบัตรเป็นจำนวน %1$s บาท</string>
+    <!-- Your card will be charged -->
+    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">บัตรเครดิตของคุณจะถูกเรียกเก็บเงิน %1$s (รวมค่าธรรมเนียมสายการบิน)</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_TEMPLATE">ยอดที่ต้องจ่ายวันนี้: %1$s</string>
     <!-- Amount to be paid now -->
@@ -1902,6 +1904,8 @@
     <string name="fees_paid_at_hotel">ค่าธรรมเนียมที่จ่ายที่โรงแรม</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">ต้องจ่ายให้ {brand}</string>
+    <!-- Due to expedia today - today -->
+    <string name="due_to_brand_today_today_TEMPLATE">ยอดที่ต้องจ่าย {brand} วันนี้</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">ค่าธรรมเนียมรีสอร์ทจำนวน &lt;b&gt;%1$s&lt;/b&gt; จะถูกเรียกเก็บที่โรงแรม ราคารวมสำหรับการเข้าพักของคุณจะเป็น &lt;b&gt;%2$s&lt;/b&gt;</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -1912,6 +1916,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">ราคารวมสำหรับการเดินทางของคุณ ซึ่งรวมค่าธรรมเนียมรีสอร์ท &lt;b&gt;%1$s&lt;/b&gt; แล้ว จะเป็น &lt;b&gt;%2$s&lt;/b&gt; คุณจะชำระเงินทั้งหมดที่โรงแรม (ในสุกลเงินท้องถิ่นของโรงแรม) เมื่อคุณเข้าพัก</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">ราคารวมสำหรับการเดินทางของคุณ ซึ่งรวมค่าธรรมเนียมรีสอร์ท &lt;b&gt;%1$s&lt;/b&gt; แล้ว จะเป็น &lt;b&gt;%2$s&lt;/b&gt; คุณจะชำระยอดเงินที่เหลือที่โรงแรม (ในสุกลเงินท้องถิ่นของโรงแรม) เมื่อคุณเข้าพัก</string>
+    <!-- Pay later deposit amount -->
+    <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">ยกเลิกฟรีภายใน 24 ชั่วโมงหลังการจอง</string>
     <!-- Flights AB Test Traveler info missing callout label -->
@@ -1937,6 +1943,8 @@
     <string name="cost_summary">สรุปค่าใช้จ่าย</string>
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">ภาษีและค่าธรรมเนียม</string>
+    <!-- Taxes without airline fees -->
+    <string name="taxes_without_airline_fees">ภาษี</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">ค่าธรรมเนียมการจองของ {brand}</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
@@ -2298,6 +2306,8 @@
     <string name="privacy_policy">นโยบายความเป็นส่วนตัว</string>
     <!-- Fare information header -->
     <string name="fare_information">ข้อมูลค่าโดยสาร</string>
+    <!-- Airline Fee -->
+    <string name="Airline_fee">ค่าธรรมเนียมสายการบิน</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -2618,6 +2628,8 @@
     <string name="widget_savings_template">ลด %2.0f%%</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">ไม่มีสัญญาณอินเทอร์เน็ต</string>
+    <!-- The label for deposit terms button -->
+    <string name="deposit_terms">เงื่อนไขเกี่ยวกับเงินมัดจำ</string>
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
@@ -2652,6 +2664,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">จาก 5 - คะแนนจากผู้เข้าพัก</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">จาก 5 - ดี!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">จาก 5 - ดีมาก!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">จาก 5 - ดีเลิศ!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">จาก 5 - ยอดเยี่ยม!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">จาก 5 - ยอดเยี่ยมที่สุด!</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -2799,6 +2818,11 @@
     <string name="etp_pay_now_currency_text_TEMPLATE">คุณจะชำระเงินในสกุลเงินท้องถิ่นของคุณ (%s)</string>
     <string name="etp_pay_now_cancellation_text">ยกเลิกได้ฟรี ภายในช่วงเวลาการยกเลิกที่โรงแรมกำหนด</string>
     <string name="etp_select_room">เลือกห้อง</string>
+
+    <!-- ETP pay later deposit info message -->
+    <string name="etp_pay_later_deposit_text">ค่ามัดจำจะมีจำนวนไม่เกินยอดราคารวมของการจอง</string>
+    <string name="no_charge_text_TEMPLATE">{brand} จะไม่เรียกเก็บเงินจากคุณ</string>
+    <string name="deposit_info_text">จองด้วยเงินมัดจำ</string>
 
     <!-- Room and rates list -->
     <!-- Loading message for rooms & rates -->
@@ -3033,6 +3057,8 @@
     <string name="app_support">ฝ่ายสนับสนุนแอพ</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">ข้อตกลงและเงื่อนไข</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">ข้อตกลงการใช้งาน</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">นโยบายความเป็นส่วนตัว</string>
     <!-- Copyright information -->
@@ -3753,21 +3779,14 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">ในการดำเนินการจองนี้ให้เสร็จสมบูรณ์ ฉันได้อ่านและยอมรับ %1$s, %2$s และ %3$s แล้ว</string>
-    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">ฉันได้อ่านและยอมรับใน%1$sและ%2$s</string>
+    <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_TEMPLATE">ฉันได้อ่านและยอมรับใน%1$sและ%2$s โดยการเข้าร่วม {brand}+ ฉันยอมรับ%3$sทั้งหมด</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">โปรดระบุอายุเด็ก</string>
 
     <string name="lob_not_supported_error_message">ขออภัย การจอง{lob}ยังไม่มีให้บริการในตำแหน่งของคุณ</string>
 
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_an_Expedia_account">สร้างบัญชีเอ็กซ์พีเดีย</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_Expedia">ยินดีต้อนรับสู่เอ็กซ์พีเดีย</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_Expedia_account_already_exists">อีเมลนี้มีบัญชีเอ็กซ์พีเดียอยู่แล้ว</string>
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 ปี)</string>
 
@@ -3786,4 +3805,10 @@
     <string name="coupon_error_dialog_title">การใช้คูปองล้มเหลว</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">มีปัญหากับคูปองของคุณ โปรดลองป้อนคูปองอีกครั้ง</string>
+
+    <!-- Australian compliance warnings d/5810 -->
+    <string name="airline_fee_notice">ค่าธรรมเนียมสายการบินจะถูกเพิ่มเข้าไปในการชำระเงิน โดยขึ้นอยู่กับประเภทบัตร</string>
+    <string name="airline_charge_notice">สายการบินเรียกเก็บค่าธรรมเนียมเพิ่มเติมตามวิธีการชำระเงิน</string>
+    <string name="airline_fee_notice_payment">อาจมีค่าธรรมเนียมสายการบิน ทั้งนี้ขึ้นอยู่กับวิธีการชำระเงิน</string>
+    <string name="airline_notice_fee_added"><u><b>ค่าธรรมเนียมสายการบิน</b></u> จะถูกเพิ่มเข้าไปในการชำระเงิน โดยขึ้นอยู่กับประเภทบัตร ค่าธรรมเนียมนี้จะบวกเพิ่มเข้ากับยอดการชำระเงินรวม</string>
 </resources>

@@ -250,6 +250,11 @@ public class TripParser {
 
 				property.setItinRoomType(room.optString("roomRatePlanDescription"));
 
+				JSONObject nonPricePromotionData = room.optJSONObject("nonPricePromotionData");
+				if (nonPricePromotionData != null) {
+					property.setItinNonPricePromotionText(nonPricePromotionData.optString("text"));
+				}
+
 				JSONObject roomPreferences = room.optJSONObject("roomPreferences");
 				if (roomPreferences != null) {
 					JSONObject otherOccupantInfo = roomPreferences.optJSONObject("otherOccupantInfo");

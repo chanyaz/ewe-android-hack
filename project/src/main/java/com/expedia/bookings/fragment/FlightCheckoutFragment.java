@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -21,6 +21,7 @@ import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity;
 import com.expedia.bookings.activity.FlightRulesActivity;
 import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
@@ -97,11 +98,11 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		if (activity instanceof CheckoutInformationListener) {
-			mListener = (CheckoutInformationListener) activity;
-			mLogInListener = (AccountLibActivity.LogInListener) activity;
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		if (context instanceof CheckoutInformationListener) {
+			mListener = (CheckoutInformationListener) context;
+			mLogInListener = (AccountLibActivity.LogInListener) context;
 		}
 		else {
 			throw new RuntimeException(
@@ -155,6 +156,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		mSelectPaymentSentenceText = Ui.findView(v, R.id.select_payment_sentence_text);
 		mSelectPaymentCalloutText = Ui.findView(v, R.id.select_payment_callout_text);
 
+
 		if (!PointOfSale.getPointOfSale().requiresBillingAddressFlights()) {
 			mSectionLocation.setVisibility(View.GONE);
 		}
@@ -164,6 +166,21 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		mWalletButton.setOnClickListener(mWalletButtonClickListener);
 		mWalletButton.setPromoVisible(false);
+
+		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
+			Ui.findView(v, R.id.airline_notice_fee_added).setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+					builder
+						.setUrl(PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL());
+					builder.setTheme(R.style.FlightTheme);
+					builder.setTitle(R.string.Airline_fee);
+					builder.setInjectExpediaCookies(true);
+					startActivity(builder.getIntent());
+				}
+			});
+		}
 
 		// rules and restrictions link stuff
 		TextView tv = Ui.findView(v, R.id.legal_blurb);
@@ -185,7 +202,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		buildTravelerBox();
 
-		mAccountButton.setVisibility(ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled() ? View.VISIBLE : View.GONE);
+		mAccountButton.setVisibility(
+			ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled() ? View.VISIBLE : View.GONE);
 
 		return v;
 	}
@@ -368,9 +386,12 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
 				tv.setText(travelerBoxLabels.get(index));
 
-				boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
-				int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
-				if (isUserBucketedForTest && testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
+				boolean isUserBucketedForTest = Db.getAbacusResponse()
+					.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
+				int testVariate = Db.getAbacusResponse()
+					.variateForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
+				if (isUserBucketedForTest
+					&& testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
 					TextView promptView = Ui.findView(v, R.id.traveler_empty_prompt);
 					promptView.setVisibility(View.VISIBLE);
 				}
@@ -452,8 +473,9 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 				for (int i = 0; i < travelers.size(); i++) {
 					SectionTravelerInfo travSection = mTravelerSections.get(i);
-					boolean currentTravelerValid = false;
-					if (Db.getTripBucket().getFlight().getFlightTrip().isInternational() || Db.getTripBucket().getFlight().getFlightTrip().isPassportNeeded()) {
+					boolean currentTravelerValid;
+					if (Db.getTripBucket().getFlight().getFlightTrip().isInternational() || Db.getTripBucket()
+						.getFlight().getFlightTrip().isPassportNeeded()) {
 						currentTravelerValid = (state.allTravelerInfoIsValidForInternationalFlight(travelers.get(i)));
 					}
 					else {
@@ -505,8 +527,10 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		}
 		else {
 			mStoredCreditCard.setVisibility(View.GONE);
-			boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
-			int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
+			boolean isUserBucketedForTest = Db.getAbacusResponse()
+				.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
+			int testVariate = Db.getAbacusResponse()
+				.variateForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
 
 			if (isUserBucketedForTest) {
 				if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
@@ -769,12 +793,12 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	//////////////////////////////////
 
 	public interface CheckoutInformationListener {
-		public void checkoutInformationIsValid();
+		void checkoutInformationIsValid();
 
-		public void checkoutInformationIsNotValid();
+		void checkoutInformationIsNotValid();
 
-		public void onBillingInfoChange();
+		void onBillingInfoChange();
 
-		public void onLogout();
+		void onLogout();
 	}
 }

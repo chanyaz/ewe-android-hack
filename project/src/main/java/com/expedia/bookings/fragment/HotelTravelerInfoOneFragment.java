@@ -1,6 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -51,8 +51,8 @@ public class HotelTravelerInfoOneFragment extends Fragment implements Validatabl
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mAttemptToLeaveMade = false;
 	}
 

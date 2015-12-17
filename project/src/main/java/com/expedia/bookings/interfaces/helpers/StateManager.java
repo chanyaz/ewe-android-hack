@@ -7,8 +7,6 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.util.Pair;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -25,7 +23,6 @@ import com.mobiata.android.Log;
  * <p/>
  * This class can provide transitions between states, both animated and unanimated.
  */
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class StateManager<T> {
 	private static final int STATE_CHANGE_ANIMATION_DURATION = 300;
 
@@ -174,10 +171,10 @@ public class StateManager<T> {
 	 * @param states          - the states to animate through
 	 */
 	public void animateThroughStates(int duration, boolean durationIsTotal, T... states) {
-		mStateChain = new LinkedList<Pair<T, Integer>>();
+		mStateChain = new LinkedList<>();
 		int perAnimDur = durationIsTotal ? (int) ((float) duration / states.length) : duration;
 		for (T s : states) {
-			mStateChain.add(new Pair<T, Integer>(s, perAnimDur));
+			mStateChain.add(new Pair<>(s, perAnimDur));
 		}
 		doStateChainWork();
 	}

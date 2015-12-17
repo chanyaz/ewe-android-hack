@@ -50,6 +50,4 @@ class HotelReviewRowViewModel(val context: Context) {
         }
         return nameAndLocationText;
     }
-
-
 }

@@ -3,7 +3,6 @@ package com.expedia.bookings.widget;
 import java.util.Map;
 import java.util.Set;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -29,7 +28,6 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
-@TargetApi(14)
 public class AirportFilterWidget extends TextView {
 
 	private PopupWindow mPopup;
@@ -47,13 +45,11 @@ public class AirportFilterWidget extends TextView {
 	}
 
 	public AirportFilterWidget(Context context) {
-		super(context);
-		init();
+		this(context, null);
 	}
 
 	public AirportFilterWidget(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		init();
+		this(context, attrs, 0);
 	}
 
 	public AirportFilterWidget(Context context, AttributeSet attrs, int defStyle) {
@@ -205,5 +201,4 @@ public class AirportFilterWidget extends TextView {
 			mAirportFilterWidgetListener.onPopupToggled(true, mDepartureAirport);
 		}
 	}
-
 }

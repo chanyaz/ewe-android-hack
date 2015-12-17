@@ -1,6 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -32,8 +32,8 @@ public class FlightNoFlightsFragment extends Fragment implements OnClickListener
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, NoFlightsFragmentListener.class);
 	}
@@ -70,6 +70,6 @@ public class FlightNoFlightsFragment extends Fragment implements OnClickListener
 	// Listener
 
 	public interface NoFlightsFragmentListener {
-		public void onClickEditSearch();
+		void onClickEditSearch();
 	}
 }

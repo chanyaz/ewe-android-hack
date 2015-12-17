@@ -3,10 +3,9 @@ package com.expedia.bookings.utils
 import android.graphics.Paint
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
-import android.util.TypedValue
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.ViewGroup
-import android.widget
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
@@ -56,22 +55,22 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
 
         fun addHotelAmenity(viewGroup: ViewGroup, amenityList: List<Amenity>) {
             viewGroup.removeAllViews()
-            val srcColor = viewGroup.getContext().getResources().getColor(R.color.hotelsv2_checkout_text_color)
+            val srcColor = ContextCompat.getColor(viewGroup.context, R.color.hotelsv2_checkout_text_color)
             val mode = PorterDuff.Mode.SRC_ATOP
             val filter = PorterDuffColorFilter(srcColor, mode)
             val paint = Paint()
             paint.setColorFilter(filter)
 
-            for (index in 0..amenityList.size() - 1) {
+            for (index in 0..amenityList.size - 1) {
 
                 val amenityLayout = com.mobiata.android.util.Ui.inflate<LinearLayout>(R.layout.new_amenity_row, viewGroup, false)
-                val amenityTextView = amenityLayout.findViewById(R.id.amenity_label) as widget.TextView
+                val amenityTextView = amenityLayout.findViewById(R.id.amenity_label) as android.widget.TextView
                 val amenityIconView = amenityLayout.findViewById(R.id.amenity_icon) as ImageView
                 amenityIconView.setLayerType(View.LAYER_TYPE_HARDWARE, paint)
                 val amenityStr = viewGroup.getContext().getString(amenityList.get(index).strId)
 
                 amenityTextView.setText(amenityStr)
-                amenityIconView.setImageDrawable(viewGroup.getContext().getResources().getDrawable(amenityList.get(index).resId))
+                amenityIconView.setImageDrawable(ContextCompat.getDrawable(viewGroup.context, amenityList.get(index).resId))
                 viewGroup.addView(amenityLayout)
             }
             viewGroup.scheduleLayoutAnimation()
@@ -82,7 +81,7 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
 
             var amenityTreeSet = TreeSet<Amenity>(AmenityComparator())
 
-            for (i in 0..list.size() - 1) {
+            for (i in 0..list.size - 1) {
 
                 when (list.get(i).id.toInt()) {
                     2065, 2213, 2538 -> amenityTreeSet.add(Amenity.BUSINESS_CENTER)

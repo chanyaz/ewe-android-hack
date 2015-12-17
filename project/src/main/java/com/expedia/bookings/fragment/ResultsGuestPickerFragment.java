@@ -2,9 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.List;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
-import android.os.Build;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,10 +19,8 @@ import com.mobiata.android.util.Ui;
 /**
  * Results loading fragment for Tablet
  */
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class ResultsGuestPickerFragment extends Fragment implements GuestPicker.GuestPickerListener {
 
-	private ViewGroup mRootC;
 	private GuestPicker mGuestPicker;
 
 	private TextView mInfantAlertTextView;
@@ -32,24 +28,24 @@ public class ResultsGuestPickerFragment extends Fragment implements GuestPicker.
 	private GuestPickerFragmentListener mListener;
 
 	public interface GuestPickerFragmentListener {
-		public void onGuestsChanged(int numAdults, List<ChildTraveler> children);
+		void onGuestsChanged(int numAdults, List<ChildTraveler> children);
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mListener = Ui.findFragmentListener(this, GuestPickerFragmentListener.class);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		mRootC = Ui.inflate(inflater, R.layout.fragment_results_guests, null);
-		mGuestPicker = Ui.findView(mRootC, R.id.guest_picker);
+		ViewGroup rootView = Ui.inflate(inflater, R.layout.fragment_results_guests, null);
+		mGuestPicker = Ui.findView(rootView, R.id.guest_picker);
 		mGuestPicker.setListener(this);
 
-		mInfantAlertTextView = Ui.findView(mRootC, R.id.tablet_lap_infant_alert);
+		mInfantAlertTextView = Ui.findView(rootView, R.id.tablet_lap_infant_alert);
 
-		return mRootC;
+		return rootView;
 	}
 
 	@Override
@@ -81,5 +77,4 @@ public class ResultsGuestPickerFragment extends Fragment implements GuestPicker.
 			mInfantAlertTextView.setVisibility(View.GONE);
 		}
 	}
-
 }

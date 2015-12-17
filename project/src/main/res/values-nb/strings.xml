@@ -115,6 +115,8 @@
     <string name="hotel_toolbar_title">Søk etter hoteller</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">Søk etter sted</string>
+    <!-- Label for recent searches -->
+    <string name="recent_searches">Nylige søk</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Sted for henting</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -124,7 +126,7 @@
     <!-- Label for Cars date button -->
     <string name="select_pickup_and_dropoff_dates">Velg datoer for henting og avlevering</string>
     <!-- When user has picked both start and return date/time, we show something like: "Jan 21, 2:00PM - Jan 25, 3:00PM" -->
-    <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
+    <string name="date_time_range_TEMPLATE">%1$s–%2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">%1$s – Velg returdato</string>
     <!-- Label for pick-up time picker -->
@@ -273,12 +275,6 @@
     <string name="missing_flight_info_message_TEMPLATE">For å søke på fly til %s må du angi hvor du vil fly fra.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Velg en gyldig dato eller tidsperiode.</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">For å søke på fly til %s,\nangi når du vil fly.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">Fortell oss hvor du vil fly fra\nfor å se flypris-trender.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">Fly-trender gir deg en idé om hvordan flyprisene endres over tid. Da prisene som vises er basert på live data fra ekte søk, vil noen ruter ha mindre informasjon enn andre.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Turen begynner</string>
     <!-- Denotes the end date of the trip -->
@@ -658,6 +654,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s ikke godkjent</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Prisen på denne aktiviteten er endret. Prøv å bestille på nytt.</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">Vi har ikke nok billetter igjen på den valgte datoen. Prøv en annen dato eller velg færre billetter.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Billettene dine er blitt sendt til</string>
     <!-- LX reservation confirmation text -->
@@ -679,6 +677,9 @@
     <string name="lx_ground_transport_passengers_text">%1$s passasjerer</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">Denne datoen er tilbake i tid. Velg en annen dato.</string>
+
+    <!-- Category Title "All Things To Do" -->
+    <string name="lx_category_all_things_to_do">Alle aktiviteter</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -734,6 +735,10 @@
     <string name="prices_roundtrip_label">Priser er for tur-retur per person</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Priser er for én vei per person</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_roundtrip_minimum_label">Priser er for tur-retur per person, fra</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_oneway_minimum_label">Priser er for én vei per person, fra</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Reisen er tom.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -748,10 +753,6 @@
     <string name="trip_bucket_label_flight_roundtrip">Tur-retur-flyvning til %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Flyvning til %1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">Flypris-trender</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">Når skal du fly tilbake?</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Beklager, det er ingen hoteller \n tilgjengelige på appen vår for øyeblikket.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -849,6 +850,8 @@
     <string name="room_rate_pay_now">Betal nå</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} belastes nå</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">Belastes nå</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s per natt</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -912,36 +915,6 @@
     <string name="now_booking_TEMPLATE">Bestiller &lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
-
-    <!-- Facebook -->
-    <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account_TEMPLATE">Hei, &lt;b&gt;{name}&lt;/b&gt;! Det ser ut til at vi har funnet {brand}-kontoen din! Vennligst oppgi passordet ditt for {brand} under for å koble Facebook-kontoen din opp mot {brand}-kontoen din.</string>
-    <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">Hei, &lt;b&gt;%1$s&lt;/b&gt;! Vi har hentet Facebook-informasjonen din!</string>
-    <!-- Sign in with facebook (button text) -->
-    <string name="Sign_in_with_Facebook">Logg på med Facebook</string>
-    <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Henter informasjon fra Facebook…</string>
-    <!-- Attempting to sign you in with facebook credentials -->
-    <string name="attempting_to_sign_in_with_facebook">Prøver å logge deg på med dine Facebook-detaljer…</string>
-    <!-- We have encountered an error -->
-    <string name="unspecified_error">En uspesifisert feil har oppstått. Prøv igjen senere.</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Innlogging på Facebook ikke mulig.</string>
-    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="sign_in_failed_try_again">Pålogging feilet. Hvis e-postadressen og passordet er korrekt, kan det være lurt å sjekke at landsinnstillingen på appen er korrekt.</string>
-    <!-- Facebook connect password hint -->
-    <string name="brand_password_hint_TEMPLATE">{brand}-passord</string>
-    <!-- Link accounts -->
-    <string name="link_accounts">Koble sammen kontoer</string>
-    <!-- User Denied email permission Heading -->
-    <string name="user_denied_permission_email_heading">E-post-tillatelse</string>
-    <!-- Linking your accounts -->
-    <string name="linking_your_accounts">Kobler kontoene dine opp mot hverandre…</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">Gi e-post-tillatelse</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">For at du skal kunne logge på med Facebook ber vi om din tillatelse til å verifisere e-postadressen din. \n\nTrykk på Facebook-knappen nedenfor for å gi {brand} tillatelse til å verifisere e-postadressen din. Takk!</string>
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Logg på med {brand}</string>
@@ -1050,6 +1023,10 @@
     <string name="shop">Søk</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Finn reiserute</string>
+    <!-- Unable to find itinerary -->
+    <string name="unable_to_find_itinerary">Fant ikke reiseruten. Bekreft at landet (i innstillingene på mobilen) er det samme som versjonen av nettstedet du utførte bestillingen på.</string>
+    <!-- Find Guest Itinerary -->
+    <string name="find_guest_itinerary">Finn reiserute for gjest</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">Oppgi reiserutedetaljene</string>
     <!-- Find Itinerary # -->
@@ -1064,6 +1041,8 @@
     <string name="no_upcoming_trips">Ingen kommende reiser.</string>
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Skriv inn reiserutenummer</string>
+    <!-- Enter a Guest itinerary number -->
+    <string name="or_enter_a_guest_itinerary_number">Eller angi en gjestereiserute</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Henter reiserutene dine…</string>
     <!-- Error fetching itinerary -->
@@ -1420,6 +1399,7 @@
     <string name="itin_card_details_address">Adresse</string>
     <string name="itin_card_details_local_phone">Lokalt telefonnummer</string>
     <string name="itin_card_details_room_type">Romtype</string>
+    <string name="itin_card_details_non_price_promotion_includes">Inkluderer</string>
     <string name="itin_card_details_bed_type">Sengetype</string>
     <string name="toast_copied_to_clipboard">Kopiert til utklippstavlen.</string>
     <string name="itin_card_details_reload">Last inn informasjonen på nytt</string>
@@ -1704,11 +1684,15 @@
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate}-{enddate}, {guests}</string>
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
-    <string name="one_way_price_TEMPLATE">En vei for &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="one_way_price_TEMPLATE">Én vei for &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Round trip from $994" -->
     <string name="round_trip_price_TEMPLATE">Tur-retur fra &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">Bestill nå for &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Variants of the previous few templates, for Australian compliance rules (d/5810) -->
+    <string name="one_way_price_min_TEMPLATE">Én vei fra &lt;b&gt;%s&lt;/b&gt; per person</string>
+    <string name="round_trip_price_min_TEMPLATE">Tur-retur fra &lt;b&gt;%s&lt;/b&gt; per person</string>
+    <string name="book_now_price_min_TEMPLATE">Bestill nå, fra &lt;b&gt;%s&lt;/b&gt; per person</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
         <item quantity="zero">%1$s igjen til &lt;b&gt;%2$s&lt;/b&gt;</item>
@@ -1718,8 +1702,20 @@
         <item quantity="many">%1$s igjen til &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="other">%1$s igjen til &lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
+    <!-- Book now info label, when there are only a few seats left. Variant for Australian
+         compliance rules (d/5810) -->
+    <plurals name="urgency_book_min_TEMPLATE">
+        <item quantity="zero">%1$s igjen fra &lt;b&gt;%2$s&lt;/b&gt; per person</item>
+        <item quantity="one">%1$s igjen fra &lt;b&gt;%2$s&lt;/b&gt; per person</item>
+        <item quantity="two">%1$s igjen fra &lt;b&gt;%2$s&lt;/b&gt; per person</item>
+        <item quantity="few">%1$s igjen fra &lt;b&gt;%2$s&lt;/b&gt; per person</item>
+        <item quantity="many">%1$s igjen fra &lt;b&gt;%2$s&lt;/b&gt; per person</item>
+        <item quantity="other">%1$s igjen fra &lt;b&gt;%2$s&lt;/b&gt; per person</item>
+    </plurals>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
+    <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
+    <string name="fare_name_and_price_min_TEMPLATE">%1$s fra %2$s per person</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">Informasjon om bagasjeavgifter</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -1802,10 +1798,14 @@
     <string name="Overview">Oversikt</string>
     <!-- Trip total price label -->
     <string name="total_price_label">Totalpris for reisen</string>
+    <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
+    <string name="total_price_min_label">Totalpris for reisen fra</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Reise til %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Inkluderer skatter og avgifter</string>
+    <!-- Includes taxes (but not necessarily fees) -->
+    <string name="includes_taxes">Inkluderer skatter</string>
     <!-- Date and trip from _ to _ -->
     <string name="trip_to_with_date">%1$s: fra %2$s til %3$s</string>
     <!-- Number of traverlers template -->
@@ -1856,6 +1856,8 @@
     <string name="slide_to_book_flight">sveip for å bestille fly</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Kortet ditt vil bli belastet med %1$s</string>
+    <!-- Your card will be charged -->
+    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">Kortet ditt vil bli belastet %1$s (pluss flyselskapsavgift)</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_TEMPLATE">Må betales i dag: %1$s</string>
     <!-- Amount to be paid now -->
@@ -1900,6 +1902,8 @@
     <string name="fees_paid_at_hotel">Avgifter som betales på hotellet</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">Betales til {brand}</string>
+    <!-- Due to expedia today - today -->
+    <string name="due_to_brand_today_today_TEMPLATE">Må betales til {brand} i dag</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">Feriestedsavgiften på &lt;b&gt;%1$s&lt;/b&gt; må betales på hotellet. Totalbeløpet for oppholdet ditt er &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -1910,6 +1914,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">Totalbeløpet for oppholdet ditt, inkludert feriestedsavgift på &lt;b&gt;%1$s&lt;/b&gt;, er &lt;b&gt;%2$s&lt;/b&gt;. Du betaler totalprisen for bestillingen til hotellet (i deres lokale valuta) i løpet av oppholdet.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Totalbeløpet for oppholdet ditt, inkludert feriestedsavgift på &lt;b&gt;%1$s&lt;/b&gt;, er &lt;b&gt;%2$s&lt;/b&gt;. Du betaler det gjenstående beløpet for bestillingen til hotellet (i deres lokale valuta) i løpet av oppholdet.</string>
+    <!-- Pay later deposit amount -->
+    <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">Gratis avbestilling innen 24 timer</string>
     <!-- Flights AB Test Traveler info missing callout label -->
@@ -1935,6 +1941,8 @@
     <string name="cost_summary">Kostnadoversikt</string>
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Skatter og avgifter</string>
+    <!-- Taxes without airline fees -->
+    <string name="taxes_without_airline_fees">Skatter</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand}-bestillingsgebyr</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
@@ -2296,6 +2304,8 @@
     <string name="privacy_policy">Personvernregler</string>
     <!-- Fare information header -->
     <string name="fare_information">PRISINFORMASJON</string>
+    <!-- Airline Fee -->
+    <string name="Airline_fee">Flyselskapsavgift</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -2616,6 +2626,8 @@
     <string name="widget_savings_template">Spar %2.0f%%</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">Ingen internettforbindelse</string>
+    <!-- The label for deposit terms button -->
+    <string name="deposit_terms">Depositumsvilkår</string>
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
@@ -2650,6 +2662,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">av 5 – gjestevurdering</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">av 5 – Bra!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">av 5 – Meget bra!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">av 5 – Utmerket!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">av 5 – Fabelaktig!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">av 5 – Enestående!</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -2797,6 +2816,11 @@
     <string name="etp_pay_now_currency_text_TEMPLATE">Du betaler i din lokale valuta (%s).</string>
     <string name="etp_pay_now_cancellation_text">Avbestilling er gratis helt fram til hotellets avbestillingsperiode har utløpt.</string>
     <string name="etp_select_room">Velg rom</string>
+
+    <!-- ETP pay later deposit info message -->
+    <string name="etp_pay_later_deposit_text">Dine depositumer vil aldri gå over det totale beløpet for bestillingen din.</string>
+    <string name="no_charge_text_TEMPLATE">{brand} vil ikke belaste deg for dette.</string>
+    <string name="deposit_info_text">Bestill med depositum</string>
 
     <!-- Room and rates list -->
     <!-- Loading message for rooms & rates -->
@@ -3030,9 +3054,11 @@
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App-støtte</string>
     <!-- Label for link to terms and conditions -->
-    <string name="info_label_terms_conditions">Vilkår</string>
+    <string name="info_label_terms_conditions">vilkårene</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">betingelsene for bruk</string>
     <!-- Label for link to privacy policy -->
-    <string name="info_label_privacy_policy">Personvernregler</string>
+    <string name="info_label_privacy_policy">personvernreglene</string>
     <!-- Copyright information -->
     <string name="copyright_TEMPLATE">© Copyright 2012-{year} {brand}, Inc.\nMed enerett.</string>
     <!-- Dialog Title telling the user they have been signed of their account and all data saved about them has been removed -->
@@ -3751,21 +3777,14 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Ved å fullføre denne bestillingen bekrefter jeg at jeg har lest og aksepterer gjeldende %1$s, %2$s og %3$s.</string>
-    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">Jeg har lest og godtar %1$s og %2$s.</string>
+    <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_TEMPLATE">Jeg har lest og godtar %1$s og %2$s. Ved å bli med i {brand}+ godkjenner jeg alle %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Velg hvert barns alder</string>
 
     <string name="lob_not_supported_error_message">Beklager, {lob}-bestillinger på mobil er ikke tilgjengelig der du befinner deg ennå.</string>
 
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_an_Expedia_account">Opprett en Expedia-konto</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_Expedia">Velkommen til Expedia</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_Expedia_account_already_exists">Det finnes allerede en Expedia-konto med denne e-postadressen</string>
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 år)</string>
 
@@ -3784,4 +3803,10 @@
     <string name="coupon_error_dialog_title">Kupongen kunne ikke legges til</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Det oppstod et problem med kupongen din. Prøv å angi koden på nytt.</string>
+
+    <!-- Australian compliance warnings d/5810 -->
+    <string name="airline_fee_notice">En flyselskapsavgift, avhengig av korttypen, vil legges til ved betaling.</string>
+    <string name="airline_charge_notice">Flyselskaper belaster deg en tilleggsavgift som er basert på betalingsmåten du bruker.</string>
+    <string name="airline_fee_notice_payment">Flyselskapsavgiften er basert på betalingsmåten</string>
+    <string name="airline_notice_fee_added">En <u><b>flyselskapsavgift</b></u>, avhengig av korttypen, vil legges til ved betaling. En slik avgift vil legges til i totalsummen ved betaling.</string>
 </resources>

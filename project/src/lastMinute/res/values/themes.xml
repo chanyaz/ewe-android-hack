@@ -247,23 +247,20 @@
         <item name="android:background">@color/action_bar_bg_color</item>
     </style>
 
-    <style name="Whitelabel.AccountLibTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="acct__input_text_error_color">@color/acct__bg_input_text_error_lm</item>
-        <item name="acct__input_text_good_color">@color/acct__bg_input_text_good_lm</item>
-        <item name="acct__sign_in_button_background_drawable">@drawable/btn_signin_lm</item>
-        <item name="acct__sign_in_button_text_color">@color/acct__btn_sign_in_text_lm</item>
-        <item name="acct__logo_small_drawable">@android:color/transparent</item>
-        <item name="acct__logo_large_drawable">@drawable/acct__logo_large_lm</item>
-        <item name="acct__logo_text_drawable">@drawable/acct__logo_large_lm</item>
-        <item name="acct__checkmark_good_drawable">@drawable/acct__ic_checkmark_lm</item>
-        <item name="acct__checkmark_warning_drawable">@drawable/acct__ic_warning_lm</item>
+    <style name="Theme.AccountLib" parent="Theme.Base.AccountLib">
+        <item name="skin_acctLogoSmallDrawable">@android:color/transparent</item>
+        <item name="skin_acctLogoLargeDrawable">@drawable/acct__logo_large_lm</item>
+        <item name="skin_acctLogoTextDrawable">@drawable/acct__logo_large_lm</item>
+        <item name="skin_acctInputTextErrorColor">@color/acct__bg_input_text_error_lm</item>
+        <item name="skin_acctInputTextGoodColor">@color/acct__bg_input_text_good_lm</item>
+        <item name="skin_acctSignInButtonBackgroundDrawable">@drawable/btn_signin_lm</item>
+        <item name="skin_acctSignInButtonTextColor">@color/acct__btn_sign_in_text_lm</item>
+        <item name="skin_acctCheckmarkGoodDrawable">@drawable/acct__ic_checkmark_lm</item>
+        <item name="skin_acctCheckmarkWarningDrawable">@drawable/acct__ic_warning_lm</item>
+        <item name="skin_acctLogoTextDrawableMarginLeft">-36dp</item>
+        <item name="skin_acctLogoTextDrawableMarginTop">5dp</item>
         <item name="skin_accountCreationBackgroundDrawable">@drawable/bg_mtfuji_crop_lm</item>
-        <item name="acct__create_account_prompt_string">@string/acct_Create_a_LastMinute_account</item>
-        <item name="acct__welcome_message_string">@string/acct_Welcome_to_LastMinute</item>
-        <item name="acct__account_already_exists_string">@string/acct_LastMinute_account_already_exists</item>
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
-        <item name="acct__logo_text_drawable_margin_left">-36dp</item>
-        <item name="acct__logo_text_drawable_margin_top">5dp</item>
     </style>
 
 </resources>

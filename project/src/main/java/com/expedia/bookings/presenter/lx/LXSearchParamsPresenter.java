@@ -193,6 +193,7 @@ public class LXSearchParamsPresenter extends Presenter
 			.getString(R.string.current_location)
 			: StrUtils.formatCityName(suggestion.fullName));
 		searchParams.location(suggestion.fullName);
+		searchParams.imageCode(suggestion.airportCode);
 		searchParamsChanged();
 
 		selectDates.setChecked(true);

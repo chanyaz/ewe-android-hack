@@ -22,9 +22,9 @@
 
     <!-- Launch dimens -->
     <dimen name="launch_header_height">48dp</dimen>
-    <dimen name="launch_header_top_space">183dp</dimen>
-    <dimen name="launch_header_double_row_top_space">240dp</dimen>
-    <dimen name="launch_header_five_lob_top_space">246dp</dimen>
+    <dimen name="launch_header_top_space">135dp</dimen>
+    <dimen name="launch_header_double_row_top_space">192dp</dimen>
+    <dimen name="launch_header_five_lob_top_space">198dp</dimen>
     <dimen name="launch_tile_hotel_sale_horizontal_padding">6dp</dimen>
     <dimen name="launch_tile_hotel_sale_vertical_padding">4dp</dimen>
     <dimen name="launch_tile_hotel_sale_drawable_padding">5dp</dimen>
@@ -269,6 +269,7 @@
     <dimen name="lx_unexpanded_space_height">190dp</dimen>
     <dimen name="lx_results_bottom_padding">58dp</dimen>
     <dimen name="gt_results_bottom_padding">0dp</dimen>
+    <dimen name="lx_category_image_width">300dp</dimen>
 
     <!-- Car Search  -->
     <dimen name="car_calendar_month_view_max_text_size">12dp</dimen>

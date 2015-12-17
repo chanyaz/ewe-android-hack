@@ -10,6 +10,7 @@ import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.AbacusServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
@@ -17,7 +18,6 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 
-import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import rx.observers.TestSubscriber;
@@ -38,12 +38,7 @@ public class AbacusServicesTest {
 	public void before() {
 		service = new AbacusServices("http://localhost:" + server.getPort(),
 			new OkHttpClient(),
-			new RequestInterceptor() {
-				@Override
-				public void intercept(RequestFacade request) {
-					// ignore
-				}
-			},
+			new MockInterceptor(),
 			Schedulers.immediate(),
 			Schedulers.immediate(),
 			RestAdapter.LogLevel.FULL);

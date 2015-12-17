@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <View
+        android:id="@+id/drop_shadow"
         android:layout_width="match_parent"
         android:layout_height="8dp"
         android:background="@drawable/drop_shadow" />

@@ -1,6 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,8 +50,8 @@ public class BookingUnavailableFragment extends LobableFragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, BookingUnavailableFragmentListener.class);
 	}
@@ -132,8 +132,8 @@ public class BookingUnavailableFragment extends LobableFragment {
 	// BookingUnavailableFragmentListener
 
 	public interface BookingUnavailableFragmentListener {
-		public void onTripBucketItemRemoved(LineOfBusiness lob);
+		void onTripBucketItemRemoved(LineOfBusiness lob);
 
-		public void onSelectNewTripItem(LineOfBusiness lob);
+		void onSelectNewTripItem(LineOfBusiness lob);
 	}
 }

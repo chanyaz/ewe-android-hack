@@ -7,7 +7,7 @@ import android.animation.Animator;
 import android.animation.Animator.AnimatorListener;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -71,27 +71,22 @@ public class SlideToPurchaseFragment extends Fragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
-		if (!(activity instanceof ISlideToListener)) {
+		if (!(context instanceof ISlideToListener)) {
 			throw new RuntimeException(SlideToPurchaseFragment.class.getSimpleName()
-					+ " must bind to an activity that implements "
-					+ mListener.getClass().getSimpleName());
+				+ " must bind to an activity that implements "
+				+ mListener.getClass().getSimpleName());
 		}
 
-		mListener = (ISlideToListener) activity;
+		mListener = (ISlideToListener) context;
 	}
 
 	@Override
 	public void onResume() {
 		super.onResume();
 		resetSlider();
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
 	}
 
 	@Override
@@ -107,17 +102,16 @@ public class SlideToPurchaseFragment extends Fragment {
 
 		if (mHasAcceptedTOS) {
 			if (layoutConfirmTOS.getVisibility() != View.INVISIBLE
-					|| layoutSlideToPurchase.getVisibility() != View.VISIBLE) {
+				|| layoutSlideToPurchase.getVisibility() != View.VISIBLE) {
 				hideAcceptTOS(layoutConfirmTOS, layoutSlideToPurchase, animated);
 			}
 		}
 		else {
 			if (layoutConfirmTOS.getVisibility() != View.VISIBLE
-					|| layoutSlideToPurchase.getVisibility() != View.INVISIBLE) {
+				|| layoutSlideToPurchase.getVisibility() != View.INVISIBLE) {
 				showAcceptTOS(layoutConfirmTOS, layoutSlideToPurchase);
 			}
 		}
-
 	}
 
 	public void setTotalPriceString(String totalPriceString) {

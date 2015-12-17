@@ -5,5 +5,5 @@ import java.io.IOException;
 import com.squareup.okhttp.Response;
 
 public interface ResponseHandler<T> {
-	public T handleResponse(Response response) throws IOException;
+	T handleResponse(Response response) throws IOException;
 }

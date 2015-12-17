@@ -2,7 +2,6 @@ package com.expedia.bookings.widget;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -72,8 +71,7 @@ public class SlidingRadioGroup extends RadioGroup implements RadioGroup.OnChecke
 	private RadioGroup.OnCheckedChangeListener mOnCheckedChangeListener;
 
 	public SlidingRadioGroup(Context context) {
-		super(context);
-		init(context, null);
+		this(context, null);
 	}
 
 	public SlidingRadioGroup(Context context, AttributeSet attrs) {
@@ -212,9 +210,7 @@ public class SlidingRadioGroup extends RadioGroup implements RadioGroup.OnChecke
 			}
 		}
 
-		@TargetApi(11)
 		public void setExposedRect(View child, boolean animate) {
-
 			if (child != null) {
 				mRectTo.left = child.getLeft() - 1;
 				mRectTo.top = child.getTop();
@@ -301,5 +297,4 @@ public class SlidingRadioGroup extends RadioGroup implements RadioGroup.OnChecke
 			// not supported
 		}
 	}
-
 }

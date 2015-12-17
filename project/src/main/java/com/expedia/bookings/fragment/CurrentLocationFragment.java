@@ -1,6 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
+import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -32,11 +32,10 @@ public class CurrentLocationFragment extends Fragment
 
 
 	public interface ICurrentLocationListener {
-		public void onCurrentLocation(Location location, SuggestionV2 suggestion);
+		void onCurrentLocation(Location location, SuggestionV2 suggestion);
 
-		public void onCurrentLocationError(int errorCode);
+		void onCurrentLocationError(int errorCode);
 	}
-
 
 	//Frags
 	private FusedLocationProviderFragment mLocationFragment;
@@ -58,8 +57,8 @@ public class CurrentLocationFragment extends Fragment
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mListener = Ui.findFragmentListener(this, ICurrentLocationListener.class);
 	}
 
@@ -94,17 +93,16 @@ public class CurrentLocationFragment extends Fragment
 		}
 	}
 
-
 	/**
 	 * FRAGMENT PROVIDER
 	 */
 
 	@Override
 	public Fragment getExistingLocalInstanceFromTag(String tag) {
-		if (tag == FTAG_CURLOCFRAG_LOCATION) {
+		if (FTAG_CURLOCFRAG_LOCATION.equals(tag)) {
 			return mLocationFragment;
 		}
-		else if (tag == FTAG_CURLOCFRAG_LOC_SUG) {
+		else if (FTAG_CURLOCFRAG_LOC_SUG.equals(tag)) {
 			return mLocationSuggestionFragment;
 		}
 		return null;
@@ -112,10 +110,10 @@ public class CurrentLocationFragment extends Fragment
 
 	@Override
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
-		if (tag == FTAG_CURLOCFRAG_LOCATION) {
+		if (FTAG_CURLOCFRAG_LOCATION.equals(tag)) {
 			return new FusedLocationProviderFragment();
 		}
-		else if (tag == FTAG_CURLOCFRAG_LOC_SUG) {
+		else if (FTAG_CURLOCFRAG_LOC_SUG.equals(tag)) {
 			return new LocationSuggestionsDownloadFragment();
 		}
 		return null;
@@ -123,7 +121,7 @@ public class CurrentLocationFragment extends Fragment
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
-		if (tag == FTAG_CURLOCFRAG_LOCATION) {
+		if (FTAG_CURLOCFRAG_LOCATION.equals(tag)) {
 			((FusedLocationProviderFragment) frag).find(this);
 		}
 	}
@@ -181,7 +179,6 @@ public class CurrentLocationFragment extends Fragment
 		}
 	}
 
-
 	@Override
 	public void onFound(final Location currentLocation) {
 		if (currentLocation != null) {
@@ -227,5 +224,4 @@ public class CurrentLocationFragment extends Fragment
 			}
 		}
 	}
-
 }

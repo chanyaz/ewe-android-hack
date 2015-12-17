@@ -1,6 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.TextUtils;
@@ -63,8 +63,8 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 	private boolean isStickyHeader = false;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, RoomsAndRatesFragmentListener.class);
 	}
@@ -358,9 +358,9 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 	// Listener
 
 	public interface RoomsAndRatesFragmentListener {
-		public void onRateSelected(Rate rate);
+		void onRateSelected(Rate rate);
 
-		public void noRatesAvailable();
+		void noRatesAvailable();
 	}
 
 	private RadioGroup.OnCheckedChangeListener mPayOptionsListener = new RadioGroup.OnCheckedChangeListener() {
@@ -410,6 +410,5 @@ public class HotelRoomsAndRatesFragment extends ListFragment implements AbsListV
 			//fix the sticky header under the notice container
 			mStickyHeader.setTranslationY(noticeHeight);
 		}
-
 	}
 }

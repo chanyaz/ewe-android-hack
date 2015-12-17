@@ -44,6 +44,7 @@ import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : CheckoutBasePresenter(context, attr) {
+    val COUPON_VIEW_INDEX = 4
     var slideAllTheWayObservable = PublishSubject.create<Unit>()
     var emailOptInStatus = PublishSubject.create<MerchandiseSpam>()
     var hotelCheckoutSummaryWidget: HotelCheckoutSummaryWidget by Delegates.notNull()
@@ -75,6 +76,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         checkoutOverviewViewModel.slideToText.subscribe { slideWidget.setText(it) }
         checkoutOverviewViewModel.legalTextInformation.subscribeText(legalInformationText)
         checkoutOverviewViewModel.disclaimerText.subscribeTextAndVisibility(disclaimerText)
+        checkoutOverviewViewModel.depositPolicyText.subscribeTextAndVisibility(depositPolicyText)
         checkoutOverviewViewModel.totalPriceCharged.subscribeText(sliderTotalText)
         checkoutOverviewViewModel.resetMenuButton.subscribe { resetMenuButton() }
     }
@@ -101,9 +103,9 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         paymentInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
 
         val container = scrollView.findViewById(R.id.scroll_content) as LinearLayout
-        container.addView(couponCardView, container.getChildCount() - 3)
+        container.addView(couponCardView, container.getChildCount() - COUPON_VIEW_INDEX)
         couponCardView.setToolbarListener(toolbarListener)
-        
+
         couponCardView.viewmodel.removeObservable.subscribe {
             showProgress(true)
             showCheckout()
@@ -120,7 +122,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         paymentInfoCardView.setCreditCardRequired(true)
         paymentInfoCardView.setExpanded(false)
 
-       if(!hasDiscount && !couponCardView.removingCoupon) {
+        if (!hasDiscount && !couponCardView.removingCoupon) {
             clearCCNumber()
         }
 
@@ -135,7 +137,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
             }
         })
         if (User.isLoggedIn(getContext())) {
-            if (!hasSomeManuallyEnteredData(paymentInfoCardView.sectionBillingInfo.billingInfo) && Db.getUser().getStoredCreditCards().size() == 1) {
+            if (!hasSomeManuallyEnteredData(paymentInfoCardView.sectionBillingInfo.billingInfo) && Db.getUser().getStoredCreditCards().size == 1) {
                 paymentInfoCardView.sectionBillingInfo.bind(Db.getBillingInfo())
                 paymentInfoCardView.selectFirstAvailableCard()
             }
@@ -199,7 +201,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         Db.getTripBucket().add(TripBucketItemHotelV2(trip))
 
         hotelCheckoutSummaryWidget.viewModel.tripResponseObserver.onNext(trip)
-        hotelCheckoutSummaryWidget.viewModel.guestCountObserver.onNext(hotelSearchParams.adults + hotelSearchParams.children.size())
+        hotelCheckoutSummaryWidget.viewModel.guestCountObserver.onNext(hotelSearchParams.adults + hotelSearchParams.children.size)
         val couponRate = trip.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getPriceAdjustments()
         hasDiscount = couponRate != null && !couponRate.isZero
         couponCardView.viewmodel.hasDiscountObservable.onNext(hasDiscount)

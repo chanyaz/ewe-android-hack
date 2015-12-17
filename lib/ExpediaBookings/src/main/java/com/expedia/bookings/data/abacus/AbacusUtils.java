@@ -35,6 +35,9 @@ public class AbacusUtils {
 	public static final int EBAndroidAppSplitGTandActivities = 8369;
 	public static final int ExpediaAndroidAppAATestSep2015 = 8706;
 	public static final int EBAndroidAppHotelsABTest = 8624;
+	public static final int EBAndroidAppHotelsV2SuperlativeReviewsABTest = 8688;
+	public static final int EBAndroidAppLXCategoryABTest = 9165;
+	public static final int EBAndroidAppHotelRecentSearchTest = 8692;
 
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
@@ -63,6 +66,13 @@ public class AbacusUtils {
 		SECOND_LINE_CALLOUT
 	}
 
+	public enum HotelSuperlativeReviewsVariate {
+		CONTROL,
+		WITH_COLOR_NO_SUPERLATIVES,
+		NO_COLOR_WITH_SUPERLATIVES,
+		WITH_COLOR_WITH_SUPERLATIVES
+	}
+
 	// Test ID's that we are bucketing the user for.
 	public static List<Integer> getActiveTests() {
 		List<Integer> testIDs = new ArrayList<>();
@@ -88,6 +98,9 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppSplitGTandActivities);
 		testIDs.add(ExpediaAndroidAppAATestSep2015);
 		testIDs.add(EBAndroidAppHotelsABTest);
+		testIDs.add(EBAndroidAppHotelsV2SuperlativeReviewsABTest);
+		testIDs.add(EBAndroidAppLXCategoryABTest);
+		testIDs.add(EBAndroidAppHotelRecentSearchTest);
 		return testIDs;
 	}
 

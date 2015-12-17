@@ -12,7 +12,7 @@ public class TextViewDialog extends DialogFragment {
 	private static final String INSTANCE_MESSAGE_TEXT = "INSTANCE_MESSAGE_TEXT";
 
 	public interface OnDismissListener {
-		public void onDismissed();
+		void onDismissed();
 	}
 
 	private int mMessageId = 0;

@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.app.Activity;
+import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,7 @@ import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncAdapter;
 import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.utils.GoogleMapsUtil;
 import com.expedia.bookings.utils.Ui;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -55,8 +57,8 @@ public class ItinMapFragment extends SupportMapFragment implements OnMyLocationC
 	private FusedLocationProviderFragment mLocationFragment;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, ItineraryMapFragmentListener.class);
 
@@ -196,7 +198,7 @@ public class ItinMapFragment extends SupportMapFragment implements OnMyLocationC
 		GoogleMap map = getMap();
 
 		if (mMarkerBounds != null) {
-			map.setMyLocationEnabled(false);
+			GoogleMapsUtil.setMyLocationEnabled(getActivity(), map, false);
 
 			// Animate to show all markers on the map (or some markers, if the span was too large)
 			showBounds(mMarkerBounds, animate);
@@ -206,10 +208,10 @@ public class ItinMapFragment extends SupportMapFragment implements OnMyLocationC
 			showBounds(getAmericaBounds(), animate);
 
 			if (mLocationFragment.isLocationEnabled()) {
-				map.setMyLocationEnabled(true);
+				GoogleMapsUtil.setMyLocationEnabled(getActivity(), map, true);
 			}
 			else {
-				map.setMyLocationEnabled(false);
+				GoogleMapsUtil.setMyLocationEnabled(getActivity(), map, false);
 			}
 		}
 	}
@@ -228,8 +230,7 @@ public class ItinMapFragment extends SupportMapFragment implements OnMyLocationC
 	// Returns true if the camera position was changed
 	public boolean showItinItem(ItinCardData data, boolean animate) {
 		setPadding(mListWidth, getHeight() - mMarkerSpacing, 0, 0);
-		getMap().setMyLocationEnabled(false);
-
+		GoogleMapsUtil.setMyLocationEnabled(getActivity(), getMap(), false);
 		String id = data.getId();
 		if (id.equals(mSelectedId)) {
 			return false;
@@ -287,7 +288,6 @@ public class ItinMapFragment extends SupportMapFragment implements OnMyLocationC
 	// Listener
 
 	public interface ItineraryMapFragmentListener {
-		public void onItinMarkerClicked(ItinCardData data);
+		void onItinMarkerClicked(ItinCardData data);
 	}
-
 }

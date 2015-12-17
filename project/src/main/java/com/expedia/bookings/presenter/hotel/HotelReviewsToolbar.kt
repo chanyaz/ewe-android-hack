@@ -1,16 +1,15 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
-
 import com.expedia.bookings.R
-import com.expedia.bookings.widget.SlidingTabLayout
-
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.SlidingTabLayout
 
 public class HotelReviewsToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, attrs) {
 
@@ -23,7 +22,7 @@ public class HotelReviewsToolbar(context: Context, attrs: AttributeSet) : Toolba
     override fun onFinishInflate() {
         super.onFinishInflate()
         slidingTabLayout.setCustomTabView(R.layout.actionbar_tab_bg, R.id.tab_text)
-        slidingTabLayout.setSelectedIndicatorColors(getResources().getColor(R.color.action_bar_text_yellow))
+        slidingTabLayout.setSelectedIndicatorColors(ContextCompat.getColor(context, R.color.action_bar_text_yellow))
         slidingTabLayout.setDistributeEvenly(true)
         slidingTabLayout.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageSelected(position: Int) {

@@ -1,8 +1,6 @@
 package com.expedia.bookings.utils;
 
-import android.annotation.TargetApi;
 import android.graphics.Rect;
-import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -14,7 +12,6 @@ import com.mobiata.android.Log;
  * 
  *
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ScreenPositionUtils {
 
 	/**
@@ -74,7 +71,7 @@ public class ScreenPositionUtils {
 			int totalTranslationY = 0;
 
 			View v = view;
-			while (v != null && v instanceof View) {
+			while (v != null) {
 				totalTranslationX += v.getTranslationX();
 				totalTranslationY += v.getTranslationY();
 				if (v.getParent() instanceof View) {
@@ -130,5 +127,4 @@ public class ScreenPositionUtils {
 
 		return rect;
 	}
-
 }

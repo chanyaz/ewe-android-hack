@@ -9,13 +9,16 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-/**Callback when a bitmap needs to be return**/
+/**
+ * Callback when a bitmap needs to be return
+ **/
 public class PicassoTarget implements Target {
 
 	private Callback mCallBack;
 	public boolean mIsFallbackImage = false;
 
 	public PicassoTarget() {
+
 	}
 
 	public void setCallBack(Callback callBack) {

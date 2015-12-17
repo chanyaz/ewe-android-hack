@@ -4,9 +4,9 @@ import java.net.HttpCookie;
 import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.net.MailTo;
@@ -108,23 +108,6 @@ public class WebViewFragment extends DialogFragment {
 		return frag;
 	}
 
-	public static WebViewFragment newDialogInstance(String url, boolean enableSignIn, boolean loadCookies,
-		boolean allowUseableNetRedirects, String name, String title, String dismissButtonText) {
-		WebViewFragment frag = newInstance(url, enableSignIn, loadCookies, allowUseableNetRedirects, name);
-
-		frag.setArguments(addDialogArgs(frag.getArguments(), title, dismissButtonText));
-
-		return frag;
-	}
-
-	public static WebViewFragment newDialogInstance(String htmlData, String title, String dismissButtonText) {
-		WebViewFragment frag = newInstance(htmlData);
-
-		frag.setArguments(addDialogArgs(frag.getArguments(), title, dismissButtonText));
-
-		return frag;
-	}
-
 	private static Bundle addDialogArgs(Bundle inputArgs, String title, String dismissButtonText) {
 		inputArgs.putBoolean(ARG_DIALOG_MODE, true);
 		inputArgs.putString(ARG_DIALOG_TITLE, title);
@@ -133,11 +116,10 @@ public class WebViewFragment extends DialogFragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mListener = Ui.findFragmentListener(this, WebViewFragmentListener.class, false);
 	}
-
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -209,18 +191,15 @@ public class WebViewFragment extends DialogFragment {
 
 		if (mTrackingName != null) {
 			switch (mTrackingName) {
-			case BaggageFeeOneWay: {
+			case BaggageFeeOneWay:
 				OmnitureTracking.trackPageLoadFlightBaggageFeeOneWay();
 				break;
-			}
-			case BaggageFeeOutbound: {
+			case BaggageFeeOutbound:
 				OmnitureTracking.trackPageLoadFlightBaggageFeeOutbound();
 				break;
-			}
-			case BaggageFeeInbound: {
+			case BaggageFeeInbound:
 				OmnitureTracking.trackPageLoadFlightBaggageFeeInbound();
 				break;
-			}
 			}
 		}
 	}
@@ -417,7 +396,6 @@ public class WebViewFragment extends DialogFragment {
 					return super.shouldOverrideUrlLoading(view, url);
 				}
 			}
-
 		});
 	}
 
@@ -457,7 +435,6 @@ public class WebViewFragment extends DialogFragment {
 	}
 
 	public interface WebViewFragmentListener {
-		public void setLoading(boolean loading);
+		void setLoading(boolean loading);
 	}
-
 }

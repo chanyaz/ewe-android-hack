@@ -5,6 +5,7 @@ import com.squareup.okhttp.mockwebserver.MockResponse
 import com.squareup.okhttp.mockwebserver.RecordedRequest
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import kotlin.text.Regex
 
 // Mocks out various mobile Expedia APIs
 public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
@@ -18,6 +19,10 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 
     @Throws(InterruptedException::class)
     override fun dispatch(request: RecordedRequest): MockResponse {
+
+        if (!doesRequestHaveValidUserAgent(request)) {
+            throw UnsupportedOperationException("Valid user-agent not passed. I expect to see a user-agent resembling: ExpediaBookings/x.x.x (EHad; Mobiata)")
+        }
 
         // Hotels API
         if (request.path.startsWith("/m/api/hotel") || request.path.startsWith("/api/m/trip/coupon")) {
@@ -105,6 +110,12 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         }
 
         return make404()
+    }
+
+    fun doesRequestHaveValidUserAgent(request: RecordedRequest): Boolean {
+        val userAgent = request.headers.get("user-agent")
+        val regExp = Regex("^ExpediaBookings\\/[0-9]\\.[0-9](\\.[0-9]){0,1}(.*) \\(EHad; Mobiata\\)$")
+        return regExp.matches(userAgent.toString())
     }
 
     /////////////////////////////////////////////////////////////////////////////

@@ -101,10 +101,15 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	@Override
 	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
 		List<String> urls = getItinCardData().getHeaderImageUrls();
+
 		if (urls != null && urls.size() > 0) {
 			setSharableImageURL(urls.get(0));
 			new PicassoHelper.Builder(getContext()).setPlaceholder(getHeaderImagePlaceholderResId()).setTarget(
 				target.getCallBack()).build().load(urls);
+		}
+		else {
+			new PicassoHelper.Builder(getContext()).setTarget(
+				target.getCallBack()).build().load(getHeaderImagePlaceholderResId());
 		}
 	}
 
@@ -179,6 +184,11 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		}
 
 		ItinCardDataHotel data = getItinCardData();
+		view.setText(getSummaryText(data));
+		return view;
+	}
+
+	public String getSummaryText(ItinCardDataHotel data) {
 		DateTime startDate = data.getStartDate();
 		DateTime endDate = data.getEndDate();
 		DateTime now = DateTime.now(startDate.getZone());
@@ -187,57 +197,58 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		final long daysBetweenStart = JodaUtils.daysBetween(now, startDate);
 		final long daysBetweenEnd = JodaUtils.daysBetween(now, endDate);
 
+		String summaryText = "";
 		// Check in - 3 days
 		if (beforeStart && daysBetweenStart == 3) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_three_days));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_in_three_days));
 		}
 		// Check in - 2 days
 		else if (beforeStart && daysBetweenStart == 2) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_two_days));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_in_two_days));
 		}
 		// Check in tomorrow
 		else if (beforeStart && daysBetweenStart == 1) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_tomorrow));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_in_tomorrow));
 		}
 		// Check in after 3 PM
 		else if (daysBetweenStart == 0) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
-					data.getFallbackCheckInTime(getContext())));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
+				data.getFallbackCheckInTime(getContext())));
 		}
 		// Check in May 14
 		else if (beforeStart) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_in_day_TEMPLATE,
-					data.getFormattedDetailsCheckInDate(getContext())));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_in_day_TEMPLATE,
+				data.getFormattedDetailsCheckInDate(getContext())));
 		}
 		// Check out in 3 days
 		else if (!beforeStart && daysBetweenEnd == 3) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_three_days));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_out_three_days));
 		}
 		// Check out in 2 days
 		else if (!beforeStart && daysBetweenEnd == 2) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_two_days));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_out_two_days));
 		}
 		// Check out tomorrow
 		else if (!beforeStart && daysBetweenEnd == 1) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_tomorrow));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_out_tomorrow));
 		}
 		// Check out before noon
 		else if (daysBetweenEnd == 0) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
-					data.getFallbackCheckOutTime(getContext())));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
+				data.getFallbackCheckOutTime(getContext())));
 		}
 		// Check out May 18
 		else if (now.isBefore(endDate)) {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_check_out_day_TEMPLATE,
-					data.getFormattedDetailsCheckOutDate(getContext())));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_check_out_day_TEMPLATE,
+				data.getFormattedDetailsCheckOutDate(getContext())));
 		}
 		// Checked out at May 18
 		else {
-			view.setText(getContext().getString(R.string.itin_card_hotel_summary_checked_out_day_TEMPLATE,
-					data.getFormattedDetailsCheckOutDate(getContext())));
+			summaryText = (getContext().getString(R.string.itin_card_hotel_summary_checked_out_day_TEMPLATE,
+				data.getFormattedDetailsCheckOutDate(getContext())));
 		}
 
-		return view;
+		return summaryText;
 	}
 
 	public View getDetailsView(View convertView, ViewGroup container) {
@@ -255,6 +266,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		TextView tollFreePhoneNumberTextView = Ui.findView(view, R.id.toll_free_phone_number_text_view);
 		TextView roomTypeHeaderTextView = Ui.findView(view, R.id.room_type_header_text_view);
 		TextView roomTypeTextView = Ui.findView(view, R.id.room_type_text_view);
+		TextView nonPricePromotionsHeaderTextView = Ui.findView(view, R.id.non_price_promotion_header_text_view);
+		TextView nonPricePromotionsTextView = Ui.findView(view, R.id.non_price_promotion_text_view);
 		TextView bedTypeHeaderTextView = Ui.findView(view, R.id.bed_type_header_text_view);
 		TextView bedTypeTextView = Ui.findView(view, R.id.bed_type_text_view);
 		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
@@ -282,6 +295,14 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		else {
 			roomTypeHeaderTextView.setVisibility(View.GONE);
 			roomTypeTextView.setVisibility(View.GONE);
+		}
+
+		if (!TextUtils.isEmpty(itinCardData.getNonPricePromotionText()) && !isSharedItin()) {
+			nonPricePromotionsTextView.setText(itinCardData.getNonPricePromotionText());
+		}
+		else {
+			nonPricePromotionsHeaderTextView.setVisibility(View.GONE);
+			nonPricePromotionsTextView.setVisibility(View.GONE);
 		}
 
 		if (!TextUtils.isEmpty(itinCardData.getBedType())) {

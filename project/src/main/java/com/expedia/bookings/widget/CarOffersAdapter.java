@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -218,7 +219,8 @@ public class CarOffersAdapter extends RecyclerView.Adapter<CarOffersAdapter.View
 			mainContainer.setClickable(!isChecked);
 			reserveNow.setChecked(isChecked);
 
-			Ui.setViewBackground(root, isChecked ? mContext.getResources().getDrawable(R.drawable.card_background) : null);
+			Drawable background = isChecked ? mContext.getResources().getDrawable(R.drawable.card_background) : null;
+			root.setBackground(background);
 
 			ratePrice.setTextColor(isChecked ? mContext.getResources()
 				.getColor(Ui.obtainThemeResID(mContext, R.attr.skin_carsPrimaryColor))

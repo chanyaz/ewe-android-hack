@@ -2,7 +2,7 @@ package com.expedia.bookings.fragment;
 
 import java.util.List;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,7 +30,6 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
 import com.google.android.gms.wallet.MaskedWallet;
-import com.mobiata.android.util.ViewUtils;
 
 public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 
@@ -61,8 +60,8 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, FlightPaymentYoYoListener.class);
 	}
@@ -93,9 +92,9 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 
 		mNewCreditCardBtn = Ui.findView(v, R.id.new_payment_new_card);
 
-		ViewUtils.setAllCaps(mStoredPaymentsLabel);
-		ViewUtils.setAllCaps(mCurrentPaymentLabel);
-		ViewUtils.setAllCaps(mNewPaymentLabel);
+		mStoredPaymentsLabel.setAllCaps(true);
+		mCurrentPaymentLabel.setAllCaps(true);
+		mNewPaymentLabel.setAllCaps(true);
 
 		mSectionStoredPayment.setLineOfBusiness(LineOfBusiness.FLIGHTS);
 
@@ -228,7 +227,6 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 
 				mStoredCardsContainer.addView(card);
 				firstCard = false;
-
 			}
 		}
 
@@ -313,21 +311,21 @@ public class FlightPaymentOptionsFragment extends ChangeWalletFragment {
 	}
 
 	public interface FlightPaymentYoYoListener {
-		public void moveForward();
+		void moveForward();
 
-		public void setMode(YoYoMode mode);
+		void setMode(YoYoMode mode);
 
-		public boolean moveBackwards();
+		boolean moveBackwards();
 
-		public void displayOptions();
+		void displayOptions();
 
-		public void displayAddress();
+		void displayAddress();
 
-		public void displayCreditCard();
+		void displayCreditCard();
 
-		public void displaySaveDialog();
+		void displaySaveDialog();
 
-		public void displayCheckout();
+		void displayCheckout();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

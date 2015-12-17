@@ -59,6 +59,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 		public List<BedTypes> bedTypes;
 		public String cancellationPolicy;
 		public String currentAllotment;
+		public boolean depositRequired;
 		public boolean hasFreeCancellation;
 		public String freeCancellationWindowDate;
 		public HotelRoomResponse payLaterOffer;
@@ -76,6 +77,15 @@ public class HotelOffersResponse extends BaseApiResponse {
 		public boolean isDiscountRestrictedToCurrentSourceType;
 		public boolean isSameDayDRR;
 		public boolean isPayLater;
+		public List<String> depositPolicy;
+
+		public String depositPolicyAtIndex(int index) {
+			String policy = "";
+			if (depositPolicy != null && index < depositPolicy.size()) {
+				policy = depositPolicy.get(index);
+			}
+			return policy;
+		}
 
 		public boolean isMerchant() {
 			return Strings.equals(supplierType, "E") || Strings.equals(supplierType, "MERCHANT");

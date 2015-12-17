@@ -28,15 +28,14 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
+import com.expedia.account.data.FacebookLinkResponse;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
-import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
@@ -51,11 +50,8 @@ import com.expedia.bookings.server.PushRegistrationResponseHandler;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.HotelCrossSellUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.model.GraphUser;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -63,26 +59,28 @@ import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 
+import rx.functions.Action1;
+
 /**
  * This singleton keeps all of our itinerary data together.  It loads, syncs and stores all itin data.
- * 
+ * <p/>
  * Make sure to call init() before using in the app!  In addition, make sure to call startSync()
  * before manipulating data.
- * 
+ * <p/>
  * An explanation about how the syncs happen: in order to allow syncs to be modified mid-execution, we implemented
  * a priority Operation queue which re-orders a series of instructions to perform a sync.
- * 
+ * <p/>
  * There are essentially four steps to how Operations worked:
- * 
+ * <p/>
  * 1. Initial load.  This can be safely called whenever.
  * 2. Refresh/load trips.  These steps load data from all sources.
  * 3. Load ancillary data about trips.  For example, flight stats data about trips.  Any calls beyond
- *    our normal refresh should go here.  Also, anyone who loads trip data in #2 should make sure to call
- *    these ancillary data calls.
+ * our normal refresh should go here.  Also, anyone who loads trip data in #2 should make sure to call
+ * these ancillary data calls.
  * 4. Post-processing operations; these assume that all of the data in the itins have been loaded.  These
- *    operations include saving the loaded data to disk, generating data for the app to consume, and
- *    registering loaded data with notifications.
- * 
+ * operations include saving the loaded data to disk, generating data for the app to consume, and
+ * registering loaded data with notifications.
+ * <p/>
  * For more information, check out the Operation enum comments.
  */
 public class ItineraryManager implements JSONable {
@@ -123,7 +121,7 @@ public class ItineraryManager implements JSONable {
 
 	/**
 	 * Adds a guest trip to the itinerary list.
-	 *
+	 * <p/>
 	 * Automatically starts to try to get info on the trip from the server.  If a sync is already
 	 * in progress it will queue the guest trip for refresh; otherwise it will only refresh this
 	 * single guest trip.
@@ -156,8 +154,8 @@ public class ItineraryManager implements JSONable {
 		}
 		else if (!trip.isGuest()) {
 			Log.w(LOGGING_TAG,
-					"Tried to remove a non-guest trip, DENIED because only the ItinManager is allowed to do that: "
-							+ tripNumber);
+				"Tried to remove a non-guest trip, DENIED because only the ItinManager is allowed to do that: "
+					+ tripNumber);
 		}
 		else {
 			Log.i(LOGGING_TAG, "Removing guest trip, tripNum=" + tripNumber);
@@ -174,7 +172,7 @@ public class ItineraryManager implements JSONable {
 
 	/**
 	 * Get a list of the current Trips.
-	 *
+	 * <p/>
 	 * Be warned: these Trips will be updated from a sync
 	 * operation.  If this behavior seems wrong, talk with
 	 * DLew since he's open to the idea of changing this
@@ -196,7 +194,7 @@ public class ItineraryManager implements JSONable {
 	 * Get a TripComponent object from a flightHistoryId
 	 * This is useful for push notifications which provide us with a flightHistoryId as
 	 * the only identifier
-	 *
+	 * <p/>
 	 * Note: We are only searching the mItinCardDatas collection, so only itins displayed
 	 * in the itin list will be searched
 	 *
@@ -210,7 +208,7 @@ public class ItineraryManager implements JSONable {
 				if (data instanceof ItinCardDataFlight) {
 					ItinCardDataFlight fData = (ItinCardDataFlight) data;
 					if (BuildConfig.RELEASE || !SettingUtils.get(mContext,
-							mContext.getString(R.string.preference_push_notification_any_flight), false)) {
+						mContext.getString(R.string.preference_push_notification_any_flight), false)) {
 						FlightLeg flightLeg = fData.getFlightLeg();
 						for (Flight segment : flightLeg.getSegments()) {
 							if (segment.mFlightHistoryId == fhid) {
@@ -220,7 +218,7 @@ public class ItineraryManager implements JSONable {
 					}
 					else {
 						Log.d(LOGGING_TAG,
-								"PushNotifications returning the first flight in the itin list. Check Settings");
+							"PushNotifications returning the first flight in the itin list. Check Settings");
 						return (TripFlight) fData.getTripComponent();
 					}
 				}
@@ -233,7 +231,7 @@ public class ItineraryManager implements JSONable {
 	 * Get a ItinCardData object from a flightHistoryId
 	 * This is useful for push notifications which provide us with a flightHistoryId as
 	 * the only identifier
-	 *
+	 * <p/>
 	 * Note: We are only searching the mItinCardDatas collection, so only itins displayed
 	 * in the itin list will be searched
 	 *
@@ -256,6 +254,7 @@ public class ItineraryManager implements JSONable {
 
 	/**
 	 * Get an ItinCardData object from all known itins given a known data.getId()
+	 *
 	 * @param itinId
 	 * @return first ItinCardData found matching the passed id or null
 	 */
@@ -274,7 +273,7 @@ public class ItineraryManager implements JSONable {
 
 	/**
 	 * Get the Flight instances represented in our Itineraries
-	 *
+	 * <p/>
 	 * Note: We are only searching the mItinCardDatas collection, so only itins displayed
 	 * in the itin list will be searched
 	 *
@@ -287,10 +286,10 @@ public class ItineraryManager implements JSONable {
 		synchronized (mItinCardDatas) {
 			for (ItinCardData data : mItinCardDatas) {
 				if (data.getTripComponentType() != null && data.getTripComponentType() == Type.FLIGHT
-						&& data.getTripComponent() != null && data instanceof ItinCardDataFlight) {
+					&& data.getTripComponent() != null && data instanceof ItinCardDataFlight) {
 					ItinCardDataFlight dataFlight = (ItinCardDataFlight) data;
 					boolean flightIsShared = dataFlight.getTripComponent().getParentTrip() != null
-							&& dataFlight.getTripComponent().getParentTrip().isShared();
+						&& dataFlight.getTripComponent().getParentTrip().isShared();
 
 					if ((flightIsShared && shared) || (!shared && !flightIsShared)) {
 						FlightLeg leg = dataFlight.getFlightLeg();
@@ -344,7 +343,7 @@ public class ItineraryManager implements JSONable {
 		}
 
 		Log.d(LOGGING_TAG, "Informing the removal of " + mTrips.size()
-				+ " trips due to clearing of ItineraryManager...");
+			+ " trips due to clearing of ItineraryManager...");
 
 		for (Trip trip : mTrips.values()) {
 			onTripRemoved(trip);
@@ -356,7 +355,7 @@ public class ItineraryManager implements JSONable {
 
 		// As we have no trips, we unregister all of our push notifications
 		PushNotificationUtils.unRegister(mContext,
-				GCMRegistrationKeeper.getInstance(mContext).getRegistrationId(mContext));
+			GCMRegistrationKeeper.getInstance(mContext).getRegistrationId(mContext));
 		PushNotificationUtils.clearPayloadMap();
 	}
 
@@ -369,7 +368,7 @@ public class ItineraryManager implements JSONable {
 
 	/**
 	 * Must be called before using ItineraryManager for the first time.
-	 *
+	 * <p/>
 	 * I expect this to be called from the Application.  That way the
 	 * context won't leak.
 	 */
@@ -597,61 +596,63 @@ public class ItineraryManager implements JSONable {
 
 		/**
 		 * Notes when a trip is added with basic info.
-		 *
+		 * <p/>
 		 * Note: Guest trips will not have this called right when you add them
 		 * (because they have no meaningful info at that point, and may not
 		 * even be a valid trip).
 		 */
-		public void onTripAdded(Trip trip);
+		void onTripAdded(Trip trip);
 
 		/**
 		 * Each Trip that is updated during a sync gets its own callback
 		 * so that you can update the UI before the entire sync process
 		 * is complete.
-		 *
+		 * <p/>
 		 * Not all Trips may get an updated trip call (e.g., a trip doesn't
 		 * need an update because it was just updated a few minutes ago).
 		 */
-		public void onTripUpdated(Trip trip);
+		void onTripUpdated(Trip trip);
 
 		/**
 		 * Notification when a trip failed to update
-		 *
+		 * <p/>
 		 * This can be particularly useful to know when a guest trip that
 		 * was added can't be updated at all.
-		 *
+		 * <p/>
 		 * POSSIBLE TODO: info on why the update failed?
 		 */
-		public void onTripUpdateFailed(Trip trip);
+		void onTripUpdateFailed(Trip trip);
+
+		public void onTripFailedFetchingGuestItinerary();
 
 		/**
 		 * Notification for when a Trip has been removed, either automatically
 		 * from a logged in user account or manually for guest trips.
 		 */
-		public void onTripRemoved(Trip trip);
+		void onTripRemoved(Trip trip);
 
 		/**
 		 * Notification for when a Trip added by the user is already completed + 48h
 		 */
-		public void onCompletedTripAdded(Trip trip);
+		void onCompletedTripAdded(Trip trip);
 
 		/**
 		 * Notification for when a Trip added by the user has a cancelled status
 		 */
-		public void onCancelledTripAdded(Trip trip);
+		void onCancelledTripAdded(Trip trip);
 
 		/**
 		 * Notification if sync itself has a failure.  There can be multiple
 		 * failures during the sync process.  onSyncFinished() will still
 		 * be called at the end.
 		 */
-		public void onSyncFailure(SyncError error);
+		void onSyncFailure(SyncError error);
 
 		/**
 		 * Once the sync process is done it returns the list of Trips as
 		 * it thinks exists.  Returns all trips currently in the ItineraryManager.
 		 */
-		public void onSyncFinished(Collection<Trip> trips);
+		void onSyncFinished(Collection<Trip> trips);
 	}
 
 	// Makes it so you don't have to implement everything from the interface
@@ -663,6 +664,9 @@ public class ItineraryManager implements JSONable {
 		}
 
 		public void onTripUpdateFailed(Trip trip) {
+		}
+
+		public void onTripFailedFetchingGuestItinerary() {
 		}
 
 		public void onTripRemoved(Trip trip) {
@@ -709,6 +713,13 @@ public class ItineraryManager implements JSONable {
 		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripUpdateFailed(trip);
+		}
+	}
+
+	private void onTripFailedFetchingGuestItinerary() {
+		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		for (ItinerarySyncListener listener : listeners) {
+			listener.onTripFailedFetchingGuestItinerary();
 		}
 	}
 
@@ -776,32 +787,47 @@ public class ItineraryManager implements JSONable {
 	//
 	// !!!!!!
 	private enum Operation {
-		LOAD_FROM_DISK, // Loads saved trips from disk, if we're just starting up
-		REAUTH_FACEBOOK_USER, // Autologin for facebook users
-		REFRESH_USER, // If logged in, refreshes the trip list of the user
-		GATHER_TRIPS, // Enqueues all trips for later operation
+		LOAD_FROM_DISK,
+		// Loads saved trips from disk, if we're just starting up
+		REAUTH_FACEBOOK_USER,
+		// Autologin for facebook users
+		REFRESH_USER,
+		// If logged in, refreshes the trip list of the user
+		GATHER_TRIPS,
+		// Enqueues all trips for later operation
 
 		// Refresh ancillary parts of a trip; these are higher priority so that they're
 		// completed after each trip is refreshed (for lazy loading purposes)
-		REFRESH_TRIP_FLIGHT_STATUS, // Refreshes trip statuses on trip
-		PUBLISH_TRIP_UPDATE, // Publishes that we've updated a trip
+		REFRESH_TRIP_FLIGHT_STATUS,
+		// Refreshes trip statuses on trip
+		PUBLISH_TRIP_UPDATE,
+		// Publishes that we've updated a trip
 
 		// Refreshes trip
-		DEEP_REFRESH_TRIP, // Refreshes a trip (deep)
-		REFRESH_TRIP, // Refreshes a trip
+		DEEP_REFRESH_TRIP,
+		// Refreshes a trip (deep)
+		REFRESH_TRIP,
+		// Refreshes a trip
 
-		FETCH_SHARED_ITIN, // Fetches the shared itin data
-		REMOVE_ITIN, // Deletes the selected itin. Currently we can only delete a shared itin.
+		FETCH_SHARED_ITIN,
+		// Fetches the shared itin data
+		REMOVE_ITIN,
+		// Deletes the selected itin. Currently we can only delete a shared itin.
 
-		DEDUPLICATE_TRIPS, // Remove shared trip if it matches one associated to a user
+		DEDUPLICATE_TRIPS,
+		// Remove shared trip if it matches one associated to a user
 
-		SHORTEN_SHARE_URLS, //We run the url shortener for itins that do not yet have shortened urls.
+		SHORTEN_SHARE_URLS,
+		//We run the url shortener for itins that do not yet have shortened urls.
 
-		SAVE_TO_DISK, // Saves state of ItineraryManager to disk
+		SAVE_TO_DISK,
+		// Saves state of ItineraryManager to disk
 
-		GENERATE_ITIN_CARDS, // Generates itin card data for use
+		GENERATE_ITIN_CARDS,
+		// Generates itin card data for use
 
-		SCHEDULE_NOTIFICATIONS, // Schedule local notifications
+		SCHEDULE_NOTIFICATIONS,
+		// Schedule local notifications
 		REGISTER_FOR_PUSH_NOTIFICATIONS, //Tell the push server which flights to notify us about
 	}
 
@@ -893,7 +919,7 @@ public class ItineraryManager implements JSONable {
 
 	/**
 	 * Start a sync operation.
-	 *
+	 * <p/>
 	 * If a sync is already in progress then calls to this are ignored.
 	 *
 	 * @return true if the sync started or is in progress, false if it never started
@@ -909,9 +935,9 @@ public class ItineraryManager implements JSONable {
 		}
 		else if (mTrips != null && mTrips.size() == 0 && !User.isLoggedIn(mContext) && !hasFetchSharedInQueue()) {
 			Log.d(LOGGING_TAG,
-					"ItineraryManager sync called, but there are no guest nor shared trips and the user is not logged in, so"
-							+
-							" we're not starting a formal sync; but we will call onSyncFinished() with no results");
+				"ItineraryManager sync called, but there are no guest nor shared trips and the user is not logged in, so"
+					+
+					" we're not starting a formal sync; but we will call onSyncFinished() with no results");
 			onSyncFinished(mTrips.values());
 			return false;
 		}
@@ -1122,7 +1148,7 @@ public class ItineraryManager implements JSONable {
 
 						if (trip == null) {
 							Log.w(LOGGING_TAG, "Could not deep refresh trip # " + nextTask.mTripNumber
-									+ "; it was not loaded as a guest trip nor user trip");
+								+ "; it was not loaded as a guest trip nor user trip");
 						}
 					}
 
@@ -1188,6 +1214,9 @@ public class ItineraryManager implements JSONable {
 				break;
 			case UPDATE_FAILED:
 				onTripUpdateFailed(update.mTrip);
+				break;
+			case FAILED_FETCHING_GUEST_ITINERARY:
+				onTripFailedFetchingGuestItinerary();
 				break;
 			case REMOVED:
 				onTripRemoved(update.mTrip);
@@ -1258,7 +1287,9 @@ public class ItineraryManager implements JSONable {
 				Log.d(LOGGING_TAG, op.name() + ": " + mOpCount.get(op));
 			}
 
-			Log.i(LOGGING_TAG, "# Trips=" + (mTrips == null ? 0 : mTrips.size()) + "; # Added=" + mTripsAdded + "; # Removed=" + mTripsRemoved);
+			Log.i(LOGGING_TAG,
+				"# Trips=" + (mTrips == null ? 0 : mTrips.size()) + "; # Added=" + mTripsAdded + "; # Removed="
+					+ mTripsRemoved);
 			Log.i(LOGGING_TAG, "# Refreshed=" + mTripsRefreshed + "; # Failed Refresh=" + mTripRefreshFailures);
 			Log.i(LOGGING_TAG, "# Flights Updated=" + mFlightsUpdated);
 		}
@@ -1295,8 +1326,8 @@ public class ItineraryManager implements JSONable {
 								// we will potentially check after LANDED as we get updated arrival info for a little while after landing
 								if (timeToTakeOff > 0) {
 									if ((timeToTakeOff < HOUR * 12 && timeSinceLastUpdate > 5 * MINUTE)
-											|| (timeToTakeOff < HOUR * 24 && timeSinceLastUpdate > HOUR)
-											|| (timeToTakeOff < HOUR * 72 && timeSinceLastUpdate > 12 * HOUR)) {
+										|| (timeToTakeOff < HOUR * 24 && timeSinceLastUpdate > HOUR)
+										|| (timeToTakeOff < HOUR * 72 && timeSinceLastUpdate > 12 * HOUR)) {
 										update = true;
 									}
 								}
@@ -1305,8 +1336,8 @@ public class ItineraryManager implements JSONable {
 								}
 								else if (now > landing) {
 									if (now < (landing + (7 * DateUtils.DAY_IN_MILLIS))
-											&& timeSinceLastUpdate > (now - (landing + DateUtils.HOUR_IN_MILLIS))
-											&& timeSinceLastUpdate > 5 * MINUTE) {
+										&& timeSinceLastUpdate > (now - (landing + DateUtils.HOUR_IN_MILLIS))
+										&& timeSinceLastUpdate > 5 * MINUTE) {
 										// flight should have landed some time in the last seven days
 										// AND the last update was less than 1 hour after the flight should have landed (or did land)
 										// AND the last update was more than 5 minutes ago
@@ -1346,29 +1377,16 @@ public class ItineraryManager implements JSONable {
 		}
 
 		private void reauthFacebookUser() {
-			Session session = Session.getActiveSession();
-			if (session == null) {
-				session = Session.openActiveSessionFromCache(mContext);
-			}
-			if (session != null && session.isOpened()) {
-				// make request to the /me API
-				Response rep = Request.newMeRequest(session, null).executeAndWait();
-				GraphUser user = rep.getGraphObjectAs(GraphUser.class);
-				if (user != null) {
-					String fbUserId = user.getId();
-
-					Session fbSession = Session.getActiveSession();
-					if (fbSession != null && !fbSession.isClosed()) {
-						FacebookLinkResponse linkResponse = mServices
-							.facebookAutoLogin(fbUserId, fbSession.getAccessToken());
-						if (linkResponse != null && linkResponse.getFacebookLinkResponseCode() != null && linkResponse
-							.isSuccess()) {
-							Log.w(LOGGING_TAG,
-								"FB: Autologin success" + linkResponse.getFacebookLinkResponseCode().name());
-						}
+			ServicesUtil.generateAccountService(mContext)
+				.facebookReauth(mContext).doOnNext(new Action1<FacebookLinkResponse>() {
+				@Override
+				public void call(FacebookLinkResponse linkResponse) {
+					if (linkResponse != null
+						&& linkResponse.isSuccess()) {
+						Log.w(LOGGING_TAG, "FB: Autologin success");
 					}
 				}
-			}
+			});
 		}
 
 		private void refreshTrip(Trip trip, boolean deepRefresh) {
@@ -1394,8 +1412,8 @@ public class ItineraryManager implements JSONable {
 				if (trip.isShared()) {
 					if (trip.hasExpired(CUTOFF_HOURS)) {
 						Log.w(LOGGING_TAG,
-								"Removing a shared trip because it is completed and past the cutoff.  tripNum="
-										+ trip.getItineraryKey());
+							"Removing a shared trip because it is completed and past the cutoff.  tripNum="
+								+ trip.getItineraryKey());
 
 						Trip removeTrip = mTrips.remove(trip.getItineraryKey());
 						publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, removeTrip));
@@ -1411,6 +1429,8 @@ public class ItineraryManager implements JSONable {
 				}
 
 				if (response == null || response.hasErrors()) {
+					boolean isTripGuestAndFailedToRetrieve = false;
+
 					if (response != null && response.hasErrors()) {
 						Log.w(LOGGING_TAG, "Error updating trip " + trip.getItineraryKey() + ": "
 							+ response.gatherErrorMessage(mContext));
@@ -1419,19 +1439,24 @@ public class ItineraryManager implements JSONable {
 						// As such, we should remove it (but don't remove a trip if it's ever been loaded
 						// or it's not a guest trip).
 						if (trip.isGuest() && trip.getLevelOfDetail() == LevelOfDetail.NONE) {
-							for (ServerError error : response.getErrors()) {
-								if (error.getErrorCode() == ServerError.ErrorCode.INVALID_INPUT) {
-									Log.w(LOGGING_TAG,
-											"Tried to load guest trip, but failed, so we're removing it.  Email="
-													+ trip.getGuestEmailAddress() + " itinKey="
-													+ trip.getItineraryKey());
-									mTrips.remove(trip.getItineraryKey());
-								}
+							if (response.getErrors().size() > 0) {
+								Log.w(LOGGING_TAG,
+										"Tried to load guest trip, but failed, so we're removing it.  Email="
+												+ trip.getGuestEmailAddress() + " itinKey="
+												+ trip.getItineraryKey());
+								mTrips.remove(trip.getItineraryKey());
+								isTripGuestAndFailedToRetrieve = true;
 							}
 						}
 					}
 
-					publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
+					if (isTripGuestAndFailedToRetrieve) {
+						publishProgress(new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_GUEST_ITINERARY, trip));
+					}
+					else {
+						publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
+					}
+
 
 					gatherAncillaryData = false;
 
@@ -1442,12 +1467,13 @@ public class ItineraryManager implements JSONable {
 
 					BookingStatus bookingStatus = updatedTrip.getBookingStatus();
 					if (bookingStatus == BookingStatus.SAVED && trip.getLevelOfDetail() == LevelOfDetail.NONE
-							&& trip.getLastCachedUpdateMillis() == 0) {
+						&& trip.getLastCachedUpdateMillis() == 0) {
 						// Normally we'd filter this out; but there is a special case wherein a guest trip is
 						// still in a SAVED state right after booking (when we'd normally add it).  So we give
 						// any guest trip a one-refresh; if we see that it's already been tried once, we let it
 						// die a normal death
-						Log.w(LOGGING_TAG, "Would have removed guest trip, but it is SAVED and has never been updated.");
+						Log.w(LOGGING_TAG,
+							"Would have removed guest trip, but it is SAVED and has never been updated.");
 
 						trip.markUpdated(false);
 
@@ -1455,7 +1481,7 @@ public class ItineraryManager implements JSONable {
 					}
 					else if (BookingStatus.filterOut(updatedTrip.getBookingStatus())) {
 						Log.w(LOGGING_TAG, "Removing a trip because it's being filtered by booking status.  tripNum="
-								+ updatedTrip.getItineraryKey() + " status=" + bookingStatus);
+							+ updatedTrip.getItineraryKey() + " status=" + bookingStatus);
 
 						gatherAncillaryData = false;
 
@@ -1498,7 +1524,7 @@ public class ItineraryManager implements JSONable {
 				boolean getCachedDetails = DateTime.now().getMillis() - REFRESH_TRIP_CUTOFF > mLastUpdateTime;
 
 				Log.d(LOGGING_TAG, "User is logged in, refreshing the user list.  Using cached details call: "
-						+ getCachedDetails);
+					+ getCachedDetails);
 
 				TripResponse response = mServices.getTrips(getCachedDetails);
 
@@ -1617,8 +1643,8 @@ public class ItineraryManager implements JSONable {
 			}
 			else if (!trip.isShared()) {
 				Log.w(LOGGING_TAG,
-						"Tried to remove a non-shared trip, DENIED because we can only remove sharedItins # "
-								+ tripNumber);
+					"Tried to remove a non-shared trip, DENIED because we can only remove sharedItins # "
+						+ tripNumber);
 			}
 			else {
 				Log.i(LOGGING_TAG, "Removing trip with # " + tripNumber);
@@ -1747,7 +1773,7 @@ public class ItineraryManager implements JSONable {
 
 		private void shortenSharableUrl(ItinSharable itinSharable) {
 			if (itinSharable.getSharingEnabled() && itinSharable.getShareInfo().hasSharableDetailsUrl()
-					&& !itinSharable.getShareInfo().hasShortSharableDetailsUrl()) {
+				&& !itinSharable.getShareInfo().hasShortSharableDetailsUrl()) {
 				String shareUrl = itinSharable.getShareInfo().getSharableDetailsUrl();
 				String shortenedUrl = null;
 				Log.i(LOGGING_TAG, "Shortening share url:" + shareUrl);
@@ -1759,7 +1785,7 @@ public class ItineraryManager implements JSONable {
 
 				if (!TextUtils.isEmpty(shortenedUrl)) {
 					Log.i(LOGGING_TAG, "Successfully shortened url - original:" + shareUrl + " short:"
-							+ shortenedUrl);
+						+ shortenedUrl);
 					itinSharable.getShareInfo().setShortSharableDetailsUrl(shortenedUrl);
 				}
 				else {
@@ -1770,10 +1796,11 @@ public class ItineraryManager implements JSONable {
 	}
 
 	private static class ProgressUpdate {
-		public static enum Type {
+		public enum Type {
 			ADDED,
 			UPDATED,
 			UPDATE_FAILED,
+			FAILED_FETCHING_GUEST_ITINERARY,
 			REMOVED,
 			SYNC_ERROR,
 			USER_ADDED_COMPLETED_TRIP,
@@ -1820,9 +1847,9 @@ public class ItineraryManager implements JSONable {
 				boolean showAirAttach = itinCardDataFlight.showAirAttach();
 				// Check if user qualifies for air attach
 				if (isUserAirAttachQualified && showAirAttach) {
-					return HotelCrossSellUtils.generateHotelSearchParamsFromItinData(
-						(TripFlight) itinCardDataFlight.getTripComponent(),
-						itinCardDataFlight.getFlightLeg(), itinCardDataFlight.getNextFlightLeg());
+					return HotelCrossSellUtils
+						.generateHotelSearchParamsFromItinData((TripFlight) itinCardDataFlight.getTripComponent(),
+							itinCardDataFlight.getFlightLeg(), itinCardDataFlight.getNextFlightLeg());
 				}
 			}
 		}
@@ -1857,12 +1884,12 @@ public class ItineraryManager implements JSONable {
 			}
 
 			JSONObject payload = PushNotificationUtils.buildPushRegistrationPayload(mContext, regId, siteId, userTuid,
-					getItinFlights(false), getItinFlights(true));
+				getItinFlights(false), getItinFlights(true));
 
 			Log.d(LOGGING_TAG, "registerForPushNotifications payload:" + payload.toString());
 
 			PushNotificationRegistrationResponse resp = services.registerForPushNotifications(
-					new PushRegistrationResponseHandler(mContext), payload, regId);
+				new PushRegistrationResponseHandler(mContext), payload, regId);
 
 			Log.d(LOGGING_TAG, "registerForPushNotifications response:" + (resp == null ? "null" : resp.getSuccess()));
 			return resp;
@@ -1906,8 +1933,9 @@ public class ItineraryManager implements JSONable {
 						notification = existing;
 					}
 
-					String time = com.expedia.bookings.utils.DateUtils.convertMilliSecondsForLogging(
-						notification.getTriggerTimeMillis());
+					String time = com.expedia.bookings.utils.DateUtils
+						.convertMilliSecondsForLogging(notification.getTriggerTimeMillis());
+
 					Log.i(LOGGING_TAG, "Notification scheduled for " + time);
 
 					// This is just to get the notifications to show up frequently for development
@@ -1971,7 +1999,7 @@ public class ItineraryManager implements JSONable {
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mTrips = new HashMap<String, Trip>();
+		mTrips = new HashMap<>();
 		List<Trip> trips = JSONUtils.getJSONableList(obj, "trips", Trip.class);
 		for (Trip trip : trips) {
 			mTrips.put(trip.getItineraryKey(), trip);

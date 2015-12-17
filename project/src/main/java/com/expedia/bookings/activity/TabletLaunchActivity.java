@@ -2,12 +2,10 @@ package com.expedia.bookings.activity;
 
 import java.util.ArrayList;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -36,10 +34,9 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
-import com.facebook.AppEventsLogger;
+import com.facebook.appevents.AppEventsLogger;
 import com.squareup.phrase.Phrase;
 
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class TabletLaunchActivity extends FragmentActivity implements MeasurableFragmentListener,
 	IBackManageable, IMeasurementProvider, FragmentAvailabilityUtils.IFragmentAvailabilityProvider {
 
@@ -193,7 +190,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	@Override
 	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		Fragment frag = null;
-		if (tag == FTAG_CONTROLLER_FRAGMENT) {
+		if (FTAG_CONTROLLER_FRAGMENT.equals(tag)) {
 			frag = mControllerFragment;
 		}
 		return frag;
@@ -202,7 +199,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	@Override
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
 		Fragment frag = null;
-		if (tag == FTAG_CONTROLLER_FRAGMENT) {
+		if (FTAG_CONTROLLER_FRAGMENT.equals(tag)) {
 			frag = new TabletLaunchControllerFragment();
 		}
 		return frag;
@@ -240,7 +237,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			//Our children may do something on back pressed, but if we are left in charge we do nothing
 			return false;
 		}
-
 	};
 
 	/*
@@ -282,8 +278,8 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 	public static void showLOBNotSupportedAlertMessage(Context context, CharSequence errorMessage,
 		int confirmButtonResourceId) {
-		AlertDialog.Builder b = new AlertDialog.Builder(context);
-		b.setCancelable(false)
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setCancelable(false)
 			.setMessage(errorMessage)
 			.setPositiveButton(confirmButtonResourceId, new DialogInterface.OnClickListener() {
 				@Override

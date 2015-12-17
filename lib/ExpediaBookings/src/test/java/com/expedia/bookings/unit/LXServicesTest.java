@@ -27,6 +27,7 @@ import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.LXServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
@@ -34,7 +35,6 @@ import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 
-import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import rx.observers.TestSubscriber;
@@ -55,14 +55,7 @@ public class LXServicesTest {
 
 	@Before
 	public void before() {
-		RequestInterceptor emptyInterceptor = new RequestInterceptor() {
-			@Override
-			public void intercept(RequestFacade request) {
-				// ignore
-			}
-		};
-
-		service = new LXServices("http://localhost:" + server.getPort(), new OkHttpClient(), emptyInterceptor, Schedulers.immediate(),
+		service = new LXServices("http://localhost:" + server.getPort(), new OkHttpClient(), new MockInterceptor(), Schedulers.immediate(),
 			Schedulers.immediate(), RestAdapter.LogLevel.FULL);
 
 		checkoutParams = new LXCheckoutParams();
@@ -337,6 +330,27 @@ public class LXServicesTest {
 		LXCheckoutResponse lxCheckoutResponse = observer.getOnNextEvents().get(0);
 		assertTrue(lxCheckoutResponse.hasPriceChange());
 		assertNotNull(lxCheckoutResponse.newTotalPrice);
+	}
+
+	@Test
+	public void lxCategorySearchResponse() throws Throwable {
+		givenServerUsingMockResponses();
+
+		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
+		LXSearchParams searchParams = new LXSearchParams();
+		searchParams.location = "happy";
+		searchParams.startDate = LocalDate.now();
+		searchParams.endDate = LocalDate.now().plusDays(1);
+		service.lxCategorySearch(searchParams, observer);
+		observer.awaitTerminalEvent();
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+		assertEquals(4, observer.getOnNextEvents().get(0).activities.size());
+		assertNotNull(observer.getOnNextEvents().get(0).filterCategories.get("Attractions").activities);
+		assertEquals(4, observer.getOnNextEvents().get(0).filterCategories.get("Attractions").activities.size());
+		assertEquals("Attractions", observer.getOnNextEvents().get(0).filterCategories.get("Attractions").categoryKeyEN);
 	}
 
 	private void givenServerUsingMockResponses() throws IOException {

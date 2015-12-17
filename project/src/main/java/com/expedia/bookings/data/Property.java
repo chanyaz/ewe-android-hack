@@ -124,6 +124,9 @@ public class Property implements JSONable {
 	private String mItinRoomType;
 	private String mItinBedType;
 
+	// Non-price promotions (NPP)
+	private String mItinNonPricePromotionText;
+
 	// ETP pay later offer associated with one or more rates
 	private boolean mHasEtpOffer;
 
@@ -220,6 +223,14 @@ public class Property implements JSONable {
 
 	public String getItinRoomType() {
 		return mItinRoomType;
+	}
+
+	public void setItinNonPricePromotionText(String itinNonPricePromotionText) {
+		this.mItinNonPricePromotionText = itinNonPricePromotionText;
+	}
+
+	public String getItinNonPricePromotionText() {
+		return mItinNonPricePromotionText;
 	}
 
 	public HotelMedia getThumbnail() {

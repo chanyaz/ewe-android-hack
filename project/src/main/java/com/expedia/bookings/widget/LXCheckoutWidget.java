@@ -94,7 +94,10 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		scrollCheckoutToTop();
 		slideWidget.resetSlider();
 
-		sliderTotalText.setText(getResources().getString(R.string.your_card_will_be_charged_TEMPLATE, newPrice.getFormattedMoney()));
+		sliderTotalText.setText(getResources()
+			.getString(R.string.your_card_will_be_charged_TEMPLATE, newPrice.getFormattedMoneyFromAmountAndCurrencyCode(
+				newPrice.getAmount(), newPrice.getCurrency())));
+
 		acceptTermsWidget.getVm().resetAcceptedTerms();
 
 		mainContactInfoCardView.setExpanded(false);

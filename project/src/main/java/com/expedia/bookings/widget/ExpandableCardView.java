@@ -12,10 +12,8 @@ import android.widget.EditText;
 import com.expedia.bookings.R;
 import com.expedia.bookings.interfaces.ToolbarListener;
 
-/**
- * Created by malnguyen on 2/28/15.
- */
-public abstract class ExpandableCardView extends FrameLayout implements View.OnFocusChangeListener, View.OnClickListener,
+public abstract class ExpandableCardView extends FrameLayout
+	implements View.OnFocusChangeListener, View.OnClickListener,
 	View.OnTouchListener {
 
 	public ExpandableCardView(Context context, AttributeSet attrs) {
@@ -45,10 +43,6 @@ public abstract class ExpandableCardView extends FrameLayout implements View.OnF
 		mToolbarListener = listener;
 	}
 
-	public EditText getFocusedEditText() {
-		return mCurrentEditText;
-	}
-
 	@Override
 	public void onFocusChange(View v, boolean hasFocus) {
 		mCurrentEditText = (EditText) v;
@@ -72,7 +66,7 @@ public abstract class ExpandableCardView extends FrameLayout implements View.OnF
 			if (v == null) {
 				v = mCurrentEditText.focusSearch(View.FOCUS_DOWN);
 			}
-			if (v != null)  {
+			if (v != null) {
 				v.requestFocus();
 			}
 		}
@@ -142,8 +136,8 @@ public abstract class ExpandableCardView extends FrameLayout implements View.OnF
 	}
 
 	public interface IExpandedListener {
-
 		void expanded(ExpandableCardView view);
+
 		void collapsed(ExpandableCardView view);
 	}
 }

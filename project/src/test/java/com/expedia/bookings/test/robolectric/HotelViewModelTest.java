@@ -62,9 +62,9 @@ public class HotelViewModelTest {
 		setupSystemUnderTest();
 
 		TestSubscriber<HotelViewModel.UrgencyMessage> urgencyMessageTestSubscriber = TestSubscriber.create();
-		vm.getUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
+		vm.getHighestPriorityUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
 
-		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(true, null,
+		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(null,
 				R.color.hotel_sold_out_color,
 				RuntimeEnvironment.application.getResources().getString(R.string.trip_bucket_sold_out)));
 	}
@@ -77,9 +77,9 @@ public class HotelViewModelTest {
 		setupSystemUnderTest();
 
 		TestSubscriber<HotelViewModel.UrgencyMessage> urgencyMessageTestSubscriber = TestSubscriber.create();
-		vm.getUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
+		vm.getHighestPriorityUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
 
-		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(true, R.drawable.urgency,
+		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(R.drawable.urgency,
 				R.color.hotel_urgency_message_color,
 				RuntimeEnvironment.application.getResources().getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate)));
 	}
@@ -92,9 +92,9 @@ public class HotelViewModelTest {
 		setupSystemUnderTest();
 
 		TestSubscriber<HotelViewModel.UrgencyMessage> urgencyMessageTestSubscriber = TestSubscriber.create();
-		vm.getUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
+		vm.getHighestPriorityUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
 
-		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(true, R.drawable.tonight_only,
+		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(R.drawable.tonight_only,
 				R.color.hotel_tonight_only_color,
 				RuntimeEnvironment.application.getResources().getString(R.string.tonight_only)));
 	}
@@ -106,9 +106,9 @@ public class HotelViewModelTest {
 		setupSystemUnderTest();
 
 		TestSubscriber<HotelViewModel.UrgencyMessage> urgencyMessageTestSubscriber = TestSubscriber.create();
-		vm.getUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
+		vm.getHighestPriorityUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
 
-		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(true, R.drawable.mobile_exclusive,
+		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(R.drawable.mobile_exclusive,
 				R.color.hotel_mobile_exclusive_color,
 				RuntimeEnvironment.application.getResources().getString(R.string.mobile_exclusive)));
 	}

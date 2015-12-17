@@ -220,6 +220,12 @@ public class HotelUtils {
 		return context.getString(stringId, mandatoryFees);
 	}
 
+	public static Spanned getDepositPolicyText(Context context, String[] depositPolicy) {
+		String depositStatement = depositPolicy[0];
+		String depositAmount = depositPolicy[1].trim();
+		return Html.fromHtml(context.getString(R.string.pay_later_deposit_policy, depositStatement, depositAmount));
+	}
+
 	// Convenience method for getting resort fee text that goes at the bottom of checkout,
 	// for either device type.
 	public static Spanned getCheckoutResortFeesText(Context context, Rate rate) {

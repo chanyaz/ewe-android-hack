@@ -3,10 +3,8 @@ package com.expedia.bookings.fragment;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
-import android.annotation.TargetApi;
-import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -36,7 +34,6 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CreditCardUtils;
 import com.mobiata.android.util.Ui;
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFragment {
 
 	public static TabletCheckoutPaymentFormFragment newInstance(LineOfBusiness lob) {
@@ -60,8 +57,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	private boolean mCardMessageShowing = false;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mAttemptToLeaveMade = false;
 		mListener = Ui.findFragmentListener(this, ICheckoutDataListener.class);
 	}
@@ -116,11 +113,12 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 				//If we have a saved card we're good to go
 				commitAndLeave();
 			}
-			else  {
+			else {
 				//If we don't have a saved card, we must validate, if we have valid input, close
 				boolean requiresAddress = PointOfSale.getPointOfSale().requiresBillingAddressFlights();
 				boolean hasValidBillingInfo = mSectionBillingInfo != null && mSectionBillingInfo.performValidation();
-				boolean hasValidLocation = !requiresAddress || mSectionLocation != null && mSectionLocation.performValidation();
+				boolean hasValidLocation =
+					!requiresAddress || mSectionLocation != null && mSectionLocation.performValidation();
 
 				if (hasValidBillingInfo && hasValidLocation) {
 					commitAndLeave();
@@ -137,7 +135,6 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 			mSectionLocation.resetValidation();
 		}
 	}
-
 
 	private void commitAndLeave() {
 		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
@@ -186,7 +183,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 					if (mBillingInfo.getCardType() != null) {
 						TripBucketItem item = Db.getTripBucket().getFlight();
 						if (!item.isCardTypeSupported(mBillingInfo.getCardType())) {
-							String cardName = CreditCardUtils.getHumanReadableName(getActivity(), mBillingInfo.getCardType());
+							String cardName = CreditCardUtils
+								.getHumanReadableName(getActivity(), mBillingInfo.getCardType());
 							String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, cardName);
 							updateCardMessageText(message);
 							toggleCardMessage(true, true);
@@ -211,7 +209,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 					if (mBillingInfo.getCardType() != null) {
 						TripBucketItem item = Db.getTripBucket().getHotel();
 						if (!item.isCardTypeSupported(mBillingInfo.getCardType())) {
-							String cardName = CreditCardUtils.getHumanReadableName(getActivity(), mBillingInfo.getCardType());
+							String cardName = CreditCardUtils
+								.getHumanReadableName(getActivity(), mBillingInfo.getCardType());
 							String message = getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName);
 							updateCardMessageText(message);
 							toggleCardMessage(true, true);
@@ -239,7 +238,6 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 				}
 			}
 		});
-
 	}
 
 	@Override
@@ -272,10 +270,6 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	@Override
 	public boolean showBoardingMessage() {
 		return false;
-	}
-
-	public boolean isFormOpen() {
-		return mFormOpen;
 	}
 
 	public void updateCardMessageText(String message) {
@@ -318,14 +312,15 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		else {
 			int totalHeight = mCreditCardMessageTv.getHeight();
 			if (show && !mCardMessageShowing && totalHeight <= 0) {
-				mCreditCardMessageTv.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-					@Override
-					public boolean onPreDraw() {
-						mCreditCardMessageTv.getViewTreeObserver().removeOnPreDrawListener(this);
-						toggleCardMessage(show, animate);
-						return true;
-					}
-				});
+				mCreditCardMessageTv.getViewTreeObserver()
+					.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+						@Override
+						public boolean onPreDraw() {
+							mCreditCardMessageTv.getViewTreeObserver().removeOnPreDrawListener(this);
+							toggleCardMessage(show, animate);
+							return true;
+						}
+					});
 				mCreditCardMessageTv.setVisibility(View.VISIBLE);
 			}
 			else {

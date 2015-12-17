@@ -1,7 +1,6 @@
 package com.expedia.bookings.activity;
 
 import android.app.ActionBar;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -59,8 +58,6 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 	private static final String DIALOG_SAVING_TRAVELER = "DIALOG_SAVING_TRAVELER";
 	private static final String FTAG_INVALID_BIRTHDATE_DIALOG = "FTAG_INVALID_BIRTHDATE_DIALOG";
 
-	private Context mContext;
-
 	private FlightTravelerInfoOptionsFragment mOptionsFragment;
 	private FlightTravelerInfoOneFragment mOneFragment;
 	private FlightTravelerInfoTwoFragment mTwoFragment;
@@ -89,7 +86,7 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 	}
 
 	public interface Validatable {
-		public boolean validate();
+		boolean validate();
 	}
 
 	@Override
@@ -108,8 +105,6 @@ public class FlightTravelerInfoOptionsActivity extends FragmentActivity implemen
 		if (mIsBailing) {
 			return;
 		}
-
-		mContext = this;
 
 		//Which traveler are we working with
 		mTravelerIndex = getIntent().getIntExtra(Codes.TRAVELER_INDEX, 0);

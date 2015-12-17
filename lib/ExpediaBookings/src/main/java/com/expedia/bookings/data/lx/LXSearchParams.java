@@ -13,6 +13,12 @@ public class LXSearchParams {
 	public SearchType searchType = SearchType.EXPLICIT_SEARCH;
 	public String filters;
 	public String activityId;
+	public String imageCode;
+
+	public LXSearchParams imageCode(String imageCode) {
+		this.imageCode = imageCode;
+		return this;
+	}
 
 	public LXSearchParams location(String location) {
 		this.location = location;

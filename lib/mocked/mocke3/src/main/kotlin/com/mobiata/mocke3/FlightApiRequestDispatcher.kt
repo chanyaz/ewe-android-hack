@@ -31,9 +31,16 @@ public class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispat
 class FlightApiMockResponseGenerator() {
     companion object {
         fun getSearchResponseFilePath(params: MutableMap<String, String>): String {
+            val isPassportNeeded = params["departureAirport"] == "PEN" && params["arrivalAirport"] == "KUL"
             val isReturnFlightSearch = params.containsKey("returnDate")
-            val departureDate = params.get("departureDate")
-            val filename = if (isReturnFlightSearch) "happy_roundtrip" else "happy_oneway"
+            val departureDate = params["departureDate"]
+            val filename = if (isReturnFlightSearch) {
+                                "happy_roundtrip"
+                            } else if (isPassportNeeded) {
+                                "passport_needed_oneway"
+                            } else {
+                                "happy_oneway"
+                            }
 
             val departCalTakeoff = parseYearMonthDay(departureDate, 10, 0)
             val departCalLanding = parseYearMonthDay(departureDate, 12 + 4, 0)
@@ -41,7 +48,7 @@ class FlightApiMockResponseGenerator() {
             params.put("departingFlightLandingTimeEpochSeconds", "" + (departCalLanding.timeInMillis / 1000))
 
             if (isReturnFlightSearch) {
-                val returnDate = params.get("returnDate")
+                val returnDate = params["returnDate"]
                 val returnCalTakeoff = parseYearMonthDay(returnDate, 10, 0)
                 val returnCalLanding = parseYearMonthDay(returnDate, 12 + 4, 0)
                 params.put("returnFlightTakeoffTimeEpochSeconds", "" + (returnCalTakeoff.timeInMillis / 1000))
@@ -53,8 +60,8 @@ class FlightApiMockResponseGenerator() {
         }
 
         fun getCheckoutResponseFilePath(params: MutableMap<String, String>): String {
-            val tripId = params.get("tripId") ?: throw RuntimeException("tripId required")
-            val tealeafTransactionId = params.get("tealeafTransactionId") ?: throw RuntimeException("teleafTransactionId required")
+            val tripId = params["tripId"] ?: throw RuntimeException("tripId required")
+            val tealeafTransactionId = params["tealeafTransactionId"] ?: throw RuntimeException("teleafTransactionId required")
 
             if ("tealeafFlight:" + tripId != tealeafTransactionId) {
                 throw RuntimeException("tripId must match tealeafTransactionId got: $tealeafTransactionId")
@@ -72,11 +79,11 @@ class FlightApiMockResponseGenerator() {
                 params.put("airAttachTimeZoneOffsetSeconds", "" + tzOffsetSeconds)
             }
 
-            return "api/flight/checkout/" + params.get("tripId") + ".json"
+            return "api/flight/checkout/" + params["tripId"] + ".json"
         }
 
         fun getCreateTripResponseFilePath(params: MutableMap<String, String>): String {
-            return "api/flight/trip/create/" + params.get("productKey") + ".json"
+            return "api/flight/trip/create/" + params["productKey"] + ".json"
         }
     }
 }

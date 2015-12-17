@@ -4,11 +4,9 @@ import java.util.ArrayList;
 
 import org.joda.time.LocalDate;
 
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -81,7 +79,6 @@ import com.squareup.otto.Subscribe;
  * At the time of this writting (9/5/2013) this is also in control of background images, but hopefully this
  * will be offloaded to elsewhere in the app eventually (if for nothing other than performance/ load time reasons).
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class TabletResultsActivity extends FragmentActivity implements IFragmentAvailabilityProvider,
 	IStateProvider<ResultsState>, IMeasurementProvider, IBackManageable, IAcceptingListenersListener,
 	ITripBucketBookClickListener, TripBucketFragment.UndoAnimationEndListener, ISiblingListTouchListener {
@@ -128,12 +125,12 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 
 	/**
 	 * Create intent to open this activity in a standard way.
+	 *
 	 * @param context
 	 * @return
 	 */
 	public static Intent createIntent(Context context) {
-		Intent intent = new Intent(context, TabletResultsActivity.class);
-		return intent;
+		return new Intent(context, TabletResultsActivity.class);
 	}
 
 	@Override
@@ -315,10 +312,9 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-		case android.R.id.home: {
+		case android.R.id.home:
 			onBackPressed();
 			return true;
-		}
 		}
 
 		if (DebugMenu.onOptionsItemSelected(this, item)) {
@@ -371,19 +367,19 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 	@Override
 	public Fragment getExistingLocalInstanceFromTag(String tag) {
 		Fragment frag = null;
-		if (tag == FTAG_FLIGHTS_CONTROLLER) {
+		if (FTAG_FLIGHTS_CONTROLLER.equals(tag)) {
 			frag = mFlightsController;
 		}
-		else if (tag == FTAG_HOTELS_CONTROLLER) {
+		else if (FTAG_HOTELS_CONTROLLER.equals(tag)) {
 			frag = mHotelsController;
 		}
-		else if (tag == FTAG_SEARCH_CONTROLLER) {
+		else if (FTAG_SEARCH_CONTROLLER.equals(tag)) {
 			frag = mSearchController;
 		}
-		else if (tag == FTAG_BACKGROUND_IMAGE) {
+		else if (FTAG_BACKGROUND_IMAGE.equals(tag)) {
 			frag = mBackgroundImageFrag;
 		}
-		else if (tag == FTAG_BUCKET_CONTROLLER) {
+		else if (FTAG_BUCKET_CONTROLLER.equals(tag)) {
 			frag = mTripBucketFrag;
 		}
 		return frag;
@@ -392,19 +388,19 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 	@Override
 	public Fragment getNewFragmentInstanceFromTag(String tag) {
 		Fragment frag = null;
-		if (tag == FTAG_FLIGHTS_CONTROLLER) {
+		if (FTAG_FLIGHTS_CONTROLLER.equals(tag)) {
 			frag = new TabletResultsFlightControllerFragment();
 		}
-		else if (tag == FTAG_HOTELS_CONTROLLER) {
+		else if (FTAG_HOTELS_CONTROLLER.equals(tag)) {
 			frag = new TabletResultsHotelControllerFragment();
 		}
-		else if (tag == FTAG_SEARCH_CONTROLLER) {
+		else if (FTAG_SEARCH_CONTROLLER.equals(tag)) {
 			frag = new TabletResultsSearchControllerFragment();
 		}
-		else if (tag == FTAG_BACKGROUND_IMAGE) {
+		else if (FTAG_BACKGROUND_IMAGE.equals(tag)) {
 			frag = ResultsBackgroundImageFragment.newInstance(false);
 		}
-		else if (tag == FTAG_BUCKET_CONTROLLER) {
+		else if (FTAG_BUCKET_CONTROLLER.equals(tag)) {
 			frag = new ResultsTripBucketFragment();
 		}
 		return frag;
@@ -753,7 +749,6 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 			//Our children may do something on back pressed, but if we are left in charge we do nothing
 			return false;
 		}
-
 	};
 
 	/*
@@ -781,12 +776,11 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 			if (stateOne == ResultsHotelsState.ADDING_HOTEL_TO_TRIP && stateTwo == ResultsHotelsState.HOTEL_LIST_DOWN) {
 				mDoingHotelsAddToBucket = true;
 			}
-
 		}
 
 		@Override
 		public void onStateTransitionUpdate(ResultsHotelsState stateOne, ResultsHotelsState stateTwo,
-											float percentage) {
+			float percentage) {
 			updateStateTransition(stateOne.getResultsState(), stateTwo.getResultsState(), percentage);
 
 			if (stateOne.showsActionBar() != stateTwo.showsActionBar()) {
@@ -855,7 +849,7 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 
 		@Override
 		public void onStateTransitionUpdate(ResultsFlightsState stateOne, ResultsFlightsState stateTwo,
-											float percentage) {
+			float percentage) {
 
 			updateStateTransition(stateOne.getResultsState(), stateTwo.getResultsState(), percentage);
 
@@ -894,7 +888,6 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 
 			mResultsStateListeners.setListenerActive(mFlightsController.getResultsListener());
 		}
-
 	};
 
 	/*
@@ -936,7 +929,8 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 		}
 
 		@Override
-		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo, float percentage) {
+		public void onStateTransitionUpdate(ResultsSearchState stateOne, ResultsSearchState stateTwo,
+			float percentage) {
 			if (stateOne.showsSearchControls() != stateTwo.showsSearchControls()) {
 				float p = stateTwo.showsSearchControls() ? 1f - percentage : percentage;
 				if (mGrid.isPortrait() && !hideTripBucketInPortrait()) {
@@ -1012,7 +1006,6 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 				getActionBar().show();
 			}
 		}
-
 	};
 
 	/*
@@ -1096,17 +1089,20 @@ public class TabletResultsActivity extends FragmentActivity implements IFragment
 				if (flight.getFlightSearchParams().isRoundTrip()) {
 					// fit between the flights
 					FlightLeg departingFlight = flight.getFlightTrip().getLeg(0);
-					LocalDate departingFlightLandingTime = new LocalDate(departingFlight.getLastWaypoint().getMostRelevantDateTime());
+					LocalDate departingFlightLandingTime = new LocalDate(
+						departingFlight.getLastWaypoint().getMostRelevantDateTime());
 					Sp.getParams().setStartDate(departingFlightLandingTime);
 
 					FlightLeg returningFlight = flight.getFlightTrip().getLeg(1);
-					LocalDate returningFlightTakeoffTime = new LocalDate(returningFlight.getFirstWaypoint().getMostRelevantDateTime());
+					LocalDate returningFlightTakeoffTime = new LocalDate(
+						returningFlight.getFirstWaypoint().getMostRelevantDateTime());
 					Sp.getParams().setEndDate(returningFlightTakeoffTime);
 				}
 				else {
 					// fit after + maintain the hotel stay duration
 					FlightLeg departingFlight = flight.getFlightTrip().getLeg(0);
-					LocalDate departingFlightLandingTime = new LocalDate(departingFlight.getLastWaypoint().getMostRelevantDateTime());
+					LocalDate departingFlightLandingTime = new LocalDate(
+						departingFlight.getLastWaypoint().getMostRelevantDateTime());
 					Sp.getParams().setStartDate(departingFlightLandingTime);
 
 					int hotelStay = hotel.getHotelSearchParams().getStayDuration();

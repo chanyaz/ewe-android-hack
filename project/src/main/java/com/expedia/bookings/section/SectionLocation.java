@@ -5,11 +5,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Resources;
-import android.os.Build;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -35,11 +32,11 @@ import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
-public class SectionLocation extends LinearLayout implements ISection<Location>, ISectionEditable,
-	InvalidCharacterListener {
+public class SectionLocation extends LinearLayout
+	implements ISection<Location>, ISectionEditable, InvalidCharacterListener {
 
-	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
-	SectionFieldList<Location> mFields = new SectionFieldList<Location>();
+	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<>();
+	SectionFieldList<Location> mFields = new SectionFieldList<>();
 
 	Location mLocation;
 	Context mContext;
@@ -55,7 +52,6 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		init(context);
 	}
 
-	@SuppressLint("NewApi")
 	public SectionLocation(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(context);
@@ -109,7 +105,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	@Override
 	public boolean performValidation() {
 		if (mLineOfBusiness == null) {
-			throw new RuntimeException("Attempting to validate the SectionLocation without knowing the LOB. Proper validation requires a LOB to be set");
+			throw new RuntimeException(
+				"Attempting to validate the SectionLocation without knowing the LOB. Proper validation requires a LOB to be set");
 		}
 		return mFields.hasValidInput();
 	}
@@ -138,7 +135,6 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 	@Override
 	public void clearChangeListeners() {
 		mChangeListeners.clear();
-
 	}
 
 	protected void rebindCountryDependantFields() {
@@ -160,10 +156,6 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 	public void addInvalidCharacterListener(InvalidCharacterListener listener) {
 		mInvalidCharacterListeners.add(listener);
-	}
-
-	public void removeInvalidCharacterListener(InvalidCharacterListener listener) {
-		mInvalidCharacterListeners.remove(listener);
 	}
 
 	//////////////////////////////////////
@@ -252,7 +244,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 					if (hasBoundData()) {
 						List<String> address = getData().getStreetAddress();
 						if (address == null) {
-							address = new ArrayList<String>();
+							address = new ArrayList<>();
 						}
 						if (address.size() < 1) {
 							address.add("");
@@ -311,7 +303,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 					if (hasBoundData()) {
 						List<String> address = getData().getStreetAddress();
 						if (address == null) {
-							address = new ArrayList<String>();
+							address = new ArrayList<>();
 						}
 						if (address.size() < 1) {
 							address.add("");
@@ -345,7 +337,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<SectionFieldValidIndicator<?, Location>>();
+			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<>();
 			retArr.add(mValidAddrLineTwo);
 			return retArr;
 		}
@@ -388,14 +380,12 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 								}
 							}
 						}
-
 					}
 					onChange(SectionLocation.this);
 				}
 			});
 
-			InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
+			InvalidCharacterHelper.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
@@ -411,8 +401,9 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		}
 	};
 
-	SectionFieldEditable<EditText, Location> mEditAddressState = new SectionFieldEditableFocusChangeTrimmer<EditText, Location>(
-		R.id.edit_address_state) {
+	SectionFieldEditable<EditText, Location> mEditAddressState
+		= new SectionFieldEditableFocusChangeTrimmer<EditText, Location>(R.id.edit_address_state) {
+
 		@Override
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> addrValidators = new MultiValidator<EditText>();
@@ -438,8 +429,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
-			InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
+			InvalidCharacterHelper.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
@@ -455,8 +445,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		}
 	};
 
-	SectionFieldEditable<EditText, Location> mEditAddressPostalCode = new SectionFieldEditableFocusChangeTrimmer<EditText, Location>(
-		R.id.edit_address_postal_code) {
+	SectionFieldEditable<EditText, Location> mEditAddressPostalCode
+		= new SectionFieldEditableFocusChangeTrimmer<EditText, Location>(R.id.edit_address_postal_code) {
 
 		Validator<EditText> mPostalCodeCharacterCountValidator = new Validator<EditText>() {
 
@@ -477,7 +467,6 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 					}
 				}
 			}
-
 		};
 
 		Validator<EditText> mCurrentCountryValidator = new Validator<EditText>() {
@@ -520,8 +509,7 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			});
 
-			InvalidCharacterHelper
-				.generateInvalidCharacterTextWatcher(field ,SectionLocation.this, Mode.ADDRESS);
+			InvalidCharacterHelper.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
 		}
 
 		@Override
@@ -536,15 +524,15 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 			return retArr;
 		}
 
-		@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 		private void updatePostalCodeInput() {
 			if (this.hasBoundField()) {
 				Location location = this.getData();
 				PointOfSaleId posId = PointOfSale.getPointOfSale().getPointOfSaleId();
 				//If we set the country to USA (or we dont select a country, but POS is USA) use the number keyboard and set hint to use zip code (instead of postal code)
 				if ((location != null && location.getCountryCode() != null
-						&& location.getCountryCode().equalsIgnoreCase("USA"))
-						|| (!mEditCountrySpinner.hasBoundField() && (posId == PointOfSaleId.UNITED_STATES || posId == PointOfSaleId.TRAVELOCITY))) {
+					&& location.getCountryCode().equalsIgnoreCase("USA"))
+					|| (!mEditCountrySpinner.hasBoundField() && (posId == PointOfSaleId.UNITED_STATES
+					|| posId == PointOfSaleId.TRAVELOCITY))) {
 					this.getField().setInputType(InputType.TYPE_CLASS_NUMBER);
 					this.getField().setHint(R.string.address_postal_code_hint_US);
 				}
@@ -554,7 +542,6 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				}
 			}
 		}
-
 	};
 
 	/**
@@ -583,8 +570,8 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 		return false;
 	}
 
-	SectionFieldEditable<Spinner, Location> mEditCountrySpinner = new SectionFieldEditable<Spinner, Location>(
-		R.id.edit_country_spinner) {
+	SectionFieldEditable<Spinner, Location> mEditCountrySpinner
+		= new SectionFieldEditable<Spinner, Location>(R.id.edit_country_spinner) {
 
 		private boolean mSetFieldManually = false;
 
@@ -635,7 +622,6 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 				public void onNothingSelected(AdapterView<?> arg0) {
 				}
 			});
-
 		}
 
 		protected void updateCountryDependantValidation() {
@@ -644,7 +630,6 @@ public class SectionLocation extends LinearLayout implements ISection<Location>,
 
 			// Force the State/Province section to update its validator
 			mEditAddressState.onChange(null);
-
 		}
 
 		@Override

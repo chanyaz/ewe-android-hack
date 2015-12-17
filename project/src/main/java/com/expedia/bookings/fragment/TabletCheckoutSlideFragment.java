@@ -8,10 +8,8 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
-import android.annotation.TargetApi;
-import android.app.Activity;
+import android.content.Context;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +36,6 @@ import com.expedia.bookings.widget.SlideToWidgetJB;
 import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TabletCheckoutSlideFragment extends LobableFragment implements ICheckoutDataListener,
 	CheckoutLoginButtonsFragment.ILoginStateChangedListener {
 
@@ -55,13 +52,12 @@ public class TabletCheckoutSlideFragment extends LobableFragment implements IChe
 	private String mTotalPriceString;
 
 	public static TabletCheckoutSlideFragment newInstance() {
-		TabletCheckoutSlideFragment frag = new TabletCheckoutSlideFragment();
-		return frag;
+		return new TabletCheckoutSlideFragment();
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		boolean isCheckout = getParentFragment() instanceof TabletCheckoutControllerFragment;
 		if (isCheckout) {
 			TabletCheckoutControllerFragment frag = (TabletCheckoutControllerFragment) getParentFragment();

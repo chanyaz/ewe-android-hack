@@ -6,7 +6,6 @@ import java.util.List;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,7 +13,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
@@ -49,21 +47,19 @@ public class SlideToWidgetLL extends RelativeLayout {
 	private RectF mRectF;
 
 	public SlideToWidgetLL(Context context) {
-		super(context);
-		init(context, null);
+		this(context, null);
 	}
 
 	public SlideToWidgetLL(Context context, AttributeSet attr) {
-		super(context, attr);
-		init(context, attr);
+		this(context, attr, 0);
 	}
 
 	public SlideToWidgetLL(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		init(context, attrs);
+		init(context);
 	}
 
-	private void init(Context context, AttributeSet attr) {
+	private void init(Context context) {
 		LayoutInflater inflater = LayoutInflater.from(context);
 		View widget = inflater.inflate(R.layout.widget_slide_to_ll, this);
 
@@ -135,7 +131,6 @@ public class SlideToWidgetLL extends RelativeLayout {
 		private float mInitialTouchOffsetX;
 		private float mTotalSlide;
 
-		@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 		@Override
 		public boolean onTouch(View v, MotionEvent event) {
 
@@ -224,7 +219,6 @@ public class SlideToWidgetLL extends RelativeLayout {
 		}
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void activateSlide() {
 		mIsSliding = true;
 		mHitDestination = false;
@@ -264,14 +258,6 @@ public class SlideToWidgetLL extends RelativeLayout {
 		return mSlideToListeners.add(listener);
 	}
 
-	public boolean removeSlideToListener(ISlideToListener listener) {
-		return mSlideToListeners.remove(listener);
-	}
-
-	public void clearSlideToListeners() {
-		mSlideToListeners.clear();
-	}
-
 	protected void fireSlideStart() {
 		for (ISlideToListener listener : mSlideToListeners) {
 			listener.onSlideStart();
@@ -300,23 +286,22 @@ public class SlideToWidgetLL extends RelativeLayout {
 		/**
 		 * The user has clicked on the slider...
 		 */
-		public void onSlideStart();
+		void onSlideStart();
 
 		/**
 		 * The slider has slid partially across. The fraction of the distance can be computed
 		 * by: pixels / total.
 		 */
-		public void onSlideProgress(float pixels, float total);
+		void onSlideProgress(float pixels, float total);
 
 		/**
 		 * If the user slides the widget all the way over.
 		 */
-		public void onSlideAllTheWay();
+		void onSlideAllTheWay();
 
 		/**
 		 * If the user starts a slide, but doesn't make it all the way, and the slide is reset
 		 */
-		public void onSlideAbort();
+		void onSlideAbort();
 	}
-
 }

@@ -157,6 +157,7 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
     // output
     val legalTextInformation = BehaviorSubject.create<SpannableStringBuilder>()
     val disclaimerText = BehaviorSubject.create<Spanned>()
+    val depositPolicyText = BehaviorSubject.create<Spanned>()
     val slideToText = BehaviorSubject.create<String>()
     val totalPriceCharged = BehaviorSubject.create<String>()
     val resetMenuButton = BehaviorSubject.create<Unit>()
@@ -164,6 +165,7 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
     init {
         newRateObserver.subscribe {
             disclaimerText.onNext(Html.fromHtml(""))
+
             val room = it.hotelRoomResponse
             if (room.isPayLater) {
                 slideToText.onNext(context.getString(R.string.hotelsv2_slide_reserve))
@@ -179,13 +181,11 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
                 disclaimerText.onNext(text)
             } else if (room.isPayLater) {
                 if (room.rateInfo.chargeableRateInfo.depositAmount != null) {
-                    val deposit = Money(BigDecimal(room.rateInfo.chargeableRateInfo.depositAmount), currencyCode).formattedMoney
-                    val text = Html.fromHtml(context.getString(R.string.pay_later_deposit_disclaimer_TEMPLATE, deposit))
-                    disclaimerText.onNext(text)
-                } else {
-                    val text = Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal))
-                    disclaimerText.onNext(text)
+                    val depositText = Html.fromHtml(room.depositPolicyAtIndex(0) + " " + room.depositPolicyAtIndex(1))
+                    depositPolicyText.onNext(depositText)
                 }
+                val text = Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal))
+                disclaimerText.onNext(text)
             }
 
             legalTextInformation.onNext(StrUtils.generateHotelsBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString(), false))
@@ -228,6 +228,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
     val isResortCase = BehaviorSubject.create<Boolean>(false)
     val isPayLater = BehaviorSubject.create<Boolean>(false)
     val isPayLaterOrResortCase = BehaviorSubject.create<Boolean>(false)
+    val isDepositV2 = BehaviorSubject.create<Boolean>(false)
     val feesPaidAtHotel = BehaviorSubject.create<String>()
     val showFeesPaidAtHotel = BehaviorSubject.create<Boolean>(false)
     val roomHeaderImage = BehaviorSubject.create<String?>()
@@ -269,8 +270,9 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             val rate = room.rateInfo.chargeableRateInfo
 
             isPayLater.onNext(room.isPayLater && !AndroidUtils.isTablet(context))
-            isResortCase.onNext(Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
+            isResortCase.onNext(rate.totalMandatoryFees != 0f)
             isPayLaterOrResortCase.onNext(isPayLater.value || isResortCase.value)
+            isDepositV2.onNext(room.depositRequired)
             priceAdjustments.onNext(rate.getPriceAdjustments())
             hotelName.onNext(it.getHotelName())
             checkInDate.onNext(it.checkInDate)
@@ -370,7 +372,12 @@ class HotelBreakDownViewModel(val context: Context, val hotelCheckoutSummaryView
 
             // Show amount to be paid today in resort or ETP cases
             if (it.isResortCase.value || it.isPayLater.value) {
-                val dueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+                var dueTodayText: String
+                if (it.isDepositV2.value) {
+                    dueTodayText = Phrase.from(context, R.string.due_to_brand_today_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+                } else {
+                    dueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+                }
                 breakdowns.add(Breakdown(dueTodayText, it.dueNowAmount.value, false, false))
             }
 

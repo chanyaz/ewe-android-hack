@@ -9,7 +9,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.PropertyValuesHolder;
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -80,8 +80,8 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, FlightDetailsFragmentListener.class);
 	}
@@ -236,7 +236,7 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 		// A list of views to set in a HW layer.  We only do this for complex Views; for simple
 		// Views it is somewhat a waste of time (as we're actually adding work, due to the slight
 		// overhead of HW layers).  It is an experiment right now which are complex enough.
-		final List<View> hwLayerViews = new ArrayList<View>();
+		final List<View> hwLayerViews = new ArrayList<>();
 
 		int center = (top + bottom) / 2;
 		int height = bottom - top;
@@ -360,6 +360,6 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 	// Listener
 
 	public interface FlightDetailsFragmentListener {
-		public void onFlightDetailsLayout(FlightDetailsFragment fragment);
+		void onFlightDetailsLayout(FlightDetailsFragment fragment);
 	}
 }

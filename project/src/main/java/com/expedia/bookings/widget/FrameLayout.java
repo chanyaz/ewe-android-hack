@@ -5,7 +5,7 @@ import android.util.AttributeSet;
 
 public class FrameLayout extends android.widget.FrameLayout {
 	public interface OnSizeChangedListener {
-		public void onSizeChanged(int w, int h, int oldw, int oldh);
+		void onSizeChanged(int w, int h, int oldw, int oldh);
 	}
 
 	private OnSizeChangedListener mOnSizeChangedListener;

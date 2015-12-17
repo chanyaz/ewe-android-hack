@@ -1,6 +1,5 @@
 package com.expedia.bookings.dialog;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
@@ -15,8 +14,6 @@ import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
-import com.facebook.Session;
-import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.Ui;
@@ -90,12 +87,5 @@ public class SocialMessageChooserDialogFragment extends DialogFragment {
 		}
 
 		return view;
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		Log.d("FB: onActivityResult");
-		Session.getActiveSession().onActivityResult(getActivity(), requestCode, resultCode, data);
 	}
 }

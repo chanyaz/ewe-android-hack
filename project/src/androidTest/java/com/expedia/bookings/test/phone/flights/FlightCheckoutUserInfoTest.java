@@ -3,9 +3,14 @@ package com.expedia.bookings.test.phone.flights;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.assertion.ViewAssertions;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.FlightTestCase;
+import com.expedia.bookings.test.espresso.HotelsUserData;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
@@ -16,9 +21,6 @@ import com.expedia.bookings.test.phone.pagemodels.flights.FlightLegScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsTravelerInfoScreen;
-import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.espresso.HotelsUserData;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
@@ -27,6 +29,7 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 import static com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen.clickCheckoutButton;
@@ -60,6 +63,61 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 		verifyNameMustMatchIdWarningSecondTraveler();
 		verifyMissingCardInfoAlerts();
 		verifyLoginButtonNotAppearing();
+	}
+
+	/**
+	 * See passport_needed_oneway.json (isPassportNeeded: true)
+	 */
+	public void testPassportNeededFromApiResponse() {
+		// Above departure/arrival triggers isPassportNeeded=true search response
+		// (see: FlightApiRequestDispatcher)
+		String departureAirport = "PEN";
+		String arrivalAirport = "KUL";
+
+		navigateToCheckoutScreen(departureAirport, arrivalAirport, 8);
+		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(0);
+		populatedTravelerDetails();
+		verifyPassportRequired();
+	}
+
+	public void testInternationalFlightRequiresPassport() {
+		navigateToCheckoutScreen("SFO", "LHR", 1);
+		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(0);
+		populatedTravelerDetails();
+		verifyPassportRequired();
+	}
+
+	private void navigateToCheckoutScreen(String departureAirport, String arrivalAirport, int listItemIndex) {
+		FlightsSearchScreen.enterDepartureAirport(departureAirport);
+		FlightsSearchScreen.enterArrivalAirport(arrivalAirport);
+		FlightsSearchScreen.clickSelectDepartureButton();
+		FlightsSearchScreen.clickDate(LocalDate.now().plusDays(3));
+		FlightsSearchScreen.clickSearchButton();
+		FlightsSearchResultsScreen.clickListItem(listItemIndex);
+		FlightLegScreen.clickSelectFlightButton();
+		clickCheckoutButton();
+	}
+
+	private void populatedTravelerDetails() {
+		FlightsTravelerInfoScreen.enterFirstName("Mobiata");
+		FlightsTravelerInfoScreen.enterLastName("Auto");
+		FlightsTravelerInfoScreen.enterPhoneNumber("1112223333");
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.phoneNumberEditText());
+		FlightsTravelerInfoScreen.clickBirthDateButton();
+		try {
+			FlightsTravelerInfoScreen.clickSetButton();
+		}
+		catch (Exception e) {
+			CommonTravelerInformationScreen.clickDoneString();
+		}
+		BillingAddressScreen.clickNextButton();
+		Common.delay(1);
+		BillingAddressScreen.clickNextButton();
+	}
+
+	private void verifyPassportRequired() {
+		ViewInteraction passportCountryListView = onView(withId(R.id.edit_passport_country_listview));
+		passportCountryListView.check(ViewAssertions.matches(isDisplayed()));
 	}
 
 	private void verifyNameMustMatchIdWarning() {

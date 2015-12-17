@@ -77,7 +77,7 @@ public class LocationMapImageView extends ImageView {
 
 		mStaticMapUri = GoogleServices.getStaticMapUrl(width / sDensityScaleFactor, height / sDensityScaleFactor,
 				sZoom, MapType.ROADMAP, mLocation.getLatitude(), mLocation.getLongitude(),
-				getMarkerString(mLocation, 0x126299)) + "&scale=" + sDensityScaleFactor;
+				getMarkerString(mLocation, 0x126299));
 
 		Log.d("ITIN: mapUrl:" + mStaticMapUri);
 

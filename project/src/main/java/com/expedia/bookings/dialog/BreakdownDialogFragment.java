@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.FlightTrip;
@@ -30,6 +31,7 @@ import com.expedia.bookings.data.RateBreakdown;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -235,20 +237,30 @@ public class BreakdownDialogFragment extends DialogFragment {
 		Rate rateWeCareAbout = couponRate == null ? originalRate : couponRate;
 		boolean resortCase = rateWeCareAbout.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES;
 		boolean payLaterCase = rateWeCareAbout.isPayLater() && !AndroidUtils.isTablet(context);
+		// #5665: zero deposit for tablet only
+		boolean isZeroDepositCaseTablet = AndroidUtils.isTablet(context) && (rateWeCareAbout.isPayLater() && rateWeCareAbout.depositRequired());
 
 		// Show amount to be paid today in resort or ETP cases
-		if (resortCase || payLaterCase) {
+		if (resortCase || payLaterCase || isZeroDepositCaseTablet) {
 			Money dueToday;
-			if (payLaterCase) {
+			if (payLaterCase || isZeroDepositCaseTablet) {
 				dueToday = rateWeCareAbout.getDepositAmount();
 			}
 			else {
 				dueToday = rateWeCareAbout.getTotalAmountAfterTax();
 			}
 
-			CharSequence dueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE)
-				.put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context))
-				.format();
+			CharSequence dueTodayText;
+			if (isZeroDepositCaseTablet) {
+				dueTodayText = Phrase.from(context, R.string.due_to_brand_today_today_TEMPLATE)
+					.put("brand", BuildConfig.brand)
+					.format();
+			}
+			else {
+				dueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE)
+					.put("brand", BuildConfig.brand)
+					.format();
+			}
 
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
@@ -378,10 +390,14 @@ public class BreakdownDialogFragment extends DialogFragment {
 					.build())
 				.build());
 
+			int taxesAndFeesLabel = PointOfSale.getPointOfSale()
+					.doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ?
+					R.string.taxes_without_airline_fees : R.string.taxes_and_airline_fees;
+
 			builder.addLineItem((new LineItemBuilder())
 				.setTopPaddingEnabled(false)
 				.setItemLeft((new ItemBuilder())
-					.setText(context.getString(R.string.taxes_and_airline_fees))
+					.setText(context.getString(taxesAndFeesLabel))
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Medium)
 					.build())
 				.setItemRight((new ItemBuilder())
@@ -442,7 +458,9 @@ public class BreakdownDialogFragment extends DialogFragment {
 
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
-					.setText(context.getString(R.string.total_price_label))
+					.setText(context.getString(
+						PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
+							? R.string.total_price_min_label : R.string.total_price_label))
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy_Bold)
 					.build())
 				.setItemRight((new ItemBuilder())

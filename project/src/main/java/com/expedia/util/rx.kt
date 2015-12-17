@@ -2,13 +2,9 @@ package com.expedia.util
 
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.Drawable
-import android.view.MotionEvent
 import android.view.View
-import android.widget.Button
-import android.widget.CheckBox
 import android.widget.CompoundButton
 import android.widget.ImageView
-import android.widget.RadioGroup
 import android.widget.RatingBar
 import android.widget.TextView
 import android.widget.ToggleButton
@@ -20,7 +16,7 @@ import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
 
-public fun <T> endlessObserver(body: (in T) -> Unit) : Observer<T> {
+public fun <T> endlessObserver(body: (T) -> Unit) : Observer<T> {
     return object : Observer<T> {
         override fun onNext(t: T) {
             body(t)

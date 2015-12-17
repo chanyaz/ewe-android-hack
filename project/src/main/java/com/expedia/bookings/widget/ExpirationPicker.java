@@ -20,8 +20,8 @@ public class ExpirationPicker extends LinearLayout {
 	private static final String TAG_CURRENT_MONTH = "TAG_CURRENT_MONTH";
 	private static final String TAG_CURRENT_YEAR = "TAG_CURRENT_YEAR";
 
-	private String mMonthFormatString = "%02d";
-	private String mYearFormatString = "%04d";
+	private static final String sMonthFormatString = "%02d";
+	private static final String sYearFormatString = "%04d";
 
 	private int mMinMonth = 1;
 	private int mMaxMonth = 12;
@@ -39,7 +39,6 @@ public class ExpirationPicker extends LinearLayout {
 	View mYearDown;
 	TextView mMonthTv;
 	TextView mYearTv;
-	TextView mDividerTv;
 
 	public ExpirationPicker(Context context) {
 		super(context);
@@ -221,14 +220,14 @@ public class ExpirationPicker extends LinearLayout {
 	}
 
 	private void updateMonth() {
-		mMonthTv.setText(String.format(mMonthFormatString, mCurrentMonth));
+		mMonthTv.setText(String.format(sMonthFormatString, mCurrentMonth));
 		if (mListener != null) {
 			mListener.onMonthChange(mCurrentMonth);
 		}
 	}
 
 	private void updateYear() {
-		mYearTv.setText(String.format(mYearFormatString, mCurrentYear));
+		mYearTv.setText(String.format(sYearFormatString, mCurrentYear));
 		if (mListener != null) {
 			mListener.onYearChange(mCurrentYear);
 		}
@@ -248,8 +247,8 @@ public class ExpirationPicker extends LinearLayout {
 	}
 
 	public interface IExpirationListener {
-		public void onMonthChange(int month);
+		void onMonthChange(int month);
 
-		public void onYearChange(int year);
+		void onYearChange(int year);
 	}
 }

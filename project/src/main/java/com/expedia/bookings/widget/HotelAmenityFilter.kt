@@ -1,7 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.graphics.*
+import android.support.v4.content.ContextCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.util.AttributeSet
 import android.widget.ImageView
@@ -19,7 +19,7 @@ public class HotelAmenityFilter(context: Context, attrs: AttributeSet) : LinearL
 
     val amenityTextView: TextView by bindView(R.id.amenity_label)
     val amenityIconView: ImageView by bindView(R.id.amenity_icon)
-    var isSelected: Boolean = false
+    var amenitySelected: Boolean = false
     var amenity: FilterAmenity ?= null
     var amenityId: Int ? = null
 
@@ -32,17 +32,17 @@ public class HotelAmenityFilter(context: Context, attrs: AttributeSet) : LinearL
         this.amenityId = id
         amenityTextView.text = context.getString(amenity.strId)
         amenityTextView.setTextColor(R.color.hotelsv2_checkout_text_color)
-        var drawable = context.resources.getDrawable(amenity.resId)
+        var drawable = ContextCompat.getDrawable(context, amenity.resId)
         DrawableCompat.setTint(drawable, R.color.hotelsv2_checkout_text_color)
         amenityIconView.setImageDrawable(drawable)
     }
 
     val selectObserver : Observer<Unit> = endlessObserver {
-        isSelected = !isSelected
-        if (isSelected) {
-            changeColor(getResources().getColor(R.color.hotels_primary_color))
+        amenitySelected = !amenitySelected
+        if (amenitySelected) {
+            changeColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
         } else {
-            changeColor(getResources().getColor(R.color.hotelsv2_checkout_text_color))
+            changeColor(ContextCompat.getColor(context, R.color.hotelsv2_checkout_text_color))
         }
         viewModel.selectAmenity.onNext(amenityId)
     }

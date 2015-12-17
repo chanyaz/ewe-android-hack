@@ -31,7 +31,7 @@ public class MessageProgressView(context: Context, attrs: AttributeSet?) : View(
 
     public var progress: Float = 0f
         set(value) {
-            $progress = value
+            field = value
             var remainingProgress = value
 
             drawLine1 = false;

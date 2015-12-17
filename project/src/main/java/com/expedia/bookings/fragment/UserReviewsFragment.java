@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.Html;
@@ -98,8 +98,8 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mUserReviewsFragmentListener = Ui.findFragmentListener(this, UserReviewsFragmentListener.class);
 
@@ -313,7 +313,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		for (int a = 0; a < visibleItemCount && firstVisibleItem + a < count; a++) {
 			Object item = mUserReviewsAdapter.getItem(firstVisibleItem + a);
 			if (item instanceof ReviewWrapper && !((ReviewWrapper) item).mIsDivider
-					&& !((ReviewWrapper) item).mIsLoadingFooter) {
+				&& !((ReviewWrapper) item).mIsLoadingFooter) {
 				viewedReviews.add(((ReviewWrapper) item).mReview.getReviewId());
 			}
 		}
@@ -367,7 +367,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		rw.mIsLoadingFooter = true;
 
 		if (mUserReviews == null) {
-			mUserReviews = new ArrayList<ReviewWrapper>();
+			mUserReviews = new ArrayList<>();
 		}
 		mUserReviews.add(rw);
 		mUserReviewsUtils.putReviews(mProperty.getPropertyId(), mReviewSort, mUserReviews);
@@ -417,8 +417,8 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	/**
 	 * Wrapper class that stores the review and also extra book-keeping related to how it is displayed
 	 * from within the applications, such as whether or not the review is expanded, and the reduced body
-	 * @author brad
 	 *
+	 * @author brad
 	 */
 	public static class ReviewWrapper {
 		public Review mReview;
@@ -471,12 +471,12 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 	/**
 	 * Fragment listener interface used to communicate what reviews the user looked at for tracking purposes.
-	 * @author brad
 	 *
+	 * @author brad
 	 */
 	public interface UserReviewsFragmentListener {
-		public void onUserReviewsFragmentReady(UserReviewsFragment frag);
-		public void addMoreReviewsSeen(Set<String> reviews);
-	}
+		void onUserReviewsFragmentReady(UserReviewsFragment frag);
 
+		void addMoreReviewsSeen(Set<String> reviews);
+	}
 }

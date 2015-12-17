@@ -14,8 +14,9 @@ import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 
 public class ItineraryGuestAddActivity extends FragmentActivity {
 
-	private static final String TAG_GUEST_ADD_FRAGMENT = "TAG_GUEST_ADD_FRAGMENT";
+	public static final String ERROR_FETCHING_GUEST_ITINERARY = "ERROR_FETCHING_GUEST_ITINERARY";
 
+	private static final String TAG_GUEST_ADD_FRAGMENT = "TAG_GUEST_ADD_FRAGMENT";
 	private ItinGuestAddFragment mAddGuestItinFragment;
 
 	/** Called when the activity is first created. */
@@ -37,13 +38,18 @@ public class ItineraryGuestAddActivity extends FragmentActivity {
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-		setTitle(getString(R.string.find_itinerary));
+		setTitle(getString(R.string.find_guest_itinerary));
 
 		// Create/grab the login fragment
 		mAddGuestItinFragment = Ui.findSupportFragment(this, TAG_GUEST_ADD_FRAGMENT);
 		if (mAddGuestItinFragment == null) {
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			mAddGuestItinFragment = ItinGuestAddFragment.newInstance(new ItineraryLoaderLoginExtender());
+			if (ERROR_FETCHING_GUEST_ITINERARY.equals(this.getIntent().getAction())) {
+				mAddGuestItinFragment = ItinGuestAddFragment.fetchingGuestItinFailedInstance(new ItineraryLoaderLoginExtender());
+			}
+			else {
+				mAddGuestItinFragment = ItinGuestAddFragment.newInstance(new ItineraryLoaderLoginExtender());
+			}
 			ft.add(R.id.fragment_container, mAddGuestItinFragment, TAG_GUEST_ADD_FRAGMENT);
 			ft.commit();
 		}

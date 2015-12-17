@@ -36,7 +36,10 @@
       "discountPercentage": "5",
       "formattedTitle": "the-lion-king-on-broadway.a185492.activity-details",
       "categories": [
-        "Show & Sport Tickets"
+        "Attractions",
+        "Cruises & Water Tours",
+        "Sightseeing Passes",
+        "Tours & Sightseeing"
       ],
       "badgingDiscountPercentage": null
     },
@@ -57,7 +60,7 @@
       "formattedTitle": "explorer-pass-choose-3-4-or-5-museums-attractions-tours.a182983.activity-details",
       "categories": [
         "Attractions",
-        "Hop-on Hop-off",
+        "Cruises & Water Tours",
         "Sightseeing Passes",
         "Tours & Sightseeing"
       ],
@@ -81,7 +84,11 @@
       "discountPercentage": null,
       "formattedTitle": "train-bart-san-francisco-airport-sfo.a201959.activity-details",
       "categories": [
-        "Shared Transfers"
+        "Attractions",
+        "Cruises & Water Tours",
+        "Sightseeing Passes",
+        "Tours & Sightseeing",
+        "Private Transfers"
       ],
       "badgingDiscountPercentage": null,
       "latLng": "37.615223,-122.389979",
@@ -98,10 +105,6 @@
       "displayValue": "Shared Transfers",
       "checked": false
     },
-    "Air, Balloon & Helicopter Tours": {
-      "displayValue": "Air, Balloon & Helicopter Tours",
-      "checked": false
-    },
     "Attractions": {
       "displayValue": "Attractions",
       "checked": false
@@ -110,48 +113,12 @@
       "displayValue": "Cruises & Water Tours",
       "checked": false
     },
-    "Day Trips & Excursions": {
-      "displayValue": "Day Trips & Excursions",
-      "checked": false
-    },
-    "Food & Drink": {
-      "displayValue": "Food & Drink",
-      "checked": false
-    },
-    "Hop-on Hop-off": {
-      "displayValue": "Hop-on Hop-off",
-      "checked": false
-    },
-    "Nightlife": {
-      "displayValue": "Nightlife",
-      "checked": false
-    },
-    "Private Tours": {
-      "displayValue": "Private Tours",
-      "checked": false
-    },
-    "Show & Sport Tickets": {
-      "displayValue": "Show & Sport Tickets",
-      "checked": false
-    },
     "Sightseeing Passes": {
       "displayValue": "Sightseeing Passes",
       "checked": false
     },
-    "Spa": {
-      "displayValue": "Spa",
-      "checked": false
-    },
     "Tours & Sightseeing": {
       "displayValue": "Tours & Sightseeing",
-      "checked": false
-    },
-    "Walking & Bike Tours": {
-      "displayValue": "Walking & Bike Tours",
-      "checked": false
-    },
-    "Multi-day & Extended Tours": {
-      "displayValue": "Multi-Day & Extended Tours",
       "checked": false
     }
   },

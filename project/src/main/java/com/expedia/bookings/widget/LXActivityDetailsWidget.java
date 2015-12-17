@@ -8,7 +8,6 @@ import javax.inject.Inject;
 import org.joda.time.LocalDate;
 
 import android.animation.ObjectAnimator;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.PointF;
 import android.util.AttributeSet;
@@ -20,8 +19,6 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LXMedia;
@@ -51,6 +48,7 @@ import rx.Observer;
 public class LXActivityDetailsWidget extends LXDetailsScrollView implements RecyclerGallery.GalleryItemListener {
 
 	public static final int DURATION = 500;
+
 	@InjectView(R.id.activity_details_container)
 	LinearLayout activityContainer;
 
@@ -73,7 +71,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	LXDetailSectionDataWidget location;
 
 	@InjectView(R.id.offer_dates_container)
-	RadioGroup offerDatesContainer;
+	LinearLayout offerDatesContainer;
 
 	@InjectView(R.id.inclusions)
 	LXDetailSectionDataWidget inclusions;
@@ -156,6 +154,13 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 	@Subscribe
 	public void onDetailsDateChanged(Events.LXDetailsDateChanged event) {
+
+		for (int i = 0; i < offerDatesContainer.getChildCount(); i++) {
+			LXOfferDatesButton button = (LXOfferDatesButton) offerDatesContainer.getChildAt(i);
+			button.setChecked(false);
+		}
+
+		event.buttonSelected.setChecked(true);
 		//  Track Link to track Change of dates.
 		OmnitureTracking.trackLinkLXChangeDate();
 		buildOffersSection(event.dateSelected);
@@ -170,7 +175,8 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		final List<LXMedia> mediaList = new ArrayList<LXMedia>();
 		for (int i = 0; i < activityDetails.images.size(); i++) {
 			List<String> imageURLs = Images
-				.getLXImageURLBasedOnWidth(activityDetails.images.get(i).getImages(), AndroidUtils.getDisplaySize(getContext()).x);
+				.getLXImageURLBasedOnWidth(activityDetails.images.get(i).getImages(),
+					AndroidUtils.getDisplaySize(getContext()).x);
 			LXMedia media = new LXMedia(imageURLs);
 			mediaList.add(media);
 		}
@@ -191,7 +197,8 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		resetSections();
 		if (Strings.isNotEmpty(activityDetailsResponse.description)) {
 			String descriptionContent = StrUtils.stripHTMLTags(activityDetailsResponse.description);
-			description.bindData(getResources().getString(R.string.description_activity_details), descriptionContent, maxLines);
+			description.bindData(getResources().getString(R.string.description_activity_details), descriptionContent,
+				maxLines);
 			description.setVisibility(View.VISIBLE);
 		}
 		if (Strings.isNotEmpty(activityDetailsResponse.location)) {
@@ -201,7 +208,8 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		}
 		if (CollectionUtils.isNotEmpty(activityDetailsResponse.highlights)) {
 			CharSequence highlightsContent = StrUtils.generateBulletedList(activityDetailsResponse.highlights);
-			highlights.bindData(getResources().getString(R.string.highlights_activity_details), highlightsContent, maxLines);
+			highlights
+				.bindData(getResources().getString(R.string.highlights_activity_details), highlightsContent, maxLines);
 			highlights.setVisibility(View.VISIBLE);
 		}
 		if (CollectionUtils.isNotEmpty(activityDetailsResponse.inclusions)) {
@@ -217,7 +225,8 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		if (CollectionUtils.isNotEmpty(activityDetailsResponse.knowBeforeYouBook)) {
 			CharSequence knowBeforeYouBookContent = StrUtils.generateBulletedList(
 				activityDetailsResponse.knowBeforeYouBook);
-			knowBeforeYouBook.bindData(getResources().getString(R.string.know_before_you_book_activity_details), knowBeforeYouBookContent, 0);
+			knowBeforeYouBook.bindData(getResources().getString(R.string.know_before_you_book_activity_details),
+				knowBeforeYouBookContent, 0);
 			knowBeforeYouBook.setVisibility(View.VISIBLE);
 		}
 		String cancellationPolicyText = LXDataUtils
@@ -270,7 +279,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 		for (int iDay = 0; iDay <= numOfDaysToDisplay; iDay++) {
 			if (offerDatesContainer.getChildAt(iDay).isEnabled()) {
-				RadioButton child = (RadioButton) offerDatesContainer.getChildAt(iDay);
+				LXOfferDatesButton child = (LXOfferDatesButton) offerDatesContainer.getChildAt(iDay);
 				child.setChecked(true);
 				buildOffersSection(startDate.plusDays(iDay));
 				selectedDateX = dateButtonWidth * iDay;
@@ -307,7 +316,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	}
 
 	public float getArrowRotationRatio(int scrollY) {
-		return (float) scrollY/ (mInitialScrollTop);
+		return (float) scrollY / (mInitialScrollTop);
 	}
 
 	@Override
@@ -325,7 +334,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 			mInitialScrollTop = getInitialScrollTop();
 		}
-
 	}
 
 	@Override
@@ -364,7 +372,8 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		public void onNext(Offer offer) {
 			LocalDate availabilityDate = DateUtils
 				.yyyyMMddHHmmssToLocalDate(offer.availabilityInfoOfSelectedDate.availabilities.valueDate);
-			String lowestTicketAmount = offer.availabilityInfoOfSelectedDate.getLowestTicket().money.getAmount().toString();
+			String lowestTicketAmount = offer.availabilityInfoOfSelectedDate.getLowestTicket().money.getAmount()
+				.toString();
 
 			for (Ticket ticket : offer.availabilityInfoOfSelectedDate.tickets) {
 				if (ticket.code == LXTicketType.Adult) {
@@ -378,7 +387,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		}
 	};
 
-	@TargetApi(11)
 	private void galleryCounterscroll(int parentScroll) {
 		// Setup interpolator for Gallery counterscroll (if needed)
 		if (mIGalleryScroll == null) {
@@ -398,7 +406,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		galleryContainer.setPivotY(counterscroll + mGalleryHeight / 2);
 
 		galleryContainer.scrollTo(0, -counterscroll);
-
 	}
 
 	@Override
@@ -418,6 +425,5 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		int to = from != 0 ? 0 : mInitialScrollTop;
 		animateScrollY(from, to);
 	}
-
 }
 

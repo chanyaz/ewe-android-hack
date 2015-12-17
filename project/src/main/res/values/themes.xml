@@ -310,41 +310,36 @@
         <item name="skin_tripsTabText">@string/Your_Trips</item>
     </style>
 
-    <!--
-        Override this theme in whitelabels to provide whitelabel specific theme values.
-
-        Note: If any attr which is in AccountLibTheme and need to be customized per whitelabel,
-        that attr should be removed from AccountLibTheme and
-        must be added in all Whitelabel.AccountLibTheme for all whitelabels
-    -->
-    <style name="Whitelabel.AccountLibTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="acct__input_text_error_color">@color/acct__bg_input_text_error</item>
-        <item name="acct__input_text_good_color">@color/acct__bg_input_text_good</item>
-        <item name="acct__sign_in_button_background_drawable">@drawable/acct__bg_btn_sign_in</item>
-        <item name="acct__sign_in_button_text_color">@drawable/ac_color_list</item>
-        <item name="acct__logo_small_drawable">@drawable/acct__logo_small</item>
-        <item name="acct__logo_large_drawable">@drawable/acct__logo_large</item>
-        <item name="acct__logo_text_drawable">@drawable/acct__logo_text</item>
-        <item name="acct__checkmark_good_drawable">@drawable/acct__ic_checkmark</item>
-        <item name="acct__checkmark_warning_drawable">@drawable/acct__ic_warning</item>
+    <!-- Override this theme in whitelabels to provide whitelabel specific theme values. -->
+    <style name="Theme.AccountLib" parent="Theme.Base.AccountLib">
+        <item name="skin_acctLogoSmallDrawable">@drawable/acct__logo_small</item>
+        <item name="skin_acctLogoLargeDrawable">@drawable/acct__logo_large</item>
+        <item name="skin_acctLogoTextDrawable">@drawable/acct__logo_text</item>
         <item name="skin_accountCreationBackgroundDrawable">@drawable/bg_mtfuji_crop</item>
-        <item name="acct__create_account_prompt_string">@string/acct_Create_an_Expedia_account</item>
-        <item name="acct__welcome_message_string">@string/acct_Welcome_to_Expedia</item>
-        <item name="acct__account_already_exists_string">@string/acct_Expedia_account_already_exists</item>
-        <item name="acct__logo_text_drawable_margin_left">6dp</item>
-        <item name="acct__logo_text_drawable_margin_top">5dp</item>
+        <item name="skin_acctLogoTextDrawableMarginLeft">6dp</item>
+        <item name="skin_acctLogoTextDrawableMarginTop">5dp</item>
     </style>
 
     <!--
-        Base app theme for AccountLib, all the properties which are common for all whitelabels should be added here
+        Base app theme for AccountLib, all the properties which
+        are common to all whitelabels should be added here
     -->
-    <style name="AccountLibTheme" parent="Whitelabel.AccountLibTheme">
+    <style name="Theme.Base.AccountLib" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowIsTranslucent">true</item>
-        <item name="acct__flavor_text_color">@color/acct__flavor_text</item>
-        <item name="acct__input_text_default_color">@color/acct__bg_input_text_default</item>
-        <item name="acct__toolbar_icon_color">@color/toolbar_icon</item>
-        <item name="acct__user_info_text_color">@color/acct__user_info_text_color</item>
-        <item name="acct__welcome_text_color">@color/acct__user_info_text_color</item>
+        <item name="skin_acctFlavorTextColor">@color/acct__flavor_text</item>
+        <item name="skin_acctInputTextDefaultColor">@color/acct__bg_input_text_default</item>
+        <item name="skin_acctToolbarIconColor">@color/toolbar_icon</item>
+        <item name="skin_acctUserInfoTextColor">@color/acct__user_info_text_color</item>
+        <item name="skin_acctWelcomeTextColor">@color/acct__user_info_text_color</item>
+        <item name="skin_acctInputTextErrorColor">@color/acct__bg_input_text_error</item>
+        <item name="skin_acctInputTextGoodColor">@color/acct__bg_input_text_good</item>
+        <item name="skin_acctSignInButtonBackgroundDrawable">@drawable/acct__bg_btn_sign_in</item>
+        <item name="skin_acctSignInButtonTextColor">@drawable/ac_color_list</item>
+        <item name="skin_acctCheckmarkGoodDrawable">@drawable/acct__ic_checkmark</item>
+        <item name="skin_acctCheckmarkWarningDrawable">@drawable/acct__ic_warning</item>
+        <item name="skin_acctLogoTextDrawableMarginLeft">0dp</item>
+        <item name="skin_acctLogoTextDrawableMarginTop">0dp</item>
+        <item name="skin_acctBrand">@string/app_name</item>
     </style>
 
     <style name="LaunchOverflowStyle" parent="Widget.AppCompat.ActionButton.Overflow">

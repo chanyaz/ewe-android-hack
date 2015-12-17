@@ -2,11 +2,9 @@ package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -22,24 +20,25 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
 /**
- *	SwipeOutLayout - a class for allowing us to drag a view a short distance
- *	revealing a view of equal or smaller size behind it, reporting its state to
- *	n listeners.
- *
- *   SwipeOutLayout must be defined with exactly two children having ids: R.id.swipe_out_content and R.id.swipe_out_indicator
- *
- *   SwipeOutLayout is expected to be defined in xml, and to have the following property app:swipeOutDirection="east" where east
- *   can be any of north,south,east,west.
- *
- *   This was developed as a way to remove an item from a collection.
- *   E.g. We drag our view to the left, revealing a red x symbol, and when the user lets go a trip is removed.
- *
+ * SwipeOutLayout - a class for allowing us to drag a view a short distance
+ * revealing a view of equal or smaller size behind it, reporting its state to
+ * n listeners.
+ * <p/>
+ * SwipeOutLayout must be defined with exactly two children having ids: R.id.swipe_out_content and R.id.swipe_out_indicator
+ * <p/>
+ * SwipeOutLayout is expected to be defined in xml, and to have the following property app:swipeOutDirection="east" where east
+ * can be any of north,south,east,west.
+ * <p/>
+ * This was developed as a way to remove an item from a collection.
+ * E.g. We drag our view to the left, revealing a red x symbol, and when the user lets go a trip is removed.
  */
-@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
 public class SwipeOutLayout extends FrameLayout {
 
 	public enum Direction {
-		NORTH, SOUTH, EAST, WEST
+		NORTH,
+		SOUTH,
+		EAST,
+		WEST
 	}
 
 	private ArrayList<ISwipeOutListener> mListeners = new ArrayList<ISwipeOutListener>();
@@ -65,13 +64,11 @@ public class SwipeOutLayout extends FrameLayout {
 	Rect mLayoutRectIndicator = new Rect();
 
 	public SwipeOutLayout(Context context) {
-		super(context);
-		init(context, null);
+		this(context, null);
 	}
 
 	public SwipeOutLayout(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		init(context, attrs);
+		this(context, attrs, 0);
 	}
 
 	public SwipeOutLayout(Context context, AttributeSet attrs, int defStyle) {
@@ -86,7 +83,7 @@ public class SwipeOutLayout extends FrameLayout {
 
 			if (ta.hasValue(R.styleable.EBSwipeOutLayout_EBSwipeOutDirection)) {
 				Direction direction = Direction.values()[ta.getInt(R.styleable.EBSwipeOutLayout_EBSwipeOutDirection,
-						mSwipeDirection.ordinal())];
+					mSwipeDirection.ordinal())];
 				setSwipeDirection(direction);
 				mSwipeEnabled = true;
 			}
@@ -111,7 +108,7 @@ public class SwipeOutLayout extends FrameLayout {
 
 		if (mContentView == null || mSwipeOutView == null || getChildCount() != 2) {
 			throw new RuntimeException(
-					"SwipeOutLayout must be defined with exactly two children having ids: R.id.swipe_out_content and R.id.swipe_out_indicator (custom ids are possible if set via attributes)");
+				"SwipeOutLayout must be defined with exactly two children having ids: R.id.swipe_out_content and R.id.swipe_out_indicator (custom ids are possible if set via attributes)");
 		}
 
 		mContentView.bringToFront();
@@ -126,11 +123,11 @@ public class SwipeOutLayout extends FrameLayout {
 		int childMeasureSpecH = heightMeasureSpec;
 		if (MeasureSpec.getMode(childMeasureSpecW) != MeasureSpec.UNSPECIFIED) {
 			childMeasureSpecW = MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(childMeasureSpecW) - getPaddingLeft()
-					- getPaddingRight(), MeasureSpec.getMode(childMeasureSpecW));
+				- getPaddingRight(), MeasureSpec.getMode(childMeasureSpecW));
 		}
 		if (MeasureSpec.getMode(childMeasureSpecH) != MeasureSpec.UNSPECIFIED) {
 			childMeasureSpecH = MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(childMeasureSpecH) - getPaddingTop()
-					- getPaddingBottom(), MeasureSpec.getMode(childMeasureSpecH));
+				- getPaddingBottom(), MeasureSpec.getMode(childMeasureSpecH));
 		}
 		measureChildren(childMeasureSpecW, childMeasureSpecH);
 
@@ -195,36 +192,32 @@ public class SwipeOutLayout extends FrameLayout {
 
 		//The remaining values to compute are direction specific
 		switch (mSwipeDirection) {
-		case NORTH: {
+		case NORTH:
 			mLayoutRectContent.top += swipeOutHeight;
 			mLayoutRectContent.bottom += swipeOutHeight + heightNoPad;
 			mLayoutRectIndicator.top += heightNoPad - swipeOutHeight;
 			mLayoutRectIndicator.bottom += heightNoPad;
 			break;
-		}
-		case SOUTH: {
+		case SOUTH:
 			mLayoutRectContent.bottom += heightNoPad;
 			mLayoutRectIndicator.bottom += swipeOutHeight;
 			break;
-		}
-		case EAST: {
+		case EAST:
 			mLayoutRectContent.right += widthNoPad;
 			mLayoutRectIndicator.right += swipeOutWidth;
 			break;
-		}
-		case WEST: {
+		case WEST:
 			mLayoutRectContent.left += swipeOutWidth;
 			mLayoutRectContent.right += swipeOutWidth + widthNoPad;
 			mLayoutRectIndicator.left += widthNoPad - swipeOutWidth;
 			mLayoutRectIndicator.right += widthNoPad;
 			break;
 		}
-		}
 
 		mContentView.layout(mLayoutRectContent.left, mLayoutRectContent.top, mLayoutRectContent.right,
-				mLayoutRectContent.bottom);
+			mLayoutRectContent.bottom);
 		mSwipeOutView.layout(mLayoutRectIndicator.left, mLayoutRectIndicator.top, mLayoutRectIndicator.right,
-				mLayoutRectIndicator.bottom);
+			mLayoutRectIndicator.bottom);
 	}
 
 	@Override
@@ -246,35 +239,11 @@ public class SwipeOutLayout extends FrameLayout {
 		return mSwipeDirection;
 	}
 
-	public float getSwipeOutThresholdPercentage() {
-		return mSwipeOutThreshold;
-	}
-
-	public boolean getSwipeEnabled() {
-		return mSwipeEnabled;
-	}
-
-	public boolean getAlwaysSnapBack() {
-		return mAlwaysSnapBack;
-	}
-
-	public View getContentView() {
-		return mContentView;
-	}
-
-	public View getSwipeOutView() {
-		return mSwipeOutView;
-	}
-
 	/*
 	 * MUTATORS
 	 */
 	public void setSwipeEnabled(boolean enabled) {
 		mSwipeEnabled = enabled;
-	}
-
-	public void setAlwaysSnapBack(boolean alwaysSnapBack) {
-		mAlwaysSnapBack = alwaysSnapBack;
 	}
 
 	public void setSwipeOutThresholdPercentage(float percentage) {
@@ -309,19 +278,15 @@ public class SwipeOutLayout extends FrameLayout {
 
 	public interface ISwipeOutListener {
 
-		public void onSwipeStateChange(int oldState, int newState);
+		void onSwipeStateChange(int oldState, int newState);
 
-		public void onSwipeUpdate(float percentage);
+		void onSwipeUpdate(float percentage);
 
-		public void onSwipeAllTheWay();
+		void onSwipeAllTheWay();
 	}
 
 	public void addListener(ISwipeOutListener listener) {
 		mListeners.add(listener);
-	}
-
-	public void removeListener(ISwipeOutListener listener) {
-		mListeners.remove(listener);
 	}
 
 	public void clearListeners() {
@@ -358,7 +323,6 @@ public class SwipeOutLayout extends FrameLayout {
 	/*
 	 * TOUCH HANDLING
 	 */
-
 	public void stopTouchSteals(boolean stopSteals) {
 		LinearLayout parentView = (LinearLayout) getParent();
 		if (parentView != null) {
@@ -543,10 +507,9 @@ public class SwipeOutLayout extends FrameLayout {
 		}
 
 		private void setAlpha(float translation) {
-			float alpha = (mMaxSlideOutDistance - translation)/mMaxSlideOutDistance;
+			float alpha = (mMaxSlideOutDistance - translation) / mMaxSlideOutDistance;
 			mContentView.setAlpha(alpha);
 		}
-
 	}
 
 	private float mStartX, mStartY;

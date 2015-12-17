@@ -1,6 +1,6 @@
 package com.expedia.bookings.fragment.base;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 
@@ -13,18 +13,18 @@ public class MeasurableFragment extends Fragment implements Measurable {
 	private MeasurableFragmentHelper mHelper;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mHelper = new MeasurableFragmentHelper(this);
-		mHelper.onAttach(activity);
+		mHelper.onAttach();
 	}
 
 	@Override
 	public void onViewCreated(final View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 
-		mHelper.onViewCreated(view, savedInstanceState);
+		mHelper.onViewCreated(view);
 	}
 
 	@Override
@@ -48,5 +48,4 @@ public class MeasurableFragment extends Fragment implements Measurable {
 	public boolean isMeasurable() {
 		return mHelper.isMeasurable();
 	}
-
 }

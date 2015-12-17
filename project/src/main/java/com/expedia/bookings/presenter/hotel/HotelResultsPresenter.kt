@@ -23,6 +23,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
@@ -70,6 +71,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.maps.android.ui.IconGenerator
 import com.mobiata.android.LocationServices
 import org.joda.time.DateTime
 import rx.Observable
@@ -87,15 +89,16 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var mapView: MapView by Delegates.notNull()
     val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
     val filterView: HotelFilterView by bindView(R.id.filter_view)
-    val toolbar: Toolbar by bindView(R.id.toolbar)
+    val toolbar: Toolbar by bindView(R.id.hotel_results_toolbar)
     val toolbarTitle by lazy { toolbar.getChildAt(2) }
     val toolbarSubtitle by lazy { toolbar.getChildAt(3) }
     val recyclerTempBackground: View by bindView(R.id.recycler_view_temp_background)
-    val mapCarouselContainer: View by bindView(R.id.hotel_carousel_container)
+    val mapCarouselContainer: ViewGroup by bindView(R.id.hotel_carousel_container)
     val mapCarouselRecycler: HotelCarouselRecycler by bindView(R.id.hotel_carousel)
     val fab: FloatingActionButton by bindView(R.id.fab)
     var adapter: HotelListAdapter by Delegates.notNull()
     val filterBtn: LinearLayout by bindView(R.id.filter_btn)
+
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     private val DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION = 200L
@@ -120,7 +123,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     var filterCountText: TextView by Delegates.notNull()
     var filterPlaceholderImageView: ImageView by Delegates.notNull()
     val filterPlaceholderIcon by lazy {
-        val sortDrawable = resources.getDrawable(R.drawable.sort).mutate()
+        val sortDrawable = ContextCompat.getDrawable(context, R.drawable.sort).mutate()
         sortDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         sortDrawable
     }
@@ -133,9 +136,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     val searchThisArea: Button by bindView(R.id.search_this_area)
 
-    val mapViewModel = HotelResultsMapViewModel(resources, lastBestLocationSafe())
+    val iconFactory = IconGenerator(context)
+    val mapViewModel = HotelResultsMapViewModel(context, lastBestLocationSafe(), iconFactory)
     var markers = arrayListOf<Marker>()
-
     private val ANIMATION_DURATION_FILTER = 500
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
@@ -261,7 +264,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         }
         return super.back()
     }
-
+    var hotels = emptyList<Hotel>()
     init {
         View.inflate(getContext(), R.layout.widget_hotel_results, this)
         ViewCompat.setElevation(loadingOverlay, context.resources.getDimension(R.dimen.launch_tile_margin_side))
@@ -273,50 +276,27 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
-        toolbar.setBackgroundColor(resources.getColor(R.color.hotels_primary_color))
+        toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
         toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
         toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
 
         mapCarouselRecycler.adapter = HotelMapCarouselAdapter(emptyList(), hotelSelectedSubject)
 
-        mapViewModel.sortedHotelsObservable.subscribe {
+        mapViewModel.markersObservable.subscribe {
             mapViewModel.selectMarker.onNext(null)
-            val hotels = it
-            Observable.just(it).subscribeOn(Schedulers.io())
-                    .map {
-                        var options = ArrayList<MarkerOptions>()
-                        //createHotelMarkerIcon should run in a separate thread since its heavy and hangs on the UI thread
-                        it.forEach {
-                            hotel ->
-                            val bitmap = createHotelMarkerIcon(resources, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut)
-                            val option = MarkerOptions()
-                                    .position(LatLng(hotel.latitude, hotel.longitude))
-                                    .icon(bitmap)
-                                    .title(hotel.hotelId)
-                            options.add(option)
-                        }
-                        options
-                    }
-                    .observeOn(AndroidSchedulers.mainThread())
-                    //add the markers on the UI thread
-                    .subscribe {
-                        markers.clear()
-                        googleMap?.clear()
+            hotels = it
+            if (!ExpediaBookingApp.isDeviceShitty() || Strings.equals(currentState, ResultsMap::class.java.name)) {
+                googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
+                createMarkers()
+            } else {
+                googleMap?.mapType = GoogleMap.MAP_TYPE_NONE
+                clearMarkers()
+            }
+        }
 
-                        it.forEach {
-                            val option = it
-                            val marker = googleMap?.addMarker(option)
-                            if (marker != null) markers.add(marker)
-                        }
-                        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotels)
-                        mapCarouselRecycler.scrollToPosition(0)
-                        val markersForHotel = markers.filter { it.title == hotels.first().hotelId }
-                        if (markersForHotel.isNotEmpty()) {
-                            val marker = markersForHotel.first()
-                            mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
-                        }
-                    }
-
+        mapViewModel.sortedHotelsObservable.subscribe {
+            hotels = it
+            updateCarousel()
         }
 
         mapViewModel.soldOutHotel.subscribe { hotel ->
@@ -334,11 +314,52 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
     }
 
+    fun clearMarkers() {
+        markers.clear()
+        googleMap?.clear()
+    }
+
+    fun createMarkers() {
+        clearMarkers()
+        if (hotels.isEmpty()) {
+            return
+        }
+
+        var options = ArrayList<MarkerOptions>()
+        hotels.forEach {
+            hotel ->
+            val bitmap = createHotelMarkerIcon(context, iconFactory, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut)
+            val option = MarkerOptions()
+                    .position(LatLng(hotel.latitude, hotel.longitude))
+                    .icon(bitmap)
+                    .title(hotel.hotelId)
+            options.add(option)
+        }
+
+        options.forEach {
+            val option = it
+            val marker = googleMap?.addMarker(option)
+            if (marker != null) markers.add(marker)
+        }
+        
+        updateCarousel()
+    }
+
+    fun updateCarousel() {
+        (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(hotels)
+        mapCarouselRecycler.scrollToPosition(0)
+        val markersForHotel = markers.filter { it.title == hotels.first().hotelId }
+        if (markersForHotel.isNotEmpty()) {
+            val prevMarker = mapViewModel.selectMarker.value
+            if (prevMarker != null) {
+                mapViewModel.unselectedMarker.onNext(prevMarker)
+            }
+            val marker = markersForHotel.first()
+            mapViewModel.selectMarker.onNext(Pair(marker, hotels.first()))
+        }
+    }
+
     override fun onFinishInflate() {
-
-        //Store a pointer instead of invoking the getResources() function behind the resources property each usage
-        val res = resources
-
         // add the view of same height as of status bar
         val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
@@ -444,7 +465,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 override fun onCancel() {
                 }
             })
-
         }
     }
 
@@ -628,7 +648,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     private val adapterListener = object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             recyclerView.viewTreeObserver.removeOnGlobalLayoutListener(this)
-            screenHeight = if (ExpediaBookingApp.isAutomation()) { 0 } else { height }
+            screenHeight = if (ExpediaBookingApp.isAutomation())  { 0 } else { height }
             screenWidth = if (ExpediaBookingApp.isAutomation()) { 0f } else { width.toFloat() }
 
             halfway = (height / 4.1).toInt()
@@ -738,12 +758,20 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                     mapView.translationY = -halfway.toFloat()
                     adjustGoogleMapLogo()
                     filterBtnWithCountWidget.translationY = 0f
+                    if (ExpediaBookingApp.isDeviceShitty()) {
+                        googleMap?.mapType = GoogleMap.MAP_TYPE_NONE
+                        clearMarkers()
+                    }
                 } else {
                     fab.translationY = -(mapCarouselContainer.height.toFloat() - resources.getDimension(R.dimen.hotel_filter_height).toInt())
                     mapView.translationY = 0f
                     recyclerView.translationY = screenHeight.toFloat()
                     googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height)
                     filterBtnWithCountWidget.translationY = resources.getDimension(R.dimen.hotel_filter_height)
+                    if (ExpediaBookingApp.isDeviceShitty()) {
+                        googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
+                        createMarkers()
+                    }
                 }
             }
         }
@@ -1029,7 +1057,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     fun showSearchThisArea(duration: Long = DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION) {
-        if (currentState?.equals(javaClass<ResultsMap>().name) ?: false && searchThisArea.visibility == View.GONE) {
+        if (currentState?.equals(ResultsMap::class.java.name) ?: false && searchThisArea.visibility == View.GONE) {
             searchThisArea.visibility = View.VISIBLE
             ObjectAnimator.ofFloat(searchThisArea, "alpha", 0f, 1f).setDuration(duration).start()
         }

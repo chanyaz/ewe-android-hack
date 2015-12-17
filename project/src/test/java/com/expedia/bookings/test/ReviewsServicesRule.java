@@ -7,6 +7,7 @@ import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
+import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.ReviewsServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
@@ -29,7 +30,7 @@ public class ReviewsServicesRule implements TestRule {
 		Statement createService = new Statement() {
 			@Override
 			public void evaluate() throws Throwable {
-				service = new ReviewsServices("http://localhost:" + server.getPort(), new OkHttpClient(), Schedulers
+				service = new ReviewsServices("http://localhost:" + server.getPort(), new OkHttpClient(), new MockInterceptor(), Schedulers
 					.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL);
 				base.evaluate();
 				service = null;

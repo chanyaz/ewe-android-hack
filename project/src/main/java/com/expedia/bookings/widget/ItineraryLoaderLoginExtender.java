@@ -102,32 +102,32 @@ public class ItineraryLoaderLoginExtender extends LoginExtender implements Itine
 
 	@Override
 	public void onTripAdded(Trip trip) {
-		// TODO Auto-generated method stub
-
+		// Do nothing
 	}
 
 	@Override
 	public void onTripUpdated(Trip trip) {
-		// TODO Auto-generated method stub
+		// Do nothing
+	}
 
+	@Override
+	public void onTripFailedFetchingGuestItinerary() {
+		// Do nothing
 	}
 
 	@Override
 	public void onTripUpdateFailed(Trip trip) {
-		// TODO Auto-generated method stub
-
+		mCurrentSyncHasErrors = true;
 	}
 
 	@Override
 	public void onTripRemoved(Trip trip) {
-		// TODO Auto-generated method stub
-
+		// Do nothing
 	}
 
 	@Override
 	public void onSyncFailure(final SyncError error) {
 		mCurrentSyncHasErrors = true;
-
 	}
 
 	@Override

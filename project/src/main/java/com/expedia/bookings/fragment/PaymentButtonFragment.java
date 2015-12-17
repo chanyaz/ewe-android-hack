@@ -1,6 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -40,9 +40,11 @@ public class PaymentButtonFragment extends LobableFragment {
 	}
 
 	public interface IPaymentButtonListener {
-		public void onCreditCardEditButtonPressed();
-		public void onAddNewCreditCardSelected();
-		public void onStoredCreditCardChosen();
+		void onCreditCardEditButtonPressed();
+
+		void onAddNewCreditCardSelected();
+
+		void onStoredCreditCardChosen();
 	}
 
 	private ViewGroup mEmptyPaymentBtn;
@@ -65,8 +67,8 @@ public class PaymentButtonFragment extends LobableFragment {
 	private StoredCreditCardSpinnerAdapter mStoredCreditCardAdapter;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mPaymentButtonListener = Ui.findFragmentListener(this, IPaymentButtonListener.class);
 	}
 

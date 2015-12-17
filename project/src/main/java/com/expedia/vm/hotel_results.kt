@@ -23,11 +23,11 @@ import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
+import com.google.maps.android.ui.IconGenerator
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import kotlin.properties.Delegates
 
 public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices) {
 
@@ -70,7 +70,7 @@ public class HotelResultsViewModel(private val context: Context, private val hot
     }
 
     private fun doSearch(params: HotelSearchParams) {
-        titleSubject.onNext(params.suggestion?.regionNames?.shortName)
+        titleSubject.onNext(params.suggestion.regionNames?.shortName)
 
         subtitleSubject.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
                 .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
@@ -125,7 +125,7 @@ public class HotelResultsPricingStructureHeaderViewModel(private val resources: 
         }
 
         resultsDeliveredObserver.subscribe { response ->
-            val hotelResultsCount = response.hotelList?.size() ?: 0
+            val hotelResultsCount = response.hotelList?.size ?: 0
             val header =
                     when (response.userPriceType) {
                         HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> resources.getQuantityString(R.plurals.hotel_results_pricing_header_total_price_for_stay_TEMPLATE, hotelResultsCount, hotelResultsCount)
@@ -137,7 +137,7 @@ public class HotelResultsPricingStructureHeaderViewModel(private val resources: 
     }
 }
 
-public class HotelResultsMapViewModel(val resources: Resources, val currentLocation: Location) {
+public class HotelResultsMapViewModel(val context: Context, val currentLocation: Location, val factory: IconGenerator) {
 
     var hotels: List<Hotel> = emptyList()
 
@@ -175,19 +175,19 @@ public class HotelResultsMapViewModel(val resources: Resources, val currentLocat
             location.latitude = currentRegion.latitude
             location.longitude = currentRegion.longitude
             val sortedHotels = sortByLocation(location, hotels)
-            sortedHotelsObservable.onNext(sortedHotels)
+            markersObservable.onNext(sortedHotels)
         }
 
         hotelResultsSubject.subscribe { response ->
             hotels = response.hotelList
-            if (response.hotelList != null && response.hotelList.size() > 0) {
+            if (response.hotelList != null && response.hotelList.size > 0) {
                 newBoundsObservable.onNext(getMapBounds(response))
             }
         }
 
         mapResultsSubject.subscribe { response ->
             hotels = response.hotelList
-            sortedHotelsObservable.onNext(hotels)
+            markersObservable.onNext(hotels)
         }
 
         mapPinSelectSubject.subscribe {
@@ -212,7 +212,7 @@ public class HotelResultsMapViewModel(val resources: Resources, val currentLocat
             if (it != null) {
                 val marker = it.first
                 val hotel = it.second
-                marker?.setIcon(createHotelMarkerIcon(resources, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
+                marker?.setIcon(createHotelMarkerIcon(context, factory, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
             }
         }
 
@@ -220,7 +220,7 @@ public class HotelResultsMapViewModel(val resources: Resources, val currentLocat
             if (it != null) {
                 val marker = it.first
                 val hotel = it.second
-                marker?.setIcon(createHotelMarkerIcon(resources, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
+                marker?.setIcon(createHotelMarkerIcon(context, factory, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
             }
         }
 
@@ -228,7 +228,7 @@ public class HotelResultsMapViewModel(val resources: Resources, val currentLocat
             if (it != null) {
                 val marker = it.first
                 val hotel = it.second
-                marker?.setIcon(createHotelMarkerIcon(resources, hotel, true, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
+                marker?.setIcon(createHotelMarkerIcon(context, factory, hotel, true, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
                 marker?.showInfoWindow()
             }
         }

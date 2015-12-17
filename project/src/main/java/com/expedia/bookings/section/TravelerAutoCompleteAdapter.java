@@ -1,8 +1,5 @@
 package com.expedia.bookings.section;
 
-import java.util.ArrayList;
-import java.util.Locale;
-
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
@@ -20,8 +17,12 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.TravelerIconUtils;
 import com.mobiata.android.util.Ui;
+
+import java.util.ArrayList;
+import java.util.Locale;
 
 public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implements Filterable {
 
@@ -32,7 +33,6 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 	private TravelersFilter mFilter = new TravelersFilter();
 	private String mFilterStr;
-	private int mTravelerNumber = -1;
 
 	private boolean isAddTravelerEnabled = true;
 	private int mTravelerBackgroundDrawable = R.drawable.traveler_circle;
@@ -76,25 +76,11 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 		return null;
 	}
 
-	public void setTravelerNumber(int travelerNumber) {
-		mTravelerNumber = travelerNumber;
-	}
-
-	public Traveler getItemFromId(long id) {
-		if (Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null) {
-			for (Traveler trav : Db.getUser().getAssociatedTravelers()) {
-				if (trav.getTuid() == id) {
-					return trav;
-				}
-			}
-		}
-		return null;
-	}
-
 	private static class ViewHolder {
 		TextView tv;
 		TextView initials;
 		ImageView icon;
+
 		public ViewHolder(View v) {
 			tv = Ui.findView(v, R.id.text1);
 			icon = Ui.findView(v, R.id.icon);
@@ -204,14 +190,12 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 					continue;
 				}
 			}
-
+			if (availableTravelers.size() == 1 && Strings.isEmpty(availableTravelers.get(0).getFullName())) {
+				return new ArrayList<>();
+			}
 			return availableTravelers;
 		}
-		return new ArrayList<Traveler>();
-	}
-
-	public void clearFilter() {
-		mFilterStr = "";
+		return new ArrayList<>();
 	}
 
 	@Override

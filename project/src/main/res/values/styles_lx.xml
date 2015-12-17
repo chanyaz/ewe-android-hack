@@ -102,7 +102,6 @@
     <style name="DateRadioButton" parent="V2.Theme.LX">
         <item name="android:padding">10dp</item>
         <item name="android:background">?attr/skin_lxOfferDateSelectorDrawable</item>
-        <item name="android:button">@android:color/transparent</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@drawable/lx_offer_date_text_selector</item>
     </style>

@@ -1,6 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
@@ -26,8 +26,8 @@ public class SuggestionsFragment extends ListFragment {
 	private CharSequence mTextToFilter = "";
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, SuggestionsFragmentListener.class);
 	}
@@ -84,6 +84,6 @@ public class SuggestionsFragment extends ListFragment {
 	// Listener
 
 	public interface SuggestionsFragmentListener {
-		public void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion);
+		void onSuggestionClicked(Fragment fragment, SuggestionV2 suggestion);
 	}
 }

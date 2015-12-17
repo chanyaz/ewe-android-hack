@@ -23,11 +23,11 @@ import android.widget.LinearLayout
 import android.widget.ImageButton
 import android.widget.RelativeLayout
 import android.widget.ImageView
-import com.expedia.android.rangeseekbar.RangeSeekBar
-import com.expedia.bookings.R
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.Strings
+import com.expedia.android.rangeseekbar.RangeSeekBar
+import com.expedia.bookings.R
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.utils.Ui
@@ -66,7 +66,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val filterContainer: ViewGroup by bindView(R.id.filter_container)
     val doneButton: Button by lazy {
         val button = LayoutInflater.from(context).inflate(R.layout.toolbar_checkmark_item, null) as Button
-        button.setTextColor(resources.getColor(R.color.cars_actionbar_text_color))
+        button.setTextColor(ContextCompat.getColor(context, R.color.cars_actionbar_text_color))
         button.setText(R.string.done)
 
         val icon = ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp).mutate()
@@ -125,16 +125,16 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
         vm.finishClear.subscribe {
             //check if filterHotelName is empty to avoid calling handleFiltering
-            if (filterHotelName.text.length() > 0) filterHotelName.text = ""
+            if (filterHotelName.text.length > 0) filterHotelName.text = ""
             resetStars()
 
             filterHotelVip.isChecked = false
 
             for (i in 0..amenityContainer.childCount - 1) {
                 val v = amenityContainer.getChildAt(i)
-                if (v is HotelAmenityFilter && v.isSelected) {
-                    v.isSelected = false
-                    v.changeColor(resources.getColor(R.color.hotelsv2_checkout_text_color))
+                if (v is HotelAmenityFilter && v.amenitySelected) {
+                    v.amenitySelected = false
+                    v.changeColor(ContextCompat.getColor(context, R.color.hotelsv2_checkout_text_color))
                 }
             }
 
@@ -241,7 +241,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
         sortByButtonGroup.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                val sort = Sort.values()[position]
+                val sort = Sort.values[position]
                 vm.userFilterChoices.userSort = sort
             }
 
@@ -259,13 +259,13 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
         vm.neighborhoodListObservable.subscribe { list ->
             neighborhoodContainer.removeAllViews()
-            if (list != null && list.size() > 1) {
+            if (list != null && list.size > 1) {
                 neighborhoodLabel.visibility = View.VISIBLE
-                if (list.size() > 4) {
+                if (list.size > 4) {
                     neighborhoodMoreLessView.visibility = View.VISIBLE
                 }
 
-                for (i in 1..list.size() - 1) {
+                for (i in 1..list.size - 1) {
                     val neighborhoodView = LayoutInflater.from(getContext()).inflate(R.layout.section_hotel_neighborhood_row, neighborhoodContainer, false) as HotelsNeighborhoodFilter
                     neighborhoodView.bind(list.get(i), vm)
                     neighborhoodView.subscribeOnClick(neighborhoodView.checkObserver)
@@ -336,7 +336,6 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
                 v.visibility = View.GONE
             }
         }
-
     }
 
     init {
@@ -389,11 +388,11 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     fun starSelection(star: ImageButton, background: View, value: Int) {
         clearHotelNameFocus()
         if (value < 0) {
-            star.setColorFilter(resources.getColor(android.R.color.white))
-            background.setBackgroundColor(resources.getColor(R.color.hotels_primary_color))
+            star.setColorFilter(ContextCompat.getColor(context, android.R.color.white))
+            background.setBackgroundColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
         } else {
-            star.setColorFilter(resources.getColor(R.color.hotels_primary_color))
-            background.setBackgroundColor(resources.getColor(android.R.color.white))
+            star.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color))
+            background.setBackgroundColor(ContextCompat.getColor(context, android.R.color.white))
         }
     }
 
@@ -403,10 +402,10 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     }
 
     private fun setCircleDrawableForRatingBtnBackground() {
-        filterStarOne.setImageDrawable(resources.getDrawable(R.drawable.btn_filter_rating_one_circle));
-        filterStarTwo.setImageDrawable(resources.getDrawable(R.drawable.btn_filter_rating_two_circle));
-        filterStarThree.setImageDrawable(resources.getDrawable(R.drawable.btn_filter_rating_three_circle));
-        filterStarFour.setImageDrawable(resources.getDrawable(R.drawable.btn_filter_rating_four_circle));
-        filterStarFive.setImageDrawable(resources.getDrawable(R.drawable.btn_filter_rating_five_circle));
+        filterStarOne.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.btn_filter_rating_one_circle));
+        filterStarTwo.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.btn_filter_rating_two_circle));
+        filterStarThree.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.btn_filter_rating_three_circle));
+        filterStarFour.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.btn_filter_rating_four_circle));
+        filterStarFive.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.btn_filter_rating_five_circle));
     }
 }

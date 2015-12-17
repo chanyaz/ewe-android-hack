@@ -5,13 +5,11 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,7 +28,6 @@ import com.expedia.bookings.interfaces.IStateProvider;
 import com.expedia.bookings.interfaces.helpers.StateListenerCollection;
 import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class FruitList extends ListView implements OnScrollListener, IStateProvider<ResultsListState> {
 	//Constants
 	private static final int DURATION_SNAP_TO_POS = 100;
@@ -38,7 +35,6 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 	//Our heights
 	private int mTotalHeight = 0;
 	private int mHeaderSpacerHeight = 0;
-	private int mFooterSpacerHeight = 0;
 
 	//How big is our top spacer - default to 46% of the height
 	private float mTopSpacerPercentage = 0.46f;
@@ -89,7 +85,8 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 				setTopSpacePixels(a.getDimension(R.styleable.FruitList_headerSpaceSize, mTopSpacerPixels));
 			}
 			else {
-				setTopSpacePercentage(a.getFraction(R.styleable.FruitList_headerSpacePercentage, 1, 1, mTopSpacerPercentage));
+				setTopSpacePercentage(
+					a.getFraction(R.styleable.FruitList_headerSpacePercentage, 1, 1, mTopSpacerPercentage));
 			}
 			a.recycle();
 		}
@@ -235,7 +232,6 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 	}
 
 	private void setFooterSpacerHeight(int height) {
-		mFooterSpacerHeight = height;
 		setSpacerViewHeight(mFooterSpacer, height);
 	}
 
@@ -387,10 +383,6 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 
 	public void gotoTop(int duration) {
 		setScrollDownPercentage(0f, duration);
-	}
-
-	public void gotoBottom(int duration) {
-		setScrollDownPercentage(1f, duration);
 	}
 
 	private void setListScroll(float percentage, boolean fromOutside) {
@@ -623,10 +615,6 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 		return mHeaderSpacerHeight;
 	}
 
-	public int getListDistanceFromTop() {
-		return (int) (getScrollDownPercentage() * mHeaderSpacerHeight);
-	}
-
 	public boolean isUserInteraction() {
 		return mIsTouching || mIsFlinging;
 	}
@@ -651,7 +639,7 @@ public class FruitList extends ListView implements OnScrollListener, IStateProvi
 
 	@Override
 	public void updateStateTransition(ResultsListState stateOne, ResultsListState stateTwo,
-									  float percentage) {
+		float percentage) {
 		mStateListeners.updateStateTransition(stateOne, stateTwo, percentage);
 	}
 

@@ -17,11 +17,11 @@ public class HotelRoomRateViewFactory() {
         val viewsPool: ArrayList<HotelRoomRateView> = ArrayList()
 
         fun makeHotelRoomRateView(context: Context, scrollAncestor: ScrollView, rowTopConstraintViewObservable: Observable<View>, selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>, rowIndex: Int,
-                    hotelId: String, hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, amenity: String, rowExpanding: PublishSubject<Int>): HotelRoomRateView {
+                    hotelId: String, hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, amenity: String, rowExpanding: PublishSubject<Int>, hasETP: Boolean): HotelRoomRateView {
 
             val poolOfViews = viewsPool
 
-            if (rowIndex < poolOfViews.size()) {
+            if (rowIndex < poolOfViews.size) {
                 val view = poolOfViews.get(rowIndex)
                 view.viewRoom.isChecked = false
                 view.viewSetup(scrollAncestor, rowTopConstraintViewObservable, rowIndex)
@@ -30,7 +30,7 @@ public class HotelRoomRateViewFactory() {
             }
             else {
                 val view = HotelRoomRateView(context, scrollAncestor, rowTopConstraintViewObservable, rowIndex)
-                view.viewmodel = HotelRoomRateViewModel(context, hotelId, hotelRoomResponse, amenity, rowIndex, rowExpanding, selectedRoomObserver)
+                view.viewmodel = HotelRoomRateViewModel(context, hotelId, hotelRoomResponse, amenity, rowIndex, rowExpanding, selectedRoomObserver, hasETP)
 
                 poolOfViews.add(view)
                 return view

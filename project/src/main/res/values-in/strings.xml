@@ -115,6 +115,8 @@
     <string name="hotel_toolbar_title">Cari Hotel</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">Cari Lokasi</string>
+    <!-- Label for recent searches -->
+    <string name="recent_searches">Pencarian Terbaru</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Lokasi pengambilan</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -273,12 +275,6 @@
     <string name="missing_flight_info_message_TEMPLATE">Untuk mencari penerbangan ke %s, beri tahu kami bandara asal Anda.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Harap pilih tanggal yang valid.</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">Untuk mencari penerbangan ke %s,\nharap beritahu kami kapan Anda akan berangkat.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">Untuk melihat tren harga tiket, \nsilakan beritahu kami dari mana Anda terbang.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">Tren Harga Tiket akan menunjukkan bagi Anda perubahan harga tiket dari waktu ke waktu. Karena harga yang ditampilkan di bawah ini didasarkan pada info real-time, beberapa rute mungkin memiliki info yang lebih sedikit dibandingkan rute yang lainnya.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Perjalanan dimulai</string>
     <!-- Denotes the end date of the trip -->
@@ -658,6 +654,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">Hotel tidak menerima %1$s</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Maaf, harga aktivitas ini telah berubah. Silakan coba lagi nanti.</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">Maaf, jumlah tiket tidak cukup untuk tanggal pilihan Anda. Harap coba tanggal yang berbeda atau kurangi jumlah tiket.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Tiket Anda telah dikirimkan ke</string>
     <!-- LX reservation confirmation text -->
@@ -679,6 +677,9 @@
     <string name="lx_ground_transport_passengers_text">%1$s Penumpang</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">Sepertinya tanggal ini sudah lewat, harap pilih tanggal yang baru.</string>
+
+    <!-- Category Title "All Things To Do" -->
+    <string name="lx_category_all_things_to_do">Semua Atraksi Wisata</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -734,6 +735,10 @@
     <string name="prices_roundtrip_label">Harga pulang-pergi per orang</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Harga adalah untuk penerbangan pulang-pergi per orang</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_roundtrip_minimum_label">Harga pulang-pergi, per orang, mulai dari</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_oneway_minimum_label">Harga sekali jalan, per orang, mulai dari</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Perjalanan Anda kosong.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -748,10 +753,6 @@
     <string name="trip_bucket_label_flight_roundtrip">Penerbangan Pulang-Pergi ke %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Penerbangan ke %1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">Tren Harga Tiket</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">Waktu kembali</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Maaf, saat ini tak ada \n hotel yang tersedia</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -849,6 +850,8 @@
     <string name="room_rate_pay_now">Bayar Sekarang</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} Dibayar Sekarang</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">Dibayar Sekarang</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/malam</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -912,36 +915,6 @@
     <string name="now_booking_TEMPLATE">Sekarang Memesan &lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
-
-    <!-- Facebook -->
-    <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account_TEMPLATE">Halo &lt;b&gt;{name}&lt;/b&gt;, kami menemukan akun {brand} Anda! Silakan masukkan kata sandi {brand} Anda di bawah ini untuk menghubungkan akun Facebook dan {brand} Anda.</string>
-    <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">Halo &lt;b&gt;%1$s&lt;/b&gt;, kami sudah memuat informasi Facebook Anda!</string>
-    <!-- Sign in with facebook (button text) -->
-    <string name="Sign_in_with_Facebook">Login dengan Facebook</string>
-    <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Mengakses informasi dari Facebook…</string>
-    <!-- Attempting to sign you in with facebook credentials -->
-    <string name="attempting_to_sign_in_with_facebook">Mencoba menghubungkan Anda dengan data login Facebook…</string>
-    <!-- We have encountered an error -->
-    <string name="unspecified_error">Kami mengalami masalah yang tidak dikenali. Coba lagi nanti.</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Tidak bisa masuk ke Facebook.</string>
-    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="sign_in_failed_try_again">Login gagal. Jika email dan kata sandi Anda sudah benar, periksa apakah pengaturan Negara pada aplikasi Anda juga sudah benar.</string>
-    <!-- Facebook connect password hint -->
-    <string name="brand_password_hint_TEMPLATE">Kata Sandi {brand}</string>
-    <!-- Link accounts -->
-    <string name="link_accounts">Hubungkan Akun</string>
-    <!-- User Denied email permission Heading -->
-    <string name="user_denied_permission_email_heading">Izin Email</string>
-    <!-- Linking your accounts -->
-    <string name="linking_your_accounts">Menghubungkan akun Anda…</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">Berikan Izin Email</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">Untuk login dengan Facebook, kami memerlukan izin verifikasi alamat email Anda. \n\nHarap ketuk tombol Facebook di bawah ini untuk memberi izin bagi {brand} untuk memverifikasi alamat email Anda. Terima kasih!</string>
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Login dengan {brand}</string>
@@ -1050,6 +1023,10 @@
     <string name="shop">Pemesanan</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Cari Itinerary</string>
+    <!-- Unable to find itinerary -->
+    <string name="unable_to_find_itinerary">Tidak dapat menemukan itinerary. Harap pastikan pilihan Negara (di Pengaturan) sama dengan versi negara website pemesanan Anda.</string>
+    <!-- Find Guest Itinerary -->
+    <string name="find_guest_itinerary">Cari Itinerary Tanpa Login</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">Masukkan Rincian Itinerary</string>
     <!-- Find Itinerary # -->
@@ -1064,6 +1041,8 @@
     <string name="no_upcoming_trips">Tidak ada perjalanan akan datang.</string>
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Masukkan nomor itinerary</string>
+    <!-- Enter a Guest itinerary number -->
+    <string name="or_enter_a_guest_itinerary_number">Atau, masukkan nomor itinerary tanpa login</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Mengakses itinerary Anda…</string>
     <!-- Error fetching itinerary -->
@@ -1420,6 +1399,7 @@
     <string name="itin_card_details_address">Alamat</string>
     <string name="itin_card_details_local_phone">Telepon Lokal</string>
     <string name="itin_card_details_room_type">Jenis Kamar</string>
+    <string name="itin_card_details_non_price_promotion_includes">Mencakup</string>
     <string name="itin_card_details_bed_type">Jenis Tempat Tidur</string>
     <string name="toast_copied_to_clipboard">Disalin ke clipboard.</string>
     <string name="itin_card_details_reload">Muat Ulang Informasi</string>
@@ -1709,6 +1689,10 @@
     <string name="round_trip_price_TEMPLATE">Pulang-pergi mulai dari &lt;b&gt; %s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">Pesan sekarang seharga &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Variants of the previous few templates, for Australian compliance rules (d/5810) -->
+    <string name="one_way_price_min_TEMPLATE">Sekali jalan, mulai dari &lt;b&gt;%s&lt;/b&gt; per orang</string>
+    <string name="round_trip_price_min_TEMPLATE">Pulang-pergi, mulai dari &lt;b&gt;%s&lt;/b&gt; per orang</string>
+    <string name="book_now_price_min_TEMPLATE">Pesan sekarang, mulai dari &lt;b&gt;%s&lt;/b&gt; per orang</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
         <item quantity="zero">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
@@ -1718,8 +1702,20 @@
         <item quantity="many">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="other">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
+    <!-- Book now info label, when there are only a few seats left. Variant for Australian
+         compliance rules (d/5810) -->
+    <plurals name="urgency_book_min_TEMPLATE">
+        <item quantity="zero">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt; per orang</item>
+        <item quantity="one">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt; per orang</item>
+        <item quantity="two">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt; per orang</item>
+        <item quantity="few">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt; per orang</item>
+        <item quantity="many">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt; per orang</item>
+        <item quantity="other">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt; per orang</item>
+    </plurals>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
+    <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
+    <string name="fare_name_and_price_min_TEMPLATE">%1$s mulai dari %2$s per orang</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">Informasi Biaya Bagasi</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -1802,10 +1798,14 @@
     <string name="Overview">Ringkasan</string>
     <!-- Trip total price label -->
     <string name="total_price_label">Total Harga</string>
+    <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
+    <string name="total_price_min_label">Harga Total mulai dari</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Perjalanan ke %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Termasuk pajak dan biaya</string>
+    <!-- Includes taxes (but not necessarily fees) -->
+    <string name="includes_taxes">Termasuk pajak</string>
     <!-- Date and trip from _ to _ -->
     <string name="trip_to_with_date">%1$s: %2$s - %3$s</string>
     <!-- Number of traverlers template -->
@@ -1856,6 +1856,8 @@
     <string name="slide_to_book_flight">geser untuk memesan penerbangan</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">Kartu kredit Anda akan dikenai %1$s</string>
+    <!-- Your card will be charged -->
+    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">%1$s akan ditarik dari kartu Anda (plus biaya maskapai)</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_TEMPLATE">Dibayar hari ini: %1$s</string>
     <!-- Amount to be paid now -->
@@ -1900,6 +1902,8 @@
     <string name="fees_paid_at_hotel">Biaya dibayar di hotel</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">Ditarik oleh {brand}</string>
+    <!-- Due to expedia today - today -->
+    <string name="due_to_brand_today_today_TEMPLATE">{brand} dibayar sekarang</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">Biaya resor sebesar &lt;b&gt;%1$s&lt;/b&gt; akan ditarik di hotel. Harga total masa inap Anda akan menjadi &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -1910,6 +1914,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">Total biaya perjalanan Anda, termasuk &lt;b&gt;%1$s&lt;/b&gt; untuk biaya resor, akan menjadi &lt;b&gt;%2$s&lt;/b&gt;. Anda akan membayar total biaya kepada hotel (dalam mata uang lokal hotel) selama masa inap Anda.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Total biaya perjalanan Anda, termasuk &lt;b&gt;%1$s&lt;/b&gt; untuk biaya resor, akan menjadi &lt;b&gt;%2$s&lt;/b&gt;. Anda akan membayar sisa biaya kepada hotel (dalam mata uang lokal hotel) selama masa inap Anda.</string>
+    <!-- Pay later deposit amount -->
+    <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">Pembatalan gratis dalam 24 jam</string>
     <!-- Flights AB Test Traveler info missing callout label -->
@@ -1935,6 +1941,8 @@
     <string name="cost_summary">Ringkasan Biaya</string>
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Pajak &amp; Biaya</string>
+    <!-- Taxes without airline fees -->
+    <string name="taxes_without_airline_fees">Pajak</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">Biaya Pemesanan {brand}</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
@@ -2296,6 +2304,8 @@
     <string name="privacy_policy">Kebijakan Privasi</string>
     <!-- Fare information header -->
     <string name="fare_information">INFORMASI TARIF</string>
+    <!-- Airline Fee -->
+    <string name="Airline_fee">Biaya Maskapai</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -2616,6 +2626,8 @@
     <string name="widget_savings_template">Hemat %2.0f%%</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">Tidak Ada Koneksi Internet</string>
+    <!-- The label for deposit terms button -->
+    <string name="deposit_terms">Ketentuan Deposit</string>
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
@@ -2650,6 +2662,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">dari 5 - skor tamu</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">dari 5 - Bagus!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">dari 5 - Sangat Bagus!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">dari 5 - Luar biasa!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">dari 5 - Istimewa!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">dari 5 - Sempurna!</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -2797,6 +2816,11 @@
     <string name="etp_pay_now_currency_text_TEMPLATE">Anda akan membayar dalam mata uang lokal Anda %s.</string>
     <string name="etp_pay_now_cancellation_text">Pembatalan gratis, asal sebelum batas periode pembatalan hotel.</string>
     <string name="etp_select_room">Pilih Kamar</string>
+
+    <!-- ETP pay later deposit info message -->
+    <string name="etp_pay_later_deposit_text">Jumlah deposit tidak akan pernah melebihi total harga pemesanan.</string>
+    <string name="no_charge_text_TEMPLATE">{brand} tidak menarik biaya apapun.</string>
+    <string name="deposit_info_text">Pesan dengan deposit</string>
 
     <!-- Room and rates list -->
     <!-- Loading message for rooms & rates -->
@@ -2970,7 +2994,7 @@
     <!-- Error when applying coupon - the coupon isn't recognized -->
     <string name="coupon_error_unrecognized">Maaf, kami tidak bisa mengenali kode kupon ini.</string>
     <!-- Error when applying coupon - the coupon has expired -->
-    <string name="coupon_error_expired">Maaf, tapi kode kupon ini telah kedaluwarsa.</string>
+    <string name="coupon_error_expired">Maaf, kode kupon ini telah kedaluwarsa.</string>
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Maaf, kami sedang mengalami masalah. Silakan coba lagi.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
@@ -3031,6 +3055,8 @@
     <string name="app_support">Dukungan Aplikasi</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Syarat dan Ketentuan</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">Ketentuan Penggunaan</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Kebijakan Privasi</string>
     <!-- Copyright information -->
@@ -3751,21 +3777,14 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Dengan menyelesaikan pemesanan ini, saya menyatakan bahwa saya telah membaca dan menerima %1$s, %2$s, dan %3$s.</string>
-    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">Saya telah membaca dan menyetujui %1$s serta %2$s.</string>
+    <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_TEMPLATE">Saya telah membaca dan menyetujui %1$s serta %2$s. Dengan bergabung di {brand}+, saya menerima semua %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Masukkan umur tiap anak</string>
 
     <string name="lob_not_supported_error_message">Maaf, pemesanan {lob} saat ini belum tersedia untuk kawasan Anda.</string>
 
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_an_Expedia_account">Buat akun Expedia</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_Expedia">Selamat datang di Expedia</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_Expedia_account_already_exists">Sudah ada akun Expedia yang terdaftar dengan email ini</string>
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 tahun)</string>
 
@@ -3784,4 +3803,10 @@
     <string name="coupon_error_dialog_title">Kupon Tak Bisa Digunakan</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Terdapat masalah dengan kupon Anda. Harap coba memasukkannya kembali.</string>
+
+    <!-- Australian compliance warnings d/5810 -->
+    <string name="airline_fee_notice">Sejumlah biaya maskapai, tergantung pada tipe kartu Anda, akan ditambahkan ke total harga.</string>
+    <string name="airline_charge_notice">Maskapai mengenakan biaya tambahan tergantung pada metode pembayaran.</string>
+    <string name="airline_fee_notice_payment">Berlaku biaya maskapai tergantung pada metode pembayaran</string>
+    <string name="airline_notice_fee_added">Sejumlah <u><b>biaya maskapai</b></u>, tergantung pada tipe kartu Anda, akan ditambahkan ke total harga. Biaya tersebut akan ditambahkan di proses pembayaran</string>
 </resources>

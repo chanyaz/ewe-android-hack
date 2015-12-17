@@ -1,8 +1,8 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -18,8 +18,8 @@ public class LoginConfirmLogoutDialogFragment extends DialogFragment {
 
 	private static final String ARG_MESSAGE = "ARG_MESSAGE";
 
-	public static interface DoLogoutListener {
-		public void doLogout();
+	public interface DoLogoutListener {
+		void doLogout();
 	}
 
 	private DoLogoutListener mListener;
@@ -34,8 +34,8 @@ public class LoginConfirmLogoutDialogFragment extends DialogFragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, DoLogoutListener.class, false);
 	}
