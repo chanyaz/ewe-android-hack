@@ -1,16 +1,5 @@
 package com.expedia.bookings.tracking;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -94,6 +83,17 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  *
@@ -298,6 +298,11 @@ public class OmnitureTracking {
 				s.setEvar(28, HOTELS_SEARCH_SPONSORED_NOT_PRESENT);
 				s.setProp(16, HOTELS_SEARCH_SPONSORED_NOT_PRESENT);
 			}
+		}
+
+		//tracking for Map AB test
+		if (!ExpediaBookingApp.isDeviceShitty()) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultMapTest);
 		}
 
 		// Send the tracking data
