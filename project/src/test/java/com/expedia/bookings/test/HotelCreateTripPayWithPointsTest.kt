@@ -1,6 +1,6 @@
 package com.expedia.bookings.test
 
-import com.expedia.bookings.data.CreditCardType
+import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.ValidPayment
@@ -25,7 +25,7 @@ class HotelCreateTripPayWithPointsTest {
         Assert.assertNotNull(createTripResponse.pointsDetails[0].programName)
         Assert.assertNotNull(createTripResponse.pointsDetails[0].paymentsInstrumentsId)
         Assert.assertNotNull(createTripResponse.pointsDetails[0].rateID)
-        Assert.assertTrue(ValidPayment.isCardTypeSupported(createTripResponse.validFormsOfPayment, CreditCardType.EXPEDIA_REWARDS))
+        Assert.assertTrue(ValidPayment.isPaymentTypeSupported(createTripResponse.validFormsOfPayment, PaymentType.POINTS_EXPEDIA_REWARDS))
         Assert.assertTrue(createTripResponse.pointsDetails[0].minimumPointsRequiredToRedeem > 0)
     }
 
@@ -41,7 +41,7 @@ class HotelCreateTripPayWithPointsTest {
         Assert.assertNotNull(createTripResponse.pointsDetails[0].programName)
         Assert.assertTrue(createTripResponse.pointsDetails[0].minimumPointsRequiredToRedeem > 0)
         Assert.assertNotNull(createTripResponse.pointsDetails[0].rateID)
-        Assert.assertFalse(ValidPayment.isCardTypeSupported(createTripResponse.validFormsOfPayment, CreditCardType.EXPEDIA_REWARDS))
+        Assert.assertFalse(ValidPayment.isPaymentTypeSupported(createTripResponse.validFormsOfPayment, PaymentType.POINTS_EXPEDIA_REWARDS))
     }
 
     @Test
@@ -50,7 +50,7 @@ class HotelCreateTripPayWithPointsTest {
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         // No Pay with points details returned for guest users
         Assert.assertNull(createTripResponse.pointsDetails)
-        Assert.assertFalse(ValidPayment.isCardTypeSupported(createTripResponse.validFormsOfPayment, CreditCardType.EXPEDIA_REWARDS))
+        Assert.assertFalse(ValidPayment.isPaymentTypeSupported(createTripResponse.validFormsOfPayment, PaymentType.POINTS_EXPEDIA_REWARDS))
     }
 
     @After

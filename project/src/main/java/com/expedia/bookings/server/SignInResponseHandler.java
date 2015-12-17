@@ -126,7 +126,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 						StoredCreditCard scc = new StoredCreditCard();
 						String type = sccJson.optString("creditCardType", null);
 						if (Strings.isNotEmpty(type)) {
-							scc.setType(CurrencyUtils.parseCardType(type));
+							scc.setType(CurrencyUtils.parsePaymentType(type));
 						}
 						scc.setDescription(sccJson.optString("description", null));
 						scc.setId(sccJson.optString("paymentsInstrumentsId", null));

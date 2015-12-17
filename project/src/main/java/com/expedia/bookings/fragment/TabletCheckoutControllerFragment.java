@@ -285,7 +285,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		if (mCurrentLob == LineOfBusiness.FLIGHTS) {
 			BillingInfo billingInfo = Db.getBillingInfo();
 
-			boolean isValidCard = Db.getTripBucket().getFlight().isCardTypeSupported(billingInfo.getCardType());
+			boolean isValidCard = Db.getTripBucket().getFlight().isPaymentTypeSupported(billingInfo.getPaymentType());
 			if (!isValidCard) {
 				// We should probably be calling billingInfo.delete(getActivity()) instead, but due
 				// to race conditions, getActivity() can return null here. This is a less comprehensive

@@ -96,7 +96,7 @@ public class PaymentButton extends LinearLayout {
 
 						// Don't allow selection of invalid card types.
 						boolean isValidCard = Db.getTripBucket().getItem(lineOfBusiness)
-							.isCardTypeSupported(card.getType());
+							.isPaymentTypeSupported(card.getType());
 
 						if (isValidCard) {
 							Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(new BillingInfo());

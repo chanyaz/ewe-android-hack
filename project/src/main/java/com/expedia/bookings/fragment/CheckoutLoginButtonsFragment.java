@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
@@ -453,7 +453,7 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		else {
 			throw new RuntimeException("canUseGoogleWallet() can only evaluate hotel and flight items!");
 		}
-		return item.isCardTypeSupported(CreditCardType.GOOGLE_WALLET);
+		return item.isPaymentTypeSupported(PaymentType.WALLET_GOOGLE);
 	}
 
 	public interface IWalletCouponListener {
