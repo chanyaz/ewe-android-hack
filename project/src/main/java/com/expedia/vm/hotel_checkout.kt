@@ -270,7 +270,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             val rate = room.rateInfo.chargeableRateInfo
 
             isPayLater.onNext(room.isPayLater && !AndroidUtils.isTablet(context))
-            isResortCase.onNext(Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
+            isResortCase.onNext(rate.totalMandatoryFees != 0f)
             isPayLaterOrResortCase.onNext(isPayLater.value || isResortCase.value)
             isDepositV2.onNext(room.depositRequired)
             priceAdjustments.onNext(rate.getPriceAdjustments())
