@@ -35,8 +35,8 @@ import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
-import com.facebook.AppEventsConstants
-import com.facebook.AppEventsLogger
+import com.facebook.appevents.AppEventsConstants
+import com.facebook.appevents.AppEventsLogger
 import com.mobiata.android.Log
 import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
@@ -45,24 +45,24 @@ import java.math.BigDecimal
 import java.util.Currency
 
 private val TAG = "FacebookTracking"
-private var context: Context? = null
-private var facebookLogger: AppEventsLogger? = null
+@JvmField var facebookContext: Context? = null
+@JvmField var facebookLogger: AppEventsLogger? = null
 
 private fun track(event: String, parameters: Bundle) {
     val keys = parameters.keySet()
 
-    if (keys.size() > 10) {
-        Log.e(TAG, "${event} passing too many parameters, max 10, tried ${keys.size()}")
+    if (keys.size > 10) {
+        Log.e(TAG, "${event} passing too many parameters, max 10, tried ${keys.size}")
     }
 
     val nullKeys = keys.filter { parameters.get(it) == null }
-    if (nullKeys.size() > 0) {
-        Log.e(TAG, "${event} null values in bundle: ${nullKeys.join(", ")}")
+    if (nullKeys.size > 0) {
+        Log.e(TAG, "${event} null values in bundle: ${nullKeys.joinToString(", ")}")
     }
 
     val badKeys = keys.filter { parameters.get(it) !is String && parameters.get(it) !is Int }
-    if (badKeys.size() > 0) {
-        Log.e(TAG, "${event} values other than string or integer found: ${badKeys.join(", ")}")
+    if (badKeys.size > 0) {
+        Log.e(TAG, "${event} values other than string or integer found: ${badKeys.joinToString(", ")}")
     }
 
     for (key in parameters.keySet()) {
@@ -83,7 +83,7 @@ class FacebookEvents() {
         if (searchParams != null && location != null && properties != null) {
             val parameters = Bundle()
             addCommonHotelParams(parameters, searchParams, location)
-            parameters.putString("Search_String", location.getCity() ?: "")
+            parameters.putString("fb_search_string", location.getCity() ?: "")
             parameters.putString("LowestSearch_Value", calculateLowestRateHotels(properties)?.getDisplayPrice()?.getAmount()?.toString() ?: "")
             parameters.putInt("Num_Rooms", 1)
 
@@ -97,15 +97,13 @@ class FacebookEvents() {
                 searchResponse.hotelList.get(0).stateProvinceCode,
                 searchResponse.hotelList.get(0).countryCode)
         val hotelList: List<Hotel> = searchResponse.hotelList
-        if (hotelList != null) {
-            val parameters = Bundle()
-            addCommonHotelV2Params(parameters, searchParams, searchResponse.searchRegionId ?: "", location)
-            parameters.putString("Search_String", location.city ?: "")
-            parameters.putString("LowestSearch_Value", calculateLowestRateV2Hotels(hotelList)?.displayTotalPrice?.getAmount()?.toString() ?: "")
-            parameters.putInt("Num_Rooms", 1)
+        val parameters = Bundle()
+        addCommonHotelV2Params(parameters, searchParams, searchResponse.searchRegionId ?: "", location)
+        parameters.putString("fb_search_string", location.city ?: "")
+        parameters.putString("LowestSearch_Value", calculateLowestRateV2Hotels(hotelList)?.displayTotalPrice?.getAmount()?.toString() ?: "")
+        parameters.putInt("Num_Rooms", 1)
 
-            track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
-        }
+        track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
     }
 
     fun trackHotelInfoSite(search: HotelSearch) {
@@ -119,8 +117,8 @@ class FacebookEvents() {
             parameters.putString("Room_Value", getLowestRate(selectedProperty)?.getDisplayPrice()?.getAmount()?.toString() ?: "")
             parameters.putString("Currency", getLowestRate(selectedProperty)?.getDisplayPrice()?.currencyCode ?: "")
             parameters.putInt("Num_Rooms", 1)
-            parameters.putString("Content_ID", selectedProperty.getPropertyId() ?: "")
-            parameters.putString("ContentType", "product")
+            parameters.putString("fb_content_id", selectedProperty.getPropertyId() ?: "")
+            parameters.putString("fb_content_type", "product")
 
             track(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, parameters)
         }
@@ -140,8 +138,8 @@ class FacebookEvents() {
         parameters.putString("Room_Value", dailyPrice ?: "")
         parameters.putString("Currency", currencyCode ?: "")
         parameters.putInt("Num_Rooms", 1)
-        parameters.putString("Content_ID", hotelOffersResponse.locationId)
-        parameters.putString("ContentType", "product")
+        parameters.putString("fb_content_id", hotelOffersResponse.locationId)
+        parameters.putString("fb_content_type", "product")
 
         track(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, parameters)
 
@@ -158,9 +156,9 @@ class FacebookEvents() {
             addCommonHotelParams(parameters, searchParams, location)
             parameters.putInt("Num_Rooms", 1)
             parameters.putString("Booking_Value", bookingValue ?: "")
-            parameters.putString("Content_ID", property.getPropertyId() ?: "")
+            parameters.putString("fb_content_id", property.getPropertyId() ?: "")
             parameters.putString("Currency", getLowestRate(property)?.getDisplayPrice()?.currencyCode ?: "")
-            parameters.putString("ContentType", "product")
+            parameters.putString("fb_content_type", "product")
 
             track(AppEventsConstants.EVENT_NAME_ADDED_TO_CART, parameters)
         }
@@ -178,9 +176,9 @@ class FacebookEvents() {
         addCommonHotelV2Params(parameters, searchParams, hotelProductResponse.regionId ?: "", location)
         parameters.putInt("Num_Rooms", 1)
         parameters.putString("Booking_Value", bookingValue ?: "")
-        parameters.putString("Content_ID", hotelProductResponse.hotelId ?: "")
+        parameters.putString("fb_content_id", hotelProductResponse.hotelId ?: "")
         parameters.putString("Currency", currencyCode ?: "")
-        parameters.putString("ContentType", "product")
+        parameters.putString("fb_content_type", "product")
 
         track(AppEventsConstants.EVENT_NAME_ADDED_TO_CART, parameters)
 
@@ -196,12 +194,11 @@ class FacebookEvents() {
             val parameters = Bundle()
             addCommonHotelParams(parameters, searchParams, location)
             parameters.putString("Booking_Value", bookingValue ?: "")
-            parameters.putString("Content_ID", property.getPropertyId() ?: "")
+            parameters.putString("fb_content_id", property.getPropertyId() ?: "")
             parameters.putInt("Num_Rooms", 1)
             parameters.putString("Currency", getLowestRate(property)?.getDisplayPrice()?.currencyCode ?: "")
-            parameters.putString("ContentType", "product")
+            parameters.putString("fb_content_type", "product")
             facebookLogger?.logPurchase(rate.getTotalAmountAfterTax()?.amount ?: BigDecimal(0), Currency.getInstance(rate.getTotalAmountAfterTax()?.currencyCode));
-            track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
         }
     }
 
@@ -216,11 +213,11 @@ class FacebookEvents() {
         val parameters = Bundle()
         addCommonHotelV2Params(parameters, hotelCheckoutResponse, location)
         parameters.putString("Booking_Value", bookingValue ?: "")
-        parameters.putString("Content_ID", hotelCheckoutResponse.checkoutResponse.productResponse.hotelId ?: "")
+        parameters.putString("fb_content_id", hotelCheckoutResponse.checkoutResponse.productResponse.hotelId ?: "")
         parameters.putInt("Num_Rooms", 1)
         parameters.putString("Currency", hotelCheckoutResponse.currencyCode ?: "")
-        parameters.putString("ContentType", "product")
-        facebookLogger?.logPurchase(BigDecimal(hotelCheckoutResponse.totalCharges) ?: BigDecimal(0), Currency.getInstance(hotelCheckoutResponse.currencyCode));
+        parameters.putString("fb_content_type", "product")
+        facebookLogger?.logPurchase(BigDecimal(hotelCheckoutResponse.totalCharges), Currency.getInstance(hotelCheckoutResponse.currencyCode));
         track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
     }
 
@@ -231,7 +228,7 @@ class FacebookEvents() {
         val arrivalAirport = searchParams.getDepartureLocation().getDestinationId()
         val parameters = Bundle()
         addCommonFlightParams(parameters, searchParams, location)
-        parameters.putString("Search_String", "$arrivalAirport - $destinationAirport")
+        parameters.putString("fb_search_string", "$arrivalAirport - $destinationAirport")
         parameters.putString("LowestSearch_Value", calculateLowestRateFlights(search.getSearchResponse().getTrips()))
 
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
@@ -245,7 +242,7 @@ class FacebookEvents() {
         val parameters = Bundle()
         val trips = search.FlightTripQuery(legNumber).getTrips();
         addCommonFlightParams(parameters, searchParams, location)
-        parameters.putString("Search_String", "$arrivalAirport - $destinationAirport")
+        parameters.putString("fb_search_string", "$arrivalAirport - $destinationAirport")
         parameters.putString("LowestSearch_Value", calculateLowestRateFlights(trips))
 
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
@@ -260,9 +257,9 @@ class FacebookEvents() {
         val parameters = Bundle()
         addCommonFlightParams(parameters, searchParams, location)
         parameters.putString("Flight_Value", money.getAmount().toString())
-        parameters.putString("Content_ID", flightTrip.getLegs().get(0).getFirstAirlineCode())
+        parameters.putString("fb_content_id", flightTrip.getLegs().get(0).getFirstAirlineCode())
         parameters.putString("Currency", money.getCurrency())
-        parameters.putString("ContentType", "product")
+        parameters.putString("fb_content_type", "product")
 
         track(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, parameters)
     }
@@ -276,9 +273,9 @@ class FacebookEvents() {
         val parameters = Bundle()
         addCommonFlightParams(parameters, searchParams, location)
         parameters.putString("Booking_Value", money.getAmount().toString())
-        parameters.putString("Content_ID", flightTrip.getLegs().get(0).getFirstAirlineCode())
+        parameters.putString("fb_content_id", flightTrip.getLegs().get(0).getFirstAirlineCode())
         parameters.putString("Currency", money.getCurrency())
-        parameters.putString("ContentType", "product")
+        parameters.putString("fb_content_type", "product")
 
         track(AppEventsConstants.EVENT_NAME_ADDED_TO_CART, parameters)
     }
@@ -292,9 +289,9 @@ class FacebookEvents() {
         val parameters = Bundle()
         addCommonFlightParams(parameters, searchParams, location)
         parameters.putString("Booking_Value", money.getAmount().toString())
-        parameters.putString("Content_ID", flightTrip.getLegs().get(0).getFirstAirlineCode())
+        parameters.putString("fb_content_id", flightTrip.getLegs().get(0).getFirstAirlineCode())
         parameters.putString("Currency", money.getCurrency())
-        parameters.putString("ContentType", "product")
+        parameters.putString("fb_content_type", "product")
         facebookLogger?.logPurchase(money.amount, Currency.getInstance(money.currencyCode));
         track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
     }
@@ -310,7 +307,7 @@ class FacebookEvents() {
         addCommonCarParams(parameters, startDate, endDate, location)
 
         if (Strings.isNotEmpty(originDescription)) {
-            parameters.putString("Search_String", originDescription)
+            parameters.putString("fb_search_string", originDescription)
             parameters.putString("Pickup_Location", originDescription)
             parameters.putString("Dropoff_Location", originDescription)
         }
@@ -330,7 +327,7 @@ class FacebookEvents() {
         parameters.putString("Car_Value", if (searchCarFare.rateTerm.equals(RateTerm.UNKNOWN))
             searchCarFare.total.getAmount().toString() else searchCarFare.rate.getAmount().toString())
         parameters.putString("Currency", searchCarFare.rate.getCurrency())
-        parameters.putString("ContentType", "product")
+        parameters.putString("fb_content_type", "product")
 
         track(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, parameters)
     }
@@ -344,7 +341,7 @@ class FacebookEvents() {
         addCommonCarParams(parameters, startDate, endDate, location)
         parameters.putString("Booking_Value", offer.detailedFare.grandTotal.getAmount().toString())
         parameters.putString("Currency", offer.detailedFare.grandTotal.currencyCode)
-        parameters.putString("ContentType", "product")
+        parameters.putString("fb_content_type", "product")
 
         track(AppEventsConstants.EVENT_NAME_ADDED_TO_CART, parameters)
     }
@@ -360,7 +357,7 @@ class FacebookEvents() {
         addCommonCarParams(parameters, startDate, endDate, location)
         parameters.putString("Booking_Value", grandTotal.getAmount().toString())
         parameters.putString("Currency", grandTotal.currencyCode)
-        parameters.putString("ContentType", "product")
+        parameters.putString("fb_content_type", "product")
         facebookLogger?.logPurchase(grandTotal.getAmount(), Currency.getInstance(grandTotal.currencyCode));
         track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
     }
@@ -370,7 +367,7 @@ class FacebookEvents() {
         val startDate = searchParams.startDate
 
         addCommonLXParams(parameters, startDate, lxSearchResponse.regionId, lxSearchResponse.destination)
-        parameters.putString("Search_String", searchParams.location ?: "")
+        parameters.putString("fb_search_string", searchParams.location ?: "")
 
         if (CollectionUtils.isNotEmpty(lxSearchResponse.activities)) {
             parameters.putString("LowestSearch_Value", lxSearchResponse.getLowestPriceActivity()
@@ -387,8 +384,8 @@ class FacebookEvents() {
         addCommonLXParams(parameters, startDate, regionId, destination)
         parameters.putString("Activity_Value", activityValue)
         parameters.putString("Currency", currencyCode)
-        parameters.putString("ContentType", "product")
-        parameters.putString("Content_ID", activityId)
+        parameters.putString("fb_content_type", "product")
+        parameters.putString("fb_content_id", activityId)
 
         track(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, parameters)
     }
@@ -399,8 +396,8 @@ class FacebookEvents() {
 
         addCommonLXParams(parameters, startDate, regionId, lxActivityLocation)
         parameters.putString("Currency", totalPrice.currencyCode)
-        parameters.putString("ContentType", "product")
-        parameters.putString("Content_ID", activityId)
+        parameters.putString("fb_content_type", "product")
+        parameters.putString("fb_content_id", activityId)
         parameters.putString("Booking_Value", totalPrice.getAmount().toString())
         parameters.putInt("Num_People", ticketCount)
         parameters.putInt("Number_Children", childTicketCount)
@@ -414,8 +411,8 @@ class FacebookEvents() {
 
         addCommonLXParams(parameters, startDate, regionId, lxActivityLocation)
         parameters.putString("Currency", totalPrice.currencyCode)
-        parameters.putString("ContentType", "product")
-        parameters.putString("Content_ID", activityId)
+        parameters.putString("fb_content_type", "product")
+        parameters.putString("fb_content_id", activityId)
         parameters.putString("Booking_Value", totalPrice.getAmount().toString())
         parameters.putInt("Num_People", ticketCount)
         parameters.putInt("Number_Children", childTicketCount)
@@ -428,7 +425,7 @@ class FacebookEvents() {
     }
 
     private fun calculateLowestRateHotels(properties: List<Property>): Rate? {
-        if (properties.size() == 0) return null
+        if (properties.size == 0) return null
 
         var minPropertyRate = properties.get(0).getLowestRate()
 
@@ -444,7 +441,7 @@ class FacebookEvents() {
     }
 
     private fun calculateLowestRateV2Hotels(properties: List<Hotel>): HotelRate? {
-        if (properties.size() == 0) return null
+        if (properties.size == 0) return null
 
         var minPropertyRate = properties.get(0).lowRateInfo
 
@@ -459,7 +456,10 @@ class FacebookEvents() {
         return minPropertyRate
     }
 
-    private fun calculateLowestRateFlights(flightTrips: List<FlightTrip>): String {
+    public fun calculateLowestRateFlights(flightTrips: List<FlightTrip>): String {
+        if (flightTrips.size == 0) {
+            return "";
+        }
         var minAmount = flightTrips.get(0).getTotalFare().getAmount()
         for (trip in flightTrips) {
             var amount = trip.getTotalFare().getAmount()
@@ -473,7 +473,7 @@ class FacebookEvents() {
     private fun getLoyaltyTier(user: User?): String {
         var loyaltyTier = "N/A"
         if (user != null && user.getPrimaryTraveler().getLoyaltyMembershipTier() != Traveler.LoyaltyMembershipTier.NONE) {
-            loyaltyTier = Db.getUser().getPrimaryTraveler().getLoyaltyMembershipTier().name()
+            loyaltyTier = Db.getUser().getPrimaryTraveler().getLoyaltyMembershipTier().name
         }
         return loyaltyTier
     }
@@ -493,8 +493,8 @@ class FacebookEvents() {
         parameters.putInt("Num_People", searchParams.getNumTravelers())
         parameters.putInt("Number_Children", searchParams.getNumChildren())
         parameters.putInt("Number_Nights", searchParams.getStayDuration())
-        if (context != null) {
-            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(context)))
+        if (facebookContext != null) {
+            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
         }
         parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
         parameters.putString("POS", PointOfSale.getPointOfSale().getTwoLetterCountryCode())
@@ -503,10 +503,9 @@ class FacebookEvents() {
     private fun addCommonHotelV2Params(parameters: Bundle, searchParams: com.expedia.bookings.data.hotels.HotelSearchParams, regionId: String, location: Location) {
         val dtf = ISODateTimeFormat.date()
         parameters.putString("LOB", "Hotel")
-        val regionId = regionId
         val formattedAddressCityState = StrUtils.formatAddressCityState(location) ?: ""
         val numOfNight = JodaUtils.daysBetween(searchParams.checkIn, searchParams.checkOut)
-        parameters.putString("region_id", regionId ?: "")
+        parameters.putString("region_id", regionId)
         addCommonLocationEvents(parameters, location)
 
         parameters.putString("destination_name", formattedAddressCityState)
@@ -514,10 +513,10 @@ class FacebookEvents() {
         parameters.putString("Checkout_Date", dtf.print(searchParams.checkOut))
         parameters.putInt("Booking_Window", getBookingWindow(searchParams.checkIn))
         parameters.putInt("Num_People", searchParams.guests())
-        parameters.putInt("Number_Children", searchParams.children.size())
+        parameters.putInt("Number_Children", searchParams.children.size)
         parameters.putInt("Number_Nights", numOfNight)
-        if (context != null) {
-            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(context)))
+        if (facebookContext != null) {
+            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
         }
         parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
         parameters.putString("POS", PointOfSale.getPointOfSale().twoLetterCountryCode)
@@ -527,12 +526,12 @@ class FacebookEvents() {
         val dtf = ISODateTimeFormat.date()
         parameters.putString("LOB", "Hotel")
 
-        val regionId = hotelCheckoutResponse.checkoutResponse.productResponse.regionId  ?: ""
+        val regionId = hotelCheckoutResponse.checkoutResponse.productResponse.regionId ?: ""
         val formattedAddressCityState = StrUtils.formatAddressCityState(location) ?: ""
         val checkInDate = LocalDate(hotelCheckoutResponse.checkoutResponse.productResponse.checkInDate)
         val checkOutDate = LocalDate(hotelCheckoutResponse.checkoutResponse.productResponse.checkOutDate)
         val numOfNight = JodaUtils.daysBetween(checkInDate, checkOutDate)
-        parameters.putString("region_id", regionId ?: "")
+        parameters.putString("region_id", regionId)
         addCommonLocationEvents(parameters, location)
 
         parameters.putString("destination_name", formattedAddressCityState)
@@ -543,8 +542,8 @@ class FacebookEvents() {
         //ToDo API don't return number of child guest and total guests
 
         parameters.putInt("Number_Nights", numOfNight)
-        if (context != null) {
-            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(context)))
+        if (facebookContext != null) {
+            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
         }
         parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
         parameters.putString("POS", PointOfSale.getPointOfSale().twoLetterCountryCode)
@@ -568,8 +567,8 @@ class FacebookEvents() {
         parameters.putInt("Num_People", searchParams.getNumTravelers())
         parameters.putInt("Number_Children", searchParams.getNumChildren())
 
-        if (context != null) {
-            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(context)))
+        if (facebookContext != null) {
+            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
         }
         parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
         parameters.putString("POS", PointOfSale.getPointOfSale().getTwoLetterCountryCode())
@@ -607,8 +606,8 @@ class FacebookEvents() {
         parameters.putString("End_Date", dtf.print(endDate))
         parameters.putInt("Booking_Window", getBookingWindow(startDate))
 
-        if (context != null) {
-            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(context)))
+        if (facebookContext != null) {
+            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
         }
         parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
         parameters.putString("POS", PointOfSale.getPointOfSale().getTwoLetterCountryCode())
@@ -622,8 +621,8 @@ class FacebookEvents() {
         parameters.putString("Start_Date", dtf.print(startDate))
         parameters.putInt("Booking_Window", getBookingWindow(startDate))
 
-        if (context != null) {
-            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(context)))
+        if (facebookContext != null) {
+            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
         }
         parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
         parameters.putString("POS", PointOfSale.getPointOfSale().getTwoLetterCountryCode())

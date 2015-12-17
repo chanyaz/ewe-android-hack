@@ -36,7 +36,7 @@ public class LXDatesButtonTest {
 
 		button.bind(localDate, true);
 		assertEquals(expectedText, button.getText().toString());
-		button.performClick();
+		button.setChecked(true);
 		assertTrue(button.isChecked());
 		assertTrue(button.isEnabled());
 	}

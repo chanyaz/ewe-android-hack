@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -79,12 +78,13 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, TravelerInfoYoYoListener.class);
 
-		mTuidDownloadTimesType = new TypeToken<HashMap<Long, Long>>() { }.getType();
+		mTuidDownloadTimesType = new TypeToken<HashMap<Long, Long>>() {
+		}.getType();
 	}
 
 	@Override
@@ -94,7 +94,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			mCurrentTravelerDownloads = savedInstanceState.getStringArrayList(INSTANCE_TRAV_CURRENT_DLS);
 
 			Gson gson = new GsonBuilder().create();
-			mTuidDownloadTimes = gson.fromJson(savedInstanceState.getString(INSTANCE_TRAV_UPDATE_TIMES), mTuidDownloadTimesType);
+			mTuidDownloadTimes = gson
+				.fromJson(savedInstanceState.getString(INSTANCE_TRAV_UPDATE_TIMES), mTuidDownloadTimesType);
 		}
 
 		View v = inflater.inflate(R.layout.fragment_flight_traveler_info_options, container, false);
@@ -258,23 +259,23 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 	}
 
 	public interface TravelerInfoYoYoListener {
-		public void moveForward();
+		void moveForward();
 
-		public void setMode(YoYoMode mode);
+		void setMode(YoYoMode mode);
 
-		public boolean moveBackwards();
+		boolean moveBackwards();
 
-		public void displayOptions();
+		void displayOptions();
 
-		public void displayTravelerEntryOne();
+		void displayTravelerEntryOne();
 
-		public void displayTravelerEntryTwo();
+		void displayTravelerEntryTwo();
 
-		public void displayTravelerEntryThree();
+		void displayTravelerEntryThree();
 
-		public void displaySaveDialog();
+		void displaySaveDialog();
 
-		public void displayCheckout();
+		void displayCheckout();
 	}
 
 	private void toggleTravelerSection(final SectionTravelerInfo section, boolean enable) {
@@ -302,7 +303,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 						Db.getTripBucket().getFlight().getFlightTrip().isInternational())) {
 						Db.getWorkingTravelerManager().setWorkingTravelerAndBase(mCurrentTraveler);
 						// force customer through flow when they don't have a passport
-						YoYoMode yoYoMode = (mCurrentTraveler.getPrimaryPassportCountry() == null) ? YoYoMode.YOYO : YoYoMode.EDIT;
+						YoYoMode yoYoMode =
+							(mCurrentTraveler.getPrimaryPassportCountry() == null) ? YoYoMode.YOYO : YoYoMode.EDIT;
 						mListener.setMode(yoYoMode);
 						mListener.displayTravelerEntryOne();
 					}
@@ -350,7 +352,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 			// We default account travelers to save, unless the user alters the name, or
 			// they have more than one passport on their account and are required to manually choose one (#4832)
-			boolean isAutoSaveTraveler = !mCurrentTraveler.fromGoogleWallet() && (traveler.getPassportCountries().size() <= 1);
+			boolean isAutoSaveTraveler =
+				!mCurrentTraveler.fromGoogleWallet() && (traveler.getPassportCountries().size() <= 1);
 			mCurrentTraveler.setSaveTravelerToExpediaAccount(isAutoSaveTraveler);
 			FlightTravelerFlowState state = FlightTravelerFlowState.getInstance(getActivity());
 			if (state.allTravelerInfoIsValidForDomesticFlight(mCurrentTraveler)) {
@@ -602,5 +605,4 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 			}
 		}
 	};
-
 }

@@ -48,8 +48,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.ItinListView;
 import com.expedia.bookings.widget.PhoneLaunchToolbar;
-import com.facebook.AppEventsLogger;
-import com.mobiata.android.Log;
+import com.facebook.appevents.AppEventsLogger;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
@@ -118,8 +117,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		Log.d("*** tom: PhoneLaunchActivity.onCreate()");
-
 		Ui.getApplication(this).defaultLaunchComponents();
 
 		if (Db.getTripBucket().isEmpty()) {
@@ -304,7 +301,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		}
 		case R.id.add_itinerary_guest: {
 			if (Ui.isAdded(mItinListFragment)) {
-				mItinListFragment.startAddGuestItinActivity();
+				mItinListFragment.startAddGuestItinActivity(false);
 			}
 			return true;
 		}

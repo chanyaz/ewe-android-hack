@@ -88,6 +88,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@InjectView(R.id.disclaimer_text)
 	public TextView disclaimerText;
 
+	@InjectView(R.id.deposit_policy_text)
+	public TextView depositPolicyText;
+
 	@InjectView(R.id.layout_confirm_tos)
 	public AcceptTermsWidget acceptTermsWidget;
 

@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import org.joda.time.DateTime;
 
-import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
@@ -47,8 +46,8 @@ import com.mobiata.android.SocialUtils;
 import com.mobiata.android.json.JSONUtils;
 import com.squareup.phrase.Phrase;
 
-public class HotelDetailsFragmentActivity extends FragmentActivity implements HotelDetailsMiniMapClickedListener,
-	RecyclerGallery.GalleryItemListener {
+public class HotelDetailsFragmentActivity extends FragmentActivity
+	implements HotelDetailsMiniMapClickedListener, RecyclerGallery.GalleryItemListener {
 
 	private static final long RESUME_TIMEOUT = 20 * DateUtils.MINUTE_IN_MILLIS;
 	private static final String INSTANCE_LAST_SEARCH_TIME = "INSTANCE_LAST_SEARCH_TIME";
@@ -60,17 +59,11 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	private static final String FRAGMENT_MINI_MAP_TAG = "FRAGMENT_MINI_MAP_TAG";
 	private static final String FRAGMENT_DESCRIPTION_TAG = "FRAGMENT_DESCRIPTION_TAG";
 
-	// This is the position in the list that the hotel had when the user clicked on it
-	public static final String EXTRA_POSITION = "EXTRA_POSITION";
-
 	private Context mContext;
 
 	private HotelDetailsMiniGalleryFragment mGalleryFragment;
-	private HotelDetailsPricePromoFragment mPricePromoFragment;
 	private HotelDetailsIntroFragment mIntroFragment;
-	private HotelDetailsMiniMapFragment mMapFragment;
 	private HotelDetailsDescriptionFragment mDescriptionFragment;
-	private TextView mBookNowButton;
 	private TextView mBookByPhoneButton;
 
 	private DateTime mLastSearchTime;
@@ -93,8 +86,7 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	 * @return
 	 */
 	public static Intent createIntent(Context context) {
-		Intent intent = new Intent(context, HotelDetailsFragmentActivity.class);
-		return intent;
+		return new Intent(context, HotelDetailsFragmentActivity.class);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -250,7 +242,6 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 	// MENUS
 	//----------------------------------
 
-	@TargetApi(11)
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_hotel_details, menu);
@@ -315,24 +306,26 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			ft.commit();
 		}
 
-		mPricePromoFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_price_promo_fragment_container,
+		HotelDetailsPricePromoFragment pricePromoFragment
+			= Ui.findOrAddSupportFragment(this, R.id.hotel_details_price_promo_fragment_container,
 			HotelDetailsPricePromoFragment.class, FRAGMENT_PRICE_PROMO_TAG);
 
 		mIntroFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_intro_fragment_container,
 			HotelDetailsIntroFragment.class, FRAGMENT_INTRO_TAG);
 
-		mMapFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_map_fragment_container,
-			HotelDetailsMiniMapFragment.class, FRAGMENT_MINI_MAP_TAG);
+		HotelDetailsMiniMapFragment mapFragment = Ui
+			.findOrAddSupportFragment(this, R.id.hotel_details_map_fragment_container,
+				HotelDetailsMiniMapFragment.class, FRAGMENT_MINI_MAP_TAG);
 
 		mDescriptionFragment = Ui.findOrAddSupportFragment(this, R.id.hotel_details_description_fragment_container,
 			HotelDetailsDescriptionFragment.class, FRAGMENT_DESCRIPTION_TAG);
 
 		// 3840. Abacus AB Winner. Book now -> Select Room above fold
-		mBookNowButton = Ui.findView(this, R.id.book_now_button);
+		TextView bookNowButton = Ui.findView(this, R.id.book_now_button);
 
 		if (Db.getHotelSearch().getSelectedProperty().isAvailable()) {
-			mBookNowButton.setVisibility(View.VISIBLE);
-			mBookNowButton.setOnClickListener(new View.OnClickListener() {
+			bookNowButton.setVisibility(View.VISIBLE);
+			bookNowButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
 					startActivity(HotelRoomsAndRatesActivity.createIntent(HotelDetailsFragmentActivity.this));
@@ -340,13 +333,16 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			});
 		}
 		else {
-			mBookNowButton.setVisibility(View.GONE);
+			bookNowButton.setVisibility(View.GONE);
 		}
 
 		mBookByPhoneButton = Ui.findView(this, R.id.book_by_phone_button);
 
 		// Tracking
 		if (savedInstanceState == null) {
+			if (fromLaunch) {
+				OmnitureTracking.trackHotelsABTest();
+			}
 			doOmnitureTracking();
 		}
 
@@ -439,7 +435,9 @@ public class HotelDetailsFragmentActivity extends FragmentActivity implements Ho
 			else if ((Db.getHotelSearch().getAvailability(selectedId) == null
 				|| Db.getHotelSearch().getAvailability(selectedId).getRateCount() == 0)
 				&& Db.getHotelSearch().getSearchParams().getSearchType() != SearchType.HOTEL) {
-				showErrorDialog(Phrase.from(mContext, R.string.error_hotel_is_now_sold_out_TEMPLATE).put("brand", BuildConfig.brand).format().toString());
+				showErrorDialog(
+					Phrase.from(mContext, R.string.error_hotel_is_now_sold_out_TEMPLATE).put("brand", BuildConfig.brand)
+						.format().toString());
 			}
 
 			// Notify affected child fragments to refresh.

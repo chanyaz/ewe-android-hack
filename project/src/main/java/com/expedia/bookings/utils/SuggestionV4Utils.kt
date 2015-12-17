@@ -53,7 +53,7 @@ public object SuggestionV4Utils {
         return recentSuggestions.toArrayList()
     }
 
-    public fun deleteCachedSuggestions(context: Context) {
+    @JvmStatic public fun deleteCachedSuggestions(context: Context) {
         val locationFiles = arrayOf(RECENT_HOTEL_SUGGESTIONS_FILE)
         for (locationFile in locationFiles) {
             val file = context.getFileStreamPath(locationFile)

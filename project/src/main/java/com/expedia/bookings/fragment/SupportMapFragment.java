@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
@@ -40,21 +41,20 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 	private MeasurableFragmentHelper mHelper;
 
 	public static SupportMapFragment newInstance() {
-		SupportMapFragment frag = new SupportMapFragment();
-		return frag;
+		return new SupportMapFragment();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Lifecycle
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, SupportMapFragmentListener.class, false);
 
 		mHelper = new MeasurableFragmentHelper(this);
-		mHelper.onAttach(activity);
+		mHelper.onAttach();
 	}
 
 	@Override
@@ -101,7 +101,7 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 			}
 		});
 
-		mHelper.onViewCreated(view, savedInstanceState);
+		mHelper.onViewCreated(view);
 	}
 
 	@Override
@@ -223,11 +223,6 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 	// useful (since changing instance state usually means config change, thus
 	// the offsets may change).
 
-	public void setCenterOffset(float x, float y) {
-		mCenterOffsetX = x;
-		mCenterOffsetY = y;
-	}
-
 	public float getCenterOffsetX() {
 		return mCenterOffsetX;
 	}
@@ -247,7 +242,6 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 
 	public LatLng offsetLatLng(LatLng latLng, float offsetX, float offsetY) {
 		return offsetLatLng(latLng, offsetX, offsetY, getMap().getCameraPosition().zoom);
-
 	}
 
 	// KNOWN PROBLEM: Causes screen to flicker if the zoom changes from the current zoom
@@ -303,6 +297,6 @@ public class SupportMapFragment extends com.google.android.gms.maps.SupportMapFr
 	// Interface
 
 	public interface SupportMapFragmentListener {
-		public void onMapLayout();
+		void onMapLayout();
 	}
 }

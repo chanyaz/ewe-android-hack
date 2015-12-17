@@ -26,7 +26,6 @@ import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpandableCardView;
 import com.expedia.bookings.widget.PaymentWidget;
-import com.expedia.bookings.widget.TextView;
 
 import static org.junit.Assert.assertEquals;
 
@@ -131,39 +130,40 @@ public class PaymentWidgetFlowTest {
 		assertEquals(View.GONE, paymentOptions.getVisibility());
 	}
 
-	@Test
-	public void testGoogleWallet() {
-		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		Ui.getApplication(activity).defaultLXComponents();
-		PaymentWidget paymentWidget =  (PaymentWidget) LayoutInflater.from(activity)
-			.inflate(R.layout.payment_widget_test, null);
-		paymentWidget.setToolbarListener(listener);
-		paymentWidget.setLineOfBusiness(LineOfBusiness.HOTELSV2);
-		paymentWidget.setCreditCardRequired(true);
-		paymentWidget.setExpanded(true);
-
-		LinearLayout paymentOptions = (LinearLayout) paymentWidget.findViewById(R.id.section_payment_options_container);
-		TextView walletOption = (TextView) paymentWidget.findViewById(R.id.payment_option_google_wallet);
-
-		//Payment options appear on new hotels
-		assertEquals(View.VISIBLE, paymentOptions.getVisibility());
-
-		HotelCreateTripResponse response = new HotelCreateTripResponse();
-		response.newHotelProductResponse = new HotelCreateTripResponse.HotelProductResponse();
-		response.newHotelProductResponse.hotelRoomResponse = new HotelOffersResponse.HotelRoomResponse();
-		response.newHotelProductResponse.hotelRoomResponse.rateInfo = new HotelOffersResponse.RateInfo();
-		response.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo = new HotelRate();
-		response.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.total = 1801;
-		response.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode = "USD";
-		response.newHotelProductResponse.hotelRoomResponse.supplierType = "MERCHANT";
-		TripBucketItemHotelV2 trip = new TripBucketItemHotelV2(response);
-		Db.getTripBucket().clear(LineOfBusiness.HOTELSV2);
-		Db.getTripBucket().add(trip);
-
-		paymentWidget.setExpanded(true);
-		//Payment options dont appear if google wallet is not supported
-		assertEquals(View.GONE, paymentOptions.getVisibility());
-	}
+	// Enable the below test when we implemented android pay
+//	@Test
+//	public void testGoogleWallet() {
+//		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+//		Ui.getApplication(activity).defaultLXComponents();
+//		PaymentWidget paymentWidget =  (PaymentWidget) LayoutInflater.from(activity)
+//			.inflate(R.layout.payment_widget_test, null);
+//		paymentWidget.setToolbarListener(listener);
+//		paymentWidget.setLineOfBusiness(LineOfBusiness.HOTELSV2);
+//		paymentWidget.setCreditCardRequired(true);
+//		paymentWidget.setExpanded(true);
+//
+//		LinearLayout paymentOptions = (LinearLayout) paymentWidget.findViewById(R.id.section_payment_options_container);
+//		TextView walletOption = (TextView) paymentWidget.findViewById(R.id.payment_option_google_wallet);
+//
+//		//Payment options appear on new hotels
+//		assertEquals(View.VISIBLE, paymentOptions.getVisibility());
+//
+//		HotelCreateTripResponse response = new HotelCreateTripResponse();
+//		response.newHotelProductResponse = new HotelCreateTripResponse.HotelProductResponse();
+//		response.newHotelProductResponse.hotelRoomResponse = new HotelOffersResponse.HotelRoomResponse();
+//		response.newHotelProductResponse.hotelRoomResponse.rateInfo = new HotelOffersResponse.RateInfo();
+//		response.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo = new HotelRate();
+//		response.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.total = 1801;
+//		response.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode = "USD";
+//		response.newHotelProductResponse.hotelRoomResponse.supplierType = "MERCHANT";
+//		TripBucketItemHotelV2 trip = new TripBucketItemHotelV2(response);
+//		Db.getTripBucket().clear(LineOfBusiness.HOTELSV2);
+//		Db.getTripBucket().add(trip);
+//
+//		paymentWidget.setExpanded(true);
+//		//Payment options dont appear if google wallet is not supported
+//		assertEquals(View.GONE, paymentOptions.getVisibility());
+//	}
 
 	@Test
 	public void testStoredCardFlow() {
@@ -191,7 +191,8 @@ public class PaymentWidgetFlowTest {
 		paymentWidget.onStoredCardRemoved();
 		LinearLayout paymentOptions = (LinearLayout) paymentWidget.findViewById(R.id.section_payment_options_container);
 
-		//Wallet card removed, should return to payment options.
-		assertEquals(View.VISIBLE, paymentOptions.getVisibility());
+//      Enable the below assert once we implemented android pay
+//		//Wallet card removed, should return to payment options.
+//		assertEquals(View.VISIBLE, paymentOptions.getVisibility());
 	}
 }

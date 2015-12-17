@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
@@ -60,7 +60,6 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	private Switch mVipAccessSwitch;
 	private HotelNeighborhoodLayout mNeighborhoodLayout;
 	private List<ISortAndFilterListener> mSortAndFilterListeners = new ArrayList<ResultsHotelListFragment.ISortAndFilterListener>();
-	private ISortAndFilterListener mSortAndFilterListener;
 	private IResultsFilterDoneClickedListener mResultsFilterDoneClickedListener;
 
 	// We don't want Omniture events being sent for sorts and filters
@@ -68,15 +67,15 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 	private boolean mAllowSortFilterOmnitureReporting;
 
 	public static ResultsHotelsFiltersFragment newInstance() {
-		ResultsHotelsFiltersFragment frag = new ResultsHotelsFiltersFragment();
-		return frag;
+		return new ResultsHotelsFiltersFragment();
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		mSortAndFilterListener = Ui.findFragmentListener(this, ISortAndFilterListener.class, true);
-		mSortAndFilterListeners.add(mSortAndFilterListener);
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		ISortAndFilterListener sortAndFilterListener = Ui
+			.findFragmentListener(this, ISortAndFilterListener.class, true);
+		mSortAndFilterListeners.add(sortAndFilterListener);
 		mResultsFilterDoneClickedListener = Ui.findFragmentListener(this, IResultsFilterDoneClickedListener.class);
 	}
 
@@ -143,23 +142,19 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 
 		int checkId;
 		switch (filter.getSearchRadius()) {
-		case SMALL: {
+		case SMALL:
 			checkId = R.id.radius_small_button;
 			break;
-		}
-		case MEDIUM: {
+		case MEDIUM:
 			checkId = R.id.radius_medium_button;
 			break;
-		}
-		case LARGE: {
+		case LARGE:
 			checkId = R.id.radius_large_button;
 			break;
-		}
-		case ALL:
-		default: {
+		case ALL: //FALL THRU
+		default:
 			checkId = R.id.radius_all_button;
 			break;
-		}
 		}
 		mRadiusButtonGroup.check(checkId);
 		SearchType searchType = search.getSearchParams().getSearchType();
@@ -184,23 +179,19 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		mRatingButtonGroup.check(checkId);
 
 		switch (filter.getPriceRange()) {
-		case CHEAP: {
+		case CHEAP:
 			checkId = R.id.price_cheap_button;
 			break;
-		}
-		case MODERATE: {
+		case MODERATE:
 			checkId = R.id.price_moderate_button;
 			break;
-		}
-		case EXPENSIVE: {
+		case EXPENSIVE:
 			checkId = R.id.price_expensive_button;
 			break;
-		}
-		case ALL:
-		default: {
+		case ALL: //FALL THRU
+		default:
 			checkId = R.id.price_all_button;
 			break;
-		}
 		}
 		mPriceButtonGroup.check(checkId);
 
@@ -263,7 +254,6 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 
 		@Override
 		public void onNothingSelected(AdapterView<?> parent) {
-
 		}
 	};
 
@@ -271,23 +261,19 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			SearchRadius searchRadius;
 			switch (checkedId) {
-			case R.id.radius_small_button: {
+			case R.id.radius_small_button:
 				searchRadius = SearchRadius.SMALL;
 				break;
-			}
-			case R.id.radius_medium_button: {
+			case R.id.radius_medium_button:
 				searchRadius = SearchRadius.MEDIUM;
 				break;
-			}
-			case R.id.radius_large_button: {
+			case R.id.radius_large_button:
 				searchRadius = SearchRadius.LARGE;
 				break;
-			}
-			case R.id.radius_all_button:
-			default: {
+			case R.id.radius_all_button: //FALL THRU
+			default:
 				searchRadius = SearchRadius.ALL;
 				break;
-			}
 			}
 
 			HotelFilter filter = Db.getFilter();
@@ -303,23 +289,19 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			double minStarRating;
 			switch (checkedId) {
-			case R.id.rating_low_button: {
+			case R.id.rating_low_button:
 				minStarRating = 3;
 				break;
-			}
-			case R.id.rating_medium_button: {
+			case R.id.rating_medium_button:
 				minStarRating = 4;
 				break;
-			}
-			case R.id.rating_high_button: {
+			case R.id.rating_high_button:
 				minStarRating = 5;
 				break;
-			}
-			case R.id.rating_all_button:
-			default: {
+			case R.id.rating_all_button: //FALL THRU
+			default:
 				minStarRating = 0;
 				break;
-			}
 			}
 
 			HotelFilter filter = Db.getFilter();
@@ -335,23 +317,19 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		public void onCheckedChanged(RadioGroup group, int checkedId) {
 			PriceRange priceRange;
 			switch (checkedId) {
-			case R.id.price_cheap_button: {
+			case R.id.price_cheap_button:
 				priceRange = PriceRange.CHEAP;
 				break;
-			}
-			case R.id.price_moderate_button: {
+			case R.id.price_moderate_button:
 				priceRange = PriceRange.MODERATE;
 				break;
-			}
-			case R.id.price_expensive_button: {
+			case R.id.price_expensive_button:
 				priceRange = PriceRange.EXPENSIVE;
 				break;
-			}
-			case R.id.price_all_button:
-			default: {
+			case R.id.price_all_button: //FALL THRU
+			default:
 				priceRange = PriceRange.ALL;
 				break;
-			}
 			}
 
 			HotelFilter filter = Db.getFilter();
@@ -398,27 +376,22 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			Log.d("Tracking \"App.Hotels.Search.Sort\" change...");
 			Sort sort = Sort.values()[mSortByButtonGroup.getSelectedItemPosition()];
 			switch (sort) {
-			case PRICE: {
+			case PRICE:
 				OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_PRICE);
 				break;
-			}
-			case RATING: {
+			case RATING:
 				OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_RATING);
 				break;
-			}
-			case DISTANCE: {
+			case DISTANCE:
 				OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_DISTANCE);
 				break;
-			}
-			case DEALS: {
+			case DEALS:
 				OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_DEALS);
 				break;
-			}
-			case POPULAR:
-			default: {
+			case POPULAR: //FALL THRU
+			default:
 				OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_POPULAR);
 				break;
-			}
 			}
 		}
 	}
@@ -428,23 +401,19 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			Log.d("Tracking \"App.Hotels.Search.Refine.PriceRange\" change...");
 
 			switch (mPriceButtonGroup.getCheckedRadioButtonId()) {
-			case R.id.price_cheap_button: {
+			case R.id.price_cheap_button:
 				OmnitureTracking.trackLinkHotelRefinePriceRange(PriceRange.CHEAP);
 				break;
-			}
-			case R.id.price_moderate_button: {
+			case R.id.price_moderate_button:
 				OmnitureTracking.trackLinkHotelRefinePriceRange(PriceRange.MODERATE);
 				break;
-			}
-			case R.id.price_expensive_button: {
+			case R.id.price_expensive_button:
 				OmnitureTracking.trackLinkHotelRefinePriceRange(PriceRange.EXPENSIVE);
 				break;
-			}
-			case R.id.price_all_button:
-			default: {
+			case R.id.price_all_button: //FALL THRU
+			default:
 				OmnitureTracking.trackLinkHotelRefinePriceRange(PriceRange.ALL);
 				break;
-			}
 			}
 		}
 	}
@@ -454,23 +423,19 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			Log.d("Tracking \"App.Hotels.Search.Refine.SearchRadius\" rating change...");
 
 			switch (mRadiusButtonGroup.getCheckedRadioButtonId()) {
-			case R.id.radius_small_button: {
+			case R.id.radius_small_button:
 				OmnitureTracking.trackLinkHotelRefineSearchRadius(SearchRadius.SMALL);
 				break;
-			}
-			case R.id.radius_medium_button: {
+			case R.id.radius_medium_button:
 				OmnitureTracking.trackLinkHotelRefineSearchRadius(SearchRadius.MEDIUM);
 				break;
-			}
-			case R.id.radius_large_button: {
+			case R.id.radius_large_button:
 				OmnitureTracking.trackLinkHotelRefineSearchRadius(SearchRadius.LARGE);
 				break;
-			}
-			case R.id.radius_all_button:
-			default: {
+			case R.id.radius_all_button: //FALL THRU
+			default:
 				OmnitureTracking.trackLinkHotelRefineSearchRadius(SearchRadius.ALL);
 				break;
-			}
 			}
 		}
 	}
@@ -479,30 +444,20 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		if (mAllowSortFilterOmnitureReporting) {
 			Log.d("Tracking \"App.Hotels.Search.Refine\" rating change...");
 			switch (mRatingButtonGroup.getCheckedRadioButtonId()) {
-			case R.id.rating_low_button: {
+			case R.id.rating_low_button:
 				OmnitureTracking.trackLinkHotelRefineRating("3Stars");
 				break;
-			}
-			case R.id.rating_medium_button: {
+			case R.id.rating_medium_button:
 				OmnitureTracking.trackLinkHotelRefineRating("4Stars");
 				break;
-			}
-			case R.id.rating_high_button: {
+			case R.id.rating_high_button:
 				OmnitureTracking.trackLinkHotelRefineRating("5Stars");
 				break;
-			}
-			case R.id.rating_all_button:
-			default: {
+			case R.id.rating_all_button: //FALL THRU
+			default:
 				OmnitureTracking.trackLinkHotelRefineRating("AllStars");
 				break;
 			}
-			}
-		}
-	}
-
-	public void addSortAndFilterListener(ISortAndFilterListener sortAndFilterListener) {
-		if (!mSortAndFilterListeners.contains(sortAndFilterListener)) {
-			mSortAndFilterListeners.add(sortAndFilterListener);
 		}
 	}
 
@@ -510,7 +465,8 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		boolean shouldShowCircleForRatings = PointOfSale.getPointOfSale().shouldShowCircleForRatings();
 
 		ImageRadioButton ratingLowButton = (ImageRadioButton) mRatingButtonGroup.findViewById(R.id.rating_low_button);
-		ImageRadioButton ratingMediumButton = (ImageRadioButton) mRatingButtonGroup.findViewById(R.id.rating_medium_button);
+		ImageRadioButton ratingMediumButton = (ImageRadioButton) mRatingButtonGroup
+			.findViewById(R.id.rating_medium_button);
 		ImageRadioButton ratingHighButton = (ImageRadioButton) mRatingButtonGroup.findViewById(R.id.rating_high_button);
 
 		ratingLowButton.setDrawable(getResources()
@@ -520,5 +476,4 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 		ratingHighButton.setDrawable(getResources()
 			.getDrawable(shouldShowCircleForRatings ? R.drawable.btn_filter_5circle : R.drawable.btn_filter_5star));
 	}
-
 }

@@ -1,7 +1,6 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
@@ -26,8 +25,6 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelConfirmationViewModel
 import com.squareup.phrase.Phrase
-import javax.inject.Inject
-import kotlin.properties.Delegates
 
 
 public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -81,20 +78,17 @@ public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) :
 
     init {
         View.inflate(getContext(), R.layout.widget_hotel_confirmation, this)
-
-        val res = getContext().getResources()
-        dressAction(res, directionsToHotelBtn, R.drawable.car_directions)
-        dressAction(res, addToCalendarBtn, R.drawable.add_to_calendar)
-        dressAction(res, addCarBtn, R.drawable.hotel_car)
-        dressAction(res, addFlightBtn, R.drawable.car_flights)
-        dressAction(res, callSupportBtn, R.drawable.hotel_phone)
+        dressAction(directionsToHotelBtn, R.drawable.car_directions)
+        dressAction(addToCalendarBtn, R.drawable.add_to_calendar)
+        dressAction(addCarBtn, R.drawable.hotel_car)
+        dressAction(addFlightBtn, R.drawable.car_flights)
+        dressAction(callSupportBtn, R.drawable.hotel_phone)
         callSupportBtn.text = Phrase.from(context, R.string.call_customer_support_TEMPLATE).put("brand", BuildConfig.brand).format()
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-
-        val navIcon = getResources().getDrawable(R.drawable.ic_close_white_24dp)!!.mutate()
+        val navIcon = ContextCompat.getDrawable(context, R.drawable.ic_close_white_24dp).mutate()
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.setNavigationIcon(navIcon)
         toolbar.setNavigationOnClickListener(object : View.OnClickListener {
@@ -107,9 +101,9 @@ public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) :
         toolbar.setPadding(0, paddingTop, 0, 0)
     }
 
-    private fun dressAction(res: Resources, textView: TextView, drawableResId: Int) {
-        val drawable = res.getDrawable(drawableResId)
-        drawable.setColorFilter(res.getColor(R.color.cars_confirmation_icon_color), PorterDuff.Mode.SRC_IN)
+    private fun dressAction(textView: TextView, drawableResId: Int) {
+        val drawable = ContextCompat.getDrawable(context, drawableResId)
+        drawable.setColorFilter(ContextCompat.getColor(context, R.color.cars_confirmation_icon_color), PorterDuff.Mode.SRC_IN)
         textView.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null)
         FontCache.setTypeface(textView, FontCache.Font.ROBOTO_REGULAR)
     }

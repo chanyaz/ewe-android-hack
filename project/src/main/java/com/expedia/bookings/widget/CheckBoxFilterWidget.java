@@ -149,6 +149,7 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable, Com
 			SpannableStringBuilder builder = new SpannableStringBuilder(priceString);
 			int start = priceString.indexOf(str);
 			int end = start + str.length();
+
 			ForegroundColorSpan span = new ForegroundColorSpan(getResources()
 				.getColorStateList(Ui.obtainThemeResID(getContext(), R.attr.skin_tabletFilterPriceTextColor)));
 			builder.setSpan(span, start, end, 0);
@@ -181,7 +182,7 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable, Com
 	};
 
 	public interface OnCheckedChangeListener {
-		public void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked);
+		void onCheckedChanged(CheckBoxFilterWidget view, boolean isChecked);
 	}
 
 	public class ForegroundColorSpan extends CharacterStyle implements UpdateAppearance {
@@ -199,5 +200,4 @@ public class CheckBoxFilterWidget extends LinearLayout implements Checkable, Com
 			ds.setColor(color);
 		}
 	}
-
 }

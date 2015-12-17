@@ -1,7 +1,12 @@
 package com.expedia.bookings.widget
 
 import android.graphics.Bitmap
+import android.graphics.LinearGradient
+import android.graphics.Shader
 import android.graphics.drawable.Drawable
+import android.graphics.drawable.PaintDrawable
+import android.graphics.drawable.ShapeDrawable
+import android.graphics.drawable.shapes.RectShape
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -17,13 +22,14 @@ import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.extension.shouldShowCircleForRatings
-import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
+import com.expedia.util.getGuestRatingBackgroundDrawable
+import com.expedia.util.getGuestRatingRecommendedText
 import com.expedia.util.subscribeBackgroundColor
 import com.expedia.util.subscribeColorFilter
 import com.expedia.util.subscribeImageDrawable
@@ -90,7 +96,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
     }
 
     override fun getItemCount(): Int {
-        return hotels.size() + numHeaderItemsInHotelsList()
+        return hotels.size + numHeaderItemsInHotelsList()
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -117,7 +123,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         if (viewType == MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW) {
             val header = View(parent.context)
             var lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            lp.height = if (ExpediaBookingApp.isAutomation()) 0 else parent.height
+            lp.height = if (ExpediaBookingApp.isAutomation() || ExpediaBookingApp.isDeviceShitty()) 0 else parent.height
             header.layoutParams = lp
 
             return MapSwitchClickInterceptorTransparentHeaderViewHolder(header)
@@ -143,13 +149,13 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         } else if (holder.itemViewType == HOTEL_VIEW) {
             val hotelItemIndex = hotelListItemsMetadata.indexOfFirst { it.hotelId == (holder as HotelViewHolder).hotelId }
             if (hotelItemIndex != -1) {
-                hotelListItemsMetadata.remove(hotelItemIndex)
+                hotelListItemsMetadata.removeAt(hotelItemIndex)
             }
         }
         super.onViewRecycled(holder)
     }
 
-    public inner class HotelViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHolder(root), HeaderBitmapDrawable.CallbackListener, View.OnClickListener {
+    public inner class HotelViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHolder(root), View.OnClickListener {
 
         val PICASSO_TAG = "HOTEL_RESULTS_LIST"
         val DEFAULT_GRADIENT_POSITIONS = floatArrayOf(0f, .25f, .3f, 1f)
@@ -158,6 +164,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
 
         var hotelId: String by Delegates.notNull()
         val imageView: ImageView by root.bindView(R.id.background)
+        val gradient: View by root.bindView(R.id.foreground)
         val hotelName: TextView by root.bindView(R.id.hotel_name_text_view)
         val pricePerNight: TextView by root.bindView(R.id.price_per_night)
         val strikeThroughPricePerNight: TextView by root.bindView(R.id.strike_through_price)
@@ -199,7 +206,11 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
 
             viewModel.hotelNameObservable.subscribeText(hotelName)
             viewModel.pricePerNightObservable.subscribeText(pricePerNight)
-            viewModel.hotelGuestRatingObservable.subscribeText(guestRating)
+            viewModel.hotelGuestRatingObservable.subscribe { rating ->
+                guestRating.text = rating.toString()
+                guestRating.background = getGuestRatingBackgroundDrawable(rating, itemView.context)
+                guestRatingRecommendedText.text = getGuestRatingRecommendedText(rating, itemView.resources)
+            }
             viewModel.topAmenityTitleObservable.subscribeText(topAmenityTitle)
             viewModel.hotelDiscountPercentageObservable.subscribeText(discountPercentage)
             viewModel.hotelStrikeThroughPriceFormatted.subscribeText(strikeThroughPricePerNight)
@@ -234,6 +245,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
                 PicassoHelper.Builder(itemView.context)
                         .setPlaceholder(R.drawable.results_list_placeholder)
                         .setError(R.drawable.room_fallback)
+                        .setCacheEnabled(false)
                         .setTarget(target).setTag(PICASSO_TAG)
                         .build()
                         .load(HotelMedia(url).getBestUrls(width / 2))
@@ -249,42 +261,32 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             }
         }
 
-        override fun onBitmapLoaded() {
-            // ignore
-        }
-
-        override fun onBitmapFailed() {
-            // ignore
-        }
-
-        override fun onPrepareLoad() {
-            // ignore
-        }
-
         private val target = object : PicassoTarget() {
             override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom) {
                 super.onBitmapLoaded(bitmap, from)
+                imageView.setImageBitmap(bitmap)
 
-                val palette = Palette.generate(bitmap)
+                val palette = Palette.Builder(bitmap).generate()
                 val color = palette.getDarkVibrantColor(R.color.transparent_dark)
 
                 val fullColorBuilder = ColorBuilder(color).darkenBy(.6f).setSaturation(if (!mIsFallbackImage) .8f else 0f);
                 val startColor = fullColorBuilder.setAlpha(154).build()
                 val endColor = fullColorBuilder.setAlpha(0).build()
 
-                val drawable = HeaderBitmapDrawable()
-                drawable.setBitmap(bitmap)
-                val colorArrayBottom = intArrayOf(0, 0, endColor,
-                        startColor)
-                val colorArrayFull = intArrayOf(startColor, 0, endColor,
-                        startColor)
+                val colorArrayBottom = intArrayOf(0, 0, endColor, startColor)
+                val colorArrayFull = intArrayOf(startColor, 0, endColor, startColor)
+
+                val drawable = PaintDrawable()
+                drawable.shape = RectShape()
 
                 if (vipMessage.visibility == View.VISIBLE ) {
-                    drawable.setGradient(colorArrayFull, DEFAULT_GRADIENT_POSITIONS)
+                    drawable.shaderFactory = getShader(colorArrayFull)
                 } else {
-                    drawable.setGradient(colorArrayBottom, DEFAULT_GRADIENT_POSITIONS)
+
+                    drawable.shaderFactory = getShader(colorArrayBottom)
                 }
-                imageView.setImageDrawable(drawable)
+
+                gradient.background = drawable
             }
 
             override fun onBitmapFailed(errorDrawable: Drawable?) {
@@ -297,6 +299,17 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
                 super.onPrepareLoad(placeHolderDrawable)
                 imageView.setImageDrawable(placeHolderDrawable)
+                gradient.background = null
+            }
+        }
+
+        private fun getShader(array: IntArray) : ShapeDrawable.ShaderFactory {
+            return object : ShapeDrawable.ShaderFactory() {
+                override fun resize(width: Int , height: Int) : Shader {
+                    val lg = LinearGradient(0f, 0f, 0f, height.toFloat(),
+                            array, DEFAULT_GRADIENT_POSITIONS, Shader.TileMode.REPEAT)
+                    return lg
+                }
             }
         }
 
@@ -304,8 +317,12 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
 
     public inner class HotelResultsPricingStructureHeaderViewHolder(val root: ViewGroup, val vm: HotelResultsPricingStructureHeaderViewModel) : RecyclerView.ViewHolder(root) {
         val pricingStructureHeader: TextView by root.bindView(R.id.pricing_structure_header)
+        val shadow: View by root.bindView(R.id.drop_shadow)
 
         init {
+            if (ExpediaBookingApp.isDeviceShitty()) {
+                shadow.visibility = View.GONE
+            }
             vm.pricingStructureHeaderObservable.subscribeText(pricingStructureHeader)
         }
     }

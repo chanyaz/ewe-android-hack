@@ -53,7 +53,8 @@ import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.WalletUtils;
-import com.facebook.AppLinkData;
+import com.facebook.FacebookSdk;
+import com.facebook.applinks.AppLinkData;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
@@ -83,6 +84,8 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	// Debug / test settings
 
 	private static boolean sIsRobolectric = false;
+	//64 memory class or lower is a shitty device
+	private static boolean sIsDeviceShitty = false;
 	private static boolean sIsInstrumentation = false;
 
 	public static boolean isAutomation() {
@@ -91,6 +94,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	public static boolean isRobolectric() {
 		return sIsRobolectric;
+	}
+
+	public static boolean isDeviceShitty() {
+		return sIsDeviceShitty && !isAutomation();
 	}
 
 	public static void setIsInstrumentation(boolean isInstrumentation) {
@@ -108,6 +115,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
 		super.onCreate();
 		startupTimer.addSplit("super.onCreate()");
+
+		ActivityManager am = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+		int memClass = am.getMemoryClass();
+		sIsDeviceShitty = memClass <= 64;
 
 		if (!isAutomation()) {
 			Fabric.with(this, new Crashlytics());
@@ -131,6 +142,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			MockModeShim.initMockWebServer(this);
 			startupTimer.addSplit("Mock mode init");
 		}
+
+		FacebookSdk.sdkInitialize(this);
+		startupTimer.addSplit("FacebookSdk started.");
 
 		PicassoHelper.init(this, mAppComponent.okHttpClient());
 		startupTimer.addSplit("Picasso started.");
@@ -218,24 +232,26 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 		startupTimer.addSplit("User upgraded to use AccountManager (if needed)");
 
-		AppLinkData.fetchDeferredAppLinkData(this,
-			new AppLinkData.CompletionHandler() {
-				@Override
-				public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
-					// applinkData is null in case it is not a deferred deeplink.
-					if (appLinkData != null && appLinkData.getTargetUri() != null) {
-						Log.v("Facebook Deferred Deeplink: ", appLinkData.getTargetUri().toString());
-						Intent intent = new Intent();
-						intent.setData(appLinkData.getTargetUri());
-						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-						intent.setComponent(new ComponentName(BuildConfig.APPLICATION_ID,
-							"com.expedia.bookings.activity.DeepLinkRouterActivity"));
-						startActivity(intent);
+		if (!isAutomation()) {
+			AppLinkData.fetchDeferredAppLinkData(this,
+				new AppLinkData.CompletionHandler() {
+					@Override
+					public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
+						// applinkData is null in case it is not a deferred deeplink.
+						if (appLinkData != null && appLinkData.getTargetUri() != null) {
+							Log.v("Facebook Deferred Deeplink: ", appLinkData.getTargetUri().toString());
+							Intent intent = new Intent();
+							intent.setData(appLinkData.getTargetUri());
+							intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+							intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+							intent.setComponent(new ComponentName(BuildConfig.APPLICATION_ID,
+								"com.expedia.bookings.activity.DeepLinkRouterActivity"));
+							startActivity(intent);
+						}
 					}
 				}
-			}
-		);
+			);
+		}
 
 		if (!isAutomation()) {
 			AdTracker.init(getApplicationContext());

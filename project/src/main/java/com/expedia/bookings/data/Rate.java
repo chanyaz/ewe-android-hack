@@ -102,6 +102,17 @@ public class Rate implements JSONable {
 	//ETP: is this rate a pay later rate?
 	private boolean mIsPayLater;
 
+	// deposit policy messaging from the api
+	private String[] mDepositPolicy;
+
+	public String[] getDepositPolicy() {
+		return mDepositPolicy;
+	}
+
+	public void setDepositPolicy(String[] depositPolicy) {
+		this.mDepositPolicy = depositPolicy;
+	}
+
 	public Set<BedType> getBedTypes() {
 		return mBedTypes;
 	}
@@ -232,7 +243,6 @@ public class Rate implements JSONable {
 
 	public void setDepositAmount(Money depositAmount) {
 		mDepositAmount = depositAmount;
-		mDepositRequired = !depositAmount.isZero();
 	}
 
 	public Money getTotalMandatoryFees() {
@@ -309,7 +319,6 @@ public class Rate implements JSONable {
 
 	public void setDepositToShowUsers(Money m) {
 		mDepositToShowUsers = m;
-		mDepositRequired = !m.isZero();
 	}
 
 	public void setStrikeThroughPriceToShowUsers(Money m) {
@@ -445,6 +454,10 @@ public class Rate implements JSONable {
 
 	public boolean depositRequired() {
 		return mDepositRequired;
+	}
+
+	public void setIsDepositRequired(boolean depositRequired) {
+		mDepositRequired = depositRequired;
 	}
 
 	public void setCancellationPolicy(String cancellationPolicy) {

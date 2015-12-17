@@ -36,6 +36,7 @@ public class ApiError extends RuntimeException {
 		LX_SEARCH_NO_RESULTS,
 		LX_DETAILS_FETCH_ERROR,
 		LX_PRODUCT_LOOKUP_ERROR,
+		LIMITED_INVENTORY,
 
 		//Hotel Coupon Errors
 		APPLY_COUPON_ERROR,

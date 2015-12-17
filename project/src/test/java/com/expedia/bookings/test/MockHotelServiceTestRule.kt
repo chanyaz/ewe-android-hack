@@ -6,6 +6,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
 import com.mobiata.mocke3.ExpediaDispatcher
@@ -16,7 +17,6 @@ import org.joda.time.LocalDate
 import org.junit.rules.TestRule
 import org.junit.runner.Description
 import org.junit.runners.model.Statement
-import retrofit.RequestInterceptor
 import retrofit.RestAdapter
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
@@ -31,10 +31,9 @@ public class MockHotelServiceTestRule : TestRule {
         server.setDispatcher(expediaDispatcher())
         val createHotelService = object: Statement() {
             override fun evaluate() {
-                service = HotelServices("http://localhost:" + server.port, OkHttpClient(), emptyInterceptor, Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL)
+                service = HotelServices("http://localhost:" + server.port, OkHttpClient(), MockInterceptor(), Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL)
                 base?.evaluate()
             }
-
         }
         return server.apply(createHotelService, description)
     }
@@ -167,11 +166,5 @@ public class MockHotelServiceTestRule : TestRule {
         val root = File("../lib/mocked/templates").canonicalPath
         val opener = FileSystemOpener(root)
         return ExpediaDispatcher(opener)
-    }
-
-    private val emptyInterceptor = object : RequestInterceptor {
-        override fun intercept(request: RequestInterceptor.RequestFacade) {
-            // ignore
-        }
     }
 }

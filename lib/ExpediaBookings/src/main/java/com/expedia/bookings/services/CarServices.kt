@@ -1,7 +1,19 @@
 package com.expedia.bookings.services
 
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.cars.*
+import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.cars.BaseApiResponse
+import com.expedia.bookings.data.cars.CarCheckoutParams
+import com.expedia.bookings.data.cars.CarCheckoutResponse
+import com.expedia.bookings.data.cars.CarCreateTripResponse
+import com.expedia.bookings.data.cars.CarFilter
+import com.expedia.bookings.data.cars.CarSearch
+import com.expedia.bookings.data.cars.CarSearchParams
+import com.expedia.bookings.data.cars.CarSearchResponse
+import com.expedia.bookings.data.cars.CategorizedCarOffers
+import com.expedia.bookings.data.cars.CreateTripCarOffer
+import com.expedia.bookings.data.cars.RateTerm
+import com.expedia.bookings.data.cars.RateTermDeserializer
 import com.expedia.bookings.utils.Strings
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -18,7 +30,6 @@ import rx.Subscription
 import rx.exceptions.OnErrorNotImplementedException
 import java.util.ArrayList
 import java.util.HashMap
-import kotlin.properties.Delegates
 
 public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor,
                          val ObserveOn: Scheduler, val SubscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
@@ -182,7 +193,7 @@ public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIn
     
     public companion object {
 
-        JvmStatic public fun generateGson(): Gson {
+        @JvmStatic public fun generateGson(): Gson {
             return GsonBuilder().registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
                     .registerTypeAdapter(RateTerm::class.java, RateTermDeserializer()).create()
         }

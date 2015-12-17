@@ -1,10 +1,8 @@
 package com.expedia.bookings.widget;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
-import android.animation.ValueAnimator;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.CardView;
@@ -22,7 +20,6 @@ import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Strings;
@@ -34,70 +31,32 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 
-public class LXResultsListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 
-	private static final int LOADING_VIEW = 0;
-	private static final int DATA_VIEW = 1;
 	private static final String ROW_PICASSO_TAG = "lx_row";
-	private List<LXActivity> activities = new ArrayList<>();
-	private boolean isLoading = false;
 
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-		if (viewType == LOADING_VIEW) {
-			View view = LayoutInflater.from(parent.getContext())
-				.inflate(R.layout.car_lx_loading_animation_widget, parent, false);
-			return new LoadingViewHolder(view);
-		}
-		else {
+		RecyclerView.ViewHolder itemViewHolder = super.onCreateViewHolder(parent, viewType);
+		if (itemViewHolder == null) {
 			View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.section_lx_search_row, parent, false);
-			return new ViewHolder(itemView);
+			itemViewHolder = new ViewHolder(itemView);
 		}
+		return itemViewHolder;
 	}
 
 	@Override
-	public int getItemViewType(int position) {
-		return isLoading ? LOADING_VIEW : DATA_VIEW;
+	protected int loadingLayoutResourceId() {
+		return R.layout.car_lx_loading_animation_widget;
 	}
 
 	@Override
 	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-		if (holder.getItemViewType() != LOADING_VIEW) {
-			LXActivity activity = activities.get(position);
+		super.onBindViewHolder(holder, position);
+		if (holder.getItemViewType() == DATA_VIEW) {
+			LXActivity activity = (LXActivity) getItems().get(position);
 			((ViewHolder) holder).bind(activity);
 		}
-		else {
-			ValueAnimator animation = AnimUtils.setupLoadingAnimation(((LoadingViewHolder) holder).backgroundImageView, position % 2 == 0);
-			((LoadingViewHolder) holder).setAnimator(animation);
-		}
-	}
-
-	@Override
-	public void onViewRecycled(RecyclerView.ViewHolder holder) {
-		if (holder.getItemViewType() == LOADING_VIEW) {
-			((LoadingViewHolder) holder).cancelAnimation();
-		}
-		super.onViewRecycled(holder);
-	}
-
-
-	@Override
-	public int getItemCount() {
-		return activities.size();
-	}
-
-	public void setDummyActivities(List<LXActivity> activities) {
-		setActivities(activities, true);
-	}
-
-	public void setActivities(List<LXActivity> activities) {
-		setActivities(activities, false);
-	}
-
-	private void setActivities(List<LXActivity> activities, boolean areDummyActivities) {
-		this.isLoading = areDummyActivities;
-		this.activities = activities;
-		notifyDataSetChanged();
 	}
 
 	public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

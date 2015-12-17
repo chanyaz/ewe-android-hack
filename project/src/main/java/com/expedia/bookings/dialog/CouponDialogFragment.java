@@ -1,8 +1,8 @@
 package com.expedia.bookings.dialog;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -50,8 +50,8 @@ public class CouponDialogFragment extends DialogFragment {
 	private boolean mIsApplying;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, CouponDialogFragmentListener.class);
 	}
@@ -183,8 +183,8 @@ public class CouponDialogFragment extends DialogFragment {
 	// Listener
 
 	public interface CouponDialogFragmentListener {
-		public void onApplyCoupon(String code);
+		void onApplyCoupon(String code);
 
-		public void onCancelApplyCoupon();
+		void onCancelApplyCoupon();
 	}
 }

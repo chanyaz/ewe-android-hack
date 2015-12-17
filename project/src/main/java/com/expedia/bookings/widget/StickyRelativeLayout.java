@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -68,7 +67,6 @@ public class StickyRelativeLayout extends RelativeLayout {
 	 * Move this container via setTranslationY() if it's not completely visible on the screen.
 	 * Does nothing if this view is not enabled.
 	 */
-	@TargetApi(11)
 	public void stick() {
 		if (!isEnabled()) {
 			return;
@@ -122,5 +120,4 @@ public class StickyRelativeLayout extends RelativeLayout {
 			parent = parent.getParent();
 		}
 	}
-
 }

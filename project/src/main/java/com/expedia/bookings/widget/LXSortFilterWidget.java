@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
@@ -33,6 +34,7 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	private Map<String, LXCategoryMetadata> selectedFilterCategories = new HashMap<>();
 	private boolean isFilteredToZeroResults = false;
+	private View toolbarBackgroundView;
 
 	public LXSortFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -62,6 +64,9 @@ public class LXSortFilterWidget extends LinearLayout {
 	@InjectView(R.id.scroll_filter)
 	android.widget.ScrollView scrollFilter;
 
+	@InjectView(R.id.category_title)
+	TextView categoryTitle;
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -79,7 +84,8 @@ public class LXSortFilterWidget extends LinearLayout {
 		if (statusBarHeight > 0) {
 			int color = getContext().getResources()
 				.getColor(Ui.obtainThemeResID(getContext(), R.attr.primary_color));
-			addView(Ui.setUpStatusBar(getContext(), null, null, color), 0);
+			toolbarBackgroundView = Ui.setUpStatusBar(getContext(), null, null, color);
+			addView(toolbarBackgroundView, 0);
 		}
 		// Reset Popularity sort as default.
 		popularitySortButton.setSelected(true);
@@ -136,10 +142,7 @@ public class LXSortFilterWidget extends LinearLayout {
 			}
 		}
 		else {
-			// Set to default state, as we have new search params available.
-			selectedFilterCategories.clear();
-			popularitySortButton.setSelected(true);
-			priceSortButton.setSelected(false);
+			resetSortAndFilter();
 		}
 
 		// Hide the dynamic feedback & update done button in case we have zero filters applied.
@@ -240,5 +243,27 @@ public class LXSortFilterWidget extends LinearLayout {
 		LXSortFilterMetadata lxSortFilterMetadata = new LXSortFilterMetadata(filters);
 		this.selectedFilterCategories = lxSortFilterMetadata.lxCategoryMetadataMap;
 		return this;
+	}
+
+	public void categoryFilterVisibility(boolean visibility) {
+		categoryTitle.setVisibility(visibility ? VISIBLE : GONE);
+		filterCategoriesContainer.setVisibility(visibility ? VISIBLE : GONE);
+		toolbarBackgroundView.setVisibility(visibility ? VISIBLE : GONE);
+	}
+
+	public void setToolbarTitle(CharSequence title) {
+		toolbar.setTitle(title);
+	}
+
+	public void resetSortAndFilter() {
+		// Set to default state, as we have new search params available.
+		selectedFilterCategories.clear();
+
+		popularitySortButton.setSelected(true);
+		priceSortButton.setSelected(false);
+	}
+
+	public int getSortFilterWidgetHeightForCategoriesABTest() {
+		return filterCategoriesContainer.getTop() + Ui.toolbarSizeWithStatusBar(getContext());
 	}
 }

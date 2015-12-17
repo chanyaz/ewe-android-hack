@@ -138,7 +138,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			Hotel hotel = (Hotel) listData.get(actualPosition);
 
 			final String url = Images.getNearbyHotelImage(hotel);
-			HeaderBitmapDrawable drawable = Images.makeHotelBitmapDrawable(parentView.getContext(), (HotelViewHolder) holder, width, url,
+			HeaderBitmapDrawable drawable = Images.makeHotelBitmapDrawable(parentView.getContext(), (HotelViewHolder) holder, width/2, url,
 				PICASSO_TAG, R.drawable.results_list_placeholder);
 			((HotelViewHolder) holder).backgroundImage.setImageDrawable(drawable);
 
@@ -147,7 +147,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		else if (holder.getItemViewType() == COLLECTION_VIEW) {
 			CollectionLocation location = (CollectionLocation) listData.get(actualPosition);
 
-			final String url = Images.getCollectionImageUrl(location, width);
+			final String url = Images.getCollectionImageUrl(location, width/2);
 			HeaderBitmapDrawable drawable = Images.makeCollectionBitmapDrawable(parentView.getContext(), (CollectionViewHolder) holder, url, PICASSO_TAG);
 			((CollectionViewHolder) holder).collectionUrl = url;
 			((CollectionViewHolder) holder).backgroundImage.setImageDrawable(drawable);

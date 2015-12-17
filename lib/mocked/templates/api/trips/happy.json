@@ -205,7 +205,12 @@
               },
               "amenities": [
                 "Free Wireless Internet"
-              ]
+              ],
+              "nonPricePromotionData": {
+                "id": "1",
+                "version": "1",
+                "text": "The minibar is free"
+              }
             }
           ],
           "isFreeCancellationAvailable": true
@@ -1032,7 +1037,8 @@
                       "isSmokingPreferenceSelected": true,
                       "isRoomOptionsAvailable": true
                     }
-                  }
+                  },
+                  "nonPricePromotionData": {}
                 }
               ],
               "sharableItemDetailURL": "https://wwwexpediacom.integration.sb.karmalab.net/api/trips/shared/69Ew7MwI9lWWrTPTsRYx0K5y1J0N1EYtYafcTcVdKl5ktMxse-QseMkdUuLD7LFm5U2wv6R_DpHVg0ipUErNpqrvN2hZP9X9UJo0XNtrgOyM9kN5MKorRTv4pTTKRS3ZqURei9_CZp2HesHWxIl6NwmCU6coLTvcdpqdrDYrHl0",

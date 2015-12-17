@@ -8,6 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.SuggestionServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
@@ -33,6 +34,7 @@ public class SuggestionServicesTest {
 	@Before
 	public void before() {
 		service = new SuggestionServices("http://localhost:" + server.getPort(), new OkHttpClient(),
+			new MockInterceptor(),
 			Schedulers.immediate(),
 			Schedulers.immediate(), RestAdapter.LogLevel.FULL);
 	}

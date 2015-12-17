@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
@@ -150,7 +151,8 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		if (hotel != null) {
 			HotelSearchParams params = hotel.getHotelSearchParams();
 			if (params != null) {
-				String dateRange = DateFormatUtils.formatDateRange(getActivity(), params, DateFormatUtils.FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY);
+				String dateRange = DateFormatUtils.formatDateRange(getActivity(), params,
+					DateFormatUtils.FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY);
 				mDatesTv.setText(dateRange);
 
 				//Guests
@@ -161,6 +163,24 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 
 			}
 		}
+	}
+
+	private void addDueToBrandRow(Rate rate, boolean showDepositAmount) {
+		String formattedMoney = showDepositAmount ? rate.getDepositAmount().getFormattedMoney() : rate.getTotalAmountAfterTax().getFormattedMoney();
+		String totalDueToOurBrandToday;
+		if (showDepositAmount) {
+			totalDueToOurBrandToday = Phrase.from(getActivity(), R.string.due_to_brand_today_today_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format()
+				.toString();
+		}
+		else {
+			totalDueToOurBrandToday = Phrase.from(getActivity(), R.string.due_to_brand_today_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format()
+				.toString();
+		}
+		addExtraRow(totalDueToOurBrandToday, formattedMoney, false);
 	}
 
 	private void addResortFeeRows(Rate rate) {
@@ -293,14 +313,17 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null) {
 			Rate rate = hotel.getRate();
-			String totalTitle;
-			String price;
+			String totalTitle = getResources().getString(R.string.trip_total);
+			String price = rate.getTotalPriceWithMandatoryFees().getFormattedMoney();
 
 			mExtrasContainer.removeAllViews();
 			if (PointOfSale.getPointOfSale().showFTCResortRegulations() && rate.showResortFeesMessaging()) {
 				addResortFeeRows(rate);
-				totalTitle = getResources().getString(R.string.trip_total);
-				price = rate.getTotalPriceWithMandatoryFees().getFormattedMoney();
+				addDueToBrandRow(rate, false);
+			}
+			else if (rate.isPayLater() && rate.depositRequired()) {
+				boolean showDepositAmount = true;
+				addDueToBrandRow(rate, showDepositAmount);
 			}
 			else {
 				totalTitle = getResources().getString(R.string.total_with_tax);

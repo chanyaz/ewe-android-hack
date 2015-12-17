@@ -68,7 +68,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
 
     val textWatcher: TextWatcher = object : TextWatcher {
         override fun afterTextChanged(s: Editable) {
-            mToolbarListener.showRightActionButton(s.length() > 3)
+            mToolbarListener.showRightActionButton(s.length > 3)
         }
 
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
@@ -96,7 +96,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
         }
         couponCode.setOnEditorActionListener(object : android.widget.TextView.OnEditorActionListener {
             override fun onEditorAction(textView: android.widget.TextView, actionId: Int, event: KeyEvent?): Boolean {
-                if (actionId == EditorInfo.IME_ACTION_DONE && textView.text.length() > 3) {
+                if (actionId == EditorInfo.IME_ACTION_DONE && textView.text.length > 3) {
                     onMenuButtonPressed()
                 }
                 return false
@@ -115,7 +115,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
     }
 
     override fun getMenuDoneButtonFocus(): Boolean {
-        if (couponCode.getText().length() > 0) {
+        if (couponCode.getText().length > 0) {
             return true
         }
         return false

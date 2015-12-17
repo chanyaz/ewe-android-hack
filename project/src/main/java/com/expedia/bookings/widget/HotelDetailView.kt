@@ -26,9 +26,11 @@ import android.widget.RelativeLayout
 import android.widget.Space
 import android.widget.TableLayout
 import android.widget.TableRow
+import android.widget.ImageView
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelV2Tracking
@@ -56,14 +58,6 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapView
-import com.google.android.gms.maps.MapsInitializer
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import rx.Observable
 import rx.Observer
 import java.util.ArrayList
@@ -72,7 +66,7 @@ import kotlin.properties.Delegates
 val DESCRIPTION_ANIMATION = 150L
 val HOTEL_DESC_COLLAPSE_LINES = 2
 
-public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs), OnMapReadyCallback {
+public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     val MAP_ZOOM_LEVEL = 12f
     var bottomMargin = 0
@@ -115,7 +109,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val readMoreView: ImageButton by bindView(R.id.read_more)
     val hotelDescription: TextView by bindView(R.id.body_text)
     val hotelDescriptionContainer: ViewGroup by bindView(R.id.hotel_description_container)
-    val miniMapView: MapView by bindView(R.id.mini_map_view)
+    val miniMapView: LocationMapImageView by bindView(R.id.mini_map_view)
     val transparentViewOverMiniMap: View by bindView(R.id.transparent_view_over_mini_map)
     val gradientHeight = context.getResources().getDimension(R.dimen.hotel_detail_gradient_height)
 
@@ -151,7 +145,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val resortFeeWidget: ResortFeeWidget by bindView(R.id.resort_fee_widget)
     val commonAmenityText: TextView by bindView(R.id.common_amenities_text)
     val commonAmenityDivider: View by bindView(R.id.common_amenities_divider)
-    var googleMap: GoogleMap? = null
     val roomContainer: TableLayout by bindView(R.id.room_container)
     val propertyTextContainer: TableLayout by bindView(R.id.property_info_container)
 
@@ -160,7 +153,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var toolBarHeight = 0
     val toolBarBackground: View by bindView(R.id.toolbar_background)
     val toolBarGradient: View by bindView(R.id.hotel_details_gradient)
-    var hotelLatLng: DoubleArray by Delegates.notNull()
     var offset: Float by Delegates.notNull()
     var priceContainerLocation = IntArray(2)
     var urgencyContainerLocation = IntArray(2)
@@ -174,7 +166,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     private val ANIMATION_DURATION_ROOM_CONTAINER = if (ExpediaBookingApp.isAutomation()) 0L else 250L
 
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
-        detailContainer.getViewTreeObserver().addOnScrollChangedListener(scrollListener)
         detailContainer.setOnTouchListener(touchListener)
 
         vm.toolBarRatingColor.subscribeStarColor(toolBarRating)
@@ -230,7 +221,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             hotelGalleryIndicator.animate().translationX((galleryDescriptionBar.first * hotelGalleryIndicator.width).toFloat()).
                     setInterpolator(LinearInterpolator()).start()
             hotelGalleryDescription.setText(galleryDescriptionBar.second)
-
         }
 
         transparentViewOverMiniMap.subscribeOnClick(vm.mapClickedSubject)
@@ -262,23 +252,24 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.strikeThroughPriceVisibility.subscribeVisibility(strikeThroughPrice)
         vm.pricePerNightObservable.subscribeText(price)
         vm.searchInfoObservable.subscribeText(searchInfo)
-        vm.userRatingObservable.subscribeText(userRating)
         vm.roomPriceToShowCustomer.subscribeText(price)
         vm.perNightVisibility.subscribeInverseVisibility(perNight)
 
         vm.isUserRatingAvailableObservable.subscribeVisibility(userRating)
+        vm.userRatingObservable.subscribeText(userRating)
+        vm.userRatingBackgroundColorObservable.subscribeBackground(userRating)
         vm.isUserRatingAvailableObservable.subscribeVisibility(userRatingRecommendationText)
+        vm.userRatingRecommendationTextObservable.subscribeText(userRatingRecommendationText)
         vm.isUserRatingAvailableObservable.map { !it }.subscribeVisibility(noGuestRating)
+
         vm.numberOfReviewsObservable.subscribeText(numberOfReviews)
         vm.hotelLatLngObservable.subscribe {
             values ->
-            hotelLatLng = values
-            googleMap?.clear()
-            googleMap?.setMapType(GoogleMap.MAP_TYPE_NORMAL)
-            addMarker()
-            googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(hotelLatLng[0], hotelLatLng[1]), MAP_ZOOM_LEVEL))
+            val location = Location()
+            location.latitude = values[0]
+            location.longitude = values[1]
+             miniMapView.setLocation(location)
         }
-
         vm.payByPhoneContainerVisibility.subscribe { spaceAboveSelectARoom() }
         vm.payByPhoneContainerVisibility.subscribeVisibility(payByPhoneContainer)
         vm.discountPercentageObservable.subscribeText(discountPercentage)
@@ -303,26 +294,35 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             if (CollectionUtils.isEmpty(roomList.first)) {
                 return@subscribe
             }
-            val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(roomList.first.size())
+            val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(roomList.first.size)
 
             val roomContainerAlphaZeroToOneAnimation = AlphaAnimation(0f, 1f)
             roomContainerAlphaZeroToOneAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
 
             val roomContainerAlphaOneToZeroAnimation = AlphaAnimation(1f, 0f)
             roomContainerAlphaOneToZeroAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
-            roomContainerAlphaOneToZeroAnimation.setAnimationListener(object: Animation.AnimationListener {
+            roomContainerAlphaOneToZeroAnimation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationEnd(p0: Animation?) {
+                    for (index in 0..(roomContainer.childCount-1) ) {
+                        val room = roomContainer.getChildAt(index) as HotelRoomRateView
+                        recycleImageView(room.roomHeaderImage)
+                    }
                     roomContainer.removeAllViews()
                     roomList.first.forEachIndexed { roomResponseIndex, room ->
+                        val hasETP = viewmodel.hasETPObservable.value
                         val view = HotelRoomRateViewFactory.makeHotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex,
-                                vm.hotelOffersResponse.hotelId, roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), vm.rowExpandingObservable)
+                                vm.hotelOffersResponse.hotelId, roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), vm.rowExpandingObservable, hasETP)
                         var parent = view.parent
                         if (parent != null) {
                             (parent as ViewGroup).removeView(view)
                         }
                         roomContainer.addView(view)
                         hotelRoomRateViewModels.add(view.viewmodel)
+                        view.viewmodel.depositTermsClickedObservable.subscribe {
+                            vm.depositInfoContainerClickObservable.onNext(Pair(vm.hotelOffersResponse.hotelCountry, room))
+                        }
                     }
+
                     vm.lastExpandedRowObservable.onNext(-1)
                     vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
                     roomContainer.startAnimation(roomContainerAlphaZeroToOneAnimation)
@@ -342,8 +342,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.hasETPObservable.subscribeVisibility(etpInfoText)
         vm.hasFreeCancellationObservable.subscribeVisibility(freeCancellation)
 
-       vm.etpContainerVisibility.subscribeVisibility(etpContainer)
-       vm.hasETPObservable.filter { it == true }.subscribe { payNowLaterSelectionChanged(true) }
+        vm.etpContainerVisibility.subscribeVisibility(etpContainer)
+        vm.hasETPObservable.filter { it == true }.subscribe { payNowLaterSelectionChanged(true) }
 
         Observable.combineLatest(vm.hasETPObservable, vm.hasFreeCancellationObservable, vm.hotelSoldOut) { hasETP, hasFreeCancellation, hotelSoldOut -> hasETP && hasFreeCancellation && !hotelSoldOut }
                 .subscribeVisibility(freeCancellationAndETPMessaging)
@@ -361,28 +361,37 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             if (CollectionUtils.isEmpty(etpRoomList.first)) {
                 return@subscribe
             }
-            val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(etpRoomList.first.size())
+            val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>(etpRoomList.first.size)
 
             val roomContainerAlphaZeroToOneAnimation = AlphaAnimation(0f, 1f)
             roomContainerAlphaZeroToOneAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
 
             val roomContainerAlphaOneToZeroAnimation = AlphaAnimation(1f, 0f)
             roomContainerAlphaOneToZeroAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
-            roomContainerAlphaOneToZeroAnimation.setAnimationListener(object: Animation.AnimationListener {
+            roomContainerAlphaOneToZeroAnimation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationEnd(p0: Animation?) {
+                    for (index in 0..(roomContainer.childCount-1) ) {
+                        val room = roomContainer.getChildAt(index) as HotelRoomRateView
+                        recycleImageView(room.roomHeaderImage)
+                    }
                     roomContainer.removeAllViews()
                     etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
+                        val hasETP = viewmodel.hasETPObservable.value
                         val view = HotelRoomRateViewFactory.makeHotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex,
-                                vm.hotelOffersResponse.hotelId, etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), vm.rowExpandingObservable)
+                                vm.hotelOffersResponse.hotelId, etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), vm.rowExpandingObservable, hasETP)
                         var parent = view.parent
                         if (parent != null) {
                             (parent as ViewGroup).removeView(view)
                         }
                         roomContainer.addView(view)
                         hotelRoomRateViewModels.add(view.viewmodel)
+                        view.viewmodel.depositTermsClickedObservable.subscribe {
+                            vm.depositInfoContainerClickObservable.onNext(Pair(vm.hotelOffersResponse.hotelCountry, room))
+                        }
                     }
                     vm.lastExpandedRowObservable.onNext(-1)
                     vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
+
                     roomContainer.startAnimation(roomContainerAlphaZeroToOneAnimation)
                 }
 
@@ -432,13 +441,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         renovationContainer.subscribeOnClick(vm.renovationContainerClickObserver)
         resortFeeWidget.subscribeOnClick(vm.resortFeeContainerClickObserver)
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
-
-        //getting the map
-        miniMapView.onCreate(null)
-        miniMapView.getMapAsync(this);
     }
 
     fun resetViews() {
+        detailContainer.getViewTreeObserver().removeOnScrollChangedListener(scrollListener)
         AnimUtils.reverseRotate(readMoreView)
         hotelDescription.maxLines = HOTEL_DESC_COLLAPSE_LINES
         renovationContainer.setVisibility(View.GONE)
@@ -460,10 +466,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         payNowButtonContainer.unsubscribeOnClick()
         payLaterButtonContainer.unsubscribeOnClick()
         gallery.setDataSource(emptyList())
+        for (index in 0..(roomContainer.childCount-1) ) {
+            val room = roomContainer.getChildAt(index) as HotelRoomRateView
+            recycleImageView(room.roomHeaderImage)
+        }
         roomContainer.removeAllViews()
-
-        googleMap?.clear()
-        googleMap?.setMapType(GoogleMap.MAP_TYPE_NONE)
     }
 
     private fun hideResortandSelectRoom() {
@@ -496,7 +503,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     fun payNowLaterSelectionChanged(payNowSelected: Boolean) {
         payNowButtonContainer.isSelected = payNowSelected
         payLaterButtonContainer.isSelected = !payNowSelected
-        
+
         val checkMarkIcon = ContextCompat.getDrawable(context, R.drawable.sliding_radio_selector_left)
         if (payNowSelected) {
             payNowButton.setCompoundDrawablesWithIntrinsicBounds(checkMarkIcon, null, null, null)
@@ -511,28 +518,12 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         // Scroll to the top room in case of change in ETP selection when ETP container is sticked
-        if(etpContainerDropShadow.visibility == View.VISIBLE) {
+        if (etpContainerDropShadow.visibility == View.VISIBLE) {
             val etpLocation = etpContainer.y + etpContainer.height
             val offsetToETP = if (commonAmenityText.visibility == View.VISIBLE) commonAmenityText.y else roomContainer.y
             val offset = offsetToETP - etpLocation
             detailContainer.smoothScrollBy(0, offset.toInt())
         }
-    }
-
-    override fun onMapReady(googleMap: GoogleMap) {
-        this.googleMap = googleMap
-        MapsInitializer.initialize(getContext())
-        googleMap.getUiSettings().setMapToolbarEnabled(false)
-        googleMap.getUiSettings().setMyLocationButtonEnabled(false)
-        googleMap.getUiSettings().setZoomControlsEnabled(false)
-    }
-
-    public fun addMarker() {
-        googleMap ?: return
-        val marker = MarkerOptions()
-        marker.position(LatLng(hotelLatLng[0], hotelLatLng[1]))
-        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.hotels_pin))
-        googleMap?.addMarker(marker)
     }
 
     val scrollListener = object : ViewTreeObserver.OnScrollChangedListener {
@@ -695,7 +686,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             toolbar.setPadding(0, statusBarHeight, 0, 0)
         }
         Ui.showTransparentStatusBar(getContext())
-        toolbar.setBackgroundColor(getResources().getColor(android.R.color.transparent))
+        toolbar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         toolBarBackground.getLayoutParams().height += statusBarHeight
         toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
 
@@ -709,7 +700,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         offset = statusBarHeight.toFloat() + toolBarHeight
 
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
-        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN!!)
+        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.setNavigationIcon(navIcon)
 
         toolbar.setNavigationOnClickListener { view ->
@@ -720,8 +711,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
 
         //share hotel listing text view set up drawable
-        val phoneIconDrawable = getResources().getDrawable(R.drawable.detail_phone).mutate()
-        phoneIconDrawable.setColorFilter(getResources().getColor(R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
+        val phoneIconDrawable = ContextCompat.getDrawable(context, R.drawable.detail_phone).mutate()
+        phoneIconDrawable.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
         payByPhoneTextView.setCompoundDrawablesWithIntrinsicBounds(phoneIconDrawable, null, null, null)
         selectRoomButton.setOnClickListener {
             scrollToRoom(true)
@@ -747,11 +738,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         FontCache.setTypeface(payLaterButton, FontCache.Font.ROBOTO_REGULAR)
     }
 
-    override fun onVisibilityChanged(changedView: View?, visibility: Int) {
-        super.onVisibilityChanged(changedView, visibility)
-        if (changedView == this && visibility == View.VISIBLE) {
-            resetGallery()
-        }
+    public fun refresh() {
+        detailContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
+        resetGallery()
     }
 
     public fun resetGallery() {
@@ -816,5 +805,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                         detailContainer.scrollY.toFloat() / initialScrollTop)
             }
         }
+    }
+
+    fun recycleImageView(imageView: ImageView) {
+        var drawable = imageView.drawable;
+        drawable?.callback = null
+        drawable = null
     }
 }

@@ -13,6 +13,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'io.fabric'
 apply plugin: 'checkstyle'
 apply plugin: 'fork'
+apply from: '../jacoco.gradle'
 
 repositories {
     jcenter()
@@ -40,10 +41,11 @@ dependencies {
         exclude group: 'org.json'
     }
     compile 'com.expedia:svg-android:0.1.0'
-    compile 'com.expedia:android-account-lib:0.5.12'
+    compile 'com.expedia:android-account-lib:0.7.2'
     compile 'com.expedia:android-rangeseekbar:1.0.1'
     compile 'com.dgmltn:share-everywhere:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+    compile 'com.google.maps.android:android-maps-utils:0.4+'
 
     // Google Play Services deps on the support lib
     // however we add it here so the android-sdk-manager plugin behaves
@@ -69,8 +71,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.leanplum:Leanplum:1.2.15'
-    compile 'com.facebook.android:facebook-android-sdk:3.21.1'
     compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     compile ('com.wefika:flowlayout:0.4.0') {
         exclude group: 'com.intellij'
     }
@@ -188,8 +190,8 @@ android {
             applicationId "com.expedia.bookings"
 
             def major = 6
-            def minor = 5
-            def patch = 1
+            def minor = 6
+            def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
@@ -273,6 +275,8 @@ android {
 
     buildTypes {
         debug {
+            testCoverageEnabled = true
+
             applicationIdSuffix ("." + GradleUtil.getBuildIdentifier(project))
 
             minifyEnabled shouldRunProguard

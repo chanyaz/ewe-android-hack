@@ -182,6 +182,13 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 		return null;
 	}
 
+	public String getNonPricePromotionText() {
+		if (hasProperty()) {
+			return mProperty.getItinNonPricePromotionText();
+		}
+		return null;
+	}
+
 	public String getRoomType() {
 		if (hasProperty()) {
 			return mProperty.getItinRoomType();

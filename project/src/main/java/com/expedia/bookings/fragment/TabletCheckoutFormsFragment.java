@@ -1,12 +1,7 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import android.annotation.TargetApi;
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,6 +27,7 @@ import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TripBucketItemHotel;
@@ -72,8 +68,9 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
+import java.util.ArrayList;
+
 @SuppressWarnings("ResourceType")
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class TabletCheckoutFormsFragment extends LobableFragment implements IBackManageable,
 	IStateProvider<CheckoutFormState>,
 	ICheckoutDataListener,
@@ -85,7 +82,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	PaymentButtonFragment.IPaymentButtonListener {
 
 	public interface ISlideToPurchaseSizeProvider {
-		public View getSlideToPurchaseContainer();
+		View getSlideToPurchaseContainer();
 	}
 
 	private static final String STATE_CHECKOUTFORMSTATE = "STATE_CHECKOUTFORMSTATE";
@@ -126,34 +123,33 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private SizeCopyView mSizeCopyView;
 	private TravelerFlowStateTablet mTravelerFlowState;
 	private TextView mResortFeeText;
+	private TextView mDepositPolicyTxt;
 
 	private TripBucketHorizontalHotelFragment mHorizontalHotelFrag;
 	private TripBucketHorizontalFlightFragment mHorizontalFlightFrag;
 
 	private ISlideToPurchaseSizeProvider mISlideToPurchaseSizeProvider;
 
-	private ArrayList<View> mTravelerViews = new ArrayList<View>();
-	private ArrayList<TravelerButtonFragment> mTravelerButtonFrags = new ArrayList<TravelerButtonFragment>();
+	private ArrayList<View> mTravelerViews = new ArrayList<>();
+	private ArrayList<TravelerButtonFragment> mTravelerButtonFrags = new ArrayList<>();
 	private boolean mIsLandscape;
 
 	private SingleStateListener<CheckoutFormState> mPaymentOpenCloseListener;
 	private SingleStateListener<CheckoutFormState> mTravelerOpenCloseListener;
 
-	private StateManager<CheckoutFormState> mStateManager = new StateManager<CheckoutFormState>(
-		CheckoutFormState.OVERVIEW, this);
+	private StateManager<CheckoutFormState> mStateManager = new StateManager<>(CheckoutFormState.OVERVIEW, this);
 
 	public static TabletCheckoutFormsFragment newInstance() {
-		TabletCheckoutFormsFragment frag = new TabletCheckoutFormsFragment();
-		return frag;
+		return new TabletCheckoutFormsFragment();
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mCheckoutInfoListener = Ui.findFragmentListener(this, CheckoutInformationListener.class);
 		mISlideToPurchaseSizeProvider = Ui.findFragmentListener(this, ISlideToPurchaseSizeProvider.class);
 
-		mIsLandscape = activity.getResources().getBoolean(R.bool.landscape);
+		mIsLandscape = context.getResources().getBoolean(R.bool.landscape);
 	}
 
 	@Override
@@ -200,10 +196,12 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 
 		if (mPaymentOpenCloseListener == null) {
-			mPaymentOpenCloseListener = new SingleStateListener(CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_PAYMENT, true, new OpenCloseListener(mPaymentFormC, mPaymentForm));
+			mPaymentOpenCloseListener = new SingleStateListener(CheckoutFormState.OVERVIEW,
+				CheckoutFormState.EDIT_PAYMENT, true, new OpenCloseListener(mPaymentFormC, mPaymentForm));
 		}
 		if (mTravelerOpenCloseListener == null) {
-			mTravelerOpenCloseListener = new SingleStateListener(CheckoutFormState.OVERVIEW, CheckoutFormState.EDIT_TRAVELER, true, new OpenCloseListener(mTravelerFormC, mTravelerForm));
+			mTravelerOpenCloseListener = new SingleStateListener(CheckoutFormState.OVERVIEW,
+				CheckoutFormState.EDIT_TRAVELER, true, new OpenCloseListener(mTravelerFormC, mTravelerForm));
 		}
 
 		registerStateListener(mPaymentOpenCloseListener, false);
@@ -296,11 +294,11 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	@Override
 	public void doFragmentSetup(String tag, Fragment frag) {
-		if (tag == FRAG_TAG_HORIZONTAL_ITEM_HOTEL) {
+		if (FRAG_TAG_HORIZONTAL_ITEM_HOTEL.equals(tag)) {
 			TripBucketHorizontalHotelFragment f = (TripBucketHorizontalHotelFragment) frag;
 			f.setState(TripBucketItemState.EXPANDED);
 		}
-		else if (tag == FRAG_TAG_HORIZONTAL_ITEM_FLIGHT) {
+		else if (FRAG_TAG_HORIZONTAL_ITEM_FLIGHT.equals(tag)) {
 			TripBucketHorizontalFlightFragment f = (TripBucketHorizontalFlightFragment) frag;
 			f.setState(TripBucketItemState.EXPANDED);
 		}
@@ -343,7 +341,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	}
 
 	private void checkCouponForGoogleWallet() {
-		if (WalletUtils.offerGoogleWalletCoupon(getActivity()) && mStateManager.getState() == CheckoutFormState.OVERVIEW) {
+		if (WalletUtils.offerGoogleWalletCoupon(getActivity())
+			&& mStateManager.getState() == CheckoutFormState.OVERVIEW) {
 			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 			if (hotel.isCouponGoogleWallet() && !(hotel.getState() == TripBucketItemState.PURCHASED)) {
 				if (!Db.getBillingInfo().hasStoredCard() || !Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
@@ -353,7 +352,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				}
 			}
 			else if (Db.getBillingInfo().hasStoredCard() && Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
-					applyWalletCoupon();
+				applyWalletCoupon();
 			}
 		}
 	}
@@ -429,10 +428,12 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			.setFragmentAvailability(false, FRAG_TAG_COUPON_CONTAINER, fragmentManager, removeFragsTransaction, this,
 				COUPON_FRAG_CONTAINER_ID, false);
 		mHorizontalHotelFrag = FragmentAvailabilityUtils
-			.setFragmentAvailability(false, FRAG_TAG_HORIZONTAL_ITEM_HOTEL, fragmentManager, removeFragsTransaction, this,
+			.setFragmentAvailability(false, FRAG_TAG_HORIZONTAL_ITEM_HOTEL, fragmentManager, removeFragsTransaction,
+				this,
 				R.id.horizontal_trip_bucket_item, false);
 		mHorizontalFlightFrag = FragmentAvailabilityUtils
-			.setFragmentAvailability(false, FRAG_TAG_HORIZONTAL_ITEM_FLIGHT, fragmentManager, removeFragsTransaction, this,
+			.setFragmentAvailability(false, FRAG_TAG_HORIZONTAL_ITEM_FLIGHT, fragmentManager, removeFragsTransaction,
+				this,
 				R.id.horizontal_trip_bucket_item, false);
 
 		for (TravelerButtonFragment btnFrag : mTravelerButtonFrags) {
@@ -535,6 +536,14 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			legalBlurb.setText(PointOfSale.getPointOfSale().getStylizedHotelBookingStatement(true));
 		}
 
+		if (getLob() == LineOfBusiness.HOTELS) {
+			if (mDepositPolicyTxt == null) {
+				mDepositPolicyTxt = Ui.inflate(R.layout.include_tablet_resort_blurb_tv, mCheckoutRowsC, false);
+			}
+			add(mDepositPolicyTxt);
+			updateDepositPolicyText();
+		}
+
 		if (getLob() == LineOfBusiness.HOTELS && PointOfSale.getPointOfSale().showFTCResortRegulations() &&
 			Db.getTripBucket().getHotel().getRate().showResortFeesMessaging()) {
 			if (mResortFeeText == null) {
@@ -584,12 +593,26 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		transaction.commit();
 
 		bindAll();
+	}
 
+	private void updateDepositPolicyText() {
+		if (mDepositPolicyTxt != null) {
+			Rate rate = Db.getTripBucket().getHotel().getRate();
+			String[] depositPolicy = rate.getDepositPolicy();
+			if (depositPolicy != null) {
+				mDepositPolicyTxt.setText(HotelUtils.getDepositPolicyText(getActivity(), depositPolicy));
+				mDepositPolicyTxt.setVisibility(View.VISIBLE);
+			}
+			else {
+				mDepositPolicyTxt.setVisibility(View.GONE);
+			}
+		}
 	}
 
 	private void updateResortFeeText() {
 		if (mResortFeeText != null) {
-			Spanned resortBlurb = HotelUtils.getCheckoutResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate());
+			Spanned resortBlurb = HotelUtils
+				.getCheckoutResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate());
 			mResortFeeText.setText(resortBlurb);
 		}
 	}
@@ -643,7 +666,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	private String getTravelerBoxLabelForIndex(int index) {
 		if (mTravelerBoxLabels == null) {
-			List<Traveler> travelers = Db.getTravelers();
 			//Collections.sort(travelers);
 			mTravelerBoxLabels = TravelerUtils.generateTravelerBoxLabels(getActivity(), Db.getTravelers());
 		}
@@ -739,13 +761,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 	}
 
-	private void setValidationViewVisibility(View view, int validationViewId, boolean valid) {
-		View validationView = Ui.findView(view, validationViewId);
-		if (validationView != null) {
-			validationView.setVisibility(valid ? View.VISIBLE : View.GONE);
-		}
-	}
-
 	/*
 	 * PAYMENT FORM STUFF
 	 */
@@ -819,7 +834,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 		@Override
 		public void onStateTransitionEnd(boolean isReversed) {
-
 		}
 
 		@Override
@@ -1027,7 +1041,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			if (!Db.getTripBucket().getHotel().isCouponApplied()) {
 				mCouponContainer.onApplyCoupon(couponCode);
 			}
-			else if (Db.getTripBucket().getHotel().isCouponApplied() && !Db.getTripBucket().getHotel().isCouponGoogleWallet()) {
+			else if (Db.getTripBucket().getHotel().isCouponApplied() && !Db.getTripBucket().getHotel()
+				.isCouponGoogleWallet()) {
 				mCouponContainer.onReplaceCoupon(couponCode, true);
 			}
 		}
@@ -1084,5 +1099,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			mHorizontalHotelFrag.refreshRate();
 		}
 		updateResortFeeText();
+		updateDepositPolicyText();
 	}
 }

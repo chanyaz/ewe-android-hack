@@ -2,11 +2,9 @@ package com.expedia.bookings.fragment;
 
 import java.util.Set;
 
-import android.annotation.TargetApi;
-import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -44,22 +42,18 @@ import com.mobiata.android.widget.SegmentedControlGroup;
 import com.squareup.otto.Subscribe;
 import com.squareup.phrase.Phrase;
 
-@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class ResultsHotelReviewsFragment extends Fragment implements UserReviewsFragmentListener,
 	OnPageChangeListener, OnCheckedChangeListener {
 
 	public static ResultsHotelReviewsFragment newInstance() {
-		ResultsHotelReviewsFragment frag = new ResultsHotelReviewsFragment();
-		return frag;
+		return new ResultsHotelReviewsFragment();
 	}
 
 	private ViewGroup mRootC;
 	private ImageView mHotelImage;
 	private TextView mReviewSectionTitle;
-	private View mDoneButton;
 	private SegmentedControlGroup mSortGroup;
 	private ViewPager mViewPager;
-	private View mDominantMask;
 
 	private UserReviewsFragmentPagerAdapter mPagerAdapter;
 
@@ -71,8 +65,8 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 	private ColorDrawable mDominantColorBackground;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 		mBackListener = Ui.findFragmentListener(this, IResultsHotelReviewsBackClickedListener.class);
 		mAddToBucketListener = Ui.findFragmentListener(this, IAddToBucketListener.class);
 	}
@@ -83,8 +77,8 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 		mHotelImage = Ui.findView(mRootC, R.id.hotel_header_image);
 		mViewPager = Ui.findView(mRootC, R.id.pager);
 		mReviewSectionTitle = Ui.findView(mRootC, R.id.reviews_title);
-		mDoneButton = Ui.findView(mRootC, R.id.done_button);
-		mDoneButton.setOnClickListener(new View.OnClickListener() {
+		View doneButton = Ui.findView(mRootC, R.id.done_button);
+		doneButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (mBackListener != null) {
@@ -93,8 +87,8 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 			}
 		});
 		resetDominantColor();
-		mDominantMask = Ui.findView(mRootC, R.id.dominant_color_header_mask);
-		mDominantMask.setBackgroundDrawable(mDominantColorBackground);
+		View dominantMask = Ui.findView(mRootC, R.id.dominant_color_header_mask);
+		dominantMask.setBackgroundDrawable(mDominantColorBackground);
 
 		mPagerAdapter = new UserReviewsFragmentPagerAdapter(getChildFragmentManager(), savedInstanceState);
 
@@ -238,7 +232,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 
 	@Override
 	public void onPageSelected(int position) {
-		int id = 0;
+		int id;
 		if (position == 0) {
 			id = R.id.user_review_button_recent;
 		}
@@ -338,7 +332,6 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 	/*
 	MEASUREMENT HELPER
 	 */
-
 	private MeasurementHelper mMeasurementHelper = new MeasurementHelper() {
 
 		@Override
@@ -358,7 +351,8 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 				Resources res = getResources();
 				int topSpaceSize = res.getDimensionPixelSize(R.dimen.tablet_hotel_details_top_padding);
 				int bottomSpaceSize = res.getDimensionPixelSize(R.dimen.tablet_hotel_details_bottom_padding);
-				float horizSpacePercentage = res.getFraction(R.fraction.tablet_hotel_details_horizontal_spacing_percentage, 1, 1);
+				float horizSpacePercentage = res
+					.getFraction(R.fraction.tablet_hotel_details_horizontal_spacing_percentage, 1, 1);
 				mGrid.setRowSize(0, topSpaceSize);
 				mGrid.setRowSize(2, bottomSpaceSize);
 				mGrid.setColumnPercentage(0, horizSpacePercentage);
@@ -382,7 +376,8 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 				Resources res = getResources();
 				int topSpaceSize = res.getDimensionPixelSize(R.dimen.tablet_hotel_details_top_padding);
 				int bottomSpaceSize = res.getDimensionPixelSize(R.dimen.tablet_hotel_details_bottom_padding);
-				float horizSpacePercentage = res.getFraction(R.fraction.tablet_hotel_details_horizontal_spacing_percentage, 1, 1);
+				float horizSpacePercentage = res
+					.getFraction(R.fraction.tablet_hotel_details_horizontal_spacing_percentage, 1, 1);
 				mGrid.setRowSize(0, topSpaceSize);
 				mGrid.setRowSize(2, bottomSpaceSize);
 				mGrid.setColumnPercentage(0, horizSpacePercentage);

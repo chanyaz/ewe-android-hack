@@ -17,6 +17,7 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsNotDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.getListItemValues;
 import static org.hamcrest.Matchers.containsString;
@@ -46,6 +47,8 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed(R.id.local_phone_number_text_view, "1-415-362-8878");
 		assertViewWithTextIsDisplayed(R.id.room_type_header_text_view, "Room Type");
 		assertViewWithTextIsDisplayed(R.id.room_type_text_view, "Deluxe Room, 1 King Bed");
+		assertViewWithTextIsDisplayed(R.id.non_price_promotion_header_text_view, "Includes");
+		assertViewWithTextIsDisplayed(R.id.non_price_promotion_text_view, "The minibar is free");
 		assertViewWithTextIsDisplayed(R.id.bed_type_header_text_view, "Bed Type");
 		assertViewWithTextIsDisplayed(R.id.bed_type_text_view, "1 king bed");
 		hotelRow.onChildView(withText(containsString("Check in"))).perform(scrollTo(), click());
@@ -70,8 +73,10 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed(R.id.arrival_time,
 			isOutboundFlightArrivalAtStandardOffset ? "10:04 PM" : "9:04 PM");
 		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, isOutboundFlightArrivalAtStandardOffset ? "Arrive (EST)" : "Arrive (EDT)");
-		onView(withText("1102138068718")).perform(scrollTo());
+		onView(withText("San Francisco Int'l Airport")).perform(scrollTo());
 		assertViewWithTextIsDisplayed("San Francisco Int'l Airport");
+		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, isOutboundFlightArrivalAtStandardOffset ? "Arrive (EST)" : "Arrive (EDT)");
+		onView(withText("1102138068718")).perform(scrollTo());
 		// TODO - investigate why flight name differs locally to buildbot #4657
 		//assertViewWithTextIsDisplayed(R.id.airline_text_view, "Delta Air Lines 745");
 		assertViewWithTextIsDisplayed(R.id.departure_time_text_view,
@@ -141,8 +146,9 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 			isPackageOutboundFlightArrivalAtStandardOffset ? "7:04 AM" : "6:04 AM");
 		assertViewWithTextIsDisplayed(R.id.arrival_time_tz,
 			isPackageOutboundFlightArrivalAtStandardOffset ? "Arrive (PST)" : "Arrive (PDT)");
-		onView(withText("11590764196")).perform(scrollTo());
+		onView(withText("San Francisco Int'l Airport")).perform(scrollTo());
 		assertViewWithTextIsDisplayed("San Francisco Int'l Airport");
+		onView(withText("11590764196")).perform(scrollTo());
 		assertViewWithTextIsDisplayed(R.id.departure_time_text_view,
 			isPackageOutboundFlightDepartureAtStandardOffset ? "5:00 AM" : "4:00 AM");
 		assertViewWithTextIsDisplayed("McCarran Int'l Airport");
@@ -165,6 +171,8 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed(R.id.local_phone_number_text_view, "1-702-731-7110");
 		assertViewWithTextIsDisplayed(R.id.room_type_header_text_view, "Room Type");
 		assertViewWithTextIsDisplayed(R.id.room_type_text_view, "Roman Tower");
+		assertViewIsNotDisplayed(R.id.non_price_promotion_header_text_view);
+		assertViewIsNotDisplayed(R.id.non_price_promotion_text_view);
 		assertViewWithTextIsDisplayed(R.id.bed_type_header_text_view, "Bed Type");
 		assertViewWithTextIsDisplayed(R.id.bed_type_text_view, "1 king bed");
 		pckgHotelRow.onChildView(withText(containsString("Check in"))).perform(scrollTo(), click());

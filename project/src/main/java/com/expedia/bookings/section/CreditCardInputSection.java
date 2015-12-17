@@ -142,6 +142,6 @@ public class CreditCardInputSection extends TableLayout implements View.OnClickL
 	// CreditCardInputListener
 
 	public interface CreditCardInputListener {
-		public void onKeyPress(int code);
+		void onKeyPress(int code);
 	}
 }

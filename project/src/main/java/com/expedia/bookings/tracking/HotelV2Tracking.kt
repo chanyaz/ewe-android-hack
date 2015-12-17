@@ -116,6 +116,10 @@ class HotelV2Tracking {
         OmnitureTracking.trackLinkHotelV2AirAttachEligible(hotelRoomResponse, hotelId)
     }
 
+    fun trackLinkHotelV2RoomBookClick(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, hasETP: Boolean) {
+        OmnitureTracking.trackHotelV2RoomBookClick(hotelRoomResponse, hasETP)
+    }
+
     fun trackLinkHotelV2ViewRoomClick() {
         OmnitureTracking.trackLinkHotelV2ViewRoomClick()
     }

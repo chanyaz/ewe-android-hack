@@ -1,6 +1,6 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
@@ -57,8 +57,8 @@ public class HotelListFragment extends ListFragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, HotelListFragmentListener.class);
 
@@ -167,19 +167,6 @@ public class HotelListFragment extends ListFragment {
 		}
 	}
 
-	public void notifyPropertySelected() {
-		int position = mAdapter.getPositionOfProperty(Db.getHotelSearch().getSelectedProperty());
-		if (position != mAdapter.getSelectedPosition()) {
-			mAdapter.setSelectedPosition(position);
-			mAdapter.notifyDataSetChanged();
-		}
-	}
-
-	public void clearSelectedProperty() {
-		mAdapter.setSelectedPosition(-1);
-		mAdapter.notifyDataSetChanged();
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// Update views
 
@@ -271,7 +258,8 @@ public class HotelListFragment extends ListFragment {
 	// Listener
 
 	public interface HotelListFragmentListener {
-		public void onHotelListFragmentAttached(HotelListFragment fragment);
-		public void onListItemClicked(Property property, int position);
+		void onHotelListFragmentAttached(HotelListFragment fragment);
+
+		void onListItemClicked(Property property, int position);
 	}
 }

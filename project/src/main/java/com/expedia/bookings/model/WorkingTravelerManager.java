@@ -117,9 +117,9 @@ public class WorkingTravelerManager {
 	}
 
 	public interface ITravelerUpdateListener {
-		public void onTravelerUpdateFinished();
+		void onTravelerUpdateFinished();
 
-		public void onTravelerUpdateFailed();
+		void onTravelerUpdateFailed();
 	}
 
 	public boolean isCommittingTravelerToAccount() {

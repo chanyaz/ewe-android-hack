@@ -1178,4 +1178,9 @@
         <item name="android:drawableRight">@drawable/smaller_details_info</item>
 >>>>>>> expedia-stable
     </style>
+
+    <style name="MarkerTextAppearance">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">13sp</item>
+    </style>
 </resources>

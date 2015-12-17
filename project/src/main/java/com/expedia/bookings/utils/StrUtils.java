@@ -44,6 +44,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.LocationServices;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
+import com.squareup.phrase.Phrase;
 
 public class StrUtils {
 
@@ -443,14 +444,19 @@ public class StrUtils {
 			PointOfSale.getPointOfSale().getTermsAndConditionsUrl(),
 			context.getResources().getString(R.string.info_label_terms_conditions));
 		String spannedPrivacy = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(), context.getResources().getString(R.string.privacy_policy));
+			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(), context.getResources().getString(
+			R.string.privacy_policy));
 		String statement = context.getResources()
 			.getString(R.string.legal_TEMPLATE, spannedRules, spannedTerms, spannedPrivacy);
 
 		return getSpannableTextByPrimaryColor(context, statement, true);
 	}
 
-	private static SpannableStringBuilder getSpannableTextByPrimaryColor(Context context, String statement, boolean makeClickable) {
+	public static SpannableStringBuilder getSpannableTextByPrimaryColor(Context context, String statement, boolean makeClickable) {
+		return getSpannableTextByColor(statement, Ui.obtainThemeColor(context, R.attr.primary_color), makeClickable);
+	}
+
+	public static SpannableStringBuilder getSpannableTextByColor(String statement, int color, boolean makeClickable) {
 		SpannableStringBuilder legalTextSpan = new SpannableStringBuilder();
 		legalTextSpan.append(Html.fromHtml(statement));
 
@@ -467,7 +473,7 @@ public class StrUtils {
 			}
 			legalTextSpan.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
 			legalTextSpan.setSpan(new UnderlineSpan(), start, end, 0);
-			legalTextSpan.setSpan(new ForegroundColorSpan(Ui.obtainThemeColor(context, R.attr.primary_color)), start,
+			legalTextSpan.setSpan(new ForegroundColorSpan(color), start,
 				end,
 				Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}
@@ -480,13 +486,20 @@ public class StrUtils {
 
 		String spannedTerms = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
 			PointOfSale.getPointOfSale().getTermsAndConditionsUrl(),
-			context.getResources().getString(R.string.info_label_terms_conditions));
+			context.getResources().getString(R.string.info_label_terms_of_use));
 		String spannedPrivacy = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(), context.getResources().getString(R.string.privacy_policy));
-		String statement = context.getResources()
-			.getString(R.string.account_creation_legal_TEMPLATE, spannedTerms, spannedPrivacy);
+			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(),
+			context.getResources().getString(R.string.privacy_policy));
+		String spannedTermsOfUse = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
+			PointOfSale.getPointOfSale().getLoyaltyTermsAndConditionsURL(),
+			context.getResources().getString(R.string.info_label_terms_conditions));
 
-		legalTextSpan.append(Html.fromHtml(statement));
+		String statement = context.getResources()
+			.getString(R.string.account_creation_legal_TEMPLATE, spannedTerms, spannedPrivacy, spannedTermsOfUse);
+
+		legalTextSpan.append(Html.fromHtml(Phrase.from(statement)
+			.put("brand", context.getString(R.string.app_name))
+			.format().toString()));
 		URLSpan[] spans = legalTextSpan.getSpans(0, statement.length(), URLSpan.class);
 
 		for (final URLSpan span : spans) {

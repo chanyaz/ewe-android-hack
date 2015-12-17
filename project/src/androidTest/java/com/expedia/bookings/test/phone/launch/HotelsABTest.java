@@ -75,7 +75,7 @@ public class HotelsABTest extends PhoneTestCase {
 		suggestion.type = HotelSearchParams.SearchType.CITY.toString();
 		suggestion.latLong = new LatLong(0, 0);
 		collectionLocation.location = suggestion;
-		Events.post(new Events.LaunchCollectionItemSelected(collectionLocation, null));
+		Events.post(new Events.LaunchCollectionItemSelected(collectionLocation, null, ""));
 		// Assert that the results screen is displayed
 		HotelScreen.waitForResultsLoaded();
 		Common.pressBack();
@@ -96,7 +96,7 @@ public class HotelsABTest extends PhoneTestCase {
 		suggestion.type = HotelSearchParams.SearchType.MY_LOCATION.toString();
 		suggestion.latLong = new LatLong(32.71444d, -117.16237d);
 		collectionLocation.location = suggestion;
-		Events.post(new Events.LaunchCollectionItemSelected(collectionLocation, null));
+		Events.post(new Events.LaunchCollectionItemSelected(collectionLocation, null, ""));
 		// Assert that the results screen is displayed
 		HotelScreen.waitForResultsLoaded();
 	}

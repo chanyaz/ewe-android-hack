@@ -16,16 +16,16 @@ import com.expedia.bookings.data.trips.ItinCardDataLXAttach;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.utils.Ui;
 
-public class ItinButtonCard<T extends ItinCardData> extends LinearLayout implements
-		PopupMenu.OnMenuItemClickListener {
+public class ItinButtonCard<T extends ItinCardData> extends LinearLayout
+	implements PopupMenu.OnMenuItemClickListener {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// PUBLIC INTERFACES
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public interface OnHideListener {
-		public void onHide(String tripId, ItinButtonType itinButtonType);
+		void onHide(String tripId, ItinButtonType itinButtonType);
 
-		public void onHideAll(ItinButtonType itinButtonType);
+		void onHideAll(ItinButtonType itinButtonType);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -73,12 +73,15 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	public ItinButtonCard(Context context) {
-		super(context);
-		init(context);
+		this(context, null);
 	}
 
 	public ItinButtonCard(Context context, AttributeSet attrs) {
-		super(context, attrs);
+		this(context, attrs, 0);
+	}
+
+	public ItinButtonCard(Context context, AttributeSet attrs, int defStyleAttr) {
+		super(context, attrs, defStyleAttr);
 		init(context);
 	}
 
@@ -89,8 +92,8 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 	public void bind(T itinCardData) {
 		if (mItinContentGenerator != null && mItinContentGenerator.getType() != itinCardData.getTripComponentType()) {
 			throw new RuntimeException("Attempted to reuse an ItinCard for two different types of cards!"
-					+ "  Previously used " + mItinContentGenerator.getType() + ", reused with"
-					+ itinCardData.getTripComponentType());
+				+ "  Previously used " + mItinContentGenerator.getType() + ", reused with"
+				+ itinCardData.getTripComponentType());
 		}
 
 		mTripId = itinCardData.getTripComponent().getParentTrip().getTripId();
@@ -98,7 +101,7 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 
 		// Create content generator
 		mItinContentGenerator = (ItinButtonContentGenerator) ItinContentGenerator.createGenerator(getContext(),
-				itinCardData);
+			itinCardData);
 
 		// Get click listener
 		mItinButtonOnClickListener = mItinContentGenerator.getOnItemClickListener();
@@ -185,16 +188,14 @@ public class ItinButtonCard<T extends ItinCardData> extends LinearLayout impleme
 		@Override
 		public void onClick(View v) {
 			switch (v.getId()) {
-			case R.id.button_action_layout: {
+			case R.id.button_action_layout:
 				if (mItinButtonOnClickListener != null) {
 					mItinButtonOnClickListener.onClick(v);
 				}
 				break;
-			}
-			case R.id.dismiss_image_view: {
+			case R.id.dismiss_image_view:
 				showHidePopup();
 				break;
-			}
 			}
 		}
 	};

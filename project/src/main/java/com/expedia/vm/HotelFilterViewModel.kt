@@ -53,8 +53,8 @@ class HotelFilterViewModel() {
             if (hotelStarRating.five) count++
             if (isVipOnlyAccess == true) count++
             if (name.isNotEmpty()) count++
-            if (neighborhoods.isNotEmpty()) count += neighborhoods.size()
-            if (amenity.isNotEmpty()) count += amenity.size()
+            if (neighborhoods.isNotEmpty()) count += neighborhoods.size
+            if (amenity.isNotEmpty()) count += amenity.size
             if (minPrice != 0 || maxPrice != 0) count++
             return count
         }
@@ -123,9 +123,9 @@ class HotelFilterViewModel() {
         filteredResponse.hotelList = originalResponse?.hotelList.orEmpty().filter { hotel -> isAllowed(hotel) }
 
         val filterCount = userFilterChoices.filterCount()
-        val dynamicFeedbackWidgetCount = if (filterCount > 0) filteredResponse.hotelList.size() else -1
+        val dynamicFeedbackWidgetCount = if (filterCount > 0) filteredResponse.hotelList.size else -1
         updateDynamicFeedbackWidget.onNext(dynamicFeedbackWidgetCount)
-        doneButtonEnableObservable.onNext(filteredResponse.hotelList.size() > 0)
+        doneButtonEnableObservable.onNext(filteredResponse.hotelList.size > 0)
         filterCountObservable.onNext(filterCount)
     }
 
@@ -284,11 +284,11 @@ class HotelFilterViewModel() {
     val filterHotelNameObserver = endlessObserver<CharSequence> { s ->
         userFilterChoices.name = s.toString()
         handleFiltering()
-        if (s.length() == 1 && !trackingDone) {
+        if (s.length == 1 && !trackingDone) {
             trackingDone = true
             HotelV2Tracking().trackLinkHotelV2FilterByName()
         }
-        if (s.length() == 0) trackingDone = false
+        if (s.length == 0) trackingDone = false
     }
 
     fun setHotelList(response: HotelSearchResponse) {

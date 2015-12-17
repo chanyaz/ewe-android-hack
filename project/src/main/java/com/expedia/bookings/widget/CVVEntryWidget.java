@@ -287,6 +287,6 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 	// CVVEntryFragmentListener
 
 	public interface CVVEntryFragmentListener {
-		public void onBook(String cvv);
+		void onBook(String cvv);
 	}
 }

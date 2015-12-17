@@ -79,7 +79,10 @@ public class FlightUtils {
 	 */
 	public static String getSlideToPurchaseString(Context context, TripBucketItemFlight flightItem) {
 		Money totalFare = flightItem.getFlightTrip().getTotalFareWithCardFee(Db.getBillingInfo(), flightItem);
-		String template = context.getString(R.string.your_card_will_be_charged_TEMPLATE);
+		String template = context.getString(
+			PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
+				? R.string.your_card_will_be_charged_plus_airline_fee_TEMPLATE
+				: R.string.your_card_will_be_charged_TEMPLATE);
 		return String.format(template, totalFare.getFormattedMoney());
 	}
 
@@ -109,15 +112,27 @@ public class FlightUtils {
 			drawableResId =  isPhone ? R.drawable.ic_suitcase_small : R.drawable.ic_tablet_baggage_fees;
 		}
 
-
 		feesTv.setText(textViewResId);
 		ViewUtils.setAllCaps(feesTv);
 		feesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
 
-		// Configure the second TextView, "Payment Fees Apply"
-		if (trip.getMayChargeObFees()) {
+		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
 			drawableResId = isPhone ? R.drawable.ic_payment_fee : R.drawable.ic_tablet_payment_fees;
-
+			secondaryFeesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0 ,0);
+			secondaryFeesTv.setVisibility(View.VISIBLE);
+			secondaryFeesTv.setText(fragment.getString(R.string.airline_fee_notice_payment));
+			ViewUtils.setAllCaps(secondaryFeesTv);
+			mFeesContainer.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					FlightAdditionalFeesDialogFragment dialogFragment = FlightAdditionalFeesDialogFragment.newInstance(
+						leg.getBaggageFeesUrl(), PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL(), fragment.getString(R.string.Airline_fee));
+					dialogFragment.show(fragment.getChildFragmentManager(), "additionalFeesDialog");
+				}
+			});
+		}		// Configure the second TextView, "Payment Fees Apply"
+		else if (trip.getMayChargeObFees()) {
+			drawableResId = isPhone ? R.drawable.ic_payment_fee : R.drawable.ic_tablet_payment_fees;
 			secondaryFeesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0 ,0);
 			secondaryFeesTv.setVisibility(View.VISIBLE);
 			secondaryFeesTv.setText(fragment.getString(R.string.payment_and_baggage_fees_may_apply));
@@ -127,7 +142,7 @@ public class FlightUtils {
 				@Override
 				public void onClick(View v) {
 					FlightAdditionalFeesDialogFragment dialogFragment = FlightAdditionalFeesDialogFragment.newInstance(
-						leg.getBaggageFeesUrl(), Db.getFlightSearch().getSearchResponse().getObFeesDetails());
+						leg.getBaggageFeesUrl(), Db.getFlightSearch().getSearchResponse().getObFeesDetails(), fragment.getString(R.string.payment_processing_fees));
 					dialogFragment.show(fragment.getChildFragmentManager(), "additionalFeesDialog");
 				}
 			});
@@ -137,10 +152,14 @@ public class FlightUtils {
 			mFeesContainer.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					((OnBaggageFeeViewClicked) fragment).onBaggageFeeViewClicked(fragment.getString(R.string.baggage_fees), leg.getBaggageFeesUrl());
+					((OnBaggageFeeViewClicked) fragment).onBaggageFeeViewClicked(
+						fragment.getString(R.string.baggage_fees), leg.getBaggageFeesUrl());
 				}
 			});
 		}
+
+
+
 	}
 
 	 /*

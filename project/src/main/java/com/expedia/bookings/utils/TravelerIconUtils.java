@@ -1,12 +1,12 @@
 package com.expedia.bookings.utils;
 
-import java.util.Locale;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.TextUtils;
+
+import java.util.Locale;
 
 public class TravelerIconUtils {
 
@@ -71,21 +71,22 @@ public class TravelerIconUtils {
 	 * In case where displayName has only one name, then just return 1 character.
 	 */
 	public static String getInitialsFromDisplayName(String displayName) {
-		String[] nameParts = displayName.split(" ");
-		if (nameParts.length == 1) {
-			return nameParts[0].substring(0, 1).toUpperCase(Locale.getDefault());
+		if (Strings.isNotEmpty(displayName)) {
+			String[] nameParts = displayName.split(" ");
+			if (nameParts.length == 1) {
+				return nameParts[0].substring(0, 1).toUpperCase(Locale.getDefault());
+			}
+			else if (nameParts.length == 2) {
+				return (nameParts[0].substring(0, 1) + nameParts[1].substring(0, 1)).toUpperCase(Locale.getDefault());
+			}
+			else if (nameParts.length == 3) {
+				return (nameParts[0].substring(0, 1) + nameParts[2].substring(0, 1)).toUpperCase(Locale.getDefault());
+			}
+			else if (nameParts.length > 3) {
+				//We have more than 3 parts, but that isn't very small so lets just go first letter.
+				return nameParts[0].substring(0, 1).toUpperCase(Locale.getDefault());
+			}
 		}
-		else if (nameParts.length == 2) {
-			return (nameParts[0].substring(0, 1) + nameParts[1].substring(0, 1)).toUpperCase(Locale.getDefault());
-		}
-		else if (nameParts.length == 3) {
-			return (nameParts[0].substring(0, 1) + nameParts[2].substring(0, 1)).toUpperCase(Locale.getDefault());
-		}
-		else if (nameParts.length > 3) {
-			//We have more than 3 parts, but that isn't very small so lets just go first letter.
-			return nameParts[0].substring(0, 1).toUpperCase(Locale.getDefault());
-		}
-
 		return null;
 	}
 }

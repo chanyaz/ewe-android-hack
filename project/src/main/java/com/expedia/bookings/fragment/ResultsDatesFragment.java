@@ -6,7 +6,7 @@ import java.util.Locale;
 import org.joda.time.LocalDate;
 import org.joda.time.YearMonth;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,13 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FontCache;
 import com.mobiata.android.time.widget.CalendarPicker;
 import com.mobiata.android.time.widget.DaysOfWeekView;
 import com.mobiata.android.util.Ui;
-import com.squareup.otto.Subscribe;
 
 /**
  * One important detail
@@ -43,8 +41,8 @@ public class ResultsDatesFragment extends Fragment implements
 	private LocalDate mEndDate;
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, DatesFragmentListener.class);
 	}
@@ -60,8 +58,10 @@ public class ResultsDatesFragment extends Fragment implements
 		mDaysOfWeekView = Ui.findView(view, R.id.days_of_week);
 		mDaysOfWeekView.setDayOfWeekRenderer(this);
 
-		mCalendarPicker.setSelectableDateRange(LocalDate.now(), LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)));
-		mCalendarPicker.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_selectable_date_range));
+		mCalendarPicker.setSelectableDateRange(LocalDate.now(),
+			LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range)));
+		mCalendarPicker
+			.setMaxSelectableDateRange(getResources().getInteger(R.integer.calendar_max_selectable_date_range));
 		mCalendarPicker.setSelectedDates(mStartDate, mEndDate);
 		mCalendarPicker.setDateChangedListener(this);
 		mCalendarPicker.setYearMonthDisplayedChangedListener(this);
@@ -79,10 +79,6 @@ public class ResultsDatesFragment extends Fragment implements
 	public void onPause() {
 		super.onPause();
 		Events.unregister(this);
-	}
-
-	public void setDatesFromParams(SearchParams searchParams) {
-		setDates(searchParams.getStartDate(), searchParams.getEndDate());
 	}
 
 	public void setDates(LocalDate startDate, LocalDate endDate) {
@@ -124,32 +120,11 @@ public class ResultsDatesFragment extends Fragment implements
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Otto event - GDE week clicked
-
-	@Subscribe
-	public void onGdeItemSelected(Events.GdeItemSelected event) {
-		mCalendarPicker.setDisplayYearMonth(new YearMonth(event.week.getWeekStart()));
-		if (mStartDate == null) {
-			setDates(new LocalDate(event.week.getWeekStart()), null);
-		}
-		else {
-			LocalDate startDate = new LocalDate(event.week.getWeekStart());
-			LocalDate endDate = new LocalDate(event.week.getWeekEnd());
-			if (mStartDate.isBefore(endDate)) {
-				setDates(mStartDate, endDate);
-			}
-			else {
-				setDates(startDate, endDate);
-			}
-		}
-	}
-
-	//////////////////////////////////////////////////////////////////////////
 	// Listener
 
 	public interface DatesFragmentListener {
-		public void onDatesChanged(LocalDate startDate, LocalDate endDate);
-		public void onYearMonthDisplayedChanged(YearMonth yearMonth);
-	}
+		void onDatesChanged(LocalDate startDate, LocalDate endDate);
 
+		void onYearMonthDisplayedChanged(YearMonth yearMonth);
+	}
 }

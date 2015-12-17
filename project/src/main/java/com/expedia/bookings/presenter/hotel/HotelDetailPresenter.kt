@@ -5,6 +5,7 @@ import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.tracking.HotelV2Tracking
@@ -15,6 +16,7 @@ import com.expedia.bookings.widget.HotelMapView
 import com.expedia.bookings.widget.PayLaterInfoWidget
 import com.expedia.bookings.widget.SpecialNoticeWidget
 import com.expedia.bookings.widget.VIPAccessInfoWidget
+import com.expedia.bookings.widget.DepositTermsInfoWidget
 import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.GoogleMap
 
@@ -23,9 +25,15 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     val hotelDetailView: HotelDetailView by bindView(R.id.hotel_detail)
     val hotelRenovationDesc: SpecialNoticeWidget by bindView(R.id.hotel_detail_desc)
     val hotelPayLaterInfo : PayLaterInfoWidget by bindView(R.id.hotel_pay_later_info)
+    val hotelDepositInfo : DepositTermsInfoWidget by bindView(R.id.hotel_deposit_info)
     val hotelVIPAccessInfo : VIPAccessInfoWidget by bindView(R.id.hotel_vip_access_info)
     val hotelMapView: HotelMapView by bindView(R.id.hotel_map_view)
     var searchTop = 0
+
+    val hotelDepositInfoObserver = endlessObserver<Pair<String, HotelOffersResponse.HotelRoomResponse>> { pair ->
+        hotelDepositInfo.setText(pair)
+        show(hotelDepositInfo)
+    }
 
     init {
         View.inflate(context, R.layout.widget_hotel_detail_presenter, this)
@@ -34,6 +42,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     override fun onFinishInflate() {
         addTransition(detailToDescription)
         addTransition(detailToPayLaterInfo)
+        addTransition(detailToDepositInfo)
         addTransition(detailToVIPAccessInfo)
         addTransition(detailToMap)
         addDefaultTransition(default)
@@ -108,8 +117,16 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         }
     }
 
-    val hotelPayLaterInfoObserver = endlessObserver<String> { hotelCountryCode ->
-        hotelPayLaterInfo.setText(hotelCountryCode)
+    val detailToDepositInfo = object : ScaleTransition(this, HotelDetailView::class.java, DepositTermsInfoWidget::class.java) {
+        override fun finalizeTransition(forward: Boolean) {
+            super.finalizeTransition(forward)
+            hotelDepositInfo.visibility = if (forward) View.VISIBLE else View.GONE
+            hotelDetailView.visibility = if (forward) View.GONE else View.VISIBLE
+        }
+    }
+
+    val hotelPayLaterInfoObserver = endlessObserver<Pair<String, List<HotelOffersResponse.HotelRoomResponse>>> { pair ->
+        hotelPayLaterInfo.setText(pair)
         show(hotelPayLaterInfo)
     }
 

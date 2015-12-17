@@ -13,11 +13,10 @@ import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
-import kotlin.properties.Delegates
 
 public class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, interceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
-    val suggestApi: SuggestApi by Delegates.lazy {
+    val suggestApi: SuggestApi by lazy {
         val gson = GsonBuilder().registerTypeAdapter(SuggestionResponse::class.java, SuggestionResponse()).create()
 
         val adapter = RestAdapter.Builder()

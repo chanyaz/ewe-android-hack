@@ -176,7 +176,7 @@ public class SlideToWidget extends RelativeLayout {
 			mSliderText.setVisibility(View.INVISIBLE);
 		}
 		AnimatorSet animSet = new AnimatorSet();
-		animSet.playTogether(getDrawLineAnimator(),getShowDestAnimator());
+		animSet.playTogether(getDrawLineAnimator(), getShowDestAnimator());
 		animSet.setDuration(500);
 		animSet.start();
 	}
@@ -191,19 +191,19 @@ public class SlideToWidget extends RelativeLayout {
 	@SuppressLint("NewApi")
 	private Animator getDrawLineAnimator() {
 		LayoutParams params = (LayoutParams) mSliderLine.getLayoutParams();
-		int margin = mHiddenImage.getWidth()/2;
-		params.width = mContainerWidth - 2*margin;
+		int margin = mHiddenImage.getWidth() / 2;
+		params.width = mContainerWidth - 2 * margin;
 		params.leftMargin = margin;
 		params.rightMargin = margin;
 
 		mSliderLine.setLayoutParams(params);
 
 		LayoutParams dotParams = (LayoutParams) mSliderDot.getLayoutParams();
-		dotParams.leftMargin = mHiddenImage.getWidth()/2 - mSliderDot.getWidth()/2;
+		dotParams.leftMargin = mHiddenImage.getWidth() / 2 - mSliderDot.getWidth() / 2;
 		mSliderDot.setLayoutParams(dotParams);
 
 		mSliderLine.setPivotX(0);
-		ObjectAnimator drawLine = ObjectAnimator.ofFloat(this.mSliderLine, "scaleX", 0,1 );
+		ObjectAnimator drawLine = ObjectAnimator.ofFloat(this.mSliderLine, "scaleX", 0, 1);
 		drawLine.addListener(new AnimatorListener() {
 
 			@Override
@@ -228,7 +228,7 @@ public class SlideToWidget extends RelativeLayout {
 	}
 
 	private Animator getShowDestAnimator() {
-		ObjectAnimator destAlphaAnimator = ObjectAnimator.ofFloat(this.mDestImage, "alpha", 0,1 );
+		ObjectAnimator destAlphaAnimator = ObjectAnimator.ofFloat(this.mDestImage, "alpha", 0, 1);
 		destAlphaAnimator.addListener(new AnimatorListener() {
 			@Override
 			public void onAnimationCancel(Animator arg0) {
@@ -241,6 +241,7 @@ public class SlideToWidget extends RelativeLayout {
 			@Override
 			public void onAnimationRepeat(Animator arg0) {
 			}
+
 			@Override
 			public void onAnimationStart(Animator arg0) {
 				mDestImage.setVisibility(View.VISIBLE);
@@ -341,17 +342,16 @@ public class SlideToWidget extends RelativeLayout {
 		/**
 		 * The user has clicked on the slider...
 		 */
-		public void onSlideStart();
+		void onSlideStart();
 
 		/**
 		 * If the user slides the widget all the way over.
 		 */
-		public void onSlideAllTheWay();
+		void onSlideAllTheWay();
 
 		/**
 		 * If the user starts a slide, but doesn't make it all the way, and the slide is reset
 		 */
-		public void onSlideAbort();
+		void onSlideAbort();
 	}
-
 }

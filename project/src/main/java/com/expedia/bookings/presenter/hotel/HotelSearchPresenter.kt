@@ -8,6 +8,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.os.Build
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -40,6 +41,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelSuggestionAdapter
 import com.expedia.bookings.widget.HotelTravelerPickerView
+import com.expedia.bookings.widget.RecentSearchesWidget
 import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.endlessObserver
@@ -48,7 +50,9 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeToggleButton
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
+import com.expedia.vm.HotelTravelerParams
 import com.expedia.vm.HotelTravelerPickerViewModel
+import com.expedia.vm.RecentSearchesAdapterViewModel
 import com.mobiata.android.time.util.JodaUtils
 import com.mobiata.android.time.widget.CalendarPicker
 import com.mobiata.android.time.widget.DaysOfWeekView
@@ -65,6 +69,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     val anchor: ImageView by bindView(R.id.location_image_view)
     val selectDate: ToggleButton by bindView(R.id.select_date)
     val selectTraveler: ToggleButton by bindView(R.id.select_traveler)
+    val recentSearches: RecentSearchesWidget by bindView(R.id.recent_searches)
     val calendar: CalendarPicker by bindView(R.id.calendar)
     val monthView: MonthView by bindView(R.id.month)
     val monthSelectionView by lazy {
@@ -95,10 +100,10 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     val toolbarTitle by lazy { toolbar.getChildAt(0) }
     val searchButton: Button by lazy {
         val button = LayoutInflater.from(getContext()).inflate(R.layout.toolbar_checkmark_item, null) as Button
-        val navIcon = getResources().getDrawable(R.drawable.ic_check_white_24dp).mutate()
+        val navIcon = ContextCompat.getDrawable(context, R.drawable.ic_check_white_24dp).mutate()
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         button.setCompoundDrawablesWithIntrinsicBounds(navIcon, null, null, null)
-        button.setTextColor(getResources().getColor(android.R.color.white))
+        button.setTextColor(ContextCompat.getColor(context, android.R.color.white))
         // Disable search button initially
         button.setAlpha(0.15f)
         toolbar.getMenu().findItem(R.id.menu_check).setActionView(button)
@@ -108,6 +113,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
     var suggestionViewModel: HotelSuggestionAdapterViewModel by notNullAndObservable { vm ->
         vm.suggestionSelectedSubject.subscribe { suggestion ->
+            searchContainer.setBackgroundColor(Color.WHITE)
             searchViewModel.suggestionObserver.onNext(suggestion)
             searchLocationEditText.clearFocus()
             searchLocationEditText.visibility = View.INVISIBLE
@@ -128,13 +134,6 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         }
     }
 
-    override fun onVisibilityChanged(changedView: View?, visibility: Int) {
-        super.onVisibilityChanged(changedView, visibility)
-        if (changedView == this && visibility == View.VISIBLE && !searchViewModel.originObservable.value) {
-            searchLocationEditText.requestFocus()
-            com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
-        }
-    }
 
     private val hotelSuggestionAdapter by lazy {
         val service = Ui.getApplication(getContext()).hotelComponent().suggestionsService()
@@ -189,6 +188,17 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         val maxDate = LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range))
         calendar.setSelectableDateRange(LocalDate.now(), maxDate)
         calendar.setMaxSelectableDateRange(resources.getInteger(R.integer.calendar_max_selectable_date_range))
+        recentSearches.recentSearchesAdapterViewModel.recentSearchSelectedSubject.subscribe {
+            searchViewModel.searchParamsObservable.onNext(it)
+            vm.suggestionObserver.onNext(it.suggestion)
+            traveler.viewmodel.travelerParamsObservable.onNext(HotelTravelerParams(it.adults, it.children))
+            for (index in 0..it.children.size -1) {
+                val spinner = traveler.childSpinners[index]
+                spinner.setSelection(it.children[index])
+            }
+            vm.datesObserver.onNext(Pair(it.checkIn, it.checkOut))
+            calendar.setSelectedDates(it.checkIn, it.checkOut)
+        }
         calendar.setDateChangedListener { start, end ->
             if (JodaUtils.isEqual(start, end)) {
                 if (!JodaUtils.isEqual(end, maxDate)) {
@@ -263,7 +273,8 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
             searchLocationEditText.visibility = View.VISIBLE
             clearLocationButton.visibility = if (Strings.isEmpty(searchLocationEditText.text)) View.INVISIBLE else View.VISIBLE
             searchLocationEditText.requestFocus()
-            searchLocationEditText.setSelection(searchLocationEditText.getText().length())
+            searchLocationEditText.setSelection(searchLocationEditText.getText().length)
+            suggestionRecyclerView.visibility = View.VISIBLE
             if (currentState == null) {
                 show(HotelParamsDefault())
             }
@@ -328,20 +339,42 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         vm.searchParamsObservable.subscribe {
             calendar.hideToolTip()
         }
+
+        vm.userBucketedObservable.subscribe {
+            if (it) {
+                recentSearches.recentSearchesAdapterViewModel.recentSearchesObserver.onNext(Unit)
+            } else {
+                showSuggestions()
+            }
+        }
     }
+
 
     init {
         View.inflate(context, R.layout.widget_hotel_search_params, this)
         HotelV2Tracking().trackHotelV2SearchBox()
         traveler.viewmodel = HotelTravelerPickerViewModel(getContext())
-        calendar.setVisibility(View.INVISIBLE)
-        traveler.setVisibility(View.GONE)
+        recentSearches.recentSearchesAdapterViewModel = RecentSearchesAdapterViewModel(getContext())
+        recentSearches.recentSearchesAdapterViewModel.recentSearchesObservable.subscribe { searchList ->
+            if(searchList.isEmpty()) {
+                showSuggestions()
+            }else{
+                searchLocationEditText.clearFocus()
+                searchLocationEditText.visibility = View.GONE
+                searchLocationTextView.visibility = View.VISIBLE
+                suggestionRecyclerView.visibility = View.GONE
+                recentSearches.visibility = View.VISIBLE
+                calendar.visibility = View.GONE
+            }
+        }
+        calendar.visibility = View.INVISIBLE
+        traveler.visibility = View.GONE
         selectDate.setChecked(false)
         selectTraveler.setChecked(false)
 
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
-            val color = getContext().getResources().getColor(R.color.hotels_primary_color)
+            val color = ContextCompat.getColor(context, R.color.hotels_primary_color)
             val statusBar = Ui.setUpStatusBar(getContext(), toolbar, searchContainer, color)
             addView(statusBar)
         }
@@ -385,11 +418,20 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         monthView.setTodayTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM))
     }
 
+    private fun showSuggestions() {
+        searchLocationEditText.visibility = View.VISIBLE
+        searchLocationTextView.visibility = View.GONE
+        searchLocationEditText.requestFocus()
+        com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
+        suggestionRecyclerView.visibility = View.VISIBLE
+    }
+
     private val defaultToCal = object : Presenter.Transition(HotelParamsDefault::class.java, HotelParamsCalendar::class.java) {
         private var calendarHeight: Int = 0
 
         override fun startTransition(forward: Boolean) {
             com.mobiata.android.util.Ui.hideKeyboard(this@HotelSearchPresenter)
+            if(forward) recentSearches.visibility = View.GONE
             suggestionRecyclerView.visibility = View.GONE
             val parentHeight = getHeight()
             calendarHeight = calendar.getHeight()
@@ -424,6 +466,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
         override fun startTransition(forward: Boolean) {
             suggestionRecyclerView.visibility = if (forward) View.GONE else View.VISIBLE
+            if (forward) recentSearches.visibility = View.GONE
             val parentHeight = getHeight()
             calendarHeight = calendar.getHeight()
             val pos = (if (forward) parentHeight + calendarHeight else calendarHeight).toFloat()
@@ -467,6 +510,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
     var toolbarTitleTop = 0
     fun animationStart(forward : Boolean) {
+        recentSearches.setTranslationY((if (forward) recentSearches.getHeight() else 0).toFloat())
         calendar.setTranslationY((if (forward) calendar.getHeight() else 0).toFloat())
         traveler.setTranslationY((if (forward) traveler.getHeight() else 0).toFloat())
         searchContainer.setBackgroundColor(Color.TRANSPARENT)
@@ -475,6 +519,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
     fun animationUpdate(f : Float, forward : Boolean) {
         val translationCalendar = if (forward) calendar.getHeight() * (1 - f) else calendar.getHeight() * f
+        val translationRecentSearches = if (forward) recentSearches.getHeight() * (1 - f) else recentSearches.getHeight() * f
         val layoutParams = searchParamsContainer.getLayoutParams()
         // TODO: Fix searchParamsContainerHeight = 0 in case of two consecutive animations.
         if (searchParamsContainerHeight > 0) {
@@ -484,6 +529,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
         calendar.setTranslationY(translationCalendar)
         traveler.setTranslationY(translationCalendar)
+        recentSearches.translationY = translationRecentSearches
         val factor: Float = if (forward) f else Math.abs(1 - f)
         toolbar.setAlpha(factor)
         traveler.setAlpha(factor)
@@ -495,7 +541,12 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         toolbarTitle.setTranslationY((if (forward) Math.abs(1 - f) else f) * -toolbarTitleTop)
     }
 
-    fun animationFinalize() {
+    fun animationFinalize(forward: Boolean) {
+        if (forward) {
+            recentSearches.visibility = View.GONE
+            searchViewModel.enableTravelerObservable.onNext(true)
+            searchViewModel.enableDateObservable.onNext(true)
+        }
         searchContainer.setBackgroundColor(Color.WHITE)
         navIcon.setParameter(ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType().toFloat())
     }

@@ -30,7 +30,7 @@ import com.mobiata.android.Log;
 @SuppressWarnings("unused")
 public class GLTagProgressBarRenderer implements GLSurfaceView.Renderer {
 	public interface OnDrawStartedListener {
-		public void onDrawStarted();
+		void onDrawStarted();
 	}
 
 	//////////////////////////////////////////////////////////////////////////////

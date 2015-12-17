@@ -13,8 +13,8 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.NavUtils;
-import com.facebook.AppEventsLogger;
 import com.mobiata.android.util.SettingUtils;
+import com.facebook.appevents.AppEventsLogger;
 
 /**
  * This is a routing Activity that points users towards either the phone or

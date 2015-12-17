@@ -1,12 +1,10 @@
 package com.expedia.bookings.widget;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.RectF;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -44,9 +42,7 @@ public class RoundedCornerFrameLayout extends FrameLayout {
 		init(context, attrs);
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	private void init(Context context, AttributeSet attrs) {
-
 		if (attrs != null) {
 			TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.RoundedCornerFrameLayout);
 			// Set the rounded rect radius (default 0)
@@ -68,11 +64,6 @@ public class RoundedCornerFrameLayout extends FrameLayout {
 			roundedPath.addRoundRect(new RectF(0, 0, w, h),
 					mRadius, mRadius, Path.Direction.CW);
 		}
-	}
-
-	public float getRadius() {
-
-		return mRadius;
 	}
 
 	public void setRadius(float radius) {

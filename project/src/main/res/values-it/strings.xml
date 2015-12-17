@@ -115,6 +115,8 @@
     <string name="hotel_toolbar_title">Cerca hotel</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">Cerca destinazione</string>
+    <!-- Label for recent searches -->
+    <string name="recent_searches">Ricerche recenti</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Luogo del ritiro</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -273,12 +275,6 @@
     <string name="missing_flight_info_message_TEMPLATE">Per sfogliare i voli verso %s, facci sapere da dove vuoi partire.</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">Inserisci una data o una combinazione di date valide.</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">Per cercare i tuoi voli per %s,\nindica quando vorresti partire.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">Per scoprire i trend sui prezzi dei voli,\nindica da dove vuoi partire.</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">Le Tendenze di volo ti danno un\&apos;idea di come cambiano i prezzi dei voli nel corso del tempo. Dato che i prezzi indicati si basano sulle informazioni in tempo reale delle ricerche, alcune rotte potrebbero presentare meno dettagli di altre.</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">Inizio del viaggio</string>
     <!-- Denotes the end date of the trip -->
@@ -658,6 +654,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s non accettata</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Siamo spiacenti, il prezzo di questa attività è cambiato. Riprova a prenotare.</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">Spiacenti, non disponiamo di un numero sufficiente di biglietti per la data selezionata. Prova a inserire un\&apos;altra data o a selezionare un numero inferiore di biglietti.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">I tuoi biglietti sono stati inviati a</string>
     <!-- LX reservation confirmation text -->
@@ -679,6 +677,9 @@
     <string name="lx_ground_transport_passengers_text">%1$s passeggeri</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">Questa data è nel passato. Seleziona un\&apos;altra data.</string>
+
+    <!-- Category Title "All Things To Do" -->
+    <string name="lx_category_all_things_to_do">Cose da fare</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -734,6 +735,10 @@
     <string name="prices_roundtrip_label">Prezzi di andata e ritorno a persona</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Prezzi di sola andata a persona</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_roundtrip_minimum_label">Prezzi di andata e ritorno a persona, da</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_oneway_minimum_label">Prezzi di sola andata a persona, da</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">Il tuo viaggio è vuoto.</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -748,10 +753,6 @@
     <string name="trip_bucket_label_flight_roundtrip">Volo di andata e ritorno per %1$s</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">Volo per %1$s</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">Tendenze di volo</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">Ritorno</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">Spiacenti, nessun hotel \n disponibile al momento.</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -849,6 +850,8 @@
     <string name="room_rate_pay_now">Paga ora</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount} da pagare ora</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">Da pagare ora</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/notte</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -913,36 +916,6 @@
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;, %2$s</string>
 
-    <!-- Facebook -->
-    <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account_TEMPLATE">Ciao &lt;b&gt;{name}&lt;/b&gt;, abbiamo trovato il tuo account {brand} Inserisci la tua password {brand} in basso per collegare i tuoi account Facebook e {brand}.</string>
-    <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">Ciao &lt;b&gt;%1$s&lt;/b&gt;, abbiamo caricato i tuoi dati Facebook!</string>
-    <!-- Sign in with facebook (button text) -->
-    <string name="Sign_in_with_Facebook">Accedi con Facebook</string>
-    <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">Stiamo recuperando le informazioni da Facebook…</string>
-    <!-- Attempting to sign you in with facebook credentials -->
-    <string name="attempting_to_sign_in_with_facebook">Stiamo cercando di accedere con le tue credenziali Facebook…</string>
-    <!-- We have encountered an error -->
-    <string name="unspecified_error">Abbiamo riscontrato un errore generico. Riprova più tardi.</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">Impossibile collegarsi a Facebook.</string>
-    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="sign_in_failed_try_again">Accesso non riuscito. Se il tuo indirizzo e-mail e la password sono corretti, verifica le impostazioni del paese della tua app.</string>
-    <!-- Facebook connect password hint -->
-    <string name="brand_password_hint_TEMPLATE">Password {brand}</string>
-    <!-- Link accounts -->
-    <string name="link_accounts">Collega gli account</string>
-    <!-- User Denied email permission Heading -->
-    <string name="user_denied_permission_email_heading">Autorizzazione e-mail</string>
-    <!-- Linking your accounts -->
-    <string name="linking_your_accounts">Stiamo collegando il tuo account…</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">Concedi autorizzazione e-mail</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">Per effettuare l\&apos;accesso tramite Facebook, abbiamo bisogno dell\&apos;autorizzazione a verificare il tuo indirizzo e-mail. \n\n{brand}Clicca sul pulsante Facebook in basso per autorizzare a verificare il tuo indirizzo e-mail. Grazie!</string>
-
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Accedi con {brand}</string>
     <!-- or -->
@@ -987,7 +960,7 @@
     <!-- Tablet. Header text when the device is not connected to internet/network unavailable. -->
     <string name="network_unavailable">Rete non disponibile</string>
     <!-- Tablet. Error message when the device is not connected to internet/network unavailable. -->
-    <string name="error_network_unavailable">Collegati a una rete Wi-Fi o a una rete dati cellulare\n per continuare</string>
+    <string name="error_network_unavailable">Collegati a una rete Wi-Fi o a una rete dati cellulare\nper continuare</string>
     <!-- Menu option for going to see your trips/itineraries -->
     <string name="trips">Viaggi</string>
     <!-- Menu option for going to see your trips/itineraries -->
@@ -1050,6 +1023,10 @@
     <string name="shop">Acquista</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Trova itinerario</string>
+    <!-- Unable to find itinerary -->
+    <string name="unable_to_find_itinerary">Impossibile trovare itinerario. Assicurati che il paese selezionato nelle "Impostazioni" corrisponda all\&apos;indirizzo del sito dove hai effettuato la prenotazione.</string>
+    <!-- Find Guest Itinerary -->
+    <string name="find_guest_itinerary">Trova itinerario ospite</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">Inserisci dettagli itinerario</string>
     <!-- Find Itinerary # -->
@@ -1064,6 +1041,8 @@
     <string name="no_upcoming_trips">Nessun viaggio futuro.</string>
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">Inserisci numero itinerario</string>
+    <!-- Enter a Guest itinerary number -->
+    <string name="or_enter_a_guest_itinerary_number">O inserisci un numero di itinerario prenotato come ospite</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Stiamo recuperando i tuoi itinerari…</string>
     <!-- Error fetching itinerary -->
@@ -1178,7 +1157,7 @@
     <!-- Itin flight international terminal only -->
     <string name="Depart_International_Terminal">Partenza dal Terminal internazionale</string>
     <!-- Itin flight summary second line for arrival waypoint when there is no terminal/gate information available; parameter is the airport code -->
-    <string name="at_airport_TEMPLATE">&lt;b&gt; Presso %1$s &lt;/b&gt;</string>
+    <string name="at_airport_TEMPLATE">&lt;b&gt;Presso %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint when there is no terminal/gate information available; parameter is the airport code -->
     <string name="from_airport_TEMPLATE">&lt;b&gt;Da %1$s&lt;/b&gt;</string>
     <!-- Itin flight summary second line for departure waypoint that also includes time of departure; first parameter is the airport code, second parameter is the localized time (e.g. 13:45) -->
@@ -1420,6 +1399,7 @@
     <string name="itin_card_details_address">Indirizzo</string>
     <string name="itin_card_details_local_phone">Telefono locale</string>
     <string name="itin_card_details_room_type">Tipologia camera</string>
+    <string name="itin_card_details_non_price_promotion_includes">Include</string>
     <string name="itin_card_details_bed_type">Tipo di letto</string>
     <string name="toast_copied_to_clipboard">Copiato negli appunti.</string>
     <string name="itin_card_details_reload">Ricarica dati</string>
@@ -1658,7 +1638,7 @@
     <!-- Number of adults template -->
     <plurals name="number_of_adults_TEMPLATE">
         <item quantity="zero">%1$d adulti</item>
-        <item quantity="one">%1$dadulto</item>
+        <item quantity="one">%1$d adulto</item>
         <item quantity="two">%1$d adulti</item>
         <item quantity="few">%1$d adulti</item>
         <item quantity="many">%1$d adulti</item>
@@ -1709,17 +1689,33 @@
     <string name="round_trip_price_TEMPLATE">Andata e ritorno a &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">Prenota ora a &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Variants of the previous few templates, for Australian compliance rules (d/5810) -->
+    <string name="one_way_price_min_TEMPLATE">Solo andata da &lt;b&gt;%s&lt;/b&gt; a persona</string>
+    <string name="round_trip_price_min_TEMPLATE">Andata e ritorno da &lt;b&gt;%s&lt;/b&gt; a persona</string>
+    <string name="book_now_price_min_TEMPLATE">Prenota ora a partire da &lt;b&gt;%s&lt;/b&gt; a persona</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
         <item quantity="zero">%1$s disponibili a &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="one">%1$s disponibili a &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="two">%1$s disponibili a &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="few">%1$s disponibili a &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="many">%1$s disponibili a &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="one">%1$s disponibile a &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="two">%1$s disponibile a &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="few">%1$s disponibile a &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="many">%1$s disponibile a &lt;b&gt;%2$s&lt;/b&gt;</item>
         <item quantity="other">%1$s disponibili a &lt;b&gt;%2$s&lt;/b&gt;</item>
+    </plurals>
+    <!-- Book now info label, when there are only a few seats left. Variant for Australian
+         compliance rules (d/5810) -->
+    <plurals name="urgency_book_min_TEMPLATE">
+        <item quantity="zero">%1$s disponibili, da &lt;b&gt;%2$s&lt;/b&gt; a persona</item>
+        <item quantity="one">%1$s disponibili, da &lt;b&gt;%2$s&lt;/b&gt; a persona</item>
+        <item quantity="two">%1$s disponibili, da &lt;b&gt;%2$s&lt;/b&gt; a persona</item>
+        <item quantity="few">%1$s disponibili, da &lt;b&gt;%2$s&lt;/b&gt; a persona</item>
+        <item quantity="many">%1$s disponibili, da &lt;b&gt;%2$s&lt;/b&gt; a persona</item>
+        <item quantity="other">%1$s disponibili, da &lt;b&gt;%2$s&lt;/b&gt; a persona</item>
     </plurals>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
+    <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
+    <string name="fare_name_and_price_min_TEMPLATE">Tariffa %1$s, da %2$s a persona</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">Informazioni sulla franchigia bagagli</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -1802,10 +1798,14 @@
     <string name="Overview">Riepilogo</string>
     <!-- Trip total price label -->
     <string name="total_price_label">Totale del viaggio</string>
+    <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
+    <string name="total_price_min_label">Totale del viaggio da</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">Viaggio a %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Tasse e spese di gestione incluse</string>
+    <!-- Includes taxes (but not necessarily fees) -->
+    <string name="includes_taxes">Tasse incluse</string>
     <!-- Date and trip from _ to _ -->
     <string name="trip_to_with_date">%1$s: %2$s - %3$s</string>
     <!-- Number of traverlers template -->
@@ -1856,6 +1856,8 @@
     <string name="slide_to_book_flight">scorrere per prenotare il volo</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">%1$s saranno addebitati sulla tua carta di credito</string>
+    <!-- Your card will be charged -->
+    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">%1$s saranno addebitati sulla tua carta di credito (più commissioni della compagnia aerea)</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_TEMPLATE">Importo da pagare subito: %1$s</string>
     <!-- Amount to be paid now -->
@@ -1900,16 +1902,20 @@
     <string name="fees_paid_at_hotel">Costi pagati in hotel</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">Da pagare a {brand}</string>
+    <!-- Due to expedia today - today -->
+    <string name="due_to_brand_today_today_TEMPLATE">Da pagare oggi a {brand}</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">La tariffa resort di &lt;b&gt;%1$s&lt;/b&gt; va pagata direttamente in hotel. Il prezzo totale del tuo soggiorno sarà &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">Il totale per il tuo viaggio sarà &lt;b&gt;%1$s&lt;/b&gt;. Pagherai in hotel il costo totale della tua prenotazione (nella valuta locale della struttura) durante il soggiorno.</string>
     <!-- Pay later disclaimer with deposit -->
-    <string name="pay_later_deposit_disclaimer_TEMPLATE">Ora ti sarà addebitato un deposito di &lt;b&gt;.%1$s&lt;/b&gt; Pagherai all\&apos;hotel il costo rimanente della tua prenotazione (nella valuta locale della struttura) durante il soggiorno.</string>
+    <string name="pay_later_deposit_disclaimer_TEMPLATE">Ora ti sarà addebitato un deposito di &lt;b&gt;%1$s&lt;/b&gt;. Pagherai all\&apos;hotel il costo rimanente della tua prenotazione (nella valuta locale della struttura) durante il soggiorno.</string>
     <!-- Pay later disclaimer with resort fees -->
     <string name="pay_later_resort_disclaimer_TEMPLATE">Il prezzo totale del tuo viaggio, inclusa la tariffa resort di &lt;b&gt;%1$s&lt;/b&gt;, sarà &lt;b&gt;%2$s&lt;/b&gt;. Pagherai in hotel il costo totale della tua prenotazione (nella valuta locale della struttura) durante il soggiorno.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">Il prezzo totale del tuo viaggio, inclusa la tariffa resort di &lt;b&gt;%1$s&lt;/b&gt;, sarà &lt;b&gt;%2$s&lt;/b&gt;. Pagherai all\&apos;hotel il costo rimanente della tua prenotazione (nella valuta locale della struttura) durante il soggiorno.</string>
+    <!-- Pay later deposit amount -->
+    <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">Cancellazione gratuita entro 24 ore</string>
     <!-- Flights AB Test Traveler info missing callout label -->
@@ -1935,14 +1941,16 @@
     <string name="cost_summary">Riepilogo costi</string>
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">Tasse e spese di gestione</string>
+    <!-- Taxes without airline fees -->
+    <string name="taxes_without_airline_fees">Tasse</string>
     <!-- Expedia booking fee -->
-    <string name="brand_booking_fee">{brand} Costo di prenotazione</string>
+    <string name="brand_booking_fee">Costo di prenotazione {brand}</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
     <string name="airline_card_fee">Commissione sui pagamenti con carta</string>
     <!-- Flight -->
     <string name="flight">Volo</string>
     <!-- Traveler number, e.g. "Traveler 1" or "Traveler 2" -->
-    <string name="traveler_num_and_category_TEMPLATE">viaggiatore%1$d</string>
+    <string name="traveler_num_and_category_TEMPLATE">Viaggiatore %1$d</string>
 
     <!-- Section display contact -->
     <!-- Label for "Add Traveler" in task manager -->
@@ -2172,7 +2180,7 @@
     <!-- Passport -->
     <string name="passport">Passaporto</string>
     <!-- Current traveler - <firstname> <lastname> -->
-    <string name="current_traveler_TEMPLATE">Viaggiatore attuale -%1$s %2$s</string>
+    <string name="current_traveler_TEMPLATE">Viaggiatore attuale - %1$s %2$s</string>
 
     <!-- Seat types -->
     <!-- Window seating preference -->
@@ -2271,7 +2279,7 @@
     <!-- Location for calendar event.  %1$s is the name of the starting airport, %2$s is the city it is in, e.g. "San Francisco Int'l Airport, San Francisco" -->
     <string name="calendar_flight_location_TEMPLATE">%1$s, %2$s</string>
     <!-- Part of the description, showing the itinerary #.  %s is the itinerary number, e.g. "Expedia Itinerary #: 3532532" -->
-    <string name="calendar_flight_desc_itinerary_TEMPLATE">{brand}Itinerario n.: {itinerary}</string>
+    <string name="calendar_flight_desc_itinerary_TEMPLATE">Itinerario {brand} n.: {itinerary}</string>
     <!-- Part of the description, showing a link to directions.  %s is the directions link, e.g. "Directions to airport: http://url-to-map-to-airport" -->
     <string name="calendar_flight_desc_directions_TEMPLATE">Indicazioni per raggiungere l\&apos;aeroporto: %s</string>
     <!-- Part of the description, showing a phone # for support.  %s is the phone number for support, e.g. "Expedia Customer Support: 222-222-2222" -->
@@ -2296,6 +2304,8 @@
     <string name="privacy_policy">Informativa sulla Privacy</string>
     <!-- Fare information header -->
     <string name="fare_information">Informazioni sulla tariffa</string>
+    <!-- Airline Fee -->
+    <string name="Airline_fee">Commissione imposta dalla compagnia aerea</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -2616,6 +2626,8 @@
     <string name="widget_savings_template">Risparmia il %2.0f%%</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">Connessione Internet assente</string>
+    <!-- The label for deposit terms button -->
+    <string name="deposit_terms">Deposito</string>
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
@@ -2650,6 +2662,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">su 5 - valutazione degli ospiti</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">su 5 - buono!</string>
+    <string name="hotel_guest_recommend_very_good_superlative">su 5 - molto buono!</string>
+    <string name="hotel_guest_recommend_excellent_superlative">su 5 - eccellente!</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">su 5 - fantastico!</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">su 5 - eccezionale!</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -2797,6 +2816,11 @@
     <string name="etp_pay_now_currency_text_TEMPLATE">Il costo verrà corrisposto nella tua valuta locale (%s).</string>
     <string name="etp_pay_now_cancellation_text">La cancellazione è gratuita, se avviene entro i termini di cancellazione previsti dall\&apos;hotel.</string>
     <string name="etp_select_room">Scegli la camera</string>
+
+    <!-- ETP pay later deposit info message -->
+    <string name="etp_pay_later_deposit_text">Le cauzioni non supereranno mai il costo totale della prenotazione.</string>
+    <string name="no_charge_text_TEMPLATE">{brand} non ti addebiterà alcun costo.</string>
+    <string name="deposit_info_text">Prenota con cauzione</string>
 
     <!-- Room and rates list -->
     <!-- Loading message for rooms & rates -->
@@ -3031,6 +3055,8 @@
     <string name="app_support">Assistenza app</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Termini e condizioni</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">Termini di utilizzo</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Informativa sulla Privacy</string>
     <!-- Copyright information -->
@@ -3076,7 +3102,7 @@
     <!-- A number of adults. Capitalized -->
     <plurals name="number_of_adults">
         <item quantity="zero">%d adulti</item>
-        <item quantity="one">%dadulto</item>
+        <item quantity="one">%d adulto</item>
         <item quantity="two">%d adulti</item>
         <item quantity="many">%d adulti</item>
         <item quantity="other">%d adulti</item>
@@ -3751,21 +3777,14 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Completando questa prenotazione, confermo di aver letto e accettato %1$s, %2$s e %3$s.</string>
-    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">Ho letto e accetto %1$s e %2$s.</string>
+    <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_TEMPLATE">Ho letto e accettato %1$s e %2$s. Effettuando l\&apos;iscrizione a {brand}+, accetto %3$s.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Seleziona l\&apos;età di ciascun bambino</string>
 
     <string name="lob_not_supported_error_message">Siamo spiacenti, la prenotazione di {lob} non è al momento disponibile nella località in cui ti trovi.</string>
 
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_an_Expedia_account">Crea un account Expedia</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_Expedia">Benvenuto su Expedia</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_Expedia_account_already_exists">Questo indirizzo e-mail è già associato a un account Expedia</string>
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 anni)</string>
 
@@ -3784,4 +3803,10 @@
     <string name="coupon_error_dialog_title">Coupon non applicato</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Si è verificato un problema con il tuo coupon. Riprova a inserirlo.</string>
+
+    <!-- Australian compliance warnings d/5810 -->
+    <string name="airline_fee_notice">In base al tipo di carta utilizzato, ti sarà addebitata una commissione in fase di pagamento.</string>
+    <string name="airline_charge_notice">Le compagnie addebitano una commissione aggiuntiva, a seconda del metodo di pagamento utilizzato.</string>
+    <string name="airline_fee_notice_payment">La compagnia aerea impone una commissione, in base al metodo di pagamento utilizzato</string>
+    <string name="airline_notice_fee_added">In base al tipo di carta utilizzato, ti sarà addebitata una <u><b>commissione imposta dalla compagnia aerea</b></u> in fase di pagamento. Tale importo sarà aggiunto al totale in fase di pagamento.</string>
 </resources>

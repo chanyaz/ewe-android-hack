@@ -1,8 +1,8 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -11,6 +11,7 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.interfaces.IDialogForwardBackwardListener;
+import com.mobiata.android.util.Ui;
 import com.squareup.phrase.Phrase;
 
 public class FlightTravelerSaveDialogFragment extends DialogFragment {
@@ -54,9 +55,9 @@ public class FlightTravelerSaveDialogFragment extends DialogFragment {
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		mListener = com.mobiata.android.util.Ui.findFragmentListener(this, IDialogForwardBackwardListener.class);
+	public void onAttach(Context context) {
+		super.onAttach(context);
+		mListener = Ui.findFragmentListener(this, IDialogForwardBackwardListener.class);
 	}
 
 	@Override

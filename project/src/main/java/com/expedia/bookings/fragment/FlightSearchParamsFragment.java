@@ -11,7 +11,6 @@ import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -199,11 +198,11 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
-		if (activity instanceof FlightSearchParamsFragmentListener) {
-			mListener = (FlightSearchParamsFragmentListener) activity;
+		if (context instanceof FlightSearchParamsFragmentListener) {
+			mListener = (FlightSearchParamsFragmentListener) context;
 		}
 		else {
 			throw new RuntimeException("FlightSearchParamsFragment Activity requires a listener!");
@@ -503,8 +502,8 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 			// Clear adapter so we don't fire off unnecessary requests to it
 			// during a configuration change
 			mFirstAdapterLocation = mAirportAdapter.getLocation(0);
-			mDepartureAirportEditText.setAdapter((AirportDropDownAdapter) null);
-			mArrivalAirportEditText.setAdapter((AirportDropDownAdapter) null);
+			mDepartureAirportEditText.setAdapter(null);
+			mArrivalAirportEditText.setAdapter(null);
 		}
 		mFirstRun = false;
 	}
@@ -552,7 +551,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 				autoCompleteTextView.setAdapter(mAirportAdapter);
 			}
 			else {
-				autoCompleteTextView.setAdapter((AirportDropDownAdapter) null);
+				autoCompleteTextView.setAdapter(null);
 			}
 
 			if (hasFocus) {
@@ -1196,8 +1195,7 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	private void onRoutesLoaded() {
-		mRecentRouteSearches = new RecentList<Location>(Location.class, getActivity(), RECENT_ROUTES_AIRPORTS_FILE,
-			MAX_RECENTS);
+		mRecentRouteSearches = new RecentList<>(Location.class, getActivity(), RECENT_ROUTES_AIRPORTS_FILE, MAX_RECENTS);
 
 		mDepartureRouteAdapter = new FlightRouteAdapter(getActivity(), Db.getFlightRoutes(), mRecentRouteSearches, true);
 		mArrivalRouteAdapter = new FlightRouteAdapter(getActivity(), Db.getFlightRoutes(), mRecentRouteSearches, false);
@@ -1445,7 +1443,6 @@ public class FlightSearchParamsFragment extends Fragment implements OnDateChange
 	}
 
 	public interface FlightSearchParamsFragmentListener {
-		public void onParamsChanged();
+		void onParamsChanged();
 	}
-
 }

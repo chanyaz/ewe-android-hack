@@ -16,12 +16,7 @@ import rx.Subscription
 import java.util.Collections
 import java.util.Comparator
 
-public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
-    val acceptJsonInterceptor: RequestInterceptor = object : RequestInterceptor {
-        override fun intercept(request: RequestInterceptor.RequestFacade) {
-            request.addHeader("Accept", "application/json")
-        }
-    }
+public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, val requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
     val suggestApi: SuggestApi by lazy {
         val gson = GsonBuilder().registerTypeAdapter(SuggestionResponse::class.java, SuggestionResponse()).create()
@@ -31,7 +26,7 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
                 .setLogLevel(logLevel)
                 .setConverter(GsonConverter(gson))
                 .setClient(OkClient(okHttpClient))
-                .setRequestInterceptor(acceptJsonInterceptor)
+                .setRequestInterceptor(requestInterceptor)
                 .build()
 
         adapter.create<SuggestApi>(SuggestApi::class.java)

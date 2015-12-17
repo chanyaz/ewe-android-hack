@@ -32,9 +32,9 @@ public final class HotelModule {
 
 	@Provides
 	@HotelScope
-	ReviewsServices provideHotelReviewsServices(EndpointProvider endpointProvider, OkHttpClient client,
+	ReviewsServices provideHotelReviewsServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor,
 		RestAdapter.LogLevel logLevel) {
 		final String endpoint = endpointProvider.getReviewsEndpointUrl();
-		return new ReviewsServices(endpoint, client, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
+		return new ReviewsServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 }

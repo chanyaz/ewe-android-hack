@@ -2,20 +2,18 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.graphics.PorterDuff
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
-import android.widget
 import android.widget.AdapterView
 import android.widget.ImageButton
-import android.widget.LinearLayout
 import android.widget.Spinner
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeText
 import com.expedia.util.subscribeOnClick
+import com.expedia.util.subscribeText
 import com.expedia.vm.HotelTravelerPickerViewModel
-import kotlin.properties.Delegates
 
 public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : ScrollView(context, attrs) {
 
@@ -38,8 +36,8 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Sc
     val childMinus: ImageButton by bindView(R.id.children_minus)
 
     val DEFAULT_CHILD_AGE = 10
-    val enabledColor = getResources().getColor(R.color.hotel_guest_selector_enabled_color)
-    val disabledColor = getResources().getColor(R.color.hotel_guest_selector_disabled_color)
+    val enabledColor = ContextCompat.getColor(context, R.color.hotel_guest_selector_enabled_color)
+    val disabledColor = ContextCompat.getColor(context, R.color.hotel_guest_selector_disabled_color)
 
     var viewmodel: HotelTravelerPickerViewModel by notNullAndObservable { vm ->
         adultPlus.subscribeOnClick(vm.incrementAdultsObserver)
@@ -83,14 +81,14 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Sc
         }
 
         vm.travelerParamsObservable.subscribe { travelers ->
-            if (travelers.children.size() == 0) {
+            if (travelers.children.size == 0) {
                 childAgeLabel.setVisibility(View.GONE)
             } else {
                 childAgeLabel.setVisibility(View.VISIBLE)
             }
             for (i in childSpinners.indices) {
                 val spinner = childSpinners[i]
-                if (i >= travelers.children.size()) {
+                if (i >= travelers.children.size) {
                     spinner.setVisibility(View.INVISIBLE)
                 } else {
                     spinner.setVisibility(View.VISIBLE)

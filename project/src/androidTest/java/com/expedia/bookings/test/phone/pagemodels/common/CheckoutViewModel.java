@@ -192,8 +192,8 @@ public class CheckoutViewModel {
 		Common.delay(2);
 		CheckoutViewModel.clickPaymentInfo();
 		Common.delay(1);
-		CheckoutViewModel.clickAddCreditCard();
-		Common.delay(1);
+//		CheckoutViewModel.clickAddCreditCard();
+//		Common.delay(1);
 		enterPaymentDetails();
 	}
 

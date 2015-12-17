@@ -6,13 +6,16 @@ import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.squareup.phrase.Phrase
+import java.util.*
 
 public class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.toolbar)
@@ -20,9 +23,18 @@ public class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLa
     val payNowRateText: TextView by bindView(R.id.etp_pay_now_charges_text)
     val payNowCurrencyText: TextView by bindView(R.id.etp_pay_now_currency_text)
     val payLaterCurrencyText: TextView by bindView(R.id.etp_pay_later_currency_text)
+    val noChargeText: TextView by bindView(R.id.no_charges_text)
+    val depositTermsFirstText: TextView by bindView(R.id.deposit_terms_first_text)
+    val depositTermsSecondText: TextView by bindView(R.id.deposit_terms_second_text)
+
+    val depositExceedInfoView: LinearLayout by bindView(R.id.deposit_exceed_info_view)
+    val payLaterPaymentInfo: LinearLayout by bindView(R.id.pay_later_payment_info_view)
+    val depositPolicyFirstView: LinearLayout by bindView(R.id.deposit_terms_first_view)
+    val depositPolicySecondView: LinearLayout by bindView(R.id.deposit_terms_second_view)
 
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
     val toolBarHeight by lazy { Ui.getToolbarSize(context) }
+
 
     init {
         View.inflate(getContext(), R.layout.widget_pay_later_info, this)
@@ -36,12 +48,39 @@ public class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLa
         container.setPadding(0, toolBarHeight + statusBarHeight, 0, 0)
     }
 
-    fun setText(hotelCountryCode: String) {
+    fun setText(values: Pair<String, List<HotelOffersResponse.HotelRoomResponse>>) {
         val userCountryCode = PointOfSale.getPointOfSale().getThreeLetterCountryCode()
         val currency = CurrencyUtils.currencyForLocale(userCountryCode)
-        payNowRateText.setText(Phrase.from(getContext(), R.string.etp_pay_now_charges_text_TEMPLATE).put("brand", BuildConfig.brand).format())
-        payNowCurrencyText.setText(getResources().getString(R.string.etp_pay_now_currency_text_TEMPLATE, currency))
-        payLaterCurrencyText.setText(getResources().getString(R.string.etp_pay_later_currency_text_TEMPLATE, hotelCountryCode))
-    }
+        val hotelCountryCode = values.first
+        val hotelCountryCurrency = CurrencyUtils.currencyForLocale(hotelCountryCode)
+        var isDepositRequired = false
+        var payLaterOffer : HotelOffersResponse.HotelRoomResponse? = null
 
+        for (room in values.second) {
+            if (room.payLaterOffer != null) {
+                isDepositRequired = room.payLaterOffer.depositRequired
+                if (isDepositRequired) {
+                    payLaterOffer = room.payLaterOffer
+                    break
+                }
+            }
+        }
+
+        depositPolicyFirstView.visibility = if (isDepositRequired) View.VISIBLE else View.GONE
+        depositExceedInfoView.visibility = if (isDepositRequired) View.VISIBLE else View.GONE
+        payLaterPaymentInfo.visibility = if (isDepositRequired) View.GONE else View.VISIBLE
+        depositPolicyFirstView.visibility = if (isDepositRequired) View.VISIBLE else View.GONE
+        depositPolicySecondView.visibility = if (isDepositRequired) View.VISIBLE else View.GONE
+
+        if (isDepositRequired) {
+            depositTermsFirstText.text = payLaterOffer?.depositPolicyAtIndex(0)
+            depositTermsSecondText.text = payLaterOffer?.depositPolicyAtIndex(1)
+        }
+
+        payNowRateText.text = Phrase.from(getContext(), R.string.etp_pay_now_charges_text_TEMPLATE).put("brand", BuildConfig.brand).format()
+        payNowCurrencyText.text = getResources().getString(R.string.etp_pay_now_currency_text_TEMPLATE, currency)
+        payLaterCurrencyText.text = getResources().getString(R.string.etp_pay_later_currency_text_TEMPLATE, hotelCountryCurrency)
+        noChargeText.text = Phrase.from(getContext(), R.string.no_charge_text_TEMPLATE).put("brand", BuildConfig.brand).format()
+    }
 }
+

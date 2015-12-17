@@ -115,6 +115,8 @@
     <string name="hotel_toolbar_title">搜索酒店</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">搜索地点</string>
+    <!-- Label for recent searches -->
+    <string name="recent_searches">近期搜索</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">取车地点</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -273,12 +275,6 @@
     <string name="missing_flight_info_message_TEMPLATE">请告诉我们航班出发的机场，以便为您搜索飞往%s的航班。</string>
     <!-- Missing flight info message -->
     <string name="missing_flight_trip_date_message">请选择有效的日期或日期范围</string>
-    <!-- Message for missing dates -->
-    <string name="missing_dates_flight_TEMPLATE">请告诉我们您要何时出发，\n以便为您搜索飞往%s的航班。</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when no origin city was specified -->
-    <string name="flight_trends_missing_origin">如需了解机票价格变化趋势，\n请告诉我们您要飞往哪里。</string>
-    <!-- Message to show on Flight Trends (GDE) fragment when users have requested the tool tip -->
-    <string name="flight_trends_tool_tip">票价趋势功能为您及时追踪机票价格变动情况。由于显示的价格基于实时搜索获得的真实数据，所有部分航线提供的信息相对比较少。</string>
     <!-- Denotes the start date of the trip -->
     <string name="trip_starts">旅行开始</string>
     <!-- Denotes the end date of the trip -->
@@ -658,6 +654,8 @@
     <string name="lx_does_not_accept_cardtype_TEMPLATE">不接受 %1$s</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">很抱歉，但此活动的价格已发生变化。请重新尝试预订。</string>
+    <!-- LX Error Limited Inventory -->
+    <string name="lx_error_limited_inventory">很抱歉，您选择的日期余票不足。请尝试其他日期，或减少票的数量。</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">您的票已发送至</string>
     <!-- LX reservation confirmation text -->
@@ -679,6 +677,9 @@
     <string name="lx_ground_transport_passengers_text">%1$s 位乘客</string>
     <!-- Incorrect date search for LX -->
     <string name="lx_start_date_error">此日期已过去了，请选择新的日期。</string>
+
+    <!-- Category Title "All Things To Do" -->
+    <string name="lx_category_all_things_to_do">游览观光</string>
 
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
@@ -734,6 +735,10 @@
     <string name="prices_roundtrip_label">人均往返票价</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">人均单程票价</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_roundtrip_minimum_label">人均往返票起价</string>
+    <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
+    <string name="prices_oneway_minimum_label">人均单程票起价</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">旅行计划是空的。</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -748,10 +753,6 @@
     <string name="trip_bucket_label_flight_roundtrip">到%1$s的往返机票</string>
     <!-- Tablet Trip bucket Flight text - One way Trip. %1$s <destination city> -->
     <string name="trip_bucket_label_flight_trip">飞往%1$s的航班</string>
-    <!-- Flight fare calendar header for a list of dates to fly -->
-    <string name="flight_trends">票价趋势</string>
-    <!-- Flight fare calendar header for return flights -->
-    <string name="when_to_return">返回日期</string>
     <!-- Tablet search results, no hotels available -->
     <string name="tablet_search_results_hotels_unavailable">很抱歉，未找到\n有空房的酒店</string>
     <!-- Tablet search results, no hotels available TONIGHT -->
@@ -849,6 +850,8 @@
     <string name="room_rate_pay_now">立即付款</string>
     <!-- Rooms and rates pay later deposit due now -->
     <string name="room_rate_pay_later_due_now">{amount}现在支付</string>
+    <!-- Rooms and rates pay later deposit due now -->
+    <string name="old_room_rate_pay_later_due_now">现在支付</string>
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/晚</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
@@ -912,36 +915,6 @@
     <string name="now_booking_TEMPLATE">现要预订&lt;b&gt;%1$s&lt;/b&gt;</string>
     <!-- room and bed type template (e.g. "Premium Room, One King Bed") -->
     <string name="room_and_bed_type_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;，%2$s</string>
-
-    <!-- Facebook -->
-    <!-- Weve found your user account -->
-    <string name="facebook_weve_found_your_account_TEMPLATE">嗨 &lt;b&gt;{name}&lt;/b&gt;！我们似乎找到了您的 {brand} 帐户！请在下面输入 {brand} 密码，将您的 Facebook 帐户和 {brand} 帐户关联起来。</string>
-    <!-- Weve fetched your facebook info -->
-    <string name="facebook_weve_fetched_your_info">嗨！&lt;b&gt;%1$s&lt;/b&gt;我们已经加载了您的 Facebook 信息！</string>
-    <!-- Sign in with facebook (button text) -->
-    <string name="Sign_in_with_Facebook">使用 Facebook 帐户登录</string>
-    <!-- fetching information from Facebook -->
-    <string name="fetching_facebook_info">正在从 Facebook 获取信息…</string>
-    <!-- Attempting to sign you in with facebook credentials -->
-    <string name="attempting_to_sign_in_with_facebook">正在尝试使用 Facebook 帐户和密码登录网站…</string>
-    <!-- We have encountered an error -->
-    <string name="unspecified_error">出现错误，具体信息不明。请稍后重试。</string>
-    <!-- Unable to sign in to Facebook -->
-    <string name="unable_to_sign_into_facebook">无法登录到 Facebook。</string>
-    <!-- Sign failed try again. Note: the text "Country setting" is referring to the option from the settings page that is titled "Country" in the English translation. -->
-    <string name="sign_in_failed_try_again">登录失败。如果您的电子邮件和密码是正确的，请确认应用的国家/地区设置是否正确。</string>
-    <!-- Facebook connect password hint -->
-    <string name="brand_password_hint_TEMPLATE">{brand} 密码</string>
-    <!-- Link accounts -->
-    <string name="link_accounts">关联帐户</string>
-    <!-- User Denied email permission Heading -->
-    <string name="user_denied_permission_email_heading">电子邮件权限</string>
-    <!-- Linking your accounts -->
-    <string name="linking_your_accounts">正在关联您的帐户…</string>
-    <!-- User Denied email permission try again button text -->
-    <string name="authorize_email_facebook_button">授予电子邮件权限</string>
-    <!-- User Denied email permission re-request message -->
-    <string name="user_denied_permission_email_message_TEMPLATE">如要使用 Facebook 登录，我们需要相关权限来验证您的电子邮件地址。\n\n请按下面的 Facebook 按钮来赋予 {brand} 权限，以便我们可以验证您的电子邮件地址。谢谢！</string>
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">登录 {brand}</string>
@@ -1050,6 +1023,10 @@
     <string name="shop">预订</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">查找行程</string>
+    <!-- Unable to find itinerary -->
+    <string name="unable_to_find_itinerary">找不到行程。请确认“设置”中的“国家/地区”与您用于预订的网址相符。</string>
+    <!-- Find Guest Itinerary -->
+    <string name="find_guest_itinerary">查找以访客身份预订的行程</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">输入行程单信息</string>
     <!-- Find Itinerary # -->
@@ -1064,6 +1041,8 @@
     <string name="no_upcoming_trips">近期无旅行计划。</string>
     <!-- Enter itinerary number -->
     <string name="enter_itinerary_number">输入行程编号</string>
+    <!-- Enter a Guest itinerary number -->
+    <string name="or_enter_a_guest_itinerary_number">或者输入访客的行程单</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">正在获取您的行程…</string>
     <!-- Error fetching itinerary -->
@@ -1420,6 +1399,7 @@
     <string name="itin_card_details_address">地址</string>
     <string name="itin_card_details_local_phone">当地电话</string>
     <string name="itin_card_details_room_type">客房类型</string>
+    <string name="itin_card_details_non_price_promotion_includes">包含</string>
     <string name="itin_card_details_bed_type">床铺类型</string>
     <string name="toast_copied_to_clipboard">已复制到剪切板。</string>
     <string name="itin_card_details_reload">重新加载信息</string>
@@ -1709,6 +1689,10 @@
     <string name="round_trip_price_TEMPLATE">往返价格为 &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label.  %s is the price.  E.g., "Book now for $994" -->
     <string name="book_now_price_TEMPLATE">现在预订，价格为 &lt;b&gt;%s&lt;/b&gt;</string>
+    <!-- Variants of the previous few templates, for Australian compliance rules (d/5810) -->
+    <string name="one_way_price_min_TEMPLATE">人均单程票起价 &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="round_trip_price_min_TEMPLATE">人均往返票起价 &lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="book_now_price_min_TEMPLATE">立即预订 - 人均起价 &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
         <item quantity="zero">&lt;b&gt;%2$s&lt;/b&gt; 的机票还有 %1$s 张</item>
@@ -1718,8 +1702,20 @@
         <item quantity="many">&lt;b&gt;%2$s&lt;/b&gt; 的机票还有 %1$s 张</item>
         <item quantity="other">&lt;b&gt;%2$s&lt;/b&gt; 的机票还有 %1$s 张</item>
     </plurals>
+    <!-- Book now info label, when there are only a few seats left. Variant for Australian
+         compliance rules (d/5810) -->
+    <plurals name="urgency_book_min_TEMPLATE">
+        <item quantity="zero">人均起价 &lt;b&gt;%2$s&lt;/b&gt; 的机票还有 %1$s 张</item>
+        <item quantity="one">人均起价 &lt;b&gt;%2$s&lt;/b&gt; 的机票还有 %1$s 张</item>
+        <item quantity="two">人均起价 &lt;b&gt;%2$s&lt;/b&gt; 的机票还有 %1$s 张</item>
+        <item quantity="few">人均起价 &lt;b&gt;%2$s&lt;/b&gt; 的机票还有 %1$s 张</item>
+        <item quantity="many">人均起价 &lt;b&gt;%2$s&lt;/b&gt; 的机票还有 %1$s 张</item>
+        <item quantity="other">人均起价 &lt;b&gt;%2$s&lt;/b&gt; 的机票还有 %1$s 张</item>
+    </plurals>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
+    <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
+    <string name="fare_name_and_price_min_TEMPLATE">%1$s 人均起价 %2$s</string>
     <!-- Button label for information about baggage fees -->
     <string name="baggage_fee_info">行李费信息</string>
     <!-- Layover label.  %1$s is the duration of the layover.  %2$s is the location of the layover.  E.g., "60m layover in Fort Lauderdale, FL" -->
@@ -1802,10 +1798,14 @@
     <string name="Overview">概要</string>
     <!-- Trip total price label -->
     <string name="total_price_label">旅行费用总计</string>
+    <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
+    <string name="total_price_min_label">旅费总计起价</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">%1$s之行</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">包含税费</string>
+    <!-- Includes taxes (but not necessarily fees) -->
+    <string name="includes_taxes">含税</string>
     <!-- Date and trip from _ to _ -->
     <string name="trip_to_with_date">%1$s：%2$s 到 %3$s</string>
     <!-- Number of traverlers template -->
@@ -1856,6 +1856,8 @@
     <string name="slide_to_book_flight">滑动屏幕可预订机票</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_TEMPLATE">您的卡将被收取 %1$s</string>
+    <!-- Your card will be charged -->
+    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">将向您的卡收取 %1$s（加航空公司收费）</string>
     <!-- Cars amount due today without a required credit card -->
     <string name="amount_due_today_TEMPLATE">今天应付金额：%1$s</string>
     <!-- Amount to be paid now -->
@@ -1900,6 +1902,8 @@
     <string name="fees_paid_at_hotel">需在酒店支付的费用</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">需支付给 {brand}</string>
+    <!-- Due to expedia today - today -->
+    <string name="due_to_brand_today_today_TEMPLATE">今天要付给 {brand}</string>
     <!-- Legal disclaimer for resort fees (at bottom of checkout) -->
     <string name="resort_fee_disclaimer_TEMPLATE">度假费用 &lt;b&gt;%1$s&lt;/b&gt; 将在酒店收取。您的住宿费用总计 &lt;b&gt;%2$s&lt;/b&gt;。</string>
     <!-- Pay later disclaimer at bottom of checkout -->
@@ -1910,6 +1914,8 @@
     <string name="pay_later_resort_disclaimer_TEMPLATE">您的旅行费用总计 &lt;b&gt;%1$s&lt;/b&gt;，包含度假费 &lt;b&gt;%2$s&lt;/b&gt;。您将在住宿期间以酒店当地货币支付您的预订总额。</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
     <string name="pay_later_deposit_resort_disclaimer_TEMPLATE">您的旅行费用总计 &lt;b&gt;%1$s&lt;/b&gt;，包含度假费 &lt;b&gt;%2$s&lt;/b&gt;。您将在住宿期间以酒店当地货币支付您的预订余额。</string>
+    <!-- Pay later deposit amount -->
+    <string name="pay_later_deposit_policy">%1$s &lt;b&gt;%2$s&lt;/b&gt;</string>
     <!-- Flights AB Test Free Cancellation-->
     <string name="ab_test_flights_free_cancellation">24 小时内免费取消</string>
     <!-- Flights AB Test Traveler info missing callout label -->
@@ -1935,6 +1941,8 @@
     <string name="cost_summary">费用摘要</string>
     <!-- Taxes and airline fees -->
     <string name="taxes_and_airline_fees">税款与服务费</string>
+    <!-- Taxes without airline fees -->
+    <string name="taxes_without_airline_fees">税款</string>
     <!-- Expedia booking fee -->
     <string name="brand_booking_fee">{brand} 预订费</string>
     <!-- Label for a fee imposed on a flight booking that is due to processing the card -->
@@ -2296,6 +2304,8 @@
     <string name="privacy_policy">隐私政策</string>
     <!-- Fare information header -->
     <string name="fare_information">票价信息</string>
+    <!-- Airline Fee -->
+    <string name="Airline_fee">航空公司收费</string>
 
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -2616,6 +2626,8 @@
     <string name="widget_savings_template">节省 %2.0f%%</string>
     <!-- Error string for widget when internet connection is unavailable -->
     <string name="widget_error_no_internet">没有网络连接</string>
+    <!-- The label for deposit terms button -->
+    <string name="deposit_terms">押金规定</string>
 
     <!-- Hotel Details Fragment Activity -->
     <!-- Bullet point for list items -->
@@ -2650,6 +2662,13 @@
     <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">/5 - 住客评分</string>
+    <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
+    <string name="hotel_guest_recommend_good_superlative">/5 - 很好！</string>
+    <string name="hotel_guest_recommend_very_good_superlative">/5 - 非常好！</string>
+    <string name="hotel_guest_recommend_excellent_superlative">/5 - 完美！</string>
+    <string name="hotel_guest_recommend_wonderful_superlative">/5 - 太棒了！</string>
+    <string name="hotel_guest_recommend_exceptional_superlative">/5 - 特别棒！</string>
+
     <!-- new material Hotel results cell discount percentage -->
     <string name="hotel_discount_percent_Template">{discount}%</string>
 
@@ -2797,6 +2816,11 @@
     <string name="etp_pay_now_currency_text_TEMPLATE">您将以您的当地货币 %s 付款。</string>
     <string name="etp_pay_now_cancellation_text">在酒店的取消截止日期之前都可以免费取消。</string>
     <string name="etp_select_room">选择房间</string>
+
+    <!-- ETP pay later deposit info message -->
+    <string name="etp_pay_later_deposit_text">您的押金不会超过预订的总金额。</string>
+    <string name="no_charge_text_TEMPLATE">{brand} 不会向您收费。</string>
+    <string name="deposit_info_text">押金担保</string>
 
     <!-- Room and rates list -->
     <!-- Loading message for rooms & rates -->
@@ -3028,9 +3052,11 @@
     <!-- Label for "Expedia website" button in info page -->
     <string name="website_TEMPLATE">{brand} 网站</string>
     <!-- Label for "app support" button in info page -->
-    <string name="app_support">应用程序支持</string>
+    <string name="app_support">App 支持</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">条款和条件</string>
+    <!-- Label for link to terms of use -->
+    <string name="info_label_terms_of_use">使用条款</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">隐私政策</string>
     <!-- Copyright information -->
@@ -3751,21 +3777,14 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">完成此次预订即表示，您已经阅读并接受%1$s、%2$s和%3$s。</string>
-    <!-- Account creation legal template text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
-    <string name="account_creation_legal_TEMPLATE">我已查阅并同意%1$s和%2$s。</string>
+    <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
+    <string name="account_creation_legal_TEMPLATE">我已阅读并同意接受%1$s和%2$s。加入 {brand}+ 计划即表示，我接受全部 %3$s。</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">选择每个儿童的年龄</string>
 
     <string name="lob_not_supported_error_message">抱歉，您所在的位置尚未提供{lob}预订服务。</string>
 
-    <!-- Account Creation Strings -->
-    <!-- Button text for account creation button -->
-    <string name="acct_Create_an_Expedia_account">创建 Expedia 帐户</string>
-    <!-- Message displayed after a successful create account -->
-    <string name="acct_Welcome_to_Expedia">欢迎来到 Expedia</string>
-    <!-- Title of "Account Already Exists" error dialog box -->
-    <string name="acct_Expedia_account_already_exists">已有一个 Expedia 帐户使用此电子邮件地址</string>
     <!-- Children age label on hotel search -->
     <string name="children_age_label">（0-17 岁）</string>
 
@@ -3784,4 +3803,10 @@
     <string name="coupon_error_dialog_title">优惠券未成功使用</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">您的优惠券有问题。请再输一次。</string>
+
+    <!-- Australian compliance warnings d/5810 -->
+    <string name="airline_fee_notice">根据卡的类型，付款时将添加航空公司收费。</string>
+    <string name="airline_charge_notice">航空公司根据付款方式收取额外费用。</string>
+    <string name="airline_fee_notice_payment">根据付款方式，航空公司可能会有一定费用。</string>
+    <string name="airline_notice_fee_added">根据卡的类型，付款时可能会有<u><b>航空公司收费</b></u>。该费用将添加到付款总额。</string>
 </resources>

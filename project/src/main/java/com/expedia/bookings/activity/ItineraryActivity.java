@@ -337,7 +337,7 @@ public class ItineraryActivity extends FragmentActivity implements ItinItemListF
 			return true;
 		}
 		case R.id.menu_add_guest_itinerary: {
-			mItinListFragment.startAddGuestItinActivity();
+			mItinListFragment.startAddGuestItinActivity(false);
 			return true;
 		}
 		case R.id.menu_log_in: {
@@ -435,6 +435,10 @@ public class ItineraryActivity extends FragmentActivity implements ItinItemListF
 
 	@Override
 	public void onTripUpdated(Trip trip) {
+		// Do nothing
+	}
+
+	public void onTripFailedFetchingGuestItinerary() {
 		// Do nothing
 	}
 

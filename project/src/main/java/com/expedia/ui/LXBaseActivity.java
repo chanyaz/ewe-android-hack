@@ -11,6 +11,8 @@ import android.view.ViewTreeObserver.OnPreDrawListener;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
@@ -44,6 +46,9 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 
 		Intent intent = getIntent();
 		boolean isGroundTransport = intent.getBooleanExtra(EXTRA_IS_GROUND_TRANSPORT, false);
+		boolean isUserBucketedForTest = Db.getAbacusResponse()
+		.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCategoryABTest);
+
 		if (isGroundTransport) {
 			this.setTheme(R.style.V2_Theme_LX_Transport);
 		}
@@ -51,6 +56,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 		setContentView(R.layout.lx_base_layout);
 		ButterKnife.inject(this);
 		lxPresenter.setIsGroundTransport(isGroundTransport);
+		lxPresenter.setUserBucketedForCategoriesTest(isUserBucketedForTest);
 		Ui.showTransparentStatusBar(this);
 		handleNavigationViaDeepLink();
 	}

@@ -3,12 +3,10 @@ package com.expedia.bookings.section;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -61,7 +59,6 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 		init(context, attrs);
 	}
 
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public SectionStoredCreditCard(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		init(context, attrs);
@@ -192,7 +189,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 
 					mDescriptionView.setTextColor(mSecondaryTextColor);
 					mDescriptionView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-							res.getDimensionPixelSize(R.dimen.data_display_sub_text));
+						res.getDimensionPixelSize(R.dimen.data_display_sub_text));
 				}
 				else {
 					mWalletTextView.setVisibility(View.GONE);
@@ -202,7 +199,7 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 
 				primaryTextView.setTextColor(mPrimaryTextColor);
 				primaryTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-						res.getDimensionPixelSize(R.dimen.data_display_primary_text));
+					res.getDimensionPixelSize(R.dimen.data_display_primary_text));
 			}
 
 			// Icon
@@ -277,7 +274,6 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 					});
 				}
 			}
-
 		}
 	}
 

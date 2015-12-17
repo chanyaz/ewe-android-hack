@@ -1,8 +1,8 @@
 package com.expedia.bookings.fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
@@ -31,8 +31,8 @@ public class RetryErrorDialogFragment extends DialogFragment implements OnClickL
 	}
 
 	@Override
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
+	public void onAttach(Context context) {
+		super.onAttach(context);
 
 		mListener = Ui.findFragmentListener(this, RetryErrorDialogFragmentListener.class);
 	}
@@ -84,8 +84,8 @@ public class RetryErrorDialogFragment extends DialogFragment implements OnClickL
 	// Listener
 
 	public interface RetryErrorDialogFragmentListener {
-		public void onRetryError();
+		void onRetryError();
 
-		public void onCancelError();
+		void onCancelError();
 	}
 }

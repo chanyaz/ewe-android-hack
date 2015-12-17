@@ -114,7 +114,7 @@
                 android:drawablePadding="8dp"
                 android:gravity="center_vertical"
                 android:padding="16dp"
-                android:text="@string/enter_itinerary_number"
+                android:text="@string/or_enter_a_guest_itinerary_number"
                 android:textAllCaps="true"
                 android:textColor="@color/itin_offwhite_text"
                 android:textSize="12sp"

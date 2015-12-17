@@ -89,9 +89,14 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.hotelMapView.mapView = detailsMapView
         presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView);
         presenter.hotelDetailView.viewmodel = HotelDetailViewModel(context, hotelServices, selectedRoomObserver)
+        presenter.hotelDetailView.viewmodel.depositInfoContainerClickObservable.subscribe { pair: Pair<String, HotelOffersResponse.HotelRoomResponse> ->
+            presenter.hotelDepositInfoObserver.onNext(pair)
+        }
         presenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
         presenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(presenter.hotelRenovationObserver)
-        presenter.hotelDetailView.viewmodel.hotelPayLaterInfoObservable.subscribe(presenter.hotelPayLaterInfoObserver)
+        presenter.hotelDetailView.viewmodel.hotelPayLaterInfoObservable.subscribe { pair: Pair<String, List<HotelOffersResponse.HotelRoomResponse>> ->
+            presenter.hotelPayLaterInfoObserver.onNext(pair)
+        }
         presenter.hotelDetailView.viewmodel.vipAccessInfoObservable.subscribe(presenter.hotelVIPAccessInfoObserver)
         presenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
         presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut)
@@ -107,7 +112,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     val checkoutStub: ViewStub by bindView(R.id.checkout_stub)
-    val checkoutPresenter: HotelCheckoutPresenter by lazy{
+    val checkoutPresenter: HotelCheckoutPresenter by lazy {
         var presenter = checkoutStub.inflate() as HotelCheckoutPresenter
         presenter.hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(hotelServices)
         presenter.hotelCheckoutViewModel = HotelCheckoutViewModel(hotelServices)
@@ -125,8 +130,12 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             show(errorPresenter)
         }
         presenter.hotelCheckoutViewModel.noResponseObservable.subscribe {
-            val retryFun = fun() { presenter.hotelCheckoutWidget.slideAllTheWayObservable.onNext(Unit) }
-            val cancelFun = fun() { show(detailPresenter) }
+            val retryFun = fun() {
+                presenter.hotelCheckoutWidget.slideAllTheWayObservable.onNext(Unit)
+            }
+            val cancelFun = fun() {
+                show(detailPresenter)
+            }
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
         }
         presenter.hotelCheckoutViewModel.checkoutParams.subscribe {
@@ -139,8 +148,12 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.hotelCheckoutWidget.createTripViewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
         presenter.hotelCheckoutWidget.createTripViewmodel.errorObservable.delay(2, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
         presenter.hotelCheckoutWidget.createTripViewmodel.noResponseObservable.subscribe {
-            val retryFun = fun() { presenter.hotelCheckoutWidget.doCreateTrip() }
-            val cancelFun = fun() { show(detailPresenter) }
+            val retryFun = fun() {
+                presenter.hotelCheckoutWidget.doCreateTrip()
+            }
+            val cancelFun = fun() {
+                show(detailPresenter)
+            }
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
         }
 
@@ -160,7 +173,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val ANIMATION_DURATION = 400
     val geoCodeSearchModel = GeocodeSearchModel(context)
     private val checkoutDialog = ProgressDialog(context)
-    var viewModel : HotelPresenterViewModel by Delegates.notNull()
+    var viewModel: HotelPresenterViewModel by Delegates.notNull()
     private val DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW = 100L
 
     init {
@@ -304,7 +317,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             loadingOverlay.visibility = View.GONE
             detailPresenter.visibility = View.VISIBLE
             if (forward) {
-                detailPresenter.hotelDetailView.resetGallery()
+                detailPresenter.hotelDetailView.refresh()
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
                 backStack.push(searchPresenter)
             }
@@ -354,7 +367,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             super.finalizeTransition(forward)
             searchPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
             resultsPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
-            searchPresenter.animationFinalize()
+            searchPresenter.animationFinalize(forward)
             resultsPresenter.animationFinalize(forward)
             if (!forward) HotelV2Tracking().trackHotelV2SearchBox()
         }
@@ -368,7 +381,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 detailPresenter.hotelDetailView.resetViews()
             }
             else {
-                detailPresenter.hotelDetailView.resetGallery()
+                detailPresenter.hotelDetailView.refresh()
             }
             val parentHeight = getHeight()
             detailsHeight = parentHeight - Ui.getStatusBarHeight(getContext())
@@ -443,7 +456,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             super.finalizeTransition(forward)
             searchPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
             errorPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
-            searchPresenter.animationFinalize()
+            searchPresenter.animationFinalize(forward)
             errorPresenter.animationFinalize()
             if (!forward) HotelV2Tracking().trackHotelV2SearchBox()
         }
@@ -454,7 +467,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             super.startTransition(forward)
             loadingOverlay.visibility = View.GONE
             searchPresenter.animationStart(!forward)
-            searchPresenter.animationFinalize()
+            searchPresenter.animationFinalize(forward)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -465,7 +478,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             if (forward) {
-                detailPresenter.hotelDetailView.resetGallery()
+                detailPresenter.hotelDetailView.refresh()
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             }
             else {
@@ -475,7 +488,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
     private val resultsToError = ScaleTransition(this, HotelResultsPresenter::class.java, HotelErrorPresenter::class.java)
 
-    private val detailsToCheckout = object: ScaleTransition(this, HotelDetailPresenter::class.java, HotelCheckoutPresenter::class.java) {
+    private val detailsToCheckout = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelCheckoutPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             checkoutDialog.hide()
@@ -490,7 +503,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     }
 
-    private val detailsToError = object: ScaleTransition(this, HotelDetailPresenter::class.java, HotelErrorPresenter::class.java){
+    private val detailsToError = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelErrorPresenter::class.java) {
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             if (!forward) {
@@ -500,7 +513,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     private val checkoutToConfirmation = ScaleTransition(this, HotelCheckoutPresenter::class.java, HotelConfirmationPresenter::class.java)
-    private val detailsToReview = object: ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {
+    private val detailsToReview = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             if (forward) {
@@ -517,12 +530,10 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         if (params.suggestion.hotelId != null) {
             // Hotel name search - go straight to details
             showDetails(params.suggestion.hotelId, true)
-        }
-        else if (params.suggestion.type.equals("RAW_TEXT_SEARCH")) {
+        } else if (params.suggestion.type.equals("RAW_TEXT_SEARCH")) {
             // fire off geo search to resolve raw text into lat/long
             geoCodeSearchModel.searchObserver.onNext(params)
-        }
-        else {
+        } else {
             // Hotel region search
             show(resultsPresenter, Presenter.FLAG_CLEAR_TOP)
             resultsPresenter.viewmodel.paramsSubject.onNext(params)
@@ -555,7 +566,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
-    val hotelDetailsListener: Observer<HotelDetailsRequestMetadata> = endlessObserver {
+    private val hotelDetailsListener: Observer<HotelDetailsRequestMetadata> = endlessObserver {
         if (it.isOffersRequest) {
             loadingOverlay.animate(false)
         }
@@ -594,17 +605,22 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(hotelSearchParams)
         val subject = PublishSubject.create<HotelOffersResponse>()
-        subject.subscribe(object: Observer<HotelOffersResponse> {
+        subject.subscribe(object : Observer<HotelOffersResponse> {
             override fun onNext(t: HotelOffersResponse?) {
                 hotelDetailsListener.onNext(HotelDetailsRequestMetadata(hotelId, t!!, fetchOffers))
             }
 
-            override fun onCompleted() {}
+            override fun onCompleted() {
+            }
 
             override fun onError(e: Throwable?) {
                 if (RetrofitUtils.isNetworkError(e)) {
-                    val retryFun = fun() { showDetails(hotelId, fetchOffers) }
-                    val cancelFun = fun() { show(searchPresenter) }
+                    val retryFun = fun() {
+                        showDetails(hotelId, fetchOffers)
+                    }
+                    val cancelFun = fun() {
+                        show(searchPresenter)
+                    }
                     DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
                 }
             }

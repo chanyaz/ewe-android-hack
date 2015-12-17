@@ -19,6 +19,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
@@ -26,7 +27,9 @@ import static org.hamcrest.Matchers.not;
 public class LXCheckoutPresenterTest extends LxTestCase {
 	private void goToCheckout() throws Throwable {
 		if (getLxIdlingResource().isInSearchEditMode()) {
-			onView(allOf(withId(R.id.error_action_button), withText(R.string.edit_search))).perform(click());
+			onView(allOf(withId(R.id.error_action_button), withText(R.string.edit_search), withParent(
+				withParent(withId(R.id.lx_search_error_widget)))))
+				.perform(click());
 			LXScreen.location().perform(typeText("San"));
 			LXScreen.selectLocation("San Francisco, CA");
 			LXScreen.selectDateButton().perform(click());

@@ -31,6 +31,7 @@ public class LXActivity {
 	public int freeCancellationMinHours;
 	public Money price;
 	public Money originalPrice;
+	public transient int popularityForClientSort;
 
 	public List<LXImage> getImages() {
 		List<LXImage> images = new ArrayList<>();

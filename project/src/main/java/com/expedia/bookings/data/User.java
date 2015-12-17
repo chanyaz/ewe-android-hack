@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.expedia.account.AccountService;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.RestrictedProfileActivity;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -23,7 +24,6 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.utils.Strings;
-import com.facebook.Session;
 import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -188,16 +188,8 @@ public class User implements JSONable {
 		ExpediaServices.removeUserLoginCookies(context);
 		logger.addSplit("ExpediaServices.removeUserLoginCookies(context)");
 
-		Session session = Session.getActiveSession();
 		//Facebook log out
-		if (session == null) {
-			session = Session.openActiveSessionFromCache(context);
-		}
-
-		if (session != null) {
-			session.closeAndClearTokenInformation();
-		}
-
+		AccountService.facebookLogOut();
 		logger.addSplit("Facebook Session Closed");
 
 		logger.dumpToLog();

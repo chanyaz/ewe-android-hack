@@ -21,7 +21,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.model.DismissedItinButton;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.ItinCard;
 import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
@@ -633,9 +632,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			if (ignoreNonHotelItineraries(data)) {
 				continue;
 			}
-
-			// Track as user qualifies for the Cross-sell.
-			OmnitureTracking.trackAddLxItin();
 
 			if (isUserBucketedForTest) {
 				TripHotel tripHotel = (TripHotel) data.getTripComponent();

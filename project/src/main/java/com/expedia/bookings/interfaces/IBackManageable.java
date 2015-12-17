@@ -10,10 +10,10 @@ import com.expedia.bookings.interfaces.helpers.BackManager;
 public interface IBackManageable {
 	/**
 	 * Get an instance of BackManager that can control onBackPressed actions.
-	 * 
+	 * <p/>
 	 * PROTIP:Declare one BackManager as a variable in your fragment and return the same instance every time.
-	 * 
+	 *
 	 * @return
 	 */
-	public BackManager getBackManager();
+	BackManager getBackManager();
 }

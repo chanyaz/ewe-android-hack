@@ -43,9 +43,7 @@ import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FacebookLinkResponse;
 import com.expedia.bookings.data.FlightCheckoutResponse;
-import com.expedia.bookings.data.FlightSearchHistogramResponse;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightStatsFlightResponse;
@@ -94,7 +92,6 @@ import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
-import com.facebook.Session;
 import com.larvalabs.svgandroid.SVG;
 import com.larvalabs.svgandroid.SVGParser;
 import com.mobiata.android.BackgroundDownloader.DownloadListener;
@@ -897,60 +894,6 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Global Deals Engine API (GDE) - Flights
-	//
-	// Documentation: https://confluence/display/MTTFG/Global+Deals+Engine+-+GDE
-	//
-	// Flights: https://confluence/display/MTTFG/GDE+Flights+API+Documentation
-	//
-	// Example outgoing trip url:
-	// http://deals.expedia.com/beta/stats/flights.json?tripTo=LAS&tripFrom=LAX
-	//
-	// Example outgoing trip url from a metro code:
-	// http://deals.expedia.com/beta/stats/flights.json?tripTo=IBZ&tripFromMetroAirportCode=QSF
-	//
-	// Exmaple return trip url:
-	// http://deals.expedia.com/beta/stats/flights.json?tripTo=LAS&tripFrom=LAX&departDate=2014-10-01&key=returnDate
-
-	public FlightSearchHistogramResponse flightSearchHistogram(Location origin, Location destination,
-		LocalDate departureDate) {
-
-		// Special case (see Meeker, CO) if there's no nearby airport
-		if (TextUtils.isEmpty(origin.getDestinationId()) || TextUtils.isEmpty(destination.getDestinationId())) {
-			return null;
-		}
-
-		String endpointUrl = getGdeEndpointUrl();
-		List<BasicNameValuePair> query = generateFlightHistogramParams(origin, destination, departureDate);
-		FlightSearchHistogramResponseHandler handler
-			= new FlightSearchHistogramResponseHandler(origin, destination, departureDate);
-		return doBasicGetRequest(endpointUrl, query, handler);
-	}
-
-	public List<BasicNameValuePair> generateFlightHistogramParams(Location origin, Location destination,
-		LocalDate departureDate) {
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-
-		String destKey = destination.isMetroCode() ? "tripToMetroAirportCode" : "tripTo";
-		query.add(new BasicNameValuePair(destKey, destination.getDestinationId()));
-
-		if (origin != null) {
-			String origKey = origin.isMetroCode() ? "tripFromMetroAirportCode" : "tripFrom";
-			query.add(new BasicNameValuePair(origKey, origin.getDestinationId()));
-		}
-
-		if (departureDate != null) {
-			DateTimeFormatter fmt = ISODateTimeFormat.date();
-			query.add(new BasicNameValuePair("departDate", fmt.print(departureDate)));
-			query.add(new BasicNameValuePair("key", "returnDate"));
-		}
-
-		query.add(new BasicNameValuePair("akey", "andapprm2908"));
-
-		return query;
-	}
-
-	//////////////////////////////////////////////////////////////////////////
 	// Expedia Itinerary API
 	//
 	// Documentation: https://www.expedia.com/static/mobile/APIConsole/trip.html
@@ -1271,85 +1214,6 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Facebook Login API
-	//
-	// Note: This is the api for working with Expedia in regard to a facebook login.
-	// The calls to facebook itself are handled by the FB sdk, and currently happen in LoginFragment.java
-
-	/**
-	 * Login to expedia using facebook credentials
-	 *
-	 * @param facebookUserId
-	 * @param facebookAccessToken
-	 * @return
-	 */
-	public FacebookLinkResponse facebookAutoLogin(String facebookUserId, String facebookAccessToken) {
-		Session fbSession = Session.getActiveSession();
-		if (fbSession == null || fbSession.isClosed()) {
-			throw new RuntimeException("We must be logged into facebook inorder to call facebookAutoLogin");
-		}
-
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		query.add(new BasicNameValuePair("provider", "Facebook"));
-		query.add(new BasicNameValuePair("userId", facebookUserId));
-		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
-		addCommonParams(query);
-
-		return doE3Request("api/auth/autologin", query, new FacebookLinkResponseHandler(mContext));
-	}
-
-	/**
-	 * Create a new expedia user, and associate that user with the provided facebook account
-	 *
-	 * @param facebookUserId
-	 * @param facebookAccessToken
-	 * @param facebookEmailAddress
-	 * @return
-	 */
-	public FacebookLinkResponse facebookLinkNewUser(String facebookUserId, String facebookAccessToken,
-		String facebookEmailAddress) {
-
-		Session fbSession = Session.getActiveSession();
-		if (fbSession == null || fbSession.isClosed()) {
-			throw new RuntimeException("We must be logged into facebook inorder to call facebookLinkNewUser");
-		}
-
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		query.add(new BasicNameValuePair("provider", "Facebook"));
-		query.add(new BasicNameValuePair("userId", facebookUserId));
-		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
-		query.add(new BasicNameValuePair("email", facebookEmailAddress));
-		addCommonParams(query);
-		return doE3Request("api/auth/linkNewAccount", query, new FacebookLinkResponseHandler(mContext));
-	}
-
-	/**
-	 * Link an existing expedia user with a facebook account
-	 *
-	 * @param facebookUserId
-	 * @param facebookAccessToken
-	 * @param facebookEmailAddress
-	 * @param expediaPassword
-	 * @return
-	 */
-	public FacebookLinkResponse facebookLinkExistingUser(String facebookUserId, String facebookAccessToken,
-		String facebookEmailAddress, String expediaPassword) {
-		Session fbSession = Session.getActiveSession();
-		if (fbSession == null || fbSession.isClosed()) {
-			throw new RuntimeException("We must be logged into facebook inorder to call facebookLinkNewUser");
-		}
-
-		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
-		query.add(new BasicNameValuePair("provider", "Facebook"));
-		query.add(new BasicNameValuePair("userId", facebookUserId));
-		query.add(new BasicNameValuePair("accessToken", facebookAccessToken));
-		query.add(new BasicNameValuePair("email", facebookEmailAddress));
-		query.add(new BasicNameValuePair("password", expediaPassword));
-		addCommonParams(query);
-		return doE3Request("api/auth/linkExistingAccount", query, new FacebookLinkResponseHandler(mContext));
-	}
-
-	//////////////////////////////////////////////////////////////////////////
 	// Push Notifications
 
 	public PushNotificationRegistrationResponse registerForPushNotifications(
@@ -1634,31 +1498,7 @@ public class ExpediaServices implements DownloadListener {
 
 		return false;
 	}
-	//////////////////////////////////////////////////////////////////////////
-	// Endpoints
 
-	/**
-	 * Returns the proper base GDE URL for the current POS. This will throw a runtime exception
-	 * if !pos.supportsGDE(), so be sure to check that before making a request.
-	 *
-	 * @return
-	 */
-	public String getGdeEndpointUrl() {
-		if (mEndpointProvider.getEndPoint() == EndPoint.CUSTOM_SERVER) {
-			String server = SettingUtils
-				.get(mContext, mContext.getString(R.string.preference_proxy_server_address), "localhost:3000");
-			return "http://" + server;
-		}
-
-		PointOfSale pos = PointOfSale.getPointOfSale();
-		if (!pos.supportsGDE()) {
-			throw new RuntimeException("GDE not supported for pos=" + pos.getTwoLetterCountryCode());
-		}
-
-		// https not supported here
-		String url = "http://deals." + pos.getUrl() + "/beta/stats/flights.json";
-		return url;
-	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Download listener stuff

@@ -260,7 +260,6 @@ public class TabletResultsFlightControllerFragment extends Fragment implements
 
 	public void importSearchParams() {
 		Db.getFlightSearch().setSearchResponse(null);
-		Db.setFlightSearchHistogramResponse(null);
 		Db.getFlightSearch().setSearchParams(Sp.getParams().toFlightSearchParams());
 	}
 

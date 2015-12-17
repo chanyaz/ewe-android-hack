@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment.base;
 
-import android.app.Activity;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewTreeObserver.OnPreDrawListener;
@@ -31,11 +29,11 @@ public class MeasurableFragmentHelper {
 		mFragment = fragment;
 	}
 
-	public void onAttach(Activity activity) {
+	public void onAttach() {
 		mListener = Ui.findFragmentListener(mFragment, MeasurableFragmentListener.class, false);
 	}
 
-	public void onViewCreated(final View view, Bundle savedInstanceState) {
+	public void onViewCreated(final View view) {
 		if (mListener != null) {
 			view.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
 				@Override

@@ -191,6 +191,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_DETAILS_ETP = "App.Hotels.IS.Select.";
 	private static final String HOTELSV2_DETAIL_VIEW_ROOM = "App.Hotels.IS.ViewRoom";
 	private static final String HOTELSV2_DETAIL_ROOM_INFO = "App.Hotels.IS.MoreRoomInfo";
+	private static final String HOTELSV2_DETAIL_ROOM_BOOK = "App.Hotels.IS.BookNow";
 	private static final String HOTELSV2_DETAIL_MAP_VIEW = "App.Hotels.Infosite.Map";
 	private static final String HOTELSV2_DETAIL_BOOK_PHONE = "App.Hotels.Infosite.BookPhone";
 	private static final String HOTELSV2_DETAIL_SELECT_ROOM = "App.Hotels.Infosite.SelectRoom";
@@ -469,19 +470,15 @@ public class OmnitureTracking {
 		}
 		else if (isRoomSoldOut && isETPEligible) {
 			s.setEvents("event32,event5,event18");
-			s.setEvar(52, "Pay Now");
 		}
 		else if (isRoomSoldOut) {
 			s.setEvents("event32,event18");
-			s.setEvar(52, "Non ETP");
 		}
 		else if (isETPEligible) {
 			s.setEvents("event32,event5");
-			s.setEvar(52, "Pay Now");
 		}
 		else if (!isETPEligible) {
 			s.setEvents("event32");
-			s.setEvar(52, "Non ETP");
 		}
 
 		s.setEvar(2, HOTELV2_LOB);
@@ -551,6 +548,29 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_ROOM_INFO);
 		s.trackLink(null, "o", "Room Info", null, null);
+	}
+
+	public static void trackHotelV2RoomBookClick(HotelOffersResponse.HotelRoomResponse hotelRoomResponse, boolean hasETP) {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAIL_ROOM_BOOK + "\" pageLoad...");
+
+		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_DETAIL_ROOM_BOOK);
+
+		if (!hasETP) {
+			s.setEvar(52, "Non Etp");
+		}
+		else if (hotelRoomResponse.isPayLater) {
+			if (hotelRoomResponse.depositRequired) {
+				s.setEvar(52, "Pay Later Deposit");
+			}
+			else {
+				s.setEvar(52, "Pay Later");
+			}
+		}
+		else {
+			s.setEvar(52, "Pay Now");
+		}
+
+		s.trackLink(null, "o", "Hotel Infosite", null, null);
 	}
 
 	public static void trackHotelV2DetailMapView() {
@@ -1094,6 +1114,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelETPSearchResults);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHSRMapIconTest);
 		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsV2SuperlativeReviewsABTest);
 
 		// Send the tracking data
 		s.track();
@@ -2103,6 +2124,16 @@ public class OmnitureTracking {
 	private static final String LX_CHECKOUT_SLIDE_TO_PURCHASE = "App.LX.Checkout.SlideToPurchase";
 	private static final String LX_CHECKOUT_CVV_SCREEN = "App.LX.Checkout.Payment.CID";
 	private static final String LX_NO_SEARCH_RESULTS = "App.LX.NoResults";
+	private static final String LX_CATEGORY_TEST = "App.LX.Category";
+	private static final String LX_SEARCH_CATEGORIES = "App.LX.Search.Categories";
+
+
+	public static void trackAppLXCategoryABTest() {
+		Log.d(TAG, "Tracking \"" + LX_CATEGORY_TEST + "\" category...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXCategoryABTest);
+		s.track();
+	}
 
 	public static void trackAppLXSearch(LXSearchParams lxSearchParams,
 		LXSearchResponse lxSearchResponse) {
@@ -2117,6 +2148,34 @@ public class OmnitureTracking {
 
 		// Success event for Product Search, Local Expert Search
 		s.setEvents("event30,event56");
+
+		// prop and evar 5, 6
+		setDateValues(s, lxSearchParams.startDate, lxSearchParams.endDate);
+
+		// Freeform location
+		if (!TextUtils.isEmpty(lxSearchParams.location)) {
+			s.setEvar(48, lxSearchParams.location);
+		}
+
+		// Number of search results
+		if (lxSearchResponse.activities.size() > 0) {
+			s.setProp(1, Integer.toString(lxSearchResponse.activities.size()));
+		}
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackAppLXSearchCategories(LXSearchParams lxSearchParams,
+		LXSearchResponse lxSearchResponse) {
+		// Start actually tracking the search result change
+		Log.d(TAG, "Tracking \"" + LX_SEARCH_CATEGORIES + "\" pageLoad...");
+
+		ADMS_Measurement s = internalTrackAppLX(LX_SEARCH_CATEGORIES);
+
+		// Destination
+		s.setProp(4, lxSearchResponse.regionId);
+		s.setEvar(4, "D=c4");
 
 		// prop and evar 5, 6
 		setDateValues(s, lxSearchParams.startDate, lxSearchParams.endDate);
@@ -2636,6 +2695,23 @@ public class OmnitureTracking {
 			s.setEvents("event70");
 			HotelSearchParams params = Db.getTripBucket().getHotel().getHotelSearchParams();
 			s.setEvar(47, getEvar47String(params));
+
+			// DepositV2 Omniture Tracking
+			if (!Db.getTripBucket().getHotel().getProperty().hasEtpOffer()) {
+				s.setEvar(52, "Non Etp");
+			}
+			else if (Db.getTripBucket().getHotel().getRate().isPayLater()) {
+				if (Db.getTripBucket().getHotel().getRate().depositRequired()) {
+					s.setEvar(52, "Pay Later Deposit");
+				}
+				else {
+					s.setEvar(52, "Pay Later");
+				}
+			}
+			else {
+				s.setEvar(52, "Pay Now");
+			}
+
 			addHotelRegionId(s, params);
 			addProducts(s, Db.getTripBucket().getHotel().getProperty());
 			addStandardHotelFields(s, params);

@@ -86,6 +86,7 @@
     <!-- Hotels colors -->
     <color name="hotels_primary_color">#009688</color>
     <color name="hotels_cc_text_color_secondary">#868a8f</color>
+    <color name="hotelsv2_discount_green">#6BCA2C</color>
     <color name="hotel_price_breakdown_discount_green">#218b22</color>
     <color name="actionbar_text_disabled">#505c69</color>
     <color name="amenity_text_color_large">#79848f</color>
@@ -166,6 +167,7 @@
     <color name="suggestion_row_divider">#FF4F4F4F</color>
     <color name="widget_text_color">#3d4552</color>
     <color name="hotel_cell_primary_color">#3D4552</color>
+    <color name="hotel_recent_search_icon_color">#747474</color>
     <color name="hotel_cell_secondary_color">#a6a6a6</color>
     <color name="hotel_price_text_color">#064192</color>
     <color name="hotel_price_sale_text_color">#00b277</color>
@@ -206,6 +208,7 @@
     <color name="confirmation_item_divider_hotel">#616871</color>
     <color name="cost_summary_header_text_color">#004582</color>
     <color name="flight_checkout_missing_info_callout">#E60000</color>
+    <color name="flight_checkout_fee_warning_background">#1A2C40</color>
 
     <!-- Hotels search hangtag/mapsearch colors -->
     <color name="hotel_list_progress_text_color">#555555</color>
@@ -309,6 +312,8 @@
     <color name="lx_select_ticket_button_color">#7C7C7C</color>
     <color name="lx_date_disabled_background_color">@android:color/white</color>
     <color name="lx_actionbar_text_color">#5C5C5C</color>
+    <color name="lx_date_unselected_color">#5C5C5C</color>
+    <color name="lx_date_selected_color">#FFFFFF</color>
     <color name="lx_confirmation_gradient">#80000000</color>
     <color name="lx_confirmation_background">#1A1D20</color>
     <color name="lx_confirmation_action_text_color">#F3F3F3</color>

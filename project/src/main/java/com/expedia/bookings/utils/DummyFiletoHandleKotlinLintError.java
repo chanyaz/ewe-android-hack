@@ -95,6 +95,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.hotel_breakdown,
 		R.layout.hotel_cost_summary_row,
 		R.layout.hotel_reviews_summary_widget,
+		R.layout.hotel_reviews_loading_widget,
 		R.string.hotel_rating_room_cleanliness,
 		R.string.hotel_rating_hotel_condition,
 		R.string.hotel_rating_service_and_staff,
@@ -177,6 +178,22 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.room_rate_pay_later_due_now,
 		R.layout.hotel_results_presenter_stub,
 		R.layout.hotel_detail_presenter_stub,
-		R.layout.hotel_checkout_presenter_stub
+		R.layout.hotel_checkout_presenter_stub,
+		R.drawable.user_review_background_green,
+		R.string.hotel_guest_recommend_good_superlative,
+		R.string.hotel_guest_recommend_very_good_superlative,
+		R.string.hotel_guest_recommend_excellent_superlative,
+		R.string.hotel_guest_recommend_wonderful_superlative,
+		R.string.hotel_guest_recommend_exceptional_superlative,
+		R.layout.lx_category_loading_animation_widget,
+		R.layout.row_lx_category,
+		R.dimen.lx_category_image_width,
+		R.drawable.lx_category_count_background_single_digit,
+		R.string.no_charge_text_TEMPLATE,
+		R.layout.widget_deposit_terms_info,
+		R.layout.recent_search_header,
+		R.layout.recent_search_item,
+		R.layout.recent_search_view,
+		R.drawable.recent_searches
 	};
 }
