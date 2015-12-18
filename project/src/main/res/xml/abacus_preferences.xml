@@ -138,6 +138,14 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
+            android:key="9480"
+            android:title="Hotels CKO Postal Code" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
             android:key="8129"
             android:title="Show hotel address and map in receipt" />
 
