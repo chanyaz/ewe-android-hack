@@ -15,6 +15,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.view.animation.DecelerateInterpolator
@@ -71,6 +72,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val MAP_ZOOM_LEVEL = 12f
     var bottomMargin = 0
     val ANIMATION_DURATION = 200L
+    val SELECT_ROOM_ANIMATION = 300L
     var resortViewHeight = 0
     var selectRoomContainerHeight = 0
     val screenSize by lazy { Ui.getScreenSize(context) }
@@ -660,8 +662,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         if (commonAmenityText.visibility == View.VISIBLE) scrollToAmount -= commonAmenityText.height
         val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.scrollY, scrollToAmount.toInt())
 
-        smoothScrollAnimation.setDuration(if (animate) ANIMATION_DURATION else 0)
-        smoothScrollAnimation.interpolator = (DecelerateInterpolator())
+        smoothScrollAnimation.setDuration(if (animate) SELECT_ROOM_ANIMATION else 0)
+        smoothScrollAnimation.interpolator = (AccelerateDecelerateInterpolator())
         smoothScrollAnimation.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
             override fun onAnimationUpdate(animation: ValueAnimator) {
                 val scrollTo = animation.animatedValue as Int
