@@ -84,6 +84,7 @@
     <color name="section_flight_edit_traveler_link_color">#2A4367</color>
 
     <!-- Hotels colors -->
+    <color name="hotel_search_background">#EEEEEE</color>
     <color name="hotels_primary_color">#009688</color>
     <color name="hotels_cc_text_color_secondary">#868a8f</color>
     <color name="hotelsv2_discount_green">#6BCA2C</color>
