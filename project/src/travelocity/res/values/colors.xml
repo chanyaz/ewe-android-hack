@@ -35,6 +35,7 @@
     <color name="cars_unchecked_toggle_text_color_tvly">#B3FFFFFF</color>
     <color name="cars_accept_terms_color">#608405</color>
     <color name="cars_accept_terms_ripple_color">#7dad06</color>
+    <color name="cars_drop_off_hint_text_color">#4b7fad</color>
 
     <!-- Lx -->
     <color name="lx_primary_color_tvly">#003E74</color>

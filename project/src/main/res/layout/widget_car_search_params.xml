@@ -65,7 +65,7 @@
                     android:hint="@string/drop_off_location"
                     android:inputType="none"
                     android:textColor="#26FFFFFF"
-                    android:textColorHint="#26FFFFFF" />
+                    android:textColorHint="@color/cars_drop_off_hint_text_color" />
             </LinearLayout>
 
             <View
