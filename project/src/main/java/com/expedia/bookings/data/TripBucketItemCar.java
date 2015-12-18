@@ -10,7 +10,7 @@ public class TripBucketItemCar extends TripBucketItem {
 		this.mCarTripResponse = carTripResponse;
 		if (mCarTripResponse.validFormsOfPayment != null) {
 			for (ValidPayment payment : mCarTripResponse.validFormsOfPayment ) {
-				payment.setCreditCardType(CurrencyUtils.parseCardType(payment.name));
+				payment.setPaymentType(CurrencyUtils.parsePaymentType(payment.name));
 			}
 			addValidPayments(mCarTripResponse.validFormsOfPayment);
 		}

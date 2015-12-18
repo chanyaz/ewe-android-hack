@@ -1,0 +1,14 @@
+{
+  "errors": [
+    {
+      "errorCode": "INVALID_INPUT",
+      "errorInfo": {
+        "summary": "Invalid input error",
+        "field": "amount",
+        "cause": "Incorrect amount entered"
+      },
+      "diagnosticId": 0
+    }
+  ],
+  "activityId": "a9d0727f-593d-469c-9c79-5865f07e6aef"
+}

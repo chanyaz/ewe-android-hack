@@ -27,7 +27,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
@@ -231,7 +231,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		R.id.display_creditcard_generic_name) {
 		@Override
 		public void onHasFieldAndData(TextView field, BillingInfo data) {
-			String cardName = CreditCardUtils.getHumanReadableName(getContext(), data.getCardType());
+			String cardName = CreditCardUtils.getHumanReadableName(getContext(), data.getPaymentType());
 			String last4Digits = data.getNumber().substring(data.getNumber().length() - 4);
 			field.setText(getContext().getString(R.string.x_card_ending_in_y_digits_TEMPLATE, cardName, last4Digits));
 		}
@@ -286,10 +286,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		public void onHasFieldAndData(ImageView field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getBrandName())) {
-				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
+				PaymentType cardType = PaymentType.valueOf(data.getBrandName());
 				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
 					if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
-						if (!hasValidCardType(mLineOfBusiness, getData())) {
+						if (!hasValidPaymentType(mLineOfBusiness, getData())) {
 							field.setImageResource(R.drawable.ic_lcc_no_card_payment_entry);
 						}
 						else {
@@ -315,7 +315,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		public void onHasFieldAndData(ImageView field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getBrandName())) {
-				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
+				PaymentType cardType = PaymentType.valueOf(data.getBrandName());
 				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
 					field.setImageResource(BookingInfoUtils.getBlackCardIcon(cardType));
 				}
@@ -334,7 +334,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		public void onHasFieldAndData(ImageView field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getBrandName())) {
-				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
+				PaymentType cardType = PaymentType.valueOf(data.getBrandName());
 				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
 					field.setImageResource(BookingInfoUtils.getWhiteCardIcon(cardType));
 				}
@@ -353,7 +353,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		public void onHasFieldAndData(ImageView field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getBrandName())) {
-				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
+				PaymentType cardType = PaymentType.valueOf(data.getBrandName());
 				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
 					field.setImageResource(BookingInfoUtils.getTabletCardIcon(cardType));
 				}
@@ -372,7 +372,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		@Override
 		public void onHasFieldAndData(ImageView field, BillingInfo data) {
 			if (!TextUtils.isEmpty(data.getBrandName())) {
-				CreditCardType cardType = CreditCardType.valueOf(data.getBrandName());
+				PaymentType cardType = PaymentType.valueOf(data.getBrandName());
 				if (cardType != null && !TextUtils.isEmpty(getData().getNumber())) {
 					field.setImageResource(BookingInfoUtils.getWhiteCardIcon(cardType));
 				}
@@ -439,8 +439,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		public void onHasFieldAndData(com.expedia.bookings.widget.TextView field, BillingInfo billingInfo) {
 			if (mContext instanceof FragmentActivity && Db.getTripBucket().getFlight() != null) {
 				final FragmentActivity fa = (FragmentActivity) mContext;
-				final CreditCardType type = CurrencyUtils.detectCreditCardBrand(billingInfo.getNumber());
-				Money cardFee = Db.getTripBucket().getFlight().getCardFee(type);
+				final PaymentType type = CurrencyUtils.detectCreditCardBrand(billingInfo.getNumber());
+				Money cardFee = Db.getTripBucket().getFlight().getPaymentFee(type);
 				if (cardFee != null) {
 					final String feeText = cardFee.getFormattedMoney();
 					field.setVisibility(View.VISIBLE);
@@ -463,9 +463,9 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	SectionField<View, BillingInfo> mDisplayLccFeeDivider = new SectionField<View, BillingInfo>(R.id.card_fee_divider) {
 		@Override
 		public void onHasFieldAndData(View field, BillingInfo billingInfo) {
-			final CreditCardType type = CurrencyUtils.detectCreditCardBrand(billingInfo.getNumber());
+			final PaymentType type = CurrencyUtils.detectCreditCardBrand(billingInfo.getNumber());
 			if (Db.getTripBucket().getFlight() != null) {
-				Money cardFee = Db.getTripBucket().getFlight().getCardFee(type);
+				Money cardFee = Db.getTripBucket().getFlight().getPaymentFee(type);
 				if (cardFee != null) {
 					field.setVisibility(View.VISIBLE);
 				}
@@ -514,7 +514,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							//A strange special case, as when we load billingInfo from disk, we don't have number, but we retain brandcode
 							//We don't want to get rid of the brand code until the user has started to enter new data...
 							if (!TextUtils.isEmpty(getData().getNumber())) {
-								CreditCardType type = CurrencyUtils.detectCreditCardBrand(getData().getNumber());
+								PaymentType type = CurrencyUtils.detectCreditCardBrand(getData().getNumber());
 								if (type == null) {
 									getData().setBrandCode(null);
 									getData().setBrandName(null);
@@ -524,7 +524,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 									getData().setBrandCode(type.getCode());
 									getData().setBrandName(type.name());
 
-									if (!hasValidCardType(mLineOfBusiness, getData())) {
+									if (!hasValidPaymentType(mLineOfBusiness, getData())) {
 										field.setTextColor(getResources().getColor(
 											R.color.flight_card_invalid_cc_type_text_color));
 									}
@@ -562,12 +562,12 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 						return ValidationError.ERROR_DATA_MISSING;
 					}
 					else {
-						CreditCardType type = CurrencyUtils.detectCreditCardBrand(obj.getText().toString().trim());
+						PaymentType type = CurrencyUtils.detectCreditCardBrand(obj.getText().toString().trim());
 						if (type == null) {
 							return ValidationError.ERROR_DATA_INVALID;
 						}
 						else {
-							if (!hasValidCardType(mLineOfBusiness, getData())) {
+							if (!hasValidPaymentType(mLineOfBusiness, getData())) {
 								return ValidationError.ERROR_DATA_INVALID;
 							}
 							return ValidationError.NO_ERROR;
@@ -1108,29 +1108,29 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	public static boolean hasValidCardType(LineOfBusiness lob, BillingInfo info) {
-		if (info == null || info.getCardType() == null) {
+	public static boolean hasValidPaymentType(LineOfBusiness lob, BillingInfo info) {
+		if (info == null || info.getPaymentType() == null) {
 			return false;
 		}
 		if (lob == LineOfBusiness.HOTELSV2) {
 			return Db.getTripBucket().getHotelV2() != null &&
-				Db.getTripBucket().getHotelV2().isCardTypeSupported(info.getCardType());
+				Db.getTripBucket().getHotelV2().isPaymentTypeSupported(info.getPaymentType());
 		}
 		if (lob == LineOfBusiness.HOTELS) {
 			return Db.getTripBucket().getHotel() != null &&
-				Db.getTripBucket().getHotel().isCardTypeSupported(info.getCardType());
+				Db.getTripBucket().getHotel().isPaymentTypeSupported(info.getPaymentType());
 		}
 		if (lob == LineOfBusiness.FLIGHTS) {
 			return Db.getTripBucket().getFlight() != null
-				&& Db.getTripBucket().getFlight().isCardTypeSupported(info.getCardType());
+				&& Db.getTripBucket().getFlight().isPaymentTypeSupported(info.getPaymentType());
 		}
 		if (lob == LineOfBusiness.CARS) {
 			return Db.getTripBucket().getCar() != null
-				&& Db.getTripBucket().getCar().isCardTypeSupported(info.getCardType());
+				&& Db.getTripBucket().getCar().isPaymentTypeSupported(info.getPaymentType());
 		}
 		if (lob == LineOfBusiness.LX) {
 			return Db.getTripBucket().getLX() != null
-				&& Db.getTripBucket().getLX().isCardTypeSupported(info.getCardType());
+				&& Db.getTripBucket().getLX().isPaymentTypeSupported(info.getPaymentType());
 		}
 
 		throw new RuntimeException("Line of business required");

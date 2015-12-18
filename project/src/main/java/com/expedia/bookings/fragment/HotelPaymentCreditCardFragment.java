@@ -153,9 +153,9 @@ public class HotelPaymentCreditCardFragment extends Fragment implements Validata
 	final SectionChangeListener mValidFormsOfPaymentListener = new SectionChangeListener() {
 		@Override
 		public void onChange() {
-			if (mBillingInfo.getCardType() != null) {
-				if (!Db.getTripBucket().getHotel().isCardTypeSupported(mBillingInfo.getCardType())) {
-					String cardName = CreditCardUtils.getHumanReadableName(getActivity(), mBillingInfo.getCardType());
+			if (mBillingInfo.getPaymentType() != null) {
+				if (!Db.getTripBucket().getHotel().isPaymentTypeSupported(mBillingInfo.getPaymentType())) {
+					String cardName = CreditCardUtils.getHumanReadableName(getActivity(), mBillingInfo.getPaymentType());
 					String message = getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName);
 					updateCardMessage(message, getResources().getColor(R.color.flight_card_unsupported_warning));
 					toggleCardMessage(true, true);

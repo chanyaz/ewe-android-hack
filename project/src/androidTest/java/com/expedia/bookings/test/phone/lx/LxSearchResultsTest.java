@@ -20,8 +20,8 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.isEmpty;
 import static org.hamcrest.Matchers.allOf;
@@ -37,7 +37,7 @@ public class LxSearchResultsTest extends LxTestCase {
 
 		if (getLxIdlingResource().isInSearchEditMode()) {
 			onView(allOf(withId(R.id.error_action_button), withText(R.string.edit_search),
-				withParent(withParent(withId(R.id.lx_search_error_widget))))).perform(click());
+				isDescendantOfA(withId(R.id.lx_search_error_widget)))).perform(click());
 
 			String expectedLocationDisplayName = "San Francisco, CA";
 			LXScreen.location().perform(typeText("San"));

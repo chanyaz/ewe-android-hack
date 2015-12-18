@@ -12,7 +12,7 @@ import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
@@ -42,7 +42,7 @@ public class PaymentWidgetFlowTest {
 		card = new StoredCreditCard();
 		card.setIsGoogleWallet(true);
 		card.setCardNumber("4111111111111111");
-		card.setType(CreditCardType.AMERICAN_EXPRESS);
+		card.setType(PaymentType.CARD_AMERICAN_EXPRESS);
 
 		location = new Location();
 		location.setCity("San Francisco");

@@ -5,7 +5,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 
-public class NewHotelDetailVipTest extends HotelTestCase {
+public class HotelDetailVipTest extends HotelTestCase {
 	public void testVIPHotel() throws Throwable {
 		HotelScreen.doGenericSearch();
 		HotelScreen.selectHotel("vip_hotel");

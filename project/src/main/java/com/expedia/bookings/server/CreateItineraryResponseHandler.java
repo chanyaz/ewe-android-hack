@@ -115,7 +115,7 @@ public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateIt
 
 				final String name = paymentJson.optString("name");
 				if (!TextUtils.isEmpty(name)) {
-					validPayment.setCreditCardType(CurrencyUtils.parseCardType(name));
+					validPayment.setPaymentType(CurrencyUtils.parsePaymentType(name));
 				}
 
 				final String currencyCode = paymentJson.optString("feeCurrencyCode");

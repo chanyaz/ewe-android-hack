@@ -17,6 +17,7 @@ public class HotelCreateTripResponse extends BaseApiResponse {
 	public List<ValidPayment> validFormsOfPayment;
 	public String guestUserPromoEmailOptInStatus;
 	public Coupon coupon;
+	public List<PointsDetails> pointsDetails;
 
 	public static class ExpediaRewards {
 		public String totalPointsToEarn;

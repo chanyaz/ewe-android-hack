@@ -36,7 +36,7 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.FlightFilter;
@@ -2299,13 +2299,13 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppLXCheckoutSlideToPurchase(Context context, CreditCardType creditCardType) {
+	public static void trackAppLXCheckoutSlideToPurchase(Context context, PaymentType paymentType) {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(LX_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(18, LX_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(37,
-			creditCardType != CreditCardType.UNKNOWN ? Strings.capitalizeFirstLetter(creditCardType.toString())
+			paymentType != PaymentType.UNKNOWN ? Strings.capitalizeFirstLetter(paymentType.toString())
 				: context.getString(R.string.lx_omniture_checkout_no_credit_card));
 		s.track();
 	}
@@ -4159,7 +4159,7 @@ public class OmnitureTracking {
 	private static String getPaymentType() {
 		BillingInfo billingInfo = Db.getBillingInfo();
 		StoredCreditCard scc = billingInfo.getStoredCard();
-		CreditCardType type;
+		PaymentType type;
 		if (scc != null) {
 			type = scc.getType();
 		}
@@ -4169,29 +4169,29 @@ public class OmnitureTracking {
 
 		if (type != null) {
 			switch (type) {
-			case AMERICAN_EXPRESS:
+			case CARD_AMERICAN_EXPRESS:
 				return "AmericanExpress";
-			case CARTE_BLANCHE:
+			case CARD_CARTE_BLANCHE:
 				return "CarteBlanche";
-			case CHINA_UNION_PAY:
+			case CARD_CHINA_UNION_PAY:
 				return "ChinaUnionPay";
-			case DINERS_CLUB:
+			case CARD_DINERS_CLUB:
 				return "DinersClub";
-			case DISCOVER:
+			case CARD_DISCOVER:
 				return "Discover";
-			case JAPAN_CREDIT_BUREAU:
+			case CARD_JAPAN_CREDIT_BUREAU:
 				return "JapanCreditBureau";
-			case MAESTRO:
+			case CARD_MAESTRO:
 				return "Maestro";
-			case MASTERCARD:
+			case CARD_MASTERCARD:
 				return "MasterCard";
-			case VISA:
+			case CARD_VISA:
 				return "Visa";
-			case GOOGLE_WALLET:
+			case WALLET_GOOGLE:
 				return "GoogleWallet";
-			case CARTE_BLEUE:
+			case CARD_CARTE_BLEUE:
 				return "CarteBleue";
-			case CARTA_SI:
+			case CARD_CARTA_SI:
 				return "CartaSi";
 			case UNKNOWN:
 				return "Unknown";
@@ -4340,13 +4340,13 @@ public class OmnitureTracking {
 
 	}
 
-	public static void trackAppCarCheckoutSlideToPurchase(Context context, CreditCardType creditCardType) {
+	public static void trackAppCarCheckoutSlideToPurchase(Context context, PaymentType paymentType) {
 		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(CAR_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(18, CAR_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(37,
-			creditCardType != CreditCardType.UNKNOWN ? Strings.capitalizeFirstLetter(creditCardType.toString())
+			paymentType != PaymentType.UNKNOWN ? Strings.capitalizeFirstLetter(paymentType.toString())
 				: context.getString(R.string.car_omniture_checkout_no_credit_card));
 		s.track();
 
@@ -4435,12 +4435,12 @@ public class OmnitureTracking {
 	}
 
 
-	public static void trackCheckoutSlideToPurchase(LineOfBusiness lineOfBusiness, Context context, CreditCardType creditCardType) {
+	public static void trackCheckoutSlideToPurchase(LineOfBusiness lineOfBusiness, Context context, PaymentType paymentType) {
 		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
-			trackAppCarCheckoutSlideToPurchase(context, creditCardType);
+			trackAppCarCheckoutSlideToPurchase(context, paymentType);
 		}
 		else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
-			trackAppLXCheckoutSlideToPurchase(context, creditCardType);
+			trackAppLXCheckoutSlideToPurchase(context, paymentType);
 		}
 	}
 

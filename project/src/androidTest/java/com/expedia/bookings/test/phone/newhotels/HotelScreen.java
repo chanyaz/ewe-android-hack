@@ -380,7 +380,6 @@ public class HotelScreen {
 		onView(withId(R.id.map_view_select_room_container)).perform(click());
 	}
 
-
 	public static void clickSignIn() {
 		onView(withId(R.id.login_text_view)).perform(click());
 	}

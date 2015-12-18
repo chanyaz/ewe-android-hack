@@ -24,7 +24,7 @@ import static com.expedia.bookings.test.phone.newhotels.HotelScreen.sortFilter;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
-public class NewHotelFilterTest extends HotelTestCase {
+public class HotelFilterTest extends HotelTestCase {
 
 	//clear filter, all select item deselected
 	public void testClearFilter() throws Throwable {

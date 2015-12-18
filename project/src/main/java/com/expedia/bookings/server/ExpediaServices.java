@@ -514,7 +514,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("expectedFareCurrencyCode", flightTrip.getTotalFare().getCurrency()));
 		query.add(new BasicNameValuePair("abacusUserGuid", Db.getAbacusGuid()));
 
-		Money cardFee = flightItem.getCardFee(billingInfo.getCardType());
+		Money cardFee = flightItem.getPaymentFee(billingInfo.getPaymentType());
 		if (cardFee != null) {
 			query.add(new BasicNameValuePair("expectedCardFee", cardFee.getAmount().toString() + ""));
 			query.add(new BasicNameValuePair("expectedCardFeeCurrencyCode", cardFee.getCurrency()));
@@ -612,7 +612,7 @@ public class ExpediaServices implements DownloadListener {
 			DateTime departure = flight.getOriginWaypoint().getBestSearchDateTime();
 			baseUrl = FS_FLEX_BASE_URI + "/flightstatus/rest/v2/json/flight/status/" + flightCode.mAirlineCode + "/"
 				+ flightCode.mNumber.trim()
-				+ "/dep/" + departure.getYear() + "/" + (departure.getMonthOfYear() + 1) + "/"
+				+ "/dep/" + departure.getYear() + "/" + departure.getMonthOfYear() + "/"
 				+ departure.getDayOfMonth() + "?";
 
 			parameters.add(new BasicNameValuePair("utc", "false"));

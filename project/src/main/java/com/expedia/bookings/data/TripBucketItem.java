@@ -105,11 +105,11 @@ public abstract class TripBucketItem implements JSONable {
 	/**
 	 * Is the supplied card type valid for this FlightTrip?
 	 *
-	 * @param creditCardType
+	 * @param paymentType
 	 * @return true if this FlightTrip supports the card type, false otherswise.
 	 */
-	public boolean isCardTypeSupported(CreditCardType creditCardType) {
-		return ValidPayment.isCardTypeSupported(mValidPayments, creditCardType);
+	public boolean isPaymentTypeSupported(PaymentType paymentType) {
+		return ValidPayment.isPaymentTypeSupported(mValidPayments, paymentType);
 	}
 
 	/**
@@ -119,17 +119,17 @@ public abstract class TripBucketItem implements JSONable {
 	 * @param billingInfo
 	 * @return cardFee as Money or null if no card fee
 	 */
-	public Money getCardFee(BillingInfo billingInfo) {
-		if (billingInfo == null || billingInfo.getCardType() == null) {
+	public Money getPaymentFee(BillingInfo billingInfo) {
+		if (billingInfo == null || billingInfo.getPaymentType() == null) {
 			return null;
 		}
-		return getCardFee(billingInfo.getCardType());
+		return getPaymentFee(billingInfo.getPaymentType());
 	}
 
-	public Money getCardFee(CreditCardType creditCardType) {
-		if (creditCardType != null && mValidPayments != null) {
+	public Money getPaymentFee(PaymentType paymentType) {
+		if (paymentType != null && mValidPayments != null) {
 			for (ValidPayment payment : mValidPayments) {
-				if (payment.getCreditCardType() == creditCardType) {
+				if (payment.getPaymentType() == paymentType) {
 					return payment.getFee();
 				}
 			}
