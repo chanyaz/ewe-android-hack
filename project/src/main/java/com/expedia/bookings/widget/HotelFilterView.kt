@@ -241,7 +241,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
         sortByButtonGroup.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                val sort = Sort.values[position]
+                val sort = Sort.values()[position]
                 vm.userFilterChoices.userSort = sort
             }
 
@@ -290,7 +290,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
                 AnimUtils.rotate(neighborhoodMoreLessIcon)
                 neighborhoodMoreLessLabel.text = resources.getString(R.string.show_less)
 
-                for (i in 3..neighborhoodContainer.getChildCount() - 1) {
+                for (i in 3..neighborhoodContainer.childCount - 1) {
                     val v = neighborhoodContainer.getChildAt(i)
                     if (v is HotelsNeighborhoodFilter) {
                         v.visibility = View.VISIBLE
@@ -330,7 +330,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         resizeAnimator.addViewSpec(neighborhoodContainer, rowHeight * 3)
         resizeAnimator.start()
 
-        for (i in 3..neighborhoodContainer.getChildCount() - 1) {
+        for (i in 3..neighborhoodContainer.childCount - 1) {
             val v = neighborhoodContainer.getChildAt(i)
             if (v is HotelsNeighborhoodFilter) {
                 v.visibility = View.GONE

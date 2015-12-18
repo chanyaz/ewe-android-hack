@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "errorCode": "TRIP_SERVICE_ERROR",
+      "errorInfo": {
+        "summary": "An unknown error occurred while attempting to talk to trip service."
+      },
+      "diagnosticId": -1891850569,
+      "diagnosticFullText": "com.expedia.www.mobile.ui.common.api.service.MobileTripServiceError: java.lang.IllegalArgumentException: Guid not supported '1212'"
+    }
+  ],
+  "activityId": "fe17870e-55e8-4a28-8a3f-9c47e61ac7bb"
+}

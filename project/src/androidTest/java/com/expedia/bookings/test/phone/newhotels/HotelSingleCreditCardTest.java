@@ -8,7 +8,10 @@ import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.TripsScreen;
 
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class HotelSingleCreditCardTest extends PhoneTestCase {
 
@@ -28,6 +31,7 @@ public class HotelSingleCreditCardTest extends PhoneTestCase {
 		HotelScreen.doGenericSearch();
 		HotelScreen.selectHotel("happypath");
 		HotelScreen.selectRoom();
+		onView(withId(R.id.card_info_name)).perform(scrollTo());
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.card_info_name, "Visa 1111");
 	}
 

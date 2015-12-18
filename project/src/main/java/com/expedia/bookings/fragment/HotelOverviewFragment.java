@@ -37,7 +37,7 @@ import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreateTripResponse;
-import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
@@ -554,7 +554,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				&& !hasSomeManuallyEnteredData(mBillingInfo) && !mBillingInfo.hasStoredCard()) {
 				mBillingInfo.setStoredCard(Db.getUser().getStoredCreditCards().get(0));
 			}
-			if (mBillingInfo.getStoredCard() != null && !Db.getTripBucket().getHotel().isCardTypeSupported(mBillingInfo.getStoredCard().getType())) {
+			if (mBillingInfo.getStoredCard() != null && !Db.getTripBucket().getHotel().isPaymentTypeSupported(mBillingInfo.getStoredCard().getType())) {
 				mBillingInfo.setStoredCard(null);
 			}
 		}
@@ -1596,7 +1596,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (event.createTripResponse instanceof CreateTripResponse) {
 			// Now we have the valid payments data
 			Rate rate = Db.getTripBucket().getHotel().getRate();
-			if (!Db.getTripBucket().getHotel().isCardTypeSupported(CreditCardType.GOOGLE_WALLET) || rate.isPayLater()) {
+			if (!Db.getTripBucket().getHotel().isPaymentTypeSupported(PaymentType.WALLET_GOOGLE) || rate.isPayLater()) {
 				Log.d("disableGoogleWallet: safeGoogleWalletTripPaymentTypeCheck");
 				disableGoogleWallet();
 			}

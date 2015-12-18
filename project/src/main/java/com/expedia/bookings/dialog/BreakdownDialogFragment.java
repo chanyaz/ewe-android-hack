@@ -410,7 +410,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		}
 
 		// LCC card fee
-		Money cardFee = item.getCardFee(billingInfo);
+		Money cardFee = item.getPaymentFee(billingInfo);
 		if (cardFee != null && trip.showFareWithCardFee(context, billingInfo)) {
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())

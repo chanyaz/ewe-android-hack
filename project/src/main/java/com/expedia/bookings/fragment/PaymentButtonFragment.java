@@ -159,7 +159,7 @@ public class PaymentButtonFragment extends LobableFragment {
 			// LCC Fees callout
 			if (getLob() == LineOfBusiness.FLIGHTS) {
 				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-				Money cardFee = Db.getTripBucket().getFlight().getCardFee(bi);
+				Money cardFee = Db.getTripBucket().getFlight().getPaymentFee(bi);
 				if (cardFee != null && trip.showFareWithCardFee(getActivity(), bi)) {
 					mCCFeesMessageText.setText(Html.fromHtml(getString(R.string.airline_card_fee_TEMPLATE,
 						cardFee.getFormattedMoney())));
@@ -217,11 +217,11 @@ public class PaymentButtonFragment extends LobableFragment {
 
 							boolean isValidCard = true;
 							if (getLob() == LineOfBusiness.FLIGHTS &&
-								!Db.getTripBucket().getFlight().isCardTypeSupported(card.getType())) {
+								!Db.getTripBucket().getFlight().isPaymentTypeSupported(card.getType())) {
 								isValidCard = false;
 							}
 							if (getLob() == LineOfBusiness.HOTELS &&
-								!Db.getTripBucket().getHotel().isCardTypeSupported(card.getType())) {
+								!Db.getTripBucket().getHotel().isPaymentTypeSupported(card.getType())) {
 								isValidCard = false;
 							}
 
@@ -266,10 +266,10 @@ public class PaymentButtonFragment extends LobableFragment {
 			if (bi.hasStoredCard()) {
 				boolean isValid = true;
 				if (getLob() == LineOfBusiness.FLIGHTS) {
-					isValid = Db.getTripBucket().getFlight().isCardTypeSupported(bi.getStoredCard().getType());
+					isValid = Db.getTripBucket().getFlight().isPaymentTypeSupported(bi.getStoredCard().getType());
 				}
 				else if (getLob() == LineOfBusiness.HOTELS) {
-					isValid = Db.getTripBucket().getHotel().isCardTypeSupported(bi.getStoredCard().getType());
+					isValid = Db.getTripBucket().getHotel().isPaymentTypeSupported(bi.getStoredCard().getType());
 				}
 				return isValid;
 			}

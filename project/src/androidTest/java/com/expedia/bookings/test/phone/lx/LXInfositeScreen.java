@@ -21,11 +21,11 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.containsString;
-
 
 public class LXInfositeScreen {
 
@@ -39,7 +39,7 @@ public class LXInfositeScreen {
 
 	public static ViewInteraction ticketAddButton(String ticketName, String travellerType) {
 		Matcher<View> rowMatcher = Matchers.allOf(withText(containsString(travellerType)),
-			withParent(withParent(hasSibling(withText(containsString(ticketName))))));
+			isDescendantOfA(hasSibling(withText(containsString(ticketName)))));
 		return onView(Matchers.allOf(withId(R.id.ticket_add), hasSibling(rowMatcher)));
 	}
 
@@ -53,19 +53,19 @@ public class LXInfositeScreen {
 
 	public static ViewInteraction ticketRemoveButton(String ticketName, String travellerType) {
 		Matcher<View> rowMatcher = Matchers.allOf(withText(containsString(travellerType)),
-			withParent(withParent(hasSibling(withText(ticketName)))));
+			isDescendantOfA(hasSibling(withText(ticketName))));
 		return onView(Matchers.allOf(withId(R.id.ticket_remove), hasSibling(rowMatcher)));
 	}
 
 	public static ViewInteraction ticketCount(String ticketName, String travellerType) {
 		Matcher<View> rowMatcher = Matchers.allOf(withText(containsString(travellerType)),
-			withParent(withParent(hasSibling(withText(ticketName)))));
+			isDescendantOfA(hasSibling(withText(ticketName))));
 		return onView(Matchers.allOf(withId(R.id.ticket_count), hasSibling(rowMatcher)));
 	}
 
 	public static ViewInteraction ticketRow(String ticketName, String travellerType) {
 		return onView(Matchers.allOf(withText(containsString(travellerType)), withId(R.id.ticket_details),
-			withParent(withParent(hasSibling(withText(ticketName))))));
+			isDescendantOfA(hasSibling(withText(ticketName)))));
 	}
 
 	public static ViewInteraction priceSummary(String ticketName) {

@@ -11,7 +11,7 @@ public class TripBucketItemHotelV2 extends TripBucketItem {
 		this.mHotelTripResponse = mHotelTripResponse;
 		if (mHotelTripResponse.validFormsOfPayment != null) {
 			for (ValidPayment payment : mHotelTripResponse.validFormsOfPayment ) {
-				payment.setCreditCardType(CurrencyUtils.parseCardType(payment.name));
+				payment.setPaymentType(CurrencyUtils.parsePaymentType(payment.name));
 			}
 			addValidPayments(mHotelTripResponse.validFormsOfPayment);
 		}

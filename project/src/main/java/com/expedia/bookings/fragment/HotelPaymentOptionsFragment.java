@@ -162,7 +162,7 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 				card.setPadding(0, paymentOptionPadding, 0, paymentOptionPadding);
 				card.setBackgroundResource(R.drawable.bg_payment_method_row);
 
-				if (Db.getTripBucket().getHotel().isCardTypeSupported(card.getStoredCreditCard().getType())) {
+				if (Db.getTripBucket().getHotel().isPaymentTypeSupported(card.getStoredCreditCard().getType())) {
 					card.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {

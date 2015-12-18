@@ -14,6 +14,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.expedia.bookings.data.cars.ApiError;
+import com.expedia.bookings.data.hotels.CalculatePointsParams;
+import com.expedia.bookings.data.hotels.CalculatePointsResponse;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams;
 import com.expedia.bookings.data.hotels.HotelCheckoutParams;
@@ -21,6 +23,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
+import com.expedia.bookings.data.hotels.ProgramName;
 import com.expedia.bookings.data.hotels.SuggestionV4;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.HotelCheckoutResponse;
@@ -177,6 +180,45 @@ public class HotelServicesTest {
 		observer.assertCompleted();
 		ApiError apiError = observer.getOnNextEvents().get(0).getFirstError();
 		Assert.assertEquals(ApiError.Code.APPLY_COUPON_ERROR, apiError.errorCode);
+	}
+
+	@Test
+	public void testCalculatePoints() throws IOException {
+		TestSubscriber<CalculatePointsResponse> observer = new TestSubscriber<>();
+		setupCalculatePoints("happy", observer);
+
+		Assert.assertNotNull(observer.getOnNextEvents().get(0).getConversion());
+		Assert.assertNotNull(observer.getOnNextEvents().get(0).getRemainingPayableByCard());
+		Assert.assertNotNull(observer.getOnNextEvents().get(0).getProgramName());
+	}
+
+	@Test
+	public void testCalculatePointsThrowsInvalidInput() throws IOException {
+		TestSubscriber<CalculatePointsResponse> observer = new TestSubscriber<>();
+		setupCalculatePoints("invalid_amount_entered", observer);
+		Assert.assertNotNull(observer.getOnNextEvents().get(0).errors);
+		Assert.assertEquals(ApiError.Code.INVALID_INPUT, observer.getOnNextEvents().get(0).errors.get(0).errorCode);
+	}
+
+	@Test
+	public void testCalculatePointsThrowsTripServiceError() throws IOException {
+		TestSubscriber<CalculatePointsResponse> observer = new TestSubscriber<>();
+		setupCalculatePoints("trip_service_error", observer);
+		Assert.assertNotNull(observer.getOnNextEvents().get(0).errors);
+		Assert.assertEquals(ApiError.Code.TRIP_SERVICE_ERROR, observer.getOnNextEvents().get(0).errors.get(0).errorCode);
+	}
+
+	private void setupCalculatePoints(String tripId, TestSubscriber<CalculatePointsResponse> observer) throws IOException {
+		givenServerUsingMockResponses();
+		CalculatePointsParams calculatePointsParams = new CalculatePointsParams.Builder().
+			tripId(tripId).programName(ProgramName.ExpediaRewards).amount("100").rateId("rateId").build();
+
+		service.calculatePoints(calculatePointsParams, observer);
+
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
 	}
 
 	private void givenServerUsingMockResponses() throws IOException {

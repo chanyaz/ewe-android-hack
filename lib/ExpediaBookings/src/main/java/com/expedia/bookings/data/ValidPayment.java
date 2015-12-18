@@ -8,15 +8,15 @@ import com.google.gson.reflect.TypeToken;
 public class ValidPayment {
 
 	public String name;
-	protected CreditCardType mCreditCardType;
+	protected PaymentType mPaymentType;
 	protected Money mFee;
 
-	public void setCreditCardType(CreditCardType type) {
-		mCreditCardType = type;
+	public void setPaymentType(PaymentType type) {
+		mPaymentType = type;
 	}
 
-	public CreditCardType getCreditCardType() {
-		return mCreditCardType;
+	public PaymentType getPaymentType() {
+		return mPaymentType;
 	}
 
 	public Money getFee() {
@@ -44,18 +44,18 @@ public class ValidPayment {
 		// #1363: Duplicate Mastercard valid payment types as a Google Wallet card as well,
 		// since Google Wallet uses Mastercard on the back end.
 		// #3014: Google Wallet now uses Discover cards
-		if (payment.getCreditCardType() == CreditCardType.DISCOVER) {
+		if (payment.getPaymentType() == PaymentType.CARD_DISCOVER) {
 			ValidPayment googlePayment = new ValidPayment();
-			googlePayment.setCreditCardType(CreditCardType.GOOGLE_WALLET);
+			googlePayment.setPaymentType(PaymentType.WALLET_GOOGLE);
 			googlePayment.setFee(payment.getFee());
 			payments.add(googlePayment);
 		}
 	}
 
-	public static boolean isCardTypeSupported(List<ValidPayment> payments, CreditCardType creditCardType) {
-		if (creditCardType != null && payments != null) {
+	public static boolean isPaymentTypeSupported(List<ValidPayment> payments, PaymentType paymentType) {
+		if (paymentType != null && payments != null) {
 			for (ValidPayment payment : payments) {
-				if (payment.getCreditCardType() == creditCardType) {
+				if (payment.getPaymentType() == paymentType) {
 					return true;
 				}
 			}

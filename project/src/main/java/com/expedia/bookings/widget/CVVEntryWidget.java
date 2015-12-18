@@ -19,7 +19,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
@@ -133,7 +133,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 	private void syncCVVTextFilter() {
 		if (mCVVTextView != null) {
 			InputFilter[] filters = new InputFilter[1];
-			if (getCurrentCCType() == CreditCardType.AMERICAN_EXPRESS) {
+			if (getCurrentCCType() == PaymentType.CARD_AMERICAN_EXPRESS) {
 				filters[0] = new InputFilter.LengthFilter(4);
 			}
 			else {
@@ -151,7 +151,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 		syncCVVTextFilter();
 	}
 
-	private CreditCardType getCurrentCCType() {
+	private PaymentType getCurrentCCType() {
 		StoredCreditCard cc = Db.getBillingInfo().getStoredCard();
 		if (cc != null) {
 			return cc.getType();
@@ -161,7 +161,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 			return CurrencyUtils.detectCreditCardBrand(ccNumber);
 		}
 		else {
-			return CreditCardType.UNKNOWN;
+			return PaymentType.UNKNOWN;
 		}
 	}
 
@@ -171,7 +171,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 
 	public void bind(BillingInfo billingInfo) {
 
-		CreditCardType cardType = getCurrentCCType();
+		PaymentType cardType = getCurrentCCType();
 
 		String personFirstInitial = null;
 		String personLastName = null;
@@ -201,7 +201,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 		// Subprompt, i.e. "see front/back of card"
 		if (mCVVSubpromptTextView != null) {
 			mCVVSubpromptTextView.setText(
-				cardType == CreditCardType.AMERICAN_EXPRESS
+				cardType == PaymentType.CARD_AMERICAN_EXPRESS
 					? R.string.See_front_of_card
 					: R.string.See_back_of_card
 			);
@@ -219,7 +219,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 		mCreditCardSection.bind(signatureName, cardType, cardNumber);
 
 		// A few minor UI tweaks on phone, depending on if amex
-		boolean amex = cardType == CreditCardType.AMERICAN_EXPRESS;
+		boolean amex = cardType == PaymentType.CARD_AMERICAN_EXPRESS;
 
 		mCVVPromptTextView.setVisibility(amex ? View.GONE : View.VISIBLE);
 		RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) mCVVTextView.getLayoutParams();
