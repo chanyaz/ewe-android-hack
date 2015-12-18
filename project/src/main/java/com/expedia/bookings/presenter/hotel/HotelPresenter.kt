@@ -67,6 +67,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val resultsPresenter: HotelResultsPresenter by lazy {
         var presenter = resultsStub.inflate() as HotelResultsPresenter
         var resultsStub = presenter.findViewById(R.id.stub_map) as FrameLayout
+        resultsMapView.visibility = View.VISIBLE
         removeView(resultsMapView);
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
@@ -84,6 +85,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val detailPresenter: HotelDetailPresenter by lazy {
         var presenter = detailsStub.inflate() as HotelDetailPresenter
         var detailsStub = presenter.hotelMapView.findViewById(R.id.stub_map) as FrameLayout
+        detailsMapView.visibility = View.VISIBLE
         removeView(detailsMapView);
         detailsStub.addView(detailsMapView)
         presenter.hotelMapView.mapView = detailsMapView

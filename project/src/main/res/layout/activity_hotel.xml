@@ -10,14 +10,16 @@
     <com.google.android.gms.maps.MapView
         android:id="@+id/map_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/detailed_map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:liteMode="false"
-        app:mapType="normal"/>
+        app:mapType="normal"
+        android:visibility="gone"/>
 
     <ViewStub
         android:id="@+id/results_stub"

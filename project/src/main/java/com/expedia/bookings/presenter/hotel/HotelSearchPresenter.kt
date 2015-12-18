@@ -269,6 +269,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
 
         searchLocationTextView.setOnClickListener {
             resetSuggestion()
+            recentSearches.visibility = View.GONE
             searchLocationTextView.visibility = View.GONE
             searchLocationEditText.visibility = View.VISIBLE
             clearLocationButton.visibility = if (Strings.isEmpty(searchLocationEditText.text)) View.INVISIBLE else View.VISIBLE
@@ -360,7 +361,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
                 showSuggestions()
             }else{
                 searchLocationEditText.clearFocus()
-                searchLocationEditText.visibility = View.GONE
+                searchLocationEditText.visibility = View.INVISIBLE
                 searchLocationTextView.visibility = View.VISIBLE
                 suggestionRecyclerView.visibility = View.GONE
                 recentSearches.visibility = View.VISIBLE
