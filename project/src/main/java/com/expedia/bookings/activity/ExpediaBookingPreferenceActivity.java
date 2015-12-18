@@ -8,6 +8,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
@@ -22,8 +23,6 @@ import android.view.MenuItem;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference;
 import com.expedia.bookings.dialog.ClearPrivateDataDialogPreference.ClearPrivateDataListener;
@@ -74,11 +73,16 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 				}
 			});
 
-			for (int key : AbacusUtils.getActiveTests()) {
-				ListPreference preference = (ListPreference) findPreference(
-					String.valueOf(key));
-				preference.setOnPreferenceChangeListener(abacusPrefListener);
-			}
+			String abacusKey = getString(R.string.preference_open_abacus_settings);
+			Preference abacusPref = (Preference) findPreference(abacusKey);
+			abacusPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+				@Override
+				public boolean onPreferenceClick(Preference preference) {
+					Intent intent = new Intent(ExpediaBookingPreferenceActivity.this, AbacusPreferenceActivity.class);
+					startActivity(intent);
+					return true;
+				}
+			});
 		}
 
 		String clearPrivateDateKey = getString(R.string.preference_clear_private_data_key);
@@ -152,12 +156,12 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 
 		// This is not a foolproof way to determine if preferences were changed, but
 		// it's close enough; should only affect dev options
-		if (!key.equals(getString(R.string.preference_clear_private_data_key))
-			&& !key.equals(getString(R.string.PointOfSaleKey))) {
+		if (!getString(R.string.preference_clear_private_data_key).equals(key)
+			&& !getString(R.string.PointOfSaleKey).equals(key)) {
 			setResult(RESULT_CHANGED_PREFS);
 		}
 
-		if (key.equals(getString(R.string.preference_force_fs_db_update))) {
+		if (getString(R.string.preference_force_fs_db_update).equals(key)) {
 			try {
 				FlightStatsDbUtils.setUpgradeCutoff(0);
 				FlightStatsDbUtils.createDatabaseIfNotExists(this, BuildConfig.RELEASE);
@@ -229,13 +233,4 @@ public class ExpediaBookingPreferenceActivity extends PreferenceActivity impleme
 
 		setResult(RESULT_CHANGED_PREFS);
 	}
-
-	private OnPreferenceChangeListener abacusPrefListener = new OnPreferenceChangeListener() {
-		@Override
-		public boolean onPreferenceChange(Preference preference, Object newValue) {
-			int value = Integer.valueOf(newValue.toString());
-			Db.getAbacusResponse().updateABTestForDebug(Integer.valueOf(preference.getKey()), value);
-			return true;
-		}
-	};
 }
