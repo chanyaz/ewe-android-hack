@@ -38,6 +38,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelsV2SuperlativeReviewsABTest = 8688;
 	public static final int EBAndroidAppLXCategoryABTest = 9165;
 	public static final int EBAndroidAppHotelRecentSearchTest = 8692;
+	public static final int EBAndroidAppLXFirstActivityListingExpanded = 9467;
 
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
@@ -101,6 +102,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelsV2SuperlativeReviewsABTest);
 		testIDs.add(EBAndroidAppLXCategoryABTest);
 		testIDs.add(EBAndroidAppHotelRecentSearchTest);
+		testIDs.add(EBAndroidAppLXFirstActivityListingExpanded);
 		return testIDs;
 	}
 
