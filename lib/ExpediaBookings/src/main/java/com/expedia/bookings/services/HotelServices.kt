@@ -92,7 +92,8 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 							?.forEach {
 								val room = it
 								val payLater = room.payLaterOffer
-								if (payLater != null && payLater.isPayLater && room.depositPolicy != null && !room.depositPolicy.isEmpty()) {
+								payLater?.isPayLater = true
+								if (payLater != null && room.depositPolicy != null && !room.depositPolicy.isEmpty()) {
 									it.rateInfo.chargeableRateInfo.depositAmount = "0";
 									it.rateInfo.chargeableRateInfo.depositAmountToShowUsers = "0";
 								}
