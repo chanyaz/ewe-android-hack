@@ -7,6 +7,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.isShowAirAttached
@@ -44,11 +45,12 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     val tonightOnlyUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
     val mobileExclusiveUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
     val soldOutUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
+    val memberDealUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
 
-    val highestPriorityUrgencyMessageObservable = Observable.combineLatest(fewRoomsLeftUrgency, tonightOnlyUrgency, mobileExclusiveUrgency, soldOutUrgency) {
-        fewRoomsLeftUrgency, tonightOnlyUrgency, mobileExclusiveUrgency, soldOutUrgency ->
+    val highestPriorityUrgencyMessageObservable = Observable.combineLatest(fewRoomsLeftUrgency, tonightOnlyUrgency, mobileExclusiveUrgency, soldOutUrgency, memberDealUrgency) {
+        fewRoomsLeftUrgency, tonightOnlyUrgency, mobileExclusiveUrgency, soldOutUrgency, memberDealUrgency ->
         //Order in list below is important as it decides the priority of messages to be displayed in the urgency banner!
-        listOf(soldOutUrgency, fewRoomsLeftUrgency, tonightOnlyUrgency, mobileExclusiveUrgency).firstOrNull { it != null }
+        listOf(soldOutUrgency, memberDealUrgency, fewRoomsLeftUrgency, tonightOnlyUrgency, mobileExclusiveUrgency).firstOrNull { it != null }
     }
     val urgencyMessageVisibilityObservable = highestPriorityUrgencyMessageObservable.map { it != null }
     val urgencyMessageBoxObservable = highestPriorityUrgencyMessageObservable.filter { it != null }.map { it!!.message }
@@ -77,8 +79,12 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
         val isGoldOrSivler = Db.getUser() != null && (Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.SILVER || Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.GOLD)
         vipMessageVisibilityObservable.onNext(isVipAvailable && isGoldOrSivler)
 
-
         // NOTE: Any changes to this logic should also be made in HotelDetailViewModel.getPromoText()
+        val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
+        if (hotel.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)) {
+            memberDealUrgency.onNext(UrgencyMessage(R.drawable.ic_hotel_banner_expedia, R.color.hotel_member_discount_color,
+                    resources.getString(R.string.member_discount)))
+        }
         if (hotel.roomsLeftAtThisRate > 0 && hotel.roomsLeftAtThisRate <= ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY) {
             fewRoomsLeftUrgency.onNext(UrgencyMessage(R.drawable.urgency, R.color.hotel_urgency_message_color,
                     resources.getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate)))

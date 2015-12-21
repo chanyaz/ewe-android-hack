@@ -212,6 +212,9 @@ public class
 		R.layout.package_flight_presenter,
 		R.layout.package_flight_results_presenter_stub,
 		R.layout.widget_flight_results_package,
-		R.dimen.card_view_container_margin
+		R.dimen.card_view_container_margin,
+		R.drawable.ic_hotel_banner_expedia,
+		R.color.hotel_member_discount_color,
+		R.string.member_discount
 	};
 }

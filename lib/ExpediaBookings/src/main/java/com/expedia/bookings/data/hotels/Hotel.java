@@ -48,6 +48,7 @@ public class Hotel {
 	public boolean isVipAccess;
 	public boolean isPaymentChoiceAvailable;
 	public boolean isShowEtpChoice;
+	public boolean isMemberDeal;
 
 	public transient List<Integer> amenityFilterIdList;
 	public transient boolean isSoldOut = false;
