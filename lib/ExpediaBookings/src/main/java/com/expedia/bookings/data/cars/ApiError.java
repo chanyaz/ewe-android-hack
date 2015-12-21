@@ -54,7 +54,7 @@ public class ApiError extends RuntimeException {
 		HOTEL_ROOM_UNAVAILABLE,
 
 		//Calculate Points Errors
-		POINTS_CONVERSION_UNAUTHENTICATED
+		POINTS_CONVERSION_UNAUTHENTICATED_ACCESS
 	}
 
 	public enum DetailCode {

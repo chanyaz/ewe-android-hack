@@ -196,16 +196,35 @@ public class HotelServicesTest {
 	public void testCalculatePointsThrowsInvalidInput() throws IOException {
 		TestSubscriber<CalculatePointsResponse> observer = new TestSubscriber<>();
 		setupCalculatePoints("invalid_amount_entered", observer);
-		Assert.assertNotNull(observer.getOnNextEvents().get(0).errors);
-		Assert.assertEquals(ApiError.Code.INVALID_INPUT, observer.getOnNextEvents().get(0).errors.get(0).errorCode);
+		observer.assertCompleted();
+		observer.assertNoErrors();
+		observer.assertValueCount(1);
+		Assert.assertEquals(ApiError.Code.INVALID_INPUT, getCalculatePointsError(observer));
 	}
 
 	@Test
 	public void testCalculatePointsThrowsTripServiceError() throws IOException {
 		TestSubscriber<CalculatePointsResponse> observer = new TestSubscriber<>();
 		setupCalculatePoints("trip_service_error", observer);
-		Assert.assertNotNull(observer.getOnNextEvents().get(0).errors);
-		Assert.assertEquals(ApiError.Code.TRIP_SERVICE_ERROR, observer.getOnNextEvents().get(0).errors.get(0).errorCode);
+		observer.assertCompleted();
+		observer.assertNoErrors();
+		observer.assertValueCount(1);
+		Assert.assertEquals(ApiError.Code.TRIP_SERVICE_ERROR, getCalculatePointsError(observer));
+	}
+
+	@Test
+	public void testCalculatePointsThrowsPointsConversionUnauthenticatedError() throws IOException {
+		TestSubscriber<CalculatePointsResponse> observer = new TestSubscriber<>();
+		setupCalculatePoints("points_conversion_unauthenticated", observer);
+		observer.assertCompleted();
+		observer.assertNoErrors();
+		observer.assertValueCount(1);
+		Assert.assertEquals(ApiError.Code.POINTS_CONVERSION_UNAUTHENTICATED_ACCESS,
+			getCalculatePointsError(observer));
+	}
+
+	private ApiError.Code getCalculatePointsError(TestSubscriber<CalculatePointsResponse> observer) {
+		return observer.getOnNextEvents().get(0).getFirstError().errorCode;
 	}
 
 	private void setupCalculatePoints(String tripId, TestSubscriber<CalculatePointsResponse> observer) throws IOException {
