@@ -36,6 +36,8 @@ import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.SuggestionV4
@@ -74,10 +76,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.ui.IconGenerator
 import com.mobiata.android.LocationServices
 import org.joda.time.DateTime
-import rx.Observable
 import rx.Observer
-import rx.android.schedulers.AndroidSchedulers
-import rx.schedulers.Schedulers
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 import kotlin.properties.Delegates
@@ -98,6 +97,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val fab: FloatingActionButton by bindView(R.id.fab)
     var adapter: HotelListAdapter by Delegates.notNull()
     val filterBtn: LinearLayout by bindView(R.id.filter_btn)
+    val isBucketedForResultMap = Db.getAbacusResponse().isUserBucketedForTest(
+            AbacusUtils.EBAndroidAppHotelResultMapTest)
+
 
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
@@ -286,11 +288,15 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             mapViewModel.selectMarker.onNext(null)
             hotels = it
             if (!ExpediaBookingApp.isDeviceShitty() || Strings.equals(currentState, ResultsMap::class.java.name)) {
-                googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
-                createMarkers()
+                if(!isBucketedForResultMap) {
+                    googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
+                    createMarkers()
+                }
+                else {
+                    lazyLoadMapAndMarkers()
+                }
             } else {
-                googleMap?.mapType = GoogleMap.MAP_TYPE_NONE
-                clearMarkers()
+                lazyLoadMapAndMarkers()
             }
         }
 
@@ -456,7 +462,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             val center = it.center
             val latLng = LatLng(center.latitude, center.longitude)
             mapViewModel.mapBoundsSubject.onNext(latLng)
-
             googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * 50), object : GoogleMap.CancelableCallback {
                 override fun onFinish() {
 
@@ -758,9 +763,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                     mapView.translationY = -halfway.toFloat()
                     adjustGoogleMapLogo()
                     filterBtnWithCountWidget.translationY = 0f
-                    if (ExpediaBookingApp.isDeviceShitty()) {
-                        googleMap?.mapType = GoogleMap.MAP_TYPE_NONE
-                        clearMarkers()
+                    if (isBucketedForResultMap || ExpediaBookingApp.isDeviceShitty()) {
+                        lazyLoadMapAndMarkers()
                     }
                 } else {
                     fab.translationY = -(mapCarouselContainer.height.toFloat() - resources.getDimension(R.dimen.hotel_filter_height).toInt())
@@ -768,7 +772,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                     recyclerView.translationY = screenHeight.toFloat()
                     googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height)
                     filterBtnWithCountWidget.translationY = resources.getDimension(R.dimen.hotel_filter_height)
-                    if (ExpediaBookingApp.isDeviceShitty()) {
+                    if (isBucketedForResultMap || ExpediaBookingApp.isDeviceShitty()) {
                         googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
                         createMarkers()
                     }
@@ -866,6 +870,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
             }
             mapTransitionRunning = false
         }
+    }
+
+    private fun lazyLoadMapAndMarkers() {
+        googleMap?.mapType = GoogleMap.MAP_TYPE_NONE
+        clearMarkers()
     }
 
     private val listFilterTransition = object : Presenter.Transition(ResultsList::class.java, ResultsFilter::class.java, DecelerateInterpolator(2f), ANIMATION_DURATION_FILTER) {
