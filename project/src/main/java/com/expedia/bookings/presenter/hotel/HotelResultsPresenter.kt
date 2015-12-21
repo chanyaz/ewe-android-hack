@@ -294,9 +294,13 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 }
                 else {
                     lazyLoadMapAndMarkers()
+                    fab.visibility = View.VISIBLE
+                    getFabAnimIn().start()
                 }
             } else {
                 lazyLoadMapAndMarkers()
+                fab.visibility = View.VISIBLE
+                getFabAnimIn().start()
             }
         }
 
