@@ -228,8 +228,8 @@ public class FlightChildTravelersTest {
 		FlightLegScreen.clickCostBreakdownDoneButton();
 
 		CommonCheckoutScreen.clickCheckoutButton();
-		FlightsTravelerInfoScreen.assertEmptyTravelerDetailsLabel(0, "Adult details");
-		FlightsTravelerInfoScreen.assertEmptyTravelerDetailsLabel(2, "Infant in lap details");
+		FlightsTravelerInfoScreen.assertEmptyTravelerDetailsLabel(0, "Adult");
+		FlightsTravelerInfoScreen.assertEmptyTravelerDetailsLabel(2, "Infant in lap");
 	}
 
 	@Test
@@ -254,8 +254,8 @@ public class FlightChildTravelersTest {
 		FlightLegScreen.clickCostBreakdownDoneButton();
 
 		CommonCheckoutScreen.clickCheckoutButton();
-		FlightsTravelerInfoScreen.assertEmptyTravelerDetailsLabel(0, "Adult details");
-		FlightsTravelerInfoScreen.assertEmptyTravelerDetailsLabel(2, "Infant in seat details");
+		FlightsTravelerInfoScreen.assertEmptyTravelerDetailsLabel(0, "Adult");
+		FlightsTravelerInfoScreen.assertEmptyTravelerDetailsLabel(2, "Infant in seat");
 	}
 
 	@Test
@@ -282,8 +282,8 @@ public class FlightChildTravelersTest {
 		FlightLegScreen.clickCostBreakdownDoneButton();
 
 		CommonCheckoutScreen.clickCheckoutButton();
-		FlightsTravelerInfoScreen.assertEmptyTravelerDetailsLabel(0, "Adult details");
-		FlightsTravelerInfoScreen.assertEmptyTravelerDetailsLabel(2, "10 yr old details");
-		FlightsTravelerInfoScreen.assertEmptyTravelerDetailsLabel(4, "Infant in lap details");
+		FlightsTravelerInfoScreen.assertEmptyTravelerDetailsLabel(0, "Adult");
+		FlightsTravelerInfoScreen.assertEmptyTravelerDetailsLabel(2, "10 yr old");
+		FlightsTravelerInfoScreen.assertEmptyTravelerDetailsLabel(4, "Infant in lap");
 	}
 }

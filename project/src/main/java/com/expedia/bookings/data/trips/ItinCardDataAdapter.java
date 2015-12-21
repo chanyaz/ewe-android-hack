@@ -1,9 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-
 import org.joda.time.DateTime;
 
 import android.content.Context;
@@ -17,7 +13,6 @@ import android.widget.BaseAdapter;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.model.DismissedItinButton;
@@ -29,6 +24,10 @@ import com.expedia.bookings.widget.itin.ItinButtonCard;
 import com.expedia.bookings.widget.itin.ItinButtonCard.ItinButtonType;
 import com.expedia.bookings.widget.itin.ItinButtonCard.OnHideListener;
 import com.mobiata.flightlib.data.Waypoint;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickListener, OnHideListener {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -598,8 +597,6 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	}
 
 	private void addLXAttachData(List<ItinCardData> itinCardDatas) {
-		boolean isUserBucketedForTest = Db.getAbacusResponse()
-			.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelItinLXXsell);
 		if (!PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)) {
 			return;
 		}
@@ -633,13 +630,12 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				continue;
 			}
 
-			if (isUserBucketedForTest) {
-				TripHotel tripHotel = (TripHotel) data.getTripComponent();
-				itinCardDatas
-					.add(i + 1, new ItinCardDataLXAttach(tripHotel));
-				len++;
-				i++;
-			}
+			TripHotel tripHotel = (TripHotel) data.getTripComponent();
+			itinCardDatas
+				.add(i + 1, new ItinCardDataLXAttach(tripHotel));
+			len++;
+			i++;
+
 		}
 	}
 

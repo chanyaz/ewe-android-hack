@@ -1,8 +1,5 @@
 package com.expedia.bookings.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.view.View;
 
@@ -11,29 +8,18 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.enums.PassengerCategory;
-import com.mobiata.android.util.AndroidUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TravelerUtils {
 
 	public static ArrayList<String> generateTravelerBoxLabels(Context context, List<Traveler> travelers) {
 		ArrayList<String> travelerLabels = new ArrayList<String>();
 
-		boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout) && !AndroidUtils.isTablet(context);
-		int testVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
-
 		if (travelers.size() == 1) {
-			if (!isUserBucketedForTest) {
-				travelerLabels.add(context.getString(R.string.traveler_details));
-			}
-			else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
-				travelerLabels.add(context.getString(R.string.traveler_details_variate1));
-			}
-			else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
-				travelerLabels.add(context.getString(R.string.traveler_details_variate2));
-			}
-
+			travelerLabels.add(context.getString(R.string.traveler_details_variate2));
 		}
 		else {
 			int numAdultsAdded = 0, numAdults = 0;
@@ -77,95 +63,39 @@ public class TravelerUtils {
 				case ADULT:
 				case SENIOR:
 					if (numAdults > 1) {
-						if (!isUserBucketedForTest) {
-							sectionLabelId = R.string.add_adult_number_TEMPLATE;
-						}
-						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
-							sectionLabelId = R.string.add_adult_number_variate1_TEMPLATE;
-						}
-						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
-							sectionLabelId = R.string.add_adult_number_variate2_TEMPLATE;
-						}
+						sectionLabelId = R.string.add_adult_number_variate2_TEMPLATE;
 						displayNumber = ++numAdultsAdded;
 						useTemplate = true;
 					}
 					else {
-						if (!isUserBucketedForTest) {
-							sectionLabelId = R.string.add_adult;
-						}
-						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
-							sectionLabelId = R.string.add_adult_variate1;
-						}
-						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
-							sectionLabelId = R.string.add_adult_variate2;
-						}
+						sectionLabelId = R.string.add_adult_variate2;
 					}
 					break;
 				case CHILD:
 				case ADULT_CHILD:
-					if (!isUserBucketedForTest) {
-						sectionLabelId = R.string.add_child_with_age_TEMPLATE;
-					}
-					else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
-						sectionLabelId = R.string.add_child_with_age_variate1_TEMPLATE;
-					}
-					else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
-						sectionLabelId = R.string.add_child_with_age_variate2_TEMPLATE;
-					}
+					sectionLabelId = R.string.add_child_with_age_variate2_TEMPLATE;
 					displayNumber = traveler.getSearchedAge();
 					++numChildrenAdded;
 					useTemplate = true;
 					break;
 				case INFANT_IN_LAP:
 					if (numInfantsLap > 1) {
-						if (!isUserBucketedForTest) {
-							sectionLabelId = R.string.add_infant_in_lap_number_TEMPLATE;
-						}
-						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
-							sectionLabelId = R.string.add_infant_in_lap_number_variate1_TEMPLATE;
-						}
-						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
-							sectionLabelId = R.string.add_infant_in_lap_number_variate2_TEMPLATE;
-						}
+						sectionLabelId = R.string.add_infant_in_lap_number_variate2_TEMPLATE;
 						displayNumber = ++numInfantsInLap;
 						useTemplate = true;
 					}
 					else {
-						if (!isUserBucketedForTest) {
-							sectionLabelId = R.string.add_infant_in_lap;
-						}
-						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
-							sectionLabelId = R.string.add_infant_in_lap_variate1;
-						}
-						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
-							sectionLabelId = R.string.add_infant_in_lap_variate2;
-						}
+						sectionLabelId = R.string.add_infant_in_lap_variate2;
 					}
 					break;
 				case INFANT_IN_SEAT:
 					if (numInfantsSeat > 1) {
-						if (!isUserBucketedForTest) {
-							sectionLabelId = R.string.add_infant_in_seat_number_TEMPLATE;
-						}
-						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
-							sectionLabelId = R.string.add_infant_in_seat_number_variate1_TEMPLATE;
-						}
-						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
-							sectionLabelId = R.string.add_infant_in_seat_number_variate2_TEMPLATE;
-						}
+						sectionLabelId = R.string.add_infant_in_seat_number_variate2_TEMPLATE;
 						displayNumber = ++numInfantsInSeat;
 						useTemplate = true;
 					}
 					else {
-						if (!isUserBucketedForTest) {
-							sectionLabelId = R.string.add_infant_in_seat;
-						}
-						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
-							sectionLabelId = R.string.add_infant_in_seat_variate1;
-						}
-						else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
-							sectionLabelId = R.string.add_infant_in_seat_variate2;
-						}
+						sectionLabelId = R.string.add_infant_in_seat_variate2;
 					}
 					break;
 				default:
