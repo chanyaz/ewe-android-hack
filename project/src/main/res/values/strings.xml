@@ -1726,6 +1726,8 @@
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">Economy</string>
+    <!-- Label for "coach" cabin code -->
+    <string name="flight_class_selection">Coach / Economy</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Premium Economy</string>
     <!-- Label for "business" cabin code -->
@@ -3809,4 +3811,19 @@
     <string name="airline_charge_notice">Airlines charge an additional fee based on payment method.</string>
     <string name="airline_fee_notice_payment">Airline fee applies based on payment method</string>
     <string name="airline_notice_fee_added">An <u><b>airline fee</b></u>, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
+
+    <!-- Packages -->
+
+    <!-- Label for package search toolbar -->
+    <string name="package_toolbar_title">Hotel + Flight</string>
+    <!-- Label for package search toolbar -->
+    <string name="bundle_overview_title">Bundle Overview</string>
+    <!-- Fly from hint -->
+    <string name="fly_from_hint">Flying from</string>
+    <!-- Fly to hint -->
+    <string name="fly_to_hint">Flying to</string>
+    <!-- Bundle Overview Step 1, select a hotel -->
+    <string name="step_one">Step 1 Hotel</string>
+    <!-- Bundle Overview Step 2, select a flight -->
+    <string name="step_two">Step 2 Flights</string>
 </resources>
