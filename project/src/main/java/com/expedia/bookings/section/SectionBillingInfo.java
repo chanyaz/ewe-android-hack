@@ -281,7 +281,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		}
 	};
 
-	SectionField<ImageView, BillingInfo> mDisplayCreditCardBrandIconGrey = new SectionField<ImageView, BillingInfo>(
+	public SectionField<ImageView, BillingInfo> mDisplayCreditCardBrandIconGrey = new SectionField<ImageView, BillingInfo>(
 		R.id.display_credit_card_brand_icon_grey) {
 		@Override
 		public void onHasFieldAndData(ImageView field, BillingInfo data) {
@@ -497,7 +497,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	////// EDIT FIELDS
 	//////////////////////////////////////
 
-	SectionFieldEditable<EditText, BillingInfo> mEditCreditCardNumber = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
+	public SectionFieldEditable<EditText, BillingInfo> mEditCreditCardNumber = new SectionFieldEditableFocusChangeTrimmer<EditText, BillingInfo>(
 		R.id.edit_creditcard_number) {
 
 		private ColorStateList mOriginalTextColors = null;
