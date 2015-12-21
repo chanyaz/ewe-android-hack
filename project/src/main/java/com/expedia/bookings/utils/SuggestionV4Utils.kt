@@ -11,6 +11,7 @@ import java.io.IOException
 public object SuggestionV4Utils {
 
     public val RECENT_HOTEL_SUGGESTIONS_FILE = "recent-hotel-suggest-list.dat"
+    public val RECENT_PACKAGE_SUGGESTIONS_FILE = "recent-package-suggest-list.dat"
 
     public fun saveSuggestionHistory(context: Context, suggestion: SuggestionV4, file: String) {
         Thread(object : Runnable {
@@ -54,7 +55,7 @@ public object SuggestionV4Utils {
     }
 
     @JvmStatic public fun deleteCachedSuggestions(context: Context) {
-        val locationFiles = arrayOf(RECENT_HOTEL_SUGGESTIONS_FILE)
+        val locationFiles = arrayOf(RECENT_HOTEL_SUGGESTIONS_FILE, RECENT_PACKAGE_SUGGESTIONS_FILE)
         for (locationFile in locationFiles) {
             val file = context.getFileStreamPath(locationFile)
             val fileExists = file.exists()

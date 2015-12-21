@@ -10,6 +10,7 @@ public class PackageActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Ui.getApplication(this).defaultPackageComponents()
         setContentView(R.layout.package_activity)
         Ui.showTransparentStatusBar(this)
     }

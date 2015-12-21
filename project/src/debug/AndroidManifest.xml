@@ -17,7 +17,7 @@
             android:taskAffinity="com.expedia.ui.PackageActivity"
             android:label="Packages"
             android:screenOrientation="portrait"
-            android:theme="@style/V2.Theme.Hotels" >
+            android:theme="@style/V2.Theme.Packages" >
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

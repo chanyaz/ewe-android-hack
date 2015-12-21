@@ -23,12 +23,14 @@ import com.expedia.bookings.dagger.AppModule;
 import com.expedia.bookings.dagger.CarComponent;
 import com.expedia.bookings.dagger.DaggerAppComponent;
 import com.expedia.bookings.dagger.DaggerCarComponent;
+import com.expedia.bookings.dagger.DaggerPackageComponent;
 import com.expedia.bookings.dagger.DaggerHotelComponent;
 import com.expedia.bookings.dagger.DaggerLXComponent;
 import com.expedia.bookings.dagger.DaggerLaunchComponent;
 import com.expedia.bookings.dagger.HotelComponent;
 import com.expedia.bookings.dagger.LXComponent;
 import com.expedia.bookings.dagger.LaunchComponent;
+import com.expedia.bookings.dagger.PackageComponent;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
@@ -359,6 +361,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	private AppComponent mAppComponent;
 	private CarComponent mCarComponent;
 	private HotelComponent mHotelComponent;
+	private PackageComponent mPackageComponent;
 	private LaunchComponent mLaunchComponent;
 
 	private LXComponent mLXComponent;
@@ -394,6 +397,20 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	public HotelComponent hotelComponent() {
 		return mHotelComponent;
+	}
+
+	public void defaultPackageComponents() {
+		setPackageComponent(DaggerPackageComponent.builder()
+			.appComponent(mAppComponent)
+			.build());
+	}
+
+	public void setPackageComponent(PackageComponent packageComponent) {
+		mPackageComponent = packageComponent;
+	}
+
+	public PackageComponent packageComponent() {
+		return mPackageComponent;
 	}
 
 	public void defaultLXComponents() {
