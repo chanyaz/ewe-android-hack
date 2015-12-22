@@ -6,7 +6,8 @@ import com.expedia.bookings.R;
  * Dummy file so that lint don't complain about unused resources which are used only in kotlin files.
  * Have to delete this file once Lint is able to read kotlin files.
  */
-public class DummyFiletoHandleKotlinLintError {
+public class
+	DummyFiletoHandleKotlinLintError {
 
 	/**
 	 * Add resources which are only used in kotlin files.
@@ -198,6 +199,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.recent_searches,
 		R.layout.package_activity,
 		R.layout.bundle_overview,
-		R.layout.widget_package_search_params
+		R.layout.widget_package_search_params,
+		R.string.flight_class_selection
 	};
 }

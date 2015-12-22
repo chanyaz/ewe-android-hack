@@ -377,4 +377,7 @@
 
     <color name="rating_yellow_disabled">#DBDBDB</color>
     <color name="rating_yellow">#F6AE24</color>
+
+    <!-- Packages colors -->
+    <color name="packages_primary_color">#0888BD</color>
 </resources>

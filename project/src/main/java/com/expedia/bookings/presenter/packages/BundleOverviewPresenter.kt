@@ -36,7 +36,7 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         View.inflate(context, R.layout.bundle_overview, this)
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
-            val color = ContextCompat.getColor(context, R.color.hotels_primary_color)
+            val color = ContextCompat.getColor(context, R.color.packages_primary_color)
             val statusBar = Ui.setUpStatusBar(getContext(), toolbar, bundleContainer, color)
             addView(statusBar)
         }

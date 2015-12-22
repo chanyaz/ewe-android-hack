@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="V2.Theme.Packages" parent="Whitelabel.PackageTheme.Base" />
+
+    <!--
+        Override this theme in whitelabels to provide whitelabel specific theme values.
+
+        Note: If any attr which is in AppTheme.Base.Hotels and need to be customized per whitelabel,
+        that attr should be removed from AppTheme.Base.Hotels and
+        must be added in all Whitelabel.HotelTheme.Base for all whitelabels
+    -->
+    <style name="Whitelabel.PackageTheme.Base" parent="AppTheme.Base.PackageTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorPrimaryDark">#04445e</item>
+        <item name="android:colorButtonNormal">@color/packages_primary_color</item>
+        <item name="colorAccent">@color/packages_primary_color</item>
+        <item name="android:colorEdgeEffect">@color/packages_primary_color</item>
+        <item name="primary_color">@color/packages_primary_color</item>
+        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
+        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/expedia</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
+        <item name="skin_hotelFilterBackground">@color/hotel_filter_background_color</item>
+        <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_hotels</item>
+        <item name="skin_errorWidgetEditButtonStyle">@style/HotelButton</item>
+        <item name="skin_rippleDrawable">@drawable/hotel_select_room_ripple</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
+    </style>
+
+    <!--
+        Base app theme for Hotels, all the properties of hotels which are common for all whitelabels should be added here
+    -->
+    <style name="AppTheme.Base.PackageTheme" parent="AppTheme.Base.Cars">
+        <!--TODO:
+            It should have its own properties and should not be dependent on cars theme.
+            If something is common for all LOB's put it in  AppTheme.Base
+         -->
+        <item name="traveler_toolbar_text">@string/traveler_information</item>
+        <item name="traveler_checkout_circle_drawable">@drawable/hotelsv2_traveler_checkout_circle</item>
+    </style>
+</resources>

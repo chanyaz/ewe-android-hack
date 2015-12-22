@@ -19,7 +19,8 @@ public interface SuggestApi {
 		@Path("query") String query,
 		@Query("regiontype") int suggestionResultType,
 		@Query("features") String features,
-		@Query("client") String client);
+		@Query("client") String client,
+		@Query("lob") String lineOfBusiness);
 
 	@GET("/hint/es/v1/nearby/{locale}")
 	public Observable<SuggestionResponse> suggestNearbyV1(
@@ -37,5 +38,6 @@ public interface SuggestApi {
 		@Query("siteid") int siteid,
 		@Query("regiontype") int suggestionResultType,
 		@Query("sortcriteria") String sort,
-		@Query("client") String client);
+		@Query("client") String client,
+		@Query("lob") String lineOfBusiness);
 }
