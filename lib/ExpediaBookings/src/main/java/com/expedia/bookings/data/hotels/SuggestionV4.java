@@ -69,6 +69,6 @@ public class SuggestionV4 {
 	}
 
 	public boolean isGoogleSuggestionSearch() {
-		return type.equals("GOOGLE_SUGGESTION_SEARCH");
+		return "GOOGLE_SUGGESTION_SEARCH".equals(type);
 	}
 }
