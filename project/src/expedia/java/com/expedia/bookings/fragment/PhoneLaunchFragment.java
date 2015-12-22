@@ -1,11 +1,7 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
 import org.joda.time.LocalDate;
+
 import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -47,6 +43,10 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 import rx.Observer;
 import rx.Subscription;
 
@@ -56,7 +56,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	private Subscription abacusSubscription;
 	private boolean wasOffline;
 	private List<Integer> abacusTestsAssociatedToPhoneLaunchScreen = Arrays
-		.asList(AbacusUtils.EBAndroidAppLaunchScreenTest, AbacusUtils.EBAndroidAppSplitGTandActivities,
+		.asList(AbacusUtils.EBAndroidAppSplitGTandActivities,
 			AbacusUtils.EBAndroidAppHotelsABTest);
 
 	@InjectView(R.id.phone_launch_widget)
@@ -120,13 +120,10 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 			return;
 		}
 		else {
-			boolean isUserBucketedForTest = Db.getAbacusResponse()
-				.isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchScreenTest);
-
 			int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
 				Manifest.permission.ACCESS_FINE_LOCATION);
 
-			if (isUserBucketedForTest || permissionCheck != PackageManager.PERMISSION_GRANTED) {
+			if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
 				// show collection data to users irrespective of location Abacus A/B test
 				Events.post(new Events.LaunchLocationFetchError());
 			}

@@ -1114,7 +1114,6 @@ public class OmnitureTracking {
 			}
 		}
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAATest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSRPercentRecommend);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelETPSearchResults);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHSRMapIconTest);
@@ -1724,8 +1723,6 @@ public class OmnitureTracking {
 		// order #
 		s.setProp(72, orderId);
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightConfCarsXsell);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightConfLXXsell);
 		s.track();
 	}
 
@@ -1813,9 +1810,6 @@ public class OmnitureTracking {
 		addStandardFlightFields(s);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppPaySuppressGoogleWallet);
-
-		// AB Test: FCKO - More prominent callout for missing traveler details
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
 
 		s.track();
 	}
@@ -2451,8 +2445,6 @@ public class OmnitureTracking {
 		s.setEvents("event2");
 		s.setEvar(47, getDSREvar47String(params));
 		s.setEvar(48, Html.fromHtml(params.getDestination().getDisplayName()).toString());
-
-		trackAbacusTest(s, AbacusUtils.EBAndroidAATest);
 
 		s.track();
 	}
@@ -3421,7 +3413,6 @@ public class OmnitureTracking {
 		s.setProp(16, ADD_LX_ITIN);
 		s.setEvar(12, CROSS_SELL_LX_FROM_ITIN);
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelItinLXXsell);
 		s.trackLink(null, "o", "Itinerary X-Sell", null, null);
 	}
 
@@ -3572,7 +3563,6 @@ public class OmnitureTracking {
 		final String link = "LogExperiement";
 
 		addStandardFields(s);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchScreenTest);
 
 		s.trackLink(null, "o", link, null, null);
 	}
@@ -4302,7 +4292,6 @@ public class OmnitureTracking {
 			.capitalizeFirstLetter(offer.vehicleInfo.type.toString().replaceAll("_", " "));
 
 		s.setEvar(38, evar38String);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppCarRatesCollapseTopListing);
 		s.track();
 	}
 

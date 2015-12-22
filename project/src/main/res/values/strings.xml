@@ -1764,8 +1764,6 @@
     <string name="select_payment">Select Payment</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">Payment details</string>
-    <!-- Select payment sentence case AB Test variate1 -->
-    <string name="select_payment_sentence_case_variate1">Enter Payment Details</string>
     <!-- Select payment sentence case AB Test variate2 -->
     <string name="select_payment_sentence_case_variate2">Payment</string>
     <!-- Select payment callout AB Test variate2 -->
@@ -1963,10 +1961,6 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Traveler Information</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">Main traveler details</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">Enter Main Traveler Details</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
     <string name="traveler_details_variate2">Main Traveler</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Saved</string>
@@ -1986,47 +1980,25 @@
     <string name="guest_details">Guest details</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Adult %1$s details</string>
-    <!-- AB test variate 1 - Add adult traveler number template -->
-    <string name="add_adult_number_variate1_TEMPLATE">Enter Adult %1$s details</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
     <string name="add_adult_number_variate2_TEMPLATE">Adult %1$s</string>
     <!-- Add adult traveler details label -->
-    <string name="add_adult">Adult details</string>
-    <!-- AB test variate 1 - Add adult traveler details label -->
-    <string name="add_adult_variate1">Enter Adult details</string>
-    <!-- AB test variate 2 - Add adult traveler details label -->
     <string name="add_adult_variate2">Adult</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Child %1$s details</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_TEMPLATE">%1$s yr old details</string>
-    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_variate1_TEMPLATE">Enter %1$s yr old details</string>
-    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_variate2_TEMPLATE">%1$s yr old</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Infant in lap %1$s details</string>
-    <!-- AB test variate 1 - Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_variate1_TEMPLATE">Enter Infant in lap %1$s details</string>
     <!-- AB test variate 2 - Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_variate2_TEMPLATE">Infant in lap %1$s</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap">Infant in lap details</string>
-    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap_variate1">Enter Infant in lap details</string>
-    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap_variate2">Infant in lap</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">Infant in seat %1$s details</string>
-    <!-- AB test variate 1- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_variate1_TEMPLATE">Enter Infant in seat %1$s details</string>
     <!-- AB test variate 2- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_variate2_TEMPLATE">Infant in seat %1$s</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat">Infant in seat details</string>
-    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat_variate1">Enter Infant in seat details</string>
-    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat_variate2">Infant in seat</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Boarding may be denied if traveler name does not match government-issued photo ID.</string>
@@ -2229,8 +2201,6 @@
     <string name="hotels_in_TEMPLATE">Hotels in %s</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Cars in %s</string>
-    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
-    <string name="lx_in_TEMPLATE">Activities in %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">More Actions</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->

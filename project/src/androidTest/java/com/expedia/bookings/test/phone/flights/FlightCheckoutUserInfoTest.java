@@ -280,7 +280,7 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 
 	private void verifyMissingCardInfoAlerts() {
 		Common.delay(3);
-		onView(withText("Payment details")).perform(click());
+		onView(withText("Payment")).perform(click());
 		CardInfoScreen.clickNextButton();
 
 		BillingAddressScreen.addressLineOneEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));

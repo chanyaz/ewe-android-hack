@@ -1,10 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -59,6 +54,11 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 
 public class FlightCheckoutFragment extends LoadWalletFragment implements AccountButtonClickListener,
 	LoginConfirmLogoutDialogFragment.DoLogoutListener {
@@ -386,15 +386,9 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
 				tv.setText(travelerBoxLabels.get(index));
 
-				boolean isUserBucketedForTest = Db.getAbacusResponse()
-					.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
-				int testVariate = Db.getAbacusResponse()
-					.variateForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
-				if (isUserBucketedForTest
-					&& testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
-					TextView promptView = Ui.findView(v, R.id.traveler_empty_prompt);
-					promptView.setVisibility(View.VISIBLE);
-				}
+				TextView promptView = Ui.findView(v, R.id.traveler_empty_prompt);
+				promptView.setVisibility(View.VISIBLE);
+
 
 				// We need to add traveler sections for all passengers in order to best
 				// maintain matched indexing between travelers and their info sections
@@ -527,20 +521,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		}
 		else {
 			mStoredCreditCard.setVisibility(View.GONE);
-			boolean isUserBucketedForTest = Db.getAbacusResponse()
-				.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
-			int testVariate = Db.getAbacusResponse()
-				.variateForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
-
-			if (isUserBucketedForTest) {
-				if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
-					mSelectPaymentSentenceText.setText(R.string.select_payment_sentence_case_variate1);
-				}
-				else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
-					mSelectPaymentSentenceText.setText(R.string.select_payment_sentence_case_variate2);
-					mSelectPaymentCalloutText.setVisibility(View.VISIBLE);
-				}
-			}
+			mSelectPaymentSentenceText.setText(R.string.select_payment_sentence_case_variate2);
+			mSelectPaymentCalloutText.setVisibility(View.VISIBLE);
 
 			mPaymentButton.setVisibility(View.VISIBLE);
 			mCreditCardSectionButton.setVisibility(View.GONE);

@@ -26,14 +26,6 @@
             android:title="Hotel Search Sale Pin Green" />
 
         <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="7612"
-            android:title="Hotel Itin Lx Cross sell" />
-
-        <ListPreference
             android:entries="@array/abacus_hsr_map_choices"
             android:entryValues="@array/abacus_hsr_map_choice_values"
             android:defaultValue="@string/preference_abacus_default"
@@ -98,24 +90,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Flight tests">
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="7370"
-            android:title="Flight Confirmation Car Cross sell" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="7533"
-            android:title="Flight Confirmation Lx Cross sell" />
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="LX tests">
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -133,14 +107,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Car tests">
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="7769"
-            android:title="Car Rates Collapse Top Listing" />
-
         <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
@@ -168,14 +134,6 @@
             android:title="Hotel CKO MER Email Guest opt/in/out" />
 
         <ListPreference
-            android:entries="@array/abacus_flight_missing_callout_choices"
-            android:entryValues="@array/abacus_flight_missing_callout_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="8128"
-            android:title="Flight Checkout Missing Traveler details Callout" />
-
-        <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
@@ -193,22 +151,6 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="Misc Tests">
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="6714"
-            android:title="AA Abacus Test" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="7369"
-            android:title="Launch Screen NearBy Deals vs Collections" />
-
         <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
