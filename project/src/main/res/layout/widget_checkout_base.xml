@@ -9,113 +9,134 @@
         android:paddingTop="?attr/actionBarSize">
 
         <LinearLayout
-            android:id="@+id/scroll_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:paddingLeft="9dp"
-            android:paddingRight="9dp"
             android:orientation="vertical">
 
-            <com.expedia.bookings.widget.FrameLayout
-                android:id="@+id/summary_container"
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/mandatory_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="9dp"
-                android:background="@drawable/card_background" >
-
-            </com.expedia.bookings.widget.FrameLayout>
-
-            <com.expedia.bookings.widget.AccountButton
-                android:id="@+id/login_widget"
-                style="?attr/checkout_card_view_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical" />
+                android:background="@color/hotel_promo_background"
+                android:gravity="center"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:singleLine="true"
+                android:text="@string/guest_field_required"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:textStyle="normal" />
 
             <LinearLayout
-                android:id="@+id/hint_container"
+                android:id="@+id/scroll_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:orientation="horizontal">
+                android:animateLayoutChanges="true"
+                android:orientation="vertical"
+                android:paddingLeft="9dp"
+                android:paddingRight="9dp">
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="9dp"
-                    android:layout_weight="1"
-                    android:background="#979797" />
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <com.expedia.bookings.widget.FrameLayout
+                    android:id="@+id/summary_container"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="or"
-                    android:textColor="#676767" />
+                    android:layout_marginTop="9dp"
+                    android:background="@drawable/card_background">
 
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:layout_marginLeft="9dp"
-                    android:background="#979797" />
+                </com.expedia.bookings.widget.FrameLayout>
 
+                <com.expedia.bookings.widget.AccountButton
+                    android:id="@+id/login_widget"
+                    style="?attr/checkout_card_view_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="12dp"
+                    android:orientation="vertical" />
+
+                <LinearLayout
+                    android:id="@+id/hint_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="9dp"
+                        android:layout_weight="1"
+                        android:background="#979797" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text="or"
+                        android:textColor="#676767" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="9dp"
+                        android:layout_weight="1"
+                        android:background="#979797" />
+
+                </LinearLayout>
+
+                <com.expedia.bookings.widget.TravelerContactDetailsWidget
+                    android:id="@+id/main_contact_info_card_view"
+                    style="?attr/checkout_card_view_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp" />
+
+                <com.expedia.bookings.widget.PaymentWidget
+                    android:id="@+id/payment_info_card_view"
+                    style="?attr/checkout_card_view_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/legal_information_text_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:linksClickable="true"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="1.5dp"
+                    android:paddingRight="1.5dp"
+                    android:paddingTop="16dp"
+                    android:textSize="10sp" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/disclaimer_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="1.5dp"
+                    android:paddingRight="1.5dp"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/deposit_policy_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="1.5dp"
+                    android:paddingRight="1.5dp"
+                    android:textSize="10sp"
+                    android:visibility="gone" />
+
+                <Space
+                    android:id="@+id/spacer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
-
-            <com.expedia.bookings.widget.TravelerContactDetailsWidget
-                android:id="@+id/main_contact_info_card_view"
-                style="?attr/checkout_card_view_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp" />
-
-            <com.expedia.bookings.widget.PaymentWidget
-                android:id="@+id/payment_info_card_view"
-                style="?attr/checkout_card_view_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/legal_information_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:linksClickable="true"
-                android:paddingBottom="16dp"
-                android:paddingLeft="1.5dp"
-                android:paddingRight="1.5dp"
-                android:paddingTop="16dp"
-                android:textSize="10sp" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/disclaimer_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="16dp"
-                android:paddingLeft="1.5dp"
-                android:paddingRight="1.5dp"
-                android:textSize="10sp"
-                android:visibility="gone" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/deposit_policy_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="16dp"
-                android:paddingLeft="1.5dp"
-                android:paddingRight="1.5dp"
-                android:textSize="10sp"
-                android:visibility="gone" />
-
-            <Space
-                android:id="@+id/spacer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
         </LinearLayout>
     </com.expedia.bookings.widget.ScrollView>
 
