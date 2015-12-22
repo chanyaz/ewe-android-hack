@@ -7,9 +7,8 @@ import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.cars.LatLong;
-import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.otto.Events;
@@ -68,12 +67,17 @@ public class HotelsABTest extends PhoneTestCase {
 
 	public void testPopularLocationSelection() {
 		CollectionLocation collectionLocation = new CollectionLocation();
-		Suggestion suggestion = new Suggestion();
+		SuggestionV4 suggestion = new SuggestionV4();
 		String city = "San Francisco";
-		suggestion.displayName = city;
-		suggestion.shortName = city;
+		suggestion.regionNames.displayName = city;
+		suggestion.regionNames.shortName = city;
 		suggestion.type = HotelSearchParams.SearchType.CITY.toString();
-		suggestion.latLong = new LatLong(0, 0);
+
+		SuggestionV4.LatLng coordinates = new SuggestionV4.LatLng();
+		coordinates.lat = 0;
+		coordinates.lng = 0;
+		suggestion.coordinates = coordinates;
+
 		collectionLocation.location = suggestion;
 		Events.post(new Events.LaunchCollectionItemSelected(collectionLocation, null, ""));
 		// Assert that the results screen is displayed
@@ -92,9 +96,14 @@ public class HotelsABTest extends PhoneTestCase {
 
 	public void testSeeMore() {
 		CollectionLocation collectionLocation = new CollectionLocation();
-		Suggestion suggestion = new Suggestion();
+		SuggestionV4 suggestion = new SuggestionV4();
 		suggestion.type = HotelSearchParams.SearchType.MY_LOCATION.toString();
-		suggestion.latLong = new LatLong(32.71444d, -117.16237d);
+
+		SuggestionV4.LatLng coordinates = new SuggestionV4.LatLng();
+		coordinates.lat = 32.71444d;
+		coordinates.lng = -117.16237d;
+		suggestion.coordinates = coordinates;
+
 		collectionLocation.location = suggestion;
 		Events.post(new Events.LaunchCollectionItemSelected(collectionLocation, null, ""));
 		// Assert that the results screen is displayed

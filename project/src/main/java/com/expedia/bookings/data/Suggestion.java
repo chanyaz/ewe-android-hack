@@ -36,7 +36,7 @@ public class Suggestion implements JSONable {
 		ADDRESS,
 		HOTEL,
 		METROSTATION,
-		TRAINSTATION,
+		TRAINSTATION
 	}
 
 	public Suggestion() {
@@ -44,6 +44,7 @@ public class Suggestion implements JSONable {
 	}
 
 	private String mId;
+	private String mGaiaId;
 	private Type mType;
 	private String mDisplayName;
 	private double mLatitude;
@@ -60,6 +61,14 @@ public class Suggestion implements JSONable {
 
 	public void setId(String id) {
 		mId = id;
+	}
+
+	public String getGaiaId() {
+		return mGaiaId;
+	}
+
+	public void setGaiaId(String gaiaId) {
+		mGaiaId = gaiaId;
 	}
 
 	public Type getType() {

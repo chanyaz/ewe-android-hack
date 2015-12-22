@@ -38,7 +38,7 @@ import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.data.cars.LatLong;
-import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -65,7 +65,7 @@ import butterknife.OnClick;
 public class CarSearchPresenter extends Presenter
 	implements EditText.OnEditorActionListener, CarDateTimeWidget.ICarDateTimeListener {
 
-	private ArrayList<Suggestion> mRecentCarsLocationsSearches = new ArrayList<>();
+	private ArrayList<SuggestionV4> mRecentCarsLocationsSearches = new ArrayList<>();
 	private static final int RECENT_MAX_SIZE = 3;
 
 	public CarSearchPresenter(Context context) {
@@ -183,7 +183,7 @@ public class CarSearchPresenter extends Presenter
 		selectDateButton.setVisibility(View.VISIBLE);
 		setCalendarVisibility(View.INVISIBLE);
 
-		suggestionAdapter = new CarSuggestionAdapter();
+		suggestionAdapter = new CarSuggestionAdapter(getContext());
 		Ui.getApplication(getContext()).carComponent().inject(suggestionAdapter);
 
 		pickUpLocation.setAdapter(suggestionAdapter);
@@ -228,14 +228,17 @@ public class CarSearchPresenter extends Presenter
 			searchParamsBuilder.dateTimeBuilder(dateTimeBuilder);
 			searchParamsBuilder.pickupLocationLatLng(carSearchParams.pickupLocationLatLng);
 
-			Suggestion suggestion = new Suggestion();
-			suggestion.id = "";
+			SuggestionV4 suggestion = new SuggestionV4();
+			suggestion.gaiaId = "";
 			if (Strings.isNotEmpty(carSearchParams.origin)) {
-				suggestion.airportCode = carSearchParams.origin;
+				suggestion.hierarchyInfo.airport.airportCode = carSearchParams.origin;
 			}
-			suggestion.fullName = suggestion.shortName = suggestion.displayName = carSearchParams.originDescription;
+			suggestion.regionNames.fullName = suggestion.regionNames.shortName = suggestion.regionNames.displayName = carSearchParams.originDescription;
 			if (carSearchParams.pickupLocationLatLng != null) {
-				suggestion.latLong = new LatLong(carSearchParams.pickupLocationLatLng.lat, carSearchParams.pickupLocationLatLng.lng);
+				SuggestionV4.LatLng coordinates = new SuggestionV4.LatLng();
+				coordinates.lat = carSearchParams.pickupLocationLatLng.lat;
+				coordinates.lng = carSearchParams.pickupLocationLatLng.lng;
+				suggestion.coordinates = coordinates;
 			}
 
 			setPickUpLocation(suggestion, false);
@@ -283,35 +286,35 @@ public class CarSearchPresenter extends Presenter
 		return tv;
 	}
 
-	private void setPickUpLocation(final Suggestion suggestion) {
+	private void setPickUpLocation(final SuggestionV4 suggestion) {
 		setPickUpLocation(suggestion, true);
 	}
 
-	private void setPickUpLocation(final Suggestion suggestion, final boolean filter) {
-		Suggestion suggest = suggestion.clone();
+	private void setPickUpLocation(final SuggestionV4 suggestion, final boolean filter) {
+		SuggestionV4 suggest = suggestion.copy();
 
-		pickUpLocation.setText(suggest.iconType == Suggestion.IconType.CURRENT_LOCATION_ICON ? getContext()
+		pickUpLocation.setText(suggest.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON ? getContext()
 			.getString(R.string.current_location)
-			: StrUtils.formatCityName(suggest.fullName), filter);
+			: StrUtils.formatCityName(suggest.regionNames.fullName), filter);
 
-		if (!suggest.isMajorAirport() && suggest.latLong != null) {
+		if (!suggest.isMajorAirport() && suggest.coordinates != null) {
 			searchParamsBuilder.origin(null);
-			searchParamsBuilder.pickupLocationLatLng(new LatLong(suggest.latLong.lat, suggest.latLong.lng));
-			searchParamsBuilder.originDescription(StrUtils.formatCityName(suggest.fullName));
+			searchParamsBuilder.pickupLocationLatLng(new LatLong(suggest.coordinates.lat, suggest.coordinates.lng));
+			searchParamsBuilder.originDescription(StrUtils.formatCityName(suggest.regionNames.fullName));
 		}
 		else {
 			searchParamsBuilder.pickupLocationLatLng(null);
-			searchParamsBuilder.origin(suggest.airportCode);
+			searchParamsBuilder.origin(suggest.hierarchyInfo.airport.airportCode);
 			searchParamsBuilder.originDescription(StrUtils.formatAirport(suggest));
 		}
 		paramsChanged();
-		suggest.iconType = Suggestion.IconType.HISTORY_ICON;
+		suggest.iconType = SuggestionV4.IconType.HISTORY_ICON;
 
 		// Remove duplicates
-		Iterator<Suggestion> it = mRecentCarsLocationsSearches.iterator();
+		Iterator<SuggestionV4> it = mRecentCarsLocationsSearches.iterator();
 		while (it.hasNext()) {
-			Suggestion s = it.next();
-			if (Strings.isNotEmpty(s.id) && s.id.equalsIgnoreCase(suggest.id)) {
+			SuggestionV4 s = it.next();
+			if (Strings.isNotEmpty(s.gaiaId) && s.gaiaId.equalsIgnoreCase(suggest.gaiaId)) {
 				it.remove();
 			}
 		}
@@ -322,7 +325,7 @@ public class CarSearchPresenter extends Presenter
 
 		mRecentCarsLocationsSearches.add(0, suggest);
 		//Have to remove the bold tag in display name so text for last search is normal
-		suggest.displayName = Html.fromHtml(suggest.displayName).toString();
+		suggest.regionNames.displayName = Html.fromHtml(suggest.regionNames.displayName).toString();
 		// Save
 		saveHistory();
 		suggestionAdapter.updateRecentHistory(mRecentCarsLocationsSearches);
@@ -404,7 +407,7 @@ public class CarSearchPresenter extends Presenter
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			hidePickupDropdown();
-			Suggestion suggestion = suggestionAdapter.getItem(position);
+			SuggestionV4 suggestion = suggestionAdapter.getItem(position);
 			setPickUpLocation(suggestion);
 		}
 	};
@@ -464,7 +467,7 @@ public class CarSearchPresenter extends Presenter
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 		if (actionId == EditorInfo.IME_ACTION_DONE && !Strings.isEmpty(v.getText())) {
 			setCalendarVisibility(View.VISIBLE);
-			Suggestion topSuggestion = giveTopSuggestion();
+			SuggestionV4 topSuggestion = giveTopSuggestion();
 			if (topSuggestion != null) {
 				if (carSearchParams == null) {
 					setPickUpLocation(topSuggestion);
@@ -478,10 +481,10 @@ public class CarSearchPresenter extends Presenter
 		return false;
 	}
 
-	public Suggestion giveTopSuggestion() {
+	public SuggestionV4 giveTopSuggestion() {
 		for (int position = 0; position < suggestionAdapter.getCount() - 1; position++) {
-			Suggestion suggestion = suggestionAdapter.getItem(position);
-			if (!(SuggestionBaseAdapter.DEFAULT_AUTOFILL_ITEM_ID).equalsIgnoreCase(suggestion.id)) {
+			SuggestionV4 suggestion = suggestionAdapter.getItem(position);
+			if (!(SuggestionBaseAdapter.DEFAULT_AUTOFILL_ITEM_ID).equalsIgnoreCase(suggestion.gaiaId)) {
 				return suggestion;
 			}
 		}

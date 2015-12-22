@@ -1,7 +1,7 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
-import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.data.SuggestionV4
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mobiata.android.Log

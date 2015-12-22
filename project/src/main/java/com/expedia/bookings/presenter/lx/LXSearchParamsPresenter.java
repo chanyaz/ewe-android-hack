@@ -31,7 +31,7 @@ import android.widget.ToggleButton;
 
 import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
@@ -109,7 +109,7 @@ public class LXSearchParamsPresenter extends Presenter
 	LXSearchParams searchParams = new LXSearchParams();
 	private LxSuggestionAdapter suggestionAdapter;
 
-	private ArrayList<Suggestion> mRecentLXLocationsSearches;
+	private ArrayList<SuggestionV4> mRecentLXLocationsSearches;
 	private ArrowXDrawable navIcon;
 
 	public LXSearchParamsPresenter(Context context, AttributeSet attrs) {
@@ -122,7 +122,7 @@ public class LXSearchParamsPresenter extends Presenter
 		super.onFinishInflate();
 
 		setupCalendar();
-		suggestionAdapter = new LxSuggestionAdapter();
+		suggestionAdapter = new LxSuggestionAdapter(getContext());
 		Ui.getApplication(getContext()).lxComponent().inject(suggestionAdapter);
 
 		setupToolbar();
@@ -159,7 +159,7 @@ public class LXSearchParamsPresenter extends Presenter
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			Ui.hideKeyboard(LXSearchParamsPresenter.this);
 			clearFocus();
-			Suggestion suggestion = suggestionAdapter.getItem(position);
+			SuggestionV4 suggestion = suggestionAdapter.getItem(position);
 			setSearchLocation(suggestion);
 			setUpSearchButton();
 		}
@@ -188,24 +188,24 @@ public class LXSearchParamsPresenter extends Presenter
 		}
 	};
 
-	private void setSearchLocation(final Suggestion suggestion) {
-		location.setText(suggestion.iconType == Suggestion.IconType.CURRENT_LOCATION_ICON ? getContext()
+	private void setSearchLocation(final SuggestionV4 suggestion) {
+		location.setText(suggestion.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON ? getContext()
 			.getString(R.string.current_location)
-			: StrUtils.formatCityName(suggestion.fullName));
-		searchParams.location(suggestion.fullName);
-		searchParams.imageCode(suggestion.airportCode);
+			: StrUtils.formatCityName(suggestion.regionNames.fullName));
+		searchParams.location(suggestion.regionNames.fullName);
+		searchParams.imageCode(suggestion.hierarchyInfo.airport.airportCode);
 		searchParamsChanged();
 
 		selectDates.setChecked(true);
 		show(new LXParamsCalendar());
 
-		Suggestion suggest = suggestion.clone();
-		suggest.iconType = Suggestion.IconType.HISTORY_ICON;
+		SuggestionV4 suggest = suggestion.copy();
+		suggest.iconType = SuggestionV4.IconType.HISTORY_ICON;
 		// Remove duplicates
-		Iterator<Suggestion> it = mRecentLXLocationsSearches.iterator();
+		Iterator<SuggestionV4> it = mRecentLXLocationsSearches.iterator();
 		while (it.hasNext()) {
-			Suggestion s = it.next();
-			if (s.fullName.equalsIgnoreCase(suggest.fullName)) {
+			SuggestionV4 s = it.next();
+			if (s.regionNames.fullName.equalsIgnoreCase(suggest.regionNames.fullName)) {
 				it.remove();
 			}
 		}
@@ -216,7 +216,7 @@ public class LXSearchParamsPresenter extends Presenter
 
 		mRecentLXLocationsSearches.add(0, suggest);
 		//Have to remove the bold tag in display name so text for last search is normal
-		suggest.displayName = Html.fromHtml(suggest.displayName).toString();
+		suggest.regionNames.displayName = Html.fromHtml(suggest.regionNames.displayName).toString();
 		// Save
 		SuggestionUtils.saveSuggestionHistory(getContext(), mRecentLXLocationsSearches, SuggestionUtils.RECENT_ROUTES_LX_LOCATION_FILE);
 		suggestionAdapter.updateRecentHistory(mRecentLXLocationsSearches);

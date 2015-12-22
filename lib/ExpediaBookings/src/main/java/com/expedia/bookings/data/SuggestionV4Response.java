@@ -1,6 +1,7 @@
-package com.expedia.bookings.data.hotels;
+package com.expedia.bookings.data;
 
 import java.util.List;
+
 import com.google.gson.annotations.SerializedName;
 
 public class SuggestionV4Response {

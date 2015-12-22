@@ -1,4 +1,6 @@
-package com.expedia.bookings.data.hotels;
+package com.expedia.bookings.data;
+
+import java.util.Locale;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -6,6 +8,8 @@ import com.expedia.bookings.utils.Strings;
 import com.google.gson.annotations.SerializedName;
 
 public class SuggestionV4 {
+
+	transient public static final String CURRENT_LOCATION_ID = "current_location";
 
 	public String gaiaId;
 	public String type;
@@ -15,6 +19,15 @@ public class SuggestionV4 {
 	public String hotelId;
 
 	public LatLng coordinates;
+
+	public boolean isMinorAirport;
+
+	public enum IconType {
+		HISTORY_ICON,
+		CURRENT_LOCATION_ICON,
+		SEARCH_TYPE_ICON,
+		MAGNIFYING_GLASS_ICON
+	}
 
 	public IconType iconType = IconType.SEARCH_TYPE_ICON;
 	public boolean isSearchThisArea;
@@ -39,13 +52,6 @@ public class SuggestionV4 {
 		public double lat;
 		@SerializedName("long")
 		public double lng;
-	}
-
-	public enum IconType {
-		HISTORY_ICON,
-		CURRENT_LOCATION_ICON,
-		SEARCH_TYPE_ICON,
-		MAGNIFYING_GLASS_ICON
 	}
 
 	public SuggestionV4 copy() {
@@ -76,7 +82,19 @@ public class SuggestionV4 {
 		return Strings.isEmpty(gaiaId) && !isSearchThisArea;
 	}
 
+	public boolean isMajorAirport() {
+		return Strings.isNotEmpty(type) && type.toLowerCase(Locale.US).equals("airport") && !isMinorAirport;
+	}
+
 	public boolean isGoogleSuggestionSearch() {
 		return "GOOGLE_SUGGESTION_SEARCH".equals(type);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof SuggestionV4) {
+			return ((SuggestionV4) obj).gaiaId.equals(this.gaiaId);
+		}
+		return false;
 	}
 }
