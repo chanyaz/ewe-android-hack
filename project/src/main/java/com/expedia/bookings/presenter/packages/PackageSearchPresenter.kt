@@ -21,7 +21,6 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.ToggleButton
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
@@ -198,7 +197,7 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
         com.mobiata.android.util.Ui.hideKeyboard(this)
         selectDate.isChecked = true
         selectTraveler.isChecked = true
-        SuggestionV4Utils.saveSuggestionHistory(context, suggestion, SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE)
+        SuggestionV4Utils.saveSuggestionHistory(context, suggestion, SuggestionV4Utils.RECENT_PACKAGE_SUGGESTIONS_FILE)
         currentState ?: show(PackageParamsDefault())
         show(PackageParamsCalendar(), Presenter.FLAG_CLEAR_BACKSTACK)
     }
