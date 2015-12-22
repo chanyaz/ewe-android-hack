@@ -97,11 +97,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     val fab: FloatingActionButton by bindView(R.id.fab)
     var adapter: HotelListAdapter by Delegates.notNull()
     val filterBtn: LinearLayout by bindView(R.id.filter_btn)
-    val isBucketedForResultMap = Db.getAbacusResponse().isUserBucketedForTest(
-            AbacusUtils.EBAndroidAppHotelResultMapTest)
-
-
-
+    val isBucketedForResultMap = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultMapTest)
+    
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     private val DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION = 200L
 
@@ -330,6 +327,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     fun createMarkers() {
+        mapViewModel.selectMarker.onNext(null)
         clearMarkers()
         if (hotels.isEmpty()) {
             return
