@@ -1176,7 +1176,6 @@
         <item name="android:paddingRight">15dp</item>
         <item name="android:background">@drawable/hotel_detail_ripple</item>
         <item name="android:drawableRight">@drawable/smaller_details_info</item>
->>>>>>> expedia-stable
     </style>
 
     <style name="MarkerTextAppearance">
