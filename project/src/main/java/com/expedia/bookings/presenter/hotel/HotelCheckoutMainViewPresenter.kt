@@ -132,8 +132,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         slideToContainer.setVisibility(View.INVISIBLE)
         legalInformationText.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View) {
-                val intent = Intent(getContext(), HotelRulesActivity::class.java)
-                getContext().startActivity(intent)
+                context.startActivity(HotelRulesActivity.createIntent(context, LineOfBusiness.HOTELSV2))
             }
         })
         if (User.isLoggedIn(getContext())) {

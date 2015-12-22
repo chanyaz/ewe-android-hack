@@ -1142,8 +1142,7 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 				break;
 			}
 			case R.id.legal_information_text_view: {
-				Intent intent = new Intent(getActivity(), HotelRulesActivity.class);
-				startActivity(intent);
+				startActivity(HotelRulesActivity.createIntent(getContext(), LineOfBusiness.HOTELS));
 				break;
 			}
 			}

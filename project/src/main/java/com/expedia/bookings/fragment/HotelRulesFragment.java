@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
@@ -34,9 +35,7 @@ public class HotelRulesFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_hotel_rules, container, false);
 
-		if (lob == null) {
-			lob = Db.getTripBucket().getLOBToRefresh();
-		}
+		lob = (LineOfBusiness) getActivity().getIntent().getExtras().get(HotelRulesActivity.LOB_KEY);
 
 		populateHeaderRows(view);
 		ViewUtils.setAllCaps((TextView) Ui.findView(view, R.id.cancellation_policy_header_text_view));
