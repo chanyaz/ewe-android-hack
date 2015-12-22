@@ -212,19 +212,6 @@
         <attr name="layoutContentPadding" format="dimension" />
     </declare-styleable>
 
-    <!-- SwipeOutLayout style -->
-    <declare-styleable name="EBSwipeOutLayout">
-        <attr name="EBSwipeOutDirection">
-            <enum name="north" value="0" />
-            <enum name="south" value="1" />
-            <enum name="east" value="2" />
-            <enum name="west" value="3" />
-        </attr>
-        <attr name="EBSwipeOutEnabled" format="boolean" />
-        <attr name="EBSwipeOutContentId" format="reference" />
-        <attr name="EBSwipeOutIndicatorId" format="reference" />
-    </declare-styleable>
-
     <!-- FruitList style -->
     <declare-styleable name="FruitList">
         <attr name="headerSpacerColor" format="reference|color" />

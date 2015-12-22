@@ -12,12 +12,12 @@
         android:id="@+id/content_container"
         android:clipChildren="false">
 
-        <com.expedia.bookings.widget.SwipeOutLayout
+        <com.mobiata.android.widget.SwipeOutLayout
             style="@style/V2.Widget.FrameLayout.ResultsTripBucketItem"
             android:id="@+id/trip_bucket_flight_trip_swipeout"
-            app:EBSwipeOutContentId="@+id/trip_bucket_flight_trip"
-            app:EBSwipeOutDirection="east"
-            app:EBSwipeOutIndicatorId="@+id/flight_swipe_out_undo_bar">
+            app:swipeOutContentId="@+id/trip_bucket_flight_trip"
+            app:swipeOutDirection="east"
+            app:swipeOutIndicatorId="@+id/flight_swipe_out_undo_bar">
 
             <FrameLayout
                 android:id="@id/trip_bucket_flight_trip"
@@ -31,15 +31,15 @@
                 android:background="@drawable/bg_undobar"
                 android:visibility="invisible"
                 layout="@layout/view_undobar"/>
-        </com.expedia.bookings.widget.SwipeOutLayout>
+        </com.mobiata.android.widget.SwipeOutLayout>
 
 
-        <com.expedia.bookings.widget.SwipeOutLayout
+        <com.mobiata.android.widget.SwipeOutLayout
             style="@style/V2.Widget.FrameLayout.ResultsTripBucketItem"
             android:id="@+id/trip_bucket_hotel_trip_swipeout"
-            app:EBSwipeOutContentId="@+id/trip_bucket_hotel_trip"
-            app:EBSwipeOutDirection="east"
-            app:EBSwipeOutIndicatorId="@+id/hotel_swipe_out_undo_bar">
+            app:swipeOutContentId="@+id/trip_bucket_hotel_trip"
+            app:swipeOutDirection="east"
+            app:swipeOutIndicatorId="@+id/hotel_swipe_out_undo_bar">
 
             <FrameLayout
                 android:id="@id/trip_bucket_hotel_trip"
@@ -53,7 +53,7 @@
                 android:background="@drawable/bg_undobar"
                 android:visibility="invisible"
                 layout="@layout/view_undobar"/>
-        </com.expedia.bookings.widget.SwipeOutLayout>
+        </com.mobiata.android.widget.SwipeOutLayout>
 
         <Space
             android:id="@+id/trip_bucket_empty_space"
