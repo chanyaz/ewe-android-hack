@@ -1,0 +1,12 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:drawable="@color/launch_lob_bg" />
+
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:tint="@color/launch_screen_primary"
+            android:src="@drawable/splash_logo" />
+    </item>
+
+</layer-list>
