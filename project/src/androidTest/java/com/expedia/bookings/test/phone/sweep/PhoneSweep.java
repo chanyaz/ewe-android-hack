@@ -1,231 +1,156 @@
 package com.expedia.bookings.test.phone.sweep;
 
-import org.joda.time.LocalDate;
+import org.joda.time.DateTime;
 
+import android.support.test.espresso.contrib.RecyclerViewActions;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.test.phone.pagemodels.common.ConfirmationScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
+import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
+import com.expedia.bookings.test.phone.newhotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.CommonTravelerInformationScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.phone.pagemodels.flights.FlightLegScreen;
-import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsScreen;
-import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
-import com.expedia.bookings.test.phone.pagemodels.flights.FlightsTravelerInfoScreen;
-import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsCheckoutScreen;
-import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsConfirmationScreen;
-import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsDetailsScreen;
-import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
-import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsSearchScreen;
-import com.expedia.bookings.test.espresso.PhoneTestCase;
 
-import static android.support.test.espresso.action.ViewActions.clearText;
-import static com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen.clickCheckoutButton;
-import static com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen.clickNewPaymentCard;
-import static com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen.clickSelectPaymentButton;
-import static com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen.clickTravelerDetails;
-import static com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen.slideToCheckout;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.allOf;
 
 /**
  * Created by dmadan on 6/30/14.
  */
 public class PhoneSweep extends PhoneTestCase {
 
-	public void testBookFlight() throws Throwable {
+
+	public void testBookNewHotel() throws Throwable {
 		Common.setLocale(getLocale());
 		Common.setPOS(PointOfSaleId.valueOf(getPOS(getLocale())));
-
-		screenshot("Launch");
-		LaunchScreen.launchFlights();
-		FlightsSearchScreen.enterDepartureAirport("LAX");
-		FlightsSearchScreen.enterArrivalAirport("SFO");
-		screenshot("Flights_Search");
-		FlightsSearchScreen.clickSelectDepartureButton();
-		LocalDate startDate = LocalDate.now().plusDays(35);
-		LocalDate endDate = LocalDate.now().plusDays(40);
-		FlightsSearchScreen.clickDate(startDate, endDate);
-		FlightsSearchScreen.clickSearchButton();
-
-		screenshot("Flights_Search_Results");
-		FlightsSearchResultsScreen.clickListItem(1);
-		screenshot("Flight_leg_details1");
-		FlightLegScreen.clickSelectFlightButton();
-		screenshot("Flights_Search_Results2");
-		FlightsSearchResultsScreen.clickListItem(1);
-		screenshot("Flight_leg_details2");
-		FlightLegScreen.clickSelectFlightButton();
-		screenshot("Flights_checkout_overview");
-		clickCheckoutButton();
-
-		CommonCheckoutScreen.clickLogInButton();
-		screenshot("Log_in_screen");
-		Common.closeSoftKeyboard(LogInScreen.logInButton());
-		Common.pressBack();
+		final DateTime startDateTime = DateTime.now().plusDays(60);
+		final DateTime endDateTime = startDateTime.plusDays(5);
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelsABTest,
+			AbacusUtils.DefaultVariate.BUCKETED.ordinal());
 		Common.delay(1);
 
-		clickTravelerDetails();
-		screenshot("Traveler_Details");
-		FlightsTravelerInfoScreen.enterFirstName("Mobiata");
-		FlightsTravelerInfoScreen.enterLastName("Auto");
-		FlightsTravelerInfoScreen.enterPhoneNumber("1112223333");
-		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.phoneNumberEditText());
-		FlightsTravelerInfoScreen.clickBirthDateButton();
-		try {
-			FlightsTravelerInfoScreen.clickSetButton();
-		}
-		catch (Exception e) {
-			try {
-				CommonTravelerInformationScreen.clickDoneString();
-			}
-			catch (Exception ex) {
-				Common.pressBack();
-			}
-		}
-		BillingAddressScreen.clickNextButton();
-		screenshot("Traveler_Details2");
-		try {
-			BillingAddressScreen.clickNextButton();
-		}
-		catch (Exception e) {
-			// No next button
-		}
-		FlightsTravelerInfoScreen.clickDoneButton();
-		Common.pressBack();
-		clickCheckoutButton();
-		clickSelectPaymentButton();
-		try {
-			clickNewPaymentCard();
-		}
-		catch (Exception e) {
-			// No add new card option
-		}
-		screenshot("Payment_Details");
-		try {
-			BillingAddressScreen.typeTextAddressLineOne("123 California Street");
-			BillingAddressScreen.typeTextCity("San Francisco");
-			BillingAddressScreen.typeTextPostalCode("94105");
-			BillingAddressScreen.clickNextButton();
-		}
-		catch (Exception e) {
-			//Billing address not needed
-		}
-		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
-		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
-		CardInfoScreen.clickOnExpirationDateButton();
-		CardInfoScreen.clickMonthUpButton();
-		CardInfoScreen.clickYearUpButton();
-		CardInfoScreen.clickSetButton();
-		CardInfoScreen.nameOnCardEditText().perform(clearText());
-		CardInfoScreen.emailEditText().perform(clearText());
-		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
-		CardInfoScreen.typeTextEmailEditText("mobiataauto@gmail.com");
-		CardInfoScreen.clickOnDoneButton();
-
-		try {
-			CommonCheckoutScreen.clickIAcceptButton();
-		}
-		catch (Exception e) {
-			//No I accept button
-		}
-		screenshot("Slide_to_checkout");
-		slideToCheckout();
-		CVVEntryScreen.enterCVV("111");
-		screenshot("CVV_Entry");
-		CVVEntryScreen.clickBookButton();
-
-		screenshot("Confirmation");
-		ConfirmationScreen.clickDoneButton();
-	}
-
-	public void testBookHotel() throws Throwable {
-		Common.setLocale(getLocale());
-		Common.setPOS(PointOfSaleId.valueOf(getPOS(getLocale())));
-
-		screenshot("Launch");
 		LaunchScreen.launchHotels();
-		HotelsSearchScreen.clickSearchEditText();
-		HotelsSearchScreen.clickToClearSearchEditText();
-		HotelsSearchScreen.enterSearchText("New York, NY");
-		HotelsSearchScreen.clickSuggestionAtIndex(getActivity(), 1);
-		LocalDate startDate = LocalDate.now().plusDays(35);
-		LocalDate endDate = LocalDate.now().plusDays(40);
-		HotelsSearchScreen.clickOnCalendarButton();
-		HotelsSearchScreen.clickDate(startDate, endDate);
+		HotelScreen.location().perform(typeText("Las Vegas, NV"));
+		Common.delay(2);
+		HotelScreen.hotelSuggestionList().perform(
+			RecyclerViewActions.actionOnItemAtPosition(1, click()));
+		HotelScreen.selectDateButton().perform(click());
+		HotelScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
 		screenshot("Hotels_Search");
-		HotelsSearchScreen.clickOnGuestsButton();
-		HotelsSearchScreen.guestPicker().clickOnSearchButton();
+		HotelScreen.guestPicker().perform((click()));
+		screenshot("Hotel_search_guest_picker");
+		onView(withId(R.id.children_plus)).perform(click());
+		screenshot("Hotel_search_child_picker");
+		onView(withId(R.id.child_spinner_1)).perform(click());
+		screenshot("Hotel_search_child_age");
+		Common.pressBack();
+		HotelScreen.searchButton().perform(click());
+		Common.delay(5);
 		screenshot("Hotels_Search_Results");
-		HotelsSearchScreen.clickListItem(1);
-		screenshot("Hotels_Details");
+		HotelScreen.clickSortFilter();
+		Common.delay(1);
+		screenshot("Hotel_sort_filter");
+		Common.pressBack();
+		HotelScreen.selectHotel("Stratosphere Hotel - Casino & Resort Hotel");
+		Common.delay(5);
 		try {
-			HotelsDetailsScreen.clickReviewsTitle();
-			screenshot("Hotels_Reviews");
+			HotelScreen.clickRatingContainer();
+			Common.delay(2);
+			screenshot("Hotel_Reviews");
 			Common.pressBack();
 		}
 		catch (Exception e) {
 			//no reviews
 		}
-		HotelsDetailsScreen.clickSelectButton();
-		screenshot("Hotel_rooms_rates");
-		HotelsRoomsRatesScreen.selectETPRoomItem(1);
-		screenshot("Hotel_checkout");
-		try {
-			Common.clickOkString();
-		}
-		catch (Exception e) {
-			//No Great news pop-up
-		}
-		HotelsCheckoutScreen.clickCheckoutButton();
-		CommonCheckoutScreen.clickLogInButton();
-		screenshot("Log_in");
-		Common.closeSoftKeyboard(LogInScreen.logInButton());
+		screenshot("Hotels_Details");
+		onView(allOf(withText(R.string.select_a_room_instruction), isDisplayed())).perform(click());
+		screenshot("Hotel_rooms_pay_now");
+		onView(withId(R.id.radius_pay_later)).perform(click());
+		Common.delay(1);
+		screenshot("Hotel_rooms_pay_later");
+		onView(allOf(withId(R.id.deposit_terms_buttons), isDisplayed())).perform(click());
+
+		Common.delay(1);
+		screenshot("Hotel_deposits_terms_text");
 		Common.pressBack();
 		Common.delay(1);
-		HotelsCheckoutScreen.clickGuestDetails();
+		onView(allOf(withText(R.string.book_room_button_text), isDisplayed())).perform(click());
+		Common.delay(5);
+
+		screenshot("Hotel_checkout");
+		onView(withId(R.id.amount_due_today_label)).perform(click());
+		screenshot("Hotel_checkout_cost_summary");
+		Common.pressBack();
+		onView(withId(R.id.login_widget)).perform(click());
+		Common.delay(1);
+		screenshot("Hotel_Login");
+
+		Common.pressBack();
+		Common.delay(1);
+		CheckoutViewModel.clickDriverInfo();
+		screenshot("Hotel_traveler_info_empty");
+		Common.delay(1);
+		CheckoutViewModel.enterFirstName("Girija");
+		CheckoutViewModel.enterLastName("Balachandran");
+		Common.closeSoftKeyboard(CheckoutViewModel.lastName());
+		Common.delay(1);
+		CheckoutViewModel.enterEmail("girija@mobiata.com");
+		Common.closeSoftKeyboard(CheckoutViewModel.email());
+		Common.delay(1);
+		CheckoutViewModel.enterPhoneNumber("4152984012");
+		screenshot("Hotel_traveler_info_filled");
+		CheckoutViewModel.clickDone();
+		Common.delay(2);
+
+		Common.delay(2);
+		CheckoutViewModel.clickPaymentInfo();
+		screenshot("Hotel_payment_options");
+		Common.delay(1);
 		try {
-			HotelsCheckoutScreen.clickEnterInfoButton();
+			CheckoutViewModel.clickAddCreditCard();
+			Common.delay(1);
 		}
 		catch (Exception e) {
-			//No Enter info manually button
+			//No credit or debit card
 		}
-		screenshot("Traveler_Details");
-		CommonTravelerInformationScreen.enterFirstName("Mobiata");
-		CommonTravelerInformationScreen.enterLastName("Auto");
-		CommonTravelerInformationScreen.enterPhoneNumber("1112223333");
-		CommonTravelerInformationScreen.enterEmailAddress("mobiataauto@gmail.com");
-		CommonTravelerInformationScreen.clickDoneButton();
 
-		HotelsCheckoutScreen.clickSelectPaymentButton();
-		screenshot("Payment_Details");
-		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
-		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
+		screenshot("Hotel_payment_info_empty");
+		CardInfoScreen.typeTextCreditCardEditText("4444444444444448");
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();
 		CardInfoScreen.clickSetButton();
-		CardInfoScreen.typeTextPostalCode("94015");
-		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
-		CardInfoScreen.clickOnDoneButton();
+		CardInfoScreen.typeTextPostalCode("94104");
+		CardInfoScreen.typeTextNameOnCardEditText("Girija Balachandran");
+		Common.delay(2);
+		screenshot("Hotel_payment_info_filled");
+		CheckoutViewModel.pressClose();
+		screenshot("Hotel_Checkout_Ready_To_Purchase");
 		try {
-			CommonCheckoutScreen.clickIAcceptButton();
+			onView(withId(R.id.i_accept_terms_button)).perform(click());
 		}
 		catch (Exception e) {
 			//No I accept button
 		}
+		CheckoutViewModel.performSlideToPurchase();
+		Common.delay(1);
 		screenshot("Slide_to_checkout");
-		HotelsCheckoutScreen.slideToCheckout();
-		CVVEntryScreen.enterCVV("111");
+		CVVEntryScreen.enterCVV("123");
 		screenshot("CVV_Entry");
-
 		CVVEntryScreen.clickBookButton();
+		Common.delay(5);
 		screenshot("Confirmation");
-		HotelsConfirmationScreen.clickDoneButton();
-
-		//go to Launch screen to book a flight
-		Common.pressBack();
 	}
+
+
 }

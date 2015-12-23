@@ -216,7 +216,7 @@ public class HotelScreen {
 	public static ViewInteraction addRoom() {
 		return onView(
 			allOf(
-				withId(R.id.view_room_button), allOf(withText("Book")),
+				withId(R.id.view_room_button), allOf(withText(R.string.book_room_button_text)),
 				isDescendantOfA(allOf(withId(R.id.collapsed_container))),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 		);
