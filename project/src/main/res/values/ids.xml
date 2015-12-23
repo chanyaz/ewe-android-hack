@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- SwipeOutLayout ids -->
-    <item name="swipe_out_content" type="id"/>
-    <item name="swipe_out_indicator" type="id"/>
-
     <!-- For styles that want to declare IDs -->
     <item name="departure_airport_edit_text" type="id"/>
     <item name="arrival_airport_edit_text" type="id"/>
