@@ -102,6 +102,14 @@
             android:title="Hotels Result Map AB Test" />
 
         <ListPreference
+            android:entries="@array/abacus_hotel_price_breakdown_choices"
+            android:entryValues="@array/abacus_hotel_price_breakdown_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="9477"
+            android:title="Hotel Price BreakDown AB test" />
+
+        <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
@@ -116,6 +124,7 @@
             android:key="9475"
             android:summary="%s"
             android:title="Hotels Checkout Show Example Names" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

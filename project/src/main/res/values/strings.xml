@@ -1900,6 +1900,8 @@
     <string name="please_enter_a_valid_email_address">Please enter a valid email address</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Fees paid at hotel</string>
+    <!-- Row label for when we show resort fees as its own line item -->
+    <string name="fees_due_at_hotel">Fees due at hotel</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">Due to {brand}</string>
     <!-- Due to expedia today - today -->

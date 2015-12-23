@@ -113,11 +113,11 @@
         android:paddingTop="9dp">
 
         <RelativeLayout
+            android:id="@+id/total_fees_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
-            <com.expedia.bookings.widget.TextView
+        <com.expedia.bookings.widget.TextView
                 android:id="@+id/total_tax_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -143,11 +143,11 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/hotel_fees_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
-            <com.expedia.bookings.widget.TextView
+        <com.expedia.bookings.widget.TextView
                 android:id="@+id/fees_paid_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -171,10 +171,21 @@
                 app:textStyle="normal" />
         </RelativeLayout>
 
+        <View
+            android:id="@+id/dotted_divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="4dp"
+            android:layerType="software"
+            android:visibility="gone"
+            android:background="@drawable/dotted_divider" />
+
         <RelativeLayout
+            android:id="@+id/amount_due_today_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            >
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/amount_due_today_label"
