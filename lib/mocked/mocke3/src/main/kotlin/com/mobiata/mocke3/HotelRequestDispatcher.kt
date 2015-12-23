@@ -20,7 +20,13 @@ public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
         }
 
         return when {
-            HotelRequestMatcher.isHotelSearchRequest(urlPath) -> getMockResponse("m/api/hotel/search/happy.json")
+            HotelRequestMatcher.isHotelSearchRequest(urlPath) -> {
+                val gaiaId = params["regionId"]
+                if (gaiaId == "error_response") {
+                    return getMockResponse("m/api/hotel/search/mock_error.json")
+                }
+                return getMockResponse("m/api/hotel/search/happy.json")
+            }
 
             HotelRequestMatcher.isHotelInfoRequest(urlPath) -> getMockResponse("m/api/hotel/info/" + params.get("hotelId") + ".json", params)
 
