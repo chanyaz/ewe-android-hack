@@ -23,6 +23,10 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         if (!doesRequestHaveValidUserAgent(request)) {
             throw UnsupportedOperationException("Valid user-agent not passed. I expect to see a user-agent resembling: ExpediaBookings/x.x.x (EHad; Mobiata)")
         }
+        // Hotels API
+        if (request.path.startsWith("/getpackages/v1")) {
+            return makeResponse("/getpackages/v1/happy.json")
+        }
 
         // Hotels API
         if (request.path.startsWith("/m/api/hotel") || request.path.startsWith("/api/m/trip/coupon")) {
