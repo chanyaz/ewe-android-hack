@@ -26,6 +26,7 @@ public class SuggestionV4 {
 	}
 
 	public static class HierarchyInfo {
+		public Airport airport;
 		public boolean isChild = false;
 	}
 
@@ -52,6 +53,8 @@ public class SuggestionV4 {
 		v4.type = type;
 		v4.hierarchyInfo = new HierarchyInfo();
 		v4.hierarchyInfo.isChild = hierarchyInfo.isChild;
+		v4.hierarchyInfo.airport = new Airport();
+		v4.hierarchyInfo.airport.airportCode = hierarchyInfo.airport.airportCode;
 		v4.regionNames = new RegionNames();
 		v4.regionNames.fullName = regionNames.fullName;
 		v4.regionNames.displayName = regionNames.displayName;
