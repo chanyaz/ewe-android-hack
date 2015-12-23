@@ -183,7 +183,6 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
-                    android:layout_marginRight="10dp"
                     android:bufferType="spannable"
                     android:hint="@string/expiration_date"
                     android:textSize="18dp" />
@@ -192,7 +191,8 @@
                     android:id="@+id/section_location_address"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2">
+                    android:layout_weight="2"
+                    android:layout_marginLeft="10dp">
 
                     <EditText
                         android:id="@+id/edit_address_postal_code"

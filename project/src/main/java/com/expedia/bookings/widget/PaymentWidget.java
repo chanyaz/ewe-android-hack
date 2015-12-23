@@ -31,6 +31,8 @@ import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -414,6 +416,11 @@ public class PaymentWidget extends ExpandableCardView {
 		if (!ExpediaBookingApp.isAutomation()) {
 			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
 				new HotelV2Tracking().trackHotelV2PaymentEdit();
+
+				if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCKOPostalCodeTest)
+					&& !PointOfSale.getPointOfSale().requiresHotelPostalCode()) {
+					sectionLocation.setVisibility(View.GONE);
+				}
 			}
 			else {
 				OmnitureTracking.trackCheckoutPayment(lineOfBusiness);
