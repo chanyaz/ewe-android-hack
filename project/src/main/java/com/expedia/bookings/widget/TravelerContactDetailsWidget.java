@@ -19,6 +19,8 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.enums.MerchandiseSpam;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.InvalidCharacterHelper;
@@ -259,6 +261,11 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			}
 			bind();
 			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+				Boolean isBucketedForShowExampleNames = Db.getAbacusResponse().isUserBucketedForTest(
+					AbacusUtils.EBAndroidAppHotelShowExampleNamesTest);
+				if (isBucketedForShowExampleNames && PointOfSale.getPointOfSale().showExampleNames()) {
+					setExampleNames();
+				}
 				new HotelV2Tracking().trackHotelV2CheckoutTraveler();
 			}
 			else {
@@ -279,6 +286,24 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			Db.getWorkingTravelerManager().commitWorkingTravelerToDB(0);
 			travelerButton.dismissPopup();
 		}
+	}
+
+	private void setExampleNames() {
+		String firstNameHint, lastNameHint;
+		if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.HONG_KONG)) {
+			firstNameHint = getResources().getString(R.string.first_name_hk);
+			lastNameHint = getResources().getString(R.string.last_name_hk);
+		}
+		else if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.JAPAN)) {
+			firstNameHint = getResources().getString(R.string.first_name_jp);
+			lastNameHint = getResources().getString(R.string.last_name_jp);
+		}
+		else {
+			firstNameHint = getResources().getString(R.string.first_name_kr);
+			lastNameHint = getResources().getString(R.string.last_name_kr);
+		}
+		firstName.setHint(firstNameHint);
+		lastName.setHint(lastNameHint);
 	}
 
 	@Override
