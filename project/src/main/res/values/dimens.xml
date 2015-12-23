@@ -383,4 +383,8 @@
 
     <!-- hotel V2 Checkout -->
     <dimen name="hotel_checkout_image_corner_radius">3dp</dimen>
+
+    <!-- px equivalents -->
+    <dimen name="two_px_allthethings">2dp</dimen>
+
 </resources>

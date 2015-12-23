@@ -176,9 +176,8 @@
         <item name="android:logo" tools:targetApi="11">@drawable/icon_home_tvly</item>
     </style>
 
-    <style name="Theme.Tablet.Preferences" parent="@style/Theme.Light.Dialog">
+    <style name="Theme.Tablet.Preferences" parent="@style/Theme.AppCompat.Light.Dialog">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:listSeparatorTextViewStyle">@style/TabletPreferenceSeparator</item>
     </style>
 
     <style name="Theme.AccountLib" parent="Theme.Base.AccountLib">

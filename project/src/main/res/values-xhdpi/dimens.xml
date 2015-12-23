@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- px equivalents -->
+    <dimen name="two_px_allthethings">1dp</dimen>
+
+</resources>

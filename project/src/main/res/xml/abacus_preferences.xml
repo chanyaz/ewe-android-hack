@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory android:title="Hotel Tests">
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Hotel Tests">
         <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="7373"
+            android:layout="@layout/preference"
             android:title="Hotel Result Rating Test" />
 
         <ListPreference
@@ -15,6 +18,7 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="7532"
+            android:layout="@layout/preference"
             android:title="Hotels ETP book now/pay later search results" />
 
         <ListPreference
@@ -23,6 +27,7 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="7535"
+            android:layout="@layout/preference"
             android:title="Hotel Search Sale Pin Green" />
 
         <ListPreference
@@ -31,6 +36,7 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="7772"
+            android:layout="@layout/preference"
             android:title="Hotel HSR Map Icon" />
 
         <ListPreference
@@ -39,6 +45,7 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="7777"
+            android:layout="@layout/preference"
             android:title="Hotel Coupon ETP Test" />
 
         <ListPreference
@@ -47,6 +54,7 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="7973"
+            android:layout="@layout/preference"
             android:title="Hotel 3x points messaging" />
 
         <ListPreference
@@ -55,6 +63,7 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="8126"
+            android:layout="@layout/preference"
             android:title="Hotel collapse amenities, policies, fees" />
 
         <ListPreference
@@ -63,6 +72,7 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="8624"
+            android:layout="@layout/preference"
             android:title="Hotels AB Test" />
 
         <ListPreference
@@ -71,6 +81,7 @@
             android:entryValues="@array/abacus_hotel_review_superlatives_values"
             android:summary="%s"
             android:key="8688"
+            android:layout="@layout/preference"
             android:title="Hotels v2 Superlative reviews" />
 
         <ListPreference
@@ -78,6 +89,7 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="8692"
+            android:layout="@layout/preference"
             android:title="Hotels Recent Search AB Test" />
 
         <ListPreference
@@ -85,6 +97,7 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:key="9474"
+            android:layout="@layout/preference"
             android:summary="%s"
             android:title="Hotels Result Map AB Test" />
 
@@ -105,12 +118,15 @@
             android:title="Hotels Checkout Show Example Names" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="LX tests">
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="LX tests">
         <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="9165"
+            android:layout="@layout/preference"
             android:title="LX Category Test" />
 
         <ListPreference
@@ -118,26 +134,33 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="9467"
+            android:layout="@layout/preference"
             android:title="LX first activity expanded" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Car tests">
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Car tests">
         <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="7774"
+            android:layout="@layout/preference"
             android:title="Car Insurance Included CKO" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Checkout tests">
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Checkout tests">
         <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="7775"
+            android:layout="@layout/preference"
             android:title="Hotel Checkout Traveler to Payment" />
 
         <ListPreference
@@ -146,6 +169,7 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="8127"
+            android:layout="@layout/preference"
             android:title="Hotel CKO MER Email Guest opt/in/out" />
 
         <ListPreference
@@ -162,6 +186,7 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="8129"
+            android:layout="@layout/preference"
             android:title="Show hotel address and map in receipt" />
 
         <ListPreference
@@ -170,16 +195,20 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="8148"
+            android:layout="@layout/preference"
             android:title="Payment collapse Google Wallet" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Misc Tests">
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Misc Tests">
         <ListPreference
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="8706"
+            android:layout="@layout/preference"
             android:title="Integration AA Test" />
 
         <ListPreference
@@ -188,6 +217,7 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="8369"
+            android:layout="@layout/preference"
             android:title="Split GT and LX Launch" />
     </PreferenceCategory>
 </PreferenceScreen>
