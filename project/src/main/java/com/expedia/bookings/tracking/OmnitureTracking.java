@@ -766,7 +766,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(HOTELSV2_CHECKOUT_EDIT_PAYMENT);
 		s.setEvar(18, HOTELSV2_CHECKOUT_EDIT_PAYMENT);
-		if (PointOfSale.getPointOfSale().requiresHotelPostalCode()) {
+		if (!PointOfSale.getPointOfSale().requiresHotelPostalCode()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCKOPostalCodeTest);
 		}
 		s.track();
