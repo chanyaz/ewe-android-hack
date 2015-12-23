@@ -525,6 +525,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				public void run() {
 					Intent intent = new Intent(getActivity(),
 						getLob() == LineOfBusiness.FLIGHTS ? FlightRulesActivity.class : HotelRulesActivity.class);
+					intent.putExtra("LOB", getLob());
 					startActivity(intent);
 				}
 			}
