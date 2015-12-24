@@ -152,7 +152,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isLeanPlumEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
