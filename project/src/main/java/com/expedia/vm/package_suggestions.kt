@@ -29,7 +29,11 @@ class PackageSuggestionAdapterViewModel(val context: Context, val suggestionsSer
     private var lastQuery: String = ""
 
     init {
-        locationObservable?.subscribe(generateLocationServiceCallback());
+        if (locationObservable != null) {
+            locationObservable.subscribe(generateLocationServiceCallback());
+        } else {
+            suggestionsObservable.onNext(suggestionsListWithNearby())
+        }
     }
 
     // Inputs

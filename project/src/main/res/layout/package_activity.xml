@@ -1,21 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<com.expedia.bookings.presenter.packages.PackagePresenter
+    android:id="@+id/hotel_presenter"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#EEEEEE"
-    android:orientation="vertical">
-
-    <com.expedia.bookings.presenter.packages.PackageSearchPresenter
-        android:id="@+id/widget_hotel_errors"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#EEEEEE" />
-
-    <com.expedia.bookings.presenter.packages.BundleOverviewPresenter
-        android:id="@+id/widget_hotel_params"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"/>
-
-</LinearLayout>
+    android:layout_height="match_parent" />

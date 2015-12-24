@@ -4,9 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
+import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.utils.Ui
 
 public class PackageActivity : AppCompatActivity() {
+    val packagePresenter: PackagePresenter by lazy {
+        findViewById(R.id.hotel_presenter) as PackagePresenter
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,4 +23,9 @@ public class PackageActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
     }
 
+    override fun onBackPressed() {
+        if (!packagePresenter.back()) {
+            super.onBackPressed()
+        }
+    }
 }

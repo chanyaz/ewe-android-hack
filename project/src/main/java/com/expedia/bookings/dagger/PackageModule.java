@@ -2,6 +2,7 @@ package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
 import com.expedia.bookings.server.EndpointProvider;
+import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -14,6 +15,13 @@ import rx.schedulers.Schedulers;
 
 @Module
 public final class PackageModule {
+	@Provides
+	@HotelScope
+	PackageServices providePackageServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
+		final String endpoint = endpointProvider.getE3EndpointUrl();
+		return new PackageServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
+	}
+
 	@Provides
 	@HotelScope
 	SuggestionV4Services provideSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client,

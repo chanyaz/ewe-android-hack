@@ -198,6 +198,7 @@ public class
 		R.layout.recent_search_view,
 		R.drawable.recent_searches,
 		R.layout.package_activity,
+		R.layout.package_presenter,
 		R.layout.bundle_overview,
 		R.layout.widget_package_search_params,
 		R.string.flight_class_selection
