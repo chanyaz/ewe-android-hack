@@ -83,10 +83,10 @@
         <activity
             android:name="com.expedia.bookings.activity.RouterActivity"
             android:exported="true"
-            android:theme="@android:style/Theme.NoDisplay"/>
+            android:theme="@style/SplashTheme" />
         <activity-alias
             android:name="com.expedia.bookings.activity.SearchActivity"
-            android:targetActivity="com.expedia.bookings.activity.RouterActivity" >
+            android:targetActivity="com.expedia.bookings.activity.RouterActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
