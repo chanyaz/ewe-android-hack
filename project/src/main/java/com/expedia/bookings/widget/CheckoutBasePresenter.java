@@ -29,6 +29,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.presenter.Presenter;
@@ -61,6 +62,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	@InjectView(R.id.checkout_toolbar)
 	Toolbar toolbar;
+
+	@InjectView(R.id.mandatory_text)
+	TextView requiredFieldTextView;
 
 	@InjectView(R.id.main_contact_info_card_view)
 	public TravelerContactDetailsWidget mainContactInfoCardView;
@@ -111,6 +115,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	protected UserAccountRefresher userAccountRefresher;
 
 	private boolean listenToScroll = true;
+	boolean isBucketedForTravelerTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelTravelerTest);
+
 
 	@Override
 	protected void onFinishInflate() {
@@ -304,6 +310,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			lastExpandedCard = currentExpandedCard;
 			currentExpandedCard = cardView;
 			menuDone.setTitle(currentExpandedCard.getMenuButtonTitle());
+			if (isBucketedForTravelerTest && getLineOfBusiness() == LineOfBusiness.HOTELSV2
+				&& cardView instanceof TravelerContactDetailsWidget) {
+				requiredFieldTextView.setVisibility(VISIBLE);
+			}
 			show(new WidgetExpanded());
 		}
 
@@ -637,6 +647,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@Override
 	public void collapsed(ExpandableCardView view) {
 		acceptTermsWidget.setAlpha(1f);
+		if (isBucketedForTravelerTest && getLineOfBusiness() == LineOfBusiness.HOTELSV2
+			&& view instanceof TravelerContactDetailsWidget) {
+			requiredFieldTextView.setVisibility(GONE);
+		}
 	}
 
 	@Override
