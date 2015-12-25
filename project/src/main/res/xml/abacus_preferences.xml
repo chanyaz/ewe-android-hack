@@ -96,6 +96,13 @@
             android:summary="%s"
             android:title="Hotels Traveler AB Test" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="9475"
+            android:summary="%s"
+            android:title="Hotels Checkout Show Example Names" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="LX tests">
