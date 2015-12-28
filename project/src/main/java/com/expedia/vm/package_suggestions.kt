@@ -40,7 +40,7 @@ class PackageSuggestionAdapterViewModel(val context: Context, val suggestionsSer
     val queryObserver = endlessObserver<String> { query ->
         lastQuery = query
         if (query.isNotBlank() && query.length >= 3 && !query.equals(currentLocationText)) {
-            suggestionsService.suggestPackagesV4(query, ServicesUtil.generateClientId(context), generateSuggestionServiceCallback())
+            suggestionsService.suggestPackagesV4(query, ServicesUtil.generateClientId(context), generateSuggestionServiceCallback(), PointOfSale.getPointOfSale().localeIdentifier)
         } else {
             suggestionsObservable.onNext(suggestionsListWithNearby())
         }

@@ -30,10 +30,10 @@ public class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, 
         adapter.create<SuggestApi>(SuggestApi::class.java)
     }
 
-    public fun getHotelSuggestionsV4(query: String, clientId: String, observer: Observer<List<SuggestionV4>>): Subscription {
+    public fun getHotelSuggestionsV4(query: String, clientId: String, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
         val type = SuggestionResultType.HOTEL or SuggestionResultType.AIRPORT or SuggestionResultType.CITY or
                 SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.REGION
-        return suggestApi.suggestV4(query, type, "ta_hierarchy", clientId, "HOTELS")
+        return suggestApi.suggestV4(query, locale, type, "ta_hierarchy", clientId, "HOTELS")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }
@@ -54,8 +54,8 @@ public class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, 
                 .map { response -> response.suggestions.take(2).toArrayList() }
     }
 
-    public fun suggestPackagesV4(query: String, clientId: String, observer: Observer<List<SuggestionV4>>): Subscription {
-        return suggestApi.suggestV4(query, SuggestionResultType.AIRPORT, "ta_hierarchy", clientId, "PACKAGES")
+    public fun suggestPackagesV4(query: String, clientId: String, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
+        return suggestApi.suggestV4(query, locale, SuggestionResultType.AIRPORT, "ta_hierarchy", clientId, "PACKAGES")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }
