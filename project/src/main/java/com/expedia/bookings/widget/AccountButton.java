@@ -147,7 +147,6 @@ public class AccountButton extends LinearLayout {
 	// Do some runtime styling, based on whether this is tablet or a white-labelled app
 	private void bindLoginContainer(LineOfBusiness lob) {
 		boolean isTablet = AndroidUtils.isTablet(getContext());
-		mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginLogoDrawable), 0, 0, 0);
 
 		if (isTablet) {
 			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
@@ -175,8 +174,11 @@ public class AccountButton extends LinearLayout {
 				int bgResourceId = Ui.obtainThemeResID(getContext(), android.R.attr.selectableItemBackground);
 				lpt.width = LayoutParams.MATCH_PARENT;
 				lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
-				mLoginContainer.setBackgroundResource(R.drawable.card_background);
-				mLoginTextView.setTextColor(getResources().getColor(R.color.cars_lx_checkout_button_text_color));
+				mLoginContainer.setBackgroundResource(
+					Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginButtonDrawable));
+				mLoginTextView.setTextColor(Ui.obtainThemeColor(mContext, R.attr.skin_phoneCheckoutLoginButtonTextColor));
+				mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(
+					Ui.obtainThemeResID(mContext, R.attr.skin_phoneCheckoutLoginLogoDrawable), 0, 0, 0);
 				mLoginTextView.setBackgroundResource(bgResourceId);
 			}
 			mLoginTextView.setGravity(Gravity.LEFT);
