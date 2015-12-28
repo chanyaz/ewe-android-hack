@@ -14,6 +14,10 @@ class HotelV2Tracking {
         OmnitureTracking.trackHotelV2SearchBox()
     }
 
+    fun trackRecentSearchClick() {
+        OmnitureTracking.trackRecentSearchClick()
+    }
+
     fun trackTravelerPickerClick(text: String) {
         OmnitureTracking.trackTravelerPickerClick(text)
     }
