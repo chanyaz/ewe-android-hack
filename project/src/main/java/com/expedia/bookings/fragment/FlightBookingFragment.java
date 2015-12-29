@@ -28,8 +28,6 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
-import com.expedia.bookings.utils.WalletUtils;
-import com.google.android.gms.wallet.FullWalletRequest;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.util.SettingUtils;
@@ -109,16 +107,6 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 	@Override
 	public Class<FlightCheckoutResponse> getBookingResponseClass() {
 		return FlightCheckoutResponse.class;
-	}
-
-	// FullWalletFragment
-
-	@Override
-	protected FullWalletRequest getFullWalletRequest() {
-		FullWalletRequest.Builder walletRequestBuilder = FullWalletRequest.newBuilder();
-		walletRequestBuilder.setGoogleTransactionId(getGoogleWalletTransactionId());
-		walletRequestBuilder.setCart(WalletUtils.buildFlightCart(getActivity()));
-		return walletRequestBuilder.build();
 	}
 
 	@Override

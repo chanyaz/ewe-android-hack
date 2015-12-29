@@ -31,13 +31,11 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.enums.TripBucketItemState;
-import com.expedia.bookings.fragment.CheckoutLoginButtonsFragment.IWalletButtonStateChangedListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
@@ -62,11 +60,9 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilit
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TravelerUtils;
-import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.SizeCopyView;
 import com.expedia.bookings.widget.TabletCheckoutScrollView;
 import com.expedia.bookings.widget.TouchableFrameLayout;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
@@ -77,9 +73,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	IStateProvider<CheckoutFormState>,
 	ICheckoutDataListener,
 	IFragmentAvailabilityProvider,
-	IWalletButtonStateChangedListener,
 	TabletCheckoutDataFormFragment.ICheckoutDataFormListener,
-	CheckoutLoginButtonsFragment.IWalletCouponListener,
 	TravelerButtonFragment.ITravelerButtonListener,
 	PaymentButtonFragment.IPaymentButtonListener {
 
@@ -343,23 +337,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 	}
 
-	private void checkCouponForGoogleWallet() {
-		if (WalletUtils.offerGoogleWalletCoupon(getActivity())
-			&& mStateManager.getState() == CheckoutFormState.OVERVIEW) {
-			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-			if (hotel.isCouponGoogleWallet() && !(hotel.getState() == TripBucketItemState.PURCHASED)) {
-				if (!Db.getBillingInfo().hasStoredCard() || !Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
-					if (mCouponContainer != null) {
-						mCouponContainer.clearCoupon();
-					}
-				}
-			}
-			else if (Db.getBillingInfo().hasStoredCard() && Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
-				applyWalletCoupon();
-			}
-		}
-	}
-
 	/*
 	 * VALIDATION
 	 */
@@ -376,7 +353,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	public void onCheckoutDataUpdated() {
 		bindAll();
 		mCheckoutInfoListener.onBillingInfoChange();
-		checkCouponForGoogleWallet();
 
 		if (hasValidCheckoutInfo()) {
 			mCheckoutInfoListener.checkoutInformationIsValid();
@@ -945,29 +921,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		if (!User.isLoggedIn(getActivity())) {
 			mCheckoutInfoListener.onLogout();
 		}
-		else {
-			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-			if (hotel != null && hotel.isCouponGoogleWallet()) {
-				mCouponContainer.onReplaceCoupon(WalletUtils.getWalletCouponCode(getActivity()), false);
-			}
-		}
 
 		// This calls bindAll() and changes the state if needed
 		onCheckoutDataUpdated();
-	}
-
-	/*
-	 * IWalletButtonStateChangedListener
-	 */
-
-	@Override
-	public void onWalletButtonStateChanged(boolean enable) {
-		Log.d("TabletCheckoutFormsFrag", "onWalletButtonStateChanged(" + enable + ")");
-		onCheckoutDataUpdated();
-		mPaymentButton.setEnabled(!enable);
-		for (TravelerButtonFragment tbf : mTravelerButtonFrags) {
-			tbf.setEnabled(enable);
-		}
 	}
 
 	/*
@@ -1057,25 +1013,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	@Override
 	public void onStoredCreditCardChosen() {
 		onCheckoutDataUpdated();
-	}
-
-	/*
-	 * CheckoutLoginButtonsFragment.IWalletCouponListener
-	 * Didn't use Otto because there events weren't registering with subscribers for some reason.
-	 */
-
-	@Override
-	public void applyWalletCoupon() {
-		if (mCouponContainer != null) {
-			String couponCode = WalletUtils.getWalletCouponCode(getActivity());
-			if (!Db.getTripBucket().getHotel().isCouponApplied()) {
-				mCouponContainer.onApplyCoupon(couponCode);
-			}
-			else if (Db.getTripBucket().getHotel().isCouponApplied() && !Db.getTripBucket().getHotel()
-				.isCouponGoogleWallet()) {
-				mCouponContainer.onReplaceCoupon(couponCode, true);
-			}
-		}
 	}
 
 	/*

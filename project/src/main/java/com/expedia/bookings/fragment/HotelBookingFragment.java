@@ -25,8 +25,6 @@ import com.expedia.bookings.fragment.RetryErrorDialogFragment.RetryErrorDialogFr
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.WalletUtils;
-import com.google.android.gms.wallet.FullWalletRequest;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -38,7 +36,7 @@ import com.mobiata.android.util.SettingUtils;
  * This is an View-less Fragment which performs a hotel booking.
  * <p/>
  * It is separated into its own Fragment so that it can use the lifecycle on its own (and
- * can be derived from a Fragment, which will help with Google Wallet compatibility)
+ * can be derived from a Fragment)
  */
 public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> implements RetryErrorDialogFragmentListener {
 
@@ -113,9 +111,6 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 				Rate selectedRate = hotel.getRate();
 				HotelBookingResponse response = services.reservation(hotel.getHotelSearchParams(),
 					selectedRate, Db.getBillingInfo(), tripId, userId, tuid, tealeafId, isMerEmailOptIn);
-
-				notifyWalletTransactionStatus(response);
-
 				return response;
 			}
 		};
@@ -138,16 +133,6 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putSerializable(INSTANCE_HOTELBOOKING_STATE, mState);
-	}
-
-	// FullWalletFragment
-
-	@Override
-	protected FullWalletRequest getFullWalletRequest() {
-		FullWalletRequest.Builder walletRequestBuilder = FullWalletRequest.newBuilder();
-		walletRequestBuilder.setGoogleTransactionId(getGoogleWalletTransactionId());
-		walletRequestBuilder.setCart(WalletUtils.buildHotelCart(getActivity()));
-		return walletRequestBuilder.build();
 	}
 
 	@Override
@@ -538,9 +523,6 @@ public class HotelBookingFragment extends BookingFragment<HotelBookingResponse> 
 			}
 			else {
 				Log.i("Applied coupon code: " + mCouponCode);
-				if (WalletUtils.offerGoogleWalletCoupon(getActivity()) && WalletUtils.isCouponWalletCoupon(mCouponCode)) {
-					Db.getTripBucket().getHotel().setIsCouponGoogleWallet(true);
-				}
 				Db.getTripBucket().getHotel().setIsCouponApplied(true);
 				Db.getTripBucket().getHotel().setCreateTripResponse(response);
 				Db.getTripBucket().getHotel().setCouponRate(response.getNewRate());

@@ -38,8 +38,6 @@
     <dimen name="login_button_text_size">18sp</dimen>
     <dimen name="account_button_rewards_text_size">20sp</dimen>
     <dimen name="card_icon_padding">12dp</dimen>
-    <dimen name="wallet_button_bottom_margin">8dp</dimen>
-    <dimen name="wallet_button_left_padding">11.5dp</dimen>
 
     <!-- Search Results -->
     <dimen name="results_list_header_text_size">19sp</dimen>

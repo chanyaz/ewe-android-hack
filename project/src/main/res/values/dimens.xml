@@ -207,8 +207,6 @@
     <dimen name="account_button_text_padding">16dp</dimen>
     <dimen name="account_button_height">40dp</dimen>
     <dimen name="account_button_padding">0dp</dimen>
-    <dimen name="wallet_button_bottom_margin">8dp</dimen>
-    <dimen name="wallet_button_left_padding">0dp</dimen>
 
     <!-- Breakdown dialog -->
     <dimen name="breakdown_margin">10dp</dimen>

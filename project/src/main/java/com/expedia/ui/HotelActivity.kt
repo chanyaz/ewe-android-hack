@@ -1,13 +1,11 @@
 package com.expedia.ui
 
-import android.app.Activity
 import android.content.Intent
 import android.location.Location
 import android.os.Bundle
 import android.os.PersistableBundle
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.location.CurrentLocationObservable
@@ -17,7 +15,6 @@ import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.vm.HotelTravelerParams
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
@@ -82,18 +79,6 @@ public class HotelActivity : AbstractAppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            PaymentWidget.REQUEST_CODE_GOOGLE_WALLET_ACTIVITY -> when (resultCode) {
-                Activity.RESULT_OK -> {
-                    if (Db.getBillingInfo() != null) {
-                        hotelPresenter.checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.bind(Db.getBillingInfo())
-                        hotelPresenter.checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.setExpanded(false)
-                        hotelPresenter.checkoutPresenter.hotelCheckoutWidget.mainContactInfoCardView.bindGoogleWalletTraveler(Db.getGoogleWalletTraveler())
-                        hotelPresenter.checkoutPresenter.hotelCheckoutWidget.mainContactInfoCardView.setExpanded(false)
-                    }
-                    return
-                }
-            }
-
             AddToCalendarUtils.requestCodeAddCheckInToCalendarActivity -> {
                 // show add to calendar for checkOut date
                 hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.showAddToCalendarIntent(false, this)

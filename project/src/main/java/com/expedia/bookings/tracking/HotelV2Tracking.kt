@@ -197,14 +197,6 @@ class HotelV2Tracking {
         OmnitureTracking.trackHotelV2CheckoutTraveler()
     }
 
-    fun trackHotelV2PaymentInfo() {
-        OmnitureTracking.trackHotelV2PaymentInfo()
-    }
-
-    fun trackHotelV2GoogleWalletClick() {
-        OmnitureTracking.trackHotelV2GoogleWalletClick()
-    }
-
     fun trackHotelV2PaymentEdit() {
         OmnitureTracking.trackHotelV2PaymentEdit()
     }

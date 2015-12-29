@@ -23,7 +23,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotel3xMessaging = 7973;
 	public static final int EBAndroidAppHotelCollapseAmenities = 8126;
 	public static final int EBAndroidAppHotelShowAddressMapInReceipt = 8129;
-	public static final int EBAndroidAppPaySuppressGoogleWallet = 8148;
 	public static final int EBAndroidHotelCKOMerEmailGuestOpt = 8127;
 	public static final int EBAndroidAppSplitGTandActivities = 8369;
 	public static final int ExpediaAndroidAppAATestSep2015 = 8706;
@@ -90,7 +89,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotel3xMessaging);
 		testIDs.add(EBAndroidAppHotelCollapseAmenities);
 		testIDs.add(EBAndroidAppHotelShowAddressMapInReceipt);
-		testIDs.add(EBAndroidAppPaySuppressGoogleWallet);
 		testIDs.add(EBAndroidHotelCKOMerEmailGuestOpt);
 		testIDs.add(EBAndroidAppSplitGTandActivities);
 		testIDs.add(ExpediaAndroidAppAATestSep2015);

@@ -382,10 +382,4 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	public void setLineOfBusiness(LineOfBusiness lob) {
 		lineOfBusiness = lob;
 	}
-
-	public void bindGoogleWalletTraveler(Traveler traveler) {
-		if (traveler != null && !isFilled()) {
-			sectionTravelerInfo.bind(traveler);
-		}
-	}
 }

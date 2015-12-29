@@ -207,8 +207,6 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_CHECKOUT_TRIP_SUMMARY = "App.Hotels.CKO.TripSummary";
 	private static final String HOTELSV2_CHECKOUT_PRICE_CHANGE = "App.Hotels.CKO.PriceChange";
 	private static final String HOTELSV2_CHECKOUT_TRAVELER_INFO = "App.Hotels.Checkout.Traveler.Edit.Info";
-	private static final String HOTELSV2_CHECKOUT_PAYMENT_INFO = "App.Hotels.Checkout.Payment.Select";
-	private static final String HOTELSV2_CHECKOUT_GOOGLE_WALLET = "App.Hotels.CKO.Payment.GoogleWallet";
 	private static final String HOTELSV2_CHECKOUT_SELECT_STORED_CARD = "App.Hotels.CKO.Payment.StoredCard";
 	private static final String HOTELSV2_CHECKOUT_EDIT_PAYMENT = "App.Hotels.Checkout.Payment.Edit.Card";
 	private static final String HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE = "App.Hotels.Checkout.SlideToPurchase";
@@ -772,20 +770,6 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelShowExampleNamesTest);
 		s.track();
 
-	}
-
-	public static void trackHotelV2PaymentInfo() {
-		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_PAYMENT_INFO + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setAppState(HOTELSV2_CHECKOUT_PAYMENT_INFO);
-		s.track();
-
-	}
-
-	public static void trackHotelV2GoogleWalletClick() {
-		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_GOOGLE_WALLET + "\" click...");
-		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_GOOGLE_WALLET);
-		s.trackLink(null, "o", "Hotel Checkout", null, null);
 	}
 
 	public static void trackHotelV2StoredCardSelect() {
@@ -1843,8 +1827,6 @@ public class OmnitureTracking {
 		addProducts(s);
 		internalSetFlightDateProps(s, params);
 		addStandardFlightFields(s);
-
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppPaySuppressGoogleWallet);
 
 		s.track();
 	}
@@ -4223,8 +4205,6 @@ public class OmnitureTracking {
 				return "MasterCard";
 			case CARD_VISA:
 				return "Visa";
-			case WALLET_GOOGLE:
-				return "GoogleWallet";
 			case CARD_CARTE_BLEUE:
 				return "CarteBleue";
 			case CARD_CARTA_SI:

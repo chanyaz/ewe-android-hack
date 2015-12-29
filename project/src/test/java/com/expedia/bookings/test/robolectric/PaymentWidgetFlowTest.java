@@ -40,7 +40,6 @@ public class PaymentWidgetFlowTest {
 	public void before() {
 
 		card = new StoredCreditCard();
-		card.setIsGoogleWallet(true);
 		card.setCardNumber("4111111111111111");
 		card.setType(PaymentType.CARD_AMERICAN_EXPRESS);
 

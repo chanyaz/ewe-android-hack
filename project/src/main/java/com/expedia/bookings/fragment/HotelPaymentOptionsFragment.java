@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,18 +20,15 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.WalletUtils;
-import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.util.ViewUtils;
 
-public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
+public class HotelPaymentOptionsFragment extends Fragment {
 
 	SectionBillingInfo mSectionCurrentCreditCard;
 	SectionStoredCreditCard mSectionStoredPayment;
@@ -89,13 +87,8 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 		mCurrentStoredPaymentContainer.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (mSectionStoredPayment.getStoredCreditCard().isGoogleWallet()) {
-					changeMaskedWallet();
-				}
-				else {
-					mListener.setMode(YoYoMode.NONE);
-					mListener.moveBackwards();
-				}
+				mListener.setMode(YoYoMode.NONE);
+				mListener.moveBackwards();
 			}
 		});
 
@@ -166,14 +159,8 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 					card.setOnClickListener(new OnClickListener() {
 						@Override
 						public void onClick(View v) {
-							if (storedCard.isGoogleWallet()) {
-								changeMaskedWallet();
-							}
-							else {
-								onStoredCardSelected(storedCard);
-
-								OmnitureTracking.trackLinkHotelsCheckoutPaymentSelectExisting();
-							}
+							onStoredCardSelected(storedCard);
+							OmnitureTracking.trackLinkHotelsCheckoutPaymentSelectExisting();
 						}
 					});
 				}
@@ -228,7 +215,7 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 	public void onDetach() {
 		super.onDetach();
 
-		mListener = null; // Just in case Wallet is leaking
+		mListener = null;
 	}
 
 	public void updateVisibilities() {
@@ -315,23 +302,5 @@ public class HotelPaymentOptionsFragment extends ChangeWalletFragment {
 		void displaySaveDialog();
 
 		void displayCheckout();
-	}
-
-	//////////////////////////////////////////////////////////////////////////
-	// ChangeWalletFragment
-
-	@Override
-	protected void onMaskedWalletChanged(MaskedWallet maskedWallet) {
-		// Add the current traveler from the wallet, if it is full of data and we have none at the moment
-		Traveler traveler = WalletUtils.addWalletAsTraveler(getActivity(), maskedWallet);
-		BookingInfoUtils.insertTravelerDataIfNotFilled(getActivity(), traveler, LineOfBusiness.HOTELS);
-
-		onStoredCardSelected(WalletUtils.convertToStoredCreditCard(maskedWallet));
-	}
-
-	@Override
-	protected void onCriticalWalletError() {
-		mListener.setMode(YoYoMode.NONE);
-		mListener.moveBackwards();
 	}
 }

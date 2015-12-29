@@ -20,7 +20,6 @@ import com.expedia.bookings.fragment.FlightPaymentCreditCardFragment;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment;
 import com.expedia.bookings.fragment.FlightPaymentOptionsFragment.FlightPaymentYoYoListener;
 import com.expedia.bookings.fragment.FlightPaymentSaveDialogFragment;
-import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
@@ -184,16 +183,6 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 	public void onBackPressed() {
 		if (!moveBackwards()) {
 			super.onBackPressed();
-		}
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
-			mOptionsFragment.onActivityResult(requestCode, resultCode, data);
-		}
-		else {
-			super.onActivityResult(requestCode, resultCode, data);
 		}
 	}
 

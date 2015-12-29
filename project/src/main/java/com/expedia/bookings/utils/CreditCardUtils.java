@@ -29,7 +29,7 @@ public class CreditCardUtils {
 	 */
 	@SuppressLint("DefaultLocale")
 	public static String getHumanReadableCardTypeName(Context context, PaymentType cardType) {
-		assertPaymentTypeIsCardOrGoogleWallet(cardType);
+		assertPaymentTypeIsCard(cardType);
 		switch (cardType) {
 		case CARD_AMERICAN_EXPRESS:
 			return context.getString(R.string.cc_american_express);
@@ -49,8 +49,6 @@ public class CreditCardUtils {
 			return context.getString(R.string.cc_master_card);
 		case CARD_VISA:
 			return context.getString(R.string.cc_visa);
-		case WALLET_GOOGLE:
-			return context.getString(R.string.google_wallet);
 		case CARD_CARTE_BLEUE:
 			return context.getString(R.string.cc_carte_bleue);
 		case CARD_CARTA_SI:
@@ -61,8 +59,8 @@ public class CreditCardUtils {
 		}
 	}
 
-	public static void assertPaymentTypeIsCardOrGoogleWallet(PaymentType cardType) {
-		if (!cardType.name().startsWith("CARD_") && !cardType.equals(PaymentType.WALLET_GOOGLE)) {
+	public static void assertPaymentTypeIsCard(PaymentType cardType) {
+		if (!cardType.name().startsWith("CARD_")) {
 			throw new UnsupportedOperationException("Can't use payment type "
 				+ cardType.name());
 		}

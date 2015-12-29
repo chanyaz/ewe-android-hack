@@ -129,10 +129,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 					mCurrentTraveler = traveler;
 
 					BackgroundDownloader bd = BackgroundDownloader.getInstance();
-					if (mCurrentTraveler.fromGoogleWallet()) {
-						onTravelerDetailsReceived(mCurrentTraveler);
-					}
-					else if (!bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
+					if (!bd.isDownloading(TRAVELER_DETAILS_DOWNLOAD)) {
 						// Begin loading travler details in the background, if we haven't already
 						// Show a loading dialog
 						ThrobberDialog df = ThrobberDialog.newInstance(getString(R.string.loading_traveler_info));
@@ -269,8 +266,7 @@ public class HotelTravelerInfoOptionsFragment extends Fragment {
 		if (traveler != null) {
 			Db.getWorkingTravelerManager().shiftWorkingTraveler(traveler);
 			mCurrentTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
-			mCurrentTraveler.setSaveTravelerToExpediaAccount(
-				!traveler.fromGoogleWallet());//We default account travelers to save, unless the user alters the name
+			mCurrentTraveler.setSaveTravelerToExpediaAccount(true);//We default account travelers to save, unless the user alters the name
 			HotelTravelerFlowState state = HotelTravelerFlowState.getInstance(getActivity());
 			if (state.hasValidTraveler(mCurrentTraveler)) {
 				mListener.displayCheckout();

@@ -190,11 +190,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isGoogleWalletPromoEnabled() {
-		return false;
-	}
-
-	@Override
 	public boolean isHangTagProgressBarEnabled() {
 		return false;
 	}
