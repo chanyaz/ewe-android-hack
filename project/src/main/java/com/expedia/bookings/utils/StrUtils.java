@@ -491,7 +491,7 @@ public class StrUtils {
 			PointOfSale.getPointOfSale().getPrivacyPolicyUrl(),
 			context.getResources().getString(R.string.privacy_policy));
 		String spannedTermsOfUse = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-			PointOfSale.getPointOfSale().getLoyaltyTermsAndConditionsURL(),
+			PointOfSale.getPointOfSale().getAccountCreationTermsAndConditionsURL(),
 			context.getResources().getString(R.string.info_label_terms_conditions));
 
 		String statement = context.getResources()
