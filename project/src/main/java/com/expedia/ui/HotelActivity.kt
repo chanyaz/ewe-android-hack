@@ -9,6 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.hotel.HotelPresenter
 import com.expedia.bookings.tracking.OmnitureTracking
@@ -137,7 +138,7 @@ public class HotelActivity : AbstractAppCompatActivity() {
                     val displayName = hotelSearchParams.suggestion.regionNames?.displayName ?: ""
                     if (displayName.length > 0 ) {
                         val service = Ui.getApplication(this).hotelComponent().suggestionsService()
-                        service.getHotelSuggestionsV4(displayName, ServicesUtil.generateClientId(this), generateSuggestionServiceCallback(hotelSearchParams))
+                        service.getHotelSuggestionsV4(displayName, ServicesUtil.generateClientId(this), generateSuggestionServiceCallback(hotelSearchParams), PointOfSale.getPointOfSale().localeIdentifier)
                         return
                     }
                 }

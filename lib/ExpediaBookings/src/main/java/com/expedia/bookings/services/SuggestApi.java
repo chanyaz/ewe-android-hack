@@ -17,6 +17,7 @@ public interface SuggestApi {
 	@GET("/api/v4/typeahead/{query}")
 	public Observable<SuggestionV4Response> suggestV4(
 		@Path("query") String query,
+		@Query("locale") String locale,
 		@Query("regiontype") int suggestionResultType,
 		@Query("features") String features,
 		@Query("client") String client,
