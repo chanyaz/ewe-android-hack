@@ -171,6 +171,7 @@ public class OmnitureTracking {
 
 	private static final String HOTELV2_LOB = "hotels";
 	private static final String HOTELSV2_SEARCH_BOX = "App.Hotels.Dest-Search";
+	private static final String HOTELSV2_RECENT_SEARCH_CLICK = "App.Hotels.DS.RecentSearch";
 	private static final String HOTELSV2_GEO_SUGGESTION_CLICK = "App.Hotels.DS.DestSuggest";
 	private static final String HOTELSV2_TRAVELER = "App.Hotels.Traveler.";
 	private static final String HOTELSV2_RESULT = "App.Hotels.Search";
@@ -233,8 +234,19 @@ public class OmnitureTracking {
 		s.setEvar(2, "D=c2");
 		s.setProp(2, HOTELV2_LOB);
 
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRecentSearchTest);
 		// Send the tracking data
 		s.track();
+
+	}
+
+	public static void trackRecentSearchClick() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_RECENT_SEARCH_CLICK + "\" click...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, HOTELSV2_RECENT_SEARCH_CLICK);
+		s.setProp(16, HOTELSV2_RECENT_SEARCH_CLICK);
+		s.trackLink(null, "o", "Search Results Update", null, null);
 
 	}
 

@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
 import com.expedia.vm.RecentSearchViewModel
@@ -85,6 +86,7 @@ public class RecentSearchesViewHolder(val root: ViewGroup, val vm : RecentSearch
     override fun onClick(view: View) {
         val recentSearch = vm.recentSearchObserver.value
         vm.recentSearchSelected.onNext(recentSearch)
+        HotelV2Tracking().trackRecentSearchClick()
     }
 }
 
