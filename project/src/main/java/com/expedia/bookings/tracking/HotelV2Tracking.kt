@@ -98,6 +98,10 @@ class HotelV2Tracking {
         OmnitureTracking.trackHotelV2CarouselScroll()
     }
 
+    fun trackPageLoadHotelV2SoldOut() {
+        OmnitureTracking.trackPageLoadHotelV2SoldOut()
+    }
+
     fun trackPageLoadHotelV2Infosite(hotelOffersResponse: HotelOffersResponse, searchParams: HotelSearchParams, isETPEligible: Boolean, isCurrentLocationSearch: Boolean, isHotelSoldOut: Boolean, isRoomSoldOut: Boolean) {
         OmnitureTracking.trackPageLoadHotelV2Infosite(hotelOffersResponse, isETPEligible, isCurrentLocationSearch, isHotelSoldOut, isRoomSoldOut)
         TuneUtils.trackHotelV2InfoSite(hotelOffersResponse)
