@@ -189,6 +189,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_SEARCH_THIS_AREA = "App.Hotels.Search.AreaSearch";
 	private static final String HOTELSV2_CAROUSEL_SCROLL = "App.Hotels.Search.ShowNext";
 	private static final String HOTELSV2_DETAILS_PAGE = "App.Hotels.Infosite";
+	private static final String HOTELSV2_SOLD_OUT_PAGE = "App.Hotels.Infosite.SoldOut";
 	private static final String HOTELSV2_DETAILS_ETP = "App.Hotels.IS.Select.";
 	private static final String HOTELSV2_DETAIL_VIEW_ROOM = "App.Hotels.IS.ViewRoom";
 	private static final String HOTELSV2_DETAIL_ROOM_INFO = "App.Hotels.IS.MoreRoomInfo";
@@ -465,8 +466,22 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Search Results Map View", null, null);
 	}
 
+	public static void trackPageLoadHotelV2SoldOut() {
+		String pageName = HOTELSV2_SOLD_OUT_PAGE;
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageload");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+
+		s.setEvar(2, "D=c2");
+		s.setProp(2, HOTELV2_LOB);
+
+		// Send the tracking data
+		s.track();
+	}
+
 	public static void trackPageLoadHotelV2Infosite(HotelOffersResponse hotelOffersResponse, boolean isETPEligible,
 		boolean isCurrentLocationSearch, boolean isHotelSoldOut, boolean isRoomSoldOut) {
+
 		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAILS_PAGE + "\" pageload");
 
 		ADMS_Measurement s = getFreshTrackingObject();
@@ -498,7 +513,7 @@ public class OmnitureTracking {
 			s.setEvents("event32");
 		}
 
-		s.setEvar(2, HOTELV2_LOB);
+		s.setEvar(2, "D=c2");
 		s.setProp(2, HOTELV2_LOB);
 		setDateValues(s, checkInDate, checkOutDate);
 

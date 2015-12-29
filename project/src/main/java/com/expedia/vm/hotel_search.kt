@@ -375,6 +375,7 @@ public class HotelErrorViewModel(private val context: Context) {
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.error_room_sold_out))
                     buttonTextObservable.onNext(context.getString(R.string.select_another_room))
+                    HotelV2Tracking().trackPageLoadHotelV2SoldOut()
                 }
                 ApiError.Code.PAYMENT_FAILED -> {
                     imageObservable.onNext(R.drawable.error_payment)
