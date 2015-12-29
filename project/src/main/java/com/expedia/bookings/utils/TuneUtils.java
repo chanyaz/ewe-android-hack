@@ -1,14 +1,13 @@
 package com.expedia.bookings.utils;
 
-import java.util.Arrays;
-import java.util.Date;
-
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 
 import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.R;
@@ -36,15 +35,19 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.HotelCheckoutResponse;
+import com.mobileapptracker.MATDeeplinkListener;
 import com.mobileapptracker.MATEvent;
 import com.mobileapptracker.MATEventItem;
 import com.mobileapptracker.MobileAppTracker;
 
+import java.util.Arrays;
+import java.util.Date;
+
 public class TuneUtils {
 
 	public static MobileAppTracker mobileAppTracker = null;
-	private static final int DEEEPLINK_TIMEOUT = 5000;
 	private static boolean initialized = false;
 	public static Context context;
 
@@ -58,13 +61,33 @@ public class TuneUtils {
 		mobileAppTracker = MobileAppTracker.init(app, advertiserID, conversionKey);
 		mobileAppTracker.setUserId(ADMS_Measurement.sharedInstance(app.getApplicationContext()).getVisitorID());
 		mobileAppTracker.setDebugMode(false);
-		mobileAppTracker.setDeferredDeeplink(Boolean.TRUE, DEEEPLINK_TIMEOUT);
+		mobileAppTracker.checkForDeferredDeeplink(new MATDeeplinkListener() {
+			@Override
+			public void didReceiveDeeplink(String deepLink) {
+				// Handle the deferred deepLink here
+				if (Strings.isNotEmpty(deepLink)) {
+					context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(deepLink)));
+				}
+			}
+
+			@Override
+			public void didFailDeeplink(String error) {
+				// Error was encountered
+			}
+		});
+		updatePOS();
 
 		MATEvent launchEvent = new MATEvent("Custom_Open")
 			.withAttribute1(getTuid())
 			.withAttribute3(getMembershipTier())
 			.withAttribute2(isUserLoggedIn());
 		trackEvent(launchEvent);
+	}
+
+	public static void updatePOS() {
+		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
+		mobileAppTracker.setTwitterUserId(posTpid);
+
 	}
 
 	public static void startTune(Activity activity) {
