@@ -59,6 +59,7 @@ import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.createHotelMarkerIcon
 import com.expedia.util.endlessObserver
+import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
@@ -992,7 +993,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
     fun animationFinalize(forward: Boolean) {
         recyclerTempBackground.visibility = View.GONE
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
-        googleMap?.isMyLocationEnabled = forward
+        if (havePermissionToAccessLocation(context)) {
+            googleMap?.isMyLocationEnabled = forward
+        }
     }
 
     //We use ObjectAnimators instead of Animation because Animation mucks with settings values outside of it, and Object
