@@ -7,5 +7,4 @@ public class HotelTestCase extends PhoneTestCase {
 	public HotelTestCase() {
 		super(HotelActivity.class);
 	}
-
 }

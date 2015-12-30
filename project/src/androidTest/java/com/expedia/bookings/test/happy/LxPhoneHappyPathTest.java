@@ -5,6 +5,7 @@ import org.joda.time.LocalDate;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.lx.LXScreen;
 import com.expedia.bookings.test.phone.lx.LXInfositeScreen;
 import com.expedia.bookings.test.espresso.IdlingResources.LxIdlingResource;
@@ -51,15 +52,82 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 		super.tearDown();
 	}
 
-	public void goToLxSearchResults() throws Throwable {
-		screenshot("Launch");
-		LaunchScreen.launchActivities();
-		screenshot("LX_Search_Results");
+	public void testLxPhoneHappyPathLoggedInCustomer() throws Throwable {
+		goToLxSearchResults();
+		searchForActivities();
+
+		selectActivity();
+		doLogin();
+		Common.delay(2);
+		selectStoredCard();
+		purchaseActivity(true);
+		verifyBooking();
+	}
+
+	public void testLxPhoneHappyPathLoggedInCustomerCanSelectNewTraveler() throws Throwable {
+		goToLxSearchResults();
+		searchForActivities();
+
+		selectActivity();
+		doLogin();
+		Common.delay(2);
+
+		CheckoutViewModel.clickDriverInfo();
+		CheckoutViewModel.clickStoredTravelerButton();
+		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
+
+		CheckoutViewModel.clickStoredTravelerButton();
+		CheckoutViewModel.selectStoredTraveler("Add New Traveler");
+
+		CheckoutViewModel.firstName().check(matches(withText("")));
+		CheckoutViewModel.lastName().check(matches(withText("")));
+		CheckoutViewModel.phone().check(matches(withText("")));
 	}
 
 	public void testLxPhoneHappyPathViaDefaultSearch() throws Throwable {
 		goToLxSearchResults();
+		searchForActivities();
 
+		validateRestHappyFlow();
+	}
+
+	public void testLxPhoneHappyPathViaExplicitSearch() throws Throwable {
+		goToLxSearchResults();
+		LXScreen.searchButtonInSRPToolbar().perform(click());
+		LXScreen.location().perform(typeText("San"));
+		LXScreen.selectLocation("San Francisco, CA");
+		LXScreen.selectDateButton().perform(click());
+		LXScreen.selectDates(LocalDate.now(), null);
+		LXScreen.searchButton().perform(click());
+		validateRestHappyFlow();
+	}
+
+	private void goToLxSearchResults() throws Throwable {
+		LaunchScreen.launchActivities();
+	}
+
+	private void doLogin() throws Throwable {
+		EspressoUtils.assertViewIsDisplayed(R.id.login_widget);
+		CheckoutViewModel.enterLoginDetails();
+		Common.delay(1);
+		CheckoutViewModel.pressDoLogin();
+		Common.delay(1);
+	}
+
+	private void selectStoredCard() throws Throwable {
+		CheckoutViewModel.clickPaymentInfo();
+		CheckoutViewModel.clickStoredCardButton();
+		CheckoutViewModel.selectStoredCard("AmexTesting");
+	}
+
+	private void validateRestHappyFlow() throws Throwable {
+		selectActivity();
+		manuallyEnterTravelerInfo();
+		purchaseActivity(false);
+		verifyBooking();
+	}
+
+	private void searchForActivities() throws Throwable {
 		if (getLxIdlingResource().isInSearchEditMode()) {
 			onView(allOf(withId(R.id.error_action_button), withText(R.string.edit_search),
 				isDescendantOfA(withId(R.id.lx_search_error_widget))))
@@ -70,50 +138,35 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 			LXScreen.selectDates(LocalDate.now(), null);
 			LXScreen.searchButton().perform(click());
 		}
-		validateRestHappyFlow();
 	}
 
-	public void testLxPhoneHappyPathViaExplicitSearch() throws Throwable {
-		goToLxSearchResults();
-		LXScreen.searchButtonInSRPToolbar().perform(click());
-		screenshot("LX Search");
-		LXScreen.location().perform(typeText("San"));
-		LXScreen.selectLocation("San Francisco, CA");
-		LXScreen.selectDateButton().perform(click());
-		LXScreen.selectDates(LocalDate.now(), null);
-		screenshot("LX Search Params Entered");
-		LXScreen.searchButton().perform(click());
-		validateRestHappyFlow();
-	}
-
-	private void validateRestHappyFlow() throws Throwable {
+	private void selectActivity() throws Throwable {
 		final String ticketName = "2-Day";
-		screenshot("LX Search Results");
 
 		LXScreen.waitForSearchListDisplayed();
 		LXScreen.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
 		LXScreen.waitForLoadingDetailsNotDisplayed();
-		screenshot("LX Details");
 
 		LXInfositeScreen.selectOffer("2-Day New York Pass").perform(scrollTo(), click());
 		LXInfositeScreen.ticketAddButton(ticketName, "Adult").perform(scrollTo(), click());
 		LXInfositeScreen.bookNowButton(ticketName).perform(scrollTo());
-		screenshot("LX Ticket Selection");
 		LXInfositeScreen.bookNowButton(ticketName).perform(click());
 		Common.delay(1);
-		screenshot("LX Checkout Started");
+	}
+
+	private void manuallyEnterTravelerInfo() throws Throwable {
 		CheckoutViewModel.enterTravelerInfo();
 		CheckoutViewModel.enterPaymentInfo();
 		CheckoutViewModel.clickDone();
-		screenshot("LX Checkout Ready");
-		CheckoutViewModel.performSlideToPurchase();
-
-		CVVEntryScreen.enterCVV("111");
-		screenshot("LX CVV");
-		CVVEntryScreen.clickBookButton();
-
-		screenshot("LX Checkout Started");
-		LXScreen.itinNumberOnConfirmationScreen().check(matches(withText(containsString("7672544862"))));
 	}
 
+	private void purchaseActivity(boolean isAmex) throws Throwable {
+		CheckoutViewModel.performSlideToPurchase();
+		CVVEntryScreen.enterCVV(isAmex ? "6286" : "111");
+		CVVEntryScreen.clickBookButton();
+	}
+
+	private void verifyBooking() {
+		LXScreen.itinNumberOnConfirmationScreen().check(matches(withText(containsString("7672544862"))));
+	}
 }

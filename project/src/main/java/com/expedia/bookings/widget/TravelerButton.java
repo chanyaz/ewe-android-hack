@@ -52,6 +52,7 @@ public class TravelerButton extends LinearLayout {
 
 	public interface ITravelerButtonListener {
 		void onTravelerChosen(Traveler traveler);
+		void onAddNewTravelerSelected();
 	}
 
 	@InjectView(R.id.select_traveler_button)
@@ -68,7 +69,7 @@ public class TravelerButton extends LinearLayout {
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		inflater.inflate(R.layout.checkout_traveler_button, this);
 		ButterKnife.inject(this);
-		mTravelerAdapter = new TravelerAutoCompleteAdapter(getContext(), false, Ui.obtainThemeResID(getContext(), R.attr.traveler_checkout_circle_drawable));
+		mTravelerAdapter = new TravelerAutoCompleteAdapter(getContext(), Ui.obtainThemeResID(getContext(), R.attr.traveler_checkout_circle_drawable));
 		BackgroundDownloader dl = BackgroundDownloader.getInstance();
 		if (dl.isDownloading(getTravelerDownloadKey())) {
 			dl.registerDownloadCallback(getTravelerDownloadKey(), mTravelerDetailsCallback);
@@ -80,17 +81,18 @@ public class TravelerButton extends LinearLayout {
 	}
 
 	private void onStoredTravelerSelected(int position) {
-		// Todo - Commenting this code temporarily. Since for cars MVP we don't support "Add new Driver/Traveler" option. When we do want to add it back just uncomment this.
-		/*if (position == mTravelerAdapter.getCount() - 1) {
+		boolean isAddNewTravelerSelected = (position == mTravelerAdapter.getCount() - 1);
+		if (isAddNewTravelerSelected) {
 			if (mTravelerButtonListener != null) {
 				mTravelerButtonListener.onAddNewTravelerSelected();
 			}
+			selectTraveler.setText(getResources().getString(R.string.add_new_traveler));
 			mStoredTravelerPopup.dismiss();
 			return;
 		}
 		else if (position == 0) {
 			return;
-		}*/
+		}
 
 		// If adapter header do nothing.
 		if (position == 0) {

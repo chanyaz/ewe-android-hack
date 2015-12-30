@@ -1,28 +1,26 @@
 package com.expedia.bookings.test.phone.newhotels;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
-import static com.expedia.bookings.test.phone.newhotels.HotelScreen.checkout;
 import static com.expedia.bookings.test.phone.newhotels.HotelScreen.doGenericSearch;
-import static com.expedia.bookings.test.phone.newhotels.HotelScreen.enterCVV;
-import static com.expedia.bookings.test.phone.newhotels.HotelScreen.selectHotel;
-import static com.expedia.bookings.test.phone.newhotels.HotelScreen.selectRoom;
-import static com.expedia.bookings.test.phone.newhotels.HotelScreen.slideToPurchase;
 
 public class HotelInvalidTravellerCCTest extends HotelTestCase {
 
 	public void testInvalidCardDetails() throws Throwable {
 		doGenericSearch();
-		selectHotel("error_checkout_card");
-		selectRoom();
-		checkout(true);
-		slideToPurchase();
-		enterCVV();
+		HotelScreen.selectHotel("error_checkout_card");
+		Common.delay(1);
+		HotelScreen.selectRoom();
+		HotelScreen.checkout(true);
+		CheckoutViewModel.performSlideToPurchase(false);
+		HotelScreen.enterCVVAndBook();
 		HotelScreen.waitForErrorDisplayed();
 
 		ErrorScreen.clickOnEditPayment();
@@ -33,11 +31,13 @@ public class HotelInvalidTravellerCCTest extends HotelTestCase {
 
 	public void testInvalidTravellerInfo() throws Throwable {
 		doGenericSearch();
-		selectHotel("error_checkout_traveller_info");
-		selectRoom();
-		checkout(true);
-		slideToPurchase();
-		enterCVV();
+		HotelScreen.selectHotel("error_checkout_traveller_info");
+		Common.delay(1);
+
+		HotelScreen.selectRoom();
+		HotelScreen.checkout(true);
+		CheckoutViewModel.performSlideToPurchase(false);
+		HotelScreen.enterCVVAndBook();
 		HotelScreen.waitForErrorDisplayed();
 
 		ErrorScreen.clickOnEditTravellerInfo();
@@ -56,7 +56,7 @@ public class HotelInvalidTravellerCCTest extends HotelTestCase {
 		pickRoom("hotel_price_change_checkout");
 		checkout(false);
 		slideToPurchase();
-		enterCVV();
+		enterCVVAndBook();
 		//Checkout Price Change
 		verifyPriceChange("Price changed from $740.77");
 	}
