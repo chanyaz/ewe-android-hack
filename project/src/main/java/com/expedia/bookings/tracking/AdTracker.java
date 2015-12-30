@@ -1,7 +1,5 @@
 package com.expedia.bookings.tracking;
 
-import java.util.List;
-
 import org.joda.time.LocalDate;
 
 import android.content.Context;
@@ -24,6 +22,8 @@ import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.TuneUtils;
 import com.facebook.appevents.AppEventsLogger;
 import com.mobiata.android.Log;
+
+import java.util.List;
 
 public class AdTracker {
 	public static void init(Context context) {
@@ -221,6 +221,7 @@ public class AdTracker {
 
 	public static void updatePOS() {
 		LeanPlumUtils.updatePOS();
+		TuneUtils.updatePOS();
 	}
 
 	public static void trackCarSearch(CarSearchParams params) {

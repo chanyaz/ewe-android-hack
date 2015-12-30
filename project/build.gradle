@@ -32,7 +32,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: [
             'activeandroid-20131111.jar',
             'ADMS_AppLibrary-3.2.7-Android.jar',
-            'MobileAppTracker-3.9.1.jar',
+            'MobileAppTracker-3.11.4.jar',
     ])
     compile project(':lib:Utils')
     compile project(':lib:AndroidTime')
