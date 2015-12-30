@@ -381,4 +381,12 @@
 
     <!-- Packages colors -->
     <color name="packages_primary_color">#0888BD</color>
+
+    <!-- Preferences Activity -->
+    <color name="preferences_activity_bg">#eceff1</color>
+    <color name="preferences_category_bg">#c0c7cd</color>
+    <color name="preferences_divider">#c0c7cd</color>
+    <color name="preferences_highlight">#40000000</color>
+    <color name="preferences_text">@color/cars_launch_actionbar_color</color>
+
 </resources>

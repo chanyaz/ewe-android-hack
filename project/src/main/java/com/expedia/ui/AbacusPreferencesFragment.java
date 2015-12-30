@@ -1,50 +1,33 @@
-package com.expedia.bookings.activity;
+package com.expedia.ui;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 
-public class AbacusPreferenceActivity extends PreferenceActivity {
+public class AbacusPreferencesFragment extends BasePreferenceFragment {
+
+	@Override
+	public void onStart() {
+		super.onStart();
+		getActivity().setTitle("Abacus Tests");
+	}
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.abacus_preferences);
+
 		for (int key : AbacusUtils.getActiveTests()) {
-			ListPreference preference = (ListPreference) findPreference(
-				String.valueOf(key));
+			ListPreference preference = (ListPreference) findPreference(String.valueOf(key));
 			preference.setOnPreferenceChangeListener(abacusPrefListener);
 		}
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		ActionBar ab = getActionBar();
-		// ab is null on tablet
-		if (ab != null) {
-			ab.setDisplayHomeAsUpEnabled(true);
-			ab.setDisplayShowTitleEnabled(false);
-		}
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			finish();
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
 
 	private Preference.OnPreferenceChangeListener abacusPrefListener = new Preference.OnPreferenceChangeListener() {
 		@Override
@@ -54,4 +37,5 @@ public class AbacusPreferenceActivity extends PreferenceActivity {
 			return true;
 		}
 	};
+
 }

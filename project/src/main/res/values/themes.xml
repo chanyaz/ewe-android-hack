@@ -40,20 +40,10 @@
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.Yellow</item>
     </style>
 
-    <style name="Theme.Tablet.Preferences" parent="@style/Theme.Light.Dialog">
+    <style name="Theme.Tablet.Preferences" parent="@style/Theme.AppCompat.Light.Dialog">
         <item name="android:windowNoTitle">true</item>
-        <item name="android:listSeparatorTextViewStyle">@style/TabletPreferenceSeparator</item>
-    </style>
-
-    <style name="TabletPreferenceSeparator">
-        <item name="android:background">@drawable/light_header_with_margin</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">#000000</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:gravity">center_vertical</item>
-        <item name="android:padding">8dp</item>
+        <item name="android:windowTitleStyle">@style/RtlOverlay.DialogWindowTitle.AppCompat</item>
+        <item name="android:textColorPrimary">@color/preferences_text</item>
     </style>
 
     <style name="DarkPopupMenuStyle" parent="android:style/Widget.Holo.Light.ListPopupWindow">
@@ -239,8 +229,11 @@
         <item name="android:logo">?attr/skin_webViewPreferencesActionBarLogoWithTitle</item>
     </style>
 
-    <style name="Theme.Phone.Preferences">
+    <style name="Theme.Phone.Preferences" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:logo">?attr/skin_webViewPreferencesActionBarLogo</item>
+        <item name="colorPrimaryDark">#3A464F</item>
+        <item name="colorPrimary">#495863</item>
+        <item name="android:windowBackground">@color/preferences_activity_bg</item>
     </style>
 
     <style name="Theme.Phone.Dark" parent="Theme.Phone">

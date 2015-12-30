@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@android:id/title"
+    android:layout_width="match_parent"
+    android:layout_height="36dp"
+    android:textAllCaps="true"
+    android:textSize="14sp"
+    app:textStyle="medium"
+    android:gravity="center"
+    android:background="@drawable/bg_preference_category"
+    android:textColor="@color/preferences_text" />
