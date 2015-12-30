@@ -40,6 +40,7 @@
 
 
     <style name="V2.Theme.Activity.TabletCheckout">
+        <item name="checkout_icon_right_margin_attr">@dimen/tablet_checkout_icon_right_margin</item>
         <item name="android:windowActionBarOverlay">true</item>
         <item name="android:actionBarStyle">@style/V2.Widget.ActionBar.TabletCheckout</item>
         <item name="android:windowContentOverlay">@null</item>

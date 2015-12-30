@@ -210,6 +210,7 @@
     <dimen name="tablet_checkout_trip_bucket_expanded_image_width">216dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_expanded_padding_x">12dp</dimen>
     <dimen name="tablet_checkout_trip_bucket_expanded_padding_minor_y">8dp</dimen>
+    <dimen name="tablet_checkout_icon_right_margin">16dp</dimen>
 
     <!-- CVV Screen -->
     <dimen name="cvv_keypad_text_size">30sp</dimen>
