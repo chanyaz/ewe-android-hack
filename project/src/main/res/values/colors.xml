@@ -131,7 +131,6 @@
     <color name="hotel_filter_text">#5c5c5c</color>
 
     <!-- Login -->
-    <color name="login_text_hotels">#FFFFFF</color>
     <color name="login_text_tablet">#363636</color>
     <color name="expedia_plus_blue">#0085c9</color>
     <color name="expedia_plus_blue_text">#ffffff</color>
