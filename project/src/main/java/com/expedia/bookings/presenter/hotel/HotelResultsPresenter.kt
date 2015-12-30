@@ -10,6 +10,7 @@ import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.graphics.drawable.TransitionDrawable
 import android.location.Location
+import android.os.Build
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
@@ -459,20 +460,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
         filterMenuItem.setVisible(false)
         var fabLp = fab.layoutParams as FrameLayout.LayoutParams
         fabLp.bottomMargin += resources.getDimension(R.dimen.hotel_filter_height).toInt()
-
-        mapViewModel.newBoundsObservable.subscribe {
-            val center = it.center
-            val latLng = LatLng(center.latitude, center.longitude)
-            mapViewModel.mapBoundsSubject.onNext(latLng)
-            googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * 50), object : GoogleMap.CancelableCallback {
-                override fun onFinish() {
-
-                }
-
-                override fun onCancel() {
-                }
-            })
-        }
     }
 
     public fun showDefault() {
@@ -524,6 +511,27 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Pres
                 return null
             }
         })
+        mapView.viewTreeObserver.addOnGlobalLayoutListener(mapViewLayoutReadyListener)
+    }
+
+    private val mapViewLayoutReadyListener = object: ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout() {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                mapView.viewTreeObserver.removeGlobalOnLayoutListener(this);
+            } else {
+                mapView.viewTreeObserver.removeOnGlobalLayoutListener(this);
+            }
+            mapViewModel.newBoundsObservable.subscribe {
+                val center = it.center
+                val latLng = LatLng(center.latitude, center.longitude)
+                mapViewModel.mapBoundsSubject.onNext(latLng)
+                googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * 50), object : GoogleMap.CancelableCallback {
+                    override fun onFinish() {}
+
+                    override fun onCancel() {}
+                })
+            }
+        }
     }
 
     val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
