@@ -690,8 +690,9 @@ public class PointOfSale {
 		return getPosLocale().mTermsAndConditionsUrl;
 	}
 
-	public String getLoyaltyTermsAndConditionsURL() {
-		return getPosLocale().mLoyaltyTermsAndConditionsUrl;
+	public String getAccountCreationTermsAndConditionsURL() {
+		return getPosLocale().mLoyaltyTermsAndConditionsUrl == null ? getPosLocale().mTermsAndConditionsUrl
+			: getPosLocale().mLoyaltyTermsAndConditionsUrl;
 	}
 
 	public String getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL() {
