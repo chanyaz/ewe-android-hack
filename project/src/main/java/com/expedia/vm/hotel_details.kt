@@ -134,7 +134,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
     var etpOffersList = ArrayList<HotelOffersResponse.HotelRoomResponse>()
     var sectionBody: String by Delegates.notNull()
-    var commonList = ArrayList<String>()
+    var commonList = ArrayList<HotelOffersResponse.ValueAdds>()
 
     var isSectionExpanded = false
     val sectionBodyObservable = BehaviorSubject.create<String>()
@@ -445,7 +445,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             if (rate.valueAdds != null) {
                 var unique = rate.valueAdds
                 if (!commonList.isEmpty()) {
-                    unique.removeAllRaw(commonList)
+                    unique.removeAll(commonList)
                 }
                 if (unique.size > 0) {
                     list.add(iRoom, context.getString(R.string.value_add_template, unique.get(0).description.toLowerCase(Locale.getDefault())))
