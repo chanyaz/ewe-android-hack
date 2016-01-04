@@ -201,6 +201,7 @@ public class
 		R.layout.package_presenter,
 		R.layout.bundle_overview,
 		R.layout.widget_package_search_params,
-		R.string.flight_class_selection
+		R.string.flight_class_selection,
+		R.string.fees_due_at_hotel
 	};
 }

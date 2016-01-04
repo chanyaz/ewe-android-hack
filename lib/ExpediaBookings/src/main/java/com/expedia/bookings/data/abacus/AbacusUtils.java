@@ -36,6 +36,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelCKOPostalCodeTest = 9480;
 	public static final int EBAndroidAppHotelTravelerTest = 9478;
 	public static final int EBAndroidAppHotelShowExampleNamesTest = 9475;
+	public static final int EBAndroidAppHotelPriceBreakDownTest = 9477;
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -70,6 +71,12 @@ public class AbacusUtils {
 		WITH_COLOR_WITH_SUPERLATIVES
 	}
 
+	public enum HotelPriceBreakDownVariate {
+		CONTROL,
+		DUE_TODAY,
+		TRIP_TOTAL
+	}
+
 	// Test ID's that we are bucketing the user for.
 	public static List<Integer> getActiveTests() {
 		List<Integer> testIDs = new ArrayList<>();
@@ -96,6 +103,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelCKOPostalCodeTest);
 		testIDs.add(EBAndroidAppHotelTravelerTest);
 		testIDs.add(EBAndroidAppHotelShowExampleNamesTest);
+		testIDs.add(EBAndroidAppHotelPriceBreakDownTest);
 		return testIDs;
 	}
 
