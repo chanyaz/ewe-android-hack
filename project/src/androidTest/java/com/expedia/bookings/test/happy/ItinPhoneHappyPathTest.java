@@ -30,7 +30,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		screenshot("Itins");
 		TripsScreen.clickOnLogInButton();
 		screenshot("Login");
-		LogInScreen.typeTextEmailEditText("user@gmail.com");
+		LogInScreen.typeTextEmailEditText("qa-ehcc@mobiata.com");
 		LogInScreen.typeTextPasswordEditText("password");
 		LogInScreen.clickOnLoginButton();
 		screenshot("Trips");

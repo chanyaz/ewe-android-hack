@@ -998,14 +998,29 @@ public class ExpediaServices implements DownloadListener {
 	public SignInResponse signIn(int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		addSignInParams(query, flags);
+		return doE3Request("api/user/sign-in", query, new SignInResponseHandler());
+	}
+
+	public SignInResponse signInWithEmailForAutomationTests(int flags, String email) {
+		if (!ExpediaBookingApp.isAutomation()) {
+			throw new RuntimeException("signInWithEmailForAutomationTests can be called only from automation builds");
+		}
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		addSignInParams(query, flags);
+		query.add(new BasicNameValuePair("email", email));
+
+		return doE3Request("api/user/sign-in", query, new SignInResponseHandler());
+	}
+
+	private void addSignInParams(List<BasicNameValuePair> query, int flags) {
 		addCommonParams(query);
 
 		query.add(new BasicNameValuePair("profileOnly", "true"));
 		query.add(new BasicNameValuePair("includeFullPaymentProfile", "true"));
 
 		addProfileTypes(query, flags);
-
-		return doE3Request("api/user/sign-in", query, new SignInResponseHandler());
 	}
 
 	public AssociateUserToTripResponse associateUserToTrip(String tripId, int flags) {

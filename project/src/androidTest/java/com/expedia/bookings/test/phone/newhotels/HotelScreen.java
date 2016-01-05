@@ -397,7 +397,7 @@ public class HotelScreen {
 	}
 
 	public static void signIn() {
-		signIn("user@gmail.com");
+		signIn("qa-ehcc@mobiata.com");
 	}
 	
 	public static void signIn(String username) {

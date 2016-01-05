@@ -265,9 +265,10 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         val params = parseRequest(request)
         lastSignInEmail = params.get("email") ?: lastSignInEmail
         params.put("email", lastSignInEmail)
-        return when (lastSignInEmail) {
-            "singlecard@mobiata.com" -> makeResponse("api/user/sign-in/singlecard@mobiata.com.json", params)
-            else -> makeResponse("api/user/sign-in/qa-ehcc@mobiata.com.json", params)
+        return if (lastSignInEmail.isNotEmpty()) {
+            makeResponse("api/user/sign-in/" + lastSignInEmail + ".json", params)
+        } else {
+            makeResponse("api/user/sign-in/qa-ehcc@mobiata.com.json", params)
         }
     }
 

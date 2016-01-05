@@ -5,7 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
-import com.expedia.bookings.data.payment.PointsProgramType
+import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -32,7 +32,7 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
     private val calculationApiErrorString = resources.getString(R.string.pwp_calculation_api_error)
 
     private fun userEntersMoreThanPointsMessage(response: TripResponse) = Phrase.from(resources, R.string.user_enters_more_than_points_TEMPLATE)
-            .put("money", response.getPointDetails(PointsProgramType.EXPEDIA_REWARDS)!!.totalAvailable.amount.formattedMoneyFromAmountAndCurrencyCode)
+            .put("money", response.getPointDetails(ProgramName.ExpediaRewards)!!.totalAvailable.amount.formattedMoneyFromAmountAndCurrencyCode)
             .format().toString()
 
     private fun pointsAppliedMessage(paymentSplits: PaymentSplits) = Phrase.from(resources, R.string.pwp_points_applied_TEMPLATE)
@@ -54,13 +54,13 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
 
     override val totalPointsAndAmountAvailableToRedeem = paymentModel.tripResponses.filter { it.isExpediaRewardsRedeemable() }.map {
         Phrase.from(resources.getString(R.string.pay_with_point_total_available_TEMPLATE))
-                .put("money", it.getPointDetails(PointsProgramType.EXPEDIA_REWARDS)!!.totalAvailable.amount.formattedMoneyFromAmountAndCurrencyCode)
-                .put("points", it.getPointDetails(PointsProgramType.EXPEDIA_REWARDS)!!.totalAvailable.points)
+                .put("money", it.getPointDetails(ProgramName.ExpediaRewards)!!.totalAvailable.amount.formattedMoneyFromAmountAndCurrencyCode)
+                .put("points", it.getPointDetails(ProgramName.ExpediaRewards)!!.totalAvailable.points)
                 .format().toString()
     }
 
     override val currencySymbol = paymentModel.tripResponses.filter { it.isExpediaRewardsRedeemable() }.map {
-        it.getPointDetails(PointsProgramType.EXPEDIA_REWARDS)!!.totalAvailable.amount.currencySymbol
+        it.getPointDetails(ProgramName.ExpediaRewards)!!.totalAvailable.amount.currencySymbol
     }
 
     private val calculatingPointsMessage = PublishSubject.create<Unit>()
