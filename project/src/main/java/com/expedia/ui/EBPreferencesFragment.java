@@ -43,7 +43,7 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			apiPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
 					if ("Mock Mode".equals(newValue)) {
-						MockModeShim.initMockWebServer(getContext());
+						MockModeShim.initMockWebServer(getActivity());
 					}
 					return true;
 				}
@@ -55,7 +55,7 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 				@Override
 				public boolean onPreferenceChange(Preference preference, Object newValue) {
 					boolean isLoggingEnabled = Boolean.valueOf(newValue.toString());
-					new PicassoHelper.Builder(getContext()).build()
+					new PicassoHelper.Builder(getActivity()).build()
 						.setLoggingEnabled(isLoggingEnabled);
 					return true;
 				}
@@ -74,7 +74,7 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 		clearPrivateDataPreference.setClearPrivateDataListener(activity);
 		pointOfSalePref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				PointOfSale.onPointOfSaleChanged(getContext());
+				PointOfSale.onPointOfSaleChanged(getActivity());
 				configurePointOfSalePreferenceSummary();
 
 				AdTracker.updatePOS();
@@ -104,7 +104,7 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 		if (getString(R.string.preference_force_fs_db_update).equals(key)) {
 			try {
 				FlightStatsDbUtils.setUpgradeCutoff(0);
-				FlightStatsDbUtils.createDatabaseIfNotExists(getContext(), BuildConfig.RELEASE);
+				FlightStatsDbUtils.createDatabaseIfNotExists(getActivity(), BuildConfig.RELEASE);
 			}
 			catch (IOException e) {
 				Log.w("Could not force update FS.db", e);
