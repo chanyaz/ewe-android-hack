@@ -27,6 +27,14 @@
             app:cardCornerRadius="4dp"
             app:cardElevation="1dp">
 
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:id="@+id/hotel_loading_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_gravity="bottom"/>
+
             <TextView
                 android:id="@+id/hotels_card_view_text"
                 android:layout_width="match_parent"

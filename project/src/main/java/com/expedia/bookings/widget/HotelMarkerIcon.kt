@@ -17,6 +17,14 @@ fun createHotelMarkerIcon(context: Context, factory: IconGenerator, hotel: Hotel
     return BitmapDescriptorFactory.fromBitmap(factory.makeIcon(hotelPriceText.toString()))
 }
 
+fun createHotelMarkerIcon(context: Context, factory: IconGenerator, hotel: com.expedia.bookings.data.packages.Hotel, isSelected: Boolean): BitmapDescriptor {
+    var hotelPriceText = priceFormatter(context.resources, hotel.packageOfferModel.price.pricePerPerson, false)
+    var outputBitmap = getBitmap(context, isSelected, false, false)
+    factory.setBackground(outputBitmap)
+    factory.setTextAppearance(R.style.MarkerTextAppearance)
+    return BitmapDescriptorFactory.fromBitmap(factory.makeIcon(hotelPriceText.toString()))
+}
+
 fun getBitmap(context: Context, isSelected: Boolean, isAirAttached: Boolean, isSoldOut: Boolean): Drawable {
 
     val tooltipDrawable = if (isSoldOut) {

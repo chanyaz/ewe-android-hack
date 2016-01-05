@@ -22,6 +22,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.AdImpressionTracking
@@ -45,6 +46,10 @@ import com.squareup.picasso.Picasso
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
+import kotlin.collections.emptyList
+import kotlin.collections.firstOrNull
+import kotlin.collections.indexOfFirst
+import kotlin.collections.listOf
 import kotlin.properties.Delegates
 
 public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -55,7 +60,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
 
     var loading = true
     val loadingSubject = BehaviorSubject.create<Unit>()
-    val resultsSubject = PublishSubject.create<HotelSearchResponse>()
+    val resultsSubject = BehaviorSubject.create<Pair<List<Hotel>, HotelRate.UserPriceType>>()
     val hotelSoldOut = endlessObserver<String> { soldOutHotelId ->
         hotels.firstOrNull { it.hotelId == soldOutHotelId }?.isSoldOut = true
         hotelListItemsMetadata.firstOrNull { it.hotelId == soldOutHotelId }?.hotelSoldOut?.onNext(true)
@@ -77,7 +82,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
     init {
         resultsSubject.subscribe { response ->
             loading = false
-            hotels = ArrayList(response.hotelList)
+            hotels = ArrayList(response.first)
             hotelListItemsMetadata.clear()
             notifyDataSetChanged()
         }

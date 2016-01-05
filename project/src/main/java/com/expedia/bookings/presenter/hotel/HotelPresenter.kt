@@ -51,6 +51,7 @@ import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.collections.count
 import kotlin.properties.Delegates
 
 public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {

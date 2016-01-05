@@ -76,4 +76,8 @@ public data class PackageSearchParams(val destination: SuggestionV4, val arrival
             return Days.daysBetween(checkIn, checkOut).days <= maxStay
         }
     }
+
+    public fun guests() : Int {
+        return children.size + adults
+    }
 }

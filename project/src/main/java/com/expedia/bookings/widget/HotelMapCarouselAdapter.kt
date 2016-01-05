@@ -12,6 +12,7 @@ import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.FontCache
@@ -141,6 +142,13 @@ public fun priceFormatter(resources: Resources, rate: HotelRate?, strikeThrough:
     var hotelPrice = if (strikeThrough)
         Money(Math.round(rate.strikethroughPriceToShowUsers).toString(), rate.currencyCode)
     else Money(Math.round(rate.priceToShowUsers).toString(), rate.currencyCode)
+
+    return if (strikeThrough) Html.fromHtml(resources.getString(R.string.strike_template, hotelPrice.formattedMoney), null, StrikethroughTagHandler()) else hotelPrice.formattedMoney
+}
+
+public fun priceFormatter(resources: Resources, price: PackageOfferModel.HotelPrice?, strikeThrough: Boolean): CharSequence {
+    if (price == null) return ""
+    var hotelPrice = Money(Math.round(price.amount).toString(), price.currencyCode)
 
     return if (strikeThrough) Html.fromHtml(resources.getString(R.string.strike_template, hotelPrice.formattedMoney), null, StrikethroughTagHandler()) else hotelPrice.formattedMoney
 }

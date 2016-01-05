@@ -15,6 +15,8 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.hotels.Hotel;
+import com.expedia.bookings.data.packages.PackageSearchResponse;
+import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.utils.LeanPlumUtils;
@@ -119,8 +121,27 @@ public class Db {
 
 	private String mAbacusGuid;
 
+	private PackageSearchParams mPackageParams;
+	private PackageSearchResponse mPackageResponse;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
+
+	public static PackageSearchParams getPackageParams() {
+		return sDb.mPackageParams;
+	}
+
+	public static void setPackageParams(PackageSearchParams params) {
+		sDb.mPackageParams = params;
+	}
+
+	public static PackageSearchResponse getPackageResponse() {
+		return sDb.mPackageResponse;
+	}
+
+	public static void setPackageResponse(PackageSearchResponse hotelPackage) {
+		sDb.mPackageResponse = hotelPackage;
+	}
 
 	public static void setAbacusGuid(String guid) {
 		sDb.mAbacusGuid = guid;

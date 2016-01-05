@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.expedia.bookings.data.hotels.PackageSearchResponse;
+import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.data.hotels.SuggestionV4;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.interceptors.MockInterceptor;

@@ -1,7 +1,7 @@
 package com.expedia.bookings.data
 
 import com.expedia.bookings.data.packages.FlightLeg;
-import com.expedia.bookings.data.hotels.PackageSearchResponse
+import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer

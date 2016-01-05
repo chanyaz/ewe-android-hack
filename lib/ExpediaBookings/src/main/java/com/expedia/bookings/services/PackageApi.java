@@ -1,6 +1,6 @@
 package com.expedia.bookings.services;
 
-import com.expedia.bookings.data.hotels.PackageSearchResponse;
+import com.expedia.bookings.data.packages.PackageSearchResponse;
 
 import retrofit.http.GET;
 import retrofit.http.Query;

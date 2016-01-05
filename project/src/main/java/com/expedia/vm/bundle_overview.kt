@@ -2,9 +2,10 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.PackageSearchResponse
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.data.packages.FlightLeg
-import com.expedia.bookings.data.packages.Hotel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.services.PackageServices
 import rx.Observer
@@ -23,6 +24,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
 
     init {
         searchParamsObservable.subscribe { params ->
+            Db.setPackageParams(params)
             packageServices.packageSearch(params).subscribe(makeResultsObserver())
             hotelTextObservable.onNext(context.getString(R.string.hotels_in_TEMPLATE, params.destination.regionNames.shortName))
             destinationTextObservable.onNext(context.getString(R.string.flights_to_TEMPLATE, params.destination.regionNames.shortName))
@@ -33,6 +35,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     fun makeResultsObserver(): Observer<PackageSearchResponse> {
         return object : Observer<PackageSearchResponse> {
             override fun onNext(response: PackageSearchResponse) {
+                Db.setPackageResponse(response)
                 hotelResultsObservable.onNext(response.packageResult.hotelsPackage.hotels)
                 flightResutlsObservable.onNext(response.packageResult.flightsPackage.flights)
                 println("package success, Hotels:" + response.packageResult.hotelsPackage.hotels.size + "  Flights:" + response.packageResult.flightsPackage.flights.size)

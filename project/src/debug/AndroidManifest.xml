@@ -26,7 +26,7 @@
         </activity>
 
         <activity
-            android:name="com.expedia.ui.HotelPackageActivity"
+            android:name="com.expedia.ui.PackageHotelActivity"
             android:configChanges="screenSize|orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:theme="@style/V2.Theme.Hotels" />
