@@ -20,7 +20,7 @@
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_tvly</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_tvly</item>
         <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_tvly_logo_white</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_travelocity_logo</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_tablet_checkout_logo</item>
         <item name="skin_phoneCheckoutLoginButtonTextColor">@android:color/white</item>
         <item name="skin_loginButtonColor">@android:color/white</item>
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
@@ -47,7 +47,7 @@
         <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error_tvly</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_tvly</item>
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_log_in_travelocity</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_tablet_checkout_logo</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_tvly</item>
         <item name="skin_tablet_pin_detail_image_size">@dimen/launch_pin_detail_size_travelocity</item>
         <item name="skin_tablet_ab_launch_text1_base">@string/app_name</item>
