@@ -26,7 +26,7 @@ apply plugin: 'com.github.ben-manes.versions'
 
 // Sub-projects/library projects will refer to these top-level SDK and buildTools versions
 
-ext.supportLibVersion="23.1.0"
+ext.supportLibVersion="23.1.1"
 ext.googlePlayServicesVersion="8.4.0"
 
 ext.compileSdkVersion=23
