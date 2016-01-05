@@ -56,8 +56,8 @@
     <!-- Search Results -->
     <dimen name="results_list_header_text_size">16sp</dimen>
     <dimen name="results_list_header_height">43dp</dimen>
-    <dimen name="results_list_header_height_expanded">63dp</dimen>
-    <dimen name="results_list_header_reveal_height">20dp</dimen>
+    <dimen name="results_list_header_height_expanded">68dp</dimen>
+    <dimen name="results_list_header_reveal_height">25dp</dimen>
     <dimen name="results_list_header_text_margin_top">10dp</dimen>
     <dimen name="results_list_subtitle_text_margin_top">30dp</dimen>
     <dimen name="results_guest_picker_padding_x">19dp</dimen>

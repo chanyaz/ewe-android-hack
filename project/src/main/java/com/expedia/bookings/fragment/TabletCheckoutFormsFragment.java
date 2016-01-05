@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightRulesActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
@@ -55,6 +56,7 @@ import com.expedia.bookings.model.TravelerFlowStateTablet;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.HotelUtils;
@@ -123,6 +125,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private SizeCopyView mSizeCopyView;
 	private TravelerFlowStateTablet mTravelerFlowState;
 	private TextView mResortFeeText;
+	private TextView mCardFeeLegalText;
 	private TextView mDepositPolicyTxt;
 
 	private TripBucketHorizontalHotelFragment mHorizontalHotelFrag;
@@ -554,6 +557,14 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			updateResortFeeText();
 		}
 
+		if (getLob() == LineOfBusiness.FLIGHTS && PointOfSale.getPointOfSale(getContext()).doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
+			if (mCardFeeLegalText == null) {
+				mCardFeeLegalText = Ui.inflate(R.layout.include_tablet_card_fee_tv, mCheckoutRowsC, false);
+			}
+			add(mCardFeeLegalText);
+			setupCardFeeTextView();
+		}
+
 		//SET UP THE FORM FRAGMENTS
 		FragmentTransaction transaction = fragmentManager.beginTransaction();
 		mTravelerForm = FragmentAvailabilityUtils
@@ -615,6 +626,24 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			Spanned resortBlurb = HotelUtils
 				.getCheckoutResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate());
 			mResortFeeText.setText(resortBlurb);
+		}
+	}
+
+	private void setupCardFeeTextView() {
+		if (mCardFeeLegalText != null) {
+			Spanned cardFeeLegalText = FlightUtils.getCardFeeLegalText(getContext());
+			mCardFeeLegalText.setText(cardFeeLegalText);
+			mCardFeeLegalText.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+					builder.setUrl(PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL());
+					builder.setTheme(R.style.FlightTheme);
+					builder.setTitle(R.string.Airline_fee);
+					builder.setInjectExpediaCookies(true);
+					startActivity(builder.getIntent());
+				}
+			});
 		}
 	}
 
