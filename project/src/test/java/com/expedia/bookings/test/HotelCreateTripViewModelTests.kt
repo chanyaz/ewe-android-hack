@@ -3,6 +3,7 @@ package com.expedia.bookings.test
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.hotels.PaymentModel
 import com.expedia.bookings.services.HotelServices
 import com.expedia.vm.HotelCreateTripViewModel
 import org.junit.Before
@@ -21,20 +22,22 @@ public class HotelCreateTripViewModelTests {
 
     private val happyMockProductKey = "happypath_0"
 
+    lateinit var paymentModel: PaymentModel
     lateinit var sut: HotelCreateTripViewModel
     lateinit var hotelCreateTripParams: HotelCreateTripParams
     lateinit var testSubscriber: TestSubscriber<HotelCreateTripResponse>
 
     @Before
     fun setup() {
+        paymentModel = PaymentModel(mockHotelServicesTestRule.service)
         testSubscriber = TestSubscriber<HotelCreateTripResponse>()
-        sut = HotelCreateTripViewModel(mockHotelServicesTestRule.service)
+        sut = HotelCreateTripViewModel(mockHotelServicesTestRule.service, paymentModel)
     }
 
     @Test
     fun hotelServicesCreateTripIsCalled() {
         givenGoodCreateTripParams()
-        sut = TestHotelCreateTripViewModel(testSubscriber, mockHotelServicesTestRule.service)
+        sut = TestHotelCreateTripViewModel(testSubscriber, mockHotelServicesTestRule.service, paymentModel)
 
         sut.tripParams.onNext(hotelCreateTripParams)
         testSubscriber.awaitTerminalEvent()
@@ -81,7 +84,7 @@ public class HotelCreateTripViewModelTests {
         hotelCreateTripParams = HotelCreateTripParams(happyMockProductKey, false, 1, listOf(1))
     }
 
-    public class TestHotelCreateTripViewModel(val testSubscriber: TestSubscriber<HotelCreateTripResponse>, hotelServices: HotelServices): HotelCreateTripViewModel(hotelServices) {
+    public class TestHotelCreateTripViewModel(val testSubscriber: TestSubscriber<HotelCreateTripResponse>, hotelServices: HotelServices, paymentModel: PaymentModel) : HotelCreateTripViewModel(hotelServices, paymentModel) {
 
         override fun getCreateTripResponseObserver(): Observer<HotelCreateTripResponse> {
             return testSubscriber

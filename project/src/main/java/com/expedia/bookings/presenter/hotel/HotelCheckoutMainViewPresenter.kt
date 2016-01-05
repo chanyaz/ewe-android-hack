@@ -3,7 +3,6 @@ package com.expedia.bookings.presenter.hotel
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -20,6 +19,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.hotels.PaymentModel
 import com.expedia.bookings.enums.MerchandiseSpam
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
@@ -41,6 +41,7 @@ import com.expedia.vm.HotelCreateTripViewModel
 import com.squareup.otto.Subscribe
 import rx.Observer
 import rx.subjects.PublishSubject
+import javax.inject.Inject
 import kotlin.properties.Delegates
 
 public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : CheckoutBasePresenter(context, attr) {
@@ -81,12 +82,15 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         checkoutOverviewViewModel.resetMenuButton.subscribe { resetMenuButton() }
     }
 
-    val hotelServices: HotelServices by lazy() {
-        Ui.getApplication(getContext()).hotelComponent().hotelServices()
-    }
+    lateinit var hotelServices: HotelServices
+        @Inject set
+
+    lateinit var paymentModel: PaymentModel
+        @Inject set
 
     init {
-        couponCardView.viewmodel = HotelCouponViewModel(getContext(), hotelServices)
+        Ui.getApplication(getContext()).hotelComponent().inject(this)
+        couponCardView.viewmodel = HotelCouponViewModel(getContext(), hotelServices, paymentModel)
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {
@@ -95,7 +99,6 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        Ui.getApplication(getContext()).hotelComponent().inject(this)
         hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(getContext(), null, HotelCheckoutSummaryViewModel(getContext()))
         summaryContainer.addView(hotelCheckoutSummaryWidget)
 

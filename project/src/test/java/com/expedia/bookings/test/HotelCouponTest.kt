@@ -2,6 +2,7 @@ package com.expedia.bookings.test
 
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams
+import com.expedia.bookings.data.hotels.PaymentModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.HotelCouponViewModel
 import org.junit.Before
@@ -24,7 +25,7 @@ public class HotelCouponTest {
     @Before
     fun before() {
         val context = RuntimeEnvironment.application
-        vm = HotelCouponViewModel(context, service.hotelServices())
+        vm = HotelCouponViewModel(context, service.hotelServices(), PaymentModel(service.hotelServices()))
     }
 
     @Test

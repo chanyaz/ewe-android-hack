@@ -2,6 +2,8 @@ package com.expedia.bookings.data.hotels;
 
 import java.util.List;
 
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.ValidPayment;
 import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.utils.Strings;
@@ -20,7 +22,7 @@ public class HotelCreateTripResponse extends BaseApiResponse {
 	public List<PointsDetails> pointsDetails;
 
 	public static class ExpediaRewards {
-		public String totalPointsToEarn;
+		public int totalPointsToEarn;
 		public boolean isActiveRewardsMember;
 		public String rewardsMembershipTierName;
 	}
@@ -58,5 +60,24 @@ public class HotelCreateTripResponse extends BaseApiResponse {
 			}
 			return localizedHotelName;
 		}
+	}
+
+	public PointsDetails getPointDetails(PointsProgramType pointsProgramType) {
+		if (pointsDetails != null) {
+			for (PointsDetails pointDetail : pointsDetails) {
+				if (pointDetail.getProgramName() == pointsProgramType) {
+					return pointDetail;
+				}
+			}
+		}
+		return null;
+	}
+
+	public boolean isExpediaRewardsRedeemable() {
+		return ValidPayment.isPaymentTypeSupported(validFormsOfPayment, PaymentType.POINTS_EXPEDIA_REWARDS);
+	}
+
+	public Money getTripTotal() {
+		return newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getDisplayTotalPrice();
 	}
 }

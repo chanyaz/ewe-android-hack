@@ -2,6 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
+import com.expedia.bookings.data.hotels.PaymentModel
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.vm.HotelCreateTripViewModel
 import org.junit.Rule
@@ -18,7 +19,7 @@ public class HotelCreateTripViewModelTest {
 
     @Test
     fun soldOutRoomLeadsToErrorObservableEmission() {
-        val subjectUnderTest = HotelCreateTripViewModel(mockHotelServiceTestRule.service)
+        val subjectUnderTest = HotelCreateTripViewModel(mockHotelServiceTestRule.service, PaymentModel(mockHotelServiceTestRule.service))
 
         val errorObservableTestSubscriber = TestSubscriber.create<ApiError>()
         subjectUnderTest.errorObservable.subscribe(errorObservableTestSubscriber)

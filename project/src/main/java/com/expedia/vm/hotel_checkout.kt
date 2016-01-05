@@ -14,6 +14,7 @@ import com.expedia.bookings.data.hotels.HotelCheckoutParams
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.hotels.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
@@ -22,7 +23,6 @@ import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.Strings
 import com.mobiata.android.util.AndroidUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
@@ -31,7 +31,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 
-open public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
+open public class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel) {
 
     // inputs
     val checkoutParams = PublishSubject.create<HotelCheckoutParams>()
@@ -56,6 +56,7 @@ open public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
                         ApiError.Code.PRICE_CHANGE -> {
                             val hotelCreateTripResponse = Db.getTripBucket().hotelV2.updateHotelProducts(checkout.checkoutResponse.jsonPriceChangeResponse)
                             priceChangeResponseObservable.onNext(hotelCreateTripResponse)
+                            paymentModel.priceChangeDuringCheckoutSubject.onNext(hotelCreateTripResponse)
                         }
                         ApiError.Code.INVALID_INPUT -> {
                             val field = checkout.firstError.errorInfo.field
@@ -105,7 +106,7 @@ open public class HotelCheckoutViewModel(val hotelServices: HotelServices) {
     }
 }
 
-open class HotelCreateTripViewModel(val hotelServices: HotelServices) {
+open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel) {
 
     // input
     val tripParams = PublishSubject.create<HotelCreateTripParams>()
@@ -138,6 +139,7 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices) {
                     Db.getTripBucket().add(TripBucketItemHotelV2(t))
                     // TODO: populate hotelCreateTripResponseData with response data
                     tripResponseObservable.onNext(t)
+                    paymentModel.createTripSubject.onNext(t)
                 }
             }
 
