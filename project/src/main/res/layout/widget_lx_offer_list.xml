@@ -1,0 +1,35 @@
+<com.expedia.bookings.widget.LXOffersListWidget
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/offers"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/offers_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="?android:dividerHorizontal"
+        android:orientation="vertical"
+        android:showDividers="middle|end" />
+
+    <LinearLayout
+        android:id="@+id/offer_show_more_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:divider="?android:dividerHorizontal"
+        android:orientation="vertical"
+        android:showDividers="end"
+        android:visibility="gone">
+
+        <com.expedia.bookings.widget.ShowMoreWithCountWidget
+            android:id="@+id/show_more_widget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:padding="10dp" />
+
+    </LinearLayout>
+</com.expedia.bookings.widget.LXOffersListWidget>
