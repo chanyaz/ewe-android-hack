@@ -342,7 +342,11 @@ public class HotelErrorViewModel(private val context: Context) {
                 }
                 ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS -> {
                     imageObservable.onNext(R.drawable.error_payment)
-                    errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
+                    if (error.errorInfo?.field == "nameOnCard") {
+                        errorMessageObservable.onNext(context.getString(R.string.error_name_on_card_mismatch))
+                    } else {
+                        errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
+                    }
                     buttonTextObservable.onNext(context.getString(R.string.edit_payment))
                     titleObservable.onNext(context.getString(R.string.hotel_payment_failed_text))
                     subTitleObservable.onNext("")
