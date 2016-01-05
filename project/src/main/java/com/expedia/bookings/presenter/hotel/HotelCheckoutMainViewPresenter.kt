@@ -207,7 +207,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         val couponRate = trip.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getPriceAdjustments()
         hasDiscount = couponRate != null && !couponRate.isZero
         couponCardView.viewmodel.hasDiscountObservable.onNext(hasDiscount)
-        checkoutOverviewViewModel = HotelCheckoutOverviewViewModel(getContext())
+        checkoutOverviewViewModel = HotelCheckoutOverviewViewModel(getContext(), paymentModel)
         checkoutOverviewViewModel.newRateObserver.onNext(trip.newHotelProductResponse)
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)

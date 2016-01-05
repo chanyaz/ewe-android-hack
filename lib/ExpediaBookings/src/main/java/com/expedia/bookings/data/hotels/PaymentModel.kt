@@ -46,7 +46,7 @@ public class PaymentModel(hotelServices: HotelServices) {
     val couponChangeSubject = PublishSubject.create<HotelCreateTripResponse>()
 
     //Merging to handle all 3 response types homogeneously
-    private val tripResponses = Observable.merge(createTripSubject, priceChangeDuringCheckoutSubject, couponChangeSubject)
+    val tripResponses = Observable.merge(createTripSubject, priceChangeDuringCheckoutSubject, couponChangeSubject)
 
     //Amount Chosen To Be Paid With Points
     val amountChosenToBePaidWithPointsSubject = PublishSubject.create<BigDecimal>()
@@ -93,15 +93,6 @@ public class PaymentModel(hotelServices: HotelServices) {
             amountSelectedAndLatestTripResponse.filter { it.amount.equals(BigDecimal.ZERO) }.doOnNext { it.subscription?.unsubscribe() }.map { paymentSplitsWhenZeroPayableWithPoints(it.response) },
             currencyToPointsApiResponse.map { PaymentSplits(it.conversion!!, it.remainingPayableByCard!!) }
     )
-
-    val paymentSplitsType: Observable<PaymentSplitsType> = paymentSplits.map {
-        when {
-            it.payingWithCards.amount.isZero -> PaymentSplitsType.IS_FULL_PAYABLE_WITH_EXPEDIA_POINT
-            it.payingWithPoints.amount.isZero -> PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD
-            !it.payingWithPoints.amount.isZero && !it.payingWithCards.amount.isZero -> PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD
-            else -> throw RuntimeException("Cases above cover all possibilities, execution should never reach this point!")
-        }
-    }
 
     //Conditions when Currency To Points Conversion can be locally handled without an API call
     private fun canHandleCurrencyToPointsConversionLocally(amount: BigDecimal, response: HotelCreateTripResponse): Boolean {

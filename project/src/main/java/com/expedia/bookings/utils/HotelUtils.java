@@ -36,6 +36,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
+import com.squareup.phrase.Phrase;
 
 public class HotelUtils {
 
@@ -195,15 +196,16 @@ public class HotelUtils {
 
 		// Determine the slider message template
 		if (!property.isMerchant()) {
-			chargeTypeMessageId = R.string.collected_by_the_hotel_TEMPLATE;
+			chargeTypeMessageId = R.string.to_be_collected_by_the_hotel_TEMPLATE;
 		}
 		else if (rate.getCheckoutPriceType() == Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES || rate.isPayLater()) {
-			chargeTypeMessageId = R.string.Amount_to_be_paid_now_TEMPLATE;
+			chargeTypeMessageId = R.string.amount_to_be_paid_now_TEMPLATE;
 		}
 		else {
-			chargeTypeMessageId = R.string.your_card_will_be_charged_TEMPLATE;
+			chargeTypeMessageId = R.string.your_card_will_be_charged_template;
 		}
-		return context.getString(chargeTypeMessageId, sliderCharge.getFormattedMoney());
+		return Phrase.from(context, chargeTypeMessageId)
+			.put("dueamount", sliderCharge.getFormattedMoney()).format().toString();
 	}
 
 	// Convenience method for getting secondary resort fee banner text for phone

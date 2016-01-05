@@ -11,6 +11,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.utils.HotelUtils;
+import com.squareup.phrase.Phrase;
 
 import static org.junit.Assert.assertEquals;
 
@@ -40,14 +41,17 @@ public class HotelUtilsTest {
 		property.setSupplierType(MERCHANT_SUPPLIER_TYPE);
 		isTablet = false;
 		resultText = HotelUtils.getSlideToPurchaseString(activity, property, rate, isTablet);
-		expectedText = activity.getString(R.string.Amount_to_be_paid_now_TEMPLATE, depositAmount.getFormattedMoney());
+		expectedText = Phrase.from(activity.getApplicationContext(), R.string.amount_to_be_paid_now_TEMPLATE)
+			.put("dueamount", depositAmount.getFormattedMoney()).format().toString();
 		assertEquals(expectedText, resultText);
 
 		rate.setIsPayLater(true);
 		property.setSupplierType(NON_MERCHANT_SUPPLIER_TYPE);
 		isTablet = false;
 		resultText = HotelUtils.getSlideToPurchaseString(activity, property, rate, isTablet);
-		expectedText = activity.getString(R.string.collected_by_the_hotel_TEMPLATE, totalAmount.getFormattedMoney());
+		expectedText = Phrase.from(activity.getApplicationContext(), R.string.to_be_collected_by_the_hotel_TEMPLATE)
+			.put("dueamount",
+				totalAmount.getFormattedMoney()).format().toString();
 		assertEquals(expectedText, resultText);
 
 		// Total with mandatory fees rate type
@@ -56,7 +60,8 @@ public class HotelUtilsTest {
 		property.setSupplierType(MERCHANT_SUPPLIER_TYPE);
 		isTablet = true;
 		resultText = HotelUtils.getSlideToPurchaseString(activity, property, rate, isTablet);
-		expectedText = activity.getString(R.string.Amount_to_be_paid_now_TEMPLATE, totalAmount.getFormattedMoney());
+		expectedText = Phrase.from(activity.getApplicationContext(), R.string.amount_to_be_paid_now_TEMPLATE)
+			.put("dueamount", totalAmount.getFormattedMoney()).format().toString();
 		assertEquals(expectedText, resultText);
 
 		// Pay later, merchant AND non-merchant, tablet
@@ -68,14 +73,17 @@ public class HotelUtilsTest {
 		property.setSupplierType(MERCHANT_SUPPLIER_TYPE);
 		isTablet = true;
 		resultText = HotelUtils.getSlideToPurchaseString(activity, property, rate, isTablet);
-		expectedText = activity.getString(R.string.Amount_to_be_paid_now_TEMPLATE, totalAmount.getFormattedMoney());
+		expectedText = Phrase.from(activity.getApplicationContext(), R.string.amount_to_be_paid_now_TEMPLATE)
+			.put("dueamount", totalAmount.getFormattedMoney()).format().toString();
 		assertEquals(expectedText, resultText);
 
 		rate.setIsPayLater(true);
 		property.setSupplierType(NON_MERCHANT_SUPPLIER_TYPE);
 		isTablet = true;
 		resultText = HotelUtils.getSlideToPurchaseString(activity, property, rate, isTablet);
-		expectedText = activity.getString(R.string.collected_by_the_hotel_TEMPLATE, totalAmount.getFormattedMoney());
+		expectedText = Phrase.from(activity.getApplicationContext(), R.string.to_be_collected_by_the_hotel_TEMPLATE)
+			.put("dueamount",
+				totalAmount.getFormattedMoney()).format().toString();
 		assertEquals(expectedText, resultText);
 
 		// Pay now, merchant
@@ -84,7 +92,8 @@ public class HotelUtilsTest {
 		property.setSupplierType(MERCHANT_SUPPLIER_TYPE);
 		isTablet = true;
 		resultText = HotelUtils.getSlideToPurchaseString(activity, property, rate, isTablet);
-		expectedText = activity.getString(R.string.your_card_will_be_charged_TEMPLATE, totalAmount.getFormattedMoney());
+		expectedText = Phrase.from(activity.getApplicationContext(), R.string.your_card_will_be_charged_template)
+			.put("dueamount", totalAmount.getFormattedMoney()).format().toString();
 		assertEquals(expectedText, resultText);
 
 		// Pay now, non-merchant
@@ -93,7 +102,9 @@ public class HotelUtilsTest {
 		property.setSupplierType(NON_MERCHANT_SUPPLIER_TYPE);
 		isTablet = true;
 		resultText = HotelUtils.getSlideToPurchaseString(activity, property, rate, isTablet);
-		expectedText = activity.getString(R.string.collected_by_the_hotel_TEMPLATE, totalAmount.getFormattedMoney());
+		expectedText = Phrase.from(activity.getApplicationContext(), R.string.to_be_collected_by_the_hotel_TEMPLATE)
+			.put("dueamount",
+				totalAmount.getFormattedMoney()).format().toString();
 		assertEquals(expectedText, resultText);
 	}
 

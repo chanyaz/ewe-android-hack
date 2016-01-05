@@ -28,6 +28,7 @@ import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
+import com.squareup.phrase.Phrase;
 
 public class FlightUtils {
 
@@ -86,9 +87,9 @@ public class FlightUtils {
 		Money totalFare = flightItem.getFlightTrip().getTotalFareWithCardFee(Db.getBillingInfo(), flightItem);
 		String template = context.getString(
 			PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
-				? R.string.your_card_will_be_charged_plus_airline_fee_TEMPLATE
-				: R.string.your_card_will_be_charged_TEMPLATE);
-		return String.format(template, totalFare.getFormattedMoney());
+				? R.string.your_card_will_be_charged_plus_airline_fee_template
+				: R.string.your_card_will_be_charged_template);
+		return Phrase.from(template).put("dueamount", totalFare.getFormattedMoney()).format().toString();
 	}
 
 	public static Spanned getCardFeeLegalText(Context context) {

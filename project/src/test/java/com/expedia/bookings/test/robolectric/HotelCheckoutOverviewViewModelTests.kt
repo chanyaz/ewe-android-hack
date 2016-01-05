@@ -3,7 +3,10 @@ package com.expedia.bookings.test.robolectric
 import android.app.Activity
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.hotels.PaymentSplits
+import com.expedia.bookings.data.hotels.PaymentSplitsType
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.vm.HotelCheckoutOverviewViewModel
 import org.junit.Before
@@ -11,8 +14,15 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import rx.observers.TestSubscriber
 import java.text.DecimalFormat
 import kotlin.test.assertEquals
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.hotels.PaymentModel
+import java.math.BigDecimal
+import java.util.concurrent.CountDownLatch
+import kotlin.properties.Delegates
+import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricRunner::class)
 public class HotelCheckoutOverviewViewModelTest {
@@ -30,7 +40,7 @@ public class HotelCheckoutOverviewViewModelTest {
         activity.setTheme(R.style.V2_Theme_Hotels)
         context = activity.application
 
-        sut = HotelCheckoutOverviewViewModel(context)
+        sut = HotelCheckoutOverviewViewModel(context, PaymentModel(mockHotelServiceTestRule.service))
     }
 
     @Test
@@ -41,7 +51,6 @@ public class HotelCheckoutOverviewViewModelTest {
         assertEquals("By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, and the Privacy Policy.", sut.legalTextInformation.value.toString())
         assertEquals("", sut.disclaimerText.value.toString())
         assertEquals("Slide to purchase", sut.slideToText.value)
-        assertEquals("Your card will be charged $135.81", sut.totalPriceCharged.value)
         assertEquals(Unit, sut.resetMenuButton.value)
     }
 
@@ -54,7 +63,39 @@ public class HotelCheckoutOverviewViewModelTest {
     }
 
     @Test
-    
+    fun totalPriceCharged() {
+        val totalPriceChargedSubscriber = TestSubscriber.create<String>()
+        val paymentSplitsSubscriber = TestSubscriber.create<PaymentSplits>()
+        sut.totalPriceCharged.subscribe(totalPriceChargedSubscriber)
+        sut.paymentModel.paymentSplits.subscribe(paymentSplitsSubscriber)
+
+        sut.paymentModel.createTripSubject.onNext(getCreateTripResponse(true))
+        paymentSplitsSubscriber.assertValueCount(1)
+
+        sut.paymentModel.createTripSubject.onNext(getCreateTripResponse(false))
+        paymentSplitsSubscriber.assertValueCount(2)
+
+        sut.paymentModel.createTripSubject.onNext(getCreateTripResponse(true))
+        paymentSplitsSubscriber.assertValueCount(3)
+
+        //When user chooses to pay through card and reward points
+        val latch = CountDownLatch(1)
+        sut.paymentModel.currencyToPointsApiResponse.subscribe { latch.countDown() }
+        sut.paymentModel.amountChosenToBePaidWithPointsSubject.onNext(BigDecimal(32))
+        latch.await(10, TimeUnit.SECONDS)
+
+        paymentSplitsSubscriber.assertValueCount(4)
+
+        totalPriceChargedSubscriber.assertValues("You are using 2500 ($1,000.00) Expedia+ points", "Your card will be charged $135.81", "You are using 2500 ($1,000.00) Expedia+ points" ,"You are using 14005 ($100.00) Expedia+ points\\nYour card will be charged $3.70")
+    }
+
+    @Test
+    fun totalPriceChargedWithPayLater() {
+        //TODO
+        //When user chooses the option of PayLater or changes the splits
+    }
+
+    @Test
     fun roomIsPayLater() {
         givenHotelIsPayLater()
         sut.newRateObserver.onNext(hotelProductResponse)
@@ -81,5 +122,18 @@ public class HotelCheckoutOverviewViewModelTest {
 
     private fun givenHappyCreateTripResponse() {
         hotelProductResponse = mockHotelServiceTestRule.getHappyCreateTripResponse().newHotelProductResponse
+    }
+
+    private fun getCreateTripResponse(hasRedeemablePoints: Boolean): HotelCreateTripResponse {
+        var createTripResponse: HotelCreateTripResponse
+        if (hasRedeemablePoints)
+            createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
+        else
+            createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemeblePointsCreateTripResponse()
+
+        createTripResponse.tripId = "happy"
+        Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
+
+       return createTripResponse
     }
 }

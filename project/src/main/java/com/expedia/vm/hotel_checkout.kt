@@ -15,6 +15,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.PaymentModel
+import com.expedia.bookings.data.hotels.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
@@ -23,6 +24,7 @@ import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
+import rx.Observable
 import com.mobiata.android.util.AndroidUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
@@ -156,7 +158,7 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
     }
 }
 
-class HotelCheckoutOverviewViewModel(val context: Context) {
+class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: PaymentModel) {
     // input
     val newRateObserver = BehaviorSubject.create<HotelCreateTripResponse.HotelProductResponse>()
     // output
@@ -164,8 +166,42 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
     val disclaimerText = BehaviorSubject.create<Spanned>()
     val depositPolicyText = BehaviorSubject.create<Spanned>()
     val slideToText = BehaviorSubject.create<String>()
-    val totalPriceCharged = BehaviorSubject.create<String>()
     val resetMenuButton = BehaviorSubject.create<Unit>()
+    val totalPriceCharged: Observable<String> =
+            paymentModel.paymentSplits.withLatestFrom(paymentModel.tripResponses, { paymentSplits, tripResponse ->
+                object {
+                    val payingWithPoints = paymentSplits.payingWithPoints
+                    val payingWithCards = paymentSplits.payingWithCards
+                    val paymentSplitsType = paymentSplits.paymentSplitsType()
+                    val isExpediaRewardsRedeemable = tripResponse.isExpediaRewardsRedeemable
+                    val hotelProductResponse = tripResponse.newHotelProductResponse
+                }
+            }).map {
+                when (it.isExpediaRewardsRedeemable) {
+                    true ->
+                        when (it.paymentSplitsType) {
+                            PaymentSplitsType.IS_FULL_PAYABLE_WITH_EXPEDIA_POINT ->
+                                Phrase.from(context, R.string.you_are_using_expedia_points_TEMPLATE)
+                                        .put("amount", it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
+                                        .put("points", it.payingWithPoints.points.toString())
+                                        .format().toString()
+
+                            PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD ->
+                                Phrase.from(context, R.string.your_card_will_be_charged_template)
+                                        .put("dueamount", it.payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode)
+                                        .format().toString()
+
+                            PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD ->
+                                Phrase.from(context, R.string.payment_through_card_and_pwp_points)
+                                        .put("amount", it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
+                                        .put("points", it.payingWithPoints.points.toString())
+                                        .put("dueamount", it.payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode)
+                                        .format().toString()
+                        }
+                    false -> Phrase.from(context, R.string.your_card_will_be_charged_template)
+                            .put("dueamount", getDueNowAmount(it.hotelProductResponse)).format().toString()
+                }
+            }
 
     init {
         newRateObserver.subscribe {
@@ -194,7 +230,6 @@ class HotelCheckoutOverviewViewModel(val context: Context) {
             }
 
             legalTextInformation.onNext(StrUtils.generateHotelsBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString(), false))
-            totalPriceCharged.onNext(context.getString(R.string.your_card_will_be_charged_TEMPLATE, getDueNowAmount(it)))
             resetMenuButton.onNext(Unit)
         }
     }
