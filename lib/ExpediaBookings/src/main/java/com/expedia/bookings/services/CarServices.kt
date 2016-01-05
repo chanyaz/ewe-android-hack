@@ -161,7 +161,7 @@ public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIn
             }
             bucket.add(offer)
         }
-        Observable.from(ArrayList(buckets.values()))
+        Observable.from(ArrayList(buckets.values))
     }
 
     private val PUT_IN_CAR_SEARCH = { categories: List<CategorizedCarOffers> ->

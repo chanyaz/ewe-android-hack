@@ -17,7 +17,7 @@ public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager,
         viewPager.adapter = this
 
         vm.reviewsSummaryObservable.subscribe { reviewsSummary ->
-            for (reviewSort: ReviewSort in ReviewSort.values) {
+            for (reviewSort: ReviewSort in ReviewSort.values()) {
                 val hotelReviewsView = viewPager.findViewWithTag(reviewSort) as HotelReviewsPageView
                 hotelReviewsView.recyclerAdapter.updateSummary(reviewsSummary)
             }
