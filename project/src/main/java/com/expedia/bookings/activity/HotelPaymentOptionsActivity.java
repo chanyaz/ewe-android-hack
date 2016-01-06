@@ -21,7 +21,6 @@ import com.expedia.bookings.fragment.HotelPaymentCreditCardFragment;
 import com.expedia.bookings.fragment.HotelPaymentOptionsFragment;
 import com.expedia.bookings.fragment.HotelPaymentOptionsFragment.HotelPaymentYoYoListener;
 import com.expedia.bookings.fragment.HotelPaymentSaveDialogFragment;
-import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.model.HotelPaymentFlowState;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ActionBarNavUtils;
@@ -138,16 +137,6 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 		outState.putString(STATE_TAG_MODE, mMode.name());
 		outState.putString(STATE_TAG_DEST, mPos.name());
 		super.onSaveInstanceState(outState);
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
-			mOptionsFragment.onActivityResult(requestCode, resultCode, data);
-		}
-		else {
-			super.onActivityResult(requestCode, resultCode, data);
-		}
 	}
 
 	@Override
@@ -380,8 +369,8 @@ public class HotelPaymentOptionsActivity extends FragmentActivity implements Hot
 					Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(
 						Db.getWorkingBillingInfoManager().getBaseBillingInfo());
 				}
-				//show options only if user is logged in or have selected google wallet as payment method
-				if (!User.isLoggedIn(this) && Db.getMaskedWallet() == null) {
+				//show options only if user is logged in
+				if (!User.isLoggedIn(this)) {
 					displayCheckout();
 				}
 				else {

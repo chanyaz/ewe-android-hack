@@ -24,7 +24,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
-import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -40,7 +39,6 @@ import com.expedia.bookings.fragment.FlightTripOverviewFragment.DisplayMode;
 import com.expedia.bookings.fragment.FlightTripPriceFragment;
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment.DoLogoutListener;
 import com.expedia.bookings.fragment.SlideToPurchaseFragment;
-import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -291,24 +289,6 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 		}
 	}
 
-	private void googleWalletTripPaymentTypeCheck() {
-		//If we have a valid trip, we check if google wallet is a supported payment type and tell the checkout fragment
-		FlightCheckoutFragment checkoutFrag = mCheckoutFragment;
-		if (checkoutFrag == null) {
-			//Sometimes this will be called on rotation, so our instance may exist, but be otherwise un-initialized for this orientation.
-			checkoutFrag = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
-		}
-		if (checkoutFrag != null && Db.getTripBucket() != null
-			&& Db.getTripBucket().getFlight() != null
-			&& !TextUtils.isEmpty(Db.getTripBucket().getFlight().getFlightTrip().getItineraryNumber())) {
-			// Disable Google Wallet if not a valid payment type
-			if (!Db.getTripBucket().getFlight().isPaymentTypeSupported(PaymentType.WALLET_GOOGLE)) {
-				Log.d("disableGoogleWallet: safeGoogleWalletTripPaymentTypeCheck");
-				checkoutFrag.disableGoogleWallet();
-			}
-		}
-	}
-
 	public void attachCheckoutFragment() {
 		if (mSafeToAttach) {
 			mCheckoutFragment = Ui.findSupportFragment(this, TAG_CHECKOUT_FRAG);
@@ -329,9 +309,6 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 				transaction.add(R.id.trip_checkout_container, mCheckoutFragment, TAG_CHECKOUT_FRAG);
 				transaction.commit();
 			}
-
-			//If the trip call is already complete, lets ensure that the google wallet state is ok
-			googleWalletTripPaymentTypeCheck();
 		}
 	}
 
@@ -677,12 +654,8 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 			mSafeToAttach = true;
 			attachCheckoutFragment();
 		}
-		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
-			mCheckoutFragment.onActivityResult(requestCode, resultCode, data);
-		}
-		else {
-			super.onActivityResult(requestCode, resultCode, data);
-		}
+
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	public void displayCheckoutButton(boolean visible) {
@@ -782,8 +755,6 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 	// FlightTripPriceFragmentListener
 
 	public void onCreateTripFinished() {
-		googleWalletTripPaymentTypeCheck();
-
 		if (mCheckoutFragment != null) {
 			mCheckoutFragment.refreshData();
 		}

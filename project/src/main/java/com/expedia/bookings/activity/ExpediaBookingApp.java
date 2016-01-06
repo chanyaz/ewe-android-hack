@@ -34,7 +34,6 @@ import com.expedia.bookings.dagger.PackageComponent;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.WalletPromoResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -42,7 +41,6 @@ import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
-import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
@@ -54,7 +52,6 @@ import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.TuneUtils;
-import com.expedia.bookings.utils.WalletUtils;
 import com.facebook.FacebookSdk;
 import com.facebook.applinks.AppLinkData;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -300,30 +297,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {
 			SettingUtils.save(ExpediaBookingApp.this, PREF_UPGRADED_TO_PRODUCTION_PUSH, true);
 		}
-
-		// Kick off thread to determine if the Google Wallet promo is still available
-		(new Thread(new Runnable() {
-			@Override
-			public void run() {
-				boolean walletPromoEnabled = SettingUtils.get(getApplicationContext(),
-						WalletUtils.SETTING_SHOW_WALLET_COUPON, false);
-
-				ExpediaServices services = new ExpediaServices(getApplicationContext());
-				WalletPromoResponse response = services.googleWalletPromotionEnabled();
-				boolean isNowEnabled = response != null && response.isEnabled();
-
-				if (walletPromoEnabled != isNowEnabled) {
-					Log.i("Google Wallet promo went from \"" + walletPromoEnabled + "\" to \"" + isNowEnabled + "\"");
-					SettingUtils.save(getApplicationContext(), WalletUtils.SETTING_SHOW_WALLET_COUPON,
-							isNowEnabled);
-				}
-				else {
-					Log.d("Google Wallet promo enabled: " + walletPromoEnabled);
-				}
-			}
-		}, "WalletCheck")).start();
-
-		startupTimer.addSplit("Google Wallet promo thread creation");
 
 		// If the current POS needs flight routes, update our data
 		if (PointOfSale.getPointOfSale().displayFlightDropDownRoutes()) {

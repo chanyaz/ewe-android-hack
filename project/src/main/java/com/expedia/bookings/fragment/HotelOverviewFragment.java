@@ -9,7 +9,6 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
@@ -17,7 +16,6 @@ import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -36,12 +34,9 @@ import com.expedia.bookings.activity.HotelPaymentOptionsActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.HotelTravelerInfoOptionsActivity;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CreateTripResponse;
-import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SignInResponse;
@@ -55,7 +50,6 @@ import com.expedia.bookings.dialog.CouponDialogFragment;
 import com.expedia.bookings.dialog.CouponDialogFragment.CouponDialogFragmentListener;
 import com.expedia.bookings.dialog.HotelErrorDialog;
 import com.expedia.bookings.dialog.ThrobberDialog;
-import com.expedia.bookings.dialog.ThrobberDialog.CancelListener;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.HotelBookingFragment.HotelBookingState;
 import com.expedia.bookings.model.HotelPaymentFlowState;
@@ -71,7 +65,6 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.FrameLayout;
@@ -79,9 +72,6 @@ import com.expedia.bookings.widget.HotelReceipt;
 import com.expedia.bookings.widget.ScrollView;
 import com.expedia.bookings.widget.ScrollView.OnScrollListener;
 import com.expedia.bookings.widget.TouchableFrameLayout;
-import com.expedia.bookings.widget.WalletButton;
-import com.google.android.gms.wallet.MaskedWallet;
-import com.google.android.gms.wallet.MaskedWalletRequest.Builder;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
@@ -91,9 +81,8 @@ import com.mobiata.android.util.AndroidUtils;
 import com.squareup.otto.Subscribe;
 import com.squareup.phrase.Phrase;
 
-public class HotelOverviewFragment extends LoadWalletFragment implements AccountButtonClickListener,
-	LoginConfirmLogoutDialogFragment.DoLogoutListener,
-	CancelListener, CouponDialogFragmentListener {
+public class HotelOverviewFragment extends Fragment implements AccountButtonClickListener,
+	LoginConfirmLogoutDialogFragment.DoLogoutListener,CouponDialogFragmentListener {
 
 	public interface BookingOverviewFragmentListener {
 		void checkoutStarted();
@@ -112,7 +101,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private static final String INSTANCE_SHOW_SLIDE_TO_WIDGET = "INSTANCE_SHOW_SLIDE_TO_WIDGET";
 	private static final String INSTANCE_DONE_LOADING_PRICE_CHANGE = "INSTANCE_DONE_LOADING_PRICE_CHANGE";
 	private static final String INSTANCE_COUPON_CODE = "INSTANCE_COUPON_CODE";
-	private static final String INSTANCE_WAS_USING_GOOGLE_WALLET = "INSTANCE_WAS_USING_GOOGLE_WALLET";
 
 	private static final String KEY_REFRESH_USER = "KEY_REFRESH_USER";
 
@@ -133,7 +121,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private TouchableFrameLayout mCheckoutLayoutBlocker;
 
 	private AccountButton mAccountButton;
-	private WalletButton mWalletButton;
 	private LinearLayout mHintContainer;
 	private ImageView mCheckoutDivider;
 	private SectionTravelerInfo mTravelerSection;
@@ -144,8 +131,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 	private ViewGroup mPaymentButton;
 
 	private String mCouponCode;
-	private boolean mWasUsingGoogleWallet;
-	private ThrobberDialog mWalletPromoThrobberDialog;
 
 	private TextView mCouponButton;
 	private ViewGroup mCouponAppliedContainer;
@@ -200,20 +185,10 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mShowSlideToWidget = savedInstanceState.getBoolean(INSTANCE_SHOW_SLIDE_TO_WIDGET);
 			mIsDoneLoadingPriceChange = savedInstanceState.getBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE);
 			mCouponCode = savedInstanceState.getString(INSTANCE_COUPON_CODE);
-			mWasUsingGoogleWallet = savedInstanceState.getBoolean(INSTANCE_WAS_USING_GOOGLE_WALLET);
 			mWasLoggedIn = savedInstanceState.getBoolean(INSTANCE_WAS_LOGGED_IN);
 		}
 		else {
-			// Reset Google Wallet state each time we get here
-			Db.clearGoogleWallet();
-
 			mWasLoggedIn = User.isLoggedIn(getActivity());
-		}
-
-		// #1715: Disable Google Wallet on non-merchant hotels
-		Rate rate = Db.getTripBucket().getHotel().getRate();
-		if (!Db.getTripBucket().getHotel().getProperty().isMerchant() || rate.isPayLater()) {
-			disableGoogleWallet();
 		}
 
 		AdTracker.trackHotelCheckoutStarted();
@@ -242,7 +217,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mCheckoutLayoutBlocker = Ui.findView(view, R.id.checkout_layout_touch_blocker);
 
 		mAccountButton = Ui.findView(view, R.id.account_button_root);
-		mWalletButton = Ui.findView(view, R.id.wallet_button_layout);
 		mHintContainer = Ui.findView(view, R.id.hint_container);
 		mCheckoutDivider = Ui.findView(view, R.id.checkout_divider);
 		mTravelerSection = Ui.findView(view, R.id.traveler_section);
@@ -338,11 +312,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mHotelReceipt.setRateBreakdownClickListener(mRateBreakdownClickListener);
 		mHotelReceipt.setOnViewMapClickListener(mViewMapClickListener);
 
-		mWalletButton.setPromoVisible(ProductFlavorFeatureConfiguration.getInstance().isGoogleWalletPromoEnabled());
-		// Touch events to constituent parts are handled in WalletButton.onInterceptTouchEvent(...)
-		mWalletButton.setOnClickListener(mWalletButtonClickListener);
-
-
 		// We underline the coupon button text in code to avoid re-translating
 		mCouponButton.setPaintFlags(mCouponButton.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
@@ -363,28 +332,10 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		Events.register(this);
 
-		mWalletPromoThrobberDialog = Ui.findSupportFragment((FragmentActivity) getActivity(), ThrobberDialog.TAG);
-		if (mWalletPromoThrobberDialog != null && mWalletPromoThrobberDialog.isAdded()) {
-			mWalletPromoThrobberDialog.setCancelListener(this);
-		}
-
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 
 		HotelErrorDialog errorDialog = (HotelErrorDialog) getFragmentManager().findFragmentByTag(HOTEL_OFFER_ERROR_DIALOG);
 		if (errorDialog == null) {
-			// When we resume, there is a possibility that:
-			// 1. We were using GWallet (with coupon), but are no longer using GWallet
-			// 2. We were not using GWallet, but now are doing so (and thus want to apply the GWallet code)
-			boolean isUsingGoogleWallet = Db.getBillingInfo().isUsingGoogleWallet();
-			final boolean isCouponAvailable = WalletUtils.offerGoogleWalletCoupon(getActivity());
-			boolean isCouponApplied = Db.getTripBucket().getHotel().isCouponApplied();
-			if (mWasUsingGoogleWallet && !isUsingGoogleWallet && isCouponApplied && usingWalletPromoCoupon()) {
-				clearWalletPromoCoupon();
-			}
-			else if (!mWasUsingGoogleWallet && isUsingGoogleWallet && isCouponAvailable) {
-				applyWalletCoupon();
-			}
-
 			refreshData();
 
 			if (mHotelBookingFragment != null && !mHotelBookingFragment.isDownloadingCreateTrip() && !mIsDoneLoadingPriceChange) {
@@ -409,8 +360,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 		Events.unregister(this);
 
-		mWasUsingGoogleWallet = mBillingInfo.isUsingGoogleWallet();
-
 		BackgroundDownloader bd = BackgroundDownloader.getInstance();
 		if (getActivity().isFinishing()) {
 			bd.cancelDownload(KEY_REFRESH_USER);
@@ -433,7 +382,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		outState.putBoolean(INSTANCE_SHOW_SLIDE_TO_WIDGET, mShowSlideToWidget);
 		outState.putBoolean(INSTANCE_DONE_LOADING_PRICE_CHANGE, mIsDoneLoadingPriceChange);
 		outState.putString(INSTANCE_COUPON_CODE, mCouponCode);
-		outState.putBoolean(INSTANCE_WAS_USING_GOOGLE_WALLET, mWasUsingGoogleWallet);
 		outState.putBoolean(INSTANCE_WAS_LOGGED_IN, mWasLoggedIn);
 
 		mHotelReceipt.saveInstanceState(outState);
@@ -557,12 +505,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			if (mBillingInfo.getStoredCard() != null && !Db.getTripBucket().getHotel().isPaymentTypeSupported(mBillingInfo.getStoredCard().getType())) {
 				mBillingInfo.setStoredCard(null);
 			}
-		}
-		else if (Db.getMaskedWallet() == null) {
-			//Remove stored card(s)
-			Db.getBillingInfo().setStoredCard(null);
-			//Turn off the save to expedia account flag
-			Db.getBillingInfo().setSaveCardToExpediaAccount(false);
 		}
 	}
 
@@ -727,8 +669,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mPaymentButton.setVisibility(View.VISIBLE);
 			mCreditCardSectionButton.setVisibility(View.GONE);
 		}
-
-		updateWalletViewVisibilities();
 	}
 
 	private void updateCheckoutDisclaimerText() {
@@ -1053,10 +993,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 			mAccountButton.bind(false, true, Db.getUser(), LineOfBusiness.HOTELS);
 			mRefreshedUserTime = System.currentTimeMillis();
 
-			if (Db.getTripBucket().getHotel().isCouponGoogleWallet()) {
-				replaceCoupon(WalletUtils.getWalletCouponCode(getActivity()), false);
-			}
-
 			populateTravelerData();
 			populatePaymentDataFromUser();
 			populateTravelerDataFromUser();
@@ -1324,93 +1260,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Google Wallet
-
-	private OnClickListener mWalletButtonClickListener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			buyWithGoogleWallet();
-		}
-	};
-
-	@Override
-	protected Money getEstimatedTotal() {
-		return Db.getTripBucket().getHotel().getRate().getTotalAmountAfterTax();
-	}
-
-	@Override
-	protected void modifyMaskedWalletBuilder(Builder builder) {
-		builder.setCart(WalletUtils.buildHotelCart(getActivity()));
-
-		builder.setPhoneNumberRequired(true);
-		builder.setUseMinimalBillingAddress(true);
-	}
-
-	/**
-	 * Binds the masked wallet to the billing info.  Warning: it WILL
-	 * blow away whatever was here before - so only call this when
-	 * we want to override the current data with Google Wallet!
-	 */
-	protected void onMaskedWalletFullyLoaded(boolean fromPreauth) {
-		mWasUsingGoogleWallet = true;
-
-		populateTravelerData();
-
-		MaskedWallet maskedWallet = Db.getMaskedWallet();
-
-		// Add the current traveler from the wallet, if it is full of data and we have none at the moment
-		Traveler traveler = WalletUtils.addWalletAsTraveler(getActivity(), maskedWallet);
-		BookingInfoUtils.insertTravelerDataIfNotFilled(getActivity(), traveler, LineOfBusiness.HOTELS);
-
-		// Bind credit card data, but only if they explicitly clicked "buy with wallet" or they have
-		// no existing credit card info entered
-		if (!fromPreauth || (TextUtils.isEmpty(mBillingInfo.getNumber()) && !mBillingInfo.hasStoredCard())) {
-			WalletUtils.bindWalletToBillingInfo(maskedWallet, mBillingInfo);
-
-			// Apply the mobile wallet coupon (if enabled, and no other cards are
-			// currently being used #1865)
-			if (WalletUtils.offerGoogleWalletCoupon(getActivity())) {
-				applyWalletCoupon();
-			}
-		}
-
-		bindAll();
-		updateViews();
-		updateViewVisibilities();
-	}
-
-	// We may want to update these more often than the rest of the Views
-	protected void updateWalletViewVisibilities() {
-		boolean showWalletButton = showWalletButton();
-		boolean isWalletLoading = isWalletLoading();
-
-		mWalletButton.setVisibility(showWalletButton ? View.VISIBLE : View.GONE);
-		mWalletButton.setEnabled(!isWalletLoading);
-
-		// Enable buttons if we're either not showing the wallet button or we're not loading a masked wallet
-		boolean enableButtons = !showWalletButton || !isWalletLoading;
-		mAccountButton.setEnabled(enableButtons);
-		mTravelerButton.setEnabled(enableButtons);
-		mTravelerSection.setEnabled(enableButtons);
-		mPaymentButton.setEnabled(enableButtons);
-		mStoredCreditCard.setEnabled(enableButtons);
-		mCreditCardSectionButton.setEnabled(enableButtons);
-		mCouponButton.setEnabled(enableButtons);
-		mCouponRemoveView.setEnabled(enableButtons);
-
-		// If we're using wallet and the promo code, hide the coupon layout (unless we failed to
-		// apply the Google Wallet code).
-		boolean offeredPromo = WalletUtils.offerGoogleWalletCoupon(getActivity());
-		boolean codeIsPromo = usingWalletPromoCoupon();
-		boolean applyingCoupon = mHotelBookingFragment.isDownloadingCoupon();
-		boolean appliedCoupon = Db.getTripBucket().getHotel().isCouponApplied();
-		if (mCouponButton.getVisibility() == View.VISIBLE) {
-			mCouponButton.setVisibility(mBillingInfo.isUsingGoogleWallet()
-					&& offeredPromo && codeIsPromo && (applyingCoupon || appliedCoupon) ? View.GONE : View.VISIBLE);
-		}
-	}
-
 	// Coupons
 
 	public void applyCoupon() {
@@ -1419,18 +1268,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		mHotelBookingFragment.startDownload(HotelBookingState.COUPON_APPLY, mCouponCode);
 
 		updateViewVisibilities();
-
-		// Show a special spinner dialog for wallet
-		if (usingWalletPromoCoupon()) {
-			mFragmentModLock.runWhenSafe(new Runnable() {
-				@Override
-				public void run() {
-					mWalletPromoThrobberDialog = ThrobberDialog.newInstance(getString(R.string.wallet_promo_applying));
-					mWalletPromoThrobberDialog.setCancelListener(HotelOverviewFragment.this);
-					mWalletPromoThrobberDialog.show(getFragmentManager(), ThrobberDialog.TAG);
-				}
-			});
-		}
 	}
 
 	public void replaceCoupon(String couponCode, final boolean showReplaceWarning) {
@@ -1438,25 +1275,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		Log.i("Trying to replace current coupon with coupon: " + mCouponCode);
 		mHotelBookingFragment.startDownload(HotelBookingState.COUPON_REPLACE, mCouponCode);
 		updateViewVisibilities();
-		// Show a special spinner dialog for wallet
-		if (usingWalletPromoCoupon()) {
-			mFragmentModLock.runWhenSafe(new Runnable() {
-				@Override
-				public void run() {
-					if (mWalletPromoThrobberDialog == null) {
-						mWalletPromoThrobberDialog = ThrobberDialog.newInstance(getString(R.string.wallet_promo_applying));
-						mWalletPromoThrobberDialog.setCancelListener(HotelOverviewFragment.this);
-					}
-					mWalletPromoThrobberDialog.show(getFragmentManager(), ThrobberDialog.TAG);
-
-					Fragment frag = getFragmentManager().findFragmentByTag("WALLET_REPLACE_DIALOG");
-					if (showReplaceWarning && isResumed() && frag == null) {
-						SimpleDialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.coupon_replaced_message));
-						df.show(getFragmentManager(), "WALLET_REPLACE_DIALOG");
-					}
-				}
-			});
-		}
 	}
 
 	public void clearCoupon() {
@@ -1470,67 +1288,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		});
 
 		mHotelBookingFragment.startDownload(HotelBookingState.COUPON_REMOVE);
-	}
-
-	private boolean usingWalletPromoCoupon() {
-		return WalletUtils.getWalletCouponCode(getActivity()).equals(mCouponCode);
-	}
-
-	private boolean appliedWalletPromoCoupon() {
-		return mBillingInfo.isUsingGoogleWallet() && WalletUtils.offerGoogleWalletCoupon(getActivity())
-				&& usingWalletPromoCoupon() && Db.getTripBucket().getHotel().isCouponApplied();
-	}
-
-	private void applyWalletCoupon() {
-		// If the user already has a coupon applied, clear it (and tell the user)
-		boolean hadCoupon = Db.getTripBucket().getHotel().isCouponApplied();
-		String walletCoupon = WalletUtils.getWalletCouponCode(getActivity());
-		// Apply this later so that this dialog shows up on top of the progress one
-		if (hadCoupon) {
-			replaceCoupon(walletCoupon, true);
-		}
-		else {
-			onApplyCoupon(walletCoupon);
-		}
-	}
-
-	private void clearWalletPromoCoupon() {
-		mCouponCode = null;
-		clearCoupon();
-
-		if (mWalletPromoThrobberDialog != null) {
-			mWalletPromoThrobberDialog.dismiss();
-		}
-	}
-
-	// Error handling for create retry dialog.
-
-	public void retryCoupon() {
-		onApplyCoupon(mCouponCode);
-	}
-
-	public void cancelRetryCouponDialog() {
-		if (mWalletPromoThrobberDialog != null && mWalletPromoThrobberDialog.isAdded()) {
-			mWalletPromoThrobberDialog.dismiss();
-		}
-
-		if (mCouponDialogFragment != null && mCouponDialogFragment.isAdded()) {
-			mCouponDialogFragment.dismiss();
-		}
-
-		if (mCouponRemoveThrobberDialog != null && mCouponRemoveThrobberDialog.isAdded()) {
-			mCouponRemoveThrobberDialog.dismiss();
-		}
-		onCancelApplyCoupon();
-	}
-
-	// CancelListener (for wallet promo dialog)
-
-	@Override
-	public void onCancel() {
-		clearWalletPromoCoupon();
-
-		updateWalletViewVisibilities();
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -1551,9 +1308,6 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 		if (mCouponDialogFragment != null && mCouponDialogFragment.isAdded()) {
 			mCouponDialogFragment.dismiss();
 		}
-		if (mWalletPromoThrobberDialog != null && mWalletPromoThrobberDialog.isAdded()) {
-			mWalletPromoThrobberDialog.dismiss();
-		}
 		if (mCouponRemoveThrobberDialog != null && mCouponRemoveThrobberDialog.isAdded()) {
 			mCouponRemoveThrobberDialog.dismiss();
 		}
@@ -1573,33 +1327,17 @@ public class HotelOverviewFragment extends LoadWalletFragment implements Account
 
 	///////////////////////////////////
 	/// Otto Event Subscriptions
-
 	@Subscribe
 	public void onSimpleDialogClick(Events.SimpleCallBackDialogOnClick event) {
-		if (event.callBackId == SimpleCallbackDialogFragment.CODE_WALLET_PROMO_APPLY_ERROR) {
-			updateViewVisibilities();
-		}
 	}
 
 	@Subscribe
 	public void onSimpleDialogCancel(Events.SimpleCallBackDialogOnCancel event) {
-		// #1687: Make sure to update view visibilities, as the slide-to-purchase may still have a state change yet
-		if (event.callBackId == SimpleCallbackDialogFragment.CODE_WALLET_PROMO_APPLY_ERROR) {
-			updateViewVisibilities();
-		}
 	}
 
 	@Subscribe
 	public void onCreateTripDownloadSuccess(Events.CreateTripDownloadSuccess event) {
 		mIsDoneLoadingPriceChange = true;
-		if (event.createTripResponse instanceof CreateTripResponse) {
-			// Now we have the valid payments data
-			Rate rate = Db.getTripBucket().getHotel().getRate();
-			if (!Db.getTripBucket().getHotel().isPaymentTypeSupported(PaymentType.WALLET_GOOGLE) || rate.isPayLater()) {
-				Log.d("disableGoogleWallet: safeGoogleWalletTripPaymentTypeCheck");
-				disableGoogleWallet();
-			}
-		}
 
 		dismissDialogs();
 		refreshData();

@@ -76,8 +76,6 @@ import com.expedia.bookings.data.TravelerCommitResponse;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.WalletPromoResponse;
-import com.expedia.bookings.data.WalletPromoResponseHandler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
@@ -1062,13 +1060,6 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	//////////////////////////////////////////////////////////////////////////
-	// Google Wallet coupon promotion
-
-	public WalletPromoResponse googleWalletPromotionEnabled() {
-		return doE3Request("static/mobile/walletcheck2", null, new WalletPromoResponseHandler(), 0);
-	}
-
-	//////////////////////////////////////////////////////////////////////////
 	// Expedia Common
 
 	private void addCommonParams(List<BasicNameValuePair> query) {
@@ -1105,7 +1096,7 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("email", billingInfo.getEmail()));
 
 		StoredCreditCard scc = billingInfo.getStoredCard();
-		if (scc == null || scc.isGoogleWallet()) {
+		if (scc == null) {
 			Location location = billingInfo.getLocation();
 			if ((flags & F_HOTELS) != 0) {
 				// 130 Hotels reservation requires only postalCode for US POS, no billing info for other POS

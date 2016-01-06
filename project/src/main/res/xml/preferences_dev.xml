@@ -25,25 +25,11 @@
             android:summary="The address of your server/proxy (e.g., 192.168.0.5:3000 for proxy)"
             android:title="Server/Proxy Address" />
 
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="@string/preference_google_wallet_cvv_challenge"
-            android:layout="@layout/preference"
-            android:summary="Tries to create a CVV challenge upon checkout using Google Wallet.  Not guaranteed."
-            android:title="Google Wallet CVV Challenge" />
-
         <Preference
             android:key="@string/preference_force_fs_db_update"
             android:layout="@layout/preference"
             android:summary="If you think the internal FS.db is out of date"
             android:title="Force FlightStats DB Update" />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="@string/preference_force_google_wallet_error"
-            android:layout="@layout/preference"
-            android:summary="Force the GOOGLE_WALLET error to be added to the checkout response. Will be the primary error, no matter what."
-            android:title="Force Google Wallet error" />
 
         <CheckBoxPreference
             android:defaultValue="false"
@@ -85,12 +71,6 @@
             android:layout="@layout/preference"
             android:summary="Fake a price change during checkout (e.g., 10.25 for a $10.25 price change)"
             android:title="Fake Hotel Price Change" />
-
-        <CheckBoxPreference
-            android:key="@string/preference_fake_invalid_google_wallet_line_item"
-            android:layout="@layout/preference"
-            android:summary="Add a bunk line item to our google wallet hotel checkout to cause unknown wallet error."
-            android:title="Cause unknown wallet error" />
 
     </PreferenceCategory>
 

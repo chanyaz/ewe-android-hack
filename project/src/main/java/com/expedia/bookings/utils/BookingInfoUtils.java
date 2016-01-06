@@ -19,7 +19,6 @@ import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.model.FlightTravelerFlowState;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.section.CommonSectionValidators;
-import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.Log;
 
 public class BookingInfoUtils {
@@ -87,16 +86,6 @@ public class BookingInfoUtils {
 		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
 		boolean seenSelectedCard = false;
 
-		if (Db.getMaskedWallet() != null) {
-			StoredCreditCard walletCard = WalletUtils.convertToStoredCreditCard(Db.getMaskedWallet());
-			StoredCreditCard currentCard = Db.getBillingInfo().getStoredCard();
-			if (currentCard != null && currentCard.compareTo(walletCard) == 0) {
-				walletCard.setIsSelectable(false);
-				seenSelectedCard = true;
-			}
-			cards.add(walletCard);
-		}
-
 		if (User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
 			List<StoredCreditCard> dbCards = Db.getUser().getStoredCreditCards();
 			StoredCreditCard currentCard = Db.getBillingInfo().getStoredCard();
@@ -133,10 +122,6 @@ public class BookingInfoUtils {
 	public static List<Traveler> getAlternativeTravelers(Context context) {
 		List<Traveler> travelers = new ArrayList<Traveler>();
 
-		if (Db.getGoogleWalletTraveler() != null) {
-			travelers.add(Db.getGoogleWalletTraveler());
-		}
-
 		if (User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null) {
 			travelers.addAll(Db.getUser().getAssociatedTravelers());
 		}
@@ -148,8 +133,7 @@ public class BookingInfoUtils {
 		for (int j = 0; j < Db.getTravelers().size(); j++) {
 			Traveler inUseTraveler = Db.getTravelers().get(j);
 			if ((traveler.hasTuid() && inUseTraveler.hasTuid()
-				&& traveler.getTuid().compareTo(inUseTraveler.getTuid()) == 0)
-				|| (traveler.fromGoogleWallet() && inUseTraveler.fromGoogleWallet())) {
+				&& traveler.getTuid().compareTo(inUseTraveler.getTuid()) == 0)) {
 				return true;
 			}
 		}
@@ -164,12 +148,7 @@ public class BookingInfoUtils {
 			boolean useNewTraveler = false;
 			Traveler currentFirstTraveler = Db.getTravelers().get(0);
 
-			if (traveler.fromGoogleWallet() && currentFirstTraveler.fromGoogleWallet()) {
-				// If the current user is from GWallet (and no edits have been made, signified
-				// by the fact that we still think it is from GWallet) then replace it automatically.
-				useNewTraveler = true;
-			}
-			else if (lob == LineOfBusiness.HOTELS) {
+			if (lob == LineOfBusiness.HOTELS) {
 				HotelTravelerFlowState state = HotelTravelerFlowState.getInstance(context);
 				if (!state.hasValidTraveler(currentFirstTraveler)) {
 					useNewTraveler = state.hasValidTraveler(traveler);
@@ -298,12 +277,7 @@ public class BookingInfoUtils {
 				}
 			}
 		}
-		else if (Db.getMaskedWallet() == null) {
-			//Remove stored card(s)
-			info.setStoredCard(null);
-			//Turn off the save to expedia account flag
-			info.setSaveCardToExpediaAccount(false);
-		}
+
 		return false;
 	}
 
@@ -392,21 +366,6 @@ public class BookingInfoUtils {
 			}
 		}
 
-		//Get google wallet email...
-		String walletEmail = null;
-		if (Db.hasBillingInfo()) {
-			if (Db.getBillingInfo().getStoredCard() != null && Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
-				MaskedWallet wallet = Db.getMaskedWallet();
-				if (wallet != null && !TextUtils.isEmpty(wallet.getEmail())) {
-					String email = wallet.getEmail();
-					if (CommonSectionValidators.EMAIL_STRING_VALIDATIOR_STRICT.validate(email) == 0) {
-						Log.d("getCheckoutEmail - found Db.getMaskedWallet().getEmail():" + email);
-						walletEmail = email;
-					}
-				}
-			}
-		}
-
 		//Choose best email address based on priority and availability.
 		String retEmail = null;
 		if (!TextUtils.isEmpty(userEmail)) {
@@ -420,10 +379,7 @@ public class BookingInfoUtils {
 				//In flights email is associated with billingInfo. So if we have a wallet email, we use that, because it replaces our payment method.
 				//Failing that we try the BillingInfo, because that is where we put manually entered email addresses. Finally we try traveler, because
 				//the user may have entered an address in Hotels that is to be used now.
-				if (!TextUtils.isEmpty(walletEmail)) {
-					retEmail = walletEmail;
-				}
-				else if (!TextUtils.isEmpty(billingInfoEmail)) {
+				if (!TextUtils.isEmpty(billingInfoEmail)) {
 					retEmail = billingInfoEmail;
 				}
 				else if (!TextUtils.isEmpty(travelerEmail)) {
@@ -431,13 +387,10 @@ public class BookingInfoUtils {
 				}
 			}
 			else {
-				//In hotels email is associated with the traveler. So we first look at the travelerEmail. Failing that we look in wallet, but wallet should
-				//have copied its email over to traveler already, so that should be rare, finally we check billingInfo because we are desperate.
+				//In hotels email is associated with the traveler. So we first look at the travelerEmail.
+				//Failing that we look billingInfo because we are desperate.
 				if (!TextUtils.isEmpty(travelerEmail)) {
 					retEmail = travelerEmail;
-				}
-				else if (!TextUtils.isEmpty(walletEmail)) {
-					retEmail = walletEmail;
 				}
 				else if (!TextUtils.isEmpty(billingInfoEmail)) {
 					retEmail = billingInfoEmail;
@@ -450,7 +403,7 @@ public class BookingInfoUtils {
 	}
 
 	public static final int getGreyCardIcon(PaymentType type) {
-		CreditCardUtils.assertPaymentTypeIsCardOrGoogleWallet(type);
+		CreditCardUtils.assertPaymentTypeIsCard(type);
 		if (CREDIT_CARD_GREY_ICONS.containsKey(type)) {
 			return CREDIT_CARD_GREY_ICONS.get(type);
 		}
@@ -458,7 +411,7 @@ public class BookingInfoUtils {
 	}
 
 	public static final int getBlackCardIcon(PaymentType type) {
-		CreditCardUtils.assertPaymentTypeIsCardOrGoogleWallet(type);
+		CreditCardUtils.assertPaymentTypeIsCard(type);
 		if (CREDIT_CARD_BLACK_ICONS.containsKey(type)) {
 			return CREDIT_CARD_BLACK_ICONS.get(type);
 		}
@@ -466,7 +419,7 @@ public class BookingInfoUtils {
 	}
 
 	public static final int getWhiteCardIcon(PaymentType type) {
-		CreditCardUtils.assertPaymentTypeIsCardOrGoogleWallet(type);
+		CreditCardUtils.assertPaymentTypeIsCard(type);
 		if (CREDIT_CARD_WHITE_ICONS.containsKey(type)) {
 			return CREDIT_CARD_WHITE_ICONS.get(type);
 		}
@@ -474,7 +427,7 @@ public class BookingInfoUtils {
 	}
 
 	public static final int getTabletCardIcon(PaymentType type) {
-		CreditCardUtils.assertPaymentTypeIsCardOrGoogleWallet(type);
+		CreditCardUtils.assertPaymentTypeIsCard(type);
 		if (CREDIT_CARD_TABLET_ICONS.containsKey(type)) {
 			return CREDIT_CARD_TABLET_ICONS.get(type);
 		}
@@ -548,7 +501,6 @@ public class BookingInfoUtils {
 			put(PaymentType.CARD_MAESTRO, R.drawable.ic_tablet_checkout_maestro);
 			put(PaymentType.CARD_MASTERCARD, R.drawable.ic_tablet_checkout_mastercard);
 			put(PaymentType.CARD_VISA, R.drawable.ic_tablet_checkout_visa);
-			put(PaymentType.WALLET_GOOGLE, R.drawable.ic_tablet_checkout_google_wallet);
 		}
 	};
 

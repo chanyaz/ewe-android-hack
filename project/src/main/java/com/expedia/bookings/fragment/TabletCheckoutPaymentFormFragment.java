@@ -253,12 +253,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	@Override
 	public void onFormOpened() {
 		if (Db.getBillingInfo().hasStoredCard()) {
-			if (Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
-				showStoredCardContainerGoogleWallet();
-			}
-			else {
-				showStoredCardContainer();
-			}
+			showStoredCardContainer();
+
 			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());
 		}
 		else {
@@ -369,12 +365,6 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 		StoredCreditCard card = Db.getBillingInfo().getStoredCard();
 		String cardName = card.getDescription();
 		PaymentType cardType = card.getType();
-		showStoredCardContainer(cardName, cardType);
-	}
-
-	private void showStoredCardContainerGoogleWallet() {
-		String cardName = getString(R.string.google_wallet);
-		PaymentType cardType = PaymentType.WALLET_GOOGLE;
 		showStoredCardContainer(cardName, cardType);
 	}
 

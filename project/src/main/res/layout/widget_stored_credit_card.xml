@@ -20,13 +20,6 @@
             android:orientation="vertical" >
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/google_wallet_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/google_wallet"
-                style="@style/Widget.TextView.StoredCreditCard"/>
-
-            <com.expedia.bookings.widget.TextView
                 android:id="@+id/display_stored_card_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

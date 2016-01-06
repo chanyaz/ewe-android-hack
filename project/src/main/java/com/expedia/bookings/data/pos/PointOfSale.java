@@ -130,9 +130,6 @@ public class PointOfSale {
 	// Whether or not to use downloaded routes (for AirAsia) or not
 	private boolean mDisplayFlightDropDownRoutes;
 
-	// Whether or not to let users checkout using Google Wallet
-	private boolean mSupportsGoogleWallet;
-
 	// Used to determine the default POS, based on the device's locale
 	private String[] mDefaultLocales;
 
@@ -656,10 +653,6 @@ public class PointOfSale {
 		return mDisplayFlightDropDownRoutes;
 	}
 
-	public boolean supportsGoogleWallet() {
-		return mSupportsGoogleWallet;
-	}
-
 	public boolean showAtolInfo() {
 		// Possible TODO: Transfer this data into ExpediaPointOfSaleConfig
 		return mPointOfSale == PointOfSaleId.UNITED_KINGDOM;
@@ -1129,7 +1122,6 @@ public class PointOfSale {
 		pos.mSupportsCars = data.optBoolean("carsEnabled");
 		pos.mSupportsLx = data.optBoolean("lxEnabled");
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
-		pos.mSupportsGoogleWallet = data.optBoolean("googleWalletEnabled");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
 		pos.mSupportsVipAccess = data.optBoolean("supportsVipAccess", false);

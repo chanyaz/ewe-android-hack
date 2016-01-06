@@ -3,7 +3,6 @@ package com.expedia.bookings.data;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -288,20 +287,6 @@ public class Db {
 			sDb.mWorkingBillingInfoManager = new WorkingBillingInfoManager();
 		}
 		return sDb.mWorkingBillingInfoManager;
-	}
-
-	public static void clearGoogleWallet() {
-		sDb.mMaskedWallet = null;
-		sDb.mGoogleWalletTraveler = null;
-
-		// Clear out the traveler from the Travelers array
-		Iterator<Traveler> travelers = sDb.mTravelers.iterator();
-		while (travelers.hasNext()) {
-			Traveler traveler = travelers.next();
-			if (traveler.fromGoogleWallet()) {
-				travelers.remove();
-			}
-		}
 	}
 
 	public static void setFullscreenAverageColor(int color) {

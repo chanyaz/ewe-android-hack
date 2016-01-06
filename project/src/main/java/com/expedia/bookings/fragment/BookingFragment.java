@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
 import com.expedia.bookings.BuildConfig;
@@ -20,16 +21,13 @@ import com.expedia.bookings.data.ServerError.ErrorCode;
 import com.expedia.bookings.dialog.BirthDateInvalidDialog;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.WalletUtils;
-import com.google.android.gms.wallet.FullWallet;
-import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 
-public abstract class BookingFragment<T extends Response> extends FullWalletFragment {
+public abstract class BookingFragment<T extends Response> extends Fragment {
 
 	private String mDownloadKey;
 
@@ -37,9 +35,6 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	private boolean mCanModifyFragmentStack;
 
 	private boolean mDoBookingOnResume;
-
-	// If we need to defer handling till later
-	private int mGoogleWalletErrorCode;
 
 	private static final String UNHANDLED_ERROR_DIALOG_TAG = "unhandledOrNoResultsErrorDialog";
 
@@ -84,9 +79,6 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		}
 
 		mCanModifyFragmentStack = true;
-		if (mGoogleWalletErrorCode != 0) {
-			handleError(mGoogleWalletErrorCode);
-		}
 	}
 
 	@Override
@@ -101,12 +93,6 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 		super.onPause();
 		Events.unregister(this);
 		BackgroundDownloader.getInstance().unregisterDownloadCallback(mDownloadKey);
-
-		// When we leave this Fragment, we want to unbind any data we might have gotten
-		// from the FullWallet; otherwise the user can see/edit this data later.
-		if (getActivity().isFinishing() && willBookViaGoogleWallet()) {
-			WalletUtils.unbindFullWalletDataFromBillingInfo(Db.getBillingInfo());
-		}
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -117,18 +103,12 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 	}
 
 	public void doBooking() {
-		if (willBookViaGoogleWallet()) {
-			confirmBookingWithGoogleWallet();
+		if (!isAdded()) {
+			mDoBookingOnResume = true;
 		}
 		else {
-			if (!isAdded()) {
-				mDoBookingOnResume = true;
-			}
-			else {
-				startBookingProcess();
-			}
+			startBookingProcess();
 		}
-
 	}
 
 	private void startBookingProcess() {
@@ -151,58 +131,6 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			Events.post(new Events.BookingDownloadResponse(results));
 		}
 	};
-
-	//////////////////////////////////////////////////////////////////////////
-	// Google Wallet
-
-	public boolean willBookViaGoogleWallet() {
-		return Db.getBillingInfo().isUsingGoogleWallet();
-	}
-
-	// FullWalletFragment
-
-	@Override
-	protected String getGoogleWalletTransactionId() {
-		MaskedWallet maskedWallet = Db.getMaskedWallet();
-		if (maskedWallet == null) {
-			throw new RuntimeException("Tried to retrieve the full wallet without having a valid masked wallet first.");
-		}
-		return maskedWallet.getGoogleTransactionId();
-	}
-
-	@Override
-	protected void onFullWalletLoaded(FullWallet wallet) {
-		WalletUtils.bindWalletToBillingInfo(wallet, Db.getBillingInfo());
-
-		startBookingProcess();
-	}
-
-	@Override
-	protected void handleError(int errorCode) {
-		super.handleError(errorCode);
-		if (mCanModifyFragmentStack) {
-			mGoogleWalletErrorCode = 0;
-			simulateError(errorCode);
-		}
-		else {
-			mGoogleWalletErrorCode = errorCode;
-		}
-	}
-
-	private void simulateError(int errorCode) {
-		T response;
-		try {
-			response = getBookingResponseClass().newInstance();
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-
-		ServerError error = new ServerError();
-		error.setCode("GOOGLE_WALLET_ERROR");
-		response.addError(error);
-		Events.post(new Events.BookingDownloadResponse(response));
-	}
 
 	public void handleBookingErrorResponse(Response response, LineOfBusiness lob) {
 		/*
@@ -387,11 +315,6 @@ public abstract class BookingFragment<T extends Response> extends FullWalletFrag
 			frag.show(getFragmentManager(), "cannotBookWithMinorDialog");
 			return;
 		}
-		case GOOGLE_WALLET_ERROR:
-			DialogFragment frag = SimpleCallbackDialogFragment.newInstance(null,
-				getString(R.string.google_wallet_unavailable), getString(R.string.ok), 0);
-			frag.show(getFragmentManager(), "googleWalletErrorDialog");
-			return;
 		default:
 			if (lob == LineOfBusiness.FLIGHTS) {
 				OmnitureTracking.trackErrorPageLoadFlightCheckout();

@@ -10,7 +10,6 @@ import android.content.res.TypedArray;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -36,7 +35,6 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 
 	private TextView mDescriptionView;
 	private ImageView mIconView;
-	private TextView mWalletTextView;
 	private com.expedia.bookings.widget.TextView mLccFeeTextView;
 	private View mLccDivider;
 	private View mCardNotSupportedImageView;
@@ -70,7 +68,6 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 		mContext = context;
 		mDescriptionView = Ui.findView(this, R.id.display_stored_card_desc);
 		mIconView = Ui.findView(this, R.id.icon_view);
-		mWalletTextView = Ui.findView(this, R.id.google_wallet_text_view);
 		mLccFeeTextView = Ui.findView(this, R.id.card_fee_icon);
 		mLccDivider = Ui.findView(this, R.id.card_fee_divider);
 		mCardNotSupportedImageView = Ui.findView(this, R.id.card_not_supported_icon);
@@ -178,37 +175,11 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 				mDescriptionView.setText(sb.toString());
 			}
 
-			// Use different styling based on whether it's Google wallet or not
-			if (mWalletTextView != null) {
-				Resources res = getResources();
-				TextView primaryTextView;
-				if (mStoredCard.isGoogleWallet()) {
-					mWalletTextView.setVisibility(View.VISIBLE);
-
-					primaryTextView = mWalletTextView;
-
-					mDescriptionView.setTextColor(mSecondaryTextColor);
-					mDescriptionView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-						res.getDimensionPixelSize(R.dimen.data_display_sub_text));
-				}
-				else {
-					mWalletTextView.setVisibility(View.GONE);
-
-					primaryTextView = mDescriptionView;
-				}
-
-				primaryTextView.setTextColor(mPrimaryTextColor);
-				primaryTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
-					res.getDimensionPixelSize(R.dimen.data_display_primary_text));
-			}
-
 			// Icon
 			int iconResId;
-			if (mStoredCard.isGoogleWallet()) {
-				iconResId = R.drawable.ic_google_wallet_logo;
-			}
+
 			// Show a credit card logo on tablet
-			else if (AndroidUtils.isTablet(getContext())) {
+			if (AndroidUtils.isTablet(getContext())) {
 				iconResId = BookingInfoUtils.getTabletCardIcon(data.getType());
 			}
 			else {

@@ -59,22 +59,6 @@
             android:id="@+id/cancellation_policy_text_view"
             style="@style/LegalInformationTextView" />
 
-        <TextView
-            android:id="@+id/wallet_promo_header"
-            style="@style/LegalInformationTextView.Blue"
-            android:text="@string/wallet_promo_tc_title"
-            android:visibility="gone" />
-
-        <View
-            android:id="@+id/wallet_promo_divider"
-            style="@style/LegalInformationDivider.Blue"
-            android:visibility="gone" />
-
-        <TextView
-            android:id="@+id/wallet_promo_text"
-            style="@style/LegalInformationTextView"
-            android:text="@string/wallet_promo_tc_message"
-            android:visibility="gone" />
     </LinearLayout>
 
 </ScrollView>
