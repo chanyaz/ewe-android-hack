@@ -3,36 +3,24 @@ package com.expedia.ui
 import android.os.Bundle
 import android.os.PersistableBundle
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.presenter.hotel.BaseResultsPresenter
-import com.expedia.bookings.presenter.packages.PackageHotelResultsPresenter
-import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.presenter.packages.PackageHotelPresenter
 import com.expedia.bookings.utils.Ui
-import com.expedia.vm.PackageHotelResultsViewModel
 import com.google.android.gms.maps.MapView
-import javax.inject.Inject
 
 public class PackageHotelActivity : AbstractAppCompatActivity() {
-    val resultsPresenter: PackageHotelResultsPresenter by lazy {
-        findViewById(R.id.hotel_results_presenter) as PackageHotelResultsPresenter
+    val hotelsPresenter: PackageHotelPresenter by lazy {
+        findViewById(R.id.package_hotel_presenter) as PackageHotelPresenter
     }
 
     val resultsMapView: MapView by lazy {
-        resultsPresenter.findViewById(R.id.map_view) as MapView
+        hotelsPresenter.findViewById(R.id.map_view) as MapView
     }
-
-    lateinit var packageServices: PackageServices
-        @Inject set
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Ui.getApplication(this).packageComponent().inject(this)
-        setContentView(R.layout.package_hotel_results)
+        setContentView(R.layout.package_hotel_activity)
         Ui.showTransparentStatusBar(this)
         resultsMapView.onCreate(savedInstanceState)
-        resultsPresenter.viewmodel = PackageHotelResultsViewModel(this)
-        resultsPresenter.viewmodel.paramsSubject.onNext(Db.getPackageParams())
-        resultsPresenter.viewmodel.resultsSubject.onNext(Db.getPackageResponse())
     }
 
     override fun onPause() {
@@ -61,7 +49,7 @@ public class PackageHotelActivity : AbstractAppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        if (!resultsPresenter.back()) {
+        if (!hotelsPresenter.back()) {
             super.onBackPressed()
         }
     }

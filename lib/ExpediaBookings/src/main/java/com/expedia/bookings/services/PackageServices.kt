@@ -3,8 +3,9 @@ package com.expedia.bookings.services
 import com.expedia.bookings.data.FlightPackageDeserializer
 import com.expedia.bookings.data.PackageHotelDeserializer
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.data.packages.PackageSearchResponse
+import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.google.gson.GsonBuilder
 import com.squareup.okhttp.OkHttpClient
 import org.joda.time.DateTime
@@ -13,7 +14,11 @@ import retrofit.RestAdapter
 import retrofit.client.OkClient
 import retrofit.converter.GsonConverter
 import rx.Observable
+import rx.Observer
 import rx.Scheduler
+import rx.Subscription
+import kotlin.collections.find
+import kotlin.collections.forEach
 
 public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
@@ -52,5 +57,12 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 						hotel.lowRateInfo = lowRateInfo
 					}
 				}
+	}
+
+	public fun hotelOffer(piid: String, checkInDate: String, checkOutDate: String, observer: Observer<PackageOffersResponse>): Subscription {
+		return packageApi.hotelOffers(piid, checkInDate, checkOutDate)
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+				.subscribe(observer)
 	}
 }
