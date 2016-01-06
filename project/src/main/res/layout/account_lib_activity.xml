@@ -31,6 +31,7 @@
         app:acct__logo_text_drawable="?skin_acctLogoTextDrawable"
         app:acct__logo_text_drawable_margin_left="?skin_acctLogoTextDrawableMarginLeft"
         app:acct__logo_text_drawable_margin_top="?skin_acctLogoTextDrawableMarginTop"
+        app:acct__sign_in_messaging="?skin_acctSignInMessaging"
         app:acct__brand="?skin_acctBrand"
         />
 

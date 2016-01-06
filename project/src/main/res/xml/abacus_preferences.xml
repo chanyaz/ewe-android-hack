@@ -219,5 +219,14 @@
             android:key="8369"
             android:layout="@layout/preference"
             android:title="Split GT and LX Launch" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="9476"
+            android:layout="@layout/preference"
+            android:title="Sign in Messaging AB test" />
     </PreferenceCategory>
 </PreferenceScreen>
