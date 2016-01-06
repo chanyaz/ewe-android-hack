@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.text.TextUtils;
@@ -44,99 +45,121 @@ public class SuggestionResponseHandler extends JsonResponseHandler<SuggestionRes
 				boolean unknown = false;
 				JSONObject suggestionJson = suggestionsArr.optJSONObject(a);
 
-				// #2128 - Filter out minor airports from results as they are never useful
-				if (suggestionJson.optBoolean("isMinorAirport", false)) {
-					continue;
-				}
+				try {
+					// #2128 - Filter out minor airports from results as they are never useful
+					if (suggestionJson.optBoolean("isMinorAirport", false)) {
+						continue;
+					}
 
-				SuggestionV2 suggestion = new SuggestionV2();
+					SuggestionV2 suggestion = new SuggestionV2();
 
-				String resultType = suggestionJson.optString("@type");
-				if (resultType.equals("regionResult")) {
-					suggestion.setResultType(ResultType.REGION);
-				}
-				else if (resultType.equals("hotelResult")) {
-					suggestion.setResultType(ResultType.HOTEL);
-				}
-				else if (!TextUtils.isEmpty(resultType)) {
-					Log.w("Unknown suggest result type: \"" + resultType + "\"");
-					unknown = true;
-				}
+					String resultType = suggestionJson.optString("@type");
+					if (resultType.equals("gaiaRegionResult")) {
+						suggestion.setResultType(ResultType.REGION);
+					}
+					else if (resultType.equals("gaiaHotelResult")) {
+						suggestion.setResultType(ResultType.HOTEL);
+					}
+					else if (!TextUtils.isEmpty(resultType)) {
+						Log.w("Unknown suggest result type: \"" + resultType + "\"");
+						unknown = true;
+					}
 
-				String searchType = suggestionJson.optString("t");
-				if (searchType.equals("CITY")) {
-					suggestion.setSearchType(SearchType.CITY);
-				}
-				else if (searchType.equals("ATTRACTION")) {
-					suggestion.setSearchType(SearchType.ATTRACTION);
-				}
-				else if (searchType.equals("AIRPORT")) {
-					suggestion.setSearchType(SearchType.AIRPORT);
-				}
-				else if (searchType.equals("HOTEL")) {
-					suggestion.setSearchType(SearchType.HOTEL);
-				}
-				else if (!TextUtils.isEmpty(searchType)) {
-					Log.w("Unknown suggest search type: \"" + searchType + "\"");
-					unknown = true;
-				}
+					String searchType = suggestionJson.optString("type");
+					if (searchType.equals("CITY")) {
+						suggestion.setSearchType(SearchType.CITY);
+					}
+					else if (searchType.equals("ATTRACTION")) {
+						suggestion.setSearchType(SearchType.ATTRACTION);
+					}
+					else if (searchType.equals("AIRPORT")) {
+						suggestion.setSearchType(SearchType.AIRPORT);
+					}
+					else if (searchType.equals("HOTEL")) {
+						suggestion.setSearchType(SearchType.HOTEL);
+					}
+					else if (!TextUtils.isEmpty(searchType)) {
+						Log.w("Unknown suggest search type: \"" + searchType + "\"");
+						unknown = true;
+					}
 
-				String regionType = suggestionJson.optString("rt");
-				if (regionType.equals("CITY")) {
-					suggestion.setRegionType(RegionType.CITY);
-				}
-				else if (regionType.equals("MULTICITY")) {
-					suggestion.setRegionType(RegionType.MULTICITY);
-				}
-				else if (regionType.equals("NEIGHBORHOOD")) {
-					suggestion.setRegionType(RegionType.NEIGHBORHOOD);
-				}
-				else if (regionType.equals("POI")) {
-					suggestion.setRegionType(RegionType.POI);
-				}
-				else if (regionType.equals("AIRPORT")) {
-					suggestion.setRegionType(RegionType.AIRPORT);
-				}
-				else if (regionType.equals("METROCODE")) {
-					suggestion.setRegionType(RegionType.METROCODE);
-				}
-				else if (regionType.equals("HOTEL")) {
-					suggestion.setRegionType(RegionType.HOTEL);
-				}
-				else if (!TextUtils.isEmpty(regionType)) {
-					Log.w("Unknown suggest region type: \"" + regionType + "\"");
-					unknown = true;
-				}
+					if (searchType.equals("HOTEL")) {
+						suggestion.setRegionId(suggestionJson.optInt("hotelId"));
+					}
+					else {
+						suggestion.setRegionId(suggestionJson.optInt("gaiaId"));
+					}
 
-				if (unknown) {
-					// Skip it
-					continue;
+					String regionType = suggestionJson.optString("type");
+					if (regionType.equals("CITY")) {
+						suggestion.setRegionType(RegionType.CITY);
+					}
+					else if (regionType.equals("MULTICITY")) {
+						suggestion.setRegionType(RegionType.MULTICITY);
+					}
+					else if (regionType.equals("NEIGHBORHOOD")) {
+						suggestion.setRegionType(RegionType.NEIGHBORHOOD);
+					}
+					else if (regionType.equals("POI")) {
+						suggestion.setRegionType(RegionType.POI);
+					}
+					else if (regionType.equals("AIRPORT")) {
+						suggestion.setRegionType(RegionType.AIRPORT);
+					}
+					else if (regionType.equals("METROCODE")) {
+						suggestion.setRegionType(RegionType.METROCODE);
+					}
+					else if (regionType.equals("HOTEL")) {
+						suggestion.setRegionType(RegionType.HOTEL);
+					}
+					else if (!TextUtils.isEmpty(regionType)) {
+						Log.w("Unknown suggest region type: \"" + regionType + "\"");
+						unknown = true;
+					}
+
+					if (unknown) {
+						// Skip it
+						continue;
+					}
+
+					JSONObject regionNames = suggestionJson.optJSONObject("regionNames");
+					suggestion.setFullName(regionNames.getString("fullName"));
+					suggestion.setDisplayName(regionNames.getString("displayName"));
+
+					suggestion.setIndex(suggestionJson.optInt("index"));
+
+
+					JSONObject airport = suggestionJson.optJSONObject("hierarchyInfo").optJSONObject("airport");
+					if (airport != null) {
+						suggestion.setAirportCode(airport.getString("airportCode"));
+						suggestion.setMultiCityRegionId(airport.getInt("multicity"));
+					}
+
+					Location location = new Location();
+					JSONObject hotelAddress = suggestionJson.optJSONObject("hotelAddress");
+					if (hotelAddress != null) {
+						location.addStreetAddressLine(hotelAddress.getString("street"));
+						location.setCity(hotelAddress.getString("city"));
+						location.setStateCode(hotelAddress.getString("province"));
+					}
+
+					JSONObject country = suggestionJson.optJSONObject("hierarchyInfo").optJSONObject("country");
+					if (country != null) {
+						location.setCountryCode(country.getString("isoCode3"));
+					}
+
+					JSONObject coordinates = suggestionJson.optJSONObject("hierarchyInfo").optJSONObject("coordinates");
+					if (coordinates != null) {
+						location.setLatitude(coordinates.getDouble("lat"));
+						location.setLongitude(coordinates.getDouble("long"));
+					}
+					suggestion.setLocation(location);
+
+					suggestions.add(suggestion);
 				}
-
-				suggestion.setFullName(suggestionJson.optString("f", null));
-				suggestion.setDisplayName(suggestionJson.optString("d", null));
-
-				suggestion.setIndex(suggestionJson.optInt("i"));
-
-				suggestion.setRegionId(suggestionJson.optInt("id"));
-
-				suggestion.setAirportCode(suggestionJson.optString("a", null));
-
-				suggestion.setMultiCityRegionId(suggestionJson.optInt("amc"));
-
-				Location location = new Location();
-				location.addStreetAddressLine(suggestionJson.optString("ad", null));
-				location.setCity(suggestionJson.optString("ci", null));
-				location.setStateCode(suggestionJson.optString("pr", null));
-				location.setCountryCode(suggestionJson.optString("ccc", null));
-				JSONObject latLngJson = suggestionJson.optJSONObject("ll");
-				if (latLngJson != null) {
-					location.setLatitude(latLngJson.optDouble("lat"));
-					location.setLongitude(latLngJson.optDouble("lng"));
+				catch (JSONException e) {
+					e.printStackTrace();
 				}
-				suggestion.setLocation(location);
-
-				suggestions.add(suggestion);
 			}
 
 			// They say you shouldn't trust the parsed order, and should sort it regardless

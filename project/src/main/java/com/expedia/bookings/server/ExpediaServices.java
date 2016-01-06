@@ -293,9 +293,18 @@ public class ExpediaServices implements DownloadListener {
 			return null;
 		}
 
-		String url = NetUtils.formatUrl(getSuggestUrl(3, SuggestType.AUTOCOMPLETE) + "/" + query);
+		String url = NetUtils.formatUrl(getSuggestUrl(4, SuggestType.AUTOCOMPLETE) + query);
 
-		return doSuggestionRequest(url, null);
+		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+		int regionType = SuggestionResultType.HOTEL | SuggestionResultType.AIRPORT | SuggestionResultType.CITY |
+			SuggestionResultType.NEIGHBORHOOD | SuggestionResultType.POINT_OF_INTEREST | SuggestionResultType.REGION |
+			SuggestionResultType.FLIGHT | SuggestionResultType.AIRPORT_METRO_CODE;
+		params.add(new BasicNameValuePair("regiontype", "" + regionType));
+		params.add(new BasicNameValuePair("features", "ta_hierarchy"));
+		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
+		params.add(new BasicNameValuePair("client", ServicesUtil.generateClientId(mContext)));
+
+		return doSuggestionRequest(url, params);
 	}
 
 	public SuggestionResponse suggestionsAirportsNearby(double latitude, double longitude, SuggestionSort sort) {
