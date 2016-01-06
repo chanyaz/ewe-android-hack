@@ -5,6 +5,11 @@ import org.joda.time.LocalDate;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.app.Fragment;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -84,6 +89,19 @@ public class FlightUtils {
 				? R.string.your_card_will_be_charged_plus_airline_fee_TEMPLATE
 				: R.string.your_card_will_be_charged_TEMPLATE);
 		return String.format(template, totalFare.getFormattedMoney());
+	}
+
+	public static Spanned getCardFeeLegalText(Context context) {
+		Spanned cardFeeHtml = Html.fromHtml(context.getResources().getString(R.string.airline_notice_fee_added_tablet));
+		SpannableStringBuilder cardFeeSb = new SpannableStringBuilder(cardFeeHtml);
+
+		UnderlineSpan underlineSpan = cardFeeSb.getSpans(0, cardFeeHtml.length(), UnderlineSpan.class)[0];
+		int spanStart = cardFeeSb.getSpanStart(underlineSpan);
+		int spanEnd = cardFeeSb.getSpanEnd(underlineSpan);
+		int color = Ui.obtainThemeColor(context, R.attr.skin_tablet_legal_blurb_text_color);
+		cardFeeSb.setSpan(new ForegroundColorSpan(color), spanStart, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+		return cardFeeSb;
 	}
 
 	////////////////////////////////////////////

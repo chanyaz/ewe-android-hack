@@ -3788,6 +3788,7 @@
     <string name="airline_charge_notice">Airlines charge an additional fee based on payment method.</string>
     <string name="airline_fee_notice_payment">Airline fee applies based on payment method</string>
     <string name="airline_notice_fee_added">An <u><b>airline fee</b></u>, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
+    <string name="airline_notice_fee_added_tablet">An &lt;u&gt;&lt;b&gt;airline fee&lt;/b&gt;&lt;/u&gt;, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
 
     <!-- Packages -->
 

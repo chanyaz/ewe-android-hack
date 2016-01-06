@@ -39,6 +39,19 @@
             app:textStyle="light" />
 
         <com.expedia.bookings.widget.TextView
+            android:id="@+id/card_fee_warning_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="@dimen/hotel_flight_card_padding_x"
+            android:layout_marginTop="60dp"
+            android:gravity="center_vertical|left"
+            android:text="@string/airline_charge_notice"
+            android:textColor="#595959"
+            android:textSize="10sp"
+            app:textStyle="light" />
+
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/top_right_text_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
