@@ -31,22 +31,22 @@ public class HotelShowExampleNamesTest extends HotelTestCase {
 	public void testExampleNamesHK() throws Throwable {
 		Common.setPOS(PointOfSaleId.HONG_KONG);
 		goToCheckout();
-		onView(allOf(withId(R.id.edit_first_name), withHint(R.string.first_name_hk))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.edit_last_name), withHint(R.string.last_name_hk))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.edit_first_name), withHint(getHint(mRes.getString(R.string.first_name_hk))))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.edit_last_name), withHint(getHint(mRes.getString(R.string.last_name_hk))))).check(matches(isDisplayed()));
 	}
 
 	public void testExampleNamesKR() throws Throwable {
 		Common.setPOS(PointOfSaleId.SOUTH_KOREA);
 		goToCheckout();
-		onView(allOf(withId(R.id.edit_first_name), withHint(R.string.first_name_kr))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.edit_last_name), withHint(R.string.last_name_kr))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.edit_first_name), withHint(getHint(mRes.getString(R.string.first_name_kr))))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.edit_last_name), withHint(getHint(mRes.getString(R.string.last_name_kr))))).check(matches(isDisplayed()));
 	}
 
 	public void testExampleNamesJP() throws Throwable {
 		Common.setPOS(PointOfSaleId.JAPAN);
 		goToCheckout();
-		onView(allOf(withId(R.id.edit_first_name), withHint(R.string.first_name_jp))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.edit_last_name), withHint(R.string.last_name_jp))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.edit_first_name), withHint(getHint(mRes.getString(R.string.first_name_jp))))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.edit_last_name), withHint(getHint(mRes.getString(R.string.last_name_jp))))).check(matches(isDisplayed()));
 	}
 
 	private void goToCheckout() throws Throwable {
@@ -64,5 +64,9 @@ public class HotelShowExampleNamesTest extends HotelTestCase {
 		HotelScreen.clickAddRoom();
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.clickDriverInfo();
+	}
+
+	private String getHint(String name) {
+		return mRes.getString(R.string.hint_example_name_TEMPLATE, name);
 	}
 }
