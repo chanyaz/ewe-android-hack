@@ -2362,6 +2362,14 @@ public class OmnitureTracking {
 		trackLinkLX(sb.toString());
 	}
 
+	public static void trackLinkLXCategoryClicks(String rffr) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(LX_SEARCH_CATEGORIES);
+		sb.append(".");
+		sb.append(rffr);
+		trackLinkLX(sb.toString());
+	}
+
 	public static void trackLinkLX(String rffr) {
 		Log.d(TAG, "Tracking \"" + LX_CHANGE_DATE + "\" Link..." + "RFFR : " + rffr);
 

@@ -59,4 +59,9 @@ public class LXUtils {
 
 		return ticketTypeCount;
 	}
+
+	public static String whitelistAlphanumericFromCategoryKey(String categoryKey) {
+		return categoryKey.replaceAll("[^a-zA-Z0-9]", "");
+	}
+
 }

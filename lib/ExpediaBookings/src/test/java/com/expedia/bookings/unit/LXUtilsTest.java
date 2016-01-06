@@ -52,4 +52,16 @@ public class LXUtilsTest {
 		selectedTickets.add(childTicket);
 		return selectedTickets;
 	}
+
+	@Test
+	public void testWhitelistAlphanumericFromCategoryKey() {
+		final String expectedStringFirst = "HoponHopoff";
+		final String expectedStringSecond = "WalkingBikeTours";
+
+		final String actualStringFirst = "Hop-on Hop-off";
+		final String actualStringSecond = "Walking & Bike Tours";
+
+		Assert.assertEquals(expectedStringFirst, LXUtils.whitelistAlphanumericFromCategoryKey(actualStringFirst));
+		Assert.assertEquals(expectedStringSecond, LXUtils.whitelistAlphanumericFromCategoryKey(actualStringSecond));
+	}
 }

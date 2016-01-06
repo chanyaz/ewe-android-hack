@@ -17,6 +17,7 @@ import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
+import com.expedia.bookings.data.lx.LXCategorySortOrder;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripParams;
@@ -30,6 +31,7 @@ import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.LXUtils;
 import com.expedia.bookings.utils.Strings;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -76,6 +78,7 @@ public class LXServices {
 			.doOnNext(CACHE_SEARCH_RESPONSE)
 			.doOnNext(PUT_ACTIVITIES_IN_CATEGORY)
 			.doOnNext(PUT_CATEGORY_KEY_IN_CATEGORY_METADATA)
+			.doOnNext(PUT_CATEGORY_SORT_IN_CATEGORY_METADATA)
 			.subscribeOn(subscribeOn)
 			.observeOn(observeOn)
 			.subscribe(observer);
@@ -127,6 +130,23 @@ public class LXServices {
 				String categoryKeyEN = filterCategory.getKey();
 				LXCategoryMetadata categoryValue = filterCategory.getValue();
 				categoryValue.categoryKeyEN = categoryKeyEN;
+			}
+		}
+	};
+
+	private static final Action1<LXSearchResponse> PUT_CATEGORY_SORT_IN_CATEGORY_METADATA = new Action1<LXSearchResponse>() {
+		@Override
+		public void call(LXSearchResponse lxSearchResponse) {
+			for (Map.Entry<String, LXCategoryMetadata> filterCategory : lxSearchResponse.filterCategories.entrySet()) {
+				String categoryKeyEN = filterCategory.getKey();
+				LXCategoryMetadata categoryValue = filterCategory.getValue();
+				for (LXCategorySortOrder sortOrder : LXCategorySortOrder.values()) {
+					if (LXUtils.whitelistAlphanumericFromCategoryKey(categoryKeyEN)
+						.equalsIgnoreCase(sortOrder.toString())) {
+						categoryValue.sortOrder = sortOrder;
+						break;
+					}
+				}
 			}
 		}
 	};
