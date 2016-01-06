@@ -1,6 +1,8 @@
 package com.expedia.bookings.presenter.packages
 
+import android.app.Activity
 import android.content.Context
+import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
@@ -12,6 +14,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.data.packages.PackageOffersResponse
+import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.hotel.HotelDetailPresenter
 import com.expedia.bookings.services.PackageServices
@@ -195,8 +198,12 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     val selectedRoomObserver = object : Observer<HotelOffersResponse.HotelRoomResponse> {
-        override fun onNext(t: HotelOffersResponse.HotelRoomResponse) {
-
+        override fun onNext(offer: HotelOffersResponse.HotelRoomResponse) {
+            val params = Db.getPackageParams();
+            params.packagePIID = offer.productKey;
+            val activity = (context as AppCompatActivity)
+            activity.setResult(Activity.RESULT_OK)
+            activity.finish()
         }
 
         override fun onCompleted() {

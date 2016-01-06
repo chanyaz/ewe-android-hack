@@ -3777,7 +3777,7 @@
     <!-- Fly to hint -->
     <string name="fly_to_hint">Flying to</string>
     <!-- Bundle Overview Step 1, select a hotel -->
-    <string name="step_one">Step 1 Hotel</string>
+    <string name="step_one">Step 1: Select Hotel</string>
     <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">Step 2 Flights</string>
+    <string name="step_two">Step 2: Select Flights</string>
 </resources>

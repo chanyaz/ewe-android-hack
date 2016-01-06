@@ -24,7 +24,7 @@ public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter
         View.inflate(context, R.layout.package_presenter, this)
         bundlePresenter.viewModel = BundleOverviewViewModel(context, packageServices)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe { show(bundlePresenter) }
-        searchPresenter.searchViewModel.searchParamsObservable.subscribe(bundlePresenter.viewModel.searchParamsObservable)
+        searchPresenter.searchViewModel.searchParamsObservable.subscribe(bundlePresenter.viewModel.hotelParamsObservable)
     }
 
     override fun onFinishInflate() {

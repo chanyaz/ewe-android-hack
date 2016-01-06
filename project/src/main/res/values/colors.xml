@@ -126,6 +126,7 @@
     <color name="hotel_reviews_summary_background_color">#FFFFFF</color>
 
     <!--Hotel Filter Colors -->
+    <color name="package_bundle_icon_color">#868686</color>
     <color name="hotel_filter_hotel_name_icon">#868686</color>
     <color name="hotel_filter_input_filed">#757575</color>
     <color name="hotel_filter_neighborhood_text">#676767</color>
