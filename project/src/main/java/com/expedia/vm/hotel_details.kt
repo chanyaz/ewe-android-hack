@@ -106,7 +106,7 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
     }
 }
 
-class HotelDetailViewModel(val context: Context, val hotelServices: HotelServices, val roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
+class HotelDetailViewModel(val context: Context, val hotelServices: HotelServices?, val roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
 
     override fun onGalleryItemClicked(item: Any) {
         galleryClickedSubject.onNext(Unit)

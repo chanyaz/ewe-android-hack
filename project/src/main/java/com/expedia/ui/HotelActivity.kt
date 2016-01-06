@@ -31,7 +31,7 @@ public class HotelActivity : AbstractAppCompatActivity() {
     }
 
     val detailsMapView: MapView by lazy {
-        hotelPresenter.findViewById(R.id.detailed_map_view) as MapView
+        hotelPresenter.findViewById(R.id.details_map_view) as MapView
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

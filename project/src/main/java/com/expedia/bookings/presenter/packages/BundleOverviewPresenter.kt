@@ -15,6 +15,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.ui.FlightPackageActivity
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
@@ -74,7 +75,7 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     fun openFlights() {
-        val intent = Intent(context, PackageHotelActivity::class.java)
+        val intent = Intent(context, FlightPackageActivity::class.java)
         (context as AppCompatActivity).startActivityForResult(intent, FLIGHT_REQUEST_CODE, null)
     }
 

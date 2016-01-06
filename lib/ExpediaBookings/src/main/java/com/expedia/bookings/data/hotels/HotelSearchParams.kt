@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.hotels
 
+import com.expedia.bookings.data.packages.PackageSearchParams
 import org.joda.time.Days
 import org.joda.time.LocalDate
 import kotlin.collections.emptyList
@@ -79,4 +80,10 @@ public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: L
     public fun guests() : Int {
         return children.size + adults
     }
+
+}
+
+public fun convertPackageToSearchParams(packageParams: PackageSearchParams, maxStay: Int): HotelSearchParams {
+    val builder = HotelSearchParams.Builder(maxStay).suggestion(packageParams.destination).checkIn(packageParams.checkIn).checkOut(packageParams.checkOut)
+    return builder.build()
 }

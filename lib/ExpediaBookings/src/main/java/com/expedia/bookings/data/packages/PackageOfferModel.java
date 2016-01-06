@@ -1,19 +1,21 @@
 package com.expedia.bookings.data.packages;
 
+import com.expedia.bookings.data.Money;
+
 public class PackageOfferModel {
 	public String piid;
 	public String hotel;
 	public String flight;
-	public Price price;
+	public PackagePrice price;
 
-	public static class Price {
-		public HotelPrice packageTotalPrice;
-		public HotelPrice pricePerPerson;
-		public HotelPrice hotelPrice;
-		public HotelPrice flightPrice;
-		public HotelPrice sumFlightAndHotel;
-		public HotelPrice tripSavings;
-		public HotelPrice hotelAvgPricePerNight;
+	public static class PackagePrice {
+		public Money packageTotalPrice;
+		public Money pricePerPerson;
+		public Money hotelPrice;
+		public Money flightPrice;
+		public Money sumFlightAndHotel;
+		public Money tripSavings;
+		public Money hotelAvgPricePerNight;
 		public String packageTotalPriceFormatted;
 		public String pricePerPersonFormatted;
 		public String hotelPriceFormatted;
@@ -22,11 +24,5 @@ public class PackageOfferModel {
 		public String tripSavingsFormatted;
 		public String hotelAvgPricePerNightFormatted;
 		public int percentageSavings;
-	}
-
-	public static class HotelPrice {
-		public double amount;
-		public String currency;
-		public String currencyCode;
 	}
 }

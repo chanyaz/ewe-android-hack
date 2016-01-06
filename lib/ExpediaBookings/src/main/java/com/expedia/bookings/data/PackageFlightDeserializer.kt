@@ -9,7 +9,7 @@ import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
-public class FlightPackageDeserializer : JsonDeserializer<PackageSearchResponse.FlightPackage> {
+public class PackageFlightDeserializer : JsonDeserializer<PackageSearchResponse.FlightPackage> {
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): PackageSearchResponse.FlightPackage {
         val flightPackage = PackageSearchResponse.FlightPackage()
         val packageResult = json.asJsonObject;

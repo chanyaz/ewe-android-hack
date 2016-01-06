@@ -1,25 +1,22 @@
 package com.expedia.bookings.presenter.packages
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.presenter.hotel.BaseResultsPresenter
-import com.expedia.bookings.widget.PackageHotelResultsMapViewModel
+import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.PackageHotelResultsViewModel
+import com.expedia.vm.HotelResultsViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.model.LatLng
 
-public class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseResultsPresenter(context, attrs) {
-
-    var viewmodel: PackageHotelResultsViewModel by notNullAndObservable { vm ->
+public class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
+    var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe {
-            adapter.resultsSubject.onNext(Pair(it.hotels, HotelRate.UserPriceType.UNKNOWN))
+            vm.hotelResultsObservable.subscribe(listResultsObserver)
         }
-        vm.hotelResultsObservable.subscribe((mapViewModel as PackageHotelResultsMapViewModel).hotelResultsSubject)
+        vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
 
         vm.titleSubject.subscribe {
             toolbar.title = it
@@ -30,23 +27,31 @@ public class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet)
         }
 
         vm.paramsSubject.subscribe { params ->
-            if (params.destination.coordinates != null) {
-                googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.destination.coordinates.lat, params.destination.coordinates.lng), 14.0f))
+            if (params.suggestion.coordinates != null) {
+                googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.suggestion.coordinates.lat, params.suggestion.coordinates.lng), 14.0f))
             }
+            filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch && !params.suggestion.isGoogleSuggestionSearch)
+            filterView.viewmodel.clearObservable.onNext(Unit)
         }
     }
 
     override fun inflate() {
-        View.inflate(context, R.layout.widget_hotel_results_package, this)
-        mapViewModel = PackageHotelResultsMapViewModel(context, lastBestLocationSafe(), iconFactory)
+        View.inflate(context, R.layout.widget_package_hotel_results, this)
+        toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        mapView = findViewById(R.id.map_view) as MapView
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
-        mapView.getMapAsync(this)
-        show(ResultsList());
+    }
+
+    override fun doAreaSearch() {
+    }
+
+    override fun hideSearchThisArea() {
+    }
+
+    override fun showSearchThisArea() {
     }
 
 }

@@ -28,7 +28,12 @@ import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.SuggestionV4Services
-import com.expedia.bookings.utils.*
+import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.SuggestionV4Utils
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelTravelerPickerView
 import com.expedia.bookings.widget.PackageSuggestionAdapter
 import com.expedia.bookings.widget.RecyclerDividerDecoration
@@ -45,7 +50,9 @@ import com.mobiata.android.time.widget.DaysOfWeekView
 import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Locale
+import kotlin.text.substring
+import kotlin.text.toUpperCase
 
 public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 

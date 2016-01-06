@@ -1,7 +1,8 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.data.FlightPackageDeserializer
+import com.expedia.bookings.data.PackageFlightDeserializer
 import com.expedia.bookings.data.PackageHotelDeserializer
+import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
@@ -26,7 +27,7 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 		val gson = GsonBuilder()
 				.registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
 				.registerTypeAdapter(PackageSearchResponse.HotelPackage::class.java, PackageHotelDeserializer())
-				.registerTypeAdapter(PackageSearchResponse.FlightPackage::class.java, FlightPackageDeserializer())
+				.registerTypeAdapter(PackageSearchResponse.FlightPackage::class.java, PackageFlightDeserializer())
 				.create()
 
 		val adapter = RestAdapter.Builder()
@@ -59,10 +60,15 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 				}
 	}
 
-	public fun hotelOffer(piid: String, checkInDate: String, checkOutDate: String, observer: Observer<PackageOffersResponse>): Subscription {
+	public fun hotelOffer(piid: String, checkInDate: String, checkOutDate: String): Observable<PackageOffersResponse> {
 		return packageApi.hotelOffers(piid, checkInDate, checkOutDate)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
-				.subscribe(observer)
+	}
+
+	public fun hotelInfo(hotelId: String): Observable<HotelOffersResponse> {
+		return packageApi.hotelInfo(hotelId)
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
 	}
 }

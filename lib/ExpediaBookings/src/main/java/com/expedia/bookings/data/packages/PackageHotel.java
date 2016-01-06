@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.packages;
 
-public class Hotel {
+public class PackageHotel {
 	public String hotelPid;
 	public boolean allInclusiveAvailable;
 	public boolean available;

@@ -15,36 +15,46 @@ public class PackageHotelActivity : AbstractAppCompatActivity() {
     val resultsMapView: MapView by lazy {
         hotelsPresenter.findViewById(R.id.map_view) as MapView
     }
+
+    val detailsMapView: MapView by lazy {
+        hotelsPresenter.findViewById(R.id.details_map_view) as MapView
+    }
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.package_hotel_activity)
         Ui.showTransparentStatusBar(this)
         resultsMapView.onCreate(savedInstanceState)
+        detailsMapView.onCreate(savedInstanceState)
     }
 
     override fun onPause() {
         resultsMapView.onPause()
+        detailsMapView.onPause()
         super.onPause()
     }
 
     override fun onResume() {
         resultsMapView.onResume()
+        detailsMapView.onResume()
         super.onResume()
     }
 
     override fun onDestroy() {
         resultsMapView.onDestroy()
+        detailsMapView.onDestroy()
         super.onDestroy()
     }
 
     override fun onLowMemory() {
         resultsMapView.onLowMemory()
+        detailsMapView.onLowMemory()
         super.onLowMemory()
     }
 
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
         resultsMapView.onSaveInstanceState(outState)
+        detailsMapView.onSaveInstanceState(outState)
         super.onSaveInstanceState(outState, outPersistentState)
     }
 

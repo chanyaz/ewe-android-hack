@@ -1,7 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
-    <com.expedia.bookings.presenter.packages.PackageHotelResultsPresenter
-        android:id="@+id/hotel_results_presenter"
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/details_map_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+
+    <ViewStub
+        android:id="@+id/results_stub"
+        android:inflatedId="@+id/widget_hotel_results"
+        android:layout="@layout/package_hotel_results_presenter_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.expedia.bookings.widget.LoadingOverlayWidget
+        android:id="@+id/details_loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
+    <ViewStub
+        android:id="@+id/details_stub"
+        android:inflatedId="@+id/widget_hotel_detail"
+        android:layout="@layout/hotel_detail_presenter_stub"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

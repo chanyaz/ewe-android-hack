@@ -1,5 +1,6 @@
 package com.expedia.bookings.services;
 
+import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.packages.PackageOffersResponse;
 import com.expedia.bookings.data.packages.PackageSearchResponse;
 
@@ -21,8 +22,12 @@ public interface PackageApi {
 		@Query("toDate") String toDate);
 
 	@GET("/api/packages/hotelOffers")
-		Observable<PackageOffersResponse>hotelOffers(
+	Observable<PackageOffersResponse> hotelOffers(
 		@Query("productKey") String productKey,
-		@Query("checkInDate")String checkInDate,
-		@Query("checkOutDate")String checkOutDate);
+		@Query("checkInDate") String checkInDate,
+		@Query("checkOutDate") String checkOutDate);
+
+	@GET("/m/api/hotel/info")
+	Observable<HotelOffersResponse> hotelInfo(
+		@Query("hotelId") String hotelId);
 }

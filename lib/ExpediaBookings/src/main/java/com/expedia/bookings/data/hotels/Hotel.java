@@ -2,6 +2,7 @@ package com.expedia.bookings.data.hotels;
 
 import java.util.List;
 
+import com.expedia.bookings.data.packages.PackageHotel;
 import com.expedia.bookings.data.packages.PackageOfferModel;
 
 public class Hotel {
@@ -59,7 +60,7 @@ public class Hotel {
 		public String description;
 	}
 
-	public static Hotel convertPackageHotel(com.expedia.bookings.data.packages.Hotel packageHotel) {
+	public static Hotel convertPackageHotel(PackageHotel packageHotel) {
 		Hotel hotel = new Hotel();
 		hotel.hotelPid = packageHotel.hotelPid;
 		hotel.hotelId = packageHotel.hotelId;

@@ -29,6 +29,8 @@ import com.expedia.util.subscribeVisibility
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.*
+import kotlin.collections.firstOrNull
+import kotlin.collections.indexOfFirst
 import kotlin.properties.Delegates
 
 public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -142,13 +144,6 @@ public fun priceFormatter(resources: Resources, rate: HotelRate?, strikeThrough:
     var hotelPrice = if (strikeThrough)
         Money(Math.round(rate.strikethroughPriceToShowUsers).toString(), rate.currencyCode)
     else Money(Math.round(rate.priceToShowUsers).toString(), rate.currencyCode)
-
-    return if (strikeThrough) Html.fromHtml(resources.getString(R.string.strike_template, hotelPrice.formattedMoney), null, StrikethroughTagHandler()) else hotelPrice.formattedMoney
-}
-
-public fun priceFormatter(resources: Resources, price: PackageOfferModel.HotelPrice?, strikeThrough: Boolean): CharSequence {
-    if (price == null) return ""
-    var hotelPrice = Money(Math.round(price.amount).toString(), price.currencyCode)
 
     return if (strikeThrough) Html.fromHtml(resources.getString(R.string.strike_template, hotelPrice.formattedMoney), null, StrikethroughTagHandler()) else hotelPrice.formattedMoney
 }

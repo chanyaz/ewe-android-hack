@@ -9,7 +9,6 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.TransitionDrawable
 import android.location.Location
-import android.os.Build
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -18,7 +17,12 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format.DateUtils
 import android.util.AttributeSet
-import android.view.*
+import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.MotionEvent
+import android.view.View
+import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
@@ -33,7 +37,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.HotelV2Tracking
@@ -41,11 +44,28 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.*
-import com.expedia.util.*
-import com.expedia.vm.BaseResultsMapViewModel
+import com.expedia.bookings.widget.FilterButtonWithCountWidget
+import com.expedia.bookings.widget.HotelCarouselRecycler
+import com.expedia.bookings.widget.HotelFilterView
+import com.expedia.bookings.widget.HotelListAdapter
+import com.expedia.bookings.widget.HotelListRecyclerView
+import com.expedia.bookings.widget.HotelMapCarouselAdapter
+import com.expedia.bookings.widget.MapLoadingOverlayWidget
+import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.createHotelMarkerIcon
+import com.expedia.util.endlessObserver
+import com.expedia.util.havePermissionToAccessLocation
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeInverseVisibility
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelFilterViewModel
-import com.google.android.gms.maps.*
+import com.expedia.vm.HotelResultsMapViewModel
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
+import com.google.android.gms.maps.MapsInitializer
+import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
@@ -54,11 +74,16 @@ import com.mobiata.android.LocationServices
 import org.joda.time.DateTime
 import rx.Observer
 import rx.subjects.PublishSubject
-import java.util.*
-import kotlin.collections.*
+import java.util.ArrayList
+import kotlin.collections.arrayListOf
+import kotlin.collections.emptyList
+import kotlin.collections.filter
+import kotlin.collections.first
+import kotlin.collections.forEach
+import kotlin.collections.isNotEmpty
 import kotlin.properties.Delegates
 
-public open abstract class BaseResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
+public abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
 
     //Views
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
@@ -79,7 +104,7 @@ public open abstract class BaseResultsPresenter(context: Context, attrs: Attribu
     val isBucketedForResultMap = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultMapTest)
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
-    private val DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION = 200L
+    val DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION = 200L
 
     var screenHeight: Int = 0
     var screenWidth: Float = 0f
@@ -116,7 +141,7 @@ public open abstract class BaseResultsPresenter(context: Context, attrs: Attribu
     private val ANIMATION_DURATION_FILTER = 500
     var hotels = emptyList<Hotel>()
 
-    var mapViewModel: BaseResultsMapViewModel by notNullAndObservable { vm ->
+    var mapViewModel: HotelResultsMapViewModel by notNullAndObservable { vm ->
         vm.markersObservable.subscribe {
             mapViewModel.selectMarker.onNext(null)
             hotels = it
@@ -217,7 +242,7 @@ public open abstract class BaseResultsPresenter(context: Context, attrs: Attribu
 
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(response.hotelList)
         adapter.resultsSubject.onNext(Pair(response.hotelList, response.userPriceType))
-//      mapViewModel.hotelResultsSubject.onNext(response)
+        mapViewModel.hotelResultsSubject.onNext(response)
     }
 
     override fun back(): Boolean {
@@ -234,6 +259,7 @@ public open abstract class BaseResultsPresenter(context: Context, attrs: Attribu
 
     init {
         inflate()
+        mapViewModel = HotelResultsMapViewModel(context, lastBestLocationSafe(), iconFactory)
         headerClickedSubject.subscribe(mapSelectedObserver)
         adapter = HotelListAdapter(hotelSelectedSubject, headerClickedSubject)
         recyclerView.adapter = adapter
@@ -241,7 +267,6 @@ public open abstract class BaseResultsPresenter(context: Context, attrs: Attribu
         filterView.viewmodel.filterObservable.subscribe(filterObserver)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
-        toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
         toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
         toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
 
@@ -429,11 +454,7 @@ public open abstract class BaseResultsPresenter(context: Context, attrs: Attribu
 
     private val mapViewLayoutReadyListener = object: ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-                mapView.viewTreeObserver.removeGlobalOnLayoutListener(this);
-            } else {
-                mapView.viewTreeObserver.removeOnGlobalLayoutListener(this);
-            }
+            mapView.viewTreeObserver.removeOnGlobalLayoutListener(this);
             mapViewModel.newBoundsObservable.subscribe {
                 val center = it.center
                 val latLng = LatLng(center.latitude, center.longitude)
@@ -712,7 +733,7 @@ public open abstract class BaseResultsPresenter(context: Context, attrs: Attribu
                 if (forward) {
                     mapCarouselContainer.translationX = 0f
                     googleMap?.setOnCameraChangeListener(null)
-                    hideSearchThisArea(duration.toLong())
+                    hideSearchThisArea()
                 } else {
                     //If the user moves the map at all, make sure the button is showing.
                     googleMap?.setOnCameraChangeListener { position ->
@@ -951,53 +972,11 @@ public open abstract class BaseResultsPresenter(context: Context, attrs: Attribu
         }
     }
 
-    fun doAreaSearch() {
-        val center = googleMap?.cameraPosition?.target
-        val location = SuggestionV4()
-        location.isSearchThisArea = true
-        val region = SuggestionV4.RegionNames()
-        region.displayName = context.getString(R.string.visible_map_area)
-        region.shortName = context.getString(R.string.visible_map_area)
-        location.regionNames = region
-        val coordinate = SuggestionV4.LatLng()
-        coordinate.lat = center?.latitude!!
-        coordinate.lng = center?.longitude!!
-        location.coordinates = coordinate
-        //viewmodel.locationParamsSubject.onNext(location)
-    }
-
-    fun hideSearchThisArea(duration: Long = DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION) {
-        if (searchThisArea?.getVisibility() == View.VISIBLE) {
-            val anim: Animator = ObjectAnimator.ofFloat(searchThisArea, "alpha", 1f, 0f)
-            anim.addListener(object : Animator.AnimatorListener {
-                override fun onAnimationCancel(animation: Animator?) {
-                    //Do nothing
-                }
-
-                override fun onAnimationEnd(animator: Animator?) {
-                    searchThisArea?.setVisibility(View.GONE)
-                }
-
-                override fun onAnimationStart(animator: Animator?) {
-                    //Do nothing
-                }
-
-                override fun onAnimationRepeat(animator: Animator?) {
-                    //Do nothing
-                }
-
-            })
-            anim.setDuration(duration)
-            anim.start()
-        }
-    }
-
-    fun showSearchThisArea(duration: Long = DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION) {
-        if (currentState?.equals(ResultsMap::class.java.name) ?: false && searchThisArea?.visibility == View.GONE) {
-            searchThisArea?.visibility = View.VISIBLE
-            ObjectAnimator.ofFloat(searchThisArea, "alpha", 0f, 1f).setDuration(duration).start()
-        }
-    }
-
     abstract fun inflate()
+
+    abstract fun doAreaSearch()
+
+    abstract fun hideSearchThisArea()
+
+    abstract fun showSearchThisArea()
 }

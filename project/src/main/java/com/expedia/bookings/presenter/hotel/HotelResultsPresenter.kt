@@ -1,5 +1,7 @@
 package com.expedia.bookings.presenter.hotel
 
+import android.animation.Animator
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.Rect
@@ -9,17 +11,17 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
+import com.expedia.bookings.data.hotels.SuggestionV4
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.HotelResultsMapViewModel
 import com.expedia.vm.HotelResultsViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 
-public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseResultsPresenter(context, attrs) {
+public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
     override val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
     override val searchThisArea: Button by bindView(R.id.search_this_area)
     override val loadingOverlay: MapLoadingOverlayWidget by bindView(R.id.map_loading_overlay)
@@ -30,9 +32,9 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             filterBtnWithCountWidget.translationY = 0f
         }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
-        vm.hotelResultsObservable.subscribe((mapViewModel as HotelResultsMapViewModel).hotelResultsSubject)
+        vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.mapResultsObservable.subscribe(listResultsObserver)
-        vm.mapResultsObservable.subscribe((mapViewModel as HotelResultsMapViewModel).mapResultsSubject)
+        vm.mapResultsObservable.subscribe(mapViewModel.mapResultsSubject)
         vm.mapResultsObservable.subscribe {
             val latLng = googleMap?.projection?.visibleRegion?.latLngBounds?.center
             mapViewModel.mapBoundsSubject.onNext(latLng)
@@ -92,6 +94,55 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
 
     override fun inflate() {
         View.inflate(getContext(), R.layout.widget_hotel_results, this)
-        mapViewModel = HotelResultsMapViewModel(context, lastBestLocationSafe(), iconFactory)
+        toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
     }
+
+    override fun doAreaSearch() {
+        val center = googleMap?.cameraPosition?.target
+        val location = SuggestionV4()
+        location.isSearchThisArea = true
+        val region = SuggestionV4.RegionNames()
+        region.displayName = context.getString(R.string.visible_map_area)
+        region.shortName = context.getString(R.string.visible_map_area)
+        location.regionNames = region
+        val coordinate = SuggestionV4.LatLng()
+        coordinate.lat = center?.latitude!!
+        coordinate.lng = center?.longitude!!
+        location.coordinates = coordinate
+        viewmodel.locationParamsSubject.onNext(location)
+    }
+
+    override fun hideSearchThisArea() {
+        if (searchThisArea?.getVisibility() == View.VISIBLE) {
+            val anim: Animator = ObjectAnimator.ofFloat(searchThisArea, "alpha", 1f, 0f)
+            anim.addListener(object : Animator.AnimatorListener {
+                override fun onAnimationCancel(animation: Animator?) {
+                    //Do nothing
+                }
+
+                override fun onAnimationEnd(animator: Animator?) {
+                    searchThisArea?.setVisibility(View.GONE)
+                }
+
+                override fun onAnimationStart(animator: Animator?) {
+                    //Do nothing
+                }
+
+                override fun onAnimationRepeat(animator: Animator?) {
+                    //Do nothing
+                }
+
+            })
+            anim.setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION)
+            anim.start()
+        }
+    }
+
+    override fun showSearchThisArea() {
+        if (currentState?.equals(ResultsMap::class.java.name) ?: false && searchThisArea?.visibility == View.GONE) {
+            searchThisArea?.visibility = View.VISIBLE
+            ObjectAnimator.ofFloat(searchThisArea, "alpha", 0f, 1f).setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION).start()
+        }
+    }
+
 }

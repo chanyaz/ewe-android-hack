@@ -1,6 +1,6 @@
 package com.expedia.bookings.data
 
-import com.expedia.bookings.data.packages.Hotel
+import com.expedia.bookings.data.packages.PackageHotel
 import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
@@ -14,7 +14,7 @@ public class PackageHotelDeserializer : JsonDeserializer<PackageSearchResponse.H
         val packageResult = json.asJsonObject;
 
         for (entry in packageResult.entrySet()) {
-            val pHotel = Gson().fromJson<Hotel>(packageResult.getAsJsonObject(entry.key), Hotel::class.java)
+            val pHotel = Gson().fromJson<PackageHotel>(packageResult.getAsJsonObject(entry.key), PackageHotel::class.java)
             pHotel.hotelPid = entry.key
             val hotel = com.expedia.bookings.data.hotels.Hotel.convertPackageHotel(pHotel)
             hotelPackage.hotels.add(hotel)

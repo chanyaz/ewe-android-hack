@@ -133,7 +133,7 @@ public class HotelFilterTest {
     @Test
     fun emptyFilters() {
         vm.doneObservable.onNext(Unit)
-        assertEquals(null, vm.filteredResponse.hotelList)
+        assertEquals(0, vm.filteredResponse.hotelList.size)
     }
 
     @Test

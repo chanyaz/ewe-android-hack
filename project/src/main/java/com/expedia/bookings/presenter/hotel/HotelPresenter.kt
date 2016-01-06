@@ -61,7 +61,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
     val resultsMapView: MapView by bindView(R.id.map_view)
-    val detailsMapView: MapView by bindView(R.id.detailed_map_view)
+    val detailsMapView: MapView by bindView(R.id.details_map_view)
     val searchPresenter: HotelSearchPresenter by bindView(R.id.widget_hotel_params)
     val errorPresenter: HotelErrorPresenter by bindView(R.id.widget_hotel_errors)
     val resultsStub: ViewStub by bindView(R.id.results_stub)
@@ -598,7 +598,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         showDetails(hotel.hotelId, if (hotel.isSoldOut) false else true)
     }
 
-    private data class HotelDetailsRequestMetadata(val hotelId: String, val hotelOffersResponse: HotelOffersResponse, val isOffersRequest: Boolean)
+    data class HotelDetailsRequestMetadata(val hotelId: String, val hotelOffersResponse: HotelOffersResponse, val isOffersRequest: Boolean)
 
     private fun showDetails(hotelId: String, fetchOffers: Boolean) {
         if (fetchOffers) {
