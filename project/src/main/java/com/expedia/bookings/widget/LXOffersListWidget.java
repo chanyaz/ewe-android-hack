@@ -8,6 +8,7 @@ import org.joda.time.LocalDate;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.Offer;
@@ -85,5 +86,9 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 
 	public PublishSubject<Offer> getOfferPublishSubject() {
 		return lxOfferSubject;
+	}
+
+	public LinearLayout getOfferContainer() {
+		return offerContainer;
 	}
 }
