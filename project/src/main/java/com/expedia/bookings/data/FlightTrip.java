@@ -372,6 +372,7 @@ public class FlightTrip implements JSONable {
 	public boolean isPassportNeeded() {
 		return isPassportNeeded;
 	}
+
 	/**
 	 * Does this FlightTrip pass through the country supplied via the countryCode param
 	 *
