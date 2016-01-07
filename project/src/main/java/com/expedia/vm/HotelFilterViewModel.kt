@@ -16,6 +16,14 @@ import java.util.Collections
 import java.util.Comparator
 import java.util.HashSet
 import java.util.regex.Pattern
+import kotlin.collections.filter
+import kotlin.collections.first
+import kotlin.collections.isNotEmpty
+import kotlin.collections.last
+import kotlin.collections.orEmpty
+import kotlin.text.isBlank
+import kotlin.text.isNotEmpty
+import kotlin.text.toInt
 
 class HotelFilterViewModel() {
     val doneObservable = PublishSubject.create<Unit>()
@@ -308,7 +316,7 @@ class HotelFilterViewModel() {
 
     private fun sendNewPriceRange() {
         val response = originalResponse
-        if (response != null) {
+        if (response != null && response.priceOptions.isNotEmpty()) {
             val min = response.priceOptions.first().minPrice
             val max = response.priceOptions.last().minPrice
             val currency = response.hotelList.orEmpty().first().rateCurrencyCode

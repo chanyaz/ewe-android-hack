@@ -6,14 +6,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.expedia.bookings.data.cars.BaseApiResponse;
+import com.expedia.bookings.data.packages.PackageSearchResponse;
 
 public class HotelSearchResponse extends BaseApiResponse {
-	public String pageViewBeaconPixelUrl;
-	public List<Hotel> hotelList;
-	public List<Neighborhood> allNeighborhoodsInSearchRegion;
-	public Map<String, AmenityOptions> amenityFilterOptions;
-	public String searchRegionId;
-	public List<PriceOption> priceOptions;
+	public String pageViewBeaconPixelUrl = "";
+	public List<Hotel> hotelList = new ArrayList<>();
+	public List<Neighborhood> allNeighborhoodsInSearchRegion = new ArrayList<>();
+	public Map<String, AmenityOptions> amenityFilterOptions = new HashMap<>();
+	public String searchRegionId = "";
+	public List<PriceOption> priceOptions = new ArrayList<>();
 
 	public transient Map<String, Neighborhood> neighborhoodsMap = new HashMap<>();
 	public transient HotelRate.UserPriceType userPriceType = HotelRate.UserPriceType.UNKNOWN;
@@ -33,5 +34,11 @@ public class HotelSearchResponse extends BaseApiResponse {
 	public static class PriceOption {
 		public Integer minPrice;
 		public Integer maxPrice;
+	}
+
+	public static HotelSearchResponse convertPackageToSearchResponse(PackageSearchResponse packageSearchResponse) {
+		HotelSearchResponse response = new HotelSearchResponse();
+		response.hotelList = packageSearchResponse.packageResult.hotelsPackage.hotels;
+		return response;
 	}
 }

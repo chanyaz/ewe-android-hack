@@ -15,6 +15,8 @@ import com.expedia.bookings.utils.Images
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.subjects.BehaviorSubject
+import kotlin.collections.firstOrNull
+import kotlin.collections.listOf
 
 public class HotelViewModel(private val context: Context, private val hotel: Hotel) {
     val resources = context.resources
@@ -61,7 +63,7 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
 
     val hotelStarRatingObservable = BehaviorSubject.create(hotel.hotelStarRating)
     val ratingAmenityContainerVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.hotelStarRating > 0 || hotel.proximityDistanceInMiles > 0 || hotel.proximityDistanceInKiloMeters > 0)
-    val hotelLargeThumbnailUrlObservable = BehaviorSubject.create(Images.getMediaHost() + hotel.largeThumbnailUrl)
+    val hotelLargeThumbnailUrlObservable = BehaviorSubject.create(if (hotel.isPackage) hotel.thumbnailUrl else Images.getMediaHost() + hotel.largeThumbnailUrl)
     val hotelDiscountPercentageObservable = BehaviorSubject.create(Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo.discountPercent.toInt()).format().toString())
     val distanceFromCurrentLocation = BehaviorSubject.create(if (hotel.proximityDistanceInMiles > 0) HotelUtils.formatDistanceForNearby(resources, hotel, true) else "")
     val adImpressionObservable = BehaviorSubject.create<String>()
