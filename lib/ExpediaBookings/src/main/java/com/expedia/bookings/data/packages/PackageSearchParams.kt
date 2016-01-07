@@ -1,11 +1,25 @@
 package com.expedia.bookings.data.packages
 
 import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.utils.Constants
 import org.joda.time.Days
 import org.joda.time.LocalDate
+import kotlin.collections.emptyList
+import kotlin.text.isNullOrEmpty
 
 public data class PackageSearchParams(val destination: SuggestionV4, val arrival: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>) {
 
+    var searchProduct: String? = null
+    var packagePIID: String? = null
+        set(value) {
+            field = value
+            if (!value.isNullOrEmpty()) {
+                searchProduct = Constants.PRODUCT_FLIGHT
+            } else {
+                searchProduct = null
+            }
+        }
+    
     class Builder(val maxStay: Int) {
         private var destination: SuggestionV4? = null
         private var arrival: SuggestionV4? = null

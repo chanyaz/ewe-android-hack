@@ -43,7 +43,7 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 
 	public fun packageSearch(params: PackageSearchParams): Observable<PackageSearchResponse> {
 		return packageApi.packageSearch(params.destination.regionNames.shortName, params.arrival.regionNames.shortName, params.destination.gaiaId, params.arrival.gaiaId, params.destination.hierarchyInfo?.airport?.airportCode, params.arrival.hierarchyInfo?.airport?.airportCode,
-				params.checkIn.toString(), params.checkOut.toString())
+				params.checkIn.toString(), params.checkOut.toString(), params.packagePIID, params.searchProduct)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.doOnNext { response ->

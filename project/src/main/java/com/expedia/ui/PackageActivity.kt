@@ -1,10 +1,13 @@
 package com.expedia.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.presenter.packages.PackagePresenter
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 
 public class PackageActivity : AppCompatActivity() {
@@ -21,6 +24,15 @@ public class PackageActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            Constants.HOTEL_REQUEST_CODE -> when (resultCode) {
+                Activity.RESULT_OK -> {
+                    packagePresenter.bundlePresenter.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
+                    return
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {

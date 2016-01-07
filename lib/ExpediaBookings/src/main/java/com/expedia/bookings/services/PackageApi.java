@@ -19,7 +19,9 @@ public interface PackageApi {
 		@Query("ftla") String ftla,
 		@Query("ttla") String ttla,
 		@Query("fromDate") String fromDate,
-		@Query("toDate") String toDate);
+		@Query("toDate") String toDate,
+		@Query("packagePIID") String packagePIID,
+		@Query("searchProduct") String searchProduct);
 
 	@GET("/api/packages/hotelOffers")
 	Observable<PackageOffersResponse> hotelOffers(
