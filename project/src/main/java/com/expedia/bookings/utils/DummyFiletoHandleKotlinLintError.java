@@ -206,6 +206,12 @@ public class
 		R.layout.widget_package_hotel_results,
 		R.layout.package_hotel_presenter,
 		R.layout.package_hotel_results_presenter_stub,
-		R.layout.package_hotel_activity
+		R.layout.package_hotel_activity,
+		R.layout.flight_cell,
+		R.layout.package_flight_activity,
+		R.layout.package_flight_presenter,
+		R.layout.package_flight_results_presenter_stub,
+		R.layout.widget_flight_results_package,
+		R.dimen.card_view_container_margin
 	};
 }

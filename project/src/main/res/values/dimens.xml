@@ -385,4 +385,7 @@
     <!-- px equivalents -->
     <dimen name="two_px_allthethings">2dp</dimen>
 
+    <!-- CardView container margin -->
+    <dimen name="card_view_container_margin">9dp</dimen>
+
 </resources>
