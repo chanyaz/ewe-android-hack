@@ -59,10 +59,10 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
     val priceChangeLayout: LinearLayout by bindView(R.id.price_change_container)
     val priceChange: android.widget.TextView by bindView(R.id.price_change_text)
 
-    val totalFeesContainer : RelativeLayout by bindView(R.id.total_fees_container)
-    val hotelFeesContainer : ViewGroup by bindView(R.id.hotel_fees_container)
-    val amountDueTodayContainer : ViewGroup by bindView(R.id.amount_due_today_container)
-    val dottedDivider : View by bindView(R.id.dotted_divider)
+    val totalFeesContainer: RelativeLayout by bindView(R.id.total_fees_container)
+    val hotelFeesContainer: ViewGroup by bindView(R.id.hotel_fees_container)
+    val amountDueTodayContainer: ViewGroup by bindView(R.id.amount_due_today_container)
+    val dottedDivider: View by bindView(R.id.dotted_divider)
 
     val breakdown = HotelBreakDownView(context, null)
     val dialog: AlertDialog by lazy {
@@ -139,21 +139,22 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
                         FontCache.setTypeface(amountDueTodayLabel, FontCache.Font.ROBOTO_REGULAR)
                         FontCache.setTypeface(totalPriceWithTaxAndFees, FontCache.Font.ROBOTO_REGULAR)
                         FontCache.setTypeface(feesPaidLabel, FontCache.Font.ROBOTO_REGULAR)
-
                     }
                 } else {
                     if (it.isPayLaterOrResortCase.value) {
                         amountDueTodayLabel.text = Phrase.from(getContext(), R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format()
-                    } else
+                    } else {
                         amountDueTodayLabel.text = resources.getString(R.string.total_with_tax)
+                    }
                 }
             } else {
                 if (it.isDepositV2.value)
                     amountDueTodayLabel.text = Phrase.from(getContext(), R.string.due_to_brand_today_today_TEMPLATE).put("brand", BuildConfig.brand).format()
                 else if (it.isPayLaterOrResortCase.value) {
                     amountDueTodayLabel.text = Phrase.from(getContext(), R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format()
-                } else
+                } else {
                     amountDueTodayLabel.text = resources.getString(R.string.total_with_tax)
+                }
             }
         }
         viewModel.roomHeaderImage.subscribe {
@@ -162,7 +163,7 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
                     .setError(R.drawable.room_fallback)
                     .setTarget(picassoTarget).setTag(PICASSO_HOTEL_IMAGE)
                     .build()
-                    .load(HotelMedia(Images.getMediaHost() + it).getBestUrls(width/2))
+                    .load(HotelMedia(Images.getMediaHost() + it).getBestUrls(width / 2))
         }
         breakdown.viewmodel = HotelBreakDownViewModel(context, viewModel)
 
@@ -217,8 +218,7 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
                 val colorArrayBottom = intArrayOf(gradientColor, gradientColor)
                 drawable.setGradient(colorArrayBottom, floatArrayOf(0f, 1f))
                 textColor = ContextCompat.getColor(context, R.color.itin_white_text);
-            }
-            else {
+            } else {
                 textColor = ContextCompat.getColor(context, R.color.text_black)
             }
             hotelName.setTextColor(textColor)
