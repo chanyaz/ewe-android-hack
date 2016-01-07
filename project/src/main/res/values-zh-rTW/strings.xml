@@ -1726,6 +1726,8 @@
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">經濟艙</string>
+    <!-- Label for "coach" cabin code -->
+    <string name="flight_class_selection">經濟艙</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">豪華經濟艙</string>
     <!-- Label for "business" cabin code -->
@@ -1739,7 +1741,7 @@
     <!-- Template for where the flight is arriving at.  %s is the city, e.g. "Arrive at San Francisco, CA" -->
     <string name="arrive_at_TEMPLATE">抵達：%s</string>
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
-    <string name="operated_by_TEMPLATE">航空公司：%s</string>
+    <string name="operated_by_TEMPLATE">營運公司：%s</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">隨身行李需要付費</string>
     <!-- A message for a flight that does not include baggage fees in the fare total -->
@@ -1762,8 +1764,6 @@
     <string name="select_payment">選擇付款</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">付款詳細資訊</string>
-    <!-- Select payment sentence case AB Test variate1 -->
-    <string name="select_payment_sentence_case_variate1">輸入付款資訊</string>
     <!-- Select payment sentence case AB Test variate2 -->
     <string name="select_payment_sentence_case_variate2">付款</string>
     <!-- Select payment callout AB Test variate2 -->
@@ -1881,7 +1881,7 @@
     <!-- Sign out -->
     <string name="sign_out">登出</string>
     <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">您將可獲得 %1$s 點 — App 內預訂可享點數 3 倍！</string>
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">獲得 %1$s 點 — 使用 App 預訂，點數 3 倍！</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">此次預訂您將可獲得 %1$s 點！</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -1900,6 +1900,8 @@
     <string name="please_enter_a_valid_email_address">請輸入有效的電子郵件地址。</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">在飯店支付的費用</string>
+    <!-- Row label for when we show resort fees as its own line item -->
+    <string name="fees_due_at_hotel">在飯店應付的費用</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">應付給 {brand}</string>
     <!-- Due to expedia today - today -->
@@ -1961,10 +1963,6 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">旅客資訊</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">主要旅客資訊</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">輸入主要旅客資訊</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
     <string name="traveler_details_variate2">主要旅客</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">已儲存</string>
@@ -1982,49 +1980,29 @@
     <string name="add_new_creditcard">新增信用卡</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">旅客資訊</string>
+    <!-- Guest all fields are required -->
+    <string name="guest_field_required">所有欄位為必填。</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">成人 %1$s 資訊</string>
-    <!-- AB test variate 1 - Add adult traveler number template -->
-    <string name="add_adult_number_variate1_TEMPLATE">輸入成人 %1$s 資訊</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
     <string name="add_adult_number_variate2_TEMPLATE">成人 %1$s</string>
     <!-- Add adult traveler details label -->
-    <string name="add_adult">成人資訊</string>
-    <!-- AB test variate 1 - Add adult traveler details label -->
-    <string name="add_adult_variate1">輸入成人資訊</string>
-    <!-- AB test variate 2 - Add adult traveler details label -->
     <string name="add_adult_variate2">成人</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">兒童 %1$s 資訊</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_TEMPLATE">%1$s 歲兒童資訊</string>
-    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_variate1_TEMPLATE">輸入 %1$s 歲兒童資訊</string>
-    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_variate2_TEMPLATE">%1$s 歲兒童</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">不佔位嬰兒 %1$s 資訊</string>
-    <!-- AB test variate 1 - Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_variate1_TEMPLATE">輸入不佔位嬰兒 %1$s 資訊</string>
     <!-- AB test variate 2 - Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_variate2_TEMPLATE">不佔位嬰兒 %1$s</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap">不佔位嬰兒資訊</string>
-    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap_variate1">輸入不佔位嬰兒資訊</string>
-    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap_variate2">不佔位嬰兒</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">佔位嬰兒 %1$s 資訊</string>
-    <!-- AB test variate 1- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_variate1_TEMPLATE">輸入佔位嬰兒 %1$s 資訊</string>
     <!-- AB test variate 2- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_variate2_TEMPLATE">佔位嬰兒 %1$s</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat">佔位嬰兒資訊</string>
-    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat_variate1">輸入佔位嬰兒資訊</string>
-    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat_variate2">佔位嬰兒</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">如果旅客姓名與政府機關所核發之附相片的身份證明不同，可能會被拒絕登機。</string>
@@ -2053,6 +2031,9 @@
     <string name="first_name_field_text">名字</string>
     <!-- last name -->
     <string name="last_name_field_text">姓氏</string>
+    <!-- Label for hint on first and last name fields -->
+    <string name="hint_example_name_TEMPLATE">(例如：%s)</string>
+
     <!-- Cardholder -->
     <string name="cardholder">持卡人</string>
     <!-- email disclaimer -->
@@ -2227,8 +2208,6 @@
     <string name="hotels_in_TEMPLATE">%s飯店</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">%s租車</string>
-    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
-    <string name="lx_in_TEMPLATE">%s的活動</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">更多選項</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -3805,8 +3784,24 @@
     <string name="coupon_error_dialog_message">您的優惠券出現問題。請再輸入一次。</string>
 
     <!-- Australian compliance warnings d/5810 -->
-    <string name="airline_fee_notice">付款時會加入航空公司根據不同信用卡類型所收取的手續費。</string>
+    <string name="airline_fee_notice">付款時會加入根據不同信用卡類型所收取的航空公司手續費。</string>
     <string name="airline_charge_notice">航空公司會根據不同付款方式收取額外手續費。</string>
     <string name="airline_fee_notice_payment">航空公司會根據不同付款方式收取手續費</string>
     <string name="airline_notice_fee_added">付款時會加入根據不同信用卡類型所收取的<u><b>航空公司手續費</b></u>。此費用會在付款時加入總金額中。</string>
+    <string name="airline_notice_fee_added_tablet">付款時會加入根據不同信用卡類型所收取的&lt;u&gt;&lt;b&gt;航空公司手續費&lt;/b&gt;&lt;/u&gt;。此費用會在付款時加入總金額中。</string>
+
+    <!-- Packages -->
+
+    <!-- Label for package search toolbar -->
+    <string name="package_toolbar_title">機 + 酒</string>
+    <!-- Label for package search toolbar -->
+    <string name="bundle_overview_title">套裝行程摘要</string>
+    <!-- Fly from hint -->
+    <string name="fly_from_hint">出發地</string>
+    <!-- Fly to hint -->
+    <string name="fly_to_hint">目的地</string>
+    <!-- Bundle Overview Step 1, select a hotel -->
+    <string name="step_one">步驟 1：飯店</string>
+    <!-- Bundle Overview Step 2, select a flight -->
+    <string name="step_two">步驟 2：機票</string>
 </resources>
