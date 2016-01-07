@@ -287,7 +287,7 @@ public class AccountButton extends LinearLayout {
 		case HOTELSV2:
 			TripBucketItemHotelV2 hotelV2 = Db.getTripBucket().getHotelV2();
 			HotelCreateTripResponse trip = hotelV2 == null ? null : hotelV2.mHotelTripResponse;
-			rewardPoints = trip == null ? "" : trip.expediaRewards.totalPointsToEarn;
+			rewardPoints = trip == null ? "" : String.valueOf(trip.expediaRewards.totalPointsToEarn);
 			break;
 		case LX:
 			TripBucketItemLX lx = Db.getTripBucket().getLX();

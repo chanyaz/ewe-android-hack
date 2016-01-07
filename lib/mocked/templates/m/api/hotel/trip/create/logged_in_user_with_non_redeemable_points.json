@@ -360,7 +360,7 @@
     ],
     "pointsDetails": [
         {
-            "programName": "EXPEDIA_REWARDS",
+            "programName": "ExpediaRewards",
             "isAllowedToRedeem": false,
             "minimumPointsRequiredToRedeem": "3500",
             "rateID": "c22a5ead-b624-4b62-9039-941e2adb90bf",

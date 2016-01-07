@@ -143,7 +143,7 @@ public class CurrencyUtils {
 		else if (type.equals("CarteSi")) {
 			return PaymentType.CARD_CARTA_SI;
 		}
-		else if (type.equals("EXPEDIA_REWARDS")) {
+		else if (type.equals("ExpediaRewards")) {
 			return PaymentType.POINTS_EXPEDIA_REWARDS;
 		}
 		else {

@@ -16,6 +16,7 @@ import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.hotels.PaymentModel
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -57,6 +58,9 @@ import kotlin.properties.Delegates
 public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     lateinit var hotelServices: HotelServices
+        @Inject set
+
+    lateinit var paymentModel: PaymentModel
         @Inject set
 
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
@@ -117,8 +121,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val checkoutStub: ViewStub by bindView(R.id.checkout_stub)
     val checkoutPresenter: HotelCheckoutPresenter by lazy {
         var presenter = checkoutStub.inflate() as HotelCheckoutPresenter
-        presenter.hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(hotelServices)
-        presenter.hotelCheckoutViewModel = HotelCheckoutViewModel(hotelServices)
+        presenter.hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(hotelServices, paymentModel)
+        presenter.hotelCheckoutViewModel = HotelCheckoutViewModel(hotelServices, paymentModel)
         confirmationPresenter.hotelConfirmationViewModel = HotelConfirmationViewModel(presenter.hotelCheckoutViewModel.checkoutResponseObservable, context)
         presenter.hotelCheckoutViewModel.checkoutParams.subscribe { presenter.cvv.enableBookButton(false) }
         presenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->

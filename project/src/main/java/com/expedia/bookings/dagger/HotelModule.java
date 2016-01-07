@@ -1,6 +1,7 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
+import com.expedia.bookings.data.hotels.PaymentModel;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.services.ReviewsServices;
@@ -36,5 +37,11 @@ public final class HotelModule {
 		RestAdapter.LogLevel logLevel) {
 		final String endpoint = endpointProvider.getReviewsEndpointUrl();
 		return new ReviewsServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
+	}
+
+	@Provides
+	@HotelScope
+	PaymentModel providePaymentModel(HotelServices hotelServices) {
+		return new PaymentModel(hotelServices);
 	}
 }
