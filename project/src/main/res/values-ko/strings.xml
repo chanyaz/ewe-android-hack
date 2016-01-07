@@ -1726,6 +1726,8 @@
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">이코노미석</string>
+    <!-- Label for "coach" cabin code -->
+    <string name="flight_class_selection">이코노미석</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">프리미엄 이코노미석</string>
     <!-- Label for "business" cabin code -->
@@ -1762,8 +1764,6 @@
     <string name="select_payment">결제 선택</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">결제 정보</string>
-    <!-- Select payment sentence case AB Test variate1 -->
-    <string name="select_payment_sentence_case_variate1">결제 정보 입력</string>
     <!-- Select payment sentence case AB Test variate2 -->
     <string name="select_payment_sentence_case_variate2">결제</string>
     <!-- Select payment callout AB Test variate2 -->
@@ -1881,7 +1881,7 @@
     <!-- Sign out -->
     <string name="sign_out">로그아웃</string>
     <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">%1$s포인트가 적립됩니다. 앱에서 예약하면 포인트가 3배 적립됩니다!</string>
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">%1$s포인트 적립! 앱에서 예약하면 포인트가 3배 적립됩니다!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">이 예약으로 %1$s포인트가 적립됩니다!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -1900,6 +1900,8 @@
     <string name="please_enter_a_valid_email_address">유효한 이메일 주소를 입력해 주세요.</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">호텔에서 결제되는 요금</string>
+    <!-- Row label for when we show resort fees as its own line item -->
+    <string name="fees_due_at_hotel">호텔에서 결제할 요금</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">{brand}에 결제</string>
     <!-- Due to expedia today - today -->
@@ -1961,10 +1963,6 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">여행객 정보</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">주 여행객 정보</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">주 여행객 정보 입력</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
     <string name="traveler_details_variate2">주 여행객</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">저장된 정보</string>
@@ -1982,49 +1980,29 @@
     <string name="add_new_creditcard">새 카드 추가</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">숙박객 정보</string>
+    <!-- Guest all fields are required -->
+    <string name="guest_field_required">모든 필드는 필수 항목입니다.</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">어른 %1$s 정보</string>
-    <!-- AB test variate 1 - Add adult traveler number template -->
-    <string name="add_adult_number_variate1_TEMPLATE">어른 %1$s 정보 입력</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
     <string name="add_adult_number_variate2_TEMPLATE">어른 %1$s</string>
     <!-- Add adult traveler details label -->
-    <string name="add_adult">어른 정보</string>
-    <!-- AB test variate 1 - Add adult traveler details label -->
-    <string name="add_adult_variate1">어른 정보 입력</string>
-    <!-- AB test variate 2 - Add adult traveler details label -->
     <string name="add_adult_variate2">어른</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">아동 %1$s 정보</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_TEMPLATE">만 %1$s세 아동 정보</string>
-    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_variate1_TEMPLATE">만 %1$s세 아동 정보 입력</string>
-    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_variate2_TEMPLATE">만 %1$s세</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">무릎에 앉히는 영유아 %1$s 정보</string>
-    <!-- AB test variate 1 - Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_variate1_TEMPLATE">무릎에 앉히는 영유아 %1$s 정보 입력</string>
     <!-- AB test variate 2 - Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_variate2_TEMPLATE">무릎에 앉히는 영유아 %1$s</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap">무릎에 앉히는 영유아 정보</string>
-    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap_variate1">무릎에 앉히는 영유아 정보 입력</string>
-    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap_variate2">무릎에 앉히는 영유아</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">좌석에 앉는 영유아 %1$s 정보</string>
-    <!-- AB test variate 1- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_variate1_TEMPLATE">좌석에 앉는 영유아 %1$s 정보 입력</string>
     <!-- AB test variate 2- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_variate2_TEMPLATE">좌석에 앉는 영유아 %1$s</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat">좌석에 앉는 영유아 정보</string>
-    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat_variate1">좌석에 앉는 영유아 정보 입력</string>
-    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat_variate2">좌석에 앉는 영유아</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">여행객 이름이 정부가 발급한 사진이 부착된 ID와 맞지 않는 경우 탑승이 거부될 수 있습니다.</string>
@@ -2053,6 +2031,9 @@
     <string name="first_name_field_text">이름</string>
     <!-- last name -->
     <string name="last_name_field_text">성</string>
+    <!-- Label for hint on first and last name fields -->
+    <string name="hint_example_name_TEMPLATE">(예: %s)</string>
+
     <!-- Cardholder -->
     <string name="cardholder">카드 소유자 이름</string>
     <!-- email disclaimer -->
@@ -2227,8 +2208,6 @@
     <string name="hotels_in_TEMPLATE">%s 호텔</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">%s 렌터카</string>
-    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
-    <string name="lx_in_TEMPLATE">%s에서의 즐길거리</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">고객 지원 더 보기</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -3809,4 +3788,20 @@
     <string name="airline_charge_notice">항공사에서 결제 방법에 따라 추가 수수료를 청구합니다.</string>
     <string name="airline_fee_notice_payment">결제 방법에 따라 항공사 수수료가 적용됩니다.</string>
     <string name="airline_notice_fee_added">카드 종류에 따라 <u><b>항공사 수수료</b></u>가 결제 시 추가됩니다. 이러한 요금은 결제 시 총 금액에 추가됩니다.</string>
+    <string name="airline_notice_fee_added_tablet">카드 종류에 따라 &lt;u&gt;&lt;b&gt;항공사 수수료&lt;/b&gt;&lt;/u&gt;가 결제 시 추가됩니다. 이러한 요금은 결제 시 총 금액에 추가됩니다.</string>
+
+    <!-- Packages -->
+
+    <!-- Label for package search toolbar -->
+    <string name="package_toolbar_title">호텔+항공</string>
+    <!-- Label for package search toolbar -->
+    <string name="bundle_overview_title">패키지 정보</string>
+    <!-- Fly from hint -->
+    <string name="fly_from_hint">출발</string>
+    <!-- Fly to hint -->
+    <string name="fly_to_hint">도착</string>
+    <!-- Bundle Overview Step 1, select a hotel -->
+    <string name="step_one">1단계: 호텔</string>
+    <!-- Bundle Overview Step 2, select a flight -->
+    <string name="step_two">2단계: 항공</string>
 </resources>

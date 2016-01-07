@@ -1728,6 +1728,8 @@
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">ชั้นประหยัด</string>
+    <!-- Label for "coach" cabin code -->
+    <string name="flight_class_selection">ชั้นประหยัด</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">ชั้นประหยัดพรีเมี่ยม</string>
     <!-- Label for "business" cabin code -->
@@ -1764,8 +1766,6 @@
     <string name="select_payment">เลือกการชำระเงิน</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">รายละเอียดการชำระเงิน</string>
-    <!-- Select payment sentence case AB Test variate1 -->
-    <string name="select_payment_sentence_case_variate1">ป้อนรายละเอียดการชำระเงิน</string>
     <!-- Select payment sentence case AB Test variate2 -->
     <string name="select_payment_sentence_case_variate2">การชำระเงิน</string>
     <!-- Select payment callout AB Test variate2 -->
@@ -1883,7 +1883,7 @@
     <!-- Sign out -->
     <string name="sign_out">ออกจากระบบ</string>
     <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">คุณจะได้รับ %1$s คะแนน — 3 เท่าของคะแนนปกติเพราะคุณจองผ่านแอพ!</string>
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">รับ %1$s คะแนน — 3 เท่าของคะแนนปกติเพราะคุณจองผ่านแอพ!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">คุณจะได้รับ %1$s คะแนนจากการจองนี้!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -1902,6 +1902,8 @@
     <string name="please_enter_a_valid_email_address">โปรดป้อนอีเมลที่ถูกต้อง</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">ค่าธรรมเนียมที่จ่ายที่โรงแรม</string>
+    <!-- Row label for when we show resort fees as its own line item -->
+    <string name="fees_due_at_hotel">ค่าธรรมเนียมถึงกำหนดชำระที่โรงแรม</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">ต้องจ่ายให้ {brand}</string>
     <!-- Due to expedia today - today -->
@@ -1963,10 +1965,6 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">ข้อมูลผู้เดินทาง</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">รายละเอียดของผู้เดินทางหลัก</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">ป้อนรายละเอียดผู้เดินทางหลัก</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
     <string name="traveler_details_variate2">ผู้เดินทางหลัก</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">บันทึกไว้</string>
@@ -1984,49 +1982,29 @@
     <string name="add_new_creditcard">เพิ่มบัตรใหม่</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">รายละเอียดผู้เข้าพัก</string>
+    <!-- Guest all fields are required -->
+    <string name="guest_field_required">ต้องป้อนข้อมูลทุกช่อง</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">รายละเอียดผู้ใหญ่ %1$s</string>
-    <!-- AB test variate 1 - Add adult traveler number template -->
-    <string name="add_adult_number_variate1_TEMPLATE">ป้อนรายละเอียดผู้ใหญ่ %1$s</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
     <string name="add_adult_number_variate2_TEMPLATE">ผู้ใหญ่ %1$s</string>
     <!-- Add adult traveler details label -->
-    <string name="add_adult">รายละเอียดผู้ใหญ่</string>
-    <!-- AB test variate 1 - Add adult traveler details label -->
-    <string name="add_adult_variate1">ป้อนรายละเอียดผู้ใหญ่</string>
-    <!-- AB test variate 2 - Add adult traveler details label -->
     <string name="add_adult_variate2">ผู้ใหญ่</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">รายละเอียดเด็ก %1$s</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_TEMPLATE">รายละเอียดอายุ%1$s</string>
-    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_variate1_TEMPLATE">ป้อนรายละเอียดผู้เดินทางอายุ %1$s ปี</string>
-    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_variate2_TEMPLATE">%1$s ปี</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">รายละเอียดทารกนั่งตัก%1$s</string>
-    <!-- AB test variate 1 - Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_variate1_TEMPLATE">ป้อนรายละเอียดทารกนั่งตัก %1$s</string>
     <!-- AB test variate 2 - Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_variate2_TEMPLATE">ทารกนั่งตัก %1$s</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap">รายละเอียดทารกนั่งตัก</string>
-    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap_variate1">ป้อนรายละเอียดทารกนั่งตัก</string>
-    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap_variate2">ทารกนั่งตัก</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">รายละเอียดทารกนั่งที่นั่ง%1$s</string>
-    <!-- AB test variate 1- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_variate1_TEMPLATE">ป้อนรายละเอียดทารกนั่งที่นั่ง %1$s</string>
     <!-- AB test variate 2- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_variate2_TEMPLATE">ทารกนั่งที่นั่ง %1$s</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat">รายละเอียดทารกนั่งที่นั่ง</string>
-    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat_variate1">ป้อนรายละเอียดทารกนั่งที่นั่ง</string>
-    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat_variate2">ทารกนั่งที่นั่ง</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">สายการบินอาจปฏิเสธการขึ้นเครื่องหากชื่อผู้เดินทางไม่ตรงกับบัตรประจำตัวที่มีรูปถ่ายที่ทางราชการออกให้</string>
@@ -2055,6 +2033,9 @@
     <string name="first_name_field_text">ชื่อ</string>
     <!-- last name -->
     <string name="last_name_field_text">นามสกุล</string>
+    <!-- Label for hint on first and last name fields -->
+    <string name="hint_example_name_TEMPLATE">(ตัวอย่าง: %s)</string>
+
     <!-- Cardholder -->
     <string name="cardholder">เจ้าของบัตร</string>
     <!-- email disclaimer -->
@@ -2229,8 +2210,6 @@
     <string name="hotels_in_TEMPLATE">โรงแรมใน%s</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">รถใน%s</string>
-    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
-    <string name="lx_in_TEMPLATE">กิจกรรมใน%s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">ดำเนินการอื่นๆ</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -3811,4 +3790,20 @@
     <string name="airline_charge_notice">สายการบินเรียกเก็บค่าธรรมเนียมเพิ่มเติมตามวิธีการชำระเงิน</string>
     <string name="airline_fee_notice_payment">อาจมีค่าธรรมเนียมสายการบิน ทั้งนี้ขึ้นอยู่กับวิธีการชำระเงิน</string>
     <string name="airline_notice_fee_added"><u><b>ค่าธรรมเนียมสายการบิน</b></u> จะถูกเพิ่มเข้าไปในการชำระเงิน โดยขึ้นอยู่กับประเภทบัตร ค่าธรรมเนียมนี้จะบวกเพิ่มเข้ากับยอดการชำระเงินรวม</string>
+    <string name="airline_notice_fee_added_tablet">&lt;u&gt;&lt;b&gt;ค่าธรรมเนียมสายการบิน&lt;/b&gt;&lt;/u&gt; จะถูกเพิ่มเข้าไปในการชำระเงิน โดยขึ้นอยู่กับประเภทบัตร ค่าธรรมเนียมนี้จะบวกเพิ่มเข้ากับยอดการชำระเงินรวม</string>
+
+    <!-- Packages -->
+
+    <!-- Label for package search toolbar -->
+    <string name="package_toolbar_title">โรงแรม + เที่ยวบิน</string>
+    <!-- Label for package search toolbar -->
+    <string name="bundle_overview_title">ภาพรวมแพ็คเกจ</string>
+    <!-- Fly from hint -->
+    <string name="fly_from_hint">บินจาก</string>
+    <!-- Fly to hint -->
+    <string name="fly_to_hint">บินไปยัง</string>
+    <!-- Bundle Overview Step 1, select a hotel -->
+    <string name="step_one">ขั้นที่ 1 โรงแรม</string>
+    <!-- Bundle Overview Step 2, select a flight -->
+    <string name="step_two">ขั้นที่ 2 เที่ยวบิน</string>
 </resources>

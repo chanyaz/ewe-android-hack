@@ -1726,6 +1726,8 @@
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">Économie</string>
+    <!-- Label for "coach" cabin code -->
+    <string name="flight_class_selection">Touriste/Économie</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Économie supérieure</string>
     <!-- Label for "business" cabin code -->
@@ -1762,8 +1764,6 @@
     <string name="select_payment">Sélectionner le paiement</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">Détails du paiement</string>
-    <!-- Select payment sentence case AB Test variate1 -->
-    <string name="select_payment_sentence_case_variate1">Entrer les détails du paiement</string>
     <!-- Select payment sentence case AB Test variate2 -->
     <string name="select_payment_sentence_case_variate2">Paiement</string>
     <!-- Select payment callout AB Test variate2 -->
@@ -1881,7 +1881,7 @@
     <!-- Sign out -->
     <string name="sign_out">Fermer la session</string>
     <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">Vous obtiendrez %1$s points, soit trois fois plus de points, pour avoir réservé dans l\&apos;application!</string>
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">Obtenez %1$s points – 3x plus en réservant dans l\&apos;application!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Vous obtiendrez %1$s points pour cette réservation!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -1900,6 +1900,8 @@
     <string name="please_enter_a_valid_email_address">Veuillez entrer une adresse courriel valide</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Frais payés à l\&apos;hôtel</string>
+    <!-- Row label for when we show resort fees as its own line item -->
+    <string name="fees_due_at_hotel">Frais à payer à l\&apos;hôtel</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">Dû à {brand}</string>
     <!-- Due to expedia today - today -->
@@ -1961,10 +1963,6 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Information voyageur</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">Détails sur le voyageur principal</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">Entrer les détails du voyageur principal</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
     <string name="traveler_details_variate2">Voyageur principal</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Enregistré</string>
@@ -1982,49 +1980,29 @@
     <string name="add_new_creditcard">Ajouter une nouvelle carte</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Détails sur l\&apos;invité</string>
+    <!-- Guest all fields are required -->
+    <string name="guest_field_required">Tous les champs sont obligatoires.</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Détails sur l\&apos;adulte n. %1$s</string>
-    <!-- AB test variate 1 - Add adult traveler number template -->
-    <string name="add_adult_number_variate1_TEMPLATE">Entrer les détails sur l\&apos;adulte %1$s</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
     <string name="add_adult_number_variate2_TEMPLATE">Adulte %1$s</string>
     <!-- Add adult traveler details label -->
-    <string name="add_adult">Détails sur l\&apos;adulte</string>
-    <!-- AB test variate 1 - Add adult traveler details label -->
-    <string name="add_adult_variate1">Entrer les détails sur l\&apos;adulte</string>
-    <!-- AB test variate 2 - Add adult traveler details label -->
     <string name="add_adult_variate2">Adulte</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Détails sur l\&apos;enfant %1$s</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_TEMPLATE">Détails sur l\&apos;enfant de %1$s an(s)</string>
-    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_variate1_TEMPLATE">Entrer les détails sur l\&apos;enfant de %1$s an(s)</string>
-    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_variate2_TEMPLATE">%1$s ans</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Détails sur le jeune enfant %1$s sur les genoux</string>
-    <!-- AB test variate 1 - Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_variate1_TEMPLATE">Entrer les détails sur le jeune enfant %1$s sur les genoux</string>
     <!-- AB test variate 2 - Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_variate2_TEMPLATE">Jeune enfant %1$s sur les genoux</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap">Détails sur le jeune enfant sur les genoux</string>
-    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap_variate1">Entrer les détails sur le jeune enfant sur les genoux</string>
-    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap_variate2">Jeune enfant sur les genoux</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">Détails sur le jeune enfant %1$s dans un siège</string>
-    <!-- AB test variate 1- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_variate1_TEMPLATE">Entrer les détails sur le jeune enfant %1$s dans un siège</string>
     <!-- AB test variate 2- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_variate2_TEMPLATE">Jeune enfant %1$s dans un siège</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat">Détails sur le jeune enfant dans un siège</string>
-    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat_variate1">Entrer les détails sur le jeune enfant dans un siège</string>
-    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat_variate2">Jeune enfant dans un siège</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">L\&apos;embarquement pourrait être refusé si le nom du voyageur ne correspond pas à celui sur la carte d\&apos;identité avec photo émise par le gouvernement.</string>
@@ -2053,6 +2031,9 @@
     <string name="first_name_field_text">prénom</string>
     <!-- last name -->
     <string name="last_name_field_text">nom</string>
+    <!-- Label for hint on first and last name fields -->
+    <string name="hint_example_name_TEMPLATE">(exemple : %s)</string>
+
     <!-- Cardholder -->
     <string name="cardholder">Détenteur</string>
     <!-- email disclaimer -->
@@ -2227,8 +2208,6 @@
     <string name="hotels_in_TEMPLATE">Hôtels à %s</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Voitures à %s</string>
-    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
-    <string name="lx_in_TEMPLATE">Activités à %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Autres actions</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -3809,4 +3788,20 @@
     <string name="airline_charge_notice">La compagnie aérienne exige des frais supplémentaires en fonction du mode de paiement.</string>
     <string name="airline_fee_notice_payment">Des frais de la compagnie aérienne s\&apos;appliquent en fonction du mode de paiement</string>
     <string name="airline_notice_fee_added">Des <u><b>frais de la compagnie aérienne</b></u>, calculés en fonction du type de carte, sont ajoutés au moment du paiement. Le montant de ces frais s\&apos;ajoute au total au moment du paiement.</string>
+    <string name="airline_notice_fee_added_tablet">Des &lt;u&gt;&lt;b&gt;frais de la compagnie aérienne&lt;/b&gt;&lt;/u&gt;, calculés en fonction du type de carte, sont ajoutés au moment du paiement. Le montant de ces frais s\&apos;ajoute au total au moment du paiement.</string>
+
+    <!-- Packages -->
+
+    <!-- Label for package search toolbar -->
+    <string name="package_toolbar_title">Hôtel + Vol</string>
+    <!-- Label for package search toolbar -->
+    <string name="bundle_overview_title">Aperçu de l\&apos;offre groupée</string>
+    <!-- Fly from hint -->
+    <string name="fly_from_hint">Vol de</string>
+    <!-- Fly to hint -->
+    <string name="fly_to_hint">Vol vers</string>
+    <!-- Bundle Overview Step 1, select a hotel -->
+    <string name="step_one">Étape 1 Hôtel</string>
+    <!-- Bundle Overview Step 2, select a flight -->
+    <string name="step_two">Étape 2 Vols</string>
 </resources>

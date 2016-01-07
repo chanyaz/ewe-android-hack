@@ -1726,6 +1726,8 @@
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">Economy</string>
+    <!-- Label for "coach" cabin code -->
+    <string name="flight_class_selection">Economy</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Premium Economy</string>
     <!-- Label for "business" cabin code -->
@@ -1762,8 +1764,6 @@
     <string name="select_payment">Välj betalning</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">Betalningsuppgifter</string>
-    <!-- Select payment sentence case AB Test variate1 -->
-    <string name="select_payment_sentence_case_variate1">Ange betalningsuppgifter</string>
     <!-- Select payment sentence case AB Test variate2 -->
     <string name="select_payment_sentence_case_variate2">Betalning</string>
     <!-- Select payment callout AB Test variate2 -->
@@ -1881,7 +1881,7 @@
     <!-- Sign out -->
     <string name="sign_out">Logga ut</string>
     <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">Du tjänar %1$s poäng — 3x mer för att du bokar i appen!</string>
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">Samla %1$s poäng – tre gånger mer med appen!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Du samlar %1$s poäng med den här bokningen!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -1900,6 +1900,8 @@
     <string name="please_enter_a_valid_email_address">Ange en giltig e-postadress</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Avgifter som betalades på hotellet</string>
+    <!-- Row label for when we show resort fees as its own line item -->
+    <string name="fees_due_at_hotel">Avgifter som ska betalas på hotellet</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">Att betala {brand}</string>
     <!-- Due to expedia today - today -->
@@ -1961,10 +1963,6 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Resenärens uppgifter</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">Huvudresenärens uppgifter</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">Ange huvudresenärens uppgifter</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
     <string name="traveler_details_variate2">Huvudresenär</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Sparat</string>
@@ -1982,49 +1980,29 @@
     <string name="add_new_creditcard">Lägg till nytt kort</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Gästinformation</string>
+    <!-- Guest all fields are required -->
+    <string name="guest_field_required">Alla fält måste fyllas i.</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Uppgifter för vuxen resenär %1$s</string>
-    <!-- AB test variate 1 - Add adult traveler number template -->
-    <string name="add_adult_number_variate1_TEMPLATE">Ange uppgifter för vuxen resenär %1$s</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
     <string name="add_adult_number_variate2_TEMPLATE">Vuxen resenär %1$s</string>
     <!-- Add adult traveler details label -->
-    <string name="add_adult">Vuxna resenärens uppgifter</string>
-    <!-- AB test variate 1 - Add adult traveler details label -->
-    <string name="add_adult_variate1">Ange uppgifter för vuxen resenär</string>
-    <!-- AB test variate 2 - Add adult traveler details label -->
     <string name="add_adult_variate2">Vuxen</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Uppgifter för barnresenär %1$s</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_TEMPLATE">Uppgifter för %1$s-åring</string>
-    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_variate1_TEMPLATE">Uppgifter för %1$s-åring</string>
-    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_variate2_TEMPLATE">%1$s-åring</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Uppgifter för spädbarn %1$s i knä</string>
-    <!-- AB test variate 1 - Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_variate1_TEMPLATE">Ange uppgifter för spädbarn %1$s i knä</string>
     <!-- AB test variate 2 - Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_variate2_TEMPLATE">Spädbarn %1$s i knä</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap">Uppgifter för spädbarn i knä</string>
-    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap_variate1">Ange uppgifter för spädbarn i knä</string>
-    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap_variate2">Spädbarn i knä</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">Uppgifter för spädbarn %1$s i säte</string>
-    <!-- AB test variate 1- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_variate1_TEMPLATE">Ange uppgifter för spädbarn %1$s i säte</string>
     <!-- AB test variate 2- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_variate2_TEMPLATE">Spädbarn %1$s i säte</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat">Uppgifter för spädbarn i säte</string>
-    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat_variate1">Ange uppgifter för spädbarn i säte</string>
-    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat_variate2">Spädbarn i säte</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Passagerare kan nekas ombordstigning om namnet i bokningen inte matchar namnet i den statligt utfärdade ID-handlingen</string>
@@ -2053,6 +2031,9 @@
     <string name="first_name_field_text">förnamn</string>
     <!-- last name -->
     <string name="last_name_field_text">efternamn</string>
+    <!-- Label for hint on first and last name fields -->
+    <string name="hint_example_name_TEMPLATE">(exempel: %s)</string>
+
     <!-- Cardholder -->
     <string name="cardholder">Kortinnehavare</string>
     <!-- email disclaimer -->
@@ -2227,8 +2208,6 @@
     <string name="hotels_in_TEMPLATE">Hotell i %s</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Bilar i %s</string>
-    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
-    <string name="lx_in_TEMPLATE">Aktiviteter i %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Mer</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -3809,4 +3788,20 @@
     <string name="airline_charge_notice">Flygbolag tar ut en extraavgift baserat på betalningsmetod.</string>
     <string name="airline_fee_notice_payment">Flygbolagsavgift tas ut baserat på betalningsmetod</string>
     <string name="airline_notice_fee_added">En <u><b>flygbolagsavgift</b></u>, baserad på korttyp, läggs till vid betalning. Avgiften läggs till till totalbeloppet vid betalning.</string>
+    <string name="airline_notice_fee_added_tablet">En &lt;u&gt;&lt;b&gt;flygbolagsavgift&lt;/b&gt;&lt;/u&gt;, baserad på korttyp, läggs till vid betalning. Avgiften läggs till till totalbeloppet vid betalning.</string>
+
+    <!-- Packages -->
+
+    <!-- Label for package search toolbar -->
+    <string name="package_toolbar_title">Hotell + Flyg</string>
+    <!-- Label for package search toolbar -->
+    <string name="bundle_overview_title">Paketöversikt</string>
+    <!-- Fly from hint -->
+    <string name="fly_from_hint">Flyger från</string>
+    <!-- Fly to hint -->
+    <string name="fly_to_hint">Flyger till</string>
+    <!-- Bundle Overview Step 1, select a hotel -->
+    <string name="step_one">Steg 1 Hotell</string>
+    <!-- Bundle Overview Step 2, select a flight -->
+    <string name="step_two">Steg 2 Flyg</string>
 </resources>
