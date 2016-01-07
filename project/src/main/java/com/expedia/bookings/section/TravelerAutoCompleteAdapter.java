@@ -34,22 +34,21 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 	private TravelersFilter mFilter = new TravelersFilter();
 	private String mFilterStr;
 
-	private boolean isAddTravelerEnabled = true;
+
 	private int mTravelerBackgroundDrawable = R.drawable.traveler_circle;
 
 	public TravelerAutoCompleteAdapter(Context context) {
 		super(context, R.layout.traveler_autocomplete_row);
 	}
 
-	public TravelerAutoCompleteAdapter(Context context, boolean addTravelerEnabled, int travelerDrawable) {
+	public TravelerAutoCompleteAdapter(Context context, int travelerDrawable) {
 		super(context, R.layout.traveler_autocomplete_row);
-		isAddTravelerEnabled = addTravelerEnabled;
 		mTravelerBackgroundDrawable = travelerDrawable;
 	}
 
 	@Override
 	public int getCount() {
-		return getAvailableTravelers().size() + (isAddTravelerEnabled ? 2 : 1);
+		return getAvailableTravelers().size() + 2;
 	}
 
 	@Override
@@ -155,7 +154,8 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 	@Override
 	public int getItemViewType(int position) {
-		if (isAddTravelerEnabled && position == getCount() - 1) {
+		boolean isAddNewTraveler = position == getCount() - 1;
+		if (isAddNewTraveler) {
 			return ITEM_VIEW_TYPE_ADD_TRAVELER;
 		}
 		else if (position == 0) {

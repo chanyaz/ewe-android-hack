@@ -1,9 +1,11 @@
 package com.expedia.bookings.test.phone.newhotels;
 
 import android.support.test.espresso.matcher.ViewMatchers;
+
+import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
-import com.expedia.bookings.R;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -12,23 +14,18 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
-import static com.expedia.bookings.test.phone.newhotels.HotelScreen.checkout;
 import static com.expedia.bookings.test.phone.newhotels.HotelScreen.doGenericSearch;
-import static com.expedia.bookings.test.phone.newhotels.HotelScreen.enterCVV;
-import static com.expedia.bookings.test.phone.newhotels.HotelScreen.selectHotel;
-import static com.expedia.bookings.test.phone.newhotels.HotelScreen.selectRoom;
-import static com.expedia.bookings.test.phone.newhotels.HotelScreen.slideToPurchase;
 import static org.hamcrest.Matchers.allOf;
 
 public class HotelConfirmationTest extends HotelTestCase {
 
 	public void testConfirmationView() throws Throwable {
 		doGenericSearch();
-		selectHotel("happypath");
-		selectRoom();
-		checkout(true);
-		slideToPurchase();
-		enterCVV();
+		HotelScreen.selectHotel();
+		HotelScreen.selectRoom();
+		HotelScreen.checkout(true);
+		CheckoutViewModel.performSlideToPurchase(false);
+		HotelScreen.enterCVVAndBook();
 		HotelScreen.waitForConfirmationDisplayed();
 
 		EspressoUtils.assertViewIsDisplayed(R.id.hotel_confirmation_presenter);

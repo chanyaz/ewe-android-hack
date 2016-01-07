@@ -316,6 +316,12 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	}
 
 	@Override
+	public void onAddNewTravelerSelected() {
+		Traveler emptyTraveler = new Traveler();
+		sectionTravelerInfo.bind(emptyTraveler);
+	}
+
+	@Override
 	public boolean getMenuDoneButtonFocus() {
 		if (phoneNumber != null) {
 			return phoneNumber.hasFocus();

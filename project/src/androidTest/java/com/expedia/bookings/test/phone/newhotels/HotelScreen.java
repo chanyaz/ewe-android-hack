@@ -12,6 +12,8 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.espresso.TabletViewActions;
 import com.expedia.bookings.test.espresso.ViewActions;
@@ -32,8 +34,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
-import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
@@ -169,7 +169,6 @@ public class HotelScreen {
 		HotelScreen.waitForResultsLoaded();
 	}
 
-
 	public static ViewInteraction hotelResultsMap() {
 		return onView(allOf(withId(R.id.map_view)));
 	}
@@ -302,14 +301,18 @@ public class HotelScreen {
 		return onView(withId(R.id.children_age_label));
 	}
 
-	public static void doGenericSearch() throws Throwable {
-		final LocalDate start = DateTime.now().toLocalDate();
+	public static void enterGenericSearchParams() throws Throwable {
+		final LocalDate start = DateTime.now().withTimeAtStartOfDay().toLocalDate();
 		final LocalDate end = start.plusDays(3);
 
 		HotelScreen.location().perform(typeText("SFO"));
 		HotelScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
 		HotelScreen.selectDateButton().perform(click());
 		HotelScreen.selectDates(start, end);
+	}
+
+	public static void doGenericSearch() throws Throwable {
+		enterGenericSearchParams();
 		HotelScreen.clickSearchButton();
 		HotelScreen.waitForResultsLoaded();
 	}
@@ -320,8 +323,13 @@ public class HotelScreen {
 		HotelScreen.waitForDetailsLoaded();
 	}
 
+	public static void selectHotel() throws Throwable {
+		selectHotel("happypath");
+	}
+
 	public static void selectRoom() throws Throwable {
 		HotelScreen.clickAddRoom();
+		Common.delay(1);
 	}
 
 	public static void pickRoom(String name) {
@@ -333,6 +341,14 @@ public class HotelScreen {
 		waitForResultsLoaded();
 		clickSortFilter();
 		waitForFilterDisplayed();
+	}
+
+	public static void doLogin() throws Throwable {
+		EspressoUtils.assertViewIsDisplayed(R.id.login_widget);
+		CheckoutViewModel.enterLoginDetails();
+		Common.delay(1);
+		CheckoutViewModel.pressDoLogin();
+		Common.delay(1);
 	}
 
 	public static void checkout(boolean walletSupported) throws Throwable {
@@ -358,11 +374,7 @@ public class HotelScreen {
 		CVVEntryScreen.clickBookButton();
 	}
 
-	public static void verifyPriceChange(String price) throws Throwable {
-		onView(withId(R.id.price_change_text)).perform(ViewActions.waitForViewToDisplay());
-		assertViewWithTextIsDisplayed(R.id.price_change_text, price);
-		assertViewIsDisplayed(R.id.price_change_container);
-	}
+
 
 	public static ViewInteraction selectRoomButton() throws Throwable {
 		return onView(withId(R.id.select_room_button));
@@ -392,5 +404,10 @@ public class HotelScreen {
 		LogInScreen.typeTextEmailEditText(username);
 		LogInScreen.typeTextPasswordEditText("password");
 		LogInScreen.clickOnLoginButton();
+	}
+
+	public static void enterCVVAndBook() throws Throwable {
+		CVVEntryScreen.enterCVV("123");
+		CVVEntryScreen.clickBookButton();
 	}
 }
