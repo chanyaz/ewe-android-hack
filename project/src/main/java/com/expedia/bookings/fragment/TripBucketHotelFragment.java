@@ -23,7 +23,6 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.section.HotelReceiptExtraSection;
@@ -186,12 +185,6 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	private void addResortFeeRows(Rate rate) {
 		String feesPaidAtHotel = getResources().getString(R.string.fees_paid_at_hotel);
 		addExtraRow(feesPaidAtHotel, rate.getTotalMandatoryFees().getFormattedMoney(), false);
-
-		String totalDueToOurBrandToday = Phrase.from(getActivity(), R.string.due_to_brand_today_TEMPLATE)
-			.put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(getActivity()))
-			.format()
-			.toString();
-		addExtraRow(totalDueToOurBrandToday, rate.getTotalAmountAfterTax().getFormattedMoney(), false);
 	}
 
 	private static final int LANDSCAPE_EXTRAS_LIMIT = 3;
