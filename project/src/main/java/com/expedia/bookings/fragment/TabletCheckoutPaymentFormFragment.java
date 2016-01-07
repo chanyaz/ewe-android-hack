@@ -196,11 +196,11 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 							toggleCardMessage(true, true);
 						}
 						else {
-							hideCardMessageOrDisplayDefault(true);
+							hideCardMessageOrDisplayDefault(getLob(), true);
 						}
 					}
 					else {
-						hideCardMessageOrDisplayDefault(true);
+						hideCardMessageOrDisplayDefault(getLob(), true);
 					}
 				}
 
@@ -216,11 +216,11 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 							toggleCardMessage(true, true);
 						}
 						else {
-							hideCardMessageOrDisplayDefault(true);
+							hideCardMessageOrDisplayDefault(getLob(), true);
 						}
 					}
 					else {
-						hideCardMessageOrDisplayDefault(true);
+						hideCardMessageOrDisplayDefault(getLob(), true);
 					}
 				}
 			}
@@ -280,8 +280,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	 *
 	 * @param animate
 	 */
-	public void hideCardMessageOrDisplayDefault(boolean animate) {
-		if (PointOfSale.getPointOfSale().doesNotAcceptDebitCardsForFlights()) {
+	public void hideCardMessageOrDisplayDefault(LineOfBusiness lob, boolean animate) {
+		if (lob == LineOfBusiness.FLIGHTS && PointOfSale.getPointOfSale().doesNotAcceptDebitCardsForFlights()) {
 			Resources res = getResources();
 			updateCardMessageText(res.getString(R.string.debit_cards_not_accepted));
 			toggleCardMessage(true, animate);
