@@ -17,6 +17,7 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
@@ -55,6 +56,8 @@ public class AccountLibActivity extends AppCompatActivity
 	private UserAccountRefresher userAccountRefresher;
 	private boolean loginWithFacebook = false;
 	private Listener listener = new Listener();
+	private boolean isUserBucketedForSignInMessagingTest = Db.getAbacusResponse()
+		.isUserBucketedForTest(AbacusUtils.EBAndroidAppSignInMessagingTest);
 
 	public static Intent createIntent(Context context, Bundle bundle) {
 		Intent loginIntent = new Intent(context, AccountLibActivity.class);
@@ -123,6 +126,7 @@ public class AccountLibActivity extends AppCompatActivity
 				.setBackgroundImageView(background)
 				.setPOSEnableSpamByDefault(PointOfSale.getPointOfSale().shouldEnableMarketingOptIn())
 				.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
+				.setEnableSignInMessaging(isUserBucketedForSignInMessagingTest)
 				.setEnableFacebookButton(
 					ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
 				.setListener(listener)

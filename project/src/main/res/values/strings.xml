@@ -2922,6 +2922,8 @@
     <string name="unknown">Unknown</string>
 
     <!-- Expedia Accounts -->
+    <!-- Label for messaging on sign in-->
+    <string name="sign_in_messaging">Save with exclusive member-only deals</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Sign In</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->

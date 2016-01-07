@@ -36,6 +36,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelTravelerTest = 9478;
 	public static final int EBAndroidAppHotelShowExampleNamesTest = 9475;
 	public static final int EBAndroidAppHotelPriceBreakDownTest = 9477;
+	public static final int EBAndroidAppSignInMessagingTest = 9476;
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -55,12 +56,6 @@ public class AbacusUtils {
 		CONTROL,
 		MAP_PIN,
 		TEXT_ONLY
-	}
-
-	public enum FMissingTravelerCalloutVariate {
-		CONTROL,
-		SINGLE_LINE_CALLOUT,
-		SECOND_LINE_CALLOUT
 	}
 
 	public enum HotelSuperlativeReviewsVariate {
@@ -102,6 +97,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelTravelerTest);
 		testIDs.add(EBAndroidAppHotelShowExampleNamesTest);
 		testIDs.add(EBAndroidAppHotelPriceBreakDownTest);
+		testIDs.add(EBAndroidAppSignInMessagingTest);
 		return testIDs;
 	}
 

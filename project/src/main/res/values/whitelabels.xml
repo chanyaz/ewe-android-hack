@@ -362,6 +362,7 @@
     <attr name="skin_acctSignInButtonTextColor" format="reference|color" />
     <attr name="skin_acctLogoSmallDrawable" format="reference" />
     <attr name="skin_acctLogoLargeDrawable" format="reference" />
+    <attr name="skin_acctSignInMessaging" format="reference|string" />
     <attr name="skin_acctLogoTextDrawable" format="reference" />
     <attr name="skin_acctCheckmarkGoodDrawable" format="reference" />
     <attr name="skin_acctCheckmarkWarningDrawable" format="reference" />
