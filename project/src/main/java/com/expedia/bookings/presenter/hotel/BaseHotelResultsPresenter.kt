@@ -146,15 +146,8 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
             mapViewModel.selectMarker.onNext(null)
             hotels = it
             if (!ExpediaBookingApp.isDeviceShitty() || Strings.equals(currentState, ResultsMap::class.java.name)) {
-                if(!isBucketedForResultMap)  {
-                    googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
-                    createMarkers()
-                }
-                else {
-                    lazyLoadMapAndMarkers()
-                    fab.visibility = View.VISIBLE
-                    getFabAnimIn().start()
-                }
+                googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
+                createMarkers()
             } else {
                 lazyLoadMapAndMarkers()
                 fab.visibility = View.VISIBLE
@@ -243,6 +236,11 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(response.hotelList)
         adapter.resultsSubject.onNext(Pair(response.hotelList, response.userPriceType))
         mapViewModel.hotelResultsSubject.onNext(response)
+        if ((ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap) && response.hotelList.size <= 3 && previousWasList) {
+            recyclerView.setBackgroundColor(ContextCompat.getColor(context, R.color.lx_details_background_color))
+        } else {
+            recyclerView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
+        }
     }
 
     override fun back(): Boolean {
