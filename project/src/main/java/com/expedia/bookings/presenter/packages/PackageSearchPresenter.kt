@@ -1,42 +1,34 @@
 package com.expedia.bookings.presenter.packages
 
-import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.graphics.Rect
 import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewTreeObserver
 import android.widget.Button
-import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.ToggleButton
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.FontCache
-import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelTravelerPickerView
 import com.expedia.bookings.widget.PackageSuggestionAdapter
-import com.expedia.bookings.widget.RecyclerDividerDecoration
+import com.expedia.bookings.widget.SearchAutoCompleteView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
@@ -60,9 +52,8 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
         Ui.getApplication(getContext()).packageComponent().suggestionsService()
     }
 
-    val destinationEditText: EditText by bindView(R.id.flying_from)
-    val arrivalEditText: EditText by bindView(R.id.flying_to)
-    val suggestionRecyclerView: RecyclerView by bindView(R.id.drop_down_list)
+    val flyingFromAutoComplete: SearchAutoCompleteView by bindView(R.id.flying_from)
+    val flyingToAutoComplete: SearchAutoCompleteView by bindView(R.id.flying_to)
     val searchContainer: ViewGroup by bindView(R.id.search_container)
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val selectDate: ToggleButton by bindView(R.id.select_date)
@@ -71,8 +62,21 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
     val monthView: MonthView by bindView(R.id.month)
     val traveler: HotelTravelerPickerView by bindView(R.id.traveler_view)
     val dayOfWeek: DaysOfWeekView by bindView(R.id.days_of_week)
+
     var navIcon: ArrowXDrawable
     var isFromUser = true
+
+    val dialog: AlertDialog by lazy {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(R.string.search_error)
+        builder.setMessage(context.getString(R.string.hotel_search_range_error_TEMPLATE, resources.getInteger(R.integer.calendar_max_days_package_stay)))
+        builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface, which: Int) {
+                dialog.dismiss()
+            }
+        })
+        builder.create()
+    }
 
     val searchButton: Button by lazy {
         val button = LayoutInflater.from(getContext()).inflate(R.layout.toolbar_checkmark_item, null) as Button
@@ -112,13 +116,10 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
         vm.enableDateObservable.subscribe { enable ->
             if (enable) {
                 selectDate.setChecked(true)
-                destinationEditText.clearFocus()
-                arrivalEditText.clearFocus()
-                calendar.setVisibility(View.VISIBLE)
+                flyingFromAutoComplete.locationEditText.clearFocus()
+                flyingToAutoComplete.locationEditText.clearFocus()
                 traveler.setVisibility(View.GONE)
-                if (currentState == null) {
-                    show(PackageParamsDefault())
-                }
+                calendar.setVisibility(View.VISIBLE)
                 show(PackageParamsCalendar(), FLAG_CLEAR_BACKSTACK)
             } else {
                 vm.errorNoOriginObservable.onNext(false)
@@ -131,8 +132,8 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
         vm.enableTravelerObservable.subscribe { enable ->
             if (enable) {
                 selectTraveler.setChecked(true)
-                destinationEditText.clearFocus()
-                arrivalEditText.clearFocus()
+                flyingFromAutoComplete.locationEditText.clearFocus()
+                flyingToAutoComplete.locationEditText.clearFocus()
                 calendar.setVisibility(View.GONE)
                 traveler.setVisibility(View.VISIBLE)
                 calendar.hideToolTip()
@@ -141,16 +142,14 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
             }
         }
 
-        vm.destinationTextObservable.subscribe {
-            val text = if (it.equals(context.getString(R.string.current_location))) "" else it
+        vm.destinationTextObservable.subscribe { text ->
             isFromUser = false;
-            destinationEditText.setText(text)
+            flyingFromAutoComplete.locationEditText.setText(text)
         }
 
-        vm.arrivalTextObservable.subscribe {
-            val text = if (it.equals(context.getString(R.string.current_location))) "" else it
+        vm.arrivalTextObservable.subscribe { text ->
             isFromUser = false;
-            arrivalEditText.setText(text)
+            flyingToAutoComplete.locationEditText.setText(text)
         }
 
         searchButton.subscribeOnClick(vm.searchObserver)
@@ -164,11 +163,8 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
         vm.errorNoOriginObservable.subscribe {
             selectDate.setChecked(false)
             selectTraveler.setChecked(false)
-            if (currentState == null) {
-                show(PackageParamsDefault())
-            }
-            show(PackageParamsSuggestion(), FLAG_CLEAR_BACKSTACK)
-            val editText = if (!it) destinationEditText else arrivalEditText
+            show(PackageParamsDefault())
+            val editText = if (!it) flyingFromAutoComplete.locationEditText else flyingToAutoComplete.locationEditText
             editText.requestFocus()
             com.mobiata.android.util.Ui.showKeyboard(editText, null)
             AnimUtils.doTheHarlemShake(editText)
@@ -180,6 +176,9 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
                 AnimUtils.doTheHarlemShake(selectDate)
             }
         }
+        vm.errorMaxDatesObservable.subscribe {
+            dialog.show()
+        }
         vm.searchParamsObservable.subscribe {
             calendar.hideToolTip()
         }
@@ -188,32 +187,35 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
     private var destinationSuggestionVM: PackageSuggestionAdapterViewModel by notNullAndObservable { vm ->
         vm.suggestionSelectedSubject.subscribe { suggestion ->
             searchViewModel.destinationObserver.onNext(suggestion)
-            selectSuggestion(suggestion, destinationEditText)
+            selectSuggestion()
         }
     }
 
     private var arrivalSuggestionVM: PackageSuggestionAdapterViewModel by notNullAndObservable { vm ->
         vm.suggestionSelectedSubject.subscribe { suggestion ->
             searchViewModel.arrivalObserver.onNext(suggestion)
-            selectSuggestion(suggestion, arrivalEditText)
+            selectSuggestion()
         }
     }
 
-    private fun selectSuggestion(suggestion: SuggestionV4, editText: EditText) {
-        editText.clearFocus()
-        com.mobiata.android.util.Ui.hideKeyboard(this)
+    private fun selectSuggestion() {
         selectDate.isChecked = true
         selectTraveler.isChecked = true
-        SuggestionV4Utils.saveSuggestionHistory(context, suggestion, SuggestionV4Utils.RECENT_PACKAGE_SUGGESTIONS_FILE)
-        currentState ?: show(PackageParamsDefault())
+        flyingFromAutoComplete.resetFocus()
+        flyingToAutoComplete.resetFocus()
+        resetAutoCompleteWeights()
+    }
+
+    private fun resetAutoCompleteWeights() {
+        val expandedLp = flyingFromAutoComplete.layoutParams as LinearLayout.LayoutParams
+        val unexpandedLp = flyingToAutoComplete.layoutParams as LinearLayout.LayoutParams
+        expandedLp.weight = 1f
+        unexpandedLp.weight = 1f
+        flyingFromAutoComplete.layoutParams = expandedLp
+        flyingToAutoComplete.layoutParams = unexpandedLp
+        flyingFromAutoComplete.invalidate()
+        flyingToAutoComplete.invalidate()
         show(PackageParamsCalendar(), Presenter.FLAG_CLEAR_BACKSTACK)
-    }
-
-    private var destinationSuggestionAdapter: PackageSuggestionAdapter by notNullAndObservable {
-
-    }
-    private var arrivalSuggestionAdapter: PackageSuggestionAdapter by notNullAndObservable {
-
     }
 
     override fun onFinishInflate() {
@@ -221,29 +223,8 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
 
         addDefaultTransition(default)
         addTransition(defaultToCal)
-        addTransition(defaultToSuggestion)
-        addTransition(suggestionToCal)
+        flyingFromAutoComplete.showSuggestions()
         show(PackageParamsDefault())
-
-        val mRootWindow = (context as Activity).window
-        val mRootView = mRootWindow.decorView.findViewById(android.R.id.content)
-
-        mRootView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                val decorView = mRootWindow.decorView
-                val windowVisibleDisplayFrameRect = Rect()
-                decorView.getWindowVisibleDisplayFrame(windowVisibleDisplayFrameRect)
-                var location = IntArray(2)
-                destinationEditText.getLocationOnScreen(location)
-                val lp = suggestionRecyclerView.layoutParams
-                val newHeight = windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top - (location[1] + destinationEditText.height) + Ui.getStatusBarHeight(context)
-                if (lp.height != newHeight) {
-                    lp.height = newHeight
-                    suggestionRecyclerView.layoutParams = lp
-                }
-                suggestionRecyclerView.translationY = (location[1] + destinationEditText.height).toFloat()
-            }
-        })
     }
 
     init {
@@ -269,8 +250,11 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
         searchViewModel = PackageSearchViewModel(context)
         destinationSuggestionVM = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, CurrentLocationObservable.create(getContext()))
         arrivalSuggestionVM = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, null)
-        destinationSuggestionAdapter = PackageSuggestionAdapter(destinationSuggestionVM)
-        arrivalSuggestionAdapter = PackageSuggestionAdapter(arrivalSuggestionVM)
+
+        flyingFromAutoComplete.suggestionViewModel = destinationSuggestionVM
+        flyingToAutoComplete.suggestionViewModel = arrivalSuggestionVM
+        flyingFromAutoComplete.suggestionAdapter = PackageSuggestionAdapter(destinationSuggestionVM)
+        flyingToAutoComplete.suggestionAdapter = PackageSuggestionAdapter(arrivalSuggestionVM)
 
         calendar.setYearMonthDisplayedChangedListener {
             calendar.hideToolTip()
@@ -296,68 +280,32 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
         monthView.setDaysTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT))
         monthView.setTodayTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM))
 
-        suggestionRecyclerView.layoutManager = LinearLayoutManager(context)
-        suggestionRecyclerView.addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25f, resources.displayMetrics).toInt(), false))
+        flyingFromAutoComplete.locationEditText.onFocusChangeListener = makeFocusChangedListener(flyingFromAutoComplete)
+        flyingToAutoComplete.locationEditText.onFocusChangeListener =  makeFocusChangedListener(flyingToAutoComplete)
 
-        destinationEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (isFromUser) {
-                    destinationSuggestionVM.queryObserver.onNext(s.toString())
-                }
-                isFromUser = true
-            }
-        })
-
-        arrivalEditText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable) {
-
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                if (isFromUser) {
-                    arrivalSuggestionVM.queryObserver.onNext(s.toString())
-                }
-                isFromUser = true
-            }
-        })
-
-        destinationEditText.onFocusChangeListener = object : OnFocusChangeListener {
-            override fun onFocusChange(v: View?, hasFocus: Boolean) {
-                if (v == destinationEditText && hasFocus) {
-                    suggestionFocusChanged(true)
-                }
-            }
-        }
-
-        arrivalEditText.onFocusChangeListener = object : OnFocusChangeListener {
-            override fun onFocusChange(v: View?, hasFocus: Boolean) {
-                if (v == arrivalEditText && hasFocus) {
-                    suggestionFocusChanged(false)
-                }
-            }
-        }
-
-        suggestionRecyclerView.adapter = destinationSuggestionAdapter
     }
 
-    private fun suggestionFocusChanged(isDestination: Boolean) {
-        val editText = if (isDestination) destinationEditText else arrivalEditText
-        val adapter = if (isDestination) destinationSuggestionAdapter else arrivalSuggestionAdapter
-        resetSuggestion(isDestination)
-        editText.setSelection(editText.getText().length)
-        suggestionRecyclerView.adapter = adapter
-        show(PackageParamsSuggestion())
-        adapter.notifyDataSetChanged()
+    private fun makeFocusChangedListener(autoCompleteView: SearchAutoCompleteView): View.OnFocusChangeListener {
+        return object : View.OnFocusChangeListener {
+            override fun onFocusChange(v: View?, hasFocus: Boolean) {
+                if (hasFocus) {
+                    show(PackageParamsDefault(), FLAG_CLEAR_BACKSTACK)
+                    val expandedContainer = if (v ==  flyingFromAutoComplete.locationEditText) flyingFromAutoComplete else flyingToAutoComplete
+                    val unexpandedContainer = if (v ==  flyingFromAutoComplete.locationEditText) flyingToAutoComplete else flyingFromAutoComplete
+                    val expandedLp = expandedContainer.layoutParams as LinearLayout.LayoutParams
+                    val unexpandedLp = unexpandedContainer.layoutParams as LinearLayout.LayoutParams
+                    expandedLp.weight = 2f
+                    unexpandedLp.weight = 1f
+                    expandedContainer.layoutParams = expandedLp
+                    unexpandedContainer.layoutParams = unexpandedLp
+                    expandedContainer.invalidate()
+                    unexpandedContainer.invalidate()
+                    resetSuggestion(v ==  flyingFromAutoComplete.locationEditText)
+                }
+
+                autoCompleteView.focusChanged(hasFocus)
+            }
+        }
     }
 
     private val defaultToCal = object : Presenter.Transition(PackageParamsDefault::class.java, PackageParamsCalendar::class.java) {
@@ -365,7 +313,6 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
 
         override fun startTransition(forward: Boolean) {
             com.mobiata.android.util.Ui.hideKeyboard(this@PackageSearchPresenter)
-            suggestionRecyclerView.visibility = View.GONE
             calendarHeight = calendar.height
             val pos = (if (forward) height + calendarHeight else calendarHeight).toFloat()
             calendar.translationY = pos
@@ -384,56 +331,16 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
         override fun finalizeTransition(forward: Boolean) {
             calendar.translationY = if (forward) 0f else calendarHeight.toFloat()
             if (forward) {
-                destinationEditText.clearFocus()
-                arrivalEditText.clearFocus()
+                flyingFromAutoComplete.locationEditText.clearFocus()
+                flyingToAutoComplete.locationEditText.clearFocus()
                 calendar.hideToolTip()
             }
             calendar.visibility = View.VISIBLE
-        }
-    }
-
-    private val suggestionToCal = object : Presenter.Transition(PackageParamsSuggestion::class.java, PackageParamsCalendar::class.java) {
-        private var calendarHeight: Int = 0
-
-        override fun startTransition(forward: Boolean) {
-            suggestionRecyclerView.visibility = if (forward) View.GONE else View.VISIBLE
-            val parentHeight = height
-            calendarHeight = calendar.height
-            val pos = (if (forward) parentHeight + calendarHeight else calendarHeight).toFloat()
-            calendar.translationY = pos
-            calendar.visibility = View.VISIBLE
-        }
-
-        override fun updateTransition(f: Float, forward: Boolean) {
-            val pos = if (forward) calendarHeight + (-f * calendarHeight) else (f * calendarHeight)
-            calendar.translationY = pos
-        }
-
-        override fun endTransition(forward: Boolean) {
-            calendar.translationY = if (forward) 0f else calendarHeight.toFloat()
-        }
-
-        override fun finalizeTransition(forward: Boolean) {
-            calendar.translationY = if (forward) 0f else calendarHeight.toFloat()
-            if (forward) {
-                com.mobiata.android.util.Ui.hideKeyboard(this@PackageSearchPresenter)
-                destinationEditText.clearFocus()
-                arrivalEditText.clearFocus()
-                calendar.hideToolTip()
-            }
-            calendar.visibility = View.VISIBLE
-        }
-    }
-
-    private val defaultToSuggestion = object : Presenter.Transition(PackageParamsDefault::class.java, PackageParamsSuggestion::class.java) {
-        override fun startTransition(forward: Boolean) {
-            suggestionRecyclerView.visibility = if (forward) View.VISIBLE else View.GONE
         }
     }
 
     private val default = object : Presenter.DefaultTransition(PackageParamsDefault::class.java.name) {
         override fun finalizeTransition(forward: Boolean) {
-            suggestionRecyclerView.visibility = View.VISIBLE
             calendar.visibility =  View.INVISIBLE
             traveler.visibility =  View.GONE
         }
@@ -449,6 +356,11 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
     }
 
     override fun back(): Boolean {
+        if (flyingFromAutoComplete.dismissSuggestions() || flyingToAutoComplete.dismissSuggestions()) {
+            resetAutoCompleteWeights()
+            return true;
+        }
+
         calendar.hideToolTip()
         return super.back()
     }
@@ -457,6 +369,4 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
     public class PackageParamsDefault
 
     public class PackageParamsCalendar
-
-    public class PackageParamsSuggestion
 }

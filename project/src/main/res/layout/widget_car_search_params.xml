@@ -39,7 +39,7 @@
 
                 <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
                     android:id="@+id/pickup_location"
-                    style="@style/CarAutocomplete"
+                    style="@style/SearchAutocomplete"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_marginRight="5dp"
@@ -54,7 +54,7 @@
 
                 <com.expedia.bookings.widget.AlwaysFilterAutoCompleteTextView
                     android:id="@+id/dropoff_location"
-                    style="@style/CarAutocomplete"
+                    style="@style/SearchAutocomplete"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_marginLeft="5dp"

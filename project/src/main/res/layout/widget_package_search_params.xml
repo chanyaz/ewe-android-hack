@@ -19,38 +19,36 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:clipChildren="false"
-            android:clipToPadding="false"
-            android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:clipToPadding="false">
 
             <LinearLayout
                 android:id="@+id/search_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:animateLayoutChanges="true">
+                android:animateLayoutChanges="true"
+                android:orientation="horizontal">
 
-                <EditText
+                <com.expedia.bookings.widget.SearchAutoCompleteView
                     android:id="@+id/flying_from"
-                    style="@style/CarAutocomplete"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:hint="@string/fly_from_hint"
-                    android:imeOptions="actionDone"
-                    android:inputType="textNoSuggestions"
-                    android:textColorHighlight="#12AD9F" />
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    app:search_drawable="@drawable/packages_search_departure"
+                    app:search_hint="@string/fly_from_hint"/>
 
-                <EditText
+                <com.expedia.bookings.widget.SearchAutoCompleteView
                     android:id="@+id/flying_to"
-                    style="@style/CarAutocomplete"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
+                    android:layout_marginLeft="9dp"
                     android:layout_weight="1"
-                    android:hint="@string/fly_to_hint"
-                    android:imeOptions="actionDone"
-                    android:inputType="textNoSuggestions"
-                    android:textColorHighlight="#12AD9F" />
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    app:search_drawable="@drawable/packages_search_arrival"
+                    app:search_hint="@string/fly_to_hint"/>
+
             </LinearLayout>
 
             <ToggleButton
@@ -129,13 +127,6 @@
             app:calendarToolTipTailDrawable="@drawable/toolbar_arrow"
             app:calendarWeekSelectionColor="@color/packages_primary_color" />
     </LinearLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/drop_down_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@android:color/white"
-        android:visibility="gone"/>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

@@ -11,10 +11,10 @@ import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
-import com.expedia.vm.PackageSuggestionAdapterViewModel
+import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.PackageSuggestionViewModel
 
-public class PackageSuggestionAdapter(val viewmodel: PackageSuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+public class PackageSuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
     override fun getItemCount(): Int {
         return viewmodel.suggestions.size
@@ -79,7 +79,6 @@ public class PackageSuggestionViewHolder(val root: ViewGroup, val vm : PackageSu
 
     override fun onClick(view: View) {
         val suggestion = vm.suggestionObserver.value
-        suggestion.regionNames.displayName = suggestion.regionNames.displayName.replace("\"", "")
         vm.suggestionSelected.onNext(suggestion)
     }
 }

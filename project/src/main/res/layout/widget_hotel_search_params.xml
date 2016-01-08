@@ -38,7 +38,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/hotel_location"
-                style="@style/CarAutocomplete"
+                style="@style/SearchAutocomplete"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_toRightOf="@id/location_image_view"
@@ -49,7 +49,7 @@
 
             <EditText
                 android:id="@+id/hotel_location_autocomplete"
-                style="@style/CarAutocomplete"
+                style="@style/SearchAutocomplete"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_toRightOf="@id/location_image_view"

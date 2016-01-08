@@ -227,23 +227,6 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="CarAutocomplete" parent="Widget.AppCompat.AutoCompleteTextView">
-        <item name="android:layout_height">50dp</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:textColorHint">#FFFFFF</item>
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:background">@drawable/autocomplete_background</item>
-        <item name="android:theme">@style/CarAutocompleteTheme</item>
-    </style>
-
-    <style name="CarAutocompleteTheme">
-        <item name="colorControlNormal">#FFFFFF</item>
-        <item name="colorControlActivated">#FFFFFF</item>
-        <item name="colorControlHighlight">#FFFFFF</item>
-    </style>
-
     <style name="CarFilterTitleTextAppearance" parent="V2.Theme.Cars">
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>

@@ -399,7 +399,8 @@ public class StrUtils {
 
 	public static String formatAirport(SuggestionV4 suggestion) {
 		String airportName = formatAirportName(suggestion.regionNames.fullName);
-		if (!airportName.equals(suggestion.hierarchyInfo.airport.airportCode)) {
+		if (suggestion.hierarchyInfo != null && suggestion.hierarchyInfo.airport != null
+			&& !airportName.equals(suggestion.hierarchyInfo.airport.airportCode)) {
 			return airportName;
 		}
 		else {

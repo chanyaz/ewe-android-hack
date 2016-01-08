@@ -59,4 +59,47 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		String expected = expectedStartDate + " - " + expectedEndDate + " (5 nights)" ;
 		PackageScreen.selectDateButton().check(matches(withText(expected)));
 	}
+
+	public void testMaxPackageDuration() throws Throwable {
+		// Select location
+		PackageScreen.destination().perform(typeText("SFO"));
+		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		PackageScreen.arrival().perform(typeText("SFO"));
+		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+
+		LocalDate startDate = LocalDate.now();
+		LocalDate endDate = LocalDate.now().plusDays(27);
+
+		//max duration of travel is 26 nights
+		PackageScreen.selectDates(startDate, null);
+		PackageScreen.selectDates(startDate, endDate);
+		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
+		String expectedEndDate = DateUtils.localDateToMMMd(endDate);
+		String expected = expectedStartDate + " - " + expectedEndDate + " (27 nights)";
+		PackageScreen.selectDateButton().check(matches(withText(expected)));
+		PackageScreen.searchButton().perform(click());
+		//we should see a pop up message
+		PackageScreen.errorDialog(
+			"We're sorry, but we are unable to search for hotel stays longer than 26 days.").check(matches(isDisplayed()));
+	}
+
+	public void testSameDay() throws Throwable {
+		// Select location
+		PackageScreen.destination().perform(typeText("SFO"));
+		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		PackageScreen.arrival().perform(typeText("SFO"));
+		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+
+		LocalDate startDate = LocalDate.now();
+		LocalDate endDate = LocalDate.now();
+
+		//select same day
+		PackageScreen.selectDates(startDate, null);
+		PackageScreen.selectDates(startDate, endDate);
+		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
+		String expectedEndDate = DateUtils.localDateToMMMd(endDate.plusDays(1));
+		String expected = expectedStartDate + " - " + expectedEndDate + " (1 night)";
+		PackageScreen.selectDateButton().check(matches(withText(expected)));
+		PackageScreen.searchButton().perform(click());
+	}
 }

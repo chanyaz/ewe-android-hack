@@ -227,5 +227,10 @@ public class
 		R.layout.rail_results_presenter,
 		R.layout.rail_details_presenter,
 		R.layout.rail_checkout_presenter,
+		R.drawable.packages_search_arrival,
+		R.drawable.packages_search_departure,
+		R.layout.widget_search_autocomplete,
+		R.layout.suggestion_popup,
+		R.integer.calendar_max_days_package_stay
 	};
 }
