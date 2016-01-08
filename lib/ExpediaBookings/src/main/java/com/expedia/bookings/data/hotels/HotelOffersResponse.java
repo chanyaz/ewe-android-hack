@@ -80,6 +80,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 		public boolean isSameDayDRR;
 		public boolean isPayLater;
 		public List<String> depositPolicy;
+		public boolean isMemberDeal;
 
 		public String depositPolicyAtIndex(int index) {
 			String policy = "";
