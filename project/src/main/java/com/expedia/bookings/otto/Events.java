@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.joda.time.LocalDate;
 
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -1069,5 +1070,41 @@ public class Events {
 
 	public static class LoggedInSuccessful {
 
+	}
+
+	public static class PermissionEvent {
+		public enum PermissionResult {
+			GRANTED,
+			PermissionResult,
+			DENIED;
+
+			public PermissionEvent.PermissionResult from(int grantResult) {
+				return grantResult == PackageManager.PERMISSION_GRANTED
+					? Events.PermissionEvent.PermissionResult.GRANTED
+					: Events.PermissionEvent.PermissionResult.DENIED;
+			}
+		}
+
+		private final PermissionResult result;
+		private final int requestCode;
+		private final String permission;
+
+		public PermissionEvent(PermissionResult result, int requestCode, String permission) {
+			this.result = result;
+			this.requestCode = requestCode;
+			this.permission = permission;
+		}
+
+		public boolean isDenied() {
+			return result == PermissionResult.DENIED;
+		}
+
+		public int getRequestCode() {
+			return requestCode;
+		}
+
+		public String getPermission() {
+			return permission;
+		}
 	}
 }

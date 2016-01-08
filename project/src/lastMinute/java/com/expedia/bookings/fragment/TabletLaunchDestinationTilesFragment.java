@@ -165,7 +165,7 @@ public class TabletLaunchDestinationTilesFragment extends MeasurableFragment imp
 					if (null == collectionToAdd.locations || collectionToAdd.locations.isEmpty()) {
 						// Show the message to user to enable location
 						NoLocationServicesDialog dialog = NoLocationServicesDialog.newInstance();
-						dialog.show(getFragmentManager(), "NO_LOCATION_FRAG");
+						dialog.show(getFragmentManager(), NoLocationServicesDialog.TAG);
 					}
 					else {
 						//Deeplink the current location to Hotel Mode

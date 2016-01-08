@@ -1,19 +1,26 @@
 package com.expedia.bookings.fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
+import com.expedia.bookings.dialog.NoLocationPermissionDialog;
 import com.expedia.bookings.interfaces.IExpediaServicesListener;
+import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.util.PermissionsHelperKt;
 import com.mobiata.android.Log;
+import com.squareup.otto.Subscribe;
 
 public class CurrentLocationFragment extends Fragment
 	implements IExpediaServicesListener,
@@ -65,6 +72,7 @@ public class CurrentLocationFragment extends Fragment
 	@Override
 	public void onResume() {
 		super.onResume();
+		Events.register(this);
 		if (mFetchOnResume) {
 			getCurrentLocation();
 			mFetchOnResume = false;
@@ -74,6 +82,7 @@ public class CurrentLocationFragment extends Fragment
 	@Override
 	public void onPause() {
 		super.onPause();
+		Events.unregister(this);
 		if (mLocationFragment != null) {
 			mLocationFragment.stop();
 		}
@@ -130,11 +139,16 @@ public class CurrentLocationFragment extends Fragment
 	 * LOCATION SEARCH
 	 */
 	protected void fetchLocation() {
-		if (getActivity() == null) {
-			mFetchOnResume = true;
+		if (PermissionsHelperKt.havePermissionToAccessLocation(getActivity())) {
+			if (getActivity() == null) {
+				mFetchOnResume = true;
+			}
+			else {
+				setLocationFragAttached(true);
+			}
 		}
 		else {
-			setLocationFragAttached(true);
+			PermissionsHelperKt.requestLocationPermission(getActivity());
 		}
 	}
 
@@ -222,6 +236,25 @@ public class CurrentLocationFragment extends Fragment
 					"Suggestion for nearby search returned a null response, an error response, or the response is not a SuggestionResponse");
 				mListener.onCurrentLocationError(ERROR_SUGGEST_SERVICE);
 			}
+		}
+	}
+
+	@Subscribe
+	public void onPermissionEvent(Events.PermissionEvent event) {
+		switch (event.getRequestCode()) {
+		case Constants.PERMISSION_REQUEST_LOCATION:
+			if (event.isDenied()) {
+				if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+					// Show the message to user to enable location permission in settings
+					NoLocationPermissionDialog dialog = NoLocationPermissionDialog.newInstance();
+					dialog.show(((FragmentActivity) getContext()).getSupportFragmentManager(),
+						NoLocationPermissionDialog.TAG);
+				}
+			}
+			else {
+				fetchLocation();
+			}
+			return;
 		}
 	}
 }
