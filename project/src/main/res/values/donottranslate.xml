@@ -437,14 +437,10 @@
 
     <!-- First name label hint for KR POS -->
     <string name="first_name_kr">Gildong</string>
-    <!-- First name label hint for JP POS -->
-    <string name="first_name_jp">Taro</string>
     <!-- First name label hint for HK POS -->
     <string name="first_name_hk">Dai Man</string>
     <!-- First name label hint for KR POS -->
     <string name="last_name_kr">Hong</string>
-    <!-- First name label hint for JP POS -->
-    <string name="last_name_jp">Yamada</string>
     <!-- First name label hint for HK POS -->
     <string name="last_name_hk">Chan</string>
 
