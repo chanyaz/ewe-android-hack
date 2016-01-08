@@ -221,8 +221,8 @@
             android:title="Split GT and LX Launch" />
 
         <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
+            android:entries="@array/abacus_hotel_sign_in_messaging_choices"
+            android:entryValues="@array/abacus_hotel_sign_in_messaging_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="9476"

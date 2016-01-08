@@ -71,6 +71,13 @@ public class AbacusUtils {
 		TRIP_TOTAL
 	}
 
+	public enum HotelSignInMessagingVariate {
+		CONTROL,
+		EXCLUSIVE_MEMBER_MESSAGE,
+		TRIPLE_POINT_MESSAGE,
+		TRIP_ALERT_MESSAGE
+	}
+
 	// Test ID's that we are bucketing the user for.
 	public static List<Integer> getActiveTests() {
 		List<Integer> testIDs = new ArrayList<>();
