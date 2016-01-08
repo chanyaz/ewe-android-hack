@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Codes
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
@@ -72,10 +73,10 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             openHotels()
         }
         selectDepartureButton.setOnClickListener {
-            openFlights()
+            openFlightsForDeparture()
         }
         selectArrivalButton.setOnClickListener {
-            openFlights()
+            openFlightsForArrival()
         }
     }
 
@@ -84,12 +85,16 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         (context as AppCompatActivity).startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
     }
 
-    fun openFlights() {
+    fun openFlightsForDeparture() {
         val intent = Intent(context, FlightPackageActivity::class.java)
-        (context as AppCompatActivity).startActivityForResult(intent, Constants.FLIGHT_REQUEST_CODE, null)
+        intent.putExtra(Codes.PACKAGE_FLIGHT_OUTBOUND, true)
+        (context as AppCompatActivity).startActivityForResult(intent, Constants.FLIGHT_DEPARTURE_REQUEST_CODE, null)
     }
 
-
-
+    fun openFlightsForArrival() {
+        val intent = Intent(context, FlightPackageActivity::class.java)
+        intent.putExtra(Codes.PACKAGE_FLIGHT_INBOUND, true)
+        (context as AppCompatActivity).startActivityForResult(intent, Constants.FLIGHT_ARRIVAL_REQUEST_CODE, null)
+    }
 
 }

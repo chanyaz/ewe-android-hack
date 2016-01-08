@@ -44,16 +44,23 @@ public class FlightListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     public inner class FlightViewHolder(root: ViewGroup, val width: Int) : RecyclerView.ViewHolder(root), View.OnClickListener {
 
-//        val airlineContainer: LinearLayout by root.bindView(R.id.airline_container)
+        val flightTimeTextView: TextView by root.bindView(R.id.flight_time_detail_text_view)
+        val priceTextView: TextView by root.bindView(R.id.price_text_view)
         val airlineTextView: TextView by root.bindView(R.id.airline_text_view)
-//        val priceTextView: TextView by root.bindView(R.id.price_text_view)
+        val flightDurationTextView: TextView by root.bindView(R.id.flight_duration_text_view)
+        val airportDetailsTextView: TextView by root.bindView(R.id.airport_details_text_view)
 
         override fun onClick(p0: View?) {
 
         }
 
         public fun bind(viewModel: FlightViewModel) {
+            viewModel.flightTimeObserver.subscribeText(flightTimeTextView)
+            viewModel.priceObserver.subscribeText(priceTextView)
             viewModel.airlineObserver.subscribeText(airlineTextView)
+            viewModel.durationObserver.subscribeText(flightDurationTextView)
+            viewModel.airportsObserver.subscribeText(airportDetailsTextView)
+
         }
     }
 }

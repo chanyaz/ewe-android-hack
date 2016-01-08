@@ -14,6 +14,7 @@ public class PackageSearchResponse extends BaseApiResponse {
 		public HotelPackage hotelsPackage;
 		@SerializedName("flights")
 		public FlightPackage flightsPackage;
+		public PackageOfferModel currentSelectedOffer;
 		public List<PackageOfferModel> packageOfferModels;
 	}
 

@@ -217,6 +217,9 @@ public class
 		R.color.hotel_member_discount_color,
 		R.string.member_discount,
 		R.string.you_are_using_expedia_points_TEMPLATE,
-		R.string.payment_through_card_and_pwp_points
+		R.string.payment_through_card_and_pwp_points,
+		R.string.flight_duration_template,
+		R.string.flight_departure_arrival_time_multi_day_template,
+		R.string.flight_departure_arrival_time_template
 	};
 }
