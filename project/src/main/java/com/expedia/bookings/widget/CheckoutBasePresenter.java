@@ -616,6 +616,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		if (CheckoutDefault.class.getName().equals(getCurrentState())) {
 			return true;
 		}
+		acceptTermsWidget.setVisibility(INVISIBLE);
 		return super.back();
 	}
 
@@ -641,6 +642,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		mainContactInfoCardView.onLogout();
 		paymentInfoCardView.onLogout();
 		hintContainer.setVisibility(VISIBLE);
+		acceptTermsWidget.setVisibility(INVISIBLE);
 		showCheckout();
 	}
 
