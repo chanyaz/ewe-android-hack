@@ -73,7 +73,7 @@
     <color name="lx_ripple_color_wotif">#599027</color>
     <color name="lx_secondary_color_disabled_wotif">#599027</color>
     <color name="lx_unchecked_toggle_text_color_wotif">@android:color/white</color>
-
+    <color name="lx_ticket_selector_disabled_color_wotif">#407AC231</color>
     <!--Account Lib Colors -->
     <color name="acct__btn_sign_in_text_wotif">#FFFFFF</color>
     <color name="acct__bg_input_text_error_wotif">#FFFFFF</color>
