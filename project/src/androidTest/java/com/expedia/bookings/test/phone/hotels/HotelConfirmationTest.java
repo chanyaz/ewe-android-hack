@@ -47,8 +47,8 @@ public class HotelConfirmationTest extends PhoneTestCase {
 		// Search
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
-		HotelsSearchScreen.enterSearchText("New York, NY");
-		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "New York, NY");
+		HotelsSearchScreen.enterSearchText("SFO");
+		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "San Francisco, CA (SFO-San Francisco Intl.)");
 		LocalDate startDate = LocalDate.now().plusDays(58);
 		LocalDate endDate = LocalDate.now().plusDays(61);
 		HotelsSearchScreen.clickOnCalendarButton();

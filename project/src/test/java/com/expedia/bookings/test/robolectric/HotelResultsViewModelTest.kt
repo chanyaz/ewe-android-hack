@@ -4,7 +4,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.vm.HotelResultsViewModel

@@ -14,7 +14,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FontCache;
@@ -38,7 +38,7 @@ public class CollectionLaunchWidget extends LinearLayout {
 	Button searchFlights;
 	@InjectView(R.id.button_search_activities)
 	Button searchActivities;
-	private Suggestion suggestion;
+	private SuggestionV4 suggestion;
 	private Bundle animOptions;
 
 	public CollectionLaunchWidget(Context context, AttributeSet attrs) {
@@ -60,10 +60,10 @@ public class CollectionLaunchWidget extends LinearLayout {
 	void hotelClicked() {
 		HotelSearchParams params = new HotelSearchParams();
 
-		params.setQuery(suggestion.shortName);
+		params.setQuery(suggestion.regionNames.shortName);
 		params.setSearchType(HotelSearchParams.SearchType.valueOf(suggestion.type));
-		params.setRegionId(suggestion.id);
-		params.setSearchLatLon(suggestion.latLong.lat, suggestion.latLong.lng);
+		params.setRegionId(suggestion.gaiaId);
+		params.setSearchLatLon(suggestion.coordinates.lat, suggestion.coordinates.lng);
 
 		LocalDate now = LocalDate.now();
 		params.setCheckInDate(now.plusDays(1));
@@ -95,7 +95,7 @@ public class CollectionLaunchWidget extends LinearLayout {
 	@OnClick(R.id.button_search_activities)
 	void activitiesClicked() {
 		LXSearchParams params = new LXSearchParams();
-		params.location(suggestion.shortName);
+		params.location(suggestion.regionNames.shortName);
 		params.startDate(LocalDate.now().plusDays(1));
 
 		// Go to Lx
@@ -111,8 +111,8 @@ public class CollectionLaunchWidget extends LinearLayout {
 
 	private Location getDestinationLocation() {
 		Location loc = new Location();
-		Airport airport = FlightStatsDbUtils.getAirport(suggestion.airportCode);
-		String destinationId = suggestion.airportCode;
+		Airport airport = FlightStatsDbUtils.getAirport(suggestion.hierarchyInfo.airport.airportCode);
+		String destinationId = suggestion.hierarchyInfo.airport.airportCode;
 		if (airport != null && airport.mName != null) {
 			destinationId = Phrase.from(getContext().getResources().getString(R.string.airport_code_name_TEMPLATE))
 				.put("code", airport.mAirportCode)
