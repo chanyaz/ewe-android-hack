@@ -18,6 +18,7 @@ import com.expedia.bookings.data.lx.ActivityAvailabilities;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.AvailabilityInfo;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.data.lx.LXCategorySortOrder;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripParams;
@@ -350,7 +351,14 @@ public class LXServicesTest {
 		assertEquals(4, observer.getOnNextEvents().get(0).activities.size());
 		assertNotNull(observer.getOnNextEvents().get(0).filterCategories.get("Attractions").activities);
 		assertEquals(4, observer.getOnNextEvents().get(0).filterCategories.get("Attractions").activities.size());
-		assertEquals("Attractions", observer.getOnNextEvents().get(0).filterCategories.get("Attractions").categoryKeyEN);
+		assertEquals("Attractions",
+			observer.getOnNextEvents().get(0).filterCategories.get("Attractions").categoryKeyEN);
+		assertEquals(LXCategorySortOrder.Unknown,
+			observer.getOnNextEvents().get(0).filterCategories.get("Unknown Category").sortOrder);
+		assertEquals(LXCategorySortOrder.Attractions,
+			observer.getOnNextEvents().get(0).filterCategories.get("Attractions").sortOrder);
+		assertEquals(LXCategorySortOrder.PrivateTransfers,
+			observer.getOnNextEvents().get(0).filterCategories.get("Private Transfers").sortOrder);
 	}
 
 	private void givenServerUsingMockResponses() throws IOException {

@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.lx;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -19,7 +20,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.data.lx.LXCategoriesComparator;
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
+import com.expedia.bookings.data.lx.LXCategorySortOrder;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.SearchType;
@@ -79,7 +82,7 @@ public class LXResultsPresenterTest {
 		LXScreen.waitForCategoryListDisplayed();
 		LXScreen.categoryList().check(matches(isDisplayed()));
 		Matcher<View> identifyingMatcher = allOf
-			(hasDescendant(withText(startsWith("Attractions"))));
+			(hasDescendant(withText(startsWith("All Things To Do"))));
 		ViewInteraction searchResultItem = LXScreen.listItemView(identifyingMatcher, R.id.lx_category_list);
 
 		searchResultItem.check(matches(isDisplayed()));
@@ -144,19 +147,31 @@ public class LXResultsPresenterTest {
 	public void testCategoryListAdapter() throws Throwable {
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLXCategoryABTest,
 			AbacusUtils.DefaultVariate.BUCKETED.ordinal());
-		String title = "Attractions";
+		String attractions = "Attractions";
+		String sightSeeingPasses = "Sightseeing Passes";
 		buildSearchParams();
 
 		final List<LXCategoryMetadata> categories = new ArrayList<>();
-		LXCategoryMetadata categoryMetadata = new LXCategoryMetadata();
-		categoryMetadata.displayValue = title;
-		categoryMetadata.categoryKeyEN = title;
-		categories.add(categoryMetadata);
+		LXCategoryMetadata firstCategoryMetadata = new LXCategoryMetadata();
+		firstCategoryMetadata.displayValue = attractions;
+		firstCategoryMetadata.categoryKeyEN = attractions;
+		firstCategoryMetadata.sortOrder = LXCategorySortOrder.Attractions;
+		categories.add(firstCategoryMetadata);
+
+		LXCategoryMetadata secondCategoryMetadata = new LXCategoryMetadata();
+		secondCategoryMetadata.displayValue = sightSeeingPasses;
+		secondCategoryMetadata.categoryKeyEN = sightSeeingPasses;
+		secondCategoryMetadata.sortOrder = LXCategorySortOrder.SightseeingPasses;
+		categories.add(secondCategoryMetadata);
+
+		Collections.sort(categories, new LXCategoriesComparator());
 
 		LXScreen.waitForCategoryListDisplayed();
 		onView(withId(R.id.lx_category_list)).perform(LXScreen.setLXCategories(categories));
 		onView(withId(R.id.lx_category_list)).perform(RecyclerViewActions.actionOnItemAtPosition(0,
-			LXScreen.performCategoryViewHolderComparison(title)));
+			LXScreen.performCategoryViewHolderComparison(sightSeeingPasses)));
+		onView(withId(R.id.lx_category_list)).perform(RecyclerViewActions.actionOnItemAtPosition(1,
+			LXScreen.performCategoryViewHolderComparison(attractions)));
 		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLXCategoryABTest,
 			AbacusUtils.DefaultVariate.CONTROL.ordinal());
 	}
