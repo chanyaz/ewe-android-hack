@@ -282,7 +282,7 @@
     <dimen name="car_time_slider_text_container">110dp</dimen>
     <dimen name="car_search_list_image_container_height">134dp</dimen>
     <dimen name="car_search_list_image_container_margin">9dp</dimen>
-    <dimen name="car_search_details_container_height">35dp</dimen>
+    <dimen name="car_search_details_container_height">37dp</dimen>
 
     <!-- Car Details -->
     <dimen name="car_details_image_size">240dp</dimen>
