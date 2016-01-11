@@ -1,23 +1,23 @@
 package com.expedia.ui
 
 import android.content.Intent
-import android.location.Location
 import android.os.Bundle
 import android.os.PersistableBundle
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.location.CurrentLocationObservable
+import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.hotel.HotelPresenter
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.endlessObserver
+import com.expedia.vm.HotelDeepLinkHandler
 import com.expedia.vm.HotelTravelerParams
 import com.google.android.gms.maps.MapView
-import com.mobiata.android.Log
 import rx.Observer
 
 public class HotelActivity : AbstractAppCompatActivity() {
@@ -46,7 +46,14 @@ public class HotelActivity : AbstractAppCompatActivity() {
         }
 
         if (getIntent().hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
-            handleNavigationViaDeepLink()
+            val hotelSearchParams = HotelsV2DataUtil.getHotelV2SearchParamsFromJSON(getIntent().getStringExtra("hotelSearchParams"))
+            HotelDeepLinkHandler(this,
+                    deepLinkSearchObserver,
+                    suggestionLookupObserver,
+                    currentLocationSearchObserver,
+                    hotelPresenter.defaultTransitionObserver,
+                    hotelPresenter.searchPresenter.searchViewModel.suggestionObserver)
+                .handleNavigationViaDeepLink(hotelSearchParams)
         } else {
             hotelPresenter.defaultTransitionObserver.onNext(Screen.SEARCH)
         }
@@ -105,90 +112,40 @@ public class HotelActivity : AbstractAppCompatActivity() {
         super.onSaveInstanceState(outState, outPersistentState)
     }
 
-    fun handleNavigationViaDeepLink() {
-        val hotelSearchParams = HotelsV2DataUtil.getHotelV2SearchParamsFromJSON(getIntent().getStringExtra("hotelSearchParams"))
-        if (hotelSearchParams != null) {
-            val isCurrentLocationSearch = "MY_LOCATION".equals(hotelSearchParams.suggestion.type)
-            if (isCurrentLocationSearch) {
-                hotelSearchParams.suggestion.regionNames?.displayName = resources.getString(R.string.current_location)
-                hotelSearchParams.suggestion.regionNames?.shortName = resources.getString(R.string.current_location)
-                if (hotelSearchParams.suggestion.coordinates?.lat == 0.0 || hotelSearchParams.suggestion.coordinates?.lng == 0.0)
-                    CurrentLocationObservable.create(this).subscribe(generateLocationServiceCallback(hotelSearchParams))
-                else {
-                    startCurrentLocationSearch(hotelSearchParams)
-                }
-            } else {
-                hotelPresenter.searchPresenter.searchViewModel.suggestionObserver.onNext(hotelSearchParams.suggestion)
-                if (hotelSearchParams.suggestion.hotelId == null) {
-                    val displayName = hotelSearchParams.suggestion.regionNames?.displayName ?: ""
-                    if (displayName.length > 0 ) {
-                        val service = Ui.getApplication(this).hotelComponent().suggestionsService()
-                        service.getHotelSuggestionsV4(displayName, ServicesUtil.generateClientId(this), generateSuggestionServiceCallback(hotelSearchParams), PointOfSale.getSuggestLocaleIdentifier())
-                        return
-                    }
-                }
-                setUpDeepLinkSearch(hotelSearchParams, isCurrentLocationSearch)
-                hotelPresenter.defaultTransitionObserver.onNext(Screen.DETAILS)
-            }
-
-        }
+    private val deepLinkSearchObserver = endlessObserver<HotelSearchParams?> { hotelSearchParams ->
+        setUpDeepLinkSearch(hotelSearchParams, true)
     }
 
-    private fun setUpDeepLinkSearch(hotelSearchParams: com.expedia.bookings.data.hotels.HotelSearchParams?, isCurrentLocationSearch: Boolean) {
+    private fun setUpDeepLinkSearch(hotelSearchParams: HotelSearchParams?, shouldExecuteSearch: Boolean) {
         hotelPresenter.searchPresenter.searchViewModel.enableDateObserver.onNext(Unit)
         hotelPresenter.searchPresenter.traveler.viewmodel.travelerParamsObservable.onNext(HotelTravelerParams(hotelSearchParams?.adults ?: 1, hotelSearchParams?.children ?: emptyList()))
         val dates = Pair (hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
         hotelPresenter.searchPresenter.searchViewModel.datesObserver.onNext(dates)
         hotelPresenter.searchPresenter.selectTraveler.isChecked = true
         hotelPresenter.searchPresenter.calendar.setSelectedDates(hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
-        if (!isCurrentLocationSearch) {
+        if (shouldExecuteSearch) {
             hotelPresenter.searchObserver.onNext(hotelSearchParams)
         }
     }
 
-    private fun generateSuggestionServiceCallback(hotelSearchParams: com.expedia.bookings.data.hotels.HotelSearchParams): Observer<List<SuggestionV4>> {
-        return object : Observer<List<SuggestionV4>> {
-            override fun onNext(essSuggestions: List<SuggestionV4>) {
-                hotelPresenter.defaultTransitionObserver.onNext(Screen.RESULTS)
-                hotelSearchParams.suggestion.gaiaId = essSuggestions.first().gaiaId
-                setUpDeepLinkSearch(hotelSearchParams, false)
-            }
-
-            override fun onCompleted() {
-            }
-
-            override fun onError(e: Throwable?) {
-                hotelPresenter.defaultTransitionObserver.onNext(Screen.SEARCH)
-                Log.e("Hotel Suggestions Error", e)
-            }
-        }
+    private val suggestionLookupObserver = endlessObserver<Pair<String, Observer<List<SuggestionV4>>>> { params ->
+        startSuggestionLookup(params.first, params.second)
     }
 
-    private fun startCurrentLocationSearch(hotelSearchParams: com.expedia.bookings.data.hotels.HotelSearchParams?) {
+    private fun startSuggestionLookup(displayName: String, callback: Observer<List<SuggestionV4>>) {
+        val service = Ui.getApplication(this).hotelComponent().suggestionsService()
+        service.getHotelSuggestionsV4(displayName, ServicesUtil.generateClientId(this), callback, PointOfSale.getSuggestLocaleIdentifier())
+    }
+
+    private val currentLocationSearchObserver = endlessObserver<HotelSearchParams?> { hotelSearchParams ->
+        startCurrentLocationSearch(hotelSearchParams)
+    }
+
+    private fun startCurrentLocationSearch(hotelSearchParams: HotelSearchParams?) {
         hotelPresenter.defaultTransitionObserver.onNext(Screen.RESULTS)
         hotelPresenter.searchPresenter.searchViewModel.suggestionObserver.onNext(hotelSearchParams?.suggestion)
         hotelPresenter.searchObserver.onNext(hotelSearchParams)
-        setUpDeepLinkSearch(hotelSearchParams, true)
-    }
-
-    private fun generateLocationServiceCallback(hotelSearchParams: com.expedia.bookings.data.hotels.HotelSearchParams?): Observer<Location> {
-        return object : Observer<Location> {
-            override fun onNext(location: Location) {
-                val coordinate = SuggestionV4.LatLng()
-                coordinate.lat = location.latitude
-                coordinate.lng = location.longitude
-                hotelSearchParams?.suggestion?.coordinates = coordinate
-                startCurrentLocationSearch(hotelSearchParams)
-            }
-
-            override fun onCompleted() {
-                // ignore
-            }
-
-            override fun onError(e: Throwable?) {
-                hotelPresenter.defaultTransitionObserver.onNext(Screen.SEARCH)
-            }
-        }
+        setUpDeepLinkSearch(hotelSearchParams, false)
     }
 
     // Showing different presenter based on deeplink
