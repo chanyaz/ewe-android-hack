@@ -289,25 +289,22 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	}
 
 	private void setExampleNames() {
-		String firstNameHint, lastNameHint;
 		if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.HONG_KONG)) {
-			firstNameHint = getHint(getResources().getString(R.string.first_name_hk));
-			lastNameHint =  getHint(getResources().getString(R.string.last_name_hk));
+			firstName.setHint(getFirstNameHint(getResources().getString(R.string.first_name_hk)));
+			lastName.setHint(getLastNameHint(getResources().getString(R.string.last_name_hk)));
 		}
-		else if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.JAPAN)) {
-			firstNameHint = getHint(getResources().getString(R.string.first_name_jp));
-			lastNameHint = getHint(getResources().getString(R.string.last_name_jp));
+		else if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.SOUTH_KOREA)) {
+			firstName.setHint(getFirstNameHint(getResources().getString(R.string.first_name_kr)));
+			lastName.setHint(getLastNameHint(getResources().getString(R.string.last_name_kr)));
 		}
-		else {
-			firstNameHint = getHint(getResources().getString(R.string.first_name_kr));
-			lastNameHint = getHint(getResources().getString(R.string.last_name_kr));
-		}
-		firstName.setHint(firstNameHint);
-		lastName.setHint(lastNameHint);
 	}
 
-	private String getHint(String name) {
-		return getResources().getString(R.string.hint_example_name_TEMPLATE, name);
+	private String getFirstNameHint(String name) {
+		return getResources().getString(R.string.first_name) + getResources().getString(R.string.hint_example_name_TEMPLATE, name);
+	}
+
+	private String getLastNameHint(String name) {
+		return getResources().getString(R.string.last_name) + getResources().getString(R.string.hint_example_name_TEMPLATE, name);
 	}
 
 	@Override
