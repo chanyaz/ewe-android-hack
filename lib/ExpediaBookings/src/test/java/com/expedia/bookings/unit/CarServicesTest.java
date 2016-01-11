@@ -17,7 +17,10 @@ import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarFilter;
 import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CarSearchResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.cars.SearchCarFare;
+import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.cars.Transmission;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.CarServices;
@@ -87,6 +90,35 @@ public class CarServicesTest {
 		observer.assertValueCount(1);
 		observer.assertNoErrors();
 		observer.assertCompleted();
+	}
+
+	@Test
+	public void testCarSearchOffersSorted() {
+		SearchCarOffer firstSearchCarOffer = new SearchCarOffer();
+		SearchCarFare firstSearchCarFare = new SearchCarFare();
+		firstSearchCarFare.total = new Money(10, "USD");
+		firstSearchCarOffer.fare = firstSearchCarFare;
+
+		SearchCarOffer secondSearchCarOffer = new SearchCarOffer();
+		SearchCarFare secondSearchCarFare = new SearchCarFare();
+		secondSearchCarFare.total = new Money(8, "USD");
+		secondSearchCarOffer.fare = secondSearchCarFare;
+
+		SearchCarOffer thirdSearchCarOffer = new SearchCarOffer();
+		SearchCarFare thirdSearchCarFare = new SearchCarFare();
+		thirdSearchCarFare.total = new Money(6, "USD");
+		thirdSearchCarOffer.fare = thirdSearchCarFare;
+
+		CarSearchResponse carSearchResponse = new CarSearchResponse();
+		carSearchResponse.offers.add(firstSearchCarOffer);
+		carSearchResponse.offers.add(secondSearchCarOffer);
+		carSearchResponse.offers.add(thirdSearchCarOffer);
+
+		CarServices.SORT_OFFERS_BY_LOWEST_TOTAL.call(carSearchResponse);
+
+		assertEquals(carSearchResponse.offers.get(0).fare.total, thirdSearchCarFare.total);
+		assertEquals(carSearchResponse.offers.get(1).fare.total, secondSearchCarFare.total);
+		assertEquals(carSearchResponse.offers.get(2).fare.total, firstSearchCarFare.total);
 	}
 
 	@Test

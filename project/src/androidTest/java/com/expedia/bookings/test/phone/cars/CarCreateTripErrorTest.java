@@ -67,7 +67,7 @@ public class CarCreateTripErrorTest extends CarTestCase {
 
 		CarScreen.selectCarCategory(CATEGORY);
 		screenshot("Car Offers");
-		CarScreen.selectCarOffer(3);
+		CarScreen.selectCarOffer(2);
 
 		screenshot("Car Create Trip Expired Product Dialog");
 		CarScreen.alertDialog().check(matches(isDisplayed()));
