@@ -1,5 +1,10 @@
 package com.expedia.bookings.fragment;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 import org.joda.time.LocalDate;
 
 import android.Manifest;
@@ -11,7 +16,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -33,9 +37,11 @@ import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.location.CurrentLocationObservable;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.PhoneLaunchWidget;
+import com.expedia.util.PermissionsHelperKt;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
@@ -43,15 +49,10 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 import rx.Observer;
 import rx.Subscription;
 
 public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
-	private static final int MY_PERMISSIONS_REQUEST_LOCATION = 7;
 	private Subscription locSubscription;
 	private Subscription abacusSubscription;
 	private boolean wasOffline;
@@ -67,14 +68,8 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		View view = inflater.inflate(R.layout.widget_phone_launch, container, false);
 		ButterKnife.inject(this, view);
 
-		int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
-			Manifest.permission.ACCESS_FINE_LOCATION);
-
-		if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
-
-			ActivityCompat.requestPermissions(getActivity(),
-				new String[] { Manifest.permission.ACCESS_FINE_LOCATION },
-				MY_PERMISSIONS_REQUEST_LOCATION);
+		if (!PermissionsHelperKt.havePermissionToAccessLocation(getActivity())) {
+			PermissionsHelperKt.requestLocationPermission(this);
 		}
 		return view;
 	}
@@ -284,10 +279,9 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	}
 
 	@Override
-	public void onRequestPermissionsResult(int requestCode,
-		String[] permissions, int[] grantResults) {
+	public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 		switch (requestCode) {
-		case MY_PERMISSIONS_REQUEST_LOCATION: {
+		case Constants.PERMISSION_REQUEST_LOCATION:
 			// If request is cancelled, the result arrays are empty.
 			if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 				// permission granted! Do stuff?
@@ -297,8 +291,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 				// functionality that depends on this permission.
 			}
 			return;
-		}
-
 		}
 	}
 

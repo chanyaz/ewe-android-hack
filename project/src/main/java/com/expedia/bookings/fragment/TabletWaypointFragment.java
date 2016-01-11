@@ -542,7 +542,7 @@ public class TabletWaypointFragment extends Fragment
 			suggestion.getLocation().setLongitude(location.getLongitude());
 			suggestion.setResultType(ResultType.CURRENT_LOCATION);
 			Events.post(new Events.SearchSuggestionSelected(suggestion));
-		}
+	}
 	}
 
 	@Override
@@ -552,7 +552,7 @@ public class TabletWaypointFragment extends Fragment
 		case CurrentLocationFragment.ERROR_LOCATION_SERVICE:
 			if (mLoadingLocation) {
 				NoLocationServicesDialog dialog = NoLocationServicesDialog.newInstance();
-				dialog.show(getFragmentManager(), "NO_LOCATION_FRAG");
+				dialog.show(getFragmentManager(), NoLocationServicesDialog.TAG);
 			}
 			break;
 		case CurrentLocationFragment.ERROR_SUGGEST_DATA: // FALL THRU

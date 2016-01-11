@@ -4,4 +4,6 @@ public class Constants {
 	public static final String PRODUCT_FLIGHT = "flight";
 	public static final int HOTEL_REQUEST_CODE = 101;
 	public static final int FLIGHT_REQUEST_CODE = 102;
+
+	public static final int PERMISSION_REQUEST_LOCATION = 7;
 }
