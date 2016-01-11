@@ -33,6 +33,7 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import rx.Observer;
@@ -94,9 +95,8 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		scrollCheckoutToTop();
 		slideWidget.resetSlider();
 
-		sliderTotalText.setText(getResources()
-			.getString(R.string.your_card_will_be_charged_TEMPLATE, newPrice.getFormattedMoneyFromAmountAndCurrencyCode(
-				newPrice.getAmount(), newPrice.getCurrency())));
+		sliderTotalText.setText(Phrase.from(getContext(), R.string.your_card_will_be_charged_template).put("dueamount", newPrice.getFormattedMoneyFromAmountAndCurrencyCode(
+			newPrice.getAmount(), newPrice.getCurrency())).format().toString());
 
 		acceptTermsWidget.getVm().resetAcceptedTerms();
 

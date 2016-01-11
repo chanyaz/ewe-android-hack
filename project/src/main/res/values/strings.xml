@@ -1853,15 +1853,19 @@
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">slide to book flight</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">Your card will be charged %1$s</string>
+    <string name="your_card_will_be_charged_template">Your card will be charged {dueamount}</string>
+    <!-- Your are using pwp points -->
+    <string name="you_are_using_expedia_points_TEMPLATE">You are using {points} ({amount}) Expedia+ points</string>
+    <!-- Payment through card + pwp points -->
+    <string name="payment_through_card_and_pwp_points">You are using {points} ({amount}) Expedia+ points\nYour card will be charged {dueamount}</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">Your card will be charged %1$s (plus airline fee)</string>
+    <string name="your_card_will_be_charged_plus_airline_fee_template">Your card will be charged {dueamount} (plus airline fee)</string>
     <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_TEMPLATE">Amount due today: %1$s</string>
+    <string name="amount_due_today_template">Amount due today: {dueamount}</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Amount to be paid now: %1$s</string>
+    <string name="amount_to_be_paid_now_TEMPLATE">Amount to be paid now: {dueamount}</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">To be collected by hotel: %1$s</string>
+    <string name="to_be_collected_by_the_hotel_TEMPLATE">To be collected by hotel: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Finish Booking</string>
     <!-- Checkout menu item -->

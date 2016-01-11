@@ -215,6 +215,8 @@ public class
 		R.dimen.card_view_container_margin,
 		R.drawable.ic_hotel_banner_expedia,
 		R.color.hotel_member_discount_color,
-		R.string.member_discount
+		R.string.member_discount,
+		R.string.you_are_using_expedia_points_TEMPLATE,
+		R.string.payment_through_card_and_pwp_points
 	};
 }

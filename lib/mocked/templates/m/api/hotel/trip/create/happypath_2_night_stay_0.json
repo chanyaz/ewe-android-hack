@@ -2,6 +2,12 @@
    "tripId": "${productKey}",
    "userId": 570429434,
    "originalHotelProductResponse": {},
+   "expediaRewards":
+   {
+      "totalPointsToEarn": 2111,
+      "isActiveRewardsMember": false,
+      "rewardsMembershipTierName":"Invalid Tier"
+   },
    "newHotelProductResponse": {
       "checkInDate": "${checkInDate}",
       "checkOutDate": "${checkOutDate}",
