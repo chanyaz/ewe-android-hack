@@ -2499,7 +2499,7 @@
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
     <!-- Expedia Member Discount for a given property, AB test -->
-    <string name="member_discount">Member Discount</string>
+    <string name="member_pricing">Member Pricing</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
