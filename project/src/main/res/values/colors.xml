@@ -384,6 +384,9 @@
     <!-- Packages colors -->
     <color name="packages_primary_color">#0888BD</color>
 
+    <!--Rail colors-->
+    <color name="rail_background_color">#eeeeee</color>
+
     <!-- Preferences Activity -->
     <color name="preferences_activity_bg">#eceff1</color>
     <color name="preferences_category_bg">#c0c7cd</color>
