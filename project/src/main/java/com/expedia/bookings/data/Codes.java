@@ -23,8 +23,6 @@ public class Codes {
 	public static final String DISCOUNT_RATE = "DISCOUNT_RATE";
 	public static final String CONTENT_STRING = "CONTENT_STRING";
 	public static final String LOB_NOT_SUPPORTED = "LOB_NOT_SUPPORTED";
-	public static final String PACKAGE_FLIGHT_OUTBOUND = "PACKAGE FLIGHT OUTBOUND";
-	public static final String PACKAGE_FLIGHT_INBOUND = "PACKAGE FLIGHT INBOUND";
 
 	//If the calling activity has already set the search params, we don't need to clear/reset them
 	public static final String TAG_EXTERNAL_SEARCH_PARAMS = "TAG_EXTERNAL_SEARCH_PARAMS";

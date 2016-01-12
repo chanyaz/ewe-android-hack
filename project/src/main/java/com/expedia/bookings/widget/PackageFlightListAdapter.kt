@@ -9,14 +9,14 @@ import com.expedia.bookings.data.packages.FlightLeg
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import java.util.ArrayList
 import kotlin.collections.emptyList
 
-public class FlightListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+public class PackageFlightListAdapter(val flightSelectedSubject: PublishSubject<FlightLeg>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var flights: List<FlightLeg> = emptyList()
     val resultsSubject = BehaviorSubject.create<List<FlightLeg>>()
     var loading = true
-
 
     init {
         resultsSubject.subscribe {
@@ -26,12 +26,13 @@ public class FlightListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>
         }
 
     }
+
     override fun getItemCount(): Int {
         return flights.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        if (holder is FlightListAdapter.FlightViewHolder) {
+        if (holder is PackageFlightListAdapter.FlightViewHolder) {
             holder.bind(FlightViewModel(holder.itemView.context, flights.get(position)))
 
         }
@@ -50,8 +51,13 @@ public class FlightListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>
         val flightDurationTextView: TextView by root.bindView(R.id.flight_duration_text_view)
         val airportDetailsTextView: TextView by root.bindView(R.id.airport_details_text_view)
 
-        override fun onClick(p0: View?) {
+        init {
+            itemView.setOnClickListener(this)
+        }
 
+        override fun onClick(p0: View?) {
+            val flight: FlightLeg = getFlight(adapterPosition)
+            flightSelectedSubject.onNext(flight)
         }
 
         public fun bind(viewModel: FlightViewModel) {
@@ -62,5 +68,9 @@ public class FlightListAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>
             viewModel.airportsObserver.subscribeText(airportDetailsTextView)
 
         }
+    }
+
+    private fun getFlight(rawAdapterPosition: Int): FlightLeg {
+        return flights.get(rawAdapterPosition)
     }
 }

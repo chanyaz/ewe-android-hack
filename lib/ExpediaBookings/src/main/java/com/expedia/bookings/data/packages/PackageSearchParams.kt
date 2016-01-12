@@ -19,7 +19,9 @@ public data class PackageSearchParams(val destination: SuggestionV4, val arrival
                 searchProduct = null
             }
         }
-    
+    var flightType: String? = null  //null for outbound flights & 1 for inbound flights
+    var selectedLegId: String? = null
+
     class Builder(val maxStay: Int) {
         private var destination: SuggestionV4? = null
         private var arrival: SuggestionV4? = null

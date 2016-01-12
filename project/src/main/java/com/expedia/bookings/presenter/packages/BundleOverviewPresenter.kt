@@ -45,10 +45,12 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
         vm.flightParamsObservable.subscribe {
             selectDepartureButton.isEnabled = false
+            selectArrivalButton.isEnabled = false
             flightLoadingBar.visibility = View.VISIBLE
         }
         vm.flightResultsObservable.subscribe {
             selectDepartureButton.isEnabled = true
+            selectArrivalButton.isEnabled = true
             flightLoadingBar.visibility = View.GONE
         }
         vm.destinationTextObservable.subscribeText(destinationText)
@@ -76,14 +78,12 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     fun openFlightsForDeparture() {
         val intent = Intent(context, FlightPackageActivity::class.java)
-        intent.putExtra(Codes.PACKAGE_FLIGHT_OUTBOUND, true)
-        (context as AppCompatActivity).startActivityForResult(intent, Constants.FLIGHT_DEPARTURE_REQUEST_CODE, null)
+        (context as AppCompatActivity).startActivityForResult(intent, Constants.PACKAGE_FLIGHT_DEPARTURE_REQUEST_CODE, null)
     }
 
     fun openFlightsForArrival() {
         val intent = Intent(context, FlightPackageActivity::class.java)
-        intent.putExtra(Codes.PACKAGE_FLIGHT_INBOUND, true)
-        (context as AppCompatActivity).startActivityForResult(intent, Constants.FLIGHT_ARRIVAL_REQUEST_CODE, null)
+        (context as AppCompatActivity).startActivityForResult(intent, Constants.PACKAGE_FLIGHT_ARRIVAL_REQUEST_CODE, null)
     }
 
     override fun back(): Boolean {

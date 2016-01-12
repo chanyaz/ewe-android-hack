@@ -6,8 +6,5 @@ import rx.subjects.BehaviorSubject
 
 public class FlightResultsViewModel(private val context: Context) {
 
-    // Outputs
-    val flightResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
-
 
 }
