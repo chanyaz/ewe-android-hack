@@ -190,12 +190,12 @@ public class CarDateTimeWidget extends RelativeLayout implements
 			return;
 		}
 
-		// Logic to change the time slider value when user selects current date
+		// Logic to change the time slider value when user selects current date (only if a valid time ahead in future is not already selected)
 		DateTime now = DateTime.now();
 		if (start.equals(LocalDate.now()) && now.getHourOfDay() >= 8 && pickupTimeSeekBar.getDateTime().getMillis() < now.plusHours(1).getMillis()) {
 			pickupTimeSeekBar.setProgress(now.plusHours(1));
 		}
-		if (end != null && end.equals(LocalDate.now()) && now.getHourOfDay() >= 16) {
+		if (end != null && end.equals(LocalDate.now()) && now.getHourOfDay() >= 16 && dropoffTimeSeekBar.getDateTime().getMillis() < now.plusHours(3).getMillis()) {
 			dropoffTimeSeekBar.setProgress(now.plusHours(3));
 		}
 
