@@ -82,8 +82,8 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
         // NOTE: Any changes to this logic should also be made in HotelDetailViewModel.getPromoText()
         val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
         if (hotel.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)) {
-            memberDealUrgency.onNext(UrgencyMessage(R.drawable.ic_hotel_banner_expedia, R.color.hotel_member_discount_color,
-                    resources.getString(R.string.member_discount)))
+            memberDealUrgency.onNext(UrgencyMessage(R.drawable.ic_hotel_banner_expedia, R.color.hotel_member_pricing_color,
+                    resources.getString(R.string.member_pricing)))
         }
         if (hotel.roomsLeftAtThisRate > 0 && hotel.roomsLeftAtThisRate <= ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY) {
             fewRoomsLeftUrgency.onNext(UrgencyMessage(R.drawable.urgency, R.color.hotel_urgency_message_color,
