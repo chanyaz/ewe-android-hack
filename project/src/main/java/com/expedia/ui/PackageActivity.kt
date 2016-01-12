@@ -29,6 +29,7 @@ public class PackageActivity : AppCompatActivity() {
             Constants.HOTEL_REQUEST_CODE -> when (resultCode) {
                 Activity.RESULT_OK -> {
                     packagePresenter.bundlePresenter.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
+                    packagePresenter.bundlePresenter.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
                     return
                 }
             }

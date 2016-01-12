@@ -18,48 +18,17 @@
             android:textSize="16sp"
             app:textStyle="medium" />
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/hotels_card_view"
+        <com.expedia.bookings.widget.PackageBundleHotelWidget
+            android:id="@+id/packageBundleWidget"
             android:layout_width="match_parent"
-            android:layout_height="64dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="9dp"
             android:layout_marginRight="9dp"
+            android:animateLayoutChanges="true"
             android:foreground="?android:attr/selectableItemBackground"
+            android:minHeight="64dp"
             app:cardCornerRadius="4dp"
-            app:cardElevation="1dp">
-
-            <ProgressBar
-                android:id="@+id/hotel_loading_bar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:indeterminate="true" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="center"
-                android:padding="12dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="9dp"
-                    android:src="@drawable/packages_overview_hotel"
-                    android:tint="@color/package_bundle_icon_color" />
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/hotels_card_view_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:textSize="16sp"
-                    app:textStyle="medium" />
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
+            app:cardElevation="1dp" />
 
         <com.expedia.bookings.widget.TextView
             android:layout_width="match_parent"

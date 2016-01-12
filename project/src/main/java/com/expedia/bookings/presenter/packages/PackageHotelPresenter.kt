@@ -14,7 +14,6 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.data.packages.PackageOffersResponse
-import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.hotel.HotelDetailPresenter
 import com.expedia.bookings.services.PackageServices
@@ -30,6 +29,7 @@ import com.google.android.gms.maps.MapView
 import rx.Observable
 import rx.Observer
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     lateinit var packageServices: PackageServices
@@ -64,6 +64,7 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         presenter
     }
     val loadingOverlay: LoadingOverlayWidget by bindView(R.id.details_loading_overlay)
+    var selectedPackageHotel: Hotel by Delegates.notNull()
 
     init {
         Ui.getApplication(context).packageComponent().inject(this)
@@ -82,6 +83,7 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
+        selectedPackageHotel = hotel
         getDetails(hotel.packageOfferModel.piid, hotel.hotelId, Db.getPackageParams().checkIn.toString(), Db.getPackageParams().checkOut.toString())
     }
 
@@ -199,6 +201,7 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
 
     val selectedRoomObserver = object : Observer<HotelOffersResponse.HotelRoomResponse> {
         override fun onNext(offer: HotelOffersResponse.HotelRoomResponse) {
+            Db.setPackageSelectedHotel(selectedPackageHotel, offer)
             val params = Db.getPackageParams();
             params.packagePIID = offer.productKey;
             val activity = (context as AppCompatActivity)

@@ -4,10 +4,12 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.data.packages.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.utils.Images
+import com.expedia.bookings.utils.Strings
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -17,7 +19,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val flightParamsObservable = PublishSubject.create<PackageSearchParams>()
 
     // Outputs
-    val hotelTextObservable = BehaviorSubject.create<String>()
+
     val destinationTextObservable = BehaviorSubject.create<String>()
     val arrivalTextObservable = BehaviorSubject.create<String>()
     val hotelResultsObservable = BehaviorSubject.create<List<Hotel>>()
@@ -27,7 +29,6 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         hotelParamsObservable.subscribe { params ->
             Db.setPackageParams(params)
             packageServices.packageSearch(params).subscribe(makeResultsObserver())
-            hotelTextObservable.onNext(context.getString(R.string.hotels_in_TEMPLATE, params.destination.regionNames.shortName))
             destinationTextObservable.onNext(context.getString(R.string.flights_to_TEMPLATE, params.destination.regionNames.shortName))
             arrivalTextObservable.onNext(context.getString(R.string.flights_to_TEMPLATE, params.arrival.regionNames.shortName))
         }
@@ -35,6 +36,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         flightParamsObservable.subscribe { params ->
             packageServices.packageSearch(params).subscribe(makeResultsObserver())
         }
+
     }
 
     fun makeResultsObserver(): Observer<PackageSearchResponse> {
@@ -55,4 +57,43 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             }
         }
     }
+}
+
+class BundleHotelViewModel(val context: Context) {
+    val showLoadingStateObservable = PublishSubject.create<Boolean>()
+    val selectedHotelObservable = PublishSubject.create<Unit>()
+
+    //output
+    val hotelTextObservable = BehaviorSubject.create<String>()
+    val hotelRoomGuestObservable = BehaviorSubject.create<String>()
+    val hotelRoomImageUrlObservable = BehaviorSubject.create<String>()
+    val hotelRoomInfoObservable = BehaviorSubject.create<String>()
+    val hotelRoomTypeObservable = BehaviorSubject.create<String>()
+    val hotelAddressObservable = BehaviorSubject.create<String>()
+    val hotelCityObservable = BehaviorSubject.create<String>()
+    val hotelFreeCancellationObservable = BehaviorSubject.create<String>()
+    val hotelArrowIconObservable = BehaviorSubject.create<Boolean>()
+
+    init {
+        showLoadingStateObservable.subscribe { isShowing ->
+            if (isShowing)
+                hotelTextObservable.onNext(context.getString(R.string.hotels_in_TEMPLATE, Db.getPackageParams().destination.regionNames.shortName))
+        }
+        selectedHotelObservable.subscribe {
+            val selectedHotel = Db.getPackageSelectedHotel()
+            val selectHotelRoom = Db.getPackageSelectedRoom()
+            hotelTextObservable.onNext(selectedHotel.localizedName)
+            hotelArrowIconObservable.onNext(true)
+            hotelRoomGuestObservable.onNext(context.getString(R.string.hotels_guest_TEMPLATE, Db.getPackageParams().guests()))
+            if (Strings.isNotEmpty(selectHotelRoom.roomThumbnailUrl)) {
+                hotelRoomImageUrlObservable.onNext(Images.getMediaHost() + selectHotelRoom.roomThumbnailUrl)
+            }
+            hotelRoomInfoObservable.onNext(selectHotelRoom.roomTypeDescription)
+            hotelRoomTypeObservable.onNext(selectHotelRoom.roomTypeDescription)
+            hotelAddressObservable.onNext(selectedHotel.address)
+            hotelFreeCancellationObservable.onNext(selectHotelRoom.freeCancellationWindowDate)
+            hotelCityObservable.onNext(selectedHotel.stateProvinceCode + " , " + selectedHotel.countryCode)
+        }
+    }
+
 }

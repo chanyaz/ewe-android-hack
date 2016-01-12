@@ -1,11 +1,5 @@
 package com.expedia.bookings.data;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,8 +9,9 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.hotels.Hotel;
-import com.expedia.bookings.data.packages.PackageSearchResponse;
+import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
+import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.utils.LeanPlumUtils;
@@ -29,6 +24,12 @@ import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This represents an in-memory database of data for the app.
@@ -123,12 +124,27 @@ public class Db {
 
 	private PackageSearchParams mPackageParams;
 	private PackageSearchResponse mPackageResponse;
+	private Hotel mPackageSelectedHotel;
+	private HotelOffersResponse.HotelRoomResponse mPackageSelectedRoom;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
 
 	public static PackageSearchParams getPackageParams() {
 		return sDb.mPackageParams;
+	}
+
+	public static void setPackageSelectedHotel(Hotel packageSelectedHotel, HotelOffersResponse.HotelRoomResponse packageSelectedRoom) {
+		sDb.mPackageSelectedHotel = packageSelectedHotel;
+		sDb.mPackageSelectedRoom = packageSelectedRoom;
+	}
+
+	public static Hotel getPackageSelectedHotel() {
+		return sDb.mPackageSelectedHotel;
+	}
+
+	public static HotelOffersResponse.HotelRoomResponse getPackageSelectedRoom() {
+		return sDb.mPackageSelectedRoom;
 	}
 
 	public static void setPackageParams(PackageSearchParams params) {
