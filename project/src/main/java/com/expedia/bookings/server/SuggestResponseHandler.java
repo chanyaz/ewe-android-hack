@@ -48,8 +48,14 @@ public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse>
 				JSONObject responseSuggestion = responseSuggestions.getJSONObject(i);
 				Suggestion suggestion = new Suggestion();
 
-				suggestion.setGaiaId(responseSuggestion.optString("gaiaId"));
 				suggestion.setType(JSONUtils.getEnum(responseSuggestion, "type", Suggestion.Type.class));
+
+				if (suggestion.getType() == Suggestion.Type.HOTEL) {
+					suggestion.setId(responseSuggestion.optString("hotelId"));
+				}
+				else {
+					suggestion.setId(responseSuggestion.optString("gaiaId"));
+				}
 
 				JSONObject country = responseSuggestion.optJSONObject("hierarchyInfo").optJSONObject("country");
 				if (country != null) {

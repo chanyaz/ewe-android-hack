@@ -49,7 +49,6 @@ public class Suggestion implements JSONable {
 	}
 
 	private String mId;
-	private String mGaiaId;
 	private Type mType;
 	private String mDisplayName;
 	private double mLatitude;
@@ -66,14 +65,6 @@ public class Suggestion implements JSONable {
 
 	public void setId(String id) {
 		mId = id;
-	}
-
-	public String getGaiaId() {
-		return mGaiaId;
-	}
-
-	public void setGaiaId(String gaiaId) {
-		mGaiaId = gaiaId;
 	}
 
 	public Type getType() {

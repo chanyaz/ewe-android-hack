@@ -102,7 +102,7 @@ public class AirportAutocompleteProvider extends ContentProvider {
 		Pair<String, String> displayName = suggestion.splitDisplayNameForFlights();
 		if (displayName != null) {
 			Object[] row = new Object[COLUMNS.length];
-			row[0] = suggestion.getGaiaId();
+			row[0] = suggestion.getId();
 			row[1] = displayName.first;
 			row[2] = displayName.second;
 			row[3] = suggestion.getAirportLocationCode();
