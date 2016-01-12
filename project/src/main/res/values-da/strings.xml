@@ -3778,7 +3778,9 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Ved at gennemføre denne reservation bekræfter jeg, at jeg har læst og accepterer %1$s, %2$s samt %3$s.</string>
     <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_TEMPLATE">Jeg har læst og accepterer %1$s samt Expedias %2$s. Ved at tilmelde mig {brand}+ accepterer jeg alle %3$s.</string>
+    <string name="account_creation_legal_TEMPLATE">Jeg har læst og accepterer {terms_of_use} samt Expedias {privacy_policy}. Ved at tilmelde mig {brand}+ accepterer jeg alle {terms_and_conditions}.</string>
+    <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
+    <string name="account_creation_legal_excluding_rewards_TEMPLATE">Jeg har læst og accepterer {terms_of_use} samt Expedias {privacy_policy}.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Vælg hvert barns alder</string>

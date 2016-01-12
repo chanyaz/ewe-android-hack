@@ -3778,7 +3778,9 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Dengan menyelesaikan pemesanan ini, saya menyatakan bahwa saya telah membaca dan menerima %1$s, %2$s, dan %3$s.</string>
     <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_TEMPLATE">Saya telah membaca dan menyetujui %1$s serta %2$s. Dengan bergabung di {brand}+, saya menerima semua %3$s.</string>
+    <string name="account_creation_legal_TEMPLATE">Saya telah membaca dan menyetujui {terms_of_use} serta {privacy_policy}. Dengan bergabung di {brand}+, saya menerima semua {terms_and_conditions}.</string>
+    <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
+    <string name="account_creation_legal_excluding_rewards_TEMPLATE">Saya telah membaca dan menyetujui {terms_of_use} serta {privacy_policy}.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Masukkan umur tiap anak</string>
