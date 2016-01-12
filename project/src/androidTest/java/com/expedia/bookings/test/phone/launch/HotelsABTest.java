@@ -7,7 +7,6 @@ import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
@@ -67,16 +66,17 @@ public class HotelsABTest extends PhoneTestCase {
 
 	public void testPopularLocationSelection() {
 		CollectionLocation collectionLocation = new CollectionLocation();
-		SuggestionV4 suggestion = new SuggestionV4();
+		CollectionLocation.Location suggestion = new CollectionLocation.Location();
 		String city = "San Francisco";
-		suggestion.regionNames.displayName = city;
-		suggestion.regionNames.shortName = city;
+
+		suggestion.displayName = city;
+		suggestion.shortName = city;
 		suggestion.type = HotelSearchParams.SearchType.CITY.toString();
 
-		SuggestionV4.LatLng coordinates = new SuggestionV4.LatLng();
-		coordinates.lat = 0;
-		coordinates.lng = 0;
-		suggestion.coordinates = coordinates;
+		CollectionLocation.LatLng latLng = new CollectionLocation.LatLng();
+		latLng.lat = 0;
+		latLng.lng = 0;
+		suggestion.latLong = latLng;
 
 		collectionLocation.location = suggestion;
 		Events.post(new Events.LaunchCollectionItemSelected(collectionLocation, null, ""));
@@ -96,13 +96,13 @@ public class HotelsABTest extends PhoneTestCase {
 
 	public void testSeeMore() {
 		CollectionLocation collectionLocation = new CollectionLocation();
-		SuggestionV4 suggestion = new SuggestionV4();
+		CollectionLocation.Location suggestion = new CollectionLocation.Location();
 		suggestion.type = HotelSearchParams.SearchType.MY_LOCATION.toString();
 
-		SuggestionV4.LatLng coordinates = new SuggestionV4.LatLng();
+		CollectionLocation.LatLng coordinates = new CollectionLocation.LatLng();
 		coordinates.lat = 32.71444d;
 		coordinates.lng = -117.16237d;
-		suggestion.coordinates = coordinates;
+		suggestion.latLong = coordinates;
 
 		collectionLocation.location = suggestion;
 		Events.post(new Events.LaunchCollectionItemSelected(collectionLocation, null, ""));

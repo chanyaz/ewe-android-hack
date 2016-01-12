@@ -23,9 +23,7 @@ import static junit.framework.Assert.assertEquals;
 
 public class SuggestionServicesTest {
 
-	private static final int NUM_SUGGESTIONS_IN_V3_MOCK_TEMPLATES = 3;
-	private static final int NUM_SUGGESTIONS_IN_V1_MOCK_TEMPLATES = 1;
-	private static final int NUM_SUGGESTIONS_IN_V4_MOCK_TEMPLATES = 8;
+	private static final int NUM_SUGGESTIONS_IN_V4_MOCK_TEMPLATES = 4;
 	private static final int MAX_NUM_SUGGESTIONS_V4_NEARBY_MOCK_TEMPLATES = 3;
 
 	@Rule
