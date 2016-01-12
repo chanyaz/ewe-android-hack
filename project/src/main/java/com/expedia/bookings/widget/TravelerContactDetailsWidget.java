@@ -314,8 +314,8 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	@Override
 	public void onAddNewTravelerSelected() {
-		Traveler emptyTraveler = new Traveler();
-		sectionTravelerInfo.bind(emptyTraveler);
+		Traveler traveler = Db.getWorkingTravelerManager().getWorkingTraveler();
+		sectionTravelerInfo.bind(traveler);
 	}
 
 	@Override

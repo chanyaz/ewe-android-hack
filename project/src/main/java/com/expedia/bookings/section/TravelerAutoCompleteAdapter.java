@@ -91,7 +91,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		final int itemType = getItemViewType(position);
-		Traveler trav = getItem(position);
+		Traveler traveler = getItem(position);
 		ViewHolder vh;
 		View retView = convertView;
 
@@ -118,21 +118,15 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 			else {
 				vh = (ViewHolder) retView.getTag();
 			}
-			vh.tv.setText(trav.getFullName());
+			vh.tv.setText(traveler.getFullName());
 			vh.initials.setBackgroundResource(mTravelerBackgroundDrawable);
-			vh.initials.setText(TravelerIconUtils.getInitialsFromDisplayName(trav.getFullName()));
-			if (!trav.isSelectable()) {
-				vh.tv.setAlpha(0.15f);
-				vh.initials.setAlpha(0.15f);
-			}
-			else {
-				vh.tv.setAlpha(1);
-				vh.initials.setAlpha(1);
-			}
+			vh.initials.setText(TravelerIconUtils.getInitialsFromDisplayName(traveler.getFullName()));
+			toggleViewHolderSelectedStyle(vh, traveler);
 			break;
 		case ITEM_VIEW_TYPE_ADD_TRAVELER:
 			if (retView == null) {
 				retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);
+				retView.setBackground(getContext().getDrawable(R.drawable.bg_checkout_saved_spinner_row));
 				vh = new ViewHolder(retView);
 				retView.setTag(vh);
 			}
@@ -141,10 +135,29 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 			}
 			vh.tv.setText(R.string.add_new_traveler);
 			vh.icon.setBackgroundResource(R.drawable.add_plus);
+			toggleViewHolderSelectedStyle(vh, traveler);
 			break;
 		}
 
 		return retView;
+	}
+
+	private void toggleViewHolderSelectedStyle(ViewHolder vh, Traveler traveler) {
+		float textViewAlpha = 1f;
+		int iconAlpha = 100;
+
+		if (traveler != null && !traveler.isSelectable()) {
+			textViewAlpha = 0.15f;
+			iconAlpha = 15;
+		}
+
+		vh.tv.setAlpha(textViewAlpha);
+		if (vh.initials != null) {
+			vh.initials.setAlpha(textViewAlpha);
+		}
+		if (vh.icon != null) {
+			vh.icon.setImageAlpha(iconAlpha);
+		}
 	}
 
 	@Override

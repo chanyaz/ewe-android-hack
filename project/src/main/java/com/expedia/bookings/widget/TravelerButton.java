@@ -83,6 +83,10 @@ public class TravelerButton extends LinearLayout {
 	private void onStoredTravelerSelected(int position) {
 		boolean isAddNewTravelerSelected = (position == mTravelerAdapter.getCount() - 1);
 		if (isAddNewTravelerSelected) {
+			Traveler emptyTraveler = new Traveler();
+			emptyTraveler.setIsSelectable(false);
+			deselectCurrentTraveler();
+			Db.getWorkingTravelerManager().shiftWorkingTraveler(emptyTraveler);
 			if (mTravelerButtonListener != null) {
 				mTravelerButtonListener.onAddNewTravelerSelected();
 			}
@@ -128,6 +132,7 @@ public class TravelerButton extends LinearLayout {
 			});
 		}
 		mStoredTravelerPopup.setAnchorView(selectTraveler);
+		mStoredTravelerPopup.setVerticalOffset(selectTraveler.getHeight() * -1);
 		mStoredTravelerPopup.setAdapter(mTravelerAdapter);
 		mStoredTravelerPopup.show();
 	}
@@ -164,10 +169,9 @@ public class TravelerButton extends LinearLayout {
 				}
 			}
 			else {
+				deselectCurrentTraveler();
 				Traveler selectedTraveler = results.getTraveler();
-				Traveler previousTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 				Db.getWorkingTravelerManager().shiftWorkingTraveler(selectedTraveler);
-				TravelerUtils.resetPreviousTravelerSelectState(previousTraveler);
 				selectTraveler.setText(selectedTraveler.getFullName());
 				if (mTravelerButtonListener != null) {
 					mTravelerButtonListener.onTravelerChosen(selectedTraveler);
@@ -184,5 +188,10 @@ public class TravelerButton extends LinearLayout {
 		if (mStoredTravelerPopup != null) {
 			mStoredTravelerPopup.dismiss();
 		}
+	}
+
+	private void deselectCurrentTraveler() {
+		Traveler previousTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
+		TravelerUtils.resetPreviousTravelerSelectState(previousTraveler);
 	}
 }
