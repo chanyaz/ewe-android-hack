@@ -23,6 +23,8 @@ public class PackageOfferModel {
 		public String sumFlightAndHotelFormatted;
 		public String tripSavingsFormatted;
 		public String hotelAvgPricePerNightFormatted;
+		public String differentialPriceFormatted;
 		public int percentageSavings;
+		public boolean deltaPositive;
 	}
 }

@@ -15,9 +15,7 @@ import retrofit.RestAdapter
 import retrofit.client.OkClient
 import retrofit.converter.GsonConverter
 import rx.Observable
-import rx.Observer
 import rx.Scheduler
-import rx.Subscription
 import kotlin.collections.find
 import kotlin.collections.forEach
 
@@ -57,6 +55,17 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 						lowRateInfo.currencyCode = hotel.packageOfferModel.price.pricePerPerson.currencyCode
 						hotel.lowRateInfo = lowRateInfo
 					}
+					response.packageResult.flightsPackage.flights.forEach { flight ->
+						flight.packageOfferModel = response.packageResult.packageOfferModels.find { offer ->
+							offer.flight == flight.flightPid
+						}
+					}
+
+					val currentFlight = response.packageResult.flightsPackage.flights.find {
+						it.flightPid == response.packageResult.currentSelectedOffer?.flight
+					}
+
+					currentFlight?.packageOfferModel = response.packageResult.currentSelectedOffer
 				}
 	}
 

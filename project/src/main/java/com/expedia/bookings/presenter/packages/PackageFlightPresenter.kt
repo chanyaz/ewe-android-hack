@@ -1,13 +1,16 @@
 package com.expedia.bookings.presenter.packages
 
+import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.vm.FlightResultsViewModel
+import kotlin.collections.filter
 
 public class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val resultsPresenter: PackageFlightResultsPresenter by lazy {
@@ -26,8 +29,11 @@ public class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Pre
         addDefaultTransition(defaultTransition)
         show(resultsPresenter)
         resultsPresenter.showDefault()
-//        resultsPresenter.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay)))
-        resultsPresenter.viewmodel.flightResultsObservable.onNext(Db.getPackageResponse().packageResult.flightsPackage.flights)
+
+        val intent = (context as Activity).intent
+        if (intent.getBooleanExtra(Codes.PACKAGE_FLIGHT_OUTBOUND, false)) {
+            resultsPresenter.viewmodel.flightResultsObservable.onNext(Db.getPackageResponse().packageResult.flightsPackage.flights.filter { it.outbound })
+        }
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(PackageFlightResultsPresenter::class.java.name) {

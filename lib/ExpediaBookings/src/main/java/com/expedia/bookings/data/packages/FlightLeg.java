@@ -25,6 +25,7 @@ public class FlightLeg {
 	public int durationMinute;
 	public int elapsedDays;
 	public String flightFareTypeString;
+	public List<FlightSegment> flightSegments;
 //	flightSegments
 	public boolean freeFlightPromotion;
 	public boolean handBaggageOnly;
@@ -44,6 +45,9 @@ public class FlightLeg {
 	public String totalTravelDistance;
 	public String totalTravelDistanceUnits;
 
+	public transient PackageOfferModel packageOfferModel;
+	public transient String flightPid;
+
 	public static class AirlineMessageModel {
 		public String airlineFeeLink;
 		public String airlineName;
@@ -51,5 +55,13 @@ public class FlightLeg {
 		public boolean  hasAirlineWithCCfee;
 		public boolean  hasAirlineWithoutBagfee;
 		public boolean  hasAirlineWithSpecialBagfee;
+	}
+
+	public static class FlightSegment {
+		public String airplaneType;
+		public String arrivalAirportCode;
+		public String departureAirportCode;
+		public int layoverDurationHours;
+		public int layoverDurationMinutes;
 	}
 }

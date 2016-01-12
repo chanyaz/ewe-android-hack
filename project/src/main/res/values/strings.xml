@@ -3795,4 +3795,11 @@
     <string name="step_one">Step 1: Select Hotel</string>
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">Step 2: Select Flights</string>
+
+    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_duration_template">%1$dd %2$dh %3$dm (%4$dhr layover)</string>
+    <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
+    <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dd</string>
+    <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
+    <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
 </resources>
