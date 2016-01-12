@@ -20,6 +20,9 @@
     <dimen name="tablet_flight_details_horizontal_padding">24dp</dimen>
     <dimen name="tablet_flight_details_statistic_drawable_spacing">8dp</dimen>
 
+    <!-- Package Results -->
+    <dimen name="layover_bar_padding">4dp</dimen>
+
     <!-- Launch dimens -->
     <dimen name="launch_header_height">48dp</dimen>
     <dimen name="launch_header_top_space">135dp</dimen>

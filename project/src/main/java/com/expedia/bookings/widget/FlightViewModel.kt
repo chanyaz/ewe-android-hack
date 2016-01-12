@@ -14,6 +14,7 @@ public class FlightViewModel(private val context: Context, private val flight: F
     val airlineObserver = BehaviorSubject.create(flight.carrierName)
     val durationObserver = BehaviorSubject.create(resources.getString(R.string.flight_duration_template, flight.elapsedDays, flight.durationHour, flight.durationMinute, 0))
     val airportsObserver = BehaviorSubject.create(getAllAirports(flight))
+    val layoverObserver = BehaviorSubject.create(flight)
 
     public fun getAllAirports(flight: FlightLeg): String {
         var airports : String = ""

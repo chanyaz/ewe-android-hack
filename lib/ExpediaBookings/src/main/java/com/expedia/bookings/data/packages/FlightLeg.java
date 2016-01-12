@@ -62,6 +62,8 @@ public class FlightLeg {
 		public String airplaneType;
 		public String arrivalAirportCode;
 		public String departureAirportCode;
+		public int durationHours;
+		public int durationMinutes;
 		public int layoverDurationHours;
 		public int layoverDurationMinutes;
 	}
