@@ -1739,7 +1739,7 @@
     <!-- Template for where the flight is arriving at.  %s is the city, e.g. "Arrive at San Francisco, CA" -->
     <string name="arrive_at_TEMPLATE">抵達：%s</string>
     <!-- Template for when a flight is operated by a different carrier.  %s is the other carrier, e.g. "Operated by American Airlines" -->
-    <string name="operated_by_TEMPLATE">航空公司：%s</string>
+    <string name="operated_by_TEMPLATE">營運公司：%s</string>
     <!-- Carry-on baggage fees apply -->
     <string name="carry_on_baggage_fees_apply">隨身行李需要付費</string>
     <!-- A message for a flight that does not include baggage fees in the fare total -->
@@ -1881,7 +1881,7 @@
     <!-- Sign out -->
     <string name="sign_out">登出</string>
     <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">您將可獲得 %1$s 點 — App 內預訂可享點數 3 倍！</string>
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">您將可獲得 %1$s 點 — 使用 App 預訂，點數 3 倍！</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">此次預訂您將可獲得 %1$s 點！</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -3778,7 +3778,9 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">完成此預訂即表示我同意並接受%1$s、%2$s和%3$s。</string>
     <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_TEMPLATE">我已經閱讀並同意%1$s和%2$s。加入 {brand}+，即表示我接受所有%3$s。</string>
+    <string name="account_creation_legal_TEMPLATE">我已經閱讀並同意{terms_of_use}和{privacy_policy}。加入 {brand}+，即表示我接受所有{terms_and_conditions}。</string>
+    <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
+    <string name="account_creation_legal_excluding_rewards_TEMPLATE">我已經閱讀並同意{terms_of_use}和{privacy_policy}。</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">請選擇每位兒童的年齡</string>
@@ -3805,7 +3807,7 @@
     <string name="coupon_error_dialog_message">您的優惠券出現問題。請再輸入一次。</string>
 
     <!-- Australian compliance warnings d/5810 -->
-    <string name="airline_fee_notice">付款時會加入航空公司根據不同信用卡類型所收取的手續費。</string>
+    <string name="airline_fee_notice">付款時會加入根據不同信用卡類型所收取的航空公司手續費。</string>
     <string name="airline_charge_notice">航空公司會根據不同付款方式收取額外手續費。</string>
     <string name="airline_fee_notice_payment">航空公司會根據不同付款方式收取手續費</string>
     <string name="airline_notice_fee_added">付款時會加入根據不同信用卡類型所收取的<u><b>航空公司手續費</b></u>。此費用會在付款時加入總金額中。</string>
