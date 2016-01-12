@@ -43,6 +43,18 @@
             android:launchMode="singleTop"
             android:theme="@style/V2.Theme.Hotels" />
 
+        <activity
+            android:name="com.expedia.ui.RailActivity"
+            android:taskAffinity="com.expedia.ui.RailActivity"
+            android:label="Rail"
+            android:screenOrientation="portrait"
+            android:theme="@style/V2.Theme.Rail" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

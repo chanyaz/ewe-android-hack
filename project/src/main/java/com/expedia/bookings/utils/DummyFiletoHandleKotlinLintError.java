@@ -220,6 +220,12 @@ public class
 		R.string.payment_through_card_and_pwp_points,
 		R.string.flight_duration_template,
 		R.string.flight_departure_arrival_time_multi_day_template,
-		R.string.flight_departure_arrival_time_template
+		R.string.flight_departure_arrival_time_template,
+		R.layout.rail_activity,
+		R.layout.rail_presenter,
+		R.layout.rail_search_presenter,
+		R.layout.rail_results_presenter,
+		R.layout.rail_details_presenter,
+		R.layout.rail_checkout_presenter,
 	};
 }
