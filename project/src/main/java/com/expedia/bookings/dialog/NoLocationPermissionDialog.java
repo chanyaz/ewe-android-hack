@@ -28,7 +28,7 @@ public class NoLocationPermissionDialog extends DialogFragment implements Dialog
 			.put("brand", BuildConfig.brand).format().toString();
 
 		builder.setMessage(message);
-		builder.setPositiveButton(R.string.ok, this);
+		builder.setPositiveButton(R.string.go_to_settings, this);
 		builder.setNegativeButton(R.string.cancel, this);
 		return builder.create();
 	}

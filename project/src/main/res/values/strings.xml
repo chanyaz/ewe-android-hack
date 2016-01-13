@@ -2509,9 +2509,9 @@
         <item quantity="other">%d Rooms Left</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">To use Current Location, you must allow {brand} to access your location.\n\nGo to Settings and turn it on now?</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">To use current location, you must allow {brand} to access your location.\n\nTo enable, go to settings, tap \"permissions\" and enable location.</string>
+    <string name="go_to_settings">Go to Settings</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">To use Current Location, you must first turn on a Location source in Settings.\n\nGo to Settings and turn it on now?</string>
