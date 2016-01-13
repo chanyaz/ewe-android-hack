@@ -91,10 +91,25 @@ public class SuggestionV4 {
 	}
 
 	@Override
+	public int hashCode() {
+		int result = 17;
+
+		result = 31 * result + ((gaiaId == null) ? 0 : gaiaId.hashCode());
+
+		return result;
+	}
+
+	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof SuggestionV4) {
-			return ((SuggestionV4) obj).gaiaId.equals(this.gaiaId);
+		if (!(obj instanceof SuggestionV4)) {
+			return false;
 		}
-		return false;
+
+		if (obj == this) {
+			return true;
+		}
+
+		SuggestionV4 other = (SuggestionV4) obj;
+		return this.gaiaId != null && this.gaiaId.equals(other.gaiaId);
 	}
 }
