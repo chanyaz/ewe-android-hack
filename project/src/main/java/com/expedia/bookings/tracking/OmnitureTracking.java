@@ -468,7 +468,7 @@ public class OmnitureTracking {
 		String pageName = HOTELSV2_SOLD_OUT_PAGE;
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageload");
 
-		ADMS_Measurement s = getFreshTrackingObject();
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 
 		s.setEvar(2, "D=c2");
 		s.setProp(2, HOTELV2_LOB);
