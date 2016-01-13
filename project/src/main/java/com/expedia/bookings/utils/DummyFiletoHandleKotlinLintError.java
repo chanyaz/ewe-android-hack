@@ -231,6 +231,7 @@ public class
 		R.drawable.packages_search_departure,
 		R.layout.widget_search_autocomplete,
 		R.layout.suggestion_popup,
-		R.integer.calendar_max_days_package_stay
+		R.integer.calendar_max_days_package_stay,
+		R.color.hotel_result_background
 	};
 }

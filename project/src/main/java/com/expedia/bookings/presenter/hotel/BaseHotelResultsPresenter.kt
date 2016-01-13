@@ -75,12 +75,6 @@ import org.joda.time.DateTime
 import rx.Observer
 import rx.subjects.PublishSubject
 import java.util.ArrayList
-import kotlin.collections.arrayListOf
-import kotlin.collections.emptyList
-import kotlin.collections.filter
-import kotlin.collections.first
-import kotlin.collections.forEach
-import kotlin.collections.isNotEmpty
 import kotlin.properties.Delegates
 
 public abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
@@ -207,6 +201,13 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         loadingOverlay?.animate(false)
         loadingOverlay?.visibility = View.GONE
         adapter.resultsSubject.onNext(Pair(it.hotelList, it.userPriceType))
+        if ((ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap) && it.hotelList.size <= 3) {
+            recyclerView.setBackgroundColor(ContextCompat.getColor(context, R.color.hotel_result_background))
+            fab.visibility = View.VISIBLE
+            getFabAnimIn().start()
+        } else {
+            recyclerView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
+        }
         filterBtnWithCountWidget?.visibility = View.VISIBLE
     }
 
@@ -237,7 +238,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         adapter.resultsSubject.onNext(Pair(response.hotelList, response.userPriceType))
         mapViewModel.hotelResultsSubject.onNext(response)
         if ((ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap) && response.hotelList.size <= 3 && previousWasList) {
-            recyclerView.setBackgroundColor(ContextCompat.getColor(context, R.color.lx_details_background_color))
+            recyclerView.setBackgroundColor(ContextCompat.getColor(context, R.color.hotel_result_background))
         } else {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         }
