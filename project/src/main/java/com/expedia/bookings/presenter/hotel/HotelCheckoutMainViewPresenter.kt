@@ -19,7 +19,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.hotels.PaymentModel
+import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.enums.MerchandiseSpam
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
@@ -85,7 +85,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     lateinit var hotelServices: HotelServices
         @Inject set
 
-    lateinit var paymentModel: PaymentModel
+    lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
 
     init {

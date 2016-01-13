@@ -3,13 +3,15 @@ package com.expedia.bookings.test
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripBucketItemHotelV2
-import com.expedia.bookings.data.hotels.CalculatePointsResponse
+import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.payment.CalculatePointsResponse
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
-import com.expedia.bookings.data.hotels.PaymentModel
-import com.expedia.bookings.data.hotels.PaymentSplits
-import com.expedia.bookings.data.hotels.PointsAndCurrency
-import com.expedia.bookings.data.hotels.PointsProgramType
-import com.expedia.bookings.data.hotels.PointsType
+import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.payment.PaymentSplits
+import com.expedia.bookings.data.payment.PointsAndCurrency
+import com.expedia.bookings.data.payment.PointsProgramType
+import com.expedia.bookings.data.payment.PointsType
+import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.util.notNullAndObservable
 import org.junit.After
 import org.junit.Assert
@@ -25,7 +27,10 @@ public class PaymentModelTest {
     public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
-    var paymentModel: PaymentModel by notNullAndObservable {
+    public var loyaltyServiceRule = ServicesRule<LoyaltyServices>(LoyaltyServices::class.java)
+        @Rule get
+
+    var paymentModel: PaymentModel<HotelCreateTripResponse> by notNullAndObservable {
         it.createTripSubject.subscribe(createTripResponseTestSubscriber)
         it.paymentSplits.subscribe(paymentSplitsTestSubscriber)
         it.amountChosenToBePaidWithPointsSubject.subscribe(amountChosenToBePaidWithPointsTestSubscriber)
@@ -39,7 +44,7 @@ public class PaymentModelTest {
     val currencyToPointsApiResponseTestSubscriber = TestSubscriber<CalculatePointsResponse>()
     val currencyToPointsApiErrorTestSubscriber = TestSubscriber<Unit>()
 
-    val createTripResponseTestSubscriber = TestSubscriber<HotelCreateTripResponse>()
+    val createTripResponseTestSubscriber = TestSubscriber<TripResponse>()
     //TODO Mock data for price change and coupon change does not have points in response similar to create trip
     //so leaving the tests for these for now and created mingle card for the same
     //https://eiwork.mingle.thoughtworks.com/projects/eb_ad_app/cards/6016
@@ -54,13 +59,13 @@ public class PaymentModelTest {
 
         createTripResponse.tripId = "happy";
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
-        paymentModel = PaymentModel(mockHotelServiceTestRule.service)
+        paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
     }
 
     @Test
     fun testCreateTripForLoggedInUserWithRedeemablePoints() {
         setup(true)
-        val expediaPointDetails = createTripResponse.getPointDetails(PointsProgramType.EXPEDIA_REWARDS)
+        val expediaPointDetails = createTripResponse.getPointDetails(PointsProgramType.EXPEDIA_REWARDS)!!
 
         //Expected Payment Split
         val expectedPaymentSplits = PaymentSplits(expediaPointDetails.maxPayableWithPoints!!, expediaPointDetails.remainingPayableByCard!!)
@@ -85,8 +90,8 @@ public class PaymentModelTest {
     fun testCreateTripForLoggedInUserWithRedeemablePointsZeroCurrencyToPointSelected() {
         setup(true)
         //Expected Payment Split
-        val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money("0", createTripResponse.tripTotal.currencyCode))
-        val payingWithCards = PointsAndCurrency(createTripResponse.expediaRewards.totalPointsToEarn, PointsType.EARN, createTripResponse.tripTotal)
+        val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money("0", createTripResponse.getTripTotal().currencyCode))
+        val payingWithCards = PointsAndCurrency(createTripResponse.expediaRewards!!.totalPointsToEarn, PointsType.EARN, createTripResponse.getTripTotal())
         val expectedPaymentSplits = PaymentSplits(payingWithPoints, payingWithCards)
 
         paymentModel.createTripSubject.onNext(createTripResponse)
@@ -164,8 +169,8 @@ public class PaymentModelTest {
         setup(false)
 
         //Expected Payment Split
-        val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money("0", createTripResponse.tripTotal.currencyCode))
-        val payingWithCards = PointsAndCurrency(createTripResponse.expediaRewards.totalPointsToEarn, PointsType.EARN, createTripResponse.tripTotal)
+        val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money("0", createTripResponse.getTripTotal().currencyCode))
+        val payingWithCards = PointsAndCurrency(createTripResponse.expediaRewards!!.totalPointsToEarn, PointsType.EARN, createTripResponse.getTripTotal())
         val expectedPaymentSplits = PaymentSplits(payingWithPoints, payingWithCards)
 
         paymentModel.createTripSubject.onNext(createTripResponse)

@@ -1,4 +1,4 @@
-package com.expedia.bookings.data.hotels
+package com.expedia.bookings.data.payment
 
 import com.expedia.bookings.data.cars.BaseApiResponse
 

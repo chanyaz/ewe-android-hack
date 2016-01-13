@@ -4,7 +4,7 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.ValidPayment
-import com.expedia.bookings.data.hotels.PointsProgramType
+import com.expedia.bookings.data.payment.PointsProgramType
 import org.junit.After
 import org.junit.Assert
 import org.junit.Rule
@@ -20,7 +20,7 @@ class HotelCreateTripPayWithPointsTest {
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         Assert.assertNotNull(createTripResponse.pointsDetails)
         Assert.assertNotNull(createTripResponse.getPointDetails(PointsProgramType.EXPEDIA_REWARDS))
-        val pointDetails = createTripResponse.getPointDetails(PointsProgramType.EXPEDIA_REWARDS)
+        val pointDetails = createTripResponse.getPointDetails(PointsProgramType.EXPEDIA_REWARDS)!!
         Assert.assertTrue(pointDetails.isAllowedToRedeem)
         Assert.assertNotNull(pointDetails.totalAvailable)
         Assert.assertNotNull(pointDetails.maxPayableWithPoints)
@@ -38,7 +38,7 @@ class HotelCreateTripPayWithPointsTest {
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         Assert.assertNotNull(createTripResponse.pointsDetails)
         Assert.assertNotNull(createTripResponse.getPointDetails(PointsProgramType.EXPEDIA_REWARDS))
-        val pointDetails = createTripResponse.getPointDetails(PointsProgramType.EXPEDIA_REWARDS)
+        val pointDetails = createTripResponse.getPointDetails(PointsProgramType.EXPEDIA_REWARDS)!!
         Assert.assertFalse(pointDetails.isAllowedToRedeem)
         Assert.assertNotNull(pointDetails.totalAvailable)
         Assert.assertNull(pointDetails.maxPayableWithPoints)

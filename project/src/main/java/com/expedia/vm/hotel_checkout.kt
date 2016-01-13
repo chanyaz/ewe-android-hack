@@ -14,8 +14,8 @@ import com.expedia.bookings.data.hotels.HotelCheckoutParams
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.data.hotels.PaymentModel
-import com.expedia.bookings.data.hotels.PaymentSplitsType
+import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
@@ -33,7 +33,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 
-open public class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel) {
+open public class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
 
     // inputs
     val checkoutParams = PublishSubject.create<HotelCheckoutParams>()
@@ -108,7 +108,7 @@ open public class HotelCheckoutViewModel(val hotelServices: HotelServices, val p
     }
 }
 
-open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel) {
+open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
 
     // input
     val tripParams = PublishSubject.create<HotelCreateTripParams>()
@@ -158,7 +158,7 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
     }
 }
 
-class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: PaymentModel) {
+class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
     // input
     val newRateObserver = BehaviorSubject.create<HotelCreateTripResponse.HotelProductResponse>()
     // output
@@ -173,7 +173,7 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                     val payingWithPoints = paymentSplits.payingWithPoints
                     val payingWithCards = paymentSplits.payingWithCards
                     val paymentSplitsType = paymentSplits.paymentSplitsType()
-                    val isExpediaRewardsRedeemable = tripResponse.isExpediaRewardsRedeemable
+                    val isExpediaRewardsRedeemable = tripResponse.isExpediaRewardsRedeemable()
                     val hotelProductResponse = tripResponse.newHotelProductResponse
                 }
             }).map {

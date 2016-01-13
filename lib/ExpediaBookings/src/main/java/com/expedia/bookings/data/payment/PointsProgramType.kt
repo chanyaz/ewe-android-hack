@@ -1,4 +1,4 @@
-package com.expedia.bookings.data.hotels
+package com.expedia.bookings.data.payment
 
 import com.google.gson.annotations.SerializedName
 

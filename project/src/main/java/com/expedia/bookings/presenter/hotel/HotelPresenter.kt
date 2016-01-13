@@ -14,9 +14,10 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.hotels.PaymentModel
+import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -60,7 +61,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     lateinit var hotelServices: HotelServices
         @Inject set
 
-    lateinit var paymentModel: PaymentModel
+    lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
 
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()

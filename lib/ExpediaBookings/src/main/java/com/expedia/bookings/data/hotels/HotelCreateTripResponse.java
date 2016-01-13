@@ -3,29 +3,17 @@ package com.expedia.bookings.data.hotels;
 import java.util.List;
 
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.PaymentType;
-import com.expedia.bookings.data.ValidPayment;
-import com.expedia.bookings.data.cars.BaseApiResponse;
+import com.expedia.bookings.data.TripResponse;
 import com.expedia.bookings.utils.Strings;
 
-public class HotelCreateTripResponse extends BaseApiResponse {
+public class HotelCreateTripResponse extends TripResponse {
 
-	public String tripId;
 	public String userId;
 	public HotelProductResponse originalHotelProductResponse;
 	public HotelProductResponse newHotelProductResponse;
-	public ExpediaRewards expediaRewards;
 	public String tealeafTransactionId;
-	public List<ValidPayment> validFormsOfPayment;
 	public String guestUserPromoEmailOptInStatus;
 	public Coupon coupon;
-	public List<PointsDetails> pointsDetails;
-
-	public static class ExpediaRewards {
-		public int totalPointsToEarn;
-		public boolean isActiveRewardsMember;
-		public String rewardsMembershipTierName;
-	}
 
 	public static class Coupon {
 		public String code;
@@ -62,21 +50,7 @@ public class HotelCreateTripResponse extends BaseApiResponse {
 		}
 	}
 
-	public PointsDetails getPointDetails(PointsProgramType pointsProgramType) {
-		if (pointsDetails != null) {
-			for (PointsDetails pointDetail : pointsDetails) {
-				if (pointDetail.getProgramName() == pointsProgramType) {
-					return pointDetail;
-				}
-			}
-		}
-		return null;
-	}
-
-	public boolean isExpediaRewardsRedeemable() {
-		return ValidPayment.isPaymentTypeSupported(validFormsOfPayment, PaymentType.POINTS_EXPEDIA_REWARDS);
-	}
-
+	@Override
 	public Money getTripTotal() {
 		return newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getDisplayTotalPrice();
 	}
