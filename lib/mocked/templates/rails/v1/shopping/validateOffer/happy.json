@@ -1,0 +1,360 @@
+{
+  "responseStatus": {
+    "success": true,
+    "errorList": [],
+    "warningList": [
+      {
+        "code": "2102",
+        "description": "Supply:Product price has been changed",
+        "category": null,
+        "idRef": null,
+        "xpath": null
+      }
+    ]
+  },
+  "railValidateOfferResult": {
+    "railOffer": {
+      "totalPrice": {
+        "value": 211.83,
+        "currency": "USD",
+        "type": null
+      },
+      "railProductList": [
+        {
+          "totalPrice": {
+            "value": 211.83,
+            "currency": "USD",
+            "type": null
+          },
+          "legOptionReferences": [
+            "LS_1_0"
+          ],
+          "legOptions": [
+            {
+              "departureStationDetails": {
+                "stationCode": "GBRDG",
+                "stationName": "Reading",
+                "stationType": "STATION",
+                "stationCity": null
+              },
+              "arrivalStationDetails": {
+                "stationCode": "GBQQM",
+                "stationName": "Manchester Piccadilly",
+                "stationType": "STATION",
+                "stationCity": null
+              },
+              "departureDateTime": "2016-03-05T07:47:00.000Z",
+              "arrivalDateTime": "2016-03-05T10:59:00.000Z",
+              "durationInMinutes": 192,
+              "segmentList": [
+                {
+                  "departureStationDetails": {
+                    "stationCode": "GBRDG",
+                    "stationName": "Reading",
+                    "stationType": "STATION",
+                    "stationCity": null
+                  },
+                  "arrivalStationDetails": {
+                    "stationCode": "GBQQN",
+                    "stationName": "Birmingham New Street",
+                    "stationType": "STATION",
+                    "stationCity": null
+                  },
+                  "departureDateTime": "2016-03-05T07:47:00.000Z",
+                  "arrivalDateTime": "2016-03-05T09:18:00.000Z",
+                  "serviceName": "CrossCountry",
+                  "durationInMinutes": 91,
+                  "changeTimeInMinutes": 13,
+                  "equipment": {
+                    "code": "ICY",
+                    "name": "Inter-City"
+                  },
+                  "supplier": {
+                    "supplierEquipmentId": "XC2087",
+                    "supplierEquipmentType": "CrossCountry-ICY",
+                    "operatingCarrier": "CrossCountry",
+                    "marketingCarrier": "CrossCountry"
+                  },
+                  "nightTrain": false,
+                  "highSpeed": false,
+                  "availableSeatPreferences": [],
+                  "segmentId": "LS_1_0_TS_0",
+                  "travelMode": "Train",
+                  "onbound": true,
+                  "inbound": null
+                },
+                {
+                  "departureStationDetails": {
+                    "stationCode": "GBQQN",
+                    "stationName": "Birmingham New Street",
+                    "stationType": "STATION",
+                    "stationCity": null
+                  },
+                  "arrivalStationDetails": {
+                    "stationCode": "GBQQM",
+                    "stationName": "Manchester Piccadilly",
+                    "stationType": "STATION",
+                    "stationCity": null
+                  },
+                  "departureDateTime": "2016-03-05T09:31:00.000Z",
+                  "arrivalDateTime": "2016-03-05T10:59:00.000Z",
+                  "serviceName": "CrossCountry",
+                  "durationInMinutes": 88,
+                  "changeTimeInMinutes": -1,
+                  "equipment": {
+                    "code": "ICY",
+                    "name": "Inter-City"
+                  },
+                  "supplier": {
+                    "supplierEquipmentId": "XC4027",
+                    "supplierEquipmentType": "CrossCountry-ICY",
+                    "operatingCarrier": "CrossCountry",
+                    "marketingCarrier": "CrossCountry"
+                  },
+                  "nightTrain": false,
+                  "highSpeed": false,
+                  "availableSeatPreferences": [],
+                  "segmentId": "LS_1_0_TS_1",
+                  "travelMode": "Train",
+                  "onbound": true,
+                  "inbound": null
+                }
+              ],
+              "passengerInformationRequired": null,
+              "legOptionId": "LS_1_0"
+            }
+          ],
+          "fareBreakUpList": [
+            {
+              "totalPrice": null,
+              "prices": [],
+              "fareDestinationDetails": null,
+              "fareOriginDetails": null,
+              "passengerReferences": [
+                {
+                  "passengerIDRef": "100",
+                  "passengerTypeCode": "A",
+                  "fareCodes": [
+                    {
+                      "fareCodeId": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIDRef": "LS_1_0_TS_0",
+                      "serviceClassCode": "THIRD",
+                      "carrierCabinClass": "Standard",
+                      "rewardsEligible": null,
+                      "fareClass": "ANYTIME",
+                      "reservable": null,
+                      "amenities": [],
+                      "fareApplicabilities": [],
+                      "fareExpirationDateTime": null
+                    },
+                    {
+                      "fareCodeId": "IXC-SOS-00700-STD-1",
+                      "travelSegmentIDRef": "LS_1_0_TS_1",
+                      "serviceClassCode": "THIRD",
+                      "carrierCabinClass": "Standard",
+                      "rewardsEligible": null,
+                      "fareClass": "ANYTIME",
+                      "reservable": null,
+                      "amenities": [],
+                      "fareApplicabilities": [],
+                      "fareExpirationDateTime": null
+                    }
+                  ]
+                }
+              ],
+              "ticketingOptionsAvailable": null,
+              "fareBreakUpId": null
+            }
+          ],
+          "availableAncillaries": null,
+          "selectedAncillaries": null,
+          "passengerReferences": [
+            "",
+            ""
+          ],
+          "passengers": [
+            {
+              "passengerId": "",
+              "age": 30,
+              "fareQualifierRefId": null,
+              "fareQualifier": null
+            },
+            {
+              "passengerId": "",
+              "age": 14,
+              "fareQualifierRefId": null,
+              "fareQualifier": null
+            }
+          ],
+          "productHoldExpirationDateTime": "2016-01-15T00:28:16.000Z",
+          "serviceClassCode": "THIRD",
+          "fareClass": "THIRD",
+          "openReturn": false,
+          "refundable": true,
+          "exchangable": false,
+          "additionalBookingOptions": {
+            "ticketDeliveryOptions": [
+              {
+                "description": null,
+                "fee": {
+                  "value": 10,
+                  "currency": "USD",
+                  "type": null,
+                  "isRefundable": null
+                },
+                "code": "SEND_BY_POST",
+                "type": null,
+                "destination": null,
+                "departureStation": null,
+                "redeliveryAllowed": null
+              },
+              {
+                "description": null,
+                "fee": {
+                  "value": 32,
+                  "currency": "USD",
+                  "type": null,
+                  "isRefundable": null
+                },
+                "code": "SEND_BY_POST",
+                "type": null,
+                "destination": null,
+                "departureStation": null,
+                "redeliveryAllowed": null
+              },
+              {
+                "description": null,
+                "fee": {
+                  "value": 40,
+                  "currency": "USD",
+                  "type": null,
+                  "isRefundable": null
+                },
+                "code": "SEND_BY_POST",
+                "type": null,
+                "destination": null,
+                "departureStation": null,
+                "redeliveryAllowed": null
+              },
+              {
+                "description": null,
+                "fee": {
+                  "value": 16,
+                  "currency": "USD",
+                  "type": null,
+                  "isRefundable": null
+                },
+                "code": "SEND_BY_POST",
+                "type": null,
+                "destination": null,
+                "departureStation": null,
+                "redeliveryAllowed": null
+              },
+              {
+                "description": null,
+                "fee": {
+                  "value": 80,
+                  "currency": "USD",
+                  "type": null,
+                  "isRefundable": null
+                },
+                "code": "SEND_BY_POST",
+                "type": null,
+                "destination": null,
+                "departureStation": null,
+                "redeliveryAllowed": null
+              },
+              {
+                "description": null,
+                "fee": {
+                  "value": 1.75,
+                  "currency": "USD",
+                  "type": null,
+                  "isRefundable": null
+                },
+                "code": "PICK_UP_AT_TRAVEL_AGENCY",
+                "type": null,
+                "destination": null,
+                "departureStation": null,
+                "redeliveryAllowed": null
+              },
+              {
+                "description": null,
+                "fee": {
+                  "value": 1.75,
+                  "currency": "USD",
+                  "type": null,
+                  "isRefundable": null
+                },
+                "code": "KIOSK",
+                "type": null,
+                "destination": null,
+                "departureStation": null,
+                "redeliveryAllowed": null
+              }
+            ],
+            "confirmationOptions": {
+              "creditCardOption": {
+                "types": [
+                  "AX",
+                  "CA",
+                  "DI",
+                  "VI"
+                ],
+                "sortCodeRequired": false
+              },
+              "debitCardOption": {
+                "types": [
+                  "MD",
+                  "VD"
+                ],
+                "sortCodeRequired": false
+              },
+              "loyaltyCardOption": {
+                "programs": [],
+                "expirationDateRequired": false
+              },
+              "personalInformationCardOption": {
+                "countryCodes": []
+              }
+            },
+            "confirmationInformationRequired": false,
+            "paymentCardRequiredForConfirmationInformation": false,
+            "availableTicketlanguages": [],
+            "validFormsOfPaymentOptions": [
+              {
+                "value": "AX",
+                "authenticatePayerRequired": false,
+                "type": "CREDIT_CARD"
+              },
+              {
+                "value": "VI",
+                "authenticatePayerRequired": false,
+                "type": "CREDIT_CARD"
+              },
+              {
+                "value": "CA",
+                "authenticatePayerRequired": false,
+                "type": "CREDIT_CARD"
+              },
+              {
+                "value": "VD",
+                "authenticatePayerRequired": false,
+                "type": "DEBIT_CARD"
+              },
+              {
+                "value": "MD",
+                "authenticatePayerRequired": false,
+                "type": "DEBIT_CARD"
+              }
+            ],
+            "serviceFeeAllowed": false
+          },
+          "railProductToken": "CPPdJRCz3yUYAyIaCKaIhwMQpoDhBhjz3SUgzt4lKgZYQzIwODciGgimgOEGEKaAoQYY294lILPfJSoGWEM0MDI3KgIIHioCCA4yFQoHQU5ZVElNRRADGghTdGFuZGFyZDgBQAA="
+        }
+      ],
+      "offerHoldExpirationDateTime": "2016-01-15T00:28:16.000Z",
+      "railOfferToken": "OFFER_CPPdJRCz3yUYAyIaCKaIhwMQpoDhBhjz3SUgzt4lKgZYQzIwODciGgimgOEGEKaAoQYY294lILPfJSoGWEM0MDI3KgIIHioCCA4yFQoHQU5ZVElNRRADGghTdGFuZGFyZDgBQAA="
+    }
+  }
+}
