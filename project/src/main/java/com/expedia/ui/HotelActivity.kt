@@ -22,6 +22,10 @@ import rx.Observer
 
 public class HotelActivity : AbstractAppCompatActivity() {
 
+    companion object {
+        const val EXTRA_HOTEL_SEARCH_PARAMS = "hotelSearchParams"
+    }
+
     val hotelPresenter: HotelPresenter by lazy {
         findViewById(R.id.hotel_presenter) as HotelPresenter
     }
@@ -46,7 +50,7 @@ public class HotelActivity : AbstractAppCompatActivity() {
         }
 
         if (getIntent().hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
-            val hotelSearchParams = HotelsV2DataUtil.getHotelV2SearchParamsFromJSON(getIntent().getStringExtra("hotelSearchParams"))
+            val hotelSearchParams = HotelsV2DataUtil.getHotelV2SearchParamsFromJSON(getIntent().getStringExtra(EXTRA_HOTEL_SEARCH_PARAMS))
             HotelDeepLinkHandler(this,
                     deepLinkSearchObserver,
                     suggestionLookupObserver,
