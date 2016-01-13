@@ -242,9 +242,12 @@ public class CurrentLocationFragment extends Fragment
 	@Subscribe
 	public void onPermissionEvent(Events.PermissionEvent event) {
 		switch (event.getRequestCode()) {
+		case Constants.PERMISSION_REQUEST_LOCATION_WITH_RATIONALE: //fall thru
 		case Constants.PERMISSION_REQUEST_LOCATION:
 			if (event.isDenied()) {
-				if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+				if (!event.wasRationaleRequired()
+					&& !shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+					// see Events.java for description of why this check matters
 					// Show the message to user to enable location permission in settings
 					NoLocationPermissionDialog dialog = NoLocationPermissionDialog.newInstance();
 					dialog.show(((FragmentActivity) getContext()).getSupportFragmentManager(),
@@ -254,7 +257,6 @@ public class CurrentLocationFragment extends Fragment
 			else {
 				fetchLocation();
 			}
-			return;
 		}
 	}
 }

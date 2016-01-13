@@ -1085,18 +1085,31 @@ public class Events {
 			}
 		}
 
+		private final boolean rationaleWasRequiredBeforeShowing;
 		private final PermissionResult result;
 		private final int requestCode;
 		private final String permission;
 
-		public PermissionEvent(PermissionResult result, int requestCode, String permission) {
+		public PermissionEvent(PermissionResult result, int requestCode, String permission, boolean rationaleWasRequired) {
 			this.result = result;
 			this.requestCode = requestCode;
 			this.permission = permission;
+			this.rationaleWasRequiredBeforeShowing = rationaleWasRequired;
 		}
 
 		public boolean isDenied() {
 			return result == PermissionResult.DENIED;
+		}
+
+		/*
+			activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION) returns "false" if:
+				- it's the first time the app requests that permission
+				- the user has "denied permanently" that permission
+			we know that the user denied permanently if that flag was false both before & after we request the permission
+			if it was true before and false after, then they *just* permanently denied, which we want to ignore next request
+		 */
+		public boolean wasRationaleRequired() {
+			return rationaleWasRequiredBeforeShowing;
 		}
 
 		public int getRequestCode() {
