@@ -13,7 +13,6 @@ import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.utils.HotelsV2DataUtil;
 import com.google.gson.Gson;
 
-
 public class HotelsV2DataUtilTest {
 
 	@Test

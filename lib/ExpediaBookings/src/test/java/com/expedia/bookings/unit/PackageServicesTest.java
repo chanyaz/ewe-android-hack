@@ -45,7 +45,7 @@ public class PackageServicesTest {
 			.setBody("{garbage}"));
 
 		TestSubscriber<PackageSearchResponse> observer = new TestSubscriber<>();
-		PackageSearchParams params = new PackageSearchParams.Builder(28)
+		PackageSearchParams params = new PackageSearchParams.Builder(26)
 			.destination(getDummySuggestion())
 			.arrival(getDummySuggestion())
 			.checkIn(LocalDate.now())
@@ -66,7 +66,7 @@ public class PackageServicesTest {
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<PackageSearchResponse> observer = new TestSubscriber<>();
-		PackageSearchParams params = new PackageSearchParams.Builder(28)
+		PackageSearchParams params = new PackageSearchParams.Builder(26)
 			.destination(getDummySuggestion())
 			.arrival(getDummySuggestion())
 			.checkIn(LocalDate.now())

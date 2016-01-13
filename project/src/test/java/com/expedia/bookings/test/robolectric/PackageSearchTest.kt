@@ -84,6 +84,11 @@ public class PackageSearchTest {
         suggestion.regionNames.displayName = ""
         suggestion.regionNames.fullName = ""
         suggestion.regionNames.shortName = ""
+        val hierarchyInfo = SuggestionV4.HierarchyInfo()
+        val airport =  SuggestionV4.Airport();
+        airport.airportCode = "";
+        hierarchyInfo.airport = airport
+        suggestion.hierarchyInfo = hierarchyInfo;
         return suggestion
     }
 }

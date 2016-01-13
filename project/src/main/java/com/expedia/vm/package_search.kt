@@ -1,13 +1,13 @@
 package com.expedia.vm
 
 import android.content.Context
-import android.text.Html
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
@@ -15,7 +15,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 class PackageSearchViewModel(val context: Context) {
-    private val paramsBuilder = PackageSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_hotel_stay))
+    private val paramsBuilder = PackageSearchParams.Builder(context.resources.getInteger(R.integer.calendar_max_days_package_stay))
 
     // Outputs
     val searchParamsObservable = PublishSubject.create<PackageSearchParams>()
@@ -73,13 +73,13 @@ class PackageSearchViewModel(val context: Context) {
 
     val destinationObserver = endlessObserver<SuggestionV4> { suggestion ->
         paramsBuilder.destination(suggestion)
-        destinationTextObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
+        destinationTextObservable.onNext(StrUtils.formatAirport(suggestion))
         requiredSearchParamsObserver.onNext(Unit)
     }
 
     val arrivalObserver = endlessObserver<SuggestionV4> { suggestion ->
         paramsBuilder.arrival(suggestion)
-        arrivalTextObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
+        arrivalTextObservable.onNext(StrUtils.formatAirport(suggestion))
         requiredSearchParamsObserver.onNext(Unit)
     }
 
