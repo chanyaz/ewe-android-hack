@@ -205,13 +205,19 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	public final void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
 		@NonNull int[] grantResults) {
 
+		boolean wasRationaleRequired = false;
+
 		switch (requestCode) {
+		case Constants.PERMISSION_REQUEST_LOCATION_WITH_RATIONALE:
+			wasRationaleRequired = true; //FALL THRU
 		case Constants.PERMISSION_REQUEST_LOCATION:
-			Events.PermissionEvent.PermissionResult result = Events.PermissionEvent.PermissionResult.PermissionResult
-				.from(grantResults[0]);
-			Events.PermissionEvent event = new Events.PermissionEvent(result, requestCode, permissions[0]);
+			Events.PermissionEvent.PermissionResult result
+				= Events.PermissionEvent.PermissionResult.PermissionResult.from(grantResults[0]);
+			Events.PermissionEvent event = new Events.PermissionEvent(result, requestCode, permissions[0], wasRationaleRequired);
+
 			if (!busRegistered) {
-				// Will be handled when bus is registered
+				// Will be handled when bus is registered - we get this result before onResume() is called
+				// 		- the system UI for permissions happens in a separate activity
 				delayedPermissionEvent = event;
 			}
 			else {

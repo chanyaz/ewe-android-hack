@@ -11,9 +11,13 @@ import android.widget.Toast
 import com.expedia.bookings.utils.Constants
 
 public fun requestLocationPermission(activity: Activity) {
-    ActivityCompat.requestPermissions(activity,
-            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-            Constants.PERMISSION_REQUEST_LOCATION)
+    var requestCode = if (activity.shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+        Constants.PERMISSION_REQUEST_LOCATION_WITH_RATIONALE
+    } else {
+        Constants.PERMISSION_REQUEST_LOCATION
+    }
+
+    ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), requestCode)
 }
 
 public fun requestLocationPermission(fragment: Fragment) {
