@@ -125,8 +125,8 @@ public class HotelDateAcrossMonthsTest extends PhoneTestCase {
 		mUser = new HotelsUserData();
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
-		HotelsSearchScreen.enterSearchText("New York, NY");
-		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "New York, NY");
+		HotelsSearchScreen.enterSearchText("SFO");
+		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "San Francisco, CA (SFO-San Francisco Intl.)");
 		//getting the last day of the current month as Start Date
 		Calendar cal = Calendar.getInstance();
 		int year = cal.get(cal.YEAR);

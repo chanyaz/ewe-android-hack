@@ -1,10 +1,11 @@
 package com.expedia.bookings.dagger;
 
+import android.content.Context;
 import android.location.Location;
 
 import com.expedia.bookings.dagger.tags.LXScope;
 import com.expedia.bookings.data.cars.ApiError;
-import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.location.CurrentLocationSuggestionProvider;
 import com.expedia.bookings.services.SuggestionServices;
 
@@ -28,17 +29,17 @@ public class LXFakeCurrentLocationSuggestionModule {
 
 	@Provides
 	@LXScope
-	Observable<Suggestion> provideMockedCurrentLocationSuggestionObservable(SuggestionServices service) {
+	Observable<SuggestionV4> provideMockedCurrentLocationSuggestionObservable(SuggestionServices service, Context context) {
 		if (error != null) {
-			return Observable.just(new Suggestion()).doOnNext(new Action1<Suggestion>() {
+			return Observable.just(new SuggestionV4()).doOnNext(new Action1<SuggestionV4>() {
 				@Override
-				public void call(Suggestion suggestion) {
+				public void call(SuggestionV4 suggestion) {
 					throw error;
 				}
 			});
 		}
 		else {
-			return new CurrentLocationSuggestionProvider(service, Observable.just(location)).currentLocationSuggestion();
+			return new CurrentLocationSuggestionProvider(service, Observable.just(location), context).currentLocationSuggestion();
 		}
 	}
 }

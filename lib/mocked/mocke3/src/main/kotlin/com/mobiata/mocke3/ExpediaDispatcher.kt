@@ -198,12 +198,16 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
     private fun dispatchSuggest(request: RecordedRequest): MockResponse {
         var type: String? = ""
         var latlong: String? = ""
+        var lob: String? = ""
         val params = parseRequest(request)
         if (params.containsKey("type")) {
             type = params.get("type")
         }
         if (params.containsKey("latlong")) {
             latlong = params.get("latlong")
+        }
+        if (params.containsKey("lob")) {
+            lob = params.get("lob")
         }
 
         if (request.path.startsWith("/hint/es/v2/ac/en_US")) {
@@ -225,8 +229,18 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
                 return makeResponse("/hint/es/v1/nearby/en_US/suggestion.json")
             }// City
         } else if (request.path.startsWith("/api/v4/typeahead/")) {
-            return makeResponse("/api/v4/suggestion.json")
+            if (lob == "Flights") {
+                val requestPath = request.path
+                val filename = requestPath.substring(requestPath.lastIndexOf('/') + 1, requestPath.indexOf('?'))
+                return makeResponse("/api/v4/suggestion_" + unUrlEscape(filename) + ".json")
+            }
+            else {
+                return makeResponse("/api/v4/suggestion.json")
+            }
         } else if (request.path.startsWith("/api/v4/nearby/")) {
+            if (latlong == "31.32|75.57") {
+                return makeResponse("/api/v4/suggestion_with_no_lx_activities.json")
+            }
             return makeResponse("/api/v4/suggestion_nearby.json")
         }
         return make404()

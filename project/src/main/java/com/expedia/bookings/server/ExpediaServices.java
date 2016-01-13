@@ -68,6 +68,7 @@ import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.SuggestResponse;
 import com.expedia.bookings.data.SuggestionResponse;
+import com.expedia.bookings.data.SuggestionResultType;
 import com.expedia.bookings.data.SuggestionSort;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
@@ -251,7 +252,7 @@ public class ExpediaServices implements DownloadListener {
 			return null;
 		}
 
-		String url = NetUtils.formatUrl(getSuggestUrl(2, SuggestType.AUTOCOMPLETE) + "/" + query);
+		String url = NetUtils.formatUrl(getSuggestUrl(4, SuggestType.AUTOCOMPLETE) + query);
 
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
 
@@ -259,17 +260,24 @@ public class ExpediaServices implements DownloadListener {
 
 		if ((flags & F_FLIGHTS) != 0) {
 			// 95 is all regions (AIRPORT, CITY, MULTICITY, NEIGHBORHOOD, POI, METROCODE)
-			params.add(new BasicNameValuePair("type", "95"));
+			params.add(new BasicNameValuePair("regiontype", "95"));
 			params.add(new BasicNameValuePair("lob", "Flights"));
+			params.add(new BasicNameValuePair("features", "nearby_airport"));
 
 			responseHandler.setType(SuggestResponseHandler.Type.FLIGHTS);
 		}
 		else {
 			// 255 is regions(95 Default) + hotels(128) + addresses(32)
-			params.add(new BasicNameValuePair("type", "255"));
-
+			int regionType = SuggestionResultType.HOTEL | SuggestionResultType.AIRPORT | SuggestionResultType.CITY |
+			SuggestionResultType.NEIGHBORHOOD | SuggestionResultType.POINT_OF_INTEREST | SuggestionResultType.REGION;
+			params.add(new BasicNameValuePair("regiontype", "" + regionType));
+			params.add(new BasicNameValuePair("lob", "hotels"));
 			responseHandler.setType(SuggestResponseHandler.Type.HOTELS);
+			params.add(new BasicNameValuePair("features", "ta_hierarchy"));
 		}
+
+		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
+		params.add(new BasicNameValuePair("client", ServicesUtil.generateClientId(mContext)));
 
 		Request.Builder get = createHttpGet(url, params);
 		get.addHeader("Accept", "application/json");
@@ -285,9 +293,18 @@ public class ExpediaServices implements DownloadListener {
 			return null;
 		}
 
-		String url = NetUtils.formatUrl(getSuggestUrl(3, SuggestType.AUTOCOMPLETE) + "/" + query);
+		String url = NetUtils.formatUrl(getSuggestUrl(4, SuggestType.AUTOCOMPLETE) + query);
 
-		return doSuggestionRequest(url, null);
+		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+		int regionType = SuggestionResultType.HOTEL | SuggestionResultType.AIRPORT | SuggestionResultType.CITY |
+			SuggestionResultType.NEIGHBORHOOD | SuggestionResultType.POINT_OF_INTEREST | SuggestionResultType.REGION |
+			SuggestionResultType.FLIGHT | SuggestionResultType.AIRPORT_METRO_CODE;
+		params.add(new BasicNameValuePair("regiontype", "" + regionType));
+		params.add(new BasicNameValuePair("features", "ta_hierarchy"));
+		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
+		params.add(new BasicNameValuePair("client", ServicesUtil.generateClientId(mContext)));
+
+		return doSuggestionRequest(url, params);
 	}
 
 	public SuggestionResponse suggestionsAirportsNearby(double latitude, double longitude, SuggestionSort sort) {
@@ -378,14 +395,14 @@ public class ExpediaServices implements DownloadListener {
 	private String getSuggestUrl(int version, SuggestType type) {
 		StringBuilder sb = new StringBuilder();
 		sb.append(mEndpointProvider.getEssEndpointUrl());
-		sb.append("hint/es/");
+		sb.append("api/");
 		// Version #
 		sb.append("v" + Integer.toString(version) + "/");
 
 		// Type
 		switch (type) {
 		case AUTOCOMPLETE:
-			sb.append("ac/");
+			sb.append("typeahead/");
 			break;
 		case NEARBY:
 			sb.append("nearby/");
@@ -397,9 +414,6 @@ public class ExpediaServices implements DownloadListener {
 			sb.append("rid/");
 			break;
 		}
-
-		// Locale identifier
-		sb.append(PointOfSale.getSuggestLocaleIdentifier());
 
 		return sb.toString();
 	}

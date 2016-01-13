@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
-import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.hotel.HotelPresenter

@@ -30,7 +30,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
@@ -297,7 +297,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	// Hotel search in collection location
 	@Subscribe
 	public void onCollectionLocationSelected(Events.LaunchCollectionItemSelected event) {
-		Suggestion location = event.collectionLocation.location;
+		CollectionLocation.Location location = event.collectionLocation.location;
 		HotelSearchParams params = new HotelSearchParams();
 		params.setQuery(location.shortName);
 		params.setSearchType(HotelSearchParams.SearchType.valueOf(location.type));

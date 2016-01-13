@@ -1,7 +1,7 @@
 package com.expedia.bookings.utils
 
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.services.LocalDateTypeAdapter
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder

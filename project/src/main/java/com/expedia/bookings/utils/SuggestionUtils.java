@@ -14,7 +14,7 @@ import android.text.format.DateUtils;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionSort;
 import com.expedia.bookings.data.SuggestionV2;
-import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.server.ExpediaServices;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -73,11 +73,11 @@ public class SuggestionUtils {
 		return airportSuggestions;
 	}
 
-	public static void saveSuggestionHistory(final Context context, final ArrayList<Suggestion> recentSuggestions, final String file) {
+	public static void saveSuggestionHistory(final Context context, final ArrayList<SuggestionV4> recentSuggestions, final String file) {
 		(new Thread(new Runnable() {
 			@Override
 			public void run() {
-				Type type = new TypeToken<ArrayList<Suggestion>>() {
+				Type type = new TypeToken<ArrayList<SuggestionV4>>() {
 				}.getType();
 				String suggestionJson = new Gson().toJson(recentSuggestions, type);
 				try {
@@ -90,12 +90,12 @@ public class SuggestionUtils {
 		})).start();
 	}
 
-	public static ArrayList<Suggestion> loadSuggestionHistory(final Context context, String file) {
+	public static ArrayList<SuggestionV4> loadSuggestionHistory(final Context context, String file) {
 
-		ArrayList<Suggestion> recentSuggestions = new ArrayList<Suggestion>();
+		ArrayList<SuggestionV4> recentSuggestions = new ArrayList<SuggestionV4>();
 		try {
 			String str = IoUtils.readStringFromFile(file, context);
-			Type type = new TypeToken<ArrayList<Suggestion>>() {
+			Type type = new TypeToken<ArrayList<SuggestionV4>>() {
 			}.getType();
 			recentSuggestions = new Gson().fromJson(str, type);
 		}

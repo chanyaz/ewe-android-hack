@@ -5,7 +5,7 @@ import android.location.Location
 import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.cars.ApiError
-import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.ServicesUtil

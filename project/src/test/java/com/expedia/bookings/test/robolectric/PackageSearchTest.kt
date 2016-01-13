@@ -2,7 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.vm.PackageSearchViewModel
 import org.joda.time.LocalDate

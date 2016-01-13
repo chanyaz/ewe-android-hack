@@ -2,7 +2,7 @@ package com.expedia.bookings.services
 
 import com.expedia.bookings.data.SuggestionResultType
 import com.expedia.bookings.data.cars.SuggestionResponse
-import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.data.SuggestionV4
 import com.google.gson.GsonBuilder
 import com.squareup.okhttp.OkHttpClient
 import retrofit.RequestInterceptor

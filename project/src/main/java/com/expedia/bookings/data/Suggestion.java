@@ -37,6 +37,11 @@ public class Suggestion implements JSONable {
 		HOTEL,
 		METROSTATION,
 		TRAINSTATION,
+		MULTICITY,
+		NEIGHBORHOOD,
+		POI,
+		METROCODE,
+		MULTIREGION
 	}
 
 	public Suggestion() {
@@ -124,12 +129,17 @@ public class Suggestion implements JSONable {
 		hotelSearchParams.setRegionId(mId);
 		switch (mType) {
 		case CITY:
+		case MULTICITY:
+		case NEIGHBORHOOD:
+		case MULTIREGION:
 			hotelSearchParams.setSearchType(SearchType.CITY);
 			break;
 		case ADDRESS:
 			hotelSearchParams.setSearchType(SearchType.ADDRESS);
 			break;
 		case ATTRACTION:
+		case POI:
+		case METROCODE:
 		case AIRPORT:
 			hotelSearchParams.setSearchType(SearchType.POI);
 			break;

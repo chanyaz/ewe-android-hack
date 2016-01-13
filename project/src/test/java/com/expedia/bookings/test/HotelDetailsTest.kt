@@ -6,7 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.widget.HotelDetailView

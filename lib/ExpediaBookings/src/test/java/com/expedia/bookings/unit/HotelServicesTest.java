@@ -24,7 +24,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
 import com.expedia.bookings.data.hotels.ProgramName;
-import com.expedia.bookings.data.hotels.SuggestionV4;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.services.HotelServices;

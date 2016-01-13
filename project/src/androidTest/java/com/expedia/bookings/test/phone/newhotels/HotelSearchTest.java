@@ -48,10 +48,10 @@ public class HotelSearchTest extends HotelTestCase {
 		HotelScreen.suggestionMatches(allOf(withId(R.id.icon_imageview),
 			withImageDrawable(R.drawable.airport_suggest)), 1);
 
-		HotelScreen.suggestionMatches(withText(startsWith("Hyatt Regency")), 3);
+		HotelScreen.suggestionMatches(withText(startsWith("Hyatt Regency")), 4);
 		//Hotel name will have a bed icon
 		HotelScreen.suggestionMatches(allOf(withId(R.id.icon_imageview),
-			withImageDrawable(R.drawable.hotel_suggest)), 3);
+			withImageDrawable(R.drawable.hotel_suggest)), 4);
 
 		//hotel search by name
 		HotelScreen.selectLocation("Hyatt Regency San Francisco");

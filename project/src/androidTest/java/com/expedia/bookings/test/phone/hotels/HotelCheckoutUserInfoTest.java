@@ -38,9 +38,9 @@ public class HotelCheckoutUserInfoTest extends PhoneTestCase {
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
-		Log.v(TAG, "Setting hotel search city to: " + "New York, NY");
-		HotelsSearchScreen.enterSearchText("New York, NY");
-		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "New York, NY");
+		Log.v(TAG, "Setting hotel search city to: " + "SFO");
+		HotelsSearchScreen.enterSearchText("SFO");
+		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "San Francisco, CA (SFO-San Francisco Intl.)");
 		HotelsSearchScreen.clickListItem(1);
 		HotelsDetailsScreen.clickSelectButton();
 		try {

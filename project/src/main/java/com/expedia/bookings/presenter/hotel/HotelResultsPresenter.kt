@@ -11,7 +11,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
-import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FilterButtonWithCountWidget

@@ -1,0 +1,43 @@
+{
+  "q": "lax",
+  "rid": "3393bdca-4699-463d-a417-4a0e71fed23f",
+  "rc": "OK",
+  "sr": [
+    {
+      "@type": "gaiaRegionResult",
+      "index": "0",
+      "gaiaId": "6000346",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "Los Angeles, CA, United States (LAX-Los Angeles Intl.)",
+        "shortName": "Los Angeles, CA (LAX-Los Angeles Intl.)",
+        "displayName": "Los Angeles, CA (<B>LAX</B>-Los Angeles Intl.)",
+        "lastSearchName": "Los Angeles, CA (LAX-Los Angeles Intl.)"
+      },
+      "coordinates": {
+        "lat": "33.944150",
+        "long": "-118.403200"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "LAX",
+          "metrocode": "QLA",
+          "multicity": "178280"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "859"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
+    }
+  ]
+}

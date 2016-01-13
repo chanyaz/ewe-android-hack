@@ -48,17 +48,30 @@ public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse>
 				JSONObject responseSuggestion = responseSuggestions.getJSONObject(i);
 				Suggestion suggestion = new Suggestion();
 
-				suggestion.setId(responseSuggestion.optString("id"));
-				suggestion.setType(JSONUtils.getEnum(responseSuggestion, "t", Suggestion.Type.class));
-				suggestion.setCountryCode(responseSuggestion.optString("ccc"));
+				suggestion.setType(JSONUtils.getEnum(responseSuggestion, "type", Suggestion.Type.class));
 
-				if (mType == Type.FLIGHTS) {
-					suggestion.setDisplayName(responseSuggestion.optString("l"));
-					suggestion.setAirportLocationCode(responseSuggestion.optString("a", null));
+				if (suggestion.getType() == Suggestion.Type.HOTEL) {
+					suggestion.setId(responseSuggestion.optString("hotelId"));
 				}
 				else {
-					String locationName = responseSuggestion.getString("d");
+					suggestion.setId(responseSuggestion.optString("gaiaId"));
+				}
 
+				JSONObject country = responseSuggestion.optJSONObject("hierarchyInfo").optJSONObject("country");
+				if (country != null) {
+					suggestion.setCountryCode(country.getString("isoCode3"));
+				}
+
+				if (mType == Type.FLIGHTS) {
+					JSONObject airport = responseSuggestion.optJSONObject("hierarchyInfo").optJSONObject("airport");
+					if (airport != null) {
+						suggestion.setAirportLocationCode(airport.optString("airportCode", null));
+					}
+				}
+
+				JSONObject regionNames = responseSuggestion.optJSONObject("regionNames");
+				if (regionNames != null) {
+					String locationName = regionNames.getString("displayName");
 					// Remove all html tags
 					locationName = locationName.replaceAll("<[^>]*>", "");
 
@@ -66,10 +79,10 @@ public class SuggestResponseHandler extends JsonResponseHandler<SuggestResponse>
 					suggestion.setDisplayName(locationName);
 				}
 
-				JSONObject latlng = responseSuggestion.optJSONObject("ll");
+				JSONObject latlng = responseSuggestion.optJSONObject("coordinates");
 				if (latlng != null) {
 					suggestion.setLatitude(latlng.getDouble("lat"));
-					suggestion.setLongitude(latlng.getDouble("lng"));
+					suggestion.setLongitude(latlng.getDouble("long"));
 				}
 
 				suggestResponse.addSuggestion(suggestion);

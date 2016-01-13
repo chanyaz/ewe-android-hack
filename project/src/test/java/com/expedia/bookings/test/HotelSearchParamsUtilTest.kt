@@ -1,7 +1,7 @@
 package com.expedia.bookings.test
 
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.HotelSearchParamsUtil
 import org.joda.time.LocalDate

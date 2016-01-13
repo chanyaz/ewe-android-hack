@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.hotels
 
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
 import org.joda.time.Days
 import org.joda.time.LocalDate

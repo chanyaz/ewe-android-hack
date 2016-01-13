@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import java.util.List;
 
+import android.content.Context;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.SuggestionServices;
 import com.expedia.bookings.utils.StrUtils;
@@ -22,8 +23,12 @@ import rx.Subscription;
 
 public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 
-	protected Subscription getNearbySuggestions(String locale, String latLong, int siteId, Observer<List<Suggestion>> observer) {
-		return suggestionServices.getNearbyCarSuggestions(locale, latLong, siteId, observer);
+	public CarSuggestionAdapter(Context context) {
+		super(context);
+	}
+
+	protected Subscription getNearbySuggestions(String locale, String latLong, int siteId, String clientId, Observer<List<SuggestionV4>> observer) {
+		return suggestionServices.getNearbyCarSuggestions(locale, latLong, siteId, clientId, observer);
 	}
 
 	@Override
@@ -59,32 +64,32 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 			ButterKnife.inject(this, root);
 		}
 
-		public void bind(Suggestion suggestion) {
+		public void bind(SuggestionV4 suggestion) {
 			updateLocationTitleAndSubTitle(suggestion);
 
 			updateDropdownImage(suggestion);
 		}
 
-		private void updateLocationTitleAndSubTitle(Suggestion suggestion) {
-			if (Suggestion.CURRENT_LOCATION_ID.equalsIgnoreCase(suggestion.id)) {
+		private void updateLocationTitleAndSubTitle(SuggestionV4 suggestion) {
+			if (SuggestionV4.CURRENT_LOCATION_ID.equalsIgnoreCase(suggestion.gaiaId)) {
 				locationTitle.setText(locationTitle.getContext().getString(R.string.current_location));
 				locationSubtitle.setVisibility(View.GONE);
 			}
 			else if (suggestion.isMajorAirport()) {
-				locationTitle.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)));
-				locationSubtitle.setText(StrUtils.formatAirportName(suggestion.shortName));
+				locationTitle.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.regionNames.displayName)));
+				locationSubtitle.setText(StrUtils.formatAirportName(suggestion.regionNames.shortName));
 			}
 			else {
-				locationTitle.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)));
-				locationSubtitle.setText(suggestion.shortName);
+				locationTitle.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.regionNames.displayName)));
+				locationSubtitle.setText(suggestion.regionNames.shortName);
 			}
 		}
 
-		private void updateDropdownImage(Suggestion suggestion) {
-			if (suggestion.iconType == Suggestion.IconType.HISTORY_ICON) {
+		private void updateDropdownImage(SuggestionV4 suggestion) {
+			if (suggestion.iconType == SuggestionV4.IconType.HISTORY_ICON) {
 				dropdownImage.setImageResource(R.drawable.recents);
 			}
-			else if (suggestion.iconType == Suggestion.IconType.CURRENT_LOCATION_ICON) {
+			else if (suggestion.iconType == SuggestionV4.IconType.CURRENT_LOCATION_ICON) {
 				dropdownImage.setImageResource(R.drawable.ic_suggest_current_location);
 			}
 			else {
@@ -98,7 +103,7 @@ public class CarSuggestionAdapter extends SuggestionBaseAdapter {
 	}
 
 	@Override
-	protected Subscription suggest(SuggestionServices suggestionServices, Observer<List<Suggestion>> suggestionsObserver, CharSequence query) {
-		return suggestionServices.getCarSuggestions(query.toString(), PointOfSale.getSuggestLocaleIdentifier(), suggestionsObserver);
+	protected Subscription suggest(SuggestionServices suggestionServices, Observer<List<SuggestionV4>> suggestionsObserver, CharSequence query, String clientId) {
+		return suggestionServices.getCarSuggestions(query.toString(), PointOfSale.getSuggestLocaleIdentifier(), clientId, suggestionsObserver);
 	}
 }

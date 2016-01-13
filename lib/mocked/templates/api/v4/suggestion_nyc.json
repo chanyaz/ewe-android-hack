@@ -1,0 +1,42 @@
+{
+  "q": "nyc",
+  "rid": "f0613e41-8d8e-489b-b6b2-6527914b2144",
+  "rc": "OK",
+  "sr": [
+    {
+      "@type": "gaiaRegionResult",
+      "index": "0",
+      "gaiaId": "6139058",
+      "type": "METROCODE",
+      "regionNames": {
+        "fullName": "New York, NY, United States (NYC-All Airports)",
+        "shortName": "New York (NYC-All Airports)",
+        "displayName": "New York, NY (<B>NYC</B>-All Airports)",
+        "lastSearchName": "New York, NY (NYC-All Airports)"
+      },
+      "coordinates": {
+        "lat": "40.73571019",
+        "long": "-73.71000344"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "NYC",
+          "metrocode": "NYC",
+          "multicity": "178293"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "1277"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "packageable": "false"
+    }
+  ]
+}
