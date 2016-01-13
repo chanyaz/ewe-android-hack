@@ -123,7 +123,7 @@ public class HotelActivity : AbstractAppCompatActivity() {
                     val displayName = hotelSearchParams.suggestion.regionNames?.displayName ?: ""
                     if (displayName.length > 0 ) {
                         val service = Ui.getApplication(this).hotelComponent().suggestionsService()
-                        service.getHotelSuggestionsV4(displayName, ServicesUtil.generateClientId(this), generateSuggestionServiceCallback(hotelSearchParams), PointOfSale.getPointOfSale().localeIdentifier)
+                        service.getHotelSuggestionsV4(displayName, ServicesUtil.generateClientId(this), generateSuggestionServiceCallback(hotelSearchParams), PointOfSale.getSuggestLocaleIdentifier())
                         return
                     }
                 }
