@@ -226,7 +226,7 @@ public class NavUtils {
 			if (params != null) {
 				com.expedia.bookings.data.hotels.HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(params);
 				Gson gson = HotelsV2DataUtil.Companion.generateGson();
-				intent.putExtra("hotelSearchParams", gson.toJson(v2params));
+				intent.putExtra(HotelActivity.EXTRA_HOTEL_SEARCH_PARAMS, gson.toJson(v2params));
 				intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
 			}
 		}
