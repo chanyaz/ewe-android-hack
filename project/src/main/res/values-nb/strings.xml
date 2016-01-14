@@ -203,8 +203,6 @@
 
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_credit_debit_label">Kredittkort/debetkort</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_google_wallet_label">Google Wallet</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Gjestens detaljer</string>
     <!-- Text for enter guest details line 2 -->
@@ -1855,15 +1853,19 @@
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">sveip for å bestille fly</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">Kortet ditt vil bli belastet med %1$s</string>
+    <string name="your_card_will_be_charged_template">Kortet ditt vil bli belastet med {dueamount}</string>
+    <!-- Your are using pwp points -->
+    <string name="you_are_using_expedia_points_TEMPLATE">Du bruker {points} ({amount}) Expedia+ poeng</string>
+    <!-- Payment through card + pwp points -->
+    <string name="payment_through_card_and_pwp_points">Du bruker {points} ({amount}) Expedia+ poeng\nKortet ditt vil bli belastet {dueamount}</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">Kortet ditt vil bli belastet %1$s (pluss flyselskapsavgift)</string>
+    <string name="your_card_will_be_charged_plus_airline_fee_template">Kortet ditt vil bli belastet {dueamount} (pluss flyselskapsavgift)</string>
     <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_TEMPLATE">Må betales i dag: %1$s</string>
+    <string name="amount_due_today_template">Må betales i dag: {dueamount}</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Beløp som må betales nå: %1$s</string>
+    <string name="amount_to_be_paid_now_TEMPLATE">Beløp som må betales nå: {dueamount}</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">Må hentes av hotellet: %1$s</string>
+    <string name="to_be_collected_by_the_hotel_TEMPLATE">Betales på hotellet: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Fullfør bestillingen</string>
     <!-- Checkout menu item -->
@@ -1883,9 +1885,9 @@
     <!-- AB Test 3x messaging for hotel points -->
     <string name="youll_earn_points_ab_test_3x_TEMPLATE">Tjen %1$s poeng – 3 ganger så mange ved bestilling med appen!</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">Du vil opptjene %1$s poeng for denne reisen!</string>
+    <string name="youll_earn_points_TEMPLATE">Du vil tjene %1$s poeng for denne reisen!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
-    <string name="x_points_for_this_trip_TEMPLATE">Du vil opptjene %1$s poeng for denne reisen!</string>
+    <string name="x_points_for_this_trip_TEMPLATE">Du vil tjene %1$s poeng for denne reisen!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">Regner ut skatter og avgifter…</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -2031,8 +2033,9 @@
     <string name="first_name_field_text">fornavn</string>
     <!-- last name -->
     <string name="last_name_field_text">etternavn</string>
-    <!-- Label for hint on first and last name fields -->
-    <string name="hint_example_name_TEMPLATE">(eksempel: %s)</string>
+    <!-- Label for hint on first and last name fields. For English locale
+    we want to show "e.g." for all non-English we want to show "example:"-->
+    <string name="hint_example_name_TEMPLATE">(f.eks.: %s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Kortinnehaver</string>
@@ -2153,9 +2156,9 @@
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Rediger den reisendes informasjon</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_TEMPLATE">Foretrekker sete %1$s</string>
+    <string name="prefers_seat_TEMPLATE">Foretrukket sete: %1$s</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">Foretrekker sete %1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE">Foretrukket sete: %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Henter informasjon om reisende…</string>
     <!-- Passport -->
@@ -2495,6 +2498,8 @@
     <string name="search_error">Søkefeil</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">Hotell %s</string>
+    <!-- Expedia Member Discount for a given property, AB test -->
+    <string name="member_pricing">Medlemspris</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2504,10 +2509,14 @@
         <item quantity="other">%d rom igjen på appen vår</item>
     </plurals>
 
+
+    <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
+    <string name="EnableLocationPermissionSettings_TEMPLATE">For å bruke nåværende sted må du først la {brand} få tilgang til din posisjon.\n\nVil du gå til innstillinger og endre dette nå?</string>
+
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">For å bruke din plassering må du skru på "sted" i innstillingene.\n\nVil du gå til innstillinger og skru det på nå?</string>
+    <string name="EnableLocationSettings">For å bruke din plassering må du gå til posisjon i innstillingene.\n\nVil du gå til innstillinger og endre dette nå?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
-    <string name="ProviderDisabled">Posisjoneringssystemet er ikke slått på. Slå det på for å utføre et søk basert på posisjonen din.</string>
+    <string name="ProviderDisabled">Posisjonsinsformasjon er ikke slått på. Slå det på for å utføre et søk basert på posisjonen din.</string>
 
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by distance label -->
@@ -2924,6 +2933,12 @@
     <string name="unknown">Ukjent</string>
 
     <!-- Expedia Accounts -->
+    <!-- Label for messaging on sign in Variate 1 -->
+    <string name="sign_in_messaging">Spar penger med eksklusive medlemstilbud</string>
+    <!-- Label for messaging on sign in Variate 2 -->
+    <string name="triple_point_messaging">Samle tredoble poeng med Expedia+</string>
+    <!-- Label for messaging on sign in Variate 3 -->
+    <string name="trip_alert_messaging">Få viktige reisevarsler</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Logg på</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3445,30 +3460,6 @@
     <string name="country_zw">Zimbabwe</string>
     <string name="country_ax">Åland</string>
 
-    <!-- Google Wallet -->
-    <!-- Loading message -->
-    <string name="loading">Henter</string>
-    <!-- Google Wallet label -->
-    <string name="google_wallet">Google Wallet</string>
-    <!-- Google wallet unavailable error -->
-    <string name="google_wallet_unavailable">Google Wallet er utilgjengelig</string>
-    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
-    <string name="spending_limit_exceeded">Du har overgått din kostnadsgrense for Google Wallet</string>
-    <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">Kjøp med Google Wallet</string>
-    <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Spar <b>$50</b> på en reise på <b>$200 eller mer</b> med Google Wallet!</string>
-    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Kun én kupong kan brukes per bestilling. Vi erstattet din forrige kupong med en rabatt på $50 fordi du brukte Google Wallet.</string>
-    <!-- Message shown while loading Wallet coupon -->
-    <string name="wallet_promo_applying">Løser inn din Google Wallet-rabatt…</string>
-    <!-- Title for Google Wallet promo terms & conditions -->
-    <string name="wallet_promo_tc_title">Betingelsene og vilkårene for Google Wallet-kuponger</string>
-    <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Tilbud: Motta en rabattkupong som gir deg $50 avslag på et hotellopphold. Prisen på en kvalifiserende bestilling må være minst $200. Slik løser du inn kupongen: Velg et deltagende hotell. Klikk på "kjøp med Google Wallet" ved betaling. Kupongen må brukes på Expedias Android-app senest kl 23.59 (PT) den 31. desember 2014, på reiser mellom nå og 31. mars 2015. Tidsbegrenset tilbud. Kan endres. Begrenset til én (1) kupong per brukerkonto og per hotellbestilling. Dette tilbudet kommer fra Expedia.com og gjelder kun for Expedia.com sine kunder i USA som bruker Android-appen. Kunder som er tilknyttet Expedias Travel Agent Affiliate Program kan ikke bruke tilbudet. Kupongen er kun gyldig for Expedia Rate-hoteller. Bestillingene avhenger av tilgjengelighet, og er underlagt vilkår og betingelser. Kupongen kan ikke brukes sammen med andre kuponger, kampanjer eller spesialtilbud. Rabatten kan ikke brukes på skatter, leverandørens gebyrer, avbestilling- eller endringsgebyrer, behandlingsgebyrer eller andre diverse utgifter, som kunden er helt og alene ansvarlig for. Kupongen vil ansees som brukt så snart en kvalifisert bestilling er utført, og den kan ikke brukes på nytt. Dersom du endrer eller kansellerer hele eller deler av bestillingen din, vil ikke kupongen gjelde for den endrede reiseplanen. Betingelsene og vilkårene for denne kupongen gjelder slik de er angitt og kan ikke endres av noen som ikke har myndighet til å gjøre dette, inkludert ansatte ved Expedia, Inc. Kupongen kan ikke overføres og kan ikke løses inn mot kontanter. Expedia, Inc. kan trekke tilbake eller endre dette tilbudet når som helst. Gjelder ikke der det er forbudt ved lov.</string>
-    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
-    <string name="wallet_coupon_not_applied_manually">Denne kupongen kan kun brukes når du velger Google Wallet som betalingsmåte.</string>
-
     <!-- Human readable credit card names -->
     <!-- American Express -->
     <string name="cc_american_express">American Express</string>
@@ -3801,7 +3792,14 @@
     <!-- Fly to hint -->
     <string name="fly_to_hint">Flyr til</string>
     <!-- Bundle Overview Step 1, select a hotel -->
-    <string name="step_one">Trinn 1 – hotell</string>
+    <string name="step_one">Trinn 1: Velg hotell</string>
     <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">Trinn 2 – fly</string>
+    <string name="step_two">Trinn 1: Velg flyvninger</string>
+
+    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_duration_template">%1$d d %2$d t %3$d m (%4$d t mellomlanding)</string>
+    <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
+    <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$d d</string>
+    <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
+    <string name="flight_departure_arrival_time_template">%1$s–%2$s</string>
 </resources>
