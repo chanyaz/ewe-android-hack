@@ -265,6 +265,8 @@ public class
 		R.string.pwp_unknown_error,
 		R.layout.widget_hotel_search_v2_params,
 		R.layout.widget_flight_overview,
-		R.layout.package_confirmation_presenter
+		R.layout.package_confirmation_presenter,
+		R.layout.bundle_total_price_widget,
+		R.string.bundle_total_savings_TEMPLATE
 	};
 }

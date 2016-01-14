@@ -129,9 +129,9 @@ public class HotelOffersResponse extends BaseApiResponse {
 		hotelOffer.checkInDate = searchParams.getCheckIn().toString();
 		hotelOffer.checkOutDate = searchParams.getCheckOut().toString();
 		hotelOffer.hotelRoomResponse = new ArrayList<>();
-		for (PackageOffersResponse.PackageHotelOffers offer : packageOffer.packageHotelOffers) {
-			offer.hotelOffer.productKey = offer.packageProductId;
-			hotelOffer.hotelRoomResponse.add(offer.hotelOffer);
+		for (PackageOffersResponse.PackageHotelOffer packageHotelOffer : packageOffer.packageHotelOffers) {
+			packageHotelOffer.hotelOffer.productKey = packageHotelOffer.packageProductId;
+			hotelOffer.hotelRoomResponse.add(packageHotelOffer.hotelOffer);
 		}
 		return hotelOffer;
 	}

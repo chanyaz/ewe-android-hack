@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.ScrollView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
@@ -19,6 +20,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.CheckoutToolbar
 import com.expedia.bookings.widget.PackageBundleHotelWidget
+import com.expedia.bookings.widget.PackageBundlePriceWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.ui.FlightPackageActivity
 import com.expedia.util.notNullAndObservable
@@ -27,6 +29,7 @@ import com.expedia.vm.BundleHotelViewModel
 import com.expedia.vm.BundleOverviewViewModel
 import com.expedia.vm.CheckoutToolbarViewModel
 import com.expedia.vm.PackageCreateTripViewModel
+import com.expedia.vm.BundlePriceViewModel
 
 public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val ANIMATION_DURATION = 450L
@@ -42,6 +45,7 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     val destinationText: TextView by bindView(R.id.flight_departure_card_view_text)
     val arrivalText: TextView by bindView(R.id.flight_arrival_card_view_text)
     val createTripDialog = ProgressDialog(context)
+    val bundleTotalPriceWidget: PackageBundlePriceWidget by bindView(R.id.bundle_total)
 
     var viewModel: BundleOverviewViewModel by notNullAndObservable { vm ->
         vm.hotelParamsObservable.subscribe {
@@ -62,6 +66,11 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
         vm.destinationTextObservable.subscribeText(destinationText)
         vm.originTextObservable.subscribeText(arrivalText)
+        vm.showBundleTotalObservable.subscribe { visible ->
+            bundleTotalPriceWidget.visibility = if (visible) View.VISIBLE else View.GONE
+            bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Db.getPackageResponse().packageResult.currentSelectedOffer.price.packageTotalPriceFormatted,
+                    Db.getPackageResponse().packageResult.currentSelectedOffer.price.tripSavingsFormatted))
+        }
     }
 
     var createTripViewModel: PackageCreateTripViewModel by notNullAndObservable { vm ->
@@ -73,11 +82,16 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             checkoutButton.visibility = VISIBLE
         }
         vm.tripResponseObservable.subscribe(checkoutPresenter.viewModel.packageTripResponse)
+        createTripViewModel.createTripBundleTotalObservable.subscribe { response ->
+            bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(response.packageDetails.pricing.packageTotal.formattedWholePrice,
+                    response.packageDetails.pricing.savings.formattedPrice))
+        }
     }
 
     init {
         View.inflate(context, R.layout.bundle_overview, this)
         bundleHotelWidget.viewModel = BundleHotelViewModel(context)
+        bundleTotalPriceWidget.viewModel = BundlePriceViewModel(context)
         checkoutPresenter.travelerWidget.mToolbarListener = toolbar
         checkoutPresenter.paymentWidget.mToolbarListener = toolbar
         toolbar.viewModel = CheckoutToolbarViewModel(context)
@@ -134,11 +148,12 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             checkoutButton.visibility = if (forward) View.GONE else View.VISIBLE
             bundleContainer.visibility = View.VISIBLE
             checkoutPresenter.visibility = View.VISIBLE
+            bundleTotalPriceWidget.visibility = if (forward) View.GONE else View.VISIBLE
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
-            bundleContainer.translationY = if (forward)  f * -bundleContainer.height.toFloat() else (1 - f) * bundleContainer.height.toFloat()
-            checkoutPresenter.translationY = if (forward)  (f - 1) * -checkoutPresenter.height.toFloat() else f * checkoutPresenter.height.toFloat()
+            bundleContainer.translationY = if (forward) f * -bundleContainer.height.toFloat() else (1 - f) * bundleContainer.height.toFloat()
+            checkoutPresenter.translationY = if (forward) (f - 1) * -checkoutPresenter.height.toFloat() else f * checkoutPresenter.height.toFloat()
         }
 
         override fun endTransition(forward: Boolean) {

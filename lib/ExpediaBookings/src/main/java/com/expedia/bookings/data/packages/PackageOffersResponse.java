@@ -6,9 +6,9 @@ import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 
 public class PackageOffersResponse extends BaseApiResponse {
-	public List<PackageHotelOffers> packageHotelOffers;
+	public List<PackageHotelOffer> packageHotelOffers;
 
-	public static class PackageHotelOffers {
+	public static class PackageHotelOffer {
 		public String packageProductId;
 		public HotelOffersResponse.HotelRoomResponse hotelOffer;
 	}

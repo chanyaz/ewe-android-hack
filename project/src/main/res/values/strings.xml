@@ -1813,6 +1813,8 @@
     <string name="your_trip_to_TEMPLATE">Trip to %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Includes taxes and fees</string>
+    <!-- Includes taxes, fees, flights+hotels -->
+    <string name="includes_taxes_fees_flights_hotel">Includes taxes, fees, flights + hotel</string>
     <!-- Includes taxes (but not necessarily fees) -->
     <string name="includes_taxes">Includes taxes</string>
     <!-- Date and trip from _ to _ -->
@@ -3823,6 +3825,8 @@
     <string name="step_two">Step 2: Select Flights</string>
     <!-- Package hotel cell: Price Includes flights -->
     <string name="package_price_include_flights">Price Includes flights</string>
+    <!-- Template for package bundle total savings amount -->
+    <string name="bundle_total_savings_TEMPLATE">{savings} Saved</string>
 
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>

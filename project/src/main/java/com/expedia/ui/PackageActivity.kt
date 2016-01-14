@@ -12,6 +12,7 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 
 public class PackageActivity : AppCompatActivity() {
+
     val packagePresenter: PackagePresenter by lazy {
         findViewById(R.id.hotel_presenter) as PackagePresenter
     }
