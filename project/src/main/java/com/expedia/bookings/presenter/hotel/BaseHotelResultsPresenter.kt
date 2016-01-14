@@ -626,6 +626,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                     toolbarTextGoal = 0f //
                 } else {
                     toolbarTextGoal = toolbarSubtitleTop.toFloat()
+                    googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
                 }
                 if (filterBtnWithCountWidget !=null) {
                     filterViewGoal = if (forward) 0f else filterBtnWithCountWidget?.height?.toFloat()!!
