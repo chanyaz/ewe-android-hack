@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.expedia.bookings.widget.PaymentWidget
+<com.expedia.bookings.widget.PaymentWidgetV2
     style="?attr/checkout_card_view_style"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -254,5 +254,5 @@
 
     </LinearLayout>
 
-</com.expedia.bookings.widget.PaymentWidget>
+</com.expedia.bookings.widget.PaymentWidgetV2>
 

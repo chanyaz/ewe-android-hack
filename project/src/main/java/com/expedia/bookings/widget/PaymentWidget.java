@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -23,10 +22,10 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.GoogleWalletActivity;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.TripBucketItemCar;
@@ -171,8 +170,6 @@ public class PaymentWidget extends ExpandableCardView {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		LayoutInflater inflater = LayoutInflater.from(getContext());
-		inflater.inflate(R.layout.payment_widget, this);
 		ButterKnife.inject(this);
 
 		creditCardName.setOnEditorActionListener(new android.widget.TextView.OnEditorActionListener() {
@@ -568,7 +565,7 @@ public class PaymentWidget extends ExpandableCardView {
 		Intent i = new Intent(getContext(), GoogleWalletActivity.class);
 		((AppCompatActivity)getContext()).startActivityForResult(i, REQUEST_CODE_GOOGLE_WALLET_ACTIVITY);
 	}
-	
+
 	private boolean hasStoredCard() {
 		return sectionBillingInfo.getBillingInfo() != null && sectionBillingInfo.getBillingInfo().hasStoredCard();
 	}

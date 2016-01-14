@@ -118,11 +118,12 @@ public class PaymentWidgetFlowTest {
 	@Test
 	public void testCardOptionsNotVisible() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity.setTheme(R.style.V2_Theme_LX);
 		Ui.getApplication(activity).defaultLXComponents();
 		PaymentWidget paymentWidget =  (PaymentWidget) LayoutInflater.from(activity)
-			.inflate(R.layout.payment_widget_test, null);
+			.inflate(R.layout.payment_widget, null);
 		paymentWidget.setToolbarListener(listener);
-		paymentWidget.setLineOfBusiness(LineOfBusiness.CARS);
+		paymentWidget.setLineOfBusiness(LineOfBusiness.LX);
 		paymentWidget.setCreditCardRequired(true);
 		paymentWidget.setExpanded(true);
 
@@ -170,10 +171,10 @@ public class PaymentWidgetFlowTest {
 	@Test
 	public void testStoredCardFlow() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		activity.setTheme(R.style.V2_Theme_Cars);
+		activity.setTheme(R.style.V2_Theme_Hotels);
 		Ui.getApplication(activity).defaultLXComponents();
 		PaymentWidget paymentWidget =  (PaymentWidget) LayoutInflater.from(activity)
-			.inflate(R.layout.payment_widget_test, null);
+			.inflate(R.layout.payment_widget_v2, null);
 		paymentWidget.setToolbarListener(listener);
 		paymentWidget.setLineOfBusiness(LineOfBusiness.HOTELSV2);
 		paymentWidget.setCreditCardRequired(true);
