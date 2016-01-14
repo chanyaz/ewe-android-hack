@@ -32,8 +32,8 @@ public class SuggestionUtils {
 
 	private static final long MINIMUM_TIME_AGO = DateUtils.HOUR_IN_MILLIS;
 
-	public static final String RECENT_ROUTES_LX_LOCATION_FILE = "recent-lx-city-list.dat";
-	public static final String RECENT_ROUTES_CARS_LOCATION_FILE = "recent-cars-airport-routes-list.dat";
+	public static final String RECENT_ROUTES_LX_LOCATION_FILE = "recent-lx-city-list-v4.dat";
+	public static final String RECENT_ROUTES_CARS_LOCATION_FILE = "recent-cars-airport-routes-list-v4.dat";
 
 	/**
 	 * Retrieve nearby airports. Don't run on the UI thread.
