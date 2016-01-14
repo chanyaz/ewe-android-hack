@@ -16,11 +16,12 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.PackageBundleHotelWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.ui.FlightPackageActivity
-import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
+import com.expedia.vm.BundleHotelViewModel
 import com.expedia.vm.BundleOverviewViewModel
 
 public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -28,23 +29,19 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     val bundleContainer: ViewGroup by bindView(R.id.bundle_container)
     val toolbar: Toolbar by bindView(R.id.toolbar)
 
-    val selectHotelsButton: CardView by bindView(R.id.hotels_card_view)
-    val hotelLoadingBar: ProgressBar by bindView(R.id.hotel_loading_bar)
+    val bundleHotelWidget: PackageBundleHotelWidget by bindView(R.id.packageBundleWidget)
     val flightLoadingBar: ProgressBar by bindView(R.id.flight_loading_bar)
     val selectDepartureButton: CardView by bindView(R.id.flight_departure_card_view)
     val selectArrivalButton: CardView by  bindView(R.id.flight_arrival_card_view)
-    val hotelsText: TextView by bindView(R.id.hotels_card_view_text)
     val destinationText: TextView by bindView(R.id.flight_departure_card_view_text)
     val arrivalText: TextView by bindView(R.id.flight_arrival_card_view_text)
 
     var viewModel: BundleOverviewViewModel by notNullAndObservable { vm ->
         vm.hotelParamsObservable.subscribe {
-            selectHotelsButton.isEnabled = false
-            hotelLoadingBar.visibility = View.VISIBLE
+            bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(true)
         }
         vm.hotelResultsObservable.subscribe {
-            selectHotelsButton.isEnabled = true
-            hotelLoadingBar.visibility = View.GONE
+            bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
         }
         vm.flightParamsObservable.subscribe {
             selectDepartureButton.isEnabled = false
@@ -54,13 +51,13 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             selectDepartureButton.isEnabled = true
             flightLoadingBar.visibility = View.GONE
         }
-        vm.hotelTextObservable.subscribeText(hotelsText)
         vm.destinationTextObservable.subscribeText(destinationText)
         vm.arrivalTextObservable.subscribeText(arrivalText)
     }
 
     init {
         View.inflate(context, R.layout.bundle_overview, this)
+        bundleHotelWidget.viewModel = BundleHotelViewModel(context)
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
             val color = ContextCompat.getColor(context, R.color.packages_primary_color)
@@ -69,20 +66,12 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
         selectDepartureButton.isEnabled = false
         selectArrivalButton.isEnabled = false
-        selectHotelsButton.setOnClickListener {
-            openHotels()
-        }
         selectDepartureButton.setOnClickListener {
             openFlightsForDeparture()
         }
         selectArrivalButton.setOnClickListener {
             openFlightsForArrival()
         }
-    }
-
-    fun openHotels() {
-        val intent = Intent(context, PackageHotelActivity::class.java)
-        (context as AppCompatActivity).startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
     }
 
     fun openFlightsForDeparture() {
@@ -95,6 +84,11 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         val intent = Intent(context, FlightPackageActivity::class.java)
         intent.putExtra(Codes.PACKAGE_FLIGHT_INBOUND, true)
         (context as AppCompatActivity).startActivityForResult(intent, Constants.FLIGHT_ARRIVAL_REQUEST_CODE, null)
+    }
+
+    override fun back(): Boolean {
+        bundleHotelWidget.collapseSelectedHotel()
+        return super.back()
     }
 
 }
