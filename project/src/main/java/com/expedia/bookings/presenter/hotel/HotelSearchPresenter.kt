@@ -355,7 +355,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     init {
         View.inflate(context, R.layout.widget_hotel_search_params, this)
         HotelV2Tracking().trackHotelV2SearchBox()
-        traveler.viewmodel = HotelTravelerPickerViewModel(getContext())
+        traveler.viewmodel = HotelTravelerPickerViewModel(getContext(), false)
         recentSearches.recentSearchesAdapterViewModel = RecentSearchesAdapterViewModel(getContext())
         recentSearches.recentSearchesAdapterViewModel.recentSearchesObservable.subscribe { searchList ->
             if(searchList.isEmpty()) {

@@ -43,4 +43,12 @@
         <item name="traveler_toolbar_text">@string/traveler_information</item>
         <item name="traveler_checkout_circle_drawable">@drawable/hotelsv2_traveler_checkout_circle</item>
     </style>
+
+    <style name="InfantSeatingPreferenceSpinner" parent="@style/Base.Widget.AppCompat.Spinner">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/hotel_spinner_height</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:dropDownVerticalOffset">20dp</item>
+    </style>
+
 </resources>

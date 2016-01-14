@@ -237,6 +237,8 @@ public class
 		R.layout.bundle_hotel_widget,
 		R.layout.widget_base_checkout,
 		R.drawable.ic_chevron_up_black_48dp,
-		R.string.trip_overview
+		R.string.trip_overview,
+		R.drawable.ic_infant_seating,
+		R.string.infants_under_two_TEMPLATE
 	};
 }
