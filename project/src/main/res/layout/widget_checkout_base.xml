@@ -94,12 +94,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp" />
 
-                <com.expedia.bookings.widget.PaymentWidget
-                    android:id="@+id/payment_info_card_view"
-                    style="?attr/checkout_card_view_style"
+                <ViewStub
+                    android:id="@+id/payment_info_card_view_stub"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp" />
+                    android:inflatedId="@+id/payment_info_card_view"
+                    android:layout="?attr/paymentWidgetLayout" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/legal_information_text_view"

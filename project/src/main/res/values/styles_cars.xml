@@ -50,6 +50,8 @@
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle</item>
+        <item name="paymentWidgetLayout">@layout/payment_widget</item>
+
     </style>
 
     <!--

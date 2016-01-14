@@ -26,7 +26,8 @@ class HotelBillingInfoTest {
     @Before
     fun before() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        val paymentWidget = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_test, null) as PaymentWidget
+        activity.setTheme(R.style.V2_Theme_Hotels);
+        val paymentWidget = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidget
 
         sectionBillingInfo = paymentWidget.findViewById(R.id.section_billing_info) as SectionBillingInfo
         sectionBillingInfo.setLineOfBusiness(LineOfBusiness.HOTELSV2)

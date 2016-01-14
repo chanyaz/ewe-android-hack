@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Space;
@@ -69,7 +70,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@InjectView(R.id.main_contact_info_card_view)
 	public TravelerContactDetailsWidget mainContactInfoCardView;
 
-	@InjectView(R.id.payment_info_card_view)
+	public ViewStub paymentStub;
+
 	public PaymentWidget paymentInfoCardView;
 
 	@InjectView(R.id.slide_to_purchase_layout)
@@ -124,6 +126,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		ButterKnife.inject(this);
 		setupToolbar();
 
+		paymentStub = (ViewStub) findViewById(R.id.payment_info_card_view_stub);
+		paymentInfoCardView = (PaymentWidget) paymentStub.inflate();
 		addTransition(defaultToExpanded);
 		addTransition(defaultToReady);
 		addTransition(defaultToCheckoutFailed);
