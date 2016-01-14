@@ -186,6 +186,11 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 			else if (name.equals("fareType")) {
 				leg.setFareType(reader.nextString());
 			}
+			else if (name.equals("freeCancellationBy")) {
+				leg.setIsFreeCancellable(true);
+				// 6130. Not parsing other data here. Just setting boolean to see if the leg is free cancellable.
+				reader.skipValue();
+			}
 			else {
 				reader.skipValue();
 			}

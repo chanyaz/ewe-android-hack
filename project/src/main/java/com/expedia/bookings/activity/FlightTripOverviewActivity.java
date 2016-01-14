@@ -327,8 +327,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 	private void setUpFreeCancellationAbTest() {
 		FlightLeg leg =  Db.getTripBucket().getFlight().getFlightTrip().getLeg(0);
 		boolean showFreeCancellation =
-			PointOfSale.getPointOfSale().supportsFlightsFreeCancellation() && !leg.isSpirit() ||
-				leg.isLCC() || leg.isCharter();
+			PointOfSale.getPointOfSale().supportsFlightsFreeCancellation() && leg.isFreeCancellable();
 		mFreeCancellation.setVisibility(showFreeCancellation ? View.VISIBLE : View.GONE);
 	}
 
