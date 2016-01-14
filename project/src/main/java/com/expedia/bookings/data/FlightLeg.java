@@ -36,6 +36,8 @@ public class FlightLeg implements JSONable, ItinSharable {
 
 	private String mFareType;
 
+	private boolean mIsFreeCancellable;
+
 	public String getLegId() {
 		return mLegId;
 	}
@@ -230,12 +232,12 @@ public class FlightLeg implements JSONable, ItinSharable {
 		return false;
 	}
 
-	public boolean isLCC() {
-		return mFareType.equals("LOW_COST_CARRIER");
+	public boolean isFreeCancellable() {
+		return mIsFreeCancellable;
 	}
 
-	public boolean isCharter() {
-		return mFareType.equals("CHARTER") || mFareType.equals("CHARTER_NET");
+	public void setIsFreeCancellable(boolean isFreeCancellable) {
+		this.mIsFreeCancellable = isFreeCancellable;
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -250,6 +252,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 			JSONUtils.putJSONable(obj, "shareInfo", mShareInfo);
 			obj.putOpt("baggageFeesUrl", mBaggageFeesUrl);
 			obj.putOpt("fareType", mFareType);
+			obj.putOpt("isFreeCancellable", mIsFreeCancellable);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -265,6 +268,7 @@ public class FlightLeg implements JSONable, ItinSharable {
 		mShareInfo = mShareInfo == null ? new ItinShareInfo() : mShareInfo;
 		mBaggageFeesUrl = obj.optString("baggageFeesUrl");
 		mFareType = obj.optString("fareType", "");
+		mIsFreeCancellable = obj.optBoolean("isFreeCancellable");
 		return true;
 	}
 
