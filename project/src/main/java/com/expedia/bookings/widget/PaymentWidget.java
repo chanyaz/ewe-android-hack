@@ -242,7 +242,7 @@ public class PaymentWidget extends ExpandableCardView {
 			PaymentType paymentType = card.getType();
 			if (card.isGoogleWallet()) {
 				paymentType(paymentType, cardName,
-					getResources().getString(R.string.checkout_payment_option_google_wallet_label));
+					getResources().getString(R.string.checkout_payment_option_android_pay_label));
 			}
 			else {
 				paymentType(paymentType, cardName, getResources().getString(R.string.checkout_payment_line2_storedcc));
