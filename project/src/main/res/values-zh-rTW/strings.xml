@@ -203,8 +203,6 @@
 
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_credit_debit_label">信用卡/金融卡</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_google_wallet_label">Google 電子錢包</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">旅客資訊</string>
     <!-- Text for enter guest details line 2 -->
@@ -1855,15 +1853,19 @@
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">滑動以預訂機票</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">我們將向您的信用卡收取 %1$s</string>
+    <string name="your_card_will_be_charged_template">我們將向您的信用卡收取 {dueamount}</string>
+    <!-- Your are using pwp points -->
+    <string name="you_are_using_expedia_points_TEMPLATE">您將使用 {points} 點 ({amount}) Expedia+ 點數</string>
+    <!-- Payment through card + pwp points -->
+    <string name="payment_through_card_and_pwp_points">您將使用 {points} 點 ({amount}) Expedia+ 點數\n您的信用卡將會被收取 {dueamount}</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">我們將向您的信用卡收取 %1$s (外加航空公司手續費)</string>
+    <string name="your_card_will_be_charged_plus_airline_fee_template">我們將向您的信用卡收取 {dueamount} (外加航空公司手續費)</string>
     <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_TEMPLATE">今天應付金額：%1$s</string>
+    <string name="amount_due_today_template">今天應付金額：{dueamount}</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">現在應付金額：%1$s</string>
+    <string name="amount_to_be_paid_now_TEMPLATE">現在應付金額：{dueamount}</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">在飯店支付的金額：%1$s</string>
+    <string name="to_be_collected_by_the_hotel_TEMPLATE">在飯店支付的金額：{dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">完成預訂</string>
     <!-- Checkout menu item -->
@@ -2031,7 +2033,8 @@
     <string name="first_name_field_text">名字</string>
     <!-- last name -->
     <string name="last_name_field_text">姓氏</string>
-    <!-- Label for hint on first and last name fields -->
+    <!-- Label for hint on first and last name fields. For English locale
+    we want to show "e.g." for all non-English we want to show "example:"-->
     <string name="hint_example_name_TEMPLATE">(例如：%s)</string>
 
     <!-- Cardholder -->
@@ -2495,6 +2498,8 @@
     <string name="search_error">搜尋錯誤</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">飯店 %s</string>
+    <!-- Expedia Member Discount for a given property, AB test -->
+    <string name="member_pricing">會員價</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2504,8 +2509,12 @@
         <item quantity="other">剩下 %d 間客房</item>
     </plurals>
 
+
+    <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
+    <string name="EnableLocationPermissionSettings_TEMPLATE">若要使用「目前位置」，您必須允許 {brand} 取得您的位置。\n\n現在就到「設定」中啟用嗎？</string>
+
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">若要使用「目前位置」，必須先在「設定」中啟用「位置」。\n\n現在就到「設定」中開啟嗎？</string>
+    <string name="EnableLocationSettings">若要使用「目前位置」，您必須先在「設定」中啟用「位置」。\n\n現在就到「設定」中啟用嗎？</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">您的定位服務已停用。請重新啟用，以根據您的地點進行搜尋。</string>
 
@@ -2924,6 +2933,12 @@
     <string name="unknown">未知</string>
 
     <!-- Expedia Accounts -->
+    <!-- Label for messaging on sign in Variate 1 -->
+    <string name="sign_in_messaging">享受會員獨家優惠</string>
+    <!-- Label for messaging on sign in Variate 2 -->
+    <string name="triple_point_messaging">獲得 3 倍 Expedia+ 獎勵點數</string>
+    <!-- Label for messaging on sign in Variate 3 -->
+    <string name="trip_alert_messaging">收取重要行程通知</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">登入</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3445,30 +3460,6 @@
     <string name="country_zw">辛巴威</string>
     <string name="country_ax">奧蘭群島</string>
 
-    <!-- Google Wallet -->
-    <!-- Loading message -->
-    <string name="loading">正在載入</string>
-    <!-- Google Wallet label -->
-    <string name="google_wallet">Google 電子錢包</string>
-    <!-- Google wallet unavailable error -->
-    <string name="google_wallet_unavailable">無法取得 Google 電子錢包</string>
-    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
-    <string name="spending_limit_exceeded">您已經超過 Google 電子錢包的消費額度</string>
-    <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">使用 Google 電子錢包付款</string>
-    <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Google 電子錢包預訂 <b>$200 以上的行程</b> 可省 <b>$50</b>！</string>
-    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">每次預訂只能使用一張優惠券。我們已經將您先前的優惠券換成使用 Google 電子錢包可獲得的 $50 優惠。</string>
-    <!-- Message shown while loading Wallet coupon -->
-    <string name="wallet_promo_applying">正在套用 Google 電子錢包折扣優惠…</string>
-    <!-- Title for Google Wallet promo terms & conditions -->
-    <string name="wallet_promo_tc_title">Google 電子錢包優惠券條款和條件</string>
-    <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">優惠：飯店住宿立即折扣 $50。預訂金額 $200 元以上才能享受折扣。兌換方法：選擇符合資格的飯店住宿。在付款頁面，選擇「使用 Google 電子錢包付款」。優惠券必須於 2014 年 12 月 31 日 11:59 PM (太平洋時間) 或之前在 Expedia Android App 內兌換，並於即日起至 2015 年 3 月 31 日期間住宿。限時優惠：如有變更，恕不另行通知。每個使用者帳戶和每次符合資格的飯店訂房限用一 (1) 張優惠券。此優惠由 Expedia.com 提供並只適用於 Expedia.com 美國 Android App 客戶。此優惠不適用於參與 Expedia 旅行社聯盟計劃的顧客。此優惠券只適用於符合資格的 Expedia 優惠價飯店。預訂須視客房供應情況而定，同時需遵守所有適用的條款和條件。優惠券不得與其他優惠券、促銷活動或特別優惠同時使用。優惠券的折扣不包括稅金、飯店收取的費用、取消或變更罰款、管理費或其他費用，客戶必須自行支付這些費用。優惠券在完成一次符合資格的預訂後即視為已完全使用，同時不可重複使用。如果變更或取消預訂中的任何部份，則優惠將不再適用於變更後的行程。此優惠券的條款和條件如書面所示，未經授權的人士不得擅自更改，包括 Expedia, Inc. 的員工。優惠券不得轉讓，也不得兌換現金。Expedia, Inc. 保留隨時撤銷或變更此優惠的權利。若本優惠券違法當地法律規定，則將自動失效。</string>
-    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
-    <string name="wallet_coupon_not_applied_manually">選擇以 Google 電子錢包作為付款方式才能使用此優惠券。</string>
-
     <!-- Human readable credit card names -->
     <!-- American Express -->
     <string name="cc_american_express">美國運通卡</string>
@@ -3801,7 +3792,14 @@
     <!-- Fly to hint -->
     <string name="fly_to_hint">目的地</string>
     <!-- Bundle Overview Step 1, select a hotel -->
-    <string name="step_one">步驟 1：飯店</string>
+    <string name="step_one">步驟 1：選擇飯店</string>
     <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">步驟 2：機票</string>
+    <string name="step_two">步驟 2：選擇班機</string>
+
+    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_duration_template">%1$d日%2$d小時%3$d分 (中途停留%4$d小時)</string>
+    <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
+    <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$d天</string>
+    <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
+    <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
 </resources>

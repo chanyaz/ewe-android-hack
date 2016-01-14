@@ -203,8 +203,6 @@
 
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_credit_debit_label">クレジットカード / デビットカード</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_google_wallet_label">Google ウォレット機能</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">ゲストの詳細</string>
     <!-- Text for enter guest details line 2 -->
@@ -1340,9 +1338,9 @@
     <string name="car_category_result_oversize">大型</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア 自動車</string>
-    <string name="car_type_three_door">3 ドア 自動車</string>
-    <string name="car_type_four_door">4 ドア 自動車</string>
+    <string name="car_type_two_door">2 ドア自動車</string>
+    <string name="car_type_three_door">3 ドア自動車</string>
+    <string name="car_type_four_door">4 ドア自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -1855,15 +1853,19 @@
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">スライドして航空券を予約</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">カードに %1$s が課金されます</string>
+    <string name="your_card_will_be_charged_template">カードに {dueamount} が課金されます</string>
+    <!-- Your are using pwp points -->
+    <string name="you_are_using_expedia_points_TEMPLATE">{points} ({amount} 相当) の Expedia+ ポイントを使用します</string>
+    <!-- Payment through card + pwp points -->
+    <string name="payment_through_card_and_pwp_points">{points} ({amount} 相当) の Expedia+ ポイントを使用します\nご利用のクレジット カードには {dueamount} が課金されます</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">カードに %1$s が課金されます (航空会社の手数料別)</string>
+    <string name="your_card_will_be_charged_plus_airline_fee_template">カードに {dueamount} が課金されます (航空会社の手数料別)</string>
     <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_TEMPLATE">本日お支払いの合計金額 :%1$s</string>
+    <string name="amount_due_today_template">本日お支払いの合計金額 :{dueamount}</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">いますぐ支払う金額 : %1$s</string>
+    <string name="amount_to_be_paid_now_TEMPLATE">いますぐ支払う金額 : {dueamount}</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">ホテルで徴収 : %1$s</string>
+    <string name="to_be_collected_by_the_hotel_TEMPLATE">ホテルで徴収 : {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">予約を完了する</string>
     <!-- Checkout menu item -->
@@ -2031,7 +2033,8 @@
     <string name="first_name_field_text">名 (例 : Taro)</string>
     <!-- last name -->
     <string name="last_name_field_text">姓 (例 : Yamada)</string>
-    <!-- Label for hint on first and last name fields -->
+    <!-- Label for hint on first and last name fields. For English locale
+    we want to show "e.g." for all non-English we want to show "example:"-->
     <string name="hint_example_name_TEMPLATE">(例 : %s)</string>
 
     <!-- Cardholder -->
@@ -2495,6 +2498,8 @@
     <string name="search_error">検索エラー</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">ホテル%s</string>
+    <!-- Expedia Member Discount for a given property, AB test -->
+    <string name="member_pricing">会員向け価格</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2503,6 +2508,10 @@
         <item quantity="many">残り %d 室</item>
         <item quantity="other">残り %d 室</item>
     </plurals>
+
+
+    <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
+    <string name="EnableLocationPermissionSettings_TEMPLATE">現在地を利用するには、{brand} にロケーション情報を提供してください。\n\n今すぐ設定しますか ?</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">現在地を利用するには、まず設定でロケーション ソースをオンにしてください。\n\n今すぐ設定しますか ?</string>
@@ -2924,6 +2933,12 @@
     <string name="unknown">不明</string>
 
     <!-- Expedia Accounts -->
+    <!-- Label for messaging on sign in Variate 1 -->
+    <string name="sign_in_messaging">会員限定割引でお得に予約</string>
+    <!-- Label for messaging on sign in Variate 2 -->
+    <string name="triple_point_messaging">Expedia+ Rewards ポイントを 3 倍獲得</string>
+    <!-- Label for messaging on sign in Variate 3 -->
+    <string name="trip_alert_messaging">旅行に関する便利な通知を受信</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">サインイン</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3445,30 +3460,6 @@
     <string name="country_zw">ジンバブエ</string>
     <string name="country_ax">オーランド諸島</string>
 
-    <!-- Google Wallet -->
-    <!-- Loading message -->
-    <string name="loading">読み込み中</string>
-    <!-- Google Wallet label -->
-    <string name="google_wallet">Google ウォレット機能</string>
-    <!-- Google wallet unavailable error -->
-    <string name="google_wallet_unavailable">Google ウォレット機能は使用できません</string>
-    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
-    <string name="spending_limit_exceeded">Google ウォレット機能の利用限度額を越えました</string>
-    <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">Google ウォレット機能で購入する</string>
-    <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Google ウォレット機能で <b>$200 以上の旅行</b>が <b>$50</b> 割引になります。</string>
-    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">1 回の予約で使用できるクーポンは 1 枚のみです。Google ウォレット機能で $50 割引になる新しいクーポンをお届けします。</string>
-    <!-- Message shown while loading Wallet coupon -->
-    <string name="wallet_promo_applying">Google ウォレット割引を適用する…</string>
-    <!-- Title for Google Wallet promo terms & conditions -->
-    <string name="wallet_promo_tc_title">Google ウォレット クーポン利用規約</string>
-    <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">特典 : ホテルがすぐに $50 割引になるクーポンをプレゼントします。$200 以上のご予約でご利用いただけます。利用方法 : 対象ホテルを選択します。チェックアウト ページで "Google ウォレット機能で購入する" を選択します。クーポンは、エクスペディア Android アプリで 2014 年 12 月 31 日午後 11 時 59 分 (太平洋標準時) までにご利用いただく必要があり、本日から 2015 年 3 月 31 日までのご旅行が対象となります。期間限定の特典 : 変更される場合があります。1 つのユーザー アカウントに対して、対象のホテル予約 1 件につきクーポン 1 枚が提供されます。この特典は Expedia.com が提供し、Expedia.com U.S. Android アプリをご利用のお客様限定です。エクスペディア公式・旅行会社専用予約サイト/「クマの手」(旅行会社向けアフィリエイトプログラム)/エクスペディア旅行会社向けプログラム「クマの手」 をご利用のお客様は対象外となります。クーポンは、対象のエクスペディア価格ホテルでのみご利用いただけます。空室状況および適用される利用規約により、ご予約いただけない場合があります。クーポンは、他のクーポン、プロモーション、または特典とは併用できません。税、追加料金、キャンセル料や変更手数料、管理費、その他の諸費用はクーポン割引の対象となりません。お客様ご自信のご負担となります。クーポンは、対象となる予約が行われると適用され、再利用はできません。予約の一部を変更またはキャンセルした場合、変更した旅行スケジュールにクーポンは適用されません。このクーポンの利用規約は記載の通りであり、Expedia, Inc の社員を含むいかなる者も、許可なく変更することはできません。クーポンは譲渡および現金への引き換えはできません。Expedia, Inc. は、予告なくこのキャンペーンを取り消す、または変更する場合があります。違法に使用された場合は無効となります。</string>
-    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
-    <string name="wallet_coupon_not_applied_manually">このクーポンは、お支払い方法に Google ウォレット機能を選択された場合にのみ適用されます。</string>
-
     <!-- Human readable credit card names -->
     <!-- American Express -->
     <string name="cc_american_express">American Express</string>
@@ -3801,7 +3792,14 @@
     <!-- Fly to hint -->
     <string name="fly_to_hint">到着地</string>
     <!-- Bundle Overview Step 1, select a hotel -->
-    <string name="step_one">ステップ 1 ホテル</string>
+    <string name="step_one">ステップ 1 : ホテルを選択する</string>
     <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">ステップ 2 航空券</string>
+    <string name="step_two">ステップ 2 : 航空券を選択する</string>
+
+    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_duration_template">%1$d 日 %2$d 時間 %3$d 分 (乗り継ぎ %4$d 時間)</string>
+    <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
+    <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$d 日</string>
+    <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
+    <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
 </resources>

@@ -203,8 +203,6 @@
 
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_credit_debit_label">Tarjeta de crédito/tarjeta de débito</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_google_wallet_label">Google Wallet</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Información del huésped</string>
     <!-- Text for enter guest details line 2 -->
@@ -655,7 +653,7 @@
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Lo sentimos, el precio de esta actividad cambió. Intenta buscar otra vez.</string>
     <!-- LX Error Limited Inventory -->
-    <string name="lx_error_limited_inventory">Lo sentimos; no tenemos suficientes entradas para la fecha seleccionada. Intentá con una fecha distinta o seleccioná menos entradas.</string>
+    <string name="lx_error_limited_inventory">Lo sentimos; no tenemos suficientes entradas para la fecha seleccionada. Intenta con una fecha distinta o selecciona menos entradas.</string>
     <!-- LX confirmation itin text -->
     <string name="lx_successful_checkout_email_label">Enviamos tus entradas a</string>
     <!-- LX reservation confirmation text -->
@@ -1855,15 +1853,19 @@
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">desliza para reservar un vuelo</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">Se cobrarán %1$s a tu tarjeta de crédito</string>
+    <string name="your_card_will_be_charged_template">Se cobrarán {dueamount} a tu tarjeta de crédito</string>
+    <!-- Your are using pwp points -->
+    <string name="you_are_using_expedia_points_TEMPLATE">Estás utilizando {points} ({amount}) puntos Expedia+</string>
+    <!-- Payment through card + pwp points -->
+    <string name="payment_through_card_and_pwp_points">Estás utilizando {points} ({amount}) puntos Expedia+\nSe cobrará a tu tarjeta {dueamount}</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">Se cobrarán %1$s a tu tarjeta de crédito (más los cargos de la aerolínea)</string>
+    <string name="your_card_will_be_charged_plus_airline_fee_template">Se cobrarán {dueamount} a tu tarjeta de crédito (más los cargos de la aerolínea)</string>
     <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_TEMPLATE">Monto a pagar hoy: %1$s</string>
+    <string name="amount_due_today_template">Monto a pagar hoy: {dueamount}</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Monto a pagar ahora: %1$s</string>
+    <string name="amount_to_be_paid_now_TEMPLATE">Monto a pagar ahora: {dueamount}</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">A pagar al hotel: %1$s</string>
+    <string name="to_be_collected_by_the_hotel_TEMPLATE">A pagar al hotel: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Finalizar la reservación</string>
     <!-- Checkout menu item -->
@@ -2031,8 +2033,9 @@
     <string name="first_name_field_text">nombre</string>
     <!-- last name -->
     <string name="last_name_field_text">apellido</string>
-    <!-- Label for hint on first and last name fields -->
-    <string name="hint_example_name_TEMPLATE">(ejemplo: %s)</string>
+    <!-- Label for hint on first and last name fields. For English locale
+    we want to show "e.g." for all non-English we want to show "example:"-->
+    <string name="hint_example_name_TEMPLATE">(p. ej.: %s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Titular de la tarjeta</string>
@@ -2495,6 +2498,8 @@
     <string name="search_error">Error en la búsqueda</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
+    <!-- Expedia Member Discount for a given property, AB test -->
+    <string name="member_pricing">Precios para socios</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2503,6 +2508,10 @@
         <item quantity="many">quedan ¡%d habitaciones!</item>
         <item quantity="other">quedan ¡%d habitaciones!</item>
     </plurals>
+
+
+    <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
+    <string name="EnableLocationPermissionSettings_TEMPLATE">Para usar tu Ubicación actual, debes permitir a {brand} que pueda acceder a tu ubicación.\n\n¿Puedes dirigirte a Configuración y activarlo?</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">Para utilizar la Ubicación actual, primero necesitas activar el servicio de ubicación en la Configuración.\n\n¿Puedes dirigirte a Configuración y activarlo?</string>
@@ -2924,6 +2933,12 @@
     <string name="unknown">Información desconocida</string>
 
     <!-- Expedia Accounts -->
+    <!-- Label for messaging on sign in Variate 1 -->
+    <string name="sign_in_messaging">Ahorra con las ofertas exclusivas para socios</string>
+    <!-- Label for messaging on sign in Variate 2 -->
+    <string name="triple_point_messaging">TRIPLICA tus puntos Expedia+</string>
+    <!-- Label for messaging on sign in Variate 3 -->
+    <string name="trip_alert_messaging">Recibe alertas de viaje importantes</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Iniciar sesión</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3445,30 +3460,6 @@
     <string name="country_zw">Zimbabue</string>
     <string name="country_ax">Islas de Åland</string>
 
-    <!-- Google Wallet -->
-    <!-- Loading message -->
-    <string name="loading">Se está cargando…</string>
-    <!-- Google Wallet label -->
-    <string name="google_wallet">Google Wallet</string>
-    <!-- Google wallet unavailable error -->
-    <string name="google_wallet_unavailable">Google Wallet no está disponible</string>
-    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
-    <string name="spending_limit_exceeded">Ya superaste tu límite de gastos de Google Wallet</string>
-    <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">Compra con Google Wallet</string>
-    <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">¡Ahorra <b>50 USD</b> en un viaje de más de <b>200 USD</b> con Google Wallet!</string>
-    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Solo se puede utilizar un cupón por reservación. Remplazamos tu cupón previo con el descuento de 50 USD por utilizar Google Wallet.</string>
-    <!-- Message shown while loading Wallet coupon -->
-    <string name="wallet_promo_applying">Se está aplicando el descuento Google Wallet…</string>
-    <!-- Title for Google Wallet promo terms & conditions -->
-    <string name="wallet_promo_tc_title">Términos y condiciones del cupón Google Wallet</string>
-    <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Oferta: recibe un cupón instantáneo de 50 USD para una estadía de hotel. Para calificar, el precio de la reservación debe ser, como mínimo, de 200 USD. Cómo hacer el canje: selecciona una estadía de hotel que califique. En la página de compra, utiliza “Compra con Google Wallet” para efectuar la compra. El cupón puede canjearse en la aplicación de Expedia para Android antes de las 23:59 (hora del Pacífico) del 31 de diciembre de 2014, para viajes a partir de ahora hasta el 31 de marzo de 2015. Oferta por tiempo limitado: sujeta a cambios. Límite de un (1) cupón por cuenta de usuario y por reservación de hotel que califique. Esta oferta es de Expedia.com y es válida solo para clientes de Expedia en los EE. UU con aplicación para Android. Los clientes afiliados al Programa de afiliación para agencias de viajes de Expedia no califican para esta oferta. El cupón es válido para los hoteles con tarifa Expedia únicamente. Las reservaciones están sujetas a disponibilidad, y se aplican todos los términos y condiciones. El cupón no puede ser utilizado con otros cupones, promociones u ofertas especiales. El descuento del cupón no puede aplicarse para cubrir impuestos, cargos del proveedor, penalizaciones por cancelaciones o cambios, cuotas administrativas u otros cargos varios, los cuales son la responsabilidad del cliente. Un cupón se considerará utilizado en su totalidad, una vez que se haya hecho una reservación que califique y no podrá volver a utilizarse. En el caso de que cambies o canceles cualquier parte de tu reservación, el cupón no aplicará para la parte de tu viaje que hayas cambiado. Los Términos y condiciones de este cupón son tal como fueron escritos y no pueden ser cambiados por la representación de ninguna persona no autorizada, incluidos los empleados de Expedia, Inc. El cupón no es transferible y no se puede canjear por dinero en efectivo. Expedia, Inc. puede revocar o cambiar esta oferta en cualquier momento. Nulo donde lo prohíba la ley.</string>
-    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
-    <string name="wallet_coupon_not_applied_manually">Este cupón solo podrá aplicarse cuando se seleccione Google Wallet como forma de pago.</string>
-
     <!-- Human readable credit card names -->
     <!-- American Express -->
     <string name="cc_american_express">American Express</string>
@@ -3801,7 +3792,14 @@
     <!-- Fly to hint -->
     <string name="fly_to_hint">Vuela a</string>
     <!-- Bundle Overview Step 1, select a hotel -->
-    <string name="step_one">Paso 1 Hotel</string>
+    <string name="step_one">Paso 1: selecciona tu hotel</string>
     <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">Paso 2 Vuelos</string>
+    <string name="step_two">Paso 2: selecciona tus vuelos</string>
+
+    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_duration_template">%1$d d %2$d h %3$d m (%4$d h de escala)</string>
+    <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
+    <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s + %3$d d</string>
+    <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
+    <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
 </resources>

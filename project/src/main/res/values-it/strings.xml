@@ -203,8 +203,6 @@
 
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_credit_debit_label">Carta di credito/debito</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_google_wallet_label">Google Wallet</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Dettagli ospite</string>
     <!-- Text for enter guest details line 2 -->
@@ -1855,15 +1853,19 @@
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">scorrere per prenotare il volo</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">%1$s saranno addebitati sulla tua carta di credito</string>
+    <string name="your_card_will_be_charged_template">{dueamount} saranno addebitati sulla tua carta di credito</string>
+    <!-- Your are using pwp points -->
+    <string name="you_are_using_expedia_points_TEMPLATE">Stai usando {points} ({amount}) punti Expedia+</string>
+    <!-- Payment through card + pwp points -->
+    <string name="payment_through_card_and_pwp_points">Stai usando {points} ({amount}) punti Expedia+ \nSulla tua carta saranno addebitati {dueamount}</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">%1$s saranno addebitati sulla tua carta di credito (più commissioni della compagnia aerea)</string>
+    <string name="your_card_will_be_charged_plus_airline_fee_template">{dueamount} saranno addebitati sulla tua carta di credito (più commissioni della compagnia aerea)</string>
     <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_TEMPLATE">Importo da pagare subito: %1$s</string>
+    <string name="amount_due_today_template">Importo da pagare subito: {dueamount}</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Importo da pagare ora: %1$s</string>
+    <string name="amount_to_be_paid_now_TEMPLATE">Importo da pagare ora: {dueamount}</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">Da corrispondere all\&apos;hotel: %1$s</string>
+    <string name="to_be_collected_by_the_hotel_TEMPLATE">Da corrispondere all\&apos;hotel: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Completa prenotazione</string>
     <!-- Checkout menu item -->
@@ -2031,7 +2033,8 @@
     <string name="first_name_field_text">nome</string>
     <!-- last name -->
     <string name="last_name_field_text">cognome</string>
-    <!-- Label for hint on first and last name fields -->
+    <!-- Label for hint on first and last name fields. For English locale
+    we want to show "e.g." for all non-English we want to show "example:"-->
     <string name="hint_example_name_TEMPLATE">(esempio: %s)</string>
 
     <!-- Cardholder -->
@@ -2495,6 +2498,8 @@
     <string name="search_error">Errore di ricerca</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
+    <!-- Expedia Member Discount for a given property, AB test -->
+    <string name="member_pricing">Prezzi per iscritti</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2503,6 +2508,10 @@
         <item quantity="many">%d camere rimaste!</item>
         <item quantity="other">%d camere rimaste!</item>
     </plurals>
+
+
+    <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
+    <string name="EnableLocationPermissionSettings_TEMPLATE">Per usare la tua posizione attuale devi consentire a {brand} di accedere alla tua posizione.\n\nPassare alle impostazioni e attivare ora?</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">Per ricercare la posizione attuale, devi prima attivare l\&apos;origine delle informazioni sulla posizione dalle Impostazioni.\n\nPassare a impostazioni e attivare ora?</string>
@@ -2924,6 +2933,12 @@
     <string name="unknown">Nessuna informazione</string>
 
     <!-- Expedia Accounts -->
+    <!-- Label for messaging on sign in Variate 1 -->
+    <string name="sign_in_messaging">Risparmia con le offerte esclusive per soli iscritti</string>
+    <!-- Label for messaging on sign in Variate 2 -->
+    <string name="triple_point_messaging">Ottieni il TRIPLO dei punti Expedia+ Rewards</string>
+    <!-- Label for messaging on sign in Variate 3 -->
+    <string name="trip_alert_messaging">Ricevi importanti avvisi di viaggio</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Accedi</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3445,30 +3460,6 @@
     <string name="country_zw">Zimbabwe</string>
     <string name="country_ax">Isole Åland</string>
 
-    <!-- Google Wallet -->
-    <!-- Loading message -->
-    <string name="loading">Caricamento in corso…</string>
-    <!-- Google Wallet label -->
-    <string name="google_wallet">Google Wallet</string>
-    <!-- Google wallet unavailable error -->
-    <string name="google_wallet_unavailable">Google Wallet non è disponibile</string>
-    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
-    <string name="spending_limit_exceeded">Il tuo limite di spesa di Google Wallet è stato superato</string>
-    <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">Acquista con Google Wallet</string>
-    <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Risparmia <b>50$</b> su un viaggio di <b>almeno 200$</b> con Google Wallet!</string>
-    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Può essere utilizzato solo un codice coupon per prenotazione. Abbiamo sostituito il tuo coupon precedente con uno sconto di 50$ per aver utilizzato Google Wallet.</string>
-    <!-- Message shown while loading Wallet coupon -->
-    <string name="wallet_promo_applying">Stiamo applicando lo sconto di Google Wallet…</string>
-    <!-- Title for Google Wallet promo terms & conditions -->
-    <string name="wallet_promo_tc_title">Termini e condizioni dei coupon di Google Wallet</string>
-    <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Offerta: ricevi subito un coupon sconto di 50$ per soggiorni in hotel. Per approfittare dell\&apos;offerta, l\&apos;importo della prenotazione deve essere pari a $200. Come utilizzare il coupon: seleziona l\&apos;hotel di tua scelta. Scegli l\&apos;opzione "Acquista con Google Wallet" per effettuare il pagamento. I coupon devono essere utilizzati prenotando con l\&apos;app Expedia per Android entro le 23:59 (Fuso orario del Pacifico) del 31 dicembre 2014, per viaggi fino al 31 marzo 2015. Offerta a tempo limitato e soggetta a modifiche. Limite di un (1) coupon per utente per prenotazioni in hotel che aderiscono all\&apos;iniziativa. Quest\&apos;offerta è promossa da Expedia.com ed è valida solo per i clienti di Expedia.com degli Stati Uniti che usano l\&apos;app per Android. L\&apos;offerta non è valida per gli utenti iscritti al Programma Speciale Agenzie (TAAP) di Expedia. I coupon sono validi solo per prenotazioni di hotel con tariffa Expedia che aderiscono all\&apos;iniziativa. La prenotazioni sono soggette a disponibilità. Si applicano termini e condizioni. I coupon non possono essere cumulati, né utilizzati con altre promozioni o offerte speciali. Lo sconto coupon non può essere applicato per tasse, commissioni addebitate dal fornitore, penali di cancellazione o modifica, spese amministrative e altri oneri che sono di esclusiva responsabilità del cliente. Il coupon sarà considerato pienamente riscattato nel momento in cui verrà effettuata una prenotazione che rientra nell\&apos;offerta. Il codice promozionale non può essere utilizzato una seconda volta. Nel caso in cui si modifichino o si annullino parti della prenotazione, il coupon non si applica al programma di viaggio modificato. I termini e le condizioni del presente coupon sono come descritti e non possono essere modificati da persone non autorizzate, compresi i dipendenti di Expedia, Inc. Il coupon non è trasferibile né convertibile in denaro. Expedia, Inc. può revocare e modificare questa offerta in qualsiasi momento. Non valido laddove proibito dalla legge.</string>
-    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
-    <string name="wallet_coupon_not_applied_manually">Questo coupon può essere utilizzato solo selezionando Google Wallet come metodo di pagamento.</string>
-
     <!-- Human readable credit card names -->
     <!-- American Express -->
     <string name="cc_american_express">American Express</string>
@@ -3801,7 +3792,14 @@
     <!-- Fly to hint -->
     <string name="fly_to_hint">Volo per</string>
     <!-- Bundle Overview Step 1, select a hotel -->
-    <string name="step_one">Fase 1: hotel</string>
+    <string name="step_one">1: seleziona l\&apos;hotel</string>
     <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">Fase 2: voli</string>
+    <string name="step_two">2: seleziona il volo</string>
+
+    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_duration_template">%1$dg %2$dh %3$dm (scalo di %4$dh)</string>
+    <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
+    <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dg</string>
+    <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
+    <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
 </resources>

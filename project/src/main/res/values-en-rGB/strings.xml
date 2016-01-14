@@ -203,8 +203,6 @@
 
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_credit_debit_label">Credit Card/Debit Card</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_google_wallet_label">Google Wallet</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Guest Details</string>
     <!-- Text for enter guest details line 2 -->
@@ -1855,15 +1853,19 @@
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">slide to book flight</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">Your card will be charged %1$s</string>
+    <string name="your_card_will_be_charged_template">Your card will be charged {dueamount}</string>
+    <!-- Your are using pwp points -->
+    <string name="you_are_using_expedia_points_TEMPLATE">You are using {points} ({amount}) Expedia+ points</string>
+    <!-- Payment through card + pwp points -->
+    <string name="payment_through_card_and_pwp_points">You are using {points} ({amount}) Expedia+ points\nYour card will be charged {dueamount}</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">Your card will be charged %1$s (plus airline fee)</string>
+    <string name="your_card_will_be_charged_plus_airline_fee_template">Your card will be charged {dueamount} (plus airline fee)</string>
     <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_TEMPLATE">Amount due today: %1$s</string>
+    <string name="amount_due_today_template">Amount due today: {dueamount}</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Amount to be paid now: %1$s</string>
+    <string name="amount_to_be_paid_now_TEMPLATE">Amount to be paid now: {dueamount}</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">To be collected by hotel: %1$s</string>
+    <string name="to_be_collected_by_the_hotel_TEMPLATE">To be collected by hotel: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Finish Booking</string>
     <!-- Checkout menu item -->
@@ -2031,8 +2033,9 @@
     <string name="first_name_field_text">first name</string>
     <!-- last name -->
     <string name="last_name_field_text">last name</string>
-    <!-- Label for hint on first and last name fields -->
-    <string name="hint_example_name_TEMPLATE">(example: %s)</string>
+    <!-- Label for hint on first and last name fields. For English locale
+    we want to show "e.g." for all non-English we want to show "example:"-->
+    <string name="hint_example_name_TEMPLATE">(e.g.: %s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Cardholder</string>
@@ -2495,6 +2498,8 @@
     <string name="search_error">Search Error</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
+    <!-- Expedia Member Discount for a given property, AB test -->
+    <string name="member_pricing">Member Pricing</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2503,6 +2508,10 @@
         <item quantity="many">%d Rooms Left</item>
         <item quantity="other">%d Rooms Left</item>
     </plurals>
+
+
+    <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
+    <string name="EnableLocationPermissionSettings_TEMPLATE">To use Current Location, you must allow {brand} to access your location.\n\nGo to Settings and turn it on now?</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">To use Current Location, you must first turn on a Location source in Settings.\n\nGo to Settings and turn it on now?</string>
@@ -2924,6 +2933,12 @@
     <string name="unknown">Unknown</string>
 
     <!-- Expedia Accounts -->
+    <!-- Label for messaging on sign in Variate 1 -->
+    <string name="sign_in_messaging">Save with exclusive member-only deals</string>
+    <!-- Label for messaging on sign in Variate 2 -->
+    <string name="triple_point_messaging">Earn TRIPLE Expedia+ points</string>
+    <!-- Label for messaging on sign in Variate 3 -->
+    <string name="trip_alert_messaging">Receive important trip alerts</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Sign In</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3445,30 +3460,6 @@
     <string name="country_zw">Zimbabwe</string>
     <string name="country_ax">Åland Islands</string>
 
-    <!-- Google Wallet -->
-    <!-- Loading message -->
-    <string name="loading">Loading</string>
-    <!-- Google Wallet label -->
-    <string name="google_wallet">Google Wallet</string>
-    <!-- Google wallet unavailable error -->
-    <string name="google_wallet_unavailable">Google Wallet is unavailable</string>
-    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
-    <string name="spending_limit_exceeded">You have exceeded your Google Wallet spending limit</string>
-    <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">Buy with Google wallet</string>
-    <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Save <b>$50</b> on a <b>$200+ trip</b> with Google Wallet!</string>
-    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Only one coupon can be used per booking. We replaced your previous voucher with the $50 discount for using Google Wallet.</string>
-    <!-- Message shown while loading Wallet coupon -->
-    <string name="wallet_promo_applying">Applying Google Wallet discount…</string>
-    <!-- Title for Google Wallet promo terms & conditions -->
-    <string name="wallet_promo_tc_title">Google Wallet Coupon Terms &amp; Conditions</string>
-    <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Offer: Receive an instant $50 voucher discount off a hotel stay. The price of the qualifying booking must be at least $200. How to redeem: Select a qualifying hotel stay. On the checkout page, use “Buy with Google Wallet” to check out. Voucher must be redeemed in the Expedia Android app by 23:59 (Pacific Time) on 31 December 2014 for travel between now and 31 March 2015. Limited time offer: subject to change. Limit one (1) voucher per user account and per qualifying hotel booking. This offer is from Expedia.com and is valid for Expedia.com U.S. Android app customers only. Customers affiliated with Expedia\&apos;s Travel Agent Affiliate Program are not eligible for offer. Voucher valid for eligible Expedia Rate Hotels only . Bookings subject to availability and all applicable terms and conditions. Voucher may not be used with other vouchers, promotions or special offers. Coupon discount cannot be applied against taxes, supplier-charged fees, cancellation or change penalties, administrative fees or other miscellaneous charges, which are the sole responsibility of the customer. A voucher will be deemed fully used once a qualifying booking has been made and may not be reused. In the event that you change or cancel any part of your booking, the voucher will not apply to the changed travel schedule. Terms and conditions of this voucher are as written and cannot be changed by any representation of any unauthorised person, including employees of Expedia, Inc. Voucher is not transferable and is not redeemable for cash. Expedia, Inc. may revoke or change this offer at any time. Void where prohibited by law.</string>
-    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
-    <string name="wallet_coupon_not_applied_manually">This voucher may only be applied when selecting Google Wallet as your form of payment.</string>
-
     <!-- Human readable credit card names -->
     <!-- American Express -->
     <string name="cc_american_express">American Express</string>
@@ -3801,7 +3792,14 @@
     <!-- Fly to hint -->
     <string name="fly_to_hint">Flying to</string>
     <!-- Bundle Overview Step 1, select a hotel -->
-    <string name="step_one">Step 1 Hotel</string>
+    <string name="step_one">Step 1: Select Hotel</string>
     <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">Step 2 Flights</string>
+    <string name="step_two">Step 2: Select Flights</string>
+
+    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_duration_template">%1$dd %2$dh %3$dm (%4$dhr layover)</string>
+    <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
+    <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dd</string>
+    <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
+    <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
 </resources>

@@ -85,7 +85,7 @@
     <!-- Text for enter payment details-->
     <string name="enter_payment_details">결제 정보 입력</string>
     <!-- Template for selected credit card-->
-    <string name="selected_card_template">만료일: %s</string>
+    <string name="selected_card_template">유효기간: %s</string>
     <!-- Car doors text-->
     <string name="car_doors_text">도어</string>
     <!-- Car bags text-->
@@ -203,8 +203,6 @@
 
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_credit_debit_label">신용카드/직불카드</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_google_wallet_label">Google Wallet</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">숙박객 정보</string>
     <!-- Text for enter guest details line 2 -->
@@ -1855,15 +1853,19 @@
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">밀어서 항공 예약하기</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">고객님의 신용카드로 %1$s의 금액이 청구됩니다.</string>
+    <string name="your_card_will_be_charged_template">고객님 카드에 {dueamount}의 금액이 청구됩니다.</string>
+    <!-- Your are using pwp points -->
+    <string name="you_are_using_expedia_points_TEMPLATE">Expedia+ {points}포인트({amount})를 사용하고 계십니다.</string>
+    <!-- Payment through card + pwp points -->
+    <string name="payment_through_card_and_pwp_points">Expedia+ {points}포인트({amount})를 사용하고 계십니다.\n고객님 카드에 {dueamount}의 금액이 청구됩니다.</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">고객님 카드에 %1$s의 금액(항공사 수수료 별도)이 청구됩니다.</string>
+    <string name="your_card_will_be_charged_plus_airline_fee_template">고객님 카드에 {dueamount}의 금액(항공사 수수료 별도)이 청구됩니다.</string>
     <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_TEMPLATE">오늘 결제할 금액: %1$s</string>
+    <string name="amount_due_today_template">오늘 결제할 금액: {dueamount}</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">지금 결제할 금액: %1$s</string>
+    <string name="amount_to_be_paid_now_TEMPLATE">지금 결제할 금액: {dueamount}</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">호텔에서 결제: %1$s</string>
+    <string name="to_be_collected_by_the_hotel_TEMPLATE">호텔에서 결제할 금액: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">예약 완료</string>
     <!-- Checkout menu item -->
@@ -2016,7 +2018,7 @@
     <!-- Born on colored -->
     <string name="born_on_colored_TEMPLATE">생년월일: %1$s</string>
     <!-- <brand> expiring <date> template -->
-    <string name="brand_expiring_TEMPLATE">%1$s 만료일: %2$s</string>
+    <string name="brand_expiring_TEMPLATE">%1$s 유효기간: %2$s</string>
 
     <!-- Section edit contact -->
     <!-- name on card hint -->
@@ -2031,7 +2033,8 @@
     <string name="first_name_field_text">이름</string>
     <!-- last name -->
     <string name="last_name_field_text">성</string>
-    <!-- Label for hint on first and last name fields -->
+    <!-- Label for hint on first and last name fields. For English locale
+    we want to show "e.g." for all non-English we want to show "example:"-->
     <string name="hint_example_name_TEMPLATE">(예: %s)</string>
 
     <!-- Cardholder -->
@@ -2056,11 +2059,11 @@
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">신용카드 번호</string>
     <!-- Expiration date label -->
-    <string name="expiration_date">만료일</string>
+    <string name="expiration_date">유효기간</string>
     <!-- Set expiration date button -->
     <string name="btn_set">설정</string>
     <!-- Describes credit card expiration (e.g. "Expires 01/18") -->
-    <string name="Expires_TEMPLATE">만료일: %1$s</string>
+    <string name="Expires_TEMPLATE">유효기간: %1$s</string>
 
     <!-- Section edit billing address -->
     <!-- Address line 1 hint -->
@@ -2495,6 +2498,8 @@
     <string name="search_error">검색 오류</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">호텔 %s</string>
+    <!-- Expedia Member Discount for a given property, AB test -->
+    <string name="member_pricing">회원가</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2503,6 +2508,10 @@
         <item quantity="many">%d개 객실 남음</item>
         <item quantity="other">%d개 객실 남음</item>
     </plurals>
+
+
+    <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
+    <string name="EnableLocationPermissionSettings_TEMPLATE">현재 위치를 사용하려면 {brand}에서 고객님의 위치에 액세스하도록 허용하셔야 합니다.\n\n설정으로 가서 지금 설정하시겠어요?</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">현재 위치를 사용하려면 환경설정에서 위치 서비스를 켜셔야 합니다.\n\n환경설정으로 이동하여 지금 설정하시겠어요?</string>
@@ -2924,6 +2933,12 @@
     <string name="unknown">알 수 없음</string>
 
     <!-- Expedia Accounts -->
+    <!-- Label for messaging on sign in Variate 1 -->
+    <string name="sign_in_messaging">회원 한정 특가 상품으로 할인받으세요!</string>
+    <!-- Label for messaging on sign in Variate 2 -->
+    <string name="triple_point_messaging">Expedia+ 포인트를 3배로 적립하세요!</string>
+    <!-- Label for messaging on sign in Variate 3 -->
+    <string name="trip_alert_messaging">중요한 여행 관련 알림을 받으세요!</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">로그인</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3167,7 +3182,7 @@
     <!-- The hotel booking failed due to a failure in payment. Ask to verify info and try again -->
     <string name="e3_error_checkout_payment_failed">죄송합니다. 고객님의 결제를 처리할 수 없습니다. 입력하신 정보가 올바른지 확인해 주세요.</string>
     <!-- There is invalid expiration date for the credit card used. Please fix it. -->
-    <string name="e3_error_checkout_invalid_expiration">신용카드 만료일이 올바르지 않습니다.</string>
+    <string name="e3_error_checkout_invalid_expiration">신용카드 유효기간이 올바르지 않습니다.</string>
     <!-- Error message displayed when the traveler information is invalid -->
     <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">유효한 %1$s을(를) 입력해 주세요.</string>
 
@@ -3444,30 +3459,6 @@
     <string name="country_zm">잠비아</string>
     <string name="country_zw">짐바브웨</string>
     <string name="country_ax">알랜드 제도</string>
-
-    <!-- Google Wallet -->
-    <!-- Loading message -->
-    <string name="loading">로드 중</string>
-    <!-- Google Wallet label -->
-    <string name="google_wallet">Google Wallet</string>
-    <!-- Google wallet unavailable error -->
-    <string name="google_wallet_unavailable">Google Wallet을 이용할 수 없습니다.</string>
-    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
-    <string name="spending_limit_exceeded">Google Wallet의 소비 한도를 초과하셨습니다.</string>
-    <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">Google Wallet으로 구매</string>
-    <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Google Wallet으로 <b>$200+ 여행</b>에서 <b>$50</b> 할인받으세요!</string>
-    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">예약 1회당 한 개 쿠폰만 사용하실 수 있습니다. 이전 쿠폰을 Google Wallet 사용에 대한 $50 할인으로 대체해드렸습니다.</string>
-    <!-- Message shown while loading Wallet coupon -->
-    <string name="wallet_promo_applying">Google Wallet 할인 적용 중…</string>
-    <!-- Title for Google Wallet promo terms & conditions -->
-    <string name="wallet_promo_tc_title">Google Wallet 쿠폰 이용약관</string>
-    <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">혜택: 호텔 숙박비에서 $50 쿠폰 할인을 바로 받으실 수 있어요. 해당되는 예약의 가격이 $200 이상이어야 합니다. 이용 방법: 적용되는 호텔 숙박을 선택합니다. 예약 페이지에서 "Google Wallet으로 구매"를 선택합니다. 쿠폰은 지금부터 2015년 3월 31일까지에 해당하는 여행에 대해 익스피디아 안드로이드 앱으로 2014년 12월 31일 11:59 PM(태평양 시간 기준)까지 이용하셔야 합니다. 시간 한정 혜택: 변경될 수 있습니다. 사용자 계정과 적용 가능한 호텔 예약별로 1개 쿠폰으로 제한됩니다. 이 혜택은 Expedia.com에서 제공하는 것이며 Expedia.com 미국 사이트 안드로이드 앱 고객에게만 유효합니다. 익스피디아의 여행사 제휴 프로그램과 연계된 고객은 이 혜택을 이용하실 수 없습니다. 쿠폰은 해당되는 익스피디아 요금 호텔에만 적용됩니다. 예약에는 예약 가능 여부와 해당되는 모든 이용약관이 적용됩니다. 이 쿠폰은 다른 쿠폰이나 프로모션 또는 특별 혜택과 함께 사용하실 수 없습니다. 쿠폰 할인은 세금, 공급업체가 부과하는 요금, 취소 또는 변경에 대한 위약금, 행정 수수료 및 기타 부과금에는 적용되지 않으며 이러한 부과금은 고객님 본인의 단독 책임입니다. 적용되는 예약이 수행되면 쿠폰은 완전히 사용된 것으로 간주되며 다시 사용할 수 없습니다. 예약을 일부라도 변경하거나 취소하는 경우, 변경된 일정의 여행에는 이 쿠폰이 적용되지 않습니다. 이 쿠폰의 이용약관은 기술된 바와 같으며 Expedia, Inc.의 직원을 포함하여 누구도 승인 없이 대표로 변경할 수 없습니다. 쿠폰은 양도가 불가능하며 현금으로 환급되지 않습니다. Expedia, Inc.는 언제든지 이 혜택을 취소 또는 변경할 수 있습니다. 법으로 금지되는 경우에는 효력이 없습니다.</string>
-    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
-    <string name="wallet_coupon_not_applied_manually">이 쿠폰은 Google Wallet을 결제 수단으로 선택할 때만 적용됩니다.</string>
 
     <!-- Human readable credit card names -->
     <!-- American Express -->
@@ -3801,7 +3792,14 @@
     <!-- Fly to hint -->
     <string name="fly_to_hint">도착</string>
     <!-- Bundle Overview Step 1, select a hotel -->
-    <string name="step_one">1단계: 호텔</string>
+    <string name="step_one">1단계: 호텔 선택</string>
     <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">2단계: 항공</string>
+    <string name="step_two">2단계: 항공 선택</string>
+
+    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_duration_template">%1$d일 %2$d시간 %3$d분 (%4$d시간 경유)</string>
+    <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
+    <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s (+%3$d일)</string>
+    <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
+    <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
 </resources>

@@ -203,8 +203,6 @@
 
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_credit_debit_label">Kartu Debit/Kredit</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_google_wallet_label">Google Wallet</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Rincian Tamu</string>
     <!-- Text for enter guest details line 2 -->
@@ -1030,7 +1028,7 @@
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">Masukkan Rincian Itinerary</string>
     <!-- Find Itinerary # -->
-    <string name="find_itinerary_pound">Cari Nomor Itineryary</string>
+    <string name="find_itinerary_pound">Cari Nomor Itinerary</string>
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">No. Itinerary {brand}</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
@@ -1855,15 +1853,19 @@
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">geser untuk memesan penerbangan</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">Kartu kredit Anda akan dikenai %1$s</string>
+    <string name="your_card_will_be_charged_template">Kartu kredit Anda akan dikenai {dueamount}</string>
+    <!-- Your are using pwp points -->
+    <string name="you_are_using_expedia_points_TEMPLATE">Anda menggunakan {points} ({amount}) poin Expedia+</string>
+    <!-- Payment through card + pwp points -->
+    <string name="payment_through_card_and_pwp_points">Anda menggunakan {points} ({amount}) poin Expedia+\nTotal {dueamount} akan ditarik dari kartu Anda</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">%1$s akan ditarik dari kartu Anda (plus biaya maskapai)</string>
+    <string name="your_card_will_be_charged_plus_airline_fee_template">{dueamount} akan ditarik dari kartu Anda (plus biaya maskapai)</string>
     <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_TEMPLATE">Dibayar hari ini: %1$s</string>
+    <string name="amount_due_today_template">Dibayar hari ini: {dueamount}</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Jumlah harus dibayar sekarang: %1$s</string>
+    <string name="amount_to_be_paid_now_TEMPLATE">Jumlah harus dibayar sekarang: {dueamount}</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">Akan ditagihkan oleh hotel: %1$s</string>
+    <string name="to_be_collected_by_the_hotel_TEMPLATE">Akan ditarik oleh hotel: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Selesaikan Pemesanan</string>
     <!-- Checkout menu item -->
@@ -2031,8 +2033,9 @@
     <string name="first_name_field_text">nama depan</string>
     <!-- last name -->
     <string name="last_name_field_text">nama belakang</string>
-    <!-- Label for hint on first and last name fields -->
-    <string name="hint_example_name_TEMPLATE">(contoh: %s)</string>
+    <!-- Label for hint on first and last name fields. For English locale
+    we want to show "e.g." for all non-English we want to show "example:"-->
+    <string name="hint_example_name_TEMPLATE">(mis.: %s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Pemilik Kartu</string>
@@ -2495,6 +2498,8 @@
     <string name="search_error">Kesalahan Pencarian</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
+    <!-- Expedia Member Discount for a given property, AB test -->
+    <string name="member_pricing">Harga Member</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2503,6 +2508,10 @@
         <item quantity="many">Sisa %d Kamar</item>
         <item quantity="other">Sisa %d Kamar</item>
     </plurals>
+
+
+    <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
+    <string name="EnableLocationPermissionSettings_TEMPLATE">Untuk menggunakan Lokasi Saat Ini, harap izinkan {brand} untuk mengakses lokasi Anda.\n\nBuka Pengaturan dan aktifkan sekarang?</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">Untuk menggunakan Lokasi Saat Ini, harap aktifkan terlebih dulu Lokasi di Pengaturan perangkat Anda.\n\nBuka Pengaturan dan aktifkan sekarang?</string>
@@ -2924,6 +2933,12 @@
     <string name="unknown">Tidak Diketahui</string>
 
     <!-- Expedia Accounts -->
+    <!-- Label for messaging on sign in Variate 1 -->
+    <string name="sign_in_messaging">Diskon spesial dengan promo khusus-member</string>
+    <!-- Label for messaging on sign in Variate 2 -->
+    <string name="triple_point_messaging">Dapatkan 3x lipat poin Expedia+</string>
+    <!-- Label for messaging on sign in Variate 3 -->
+    <string name="trip_alert_messaging">Terima notifikasi terkait perjalanan</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Masuk</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3445,30 +3460,6 @@
     <string name="country_zw">Zimbabwe</string>
     <string name="country_ax">Kepulauan Åland</string>
 
-    <!-- Google Wallet -->
-    <!-- Loading message -->
-    <string name="loading">Memuat</string>
-    <!-- Google Wallet label -->
-    <string name="google_wallet">Google Wallet</string>
-    <!-- Google wallet unavailable error -->
-    <string name="google_wallet_unavailable">Google Wallet tidak tersedia</string>
-    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
-    <string name="spending_limit_exceeded">Anda sudah melebihi batas penggunaan Google Wallet Anda</string>
-    <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">Beli dengan Google wallet</string>
-    <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Hemat <b>$50</b> untuk perjalanan senilai <b>lebih dari $200</b> dengan Google Wallet!</string>
-    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Hanya satu kupon yang bisa digunakan untuk setiap pemesanan. Kami mengganti kupon Anda yang sebelumnya dengan diskon $50 untuk penggunaan Google Wallet.</string>
-    <!-- Message shown while loading Wallet coupon -->
-    <string name="wallet_promo_applying">Menerapkan diskon Google Wallet…</string>
-    <!-- Title for Google Wallet promo terms & conditions -->
-    <string name="wallet_promo_tc_title">Syarat &amp; Ketentuan Kupon Google Wallet</string>
-    <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Penawaran: Dapatkan diskon kupon cepat $50 untuk menginap di hotel. Harga pemesanan yang memenuhi syarat minimum harus $200. Cara menukar: Pilih waktu menginap di hotel yang memenuhi syarat. Pada halaman checkout, gunakan "Beli dengan Google" saat checkout. Kupon harus ditukar di aplikasi Expedia Android pada jam 23.59 (Waktu Pasifik) pada tanggal 31 Desember 2014 untuk perjalanan mulai dari sekarang hingga 31 Maret 2015. Penawaran periode terbatas: subjek untuk diganti Batas 1 (satu) kupon untuk setiap akun pengguna dan untuk setiap pemesanan hotel yang memenuhi syarat Penawaran ini diberikan oleh Expedia.com dan hanya berlaku untuk pelanggan aplikasi Android Expedia.com AS. Pelanggan yang berafiliasi dengan Program Afiliasi Agen Perjalanaan (TAAP) tidak bisa menggunakan penawaran ini. Kupon hanya berlaku untuk Tarif Hotel Expedia yang memenuhi syarat. Subjek pemesanan bergantung pada ketersediaan serta semua syarat dan ketentuan. Kupon kemungkinan tidak bisa digunakan dengan kupon, promosi, atau penawaran khusus lainnya. Diskon kupon tidak bisa diterapkan pada pajak, biaya yang dikenakan suplier, denda pembatalan atau perubahan, biaya administrasi, atau biaya lainnya, yang merupakan tanggung jawab pelanggan. Kupon akan dianggap telah ditukar seluruhnya setelah pemesanan yang memenuhi syarat dibuat dan tidak dapat digunakan kembali. Bila Anda mengubah atau membatalkan sebagian pemesanan, kupon tidak akan berlaku untuk jadwal perjalanan yang diganti. Syarat dan ketentuan kupon ini adalah seperti yang tertulis dan tidak bisa diubah oleh perwakilan pihak yang tidak berwenang, termasuk oleh karyawan Expedia, Inc. Kupon tidak bisa dipindahtangankan dan tidak bisa ditukarkan dengan uang tunai. Expedia, Inc. dapat membatalkan atau mengubah penawaran ini sewaktu-waktu. Tidak berlaku jika dilarang oleh undang-undang setempat.</string>
-    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
-    <string name="wallet_coupon_not_applied_manually">Kupon ini mungkin hanya berlaku saat memilih Google Wallet sebagai bentuk pembayaran Anda.</string>
-
     <!-- Human readable credit card names -->
     <!-- American Express -->
     <string name="cc_american_express">American Express</string>
@@ -3801,7 +3792,14 @@
     <!-- Fly to hint -->
     <string name="fly_to_hint">Terbang ke</string>
     <!-- Bundle Overview Step 1, select a hotel -->
-    <string name="step_one">Tahap 1 - Hotel</string>
+    <string name="step_one">Langkah 1: Pilih Hotel</string>
     <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">Tahap 1 - Penerbangan</string>
+    <string name="step_two">Langkah 2: Pilih Penerbangan</string>
+
+    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_duration_template">%1$dh %2$dj %3$dm (transit %4$djam)</string>
+    <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
+    <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dhr</string>
+    <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
+    <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
 </resources>

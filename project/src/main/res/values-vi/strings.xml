@@ -203,8 +203,6 @@
 
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_credit_debit_label">Thẻ tín dụng/ghi nợ</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_google_wallet_label">Google Wallet</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Thông tin khách</string>
     <!-- Text for enter guest details line 2 -->
@@ -1855,15 +1853,19 @@
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">trượt để đặt chuyến bay</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">Thẻ của quý vị sẽ được tính phí %1$s</string>
+    <string name="your_card_will_be_charged_template">Thẻ của quý vị sẽ được tính phí {dueamount}</string>
+    <!-- Your are using pwp points -->
+    <string name="you_are_using_expedia_points_TEMPLATE">Quý vị sử dụng {points} ({amount}) điểm Expedia+</string>
+    <!-- Payment through card + pwp points -->
+    <string name="payment_through_card_and_pwp_points">Quý vị sử dụng {points} ({amount}) điểm Expedia+\nSẽ thu {dueamount} từ thẻ tín dụng của quý vị</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">Sẽ thu từ thẻ của quý vị %1$s (cùng phí hãng hàng không)</string>
+    <string name="your_card_will_be_charged_plus_airline_fee_template">Sẽ thu từ thẻ của quý vị {dueamount} (cùng phí hãng hàng không)</string>
     <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_TEMPLATE">Thanh toán hôm nay: %1$s</string>
+    <string name="amount_due_today_template">Thanh toán hôm nay: {dueamount}</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Số tiền cần thanh toán ngay: %1$s</string>
+    <string name="amount_to_be_paid_now_TEMPLATE">Số tiền cần thanh toán ngay: {dueamount}</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">Thanh toán tại khách sạn: %1$s</string>
+    <string name="to_be_collected_by_the_hotel_TEMPLATE">Thanh toán tại khách sạn: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Hoàn tất việc đặt</string>
     <!-- Checkout menu item -->
@@ -2031,7 +2033,8 @@
     <string name="first_name_field_text">tên</string>
     <!-- last name -->
     <string name="last_name_field_text">họ</string>
-    <!-- Label for hint on first and last name fields -->
+    <!-- Label for hint on first and last name fields. For English locale
+    we want to show "e.g." for all non-English we want to show "example:"-->
     <string name="hint_example_name_TEMPLATE">(VD: %s)</string>
 
     <!-- Cardholder -->
@@ -2495,6 +2498,8 @@
     <string name="search_error">Lỗi tìm kiếm</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">Khách sạn %s</string>
+    <!-- Expedia Member Discount for a given property, AB test -->
+    <string name="member_pricing">Giá thành viên</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2503,6 +2508,10 @@
         <item quantity="many">Còn %d phòng</item>
         <item quantity="other">Còn %d phòng</item>
     </plurals>
+
+
+    <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
+    <string name="EnableLocationPermissionSettings_TEMPLATE">Để tìm với địa điểm hiện tại, quý vị phải cho phép {brand} truy cập địa điểm của thiết bị.\n\nVào Cài đặt để bật tính năng này?</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">Để sử dụng chức năng Địa điểm Hiện tại, quý vị phải mở nguồn Vị trí trong phần Cài đặt của thiết bị.\n\nVào Cài đặt và mở ngay?</string>
@@ -2924,6 +2933,12 @@
     <string name="unknown">Không có thông tin</string>
 
     <!-- Expedia Accounts -->
+    <!-- Label for messaging on sign in Variate 1 -->
+    <string name="sign_in_messaging">Tiết kiệm nhiều hơn với ưu đãi chỉ dành cho thành viên</string>
+    <!-- Label for messaging on sign in Variate 2 -->
+    <string name="triple_point_messaging">Nhận GẤP 3 LẦN điểm Expedia+</string>
+    <!-- Label for messaging on sign in Variate 3 -->
+    <string name="trip_alert_messaging">Nhận thông báo quan trọng về chuyến đi</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Đăng nhập</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3445,30 +3460,6 @@
     <string name="country_zw">Zimbabwe</string>
     <string name="country_ax">Quần đảo Åland</string>
 
-    <!-- Google Wallet -->
-    <!-- Loading message -->
-    <string name="loading">Đang tải</string>
-    <!-- Google Wallet label -->
-    <string name="google_wallet">Google Wallet</string>
-    <!-- Google wallet unavailable error -->
-    <string name="google_wallet_unavailable">Không sử dụng được Google Wallet</string>
-    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
-    <string name="spending_limit_exceeded">Quý vị đã sử dụng quá hạn mức chi tiêu của Google Wallet</string>
-    <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">Thanh toán bằng Google Wallet</string>
-    <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Tiết kiệm <b>50$</b> với <b>chuyến đi 200$+</b> cùng Google Wallet!</string>
-    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Chỉ sử dụng được 1 coupon mỗi lần đặt. Chúng tôi thay coupon trước đây của quý vị bằng việc giảm giá 50$ khi sử dụng Google Wallet.</string>
-    <!-- Message shown while loading Wallet coupon -->
-    <string name="wallet_promo_applying">Áp dụng giảm giá với Google Wallet…</string>
-    <!-- Title for Google Wallet promo terms & conditions -->
-    <string name="wallet_promo_tc_title">Điềi khoản &amp; Điều kiện sử dụng Google Wallet Coupon</string>
-    <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Ưu đãi: Nhận ngay coupon giảm 50$ đặt phòng khách sạn. Giá của đặt phòng đủ điều kiện phải ít nhất là 200$. Đổi thưởng: Chọn một kỳ lưu trú hợp lệ. Tại trang thanh toán, chọn “Thanh toán bằng Google” để thanh toán. Đổi thưởng coupon qua app Android Expedia trước 23:59 (Múi giờ Thái Bình Dương) ngày 31/12/2014 cho kỳ lưu trú từ này đến 31/03/2015. Ưu đãi trong thời gian giới hạn: có thể thay đổi. Giới hạn một (1) coupon / 1 tài khoản cho 1 lần đặt phòng khách sạn hợp lệ. Ưu đãi từ Expedia.com và chỉ dành cho khách hàng sử dụng app Expedia.com tại Mỹ. Khách hàng liên quan đến Chương trình Liên kết Đại lý Du lịch Expedia không đủ điều kiện tham gia ưu đãi này. Coupon chỉ hợp lệ để sử dụng tại khách sạn Mức giá đặc biệt trên Expedia. Tùy thuộc tình trạng phòng thực tế và áp dụng mọi điều kiện và điều khoản. Không thể sử dụng kết hợp coupon này với các coupon, chương trình khuyến mãi hay ưu đãi đặc biệt khác. Không áp dụng giảm giá coupon cho các khoản thuế, phụ phí nhà cung cấp, phí phạt hủy hoặc đổi, phí hành chánh hoặc các loại phụ phí khác - do khách hàng chịu trách nhiệm thanh toán. Coupon được coi là đã được đổi thưởng hoàn toàn sau khi thực hiện đặt phòng hợp lệ và không thể sử dụng lại. Trong trường hợp quý vị thay đổi hoặc hủy bất kỳ chi tiết đặt phòng nào, coupon này sẽ không được áp dụng vào lịch trình chuyến đi mới. Điều khoản và điều kiện của coupon này chính xác như đã được nêu và không cá nhân không có thẩm quyền nào có thể thay đổi, kể cả nhân viên Expedia, Inc. Không thể chuyển nhượng coupon và không thể đổi coupon này lấy tiền mặt. Expedia, Inc. có thể hủy bỏ hoặc thay đổi ưu đãi này bất kỳ lúc nào. Ưu đãi không có hiệu lực nếu bị cấm theo luật.</string>
-    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
-    <string name="wallet_coupon_not_applied_manually">Chỉ có thể áp dụng coupon khi quý vị chọn thanh toán bằng Google Wallet.</string>
-
     <!-- Human readable credit card names -->
     <!-- American Express -->
     <string name="cc_american_express">American Express</string>
@@ -3801,7 +3792,14 @@
     <!-- Fly to hint -->
     <string name="fly_to_hint">Bay đến</string>
     <!-- Bundle Overview Step 1, select a hotel -->
-    <string name="step_one">Bước 1 - Khách sạn</string>
+    <string name="step_one">Bước 1: Chọn Khách sạn</string>
     <!-- Bundle Overview Step 2, select a flight -->
-    <string name="step_two">Bước 2 - Chuyến bay</string>
+    <string name="step_two">Bước 2: Chọn Chuyến bay</string>
+
+    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_duration_template">%1$dng %2$dg %3$dp (tạm dừng %4$dg)</string>
+    <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
+    <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dng</string>
+    <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
+    <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
 </resources>
