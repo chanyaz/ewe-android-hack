@@ -172,6 +172,6 @@
         android:minHeight="?attr/actionBarSize"
         app:navigationIcon="@drawable/ic_close_white_24dp"
         app:title="@string/hotel_toolbar_title"
-        app:titleTextAppearance="@style/CarsToolbarTitleTextAppearance" />
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
 
 </merge>

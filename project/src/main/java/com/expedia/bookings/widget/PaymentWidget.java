@@ -177,7 +177,9 @@ public class PaymentWidget extends ExpandableCardView {
 			public boolean onEditorAction(android.widget.TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_DONE) {
 					setExpanded(false);
-					mToolbarListener.onWidgetClosed();
+					if (mToolbarListener != null) {
+						mToolbarListener.onWidgetClosed();
+					}
 				}
 				return false;
 			}
@@ -359,7 +361,9 @@ public class PaymentWidget extends ExpandableCardView {
 			else {
 				showPaymentDetails();
 			}
-			mToolbarListener.setActionBarTitle(getActionBarTitle());
+			if (mToolbarListener != null) {
+				mToolbarListener.setActionBarTitle(getActionBarTitle());
+			}
 		}
 		else {
 			if (!WalletUtils.isWalletSupported(lineOfBusiness) && sectionBillingInfo.getBillingInfo() != null && sectionBillingInfo.getBillingInfo().isUsingGoogleWallet()) {
@@ -398,7 +402,9 @@ public class PaymentWidget extends ExpandableCardView {
 		storedCardContainer.setVisibility(hasStoredCard ? VISIBLE : GONE);
 		sectionBillingInfo.setVisibility(hasStoredCard ? GONE : VISIBLE);
 		if (hasStoredCard) {
-			mToolbarListener.onEditingComplete();
+			if (mToolbarListener != null) {
+				mToolbarListener.onEditingComplete();
+			}
 		}
 		else {
 			creditCardNumber.requestFocus();
@@ -421,7 +427,9 @@ public class PaymentWidget extends ExpandableCardView {
 				OmnitureTracking.trackCheckoutPayment(lineOfBusiness);
 			}
 		}
-		mToolbarListener.setActionBarTitle(getActionBarTitle());
+		if (mToolbarListener != null) {
+			mToolbarListener.setActionBarTitle(getActionBarTitle());
+		}
 	}
 
 	@Override

@@ -234,6 +234,9 @@ public class
 		R.integer.calendar_max_days_package_stay,
 		R.color.hotel_result_background,
 		R.string.hotels_guest_TEMPLATE,
-		R.layout.bundle_hotel_widget
+		R.layout.bundle_hotel_widget,
+		R.layout.widget_base_checkout,
+		R.drawable.ic_chevron_up_black_48dp,
+		R.string.trip_overview
 	};
 }
