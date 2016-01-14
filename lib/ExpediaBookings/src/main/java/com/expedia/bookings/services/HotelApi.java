@@ -2,11 +2,9 @@ package com.expedia.bookings.services;
 
 import java.util.Map;
 
-import com.expedia.bookings.data.hotels.CalculatePointsResponse;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchResponse;
-import com.expedia.bookings.data.hotels.ProgramName;
 
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
@@ -61,12 +59,4 @@ public interface HotelApi {
 	@POST("/m/api/hotel/trip/checkout")
 	Observable<HotelCheckoutResponse> checkout(
 		@FieldMap Map<String, Object> queryParams);
-
-	@GET("/m/api/trip/calculatePoints")
-	Observable<CalculatePointsResponse> calculatePoints(
-		@Query("tripId") String tripId,
-		@Query("programName") ProgramName programName,
-		@Query("amount") String amount,
-		@Query("rateId") String rateId
-	);
 }

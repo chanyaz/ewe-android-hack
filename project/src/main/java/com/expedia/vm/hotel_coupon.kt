@@ -7,7 +7,7 @@ import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
-import com.expedia.bookings.data.hotels.PaymentModel
+import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.util.endlessObserver
@@ -15,7 +15,7 @@ import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class HotelCouponViewModel(val context: Context, val hotelServices: HotelServices, val paymentModel: PaymentModel) {
+class HotelCouponViewModel(val context: Context, val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
 
     val applyObservable = PublishSubject.create<String>()
     val removeObservable = PublishSubject.create<Unit>()

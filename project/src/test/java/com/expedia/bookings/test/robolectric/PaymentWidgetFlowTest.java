@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.robolectric;
 
+import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -100,6 +102,7 @@ public class PaymentWidgetFlowTest {
 		};
 
 		HotelCreateTripResponse response = new HotelCreateTripResponse();
+		response.validFormsOfPayment = new ArrayList<>();
 		response.newHotelProductResponse = new HotelCreateTripResponse.HotelProductResponse();
 		response.newHotelProductResponse.hotelRoomResponse = new HotelOffersResponse.HotelRoomResponse();
 		response.newHotelProductResponse.hotelRoomResponse.rateInfo = new HotelOffersResponse.RateInfo();

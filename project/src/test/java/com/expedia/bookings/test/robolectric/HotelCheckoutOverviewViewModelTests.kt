@@ -5,8 +5,6 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
-import com.expedia.bookings.data.hotels.PaymentSplits
-import com.expedia.bookings.data.hotels.PaymentSplitsType
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.vm.HotelCheckoutOverviewViewModel
 import org.junit.Before
@@ -18,16 +16,21 @@ import rx.observers.TestSubscriber
 import java.text.DecimalFormat
 import kotlin.test.assertEquals
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.hotels.PaymentModel
+import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.payment.PaymentSplits
+import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.test.ServicesRule
 import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
-import kotlin.properties.Delegates
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricRunner::class)
 public class HotelCheckoutOverviewViewModelTest {
 
     val mockHotelServiceTestRule = MockHotelServiceTestRule()
+        @Rule get
+
+    public var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
     lateinit var context: Context
@@ -40,7 +43,7 @@ public class HotelCheckoutOverviewViewModelTest {
         activity.setTheme(R.style.V2_Theme_Hotels)
         context = activity.application
 
-        sut = HotelCheckoutOverviewViewModel(context, PaymentModel(mockHotelServiceTestRule.service))
+        sut = HotelCheckoutOverviewViewModel(context, PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
     }
 
     @Test

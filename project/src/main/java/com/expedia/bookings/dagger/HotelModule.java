@@ -1,9 +1,11 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
-import com.expedia.bookings.data.hotels.PaymentModel;
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
+import com.expedia.bookings.data.payment.PaymentModel;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.HotelServices;
+import com.expedia.bookings.services.LoyaltyServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.squareup.okhttp.OkHttpClient;
@@ -41,7 +43,14 @@ public final class HotelModule {
 
 	@Provides
 	@HotelScope
-	PaymentModel providePaymentModel(HotelServices hotelServices) {
-		return new PaymentModel(hotelServices);
+	LoyaltyServices provideLoyaltyServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
+		final String endpoint = endpointProvider.getE3EndpointUrl();
+		return new LoyaltyServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
+	}
+
+	@Provides
+	@HotelScope
+	PaymentModel<HotelCreateTripResponse> providePaymentModel(LoyaltyServices loyaltyServices) {
+		return new PaymentModel<HotelCreateTripResponse>(loyaltyServices);
 	}
 }

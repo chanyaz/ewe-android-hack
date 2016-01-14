@@ -1,4 +1,4 @@
-package com.expedia.bookings.data.hotels
+package com.expedia.bookings.data.payment
 
 class CalculatePointsParams(val tripId: String, val programName: ProgramName, val amount: String, val rateId: String) {
     class Builder {

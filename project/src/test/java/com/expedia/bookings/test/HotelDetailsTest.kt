@@ -7,6 +7,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.widget.HotelDetailView
@@ -14,6 +15,7 @@ import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDetailViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
+import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -23,11 +25,10 @@ import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
-import org.junit.Assert
 
 @RunWith(RobolectricRunner::class)
 public class HotelDetailsTest {
-    public var service: HotelServicesRule = HotelServicesRule()
+    public var service = ServicesRule(HotelServices::class.java)
         @Rule get
 
     private var vm: HotelDetailViewModel by Delegates.notNull()
@@ -43,7 +44,7 @@ public class HotelDetailsTest {
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         hotelDetailView = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_details_widget, null) as HotelDetailView
-        vm = HotelDetailViewModel(activity.applicationContext, service.hotelServices(), endlessObserver { /*ignore*/ })
+        vm = HotelDetailViewModel(activity.applicationContext, service.services, endlessObserver { /*ignore*/ })
         hotelDetailView.viewmodel = vm
 
         offers = HotelOffersResponse()
