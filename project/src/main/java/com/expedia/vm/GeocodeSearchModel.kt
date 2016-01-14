@@ -29,16 +29,16 @@ public class GeocodeSearchModel(val context: Context) {
         }
     }
 
-    private fun mGeocodeDownload(query: String): BackgroundDownloader.Download<List<Address>> {
-        return object : BackgroundDownloader.Download<List<Address>> {
-            override fun doDownload(): List<Address> {
+    private fun mGeocodeDownload(query: String): BackgroundDownloader.Download<List<Address>?> {
+        return object : BackgroundDownloader.Download<List<Address>?> {
+            override fun doDownload(): List<Address>? {
                 return LocationServices.geocodeGoogle(context, query)
             }
         }
     }
 
-    private fun geoCallback(): BackgroundDownloader.OnDownloadComplete<List<Address>> {
-        return object: BackgroundDownloader.OnDownloadComplete<List<Address>> {
+    private fun geoCallback(): BackgroundDownloader.OnDownloadComplete<List<Address>?> {
+        return object: BackgroundDownloader.OnDownloadComplete<List<Address>?> {
             override fun onDownload(results: List<Address>?) {
                 if (results != null && results.count() > 0) {
                     geoResults.onNext(results)
