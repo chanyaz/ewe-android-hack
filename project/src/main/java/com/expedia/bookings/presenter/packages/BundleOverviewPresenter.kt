@@ -66,7 +66,7 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             flightLoadingBar.visibility = View.GONE
         }
         vm.destinationTextObservable.subscribeText(destinationText)
-        vm.arrivalTextObservable.subscribeText(arrivalText)
+        vm.originTextObservable.subscribeText(arrivalText)
     }
 
     init {
