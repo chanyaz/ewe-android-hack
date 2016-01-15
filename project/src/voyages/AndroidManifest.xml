@@ -31,7 +31,15 @@
 
                 <data android:scheme="vygs" />
                 <data android:host="home" />
+                <data android:host="trips" />
+                <data android:host="showTrips" />
                 <data android:host="hotelSearch" />
+                <data android:host="flightSearch" />
+                <data android:host="destination" />
+                <data android:host="carSearch"/>
+                <data android:host="activitySearch"/>
+                <data android:host="signIn"/>
+
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

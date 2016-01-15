@@ -14,8 +14,6 @@
     <color name="tablet_legal_blurb_text_color">#A7DAFF</color>
     <color name="tablet_confirmation_color">#374F6E</color>
     <color name="tablet_confirmation_action_color">#2970CC</color>
-    <color name="action_bar_text_selected">#FFFFFF</color>
-    <color name="action_bar_text_unselected">#8CFFFFFF</color>
 
     <!-- Launch screen colors -->
     <color name="launch_primary">#f3f3f3</color>
@@ -37,6 +35,8 @@
     <color name="launch_lob_bg">#FFFFFF</color>
     <color name="launch_list_txt">#FFFFFF</color>
     <color name="launch_list_strikethrough_txt">#B2FFFFFF</color>
+    <color name="actionbar_tab_text_selected">#FFFFFF</color>
+    <color name="actionbar_tab_text_unselected">#8CFFFFFF</color>
 
     <!-- Itinerary colors -->
     <color name="itin_white_text">#F3F3F3</color>
@@ -285,7 +285,7 @@
     <color name="cars_confirmation_action_text_color">#F3F3F3</color>
     <color name="cars_confirmation_email_text_color">#C8C8C8</color>
     <color name="cars_confirmation_action_background">#3A424C</color>
-    <color name="cars_launch_actionbar_color">#495863</color>
+    <color name="launch_actionbar_bg_color">#495863</color>
     <color name="cars_selected_tab_color">#5F717F</color>
     <color name="launch_tab_indicator">#FFED18</color>
     <color name="cars_unchecked_toggle_text_color">#ECC3DC</color>
@@ -376,4 +376,12 @@
 
     <color name="rating_yellow_disabled">#DBDBDB</color>
     <color name="rating_yellow">#F6AE24</color>
+
+    <!-- Calendar text colors -->
+    <color name="calendar_cell_current_month_text">#3F3A3A</color>
+    <color name="calendar_cell_disabled_month_text">#C7C7C7</color>
+    <color name="calendar_cell_today_text">#3F3A3A</color>
+    <color name="calendar_cell_selected_date_text">#423D3D</color>
+    <color name="calendar_cell_out_of_valid_range_text">#C7C7C7</color>
+
 </resources>

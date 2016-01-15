@@ -70,12 +70,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean wantsCustomHandlingForLocaleConfiguration() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public int getSearchProgressImageResId() {
-		return R.id.search_progress_image_aag;
+		return 0;
 	}
 
 	@Override
@@ -151,7 +151,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isTuneEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -196,7 +196,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isHangTagProgressBarEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -225,17 +225,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isETPEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public String getClientShortName() {
 		return "aag";
-	}
-
-	@Override
-	public boolean isLOBChooserScreenEnabled() {
-		return true;
 	}
 
 	public String getAdXKey() {
@@ -269,7 +264,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public int getFlightSearchProgressImageResId() {
-		return R.drawable.search_progress_static_flight_aag;
+		return 0;
 	}
 
 	@Override
@@ -331,6 +326,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean sortByDistanceForCurrentLocation() {
+		return true;
+	}
+
+	@Override
+	public boolean isFacebookTrackingEnabled() {
 		return true;
 	}
 

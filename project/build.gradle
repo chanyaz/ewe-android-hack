@@ -198,11 +198,11 @@ android {
         }
 
         voyages {
-            buildConfigField "String", "brand", "\"VSC\""
+            buildConfigField "String", "brand", "\"Agence Voyages-SNCF.com\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.expedia.bookings.vsc"
 
-            def major = 2
+            def major = 3
             def minor = 0
             def patch = 0
             def build = 0
@@ -227,7 +227,7 @@ android {
             buildConfigField "String", "brand", "\"AirAsiaGo\""
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.airasiago.android"
-            def major = 2
+            def major = 3
             def minor = 0
             def patch = 0
             def build = 0

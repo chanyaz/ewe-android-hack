@@ -306,7 +306,7 @@
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
         <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
-        <item name="skin_launchActionBarBackgroundColor">@color/cars_launch_actionbar_color</item>
+        <item name="skin_launchActionBarBackgroundColor">@color/launch_actionbar_bg_color</item>
         <item name="skin_tripsTabText">@string/Your_Trips</item>
     </style>
 
@@ -375,7 +375,7 @@
     <style name="LaunchActionBar" parent="Widget.AppCompat.Toolbar">
         <item name="android:icon">@android:color/transparent</item>
         <item name="android:displayOptions">showHome|showTitle</item>
-        <item name="android:background">@color/cars_launch_actionbar_color</item>
+        <item name="android:background">@color/launch_actionbar_bg_color</item>
     </style>
 
     <style name="LaunchActionBarTabStyle" parent="@style/Widget.AppCompat.ActionBar.TabView">

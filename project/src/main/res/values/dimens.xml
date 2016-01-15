@@ -380,4 +380,8 @@
 
     <!-- hotel V2 Checkout -->
     <dimen name="hotel_checkout_image_corner_radius">3dp</dimen>
+
+    <!--Height of LOB box shadow height-->
+    <dimen name="shadow_height">5dp</dimen>
+
 </resources>

@@ -94,8 +94,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	String getClientShortName();
 
-	boolean isLOBChooserScreenEnabled();
-
 	String getAdXKey();
 
 	boolean isAppSupportUrlEnabled();
@@ -140,6 +138,8 @@ public interface IProductFlavorFeatureConfiguration {
 	HotelFilter.Sort getDefaultSort();
 
 	boolean sortByDistanceForCurrentLocation();
+
+	boolean isFacebookTrackingEnabled();
 
 	boolean isAbacusTestEnabled();
 }

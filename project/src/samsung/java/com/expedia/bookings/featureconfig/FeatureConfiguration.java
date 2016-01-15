@@ -227,11 +227,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "samsung";
 	}
 
-	@Override
-	public boolean isLOBChooserScreenEnabled() {
-		return true;
-	}
-
 	public String getAdXKey() {
 		return "f2d75b7e-ed66-4f96-cf66-870f4c6b723e";
 	}
@@ -320,6 +315,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean sortByDistanceForCurrentLocation() {
+		return false;
+	}
+
+	@Override
+	public boolean isFacebookTrackingEnabled() {
 		return false;
 	}
 
