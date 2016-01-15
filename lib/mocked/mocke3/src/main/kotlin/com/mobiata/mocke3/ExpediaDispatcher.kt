@@ -6,6 +6,7 @@ import com.squareup.okhttp.mockwebserver.RecordedRequest
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import kotlin.text.Regex
+import kotlin.text.contains
 
 // Mocks out various mobile Expedia APIs
 public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
@@ -23,11 +24,26 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         if (!doesRequestHaveValidUserAgent(request)) {
             throw UnsupportedOperationException("Valid user-agent not passed. I expect to see a user-agent resembling: ExpediaBookings/x.x.x (EHad; Mobiata)")
         }
-        // Hotels API
+
+        // Packages API
         if (request.path.startsWith("/getpackages/v1")) {
-            return makeResponse("/getpackages/v1/happy.json")
+            if (!request.path.contains("searchProduct")) {
+                return makeResponse("/getpackages/v1/happy.json")
+            }
+            else {
+                if (!request.path.contains("selectedLegId")) {
+                    return makeResponse("/getpackages/v1/happy_outbound_flight.json")
+                }
+                else {
+                    return makeResponse("/getpackages/v1/happy_inbound_flight.json")
+                }
+            }
         }
 
+        if (request.path.contains("/packages/hotelOffers")) {
+            return makeResponse("/getpackages/v1/happy_hotelOffers.json")
+        }
+        
         // Hotels API
         if (request.path.startsWith("/m/api/hotel") || request.path.startsWith("/api/m/trip/coupon")) {
             return hotelRequestDispatcher.dispatch(request)

@@ -20,6 +20,7 @@ public class PackageFlightDeserializer : JsonDeserializer<PackageSearchResponse.
             val flightLegs = Gson().fromJson<List<FlightLeg>>(jsonObject.getAsJsonArray("flightLegs"), typeToken)
             for (flightLeg in flightLegs) {
                 flightLeg.flightPid = entry.key
+                flightLeg.departureLeg = jsonObject.getAsJsonPrimitive("departureLeg").asString
             }
             flightPackage.flights.addAll(flightLegs)
         }

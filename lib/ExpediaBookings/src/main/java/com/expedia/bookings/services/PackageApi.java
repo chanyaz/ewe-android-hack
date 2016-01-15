@@ -21,7 +21,10 @@ public interface PackageApi {
 		@Query("fromDate") String fromDate,
 		@Query("toDate") String toDate,
 		@Query("packagePIID") String packagePIID,
-		@Query("searchProduct") String searchProduct);
+		@Query("searchProduct") String searchProduct,
+		@Query("selectLegId") String selectLegId,
+		@Query("selectedLegId") String selectedLegId,
+		@Query("packageTripType") String packageTripType);
 
 	@GET("/api/packages/hotelOffers")
 	Observable<PackageOffersResponse> hotelOffers(

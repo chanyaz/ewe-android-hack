@@ -26,7 +26,7 @@ public class PackageActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            Constants.HOTEL_REQUEST_CODE -> when (resultCode) {
+            Constants.HOTEL_REQUEST_CODE, Constants.PACKAGE_FLIGHT_DEPARTURE_REQUEST_CODE -> when (resultCode) {
                 Activity.RESULT_OK -> {
                     packagePresenter.bundlePresenter.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
                     packagePresenter.bundlePresenter.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)

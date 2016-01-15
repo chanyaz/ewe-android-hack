@@ -47,6 +47,7 @@ public class FlightLeg {
 
 	public transient PackageOfferModel packageOfferModel;
 	public transient String flightPid;
+	public transient String departureLeg;
 
 	public static class AirlineMessageModel {
 		public String airlineFeeLink;

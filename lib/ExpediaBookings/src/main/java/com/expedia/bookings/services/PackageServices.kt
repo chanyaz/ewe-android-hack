@@ -7,6 +7,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
+import com.expedia.bookings.utils.Constants
 import com.google.gson.GsonBuilder
 import com.squareup.okhttp.OkHttpClient
 import org.joda.time.DateTime
@@ -16,6 +17,7 @@ import retrofit.client.OkClient
 import retrofit.converter.GsonConverter
 import rx.Observable
 import rx.Scheduler
+import kotlin.collections.filter
 import kotlin.collections.find
 import kotlin.collections.forEach
 
@@ -41,7 +43,7 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 
 	public fun packageSearch(params: PackageSearchParams): Observable<PackageSearchResponse> {
 		return packageApi.packageSearch(params.destination.regionNames.shortName, params.arrival.regionNames.shortName, params.destination.gaiaId, params.arrival.gaiaId, params.destination.hierarchyInfo?.airport?.airportCode, params.arrival.hierarchyInfo?.airport?.airportCode,
-				params.checkIn.toString(), params.checkOut.toString(), params.packagePIID, params.searchProduct)
+				params.checkIn.toString(), params.checkOut.toString(), params.packagePIID, params.searchProduct, params.flightType, params.selectedLegId, Constants.PACKAGE_TRIP_TYPE)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.doOnNext { response ->
@@ -56,7 +58,7 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 						hotel.lowRateInfo = lowRateInfo
 					}
 					response.packageResult.flightsPackage.flights.forEach { flight ->
-						flight.packageOfferModel = response.packageResult.packageOfferModels.find { offer ->
+						flight.packageOfferModel = response.packageResult.packageOfferModels.filter { it.price != null }.find { offer ->
 							offer.flight == flight.flightPid
 						}
 					}
