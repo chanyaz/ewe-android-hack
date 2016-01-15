@@ -426,12 +426,6 @@
     <string name="cd_zero_btn">Zero</string>
     <string name="cd_delete_btn">Delete</string>
 
-    <!-- Car Omniture tracking string when user see the slider -->
-    <string name="car_omniture_checkout_no_credit_card">no card required</string>
-
-    <!-- LX Omniture tracking string when user see the slider -->
-    <string name="lx_omniture_checkout_no_credit_card">no card required</string>
-
     <!-- Category All Things To Do -->
     <string name="lx_category_key_all_things_to_do">All Things To Do</string>
 

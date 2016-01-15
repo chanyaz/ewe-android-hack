@@ -2322,14 +2322,12 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppLXCheckoutSlideToPurchase(Context context, PaymentType paymentType) {
+	public static void trackAppLXCheckoutSlideToPurchase(String cardType) {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(LX_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(18, LX_CHECKOUT_SLIDE_TO_PURCHASE);
-		s.setEvar(37,
-			paymentType != PaymentType.UNKNOWN ? Strings.capitalizeFirstLetter(paymentType.toString())
-				: context.getString(R.string.lx_omniture_checkout_no_credit_card));
+		s.setEvar(37, cardType);
 		s.track();
 	}
 
@@ -4365,14 +4363,12 @@ public class OmnitureTracking {
 
 	}
 
-	public static void trackAppCarCheckoutSlideToPurchase(Context context, PaymentType paymentType) {
+	public static void trackAppCarCheckoutSlideToPurchase(String cardType) {
 		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(CAR_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(18, CAR_CHECKOUT_SLIDE_TO_PURCHASE);
-		s.setEvar(37,
-			paymentType != PaymentType.UNKNOWN ? Strings.capitalizeFirstLetter(paymentType.toString())
-				: context.getString(R.string.car_omniture_checkout_no_credit_card));
+		s.setEvar(37, cardType);
 		s.track();
 
 	}
@@ -4408,7 +4404,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 
 		s.setEvar(12,
-			lob == LineOfBusiness.HOTELS ? "CrossSell.Cars.Confirm.Hotels" : "CrossSell.Cars.Confirm.Flights");
+				lob == LineOfBusiness.HOTELS ? "CrossSell.Cars.Confirm.Hotels" : "CrossSell.Cars.Confirm.Flights");
 		s.setEvar(28, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
 		s.setProp(16, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
 		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
@@ -4418,8 +4414,8 @@ public class OmnitureTracking {
 		String duration = Integer
 			.toString(JodaUtils.daysBetween(carOffer.getPickupTime(), carOffer.getDropOffTime()) + 1);
 		s.setProducts(
-			"Car;Agency Car:" + carOffer.vendor.code + ":" + carTrackingData.sippCode + ";" + duration + ";"
-				+ carOffer.detailedFare.grandTotal.amount);
+				"Car;Agency Car:" + carOffer.vendor.code + ":" + carTrackingData.sippCode + ";" + duration + ";"
+						+ carOffer.detailedFare.grandTotal.amount);
 	}
 
 	private static String getEvar47String(CarSearchParams params) {
@@ -4459,16 +4455,6 @@ public class OmnitureTracking {
 		return s;
 	}
 
-
-	public static void trackCheckoutSlideToPurchase(LineOfBusiness lineOfBusiness, Context context, PaymentType paymentType) {
-		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
-			trackAppCarCheckoutSlideToPurchase(context, paymentType);
-		}
-		else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
-			trackAppLXCheckoutSlideToPurchase(context, paymentType);
-		}
-	}
-
 	public static void trackCheckoutPayment(LineOfBusiness lineOfBusiness) {
 		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
 			trackAppCarCheckoutPayment();
@@ -4486,5 +4472,4 @@ public class OmnitureTracking {
 			trackAppLXCheckoutTraveler();
 		}
 	}
-
 }
