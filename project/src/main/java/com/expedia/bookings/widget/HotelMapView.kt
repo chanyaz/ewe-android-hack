@@ -59,7 +59,7 @@ public class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(c
         Ui.showTransparentStatusBar(context)
         toolBar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         toolBarBackground.layoutParams.height += statusBarHeight
-        toolBar.setTitleTextAppearance(context, R.style.CarsToolbarTitleTextAppearance)
+        toolBar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
 
         val navIcon: ArrowXDrawable = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)

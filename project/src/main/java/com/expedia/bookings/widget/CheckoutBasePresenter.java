@@ -184,7 +184,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		});
 
 		toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
-		toolbar.inflateMenu(R.menu.cars_checkout_menu);
+		toolbar.inflateMenu(R.menu.checkout_menu);
 
 		menuDone = toolbar.getMenu().findItem(R.id.menu_done);
 		// Let's start with not showing the menuDone button

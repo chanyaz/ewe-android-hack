@@ -163,7 +163,7 @@ public class CarFilterWidget extends LinearLayout {
 		ButterKnife.inject(this);
 
 		toolbar.setTitle(getResources().getString(R.string.filter));
-		toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance);
+		toolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance);
 		toolbar.setTitleTextColor(getResources().getColor(R.color.cars_actionbar_text_color));
 		toolbar.inflateMenu(R.menu.cars_lx_filter_menu);
 

@@ -98,8 +98,8 @@ public class LxRulesWidget extends LinearLayout {
 			}
 		});
 		toolbar.setTitle(getResources().getString(R.string.legal_information));
-		toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance);
-		toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance);
+		toolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance);
+		toolbar.setSubtitleTextAppearance(getContext(), R.style.ToolbarSubtitleTextAppearance);
 		toolbar.setBackgroundColor(Ui.obtainThemeColor(getContext(), R.attr.primary_color));
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());

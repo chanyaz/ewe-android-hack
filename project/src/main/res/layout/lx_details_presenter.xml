@@ -131,7 +131,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/toolbar_search_text"
-                style="@style/CarsToolbarTitleTextAppearance"
+                style="@style/ToolbarTitleTextAppearance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
@@ -145,13 +145,13 @@
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/toolbar_detail_text"
-                    style="@style/CarsToolbarTitleTextAppearance"
+                    style="@style/ToolbarTitleTextAppearance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/toolbar_subtitle_text"
-                    style="@style/CarsToolbarSubtitleTextAppearance"
+                    style="@style/ToolbarSubtitleTextAppearance"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
 

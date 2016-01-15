@@ -361,7 +361,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
         toolbar.inflateMenu(R.menu.cars_lx_filter_menu)
         toolbar.title = resources.getString(R.string.Sort_and_Filter)
-        toolbar.setTitleTextAppearance(context, R.style.CarsToolbarTitleTextAppearance)
+        toolbar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
         toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.cars_actionbar_text_color))
 
         toolbar.menu.findItem(R.id.apply_check).setActionView(doneButton)

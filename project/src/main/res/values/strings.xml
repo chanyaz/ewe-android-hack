@@ -3806,4 +3806,7 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dd</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">Trip Overview</string>
 </resources>

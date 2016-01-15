@@ -33,7 +33,7 @@
             android:minHeight="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_close_white_24dp"
             app:title="@string/renovation_notice"
-            app:titleTextAppearance="@style/CarsToolbarTitleTextAppearance" />
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
 
         <View
             android:id="@+id/toolbar_dropshadow"

@@ -88,8 +88,8 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 			}
 		});
 		toolbar.setTitle(getContext().getString(R.string.Finish_Booking));
-		toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance);
-		toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance);
+		toolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance);
+		toolbar.setSubtitleTextAppearance(getContext(), R.style.ToolbarSubtitleTextAppearance);
 		toolbar.setBackgroundColor(Ui.obtainThemeColor(getContext(), R.attr.primary_color));
 
 		// Cache views

@@ -45,8 +45,8 @@ public class HotelErrorPresenter(context: Context, attr: AttributeSet?) : Presen
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
         toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
-        toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
-        toolbar.setSubtitleTextAppearance(getContext(), R.style.CarsToolbarSubtitleTextAppearance)
+        toolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance)
+        toolbar.setSubtitleTextAppearance(getContext(), R.style.ToolbarSubtitleTextAppearance)
 
         toolbar.setNavigationOnClickListener {
             viewmodel.actionObservable.onNext(Unit)

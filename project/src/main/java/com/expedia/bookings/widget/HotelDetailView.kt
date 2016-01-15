@@ -690,7 +690,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         Ui.showTransparentStatusBar(getContext())
         toolbar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         toolBarBackground.layoutParams.height += statusBarHeight
-        toolbar.setTitleTextAppearance(getContext(), R.style.CarsToolbarTitleTextAppearance)
+        toolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance)
 
         if (shouldShowCircleForRatings()) {
             toolBarRating = findViewById(R.id.hotel_circle_rating_bar) as StarRatingBar

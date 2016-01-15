@@ -23,7 +23,10 @@ public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter
         Ui.getApplication(getContext()).packageComponent().inject(this)
         View.inflate(context, R.layout.package_presenter, this)
         bundlePresenter.viewModel = BundleOverviewViewModel(context, packageServices)
-        searchPresenter.searchViewModel.searchParamsObservable.subscribe { show(bundlePresenter) }
+        searchPresenter.searchViewModel.searchParamsObservable.subscribe {
+            show(bundlePresenter)
+            bundlePresenter.show(BundleOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
+        }
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(bundlePresenter.viewModel.hotelParamsObservable)
     }
 
