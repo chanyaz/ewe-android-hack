@@ -819,7 +819,8 @@
     <string name="infants_in_seats_prompt">Infants in seats need their own tickets. Let\'s search again for the infants\' tickets.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">Infants in lap don\'t need their own tickets. We\'ll start a new search with fewer tickets.</string>
-
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two_TEMPLATE">Infants under 2: %s</string>
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Stops</string>

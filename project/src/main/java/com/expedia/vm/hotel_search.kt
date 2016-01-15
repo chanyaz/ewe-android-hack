@@ -47,8 +47,6 @@ class HotelSearchViewModel(val context: Context) {
     val errorMaxDatesObservable = PublishSubject.create<Unit>()
     val enableDateObservable = PublishSubject.create<Boolean>()
     val enableTravelerObservable = PublishSubject.create<Boolean>()
-    val showRecentSearchesObservable = PublishSubject.create<Unit>()
-
 
     val enableDateObserver = endlessObserver<Unit> {
         enableDateObservable.onNext(paramsBuilder.hasOrigin())
@@ -171,7 +169,7 @@ class HotelSearchViewModel(val context: Context) {
 
 public data class HotelTravelerParams(val numberOfAdults: Int, val children: List<Int>)
 
-public class HotelTravelerPickerViewModel(val context: Context) {
+public class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreference: Boolean) {
     private val MAX_GUESTS = 6
     private val MIN_ADULTS = 1
     private val MIN_CHILDREN = 0
@@ -189,6 +187,7 @@ public class HotelTravelerPickerViewModel(val context: Context) {
     val adultMinusObservable = BehaviorSubject.create<Boolean>()
     val childPlusObservable = BehaviorSubject.create<Boolean>()
     val childMinusObservable = BehaviorSubject.create<Boolean>()
+    val infantPreferenceSeatingObservable = BehaviorSubject.create<Boolean>()
 
     init {
         travelerParamsObservable.subscribe { travelers ->
@@ -248,6 +247,7 @@ public class HotelTravelerPickerViewModel(val context: Context) {
     val childAgeSelectedObserver: Observer<Pair<Int, Int>> = endlessObserver { p ->
         val (which, age) = p
         childAges[which] = age
+        infantPreferenceSeatingObservable.onNext(childAges.contains(0))
 
         val hotelTravelerParams = travelerParamsObservable.getValue()
         travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults, (0..hotelTravelerParams.children.size - 1).map { childAges[it] }))

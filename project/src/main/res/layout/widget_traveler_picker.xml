@@ -3,97 +3,103 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="UnusedResources">
 
-    <LinearLayout
+    <ScrollView
+        android:id="@+id/scroll_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/hotel_traveler_table_margin"
-            android:orientation="horizontal"
-            android:textSize="15sp">
-
-            <ImageButton
-                android:id="@+id/adults_minus"
-                style="@style/HotelTravelerIcon.Minus" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/adult"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/hotel_traveler_plus_minus_size"
-                android:layout_weight="5"
-                android:gravity="center"
-                android:textColor="@color/cars_actionbar_text_color" />
-
-            <ImageButton
-                android:id="@+id/adults_plus"
-                style="@style/HotelTravelerIcon.Plus" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:textSize="15sp">
-
-            <ImageButton
-                android:id="@+id/children_minus"
-                style="@style/HotelTravelerIcon.Minus" />
-
-            <LinearLayout
-                android:id="@+id/children_container"
-                android:layout_width="0dp"
-                android:layout_height="@dimen/hotel_traveler_plus_minus_size"
-                android:layout_weight="5"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/children"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/cars_actionbar_text_color" />
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/children_age_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/children_age_label"
-                    android:textSize="12sp"
-                    android:textColor="@color/hotel_cell_secondary_text_color" />
-            </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/children_plus"
-                style="@style/HotelTravelerIcon.Plus" />
-        </LinearLayout>
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/child_age_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/hotel_traveler_padding"
-            android:layout_marginTop="@dimen/hotel_traveler_padding"
-            android:text="@string/child_age_label"
-            android:textColor="@color/cars_actionbar_text_color"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:id="@+id/children_ages"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/hotel_traveler_table_margin"
-            android:orientation="vertical"
-            android:textSize="15sp">
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/hotel_traveler_table_margin"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:textSize="15sp">
+
+                <ImageButton
+                    android:id="@+id/adults_minus"
+                    style="@style/HotelTravelerIcon.Minus" />
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/adult"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/hotel_traveler_plus_minus_size"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:textColor="@color/cars_actionbar_text_color" />
+
+                <ImageButton
+                    android:id="@+id/adults_plus"
+                    style="@style/HotelTravelerIcon.Plus" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:textSize="15sp">
+
+                <ImageButton
+                    android:id="@+id/children_minus"
+                    style="@style/HotelTravelerIcon.Minus" />
+
+                <LinearLayout
+                    android:id="@+id/children_container"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/hotel_traveler_plus_minus_size"
+                    android:layout_weight="5"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/children"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/cars_actionbar_text_color" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/children_age_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/children_age_label"
+                        android:textColor="@color/hotel_cell_secondary_text_color"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <ImageButton
+                    android:id="@+id/children_plus"
+                    style="@style/HotelTravelerIcon.Plus" />
+            </LinearLayout>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/child_age_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/hotel_traveler_padding"
+                android:layout_marginTop="@dimen/hotel_traveler_padding"
+                android:text="@string/child_age_label"
+                android:textColor="@color/cars_actionbar_text_color"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:id="@+id/children_ages"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/hotel_traveler_table_margin"
+                android:orientation="vertical"
+                android:textSize="15sp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/hotel_traveler_table_margin"
+                    android:orientation="horizontal">
 
                     <Spinner
                         android:id="@+id/child_spinner_1"
@@ -103,13 +109,13 @@
                         android:id="@+id/child_spinner_2"
                         style="@style/HotelSpinner" />
 
-            </LinearLayout>
+                </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/hotel_traveler_table_margin"
-                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/hotel_traveler_table_margin"
+                    android:orientation="horizontal">
 
                     <Spinner
                         android:id="@+id/child_spinner_3"
@@ -120,8 +126,23 @@
                         android:id="@+id/child_spinner_4"
                         style="@style/HotelSpinner" />
 
+                </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/infant_preference_seating_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/packages_primary_color"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <Spinner
+            android:id="@+id/infant_preference_seating"
+            style="@style/InfantSeatingPreferenceSpinner" />
+
     </LinearLayout>
 </merge>

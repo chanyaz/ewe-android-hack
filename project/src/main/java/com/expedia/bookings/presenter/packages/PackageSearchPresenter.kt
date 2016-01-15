@@ -246,7 +246,7 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
         }
         toolbar.inflateMenu(R.menu.cars_search_menu)
 
-        traveler.viewmodel = HotelTravelerPickerViewModel(getContext())
+        traveler.viewmodel = HotelTravelerPickerViewModel(getContext(), true)
         searchViewModel = PackageSearchViewModel(context)
         destinationSuggestionVM = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, CurrentLocationObservable.create(getContext()))
         arrivalSuggestionVM = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, null)
