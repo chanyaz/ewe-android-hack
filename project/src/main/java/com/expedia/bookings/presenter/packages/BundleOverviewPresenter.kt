@@ -75,7 +75,16 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         checkoutPresenter.viewModel = BaseCheckoutViewModel(context)
         checkoutPresenter.viewModel.lineOfBusiness.onNext(LineOfBusiness.HOTELSV2)
         checkoutPresenter.viewModel.creditCardRequired.onNext(true)
+        checkoutPresenter.travelerWidget.mToolbarListener = toolbar
+        checkoutPresenter.paymentWidget.mToolbarListener = toolbar
         toolbar.viewModel = CheckoutToolbarViewModel(context)
+        toolbar.viewModel.nextClicked.subscribe {
+            checkoutPresenter.expandedView?.setNextFocus()
+        }
+        toolbar.viewModel.doneClicked.subscribe {
+            checkoutPresenter.expandedView?.onMenuButtonPressed()
+            Ui.hideKeyboard(this)
+        }
 
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {

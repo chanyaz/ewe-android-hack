@@ -85,6 +85,17 @@ public class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Prese
                 }
             }
         }
+
+        override fun finalizeTransition(forward: Boolean) {
+            if (!forward) {
+                if (travelerWidget.isComplete) {
+                    viewModel.travelerCompleted.onNext(travelerWidget.sectionTravelerInfo.traveler)
+                }
+                if (paymentWidget.isComplete) {
+                    viewModel.paymentCompleted.onNext(paymentWidget.sectionBillingInfo.billingInfo)
+                }
+            }
+        }
     }
 
     //Abstract methods
@@ -97,7 +108,7 @@ public class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Prese
     }
 
     override fun onSlideAllTheWay() {
-        viewModel.checkout.onNext(Unit)
+
     }
 
     override fun onSlideAbort() {
@@ -109,7 +120,7 @@ public class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Prese
     }
 
     override fun accountLoginClicked() {
-        val args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.HOTELSV2, CheckoutLoginExtender());
+        val args = AccountLibActivity.createArgumentsBundle(viewModel.lineOfBusiness.value, CheckoutLoginExtender());
         User.signIn(context as Activity, args);
     }
 

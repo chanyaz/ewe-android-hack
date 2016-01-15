@@ -17,6 +17,6 @@ public class CheckoutToolbarViewModel(val context: Context) {
     val enableMenu = PublishSubject.create<Boolean>()
 
     // outputs
-    val itemClicked = PublishSubject.create<Unit>()
-
+    val doneClicked = PublishSubject.create<Unit>()
+    val nextClicked = PublishSubject.create<Unit>()
 }
