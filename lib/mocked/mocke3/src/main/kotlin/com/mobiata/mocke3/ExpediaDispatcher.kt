@@ -17,6 +17,7 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
     private val flightApiRequestDispatcher = FlightApiRequestDispatcher(fileOpener)
     private val carApiRequestDispatcher = CarApiRequestDispatcher(fileOpener)
     private val lxApiRequestDispatcher = LxApiRequestDispatcher(fileOpener)
+    private val packagesApiRequestDispatcher = PackagesApiRequestDispatcher(fileOpener)
 
     @Throws(InterruptedException::class)
     override fun dispatch(request: RecordedRequest): MockResponse {
@@ -27,17 +28,7 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 
         // Packages API
         if (request.path.startsWith("/getpackages/v1")) {
-            if (!request.path.contains("searchProduct")) {
-                return makeResponse("/getpackages/v1/happy.json")
-            }
-            else {
-                if (!request.path.contains("selectedLegId")) {
-                    return makeResponse("/getpackages/v1/happy_outbound_flight.json")
-                }
-                else {
-                    return makeResponse("/getpackages/v1/happy_inbound_flight.json")
-                }
-            }
+            return packagesApiRequestDispatcher.dispatch(request)
         }
 
         if (request.path.contains("/packages/hotelOffers")) {
