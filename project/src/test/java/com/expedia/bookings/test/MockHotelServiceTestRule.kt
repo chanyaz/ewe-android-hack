@@ -54,6 +54,10 @@ public class MockHotelServiceTestRule : TestRule {
         return getCreateTripResponse("happypath_0")
     }
 
+    fun getLoggedInUserWithRedeemablePointsLessThanTripTotalCreateTripResponse(): HotelCreateTripResponse {
+        return getCreateTripResponse("logged_in_user_with_redeemable_points_less_than_trip_total")
+    }
+
     fun getLoggedInUserWithRedeemablePointsCreateTripResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("logged_in_user_with_redeemable_points")
     }

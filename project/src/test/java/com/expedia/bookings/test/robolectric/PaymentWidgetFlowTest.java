@@ -172,7 +172,7 @@ public class PaymentWidgetFlowTest {
 	public void testStoredCardFlow() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		activity.setTheme(R.style.V2_Theme_Hotels);
-		Ui.getApplication(activity).defaultLXComponents();
+		Ui.getApplication(activity).defaultHotelComponents();
 		PaymentWidget paymentWidget =  (PaymentWidget) LayoutInflater.from(activity)
 			.inflate(R.layout.payment_widget_v2, null);
 		paymentWidget.setToolbarListener(listener);

@@ -5,6 +5,7 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.services.LoyaltyServices
 import rx.Observable
 import rx.Observer
+import rx.Subscriber
 import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -20,9 +21,11 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     val currencyToPointsApiError = PublishSubject.create<Unit>()
 
     private fun makeCalculatePointsApiResponseObserver(): Observer<CalculatePointsResponse> {
-        return object : Observer<CalculatePointsResponse> {
+        return object : Subscriber<CalculatePointsResponse>() {
             override fun onError(apiError: Throwable?) {
-                currencyToPointsApiError.onNext(Unit)
+                if (!this.isUnsubscribed) {
+                    currencyToPointsApiError.onNext(Unit)
+                }
             }
 
             override fun onNext(apiResponse: CalculatePointsResponse) {
@@ -96,7 +99,7 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     )
 
     //Conditions when Currency To Points Conversion can be locally handled without an API call
-    private fun canHandleCurrencyToPointsConversionLocally(amount: BigDecimal, response: T): Boolean {
+    fun canHandleCurrencyToPointsConversionLocally(amount: BigDecimal, response: T): Boolean {
         return amount.equals(BigDecimal.ZERO) || amount > response.getTripTotal().amount || amount > maxPayableWithPoints(response)
     }
 

@@ -341,4 +341,8 @@ public class Money {
 
 		return nf.format(amount);
 	}
+
+	public String getCurrencySymbol() {
+		return Currency.getInstance(currencyCode).getSymbol();
+	}
 }

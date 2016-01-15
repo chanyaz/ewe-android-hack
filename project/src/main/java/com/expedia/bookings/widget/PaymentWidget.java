@@ -45,6 +45,7 @@ import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
@@ -350,7 +351,8 @@ public class PaymentWidget extends ExpandableCardView {
 		super.setExpanded(expand, animate);
 
 		if (expand) {
-			if (WalletUtils.isWalletSupported(lineOfBusiness) && !goToPaymentDetails()) {
+			if (SettingUtils.get(getContext(), R.string.preference_enable_pay_with_points, false)
+					|| ((WalletUtils.isWalletSupported(lineOfBusiness) && !goToPaymentDetails()))) {
 				cardInfoContainer.setVisibility(GONE);
 				paymentOptionsContainer.setVisibility(VISIBLE);
 				billingInfoContainer.setVisibility(GONE);
