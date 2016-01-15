@@ -42,7 +42,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getAppNameForMobiataPushNameHeader() {
-		return null;
+		return "VSCBookings";
 	}
 
 	@Override
@@ -244,10 +244,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public void setupOtherAppsCrossSellInConfirmationScreen(final Context context, View view) {
-
-		TextView actionTextView = Ui.findView(view, R.id.call_action_text_view);
-		actionTextView.setText(R.string.vsc_customer_support);
-
 		View vscAppDivider = Ui.findView(view, R.id.vsc_app_divider);
 		vscAppDivider.setVisibility(View.VISIBLE);
 
@@ -267,22 +263,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		descriptionView.setText(R.string.VSC_Voyages_SNF_description);
 		ImageView imageView = Ui.findView(view, R.id.image);
 		imageView.setImageResource(R.drawable.ic_vsc_train_app);
-
-		Ui.setOnClickListener(view, R.id.call_action_text_view, getCallActionTextViewClickListener(context));
-	}
-
-	private View.OnClickListener getCallActionTextViewClickListener(final Context context) {
-		return new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				// 1617. VSC Contact URL
-				WebViewActivity.IntentBuilder webBuilder = new WebViewActivity.IntentBuilder(context);
-				webBuilder.setUrl("http://voyages-sncf.mobi/aide-appli-2/aide-appli-hotel/pagecontactandroid.html");
-				webBuilder.setTheme(R.style.Theme_Phone);
-				webBuilder.setTitle(R.string.vsc_customer_support);
-				context.startActivity(webBuilder.getIntent());
-			}
-		};
 	}
 
 	@Override
@@ -298,11 +278,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public String getClientShortName() {
 		return "vsc";
-	}
-
-	@Override
-	public boolean isLOBChooserScreenEnabled() {
-		return false;
 	}
 
 	public String getAdXKey() {
@@ -336,7 +311,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public int getFlightSearchProgressImageResId() {
-		return R.drawable.search_progress_static_flight_vsc;
+		return 0;
 	}
 
 	@Override
@@ -399,6 +374,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean sortByDistanceForCurrentLocation() {
 		return true;
+	}
+
+	@Override
+	public boolean isFacebookTrackingEnabled() {
+		return false;
 	}
 
 	@Override

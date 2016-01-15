@@ -18,6 +18,7 @@
     <color name="details_ring_red">#bc4649</color>
     <color name="details_ring_blue">#286cb5</color>
     <color name="details_ring_gray">#cbcfd2</color>
+    <color name="hotel_details_user_rating_text">#1b5698</color>
     <color name="sliding_group_text_bright">#f4f5f7</color>
     <color name="tablet_results_search_blue">#3d6a99</color>
     <color name="tablet_search_params_text">#ffffff</color>
@@ -40,6 +41,9 @@
     <color name="tablet_hotel_sort_filter_text_disabled">#336a6a6a</color>
     <color name="tablet_hotel_sort_filter_done">#0B4EA4</color>
     <color name="tablet_hotel_sort_filter_done_pressed">#a6c8f3</color>
+    <color name="tablet_hotel_sort_filter_area_price">#2970cc</color>
+    <color name="tablet_hotel_sort_filter_area_price_disabled">#800558c4</color>
+    <color name="tablet_hotel_filter_count_ring_color">#66ace3</color>
     <color name="tablet_hotel_coupon_text_color">#FFE115</color>
 
     <!-- Tablet Flights -->
@@ -58,5 +62,8 @@
     <!-- Tablet Search results, error message action button background -->
     <color name="tablet_search_result_error_button">#3d6a99</color>
     <color name="tablet_search_result_error_button_pressed">#294666</color>
+
+    <!-- Calendar text colors -->
+    <color name="tablet_calendar_cell_today_text">#007dff</color>
 
 </resources>

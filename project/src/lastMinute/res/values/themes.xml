@@ -150,8 +150,8 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_blue_lm</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text_lm</item>
-        <item name="skin_launchTabIndicatorColor">@color/actionbar_text_lm</item>
-        <item name="skin_launchActionBarBackgroundColor">@color/action_bar_bg_color</item>
+        <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
+        <item name="skin_launchActionBarBackgroundColor">@color/launch_actionbar_bg_color</item>
         <item name="skin_tripsTabText">@string/Your_Trips</item>
     </style>
 

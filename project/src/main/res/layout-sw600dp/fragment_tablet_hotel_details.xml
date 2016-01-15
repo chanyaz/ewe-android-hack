@@ -120,7 +120,7 @@
                         android:includeFontPadding="false"
                         android:paddingLeft="4dp"
                         android:singleLine="true"
-                        android:textColor="#1b5698"
+                        android:textColor="@color/hotel_details_user_rating_text"
                         android:textSize="@dimen/hotel_details_rooms_left_text_size"
                         app:textStyle="bold" />
                 </LinearLayout>

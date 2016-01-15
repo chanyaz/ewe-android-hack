@@ -46,7 +46,6 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Surface;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
@@ -103,7 +102,6 @@ import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CalendarUtils;
-import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -567,13 +565,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		// Setup custom action bar view
 		ActionBar actionBar = getActionBar();
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isLOBChooserScreenEnabled()) {
-			actionBar.setDisplayHomeAsUpEnabled(true);
-		}
-		// For VSC app the hotelListing is the launch screen.
-		else {
-			actionBar.setHomeButtonEnabled(false);
-		}
+		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowCustomEnabled(true);
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(true);
@@ -874,10 +866,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.menu_search, menu);
-		if (!ProductFlavorFeatureConfiguration.getInstance().isLOBChooserScreenEnabled()) {
-			getMenuInflater().inflate(R.menu.menu_launch_vsc, menu);
-			DebugMenu.onCreateOptionsMenu(this, menu);
-		}
 
 		boolean ret = super.onCreateOptionsMenu(menu);
 
@@ -950,25 +938,6 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 		}
 		menu.findItem(R.id.menu_select_sort).setVisible(isListShowing);
 		menu.findItem(R.id.menu_select_search_map).setVisible(!isListShowing);
-
-		// Push actions into the overflow in landscape mode
-		int orientation = getWindowManager().getDefaultDisplay().getOrientation();
-		final boolean shouldShowMenuItems = orientation == Surface.ROTATION_0 || orientation == Surface.ROTATION_180;
-		final int menuFlags = shouldShowMenuItems ? MenuItem.SHOW_AS_ACTION_ALWAYS : MenuItem.SHOW_AS_ACTION_NEVER;
-		menu.findItem(R.id.menu_select_sort).setShowAsActionFlags(menuFlags);
-		menu.findItem(R.id.menu_select_filter).setShowAsActionFlags(menuFlags);
-		menu.findItem(R.id.menu_select_search_map).setShowAsActionFlags(menuFlags);
-
-		// We need to only show an "About/Info" menu item. Show settings only for debug build for testing purpose.
-		if (!ProductFlavorFeatureConfiguration.getInstance().isLOBChooserScreenEnabled() && BuildConfig.RELEASE) {
-			MenuItem settingsBtn = menu.findItem(R.id.settings);
-			if (settingsBtn != null) {
-				settingsBtn.setVisible(false);
-			}
-
-			DebugMenu.onPrepareOptionsMenu(this, menu);
-		}
-
 
 		return super.onPrepareOptionsMenu(menu);
 	}

@@ -240,11 +240,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isLOBChooserScreenEnabled() {
-		return true;
-	}
-
-	@Override
 	public String getAdXKey() {
 		//TODO Add correct AdX key.
 		return "";
@@ -340,7 +335,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public int getFlightSearchProgressImageResId() {
-		return R.drawable.search_progress_static_flight_lm;
+		return 0;
 	}
 
 	@Override
@@ -350,6 +345,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean sortByDistanceForCurrentLocation() {
+		return true;
+	}
+
+	@Override
+	public boolean isFacebookTrackingEnabled() {
 		return true;
 	}
 
