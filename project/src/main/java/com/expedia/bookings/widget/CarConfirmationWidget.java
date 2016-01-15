@@ -27,7 +27,6 @@ import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
@@ -248,9 +247,8 @@ public class CarConfirmationWidget extends FrameLayout {
 
 	@OnClick(R.id.calendar_action_textView)
 	public void generateCalendarInsertIntent() {
-		PointOfSale pointOfSale = PointOfSale.getPointOfSale();
 		Intent intent = AddToCalendarUtils
-			.generateCarAddToCalendarIntent(getContext(), pointOfSale, itineraryNumber, offer);
+			.generateCarAddToCalendarIntent(getContext(), itineraryNumber, offer);
 		getContext().startActivity(intent);
 	}
 
