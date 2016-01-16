@@ -239,6 +239,15 @@ public class
 		R.drawable.ic_chevron_up_black_48dp,
 		R.string.trip_overview,
 		R.drawable.ic_infant_seating,
-		R.string.infants_under_two_TEMPLATE
+		R.string.infants_under_two_TEMPLATE,
+		R.string.paying_with_points,
+		R.string.pay_with_point_total_available_TEMPLATE,
+		R.string.user_enters_more_than_points_TEMPLATE,
+		R.string.user_enters_more_than_trip,
+		R.string.pwp_calculation_api_error,
+		R.string.pwp_calculating_points,
+		R.string.pwp_points_applied_TEMPLATE,
+		R.string.pwp_remaining_balance_due_on_card_TEMPLATE,
+		R.layout.pay_with_points_widget
 	};
 }

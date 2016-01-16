@@ -181,4 +181,17 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Pay with Points" >
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="@string/preference_enable_pay_with_points"
+            android:layout="@layout/preference"
+            android:summary="Hotel V2 enable Pay with Points"
+            android:title="Enable Pay with Points feature" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

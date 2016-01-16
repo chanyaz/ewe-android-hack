@@ -1,5 +1,7 @@
 package com.expedia.bookings.dagger;
 
+import android.content.Context;
+
 import com.expedia.bookings.dagger.tags.HotelScope;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.payment.PaymentModel;
@@ -8,6 +10,10 @@ import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.services.LoyaltyServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
+import com.expedia.bookings.widget.IPayWithPointsViewModel;
+import com.expedia.bookings.widget.PayWithPointsViewModel;
+import com.expedia.bookings.widget.IPaymentWidgetViewModel;
+import com.expedia.bookings.widget.PaymentWidgetViewModel;
 import com.squareup.okhttp.OkHttpClient;
 
 import dagger.Module;
@@ -51,6 +57,18 @@ public final class HotelModule {
 	@Provides
 	@HotelScope
 	PaymentModel<HotelCreateTripResponse> providePaymentModel(LoyaltyServices loyaltyServices) {
-		return new PaymentModel<HotelCreateTripResponse>(loyaltyServices);
+		return new PaymentModel<>(loyaltyServices);
+	}
+
+	@Provides
+	@HotelScope
+	IPaymentWidgetViewModel providePaymentWidgetViewModel(PaymentModel<HotelCreateTripResponse> paymentModel, Context context) {
+		return new PaymentWidgetViewModel<>(paymentModel, context.getResources());
+	}
+
+	@Provides
+	@HotelScope
+	IPayWithPointsViewModel providePayWithPointsViewModel(PaymentModel<HotelCreateTripResponse> paymentModel, Context context) {
+		return new PayWithPointsViewModel<>(paymentModel, context.getResources());
 	}
 }

@@ -7,8 +7,9 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.section.SectionBillingInfo
 import com.expedia.bookings.section.SectionFieldEditable
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.NumberMaskEditText
-import com.expedia.bookings.widget.PaymentWidget
+import com.expedia.bookings.widget.PaymentWidgetV2
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -27,7 +28,8 @@ class HotelBillingInfoTest {
     fun before() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Hotels);
-        val paymentWidget = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidget
+        Ui.getApplication(activity).defaultHotelComponents()
+        val paymentWidget = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
 
         sectionBillingInfo = paymentWidget.findViewById(R.id.section_billing_info) as SectionBillingInfo
         sectionBillingInfo.setLineOfBusiness(LineOfBusiness.HOTELSV2)
