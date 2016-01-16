@@ -2035,9 +2035,9 @@
     <string name="first_name_field_text">first name</string>
     <!-- last name -->
     <string name="last_name_field_text">last name</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(e.g.: %s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (e.g. %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Cardholder</string>
