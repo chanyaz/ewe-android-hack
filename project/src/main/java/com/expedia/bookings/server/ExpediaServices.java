@@ -296,9 +296,7 @@ public class ExpediaServices implements DownloadListener {
 		String url = NetUtils.formatUrl(getSuggestUrl(4, SuggestType.AUTOCOMPLETE) + query);
 
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-		int regionType = SuggestionResultType.HOTEL | SuggestionResultType.AIRPORT | SuggestionResultType.CITY |
-			SuggestionResultType.NEIGHBORHOOD | SuggestionResultType.POINT_OF_INTEREST | SuggestionResultType.REGION |
-			SuggestionResultType.FLIGHT | SuggestionResultType.AIRPORT_METRO_CODE;
+		int regionType = SuggestionResultType.HOTEL | SuggestionResultType.AIRPORT | SuggestionResultType.POINT_OF_INTEREST | SuggestionResultType.FLIGHT;
 		params.add(new BasicNameValuePair("regiontype", "" + regionType));
 		params.add(new BasicNameValuePair("features", "ta_hierarchy"));
 		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
