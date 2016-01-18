@@ -136,6 +136,7 @@ public class LXPresenter extends Presenter {
 			loadingOverlay.setVisibility(GONE);
 			detailsPresenter.animationFinalize(!forward);
 			if (!forward) {
+				resultsPresenter.trackLXSearch();
 				detailsPresenter.cleanup();
 			}
 		}

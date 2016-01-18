@@ -22,6 +22,7 @@ import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.data.lx.LXSortFilterMetadata;
 import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
@@ -118,6 +119,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		popularitySortButton.setSelected(false);
 		priceSortButton.setSelected(true);
 		postLXFilterChangedEvent();
+		OmnitureTracking.trackLinkLXSort(LXSortType.PRICE);
 	}
 
 	@OnClick(R.id.popularity_sort_button)
@@ -125,6 +127,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		popularitySortButton.setSelected(true);
 		priceSortButton.setSelected(false);
 		postLXFilterChangedEvent();
+		OmnitureTracking.trackLinkLXSort(LXSortType.POPULARITY);
 	}
 
 	public void bind(Map<String, LXCategoryMetadata> filterCategories) {
@@ -162,6 +165,7 @@ public class LXSortFilterWidget extends LinearLayout {
 			selectedFilterCategories.remove(event.categoryKey);
 		}
 		postLXFilterChangedEvent();
+		OmnitureTracking.trackLinkLXFilter(event.categoryKey);
 	}
 
 	private void postLXFilterChangedEvent() {
@@ -199,6 +203,7 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	@Subscribe
 	public void onDynamicFeedbackClearButtonClicked(Events.DynamicFeedbackClearButtonClicked event) {
+		OmnitureTracking.trackLinkLXSortAndFilterCleared();
 		LXSortFilterMetadata lxSortFilterMetadata = defaultFilterMetadata();
 		Events.post(new Events.LXFilterChanged(lxSortFilterMetadata));
 	}
