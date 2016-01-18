@@ -39,7 +39,7 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         }
         
         // Hotels API
-        if (request.path.startsWith("/m/api/hotel") || request.path.startsWith("/api/m/trip/coupon")) {
+        if (request.path.startsWith("/m/api/hotel") || request.path.startsWith("/api/m/trip/coupon") || request.path.startsWith("/api/m/trip/remove/coupon")) {
             return hotelRequestDispatcher.dispatch(request)
         }
 

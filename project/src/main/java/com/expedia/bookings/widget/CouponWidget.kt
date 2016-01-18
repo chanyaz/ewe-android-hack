@@ -49,8 +49,6 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
 
     private val onCouponSubmitClicked = PublishSubject.create<Unit>()
 
-    var removingCoupon: Boolean = false
-
     var viewmodel: HotelCouponViewModel by notNullAndObservable {
         viewmodel.errorMessageObservable.subscribeText(error)
         viewmodel.applyObservable.subscribe {
@@ -69,7 +67,6 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
             showProgress(false)
             showError(false)
             setExpanded(false)
-            removingCoupon = false
         }
         viewmodel.discountObservable.subscribe {
             appliedCouponMessage.text = context.getString(R.string.applied_coupon_message, it)
@@ -122,9 +119,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
 
         removeCoupon.setOnClickListener {
             resetFields()
-            removingCoupon = true
-            viewmodel.removeObservable.onNext(Unit)
-            viewmodel.hasDiscountObservable.onNext(false)
+            viewmodel.removeObservable.onNext(true)
             HotelV2Tracking().trackHotelV2CouponRemove(couponCode.text.toString())
         }
     }
