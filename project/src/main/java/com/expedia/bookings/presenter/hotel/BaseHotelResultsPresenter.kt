@@ -95,6 +95,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
     val filterBtn: LinearLayout by bindView(R.id.filter_btn)
     open val filterBtnWithCountWidget: FilterButtonWithCountWidget? = null
     open val searchThisArea: Button? = null
+    var isMapReady = false
     val isBucketedForResultMap = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultMapTest)
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
@@ -427,6 +428,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
             uiSettings.isIndoorLevelPickerEnabled = false
         }
 
+
         googleMap?.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
             override fun onMarkerClick(marker: Marker): Boolean {
                 mapViewModel.carouselSwipedObservable.onNext(marker)
@@ -448,7 +450,9 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                 return null
             }
         })
+
         mapView.viewTreeObserver.addOnGlobalLayoutListener(mapViewLayoutReadyListener)
+        isMapReady = true
     }
 
     private val mapViewLayoutReadyListener = object: ViewTreeObserver.OnGlobalLayoutListener {
