@@ -3,8 +3,8 @@ package com.expedia.vm
 import android.content.Context
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
-import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.StrUtils
@@ -24,8 +24,8 @@ class PackageSearchViewModel(val context: Context) {
     val arrivalObservable = BehaviorSubject.create<Boolean>(false)
     val dateTextObservable = PublishSubject.create<CharSequence>()
     val calendarTooltipTextObservable = PublishSubject.create<Pair<String, String>>()
+    val originTextObservable = PublishSubject.create<String>()
     val destinationTextObservable = PublishSubject.create<String>()
-    val arrivalTextObservable = PublishSubject.create<String>()
     val searchButtonObservable = PublishSubject.create<Boolean>()
     val errorNoOriginObservable = PublishSubject.create<Boolean>()
     val errorNoDatesObservable = PublishSubject.create<Unit>()
@@ -34,11 +34,11 @@ class PackageSearchViewModel(val context: Context) {
     val enableTravelerObservable = PublishSubject.create<Boolean>()
 
     val enableDateObserver = endlessObserver<Unit> {
-        enableDateObservable.onNext(paramsBuilder.hasOrigin())
+        enableDateObservable.onNext(paramsBuilder.hasOriginAndDestination())
     }
 
     val enableTravelerObserver = endlessObserver<Unit> {
-        enableTravelerObservable.onNext(paramsBuilder.hasOrigin())
+        enableTravelerObservable.onNext(paramsBuilder.hasOriginAndDestination())
     }
 
     // Inputs
@@ -61,14 +61,20 @@ class PackageSearchViewModel(val context: Context) {
 
     var requiredSearchParamsObserver = endlessObserver<Unit> {
         searchButtonObservable.onNext(paramsBuilder.areRequiredParamsFilled())
-        destinationObservable.onNext(paramsBuilder.hasDestination())
-        arrivalObservable.onNext(paramsBuilder.hasArrival())
-        originObservable.onNext(paramsBuilder.hasOrigin())
+        destinationObservable.onNext(paramsBuilder.hasOrigin())
+        arrivalObservable.onNext(paramsBuilder.hasDestination())
+        originObservable.onNext(paramsBuilder.hasOriginAndDestination())
     }
 
     val travelersObserver = endlessObserver<HotelTravelerParams> { update ->
         paramsBuilder.adults(update.numberOfAdults)
         paramsBuilder.children(update.children)
+    }
+
+    val originObserver = endlessObserver<SuggestionV4> { suggestion ->
+        paramsBuilder.origin(suggestion)
+        originTextObservable.onNext(StrUtils.formatAirport(suggestion))
+        requiredSearchParamsObserver.onNext(Unit)
     }
 
     val destinationObserver = endlessObserver<SuggestionV4> { suggestion ->
@@ -77,14 +83,8 @@ class PackageSearchViewModel(val context: Context) {
         requiredSearchParamsObserver.onNext(Unit)
     }
 
-    val arrivalObserver = endlessObserver<SuggestionV4> { suggestion ->
-        paramsBuilder.arrival(suggestion)
-        arrivalTextObservable.onNext(StrUtils.formatAirport(suggestion))
-        requiredSearchParamsObserver.onNext(Unit)
-    }
-
     val suggestionTextChangedObserver = endlessObserver<Boolean> {
-        if (it) paramsBuilder.destination(null) else paramsBuilder.arrival(null)
+        if (it) paramsBuilder.origin(null) else paramsBuilder.destination(null)
         requiredSearchParamsObserver.onNext(Unit)
     }
 
@@ -97,8 +97,8 @@ class PackageSearchViewModel(val context: Context) {
                 searchParamsObservable.onNext(packageSearchParams)
             }
         } else {
-            if (!paramsBuilder.hasOrigin()) {
-                errorNoOriginObservable.onNext(paramsBuilder.hasDestination())
+            if (!paramsBuilder.hasOriginAndDestination()) {
+                errorNoOriginObservable.onNext(paramsBuilder.hasOrigin())
             } else if (!paramsBuilder.hasStartAndEndDates()) {
                 errorNoDatesObservable.onNext(Unit)
             }

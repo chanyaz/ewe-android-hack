@@ -21,7 +21,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     // Outputs
 
     val destinationTextObservable = BehaviorSubject.create<String>()
-    val arrivalTextObservable = BehaviorSubject.create<String>()
+    val originTextObservable = BehaviorSubject.create<String>()
     val hotelResultsObservable = BehaviorSubject.create<List<Hotel>>()
     val flightResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
 
@@ -30,7 +30,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
             Db.setPackageParams(params)
             packageServices.packageSearch(params).subscribe(makeResultsObserver())
             destinationTextObservable.onNext(context.getString(R.string.flights_to_TEMPLATE, params.destination.regionNames.shortName))
-            arrivalTextObservable.onNext(context.getString(R.string.flights_to_TEMPLATE, params.arrival.regionNames.shortName))
+            originTextObservable.onNext(context.getString(R.string.flights_to_TEMPLATE, params.origin.regionNames.shortName))
         }
 
         flightParamsObservable.subscribe { params ->

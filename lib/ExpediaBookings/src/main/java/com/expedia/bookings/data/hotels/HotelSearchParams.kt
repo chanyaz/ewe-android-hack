@@ -4,8 +4,6 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
 import org.joda.time.Days
 import org.joda.time.LocalDate
-import kotlin.collections.emptyList
-import kotlin.collections.size
 
 public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>) {
 
