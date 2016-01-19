@@ -132,7 +132,8 @@ public class TravelerButton extends LinearLayout {
 			});
 		}
 		mStoredTravelerPopup.setAnchorView(selectTraveler);
-		mStoredTravelerPopup.setVerticalOffset(selectTraveler.getHeight() * -1);
+		int selectTravelerBtnHeight = selectTraveler.getHeight();
+		mStoredTravelerPopup.setVerticalOffset(-selectTravelerBtnHeight);
 		mStoredTravelerPopup.setAdapter(mTravelerAdapter);
 		mStoredTravelerPopup.show();
 	}
