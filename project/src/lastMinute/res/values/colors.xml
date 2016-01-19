@@ -70,6 +70,7 @@
     <color name="lx_ripple_color">#A1266C</color>
     <color name="lx_secondary_color_disabled">#A1266C</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
+    <color name="lx_ticket_selector_disabled_color_lm">#40E40088</color>
 
     <!--Account Lib Colors -->
     <color name="acct__btn_sign_in_text_lm">#FFFFFF</color>
