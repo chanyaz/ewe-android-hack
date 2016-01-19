@@ -94,8 +94,8 @@ public class PackageScreen {
 	public static void searchPackage() throws Throwable {
 		PackageScreen.destination().perform(typeText("SFO"));
 		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		PackageScreen.arrival().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		PackageScreen.arrival().perform(typeText("DTW"));
+		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		PackageScreen.selectDates(startDate, endDate);
@@ -120,6 +120,16 @@ public class PackageScreen {
 
 	public static ViewInteraction outboundFlight() {
 		return onView(withId(R.id.package_bundle_outbound_flight_widget));
+	}
+
+	public static ViewInteraction outboundFlightInfo() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
+			withId(R.id.flight_info_container)));
+	}
+
+	public static ViewInteraction inboundFlightInfo() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)),
+			withId(R.id.flight_info_container)));
 	}
 
 	public static ViewInteraction inboundFLight() {

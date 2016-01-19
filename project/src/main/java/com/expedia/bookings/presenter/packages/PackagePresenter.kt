@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
@@ -36,6 +37,8 @@ public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter
         }
         bundlePresenter.createTripViewModel = PackageCreateTripViewModel(packageServices)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe {
+            // Starting a new search clear previous selection
+            Db.clearPackageSelection()
             show(bundlePresenter)
             bundlePresenter.show(BundleOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         }

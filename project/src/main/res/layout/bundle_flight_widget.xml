@@ -2,35 +2,34 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ProgressBar
+    <ImageView
         android:id="@+id/flight_loading_bar"
-        style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:visibility="gone" />
+        android:layout_height="match_parent"
+        android:background="@drawable/progress"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:animateLayoutChanges="true"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:orientation="horizontal"
+            android:animateLayoutChanges="true"
             android:padding="12dp">
 
             <ImageView
                 android:id="@+id/package_flight_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="9dp"
-                android:tint="@color/package_bundle_icon_color" />
+                android:layout_gravity="center_vertical"
+                android:tint="@color/package_bundle_icon_color"
+                android:layout_marginRight="9dp"/>
 
             <LinearLayout
                 android:id="@+id/flight_info_container"
@@ -38,6 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
+                android:layout_marginLeft="10dp"
                 android:orientation="vertical">
 
                 <com.expedia.bookings.widget.TextView
@@ -46,7 +46,8 @@
                     android:layout_height="wrap_content"
                     android:singleLine="true"
                     android:textSize="16sp"
-                    app:textStyle="medium" />
+                    app:textStyle="medium"
+                    android:textColor="@color/package_bundle_icon_color"/>
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/travel_info_view_text"
@@ -59,7 +60,7 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/package_flight_arrow_icon"
+                android:id="@+id/package_flight_details_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/flight_info_container"
@@ -70,8 +71,17 @@
                 android:tint="@color/package_bundle_icon_color"
                 android:visibility="gone" />
 
+            <ImageView
+                android:id="@+id/package_flight_select_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/flight_info_container"
+                android:layout_gravity="center"
+                android:layout_marginRight="9dp"
+                android:paddingLeft="12dp"
+                android:src="@drawable/bundle_forward_arrow"
+                android:tint="?attr/primary_color"
+                android:visibility="gone" />
         </LinearLayout>
-
     </LinearLayout>
-
 </merge>

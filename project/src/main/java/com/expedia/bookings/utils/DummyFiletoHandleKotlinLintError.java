@@ -301,6 +301,11 @@ public class
 		R.drawable.add_new_credit_card,
 		R.string.checkout_hotelsv2_enter_payment_details_line2,
 		R.string.package_flight_overview_bundle_total_label,
-		R.string.package_flight_overview_per_person_TEMPLATE
+		R.string.package_flight_overview_per_person_TEMPLATE,
+		R.drawable.packages_flight1_checkmark_icon,
+		R.drawable.packages_flight2_checkmark_icon,
+		R.drawable.packages_hotels_checkmark_icon,
+		R.string.select_hotel_template,
+		R.string.searching_flight_to
 	};
 }

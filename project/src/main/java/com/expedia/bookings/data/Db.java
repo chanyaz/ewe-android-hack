@@ -146,6 +146,21 @@ public class Db {
 		return sDb.mPackageSelectedHotel;
 	}
 
+	public static void clearPackageHotelSelection () {
+		sDb.mPackageSelectedHotel = null;
+		sDb.mPackageSelectedRoom = null;
+	}
+
+	public static void clearPackageFlightSelection() {
+		sDb.mPackageSelectedInboundFlight = null;
+		sDb.mPackageSelectedOutboundFlight = null;
+	}
+
+	public static void clearPackageSelection() {
+		clearPackageHotelSelection();
+		clearPackageFlightSelection();
+	}
+
 	public static HotelOffersResponse.HotelRoomResponse getPackageSelectedRoom() {
 		return sDb.mPackageSelectedRoom;
 	}
