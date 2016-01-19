@@ -75,12 +75,35 @@ public class PackageSearchPresenterTest extends PackageTestCase {
 		PackageScreen.selectDates(startDate, endDate);
 		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
 		String expectedEndDate = DateUtils.localDateToMMMd(endDate);
+
 		String expected = expectedStartDate + " - " + expectedEndDate + " (27 nights)";
 		PackageScreen.selectDateButton().check(matches(withText(expected)));
 		PackageScreen.searchButton().perform(click());
 		//we should see a pop up message
 		PackageScreen.errorDialog(
-			"We're sorry, but we are unable to search for hotel stays longer than 26 days.").check(matches(isDisplayed()));
+				"We're sorry, but we are unable to search for hotel stays longer than 26 days.").check(matches(isDisplayed()));
+
+	}
+
+	public void testPackageSearchWindow() throws Throwable {
+		// Select location
+		PackageScreen.destination().perform(typeText("SFO"));
+		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		PackageScreen.arrival().perform(typeText("SFO"));
+		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+
+		LocalDate startDate = LocalDate.now().plusDays(335);
+		LocalDate endDate = LocalDate.now().plusDays(340);
+
+		//search upto 11 months in advance
+		PackageScreen.selectDates(startDate, null);
+		PackageScreen.selectDates(startDate, endDate);
+		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
+		String expectedEndDate = DateUtils.localDateToMMMd(endDate);
+
+		String expected = expectedStartDate + " - " + expectedEndDate + " (5 nights)";
+		PackageScreen.selectDateButton().check(matches(withText(expected)));
+		PackageScreen.searchButton().perform(click());
 	}
 
 	public void testSameDay() throws Throwable {
