@@ -17,7 +17,7 @@ import java.io.IOException
 import java.lang.reflect.InvocationTargetException
 import kotlin.properties.Delegates
 
-class ServicesRule<T : Any>(val servicesClass: Class<T>) : TestRule {
+open class ServicesRule<T : Any>(val servicesClass: Class<T>) : TestRule {
     var server: MockWebServer by Delegates.notNull()
     var services: T? = null
 

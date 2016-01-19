@@ -38,7 +38,7 @@ public class HotelCheckoutViewModelTest {
                 .traveler(HotelCheckoutParamsMock.traveler())
                 .misc(miscParameters).build();
 
-        val subjectUnderTest = HotelCheckoutViewModel(mockHotelServiceTestRule.service, PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
+        val subjectUnderTest = HotelCheckoutViewModel(mockHotelServiceTestRule.services!!, PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
 
         val errorObservableTestSubscriber = TestSubscriber.create<ApiError>()
         subjectUnderTest.errorObservable.subscribe(errorObservableTestSubscriber)

@@ -180,7 +180,7 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                 when (it.isExpediaRewardsRedeemable) {
                     true ->
                         when (it.paymentSplitsType) {
-                            PaymentSplitsType.IS_FULL_PAYABLE_WITH_EXPEDIA_POINT ->
+                            PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT ->
                                 Phrase.from(context, R.string.you_are_using_expedia_points_TEMPLATE)
                                         .put("amount", it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
                                         .put("points", it.payingWithPoints.points.toString())

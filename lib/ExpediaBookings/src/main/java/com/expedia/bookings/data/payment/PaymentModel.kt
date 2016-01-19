@@ -80,6 +80,8 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     fun maxPayableWithPoints(response: T): BigDecimal = expediaRewardsUserAccountDetails(response).maxPayableWithPoints?.amount?.amount ?: BigDecimal.ZERO
 
     //Outlets
+    data class PaymentSplitsAndTripResponse(val tripResponse: TripResponse, val paymentSplits: PaymentSplits)
+
     private fun paymentSplitsWhenZeroPayableWithPoints(response: T): PaymentSplits {
         val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money("0", response.getTripTotal().currencyCode))
         val payingWithCards = PointsAndCurrency(response.expediaRewards!!.totalPointsToEarn, PointsType.EARN, response.getTripTotal())
@@ -97,6 +99,11 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
             amountSelectedAndLatestTripResponse.filter { it.amount.equals(BigDecimal.ZERO) }.doOnNext { it.subscription?.unsubscribe() }.map { paymentSplitsWhenZeroPayableWithPoints(it.response) },
             currencyToPointsApiResponse.map { PaymentSplits(it.conversion!!, it.remainingPayableByCard!!) }
     )
+
+    //Use this observable when tripResponse and
+    public val paymentSplitsAndTripResponseObservable = paymentSplits.withLatestFrom(tripResponses, { paymentSplits, tripResponse ->
+        PaymentSplitsAndTripResponse(tripResponse,paymentSplits)
+    })
 
     //Conditions when Currency To Points Conversion can be locally handled without an API call
     fun canHandleCurrencyToPointsConversionLocally(amount: BigDecimal, response: T): Boolean {

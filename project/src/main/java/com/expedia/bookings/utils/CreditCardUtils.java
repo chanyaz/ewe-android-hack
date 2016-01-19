@@ -29,7 +29,7 @@ public class CreditCardUtils {
 	 */
 	@SuppressLint("DefaultLocale")
 	public static String getHumanReadableCardTypeName(Context context, PaymentType cardType) {
-		assertPaymentTypeIsCard(cardType);
+		cardType.assertIsCard();
 		switch (cardType) {
 		case CARD_AMERICAN_EXPRESS:
 			return context.getString(R.string.cc_american_express);
@@ -56,20 +56,6 @@ public class CreditCardUtils {
 		default:
 			// If all else fails, just return the enum
 			return cardType.toString();
-		}
-	}
-
-	public static void assertPaymentTypeIsCard(PaymentType cardType) {
-		if (!cardType.name().startsWith("CARD_")) {
-			throw new UnsupportedOperationException("Can't use payment type "
-				+ cardType.name());
-		}
-	}
-
-	public static void assertPaymentTypeIsPoints(PaymentType cardType) {
-		if (!cardType.name().startsWith("POINTS_")) {
-			throw new UnsupportedOperationException("Can't use payment type "
-				+ cardType.name());
 		}
 	}
 }
