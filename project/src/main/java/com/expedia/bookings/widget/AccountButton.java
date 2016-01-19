@@ -2,7 +2,6 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.text.Html;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -231,7 +230,7 @@ public class AccountButton extends LinearLayout {
 			//Show/Update Reward Points Text
 			String rewardPointsText = getRewardPointsText(lob);
 			if (updateRewardsTextViewVisibility(rewardPointsText, lob, traveler.isLoyaltyMember())) {
-				mRewardsTextView.setText(rewardPointsText);
+				updateRewardsText(lob);
 				mRewardsTextView.setTextColor(getResources().getColor(expediaPlusRewardsCategoryTextColorResId));
 			}
 
@@ -246,6 +245,10 @@ public class AccountButton extends LinearLayout {
 
 		// Logo
 		mExpediaLogo.setImageResource(Ui.obtainThemeResID(mContext, R.attr.skin_hotelCheckoutLogoutLogoDrawable));
+	}
+
+	public void updateRewardsText(LineOfBusiness lob) {
+		mRewardsTextView.setText(getRewardPointsText(lob));
 	}
 
 	private boolean updateRewardsTextViewVisibility(String rewardPointsText, LineOfBusiness lob, boolean isLoyaltyMember) {
@@ -297,25 +300,38 @@ public class AccountButton extends LinearLayout {
 		}
 
 		CharSequence youllEarnRewardsPointsText = "";
-		if (!TextUtils.isEmpty(rewardPoints) && !rewardPoints.equals("0")) {
+		if (Strings.isEmpty(rewardPoints)) {
+		//Do nothing
+		}
+		else if (Strings.equals("0", rewardPoints)) {
+			youllEarnRewardsPointsText = mContext.getString(R.string.you_are_a_valued_member);
+
+		}
+		else {
 			switch (lob) {
 			case FLIGHTS:
-				youllEarnRewardsPointsText = Html.fromHtml(mContext.getString(R.string.x_points_for_this_trip_TEMPLATE, rewardPoints));
+				youllEarnRewardsPointsText = Html
+					.fromHtml(mContext.getString(R.string.x_points_for_this_trip_TEMPLATE, rewardPoints));
 				break;
 			case HOTELSV2:
-				youllEarnRewardsPointsText = Html.fromHtml(mContext.getString(R.string.youll_earn_points_TEMPLATE, rewardPoints));
+				youllEarnRewardsPointsText = Html
+					.fromHtml(mContext.getString(R.string.youll_earn_points_TEMPLATE, rewardPoints));
 			case HOTELS:
-				boolean isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotel3xMessaging);
+				boolean isUserBucketedForTest = Db.getAbacusResponse()
+					.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotel3xMessaging);
 				boolean isTablet = AndroidUtils.isTablet(getContext());
 				if (isUserBucketedForTest && !isTablet) {
-					youllEarnRewardsPointsText = Html.fromHtml(mContext.getString(R.string.youll_earn_points_ab_test_3x_TEMPLATE, rewardPoints));
+					youllEarnRewardsPointsText = Html
+						.fromHtml(mContext.getString(R.string.youll_earn_points_ab_test_3x_TEMPLATE, rewardPoints));
 				}
 				else {
-					youllEarnRewardsPointsText = Html.fromHtml(mContext.getString(R.string.youll_earn_points_TEMPLATE, rewardPoints));
+					youllEarnRewardsPointsText = Html
+						.fromHtml(mContext.getString(R.string.youll_earn_points_TEMPLATE, rewardPoints));
 				}
 				break;
 			case LX:
-				youllEarnRewardsPointsText = Html.fromHtml(mContext.getString(R.string.youll_earn_points_ab_test_3x_TEMPLATE, rewardPoints));
+				youllEarnRewardsPointsText = Html
+					.fromHtml(mContext.getString(R.string.youll_earn_points_ab_test_3x_TEMPLATE, rewardPoints));
 			}
 		}
 
