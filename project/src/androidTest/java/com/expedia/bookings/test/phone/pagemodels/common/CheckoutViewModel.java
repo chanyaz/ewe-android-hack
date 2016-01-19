@@ -119,9 +119,15 @@ public class CheckoutViewModel {
 			.perform(click());
 	}
 
-	public static void clickStoredCardButton() {
+	public static void clickStoredCardButton(boolean isHotelsPath) {
 		Espresso.closeSoftKeyboard();
-		onView(withId(R.id.select_payment_button)).perform(click());
+		if (isHotelsPath) {
+			onView(allOf(withParent(withId(R.id.payment_button_v2)), withId(R.id.select_payment_button)))
+				.perform(click());
+		}
+		else {
+			onView(withId(R.id.select_payment_button)).perform(click());
+		}
 	}
 
 	public static void selectStoredCard(String cardname) throws Throwable {
@@ -201,12 +207,14 @@ public class CheckoutViewModel {
 		Common.delay(2);
 		CheckoutViewModel.clickPaymentInfo();
 		Common.delay(1);
+		addCreditCard().perform(click());
+		Common.delay(1);
 		enterPaymentDetails();
 	}
 
-	public static void selectStoredCard() throws Throwable {
+	public static void selectStoredCard(boolean isHotelsPath) throws Throwable {
 		clickPaymentInfo();
-		clickStoredCardButton();
+		clickStoredCardButton(isHotelsPath);
 		selectStoredCard("AmexTesting");
 	}
 

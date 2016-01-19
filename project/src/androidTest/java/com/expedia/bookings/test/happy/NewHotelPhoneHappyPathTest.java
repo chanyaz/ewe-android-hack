@@ -43,7 +43,8 @@ public class NewHotelPhoneHappyPathTest extends HotelTestCase {
 		Common.delay(1);
 
 		// checkout
-		CheckoutViewModel.selectStoredCard();
+		CheckoutViewModel.selectStoredCard(true);
+		CheckoutViewModel.pressClose();
 		CheckoutViewModel.performSlideToPurchase(true);
 
 		assertICanSeeItinNumber();
