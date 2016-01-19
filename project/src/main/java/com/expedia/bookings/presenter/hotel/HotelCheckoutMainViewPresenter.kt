@@ -12,6 +12,7 @@ import com.expedia.bookings.activity.HotelRulesActivity
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams
@@ -20,6 +21,10 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.payment.PointsAndCurrency
+import com.expedia.bookings.data.payment.PointsType
+import com.expedia.bookings.data.payment.ProgramName
+import com.expedia.bookings.data.payment.UserPreferencePointsDetails
 import com.expedia.bookings.enums.MerchandiseSpam
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
@@ -199,8 +204,17 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         val qualifyAirAttach = false
         val createTrip = createTripViewmodel.tripResponseObservable.value
         val hasCoupon = couponCardView.viewmodel.hasDiscountObservable.value != null && couponCardView.viewmodel.hasDiscountObservable.value
+
         if (createTrip != null && !couponCardView.removingCoupon && hasCoupon && createTrip.coupon != null && User.isLoggedIn(context)) {
-            couponCardView.viewmodel.couponParamsObservable.onNext(HotelApplyCouponParams(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId, createTrip.coupon.code, true))
+            // This is to apply a coupon in case user signs in after applying a coupon. So the user preference of paying with points is always 0.
+            var couponParams = HotelApplyCouponParams.Builder()
+                    .tripId(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId)
+                    .couponCode(createTrip.coupon.code)
+                    .isFromNotSignedInToSignedIn(true)
+                    .userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(0, PointsType.BURN, Money()))))
+                    .build()
+
+            couponCardView.viewmodel.couponParamsObservable.onNext(couponParams)
         } else {
             createTripViewmodel.tripParams.onNext(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges))
         }

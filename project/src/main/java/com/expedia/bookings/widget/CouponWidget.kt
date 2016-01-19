@@ -17,17 +17,22 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.payment.PaymentSplits
+import com.expedia.bookings.data.payment.ProgramName
+import com.expedia.bookings.data.payment.UserPreferencePointsDetails
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.vm.HotelCouponViewModel
 import com.mobiata.android.util.Ui
+import rx.subjects.PublishSubject
+import java.util.ArrayList
+import javax.inject.Inject
 import kotlin.properties.Delegates
 
-/**
- * Created by malnguyen on 8/12/15.
- */
 public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(context, attrs) {
 
     val unexpanded: TextView by bindView(R.id.unexpanded)
@@ -38,6 +43,10 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
     val appliedCouponMessage: TextView by bindView(R.id.applied_coupon_text)
     val removeCoupon: ImageView by bindView(R.id.remove_coupon_button)
     var progress: View by Delegates.notNull()
+    lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
+        @Inject set
+
+    private val onCouponSubmitClicked = PublishSubject.create<Unit>()
 
     var removingCoupon: Boolean = false
 
@@ -82,6 +91,11 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
     }
 
     init {
+        com.expedia.bookings.utils.Ui.getApplication(getContext()).hotelComponent().inject(this)
+        onCouponSubmitClicked.withLatestFrom(paymentModel.paymentSplits, { x,y -> y}).subscribe{
+            submitCoupon(it)
+        }
+
         View.inflate(getContext(), R.layout.coupon_widget, this)
         //Tests hates progress bars
         if (ExpediaBookingApp.isAutomation()) {
@@ -157,7 +171,20 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
     }
 
     override fun onMenuButtonPressed() {
-        viewmodel.couponParamsObservable.onNext(HotelApplyCouponParams(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId, couponCode.getText().toString(), false))
+        onCouponSubmitClicked.onNext(Unit)
+    }
+
+    private fun submitCoupon(paymentSplits: PaymentSplits) {
+        val payingWithPointsSplit = paymentSplits.payingWithPoints
+        var userPointsPreference = listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, payingWithPointsSplit))
+
+        var couponParams = HotelApplyCouponParams.Builder()
+                .tripId(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId)
+                .couponCode(couponCode.getText().toString())
+                .isFromNotSignedInToSignedIn(false)
+                .userPreferencePointsDetails(userPointsPreference)
+                .build()
+        viewmodel.couponParamsObservable.onNext(couponParams)
     }
 
     override fun onLogin() {

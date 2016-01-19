@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams;
@@ -23,7 +24,11 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.payment.PointsAndCurrency;
+import com.expedia.bookings.data.payment.PointsType;
+import com.expedia.bookings.data.payment.ProgramName;
 import com.expedia.bookings.data.payment.TripDetails;
+import com.expedia.bookings.data.payment.UserPreferencePointsDetails;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.services.HotelServices;
@@ -194,7 +199,12 @@ public class HotelServicesTest {
 	}
 
 	private void givenCouponParams(String mockFileName) {
-		couponParams = new HotelApplyCouponParams("58b6be8a-d533-4eb0-aaa6-0228e000056c", mockFileName, false);
+		List<UserPreferencePointsDetails> userPreferencePointsDetails = new ArrayList<>();
+		userPreferencePointsDetails.add(new UserPreferencePointsDetails(ProgramName.ExpediaRewards, new PointsAndCurrency(0, PointsType.BURN, new Money())));
+		couponParams = new HotelApplyCouponParams.Builder().tripId("58b6be8a-d533-4eb0-aaa6-0228e000056c")
+			.couponCode(mockFileName)
+			.userPreferencePointsDetails(userPreferencePointsDetails)
+			.isFromNotSignedInToSignedIn(false).build();
 	}
 
 	@Test

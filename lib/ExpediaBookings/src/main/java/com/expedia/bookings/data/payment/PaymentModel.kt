@@ -98,7 +98,8 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     val paymentSplits: Observable<PaymentSplits> = Observable.merge(
             defaultPaymentSplits,
             amountSelectedAndLatestTripResponse.filter { it.amount.equals(BigDecimal.ZERO) }.doOnNext { it.subscription?.unsubscribe() }.map { paymentSplitsWhenZeroPayableWithPoints(it.response) },
-            currencyToPointsApiResponse.map { PaymentSplits(it.conversion!!, it.remainingPayableByCard!!) }
+            currencyToPointsApiResponse.map { PaymentSplits(it.conversion!!, it.remainingPayableByCard!!) },
+            couponChangeSubject.map { PaymentSplits( it.userPreferencePoints.getUserPreference(ProgramName.ExpediaRewards)!!, it.userPreferencePoints.remainingPayableByCard) }
     )
 
     //Use this observable when tripResponse and
