@@ -37,6 +37,7 @@ public class PaymentModelTest {
         it.amountChosenToBePaidWithPointsSubject.subscribe(amountChosenToBePaidWithPointsTestSubscriber)
         it.currencyToPointsApiResponse.subscribe(currencyToPointsApiResponseTestSubscriber)
         it.currencyToPointsApiError.subscribe(currencyToPointsApiErrorTestSubscriber)
+        it.couponChangeSubject.subscribe(couponChangeTestSubscriber)
     }
     var createTripResponse: HotelCreateTripResponse by Delegates.notNull()
 
@@ -53,7 +54,7 @@ public class PaymentModelTest {
     //val priceChangeDuringCheckoutResponseTestSubscriber = ExtendedTestSubscriber<HotelCreateTripResponse>()
     //val couponChangeResponseTestSubscriber = ExtendedTestSubscriber<HotelCreateTripResponse>()
 
-    private fun setup(hasRedemablePoints: Boolean) {
+    private fun setupCreateTrip(hasRedemablePoints: Boolean) {
         if (hasRedemablePoints)
             createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
         else
@@ -64,9 +65,15 @@ public class PaymentModelTest {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
     }
 
+    private fun setupApplyCoupon() {
+        createTripResponse = mockHotelServiceTestRule.getApplyCouponResponseWithUserPreference()
+        Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
+        paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
+    }
+
     @Test
     fun testCreateTripForLoggedInUserWithRedeemablePoints() {
-        setup(true)
+        setupCreateTrip(true)
         val expediaPointDetails = createTripResponse.getPointDetails(ProgramName.ExpediaRewards)
 
         //Expected Payment Split
@@ -89,7 +96,7 @@ public class PaymentModelTest {
 
     @Test
     fun testCreateTripForLoggedInUserWithRedeemablePointsZeroCurrencyToPointSelected() {
-        setup(true)
+        setupCreateTrip(true)
         //Expected Payment Split
         val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money("0", createTripResponse.getTripTotal().currencyCode))
         val payingWithCards = PointsAndCurrency(createTripResponse.expediaRewards!!.totalPointsToEarn, PointsType.EARN, createTripResponse.getTripTotal())
@@ -115,7 +122,7 @@ public class PaymentModelTest {
 
     @Test
     fun testCreateTripForLoggedInUserWithRedeemablePointsCurrencyToPointUserSelected() {
-        setup(true)
+        setupCreateTrip(true)
         val expectedPaymentSplits = PaymentSplits(PointsAndCurrency(14005, PointsType.BURN, Money("100", "USD")),
                 PointsAndCurrency(507, PointsType.EARN, Money("3.7", "USD")))
 
@@ -142,7 +149,7 @@ public class PaymentModelTest {
 
     @Test
     fun testCreateTripForLoggedInUserWithRedeemablePointsCurrencyToPointUserSelectedAPIError() {
-        setup(true)
+        setupCreateTrip(true)
         createTripResponse.tripId = "";
 
         paymentModel.createTripSubject.onNext(createTripResponse)
@@ -167,7 +174,7 @@ public class PaymentModelTest {
 
     @Test
     fun testCreateTripForLoggedInUserWithNonRedeemablePoints() {
-        setup(false)
+        setupCreateTrip(false)
 
         //Expected Payment Split
         val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money("0", createTripResponse.getTripTotal().currencyCode))
@@ -182,6 +189,30 @@ public class PaymentModelTest {
         paymentSplitsTestSubscriber.assertNoErrors()
         paymentSplitsTestSubscriber.assertValueCount(1)
         Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents.get(0), expectedPaymentSplits))
+
+        currencyToPointsApiResponseTestSubscriber.assertNoErrors()
+        currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
+
+        currencyToPointsApiErrorTestSubscriber.assertNoErrors()
+        currencyToPointsApiErrorTestSubscriber.assertValueCount(0)
+    }
+
+    @Test
+    fun testApplyCouponWithUserPreference() {
+        setupApplyCoupon()
+        val userPreference = createTripResponse.userPreferencePoints
+
+        //Expected Payment Split
+        val expectedPaymentSplits = PaymentSplits(userPreference.getUserPreference(ProgramName.ExpediaRewards)!!, userPreference.remainingPayableByCard)
+
+        paymentModel.couponChangeSubject.onNext(createTripResponse)
+        couponChangeTestSubscriber.assertNoErrors()
+        couponChangeTestSubscriber.assertValueCount(1)
+        couponChangeTestSubscriber.assertValue(createTripResponse)
+
+        paymentSplitsTestSubscriber.assertNoErrors()
+        paymentSplitsTestSubscriber.assertValueCount(1)
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], expectedPaymentSplits))
 
         currencyToPointsApiResponseTestSubscriber.assertNoErrors()
         currencyToPointsApiResponseTestSubscriber.assertValueCount(0)

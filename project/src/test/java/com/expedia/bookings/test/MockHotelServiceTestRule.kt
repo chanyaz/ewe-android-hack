@@ -1,6 +1,8 @@
 package com.expedia.bookings.test
 
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCheckoutParamsMock
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
@@ -8,7 +10,11 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.MiscellaneousParams
+import com.expedia.bookings.data.payment.PointsAndCurrency
+import com.expedia.bookings.data.payment.PointsType
+import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.data.payment.TripDetails
+import com.expedia.bookings.data.payment.UserPreferencePointsDetails
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
 import org.joda.time.LocalDate
@@ -43,6 +49,8 @@ public class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelService
     fun getLoggedInUserWithNonRedeemeblePointsCreateTripResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("logged_in_user_with_non_redeemable_points")
     }
+
+
 
     fun getProductKeyExpiredResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("error_expired_product_key_createtrip")
@@ -105,6 +113,10 @@ public class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelService
         return getCheckoutTripResponse("hotel_price_change_checkout")
     }
 
+    fun getApplyCouponResponseWithUserPreference(): HotelCreateTripResponse {
+        return getApplyCouponResponse("hotel_coupon_with_user_points_preference")
+    }
+
     private fun getCreateTripResponse(responseFileName: String): HotelCreateTripResponse {
         val productKey = responseFileName
         val observer = TestSubscriber<HotelCreateTripResponse>()
@@ -112,6 +124,19 @@ public class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelService
         observer.awaitTerminalEvent()
         observer.assertCompleted()
         return observer.onNextEvents.get(0)
+    }
+
+    private fun getApplyCouponResponse(responseFileName: String): HotelCreateTripResponse {
+        val observer = TestSubscriber<HotelCreateTripResponse>()
+        val applyCouponParams = HotelApplyCouponParameters.Builder()
+                .couponCode(responseFileName).isFromNotSignedInToSignedIn(false).tripId("tripId").
+                userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000, PointsType.BURN, Money("100", "USD")))))
+                .build()
+
+        services?.applyCoupon(applyCouponParams)!!.subscribe(observer)
+        observer.awaitTerminalEvent()
+        observer.assertCompleted()
+        return observer.onNextEvents[0]
     }
 
     private fun getCheckoutTripResponse(responseFileName: String): HotelCheckoutResponse {
