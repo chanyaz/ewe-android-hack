@@ -205,6 +205,8 @@
     <string name="checkout_payment_option_credit_debit_label">クレジットカード / デビットカード</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">ゲストの詳細</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">情報を入力してください</string>
     <!-- Text for enter payment details line 1 -->
@@ -817,7 +819,8 @@
     <string name="infants_in_seats_prompt">座席が必要な乳幼児はチケットが必要です。乳幼児を含めてもう一度検索してください。</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">膝抱きの乳幼児のチケットは不要です。人数を減らしてもう一度検索してください。</string>
-
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two_TEMPLATE">2 歳未満の乳幼児 : %s</string>
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">乗継回数</string>
@@ -2209,6 +2212,8 @@
     <string name="add_to_your_trip">旅行に追加する</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">%sのホテル</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 室、%s 名</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">%sのレンタカー</string>
     <!-- Title for section helping users in other various ways -->
@@ -2509,9 +2514,9 @@
         <item quantity="other">残り %d 室</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">現在地を利用するには、{brand} にロケーション情報を提供してください。\n\n今すぐ設定しますか ?</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">現在地を利用するには、{brand} にロケーション情報を提供してください。\n\n設定を有効にするには、「許可」をタップして、アプリによる位置情報の取得を許可してください。</string>
+    <string name="go_to_settings">今すぐ設定</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">現在地を利用するには、まず設定でロケーション ソースをオンにしてください。\n\n今すぐ設定しますか ?</string>
@@ -3802,4 +3807,17 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$d 日</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">旅行の概要</string>
+
+    <!-- Pay with points widget -->
+    <string name="paying_with_points">ポイントで支払い</string>
+    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} ポイント) 利用可能</string>
+    <string name="user_enters_more_than_points_TEMPLATE">ポイント相当額が残高を超えています。\n{money} 以下の値を入力してください。</string>
+    <string name="user_enters_more_than_trip">本日お支払いの金額以下のポイント相当額を入力してください。</string>
+    <string name="pwp_calculation_api_error">エラー : 接続できませんでした</string>
+    <string name="pwp_calculating_points">ポイントを計算しています…</string>
+    <string name="pwp_points_applied_TEMPLATE">{points} ポイントが適用されました</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">残高 : {money}</string>
 </resources>

@@ -205,6 +205,8 @@
     <string name="checkout_payment_option_credit_debit_label">信用卡/金融卡</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">旅客資訊</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">輸入您的資訊</string>
     <!-- Text for enter payment details line 1 -->
@@ -817,7 +819,8 @@
     <string name="infants_in_seats_prompt">佔位的嬰兒必須購買機票。現在我們來重新搜尋包括嬰兒的機票。</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">不佔位的嬰兒不需要購買機票。現在我們會重新搜尋比較少張的機票。</string>
-
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two_TEMPLATE">2 歲以下嬰兒：%s</string>
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">轉機點</string>
@@ -2209,6 +2212,8 @@
     <string name="add_to_your_trip">新增至行程</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">%s飯店</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 間客房，%s 位旅客</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">%s租車</string>
     <!-- Title for section helping users in other various ways -->
@@ -2509,9 +2514,9 @@
         <item quantity="other">剩下 %d 間客房</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">若要使用「目前位置」，您必須允許 {brand} 取得您的位置。\n\n現在就到「設定」中啟用嗎？</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">若要使用目前位置，您必須允許 {brand} 取得您的位置。\n\n若要啟用，請前往設定，按一下「許可」並啟用位置。</string>
+    <string name="go_to_settings">前往設定</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">若要使用「目前位置」，您必須先在「設定」中啟用「位置」。\n\n現在就到「設定」中啟用嗎？</string>
@@ -3802,4 +3807,17 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$d天</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">行程摘要</string>
+
+    <!-- Pay with points widget -->
+    <string name="paying_with_points">以點數支付</string>
+    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} 點) 可用</string>
+    <string name="user_enters_more_than_points_TEMPLATE">點數價值超過須支付的金額。\n請輸入 {money} 或以下。</string>
+    <string name="user_enters_more_than_trip">點數價值不得超過現在應付金額。</string>
+    <string name="pwp_calculation_api_error">錯誤：連線失敗</string>
+    <string name="pwp_calculating_points">正在計算點數…</string>
+    <string name="pwp_points_applied_TEMPLATE">已使用 {points} 點</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">應付餘額：{money}</string>
 </resources>
