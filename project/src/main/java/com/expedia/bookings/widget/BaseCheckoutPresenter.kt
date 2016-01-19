@@ -15,6 +15,8 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.BaseCheckoutViewModel
 import kotlin.properties.Delegates
@@ -29,6 +31,8 @@ public class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Prese
     val widgetContainer: LinearLayout by bindView(R.id.checkout_widget_container)
     val sliderContainer: LinearLayout by bindView(R.id.slide_to_purchase_layout)
     val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
+    val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
+    val depositPolicyText: TextView by bindView(R.id.disclaimer_text)
 
     var expandedView: ExpandableCardView? = null
 
@@ -41,6 +45,8 @@ public class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Prese
         vm.creditCardRequired.subscribe { required ->
             paymentWidget.isCreditCardRequired = required
         }
+        vm.legalText.subscribeText(legalInformationText)
+        vm.depositPolicyText.subscribeTextAndVisibility(depositPolicyText)
     }
 
     init {

@@ -1,6 +1,8 @@
 package com.expedia.vm
 
 import android.content.Context
+import android.text.SpannableStringBuilder
+import android.text.Spanned
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
@@ -20,9 +22,10 @@ public class BaseCheckoutViewModel(val context: Context) {
     val travelerCompleted = BehaviorSubject.create<Traveler>()
     val paymentCompleted = BehaviorSubject.create<BillingInfo>()
     val cvvCompleted = BehaviorSubject.create<String>()
+    val legalText = PublishSubject.create<SpannableStringBuilder>()
+    val depositPolicyText = PublishSubject.create<Spanned>()
 
     // Outputs
-
     val infoCompleted = PublishSubject.create<Boolean>()
     val checkout = PublishSubject.create<BaseCheckoutParams>()
 

@@ -13,7 +13,6 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.Constants
