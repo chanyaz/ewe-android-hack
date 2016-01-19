@@ -230,17 +230,20 @@ public class CarSearchPresenter extends Presenter
 
 			SuggestionV4 suggestion = new SuggestionV4();
 			suggestion.gaiaId = "";
+			SuggestionV4.HierarchyInfo hierarchyInfo = new SuggestionV4.HierarchyInfo();
+			hierarchyInfo.airport = new SuggestionV4.Airport();
+			suggestion.hierarchyInfo = hierarchyInfo;
 			if (Strings.isNotEmpty(carSearchParams.origin)) {
 				suggestion.hierarchyInfo.airport.airportCode = carSearchParams.origin;
 			}
+			suggestion.regionNames = new SuggestionV4.RegionNames();
 			suggestion.regionNames.fullName = suggestion.regionNames.shortName = suggestion.regionNames.displayName = carSearchParams.originDescription;
+			SuggestionV4.LatLng coordinates = new SuggestionV4.LatLng();
 			if (carSearchParams.pickupLocationLatLng != null) {
-				SuggestionV4.LatLng coordinates = new SuggestionV4.LatLng();
 				coordinates.lat = carSearchParams.pickupLocationLatLng.lat;
 				coordinates.lng = carSearchParams.pickupLocationLatLng.lng;
-				suggestion.coordinates = coordinates;
 			}
-
+			suggestion.coordinates = coordinates;
 			setPickUpLocation(suggestion, false);
 
 			if (carSearchParams.startDateTime.compareTo(carSearchParams.endDateTime) <= 0) {
