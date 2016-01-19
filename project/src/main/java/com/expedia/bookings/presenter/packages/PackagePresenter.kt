@@ -10,6 +10,7 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.BundleOverviewViewModel
+import com.expedia.vm.PackageCreateTripViewModel
 import javax.inject.Inject
 
 public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -23,6 +24,7 @@ public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter
         Ui.getApplication(getContext()).packageComponent().inject(this)
         View.inflate(context, R.layout.package_presenter, this)
         bundlePresenter.viewModel = BundleOverviewViewModel(context, packageServices)
+        bundlePresenter.createTripViewModel = PackageCreateTripViewModel(packageServices)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe {
             show(bundlePresenter)
             bundlePresenter.show(BundleOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)

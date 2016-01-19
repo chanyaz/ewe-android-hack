@@ -13,7 +13,6 @@ public class HotelCreateTripResponse extends TripResponse {
 	public HotelProductResponse originalHotelProductResponse;
 	public HotelProductResponse newHotelProductResponse;
 	public String tealeafTransactionId;
-	public String guestUserPromoEmailOptInStatus;
 	public Coupon coupon;
 
 	public static class Coupon {

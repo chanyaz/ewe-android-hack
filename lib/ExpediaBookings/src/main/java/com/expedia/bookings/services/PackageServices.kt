@@ -4,6 +4,8 @@ import com.expedia.bookings.data.PackageFlightDeserializer
 import com.expedia.bookings.data.PackageHotelDeserializer
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.packages.PackageCreateTripParams
+import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
@@ -76,6 +78,12 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 
 	public fun hotelInfo(hotelId: String): Observable<HotelOffersResponse> {
 		return packageApi.hotelInfo(hotelId)
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+	}
+
+	public fun createTrip(body: PackageCreateTripParams): Observable<PackageCreateTripResponse> {
+		return packageApi.createTrip(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 	}

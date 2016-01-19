@@ -43,11 +43,11 @@ public class TripBucket implements JSONable {
 	public void clear() {
 		mRefreshCount = 0;
 		mItems.clear();
-		//mAirAttach = null;
 	}
 
 	/**
 	 * Removes all items with lineOfBusiness from this TripBucket.
+	 *
 	 * @param lineOfBusiness
 	 */
 	public void clear(LineOfBusiness lineOfBusiness) {
@@ -58,43 +58,33 @@ public class TripBucket implements JSONable {
 		}
 	}
 
-	/**
-	 * Convenience method to remove all Hotels from this TripBucket.
-	 */
 	public void clearHotel() {
 		clear(LineOfBusiness.HOTELS);
 	}
 
-	/**
-	 * Convenience method to remove all Flights from this TripBucket.
-	 */
 	public void clearFlight() {
 		clear(LineOfBusiness.FLIGHTS);
 	}
 
-	/**
-	 * Convenience method to remove all LX Activities from this TripBucket.
-	 */
 	public void clearLX() {
 		clear(LineOfBusiness.LX);
 	}
 
-	/**
-	 * Convenience method to remove all Cars from this TripBucket.
-	 */
 	public void clearCars() {
 		clear(LineOfBusiness.CARS);
 	}
 
-	/**
-	 * Convenience method to remove all HotelV2(material hotels) from this TripBucket.
-	 */
 	public void clearHotelV2() {
 		clear(LineOfBusiness.HOTELSV2);
 	}
 
+	public void clearPackages() {
+		clear(LineOfBusiness.PACKAGES);
+	}
+
 	/**
 	 * Convenience method to determine when we really need to refresh this TripBucket.
+	 *
 	 * @return
 	 */
 	public boolean doRefresh() {
@@ -109,6 +99,7 @@ public class TripBucket implements JSONable {
 
 	/**
 	 * Convenience method to determine which LOB to refresh.
+	 *
 	 * @return {LineOfBusiness} If returns null then don't refresh the TripBucket
 	 */
 	public LineOfBusiness getLOBToRefresh() {
@@ -130,6 +121,7 @@ public class TripBucket implements JSONable {
 
 	/**
 	 * Adds a Hotel to the trip bucket. Must specify the property and room rate.
+	 *
 	 * @param hotelSearch
 	 * @param rate
 	 * @param availability
@@ -139,54 +131,44 @@ public class TripBucket implements JSONable {
 	}
 
 	public void add(TripBucketItemFlight flight) {
-		mLastLOBAdded = LineOfBusiness.FLIGHTS;
-		mRefreshCount++;
-		mItems.add(flight);
-
-		checkForMismatchedItems();
+		addBucket(flight);
 	}
 
 	public void add(TripBucketItemCar car) {
-		mLastLOBAdded = LineOfBusiness.CARS;
-		mRefreshCount++;
-		mItems.add(car);
-
-		checkForMismatchedItems();
+		addBucket(car);
 	}
 
 	public void add(TripBucketItemLX lx) {
-		mLastLOBAdded = LineOfBusiness.LX;
-		mRefreshCount++;
-		mItems.add(lx);
-
-		checkForMismatchedItems();
+		addBucket(lx);
 	}
 
 	public void add(TripBucketItemHotelV2 hotelV2) {
-		mLastLOBAdded = LineOfBusiness.HOTELSV2;
+		addBucket(hotelV2);
+	}
+
+	public void add(TripBucketItemPackages packages) {
+		addBucket(packages);
+	}
+
+	private void addBucket(TripBucketItem tripBucketItem) {
+		mLastLOBAdded = tripBucketItem.getLineOfBusiness();
 		mRefreshCount++;
-		mItems.add(hotelV2);
+		mItems.add(tripBucketItem);
 
 		checkForMismatchedItems();
 	}
-	/**
-	 * Adds a Flight to the trip bucket.
-	 */
+
 	public void add(FlightSearch flightSearch) {
 		add(new TripBucketItemFlight(flightSearch));
 	}
 
-	/**
-	 * Returns the number of items in the trip bucket.
-	 *
-	 * @return
-	 */
 	public int size() {
 		return mItems.size();
 	}
 
 	/**
 	 * Are there any items in the trip bucket?
+	 *
 	 * @return
 	 */
 	public boolean isEmpty() {
@@ -246,6 +228,7 @@ public class TripBucket implements JSONable {
 
 	/**
 	 * Returns the index of the first item of LineOfBusiness found in this TripBucket.
+	 *
 	 * @param lineOfBusiness
 	 * @return -1 if not found
 	 */
@@ -271,6 +254,7 @@ public class TripBucket implements JSONable {
 
 	/**
 	 * Removes the trip bucket item at position [index]. Silently ignores an out of range index.
+	 *
 	 * @param index
 	 */
 	public void remove(int index) {
@@ -332,7 +316,8 @@ public class TripBucket implements JSONable {
 	private boolean hotelCheckinIsDayBeforeFlightLands() {
 		HotelSearchParams hotelParams = getHotel().getHotelSearchParams();
 		FlightLeg departingFlight = getFlight().getFlightTrip().getLeg(0);
-		LocalDate departingFlightLandingTime = new LocalDate(departingFlight.getLastWaypoint().getMostRelevantDateTime());
+		LocalDate departingFlightLandingTime = new LocalDate(
+			departingFlight.getLastWaypoint().getMostRelevantDateTime());
 		if (hotelParams.getCheckInDate().isBefore(departingFlightLandingTime)) {
 			Log.d("TripBucket", "Hotel Checkin is the day before Departing Flight Lands");
 			return true;
@@ -345,9 +330,10 @@ public class TripBucket implements JSONable {
 		HotelSearchParams hotelParams = getHotel().getHotelSearchParams();
 		if (getFlight().getFlightSearchParams().isRoundTrip()) {
 			FlightLeg returnFlight = getFlight().getFlightTrip().getLeg(1);
-			LocalDate returnFlightTakeoffTime = new LocalDate(returnFlight.getFirstWaypoint().getMostRelevantDateTime());
+			LocalDate returnFlightTakeoffTime = new LocalDate(
+				returnFlight.getFirstWaypoint().getMostRelevantDateTime());
 			if (hotelParams.getCheckOutDate().isAfter(returnFlightTakeoffTime) ||
-					hotelParams.getCheckOutDate().isBefore(returnFlightTakeoffTime)) {
+				hotelParams.getCheckOutDate().isBefore(returnFlightTakeoffTime)) {
 				Log.d("TripBucket", "Hotel Checkout is the day before or after Returning Flight Takes off");
 				return true;
 			}
@@ -362,7 +348,8 @@ public class TripBucket implements JSONable {
 		}
 
 		FlightLeg departingFlight = getFlight().getFlightTrip().getLeg(0);
-		LocalDate departingFlightLandingTime = new LocalDate(departingFlight.getLastWaypoint().getMostRelevantDateTime());
+		LocalDate departingFlightLandingTime = new LocalDate(
+			departingFlight.getLastWaypoint().getMostRelevantDateTime());
 		FlightLeg returnFlight = getFlight().getFlightTrip().getLeg(1);
 		LocalDate returnFlightTakeoffTime = new LocalDate(returnFlight.getFirstWaypoint().getMostRelevantDateTime());
 
@@ -398,13 +385,15 @@ public class TripBucket implements JSONable {
 
 	/**
 	 * Set a new global air attach state if
-	 * 	1) we don't have one or
-	 * 	2) the existing air attach qualification is outdated
+	 * 1) we don't have one or
+	 * 2) the existing air attach qualification is outdated
+	 *
 	 * @param airAttach
 	 * @return whether or not air attach was updated
 	 */
 	public boolean setAirAttach(AirAttach airAttach) {
-		if (mAirAttach == null || !mAirAttach.isAirAttachQualified() || mAirAttach.getExpirationDate().isBefore(airAttach.getExpirationDate())) {
+		if (mAirAttach == null || !mAirAttach.isAirAttachQualified() || mAirAttach.getExpirationDate()
+			.isBefore(airAttach.getExpirationDate())) {
 			mAirAttach = airAttach;
 			LeanPlumUtils.updateAirAttachState(true);
 			return true;
@@ -418,7 +407,8 @@ public class TripBucket implements JSONable {
 	}
 
 	public boolean isUserAirAttachQualified() {
-		return mAirAttach != null && mAirAttach.isAirAttachQualified() && !mAirAttach.getExpirationDate().isBeforeNow() && PointOfSale.getPointOfSale().showHotelCrossSell();
+		return mAirAttach != null && mAirAttach.isAirAttachQualified() && !mAirAttach.getExpirationDate().isBeforeNow()
+			&& PointOfSale.getPointOfSale().showHotelCrossSell();
 	}
 
 	//////////////////////////////////////////////////////////////////////////

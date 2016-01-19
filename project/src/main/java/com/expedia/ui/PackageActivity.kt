@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
@@ -31,6 +32,13 @@ public class PackageActivity : AppCompatActivity() {
                     packagePresenter.bundlePresenter.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
                     packagePresenter.bundlePresenter.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
                     return
+                }
+            }
+            Constants.PACKAGE_FLIGHT_ARRIVAL_REQUEST_CODE -> when (resultCode) {
+                Activity.RESULT_OK -> {
+                    val params = PackageCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
+                    if (params.isValid)
+                        packagePresenter.bundlePresenter.createTripViewModel.tripParams.onNext(params)
                 }
             }
         }

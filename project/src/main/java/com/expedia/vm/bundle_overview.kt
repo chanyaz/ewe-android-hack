@@ -95,5 +95,4 @@ class BundleHotelViewModel(val context: Context) {
             hotelCityObservable.onNext(selectedHotel.stateProvinceCode + " , " + selectedHotel.countryCode)
         }
     }
-
 }

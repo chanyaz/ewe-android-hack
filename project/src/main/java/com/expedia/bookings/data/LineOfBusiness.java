@@ -15,5 +15,6 @@ public enum LineOfBusiness {
 	CARS,
 	ITIN,
 	LX,
+	PACKAGES,
 	TRANSPORT;
 }
