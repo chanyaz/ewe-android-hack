@@ -205,6 +205,8 @@
     <string name="checkout_payment_option_credit_debit_label">บัตรเครดิต/บัตรเดบิต</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">รายละเอียดผู้เข้าพัก</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">ป้อนข้อมูลของคุณ</string>
     <!-- Text for enter payment details line 1 -->
@@ -819,7 +821,8 @@
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">ไม่เป็นต้องจองตั๋วสำหรับทารกนั่งตัก
 เราจะทำการค้นหาใหม่เพื่อดูตั๋วน้อยลง</string>
-
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two_TEMPLATE">ทารกอายุต่ำกว่า 2 ปี: %s</string>
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">แวะพัก</string>
@@ -2211,6 +2214,8 @@
     <string name="add_to_your_trip">เพิ่มลงในทริป</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">โรงแรมใน%s</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 ห้อง, ผู้เข้าพัก %s คน</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">รถใน%s</string>
     <!-- Title for section helping users in other various ways -->
@@ -2511,9 +2516,9 @@
         <item quantity="other">เหลือ %d ห้อง</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">เพื่อใช้งานตำแหน่งปัจจุบัน คุณต้องอนุญาตให้ {brand} เข้าถึงตำแหน่งของคุณได้\n\nไปที่การตั้งค่าและเปิดใช้ไหม?</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">เพื่อใช้งานตำแหน่งปัจจุบัน คุณต้องอนุญาตให้ {brand} เข้าถึงตำแหน่งของคุณได้\n\nเพื่อเปิดใช้งาน โปรดไปยังการตั้งค่าและตรวจสอบ "การอนุญาต" แอพของคุณ</string>
+    <string name="go_to_settings">ไปยังการตั้งค่า</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">ในการใช้ตำแหน่งปัจจุบันของคุณ คุณต้องเปิดใช้บริการ "ตำแหน่ง" ในการตั้งค่าก่อน\n\nไปที่การตั้งค่าและเปิดใช้?</string>
@@ -3804,4 +3809,17 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dวัน</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">ข้อมูลสรุปการเดินทาง</string>
+
+    <!-- Pay with points widget -->
+    <string name="paying_with_points">จ่ายด้วยคะแนน</string>
+    <string name="pay_with_point_total_available_TEMPLATE">มีอยู่ {money} ({points} คะแนน)</string>
+    <string name="user_enters_more_than_points_TEMPLATE">มูลค่าคะแนนเกินยอดคะแนนที่คุณมีอยู่\nโปรดใส่ {money} หรือน้อยกว่านั้น</string>
+    <string name="user_enters_more_than_trip">มูลค่าคะแนนไม่สามารถเกินยอดที่ต้องชำระวันนี้ได้</string>
+    <string name="pwp_calculation_api_error">ข้อผิดพลาด: การเชื่อมต่อล้มเหลว</string>
+    <string name="pwp_calculating_points">กำลังคำนวณคะแนน…</string>
+    <string name="pwp_points_applied_TEMPLATE">ใช้ไป {points} คะแนน</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">ยอดเงินคงเหลือที่ต้องชำระ: {money}</string>
 </resources>

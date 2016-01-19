@@ -205,6 +205,8 @@
     <string name="checkout_payment_option_credit_debit_label">신용카드/직불카드</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">숙박객 정보</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">정보 입력</string>
     <!-- Text for enter payment details line 1 -->
@@ -817,7 +819,8 @@
     <string name="infants_in_seats_prompt">개별 좌석을 이용하는 영유아의 경우 따로 항공권이 필요합니다. 영유아 티켓을 다시 검색해 보세요.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">어른과 동석하여 무릎에 앉힌 영유아의 경우 따로 항공권이 필요 없습니다. 티켓 수를 줄여 새로 검색하겠습니다.</string>
-
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two_TEMPLATE">만 2세 미만 영유아: %s</string>
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">경유 횟수</string>
@@ -2075,9 +2078,9 @@
     <!-- Address state hint -->
     <string name="address_state_hint">도</string>
     <!-- Postal Code hint -->
-    <string name="address_postal_code_hint">우편번호</string>
+    <string name="address_postal_code_hint">CVC 번호</string>
     <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
-    <string name="address_postal_code_hint_US">우편번호</string>
+    <string name="address_postal_code_hint_US">CVC 번호</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2209,6 +2212,8 @@
     <string name="add_to_your_trip">여행에 추가</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">%s 호텔</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1개 객실, %s명</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">%s 렌터카</string>
     <!-- Title for section helping users in other various ways -->
@@ -2509,9 +2514,9 @@
         <item quantity="other">%d개 객실 남음</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">현재 위치를 사용하려면 {brand}에서 고객님의 위치에 액세스하도록 허용하셔야 합니다.\n\n설정으로 가서 지금 설정하시겠어요?</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">현재 위치를 사용하려면 {brand}에서 고객님의 위치에 액세스하도록 허용하셔야 합니다.\n\n설정하려면 설정으로 가서 \"허용\"을 탭하여 위치를 켜주세요.</string>
+    <string name="go_to_settings">설정으로 이동</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">현재 위치를 사용하려면 환경설정에서 위치 서비스를 켜셔야 합니다.\n\n환경설정으로 이동하여 지금 설정하시겠어요?</string>
@@ -2902,7 +2907,7 @@
     <!-- Title for dialog after private data has been cleared -->
     <string name="toast_private_data_cleared">개인 정보가 삭제되었습니다.</string>
     <!-- Error shown to user if their credit card postal code is invalid -->
-    <string name="invalid_postal_code">죄송합니다. 고객님의 신용카드를 처리하려면 유효한 우편번호가 필요합니다.</string>
+    <string name="invalid_postal_code">죄송합니다. 고객님의 신용카드를 처리하려면 유효한 CVC 번호가 필요합니다.</string>
     <!-- Message to display to user while booking is in progress -->
     <string name="booking_loading">예약 중…</string>
     <!-- Title for error dialog when booking fails -->
@@ -3802,4 +3807,17 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s (+%3$d일)</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">여행 정보</string>
+
+    <!-- Pay with points widget -->
+    <string name="paying_with_points">포인트로 결제 중</string>
+    <string name="pay_with_point_total_available_TEMPLATE">{money}({points}포인트) 이용 가능</string>
+    <string name="user_enters_more_than_points_TEMPLATE">포인트 금액이 이용 가능한 포인트를 초과합니다.\n{money} 이하로 입력해 주세요.</string>
+    <string name="user_enters_more_than_trip">포인트 금액은 오늘 결제할 금액을 초과할 수 없습니다.</string>
+    <string name="pwp_calculation_api_error">오류: 연결 실패</string>
+    <string name="pwp_calculating_points">포인트 계산 중…</string>
+    <string name="pwp_points_applied_TEMPLATE">{points}포인트 적용됨</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">남은 결제 금액: {money}</string>
 </resources>

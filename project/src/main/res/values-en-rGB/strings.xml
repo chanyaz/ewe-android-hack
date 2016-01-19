@@ -205,6 +205,8 @@
     <string name="checkout_payment_option_credit_debit_label">Credit Card/Debit Card</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Guest Details</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Enter your information</string>
     <!-- Text for enter payment details line 1 -->
@@ -817,7 +819,8 @@
     <string name="infants_in_seats_prompt">Infants in seats need their own tickets. Let\&apos;s search again for the infants\&apos; tickets.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">Infants in lap don\&apos;t need their own tickets. We\&apos;ll start a new search with fewer tickets.</string>
-
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two_TEMPLATE">Infants under 2: %s</string>
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Stops</string>
@@ -2209,6 +2212,8 @@
     <string name="add_to_your_trip">Add to your trip</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotels in %s</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 Room, %s guests</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Cars in %s</string>
     <!-- Title for section helping users in other various ways -->
@@ -2509,9 +2514,9 @@
         <item quantity="other">%d Rooms Left</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">To use Current Location, you must allow {brand} to access your location.\n\nGo to Settings and turn it on now?</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">To use current location, you must allow {brand} to access your location.\n\nTo enable, go to settings, tap \"permissions\" and enable location.</string>
+    <string name="go_to_settings">Go to Settings</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">To use Current Location, you must first turn on a Location source in Settings.\n\nGo to Settings and turn it on now?</string>
@@ -3802,4 +3807,17 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dd</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">Trip Overview</string>
+
+    <!-- Pay with points widget -->
+    <string name="paying_with_points">Paying with points</string>
+    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} points) available</string>
+    <string name="user_enters_more_than_points_TEMPLATE">The points value exceeds your available balance.\nPlease enter {money} or less.</string>
+    <string name="user_enters_more_than_trip">The points value can not exceed the payment due today.</string>
+    <string name="pwp_calculation_api_error">Error: connection failed</string>
+    <string name="pwp_calculating_points">Calculating points…</string>
+    <string name="pwp_points_applied_TEMPLATE">{points} points applied</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Remaining balance due: {money}</string>
 </resources>

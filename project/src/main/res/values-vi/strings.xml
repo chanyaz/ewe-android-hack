@@ -205,6 +205,8 @@
     <string name="checkout_payment_option_credit_debit_label">Thẻ tín dụng/ghi nợ</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Thông tin khách</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Nhập thông tin của quý vị</string>
     <!-- Text for enter payment details line 1 -->
@@ -817,7 +819,8 @@
     <string name="infants_in_seats_prompt">Cần vé riêng cho trẻ sơ sinh với chỗ ngồi riêng. Cùng tìm thêm vé cho trẻ sơ sinh.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">Không cần vé riêng cho trẻ sơ sinh ngồi trong lòng. Cùng tìm lại với số lượng vé ít hơn.</string>
-
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two_TEMPLATE">Trẻ sơ sinh dưới 2 tuổi: %s</string>
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Điểm dừng</string>
@@ -2209,6 +2212,8 @@
     <string name="add_to_your_trip">Thêm vào chuyến đi của quý vị</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Khách sạn tại %s</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 phòng, %s khách</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Xe tại %s</string>
     <!-- Title for section helping users in other various ways -->
@@ -2509,9 +2514,9 @@
         <item quantity="other">Còn %d phòng</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">Để tìm với địa điểm hiện tại, quý vị phải cho phép {brand} truy cập địa điểm của thiết bị.\n\nVào Cài đặt để bật tính năng này?</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">Để sử dụng địa điểm hiện tại, quý vị phải cho {brand} truy cập thông tin Vị trí.\n\nĐể bật, vào Cài đặt, kiểm tra mục \"Quyền\" của app.</string>
+    <string name="go_to_settings">Vào Cài đặt</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">Để sử dụng chức năng Địa điểm Hiện tại, quý vị phải mở nguồn Vị trí trong phần Cài đặt của thiết bị.\n\nVào Cài đặt và mở ngay?</string>
@@ -3802,4 +3807,17 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dng</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">Tổng quan về chuyến đi</string>
+
+    <!-- Pay with points widget -->
+    <string name="paying_with_points">Thanh toán bằng điểm thưởng</string>
+    <string name="pay_with_point_total_available_TEMPLATE">Có {money} ({points} điểm)</string>
+    <string name="user_enters_more_than_points_TEMPLATE">Số vừa nhập vượt quá điểm quý vị hiện có.\nVui lòng nhập {money} trở xuống.</string>
+    <string name="user_enters_more_than_trip">Giá trị điểm không thể lớn hơn khoản cần thanh toán hôm nay.</string>
+    <string name="pwp_calculation_api_error">Lỗi: không thể kết nối</string>
+    <string name="pwp_calculating_points">Đang tính điểm…</string>
+    <string name="pwp_points_applied_TEMPLATE">Áp dụng {points} điểm</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Khoản còn lại cần thanh toán: {money}</string>
 </resources>

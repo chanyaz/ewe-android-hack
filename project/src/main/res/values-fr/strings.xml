@@ -205,6 +205,8 @@
     <string name="checkout_payment_option_credit_debit_label">Carte de paiement</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Informations du client</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Saisissez vos informations</string>
     <!-- Text for enter payment details line 1 -->
@@ -817,7 +819,8 @@
     <string name="infants_in_seats_prompt">Les jeunes enfants assis à un siège ont besoin de leur propre billet. Faisons une nouvelle recherche en incluant les billets des jeunes enfants.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">Les jeunes enfants assis sur les genoux d\&apos;une personne n\&apos;ont pas besoin de leur propre billet. Nous allons entamer une nouvelle recherche avec un plus petit nombre de billets.</string>
-
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two_TEMPLATE">Enfants -2 ans : %s</string>
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Escales</string>
@@ -2209,6 +2212,8 @@
     <string name="add_to_your_trip">Ajouter à votre voyage</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hôtels à %s</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 chambre, %s voyageurs</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Voitures à %s</string>
     <!-- Title for section helping users in other various ways -->
@@ -2506,12 +2511,12 @@
         <item quantity="one">Il reste %d chambre sur notre app !</item>
         <item quantity="two">Il reste %d chambres sur notre app</item>
         <item quantity="many">Il reste %d chambres sur notre app</item>
-        <item quantity="other">Il reste %d chambres sur notre app !</item>
+        <item quantity="other">Il reste %d chambres sur notre appli</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">Pour pouvoir utiliser la fonction d\&apos;emplacement actuel, vous devez autoriser {brand} à accéder à votre emplacement.\n\nOuvrir Paramètres et l\&apos;activer maintenant ?</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">Pour pouvoir utiliser la fonction d\&apos;emplacement actuel, vous devez autoriser {brand} à accéder à votre emplacement.\n\nPour activer cette fonction, allez dans les paramètres, sélectionnez Autorisations, puis activez le partage de votre emplacement.</string>
+    <string name="go_to_settings">Aller dans les paramètres</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">Pour utiliser la position actuelle, veuillez activer le service de localisation dans vos paramètres.\n\nOuvrir Paramètres et l\&apos;activer maintenant ?</string>
@@ -2647,7 +2652,7 @@
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% de nos clients recommandent cet hôtel.</string>
     <!-- new material Hotel results cell guest rating -->
-    <string name="customer_rating_percent_Template">{rating} {percent}</string>
+    <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">sur 5 - avis clients</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -3048,9 +3053,9 @@
     <!-- Label for "app support" button in info page -->
     <string name="app_support">Assistance pour l\&apos;app</string>
     <!-- Label for link to terms and conditions -->
-    <string name="info_label_terms_conditions">Conditions d\&apos;utilisation</string>
+    <string name="info_label_terms_conditions">Conditions générales d\&apos;utilisation</string>
     <!-- Label for link to terms of use -->
-    <string name="info_label_terms_of_use">Conditions d\&apos;utilisation</string>
+    <string name="info_label_terms_of_use">Conditions générales de vente</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Charte de confidentialité</string>
     <!-- Copyright information -->
@@ -3802,4 +3807,17 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s + %3$d j</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">Récapitulatif du voyage</string>
+
+    <!-- Pay with points widget -->
+    <string name="paying_with_points">Payer avec des points</string>
+    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} points) disponibles</string>
+    <string name="user_enters_more_than_points_TEMPLATE">La valeur des points est supérieure à votre solde actuel.\nVeuillez saisir {money} ou moins.</string>
+    <string name="user_enters_more_than_trip">La valeur des points ne peut pas être supérieure au montant du paiement à régler aujourd\&apos;hui.</string>
+    <string name="pwp_calculation_api_error">Erreur : la connexion a échoué</string>
+    <string name="pwp_calculating_points">Calcul des points…</string>
+    <string name="pwp_points_applied_TEMPLATE">{points} points appliqués</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Solde restant à payer : {money}</string>
 </resources>

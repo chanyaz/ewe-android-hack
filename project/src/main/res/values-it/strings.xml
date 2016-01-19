@@ -205,6 +205,8 @@
     <string name="checkout_payment_option_credit_debit_label">Carta di credito/debito</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Dettagli ospite</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Inserisci i tuoi dati</string>
     <!-- Text for enter payment details line 1 -->
@@ -817,7 +819,8 @@
     <string name="infants_in_seats_prompt">I bambini con posto a sedere devono essere muniti di biglietto. Ripetiamo la ricerca per i biglietti dei bambini.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">I bambini che siedono in braccio a un adulto non devono essere muniti di biglietto. Inizieremo una nuova ricerca per un numero inferiore di biglietti.</string>
-
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two_TEMPLATE">Bambini fino a 2 anni: %s</string>
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Scali</string>
@@ -2209,6 +2212,8 @@
     <string name="add_to_your_trip">Aggiungi al tuo viaggio</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotel a %s</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 camera, %s ospiti</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Auto a %s</string>
     <!-- Title for section helping users in other various ways -->
@@ -2509,9 +2514,9 @@
         <item quantity="other">%d camere rimaste!</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">Per usare la tua posizione attuale devi consentire a {brand} di accedere alla tua posizione.\n\nPassare alle impostazioni e attivare ora?</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">Per usare la tua posizione attuale devi consentire a {brand} di accedere alla tua posizione.\n\nPer attivare questa funzione vai alle impostazioni, seleziona \"autorizzazioni\" e attiva la posizione.</string>
+    <string name="go_to_settings">Vai alle impostazioni</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">Per ricercare la posizione attuale, devi prima attivare l\&apos;origine delle informazioni sulla posizione dalle Impostazioni.\n\nPassare a impostazioni e attivare ora?</string>
@@ -3802,4 +3807,17 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dg</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">Riepilogo viaggio</string>
+
+    <!-- Pay with points widget -->
+    <string name="paying_with_points">Paga usando i punti</string>
+    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} punti) disponibili</string>
+    <string name="user_enters_more_than_points_TEMPLATE">Il valore dei punti supera il tuo saldo disponibile.\nInserisci {money} o meno.</string>
+    <string name="user_enters_more_than_trip">Il valore dei punti non può superare l\&apos;importo da pagare oggi.</string>
+    <string name="pwp_calculation_api_error">Errore: connessione non riuscita</string>
+    <string name="pwp_calculating_points">Calcolo dei punti in corso…</string>
+    <string name="pwp_points_applied_TEMPLATE">{points} punti applicati</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Saldo restante da pagare: {money}</string>
 </resources>

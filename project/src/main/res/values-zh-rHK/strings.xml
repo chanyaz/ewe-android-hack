@@ -205,6 +205,8 @@
     <string name="checkout_payment_option_credit_debit_label">信用卡/扣帳卡</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">旅客資料</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">輸入您的資料</string>
     <!-- Text for enter payment details line 1 -->
@@ -817,7 +819,8 @@
     <string name="infants_in_seats_prompt">佔位嬰幼兒需要購票。請加入嬰幼兒的機票再搜尋。</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">手抱嬰幼兒無需購票。我們將減去嬰幼兒的機票再搜尋。</string>
-
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two_TEMPLATE">2 歲以下嬰幼兒：%s</string>
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">停站數目</string>
@@ -872,15 +875,15 @@
     <string name="photos_for_TEMPLATE">%s的照片</string>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
     <plurals name="n_rooms_left_TEMPLATE">
-        <item quantity="zero">僅餘 %s 間客房</item>
-        <item quantity="one">僅餘 %s 間客房</item>
-        <item quantity="two">僅餘 %s 間客房</item>
-        <item quantity="few">僅餘 %s 間客房</item>
-        <item quantity="many">僅餘 %s 間客房</item>
-        <item quantity="other">僅餘 %s 間客房</item>
+        <item quantity="zero">我們的 App 尚餘 %s 間客房</item>
+        <item quantity="one">我們的 App 尚餘 %s 間客房</item>
+        <item quantity="two">我們的 App 尚餘 %s 間客房</item>
+        <item quantity="few">我們的 App 尚餘 %s 間客房</item>
+        <item quantity="many">我們的 App 尚餘 %s 間客房</item>
+        <item quantity="other">我們的 App 尚餘 %s 間客房</item>
     </plurals>
     <!-- Title for the reviews section after we get the property name -->
-    <string name="reviews_for_TEMPLATE">%1$s的評論</string>
+    <string name="reviews_for_TEMPLATE">%1$s的評價</string>
     <!-- Information for the review about who submitted it and when -->
     <string name="submitted_by_on_date_TEMPLATE">%1$s 於 %2$s</string>
 
@@ -2209,6 +2212,8 @@
     <string name="add_to_your_trip">添加到您的行程</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">%s酒店</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 間客房, %s 位旅客</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">%s租車</string>
     <!-- Title for section helping users in other various ways -->
@@ -2509,9 +2514,9 @@
         <item quantity="other">我們的 App 尚餘 %d 間客房</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">如需使用「目前位置」，請先允許 {brand} 取得您的位置。\n\n立即到「設定」啟用此功能？</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">如需使用目前位置，請先允許 {brand} 取得您的位置。\n\n如需啟用有關功能，請前往「設定」選取「權限」並啟用「位置」。</string>
+    <string name="go_to_settings">前往「設定」</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">如需使用「目前位置」，必須先於「設定」啟用「位置」來源。\n\n立即到「設定」啟用此功能？</string>
@@ -3802,4 +3807,17 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$d日</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">行程概覽</string>
+
+    <!-- Pay with points widget -->
+    <string name="paying_with_points">使用積分付款</string>
+    <string name="pay_with_point_total_available_TEMPLATE">有 {money} ({points} 分) 可用</string>
+    <string name="user_enters_more_than_points_TEMPLATE">積分價值超過您的可用餘額\n請輸入 {money} 或以下。</string>
+    <string name="user_enters_more_than_trip">積分價值不可超過今日應付金額。</string>
+    <string name="pwp_calculation_api_error">錯誤：未能連線</string>
+    <string name="pwp_calculating_points">正在計算積分…</string>
+    <string name="pwp_points_applied_TEMPLATE">已使用 {points} 分</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">應付餘額：{money}</string>
 </resources>
