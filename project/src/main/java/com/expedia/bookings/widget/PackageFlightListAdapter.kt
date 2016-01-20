@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.packages.FlightLeg
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.packages.FlightLayoverWidget
 import com.expedia.util.subscribeText
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -15,6 +16,7 @@ import kotlin.collections.emptyList
 
 public class PackageFlightListAdapter(val flightSelectedSubject: PublishSubject<FlightLeg>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var flights: List<FlightLeg> = emptyList()
+    var maxFlightDuration = 0
     val resultsSubject = BehaviorSubject.create<List<FlightLeg>>()
     var loading = true
 
@@ -22,6 +24,11 @@ public class PackageFlightListAdapter(val flightSelectedSubject: PublishSubject<
         resultsSubject.subscribe {
             loading = false
             flights = ArrayList(it)
+            for (flightLeg in flights) {
+                if (flightLeg.durationHour * 60 + flightLeg.durationMinute > maxFlightDuration) {
+                    maxFlightDuration = flightLeg.durationHour * 60 + flightLeg.durationMinute
+                }
+            }
             notifyDataSetChanged()
         }
 
@@ -50,6 +57,7 @@ public class PackageFlightListAdapter(val flightSelectedSubject: PublishSubject<
         val airlineTextView: TextView by root.bindView(R.id.airline_text_view)
         val flightDurationTextView: TextView by root.bindView(R.id.flight_duration_text_view)
         val airportDetailsTextView: TextView by root.bindView(R.id.airport_details_text_view)
+        val flightLayoverWidget: FlightLayoverWidget by root.bindView(R.id.custom_flight_widget)
 
         init {
             itemView.setOnClickListener(this)
@@ -66,7 +74,9 @@ public class PackageFlightListAdapter(val flightSelectedSubject: PublishSubject<
             viewModel.airlineObserver.subscribeText(airlineTextView)
             viewModel.durationObserver.subscribeText(flightDurationTextView)
             viewModel.airportsObserver.subscribeText(airportDetailsTextView)
-
+            viewModel.layoverObserver.subscribe { flight ->
+                flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
+            }
         }
     }
 

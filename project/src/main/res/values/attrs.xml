@@ -319,9 +319,15 @@
     </declare-styleable>
 
     <declare-styleable name="SearchAutoComplete">
-        <!-- Star drawable -->
         <attr name="search_drawable" format="reference" />
         <attr name="search_hint" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="FlightLayoverWidget">
+        <attr name="airport_text_size" format="dimension" />
+        <attr name="airport_text_color" format="color"/>
+        <attr name="duration_bar_color" format="color"/>
+        <attr name="duration_bar_padding" format="dimension"/>
+        <attr name="layover_background" format="reference"/>
+    </declare-styleable>
 </resources>
