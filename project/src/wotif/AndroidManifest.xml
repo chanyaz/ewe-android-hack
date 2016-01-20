@@ -77,6 +77,13 @@
         </receiver>
         <service android:name="com.leanplum.LeanplumPushService" />
 
+        <!-- Add Tune library receiver -->
+        <receiver android:name="com.mobileapptracker.Tracker">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
