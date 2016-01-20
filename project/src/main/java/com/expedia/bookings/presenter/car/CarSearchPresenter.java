@@ -261,7 +261,7 @@ public class CarSearchPresenter extends Presenter
 				searchParamsContainerHeight = searchParamsContainer.getMeasuredHeight();
 
 				// Set the dropdown height to size of 3 suggestions.
-				pickUpLocation.setDropDownHeight(3 * (int) getResources().getDimension(R.dimen.suggestion_list_height));
+				pickUpLocation.setDropDownHeight(3 * (int) getResources().getDimension(R.dimen.location_suggestion_row_height));
 			}
 		});
 	}

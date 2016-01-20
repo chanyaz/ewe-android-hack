@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- STYLEABLE DECLARATIONS -->
-
     <!-- Used in more than one custom view -->
     <attr name="caption" format="reference|string" />
 
@@ -9,7 +7,6 @@
     (it's different for launch and results activities) -->
     <attr name="waypointFragmentTopMargin" format="dimension" />
 
-    <!-- TextView -->
     <declare-styleable name="TextView">
         <attr name="textStyle" format="enum">
             <enum name="normal" value="0" />
@@ -26,7 +23,6 @@
         </attr>
     </declare-styleable>
 
-    <!-- Gallery -->
     <declare-styleable name="Gallery">
 
         <!--
@@ -45,11 +41,8 @@
         <attr name="placeholder" format="reference" />
     </declare-styleable>
 
-    <!-- SimpleNumberPicker up button style. -->
     <attr name="simpleNumberPickerUpButtonStyle" format="reference" />
-    <!-- SimpleNumberPicker down button style. -->
     <attr name="simpleNumberPickerDownButtonStyle" format="reference" />
-    <!-- SimpleNumberPicker input text style. -->
     <attr name="simpleNumberPickerInputTextStyle" format="reference" />
 
     <declare-styleable name="CustomEditText">
@@ -75,8 +68,6 @@
     </declare-styleable>
 
     <declare-styleable name="ScrollView">
-
-        <!-- Defines whether the scrollview should stretch its content to fill the viewport. -->
         <attr name="fillViewport" format="boolean" />
     </declare-styleable>
 
@@ -98,7 +89,6 @@
         <attr name="secondaryTextColor" format="color|reference" />
     </declare-styleable>
 
-    <!-- So that we can define this in the layout xml rather than in code -->
     <declare-styleable name="hotel_summary_section">
         <attr name="selectedBackground" format="color|reference" />
         <attr name="salePriceTextColor" format="color"/>
@@ -117,7 +107,6 @@
         <attr name="waypointTextTopMargin" format="dimension" />
     </declare-styleable>
 
-    <!-- ParallaxContainer -->
     <declare-styleable name="ParallaxContainer">
         <attr name="offsetTop" format="dimension" />
         <attr name="offsetBottom" format="dimension" />
@@ -125,13 +114,11 @@
         <attr name="scrollMax" format="dimension" />
     </declare-styleable>
 
-    <!-- ItinListView -->
     <declare-styleable name="ItinListView">
         <attr name="pathViewWidth" format="dimension" />
         <attr name="pathViewColor" format="color" />
     </declare-styleable>
 
-    <!-- RingedCountView -->
     <declare-styleable name="RingedCountView">
         <attr name="caption" />
         <attr name="backgroundColor" format="color" />
@@ -165,7 +152,6 @@
         <attr name="percent" format="float" />
     </declare-styleable>
 
-    <!-- SlidingRadioGroup -->
     <declare-styleable name="SlidingRadioGroup">
         <attr name="unselectedDrawable" format="reference" />
         <attr name="selectedDrawable" format="reference" />
@@ -175,12 +161,10 @@
         <attr name="sluggishness" format="integer" />
     </declare-styleable>
 
-    <!-- RoundedCornerFrameLayout -->
     <declare-styleable name="RoundedCornerFrameLayout">
         <attr name="radius" format="dimension" />
     </declare-styleable>
 
-    <!-- NumberMaskEditText -->
     <declare-styleable name="NumberMaskEditText">
         <attr name="numberFormat" format="enum">
             <enum name="phone" value="0"/>
@@ -189,30 +173,25 @@
         <attr name="customNumberFormat" format="string" />
     </declare-styleable>
 
-    <!-- MaskView -->
     <declare-styleable name="MaskView">
         <attr name="exposedView" format="reference"/>
         <attr name="exposedPadding" format="dimension"/>
         <attr name="maskColor" format="color"/>
     </declare-styleable>
 
-    <!-- CenteredCaptionedIcon -->
     <declare-styleable name="CenteredCaptionedIcon">
         <attr name="caption" />
         <attr name="svg" format="reference" />
     </declare-styleable>
 
-    <!-- CheckoutInfoStatusIcon -->
     <declare-styleable name="CheckoutInfoStatusIcon">
         <attr name="state_info_complete" format="boolean" />
     </declare-styleable>
 
-    <!-- ContentClickableRelativeLayout -->
     <declare-styleable name="ContentClickableRelativeLayout">
         <attr name="layoutContentPadding" format="dimension" />
     </declare-styleable>
 
-    <!-- FruitList style -->
     <declare-styleable name="FruitList">
         <attr name="headerSpacerColor" format="reference|color" />
         <attr name="footerSpacerColor" format="reference|color" />
@@ -222,9 +201,9 @@
 
     <!-- Switch style. The Android switch is not styleable as of 4.4. So we have to make our own "backport" -->
     <declare-styleable name="Switch">
-    <!-- Drawable to use as the "thumb" that switches back and forth. -->
+    <!-- Drawable "thumb" that switches back and forth. -->
         <attr name="thumb" format="reference" />
-        <!-- Drawable to use as the "track" that the switch thumb slides within. -->
+        <!-- Drawable "track" that the switch thumb slides within. -->
         <attr name="thumbTrack" format="reference" />
         <!-- Text to use when the switch is in the checked/"on" state. -->
         <attr name="textOn" format="reference" />
@@ -245,19 +224,12 @@
     </declare-styleable>
     <!-- This is part of the Switch backport too -->
     <declare-styleable name="Android">
-        <!-- Text color. -->
         <attr name="android:textColor" />
-        <!-- Size of the text. Recommended dimension type for text is "sp" for scaled-pixels (example: 15sp). -->
         <attr name="android:textSize" />
-        <!-- Style (bold, italic, bolditalic) for the text. -->
         <attr name="android:textStyle" />
-        <!-- Typeface (normal, sans, serif, monospace) for the text. -->
         <attr name="android:typeface" />
-        <!-- Color of the text selection highlight. -->
         <attr name="android:textColorHighlight" />
-        <!-- Color of the hint text. -->
         <attr name="android:textColorHint" />
-        <!-- Color of the links. -->
         <attr name="android:textColorLink" />
     </declare-styleable>
 
@@ -273,13 +245,9 @@
     </declare-styleable>
 
     <declare-styleable name="PhoneLaunchButton">
-        <!-- Button text -->
         <attr name="btn_text" format="string" />
-        <!-- Button text size -->
         <attr name="btn_text_size" format="string" />
-        <!--Button color -->
         <attr name="btn_bg" format="color"/>
-        <!-- Button icon -->
         <attr name="btn_icon" format="reference"/>
         <!-- Minimum scale factor for icon -->
         <attr name="icon_min_scale" format="float" />
@@ -291,7 +259,6 @@
         <attr name="five_lob_btn" format="boolean" />
     </declare-styleable>
 
-    <!-- Message Loading/Progress View-->
     <declare-styleable name="MessageProgressView">
         <attr name="line_color" format="color" />
         <attr name="background_tint" format="color" />
@@ -299,22 +266,15 @@
 
 
     <declare-styleable name="BoxRatingBar">
-        <!--Enabled Box Color -->
         <attr name="enabled_box_color" format="color" />
-        <!--Disabled Box Color -->
         <attr name="disabled_box_color" format="color" />
-        <!-- Divider Width -->
         <attr name="divider_width" format="dimension" />
-        <!-- Corner Radius -->
         <attr name="corner_radius" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="StarRatingBar">
-        <!-- Spacing between the stars -->
         <attr name="star_spacing" format="dimension" />
-        <!-- Star drawable -->
         <attr name="star_drawable" format="reference" />
-        <!-- Color for the star -->
         <attr name="star_color" format="color" />
     </declare-styleable>
 
