@@ -118,6 +118,8 @@ public class PaymentButton extends LinearLayout {
 		}
 		mStoredCardPopup.setAnchorView(selectPayment);
 		mStoredCardPopup.setAdapter(mStoredCreditCardAdapter);
+		int selectPaymentBtnHeight = selectPayment.getHeight();
+		mStoredCardPopup.setVerticalOffset(-selectPaymentBtnHeight);
 		mStoredCardPopup.show();
 	}
 
