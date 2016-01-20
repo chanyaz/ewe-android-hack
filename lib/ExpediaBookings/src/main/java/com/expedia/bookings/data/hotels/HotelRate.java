@@ -40,6 +40,7 @@ public class HotelRate {
 	public enum UserPriceType {
 		RATE_FOR_WHOLE_STAY_WITH_TAXES,
 		PER_NIGHT_RATE_NO_TAXES,
+		PACKAGES,
 		UNKNOWN;
 
 		public static UserPriceType toEnum(String value) {

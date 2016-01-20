@@ -250,6 +250,7 @@ public class
 		R.string.checkout_paying_with_points_only_line1,
 		R.string.checkout_paying_with_points_and_card_line1,
 		R.string.checkout_tap_to_edit,
-		R.string.checkout_payment_options
+		R.string.checkout_payment_options,
+		R.plurals.hotel_results_default_header_TEMPLATE
 	};
 }
