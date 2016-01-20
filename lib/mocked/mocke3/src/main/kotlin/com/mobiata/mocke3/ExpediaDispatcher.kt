@@ -18,6 +18,7 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
     private val carApiRequestDispatcher = CarApiRequestDispatcher(fileOpener)
     private val lxApiRequestDispatcher = LxApiRequestDispatcher(fileOpener)
     private val packagesApiRequestDispatcher = PackagesApiRequestDispatcher(fileOpener)
+    private val railApiRequestDispatcher = RailApiRequestDispatcher(fileOpener)
 
     @Throws(InterruptedException::class)
     override fun dispatch(request: RecordedRequest): MockResponse {
@@ -26,11 +27,17 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
             throw UnsupportedOperationException("Valid user-agent not passed. I expect to see a user-agent resembling: ExpediaBookings/x.x.x (EHad; Mobiata)")
         }
 
+        // Rails API
+        if (request.path.startsWith("/rails/ecom/v1/shopping")) {
+            return railApiRequestDispatcher.dispatch(request)
+        }
+
         // Packages API
         if (request.path.startsWith("/getpackages/v1")) {
             return packagesApiRequestDispatcher.dispatch(request)
         }
 
+        // Hotels API
         if (request.path.contains("/packages/hotelOffers")) {
             return makeResponse("/getpackages/v1/happy_hotelOffers.json")
         }
