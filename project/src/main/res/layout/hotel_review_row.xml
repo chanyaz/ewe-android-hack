@@ -28,7 +28,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_toLeftOf="@+id/date"
                 android:textColor="@color/hotel_review_title_color"
-                android:textSize="@dimen/hotel_review_title"
+                android:textSize="@dimen/hotel_review_title_text_size"
                 app:textStyle="medium" />
 
             <com.expedia.bookings.widget.BoxRatingBar
@@ -53,7 +53,7 @@
                 android:layout_alignParentRight="true"
                 android:paddingLeft="5dp"
                 android:textColor="@color/hotel_review_date_color"
-                android:textSize="@dimen/hotel_review_date" />
+                android:textSize="@dimen/hotel_review_date_text_size" />
 
         </RelativeLayout>
 
@@ -64,14 +64,14 @@
             android:lineSpacingExtra="@dimen/hotel_review_content_line_spacing"
             android:paddingBottom="@dimen/hotel_review_padding_bottom"
             android:textColor="@color/hotel_review_body_color"
-            android:textSize="@dimen/hotel_review_body" />
+            android:textSize="@dimen/hotel_review_body_text_size" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/reviewer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/hotel_review_reviewer_color"
-            android:textSize="@dimen/hotel_reviewer"
+            android:textSize="@dimen/hotel_reviewer_text_size"
             android:textStyle="italic" />
     </LinearLayout>
 
