@@ -62,6 +62,7 @@ import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
+import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -2130,8 +2131,9 @@ public class OmnitureTracking {
 	public static final String LX_DESTINATION_SEARCH = "App.LX.Dest-Search";
 	public static final String LX_INFOSITE_INFORMATION = "App.LX.Infosite.Information";
 	public static final String LX_CHECKOUT_INFO = "App.LX.Checkout.Info";
+	public static final String LX_SEARCH_FILTER = "App.LX.Search.Filter";
+	public static final String LX_SEARCH_FILTER_CLEAR = "App.LX.Search.Filter.Clear";
 	public static final String LX_CHECKOUT_CONFIRMATION = "App.LX.Checkout.Confirmation";
-
 	public static final String LX_TICKET_SELECT = "App.LX.Ticket.Select";
 	public static final String LX_CHANGE_DATE = "App.LX.Info.DateChange";
 	public static final String LX_INFO = "LX_INFO";
@@ -2143,6 +2145,10 @@ public class OmnitureTracking {
 	private static final String LX_NO_SEARCH_RESULTS = "App.LX.NoResults";
 	private static final String LX_CATEGORY_TEST = "App.LX.Category";
 	private static final String LX_SEARCH_CATEGORIES = "App.LX.Search.Categories";
+	private static final String LX_SORT_PRICE = "Price";
+	private static final String LX_SORT_POPULARITY = "Popularity";
+	private static final String LX_SORT = ".Sort.";
+	private static final String LX_FILTER = ".Filter.";
 
 	public static void trackFirstActivityListingExpanded() {
 		Log.d(TAG, "Tracking \"" + LX_LOB + "\" pageLoad...");
@@ -2245,6 +2251,46 @@ public class OmnitureTracking {
 
 		// Send the tracking data
 		s.track();
+	}
+
+	public static void trackAppLXSortAndFilterOpen() {
+		Log.d(TAG, "Tracking \"" + LX_SEARCH_FILTER + "\" pageLoad...");
+
+		ADMS_Measurement s = internalTrackAppLX(LX_SEARCH_FILTER);
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackLinkLXSort(LXSortType sortType) {
+		String sort = sortType.equals(LXSortType.PRICE) ? LX_SORT_PRICE : LX_SORT_POPULARITY;
+		StringBuilder sb = new StringBuilder();
+		sb.append(LX_SEARCH);
+		sb.append(LX_SORT);
+		sb.append(sort);
+		trackLinkLXSearch(sb.toString());
+	}
+
+	public static void trackLinkLXFilter(String categoryKey) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(LX_SEARCH);
+		sb.append(LX_FILTER);
+		sb.append(categoryKey);
+		trackLinkLXSearch(sb.toString());
+	}
+
+	public static void trackLinkLXSortAndFilterCleared() {
+		trackLinkLXSearch(LX_SEARCH_FILTER_CLEAR);
+	}
+
+	private static void trackLinkLXSearch(String rffr) {
+		String tpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setProp(7, tpid);
+		s.setEvar(28, rffr);
+		s.setProp(16, rffr);
+		s.setProp(61, tpid);
+		s.trackLink(null, "o", LX_SEARCH, null, null);
 	}
 
 	public static void trackAppLXProductInformation(ActivityDetailsResponse activityDetailsResponse,

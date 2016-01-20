@@ -126,6 +126,7 @@ public class LXResultsPresenter extends Presenter {
 
 	@OnClick(R.id.sort_filter_button)
 	public void onSortFilterClicked() {
+		OmnitureTracking.trackAppLXSortAndFilterOpen();
 		show(sortFilterWidget);
 	}
 
@@ -612,9 +613,16 @@ public class LXResultsPresenter extends Presenter {
 	@Override
 	public boolean back() {
 		if (LXSearchResultsWidget.class.getName().equals(getCurrentState()) && searchResponse != null
-			&& searchResponse.regionId != null) {
+			&& searchResponse.regionId != null && isUserBucketedForCategoriesTest) {
 			OmnitureTracking.trackAppLXSearchCategories(lxState.searchParams, searchResponse);
 		}
 		return super.back();
 	}
+
+	public void trackLXSearch() {
+		if (searchResponse != null && searchResponse.regionId != null) {
+			OmnitureTracking.trackAppLXSearch(lxState.searchParams, searchResponse);
+		}
+	}
+
 }
