@@ -263,6 +263,7 @@ public class
 		R.string.pwp_trip_service_error,
 		R.string.Your_Trips,
 		R.string.pwp_unknown_error,
-		R.layout.widget_hotel_search_v2_params
+		R.layout.widget_hotel_search_v2_params,
+		R.layout.widget_flight_overview
 	};
 }

@@ -68,11 +68,4 @@ public class PackageFlightResultsPresenter(context: Context, attrs: AttributeSet
         adapterPackage.resultsSubject.onNext(it)
     }
 
-    public fun showDefault() {
-
-        show(ResultsList())
-    }
-
-    public class ResultsList
-
 }
