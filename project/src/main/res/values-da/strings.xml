@@ -819,8 +819,7 @@
     <string name="infants_in_seats_prompt">Spædbørn på eget sæde skal have sin egen billet. Søg efter billetter til spædbørn.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">Spædbørn, der sidder på skødet, behøver ikke at have sin egen billet. Vi vil påbegynde en ny søgning med færre billetter.</string>
-    <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two_TEMPLATE">Spædbørn under 2 år: %s</string>
+
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Antal stop</string>
@@ -2036,9 +2035,9 @@
     <string name="first_name_field_text">fornavn</string>
     <!-- last name -->
     <string name="last_name_field_text">efternavn</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(f.eks.: %s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (f.eks.: %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Kortindehaver</string>
@@ -3810,14 +3809,4 @@
 
     <!-- Package Trip Overview -->
     <string name="trip_overview">Rejseoversigt</string>
-
-    <!-- Pay with points widget -->
-    <string name="paying_with_points">Betal med point</string>
-    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} point) tilgængeligt</string>
-    <string name="user_enters_more_than_points_TEMPLATE">Pointværdien overstiger din tilgængelige saldo.\nIndtast venligst {money} eller mindre.</string>
-    <string name="user_enters_more_than_trip">Pointværdien kan ikke overstige det beløb, der skal betales i dag.</string>
-    <string name="pwp_calculation_api_error">Fejl: Forbindelsen mislykkedes</string>
-    <string name="pwp_calculating_points">Udregner point…</string>
-    <string name="pwp_points_applied_TEMPLATE">{points} point indløst</string>
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Resterende beløb til betaling: {money}</string>
 </resources>

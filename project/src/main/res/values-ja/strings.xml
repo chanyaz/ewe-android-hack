@@ -819,8 +819,7 @@
     <string name="infants_in_seats_prompt">座席が必要な乳幼児はチケットが必要です。乳幼児を含めてもう一度検索してください。</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">膝抱きの乳幼児のチケットは不要です。人数を減らしてもう一度検索してください。</string>
-    <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two_TEMPLATE">2 歳未満の乳幼児 : %s</string>
+
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">乗継回数</string>
@@ -2036,9 +2035,9 @@
     <string name="first_name_field_text">名 (例 : Taro)</string>
     <!-- last name -->
     <string name="last_name_field_text">姓 (例 : Yamada)</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(例 : %s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (例 : %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">カード名義</string>
@@ -3810,14 +3809,4 @@
 
     <!-- Package Trip Overview -->
     <string name="trip_overview">旅行の概要</string>
-
-    <!-- Pay with points widget -->
-    <string name="paying_with_points">ポイントで支払い</string>
-    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} ポイント) 利用可能</string>
-    <string name="user_enters_more_than_points_TEMPLATE">ポイント相当額が残高を超えています。\n{money} 以下の値を入力してください。</string>
-    <string name="user_enters_more_than_trip">本日お支払いの金額以下のポイント相当額を入力してください。</string>
-    <string name="pwp_calculation_api_error">エラー : 接続できませんでした</string>
-    <string name="pwp_calculating_points">ポイントを計算しています…</string>
-    <string name="pwp_points_applied_TEMPLATE">{points} ポイントが適用されました</string>
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">残高 : {money}</string>
 </resources>

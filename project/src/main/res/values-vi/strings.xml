@@ -819,8 +819,7 @@
     <string name="infants_in_seats_prompt">Cần vé riêng cho trẻ sơ sinh với chỗ ngồi riêng. Cùng tìm thêm vé cho trẻ sơ sinh.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">Không cần vé riêng cho trẻ sơ sinh ngồi trong lòng. Cùng tìm lại với số lượng vé ít hơn.</string>
-    <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two_TEMPLATE">Trẻ sơ sinh dưới 2 tuổi: %s</string>
+
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Điểm dừng</string>
@@ -2036,9 +2035,9 @@
     <string name="first_name_field_text">tên</string>
     <!-- last name -->
     <string name="last_name_field_text">họ</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(VD: %s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (VD: %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Chủ thẻ</string>
@@ -3810,14 +3809,4 @@
 
     <!-- Package Trip Overview -->
     <string name="trip_overview">Tổng quan về chuyến đi</string>
-
-    <!-- Pay with points widget -->
-    <string name="paying_with_points">Thanh toán bằng điểm thưởng</string>
-    <string name="pay_with_point_total_available_TEMPLATE">Có {money} ({points} điểm)</string>
-    <string name="user_enters_more_than_points_TEMPLATE">Số vừa nhập vượt quá điểm quý vị hiện có.\nVui lòng nhập {money} trở xuống.</string>
-    <string name="user_enters_more_than_trip">Giá trị điểm không thể lớn hơn khoản cần thanh toán hôm nay.</string>
-    <string name="pwp_calculation_api_error">Lỗi: không thể kết nối</string>
-    <string name="pwp_calculating_points">Đang tính điểm…</string>
-    <string name="pwp_points_applied_TEMPLATE">Áp dụng {points} điểm</string>
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Khoản còn lại cần thanh toán: {money}</string>
 </resources>

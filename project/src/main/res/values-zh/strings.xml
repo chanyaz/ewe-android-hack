@@ -819,8 +819,7 @@
     <string name="infants_in_seats_prompt">占座的婴儿需要单独购票。我们会增加婴儿票，然后再搜索一次。</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">怀抱的婴儿无需单独购票。我们会减少购票数量，再搜索一次。</string>
-    <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two_TEMPLATE">2 岁以下幼儿：%s</string>
+
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">经停次数</string>
@@ -2036,9 +2035,9 @@
     <string name="first_name_field_text">名字</string>
     <!-- last name -->
     <string name="last_name_field_text">姓氏</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">（例如 %s）</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s（例如 %2$s）</string>
 
     <!-- Cardholder -->
     <string name="cardholder">持卡人</string>
@@ -3810,14 +3809,4 @@
 
     <!-- Package Trip Overview -->
     <string name="trip_overview">行程摘要</string>
-
-    <!-- Pay with points widget -->
-    <string name="paying_with_points">使用积分支付</string>
-    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} 分) 可用</string>
-    <string name="user_enters_more_than_points_TEMPLATE">积分价值超出您现有的余额。\n请输入 {money} 或以下。</string>
-    <string name="user_enters_more_than_trip">积分价值不能超出今天应付的款额。</string>
-    <string name="pwp_calculation_api_error">错误：连接失败</string>
-    <string name="pwp_calculating_points">正在计算积分…</string>
-    <string name="pwp_points_applied_TEMPLATE">使用了 {points} 分</string>
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">应付余额：{money}</string>
 </resources>

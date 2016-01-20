@@ -821,8 +821,7 @@
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">ไม่เป็นต้องจองตั๋วสำหรับทารกนั่งตัก
 เราจะทำการค้นหาใหม่เพื่อดูตั๋วน้อยลง</string>
-    <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two_TEMPLATE">ทารกอายุต่ำกว่า 2 ปี: %s</string>
+
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">แวะพัก</string>
@@ -2038,9 +2037,9 @@
     <string name="first_name_field_text">ชื่อ</string>
     <!-- last name -->
     <string name="last_name_field_text">นามสกุล</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(เช่น: %s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (เช่น: %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">เจ้าของบัตร</string>
@@ -3812,14 +3811,4 @@
 
     <!-- Package Trip Overview -->
     <string name="trip_overview">ข้อมูลสรุปการเดินทาง</string>
-
-    <!-- Pay with points widget -->
-    <string name="paying_with_points">จ่ายด้วยคะแนน</string>
-    <string name="pay_with_point_total_available_TEMPLATE">มีอยู่ {money} ({points} คะแนน)</string>
-    <string name="user_enters_more_than_points_TEMPLATE">มูลค่าคะแนนเกินยอดคะแนนที่คุณมีอยู่\nโปรดใส่ {money} หรือน้อยกว่านั้น</string>
-    <string name="user_enters_more_than_trip">มูลค่าคะแนนไม่สามารถเกินยอดที่ต้องชำระวันนี้ได้</string>
-    <string name="pwp_calculation_api_error">ข้อผิดพลาด: การเชื่อมต่อล้มเหลว</string>
-    <string name="pwp_calculating_points">กำลังคำนวณคะแนน…</string>
-    <string name="pwp_points_applied_TEMPLATE">ใช้ไป {points} คะแนน</string>
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">ยอดเงินคงเหลือที่ต้องชำระ: {money}</string>
 </resources>
