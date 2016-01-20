@@ -49,13 +49,10 @@
                     android:gravity="right" />
             </LinearLayout>
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/airline_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:textColor="@color/flight_departure_date_color"
-                android:textSize="14dp" />
+            <com.expedia.bookings.widget.packages.FlightAirlineWidget
+                android:id="@+id/flight_airline_widget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/flight_duration_text_view"
@@ -65,16 +62,8 @@
                 android:textColor="@color/flight_departure_date_color"
                 android:textSize="14dp" />
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/airport_details_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
-                android:textColor="@color/flight_departure_date_color"
-                android:textSize="14dp" />
-
             <com.expedia.bookings.widget.packages.FlightLayoverWidget
-                android:id="@+id/custom_flight_widget"
+                android:id="@+id/custom_flight_layover_widget"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 app:airport_text_color="@color/packages_primary_color"

@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.packages;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FlightLeg {
@@ -48,6 +49,7 @@ public class FlightLeg {
 	public transient PackageOfferModel packageOfferModel;
 	public transient String flightPid;
 	public transient String departureLeg;
+	public transient List<Airline> airlines = new ArrayList<>();
 
 	public static class AirlineMessageModel {
 		public String airlineFeeLink;
@@ -66,5 +68,6 @@ public class FlightLeg {
 		public int durationMinutes;
 		public int layoverDurationHours;
 		public int layoverDurationMinutes;
+		public String carrier;
 	}
 }

@@ -7,21 +7,21 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.FlightLeg
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.vm.FlightResultsViewModel
+import com.expedia.vm.FlightToolbarViewModel
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
-import kotlin.collections.filter
 
 public class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val resultsPresenter: PackageFlightResultsPresenter by lazy {
         var viewStub = findViewById(R.id.results_stub) as ViewStub
         var presenter = viewStub.inflate() as PackageFlightResultsPresenter
-        presenter.viewmodel = FlightResultsViewModel(context)
+        presenter.resultsViewModel = FlightResultsViewModel()
+        presenter.toolbarViewModel = FlightToolbarViewModel(context)
         presenter.outboundFlightSelectedSubject.subscribe(selectedOutboundFlightObserver)
         presenter
     }
