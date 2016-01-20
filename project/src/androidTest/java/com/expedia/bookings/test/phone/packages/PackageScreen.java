@@ -17,6 +17,7 @@ import com.expedia.bookings.test.espresso.ViewActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
@@ -71,5 +72,25 @@ public class PackageScreen {
 	public static ViewInteraction errorDialog(String text) {
 		return onView(withText(text))
 			.inRoot(withDecorView(not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))));
+	}
+
+	public static void seeHotelResults() {
+		onView(withId(R.id.hotel_info_container)).perform(click());
+	}
+
+	public static ViewInteraction hotelResultsHeader() {
+		return onView(withId(R.id.pricing_structure_header));
+	}
+
+	public static void searchPackage() throws Throwable {
+		PackageScreen.destination().perform(typeText("SFO"));
+		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		PackageScreen.arrival().perform(typeText("SFO"));
+		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		LocalDate startDate = LocalDate.now().plusDays(3);
+		LocalDate endDate = LocalDate.now().plusDays(8);
+		PackageScreen.selectDates(startDate, null);
+		PackageScreen.selectDates(startDate, endDate);
+		PackageScreen.searchButton().perform(click());
 	}
 }

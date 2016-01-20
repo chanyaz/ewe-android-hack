@@ -2844,6 +2844,13 @@
         <item quantity="other">Prices average per night • %d Results</item>
     </plurals>
 
+    <!-- Hotel Results Pricing Header - Default -->
+    <plurals name="hotel_results_default_header_TEMPLATE">
+        <item quantity="zero">No Results</item>
+        <item quantity="one">1 Result</item>
+        <item quantity="other">%d Results</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
     <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
         <item quantity="zero">No Results</item>
