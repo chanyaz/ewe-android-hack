@@ -76,7 +76,7 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
         }
     }
 
-    fun expediaRewardsUserAccountDetails(response: T): PointsDetails = response.getPointDetails(PointsProgramType.EXPEDIA_REWARDS)!!
+    fun expediaRewardsUserAccountDetails(response: T): PointsDetails = response.getPointDetails(ProgramName.ExpediaRewards)!!
     fun maxPayableWithPoints(response: T): BigDecimal = expediaRewardsUserAccountDetails(response).maxPayableWithPoints?.amount?.amount ?: BigDecimal.ZERO
 
     //Outlets

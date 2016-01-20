@@ -15,6 +15,9 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
     compile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
     compile 'com.google.code.gson:gson:2.3.1'
+    compile (project(':lib:ExpediaBookings')) {
+        exclude group: 'org.json'
+    }
     testCompile 'junit:junit:4.12'
 }
 

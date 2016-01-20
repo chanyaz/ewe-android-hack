@@ -1,11 +1,14 @@
 package com.expedia.bookings.test
 
-import com.expedia.bookings.data.hotels.HotelCheckoutParams
+import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.hotels.HotelCheckoutParamsMock
+import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.payment.MiscellaneousParams
+import com.expedia.bookings.data.payment.TripDetails
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
@@ -139,10 +142,14 @@ public class MockHotelServiceTestRule : TestRule {
     private fun getCheckoutTripResponse(responseFileName: String): HotelCheckoutResponse {
         val tripId = responseFileName
         val observer = TestSubscriber<HotelCheckoutResponse>()
-        val checkoutParams = HotelCheckoutParams()
-        checkoutParams.tripId = tripId
-        checkoutParams.expectedTotalFare = "42.00"
-        checkoutParams.tealeafTransactionId = "tealeafHotel:" + checkoutParams.tripId
+        val tripDetails = TripDetails(tripId, "42.00", "USD", "guid", true)
+        val miscParameters = MiscellaneousParams(true, "tealeafHotel:" + tripId)
+        val checkoutParams = HotelCheckoutV2Params.Builder()
+                .tripDetails(tripDetails)
+                .checkoutInfo(HotelCheckoutParamsMock.checkoutInfo())
+                .paymentInfo(HotelCheckoutParamsMock.paymentInfo())
+                .traveler(HotelCheckoutParamsMock.traveler())
+                .misc(miscParameters).build();
         service.checkout(checkoutParams, observer)
         observer.awaitTerminalEvent()
         observer.assertCompleted()

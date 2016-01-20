@@ -2,7 +2,7 @@ package com.expedia.bookings.data
 
 import com.expedia.bookings.data.cars.BaseApiResponse
 import com.expedia.bookings.data.payment.PointsDetails
-import com.expedia.bookings.data.payment.PointsProgramType
+import com.expedia.bookings.data.payment.ProgramName
 import kotlin.collections.forEach
 import kotlin.properties.Delegates
 
@@ -18,9 +18,9 @@ public abstract class TripResponse : BaseApiResponse() {
         val rewardsMembershipTierName: String by Delegates.notNull()
     }
 
-    fun getPointDetails(pointsProgramType: PointsProgramType): PointsDetails? {
+    fun getPointDetails(programName: ProgramName): PointsDetails? {
         pointsDetails?.forEach {
-            if (it.programName == pointsProgramType) {
+            if (it.programName == programName) {
                 return it
             }
         }

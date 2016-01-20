@@ -65,4 +65,12 @@ public class CreditCardUtils {
 				+ cardType.name());
 		}
 	}
+
+	public static void assertPaymentTypeIsPoints(PaymentType cardType) {
+		if (!cardType.name().startsWith("POINTS_")) {
+			throw new UnsupportedOperationException("Can't use payment type "
+				+ cardType.name());
+		}
+	}
 }
+

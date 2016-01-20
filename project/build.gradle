@@ -310,6 +310,10 @@ android {
         debug {
             assets.srcDirs = ['../lib/mocked/templates']
         }
+
+        test {
+            java.srcDir '../lib/ExpediaBookings/src/test/java/com/expedia/bookings/data'
+        }
     }
 
     compileOptions {

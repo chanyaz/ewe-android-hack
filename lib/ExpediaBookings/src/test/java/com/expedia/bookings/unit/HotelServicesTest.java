@@ -16,12 +16,14 @@ import org.junit.Test;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams;
-import com.expedia.bookings.data.hotels.HotelCheckoutParams;
+import com.expedia.bookings.data.hotels.HotelCheckoutParamsMock;
+import com.expedia.bookings.data.hotels.HotelCheckoutV2Params;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.payment.TripDetails;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.services.HotelServices;
@@ -134,10 +136,13 @@ public class HotelServicesTest {
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
-		HotelCheckoutParams params = new HotelCheckoutParams();
-		params.tripId = "happypath_0";
-		params.expectedTotalFare = "12123.33";
-		params.tealeafTransactionId = "tealeafHotel:happypath_0";
+
+		String tripId = "happypath_0";
+		TripDetails tripDetails = new TripDetails(tripId, "12123.33", "USD", "guid", true);
+
+		HotelCheckoutV2Params params = new HotelCheckoutV2Params.Builder().tripDetails(tripDetails)
+			.checkoutInfo(HotelCheckoutParamsMock.checkoutInfo()).paymentInfo(HotelCheckoutParamsMock.paymentInfo())
+			.traveler(HotelCheckoutParamsMock.traveler()).misc(HotelCheckoutParamsMock.miscellaneousParams(tripId)).build();
 
 		service.checkout(params, observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
@@ -154,10 +159,13 @@ public class HotelServicesTest {
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
-		HotelCheckoutParams params = new HotelCheckoutParams();
-		params.tripId = "happypath_0";
-		params.expectedTotalFare = "12,33";
-		params.tealeafTransactionId = "tealeafHotel:happypath_0";
+
+		String tripId = "happypath_0";
+		TripDetails tripDetails = new TripDetails(tripId, "12,33", "USD", "guid", true);
+
+		HotelCheckoutV2Params params = new HotelCheckoutV2Params.Builder().tripDetails(tripDetails)
+			.checkoutInfo(HotelCheckoutParamsMock.checkoutInfo()).paymentInfo(HotelCheckoutParamsMock.paymentInfo())
+			.traveler(HotelCheckoutParamsMock.traveler()).misc(HotelCheckoutParamsMock.miscellaneousParams(tripId)).build();
 
 		service.checkout(params, observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);

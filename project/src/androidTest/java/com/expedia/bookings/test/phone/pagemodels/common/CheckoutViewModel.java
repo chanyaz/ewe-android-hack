@@ -163,7 +163,7 @@ public class CheckoutViewModel {
 
 	public static void enterLoginDetails() {
 		clickLogin();
-		enterUsername("username@gmail.com");
+		enterUsername("qa-ehcc@mobiata.com");
 		enterPassword("password");
 	}
 

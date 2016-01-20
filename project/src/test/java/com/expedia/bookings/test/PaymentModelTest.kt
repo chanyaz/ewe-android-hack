@@ -9,8 +9,8 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.PointsAndCurrency
-import com.expedia.bookings.data.payment.PointsProgramType
 import com.expedia.bookings.data.payment.PointsType
+import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.util.notNullAndObservable
 import org.junit.After
@@ -65,10 +65,10 @@ public class PaymentModelTest {
     @Test
     fun testCreateTripForLoggedInUserWithRedeemablePoints() {
         setup(true)
-        val expediaPointDetails = createTripResponse.getPointDetails(PointsProgramType.EXPEDIA_REWARDS)!!
+        val expediaPointDetails = createTripResponse.getPointDetails(ProgramName.ExpediaRewards)
 
         //Expected Payment Split
-        val expectedPaymentSplits = PaymentSplits(expediaPointDetails.maxPayableWithPoints!!, expediaPointDetails.remainingPayableByCard!!)
+        val expectedPaymentSplits = PaymentSplits(expediaPointDetails!!.maxPayableWithPoints!!, expediaPointDetails!!.remainingPayableByCard!!)
 
         paymentModel.createTripSubject.onNext(createTripResponse)
         createTripResponseTestSubscriber.assertNoErrors()

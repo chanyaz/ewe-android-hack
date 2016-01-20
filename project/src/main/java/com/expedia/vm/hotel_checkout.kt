@@ -10,7 +10,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.cars.ApiError
-import com.expedia.bookings.data.hotels.HotelCheckoutParams
+import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelRate
@@ -36,7 +36,7 @@ import java.math.BigDecimal
 open public class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
 
     // inputs
-    val checkoutParams = PublishSubject.create<HotelCheckoutParams>()
+    val checkoutParams = PublishSubject.create<HotelCheckoutV2Params>()
 
     // outputs
     val errorObservable = PublishSubject.create<ApiError>()

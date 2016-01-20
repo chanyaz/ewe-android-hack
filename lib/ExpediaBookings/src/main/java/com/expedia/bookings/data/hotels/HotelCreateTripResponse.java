@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.hotels;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.expedia.bookings.data.Money;
@@ -52,6 +53,7 @@ public class HotelCreateTripResponse extends TripResponse {
 
 	@Override
 	public Money getTripTotal() {
-		return newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getDisplayTotalPrice();
+		HotelRate hotelRate = newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo;
+		return new Money(new BigDecimal(hotelRate.total), hotelRate.currencyCode);
 	}
 }
