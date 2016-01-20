@@ -87,6 +87,11 @@ public class DeepLinkRouterActivity extends Activity {
 		// Handle incoming intents
 		Intent intent = getIntent();
 		Uri data = intent.getData();
+		if (data == null) {
+			// bad data
+			finish();
+			return;
+		}
 		String host = data.getHost();
 		String dataString = data.toString();
 
