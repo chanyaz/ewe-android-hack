@@ -307,34 +307,30 @@ public class ExpediaServices implements DownloadListener {
 
 	public SuggestionResponse suggestionsAirportsNearby(double latitude, double longitude, SuggestionSort sort) {
 		// 1 == airports
-		return suggestionsNearby(latitude, longitude, sort, "1");
+		return suggestionsNearby(latitude, longitude, sort, SuggestionResultType.AIRPORT);
 	}
 
 	public SuggestionResponse suggestionsCityNearby(double latitude, double longitude) {
 		// 2 == city
-		return suggestionsNearby(latitude, longitude, SuggestionSort.DISTANCE, "2");
+		return suggestionsNearby(latitude, longitude, SuggestionSort.DISTANCE, SuggestionResultType.CITY);
 	}
 
-	private SuggestionResponse suggestionsNearby(double latitude, double longitude, SuggestionSort sort, String type) {
-		String url = NetUtils.formatUrl(getSuggestUrl(1, SuggestType.NEARBY));
+	private SuggestionResponse suggestionsNearby(double latitude, double longitude, SuggestionSort sort, int suggestionResultType) {
+		String url = NetUtils.formatUrl(getSuggestUrl(4, SuggestType.NEARBY));
 
 		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
-
 		addCommonParams(params);
 
-		params.add(new BasicNameValuePair("latlong", latitude + "|" + longitude));
+		String sortCriteria = (sort == SuggestionSort.DISTANCE) ? "distance" : "popularity";
+		params.add(new BasicNameValuePair("sortcriteria", sortCriteria));
 
-		params.add(new BasicNameValuePair("type", type));
+		params.add(new BasicNameValuePair("regiontype", "" + suggestionResultType));
+		params.add(new BasicNameValuePair("features", "ta_hierarchy"));
+		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
+		params.add(new BasicNameValuePair("client", ServicesUtil.generateClientId(mContext)));
 		params.add(new BasicNameValuePair("maxradius", "150"));
 		params.add(new BasicNameValuePair("maxresults", "50"));
-
-		if (sort == SuggestionSort.DISTANCE) {
-			params.add(new BasicNameValuePair("sort", "d"));
-		}
-		else {
-			// Default to popularity sort
-			params.add(new BasicNameValuePair("sort", "p"));
-		}
+		params.add(new BasicNameValuePair("latlong", latitude + "|" + longitude));
 
 		return doSuggestionRequest(url, params);
 	}
