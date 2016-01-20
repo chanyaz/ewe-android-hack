@@ -25,7 +25,7 @@ public class HotelCreateTripViewModelTest {
 
     @Test
     fun soldOutRoomLeadsToErrorObservableEmission() {
-        val subjectUnderTest = HotelCreateTripViewModel(mockHotelServiceTestRule.service, PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
+        val subjectUnderTest = HotelCreateTripViewModel(mockHotelServiceTestRule.services!!, PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
 
         val errorObservableTestSubscriber = TestSubscriber.create<ApiError>()
         subjectUnderTest.errorObservable.subscribe(errorObservableTestSubscriber)

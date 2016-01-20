@@ -12,8 +12,8 @@ import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.widget.IPayWithPointsViewModel;
 import com.expedia.bookings.widget.PayWithPointsViewModel;
-import com.expedia.bookings.widget.IPaymentWidgetViewModel;
-import com.expedia.bookings.widget.PaymentWidgetViewModel;
+import com.expedia.vm.PaymentWidgetViewModel;
+import com.expedia.vm.interfaces.IPaymentWidgetViewModel;
 import com.squareup.okhttp.OkHttpClient;
 
 import dagger.Module;

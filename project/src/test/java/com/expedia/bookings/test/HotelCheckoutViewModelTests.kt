@@ -40,7 +40,7 @@ public class HotelCheckoutViewModelTests {
     @Before
     fun setup() {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        sut = HotelCheckoutViewModel(mockHotelTestServiceRule.service, paymentModel)
+        sut = HotelCheckoutViewModel(mockHotelTestServiceRule.services!!, paymentModel)
     }
 
     @Test
@@ -137,7 +137,7 @@ public class HotelCheckoutViewModelTests {
     fun newCheckoutParamsTriggersCheckoutCall() {
         givenGoodCheckoutResponse()
         testSubscriber = TestSubscriber<HotelCheckoutResponse>()
-        sut = TestHotelCheckoutViewModel(testSubscriber, mockHotelTestServiceRule.service, paymentModel)
+        sut = TestHotelCheckoutViewModel(testSubscriber, mockHotelTestServiceRule.services!!, paymentModel)
 
         sut.checkoutParams.onNext(checkoutParams)
 

@@ -24,7 +24,6 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.utils.CollectionUtils;
-import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
@@ -510,7 +509,7 @@ public class User implements JSONable {
 	}
 
 	public StoredPointsCard getStoredPointsCard(PaymentType paymentType) {
-		CreditCardUtils.assertPaymentTypeIsPoints(paymentType);
+		paymentType.assertIsPoints();
 		if (CollectionUtils.isNotEmpty(mStoredPointsCards)) {
 			for (StoredPointsCard storedPointsCard : mStoredPointsCards) {
 				if (storedPointsCard.getPaymentType().equals(paymentType)) {

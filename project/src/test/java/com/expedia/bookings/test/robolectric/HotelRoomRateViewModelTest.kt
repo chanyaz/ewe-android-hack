@@ -123,7 +123,7 @@ public class HotelRoomRateViewModelTest {
     private fun setupNonSoldOutRoomUnderTest() {
         val rowIndex = 0
         expectedAmenity = "Free wifi"
-        mockHotelDetailViewModel = HotelDetailViewModel(context, mockHotelServiceTestRule.service, endlessObserver { /*ignore*/ })
+        mockHotelDetailViewModel = HotelDetailViewModel(context, mockHotelServiceTestRule.services!!, endlessObserver { /*ignore*/ })
 
         sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, endlessObserver { }, false)
     }
@@ -131,7 +131,7 @@ public class HotelRoomRateViewModelTest {
     private fun setupSoldOutRoomUnderTest() {
         val rowIndex = 0
         expectedAmenity = "Free wifi"
-        mockHotelDetailViewModel = HotelDetailViewModel(context, mockHotelServiceTestRule.service, endlessObserver { /*ignore*/ })
+        mockHotelDetailViewModel = HotelDetailViewModel(context, mockHotelServiceTestRule.services!!, endlessObserver { /*ignore*/ })
 
         sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, endlessObserver { }, false)
     }

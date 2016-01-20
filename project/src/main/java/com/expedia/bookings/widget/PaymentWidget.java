@@ -123,7 +123,7 @@ public class PaymentWidget extends ExpandableCardView {
 
 	private boolean isCreditCardRequired = false;
 
-	private LineOfBusiness lineOfBusiness;
+	protected LineOfBusiness lineOfBusiness;
 
 	public void setCreditCardRequired(boolean required) {
 		isCreditCardRequired = required;
@@ -285,7 +285,7 @@ public class PaymentWidget extends ExpandableCardView {
 		}
 	}
 
-	private void reset() {
+	protected void reset() {
 		sectionBillingInfo.bind(new BillingInfo());
 		Location location = new Location();
 		sectionBillingInfo.getBillingInfo().setLocation(location);
@@ -483,7 +483,7 @@ public class PaymentWidget extends ExpandableCardView {
 		setExpanded(false);
 	}
 
-	private PaymentButton.IPaymentButtonListener paymentButtonListener = new PaymentButton.IPaymentButtonListener() {
+	protected PaymentButton.IPaymentButtonListener paymentButtonListener = new PaymentButton.IPaymentButtonListener() {
 		@Override
 		public void onAddNewCreditCardSelected() {
 
@@ -576,7 +576,7 @@ public class PaymentWidget extends ExpandableCardView {
 		((AppCompatActivity)getContext()).startActivityForResult(i, REQUEST_CODE_GOOGLE_WALLET_ACTIVITY);
 	}
 
-	private boolean hasStoredCard() {
+	protected boolean hasStoredCard() {
 		return sectionBillingInfo.getBillingInfo() != null && sectionBillingInfo.getBillingInfo().hasStoredCard();
 	}
 
