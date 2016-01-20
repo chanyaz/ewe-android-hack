@@ -819,8 +819,7 @@
     <string name="infants_in_seats_prompt">Les jeunes enfants assis dans leur siège doivent avoir leur propre billet. Effectuons une autre recherche de billets pour les jeunes enfants.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">Les jeunes enfants assis sur les genoux d\&apos;un adulte n\&apos;ont pas besoin de billet à leur nom. Nous allons reprendre la recherche avec moins de billets.</string>
-    <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two_TEMPLATE">Enfants de moins de 2 ans : %s</string>
+
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Escales</string>
@@ -2036,9 +2035,9 @@
     <string name="first_name_field_text">prénom</string>
     <!-- last name -->
     <string name="last_name_field_text">nom</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(p. ex. %s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (p. ex. %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Détenteur</string>
@@ -3810,14 +3809,4 @@
 
     <!-- Package Trip Overview -->
     <string name="trip_overview">Aperçu du voyage</string>
-
-    <!-- Pay with points widget -->
-    <string name="paying_with_points">Paiement à l\&apos;aide de points</string>
-    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} points) disponibles</string>
-    <string name="user_enters_more_than_points_TEMPLATE">La valeur des points dépasse votre solde disponible.\nVeuillez entrer un nombre égal ou inférieur à {money}.</string>
-    <string name="user_enters_more_than_trip">La valeur des points ne doit pas dépasser le montant à payer.</string>
-    <string name="pwp_calculation_api_error">Erreur : échec de connexion</string>
-    <string name="pwp_calculating_points">Calcul des points…</string>
-    <string name="pwp_points_applied_TEMPLATE">{points} points utilisés</string>
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Solde restant à payer : {money}</string>
 </resources>

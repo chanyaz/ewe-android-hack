@@ -819,8 +819,7 @@
     <string name="infants_in_seats_prompt">Spädbarn i säten behöver egen biljett. Låt oss söka igen efter spädbarnsbiljetter.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">Spädbarn i säten behöver inte egen biljett. Låt oss starta om sökningen med färre biljetter.</string>
-    <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two_TEMPLATE">Spädbarn under 2: %s</string>
+
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Stopp</string>
@@ -2036,9 +2035,9 @@
     <string name="first_name_field_text">förnamn</string>
     <!-- last name -->
     <string name="last_name_field_text">efternamn</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(t.ex: %s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (t.ex: %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Kortinnehavare</string>
@@ -3810,14 +3809,4 @@
 
     <!-- Package Trip Overview -->
     <string name="trip_overview">Reseöversikt</string>
-
-    <!-- Pay with points widget -->
-    <string name="paying_with_points">Betala med poäng</string>
-    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} poäng) tillgängligt</string>
-    <string name="user_enters_more_than_points_TEMPLATE">Poängvärdet är högre än ditt tillgängliga saldo.\nAnge {money} eller mindre.</string>
-    <string name="user_enters_more_than_trip">Poängvärdet kan inte vara högre än beloppet som ska betalas idag.</string>
-    <string name="pwp_calculation_api_error">Ett fel uppstod: anlustningen misslyckades</string>
-    <string name="pwp_calculating_points">Räknar poäng…</string>
-    <string name="pwp_points_applied_TEMPLATE">{points} poäng har tillämpats</string>
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Resterande slado att betala: {money}</string>
 </resources>

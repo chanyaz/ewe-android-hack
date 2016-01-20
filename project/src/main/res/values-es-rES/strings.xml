@@ -819,8 +819,7 @@
     <string name="infants_in_seats_prompt">Es necesario adquirir un billete para los bebés que viajen en un asiento. Vamos a modificar la búsqueda para incluir los billetes de los bebés.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">No es necesario adquirir un billete para los bebés que viajen en el regazo de un adulto. Vamos a modificar la búsqueda.</string>
-    <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two_TEMPLATE">Menores de 2 años: %s</string>
+
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Escalas</string>
@@ -2036,9 +2035,9 @@
     <string name="first_name_field_text">nombre</string>
     <!-- last name -->
     <string name="last_name_field_text">apellido</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(p. ej.: %s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (p. ej.: %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Titular de la tarjeta</string>
@@ -2652,7 +2651,7 @@
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">El %2.0f%% de los clientes recomiendan este hotel</string>
     <!-- new material Hotel results cell guest rating -->
-    <string name="customer_rating_percent_Template">{rating} {percent}</string>
+    <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">sobre 5 - Puntuación de los huéspedes</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -3811,14 +3810,4 @@
 
     <!-- Package Trip Overview -->
     <string name="trip_overview">Resumen del viaje</string>
-
-    <!-- Pay with points widget -->
-    <string name="paying_with_points">Pagar con puntos</string>
-    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} puntos) disponibles</string>
-    <string name="user_enters_more_than_points_TEMPLATE">El valor de los puntos supera el saldo disponible.\nIntroduce un valor igual o inferior a {money}.</string>
-    <string name="user_enters_more_than_trip">El valor de los puntos no puede superar el importe a pagar hoy.</string>
-    <string name="pwp_calculation_api_error">Se ha producido un error de conexión</string>
-    <string name="pwp_calculating_points">Calculando los puntos…</string>
-    <string name="pwp_points_applied_TEMPLATE">Se han aplicado {points} puntos</string>
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Saldo restante a pagar: {money}</string>
 </resources>

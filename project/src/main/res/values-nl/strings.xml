@@ -819,8 +819,7 @@
     <string name="infants_in_seats_prompt">Baby\&apos;s op een stoel hebben hun eigen ticket nodig. Zoek opnieuw met inbegrip van tickets voor baby\&apos;s.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">Baby\&apos;s op schoot hebben geen ticket nodig. We voeren een nieuwe zoekopdracht uit met minder tickets.</string>
-    <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two_TEMPLATE">Baby\&apos;s (&lt; 2 jaar): %s</string>
+
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Tussenstops</string>
@@ -2036,9 +2035,9 @@
     <string name="first_name_field_text">voornaam</string>
     <!-- last name -->
     <string name="last_name_field_text">achternaam</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(bijv.: %s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (bijv.: %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Kaarthouder</string>
@@ -3810,14 +3809,4 @@
 
     <!-- Package Trip Overview -->
     <string name="trip_overview">Reisoverzicht</string>
-
-    <!-- Pay with points widget -->
-    <string name="paying_with_points">Betalen met punten</string>
-    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} punten) beschikbaar</string>
-    <string name="user_enters_more_than_points_TEMPLATE">De puntenwaarde overschrijdt de beschikbare puntenbalans.\nVoer {money} of minder in.</string>
-    <string name="user_enters_more_than_trip">De puntenwaarde mag het nu te betalen bedrag niet overschrijden.</string>
-    <string name="pwp_calculation_api_error">Fout: verbinding mislukt</string>
-    <string name="pwp_calculating_points">Punten aan het berekenen …</string>
-    <string name="pwp_points_applied_TEMPLATE">{points} punten toegepast</string>
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Te betalen restbedrag: {money}</string>
 </resources>

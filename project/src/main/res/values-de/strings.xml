@@ -819,8 +819,7 @@
     <string name="infants_in_seats_prompt">Kleinkinder mit eigenem Sitzplatz brauchen ein eigenes Flugticket. Wir starten am besten eine neue Suche für die Flugtickets der Kinder.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">Kleinkinder, die auf dem Schoß mitreisen, brauchen kein eigenes Flugticket. Wir starten am besten eine neue Suche mit weniger Flugtickets.</string>
-    <!-- Label for infants under 2 seating preference -->
-    <string name="infants_under_two_TEMPLATE">Kleinkinder unter 2: %s</string>
+
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Zwischenstopps</string>
@@ -2036,9 +2035,9 @@
     <string name="first_name_field_text">Vorname</string>
     <!-- last name -->
     <string name="last_name_field_text">Nachname</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(Beispiel: %s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (Beispiel: %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Karteninhaber</string>
@@ -3811,14 +3810,4 @@
 
     <!-- Package Trip Overview -->
     <string name="trip_overview">Reiseübersicht</string>
-
-    <!-- Pay with points widget -->
-    <string name="paying_with_points">Mit Punkten zahlen</string>
-    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} Punkte) verfügbar</string>
-    <string name="user_enters_more_than_points_TEMPLATE">So viel Guthaben haben Sie leider nicht.\nBitte geben Sie maximal {money} ein.</string>
-    <string name="user_enters_more_than_trip">Der Wert der Punkte darf den heute fälligen Gesamtbetrag nicht übersteigen.</string>
-    <string name="pwp_calculation_api_error">Verbindungsfehler</string>
-    <string name="pwp_calculating_points">Die Punkte werden angerechnet…</string>
-    <string name="pwp_points_applied_TEMPLATE">{points} Punkte wurden eingelöst</string>
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Noch ausstehender Betrag: {money}</string>
 </resources>
