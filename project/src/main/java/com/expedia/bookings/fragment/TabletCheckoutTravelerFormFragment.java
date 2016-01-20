@@ -148,7 +148,7 @@ public class TabletCheckoutTravelerFormFragment extends TabletCheckoutDataFormFr
 			//We only show the email field for the first traveler, if we aren't logged in.
 			mSectionTraveler
 				.setEmailFieldEnabled(
-					TravelerUtils.travelerFormRequiresEmail(mTravelerNumber, getLob(), getActivity()));
+					TravelerUtils.travelerFormRequiresEmail(mTravelerNumber, getActivity()));
 
 			//We only show the passport field if we are buying an international flight.
 			mSectionTraveler.setPassportCountryFieldEnabled(TravelerUtils.travelerFormRequiresPassport(getLob()));

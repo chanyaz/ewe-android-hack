@@ -966,7 +966,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	public boolean travelerIsValid(int travelerNumber) {
 		if (travelerNumber >= 0 && Db.getTravelers() != null && travelerNumber < Db.getTravelers().size()
 			&& mTravelerFlowState != null) {
-			boolean needsEmail = TravelerUtils.travelerFormRequiresEmail(travelerNumber, getLob(), getActivity());
+			boolean needsEmail = TravelerUtils.travelerFormRequiresEmail(travelerNumber, getActivity());
 			boolean needsPassport = TravelerUtils.travelerFormRequiresPassport(getLob());
 			Traveler traveler = Db.getTravelers().get(travelerNumber);
 
