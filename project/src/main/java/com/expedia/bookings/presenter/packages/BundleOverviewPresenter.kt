@@ -35,10 +35,7 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     val toolbar: CheckoutToolbar by bindView(R.id.checkout_toolbar)
     val bundleContainer: ScrollView by bindView(R.id.bundle_container)
-    val checkoutContainer: LinearLayout by bindView(R.id.checkout_container)
     val checkoutPresenter: BaseCheckoutPresenter by bindView(R.id.checkout_presenter)
-    val handle: CardView by bindView(R.id.handle)
-    val chevron: View by bindView(R.id.chevron)
     val checkoutButton: Button by bindView(R.id.checkout_button)
     val bundleHotelWidget: PackageBundleHotelWidget by bindView(R.id.packageBundleWidget)
     val flightLoadingBar: ProgressBar by bindView(R.id.flight_loading_bar)
@@ -92,7 +89,7 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             addView(statusBar)
         }
         val padding = Ui.getToolbarSize(context) + statusBarHeight
-        checkoutContainer.setPadding(0, padding, 0, 0)
+        checkoutPresenter.setPadding(0, padding, 0, 0)
 
         selectDepartureButton.isEnabled = false
         selectArrivalButton.isEnabled = false
@@ -107,44 +104,6 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         }
 
-        //calculates the difference for rotating the chevron and translating the checkout presenter
-        handle.setOnTouchListener(object : View.OnTouchListener {
-            internal var originY: Float = 0.toFloat()
-            internal var doneForNow: Boolean = false
-            override fun onTouch(v: View, event: MotionEvent): Boolean {
-                when (event.action) {
-                    (MotionEvent.ACTION_DOWN) -> {
-                        // this could probs break it cause multitouch
-                        doneForNow = false
-                        originY = event.rawY
-                    }
-                    (MotionEvent.ACTION_UP) -> {
-                        originY = 0f
-                        doneForNow = false
-                    }
-                    (MotionEvent.ACTION_MOVE) -> if (!doneForNow) {
-                        val diff = event.rawY - originY
-                        if (rotateChevron(Math.max(diff, 0f))) {
-                            doneForNow = true
-                        }
-                    }
-                }
-                return true
-            }
-        })
-    }
-
-    //Either shows the bundle overview or the checkout presenter based on distance/rotation
-    private fun rotateChevron(distance: Float): Boolean {
-        val distanceGoal = 300f
-        if (distance > distanceGoal) {
-            show(BundleDefault(), FLAG_CLEAR_BACKSTACK)
-            return true
-        } else {
-            checkoutContainer.translationY = distance
-            chevron.rotation = distance / distanceGoal * (-90)
-            return false
-        }
     }
 
     override fun onFinishInflate() {
@@ -164,12 +123,12 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         override fun startTransition(forward: Boolean) {
             checkoutButton.visibility = if (forward) View.GONE else View.VISIBLE
             bundleContainer.visibility = View.VISIBLE
-            checkoutContainer.visibility = View.VISIBLE
+            checkoutPresenter.visibility = View.VISIBLE
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
             bundleContainer.translationY = if (forward)  f * -bundleContainer.height.toFloat() else (1 - f) * bundleContainer.height.toFloat()
-            checkoutContainer.translationY = if (forward)  (f - 1) * -checkoutContainer.height.toFloat() else f * checkoutContainer.height.toFloat()
+            checkoutPresenter.translationY = if (forward)  (f - 1) * -checkoutPresenter.height.toFloat() else f * checkoutPresenter.height.toFloat()
         }
 
         override fun endTransition(forward: Boolean) {

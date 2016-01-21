@@ -134,50 +134,12 @@
         android:layout_gravity="bottom"
         android:text="@string/Checkout" />
 
-    <LinearLayout
-        android:id="@+id/checkout_container"
+    <com.expedia.bookings.widget.BaseCheckoutPresenter
+        android:id="@+id/checkout_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:padding="20dp"
-        android:visibility="gone">
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/handle"
-            android:layout_width="match_parent"
-            android:layout_height="50dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
-
-                <com.expedia.bookings.widget.TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:singleLine="true"
-                    android:text="@string/trip_overview"
-                    android:textSize="16sp"
-                    app:textStyle="medium" />
-
-                <ImageView
-                    android:id="@+id/chevron"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="start"
-                    android:src="@drawable/ic_chevron_up_black_48dp"
-                    android:tint="@color/package_bundle_icon_color" />
-
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <com.expedia.bookings.widget.BaseCheckoutPresenter
-            android:id="@+id/checkout_presenter"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+        android:visibility="gone" />
 
     <com.expedia.bookings.widget.CheckoutToolbar
         android:id="@+id/checkout_toolbar"
