@@ -5,6 +5,7 @@ import com.squareup.okhttp.mockwebserver.MockResponse
 import com.squareup.okhttp.mockwebserver.RecordedRequest
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import org.joda.time.Days
 import kotlin.text.Regex
 import kotlin.text.contains
 
@@ -148,8 +149,9 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         val params = parseRequest(request)
 
         // Common to all trips
-        val startOfTodayPacific = DateTime.now().withTimeAtStartOfDay().withZone(DateTimeZone.forOffsetHours(-7))
-        val startOfTodayEastern = DateTime.now().withTimeAtStartOfDay().withZone(DateTimeZone.forOffsetHours(-4))
+        // NOTE: using static hour offset so that daylight savings doesn't muck with the data
+        val startOfTodayPacific = DateTime.now().withZone(DateTimeZone.forOffsetHours(-7)).withTimeAtStartOfDay()
+        val startOfTodayEastern = DateTime.now().withZone(DateTimeZone.forOffsetHours(-4)).withTimeAtStartOfDay()
         val pacificDaylightTzOffset = -7 * 60 * 60.toLong()
         val easternDaylightTzOffset = -4 * 60 * 60.toLong()
         params.put("tzOffsetPacific", "" + pacificDaylightTzOffset)
@@ -172,7 +174,13 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         params.put("inboundFlightArrivalEpochSeconds", "" + inboundFlightArrival.millis / 1000)
 
         // Inject air attach times
-        params.put("airAttachOfferExpiresEpochSeconds", "" + startOfTodayPacific.plusDays(1).millis / 1000);
+        var airAttachExpiry = startOfTodayPacific.plusDays(1);
+        // near midnight, during standard time, this can get stretched to 2 days (25 hours), but test expects 1 day
+        // NOTE: this is all because we force the timezones in the test to daylight savings time, even during standard time periods
+        while (Days.daysBetween(DateTime.now().toLocalDate(), airAttachExpiry.toLocalDate()).days > 1) {
+            airAttachExpiry = airAttachExpiry.minusHours(1)
+        }
+        params.put("airAttachOfferExpiresEpochSeconds", "" + airAttachExpiry.millis / 1000);
 
         // Inject car DateTimes
         val carPickup = startOfTodayEastern.plusDays(14).plusHours(11).plusMinutes(32)
@@ -193,8 +201,8 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         val pckgHotelCheckIn = startOfTodayPacific.plusDays(35).plusHours(8).plusMinutes(0)
         val pckgHotelCheckOut = startOfTodayPacific.plusDays(40).plusHours(2).plusMinutes(0)
         val pckgOutboundFlightDeparture = startOfTodayPacific.plusDays(35).plusHours(4)
-        val pckgOutboundFlightArrival = startOfTodayEastern.plusDays(35).plusHours(6).plusMinutes(4)
-        val pckgInboundFlightDeparture = startOfTodayEastern.plusDays(40).plusHours(10)
+        val pckgOutboundFlightArrival = startOfTodayPacific.plusDays(35).plusHours(6).plusMinutes(4)
+        val pckgInboundFlightDeparture = startOfTodayPacific.plusDays(40).plusHours(10)
         val pckgInboundFlightArrival = startOfTodayPacific.plusDays(40).plusHours(12)
         params.put("pckgStartEpochSeconds", "" + pckgStart.millis / 1000)
         params.put("pckgEndEpochSeconds", "" + pckgEnd.millis / 1000)
