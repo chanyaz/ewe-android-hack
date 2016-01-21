@@ -361,6 +361,10 @@ public class StrUtils {
 		return Collections.unmodifiableSet(names);
 	}
 
+	public static String formatCity(SuggestionV4 suggestion) {
+		return formatCityName(Html.fromHtml(suggestion.regionNames.displayName).toString());
+	}
+
 	public static String formatCity(SuggestionV2 suggestion) {
 		String city = null;
 		if (suggestion.getLocation() != null) {

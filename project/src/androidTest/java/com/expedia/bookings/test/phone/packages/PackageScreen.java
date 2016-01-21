@@ -87,6 +87,10 @@ public class PackageScreen {
 		return onView(withId(R.id.pricing_structure_header));
 	}
 
+	public static ViewInteraction hotelResultsToolbar() {
+		return onView(withId(R.id.hotel_results_toolbar));
+	}
+
 	public static void searchPackage() throws Throwable {
 		PackageScreen.destination().perform(typeText("SFO"));
 		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");

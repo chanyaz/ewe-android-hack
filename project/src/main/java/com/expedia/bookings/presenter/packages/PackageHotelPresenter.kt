@@ -9,6 +9,7 @@ import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -50,7 +51,7 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
         presenter.mapView.getMapAsync(presenter)
-        presenter.viewmodel = HotelResultsViewModel(context, null)
+        presenter.viewmodel = HotelResultsViewModel(context, null, LineOfBusiness.PACKAGES)
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
         presenter
     }

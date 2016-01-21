@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.location.Location
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.cars.BaseApiResponse
@@ -30,7 +31,7 @@ import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?) {
+public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?, private val lob: LineOfBusiness) {
 
     // Inputs
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
@@ -71,7 +72,8 @@ public class HotelResultsViewModel(private val context: Context, private val hot
     }
 
     private fun doSearch(params: HotelSearchParams) {
-        titleSubject.onNext(params.suggestion.regionNames?.shortName)
+        val isPackages = lob == LineOfBusiness.PACKAGES
+        titleSubject.onNext(if (isPackages) StrUtils.formatCity(params.suggestion) else params.suggestion.regionNames.shortName)
 
         subtitleSubject.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
                 .put("startdate", DateUtils.localDateToMMMd(params.checkIn))

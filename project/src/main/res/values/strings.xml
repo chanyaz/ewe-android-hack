@@ -3862,7 +3862,9 @@
     <string name="flight_to">Flight to %1$s</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
-
+    <!-- Toolbar text for hotel results -->
+    <string name="package_hotel_results_toolbar_title_TEMPLATE">Hotels in %s</string>
+    
     <!-- Package Trip Overview -->
     <string name="trip_overview">Trip Overview</string>
     <!-- Slide to book -->
