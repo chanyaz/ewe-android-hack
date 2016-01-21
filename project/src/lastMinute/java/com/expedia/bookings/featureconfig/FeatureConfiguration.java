@@ -12,7 +12,6 @@ import android.net.Uri;
 import android.text.format.DateUtils;
 import android.view.View;
 
-import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.LastMinuteLocaleChangeReceiver;
 import com.expedia.bookings.data.HotelFilter;
@@ -98,21 +97,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public PointOfSaleId getDefaultPOS() {
 		return PointOfSaleId.LASTMINUTE;
-	}
-
-	@Override
-	public String getOmnitureReportSuiteIds() {
-		if (BuildConfig.RELEASE) {
-			return "expediaglobalapp";
-		}
-		else {
-			return "expediaglobalappdev";
-		}
-	}
-
-	@Override
-	public String getOmnitureTrackingServer() {
-		return "om.expedia.com";
 	}
 
 	@Override

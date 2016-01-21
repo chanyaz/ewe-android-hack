@@ -435,4 +435,6 @@
     <!-- Category All Things To Do -->
     <string name="lx_category_key_all_things_to_do">All Things To Do</string>
 
+    <string name="omniture_tracking_server_url">om.expedia.com</string>
+
 </resources>

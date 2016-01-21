@@ -101,21 +101,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public String getOmnitureReportSuiteIds() {
-		if (BuildConfig.RELEASE) {
-			return "expediaglobalapp,tvlglobalapp";
-		}
-		else {
-			return "expediaglobalappdev";
-		}
-	}
-
-	@Override
-	public String getOmnitureTrackingServer() {
-		return "om.travelocity.com";
-	}
-
-	@Override
 	public void contactUsViaWeb(Context context) {
 		AboutUtils.openWebsite(context, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
 	}
