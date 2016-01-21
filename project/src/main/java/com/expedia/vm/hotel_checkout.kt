@@ -24,6 +24,7 @@ import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.Strings
 import rx.Observable
 import com.mobiata.android.util.AndroidUtils
 import com.squareup.phrase.Phrase
@@ -310,7 +311,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             val rate = room.rateInfo.chargeableRateInfo
 
             isPayLater.onNext(room.isPayLater && !AndroidUtils.isTablet(context))
-            isResortCase.onNext(rate.totalMandatoryFees != 0f)
+            isResortCase.onNext(rate.totalMandatoryFees != 0f && Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
             isPayLaterOrResortCase.onNext(isPayLater.value || isResortCase.value)
             isDepositV2.onNext(room.depositRequired)
             priceAdjustments.onNext(rate.getPriceAdjustments())
@@ -335,7 +336,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             dueNowAmount.onNext(getDueNowAmount(it))
             tripTotalPrice.onNext(rate.displayTotalPrice.formattedMoney)
 
-            showFeesPaidAtHotel.onNext(isResortCase.value && (rate.totalMandatoryFees != 0f))
+            showFeesPaidAtHotel.onNext(isResortCase.value)
             feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
             isBestPriceGuarantee.onNext(room.isMerchant)
             newDataObservable.onNext(this)
