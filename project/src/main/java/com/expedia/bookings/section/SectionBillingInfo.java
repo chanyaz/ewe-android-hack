@@ -53,8 +53,8 @@ import com.mobiata.android.validation.Validator;
 public class SectionBillingInfo extends LinearLayout implements ISection<BillingInfo>, ISectionEditable,
 	InvalidCharacterListener {
 
-	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<SectionChangeListener>();
-	SectionFieldList<BillingInfo> mFields = new SectionFieldList<BillingInfo>();
+	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<>();
+	SectionFieldList<BillingInfo> mFields = new SectionFieldList<>();
 
 	private final static DateTimeFormatter MONTHYEAR_FORMATTER = DateTimeFormat.forPattern("MM/yy");
 
@@ -206,7 +206,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	//////INVALID CHARACTER STUFF
 	//////////////////////////////////////
 
-	ArrayList<InvalidCharacterListener> mInvalidCharacterListeners = new ArrayList<InvalidCharacterListener>();
+	ArrayList<InvalidCharacterListener> mInvalidCharacterListeners = new ArrayList<>();
 
 	@Override
 	public void onInvalidCharacterEntered(CharSequence text, Mode mode) {
@@ -476,21 +476,21 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	//////////////////////////////////////
 	////// VALIDATION INDICATOR FIELDS
 	//////////////////////////////////////
-	ValidationIndicatorExclaimation<BillingInfo> mValidCCNum = new ValidationIndicatorExclaimation<BillingInfo>(
+	ValidationIndicatorExclaimation<BillingInfo> mValidCCNum = new ValidationIndicatorExclaimation<>(
 		R.id.edit_creditcard_number);
-	ValidationIndicatorExclaimation<BillingInfo> mValidNameOnCard = new ValidationIndicatorExclaimation<BillingInfo>(
+	ValidationIndicatorExclaimation<BillingInfo> mValidNameOnCard = new ValidationIndicatorExclaimation<>(
 		R.id.edit_name_on_card);
-	ValidationIndicatorExclaimation<BillingInfo> mValidFirstName = new ValidationIndicatorExclaimation<BillingInfo>(
+	ValidationIndicatorExclaimation<BillingInfo> mValidFirstName = new ValidationIndicatorExclaimation<>(
 		R.id.edit_first_name);
-	ValidationIndicatorExclaimation<BillingInfo> mValidLastName = new ValidationIndicatorExclaimation<BillingInfo>(
+	ValidationIndicatorExclaimation<BillingInfo> mValidLastName = new ValidationIndicatorExclaimation<>(
 		R.id.edit_last_name);
-	ValidationIndicatorExclaimation<BillingInfo> mValidPhoneNumber = new ValidationIndicatorExclaimation<BillingInfo>(
+	ValidationIndicatorExclaimation<BillingInfo> mValidPhoneNumber = new ValidationIndicatorExclaimation<>(
 		R.id.edit_phone_number);
-	ValidationIndicatorExclaimation<BillingInfo> mValidEmail = new ValidationIndicatorExclaimation<BillingInfo>(
+	ValidationIndicatorExclaimation<BillingInfo> mValidEmail = new ValidationIndicatorExclaimation<>(
 		R.id.edit_email_address);
-	ValidationIndicatorExclaimation<BillingInfo> mValidPostalCode = new ValidationIndicatorExclaimation<BillingInfo>(
+	ValidationIndicatorExclaimation<BillingInfo> mValidPostalCode = new ValidationIndicatorExclaimation<>(
 		R.id.edit_address_postal_code);
-	ValidationIndicatorExclaimation<BillingInfo> mValidExpiration = new ValidationIndicatorExclaimation<BillingInfo>(
+	ValidationIndicatorExclaimation<BillingInfo> mValidExpiration = new ValidationIndicatorExclaimation<>(
 		R.id.edit_creditcard_exp_text_btn);
 
 	//////////////////////////////////////
@@ -579,7 +579,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<>();
 			retArr.add(mValidCCNum);
 			return retArr;
 		}
@@ -616,7 +616,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected Validator<EditText> getValidator() {
-			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
+			MultiValidator<EditText> nameValidators = new MultiValidator<>();
 			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
 			nameValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			return nameValidators;
@@ -624,7 +624,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<>();
 			retArr.add(mValidFirstName);
 			return retArr;
 		}
@@ -661,7 +661,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected Validator<EditText> getValidator() {
-			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
+			MultiValidator<EditText> nameValidators = new MultiValidator<>();
 			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
 			nameValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			return nameValidators;
@@ -669,7 +669,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<>();
 			retArr.add(mValidLastName);
 			return retArr;
 		}
@@ -698,7 +698,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected Validator<EditText> getValidator() {
-			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
+			MultiValidator<EditText> nameValidators = new MultiValidator<>();
 			nameValidators.addValidator(mValidator);
 			return nameValidators;
 		}
@@ -711,7 +711,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<>();
 			retArr.add(mValidPostalCode);
 			return retArr;
 		}
@@ -756,7 +756,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected Validator<EditText> getValidator() {
-			MultiValidator<EditText> nameValidators = new MultiValidator<EditText>();
+			MultiValidator<EditText> nameValidators = new MultiValidator<>();
 			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
 			nameValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			return nameValidators;
@@ -764,7 +764,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<>();
 			retArr.add(mValidNameOnCard);
 			return retArr;
 		}
@@ -801,7 +801,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected Validator<EditText> getValidator() {
-			MultiValidator<EditText> emailValidators = new MultiValidator<EditText>();
+			MultiValidator<EditText> emailValidators = new MultiValidator<>();
 			emailValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
 			emailValidators.addValidator(CommonSectionValidators.EMAIL_VALIDATOR_STRICT);
 			return emailValidators;
@@ -809,7 +809,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<>();
 			retArr.add(mValidEmail);
 			return retArr;
 		}
@@ -848,7 +848,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<>();
 			retArr.add(mValidPhoneNumber);
 			return retArr;
 		}
@@ -1061,7 +1061,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<SectionFieldValidIndicator<?, BillingInfo>>();
+			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<>();
 			retArr.add(mValidExpiration);
 			return retArr;
 		}
