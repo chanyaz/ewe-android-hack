@@ -10,6 +10,7 @@ import android.widget.TextView
 import android.widget.ToggleButton
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.StarRatingBar
+import com.expedia.util.operators.OperatorDistinctUntilChangedWithComparer
 import com.google.android.gms.maps.GoogleMap
 import rx.Observable
 import rx.Observer
@@ -141,4 +142,16 @@ public fun Observable<Boolean>.subscribeEnabled(view: View) {
 
 public fun Observable<Boolean>.subscribeChecked(toggleButton: ToggleButton) {
     this.subscribe { toggleButton.isChecked = it }
+}
+
+/**
+ *  Returns an observable sequence that contains only distinct contiguous elements according to the comparer.
+ *
+ *  var obs = observable.distinctUntilChanged{ x, y-> x == y };
+ *
+ * @param {Function} [comparer] Equality comparer for computed key values. If not provided, defaults to an equality comparer function.
+ * @returns {Observable} An observable sequence only containing the distinct contiguous elements, based on a computed key value, from the source sequence.
+ */
+public fun <T> Observable<T>.distinctUntilChanged(comparer: (T?, T?) -> Boolean): Observable<T> {
+    return lift(OperatorDistinctUntilChangedWithComparer(comparer))
 }

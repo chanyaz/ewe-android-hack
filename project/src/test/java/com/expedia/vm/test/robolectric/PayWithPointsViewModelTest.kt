@@ -1,6 +1,8 @@
 package com.expedia.vm.test.robolectric
 
 import android.app.Activity
+import android.view.LayoutInflater
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -9,8 +11,11 @@ import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.ServicesRule
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.IPayWithPointsViewModel
 import com.expedia.bookings.widget.PayWithPointsViewModel
+import com.expedia.bookings.widget.PayWithPointsWidget
+import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.util.notNullAndObservable
 import org.junit.Before
 import org.junit.Rule
@@ -48,12 +53,17 @@ public class PayWithPointsViewModelTest {
     @Before
     fun setup() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.V2_Theme_Hotels)
+        Ui.getApplication(activity).defaultHotelComponents()
+        val paymentWidget = LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
+        val pwpWidget = paymentWidget.findViewById(R.id.pwp_widget) as PayWithPointsWidget
 
         createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsLessThanTripTotalCreateTripResponse()
         createTripResponse.tripId = "happy";
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         payWithPointsViewModel = PayWithPointsViewModel(paymentModel, activity.application.resources)
+        pwpWidget.payWithPointsViewModel = payWithPointsViewModel
         paymentModel.createTripSubject.onNext(createTripResponse)
     }
 
@@ -138,27 +148,38 @@ public class PayWithPointsViewModelTest {
 
     @Test
     public fun userTogglePwpSwitch() {
-        val latch = CountDownLatch(1)
-        paymentModel.currencyToPointsApiResponse.subscribe { latch.countDown() }
-        payWithPointsViewModel.amountSubmittedByUser.onNext("32")
-        latch.await(10, TimeUnit.SECONDS)
-
-        pwpConversionResponseTestSubscriber.assertValueCount(3)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "Calculating points…", "14005 points applied")
-
+        //Toggle switch off
         payWithPointsViewModel.pwpStateChange.onNext(false)
 
-        pwpConversionResponseTestSubscriber.assertValueCount(4)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "Calculating points…", "14005 points applied", "0 points applied")
+        pwpConversionResponseTestSubscriber.assertValueCount(2)
+        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "0 points applied")
 
-        val latch2 = CountDownLatch(1)
-        paymentModel.currencyToPointsApiResponse.subscribe { latch2.countDown() }
+        //Toggle switch on
+        val latch1 = CountDownLatch(1)
+        paymentModel.currencyToPointsApiResponse.subscribe { latch1.countDown() }
         payWithPointsViewModel.pwpStateChange.onNext(true)
-        latch2.await(10, TimeUnit.SECONDS)
+        latch1.await(10, TimeUnit.SECONDS)
+
+        pwpConversionResponseTestSubscriber.assertValueCount(4)
+        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "0 points applied", "Calculating points…", "14005 points applied")
+
+        //New value entered and before calculation API response, PwP toggle off (call gets ignored)
+        payWithPointsViewModel.amountSubmittedByUser.onNext("32")
+        payWithPointsViewModel.pwpStateChange.onNext(false)
 
         pwpConversionResponseTestSubscriber.assertValueCount(6)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "Calculating points…", "14005 points applied", "0 points applied",
-                "Calculating points…", "14005 points applied")
+        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "0 points applied", "Calculating points…",
+                "14005 points applied", "Calculating points…", "0 points applied")
+
+        //Toggle switch on, last entered value in pwp edit box is used to make API call
+        val latch3 = CountDownLatch(1)
+        paymentModel.currencyToPointsApiResponse.subscribe { latch3.countDown() }
+        payWithPointsViewModel.pwpStateChange.onNext(true)
+        latch3.await(10, TimeUnit.SECONDS)
+
+        pwpConversionResponseTestSubscriber.assertValueCount(8)
+        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "0 points applied", "Calculating points…",
+                "14005 points applied", "Calculating points…", "0 points applied", "Calculating points…", "14005 points applied")
     }
 
     @Test
@@ -179,7 +200,7 @@ public class PayWithPointsViewModelTest {
         latch.await(10, TimeUnit.SECONDS)
 
         pwpConversionResponseTestSubscriber.assertValueCount(3)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "Calculating points…", "Error: connection failed")
+        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "Calculating points…", "An unknown error occurred. Please try again.")
     }
 
     @Test
@@ -191,6 +212,30 @@ public class PayWithPointsViewModelTest {
         latch.await(10, TimeUnit.SECONDS)
 
         pwpConversionResponseTestSubscriber.assertValueCount(3)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "Calculating points…", "Error: connection failed")
+        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "Calculating points…", "An unknown error occurred. Please try again.")
+    }
+
+    @Test
+    public fun pwpCurrencyToPoints_TripServiceError() {
+        createTripResponse.tripId = "trip_service_error";
+        val latch = CountDownLatch(1)
+        paymentModel.currencyToPointsApiError.subscribe { latch.countDown() }
+        payWithPointsViewModel.amountSubmittedByUser.onNext("32")
+        latch.await(10, TimeUnit.SECONDS)
+
+        pwpConversionResponseTestSubscriber.assertValueCount(3)
+        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "Calculating points…", "We're sorry but we experienced a server problem. Please try again.")
+    }
+
+    @Test
+    public fun pwpCurrencyToPoints_PointsConversionUnauthenticated() {
+        createTripResponse.tripId = "points_conversion_unauthenticated";
+        val latch = CountDownLatch(1)
+        paymentModel.currencyToPointsApiError.subscribe { latch.countDown() }
+        payWithPointsViewModel.amountSubmittedByUser.onNext("32")
+        latch.await(10, TimeUnit.SECONDS)
+
+        pwpConversionResponseTestSubscriber.assertValueCount(3)
+        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "Calculating points…", "We're sorry but we experienced a server problem. Please try again.")
     }
 }

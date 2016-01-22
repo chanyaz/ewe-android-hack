@@ -2,6 +2,7 @@ package com.expedia.bookings.data.payment
 
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.services.LoyaltyServices
 import rx.Observable
 import rx.Observer
@@ -18,13 +19,13 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     private val currencyToPointsApiSubscriptions = BehaviorSubject.create<Subscription?>(nullSubscription)
 
     val currencyToPointsApiResponse = PublishSubject.create<CalculatePointsResponse>()
-    val currencyToPointsApiError = PublishSubject.create<Unit>()
+    val currencyToPointsApiError = PublishSubject.create<ApiError>()
 
     private fun makeCalculatePointsApiResponseObserver(): Observer<CalculatePointsResponse> {
         return object : Subscriber<CalculatePointsResponse>() {
             override fun onError(apiError: Throwable?) {
                 if (!this.isUnsubscribed) {
-                    currencyToPointsApiError.onNext(Unit)
+                    currencyToPointsApiError.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
                 }
             }
 
@@ -32,7 +33,7 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
                 if (!apiResponse.hasErrors()) {
                     currencyToPointsApiResponse.onNext(apiResponse)
                 } else {
-                    currencyToPointsApiError.onNext(Unit)
+                    currencyToPointsApiError.onNext(apiResponse.firstError)
                 }
             }
 
@@ -84,7 +85,7 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
 
     private fun paymentSplitsWhenZeroPayableWithPoints(response: T): PaymentSplits {
         val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money("0", response.getTripTotal().currencyCode))
-        val payingWithCards = PointsAndCurrency(response.expediaRewards!!.totalPointsToEarn, PointsType.EARN, response.getTripTotal())
+        val payingWithCards = PointsAndCurrency(response.expediaRewards.totalPointsToEarn, PointsType.EARN, response.getTripTotal())
         return PaymentSplits(payingWithPoints, payingWithCards)
     }
 
