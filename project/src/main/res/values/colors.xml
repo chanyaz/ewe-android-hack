@@ -83,6 +83,7 @@
     <color name="flight_free_cancellation_text_color">#FFE980</color>
     <color name="flight_departure_date_color">#343434</color>
     <color name="section_flight_edit_traveler_link_color">#2A4367</color>
+    <color name="flight_result_airline_text_color">#343434</color>
 
     <!-- Hotels colors -->
     <color name="hotel_search_background">#EEEEEE</color>

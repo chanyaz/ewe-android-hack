@@ -94,4 +94,8 @@ public data class PackageSearchParams(val origin: SuggestionV4, val destination:
     public fun guests() : Int {
         return children.size + adults
     }
+
+    public fun isOutboundSearch() : Boolean {
+        return flightType == null
+    }
 }
