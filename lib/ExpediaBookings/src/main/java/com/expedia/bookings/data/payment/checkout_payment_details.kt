@@ -20,7 +20,7 @@ data class CardDetails(
         val creditCardNumber: String? = null,
         val expirationDateYear: String? = null,
         val expirationDateMonth: String? = null,
-        val cvv: String,
+        val cvv: String?,
         val nameOnCard: String,
         val amountOnCard: String,
         val storeCreditCardInUserProfile: Boolean = false)

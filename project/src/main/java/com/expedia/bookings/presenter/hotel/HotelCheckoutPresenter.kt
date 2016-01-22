@@ -19,6 +19,7 @@ import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.data.payment.RewardDetails
 import com.expedia.bookings.data.payment.Traveler
 import com.expedia.bookings.data.payment.TripDetails
+import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.tracking.HotelV2Tracking
@@ -30,6 +31,7 @@ import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelCheckoutViewModel
 import org.joda.time.format.ISODateTimeFormat
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.Locale
@@ -47,6 +49,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         @Inject set
 
     private val bookedWithCVVSubject = PublishSubject.create<String>()
+    private val bookedWithoutCVVSubject = PublishSubject.create<Unit>()
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
@@ -59,12 +62,18 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         }).subscribe{
             onBookV2(it.cvv, it.paymentSplits)
         }
+
+        bookedWithoutCVVSubject.withLatestFrom(paymentModel.paymentSplits, { unit, paymentSplits -> paymentSplits }).subscribe {
+            onBookV2(null, it)
+        }
     }
 
     override fun onFinishInflate() {
         addTransition(checkoutToCvv)
         addDefaultTransition(defaultCheckoutTransition)
-        hotelCheckoutWidget.slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
+        hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(paymentModel.paymentSplits) { unit, paymentSplits ->
+            paymentSplits.paymentSplitsType()
+        }.subscribe(checkoutSliderSlidObserver)
         hotelCheckoutWidget.emailOptInStatus.subscribe { status ->
             hotelCheckoutWidget.mainContactInfoCardView.setUPEMailOptCheckBox(status)
         }
@@ -93,9 +102,11 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         }
     }
 
-    val checkoutSliderSlidObserver = endlessObserver<Unit> {
+    val checkoutSliderSlidObserver = endlessObserver<PaymentSplitsType> {
         val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.getBillingInfo()
-        if (billingInfo.getStoredCard() != null && billingInfo.getStoredCard().isGoogleWallet()) {
+        if (it.equals(PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT )) {
+            bookedWithoutCVVSubject.onNext(Unit)
+        } else if (billingInfo.getStoredCard() != null && billingInfo.getStoredCard().isGoogleWallet()) {
             onBook(billingInfo.getSecurityCode())
         } else {
             cvv.bind(billingInfo)
@@ -108,7 +119,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         bookedWithCVVSubject.onNext(cvv)
     }
 
-    fun onBookV2(cvv: String, paymentSplits: PaymentSplits) {
+    fun onBookV2(cvv: String?, paymentSplits: PaymentSplits) {
         val dtf = ISODateTimeFormat.date()
 
         val hotelSearchParams = Db.getHotelSearch().searchParams
@@ -137,7 +148,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         val expediaRewardsPointsDetails = hotelCreateTripResponse.getPointDetails(ProgramName.ExpediaRewards)
 
         val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.billingInfo
-        if (!payingWithCardsSplit.amount.isZero) {
+        if (!cvv.isNullOrBlank() && !payingWithCardsSplit.amount.isZero) {
             if (billingInfo.storedCard == null || billingInfo.storedCard.isGoogleWallet) {
                 val creditCardNumber = billingInfo.number
                 val expirationDateYear = JodaUtils.format(billingInfo.expirationDate, "yyyy")
