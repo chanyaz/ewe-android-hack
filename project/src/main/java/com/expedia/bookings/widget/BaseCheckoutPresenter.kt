@@ -2,7 +2,10 @@ package com.expedia.bookings.widget
 
 import android.app.Activity
 import android.content.Context
+import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.CardView
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewStub
 import android.widget.LinearLayout
@@ -12,6 +15,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.User
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.presenter.packages.BundleOverviewPresenter
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -33,6 +37,8 @@ public class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Prese
     val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val depositPolicyText: TextView by bindView(R.id.disclaimer_text)
+    val handle: CardView by bindView(R.id.handle)
+    val chevron: View by bindView(R.id.chevron)
 
     var expandedView: ExpandableCardView? = null
 
@@ -61,6 +67,32 @@ public class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Prese
         } else {
             loginWidget.bind(false, false, null, LineOfBusiness.HOTELSV2)
         }
+
+        //calculates the difference for rotating the chevron and translating the checkout presenter
+        handle.setOnTouchListener(object : View.OnTouchListener {
+            internal var originY: Float = 0.toFloat()
+            internal var doneForNow: Boolean = false
+            override fun onTouch(v: View, event: MotionEvent): Boolean {
+                when (event.action) {
+                    (MotionEvent.ACTION_DOWN) -> {
+                        // this could probs break it cause multitouch
+                        doneForNow = false
+                        originY = event.rawY
+                    }
+                    (MotionEvent.ACTION_UP) -> {
+                        originY = 0f
+                        doneForNow = false
+                    }
+                    (MotionEvent.ACTION_MOVE) -> if (!doneForNow) {
+                        val diff = event.rawY - originY
+                        if (rotateChevron(Math.max(diff, 0f))) {
+                            doneForNow = true
+                        }
+                    }
+                }
+                return true
+            }
+        })
     }
 
     override fun onFinishInflate() {
@@ -79,6 +111,7 @@ public class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Prese
     private val checkoutExpanded = object : Presenter.Transition(CheckoutDefault::class.java, CheckoutExpanded::class.java) {
 
         override fun startTransition(forward: Boolean) {
+            handle.visibility = if (forward) View.GONE else View.VISIBLE
             for (i in 0..widgetContainer.childCount - 1) {
                 val child = widgetContainer.getChildAt(i)
                 if (forward && child != expandedView) {
@@ -101,6 +134,19 @@ public class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Prese
                     viewModel.paymentCompleted.onNext(paymentWidget.sectionBillingInfo.billingInfo)
                 }
             }
+        }
+    }
+
+    //Either shows the bundle overview or the checkout presenter based on distance/rotation
+    private fun rotateChevron(distance: Float): Boolean {
+        val distanceGoal = 300f
+        if (distance > distanceGoal) {
+            (context as AppCompatActivity).onBackPressed()
+            return true
+        } else {
+            translationY = distance
+            chevron.rotation = distance / distanceGoal * (-90)
+            return false
         }
     }
 
