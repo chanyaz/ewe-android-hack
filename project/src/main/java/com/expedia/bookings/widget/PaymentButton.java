@@ -1,13 +1,14 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListPopupWindow;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
@@ -23,6 +24,7 @@ import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class PaymentButton extends LinearLayout {
+	private int layoutResId;
 	private ListPopupWindow mStoredCardPopup;
 	private StoredCreditCardSpinnerAdapter mStoredCreditCardAdapter;
 
@@ -32,6 +34,10 @@ public class PaymentButton extends LinearLayout {
 
 	public PaymentButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
+		final TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PaymentButton);
+		layoutResId = a
+			.getResourceId(R.styleable.PaymentButton_payment_button_layout, R.layout.checkout_payment_button);
+		a.recycle();
 	}
 
 	public PaymentButton(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -41,7 +47,7 @@ public class PaymentButton extends LinearLayout {
 	private LineOfBusiness lineOfBusiness;
 
 	@InjectView(R.id.select_payment_button)
-	Button selectPayment;
+	TextView selectPayment;
 
 	IPaymentButtonListener mPaymentButtonListener;
 
@@ -60,7 +66,7 @@ public class PaymentButton extends LinearLayout {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		LayoutInflater inflater = LayoutInflater.from(getContext());
-		inflater.inflate(R.layout.checkout_payment_button, this);
+		inflater.inflate(layoutResId, this);
 		ButterKnife.inject(this);
 	}
 

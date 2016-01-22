@@ -1,28 +1,31 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.graphics.PorterDuff
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
 import android.view.View
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.StoredCreditCard
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.utils.BookingInfoUtils
-import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.NumberMaskFormatter
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.WalletUtils
+import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.interfaces.IPaymentWidgetViewModel
 import com.expedia.util.subscribeText
+import com.expedia.vm.interfaces.IPaymentWidgetViewModel
 import com.squareup.phrase.Phrase
+import rx.Observable
 import rx.subjects.PublishSubject
 import javax.inject.Inject
-import rx.Observable
 import kotlin.properties.Delegates
 
 public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
@@ -46,6 +49,46 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
         super.onFinishInflate()
         background = null
         Ui.getApplication(context).hotelComponent().inject(this)
+        paymentButton = findViewById(R.id.payment_button_v2) as PaymentButton
+
+        val icon = ContextCompat.getDrawable(context, R.drawable.ic_hotel_credit_card).mutate()
+        icon.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
+        paymentButton.selectPayment.setCompoundDrawablesWithIntrinsicBounds(icon, null, ContextCompat.getDrawable(context, R.drawable.ic_picker_down), null)
+        paymentButton.setPaymentButtonListener(paymentButtonListener)
+    }
+
+    override fun showPaymentDetails() {
+        if (hasStoredCard()) {
+            removeStoredCard();
+        }
+        super.showPaymentDetails()
+        paymentButton.visibility = View.GONE
+        if (!hasStoredCard()) {
+            paymentButton.selectPayment.setText(R.string.select_saved_cards)
+        }
+    }
+
+    override public fun setExpanded(expand: Boolean, animate: Boolean) {
+        super.setExpanded(expand, animate)
+        if (expand) {
+            paymentButton.bind()
+            paymentButton.visibility = if (User.isLoggedIn(context) && !Db.getUser().storedCreditCards.isEmpty()) View.VISIBLE else View.GONE
+        }
+    }
+
+    override fun getPaymentButtonListener(): PaymentButton.IPaymentButtonListener {
+        return object : PaymentButton.IPaymentButtonListener {
+            override fun onAddNewCreditCardSelected() {
+            }
+
+            override fun onStoredCreditCardChosen(card: StoredCreditCard) {
+                sectionBillingInfo.billingInfo.storedCard = card
+                paymentButton.selectPayment.text = card.description
+                bind()
+                Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
+                paymentButton.dismissPopup()
+            }
+        }
     }
 
     override fun bind() {
@@ -158,8 +201,8 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
     }
 
     private fun bindPaymentOptionText(paymentOptionText: String) {
-            cardInfoExpiration.text = paymentOptionText
-            cardInfoExpiration.visibility = View.VISIBLE
+        cardInfoExpiration.text = paymentOptionText
+        cardInfoExpiration.visibility = View.VISIBLE
     }
 
     private fun bindPaymentTileIcon(paymentType: PaymentType?, splitsType: PaymentSplitsType) {

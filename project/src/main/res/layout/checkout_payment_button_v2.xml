@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.widget.TextView
+    android:id="@+id/select_payment_button"
+    style="@style/HotelPaymentOption"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawableRight="@drawable/ic_picker_down"
+    android:text="@string/select_saved_cards" />

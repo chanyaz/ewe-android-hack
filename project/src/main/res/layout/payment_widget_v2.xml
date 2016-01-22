@@ -104,6 +104,18 @@
             android:background="@drawable/card_background"
             android:orientation="vertical">
 
+            <com.expedia.bookings.widget.PaymentButton
+                android:id="@+id/payment_button_v2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:payment_button_layout="@layout/checkout_payment_button_v2" />
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1px"
+                android:background="#E0E0E0" />
+
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/payment_option_credit_debit"
                 style="@style/HotelPaymentOption"
@@ -134,19 +146,20 @@
             android:id="@+id/payment_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:orientation="horizontal"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:layout_marginBottom="16dp"/>
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/stored_card_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:paddingBottom="16dp"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="16dp">
+            android:paddingRight="16dp">
 
             <com.expedia.bookings.widget.RoundImageView
                 android:id="@+id/display_credit_card_brand_icon_tablet"
@@ -159,10 +172,10 @@
                 android:id="@+id/stored_card_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingLeft="16dp"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1"
                 android:gravity="center|left"
+                android:paddingLeft="16dp"
                 android:singleLine="true"
                 android:textSize="16sp"
                 app:textStyle="medium" />
@@ -183,9 +196,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:paddingBottom="16dp"
             android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="16dp">
+            android:paddingRight="16dp">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -233,8 +246,8 @@
                     android:id="@+id/section_location_address"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:layout_marginLeft="10dp">
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="2">
 
                     <EditText
                         android:id="@+id/edit_address_postal_code"
@@ -251,8 +264,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text="@string/cardholder"
                 android:paddingLeft="4dp"
+                android:text="@string/cardholder"
                 android:textSize="@dimen/data_form_section_header_text"
                 android:textStyle="bold" />
 

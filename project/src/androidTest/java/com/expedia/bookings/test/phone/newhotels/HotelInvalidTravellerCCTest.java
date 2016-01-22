@@ -24,9 +24,9 @@ public class HotelInvalidTravellerCCTest extends HotelTestCase {
 		HotelScreen.waitForErrorDisplayed();
 
 		ErrorScreen.clickOnEditPayment();
-		// Card Details Edit Screen
-		onView(withId(R.id.section_billing_info)).perform(ViewActions.waitForViewToDisplay());
-		assertViewIsDisplayed(R.id.section_billing_info);
+		// Payment Info Screen
+		onView(withId(R.id.section_payment_options_container)).perform(ViewActions.waitForViewToDisplay());
+		assertViewIsDisplayed(R.id.section_payment_options_container);
 	}
 
 	public void testInvalidTravellerInfo() throws Throwable {

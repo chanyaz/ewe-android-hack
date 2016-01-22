@@ -45,7 +45,6 @@ import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.WalletUtils;
-import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
@@ -142,13 +141,18 @@ public class PaymentWidget extends ExpandableCardView {
 		}
 
 	}
-	@OnClick(R.id.remove_stored_card_button)
-	public void onStoredCardRemoved() {
+
+	protected void removeStoredCard() {
 		StoredCreditCard currentCC = sectionBillingInfo.getBillingInfo().getStoredCard();
 		BookingInfoUtils.resetPreviousCreditCardSelectState(getContext(), currentCC);
 		Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(null);
 		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 		reset();
+	}
+
+	@OnClick(R.id.remove_stored_card_button)
+	public void onStoredCardRemoved() {
+		removeStoredCard();
 		storedCardContainer.setVisibility(GONE);
 		if (User.isLoggedIn(getContext())) {
 			sectionBillingInfo.setVisibility(VISIBLE);
@@ -351,8 +355,8 @@ public class PaymentWidget extends ExpandableCardView {
 		super.setExpanded(expand, animate);
 
 		if (expand) {
-			if (SettingUtils.get(getContext(), R.string.preference_enable_pay_with_points, false)
-					|| ((WalletUtils.isWalletSupported(lineOfBusiness) && !goToPaymentDetails()))) {
+			if ((this instanceof PaymentWidgetV2) || ((WalletUtils.isWalletSupported(lineOfBusiness)
+				&& !goToPaymentDetails()))) {
 				cardInfoContainer.setVisibility(GONE);
 				paymentOptionsContainer.setVisibility(VISIBLE);
 				billingInfoContainer.setVisibility(GONE);
@@ -394,7 +398,7 @@ public class PaymentWidget extends ExpandableCardView {
 			|| (isFilled && (!isBillingInfoValid || !isPostalCodeValid));
 	}
 
-	private void showPaymentDetails() {
+	protected void showPaymentDetails() {
 		boolean hasStoredCard = hasStoredCard();
 		cardInfoContainer.setVisibility(GONE);
 		paymentOptionsContainer.setVisibility(GONE);
@@ -483,20 +487,25 @@ public class PaymentWidget extends ExpandableCardView {
 		setExpanded(false);
 	}
 
-	protected PaymentButton.IPaymentButtonListener paymentButtonListener = new PaymentButton.IPaymentButtonListener() {
-		@Override
-		public void onAddNewCreditCardSelected() {
+	private PaymentButton.IPaymentButtonListener paymentButtonListener = getPaymentButtonListener();
 
-		}
+	protected PaymentButton.IPaymentButtonListener getPaymentButtonListener() {
+		return new PaymentButton.IPaymentButtonListener() {
+			@Override
+			public void onAddNewCreditCardSelected() {
 
-		@Override
-		public void onStoredCreditCardChosen(StoredCreditCard card) {
-			storedCardContainer.setVisibility(VISIBLE);
-			sectionBillingInfo.setVisibility(GONE);
-			sectionBillingInfo.getBillingInfo().setStoredCard(card);
-			setExpanded(false);
-		}
-	};
+			}
+
+			@Override
+			public void onStoredCreditCardChosen(StoredCreditCard card) {
+				storedCardContainer.setVisibility(VISIBLE);
+				sectionBillingInfo.setVisibility(GONE);
+				sectionBillingInfo.getBillingInfo().setStoredCard(card);
+				setExpanded(false);
+			}
+		};
+	}
+
 
 	public boolean isFilled() {
 		return !creditCardNumber.getText().toString().isEmpty() || !creditCardPostalCode.getText().toString().isEmpty() || !creditCardName.getText().toString().isEmpty() ;

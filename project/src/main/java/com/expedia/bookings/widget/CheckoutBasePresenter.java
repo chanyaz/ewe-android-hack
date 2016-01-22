@@ -611,11 +611,11 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	@Override
 	public void onUserAccountRefreshed() {
-		doCreateTrip();
 		if (User.isLoggedIn(getContext())) {
 			listenToScroll = true;
 			scrollToEnterDetails();
 		}
+		doCreateTrip();
 	}
 
 	public abstract void doCreateTrip();

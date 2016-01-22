@@ -31,6 +31,8 @@ public class HotelCheckoutTest: HotelTestCase() {
         EspressoUtils.assertViewWithTextIsDisplayed(R.id.card_info_name, "Payment Details")
         CheckoutViewModel.clickPaymentInfo()
         Common.delay(1)
+        CheckoutViewModel.clickAddCreditCard()
+        Common.delay(1)
         EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_number, "")
         Espresso.pressBack()
     }
