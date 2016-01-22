@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget.itin;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -819,7 +818,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				R.layout.section_flight_leg_summary_itin, null);
 		v.bindFlight(flight, minTime, maxTime);
 
-		Calendar now = Calendar.getInstance();
+		DateTime now = DateTime.now();
 		TextView tv = Ui.findView(v, R.id.delay_text_view);
 		Resources res = getResources();
 
@@ -844,7 +843,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		}
 		else if (flight.mFlightHistoryId != -1) {
 			// only make the delay view visible if we've got data from FS
-			if (now.before(flight.getOriginWaypoint().getMostRelevantDateTime())) {
+			if (now.isBefore(flight.getOriginWaypoint().getMostRelevantDateTime())) {
 				int delay = getDelayForWaypoint(flight.getOriginWaypoint());
 				if (delay > 0) {
 					tv.setTextColor(res.getColor(R.color.itin_flight_delayed_color));
@@ -861,7 +860,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 					tv.setText(R.string.flight_departs_on_time);
 				}
 			}
-			else if (now.before(flight.getArrivalWaypoint().getMostRelevantDateTime())) {
+			else if (now.isBefore(flight.getArrivalWaypoint().getMostRelevantDateTime())) {
 				int delay = getDelayForWaypoint(flight.getArrivalWaypoint());
 				if (delay > 0) {
 					tv.setTextColor(res.getColor(R.color.itin_flight_delayed_color));
@@ -898,7 +897,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			}
 			tv.setVisibility(View.VISIBLE);
 		}
-		else if (now.after(flight.getArrivalWaypoint().getMostRelevantDateTime())) {
+		else if (now.isAfter(flight.getArrivalWaypoint().getMostRelevantDateTime())) {
 			// last chance: we don't have FS data, but it seems like this flight should have landed already
 			tv.setTextColor(res.getColor(R.color.itin_flight_on_time_color));
 			tv.setText(R.string.flight_arrived);
