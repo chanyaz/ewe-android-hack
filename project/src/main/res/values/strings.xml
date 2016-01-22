@@ -2364,6 +2364,7 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
     <string name="zero">0</string>
+    <!-- The verb "book" as in to make a booking for a hotel room -->
     <string name="book">Book</string>
 
     <!-- Highlight view stuff -->
@@ -2876,7 +2877,7 @@
     <string name="not_included_in_the_price">Not included in the price</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">View Room</string>
-    <!-- Book Room button text -->
+    <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">Book</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Share via</string>
