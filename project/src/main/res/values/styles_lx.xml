@@ -73,7 +73,7 @@
         <item name="skin_lxErrorNoResultsText">@string/gt_error_current_location_no_results</item>
         <item name="skin_lxErrorCurrentLocationText">@string/error_gt_current_location_search_message</item>
         <item name="skin_lxErrorWidgetDrawable">@drawable/error_gt</item>
-
+        <item name="skin_rippleDrawable">@drawable/gt_button_ripple</item>
     </style>
 
     <!--
