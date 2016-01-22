@@ -4,45 +4,25 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
-import android.widget.Button
-import android.widget.ScrollView
-import android.widget.TextView
+
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
-import com.expedia.bookings.utils.CurrencyUtils
-import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.bookings.widget.CheckoutToolbar
-import com.expedia.bookings.widget.PackageBundleFlightWidget
-import com.expedia.bookings.widget.PackageBundleHotelWidget
-import com.expedia.bookings.widget.PackageBundlePriceWidget
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.bookings.widget.PackagePaymentWidget
-import com.expedia.bookings.widget.PriceChangeWidget
-import com.expedia.bookings.widget.TravelerContactDetailsWidget
 import com.expedia.bookings.widget.packages.CheckoutOverviewHeader
 import com.expedia.util.endlessObserver
-import com.expedia.util.notNullAndObservable
-import com.expedia.vm.BundleFlightViewModel
-import com.expedia.vm.BundleHotelViewModel
-import com.expedia.vm.BundleOverviewViewModel
-import com.expedia.vm.BundlePriceViewModel
 import com.expedia.vm.CheckoutToolbarViewModel
-import com.expedia.vm.PackageSearchType
-import com.expedia.vm.PriceChangeViewModel
-import com.squareup.phrase.Phrase
-import java.math.BigDecimal
 import kotlin.properties.Delegates
 
 class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
     val ANIMATION_DURATION = 450L
+
 
     var statusBar: View? = null
     val toolbar: CheckoutToolbar by bindView(R.id.checkout_toolbar)
@@ -55,20 +35,8 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
 
     init {
         View.inflate(context, R.layout.bundle_overview, this)
-        checkoutPresenter.travelerWidget.mToolbarListener = toolbar
 
         toolbar.viewModel = CheckoutToolbarViewModel(context)
-        toolbar.viewModel.nextClicked.subscribe {
-            if (checkoutPresenter.currentState == TravelerContactDetailsWidget::class.java.name) {
-                checkoutPresenter.travelerWidget.setNextFocus()
-            }
-        }
-        toolbar.viewModel.doneClicked.subscribe {
-            if (checkoutPresenter.currentState == TravelerContactDetailsWidget::class.java.name) {
-                checkoutPresenter.travelerWidget.onMenuButtonPressed()
-            }
-            Ui.hideKeyboard(this)
-        }
 
         checkoutPresenter.paymentWidget.viewmodel.toolbarTitle.subscribe(toolbar.viewModel.toolbarTitle)
         checkoutPresenter.paymentWidget.viewmodel.editText.subscribe(toolbar.viewModel.editText)

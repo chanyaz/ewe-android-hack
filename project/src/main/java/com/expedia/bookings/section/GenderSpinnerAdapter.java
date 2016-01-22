@@ -46,7 +46,11 @@ public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 	private String mFormatString = DEFAULT_FORMAT_STRING;
 
 	public GenderSpinnerAdapter(Context context) {
-		super(context, R.layout.simple_spinner_traveler_item);
+		this(context, R.layout.simple_spinner_traveler_item);
+	}
+
+	public GenderSpinnerAdapter(Context context, int textViewId) {
+		super(context, textViewId);
 		setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
 		populateGenders(context);
 	}

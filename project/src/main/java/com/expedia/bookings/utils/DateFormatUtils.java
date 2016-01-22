@@ -3,6 +3,7 @@ package com.expedia.bookings.utils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Calendar;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -159,6 +160,14 @@ public class DateFormatUtils {
 		String checkoutDateTime = getFormattedDateDay(context, parser.parseDateTime(checkoutDate));
 
 		return context.getString(R.string.calendar_instructions_date_range_TEMPLATE, checkinDateTime, checkoutDateTime);
+	}
+
+	public static String formatBirthDate(Context context, int year, int month, int day) {
+		Calendar cal = Calendar.getInstance();
+		cal.set(Calendar.YEAR, year);
+		cal.set(Calendar.MONTH, month);
+		cal.set(Calendar.DAY_OF_MONTH, day);
+		return JodaUtils.formatLocalDate(context, new LocalDate(year, month, day), FLAGS_MEDIUM_DATE_FORMAT);
 	}
 
 	/**

@@ -2147,6 +2147,8 @@
     <string name="first_name">First Name</string>
     <!-- Middle name label -->
     <string name="middle_name">Middle Name</string>
+    <!--A hint for the user to enter their name's initial letter-->
+    <string name="initial_name">Initial</string>
     <!-- Last name label -->
     <string name="last_name">Last Name</string>
     <!-- date of birth label -->

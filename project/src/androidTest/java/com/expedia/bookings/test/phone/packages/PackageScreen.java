@@ -28,6 +28,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
@@ -186,7 +187,7 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction travelerInfo() {
-		return onView(withId(R.id.traveler_widget));
+		return onView(withId(R.id.travelers_button));
 	}
 
 	public static ViewInteraction itin() {
@@ -198,16 +199,44 @@ public class PackageScreen {
 		Common.delay(2);
 		travelerInfo().perform(scrollTo(), click());
 		Common.delay(1);
-		CheckoutViewModel.enterFirstName("FiveStar");
-		CheckoutViewModel.enterLastName("Bear");
-		Common.closeSoftKeyboard(CheckoutViewModel.lastName());
+		enterFirstName("FiveStar");
+		enterLastName("Bear");
 		Common.delay(1);
-		CheckoutViewModel.enterEmail("noah@mobiata.com");
-		Common.closeSoftKeyboard(CheckoutViewModel.email());
+		// TODO fix after adding email
+		//CheckoutViewModel.enterEmail("noah@mobiata.com");
+		//Common.closeSoftKeyboard(CheckoutViewModel.email());
 		Common.delay(1);
-		CheckoutViewModel.enterPhoneNumber("4158675309");
-		CheckoutViewModel.clickDone();
+		enterPhoneNumber("7732025862");
+		selectBirthDate();
+		clickTravelerDone();
 		Common.delay(2);
+	}
+
+	// TODO Probably want to move these methods somewhere else.
+	private static void enterFirstName(String name) {
+		onView(allOf(withId(R.id.material_edit_text), withParent(withId(R.id.first_name_input))))
+			.perform(typeText(name));
+	}
+
+	private static void enterLastName(String name) {
+		onView(allOf(withId(R.id.material_edit_text), withParent(withId(R.id.last_name_input))))
+			.perform(typeText(name));
+	}
+
+	private static void enterPhoneNumber(String phoneNumber) {
+		onView(allOf(withId(R.id.material_edit_text), withParent(withId(R.id.edit_phone_number))))
+			.perform(typeText(phoneNumber));
+	}
+
+	private static void selectBirthDate() {
+		onView(withId(R.id.edit_birth_date_text_btn)).perform(click());
+		Common.delay(1);
+		onView(withId(R.id.datePickerDoneButton)).perform(click());
+		Common.delay(1);
+	}
+
+	private static void clickTravelerDone() {
+		onView(withId(R.id.new_traveler_done_button)).perform(click());
 	}
 
 	public static void enterPaymentInfo() {

@@ -300,4 +300,17 @@
         <attr name="input_icon_tint_color" format="color" />
         <attr name="input_text" format="string|reference" />
     </declare-styleable>
+
+    <!-- The EditText of MaterialEditText is wrapped by TextInputLayout, but we still want to be able to set the
+     EditText properties directly as a xml attribute on the layout. -->
+    <declare-styleable name="MaterialTextInput">
+        <attr name="android:inputType"/>
+        <attr name="android:singleLine"/>
+        <attr name="android:textSize"/>
+        <attr name="android:drawableRight"/>
+        <attr name="android:focusable"/>
+        <attr name="android:focusableInTouchMode"/>
+        <attr name="android:cursorVisible"/>
+        <attr name="android:longClickable"/>
+    </declare-styleable>
 </resources>

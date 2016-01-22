@@ -1,6 +1,7 @@
 package com.expedia.bookings.section;
 
 import java.util.Locale;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.text.TextUtils;
@@ -60,6 +61,23 @@ public class CommonSectionValidators {
 		}
 	};
 
+	public static final Validator<String> TELEPHONE_NUMBER_VALIDATOR_STRING = new Validator<String>() {
+
+		MultiValidator mValidator;
+
+		@Override
+		public int validate(String obj) {
+
+			if (mValidator == null) {
+				mValidator = new MultiValidator<>();
+				mValidator.addValidator(new TelephoneValidator());
+				mValidator.addValidator(new PhoneNumberLengthValidator());
+			}
+
+			return (obj == null) ? ValidationError.ERROR_DATA_MISSING : mValidator.validate(obj);
+		}
+	};
+
 	public static class PhoneNumberLengthValidator extends PatternValidator {
 		private static final Pattern THREE_NUMBERS_PATTERN = Pattern.compile(".*\\d+.*\\d+.*\\d+.*");//atleast three digits
 
@@ -74,9 +92,7 @@ public class CommonSectionValidators {
 			if (obj == null) {
 				return ValidationError.ERROR_DATA_MISSING;
 			}
-			else {
-				return EMAIL_STRING_VALIDATIOR_STRICT.validate(obj.getText().toString());
-			}
+			return EMAIL_STRING_VALIDATIOR_STRICT.validate(obj.getText().toString());
 		}
 	};
 
@@ -118,10 +134,8 @@ public class CommonSectionValidators {
 			if (obj == null) {
 				return ValidationError.ERROR_DATA_MISSING;
 			}
-			else {
-				return InvalidCharacterHelper.getSupportedCharacterPattern(Mode.ASCII).matcher(obj.getText().toString()).matches() ? ValidationError.NO_ERROR
-						: ValidationError.ERROR_DATA_INVALID;
-			}
+			Matcher matcher = InvalidCharacterHelper.getSupportedCharacterPattern(Mode.ASCII).matcher(obj.getText().toString());
+			return matcher.matches() ? ValidationError.NO_ERROR : ValidationError.ERROR_DATA_INVALID;
 		}
 	};
 
@@ -132,10 +146,30 @@ public class CommonSectionValidators {
 			if (obj == null) {
 				return ValidationError.ERROR_DATA_MISSING;
 			}
-			else {
-				return InvalidCharacterHelper.getSupportedCharacterPattern(Mode.NAME).matcher(obj.getText()).matches() ? ValidationError.NO_ERROR
-						: ValidationError.ERROR_DATA_INVALID;
+			Matcher matcher = InvalidCharacterHelper.getSupportedCharacterPattern(Mode.NAME).matcher(obj.getText());
+			return matcher.matches() ? ValidationError.NO_ERROR : ValidationError.ERROR_DATA_INVALID;
+		}
+	};
+
+	public static final Validator<String> NON_EMPTY_VALIDATOR = new Validator<String>() {
+		@Override
+		public int validate(String string) {
+			if (TextUtils.isEmpty(string)) {
+				return ValidationError.ERROR_DATA_MISSING;
 			}
+			return ValidationError.NO_ERROR;
+		}
+	};
+
+	public static final Validator<String> SUPPORTED_CHARACTER_VALIDATOR_NAMES_STRING = new Validator<String>() {
+
+		@Override
+		public int validate(String string) {
+			if (string == null) {
+				return ValidationError.ERROR_DATA_MISSING;
+			}
+			Matcher matcher = InvalidCharacterHelper.getSupportedCharacterPattern(Mode.NAME).matcher(string);
+			return matcher.matches() ? ValidationError.NO_ERROR : ValidationError.ERROR_DATA_INVALID;
 		}
 	};
 
@@ -145,9 +179,7 @@ public class CommonSectionValidators {
 			if (obj == null) {
 				return ValidationError.ERROR_DATA_MISSING;
 			}
-			else {
-				return STATE_VALIDATOR_LENGTH.validate(obj.getText().toString());
-			}
+			return STATE_VALIDATOR_LENGTH.validate(obj.getText().toString());
 		}
 	};
 

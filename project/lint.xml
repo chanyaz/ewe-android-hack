@@ -16,6 +16,11 @@
         <ignore path="src/main/res/values-*/strings.xml" />
     </issue>
 
+    <!-- datePickerMode=spinner, Android framework ignores the attributes for us pre lollipop-->
+    <issue id="UnusedAttribute" severity="error">
+        <ignore path="src/main/res/layout/spinner_date_picker.xml"/>
+    </issue>
+
     <!-- Category Usability:Typography -->
     <!-- <issue id="TypographyDashes" severity="error" /> -->
     <issue id="TypographyEllipsis" severity="error" />

@@ -127,7 +127,7 @@
 
             <com.expedia.bookings.widget.TelephoneSpinner
                 android:id="@+id/edit_phone_number_country_code_spinner"
-                style="@style/CarFakeSpinner.Light"
+                style="@style/FakeSpinner.Light"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"

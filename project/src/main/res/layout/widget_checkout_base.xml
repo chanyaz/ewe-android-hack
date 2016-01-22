@@ -84,7 +84,6 @@
                         android:layout_marginLeft="9dp"
                         android:layout_weight="1"
                         android:background="#979797" />
-
                 </LinearLayout>
 
                 <com.expedia.bookings.widget.TravelerContactDetailsWidget
@@ -92,7 +91,7 @@
                     style="?attr/checkout_card_view_style"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp" />
+                    android:layout_marginTop="12dp"/>
 
                 <ViewStub
                     android:id="@+id/payment_info_card_view_stub"

@@ -318,7 +318,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 	private boolean aTravelerHasNoPassengerCategory(List<Traveler> travelers) {
 		for (Traveler t : travelers) {
-			if (t.getPassengerCategory() == null) {
+			if (t.getPassengerCategory(Db.getTripBucket().getFlight().getFlightSearchParams()) == null) {
 				return true;
 			}
 		}

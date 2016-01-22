@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
@@ -16,6 +17,7 @@ public class TelephoneSpinner extends Spinner {
 	public TelephoneSpinner(Context context) {
 		super(context);
 		setAdapter(new TelephoneSpinnerAdapter(context));
+		selectPOSCountry();
 	}
 
 	public TelephoneSpinner(Context context, AttributeSet attrs) {
@@ -30,6 +32,7 @@ public class TelephoneSpinner extends Spinner {
 			setAdapter(new TelephoneSpinnerAdapter(context));
 		}
 		a.recycle();
+		selectPOSCountry();
 	}
 
 	@Override
@@ -42,6 +45,16 @@ public class TelephoneSpinner extends Spinner {
 		View child = getChildAt(0);
 		if (child instanceof TextView) {
 			((TextView) child).setText(String.format("+%d", getSelectedTelephoneCountryCode()));
+		}
+	}
+
+	public void update(String countryCode, String countryName) {
+		TelephoneSpinnerAdapter adapter = (TelephoneSpinnerAdapter) getAdapter();
+		for (int i = 0; i < adapter.getCount() - 1; i++) {
+			if (countryCode.equalsIgnoreCase("" + adapter.getCountryCode(i)) && (TextUtils.isEmpty(countryName)
+				|| countryName.equalsIgnoreCase(adapter.getCountryName(i)))) {
+				setSelection(i);
+			}
 		}
 	}
 
