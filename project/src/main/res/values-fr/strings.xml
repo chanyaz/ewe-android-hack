@@ -2877,7 +2877,7 @@
     <!-- View Room button text -->
     <string name="view_room_button_text">Voir la chambre</string>
     <!-- Book Room button text -->
-    <string name="book_room_button_text">Livre</string>
+    <string name="book_room_button_text">Réserver</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Partager via</string>
     <!-- Renovation Notice -->
