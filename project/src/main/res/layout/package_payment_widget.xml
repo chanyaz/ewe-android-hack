@@ -177,6 +177,8 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:hint="@string/credit_card_hint"
+                    android:imeOptions="actionNext"
+                    android:nextFocusRight="@+id/edit_creditcard_cvv"
                     android:paddingLeft="48dp"
                     android:singleLine="true"
                     app:numberFormat="creditcard" />
@@ -205,9 +207,11 @@
                     android:layout_weight="1"
                     android:focusable="true"
                     android:focusableInTouchMode="true"
-                    android:hint="@string/cvv_enter_security_code"
+                    android:hint="@string/cvv_enter_security_code_v2"
+                    android:imeOptions="actionNext"
                     android:inputType="numberPassword"
                     android:maxLength="4"
+                    android:nextFocusRight="@+id/edit_name_on_card"
                     android:singleLine="true" />
 
             </LinearLayout>
@@ -219,7 +223,9 @@
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:hint="@string/name_on_card_hint"
+                android:imeOptions="actionNext"
                 android:inputType="textPersonName|textCapWords"
+                android:nextFocusRight="@+id/edit_address_line_one"
                 android:singleLine="true" />
 
             <TextView

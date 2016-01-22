@@ -1778,6 +1778,7 @@
     <string name="select_payment_callout">Enter Details</string>
     <!-- Add new card -->
     <string name="add_new_card">Add New Card</string>
+    <string name="new_credit_debit_card">New Credit/Debit Card</string>
     <!-- Overview button -->
     <string name="overview_btn">Overview</string>
     <!-- Stored Payment label -->
@@ -2402,6 +2403,7 @@
     <string name="See_front_of_card">See front of card</string>
     <!-- Hint on CVV widget title for where to look for CVV code -->
     <string name="cvv_enter_security_code">Enter Security Code</string>
+    <string name="cvv_enter_security_code_v2">CVV</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
