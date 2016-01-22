@@ -69,6 +69,7 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
     val hotelDiscountPercentageObservable = BehaviorSubject.create(Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo.discountPercent.toInt()).format().toString())
     val distanceFromCurrentLocation = BehaviorSubject.create(if (hotel.proximityDistanceInMiles > 0) HotelUtils.formatDistanceForNearby(resources, hotel, true) else "")
     val adImpressionObservable = BehaviorSubject.create<String>()
+    val priceIncludesFlightsObservable = BehaviorSubject.create<Boolean>(hotel.isPackage)
 
     init {
         if (hotel.isSponsoredListing && !hotel.hasShownImpression) {
