@@ -23,6 +23,11 @@ public class TripBucketItemHotelV2 extends TripBucketItem {
 		return mHotelTripResponse;
 	}
 
+	public HotelCreateTripResponse updateTotalPointsToEarn(int points) {
+		mHotelTripResponse.getExpediaRewards().setTotalPointsToEarn(points);
+		return mHotelTripResponse;
+	}
+
 	@Override
 	public LineOfBusiness getLineOfBusiness() {
 		return LineOfBusiness.HOTELSV2;

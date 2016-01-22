@@ -38,6 +38,7 @@ import com.expedia.vm.HotelCheckoutOverviewViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.expedia.vm.HotelCouponViewModel
 import com.expedia.vm.HotelCreateTripViewModel
+import com.expedia.vm.HotelCheckoutMainViewModel
 import com.squareup.otto.Subscribe
 import rx.Observer
 import rx.subjects.PublishSubject
@@ -87,6 +88,13 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
 
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
+
+    var hotelCheckoutMainViewModel: HotelCheckoutMainViewModel by notNullAndObservable {
+        it.updateEarnedRewards.subscribe { it ->
+            Db.getTripBucket().hotelV2.updateTotalPointsToEarn(it)
+            loginWidget.updateRewardsText(getLineOfBusiness())
+        }
+    }
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
@@ -209,6 +217,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         couponCardView.viewmodel.hasDiscountObservable.onNext(hasDiscount)
         checkoutOverviewViewModel = HotelCheckoutOverviewViewModel(getContext(), paymentModel)
         checkoutOverviewViewModel.newRateObserver.onNext(trip.newHotelProductResponse)
+        hotelCheckoutMainViewModel = HotelCheckoutMainViewModel(paymentModel)
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
         acceptTermsWidget.vm.resetAcceptedTerms()

@@ -13,7 +13,7 @@ public abstract class TripResponse : BaseApiResponse() {
     lateinit var expediaRewards: ExpediaRewards
 
     class ExpediaRewards {
-        val totalPointsToEarn: Int = 0
+        var totalPointsToEarn: Int = 0
         val isActiveRewardsMember: Boolean = false
         val rewardsMembershipTierName: String by Delegates.notNull()
     }
