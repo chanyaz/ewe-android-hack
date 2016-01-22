@@ -41,6 +41,13 @@
         android:layout_height="match_parent"
         android:visibility="gone"/>
 
+    <com.expedia.bookings.presenter.hotel.HotelSearchV2Presenter
+        android:id="@+id/widget_hotel_params_v2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#EEEEEE"
+        android:visibility="gone"/>
+
     <com.expedia.bookings.widget.LoadingOverlayWidget
         android:id="@+id/details_loading_overlay"
         android:layout_width="match_parent"

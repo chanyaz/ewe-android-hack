@@ -60,7 +60,6 @@ import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
 import java.text.SimpleDateFormat
 import java.util.Locale
-import kotlin.text.toUpperCase
 
 public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val searchLocationTextView: TextView by bindView(R.id.hotel_location)

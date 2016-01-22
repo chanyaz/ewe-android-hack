@@ -12,6 +12,7 @@ import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -53,7 +54,6 @@ import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.collections.count
 import kotlin.properties.Delegates
 
 public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -68,6 +68,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
     val searchPresenter: HotelSearchPresenter by bindView(R.id.widget_hotel_params)
+    val searchV2Presenter: HotelSearchV2Presenter by bindView(R.id.widget_hotel_params_v2)
     val errorPresenter: HotelErrorPresenter by bindView(R.id.widget_hotel_errors)
     val resultsStub: ViewStub by bindView(R.id.results_stub)
     val resultsPresenter: HotelResultsPresenter by lazy {
@@ -183,6 +184,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private val checkoutDialog = ProgressDialog(context)
     var viewModel: HotelPresenterViewModel by Delegates.notNull()
     private val DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW = 100L
+    val isUserBucketedSearchScreenTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest)
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
@@ -226,8 +228,13 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 addDefaultTransition(defaultResultsTransition)
             }
             else -> {
-                addDefaultTransition(defaultSearchTransition)
-                show(searchPresenter)
+                if(isUserBucketedSearchScreenTest) {
+                    addDefaultTransition(defaultSearchV2Transition)
+                    show(searchV2Presenter)
+                } else {
+                    addDefaultTransition(defaultSearchTransition)
+                    show(searchPresenter)
+                }
             }
         }
     }
@@ -316,6 +323,12 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private val defaultSearchTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.name) {
         override fun finalizeTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
+        }
+    }
+
+    private val defaultSearchV2Transition = object : Presenter.DefaultTransition(HotelSearchV2Presenter::class.java.name) {
+        override fun finalizeTransition(forward: Boolean) {
+            searchV2Presenter.visibility = View.VISIBLE
         }
     }
 
