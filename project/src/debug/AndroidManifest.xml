@@ -7,17 +7,16 @@
     <application>
         <activity
             android:name="com.expedia.bookings.activity.PlaygroundActivity"
-            android:taskAffinity="com.expedia.bookings.activity.PlaygroundActivity"
             android:label="Playground"
-            android:theme="@style/V2.Theme.Cars" >
-        </activity>
+            android:taskAffinity="com.expedia.bookings.activity.PlaygroundActivity"
+            android:theme="@style/V2.Theme.Cars"></activity>
 
-         <activity
+        <activity
             android:name="com.expedia.ui.PackageActivity"
-            android:taskAffinity="com.expedia.ui.PackageActivity"
             android:label="Packages"
             android:screenOrientation="portrait"
-            android:theme="@style/V2.Theme.Packages" >
+            android:taskAffinity="com.expedia.ui.PackageActivity"
+            android:theme="@style/V2.Theme.Packages">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,11 +44,23 @@
 
         <activity
             android:name="com.expedia.ui.RailActivity"
-            android:taskAffinity="com.expedia.ui.RailActivity"
             android:label="Rail"
             android:screenOrientation="portrait"
-            android:theme="@style/V2.Theme.Rail" >
+            android:taskAffinity="com.expedia.ui.RailActivity"
+            android:theme="@style/V2.Theme.Rail">
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.expedia.bookings.deeplink.DeepLinkTestActivity"
+            android:label="DeepLink Tester"
+            android:screenOrientation="portrait"
+            android:taskAffinity=""
+            android:theme="@style/Theme.AppCompat.Light">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
