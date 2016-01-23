@@ -25,7 +25,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.BaseCheckoutViewModel
 import kotlin.properties.Delegates
 
-public class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
+open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
         UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener,  ExpandableCardView.IExpandedListener {
 
     val loginWidget: AccountButton by bindView(R.id.login_widget)

@@ -29,6 +29,8 @@ import com.expedia.vm.BaseCheckoutViewModel
 import com.expedia.vm.BundleHotelViewModel
 import com.expedia.vm.BundleOverviewViewModel
 import com.expedia.vm.CheckoutToolbarViewModel
+import com.expedia.vm.PackageCreateTripViewModel
+import kotlin.properties.Delegates
 
 public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val ANIMATION_DURATION = 450L
@@ -65,11 +67,13 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         vm.originTextObservable.subscribeText(arrivalText)
     }
 
+    var createTripViewModel: PackageCreateTripViewModel by Delegates.notNull()
+
     init {
         View.inflate(context, R.layout.bundle_overview, this)
         bundleHotelWidget.viewModel = BundleHotelViewModel(context)
         checkoutPresenter.viewModel = BaseCheckoutViewModel(context)
-        checkoutPresenter.viewModel.lineOfBusiness.onNext(LineOfBusiness.HOTELSV2)
+        checkoutPresenter.viewModel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
         checkoutPresenter.viewModel.creditCardRequired.onNext(true)
         checkoutPresenter.travelerWidget.mToolbarListener = toolbar
         checkoutPresenter.paymentWidget.mToolbarListener = toolbar

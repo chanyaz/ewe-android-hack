@@ -11,6 +11,7 @@ public abstract class TripResponse : BaseApiResponse() {
     var pointsDetails: List<PointsDetails>? = null
     lateinit var validFormsOfPayment: List<ValidPayment>
     lateinit var expediaRewards: ExpediaRewards
+    var guestUserPromoEmailOptInStatus : String? = null
 
     class ExpediaRewards {
         var totalPointsToEarn: Int = 0

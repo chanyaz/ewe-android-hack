@@ -12,9 +12,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
-/**
- * @author doug
- */
 public abstract class TripBucketItem implements JSONable {
 
 	public abstract LineOfBusiness getLineOfBusiness();

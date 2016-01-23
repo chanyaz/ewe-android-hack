@@ -224,7 +224,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         HotelV2Tracking().trackPageLoadHotelV2CheckoutInfo(trip.newHotelProductResponse, hotelSearchParams)
 
         if (trip.guestUserPromoEmailOptInStatus != null) {
-            emailOptInStatus.onNext(MerchandiseSpam.valueOf(trip.guestUserPromoEmailOptInStatus))
+            emailOptInStatus.onNext(MerchandiseSpam.valueOf(trip.guestUserPromoEmailOptInStatus!!))
         }
     }
 
