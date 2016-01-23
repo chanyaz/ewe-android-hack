@@ -11,6 +11,8 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.ValidPayment
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.utils.StrUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
@@ -43,6 +45,8 @@ public class BaseCheckoutViewModel(val context: Context) {
                 depositText = Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, resortFees, it.packageDetails.pricing.packageTotal));
             }
             depositPolicyText.onNext(depositText)
+
+            legalText.onNext(StrUtils.generateHotelsBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString(), false))
         }
 
         travelerCompleted.subscribe {

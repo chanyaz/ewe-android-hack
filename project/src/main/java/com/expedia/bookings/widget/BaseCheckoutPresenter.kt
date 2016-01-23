@@ -11,6 +11,7 @@ import android.view.ViewStub
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
+import com.expedia.bookings.activity.HotelRulesActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.User
@@ -51,7 +52,7 @@ open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Present
         vm.creditCardRequired.subscribe { required ->
             paymentWidget.isCreditCardRequired = required
         }
-        vm.legalText.subscribeText(legalInformationText)
+        vm.legalText.subscribeTextAndVisibility(legalInformationText)
         vm.depositPolicyText.subscribeTextAndVisibility(depositPolicyText)
     }
 
@@ -66,6 +67,10 @@ open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Present
             loginWidget.bind(false, true, Db.getUser(), LineOfBusiness.HOTELSV2)
         } else {
             loginWidget.bind(false, false, null, LineOfBusiness.HOTELSV2)
+        }
+
+        legalInformationText.setOnClickListener {
+            context.startActivity(HotelRulesActivity.createIntent(context, LineOfBusiness.PACKAGES))
         }
 
         //calculates the difference for rotating the chevron and translating the checkout presenter
