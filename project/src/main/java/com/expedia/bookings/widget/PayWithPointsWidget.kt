@@ -15,6 +15,7 @@ import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
+import java.math.BigDecimal
 import javax.inject.Inject
 
 public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -24,6 +25,7 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
     val messageView: TextView by bindView(R.id.message_view)
     val clearBtn: View by bindView(R.id.clear_btn)
     val pwpSwitchView: Switch by bindView(R.id.pwp_switch)
+    val pwpEditBoxContainer: View by bindView(R.id.pwp_edit_box_container)
 
     var payWithPointsViewModel by notNullAndObservable<IPayWithPointsViewModel> { pwpViewModel ->
         pwpViewModel.currencySymbol.subscribeText(currencySymbolView)
@@ -33,10 +35,17 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         pwpViewModel.updateAmountOfEditText.subscribeText(editAmountView)
         pwpSwitchView.subscribeOnCheckChanged(pwpViewModel.pwpStateChange)
 
-        pwpViewModel.pwpWidgetVisibility.subscribeVisibility(this)
         subscribeOnClick(endlessObserver {
-            pwpViewModel.amountSubmittedByUser.onNext(editAmountView.text.toString())
+            if (pwpSwitchView.isChecked) {
+                pwpViewModel.amountSubmittedByUser.onNext(editAmountView.text.toString())
+            }
         })
+        pwpViewModel.pwpStateChange.filter { it }.subscribe {
+            pwpViewModel.amountSubmittedByUser.onNext(editAmountView.text.toString())
+        }
+        pwpViewModel.pwpWidgetVisibility.subscribeVisibility(this)
+        pwpViewModel.pwpStateChange.subscribeVisibility(pwpEditBoxContainer)
+        pwpViewModel.pwpStateChange.subscribeVisibility(messageView)
     }
         @Inject set
 

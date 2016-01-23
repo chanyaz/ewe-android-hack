@@ -76,7 +76,6 @@
     <string name="preference_suppress_lx_bookings">suppress_lx_bookings</string>
     <string name="preference_fake_current_location">preference_fake_current_location</string>
     <string name="preference_force_new_location">preference_force_new_location</string>
-    <string name="preference_enable_pay_with_points">enable_pay_with_points</string>
     <string name="preference_google_wallet_cvv_challenge">preference_google_wallet_cvv_challenge</string>
     <string name="preference_disable_push_registration">preference_disable_push_registration</string>
     <string name="preference_push_notification_any_flight">preference_push_notification_any_flight</string>

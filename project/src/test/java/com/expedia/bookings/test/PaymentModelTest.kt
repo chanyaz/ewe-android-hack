@@ -4,6 +4,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.payment.CalculatePointsResponse
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
@@ -42,7 +43,7 @@ public class PaymentModelTest {
     val amountChosenToBePaidWithPointsTestSubscriber = TestSubscriber<BigDecimal>()
     val paymentSplitsTestSubscriber = TestSubscriber<PaymentSplits>()
     val currencyToPointsApiResponseTestSubscriber = TestSubscriber<CalculatePointsResponse>()
-    val currencyToPointsApiErrorTestSubscriber = TestSubscriber<Unit>()
+    val currencyToPointsApiErrorTestSubscriber = TestSubscriber<ApiError>()
 
     val createTripResponseTestSubscriber = TestSubscriber<TripResponse>()
     //TODO Mock data for price change and coupon change does not have points in response similar to create trip

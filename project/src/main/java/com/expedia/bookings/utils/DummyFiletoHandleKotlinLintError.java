@@ -249,7 +249,6 @@ public class
 		R.string.pay_with_point_total_available_TEMPLATE,
 		R.string.user_enters_more_than_points_TEMPLATE,
 		R.string.user_enters_more_than_trip,
-		R.string.pwp_calculation_api_error,
 		R.string.pwp_calculating_points,
 		R.string.pwp_points_applied_TEMPLATE,
 		R.string.pwp_remaining_balance_due_on_card_TEMPLATE,
@@ -259,6 +258,9 @@ public class
 		R.string.checkout_tap_to_edit,
 		R.string.checkout_payment_options,
 		R.plurals.hotel_results_default_header_TEMPLATE,
-		R.string.package_price_include_flights
+		R.string.package_price_include_flights,
+		R.string.pwp_points_conversion_unauthenticated_access,
+		R.string.pwp_trip_service_error,
+		R.string.pwp_unknown_error
 	};
 }

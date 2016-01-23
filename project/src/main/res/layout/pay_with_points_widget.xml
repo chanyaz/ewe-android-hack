@@ -40,6 +40,7 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/pwp_edit_box_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

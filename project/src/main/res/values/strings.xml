@@ -3844,8 +3844,11 @@
     <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} points) available</string>
     <string name="user_enters_more_than_points_TEMPLATE">The points value exceeds your available balance.\nPlease enter {money} or less.</string>
     <string name="user_enters_more_than_trip">The points value can not exceed the payment due today.</string>
-    <string name="pwp_calculation_api_error">Error: connection failed</string>
     <string name="pwp_calculating_points">Calculating points…</string>
     <string name="pwp_points_applied_TEMPLATE">{points} points applied</string>
     <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Remaining balance due: {money}</string>
+
+    <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
+    <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>
+    <string name="pwp_unknown_error">An unknown error occurred. Please try again.</string>
 </resources>

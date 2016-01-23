@@ -176,6 +176,8 @@ public class PointOfSale {
 
 	private boolean mRequiresHotelPostalCode;
 
+	private boolean isPwPEnabledForHotels;
+
 	private static Map<String, Integer> sCountryCodeMap;
 
 	private static void setUpCountryCodeMap() {
@@ -764,6 +766,10 @@ public class PointOfSale {
 		return doAirlinesChargeAdditionalFeeBasedOnPaymentMethod;
 	}
 
+	public boolean isPwPEnabledForHotels() {
+		return isPwPEnabledForHotels;
+	}
+
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
 	 *
@@ -1137,6 +1143,7 @@ public class PointOfSale {
 		pos.mRequiresHotelPostalCode = data.optString("requiredPaymentFields:hotels").equals("postalCode");
 
 		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
+		pos.isPwPEnabledForHotels = data.optBoolean("pwpEnabled:hotels", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
