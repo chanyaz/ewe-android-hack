@@ -5,7 +5,7 @@
         android:id="@+id/menu_your_trips"
         android:icon="?attr/skin_icActionBarTripsDrawable"
         android:showAsAction="always|withText"
-        android:title="@string/Your_Trips"/>
+        android:title="@string/trips"/>
     <item
         android:id="@+id/menu_settings"
         android:icon="@android:drawable/ic_menu_manage"
