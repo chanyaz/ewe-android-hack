@@ -4,11 +4,9 @@ import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.Context
-import android.graphics.Color
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.Toolbar
 import android.text.Html
 import android.util.AttributeSet
 import android.view.MotionEvent
@@ -28,12 +26,10 @@ import android.widget.RelativeLayout
 import android.widget.Space
 import android.widget.TableLayout
 import android.widget.TableRow
-import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
@@ -52,8 +48,6 @@ import com.expedia.util.subscribeBackgroundResource
 import com.expedia.util.subscribeGalleryColorFilter
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeRating
-import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
@@ -80,11 +74,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     var initialScrollTop = 0
     var galleryHeight = 0
 
-    val toolbar: Toolbar by bindView(R.id.toolbar)
-    val toolbarTitle: TextView by bindView(R.id.hotel_name_text)
-    var toolBarRating: StarRatingBar by Delegates.notNull()
-    val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
-    var navIcon: ArrowXDrawable
+    val hotelDetailsToolbar: HotelDetailsToolbar by bindView(R.id.hotel_details_toolbar)
+    var toolBarHeight = 0
 
     val gallery: RecyclerGallery by bindView(R.id.images_gallery)
 
@@ -152,9 +143,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     val detailContainer: NewHotelDetailsScrollView by bindView(R.id.detail_container)
     var statusBarHeight = 0
-    var toolBarHeight = 0
-    val toolBarBackground: View by bindView(R.id.toolbar_background)
-    val toolBarGradient: View by bindView(R.id.hotel_details_gradient)
     var offset: Float by Delegates.notNull()
     var priceContainerLocation = IntArray(2)
     var urgencyContainerLocation = IntArray(2)
@@ -169,8 +157,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     var viewmodel: HotelDetailViewModel by notNullAndObservable { vm ->
         detailContainer.setOnTouchListener(touchListener)
+        hotelDetailsToolbar.setHotelDetailViewModel(vm)
 
-        vm.toolBarRatingColor.subscribeStarColor(toolBarRating)
         vm.galleryColorFilter.subscribeGalleryColorFilter(gallery)
 
         vm.hotelSoldOut.subscribeVisibility(changeDatesButton)
@@ -247,9 +235,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                 }
             })
         }
-        vm.hotelNameObservable.subscribeText(toolbarTitle)
-        vm.hotelRatingObservable.subscribeRating(toolBarRating)
-        vm.hotelRatingObservableVisibility.subscribeVisibility(toolBarRating)
         vm.strikeThroughPriceObservable.subscribeText(strikeThroughPrice)
         vm.strikeThroughPriceVisibility.subscribeVisibility(strikeThroughPrice)
         vm.pricePerNightObservable.subscribeText(price)
@@ -288,7 +273,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         val rowTopConstraintViewObservable: Observable<View> = vm.hasETPObservable.map { hasETP ->
             when {
                 hasETP -> etpContainer
-                else -> toolbar
+                else -> hotelDetailsToolbar
             }
         }
 
@@ -453,8 +438,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         etpContainer.visibility = View.GONE
         etpContainerDropShadow.visibility = View.GONE
         etpAndFreeCancellationMessagingContainer.visibility = View.GONE
-        toolBarBackground.alpha = 0f
-        toolBarGradient.translationY = 0f
+        hotelDetailsToolbar.toolBarBackground.alpha = 0f
+        hotelDetailsToolbar.toolBarGradient.translationY = 0f
         priceViewAlpha(1f)
         urgencyViewAlpha(1f)
         hotelGalleryDescriptionContainer.alpha = 0f
@@ -566,11 +551,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         urgencyViewAlpha(urgencyRatio * 1.5f)
 
         if (priceContainerLocation[1] + priceContainer.height <= offset) {
-            toolBarBackground.alpha = 1.0f
-            toolbarShadow.visibility = View.VISIBLE
+            hotelDetailsToolbar.toolBarBackground.alpha = 1.0f
+            hotelDetailsToolbar.toolbarShadow.visibility = View.VISIBLE
         } else {
-            toolBarBackground.alpha = 0f
-            toolbarShadow.visibility = View.GONE
+            hotelDetailsToolbar.toolBarBackground.alpha = 0f
+            hotelDetailsToolbar.toolbarShadow.visibility = View.GONE
         }
 
         showToolbarGradient()
@@ -589,7 +574,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
         val arrowRatio = getArrowRotationRatio(yoffset)
         if (arrowRatio >= 0 && arrowRatio <= 1) {
-            navIcon.parameter = 1 - arrowRatio
+            hotelDetailsToolbar.navIcon.parameter = 1 - arrowRatio
             hotelGalleryDescriptionContainer.alpha = 1 - arrowRatio
         }
     }
@@ -615,9 +600,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             priceContainer.getLocationOnScreen(priceContainerLocation)
 
         if (priceContainerLocation[1] < gradientHeight) {
-            toolBarGradient.translationY = (-(gradientHeight - priceContainerLocation[1]))
+            hotelDetailsToolbar.toolBarGradient.translationY = (-(gradientHeight - priceContainerLocation[1]))
         } else
-            toolBarGradient.translationY = 0f
+            hotelDetailsToolbar.toolBarGradient.translationY = 0f
     }
 
     public fun shouldShowResortView(): Boolean {
@@ -684,29 +669,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         })
         statusBarHeight = Ui.getStatusBarHeight(getContext())
         toolBarHeight = Ui.getToolbarSize(getContext())
-        if (statusBarHeight > 0) {
-            toolbar.setPadding(0, statusBarHeight, 0, 0)
-        }
         Ui.showTransparentStatusBar(getContext())
-        toolbar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
-        toolBarBackground.layoutParams.height += statusBarHeight
-        toolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance)
-
-        if (shouldShowCircleForRatings()) {
-            toolBarRating = findViewById(R.id.hotel_circle_rating_bar) as StarRatingBar
-        } else {
-            toolBarRating = findViewById(R.id.hotel_star_rating_bar) as StarRatingBar
-        }
-        toolBarRating.visibility = View.VISIBLE
 
         offset = statusBarHeight.toFloat() + toolBarHeight
-
-        navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
-        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-        toolbar.navigationIcon = navIcon
-
-        toolbar.setNavigationOnClickListener { view ->
-            if (navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
+        hotelDetailsToolbar.toolbar.setNavigationOnClickListener { view ->
+            if (hotelDetailsToolbar.navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
                 updateGallery(false)
             } else
                 (getContext() as Activity).onBackPressed()

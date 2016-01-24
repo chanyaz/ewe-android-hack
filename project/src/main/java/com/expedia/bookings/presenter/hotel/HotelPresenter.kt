@@ -64,6 +64,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
 
+    var hotelDetailViewModel: HotelDetailViewModel by Delegates.notNull()
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
@@ -97,7 +98,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         detailsStub.addView(detailsMapView)
         presenter.hotelMapView.mapView = detailsMapView
         presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView);
-        presenter.hotelDetailView.viewmodel = HotelDetailViewModel(context, hotelServices, selectedRoomObserver)
+        presenter.hotelDetailView.viewmodel = hotelDetailViewModel
         presenter.hotelDetailView.viewmodel.depositInfoContainerClickObservable.subscribe { pair: Pair<String, HotelOffersResponse.HotelRoomResponse> ->
             presenter.hotelDepositInfoObserver.onNext(pair)
         }
@@ -188,6 +189,13 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
+
+        hotelDetailViewModel = HotelDetailViewModel(context, hotelServices, endlessObserver<HotelOffersResponse.HotelRoomResponse> {
+            checkoutPresenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
+            checkoutPresenter.showCheckout(it)
+            show(checkoutPresenter)
+        })
+
         geoCodeSearchModel.geoResults.subscribe { geoResults ->
             fun triggerNewSearch(selectedResultIndex: Int) {
                 val newHotelSearchParams = hotelSearchParams.copy()
@@ -268,6 +276,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         //`show` the previous state on the stack by animating from the current (popped) state to the previous state, which is not required at all as our intent is to
         //`show (xyzPresenter, Presenter.FLAG_CLEAR_TOP)` which is being done in various errorObservable subscriptions
 
+        errorPresenter.hotelDetailViewModel = hotelDetailViewModel
         errorPresenter.viewmodel = HotelErrorViewModel(context)
         errorPresenter.viewmodel.searchErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
             show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
@@ -569,22 +578,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         reviewsView.viewModel = HotelReviewsViewModel(getContext())
         reviewsView.viewModel.hotelObserver.onNext(hotel)
         show(reviewsView)
-    }
-
-    val selectedRoomObserver = object : Observer<HotelOffersResponse.HotelRoomResponse> {
-        override fun onNext(t: HotelOffersResponse.HotelRoomResponse) {
-            checkoutPresenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
-            checkoutPresenter.showCheckout(t)
-            show(checkoutPresenter)
-        }
-
-        override fun onCompleted() {
-            throw UnsupportedOperationException()
-        }
-
-        override fun onError(e: Throwable) {
-            throw OnErrorNotImplementedException(e)
-        }
     }
 
     private val hotelDetailsListener: Observer<HotelDetailsRequestMetadata> = endlessObserver {

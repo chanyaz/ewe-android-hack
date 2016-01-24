@@ -268,6 +268,7 @@ public class HotelErrorViewModel(private val context: Context) {
     val titleObservable = BehaviorSubject.create<String>()
     val subTitleObservable = BehaviorSubject.create<String>()
     val actionObservable = BehaviorSubject.create<Unit>()
+    val hotelSoldOutErrorObservable = PublishSubject.create<Boolean>()
 
     // Handle different errors
     val searchErrorObservable = BehaviorSubject.create<Unit>()
@@ -330,6 +331,7 @@ public class HotelErrorViewModel(private val context: Context) {
 
         apiErrorObserver.subscribe {
             error = it
+            hotelSoldOutErrorObservable.onNext(false)
             when (it.errorCode) {
                 ApiError.Code.HOTEL_SEARCH_NO_RESULTS -> {
                     imageObservable.onNext(R.drawable.error_default)
@@ -380,6 +382,7 @@ public class HotelErrorViewModel(private val context: Context) {
                     HotelV2Tracking().trackHotelsV2ProductExpiredError()
                 }
                 ApiError.Code.HOTEL_ROOM_UNAVAILABLE -> {
+                    hotelSoldOutErrorObservable.onNext(true)
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.error_room_sold_out))
                     buttonTextObservable.onNext(context.getString(R.string.select_another_room))
