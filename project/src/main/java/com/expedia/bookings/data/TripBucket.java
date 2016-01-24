@@ -216,6 +216,11 @@ public class TripBucket implements JSONable {
 		return index == -1 ? null : (TripBucketItemHotelV2) mItems.get(index);
 	}
 
+	public TripBucketItemPackages getPackage() {
+		int index = getIndexOf(LineOfBusiness.PACKAGES);
+		return index == -1 ? null : (TripBucketItemPackages) mItems.get(index);
+	}
+
 	/**
 	 * Returns the trip bucket item based on LOB, or null if not found.
 	 *

@@ -67,7 +67,9 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         vm.originTextObservable.subscribeText(arrivalText)
     }
 
-    var createTripViewModel: PackageCreateTripViewModel by Delegates.notNull()
+    var createTripViewModel: PackageCreateTripViewModel by notNullAndObservable {
+        createTripViewModel.tripResponseObservable.subscribe(checkoutPresenter.viewModel.packageTripResponse)
+    }
 
     init {
         View.inflate(context, R.layout.bundle_overview, this)
