@@ -417,6 +417,14 @@ public class PaymentWidget extends ExpandableCardView {
 			Ui.showKeyboard(creditCardNumber, null);
 		}
 
+		// Show Debit/Credit Card hint AB test
+		if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+			boolean shouldShowDebitCreditHint = Db.getAbacusResponse()
+					.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCKOCreditDebitTest);
+			// Omniture tracking done below -- trackHotelV2PaymentEdit()
+			creditCardNumber.setHint(shouldShowDebitCreditHint ? R.string.credit_debit_card_hint : R.string.credit_card_hint);
+		}
+
 		bind();
 		paymentButton.bind();
 		mValidFormsOfPaymentListener.onChange();
