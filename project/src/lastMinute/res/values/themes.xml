@@ -42,8 +42,10 @@
         <item name="skin_bookNowButtonDrawable">@drawable/btn_signin_lm</item>
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_lm</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_lm</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in_lm</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_lm_logo_white</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_lm_logo</item>
+        <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/card_background_lm</item>
+        <item name="skin_phoneCheckoutLoginButtonTextColor">@android:color/white</item>
         <item name="skin_loginButtonColor">@android:color/white</item>
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_lm</item>
