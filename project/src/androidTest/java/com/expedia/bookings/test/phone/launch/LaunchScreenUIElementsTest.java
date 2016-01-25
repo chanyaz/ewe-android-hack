@@ -10,8 +10,8 @@ import com.expedia.bookings.test.phone.cars.CarScreen;
 import com.expedia.bookings.test.phone.lx.LXScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
-import com.expedia.bookings.test.espresso.Common;
 import com.mobiata.android.Log;
+import com.expedia.bookings.test.espresso.Common;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -59,12 +59,10 @@ public class LaunchScreenUIElementsTest extends PhoneTestCase {
 		EspressoUtils.assertTextWithChildrenIsDisplayed(R.id.activities_button, mRes.getString(R.string.nav_lx));
 		LaunchScreen.launchActivities();
 		screenshot("POS_US_Activities_Launch");
-		LXScreen.searchButtonInSRPToolbar().perform(click());
-		screenshot("POS_US_Activities_Launch_Edit_Search");
+		Common.delay(1);
 		EspressoUtils.assertViewIsDisplayed(R.id.search_location);
 		Common.closeSoftKeyboard(onView(withId(R.id.search_location)));
 		LXScreen.searchWidgetToolbarNavigation().perform(click());
-		LXScreen.resultsPresenterToolbarNavigation().perform(click());
 		Log.v(TAG, "LX button on Launch screen is displayed and works");
 
 		LaunchScreen.tripsButton().perform(click());
@@ -79,19 +77,15 @@ public class LaunchScreenUIElementsTest extends PhoneTestCase {
 		EspressoUtils.assertTextWithChildrenIsDisplayed(R.id.activities_button, mRes.getString(R.string.nav_lx));
 		LaunchScreen.launchActivities();
 		screenshot("POS_US_Activities_Launch");
-		LXScreen.searchButtonInSRPToolbar().perform(click());
-		screenshot("POS_US_Activities_Launch_Edit_Search");
+		Common.delay(1);
 		EspressoUtils.assertViewIsDisplayed(R.id.search_location);
 		Common.closeSoftKeyboard(onView(withId(R.id.search_location)));
 		LXScreen.searchWidgetToolbarNavigation().perform(click());
-		LXScreen.resultsPresenterToolbarNavigation().perform(click());
 		Log.v(TAG, "LX button on Launch screen is displayed and works");
 
 		EspressoUtils.assertTextWithChildrenIsDisplayed(R.id.transport_button, mRes.getString(R.string.nav_transport));
 		LaunchScreen.launchGroundTransport();
 		screenshot("POS_US_GT_Launch");
-		LXScreen.searchButtonInSRPToolbar().perform(click());
-		screenshot("POS_US_GT_Launch_Edit_Search");
 		EspressoUtils.assertViewIsDisplayed(R.id.search_location);
 		Log.v(TAG, "GT button on Launch screen is displayed and works");
 	}

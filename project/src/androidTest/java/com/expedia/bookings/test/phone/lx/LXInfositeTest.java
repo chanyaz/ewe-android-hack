@@ -3,14 +3,13 @@ package com.expedia.bookings.test.phone.lx;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import org.hamcrest.Matchers;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.LxTestCase;
 import com.expedia.bookings.test.phone.lx.models.TicketDataModel;
 import com.expedia.bookings.test.phone.lx.models.TicketSummaryDataModel;
 import com.expedia.bookings.test.phone.lx.utils.ExpectedDataSupplierForTicketWidget;
-import com.expedia.bookings.test.espresso.LxTestCase;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -18,7 +17,6 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
-import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -60,19 +58,12 @@ public class LXInfositeTest extends LxTestCase {
 	private ExpectedDataSupplierForTicketWidget mExpectedDataTktWdgt;
 
 	public void testInfoSiteTestSuite() throws Throwable {
-		if (getLxIdlingResource().isInSearchEditMode()) {
-			onView(Matchers.allOf(withId(R.id.error_action_button), withText(R.string.edit_search),
-				isDescendantOfA(withId(R.id.lx_search_error_widget))))
-				.perform(click());
-
-
-			String expectedLocationDisplayName = "San Francisco, CA";
-			LXScreen.location().perform(typeText("San"));
-			LXScreen.selectLocation(expectedLocationDisplayName);
-			LXScreen.selectDateButton().perform(click());
-			LXScreen.selectDates(LocalDate.now(), null);
-			LXScreen.searchButton().perform(click());
-		}
+		String expectedLocationDisplayName = "San Francisco, CA";
+		LXScreen.location().perform(typeText("San"));
+		LXScreen.selectLocation(expectedLocationDisplayName);
+		LXScreen.selectDateButton().perform(click());
+		LXScreen.selectDates(LocalDate.now(), null);
+		LXScreen.searchButton().perform(click());
 		LXScreen.waitForSearchListDisplayed();
 		screenshot("LX captured data");
 		LXScreen.clickOnResultAtIndex(1);

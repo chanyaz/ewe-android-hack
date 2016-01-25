@@ -15,16 +15,12 @@ import com.expedia.bookings.test.espresso.LxTestCase;
 import com.expedia.bookings.utils.Strings;
 import com.squareup.otto.Subscribe;
 
-import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
-import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.isEmpty;
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 
 public class LxSearchResultsTest extends LxTestCase {
@@ -34,18 +30,12 @@ public class LxSearchResultsTest extends LxTestCase {
 
 	public void testSearchResultPageTestCases() throws Throwable {
 		Events.register(searchResultsHandler);
-
-		if (getLxIdlingResource().isInSearchEditMode()) {
-			onView(allOf(withId(R.id.error_action_button), withText(R.string.edit_search),
-				isDescendantOfA(withId(R.id.lx_search_error_widget)))).perform(click());
-
-			String expectedLocationDisplayName = "San Francisco, CA";
-			LXScreen.location().perform(typeText("San"));
-			LXScreen.selectLocation(expectedLocationDisplayName);
-			LXScreen.selectDateButton().perform(click());
-			LXScreen.selectDates(LocalDate.now(), null);
-			LXScreen.searchButton().perform(click());
-		}
+		String expectedLocationDisplayName = "San Francisco, CA";
+		LXScreen.location().perform(typeText("San"));
+		LXScreen.selectLocation(expectedLocationDisplayName);
+		LXScreen.selectDateButton().perform(click());
+		LXScreen.selectDates(LocalDate.now(), null);
+		LXScreen.searchButton().perform(click());
 		LXScreen.waitForSearchListDisplayed();
 		//by this time we must have all the activities loaded.
 		//assert on the total number of items to show.
