@@ -300,7 +300,7 @@
         <item name="skin_flightLineColor">@color/flight_trip</item>
         <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
         <item name="skin_launchActionBarBackgroundColor">@color/cars_launch_actionbar_color</item>
-        <item name="skin_tripsTabText">@string/Your_Trips</item>
+        <item name="skin_tripsTabText">@string/trips</item>
     </style>
 
     <!-- Override this theme in whitelabels to provide whitelabel specific theme values. -->
