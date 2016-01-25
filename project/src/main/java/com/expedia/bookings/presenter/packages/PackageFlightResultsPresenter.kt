@@ -28,13 +28,13 @@ import kotlin.properties.Delegates
 public class PackageFlightResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val recyclerView: FlightListRecyclerView by bindView(R.id.list_view)
     var adapterPackage: PackageFlightListAdapter by Delegates.notNull()
-    val outboundFlightSelectedSubject = PublishSubject.create<FlightLeg>()
+    val flightSelectedSubject = PublishSubject.create<FlightLeg>()
     val toolbar: Toolbar by bindView(R.id.flight_results_toolbar)
     var navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
 
     init {
         View.inflate(getContext(), R.layout.widget_flight_results_package, this)
-        adapterPackage = PackageFlightListAdapter(outboundFlightSelectedSubject, context)
+        adapterPackage = PackageFlightListAdapter(flightSelectedSubject, context)
         recyclerView.adapter = adapterPackage
         toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)

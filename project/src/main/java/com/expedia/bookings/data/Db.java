@@ -12,6 +12,7 @@ import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.packages.PackageSearchResponse;
+import com.expedia.bookings.data.packages.FlightLeg;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.utils.LeanPlumUtils;
@@ -126,6 +127,8 @@ public class Db {
 	private PackageSearchResponse mPackageResponse;
 	private Hotel mPackageSelectedHotel;
 	private HotelOffersResponse.HotelRoomResponse mPackageSelectedRoom;
+	private FlightLeg mPackageSelectedOutboundFlight;
+	private FlightLeg mPackageSelectedInboundFlight;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
@@ -145,6 +148,22 @@ public class Db {
 
 	public static HotelOffersResponse.HotelRoomResponse getPackageSelectedRoom() {
 		return sDb.mPackageSelectedRoom;
+	}
+
+	public static FlightLeg getPackageSelectedOutboundFlightFlight() {
+		return sDb.mPackageSelectedOutboundFlight;
+	}
+
+	public static void setPackageSelectedOutboundFlight(FlightLeg mPackageSelectedFlight) {
+		sDb.mPackageSelectedOutboundFlight = mPackageSelectedFlight;
+	}
+
+	public static FlightLeg getPackageSelectedInboundFlightFlight() {
+		return sDb.mPackageSelectedInboundFlight;
+	}
+
+	public static void setPackageSelectedInboundFlight(FlightLeg mPackageSelectedFlight) {
+		sDb.mPackageSelectedInboundFlight = mPackageSelectedFlight;
 	}
 
 	public static void setPackageParams(PackageSearchParams params) {
