@@ -4,6 +4,7 @@ import com.expedia.bookings.data.PackageFlightDeserializer
 import com.expedia.bookings.data.PackageHotelDeserializer
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOffersResponse
@@ -19,6 +20,9 @@ import retrofit.client.OkClient
 import retrofit.converter.GsonConverter
 import rx.Observable
 import rx.Scheduler
+import kotlin.collections.filter
+import kotlin.collections.find
+import kotlin.collections.forEach
 
 public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
@@ -84,6 +88,12 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 
 	public fun createTrip(body: PackageCreateTripParams): Observable<PackageCreateTripResponse> {
 		return packageApi.createTrip(body.toQueryMap())
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+	}
+
+	public fun checkout(body: Map<String, Any>): Observable<PackageCheckoutResponse> {
+		return packageApi.checkout(body)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 	}

@@ -4,11 +4,13 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.vm.BaseCheckoutViewModel
 import com.expedia.vm.BundleOverviewViewModel
 import com.expedia.vm.PackageCreateTripViewModel
 import javax.inject.Inject
@@ -24,6 +26,7 @@ public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter
         Ui.getApplication(getContext()).packageComponent().inject(this)
         View.inflate(context, R.layout.package_presenter, this)
         bundlePresenter.viewModel = BundleOverviewViewModel(context, packageServices)
+        bundlePresenter.checkoutPresenter.viewModel = BaseCheckoutViewModel(context, packageServices)
         bundlePresenter.createTripViewModel = PackageCreateTripViewModel(packageServices)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe {
             show(bundlePresenter)

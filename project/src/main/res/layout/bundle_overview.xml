@@ -132,7 +132,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:text="@string/Checkout" />
+        android:text="@string/Checkout"
+        android:visibility="gone"/>
 
     <com.expedia.bookings.widget.BaseCheckoutPresenter
         android:id="@+id/checkout_presenter"

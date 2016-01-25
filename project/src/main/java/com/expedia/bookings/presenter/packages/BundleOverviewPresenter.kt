@@ -1,15 +1,14 @@
 package com.expedia.bookings.presenter.packages
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
-import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.ScrollView
 import com.expedia.bookings.R
@@ -25,12 +24,10 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.ui.FlightPackageActivity
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
-import com.expedia.vm.BaseCheckoutViewModel
 import com.expedia.vm.BundleHotelViewModel
 import com.expedia.vm.BundleOverviewViewModel
 import com.expedia.vm.CheckoutToolbarViewModel
 import com.expedia.vm.PackageCreateTripViewModel
-import kotlin.properties.Delegates
 
 public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val ANIMATION_DURATION = 450L
@@ -45,6 +42,7 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     val selectArrivalButton: CardView by  bindView(R.id.flight_arrival_card_view)
     val destinationText: TextView by bindView(R.id.flight_departure_card_view_text)
     val arrivalText: TextView by bindView(R.id.flight_arrival_card_view_text)
+    val createTripDialog = ProgressDialog(context)
 
     var viewModel: BundleOverviewViewModel by notNullAndObservable { vm ->
         vm.hotelParamsObservable.subscribe {
@@ -67,14 +65,20 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         vm.originTextObservable.subscribeText(arrivalText)
     }
 
-    var createTripViewModel: PackageCreateTripViewModel by notNullAndObservable {
-        createTripViewModel.tripResponseObservable.subscribe(checkoutPresenter.viewModel.packageTripResponse)
+    var createTripViewModel: PackageCreateTripViewModel by notNullAndObservable { vm ->
+        vm.tripParams.subscribe {
+            createTripDialog.show()
+            checkoutButton.visibility = VISIBLE
+        }
+        vm.tripResponseObservable.subscribe {
+            createTripDialog.hide()
+        }
+        vm.tripResponseObservable.subscribe(checkoutPresenter.viewModel.packageTripResponse)
     }
 
     init {
         View.inflate(context, R.layout.bundle_overview, this)
         bundleHotelWidget.viewModel = BundleHotelViewModel(context)
-        checkoutPresenter.viewModel = BaseCheckoutViewModel(context)
         checkoutPresenter.viewModel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
         checkoutPresenter.viewModel.creditCardRequired.onNext(true)
         checkoutPresenter.travelerWidget.mToolbarListener = toolbar
@@ -110,6 +114,9 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         }
 
+        createTripDialog.setMessage(resources.getString(R.string.spinner_text_hotel_create_trip))
+        createTripDialog.setCancelable(false)
+        createTripDialog.isIndeterminate = true
     }
 
     override fun onFinishInflate() {
