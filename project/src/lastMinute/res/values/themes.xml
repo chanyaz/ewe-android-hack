@@ -110,7 +110,7 @@
     <!-- Override the phone theme -->
     <style name="Theme.Phone" parent="@style/Theme.LM">
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.LM</item>
-        <item name="android:actionBarTabStyle">@style/ActionBarTabBar</item>
+        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
     </style>
 
     <style name="Theme.Phone.HotelSearchActivity" parent="@style/Theme.Phone">
@@ -122,10 +122,10 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:logo">@drawable/ic_ab_lm_logo</item>
-        <item name="actionBarTabStyle">@style/ActionBarTabBar</item>
+        <item name="actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
         <item name="actionBarTabBarStyle">@style/ActionBarTabBar</item>
         <item name="actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
-        <item name="android:actionBarTabStyle">@style/ActionBarTabBar</item>
+        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
         <item name="android:actionBarTabBarStyle">@style/ActionBarTabBar</item>
         <item name="android:actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
