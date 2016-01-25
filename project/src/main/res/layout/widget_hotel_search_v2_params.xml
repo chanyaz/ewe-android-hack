@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout
+        android:id="@+id/search_v2_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/hotel_search_background"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingTop="?attr/actionBarSize">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/hotel_v2_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="60dp"
+            android:hint="@string/search_location"
+            android:text="@string/search_location"
+            android:textColor="#12AD9F" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="@color/hotels_primary_color"
+        android:minHeight="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_close_white_24dp"
+        app:title="@string/hotel_toolbar_title"
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+
+</merge>
