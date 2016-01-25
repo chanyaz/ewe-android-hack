@@ -787,6 +787,7 @@ public class OmnitureTracking {
 		if (!PointOfSale.getPointOfSale().requiresHotelPostalCode()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCKOPostalCodeTest);
 		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCKOCreditDebitTest);
 		s.track();
 	}
 
