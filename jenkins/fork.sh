@@ -14,23 +14,13 @@ internal_artifact() {
 # unistall old apks
 ./tools/uninstall.sh com.expedia.bookings
 
-build() {
-./gradlew --no-daemon aED aEDAT
-}
-
 run() {
 	 # run tests
-	 # We can save up time from reinstallation in case we have faliures.
-	 ./gradlew forkExpediaDebug -D "fork.tablet=true" -D android.test.classes=$1
+	 ./gradlew --no-daemon -D "fork.tablet=true" aED aEDAT forkExpediaDebug -D android.test.classes=$1
 }
 
-build || build
-if [ $? -ne 0 ]; then
-	echo "Build failed"
-	exit 1
-	fi
-
 failed_test_classes=""
+
 for runCount in `seq 3`
 	do
 		echo "run count - $runCount"
