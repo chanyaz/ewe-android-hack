@@ -6,7 +6,6 @@ import com.expedia.bookings.presenter.hotel.HotelCheckoutPresenter;
 import com.expedia.bookings.presenter.hotel.HotelPresenter;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
-import com.expedia.bookings.widget.CouponWidget;
 import com.expedia.bookings.widget.PayWithPointsWidget;
 import com.expedia.bookings.widget.PaymentWidgetV2;
 
@@ -20,7 +19,6 @@ public interface HotelComponent {
 	void inject(PaymentWidgetV2 paymentWidget);
 	void inject(PayWithPointsWidget payWithPointsWidget);
 	void inject(HotelCheckoutPresenter hotelCheckoutPresenter);
-	void inject(CouponWidget couponWidget);
 
 	SuggestionV4Services suggestionsService();
 	ReviewsServices reviewsServices();
