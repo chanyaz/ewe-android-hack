@@ -3850,6 +3850,9 @@
     <string name="pwp_points_applied_TEMPLATE">{points} points applied</string>
     <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Remaining balance due: {money}</string>
 
+    <!-- Package Flight Overview -->
+    <string name="package_flight_overview_select_flight">Select this Flight</string>
+
     <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
     <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>
     <string name="pwp_unknown_error">An unknown error occurred. Please try again.</string>
