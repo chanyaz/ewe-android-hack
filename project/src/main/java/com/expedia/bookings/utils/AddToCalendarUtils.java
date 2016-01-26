@@ -84,7 +84,7 @@ public class AddToCalendarUtils {
 		return intent;
 	}
 
-	public static Intent generateCarAddToCalendarIntent(Context context, PointOfSale pointOfSale,
+	public static Intent generateCarAddToCalendarIntent(Context context,
 		String itineraryNumber, CreateTripCarOffer offer) {
 		Intent intent = new Intent(Intent.ACTION_INSERT);
 		intent.setData(CalendarContract.Events.CONTENT_URI);
@@ -105,9 +105,11 @@ public class AddToCalendarUtils {
 			sb.append("\n\n");
 		}
 		sb.append("\n\n");
-		sb.append(Phrase.from(context, R.string.calendar_desc_support_TEMPLATE).put("brand", BuildConfig.brand)
-			.put("localphone", offer.vendor.localPhoneNumber).put("phone", offer.vendor.phoneNumber).format());
-		sb.append("\n\n");
+		if (null != offer.vendor.phoneNumber && null != offer.vendor.localPhoneNumber) {
+			sb.append(Phrase.from(context, R.string.calendar_desc_support_TEMPLATE).put("brand", BuildConfig.brand)
+				.put("localphone", offer.vendor.localPhoneNumber).put("phone", offer.vendor.phoneNumber).format());
+			sb.append("\n\n");
+		}
 		intent.putExtra(CalendarContract.Events.DESCRIPTION, sb.toString());
 		return intent;
 	}

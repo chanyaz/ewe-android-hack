@@ -205,6 +205,8 @@
     <string name="checkout_payment_option_credit_debit_label">Tarjeta de crédito o débito</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Datos del huésped</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Introduce tus datos</string>
     <!-- Text for enter payment details line 1 -->
@@ -2033,9 +2035,9 @@
     <string name="first_name_field_text">nombre</string>
     <!-- last name -->
     <string name="last_name_field_text">apellido</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(p. ej.: %s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (p. ej.: %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Titular de la tarjeta</string>
@@ -2209,6 +2211,8 @@
     <string name="add_to_your_trip">Añadir al viaje</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hoteles en %s</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 habitación, %s personas</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Coches en %s</string>
     <!-- Title for section helping users in other various ways -->
@@ -2509,9 +2513,9 @@
         <item quantity="other">Quedan %d habitaciones</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">Para utilizar la ubicación actual, debes permitir a {brand} tener acceso a tu ubicación.\n\n}¿Quieres ir a Ajustes ahora para activarla?</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">Para utilizar tu ubicación actual, debes permitir que {brand} acceda a tu ubicación.\n\nPara ello, entra en los ajustes, pulsa \"permissions\" y activa la ubicación.</string>
+    <string name="go_to_settings">Ir a ajustes</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">Para poder usar “Ubicación actual” debes introducir al menos una ubicación dentro de la pestaña de Ajustes.\n\n}¿Quieres ir a Ajustes ahora para activarla?</string>
@@ -2647,7 +2651,7 @@
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">El %2.0f%% de los clientes recomiendan este hotel</string>
     <!-- new material Hotel results cell guest rating -->
-    <string name="customer_rating_percent_Template">{rating} {percent}</string>
+    <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">sobre 5 - Puntuación de los huéspedes</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -3803,4 +3807,7 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$d d</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">Resumen del viaje</string>
 </resources>

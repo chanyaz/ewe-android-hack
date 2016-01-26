@@ -205,6 +205,8 @@
     <string name="checkout_payment_option_credit_debit_label">Kredittkort/debetkort</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Gjestens detaljer</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Angi din informasjon</string>
     <!-- Text for enter payment details line 1 -->
@@ -2033,9 +2035,9 @@
     <string name="first_name_field_text">fornavn</string>
     <!-- last name -->
     <string name="last_name_field_text">etternavn</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(f.eks.: %s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (f.eks.: %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Kortinnehaver</string>
@@ -2209,6 +2211,8 @@
     <string name="add_to_your_trip">Legg til reisen din</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hoteller i %s</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 rom, %s gjester</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Biler i %s</string>
     <!-- Title for section helping users in other various ways -->
@@ -2509,9 +2513,9 @@
         <item quantity="other">%d rom igjen på appen vår</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">For å bruke nåværende sted må du først la {brand} få tilgang til din posisjon.\n\nVil du gå til innstillinger og endre dette nå?</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">For å bruke nåværende sted må du først la {brand} få tilgang til din posisjon.\n\nFor å aktivere dette må du gå til innstillinger, gå inn på tillatelser og skru på posisjonsinformasjonen.</string>
+    <string name="go_to_settings">Gå til innstillinger.</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">For å bruke din plassering må du gå til posisjon i innstillingene.\n\nVil du gå til innstillinger og endre dette nå?</string>
@@ -3802,4 +3806,7 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$d d</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s–%2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">Reiseoversikt</string>
 </resources>

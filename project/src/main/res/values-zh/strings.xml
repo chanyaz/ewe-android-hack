@@ -205,6 +205,8 @@
     <string name="checkout_payment_option_credit_debit_label">信用卡/借记卡</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">住客详细信息</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">输入您的信息</string>
     <!-- Text for enter payment details line 1 -->
@@ -2033,9 +2035,9 @@
     <string name="first_name_field_text">名字</string>
     <!-- last name -->
     <string name="last_name_field_text">姓氏</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">（例如 %s）</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s（例如 %2$s）</string>
 
     <!-- Cardholder -->
     <string name="cardholder">持卡人</string>
@@ -2209,6 +2211,8 @@
     <string name="add_to_your_trip">加入旅行计划</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">%s的酒店</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 间房，%s 位住客</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">在%s租车</string>
     <!-- Title for section helping users in other various ways -->
@@ -2506,12 +2510,12 @@
         <item quantity="one">只剩 %d 间房！</item>
         <item quantity="two">只剩 %d 间房</item>
         <item quantity="many">只剩 %d 间房</item>
-        <item quantity="other">只剩 %d 间房</item>
+        <item quantity="other">我们的 APP 还剩 %d 间房</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">要使用当前位置，必须允许 {brand} 访问您的位置信息。\n\n现在就转到“设置”，开启服务？</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">要使用当前位置，必须允许 {brand} 访问您的位置信息。\n\n要允许访问，请转到 \"设置\"，按 \"权限\" 并启用定位服务。</string>
+    <string name="go_to_settings">转到设置</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">若要使用“当前位置”，您必须先在“设置”中开启“位置”服务来源。\n\n现在就转到“设置”，开启服务？</string>
@@ -3802,4 +3806,7 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s%2$s + %3$d 天</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">行程摘要</string>
 </resources>

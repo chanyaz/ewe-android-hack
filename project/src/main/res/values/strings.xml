@@ -2045,9 +2045,9 @@
     <string name="first_name_field_text">first name</string>
     <!-- last name -->
     <string name="last_name_field_text">last name</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(e.g.: %s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (e.g. %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Cardholder</string>
@@ -2376,6 +2376,7 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
     <string name="zero">0</string>
+    <!-- The verb "book" as in to make a booking for a hotel room -->
     <string name="book">Book</string>
 
     <!-- Highlight view stuff -->
@@ -2895,7 +2896,7 @@
     <string name="not_included_in_the_price">Not included in the price</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">View Room</string>
-    <!-- Book Room button text -->
+    <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">Book</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Share via</string>
