@@ -30,10 +30,9 @@ public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter
         bundlePresenter.viewModel = BundleOverviewViewModel(context, packageServices)
         bundlePresenter.checkoutPresenter.viewModel = BaseCheckoutViewModel(context, packageServices)
         bundlePresenter.checkoutPresenter.viewModel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
-        bundlePresenter.checkoutPresenter.viewModel.creditCardRequired.onNext(true)
         bundlePresenter.checkoutPresenter.viewModel.checkoutResponse.subscribe {
             show(confirmationPresenter)
-            confirmationPresenter.itinNumber.text = it.newTrip?.tripId
+            confirmationPresenter.itinNumber.text = it.newTrip?.itineraryNumber
         }
         bundlePresenter.createTripViewModel = PackageCreateTripViewModel(packageServices)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe {

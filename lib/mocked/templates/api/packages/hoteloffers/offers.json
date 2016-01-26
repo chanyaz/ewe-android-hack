@@ -1,0 +1,1122 @@
+{
+  "packageHotelOffers": [
+    {
+      "pricePerPerson": {
+        "amount": "557.82",
+        "formattedPrice": "$557.82",
+        "formattedWholePrice": "$558",
+        "currencyCode": "USD"
+      },
+      "packagePricing": {
+        "packageTotal": {
+          "amount": "1115.64",
+          "formattedPrice": "$1,115.64",
+          "formattedWholePrice": "$1,116",
+          "currencyCode": "USD"
+        },
+        "basePrice": {
+          "amount": "1547.53",
+          "formattedPrice": "$1,547.53",
+          "formattedWholePrice": "$1,548",
+          "currencyCode": "USD"
+        },
+        "totalTaxesAndFees": {
+          "amount": "175.86",
+          "formattedPrice": "$175.86",
+          "formattedWholePrice": "$176",
+          "currencyCode": "USD"
+        },
+        "savings": {
+          "amount": "431.89",
+          "formattedPrice": "$431.89",
+          "formattedWholePrice": "$432",
+          "currencyCode": "USD"
+        },
+        "marketingPrice": {
+          "grossBookingValue": "",
+          "netBookingValue": "",
+          "totalTaxes": "",
+          "totalFees": "",
+          "totalTaxesAndFees": ""
+        },
+        "taxesAndFeesIncluded": true
+      },
+      "packageProductId": "1db56d3e-df0a-412d-a461-8d58dca9a6ac-0",
+      "hotelOffer": {
+        "cancellationPolicy": "",
+        "rateDescription": "Executive, One Queen Bed, City View - No Refund",
+        "roomTypeDescription": "Executive, One Queen Bed, City View - No Refund",
+        "roomLongDescription": " 1 queen bed   312-sq-foot (29-sq-meter) room with city views   Entertainment  - 30-inch flat-screen TV with cable channels  Bathroom  - Private bathroom, deep soaking bathtub   Practical  - Free international calls, free long-distance calls, and free local calls  Comfort  - Air conditioning, climate control, and daily housekeeping Non-Smoking  ",
+        "hasFreeCancellation": false,
+        "currentAllotment": "53",
+        "promoDescription": "Book now and save",
+        "isDiscountRestrictedToCurrentSourceType": false,
+        "isSameDayDRR": false,
+        "smokingPreferences": "NS",
+        "rateOccupancyPerRoom": "3",
+        "bedTypes": [
+          {
+            "id": "15"
+          }
+        ],
+        "rateInfo": {
+          "priceBreakdown": false,
+          "promo": true,
+          "chargeableRateInfo": {
+            "maxNightlyRate": "134.10",
+            "averageRate": "134.10",
+            "taxStatusType": "NONE",
+            "surchargeTotal": "23.28",
+            "surchargeTotalForEntireStay": "0.00",
+            "averageBaseRate": "149.00",
+            "nightlyRateTotal": "402.30",
+            "discountPercent": -1E+1,
+            "total": "472.13",
+            "currencyCode": "USD",
+            "currencySymbol": "$",
+            "surcharges": [
+              {
+                "amount": "23.28",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "23.28",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "surchargesForEntireStay": [
+              {
+                "amount": "0.00",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "nightlyRatesPerRoom": [
+
+            ],
+            "priceToShowUsers": "472",
+            "strikethroughPriceToShowUsers": "517",
+            "strikethroughPriceWithTaxesAndFeesToShowUsers": "517",
+            "totalMandatoryFees": "0.00",
+            "totalPriceWithMandatoryFees": "472.13",
+            "formattedTotalPriceWithMandatoryFees": "$ 472.13",
+            "userPriceType": "RateForWholeStayWithTaxes",
+            "priceAdjustments": [
+
+            ],
+            "checkoutPriceType": "total",
+            "airAttached": false,
+            "roomTypeCode": "484936",
+            "ratePlanCode": "204248863",
+            "showResortFeeMessage": false,
+            "resortFeeInclusion": false
+          }
+        },
+        "quotedOccupancy": "2",
+        "minGuestAge": "0",
+        "roomTypeCode": "484936",
+        "ratePlanCode": "204248863",
+        "isPayLater": false,
+        "isMemberDeal": false
+      }
+    },
+    {
+      "pricePerPerson": {
+        "amount": "582.85",
+        "formattedPrice": "$582.85",
+        "formattedWholePrice": "$583",
+        "currencyCode": "USD"
+      },
+      "packagePricing": {
+        "packageTotal": {
+          "amount": "1165.69",
+          "formattedPrice": "$1,165.69",
+          "formattedWholePrice": "$1,166",
+          "currencyCode": "USD"
+        },
+        "basePrice": {
+          "amount": "1640.47",
+          "formattedPrice": "$1,640.47",
+          "formattedWholePrice": "$1,640",
+          "currencyCode": "USD"
+        },
+        "totalTaxesAndFees": {
+          "amount": "182.32",
+          "formattedPrice": "$182.32",
+          "formattedWholePrice": "$182",
+          "currencyCode": "USD"
+        },
+        "savings": {
+          "amount": "474.78",
+          "formattedPrice": "$474.78",
+          "formattedWholePrice": "$475",
+          "currencyCode": "USD"
+        },
+        "marketingPrice": {
+          "grossBookingValue": "",
+          "netBookingValue": "",
+          "totalTaxes": "",
+          "totalFees": "",
+          "totalTaxesAndFees": ""
+        },
+        "taxesAndFeesIncluded": true
+      },
+      "packageProductId": "1db56d3e-df0a-412d-a461-8d58dca9a6ac-1",
+      "hotelOffer": {
+        "cancellationPolicy": "",
+        "rateDescription": "Premier Room, 1 King or 1 Queen Bed (Partial Park View)",
+        "roomTypeDescription": "Premier Room, 1 King or 1 Queen Bed (Partial Park View)",
+        "roomLongDescription": " 1 king bed or 1 queen bed   331-sq-foot (31-sq-meter) room with city views   Entertainment  - 30-inch flat-screen TV with cable channels  Bathroom  - Private bathroom, deep soaking bathtub   Practical  - Free international calls, free long-distance calls, and free local calls  Comfort  - Air conditioning, climate control, and daily housekeeping Non-Smoking  ",
+        "hasFreeCancellation": false,
+        "currentAllotment": "48",
+        "promoDescription": "Book now and save",
+        "isDiscountRestrictedToCurrentSourceType": false,
+        "isSameDayDRR": false,
+        "smokingPreferences": "NS",
+        "rateOccupancyPerRoom": "2",
+        "bedTypes": [
+          {
+            "id": "14"
+          },
+          {
+            "id": "15"
+          }
+        ],
+        "rateInfo": {
+          "priceBreakdown": false,
+          "promo": true,
+          "chargeableRateInfo": {
+            "maxNightlyRate": "161.10",
+            "averageRate": "161.10",
+            "taxStatusType": "NONE",
+            "surchargeTotal": "27.26",
+            "surchargeTotalForEntireStay": "0.00",
+            "averageBaseRate": "179.00",
+            "nightlyRateTotal": "483.30",
+            "discountPercent": -1E+1,
+            "total": "565.07",
+            "currencyCode": "USD",
+            "currencySymbol": "$",
+            "surcharges": [
+              {
+                "amount": "27.26",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "27.26",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "surchargesForEntireStay": [
+              {
+                "amount": "0.00",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "nightlyRatesPerRoom": [
+
+            ],
+            "priceToShowUsers": "565",
+            "strikethroughPriceToShowUsers": "619",
+            "strikethroughPriceWithTaxesAndFeesToShowUsers": "619",
+            "totalMandatoryFees": "0.00",
+            "totalPriceWithMandatoryFees": "565.07",
+            "formattedTotalPriceWithMandatoryFees": "$ 565.07",
+            "userPriceType": "RateForWholeStayWithTaxes",
+            "priceAdjustments": [
+
+            ],
+            "checkoutPriceType": "total",
+            "airAttached": false,
+            "roomTypeCode": "200676479",
+            "ratePlanCode": "203402948",
+            "showResortFeeMessage": false,
+            "resortFeeInclusion": false
+          }
+        },
+        "quotedOccupancy": "2",
+        "minGuestAge": "0",
+        "roomTypeCode": "200676479",
+        "ratePlanCode": "203402948",
+        "isPayLater": false,
+        "isMemberDeal": false
+      }
+    },
+    {
+      "pricePerPerson": {
+        "amount": "584.39",
+        "formattedPrice": "$584.39",
+        "formattedWholePrice": "$584",
+        "currencyCode": "USD"
+      },
+      "packagePricing": {
+        "packageTotal": {
+          "amount": "1168.78",
+          "formattedPrice": "$1,168.78",
+          "formattedWholePrice": "$1,169",
+          "currencyCode": "USD"
+        },
+        "basePrice": {
+          "amount": "1609.51",
+          "formattedPrice": "$1,609.51",
+          "formattedWholePrice": "$1,610",
+          "currencyCode": "USD"
+        },
+        "totalTaxesAndFees": {
+          "amount": "182.68",
+          "formattedPrice": "$182.68",
+          "formattedWholePrice": "$183",
+          "currencyCode": "USD"
+        },
+        "savings": {
+          "amount": "440.73",
+          "formattedPrice": "$440.73",
+          "formattedWholePrice": "$441",
+          "currencyCode": "USD"
+        },
+        "marketingPrice": {
+          "grossBookingValue": "",
+          "netBookingValue": "",
+          "totalTaxes": "",
+          "totalFees": "",
+          "totalTaxesAndFees": ""
+        },
+        "taxesAndFeesIncluded": true
+      },
+      "packageProductId": "1db56d3e-df0a-412d-a461-8d58dca9a6ac-2",
+      "hotelOffer": {
+        "cancellationPolicy": "",
+        "rateDescription": "Executive, One King Bed, City View - No Refund",
+        "roomTypeDescription": "Executive, One King Bed, City View - No Refund",
+        "roomLongDescription": " 1 king bed   331-sq-foot (31-sq-meter) room with city views   Entertainment  - 30-inch flat-screen TV with cable channels  Bathroom  - Private bathroom, deep soaking bathtub   Practical  - Free international calls, free long-distance calls, and free local calls  Comfort  - Air conditioning, climate control, and daily housekeeping Non-Smoking  ",
+        "hasFreeCancellation": false,
+        "currentAllotment": "86",
+        "promoDescription": "Book now and save",
+        "isDiscountRestrictedToCurrentSourceType": false,
+        "isSameDayDRR": false,
+        "smokingPreferences": "NS",
+        "rateOccupancyPerRoom": "3",
+        "bedTypes": [
+          {
+            "id": "14"
+          }
+        ],
+        "rateInfo": {
+          "priceBreakdown": false,
+          "promo": true,
+          "chargeableRateInfo": {
+            "maxNightlyRate": "152.10",
+            "averageRate": "152.10",
+            "taxStatusType": "NONE",
+            "surchargeTotal": "25.94",
+            "surchargeTotalForEntireStay": "0.00",
+            "averageBaseRate": "169.00",
+            "nightlyRateTotal": "456.30",
+            "discountPercent": -1E+1,
+            "total": "534.11",
+            "currencyCode": "USD",
+            "currencySymbol": "$",
+            "surcharges": [
+              {
+                "amount": "25.94",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "25.94",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "surchargesForEntireStay": [
+              {
+                "amount": "0.00",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "nightlyRatesPerRoom": [
+
+            ],
+            "priceToShowUsers": "534",
+            "strikethroughPriceToShowUsers": "585",
+            "strikethroughPriceWithTaxesAndFeesToShowUsers": "585",
+            "totalMandatoryFees": "0.00",
+            "totalPriceWithMandatoryFees": "534.11",
+            "formattedTotalPriceWithMandatoryFees": "$ 534.11",
+            "userPriceType": "RateForWholeStayWithTaxes",
+            "priceAdjustments": [
+
+            ],
+            "checkoutPriceType": "total",
+            "airAttached": false,
+            "roomTypeCode": "200579492",
+            "ratePlanCode": "204248855",
+            "showResortFeeMessage": false,
+            "resortFeeInclusion": false
+          }
+        },
+        "quotedOccupancy": "2",
+        "minGuestAge": "0",
+        "roomTypeCode": "200579492",
+        "ratePlanCode": "204248855",
+        "isPayLater": false,
+        "isMemberDeal": false
+      }
+    },
+    {
+      "pricePerPerson": {
+        "amount": "624.28",
+        "formattedPrice": "$624.28",
+        "formattedWholePrice": "$624",
+        "currencyCode": "USD"
+      },
+      "packagePricing": {
+        "packageTotal": {
+          "amount": "1248.55",
+          "formattedPrice": "$1,248.55",
+          "formattedWholePrice": "$1,249",
+          "currencyCode": "USD"
+        },
+        "basePrice": {
+          "amount": "1702.44",
+          "formattedPrice": "$1,702.44",
+          "formattedWholePrice": "$1,702",
+          "currencyCode": "USD"
+        },
+        "totalTaxesAndFees": {
+          "amount": "192.97",
+          "formattedPrice": "$192.97",
+          "formattedWholePrice": "$193",
+          "currencyCode": "USD"
+        },
+        "savings": {
+          "amount": "453.89",
+          "formattedPrice": "$453.89",
+          "formattedWholePrice": "$454",
+          "currencyCode": "USD"
+        },
+        "marketingPrice": {
+          "grossBookingValue": "",
+          "netBookingValue": "",
+          "totalTaxes": "",
+          "totalFees": "",
+          "totalTaxesAndFees": ""
+        },
+        "taxesAndFeesIncluded": true
+      },
+      "packageProductId": "1db56d3e-df0a-412d-a461-8d58dca9a6ac-3",
+      "hotelOffer": {
+        "cancellationPolicy": "",
+        "rateDescription": "Premier City View Queen/King",
+        "roomTypeDescription": "Premier City View Queen/King",
+        "roomLongDescription": " 1 king bed or 1 queen bed   312-sq-foot (29-sq-meter) room with city views   Entertainment  - 30-inch flat-screen TV with cable channels  Bathroom  - Private bathroom, deep soaking bathtub   Practical  - Free international calls, free long-distance calls, and free local calls  Comfort  - Air conditioning, climate control, and daily housekeeping Non-Smoking  ",
+        "hasFreeCancellation": false,
+        "currentAllotment": "76",
+        "promoDescription": "Book now and save",
+        "isDiscountRestrictedToCurrentSourceType": false,
+        "isSameDayDRR": false,
+        "smokingPreferences": "NS",
+        "rateOccupancyPerRoom": "2",
+        "bedTypes": [
+          {
+            "id": "14"
+          },
+          {
+            "id": "15"
+          }
+        ],
+        "rateInfo": {
+          "priceBreakdown": false,
+          "promo": true,
+          "chargeableRateInfo": {
+            "maxNightlyRate": "179.10",
+            "averageRate": "179.10",
+            "taxStatusType": "NONE",
+            "surchargeTotal": "29.91",
+            "surchargeTotalForEntireStay": "0.00",
+            "averageBaseRate": "199.00",
+            "nightlyRateTotal": "537.30",
+            "discountPercent": -1E+1,
+            "total": "627.04",
+            "currencyCode": "USD",
+            "currencySymbol": "$",
+            "surcharges": [
+              {
+                "amount": "29.91",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "29.91",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "surchargesForEntireStay": [
+              {
+                "amount": "0.00",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "nightlyRatesPerRoom": [
+
+            ],
+            "priceToShowUsers": "627",
+            "strikethroughPriceToShowUsers": "687",
+            "strikethroughPriceWithTaxesAndFeesToShowUsers": "687",
+            "totalMandatoryFees": "0.00",
+            "totalPriceWithMandatoryFees": "627.04",
+            "formattedTotalPriceWithMandatoryFees": "$ 627.04",
+            "userPriceType": "RateForWholeStayWithTaxes",
+            "priceAdjustments": [
+
+            ],
+            "checkoutPriceType": "total",
+            "airAttached": false,
+            "roomTypeCode": "200676478",
+            "ratePlanCode": "203439524",
+            "showResortFeeMessage": false,
+            "resortFeeInclusion": false
+          }
+        },
+        "quotedOccupancy": "2",
+        "minGuestAge": "0",
+        "roomTypeCode": "200676478",
+        "ratePlanCode": "203439524",
+        "isPayLater": false,
+        "isMemberDeal": false
+      }
+    },
+    {
+      "pricePerPerson": {
+        "amount": "664.14",
+        "formattedPrice": "$664.14",
+        "formattedWholePrice": "$664",
+        "currencyCode": "USD"
+      },
+      "packagePricing": {
+        "packageTotal": {
+          "amount": "1328.28",
+          "formattedPrice": "$1,328.28",
+          "formattedWholePrice": "$1,328",
+          "currencyCode": "USD"
+        },
+        "basePrice": {
+          "amount": "1795.38",
+          "formattedPrice": "$1,795.38",
+          "formattedWholePrice": "$1,795",
+          "currencyCode": "USD"
+        },
+        "totalTaxesAndFees": {
+          "amount": "203.22",
+          "formattedPrice": "$203.22",
+          "formattedWholePrice": "$203",
+          "currencyCode": "USD"
+        },
+        "savings": {
+          "amount": "467.10",
+          "formattedPrice": "$467.10",
+          "formattedWholePrice": "$467",
+          "currencyCode": "USD"
+        },
+        "marketingPrice": {
+          "grossBookingValue": "",
+          "netBookingValue": "",
+          "totalTaxes": "",
+          "totalFees": "",
+          "totalTaxesAndFees": ""
+        },
+        "taxesAndFeesIncluded": true
+      },
+      "packageProductId": "1db56d3e-df0a-412d-a461-8d58dca9a6ac-4",
+      "hotelOffer": {
+        "cancellationPolicy": "",
+        "rateDescription": "Executive Double Room, City View - No Refund",
+        "roomTypeDescription": "Executive Double Room, City View - No Refund",
+        "roomLongDescription": " 2 double beds   420-sq-foot (39-sq-meter) room with city views   Entertainment  - 30-inch flat-screen TV with cable channels  Bathroom  - Private bathroom, deep soaking bathtub   Practical  - Free international calls, free long-distance calls, and free local calls  Comfort  - Air conditioning, climate control, and daily housekeeping Non-Smoking  ",
+        "hasFreeCancellation": false,
+        "currentAllotment": "9",
+        "promoDescription": "Book now and save",
+        "isDiscountRestrictedToCurrentSourceType": false,
+        "isSameDayDRR": false,
+        "smokingPreferences": "NS",
+        "rateOccupancyPerRoom": "7",
+        "bedTypes": [
+          {
+            "id": "21"
+          }
+        ],
+        "rateInfo": {
+          "priceBreakdown": false,
+          "promo": true,
+          "chargeableRateInfo": {
+            "maxNightlyRate": "206.10",
+            "averageRate": "206.10",
+            "taxStatusType": "NONE",
+            "surchargeTotal": "33.89",
+            "surchargeTotalForEntireStay": "0.00",
+            "averageBaseRate": "229.00",
+            "nightlyRateTotal": "618.30",
+            "discountPercent": -1E+1,
+            "total": "719.98",
+            "currencyCode": "USD",
+            "currencySymbol": "$",
+            "surcharges": [
+              {
+                "amount": "33.89",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "33.89",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "surchargesForEntireStay": [
+              {
+                "amount": "0.00",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "nightlyRatesPerRoom": [
+
+            ],
+            "priceToShowUsers": "720",
+            "strikethroughPriceToShowUsers": "789",
+            "strikethroughPriceWithTaxesAndFeesToShowUsers": "789",
+            "totalMandatoryFees": "0.00",
+            "totalPriceWithMandatoryFees": "719.98",
+            "formattedTotalPriceWithMandatoryFees": "$ 719.98",
+            "userPriceType": "RateForWholeStayWithTaxes",
+            "priceAdjustments": [
+
+            ],
+            "checkoutPriceType": "total",
+            "airAttached": false,
+            "roomTypeCode": "484952",
+            "ratePlanCode": "204248818",
+            "showResortFeeMessage": false,
+            "resortFeeInclusion": false
+          }
+        },
+        "quotedOccupancy": "4",
+        "minGuestAge": "0",
+        "roomTypeCode": "484952",
+        "ratePlanCode": "204248818",
+        "isPayLater": false,
+        "isMemberDeal": false
+      }
+    },
+    {
+      "pricePerPerson": {
+        "amount": "690.71",
+        "formattedPrice": "$690.71",
+        "formattedWholePrice": "$691",
+        "currencyCode": "USD"
+      },
+      "packagePricing": {
+        "packageTotal": {
+          "amount": "1381.41",
+          "formattedPrice": "$1,381.41",
+          "formattedWholePrice": "$1,381",
+          "currencyCode": "USD"
+        },
+        "basePrice": {
+          "amount": "1857.37",
+          "formattedPrice": "$1,857.37",
+          "formattedWholePrice": "$1,857",
+          "currencyCode": "USD"
+        },
+        "totalTaxesAndFees": {
+          "amount": "210.03",
+          "formattedPrice": "$210.03",
+          "formattedWholePrice": "$210",
+          "currencyCode": "USD"
+        },
+        "savings": {
+          "amount": "475.96",
+          "formattedPrice": "$475.96",
+          "formattedWholePrice": "$476",
+          "currencyCode": "USD"
+        },
+        "marketingPrice": {
+          "grossBookingValue": "",
+          "netBookingValue": "",
+          "totalTaxes": "",
+          "totalFees": "",
+          "totalTaxesAndFees": ""
+        },
+        "taxesAndFeesIncluded": true
+      },
+      "packageProductId": "1db56d3e-df0a-412d-a461-8d58dca9a6ac-5",
+      "hotelOffer": {
+        "cancellationPolicy": "",
+        "rateDescription": "Executive Room, 1 King Bed, Park View - No Refund",
+        "roomTypeDescription": "Executive Room, 1 King Bed, Park View - No Refund",
+        "roomLongDescription": " 1 king bed   437 sq feet (41 sq meters)   Entertainment  - 30-inch flat-screen TV with cable channels  Bathroom  - Private bathroom, deep soaking bathtub   Practical  - Free international calls, free long-distance calls, and free local calls  Comfort  - Air conditioning, climate control, and daily housekeeping Non-Smoking  ",
+        "hasFreeCancellation": false,
+        "currentAllotment": "3",
+        "promoDescription": "Book now and save",
+        "isDiscountRestrictedToCurrentSourceType": false,
+        "isSameDayDRR": false,
+        "smokingPreferences": "NS",
+        "rateOccupancyPerRoom": "3",
+        "bedTypes": [
+          {
+            "id": "14"
+          }
+        ],
+        "rateInfo": {
+          "priceBreakdown": false,
+          "promo": true,
+          "chargeableRateInfo": {
+            "maxNightlyRate": "224.10",
+            "averageRate": "224.10",
+            "taxStatusType": "NONE",
+            "surchargeTotal": "36.56",
+            "surchargeTotalForEntireStay": "0.00",
+            "averageBaseRate": "249.00",
+            "nightlyRateTotal": "672.30",
+            "discountPercent": -1E+1,
+            "total": "781.97",
+            "currencyCode": "USD",
+            "currencySymbol": "$",
+            "surcharges": [
+              {
+                "amount": "36.56",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "36.56",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "surchargesForEntireStay": [
+              {
+                "amount": "0.00",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "nightlyRatesPerRoom": [
+
+            ],
+            "priceToShowUsers": "782",
+            "strikethroughPriceToShowUsers": "857",
+            "strikethroughPriceWithTaxesAndFeesToShowUsers": "857",
+            "totalMandatoryFees": "0.00",
+            "totalPriceWithMandatoryFees": "781.97",
+            "formattedTotalPriceWithMandatoryFees": "$ 781.97",
+            "userPriceType": "RateForWholeStayWithTaxes",
+            "priceAdjustments": [
+
+            ],
+            "checkoutPriceType": "total",
+            "airAttached": false,
+            "roomTypeCode": "484955",
+            "ratePlanCode": "204248844",
+            "showResortFeeMessage": false,
+            "resortFeeInclusion": false
+          }
+        },
+        "quotedOccupancy": "2",
+        "minGuestAge": "0",
+        "roomTypeCode": "484955",
+        "ratePlanCode": "204248844",
+        "isPayLater": false,
+        "isMemberDeal": false
+      }
+    },
+    {
+      "pricePerPerson": {
+        "amount": "717.28",
+        "formattedPrice": "$717.28",
+        "formattedWholePrice": "$717",
+        "currencyCode": "USD"
+      },
+      "packagePricing": {
+        "packageTotal": {
+          "amount": "1434.56",
+          "formattedPrice": "$1,434.56",
+          "formattedWholePrice": "$1,435",
+          "currencyCode": "USD"
+        },
+        "basePrice": {
+          "amount": "1919.33",
+          "formattedPrice": "$1,919.33",
+          "formattedWholePrice": "$1,919",
+          "currencyCode": "USD"
+        },
+        "totalTaxesAndFees": {
+          "amount": "216.86",
+          "formattedPrice": "$216.86",
+          "formattedWholePrice": "$217",
+          "currencyCode": "USD"
+        },
+        "savings": {
+          "amount": "484.77",
+          "formattedPrice": "$484.77",
+          "formattedWholePrice": "$485",
+          "currencyCode": "USD"
+        },
+        "marketingPrice": {
+          "grossBookingValue": "",
+          "netBookingValue": "",
+          "totalTaxes": "",
+          "totalFees": "",
+          "totalTaxesAndFees": ""
+        },
+        "taxesAndFeesIncluded": true
+      },
+      "packageProductId": "1db56d3e-df0a-412d-a461-8d58dca9a6ac-6",
+      "hotelOffer": {
+        "cancellationPolicy": "",
+        "rateDescription": "Executive Studio Suite, 1 King Bed, Park View",
+        "roomTypeDescription": "Executive Studio Suite, 1 King Bed, Park View",
+        "roomLongDescription": " 1 king bed   484 sq feet (45 sq meters)   Entertainment  - 30-inch flat-screen TV with cable channels  Bathroom  - Private bathroom, deep soaking bathtub   Practical  - Free international calls, free long-distance calls, and free local calls  Comfort  - Air conditioning, climate control, and daily housekeeping Non-Smoking  ",
+        "hasFreeCancellation": false,
+        "currentAllotment": "30",
+        "promoDescription": "Book now and save",
+        "isDiscountRestrictedToCurrentSourceType": false,
+        "isSameDayDRR": false,
+        "smokingPreferences": "NS",
+        "rateOccupancyPerRoom": "3",
+        "bedTypes": [
+          {
+            "id": "14"
+          }
+        ],
+        "rateInfo": {
+          "priceBreakdown": false,
+          "promo": true,
+          "chargeableRateInfo": {
+            "maxNightlyRate": "242.10",
+            "averageRate": "242.10",
+            "taxStatusType": "NONE",
+            "surchargeTotal": "39.21",
+            "surchargeTotalForEntireStay": "0.00",
+            "averageBaseRate": "269.00",
+            "nightlyRateTotal": "726.30",
+            "discountPercent": -1E+1,
+            "total": "843.93",
+            "currencyCode": "USD",
+            "currencySymbol": "$",
+            "surcharges": [
+              {
+                "amount": "39.21",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "39.21",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "surchargesForEntireStay": [
+              {
+                "amount": "0.00",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "nightlyRatesPerRoom": [
+
+            ],
+            "priceToShowUsers": "844",
+            "strikethroughPriceToShowUsers": "925",
+            "strikethroughPriceWithTaxesAndFeesToShowUsers": "925",
+            "totalMandatoryFees": "0.00",
+            "totalPriceWithMandatoryFees": "843.93",
+            "formattedTotalPriceWithMandatoryFees": "$ 843.93",
+            "userPriceType": "RateForWholeStayWithTaxes",
+            "priceAdjustments": [
+
+            ],
+            "checkoutPriceType": "total",
+            "airAttached": false,
+            "roomTypeCode": "484949",
+            "ratePlanCode": "204248850",
+            "showResortFeeMessage": false,
+            "resortFeeInclusion": false
+          }
+        },
+        "quotedOccupancy": "2",
+        "minGuestAge": "0",
+        "roomTypeCode": "484949",
+        "ratePlanCode": "204248850",
+        "isPayLater": false,
+        "isMemberDeal": false
+      }
+    },
+    {
+      "pricePerPerson": {
+        "amount": "730.55",
+        "formattedPrice": "$730.55",
+        "formattedWholePrice": "$731",
+        "currencyCode": "USD"
+      },
+      "packagePricing": {
+        "packageTotal": {
+          "amount": "1461.09",
+          "formattedPrice": "$1,461.09",
+          "formattedWholePrice": "$1,461",
+          "currencyCode": "USD"
+        },
+        "basePrice": {
+          "amount": "1950.32",
+          "formattedPrice": "$1,950.32",
+          "formattedWholePrice": "$1,950",
+          "currencyCode": "USD"
+        },
+        "totalTaxesAndFees": {
+          "amount": "220.26",
+          "formattedPrice": "$220.26",
+          "formattedWholePrice": "$220",
+          "currencyCode": "USD"
+        },
+        "savings": {
+          "amount": "489.23",
+          "formattedPrice": "$489.23",
+          "formattedWholePrice": "$489",
+          "currencyCode": "USD"
+        },
+        "marketingPrice": {
+          "grossBookingValue": "",
+          "netBookingValue": "",
+          "totalTaxes": "",
+          "totalFees": "",
+          "totalTaxesAndFees": ""
+        },
+        "taxesAndFeesIncluded": true
+      },
+      "packageProductId": "1db56d3e-df0a-412d-a461-8d58dca9a6ac-7",
+      "hotelOffer": {
+        "cancellationPolicy": "",
+        "rateDescription": "Executive, Two Double Beds, Park View",
+        "roomTypeDescription": "Executive, Two Double Beds, Park View",
+        "roomLongDescription": " 2 double beds   441 sq feet (41 sq meters)   Entertainment  - 30-inch flat-screen TV with cable channels  Bathroom  - Private bathroom, deep soaking bathtub   Practical  - Free international calls, free long-distance calls, and free local calls  Comfort  - Air conditioning, climate control, and daily housekeeping Non-Smoking  ",
+        "hasFreeCancellation": false,
+        "currentAllotment": "31",
+        "promoDescription": "Book now and save",
+        "isDiscountRestrictedToCurrentSourceType": false,
+        "isSameDayDRR": false,
+        "smokingPreferences": "NS",
+        "rateOccupancyPerRoom": "7",
+        "bedTypes": [
+          {
+            "id": "21"
+          }
+        ],
+        "rateInfo": {
+          "priceBreakdown": false,
+          "promo": true,
+          "chargeableRateInfo": {
+            "maxNightlyRate": "251.10",
+            "averageRate": "251.10",
+            "taxStatusType": "NONE",
+            "surchargeTotal": "40.54",
+            "surchargeTotalForEntireStay": "0.00",
+            "averageBaseRate": "279.00",
+            "nightlyRateTotal": "753.30",
+            "discountPercent": -1E+1,
+            "total": "874.92",
+            "currencyCode": "USD",
+            "currencySymbol": "$",
+            "surcharges": [
+              {
+                "amount": "40.54",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "40.54",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "surchargesForEntireStay": [
+              {
+                "amount": "0.00",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "nightlyRatesPerRoom": [
+
+            ],
+            "priceToShowUsers": "875",
+            "strikethroughPriceToShowUsers": "959",
+            "strikethroughPriceWithTaxesAndFeesToShowUsers": "959",
+            "totalMandatoryFees": "0.00",
+            "totalPriceWithMandatoryFees": "874.92",
+            "formattedTotalPriceWithMandatoryFees": "$ 874.92",
+            "userPriceType": "RateForWholeStayWithTaxes",
+            "priceAdjustments": [
+
+            ],
+            "checkoutPriceType": "total",
+            "airAttached": false,
+            "roomTypeCode": "484954",
+            "ratePlanCode": "204248886",
+            "showResortFeeMessage": false,
+            "resortFeeInclusion": false
+          }
+        },
+        "quotedOccupancy": "4",
+        "minGuestAge": "0",
+        "roomTypeCode": "484954",
+        "ratePlanCode": "204248886",
+        "isPayLater": false,
+        "isMemberDeal": false
+      }
+    }
+  ]
+}

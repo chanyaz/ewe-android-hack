@@ -1,8 +1,10 @@
 package com.mobiata.mocke3
 
+import com.expedia.bookings.utils.Strings
 import com.squareup.okhttp.mockwebserver.MockResponse
 import com.squareup.okhttp.mockwebserver.RecordedRequest
 import java.util.regex.Pattern
+import kotlin.text.toInt
 
 public class PackagesApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
@@ -10,21 +12,29 @@ public class PackagesApiRequestDispatcher(fileOpener: FileOpener) : AbstractDisp
         val urlPath = request.path
         val urlParams = parseRequest(request)
 
-        if (!PackageApiRequestMatcher.isPackageApiRequest(urlPath)) {
-            throwUnsupportedRequestException(urlPath)
-        }
-
         return when {
-            PackageApiRequestMatcher.isHotelSearchRequest(urlParams) -> {
+            PackageApiRequestMatcher.isHotelSearchRequest(urlParams, urlPath) -> {
                 getMockResponse("getpackages/v1/happy.json")
             }
 
-            PackageApiRequestMatcher.isOutboundFlightRequest(urlParams) -> {
+            PackageApiRequestMatcher.isOutboundFlightRequest(urlParams, urlPath) -> {
                 getMockResponse("getpackages/v1/happy_outbound_flight.json")
             }
 
-            PackageApiRequestMatcher.isReturnFlightRequest(urlParams) -> {
+            PackageApiRequestMatcher.isReturnFlightRequest(urlParams, urlPath) -> {
                 getMockResponse("getpackages/v1/happy_inbound_flight.json")
+            }
+
+            PackageApiRequestMatcher.isHotelOffers(urlPath) -> {
+                getMockResponse("api/packages/hoteloffers/offers.json")
+            }
+
+            PackageApiRequestMatcher.isCreateTrip(urlPath) -> {
+                getMockResponse("api/packages/createtrip/create_trip.json")
+            }
+
+            PackageApiRequestMatcher.isCheckout(urlPath) -> {
+                getMockResponse("api/packages/checkout/checkout.json")
             }
 
             else -> make404()
@@ -34,29 +44,41 @@ public class PackagesApiRequestDispatcher(fileOpener: FileOpener) : AbstractDisp
 
 class PackageApiRequestMatcher {
     companion object {
-        fun isHotelSearchRequest(urlParams: Map<String, String>): Boolean {
-            return !isFlightSearch(urlParams)
+        fun isHotelSearchRequest(urlParams: Map<String, String>, urlPath: String): Boolean {
+            return !isFlightSearch(urlParams) && isPackageSearch(urlPath)
         }
 
-        fun isOutboundFlightRequest(urlParams: Map<String, String>): Boolean {
+        fun isOutboundFlightRequest(urlParams: Map<String, String>, urlPath: String): Boolean {
             if (!isFlightSearch(urlParams)) {
                 return false
             }
             val isOutboundFlight = (urlParams["selectedLegId"] == null)
-            return isOutboundFlight
+            return isOutboundFlight && isPackageSearch(urlPath)
         }
 
-        fun isReturnFlightRequest(urlParams: Map<String, String>): Boolean {
+        fun isReturnFlightRequest(urlParams: Map<String, String>, urlPath: String): Boolean {
             if (!isFlightSearch(urlParams)) {
                 return false
             }
-            val isSelectReturnFlightRequest = (urlParams["selectLegId"] as Int == 1)
+            val isSelectReturnFlightRequest = Strings.equals(urlParams["selectLegId"], "1")
             val hasSelectedDepartureLegId = (urlParams["selectedLegId"] != null)
-            return isSelectReturnFlightRequest && hasSelectedDepartureLegId
+            return isSelectReturnFlightRequest && hasSelectedDepartureLegId && isPackageSearch(urlPath)
         }
 
-        fun isPackageApiRequest(urlPath: String): Boolean {
+        fun isPackageSearch(urlPath: String): Boolean {
             return doesItMatch("^/getpackages/v1.*$", urlPath)
+        }
+
+        fun isHotelOffers(urlPath: String): Boolean {
+            return doesItMatch("^/api/packages/hotelOffers.*$", urlPath)
+        }
+
+        fun isCreateTrip(urlPath: String): Boolean {
+            return doesItMatch("^/api/packages/createTrip.*$", urlPath)
+        }
+
+        fun isCheckout(urlPath: String): Boolean {
+            return doesItMatch("^/api/packages/checkout.*$", urlPath)
         }
 
         fun isFlightSearch(urlParams: Map<String, String>): Boolean {

@@ -23,11 +23,16 @@ public class CardInfoScreen {
 	private static final int MONTH_UP_BUTTON_ID = R.id.month_up;
 	private static final int MONTH_DOWN_BUTTON_ID = R.id.month_down;
 	private static final int YEAR_UP_BUTTON_ID = R.id.year_up;
+	private static final int CREDIT_CARD_CVV = R.id.edit_creditcard_cvv;
 
 	// Object access
 
 	public static ViewInteraction creditCardNumberEditText() {
 		return onView(withId(CREDIT_CARD_NUMBER_EDIT_TEXT_ID));
+	}
+
+	public static ViewInteraction creditCardCvvEditText() {
+		return onView(withId(CREDIT_CARD_CVV));
 	}
 
 	public static ViewInteraction expirationDateButton() {
@@ -95,8 +100,12 @@ public class CardInfoScreen {
 
 	public static void typeTextPostalCode(String postalCode) {
 		postalCodeEditText().perform(typeText(postalCode), closeSoftKeyboard());
-
 	}
+
+	public static void typeTextCvv(String cvv) {
+		creditCardCvvEditText().perform(typeText(cvv), closeSoftKeyboard());
+	}
+
 
 	public static void clickOnDoneButton() {
 		doneButton().perform(click());

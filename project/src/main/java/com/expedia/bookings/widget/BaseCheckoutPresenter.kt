@@ -50,6 +50,7 @@ open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Present
         vm.lineOfBusiness.subscribe { lob ->
             travelerWidget.setLineOfBusiness(lob)
             paymentWidget.setLineOfBusiness(lob)
+            vm.creditCardRequired.onNext(lob == LineOfBusiness.PACKAGES)
         }
         vm.creditCardRequired.subscribe { required ->
             paymentWidget.isCreditCardRequired = required

@@ -12,7 +12,6 @@ import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.ScrollView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
@@ -36,7 +35,7 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     val bundleContainer: ScrollView by bindView(R.id.bundle_container)
     val checkoutPresenter: BaseCheckoutPresenter by bindView(R.id.checkout_presenter)
     val checkoutButton: Button by bindView(R.id.checkout_button)
-    val bundleHotelWidget: PackageBundleHotelWidget by bindView(R.id.packageBundleWidget)
+    val bundleHotelWidget: PackageBundleHotelWidget by bindView(R.id.package_bundle_widget)
     val flightLoadingBar: ProgressBar by bindView(R.id.flight_loading_bar)
     val selectDepartureButton: CardView by bindView(R.id.flight_departure_card_view)
     val selectArrivalButton: CardView by  bindView(R.id.flight_arrival_card_view)
