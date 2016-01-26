@@ -16,6 +16,8 @@ import android.content.Context;
 import com.expedia.account.server.ExpediaAccountApi;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.AbacusServices;
@@ -156,6 +158,12 @@ public class AppModule {
 
 				if (endpointProvider.requestRequiresSiteId()) {
 					request.addEncodedQueryParam("siteid", ServicesUtil.generateSiteId());
+				}
+
+				boolean isV2HotelApiSearchEnabled =
+					Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchDomainV2);
+				if (isV2HotelApiSearchEnabled) {
+					request.addQueryParam("forceV2Search", "true");
 				}
 
 				request.addHeader("Accept", "application/json");
