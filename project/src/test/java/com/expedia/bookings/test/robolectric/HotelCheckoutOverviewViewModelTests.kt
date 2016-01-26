@@ -65,39 +65,38 @@ public class HotelCheckoutOverviewViewModelTest {
         assertEquals("The $0 resort fee will be collected at the hotel. The total price for your stay will be $135.81.", sut.disclaimerText.value.toString())
     }
 
-    // TESTS REMOVED FOR 6.7 -- PwP not allowed in 6.7
-//    @Test
-//    fun totalPriceCharged() {
-//        val totalPriceChargedSubscriber = TestSubscriber.create<String>()
-//        val paymentSplitsSubscriber = TestSubscriber.create<PaymentSplits>()
-//        sut.totalPriceCharged.subscribe(totalPriceChargedSubscriber)
-//        sut.paymentModel.paymentSplits.subscribe(paymentSplitsSubscriber)
-//
-//        sut.paymentModel.createTripSubject.onNext(getCreateTripResponse(true))
-//        paymentSplitsSubscriber.assertValueCount(1)
-//
-//        sut.paymentModel.createTripSubject.onNext(getCreateTripResponse(false))
-//        paymentSplitsSubscriber.assertValueCount(2)
-//
-//        sut.paymentModel.createTripSubject.onNext(getCreateTripResponse(true))
-//        paymentSplitsSubscriber.assertValueCount(3)
-//
-//        //When user chooses to pay through card and reward points
-//        val latch = CountDownLatch(1)
-//        sut.paymentModel.currencyToPointsApiResponse.subscribe { latch.countDown() }
-//        sut.paymentModel.amountChosenToBePaidWithPointsSubject.onNext(BigDecimal(32))
-//        latch.await(10, TimeUnit.SECONDS)
-//
-//        paymentSplitsSubscriber.assertValueCount(4)
-//
-//        totalPriceChargedSubscriber.assertValues("You are using 2500 ($1,000.00) Expedia+ points", "Your card will be charged $135.81", "You are using 2500 ($1,000.00) Expedia+ points" ,"You are using 14005 ($100.00) Expedia+ points\\nYour card will be charged $3.70")
-//    }
-//
-//    @Test
-//    fun totalPriceChargedWithPayLater() {
-//        //TODO
-//        //When user chooses the option of PayLater or changes the splits
-//    }
+    @Test
+    fun totalPriceCharged() {
+        val totalPriceChargedSubscriber = TestSubscriber.create<String>()
+        val paymentSplitsSubscriber = TestSubscriber.create<PaymentSplits>()
+        sut.totalPriceCharged.subscribe(totalPriceChargedSubscriber)
+        sut.paymentModel.paymentSplits.subscribe(paymentSplitsSubscriber)
+
+        sut.paymentModel.createTripSubject.onNext(getCreateTripResponse(true))
+        paymentSplitsSubscriber.assertValueCount(1)
+
+        sut.paymentModel.createTripSubject.onNext(getCreateTripResponse(false))
+        paymentSplitsSubscriber.assertValueCount(2)
+
+        sut.paymentModel.createTripSubject.onNext(getCreateTripResponse(true))
+        paymentSplitsSubscriber.assertValueCount(3)
+
+        //When user chooses to pay through card and reward points
+        val latch = CountDownLatch(1)
+        sut.paymentModel.currencyToPointsApiResponse.subscribe { latch.countDown() }
+        sut.paymentModel.amountChosenToBePaidWithPointsSubject.onNext(BigDecimal(32))
+        latch.await(10, TimeUnit.SECONDS)
+
+        paymentSplitsSubscriber.assertValueCount(4)
+
+        totalPriceChargedSubscriber.assertValues("You are using 2500 ($1,000.00) Expedia+ points", "Your card will be charged $135.81", "You are using 2500 ($1,000.00) Expedia+ points" ,"You are using 14005 ($100.00) Expedia+ points\\nYour card will be charged $3.70")
+    }
+
+    @Test
+    fun totalPriceChargedWithPayLater() {
+        //TODO
+        //When user chooses the option of PayLater or changes the splits
+    }
 
     @Test
     fun roomIsPayLater() {

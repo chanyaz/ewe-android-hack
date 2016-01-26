@@ -45,9 +45,9 @@ public class PaymentModelTest {
     val paymentSplitsTestSubscriber = TestSubscriber<PaymentSplits>()
     val currencyToPointsApiResponseTestSubscriber = TestSubscriber<CalculatePointsResponse>()
     val currencyToPointsApiErrorTestSubscriber = TestSubscriber<ApiError>()
-
     val createTripResponseTestSubscriber = TestSubscriber<TripResponse>()
     val couponChangeTestSubscriber = TestSubscriber<TripResponse>()
+
     //TODO Mock data for price change and coupon change does not have points in response similar to create trip
     //so leaving the tests for these for now and created mingle card for the same
     //https://eiwork.mingle.thoughtworks.com/projects/eb_ad_app/cards/6016
@@ -78,7 +78,6 @@ public class PaymentModelTest {
 
         //Expected Payment Split
         val expectedPaymentSplits = PaymentSplits(expediaPointDetails!!.maxPayableWithPoints!!, expediaPointDetails!!.remainingPayableByCard!!)
-
         paymentModel.createTripSubject.onNext(createTripResponse)
         createTripResponseTestSubscriber.assertNoErrors()
         createTripResponseTestSubscriber.assertValueCount(1)

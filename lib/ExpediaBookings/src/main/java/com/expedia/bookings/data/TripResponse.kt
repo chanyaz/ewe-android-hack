@@ -31,8 +31,7 @@ public abstract class TripResponse : BaseApiResponse() {
     }
 
     fun isExpediaRewardsRedeemable(): Boolean {
-        // Pay With Points is not allowed in 6.7
-        return false
+        return ValidPayment.isPaymentTypeSupported(validFormsOfPayment, PaymentType.POINTS_EXPEDIA_REWARDS)
     }
 
     abstract fun getTripTotal(): Money
