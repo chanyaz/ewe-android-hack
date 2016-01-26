@@ -4,13 +4,13 @@ import android.content.Context
 import android.content.res.Resources
 import android.location.Location
 import com.expedia.bookings.R
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.cars.BaseApiResponse
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.services.HotelServices
@@ -29,13 +29,6 @@ import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import kotlin.collections.emptyList
-import kotlin.collections.filter
-import kotlin.collections.first
-import kotlin.collections.firstOrNull
-import kotlin.collections.isNotEmpty
-import kotlin.collections.sortedBy
-import kotlin.collections.sortedByDescending
 
 public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?) {
 

@@ -5,6 +5,7 @@ import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.Rect
+import android.location.Address
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
@@ -19,7 +20,11 @@ import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelResultsViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.mobiata.android.BackgroundDownloader
+import com.mobiata.android.LocationServices
 
 public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
     override val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
@@ -50,6 +55,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         }
 
         vm.paramsSubject.subscribe { params ->
+            setMapToInitialState()
             showLoading()
             if (params.suggestion.coordinates != null) {
                 googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.suggestion.coordinates.lat, params.suggestion.coordinates.lng), 14.0f))
@@ -143,6 +149,51 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             searchThisArea?.visibility = View.VISIBLE
             ObjectAnimator.ofFloat(searchThisArea, "alpha", 0f, 1f).setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION).start()
         }
+    }
+
+    override fun onMapReady(googleMap: GoogleMap?) {
+        super.onMapReady(googleMap)
+        setMapToInitialState()
+    }
+
+    fun setMapToInitialState() {
+        if (isMapReady) {
+            if (viewmodel.paramsSubject.value?.suggestion?.coordinates != null &&
+                    viewmodel.paramsSubject.value?.suggestion?.coordinates?.lat != 0.0 &&
+                    viewmodel.paramsSubject.value?.suggestion?.coordinates?.lng != 0.0) {
+                moveCameraToLatLng(LatLng(viewmodel.paramsSubject.value.suggestion.coordinates.lat,
+                        viewmodel.paramsSubject.value.suggestion.coordinates.lng))
+            } else if (viewmodel.paramsSubject.value?.suggestion?.regionNames?.fullName != null) {
+                val BD_KEY = "geo_search"
+                val bd = BackgroundDownloader.getInstance()
+                bd.cancelDownload(BD_KEY)
+                bd.startDownload(BD_KEY, mGeocodeDownload(viewmodel.paramsSubject.value.suggestion.regionNames.fullName), geoCallback())
+            }
+        }
+    }
+
+    private fun mGeocodeDownload(query: String): BackgroundDownloader.Download<List<Address>?> {
+        return BackgroundDownloader.Download<kotlin.List<android.location.Address>?> {
+            LocationServices.geocodeGoogle(context, query)
+        }
+    }
+
+    private fun geoCallback(): BackgroundDownloader.OnDownloadComplete<List<Address>?> {
+        return BackgroundDownloader.OnDownloadComplete<List<Address>?> { results ->
+            if (results != null && results.isNotEmpty()) {
+                if (results[0].latitude != 0.0 && results[0].longitude != 0.0) {
+                    moveCameraToLatLng(LatLng(results[0].latitude, results[0].longitude))
+                }
+            }
+        }
+    }
+
+    private fun moveCameraToLatLng(latLng: LatLng) {
+        var cameraPosition = CameraPosition.Builder()
+                .target(latLng)
+                .zoom(8f)
+                .build();
+        googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 
 }
