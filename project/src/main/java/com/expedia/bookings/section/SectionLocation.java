@@ -289,7 +289,7 @@ public class SectionLocation extends LinearLayout
 
 		@Override
 		protected Validator<EditText> getValidator() {
-			MultiValidator<EditText> addrValidators = new MultiValidator<EditText>();
+			MultiValidator<EditText> addrValidators = new MultiValidator<>();
 			addrValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
 			addrValidators.addValidator(CommonSectionValidators.ALWAYS_VALID_VALIDATOR_ET);
 			return addrValidators;
@@ -406,9 +406,9 @@ public class SectionLocation extends LinearLayout
 
 		@Override
 		protected Validator<EditText> getValidator() {
-			MultiValidator<EditText> addrValidators = new MultiValidator<EditText>();
+			MultiValidator<EditText> addrValidators = new MultiValidator<>();
 			addrValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
-			if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
+			if (mLineOfBusiness == LineOfBusiness.FLIGHTS || mLineOfBusiness == LineOfBusiness.PACKAGES) {
 				addrValidators.addValidator(CommonSectionValidators.ADDRESS_STATE_VALIDATOR);
 			}
 			else {
@@ -519,7 +519,7 @@ public class SectionLocation extends LinearLayout
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<SectionFieldValidIndicator<?, Location>>();
+			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<>();
 			retArr.add(mValidPostalCode);
 			return retArr;
 		}
@@ -566,7 +566,10 @@ public class SectionLocation extends LinearLayout
 			// TODO Check with product for CARS lob postal code restrictions.
 			return true;
 		}
-
+		if (mLineOfBusiness == LineOfBusiness.PACKAGES) {
+			// TODO Check with product for PACKAGES lob postal code restrictions.
+			return true;
+		}
 		return false;
 	}
 

@@ -89,7 +89,7 @@ public abstract class TripBucketItem implements JSONable {
 
 	public void addValidPayments(List<ValidPayment> payments) {
 		if (mValidPayments == null) {
-			mValidPayments = new ArrayList<ValidPayment>();
+			mValidPayments = new ArrayList<>();
 		}
 
 		if (payments != null) {
