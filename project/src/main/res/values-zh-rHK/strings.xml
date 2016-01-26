@@ -205,6 +205,8 @@
     <string name="checkout_payment_option_credit_debit_label">信用卡/扣帳卡</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">旅客資料</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">輸入您的資料</string>
     <!-- Text for enter payment details line 1 -->
@@ -872,15 +874,15 @@
     <string name="photos_for_TEMPLATE">%s的照片</string>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
     <plurals name="n_rooms_left_TEMPLATE">
-        <item quantity="zero">僅餘 %s 間客房</item>
-        <item quantity="one">僅餘 %s 間客房</item>
-        <item quantity="two">僅餘 %s 間客房</item>
-        <item quantity="few">僅餘 %s 間客房</item>
-        <item quantity="many">僅餘 %s 間客房</item>
-        <item quantity="other">僅餘 %s 間客房</item>
+        <item quantity="zero">我們的 App 尚餘 %s 間客房</item>
+        <item quantity="one">我們的 App 尚餘 %s 間客房</item>
+        <item quantity="two">我們的 App 尚餘 %s 間客房</item>
+        <item quantity="few">我們的 App 尚餘 %s 間客房</item>
+        <item quantity="many">我們的 App 尚餘 %s 間客房</item>
+        <item quantity="other">我們的 App 尚餘 %s 間客房</item>
     </plurals>
     <!-- Title for the reviews section after we get the property name -->
-    <string name="reviews_for_TEMPLATE">%1$s的評論</string>
+    <string name="reviews_for_TEMPLATE">%1$s的評價</string>
     <!-- Information for the review about who submitted it and when -->
     <string name="submitted_by_on_date_TEMPLATE">%1$s 於 %2$s</string>
 
@@ -2033,9 +2035,9 @@
     <string name="first_name_field_text">名字 (英文)</string>
     <!-- last name -->
     <string name="last_name_field_text">姓氏 (英文)</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(例：%s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (例：%2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">持卡人</string>
@@ -2209,6 +2211,8 @@
     <string name="add_to_your_trip">添加到您的行程</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">%s酒店</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 間客房, %s 位旅客</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">%s租車</string>
     <!-- Title for section helping users in other various ways -->
@@ -2509,9 +2513,9 @@
         <item quantity="other">我們的 App 尚餘 %d 間客房</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">如需使用「目前位置」，請先允許 {brand} 取得您的位置。\n\n立即到「設定」啟用此功能？</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">如需使用目前位置，請先允許 {brand} 取得您的位置。\n\n如需啟用有關功能，請前往「設定」選取「權限」並啟用「位置」。</string>
+    <string name="go_to_settings">前往「設定」</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">如需使用「目前位置」，必須先於「設定」啟用「位置」來源。\n\n立即到「設定」啟用此功能？</string>
@@ -3802,4 +3806,7 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$d日</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">行程概覽</string>
 </resources>

@@ -205,6 +205,8 @@
     <string name="checkout_payment_option_credit_debit_label">Kartu Debit/Kredit</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Rincian Tamu</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Masukkan informasi Anda</string>
     <!-- Text for enter payment details line 1 -->
@@ -2033,9 +2035,9 @@
     <string name="first_name_field_text">nama depan</string>
     <!-- last name -->
     <string name="last_name_field_text">nama belakang</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(mis.: %s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (mis.: %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Pemilik Kartu</string>
@@ -2209,6 +2211,8 @@
     <string name="add_to_your_trip">Tambahkan</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotel di %s</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 kamar, %s tamu</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Mobil Sewa di %s</string>
     <!-- Title for section helping users in other various ways -->
@@ -2509,9 +2513,9 @@
         <item quantity="other">Sisa %d Kamar</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">Untuk menggunakan Lokasi Saat Ini, harap izinkan {brand} untuk mengakses lokasi Anda.\n\nBuka Pengaturan dan aktifkan sekarang?</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">Untuk menggunakan lokasi saat ini, harap berikan {brand} akses untuk mendeteksi lokasi Anda.\n\nUntuk melakukannya, klik Pengaturan, ketuk \"Izin\" dan pilih lokasi.</string>
+    <string name="go_to_settings">Ke Pengaturan</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">Untuk menggunakan Lokasi Saat Ini, harap aktifkan terlebih dulu Lokasi di Pengaturan perangkat Anda.\n\nBuka Pengaturan dan aktifkan sekarang?</string>
@@ -3802,4 +3806,7 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dhr</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">Ringkasan Perjalanan</string>
 </resources>

@@ -148,7 +148,7 @@
     <!-- Any transmission type filter button -->
     <string name="car_filter_all">Alle</string>
     <!-- Air conditioning option checkbox filter -->
-    <string name="car_filter_checkbox_air_conditioning">Klima-&lt;br/&gt;anlage</string>
+    <string name="car_filter_checkbox_air_conditioning">Klimaanlage</string>
     <!-- Unlimited mileage option checkbox filter -->
     <string name="car_filter_checkbox_unlimited_mileage">Unbegrenzte Kilometer</string>
     <!-- Car types checkbox filter label for a car rental-->
@@ -205,6 +205,8 @@
     <string name="checkout_payment_option_credit_debit_label">Kreditkarte/Debitkarte</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Angaben zum Gast</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Bitte geben Sie Ihre Daten ein</string>
     <!-- Text for enter payment details line 1 -->
@@ -929,7 +931,7 @@
     <!-- Hotels -->
     <string name="nav_hotels">Hotels</string>
     <!-- Cars -->
-    <string name="nav_cars">Mietwagen</string>
+    <string name="nav_cars">Autos</string>
     <!-- Activities -->
     <string name="nav_lx">Aktivitäten</string>
     <!-- Ground Transport -->
@@ -2033,9 +2035,9 @@
     <string name="first_name_field_text">Vorname</string>
     <!-- last name -->
     <string name="last_name_field_text">Nachname</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(Beispiel: %s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (Beispiel: %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Karteninhaber</string>
@@ -2209,6 +2211,8 @@
     <string name="add_to_your_trip">Zur Reise hinzufügen</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotels in %s</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 Zimmer, %s Gäste</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Mietwagen in %s</string>
     <!-- Title for section helping users in other various ways -->
@@ -2510,9 +2514,9 @@
         <item quantity="other">%d Zimmer bei uns verfügbar</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">Um den Standort nutzen zu können, müssen Sie es {brand} erlauben, Ihren Standort zu bestimmen.\n\nJetzt unter “Einstellungen” aktivieren?</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">Um den Standort nutzen zu können, müssen Sie es {brand} erlauben, Ihren Standort zu bestimmen.\n\nGehen Sie, um dies zu tun, unter Einstellungen auf \"Berechtigungen\" und aktivieren Sie die Standortbestimmung.</string>
+    <string name="go_to_settings">Zu den Einstellungen</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">Um den Standort nutzen zu können, müssen Sie erst “Standort” in den “Einstellungen” aktivieren.\n\nJetzt unter “Einstellungen” aktivieren?</string>
@@ -3803,4 +3807,7 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s (+ %3$d T.)</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">Reiseübersicht</string>
 </resources>

@@ -205,6 +205,8 @@
     <string name="checkout_payment_option_credit_debit_label">บัตรเครดิต/บัตรเดบิต</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">รายละเอียดผู้เข้าพัก</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">ป้อนข้อมูลของคุณ</string>
     <!-- Text for enter payment details line 1 -->
@@ -2035,9 +2037,9 @@
     <string name="first_name_field_text">ชื่อ</string>
     <!-- last name -->
     <string name="last_name_field_text">นามสกุล</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(เช่น: %s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (เช่น: %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">เจ้าของบัตร</string>
@@ -2211,6 +2213,8 @@
     <string name="add_to_your_trip">เพิ่มลงในทริป</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">โรงแรมใน%s</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 ห้อง, ผู้เข้าพัก %s คน</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">รถใน%s</string>
     <!-- Title for section helping users in other various ways -->
@@ -2511,9 +2515,9 @@
         <item quantity="other">เหลือ %d ห้อง</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">เพื่อใช้งานตำแหน่งปัจจุบัน คุณต้องอนุญาตให้ {brand} เข้าถึงตำแหน่งของคุณได้\n\nไปที่การตั้งค่าและเปิดใช้ไหม?</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">เพื่อใช้งานตำแหน่งปัจจุบัน คุณต้องอนุญาตให้ {brand} เข้าถึงตำแหน่งของคุณได้\n\nเพื่อเปิดใช้งาน โปรดไปยังการตั้งค่าและตรวจสอบ "การอนุญาต" แอพของคุณ</string>
+    <string name="go_to_settings">ไปยังการตั้งค่า</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">ในการใช้ตำแหน่งปัจจุบันของคุณ คุณต้องเปิดใช้บริการ "ตำแหน่ง" ในการตั้งค่าก่อน\n\nไปที่การตั้งค่าและเปิดใช้?</string>
@@ -3804,4 +3808,7 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dวัน</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">ข้อมูลสรุปการเดินทาง</string>
 </resources>

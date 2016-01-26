@@ -202,10 +202,14 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         loadingOverlay?.animate(false)
         loadingOverlay?.visibility = View.GONE
         adapter.resultsSubject.onNext(Pair(it.hotelList, it.userPriceType))
-        if ((ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap) && it.hotelList.size <= 3) {
-            recyclerView.setBackgroundColor(ContextCompat.getColor(context, R.color.hotel_result_background))
+
+        // show fab button always in case of AB test or shitty device
+        if (ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap) {
             fab.visibility = View.VISIBLE
             getFabAnimIn().start()
+        }
+        if ((ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap) && it.hotelList.size <= 3) {
+            recyclerView.setBackgroundColor(ContextCompat.getColor(context, R.color.hotel_result_background))
         } else {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         }

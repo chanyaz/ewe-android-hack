@@ -205,6 +205,8 @@
     <string name="checkout_payment_option_credit_debit_label">Carte de paiement</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Informations du client</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Saisissez vos informations</string>
     <!-- Text for enter payment details line 1 -->
@@ -2033,9 +2035,9 @@
     <string name="first_name_field_text">prénom</string>
     <!-- last name -->
     <string name="last_name_field_text">nom</string>
-    <!-- Label for hint on first and last name fields. For English locale
-    we want to show "e.g." for all non-English we want to show "example:"-->
-    <string name="hint_example_name_TEMPLATE">(par ex. %s)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (par ex. %2$s)</string>
 
     <!-- Cardholder -->
     <string name="cardholder">Titulaire de la carte</string>
@@ -2209,6 +2211,8 @@
     <string name="add_to_your_trip">Ajouter à votre voyage</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hôtels à %s</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 chambre, %s voyageurs</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Voitures à %s</string>
     <!-- Title for section helping users in other various ways -->
@@ -2506,12 +2510,12 @@
         <item quantity="one">Il reste %d chambre sur notre app !</item>
         <item quantity="two">Il reste %d chambres sur notre app</item>
         <item quantity="many">Il reste %d chambres sur notre app</item>
-        <item quantity="other">Il reste %d chambres sur notre app !</item>
+        <item quantity="other">Il reste %d chambres sur notre appli</item>
     </plurals>
 
-
     <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
-    <string name="EnableLocationPermissionSettings_TEMPLATE">Pour pouvoir utiliser la fonction d\&apos;emplacement actuel, vous devez autoriser {brand} à accéder à votre emplacement.\n\nOuvrir Paramètres et l\&apos;activer maintenant ?</string>
+    <string name="EnableLocationPermissionSettings_TEMPLATE">Pour pouvoir utiliser la fonction d\&apos;emplacement actuel, vous devez autoriser {brand} à accéder à votre emplacement.\n\nPour activer cette fonction, allez dans les paramètres, sélectionnez Autorisations, puis activez le partage de votre emplacement.</string>
+    <string name="go_to_settings">Aller dans les paramètres</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">Pour utiliser la position actuelle, veuillez activer le service de localisation dans vos paramètres.\n\nOuvrir Paramètres et l\&apos;activer maintenant ?</string>
@@ -2647,7 +2651,7 @@
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% de nos clients recommandent cet hôtel.</string>
     <!-- new material Hotel results cell guest rating -->
-    <string name="customer_rating_percent_Template">{rating} {percent}</string>
+    <string name="customer_rating_percent_Template">{rating}{percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">sur 5 - avis clients</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -2873,7 +2877,7 @@
     <!-- View Room button text -->
     <string name="view_room_button_text">Voir la chambre</string>
     <!-- Book Room button text -->
-    <string name="book_room_button_text">Livre</string>
+    <string name="book_room_button_text">Réserver</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Partager via</string>
     <!-- Renovation Notice -->
@@ -3048,9 +3052,9 @@
     <!-- Label for "app support" button in info page -->
     <string name="app_support">Assistance pour l\&apos;app</string>
     <!-- Label for link to terms and conditions -->
-    <string name="info_label_terms_conditions">Conditions d\&apos;utilisation</string>
+    <string name="info_label_terms_conditions">Conditions générales d\&apos;utilisation</string>
     <!-- Label for link to terms of use -->
-    <string name="info_label_terms_of_use">Conditions d\&apos;utilisation</string>
+    <string name="info_label_terms_of_use">Conditions générales de vente</string>
     <!-- Label for link to privacy policy -->
     <string name="info_label_privacy_policy">Charte de confidentialité</string>
     <!-- Copyright information -->
@@ -3802,4 +3806,7 @@
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s + %3$d j</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">Récapitulatif du voyage</string>
 </resources>
