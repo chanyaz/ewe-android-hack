@@ -68,10 +68,10 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     var createTripViewModel: PackageCreateTripViewModel by notNullAndObservable { vm ->
         vm.tripParams.subscribe {
             createTripDialog.show()
-            checkoutButton.visibility = VISIBLE
         }
         vm.tripResponseObservable.subscribe {
             createTripDialog.hide()
+            checkoutButton.visibility = VISIBLE
         }
         vm.tripResponseObservable.subscribe(checkoutPresenter.viewModel.packageTripResponse)
     }
@@ -79,8 +79,6 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     init {
         View.inflate(context, R.layout.bundle_overview, this)
         bundleHotelWidget.viewModel = BundleHotelViewModel(context)
-        checkoutPresenter.viewModel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
-        checkoutPresenter.viewModel.creditCardRequired.onNext(true)
         checkoutPresenter.travelerWidget.mToolbarListener = toolbar
         checkoutPresenter.paymentWidget.mToolbarListener = toolbar
         toolbar.viewModel = CheckoutToolbarViewModel(context)
