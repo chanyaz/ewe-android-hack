@@ -9,7 +9,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.StoredCreditCard;
@@ -19,7 +19,6 @@ import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.model.FlightTravelerFlowState;
 import com.expedia.bookings.model.HotelTravelerFlowState;
 import com.expedia.bookings.section.CommonSectionValidators;
-import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.Log;
 
 public class BookingInfoUtils {
@@ -87,16 +86,6 @@ public class BookingInfoUtils {
 		List<StoredCreditCard> cards = new ArrayList<StoredCreditCard>();
 		boolean seenSelectedCard = false;
 
-		if (Db.getMaskedWallet() != null) {
-			StoredCreditCard walletCard = WalletUtils.convertToStoredCreditCard(Db.getMaskedWallet());
-			StoredCreditCard currentCard = Db.getBillingInfo().getStoredCard();
-			if (currentCard != null && currentCard.compareTo(walletCard) == 0) {
-				walletCard.setIsSelectable(false);
-				seenSelectedCard = true;
-			}
-			cards.add(walletCard);
-		}
-
 		if (User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getStoredCreditCards() != null) {
 			List<StoredCreditCard> dbCards = Db.getUser().getStoredCreditCards();
 			StoredCreditCard currentCard = Db.getBillingInfo().getStoredCard();
@@ -133,10 +122,6 @@ public class BookingInfoUtils {
 	public static List<Traveler> getAlternativeTravelers(Context context) {
 		List<Traveler> travelers = new ArrayList<Traveler>();
 
-		if (Db.getGoogleWalletTraveler() != null) {
-			travelers.add(Db.getGoogleWalletTraveler());
-		}
-
 		if (User.isLoggedIn(context) && Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null) {
 			travelers.addAll(Db.getUser().getAssociatedTravelers());
 		}
@@ -148,8 +133,7 @@ public class BookingInfoUtils {
 		for (int j = 0; j < Db.getTravelers().size(); j++) {
 			Traveler inUseTraveler = Db.getTravelers().get(j);
 			if ((traveler.hasTuid() && inUseTraveler.hasTuid()
-				&& traveler.getTuid().compareTo(inUseTraveler.getTuid()) == 0)
-				|| (traveler.fromGoogleWallet() && inUseTraveler.fromGoogleWallet())) {
+				&& traveler.getTuid().compareTo(inUseTraveler.getTuid()) == 0)) {
 				return true;
 			}
 		}
@@ -164,12 +148,7 @@ public class BookingInfoUtils {
 			boolean useNewTraveler = false;
 			Traveler currentFirstTraveler = Db.getTravelers().get(0);
 
-			if (traveler.fromGoogleWallet() && currentFirstTraveler.fromGoogleWallet()) {
-				// If the current user is from GWallet (and no edits have been made, signified
-				// by the fact that we still think it is from GWallet) then replace it automatically.
-				useNewTraveler = true;
-			}
-			else if (lob == LineOfBusiness.HOTELS) {
+			if (lob == LineOfBusiness.HOTELS) {
 				HotelTravelerFlowState state = HotelTravelerFlowState.getInstance(context);
 				if (!state.hasValidTraveler(currentFirstTraveler)) {
 					useNewTraveler = state.hasValidTraveler(traveler);
@@ -280,7 +259,7 @@ public class BookingInfoUtils {
 				if (lob == LineOfBusiness.FLIGHTS) {
 					// Make sure the card is supported by this flight trip before automatically selecting it
 					if (Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().getFlightTrip() != null &&
-						Db.getTripBucket().getFlight().isCardTypeSupported(scc.getType())) {
+						Db.getTripBucket().getFlight().isPaymentTypeSupported(scc.getType())) {
 
 						info.setStoredCard(scc);
 
@@ -291,19 +270,14 @@ public class BookingInfoUtils {
 				}
 				else {
 					if (Db.getTripBucket().getHotel() != null &&
-						Db.getTripBucket().getHotel().isCardTypeSupported(scc.getType())) {
+						Db.getTripBucket().getHotel().isPaymentTypeSupported(scc.getType())) {
 						info.setStoredCard(scc);
 						return true;
 					}
 				}
 			}
 		}
-		else if (Db.getMaskedWallet() == null) {
-			//Remove stored card(s)
-			info.setStoredCard(null);
-			//Turn off the save to expedia account flag
-			info.setSaveCardToExpediaAccount(false);
-		}
+
 		return false;
 	}
 
@@ -392,21 +366,6 @@ public class BookingInfoUtils {
 			}
 		}
 
-		//Get google wallet email...
-		String walletEmail = null;
-		if (Db.hasBillingInfo()) {
-			if (Db.getBillingInfo().getStoredCard() != null && Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
-				MaskedWallet wallet = Db.getMaskedWallet();
-				if (wallet != null && !TextUtils.isEmpty(wallet.getEmail())) {
-					String email = wallet.getEmail();
-					if (CommonSectionValidators.EMAIL_STRING_VALIDATIOR_STRICT.validate(email) == 0) {
-						Log.d("getCheckoutEmail - found Db.getMaskedWallet().getEmail():" + email);
-						walletEmail = email;
-					}
-				}
-			}
-		}
-
 		//Choose best email address based on priority and availability.
 		String retEmail = null;
 		if (!TextUtils.isEmpty(userEmail)) {
@@ -420,10 +379,7 @@ public class BookingInfoUtils {
 				//In flights email is associated with billingInfo. So if we have a wallet email, we use that, because it replaces our payment method.
 				//Failing that we try the BillingInfo, because that is where we put manually entered email addresses. Finally we try traveler, because
 				//the user may have entered an address in Hotels that is to be used now.
-				if (!TextUtils.isEmpty(walletEmail)) {
-					retEmail = walletEmail;
-				}
-				else if (!TextUtils.isEmpty(billingInfoEmail)) {
+				if (!TextUtils.isEmpty(billingInfoEmail)) {
 					retEmail = billingInfoEmail;
 				}
 				else if (!TextUtils.isEmpty(travelerEmail)) {
@@ -431,13 +387,10 @@ public class BookingInfoUtils {
 				}
 			}
 			else {
-				//In hotels email is associated with the traveler. So we first look at the travelerEmail. Failing that we look in wallet, but wallet should
-				//have copied its email over to traveler already, so that should be rare, finally we check billingInfo because we are desperate.
+				//In hotels email is associated with the traveler. So we first look at the travelerEmail.
+				//Failing that we look billingInfo because we are desperate.
 				if (!TextUtils.isEmpty(travelerEmail)) {
 					retEmail = travelerEmail;
-				}
-				else if (!TextUtils.isEmpty(walletEmail)) {
-					retEmail = walletEmail;
 				}
 				else if (!TextUtils.isEmpty(billingInfoEmail)) {
 					retEmail = billingInfoEmail;
@@ -449,28 +402,32 @@ public class BookingInfoUtils {
 		return retEmail;
 	}
 
-	public static final int getGreyCardIcon(CreditCardType type) {
+	public static final int getGreyCardIcon(PaymentType type) {
+		CreditCardUtils.assertPaymentTypeIsCard(type);
 		if (CREDIT_CARD_GREY_ICONS.containsKey(type)) {
 			return CREDIT_CARD_GREY_ICONS.get(type);
 		}
 		return R.drawable.ic_generic_card;
 	}
 
-	public static final int getBlackCardIcon(CreditCardType type) {
+	public static final int getBlackCardIcon(PaymentType type) {
+		CreditCardUtils.assertPaymentTypeIsCard(type);
 		if (CREDIT_CARD_BLACK_ICONS.containsKey(type)) {
 			return CREDIT_CARD_BLACK_ICONS.get(type);
 		}
 		return R.drawable.ic_generic_card_black;
 	}
 
-	public static final int getWhiteCardIcon(CreditCardType type) {
+	public static final int getWhiteCardIcon(PaymentType type) {
+		CreditCardUtils.assertPaymentTypeIsCard(type);
 		if (CREDIT_CARD_WHITE_ICONS.containsKey(type)) {
 			return CREDIT_CARD_WHITE_ICONS.get(type);
 		}
 		return R.drawable.ic_generic_card_white;
 	}
 
-	public static final int getTabletCardIcon(CreditCardType type) {
+	public static final int getTabletCardIcon(PaymentType type) {
+		CreditCardUtils.assertPaymentTypeIsCard(type);
 		if (CREDIT_CARD_TABLET_ICONS.containsKey(type)) {
 			return CREDIT_CARD_TABLET_ICONS.get(type);
 		}
@@ -482,69 +439,68 @@ public class BookingInfoUtils {
 
 	// Which icon to use with which credit card
 	@SuppressWarnings("serial")
-	private static final HashMap<CreditCardType, Integer> CREDIT_CARD_GREY_ICONS = new HashMap<CreditCardType, Integer>() {
+	private static final HashMap<PaymentType, Integer> CREDIT_CARD_GREY_ICONS = new HashMap<PaymentType, Integer>() {
 		{
-			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_amex_grey);
-			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_carte_blanche_grey);
-			put(CreditCardType.CARTE_BLEUE, R.drawable.ic_carte_bleue_grey);
-			put(CreditCardType.CHINA_UNION_PAY, R.drawable.ic_union_pay_grey);
-			put(CreditCardType.DINERS_CLUB, R.drawable.ic_diners_club_grey);
-			put(CreditCardType.DISCOVER, R.drawable.ic_discover_grey);
-			put(CreditCardType.JAPAN_CREDIT_BUREAU, R.drawable.ic_jcb_grey);
-			put(CreditCardType.MAESTRO, R.drawable.ic_maestro_grey);
-			put(CreditCardType.MASTERCARD, R.drawable.ic_master_card_grey);
-			put(CreditCardType.VISA, R.drawable.ic_visa_grey);
+			put(PaymentType.CARD_AMERICAN_EXPRESS, R.drawable.ic_amex_grey);
+			put(PaymentType.CARD_CARTE_BLANCHE, R.drawable.ic_carte_blanche_grey);
+			put(PaymentType.CARD_CARTE_BLEUE, R.drawable.ic_carte_bleue_grey);
+			put(PaymentType.CARD_CHINA_UNION_PAY, R.drawable.ic_union_pay_grey);
+			put(PaymentType.CARD_DINERS_CLUB, R.drawable.ic_diners_club_grey);
+			put(PaymentType.CARD_DISCOVER, R.drawable.ic_discover_grey);
+			put(PaymentType.CARD_JAPAN_CREDIT_BUREAU, R.drawable.ic_jcb_grey);
+			put(PaymentType.CARD_MAESTRO, R.drawable.ic_maestro_grey);
+			put(PaymentType.CARD_MASTERCARD, R.drawable.ic_master_card_grey);
+			put(PaymentType.CARD_VISA, R.drawable.ic_visa_grey);
 		}
 	};
 
 	// Which icon to use with which credit card
 	@SuppressWarnings("serial")
-	private static final HashMap<CreditCardType, Integer> CREDIT_CARD_BLACK_ICONS = new HashMap<CreditCardType, Integer>() {
+	private static final HashMap<PaymentType, Integer> CREDIT_CARD_BLACK_ICONS = new HashMap<PaymentType, Integer>() {
 		{
-			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_amex_black);
-			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_carte_blanche_black);
-			put(CreditCardType.CARTE_BLEUE, R.drawable.ic_carte_bleue_black);
-			put(CreditCardType.CHINA_UNION_PAY, R.drawable.ic_union_pay_black);
-			put(CreditCardType.DINERS_CLUB, R.drawable.ic_diners_club_black);
-			put(CreditCardType.DISCOVER, R.drawable.ic_discover_black);
-			put(CreditCardType.JAPAN_CREDIT_BUREAU, R.drawable.ic_jcb_black);
-			put(CreditCardType.MAESTRO, R.drawable.ic_maestro_black);
-			put(CreditCardType.MASTERCARD, R.drawable.ic_master_card_black);
-			put(CreditCardType.VISA, R.drawable.ic_visa_black);
+			put(PaymentType.CARD_AMERICAN_EXPRESS, R.drawable.ic_amex_black);
+			put(PaymentType.CARD_CARTE_BLANCHE, R.drawable.ic_carte_blanche_black);
+			put(PaymentType.CARD_CARTE_BLEUE, R.drawable.ic_carte_bleue_black);
+			put(PaymentType.CARD_CHINA_UNION_PAY, R.drawable.ic_union_pay_black);
+			put(PaymentType.CARD_DINERS_CLUB, R.drawable.ic_diners_club_black);
+			put(PaymentType.CARD_DISCOVER, R.drawable.ic_discover_black);
+			put(PaymentType.CARD_JAPAN_CREDIT_BUREAU, R.drawable.ic_jcb_black);
+			put(PaymentType.CARD_MAESTRO, R.drawable.ic_maestro_black);
+			put(PaymentType.CARD_MASTERCARD, R.drawable.ic_master_card_black);
+			put(PaymentType.CARD_VISA, R.drawable.ic_visa_black);
 		}
 	};
 
 	// Which icon to use with which credit card
 	@SuppressWarnings("serial")
-	private static final HashMap<CreditCardType, Integer> CREDIT_CARD_WHITE_ICONS = new HashMap<CreditCardType, Integer>() {
+	private static final HashMap<PaymentType, Integer> CREDIT_CARD_WHITE_ICONS = new HashMap<PaymentType, Integer>() {
 		{
-			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_amex_white);
-			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_carte_blanche_white);
-			put(CreditCardType.CARTE_BLEUE, R.drawable.ic_carte_bleue_white);
-			put(CreditCardType.CHINA_UNION_PAY, R.drawable.ic_union_pay_white);
-			put(CreditCardType.DINERS_CLUB, R.drawable.ic_diners_club_white);
-			put(CreditCardType.DISCOVER, R.drawable.ic_discover_white);
-			put(CreditCardType.JAPAN_CREDIT_BUREAU, R.drawable.ic_jcb_white);
-			put(CreditCardType.MAESTRO, R.drawable.ic_maestro_white);
-			put(CreditCardType.MASTERCARD, R.drawable.ic_master_card_white);
-			put(CreditCardType.VISA, R.drawable.ic_visa_white);
+			put(PaymentType.CARD_AMERICAN_EXPRESS, R.drawable.ic_amex_white);
+			put(PaymentType.CARD_CARTE_BLANCHE, R.drawable.ic_carte_blanche_white);
+			put(PaymentType.CARD_CARTE_BLEUE, R.drawable.ic_carte_bleue_white);
+			put(PaymentType.CARD_CHINA_UNION_PAY, R.drawable.ic_union_pay_white);
+			put(PaymentType.CARD_DINERS_CLUB, R.drawable.ic_diners_club_white);
+			put(PaymentType.CARD_DISCOVER, R.drawable.ic_discover_white);
+			put(PaymentType.CARD_JAPAN_CREDIT_BUREAU, R.drawable.ic_jcb_white);
+			put(PaymentType.CARD_MAESTRO, R.drawable.ic_maestro_white);
+			put(PaymentType.CARD_MASTERCARD, R.drawable.ic_master_card_white);
+			put(PaymentType.CARD_VISA, R.drawable.ic_visa_white);
 		}
 	};
 
 	@SuppressWarnings("serial")
-	private static final HashMap<CreditCardType, Integer> CREDIT_CARD_TABLET_ICONS = new HashMap<CreditCardType, Integer>() {
+	private static final HashMap<PaymentType, Integer> CREDIT_CARD_TABLET_ICONS = new HashMap<PaymentType, Integer>() {
 		{
-			put(CreditCardType.AMERICAN_EXPRESS, R.drawable.ic_tablet_checkout_amex);
-			put(CreditCardType.CARTE_BLANCHE, R.drawable.ic_tablet_checkout_carte_blanche);
-			put(CreditCardType.CARTE_BLEUE, R.drawable.ic_tablet_checkout_carte_bleue);
-			put(CreditCardType.CHINA_UNION_PAY, R.drawable.ic_tablet_checkout_union_pay);
-			put(CreditCardType.DINERS_CLUB, R.drawable.ic_tablet_checkout_diners_club);
-			put(CreditCardType.DISCOVER, R.drawable.ic_tablet_checkout_discover);
-			put(CreditCardType.JAPAN_CREDIT_BUREAU, R.drawable.ic_tablet_checkout_jcb);
-			put(CreditCardType.MAESTRO, R.drawable.ic_tablet_checkout_maestro);
-			put(CreditCardType.MASTERCARD, R.drawable.ic_tablet_checkout_mastercard);
-			put(CreditCardType.VISA, R.drawable.ic_tablet_checkout_visa);
-			put(CreditCardType.GOOGLE_WALLET, R.drawable.ic_tablet_checkout_google_wallet);
+			put(PaymentType.CARD_AMERICAN_EXPRESS, R.drawable.ic_tablet_checkout_amex);
+			put(PaymentType.CARD_CARTE_BLANCHE, R.drawable.ic_tablet_checkout_carte_blanche);
+			put(PaymentType.CARD_CARTE_BLEUE, R.drawable.ic_tablet_checkout_carte_bleue);
+			put(PaymentType.CARD_CHINA_UNION_PAY, R.drawable.ic_tablet_checkout_union_pay);
+			put(PaymentType.CARD_DINERS_CLUB, R.drawable.ic_tablet_checkout_diners_club);
+			put(PaymentType.CARD_DISCOVER, R.drawable.ic_tablet_checkout_discover);
+			put(PaymentType.CARD_JAPAN_CREDIT_BUREAU, R.drawable.ic_tablet_checkout_jcb);
+			put(PaymentType.CARD_MAESTRO, R.drawable.ic_tablet_checkout_maestro);
+			put(PaymentType.CARD_MASTERCARD, R.drawable.ic_tablet_checkout_mastercard);
+			put(PaymentType.CARD_VISA, R.drawable.ic_tablet_checkout_visa);
 		}
 	};
 

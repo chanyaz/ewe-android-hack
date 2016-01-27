@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--todo - update styles once we know colors for rail-->
+    <style name="V2.Theme.Rail" parent="Whitelabel.PackageTheme.Base" />
+
+</resources>

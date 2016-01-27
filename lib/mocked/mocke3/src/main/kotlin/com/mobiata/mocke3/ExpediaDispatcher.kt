@@ -6,6 +6,7 @@ import com.squareup.okhttp.mockwebserver.RecordedRequest
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import kotlin.text.Regex
+import kotlin.text.contains
 
 // Mocks out various mobile Expedia APIs
 public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
@@ -24,6 +25,25 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
             throw UnsupportedOperationException("Valid user-agent not passed. I expect to see a user-agent resembling: ExpediaBookings/x.x.x (EHad; Mobiata)")
         }
 
+        // Packages API
+        if (request.path.startsWith("/getpackages/v1")) {
+            if (!request.path.contains("searchProduct")) {
+                return makeResponse("/getpackages/v1/happy.json")
+            }
+            else {
+                if (!request.path.contains("selectedLegId")) {
+                    return makeResponse("/getpackages/v1/happy_outbound_flight.json")
+                }
+                else {
+                    return makeResponse("/getpackages/v1/happy_inbound_flight.json")
+                }
+            }
+        }
+
+        if (request.path.contains("/packages/hotelOffers")) {
+            return makeResponse("/getpackages/v1/happy_hotelOffers.json")
+        }
+        
         // Hotels API
         if (request.path.startsWith("/m/api/hotel") || request.path.startsWith("/api/m/trip/coupon")) {
             return hotelRequestDispatcher.dispatch(request)
@@ -57,6 +77,11 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         // Trips API
         if (request.path.startsWith("/api/trips")) {
             return dispatchTrip(request)
+        }
+
+        // Calculate points API
+        if (request.path.contains("/api/trip/calculatePoints")) {
+            return dispatchCalculatePoints(request)
         }
 
         // Expedia Suggest
@@ -189,12 +214,16 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
     private fun dispatchSuggest(request: RecordedRequest): MockResponse {
         var type: String? = ""
         var latlong: String? = ""
+        var lob: String? = ""
         val params = parseRequest(request)
         if (params.containsKey("type")) {
             type = params.get("type")
         }
         if (params.containsKey("latlong")) {
             latlong = params.get("latlong")
+        }
+        if (params.containsKey("lob")) {
+            lob = params.get("lob")
         }
 
         if (request.path.startsWith("/hint/es/v2/ac/en_US")) {
@@ -216,8 +245,18 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
                 return makeResponse("/hint/es/v1/nearby/en_US/suggestion.json")
             }// City
         } else if (request.path.startsWith("/api/v4/typeahead/")) {
-            return makeResponse("/api/v4/suggestion.json")
+            if (lob == "Flights") {
+                val requestPath = request.path
+                val filename = requestPath.substring(requestPath.lastIndexOf('/') + 1, requestPath.indexOf('?'))
+                return makeResponse("/api/v4/suggestion_" + unUrlEscape(filename) + ".json")
+            }
+            else {
+                return makeResponse("/api/v4/suggestion.json")
+            }
         } else if (request.path.startsWith("/api/v4/nearby/")) {
+            if (latlong == "31.32|75.57") {
+                return makeResponse("/api/v4/suggestion_with_no_lx_activities.json")
+            }
             return makeResponse("/api/v4/suggestion_nearby.json")
         }
         return make404()
@@ -255,6 +294,11 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 
     private fun dispatchReviews(): MockResponse {
         return makeResponse("api/hotelreviews/hotel/happy.json")
+    }
+
+    private fun dispatchCalculatePoints(request: RecordedRequest): MockResponse {
+        val params = parseRequest(request)
+        return makeResponse("/m/api/trip/calculatePoints/"+ params["tripId"] +".json")
     }
 
     public fun numOfTravelAdRequests(key: String): Int {

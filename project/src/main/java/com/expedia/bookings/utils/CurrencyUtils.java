@@ -10,7 +10,7 @@ import java.util.Map;
 
 import android.content.Context;
 
-import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.PaymentType;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.mobiata.android.Log;
@@ -38,7 +38,7 @@ public class CurrencyUtils {
 	 * @param cardNumber the number of the card (as entered so far)
 	 * @return the credit card brand if detected, null if not detected
 	 */
-	public static CreditCardType detectCreditCardBrand(String cardNumber) {
+	public static PaymentType detectCreditCardBrand(String cardNumber) {
 		//If we dont have any input, we dont get any output
 		if (Strings.isEmpty(cardNumber)) {
 			return null;
@@ -58,94 +58,97 @@ public class CurrencyUtils {
 
 		// American Express
 		if (numDigits == 15 && (twoDigitPrefix == 34 || twoDigitPrefix == 37)) {
-			return CreditCardType.AMERICAN_EXPRESS;
+			return PaymentType.CARD_AMERICAN_EXPRESS;
 		}
 
 		// Carte Blanche
 		if (numDigits == 14 && (twoDigitPrefix == 94 || twoDigitPrefix == 95)) {
-			return CreditCardType.CARTE_BLANCHE;
+			return PaymentType.CARD_CARTE_BLANCHE;
 		}
 
 		// China Union Pay
 		if (numDigits >= 16 && numDigits <= 19 && twoDigitPrefix == 62) {
-			return CreditCardType.CHINA_UNION_PAY;
+			return PaymentType.CARD_CHINA_UNION_PAY;
 		}
 
 		// Diners
 		if (numDigits == 14
 			&& (twoDigitPrefix == 30 || twoDigitPrefix == 36 || twoDigitPrefix == 38 || twoDigitPrefix == 60)) {
-			return CreditCardType.DINERS_CLUB;
+			return PaymentType.CARD_DINERS_CLUB;
 		}
 
 		// Discover
 		if (numDigits == 16 && twoDigitPrefix == 60) {
-			return CreditCardType.DISCOVER;
+			return PaymentType.CARD_DISCOVER;
 		}
 
 		// JCB
 		if ((numDigits == 15 || numDigits == 16) && twoDigitPrefix == 35) {
-			return CreditCardType.JAPAN_CREDIT_BUREAU;
+			return PaymentType.CARD_JAPAN_CREDIT_BUREAU;
 		}
 
 		// Maestro
 		if ((numDigits == 16 || numDigits == 18 || numDigits == 19)
 			&& (twoDigitPrefix == 50 || twoDigitPrefix == 63 || twoDigitPrefix == 67)) {
-			return CreditCardType.MAESTRO;
+			return PaymentType.CARD_MAESTRO;
 		}
 
 		// MasterCard
 		if (numDigits == 16 && twoDigitPrefix >= 51 && twoDigitPrefix <= 55) {
-			return CreditCardType.MASTERCARD;
+			return PaymentType.CARD_MASTERCARD;
 		}
 
 		// Visa
 		if ((numDigits == 13 || numDigits == 16) && twoDigitPrefix / 10 == 4) {
-			return CreditCardType.VISA;
+			return PaymentType.CARD_VISA;
 		}
 
 		// Didn't find a valid card type, return null
 		return null;
 	}
 
-	public static CreditCardType parseCardType(String type) {
+	public static PaymentType parsePaymentType(String type) {
 		// Code lovingly stolen from iOS, where they note that these
 		// values are not yet verified from the API folks.
 		if (type.equals("AmericanExpress")) {
-			return CreditCardType.AMERICAN_EXPRESS;
+			return PaymentType.CARD_AMERICAN_EXPRESS;
 		}
 		else if (type.equals("CarteBlanche")) {
-			return CreditCardType.CARTE_BLANCHE;
+			return PaymentType.CARD_CARTE_BLANCHE;
 		}
 		else if (type.equals("ChinaUnionPay")) {
-			return CreditCardType.CHINA_UNION_PAY;
+			return PaymentType.CARD_CHINA_UNION_PAY;
 		}
 		else if (type.equals("DinersClub") || type.equals("Diner's Club International")) {
-			return CreditCardType.DINERS_CLUB;
+			return PaymentType.CARD_DINERS_CLUB;
 		}
 		else if (type.equals("Discover")) {
-			return CreditCardType.DISCOVER;
+			return PaymentType.CARD_DISCOVER;
 		}
 		else if (type.equals("JCB")) {
-			return CreditCardType.JAPAN_CREDIT_BUREAU;
+			return PaymentType.CARD_JAPAN_CREDIT_BUREAU;
 		}
 		else if (type.equals("Maestro")) {
-			return CreditCardType.MAESTRO;
+			return PaymentType.CARD_MAESTRO;
 		}
 		else if (type.equals("MasterCard")) {
-			return CreditCardType.MASTERCARD;
+			return PaymentType.CARD_MASTERCARD;
 		}
 		else if (type.equals("Visa") || type.equals("Visa Electron")) {
-			return CreditCardType.VISA;
+			return PaymentType.CARD_VISA;
 		}
 		else if (type.equals("CarteBleue")) {
-			return CreditCardType.CARTE_BLEUE;
+			return PaymentType.CARD_CARTE_BLEUE;
 		}
 		else if (type.equals("CarteSi")) {
-			return CreditCardType.CARTA_SI;
+			return PaymentType.CARD_CARTA_SI;
+		}
+		else if (type.equals("ExpediaRewards")) {
+			return PaymentType.POINTS_EXPEDIA_REWARDS;
 		}
 		else {
 			Log.w("Tried to parse an unknown credit card type, name=" + type);
-			return CreditCardType.UNKNOWN;
+			return PaymentType.UNKNOWN;
 		}
 	}
 

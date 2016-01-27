@@ -203,10 +203,10 @@
 
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_credit_debit_label">บัตรเครดิต/บัตรเดบิต</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_google_wallet_label">Google Wallet</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">รายละเอียดผู้เข้าพัก</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">ป้อนข้อมูลของคุณ</string>
     <!-- Text for enter payment details line 1 -->
@@ -1728,6 +1728,8 @@
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">ชั้นประหยัด</string>
+    <!-- Label for "coach" cabin code -->
+    <string name="flight_class_selection">ชั้นประหยัด</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">ชั้นประหยัดพรีเมี่ยม</string>
     <!-- Label for "business" cabin code -->
@@ -1764,8 +1766,6 @@
     <string name="select_payment">เลือกการชำระเงิน</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">รายละเอียดการชำระเงิน</string>
-    <!-- Select payment sentence case AB Test variate1 -->
-    <string name="select_payment_sentence_case_variate1">ป้อนรายละเอียดการชำระเงิน</string>
     <!-- Select payment sentence case AB Test variate2 -->
     <string name="select_payment_sentence_case_variate2">การชำระเงิน</string>
     <!-- Select payment callout AB Test variate2 -->
@@ -1857,15 +1857,19 @@
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">เลื่อนเพื่อจองเที่ยวบิน</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">จะมีการตัดยอดบัตรเป็นจำนวน %1$s บาท</string>
+    <string name="your_card_will_be_charged_template">จะมีการตัดยอดบัตรเป็นจำนวน {dueamount} บาท</string>
+    <!-- Your are using pwp points -->
+    <string name="you_are_using_expedia_points_TEMPLATE">คุณกำลังใช้คะแนน Expedia+ {points} คะแนน ({amount})</string>
+    <!-- Payment through card + pwp points -->
+    <string name="payment_through_card_and_pwp_points">คุณกำลังใช้คะแนน Expedia+ {points} คะแนน ({amount}) \nบัตรเครดิตของคุณจะถูกเรียกเก็บเงิน {dueamount}</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">บัตรเครดิตของคุณจะถูกเรียกเก็บเงิน %1$s (รวมค่าธรรมเนียมสายการบิน)</string>
+    <string name="your_card_will_be_charged_plus_airline_fee_template">บัตรเครดิตของคุณจะถูกเรียกเก็บเงิน {dueamount} (รวมค่าธรรมเนียมสายการบิน)</string>
     <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_TEMPLATE">ยอดที่ต้องจ่ายวันนี้: %1$s</string>
+    <string name="amount_due_today_template">ยอดที่ต้องจ่ายวันนี้: {dueamount}</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">ยอดที่ต้องชำระตอนนี้: %1$s</string>
+    <string name="amount_to_be_paid_now_TEMPLATE">ยอดที่ต้องชำระตอนนี้: {dueamount}</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">เรียกเก็บโดยโรงแรม: %1$s</string>
+    <string name="to_be_collected_by_the_hotel_TEMPLATE">เรียกเก็บโดยโรงแรม: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">จองให้เสร็จ</string>
     <!-- Checkout menu item -->
@@ -1883,7 +1887,7 @@
     <!-- Sign out -->
     <string name="sign_out">ออกจากระบบ</string>
     <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">คุณจะได้รับ %1$s คะแนน — 3 เท่าของคะแนนปกติเพราะคุณจองผ่านแอพ!</string>
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">รับ %1$s คะแนน — 3 เท่าของคะแนนปกติเพราะคุณจองผ่านแอพ!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">คุณจะได้รับ %1$s คะแนนจากการจองนี้!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -1902,6 +1906,8 @@
     <string name="please_enter_a_valid_email_address">โปรดป้อนอีเมลที่ถูกต้อง</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">ค่าธรรมเนียมที่จ่ายที่โรงแรม</string>
+    <!-- Row label for when we show resort fees as its own line item -->
+    <string name="fees_due_at_hotel">ค่าธรรมเนียมถึงกำหนดชำระที่โรงแรม</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">ต้องจ่ายให้ {brand}</string>
     <!-- Due to expedia today - today -->
@@ -1963,10 +1969,6 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">ข้อมูลผู้เดินทาง</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">รายละเอียดของผู้เดินทางหลัก</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">ป้อนรายละเอียดผู้เดินทางหลัก</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
     <string name="traveler_details_variate2">ผู้เดินทางหลัก</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">บันทึกไว้</string>
@@ -1984,49 +1986,29 @@
     <string name="add_new_creditcard">เพิ่มบัตรใหม่</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">รายละเอียดผู้เข้าพัก</string>
+    <!-- Guest all fields are required -->
+    <string name="guest_field_required">ต้องป้อนข้อมูลทุกช่อง</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">รายละเอียดผู้ใหญ่ %1$s</string>
-    <!-- AB test variate 1 - Add adult traveler number template -->
-    <string name="add_adult_number_variate1_TEMPLATE">ป้อนรายละเอียดผู้ใหญ่ %1$s</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
     <string name="add_adult_number_variate2_TEMPLATE">ผู้ใหญ่ %1$s</string>
     <!-- Add adult traveler details label -->
-    <string name="add_adult">รายละเอียดผู้ใหญ่</string>
-    <!-- AB test variate 1 - Add adult traveler details label -->
-    <string name="add_adult_variate1">ป้อนรายละเอียดผู้ใหญ่</string>
-    <!-- AB test variate 2 - Add adult traveler details label -->
     <string name="add_adult_variate2">ผู้ใหญ่</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">รายละเอียดเด็ก %1$s</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_TEMPLATE">รายละเอียดอายุ%1$s</string>
-    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_variate1_TEMPLATE">ป้อนรายละเอียดผู้เดินทางอายุ %1$s ปี</string>
-    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_variate2_TEMPLATE">%1$s ปี</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">รายละเอียดทารกนั่งตัก%1$s</string>
-    <!-- AB test variate 1 - Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_variate1_TEMPLATE">ป้อนรายละเอียดทารกนั่งตัก %1$s</string>
     <!-- AB test variate 2 - Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_variate2_TEMPLATE">ทารกนั่งตัก %1$s</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap">รายละเอียดทารกนั่งตัก</string>
-    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap_variate1">ป้อนรายละเอียดทารกนั่งตัก</string>
-    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap_variate2">ทารกนั่งตัก</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">รายละเอียดทารกนั่งที่นั่ง%1$s</string>
-    <!-- AB test variate 1- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_variate1_TEMPLATE">ป้อนรายละเอียดทารกนั่งที่นั่ง %1$s</string>
     <!-- AB test variate 2- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_variate2_TEMPLATE">ทารกนั่งที่นั่ง %1$s</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat">รายละเอียดทารกนั่งที่นั่ง</string>
-    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat_variate1">ป้อนรายละเอียดทารกนั่งที่นั่ง</string>
-    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat_variate2">ทารกนั่งที่นั่ง</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">สายการบินอาจปฏิเสธการขึ้นเครื่องหากชื่อผู้เดินทางไม่ตรงกับบัตรประจำตัวที่มีรูปถ่ายที่ทางราชการออกให้</string>
@@ -2055,6 +2037,10 @@
     <string name="first_name_field_text">ชื่อ</string>
     <!-- last name -->
     <string name="last_name_field_text">นามสกุล</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (เช่น: %2$s)</string>
+
     <!-- Cardholder -->
     <string name="cardholder">เจ้าของบัตร</string>
     <!-- email disclaimer -->
@@ -2227,10 +2213,10 @@
     <string name="add_to_your_trip">เพิ่มลงในทริป</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">โรงแรมใน%s</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 ห้อง, ผู้เข้าพัก %s คน</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">รถใน%s</string>
-    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
-    <string name="lx_in_TEMPLATE">กิจกรรมใน%s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">ดำเนินการอื่นๆ</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -2518,14 +2504,20 @@
     <string name="search_error">ค้นหาผิดพลาด</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">โรงแรม%s</string>
+    <!-- Expedia Member Discount for a given property, AB test -->
+    <string name="member_pricing">ราคาสำหรับสมาชิก</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">เหลือเพียง %d ห้อง</item>
+        <item quantity="one">เหลือ %d ห้อง!</item>
         <item quantity="two">เหลือเพียง %d ห้อง</item>
         <item quantity="many">เหลือเพียง %d ห้อง</item>
         <item quantity="other">เหลือ %d ห้อง</item>
     </plurals>
+
+    <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
+    <string name="EnableLocationPermissionSettings_TEMPLATE">เพื่อใช้งานตำแหน่งปัจจุบัน คุณต้องอนุญาตให้ {brand} เข้าถึงตำแหน่งของคุณได้\n\nเพื่อเปิดใช้งาน โปรดไปยังการตั้งค่าและตรวจสอบ "การอนุญาต" แอพของคุณ</string>
+    <string name="go_to_settings">ไปยังการตั้งค่า</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">ในการใช้ตำแหน่งปัจจุบันของคุณ คุณต้องเปิดใช้บริการ "ตำแหน่ง" ในการตั้งค่าก่อน\n\nไปที่การตั้งค่าและเปิดใช้?</string>
@@ -2947,6 +2939,12 @@
     <string name="unknown">ไม่ทราบ</string>
 
     <!-- Expedia Accounts -->
+    <!-- Label for messaging on sign in Variate 1 -->
+    <string name="sign_in_messaging">ประหยัดด้วยดีลพิเศษสำหรับสมาชิกเท่านั้น</string>
+    <!-- Label for messaging on sign in Variate 2 -->
+    <string name="triple_point_messaging">รับคะแนน Expedia+ สามเท่า</string>
+    <!-- Label for messaging on sign in Variate 3 -->
+    <string name="trip_alert_messaging">รับการแจ้งเตือนสำคัญเกี่ยวกับทริปของคุณ</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">เข้าสู่ระบบ</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3468,30 +3466,6 @@
     <string name="country_zw">ซิมบับเว</string>
     <string name="country_ax">หมู่เกาะโอลันด์</string>
 
-    <!-- Google Wallet -->
-    <!-- Loading message -->
-    <string name="loading">กำลังโหลด</string>
-    <!-- Google Wallet label -->
-    <string name="google_wallet">Google Wallet</string>
-    <!-- Google wallet unavailable error -->
-    <string name="google_wallet_unavailable">Google Wallet ไม่พร้อมใช้งาน</string>
-    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
-    <string name="spending_limit_exceeded">คุณมียอดใช้จ่ายเกินวงเงิน Google Wallet ของคุณ</string>
-    <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">ซื้อด้วย Google Wallet</string>
-    <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">ประหยัด <b>$50</b> สำหรับ <b>การเดินทางมูลค่า $200 ขึ้นไป</b> ด้วย Google Wallet!</string>
-    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">สามารถใช้คูปองได้เพียงหนึ่งใบต่อการจองเท่านั้น เราแทนที่คูปองก่อนหน้าของคุณด้วยส่วนลด $50 จากการใช้ Google Wallet</string>
-    <!-- Message shown while loading Wallet coupon -->
-    <string name="wallet_promo_applying">ใช้ส่วนลด Google Wallet…</string>
-    <!-- Title for Google Wallet promo terms & conditions -->
-    <string name="wallet_promo_tc_title">ข้อตกลงและเงื่อนไขของคูปอง Google Wallet</string>
-    <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">ข้อเสนอ: รับคูปองส่วนลดมูลค่า $50 สำหรับใช้จองโรงแรม การจองต้องมีมูลค่าขั้นต่ำ $200 จึงจะมีสิทธิ์นี้ วิธีการแลกใช้ส่วนลด: เลือกจองโรงแรมที่ตรงตามเกณฑ์ ในหน้าการชำระเงิน เลือกใช้ตัวเลือก “ซื้อด้วย Google Wallet” คุณต้องแลกใช้คูปองในแอพ Expedia สำหรับ Android ภายใน 23:59 น. (ตามเวลาแปซิฟิก) ในวันที่ 31 ธันวาคม 2557 สำหรับการเดินทางตั้งแต่วันนี้จนถึง 31 มีนาคม 2558 ข้อเสนอมีเวลาจำกัด และอาจเปลี่ยนแปลงได้ จำกัดการใช้คูปองหนึ่ง (1) ใบต่อบัญชีผู้ใช้ และต่อการจองโรงแรมที่ตรงตามเกณฑ์ ข้อเสนอนี้เป็นข้อเสนอจาก Expedia.com และมีให้สำหรับลูกค้าของ Expedia.com ในสหรัฐอเมริกาที่จองผ่านแอพ Android เท่านั้น ลูกค้าที่ร่วมโปรแกรมพันธมิตรตัวแทนท่องเที่ยวของเอ็กซ์พีเดียไม่สามารถใช้ข้อเสนอนี้ได้ คูปองใช้ได้กับโรงแรมราคาเอ็กซ์พีเดียที่ตรงตามเกณฑ์เท่านั้น การจองขึ้นอยู่กับความพร้อมในการให้บริการ และเป็นไปตามข้อตกลงและเงื่อนไขที่มีผลใช้ทั้งหมด ไม่สามารถใช้คูปองร่วมกับโปรโมชั่น ส่วนลด หรือข้อเสนอพิเศษอื่นๆ ส่วนลดจากคูปองไม่สามารถนำมาใช้กับภาษี ค่าธรรมเนียมที่โรงแรมเรียกเก็บ ค่าปรับในการยกเลิกหรือเปลี่ยนแปลงการจอง ค่าธรรมเนียมการดำเนินการ หรือค่าใช้จ่ายจิปาถะอื่นๆ ซึ่งถือเป็นความรับผิดชอบของลูกค้าแต่เพียงผู้เดียว คูปองจะถูกแลกใช้เต็มราคาเมื่อมีการทำการจองที่ตรงตามเกณฑ์ และจะไม่สามารถใช้ซ้ำได้ ในกรณีที่คุณเปลี่ยนแปลงหรือยกเลิกการจอง คูปองจะไม่สามารถใช้ได้กับแผนการเดินทางที่เปลี่ยนแปลง ข้อตกลงและเงื่อนไขของคูปองนี้เป็นไปตามที่กำหนด และไม่สามารถเปลี่ยนแปลงได้โดยตัวแทนของผู้ที่ไม่ได้รับการมอบอำนาจ รวมถึงพนักงานของ Expedia, Inc. คูปองไม่สามารถโอนให้กันและไม่สามารถแลกเป็นเงินสดได้ Expedia, Inc. อาจยกเลิกหรือเปลี่ยนแปลงข้อเสนอนี้ได้ทุกเมื่อ เป็นโมฆะหากไม่ได้รับอนุญาตตามกฎหมาย</string>
-    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
-    <string name="wallet_coupon_not_applied_manually">คูปองนี้จะใช้ได้เมื่อคุณเลือกชำระเงินโดยใช้ Google Wallet เท่านั้น</string>
-
     <!-- Human readable credit card names -->
     <!-- American Express -->
     <string name="cc_american_express">American Express</string>
@@ -3811,4 +3785,30 @@
     <string name="airline_charge_notice">สายการบินเรียกเก็บค่าธรรมเนียมเพิ่มเติมตามวิธีการชำระเงิน</string>
     <string name="airline_fee_notice_payment">อาจมีค่าธรรมเนียมสายการบิน ทั้งนี้ขึ้นอยู่กับวิธีการชำระเงิน</string>
     <string name="airline_notice_fee_added"><u><b>ค่าธรรมเนียมสายการบิน</b></u> จะถูกเพิ่มเข้าไปในการชำระเงิน โดยขึ้นอยู่กับประเภทบัตร ค่าธรรมเนียมนี้จะบวกเพิ่มเข้ากับยอดการชำระเงินรวม</string>
+    <string name="airline_notice_fee_added_tablet">&lt;u&gt;&lt;b&gt;ค่าธรรมเนียมสายการบิน&lt;/b&gt;&lt;/u&gt; จะถูกเพิ่มเข้าไปในการชำระเงิน โดยขึ้นอยู่กับประเภทบัตร ค่าธรรมเนียมนี้จะบวกเพิ่มเข้ากับยอดการชำระเงินรวม</string>
+
+    <!-- Packages -->
+
+    <!-- Label for package search toolbar -->
+    <string name="package_toolbar_title">โรงแรม + เที่ยวบิน</string>
+    <!-- Label for package search toolbar -->
+    <string name="bundle_overview_title">ภาพรวมแพ็คเกจ</string>
+    <!-- Fly from hint -->
+    <string name="fly_from_hint">บินจาก</string>
+    <!-- Fly to hint -->
+    <string name="fly_to_hint">บินไปยัง</string>
+    <!-- Bundle Overview Step 1, select a hotel -->
+    <string name="step_one">ขั้นที่ 1: เลือกโรงแรม</string>
+    <!-- Bundle Overview Step 2, select a flight -->
+    <string name="step_two">ขั้นที่ 2: เลือกเที่ยวบิน</string>
+
+    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_duration_template">%1$dวัน %2$dชม. %3$dน. (แวะพัก %4$d ชม.)</string>
+    <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
+    <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dวัน</string>
+    <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
+    <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">ข้อมูลสรุปการเดินทาง</string>
 </resources>

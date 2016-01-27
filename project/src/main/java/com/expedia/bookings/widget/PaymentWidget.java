@@ -11,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -23,14 +22,16 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.GoogleWalletActivity;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -158,20 +159,17 @@ public class PaymentWidget extends ExpandableCardView {
 
 	@OnClick(R.id.payment_option_credit_debit)
 	public void creditCardClicked() {
-		showCreditCardDetails();
+		showPaymentDetails();
 	}
 
 	@OnClick(R.id.payment_option_google_wallet)
 	public void googleWalletClicked() {
 		openGoogleWallet();
-		new HotelV2Tracking().trackHotelV2GoogleWalletClick();
 	}
 
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		LayoutInflater inflater = LayoutInflater.from(getContext());
-		inflater.inflate(R.layout.payment_widget, this);
 		ButterKnife.inject(this);
 
 		creditCardName.setOnEditorActionListener(new android.widget.TextView.OnEditorActionListener() {
@@ -179,7 +177,9 @@ public class PaymentWidget extends ExpandableCardView {
 			public boolean onEditorAction(android.widget.TextView v, int actionId, KeyEvent event) {
 				if (actionId == EditorInfo.IME_ACTION_DONE) {
 					setExpanded(false);
-					mToolbarListener.onWidgetClosed();
+					if (mToolbarListener != null) {
+						mToolbarListener.onWidgetClosed();
+					}
 				}
 				return false;
 			}
@@ -230,10 +230,10 @@ public class PaymentWidget extends ExpandableCardView {
 		// User is logged in and has a stored card
 		if (!WalletUtils.isWalletSupported(lineOfBusiness) && sectionBillingInfo.getBillingInfo() != null && sectionBillingInfo.getBillingInfo().isUsingGoogleWallet()) {
 			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
-				bindCard(null, getResources().getString(R.string.checkout_hotelsv2_enter_payment_details_line1), "");
+				paymentType(null, getResources().getString(R.string.checkout_hotelsv2_enter_payment_details_line1), "");
 			}
 			else {
-				bindCard(null, getResources().getString(R.string.enter_payment_details), "");
+				paymentType(null, getResources().getString(R.string.enter_payment_details), "");
 			}
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
 			reset();
@@ -241,12 +241,13 @@ public class PaymentWidget extends ExpandableCardView {
 		else if (hasStoredCard) {
 			StoredCreditCard card = sectionBillingInfo.getBillingInfo().getStoredCard();
 			String cardName = card.getDescription();
-			CreditCardType cardType = card.getType();
+			PaymentType paymentType = card.getType();
 			if (card.isGoogleWallet()) {
-				bindCard(cardType, cardName, getResources().getString(R.string.checkout_payment_option_google_wallet_label));
+				paymentType(paymentType, cardName,
+					getResources().getString(R.string.checkout_payment_option_android_pay_label));
 			}
 			else {
-				bindCard(cardType, cardName, getResources().getString(R.string.checkout_payment_line2_storedcc));
+				paymentType(paymentType, cardName, getResources().getString(R.string.checkout_payment_line2_storedcc));
 			}
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.COMPLETE);
 		}
@@ -254,29 +255,29 @@ public class PaymentWidget extends ExpandableCardView {
 		else if (isBillingInfoValid && isPostalCodeValid) {
 			BillingInfo info = sectionBillingInfo.getBillingInfo();
 			String cardNumber = NumberMaskFormatter.obscureCreditCardNumber(info.getNumber());
-			CreditCardType cardType = info.getCardType();
+			PaymentType paymentType = info.getPaymentType();
 			String expiration = JodaUtils.format(info.getExpirationDate(), "MM/yy");
-			bindCard(cardType, cardNumber, getResources().getString(R.string.selected_card_template, expiration));
+			paymentType(paymentType, cardNumber, getResources().getString(R.string.selected_card_template, expiration));
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.COMPLETE);
 			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(info);
 		}
 		// Card info partially entered & not valid
 		else if (isFilled() && (!isBillingInfoValid || !isPostalCodeValid)) {
 			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
-				bindCard(null, getResources().getString(R.string.checkout_hotelsv2_enter_payment_details_line1), "");
+				paymentType(null, getResources().getString(R.string.checkout_hotelsv2_enter_payment_details_line1), "");
 			}
 			else {
-				bindCard(null, getResources().getString(R.string.enter_payment_details), "");
+				paymentType(null, getResources().getString(R.string.enter_payment_details), "");
 			}
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.INCOMPLETE);
 		}
 		// Default all fields are empty
 		else {
 			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
-				bindCard(null, getResources().getString(R.string.checkout_hotelsv2_enter_payment_details_line1), "");
+				paymentType(null, getResources().getString(R.string.checkout_hotelsv2_enter_payment_details_line1), "");
 			}
 			else {
-				bindCard(null, getResources().getString(R.string.enter_payment_details), "");
+				paymentType(null, getResources().getString(R.string.enter_payment_details), "");
 			}
 			paymentStatusIcon.setStatus(ContactDetailsCompletenessStatus.DEFAULT);
 			reset();
@@ -306,7 +307,7 @@ public class PaymentWidget extends ExpandableCardView {
 		paymentButtonListener.onStoredCreditCardChosen(card);
 	}
 
-	private void bindCard(CreditCardType cardType, String cardNumber, String cardExpiration) {
+	private void paymentType(PaymentType paymentType, String cardNumber, String cardExpiration) {
 		cardInfoName.setText(cardNumber);
 		storedCardName.setText(cardNumber);
 		if (!TextUtils.isEmpty(cardExpiration)) {
@@ -325,11 +326,11 @@ public class PaymentWidget extends ExpandableCardView {
 				cardInfoExpiration.setVisibility(GONE);
 			}
 		}
-		if (cardType != null) {
+		if (paymentType != null) {
 			cardInfoIcon.setImageDrawable(
-				getContext().getResources().getDrawable(BookingInfoUtils.getTabletCardIcon(cardType)));
+				getContext().getResources().getDrawable(BookingInfoUtils.getTabletCardIcon(paymentType)));
 			storedCardImageView.setImageDrawable(
-				getContext().getResources().getDrawable(BookingInfoUtils.getTabletCardIcon(cardType)));
+				getContext().getResources().getDrawable(BookingInfoUtils.getTabletCardIcon(paymentType)));
 			FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_MEDIUM);
 			FontCache.setTypeface(cardInfoExpiration, FontCache.Font.ROBOTO_REGULAR);
 		}
@@ -349,19 +350,20 @@ public class PaymentWidget extends ExpandableCardView {
 		super.setExpanded(expand, animate);
 
 		if (expand) {
-			if (WalletUtils.isWalletSupported(lineOfBusiness) && !goToCreditCardDetails()) {
+			if (WalletUtils.isWalletSupported(lineOfBusiness) && !goToPaymentDetails()) {
 				cardInfoContainer.setVisibility(GONE);
 				paymentOptionsContainer.setVisibility(VISIBLE);
 				billingInfoContainer.setVisibility(GONE);
 				if (mToolbarListener != null) {
 					mToolbarListener.showRightActionButton(false);
 				}
-				new HotelV2Tracking().trackHotelV2PaymentInfo();
 			}
 			else {
-				showCreditCardDetails();
+				showPaymentDetails();
 			}
-			mToolbarListener.setActionBarTitle(getActionBarTitle());
+			if (mToolbarListener != null) {
+				mToolbarListener.setActionBarTitle(getActionBarTitle());
+			}
 		}
 		else {
 			if (!WalletUtils.isWalletSupported(lineOfBusiness) && sectionBillingInfo.getBillingInfo() != null && sectionBillingInfo.getBillingInfo().isUsingGoogleWallet()) {
@@ -376,7 +378,7 @@ public class PaymentWidget extends ExpandableCardView {
 		}
 	}
 
-	private boolean goToCreditCardDetails() {
+	private boolean goToPaymentDetails() {
 		boolean isFilled = isFilled();
 		boolean isBillingInfoValid = isFilled && sectionBillingInfo.performValidation();
 		boolean isPostalCodeValid = isFilled && sectionLocation.performValidation();
@@ -390,7 +392,7 @@ public class PaymentWidget extends ExpandableCardView {
 			|| (isFilled && (!isBillingInfoValid || !isPostalCodeValid));
 	}
 
-	private void showCreditCardDetails() {
+	private void showPaymentDetails() {
 		boolean hasStoredCard = hasStoredCard();
 		cardInfoContainer.setVisibility(GONE);
 		paymentOptionsContainer.setVisibility(GONE);
@@ -400,7 +402,9 @@ public class PaymentWidget extends ExpandableCardView {
 		storedCardContainer.setVisibility(hasStoredCard ? VISIBLE : GONE);
 		sectionBillingInfo.setVisibility(hasStoredCard ? GONE : VISIBLE);
 		if (hasStoredCard) {
-			mToolbarListener.onEditingComplete();
+			if (mToolbarListener != null) {
+				mToolbarListener.onEditingComplete();
+			}
 		}
 		else {
 			creditCardNumber.requestFocus();
@@ -413,12 +417,19 @@ public class PaymentWidget extends ExpandableCardView {
 		if (!ExpediaBookingApp.isAutomation()) {
 			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
 				new HotelV2Tracking().trackHotelV2PaymentEdit();
+
+				if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCKOPostalCodeTest)
+					&& !PointOfSale.getPointOfSale().requiresHotelPostalCode()) {
+					sectionLocation.setVisibility(View.GONE);
+				}
 			}
 			else {
 				OmnitureTracking.trackCheckoutPayment(lineOfBusiness);
 			}
 		}
-		mToolbarListener.setActionBarTitle(getActionBarTitle());
+		if (mToolbarListener != null) {
+			mToolbarListener.setActionBarTitle(getActionBarTitle());
+		}
 	}
 
 	@Override
@@ -506,16 +517,16 @@ public class PaymentWidget extends ExpandableCardView {
 		return false;
 	}
 
-	public CreditCardType getCardType() {
+	public PaymentType getCardType() {
 		if (isCreditCardRequired && hasStoredCard()) {
 			return sectionBillingInfo.getBillingInfo().getStoredCard().getType();
 		}
 		else if (isCreditCardRequired && (isFilled() && sectionBillingInfo.performValidation() && sectionLocation
 			.performValidation())) {
-			return sectionBillingInfo.getBillingInfo().getCardType();
+			return sectionBillingInfo.getBillingInfo().getPaymentType();
 		}
 
-		return CreditCardType.UNKNOWN;
+		return PaymentType.UNKNOWN;
 	}
 
 	final ISectionEditable.SectionChangeListener mValidFormsOfPaymentListener = new ISectionEditable.SectionChangeListener() {
@@ -524,10 +535,10 @@ public class PaymentWidget extends ExpandableCardView {
 			if (sectionBillingInfo == null || sectionBillingInfo.getBillingInfo() == null) {
 				return;
 			}
-			CreditCardType cardType = sectionBillingInfo.getBillingInfo().getCardType();
+			PaymentType cardType = sectionBillingInfo.getBillingInfo().getPaymentType();
 			TripBucketItem tripItem = Db.getTripBucket().getItem(lineOfBusiness);
 			if (cardType != null && tripItem != null) {
-				if (!tripItem.isCardTypeSupported(cardType)) {
+				if (!tripItem.isPaymentTypeSupported(cardType)) {
 					String cardName = CreditCardUtils.getHumanReadableName(getContext(), cardType);
 					String message = null;
 					if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
@@ -562,7 +573,7 @@ public class PaymentWidget extends ExpandableCardView {
 		Intent i = new Intent(getContext(), GoogleWalletActivity.class);
 		((AppCompatActivity)getContext()).startActivityForResult(i, REQUEST_CODE_GOOGLE_WALLET_ACTIVITY);
 	}
-	
+
 	private boolean hasStoredCard() {
 		return sectionBillingInfo.getBillingInfo() != null && sectionBillingInfo.getBillingInfo().hasStoredCard();
 	}

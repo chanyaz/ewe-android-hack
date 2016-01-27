@@ -344,6 +344,12 @@
         "supplierType": "MERCHANT",
         "thumbnailUrl": "/hotels/1000000/30000/27300/27274/27274_170_n.jpg"
     },
+    "expediaRewards":
+    {
+        "totalPointsToEarn": 2111,
+        "isActiveRewardsMember": false,
+        "rewardsMembershipTierName":"Invalid Tier"
+    },
     "tealeafTransactionId": "tealeafHotel:${productKey}",
     "tripId": "${productKey}",
     "userId": 570429434,

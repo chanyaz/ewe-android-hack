@@ -438,7 +438,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:minHeight="?attr/actionBarSize"
-                app:titleTextAppearance="@style/CarsToolbarTitleTextAppearance" />
+                app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
 
             <View
                 android:id="@+id/toolbar_dropshadow"

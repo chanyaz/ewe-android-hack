@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.graphics.Color
 import android.text.Html
 import android.view.View
 import android.widget.LinearLayout
@@ -16,6 +15,9 @@ public class HotelInfoView(context: Context) : LinearLayout(context) {
 
     init {
         View.inflate(getContext(), R.layout.widget_hotel_info, this)
+        orientation = LinearLayout.VERTICAL
+        val padding = resources.getDimensionPixelSize(R.dimen.widget_hotel_info_padding)
+        setPadding(padding, 0, padding, padding)
     }
 
     fun setText(header: String, info: String): HotelInfoView {

@@ -2,6 +2,10 @@ package com.expedia.bookings.test
 
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelApplyCouponParams
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.HotelCouponViewModel
 import org.junit.Before
@@ -16,15 +20,18 @@ import kotlin.properties.Delegates
 @RunWith(RobolectricRunner::class)
 public class HotelCouponTest {
 
-    public var service: HotelServicesRule = HotelServicesRule()
-    @Rule get
+    public var service=ServicesRule<HotelServices>(HotelServices::class.java)
+        @Rule get
+
+    public var loyaltyServiceRule = ServicesRule<LoyaltyServices>(LoyaltyServices::class.java)
+        @Rule get
 
     private var vm: HotelCouponViewModel by Delegates.notNull()
 
     @Before
     fun before() {
         val context = RuntimeEnvironment.application
-        vm = HotelCouponViewModel(context, service.hotelServices())
+        vm = HotelCouponViewModel(context, service.services!!, PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
     }
 
     @Test

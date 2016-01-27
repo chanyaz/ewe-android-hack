@@ -4,6 +4,12 @@
   "originalHotelProductResponse": {
 
   },
+  "expediaRewards":
+  {
+    "totalPointsToEarn": 2111,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName":"Invalid Tier"
+  },
   "newHotelProductResponse": {
     "checkInDate": "2015-12-23",
     "checkOutDate": "2015-12-24",

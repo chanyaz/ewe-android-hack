@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.lx;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -26,7 +27,9 @@ import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.data.lx.LXCategoriesComparator;
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
+import com.expedia.bookings.data.lx.LXCategorySortOrder;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortFilterMetadata;
@@ -226,7 +229,7 @@ public class LXResultsPresenter extends Presenter {
 
 		@Override
 		public void onNext(LXCategoryMetadata category) {
-			OmnitureTracking.trackAppLXSearch(lxState.searchParams, searchResponse);
+			OmnitureTracking.trackLinkLXCategoryClicks(category.categoryKeyEN);
 			sortFilterWidget.resetSortAndFilter();
 
 			if (LXDataUtils.isCategoryAllThingsToDo(getContext(), category.categoryKeyEN)) {
@@ -262,14 +265,15 @@ public class LXResultsPresenter extends Presenter {
 			lxCategoryMetadata.displayValue = allThingsToDoCategory;
 			// This is non-localized category key.
 			lxCategoryMetadata.categoryKeyEN = getContext().getResources().getString(R.string.lx_category_key_all_things_to_do);
+			lxCategoryMetadata.sortOrder = LXCategorySortOrder.AllThingsToDo;
 			lxCategoryMetadata.activities.addAll(lxSearchResponse.activities);
 			LinkedHashMap categoryLinkedHashMap = new LinkedHashMap();
 			categoryLinkedHashMap.put(allThingsToDoCategory, lxCategoryMetadata);
 			categoryLinkedHashMap.putAll(lxSearchResponse.filterCategories);
-
 			Events.post(new Events.LXSearchResultsAvailable(lxSearchResponse));
 			OmnitureTracking.trackAppLXSearchCategories(lxState.searchParams, lxSearchResponse);
 			List<LXCategoryMetadata> categories = new ArrayList<>(categoryLinkedHashMap.values());
+			Collections.sort(categories, new LXCategoriesComparator());
 			categoryResultsWidget.bind(categories, lxState.searchParams.imageCode);
 			searchResultsWidget.setVisibility(GONE);
 			categoryResultsWidget.setVisibility(VISIBLE);

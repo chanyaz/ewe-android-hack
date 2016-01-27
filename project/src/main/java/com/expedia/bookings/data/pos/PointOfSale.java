@@ -109,6 +109,9 @@ public class PointOfSale {
 	//Whether we should show last name first
 	private boolean mShowLastNameFirst;
 
+	//Whether we should provide example names
+	private boolean mShowExampleNames;
+
 	//Whether we should hide middle name
 	private boolean mHideMiddleName;
 
@@ -126,9 +129,6 @@ public class PointOfSale {
 
 	// Whether or not to use downloaded routes (for AirAsia) or not
 	private boolean mDisplayFlightDropDownRoutes;
-
-	// Whether or not to let users checkout using Google Wallet
-	private boolean mSupportsGoogleWallet;
 
 	// Used to determine the default POS, based on the device's locale
 	private String[] mDefaultLocales;
@@ -601,6 +601,10 @@ public class PointOfSale {
 		return mShowLastNameFirst;
 	}
 
+	public boolean showExampleNames() {
+		return mShowExampleNames;
+	}
+
 	public boolean hideMiddleName() {
 		return mHideMiddleName;
 	}
@@ -647,10 +651,6 @@ public class PointOfSale {
 
 	public boolean displayFlightDropDownRoutes() {
 		return mDisplayFlightDropDownRoutes;
-	}
-
-	public boolean supportsGoogleWallet() {
-		return mSupportsGoogleWallet;
 	}
 
 	public boolean showAtolInfo() {
@@ -1115,13 +1115,13 @@ public class PointOfSale {
 		pos.mRequiresRulesRestrictionsCheckbox = data.optBoolean("explicitConsentRequired");
 		pos.mDisplayBestPriceGuarantee = data.optBoolean("shouldDisplayBestPriceGuarantee");
 		pos.mShowLastNameFirst = data.optBoolean("shouldShowLastNameFirst");
+		pos.mShowExampleNames = data.optBoolean("shouldShowExampleNames");
 		pos.mHideMiddleName = data.optBoolean("shouldHideMiddleName");
 		pos.mSupportsFlights = data.optBoolean("flightsEnabled");
 		pos.mSupportsGDE = data.optBoolean("gdeFlightsEnabled");
 		pos.mSupportsCars = data.optBoolean("carsEnabled");
 		pos.mSupportsLx = data.optBoolean("lxEnabled");
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
-		pos.mSupportsGoogleWallet = data.optBoolean("googleWalletEnabled");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
 		pos.mSupportsVipAccess = data.optBoolean("supportsVipAccess", false);

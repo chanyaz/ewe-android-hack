@@ -41,7 +41,10 @@ locs = {
     'en_HK',
     'en_IE',
     'en_IN',
+    'en_ID',
+    'en_JP',
     'en_NZ',
+    'en_PH',
     'en_SG',
     'en_UK',
     'en_US',
@@ -62,6 +65,7 @@ locs = {
     'pt_BR',
     'sv_SE',
     'th_TH',
+    'vi_VN',
     'zh_HK',
     'zh_TW',
 }

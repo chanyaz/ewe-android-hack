@@ -18,10 +18,10 @@ public class HotelListRecyclerView(context: Context, attrs: AttributeSet) : Recy
         addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, resources.getDimensionPixelSize(R.dimen.hotel_filter_height), false))
     }
 
-    override fun dispatchTouchEvent(ev: MotionEvent) : Boolean{
-        val adapter = getAdapter() as HotelListAdapter
-        //Ignore scroll events.
-        if(adapter.isLoading())
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        val adapter = adapter as HotelListAdapter
+
+        if (adapter.isLoading())
             return true;
 
         return super.dispatchTouchEvent(ev);

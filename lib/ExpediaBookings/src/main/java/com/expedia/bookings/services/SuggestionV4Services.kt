@@ -2,7 +2,7 @@ package com.expedia.bookings.services
 
 import com.expedia.bookings.data.SuggestionResultType
 import com.expedia.bookings.data.cars.SuggestionResponse
-import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.data.SuggestionV4
 import com.google.gson.GsonBuilder
 import com.squareup.okhttp.OkHttpClient
 import retrofit.RequestInterceptor
@@ -30,10 +30,10 @@ public class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, 
         adapter.create<SuggestApi>(SuggestApi::class.java)
     }
 
-    public fun getHotelSuggestionsV4(query: String, clientId: String, observer: Observer<List<SuggestionV4>>): Subscription {
+    public fun getHotelSuggestionsV4(query: String, clientId: String, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
         val type = SuggestionResultType.HOTEL or SuggestionResultType.AIRPORT or SuggestionResultType.CITY or
                 SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.REGION
-        return suggestApi.suggestV4(query, type, "ta_hierarchy", clientId)
+        return suggestApi.suggestV4(query, locale, type, "ta_hierarchy", clientId, "HOTELS")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }
@@ -41,9 +41,24 @@ public class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, 
     }
 
     public fun suggestNearbyV4(locale: String, latlng: String, siteId: Int, clientId: String): Observable<MutableList<SuggestionV4>> {
-        return suggestApi.suggestNearbyV4(locale, latlng, siteId, SuggestionResultType.MULTI_CITY, "distance", clientId)
+        return suggestApi.suggestNearbyV4(locale, latlng, siteId, SuggestionResultType.MULTI_CITY, "distance", clientId, "HOTELS")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions.take(2).toArrayList() }
+    }
+
+    public fun suggestNearbyFlightsV4(locale: String, latlng: String, siteId: Int, clientId: String): Observable<MutableList<SuggestionV4>> {
+        return suggestApi.suggestNearbyV4(locale, latlng, siteId, SuggestionResultType.AIRPORT, "distance", clientId, "PACKAGES")
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .map { response -> response.suggestions.take(2).toArrayList() }
+    }
+
+    public fun suggestPackagesV4(query: String, clientId: String, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
+        return suggestApi.suggestV4(query, locale, SuggestionResultType.AIRPORT, "ta_hierarchy", clientId, "PACKAGES")
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .map { response -> response.suggestions ?: emptyList() }
+                .subscribe(observer)
     }
 }

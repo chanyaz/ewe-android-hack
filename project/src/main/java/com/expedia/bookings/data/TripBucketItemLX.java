@@ -10,7 +10,7 @@ public class TripBucketItemLX extends TripBucketItem {
 		this.createTripResponse = createTripResponse;
 		if (createTripResponse.validFormsOfPayment != null) {
 			for (ValidPayment payment : createTripResponse.validFormsOfPayment) {
-				payment.setCreditCardType(CurrencyUtils.parseCardType(payment.name));
+				payment.setPaymentType(CurrencyUtils.parsePaymentType(payment.name));
 			}
 			addValidPayments(createTripResponse.validFormsOfPayment);
 		}

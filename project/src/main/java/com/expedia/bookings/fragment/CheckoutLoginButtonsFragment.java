@@ -2,43 +2,34 @@ package com.expedia.bookings.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
-import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CreditCardType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SignInResponse;
-import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.TripBucketItem;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.interfaces.ILOBable;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
-import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
-import com.expedia.bookings.widget.TabletWalletButton;
 import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
-import com.google.android.gms.wallet.MaskedWallet;
-import com.google.android.gms.wallet.MaskedWalletRequest;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 
-public class CheckoutLoginButtonsFragment extends LoadWalletFragment
+public class CheckoutLoginButtonsFragment extends Fragment
 	implements AccountButtonClickListener, LoginConfirmLogoutDialogFragment.DoLogoutListener, ILOBable {
 	private static final String INSTANCE_REFRESHED_USER_TIME = "INSTANCE_REFRESHED_USER";
 	private static final String INSTANCE_WAS_LOGGED_IN = "INSTANCE_WAS_LOGGED_IN";
@@ -52,16 +43,9 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		void onLoginStateChanged();
 	}
 
-	public interface IWalletButtonStateChangedListener {
-		void onWalletButtonStateChanged(boolean enableButtons);
-	}
-
 	private AccountButton mAccountButton;
-	private TabletWalletButton mWalletButton;
 
 	private ILoginStateChangedListener mListener;
-	private IWalletButtonStateChangedListener mWalletListener;
-	private IWalletCouponListener mWalletCouponListener;
 
 	private boolean mWasLoggedIn = false;
 
@@ -77,19 +61,11 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 	public void onAttach(Context context) {
 		super.onAttach(context);
 		mListener = Ui.findFragmentListener(this, ILoginStateChangedListener.class, false);
-		mWalletListener = Ui.findFragmentListener(this, IWalletButtonStateChangedListener.class, false);
-		mWalletCouponListener = Ui.findFragmentListener(this, IWalletCouponListener.class, false);
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		// Disable Google Wallet on non-merchant hotels
-		if (getLob() == LineOfBusiness.HOTELS && (!Db.getTripBucket().getHotel().getProperty().isMerchant() || Db
-			.getTripBucket().getHotel().getRate().isPayLater())) {
-			disableGoogleWallet();
-		}
 
 		if (savedInstanceState != null) {
 			mRefreshedUserTime = savedInstanceState.getLong(INSTANCE_REFRESHED_USER_TIME);
@@ -102,13 +78,9 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 			}
 		}
 		else {
-			// Reset Google Wallet state each time we get here
-			Db.clearGoogleWallet();
 			mWasLoggedIn = User.isLoggedIn(getActivity());
 
 			// TODO: Dirty bandaid. Make sure there are some traveler details here after clearing out
-			// google wallet. We should probably TabletCheckoutFormsFragment.buildCheckoutForm()
-			// after this at some point.
 			if (Db.getTravelers().size() == 0) {
 				BookingInfoUtils.populateTravelerData(getLob());
 			}
@@ -120,8 +92,6 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 		View v = inflater.inflate(R.layout.fragment_checkout_login_buttons, null);
 		mAccountButton = Ui.findView(v, R.id.account_button_root);
 		mAccountButton.setListener(this);
-		mWalletButton = Ui.findView(v, R.id.wallet_button_layout);
-		mWalletButton.setOnClickListener(mWalletButtonClickListener);
 
 		bind();
 		mAccountButton.setVisibility(
@@ -187,9 +157,6 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 	public void bind() {
 		if (mAccountButton != null) {
 			refreshAccountButtonState();
-		}
-		if (mWalletButton != null) {
-			onlyUpdateWalletViewVisibilities();
 		}
 	}
 
@@ -322,113 +289,6 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 	};
 
 	/*
-	 * Google Wallet
-	 */
-
-	private OnClickListener mWalletButtonClickListener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			buyWithGoogleWallet();
-		}
-	};
-
-	@Override
-	protected Money getEstimatedTotal() {
-		LineOfBusiness lob = getLob();
-		Money estimatedTotal = null;
-		if (lob == LineOfBusiness.FLIGHTS) {
-			estimatedTotal = Db.getTripBucket().getFlight().getFlightTrip().getTotalFare();
-		}
-		else if (lob == LineOfBusiness.HOTELS) {
-			estimatedTotal = Db.getTripBucket().getHotel().getRate().getTotalAmountAfterTax();
-		}
-		return estimatedTotal;
-	}
-
-	@Override
-	protected void modifyMaskedWalletBuilder(MaskedWalletRequest.Builder builder) {
-		LineOfBusiness lob = getLob();
-		if (lob == LineOfBusiness.FLIGHTS) {
-			modifyFlightsMaskedWalletBuilder(builder);
-		}
-		else if (lob == LineOfBusiness.HOTELS) {
-			modifyHotelsMaskedWalletBuilder(builder);
-		}
-	}
-
-	private void modifyFlightsMaskedWalletBuilder(MaskedWalletRequest.Builder builder) {
-		builder.setCart(WalletUtils.buildFlightCart(getActivity()));
-		builder.setPhoneNumberRequired(true);
-	}
-
-	private void modifyHotelsMaskedWalletBuilder(MaskedWalletRequest.Builder builder) {
-		builder.setCart(WalletUtils.buildHotelCart(getActivity()));
-		builder.setPhoneNumberRequired(true);
-		builder.setUseMinimalBillingAddress(true);
-	}
-
-	@Override
-	protected void onMaskedWalletFullyLoaded(boolean fromPreauth) {
-		BillingInfo billingInfo = Db.getBillingInfo();
-		BookingInfoUtils.populateTravelerData(getLob());
-
-		MaskedWallet maskedWallet = Db.getMaskedWallet();
-
-		// If we don't currently have traveler data, and the wallet gives us sufficient data, use it
-		// NOTE: At the moment we are *guaranteed* not to get sufficient data, but there's no reason
-		// not to hope someday we will get it!
-		Traveler traveler = WalletUtils.addWalletAsTraveler(getActivity(), maskedWallet);
-
-		// If the traveler is null, just set it to our primary user.
-		if (traveler == null) {
-			traveler = Db.getTravelers().get(0);
-		}
-
-		BookingInfoUtils.insertTravelerDataIfNotFilled(getActivity(), traveler, getLob());
-
-		// Bind credit card data, but only if they explicitly clicked "buy with wallet" or they have
-		// no existing credit card info entered
-		if (!fromPreauth || (TextUtils.isEmpty(billingInfo.getNumber()) && !billingInfo.hasStoredCard())) {
-			StoredCreditCard currentCC = Db.getBillingInfo().getStoredCard();
-			if (currentCC != null) {
-				BookingInfoUtils.resetPreviousCreditCardSelectState(getActivity(), currentCC);
-			}
-			WalletUtils.bindWalletToBillingInfo(maskedWallet, billingInfo);
-		}
-
-		if (WalletUtils.offerGoogleWalletCoupon(getActivity()) && getLob() == LineOfBusiness.HOTELS) {
-			mWalletCouponListener.applyWalletCoupon();
-		}
-		Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(billingInfo);
-		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
-		bind();
-		refreshAccountButtonState();
-		updateWalletViewVisibilities();
-	}
-
-	@Override
-	protected void updateWalletViewVisibilities() {
-		boolean enabledButtons = onlyUpdateWalletViewVisibilities();
-		mWalletListener.onWalletButtonStateChanged(enabledButtons);
-	}
-
-	private boolean onlyUpdateWalletViewVisibilities() {
-		boolean showWalletButton = showWalletButton() && canUseGoogleWallet();
-		boolean isWalletLoading = isWalletLoading();
-
-		mWalletButton.setVisibility(showWalletButton ? View.VISIBLE : View.GONE);
-		mWalletButton.setEnabled(!isWalletLoading);
-		mWalletButton.setPromoVisible(ProductFlavorFeatureConfiguration.getInstance().isGoogleWalletPromoEnabled()
-			&& getLob() == LineOfBusiness.HOTELS);
-
-		// Enable buttons if we're either not showing the wallet button or we're not loading a masked wallet
-		boolean enableButtons = !showWalletButton || !isWalletLoading;
-		mAccountButton.setEnabled(enableButtons);
-
-		return enableButtons;
-	}
-
-	/*
 	 * ILOBable
 	 */
 
@@ -440,23 +300,5 @@ public class CheckoutLoginButtonsFragment extends LoadWalletFragment
 
 	public LineOfBusiness getLob() {
 		return mLob;
-	}
-
-	private boolean canUseGoogleWallet() {
-		TripBucketItem item;
-		if (mLob == LineOfBusiness.HOTELS) {
-			item = Db.getTripBucket().getHotel();
-		}
-		else if (mLob == LineOfBusiness.FLIGHTS) {
-			item = Db.getTripBucket().getFlight();
-		}
-		else {
-			throw new RuntimeException("canUseGoogleWallet() can only evaluate hotel and flight items!");
-		}
-		return item.isCardTypeSupported(CreditCardType.GOOGLE_WALLET);
-	}
-
-	public interface IWalletCouponListener {
-		void applyWalletCoupon();
 	}
 }

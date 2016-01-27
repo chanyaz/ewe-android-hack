@@ -34,20 +34,12 @@ public class CheckoutViewModel {
 		return onView(withId(R.id.main_contact_info_card_view));
 	}
 
-	public static ViewInteraction summaryView() {
-		return onView(withId(R.id.summary_container));
-	}
-
 	public static ViewInteraction paymentInfo() {
 		return onView(withId(R.id.payment_info_card_view));
 	}
 
 	public static ViewInteraction addCreditCard() {
 		return onView(withId(R.id.payment_option_credit_debit));
-	}
-
-	public static ViewInteraction scrollView() {
-		return onView(withId(R.id.checkout_scroll));
 	}
 
 	public static void clickDriverInfo() {
@@ -141,8 +133,18 @@ public class CheckoutViewModel {
 	}
 
 	public static ViewInteraction performSlideToPurchase() {
+		return performSlideToPurchase(false);
+	}
+
+	public static ViewInteraction performSlideToPurchase(boolean isStoredCard) {
 		onView(withId(R.id.slide_to_purchase_widget)).perform(ViewActions.waitForViewToDisplay());
-		return onView(withId(R.id.slide_to_purchase_widget)).perform(ViewActions.swipeRight());
+		ViewInteraction viewInteraction = onView(withId(R.id.slide_to_purchase_widget)).perform(ViewActions.swipeRight());
+		Common.delay(1);
+		if (isStoredCard) {
+			CVVEntryScreen.enterCVV("6286");
+			CVVEntryScreen.clickBookButton();
+		}
+		return viewInteraction;
 	}
 
 	public static void pressDoLogin() {
@@ -181,6 +183,13 @@ public class CheckoutViewModel {
 		Common.delay(2);
 	}
 
+	public static void selectStoredTraveler() throws Throwable {
+		CheckoutViewModel.clickDriverInfo();
+		CheckoutViewModel.clickStoredTravelerButton();
+		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
+		CheckoutViewModel.pressClose();
+	}
+
 	public static void enterPaymentInfo() {
 		Common.delay(2);
 		CheckoutViewModel.clickPaymentInfo();
@@ -192,9 +201,13 @@ public class CheckoutViewModel {
 		Common.delay(2);
 		CheckoutViewModel.clickPaymentInfo();
 		Common.delay(1);
-//		CheckoutViewModel.clickAddCreditCard();
-//		Common.delay(1);
 		enterPaymentDetails();
+	}
+
+	public static void selectStoredCard() throws Throwable {
+		clickPaymentInfo();
+		clickStoredCardButton();
+		selectStoredCard("AmexTesting");
 	}
 
 	private static void enterPaymentDetails() {

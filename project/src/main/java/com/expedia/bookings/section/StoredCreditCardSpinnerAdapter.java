@@ -112,7 +112,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 			// Show a special icon for an invalid credit card (can happen in flights mode)
 			boolean isValidCard = true;
 			if (mTripBucketItem != null) {
-				isValidCard = mTripBucketItem.isCardTypeSupported(card.getType());
+				isValidCard = mTripBucketItem.isPaymentTypeSupported(card.getType());
 			}
 
 			int imgRes = isValidCard ? BookingInfoUtils.getTabletCardIcon(card.getType()) :

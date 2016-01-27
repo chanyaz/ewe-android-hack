@@ -13,6 +13,8 @@ import com.expedia.bookings.utils.NavUtils;
 
 public class NoLocationServicesDialog extends DialogFragment implements DialogInterface.OnClickListener {
 
+	public static final String TAG = "NO_LOCATION_FRAG";
+
 	public static NoLocationServicesDialog newInstance() {
 		return new NoLocationServicesDialog();
 	}
@@ -40,5 +42,4 @@ public class NoLocationServicesDialog extends DialogFragment implements DialogIn
 			break;
 		}
 	}
-
 }

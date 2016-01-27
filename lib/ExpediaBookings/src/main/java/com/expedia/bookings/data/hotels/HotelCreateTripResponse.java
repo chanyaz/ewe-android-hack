@@ -2,27 +2,18 @@ package com.expedia.bookings.data.hotels;
 
 import java.util.List;
 
-import com.expedia.bookings.data.ValidPayment;
-import com.expedia.bookings.data.cars.BaseApiResponse;
+import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.TripResponse;
 import com.expedia.bookings.utils.Strings;
 
-public class HotelCreateTripResponse extends BaseApiResponse {
+public class HotelCreateTripResponse extends TripResponse {
 
-	public String tripId;
 	public String userId;
 	public HotelProductResponse originalHotelProductResponse;
 	public HotelProductResponse newHotelProductResponse;
-	public ExpediaRewards expediaRewards;
 	public String tealeafTransactionId;
-	public List<ValidPayment> validFormsOfPayment;
 	public String guestUserPromoEmailOptInStatus;
 	public Coupon coupon;
-
-	public static class ExpediaRewards {
-		public String totalPointsToEarn;
-		public boolean isActiveRewardsMember;
-		public String rewardsMembershipTierName;
-	}
 
 	public static class Coupon {
 		public String code;
@@ -57,5 +48,10 @@ public class HotelCreateTripResponse extends BaseApiResponse {
 			}
 			return localizedHotelName;
 		}
+	}
+
+	@Override
+	public Money getTripTotal() {
+		return newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getDisplayTotalPrice();
 	}
 }

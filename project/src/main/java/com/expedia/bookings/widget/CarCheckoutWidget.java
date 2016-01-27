@@ -197,12 +197,12 @@ public class CarCheckoutWidget extends CheckoutBasePresenter implements CVVEntry
 		scrollCheckoutToTop();
 		slideWidget.resetSlider();
 
-		int sliderMessage = carProduct.checkoutRequiresCard ? R.string.your_card_will_be_charged_TEMPLATE
-			: R.string.amount_due_today_TEMPLATE;
-		sliderTotalText.setText(getResources()
-			.getString(sliderMessage, Money
-				.getFormattedMoneyFromAmountAndCurrencyCode(carProduct.detailedFare.totalDueToday.getAmount(),
-					carProduct.detailedFare.totalDueToday.getCurrency())));
+		int sliderMessage = carProduct.checkoutRequiresCard ? R.string.your_card_will_be_charged_template
+			: R.string.amount_due_today_template;
+		sliderTotalText.setText(Phrase.from(getContext(), sliderMessage)
+			.put("dueamount",
+				Money.getFormattedMoneyFromAmountAndCurrencyCode(carProduct.detailedFare.totalDueToday.getAmount(),
+					carProduct.detailedFare.totalDueToday.getCurrency())).format().toString());
 		mainContactInfoCardView.setExpanded(false);
 		paymentInfoCardView.setExpanded(false);
 		slideToContainer.setVisibility(INVISIBLE);

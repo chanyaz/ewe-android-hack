@@ -1,12 +1,5 @@
 package com.expedia.bookings.data;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,6 +9,9 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.hotels.Hotel;
+import com.expedia.bookings.data.hotels.HotelOffersResponse;
+import com.expedia.bookings.data.packages.PackageSearchParams;
+import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.utils.LeanPlumUtils;
@@ -28,6 +24,12 @@ import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This represents an in-memory database of data for the app.
@@ -120,8 +122,42 @@ public class Db {
 
 	private String mAbacusGuid;
 
+	private PackageSearchParams mPackageParams;
+	private PackageSearchResponse mPackageResponse;
+	private Hotel mPackageSelectedHotel;
+	private HotelOffersResponse.HotelRoomResponse mPackageSelectedRoom;
+
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
+
+	public static PackageSearchParams getPackageParams() {
+		return sDb.mPackageParams;
+	}
+
+	public static void setPackageSelectedHotel(Hotel packageSelectedHotel, HotelOffersResponse.HotelRoomResponse packageSelectedRoom) {
+		sDb.mPackageSelectedHotel = packageSelectedHotel;
+		sDb.mPackageSelectedRoom = packageSelectedRoom;
+	}
+
+	public static Hotel getPackageSelectedHotel() {
+		return sDb.mPackageSelectedHotel;
+	}
+
+	public static HotelOffersResponse.HotelRoomResponse getPackageSelectedRoom() {
+		return sDb.mPackageSelectedRoom;
+	}
+
+	public static void setPackageParams(PackageSearchParams params) {
+		sDb.mPackageParams = params;
+	}
+
+	public static PackageSearchResponse getPackageResponse() {
+		return sDb.mPackageResponse;
+	}
+
+	public static void setPackageResponse(PackageSearchResponse hotelPackage) {
+		sDb.mPackageResponse = hotelPackage;
+	}
 
 	public static void setAbacusGuid(String guid) {
 		sDb.mAbacusGuid = guid;
@@ -288,20 +324,6 @@ public class Db {
 			sDb.mWorkingBillingInfoManager = new WorkingBillingInfoManager();
 		}
 		return sDb.mWorkingBillingInfoManager;
-	}
-
-	public static void clearGoogleWallet() {
-		sDb.mMaskedWallet = null;
-		sDb.mGoogleWalletTraveler = null;
-
-		// Clear out the traveler from the Travelers array
-		Iterator<Traveler> travelers = sDb.mTravelers.iterator();
-		while (travelers.hasNext()) {
-			Traveler traveler = travelers.next();
-			if (traveler.fromGoogleWallet()) {
-				travelers.remove();
-			}
-		}
 	}
 
 	public static void setFullscreenAverageColor(int color) {

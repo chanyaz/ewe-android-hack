@@ -287,7 +287,7 @@ public class AccountButton extends LinearLayout {
 		case HOTELSV2:
 			TripBucketItemHotelV2 hotelV2 = Db.getTripBucket().getHotelV2();
 			HotelCreateTripResponse trip = hotelV2 == null ? null : hotelV2.mHotelTripResponse;
-			rewardPoints = trip == null ? "" : trip.expediaRewards.totalPointsToEarn;
+			rewardPoints = trip == null ? "" : String.valueOf(trip.getExpediaRewards().getTotalPointsToEarn());
 			break;
 		case LX:
 			TripBucketItemLX lx = Db.getTripBucket().getLX();
@@ -315,7 +315,7 @@ public class AccountButton extends LinearLayout {
 				}
 				break;
 			case LX:
-				youllEarnRewardsPointsText = Html.fromHtml(mContext.getString(R.string.youll_earn_points_TEMPLATE, rewardPoints));
+				youllEarnRewardsPointsText = Html.fromHtml(mContext.getString(R.string.youll_earn_points_ab_test_3x_TEMPLATE, rewardPoints));
 			}
 		}
 

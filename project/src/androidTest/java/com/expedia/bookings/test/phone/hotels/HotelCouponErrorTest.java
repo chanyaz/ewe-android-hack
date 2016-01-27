@@ -32,8 +32,8 @@ public class HotelCouponErrorTest extends PhoneTestCase {
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
-		HotelsSearchScreen.enterSearchText("New York, NY");
-		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "New York, NY");
+		HotelsSearchScreen.enterSearchText("SFO");
+		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "San Francisco, CA (SFO-San Francisco Intl.)");
 		HotelsSearchScreen.clickListItem(1);
 		HotelsDetailsScreen.clickSelectButton();
 		HotelsRoomsRatesScreen.selectRoomItem(0);

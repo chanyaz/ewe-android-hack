@@ -17,6 +17,7 @@ import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
@@ -55,6 +56,11 @@ public class AccountLibActivity extends AppCompatActivity
 	private UserAccountRefresher userAccountRefresher;
 	private boolean loginWithFacebook = false;
 	private Listener listener = new Listener();
+	private boolean isUserBucketedForSignInMessagingTest = Db.getAbacusResponse()
+		.isUserBucketedForTest(AbacusUtils.EBAndroidAppSignInMessagingTest);
+	private int signInMessagingTestVariate = Db.getAbacusResponse()
+		.variateForTest(AbacusUtils.EBAndroidAppSignInMessagingTest);
+
 
 	public static Intent createIntent(Context context, Bundle bundle) {
 		Intent loginIntent = new Intent(context, AccountLibActivity.class);
@@ -118,11 +124,24 @@ public class AccountLibActivity extends AppCompatActivity
 		new PicassoHelper.Builder(background).setPlaceholder(backgroundDrawableResId).build().load(
 			backgroundDrawableResId);
 
+		String signInMessage = "";
+		if (signInMessagingTestVariate == AbacusUtils.HotelSignInMessagingVariate.EXCLUSIVE_MEMBER_MESSAGE.ordinal()) {
+			signInMessage = getString(R.string.sign_in_messaging);
+		}
+		else if (signInMessagingTestVariate == AbacusUtils.HotelSignInMessagingVariate.TRIPLE_POINT_MESSAGE.ordinal()) {
+			signInMessage = getString(R.string.triple_point_messaging);
+		}
+		else if (signInMessagingTestVariate == AbacusUtils.HotelSignInMessagingVariate.TRIP_ALERT_MESSAGE.ordinal()) {
+			signInMessage = getString(R.string.trip_alert_messaging);
+		}
+
 		accountView.configure(Config.build()
 				.setService(ServicesUtil.generateAccountService(this))
 				.setBackgroundImageView(background)
 				.setPOSEnableSpamByDefault(PointOfSale.getPointOfSale().shouldEnableMarketingOptIn())
 				.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
+				.setEnableSignInMessaging(isUserBucketedForSignInMessagingTest)
+				.setSignInMessagingText(signInMessage)
 				.setEnableFacebookButton(
 					ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
 				.setListener(listener)

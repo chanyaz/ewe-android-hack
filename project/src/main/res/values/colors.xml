@@ -32,6 +32,7 @@
     <color name="disabled_lob_btn">#909ba3</color>
 
     <color name="launch_list_bg">#ECEFF1</color>
+    <color name="launch_screen_primary">#495863</color>
     <color name="launch_lob_bg">#FFFFFF</color>
     <color name="launch_list_txt">#FFFFFF</color>
     <color name="launch_list_strikethrough_txt">#B2FFFFFF</color>
@@ -84,10 +85,12 @@
     <color name="section_flight_edit_traveler_link_color">#2A4367</color>
 
     <!-- Hotels colors -->
+    <color name="hotel_search_background">#EEEEEE</color>
     <color name="hotels_primary_color">#009688</color>
     <color name="hotels_cc_text_color_secondary">#868a8f</color>
     <color name="hotelsv2_discount_green">#6BCA2C</color>
     <color name="hotel_price_breakdown_discount_green">#218b22</color>
+    <color name="hotel_result_background">#eaeaea</color>
     <color name="actionbar_text_disabled">#505c69</color>
     <color name="amenity_text_color_large">#79848f</color>
     <color name="amenity_icon_color">#717880</color>
@@ -110,6 +113,7 @@
     <color name="hotel_urgency_message_color">#E2934A</color>
     <color name="hotel_tonight_only_color">#4A90E2</color>
     <color name="hotel_mobile_exclusive_color">#E2624A</color>
+    <color name="hotel_member_pricing_color">#00355F</color>
     <color name="hotel_sold_out_color">#8C8C8C</color>
 
     <!-- Hotel reviews colors -->
@@ -124,6 +128,7 @@
     <color name="hotel_reviews_summary_background_color">#FFFFFF</color>
 
     <!--Hotel Filter Colors -->
+    <color name="package_bundle_icon_color">#868686</color>
     <color name="hotel_filter_hotel_name_icon">#868686</color>
     <color name="hotel_filter_input_filed">#757575</color>
     <color name="hotel_filter_neighborhood_text">#676767</color>
@@ -383,5 +388,18 @@
     <color name="calendar_cell_today_text">#3F3A3A</color>
     <color name="calendar_cell_selected_date_text">#423D3D</color>
     <color name="calendar_cell_out_of_valid_range_text">#C7C7C7</color>
+
+    <!-- Packages colors -->
+    <color name="packages_primary_color">#0888BD</color>
+
+    <!--Rail colors-->
+    <color name="rail_background_color">#eeeeee</color>
+
+    <!-- Preferences Activity -->
+    <color name="preferences_activity_bg">#eceff1</color>
+    <color name="preferences_category_bg">#c0c7cd</color>
+    <color name="preferences_divider">#c0c7cd</color>
+    <color name="preferences_highlight">#40000000</color>
+    <color name="preferences_text">@color/launch_actionbar_bg_color</color>
 
 </resources>

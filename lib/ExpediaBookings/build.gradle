@@ -18,6 +18,7 @@ dependencies {
     compile 'io.reactivex:rxjava:1.0.14'
     compile 'org.json:json:20140107'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+    compile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
 
     testCompile 'com.squareup.okhttp:mockwebserver:2.5.0'
     testCompile 'junit:junit:4.12'

@@ -50,6 +50,8 @@
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle</item>
+        <item name="paymentWidgetLayout">@layout/payment_widget</item>
+
     </style>
 
     <!--
@@ -58,7 +60,7 @@
     <style name="AppTheme.Base.Cars">
         <item name="checkout_card_view_style">@style/CarsCardView</item>
         <item name="checkout_slider_text">@string/cars_slider_text</item>
-        <item name="toolbar_title_style">@style/CarsToolbarTitleTextAppearance</item>
+        <item name="toolbar_title_style">@style/ToolbarTitleTextAppearance</item>
 
         <item name="traveler_toolbar_text">@string/cars_driver_details_text</item>
         <item name="traveler_details_text">@string/enter_driver_details</item>
@@ -133,7 +135,7 @@
         <item name="android:textSize">18sp</item>
     </style>
 
-    <style name="CarsToolbarTitleTextAppearance" parent="V2.Theme.Cars">
+    <style name="ToolbarTitleTextAppearance" parent="V2.Theme.Cars">
         <item name="android:textSize">18sp</item>
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textStyle">normal</item>
@@ -142,7 +144,7 @@
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="CarsToolbarSubtitleTextAppearance" parent="V2.Theme.Cars">
+    <style name="ToolbarSubtitleTextAppearance" parent="V2.Theme.Cars">
         <item name="android:textSize">11sp</item>
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textStyle">normal</item>
@@ -225,23 +227,6 @@
     <style name="CarRobotoFont">
         <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textStyle">normal</item>
-    </style>
-
-    <style name="CarAutocomplete" parent="Widget.AppCompat.AutoCompleteTextView">
-        <item name="android:layout_height">50dp</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:singleLine">true</item>
-        <item name="android:textColorHint">#FFFFFF</item>
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:background">@drawable/autocomplete_background</item>
-        <item name="android:theme">@style/CarAutocompleteTheme</item>
-    </style>
-
-    <style name="CarAutocompleteTheme">
-        <item name="colorControlNormal">#FFFFFF</item>
-        <item name="colorControlActivated">#FFFFFF</item>
-        <item name="colorControlHighlight">#FFFFFF</item>
     </style>
 
     <style name="CarFilterTitleTextAppearance" parent="V2.Theme.Cars">

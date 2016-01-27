@@ -14,6 +14,7 @@ import com.expedia.bookings.data.cars.CategorizedCarOffers
 import com.expedia.bookings.data.cars.CreateTripCarOffer
 import com.expedia.bookings.data.cars.RateTerm
 import com.expedia.bookings.data.cars.RateTermDeserializer
+import com.expedia.bookings.data.cars.SearchCarOffer
 import com.expedia.bookings.utils.Strings
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -28,7 +29,10 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 import rx.exceptions.OnErrorNotImplementedException
+import rx.functions.Action1
 import java.util.ArrayList
+import java.util.Collections
+import java.util.Comparator
 import java.util.HashMap
 
 public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor,
@@ -63,6 +67,7 @@ public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIn
         return carSearchResponse
                 .doOnNext(HANDLE_ERRORS)
                 .doOnNext(CACHE_SEARCH_RESPONSE)
+                .doOnNext(SORT_OFFERS_BY_LOWEST_TOTAL)
                 .flatMap(BUCKET_OFFERS)
                 .toSortedList(SORT_BY_LOWEST_TOTAL)
                 .map(PUT_IN_CAR_SEARCH)
@@ -161,7 +166,7 @@ public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIn
             }
             bucket.add(offer)
         }
-        Observable.from(ArrayList(buckets.values()))
+        Observable.from(ArrayList(buckets.values))
     }
 
     private val PUT_IN_CAR_SEARCH = { categories: List<CategorizedCarOffers> ->
@@ -190,12 +195,23 @@ public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIn
         filteredResponse.offers.addAll(filter.applyFilters(response))
         filteredResponse
     }
-    
+
     public companion object {
 
         @JvmStatic public fun generateGson(): Gson {
             return GsonBuilder().registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
                     .registerTypeAdapter(RateTerm::class.java, RateTermDeserializer()).create()
         }
+
+        @JvmStatic public val SORT_OFFERS_BY_LOWEST_TOTAL = object : Action1<CarSearchResponse> {
+            override fun call(carSearchResponse: CarSearchResponse) {
+                Collections.sort(carSearchResponse.offers, object : Comparator<SearchCarOffer> {
+                    override fun compare(o1: SearchCarOffer, o2: SearchCarOffer): Int {
+                        return o1.fare.total.compareTo(o2.fare.total)
+                    }
+                })
+            }
+        }
+
     }
 }

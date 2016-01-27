@@ -18,10 +18,10 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.isEmpty;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withAtLeastChildCount;
@@ -62,7 +62,7 @@ public class LXInfositeTest extends LxTestCase {
 	public void testInfoSiteTestSuite() throws Throwable {
 		if (getLxIdlingResource().isInSearchEditMode()) {
 			onView(Matchers.allOf(withId(R.id.error_action_button), withText(R.string.edit_search),
-				withParent(withParent(withId(R.id.lx_search_error_widget)))))
+				isDescendantOfA(withId(R.id.lx_search_error_widget))))
 				.perform(click());
 
 

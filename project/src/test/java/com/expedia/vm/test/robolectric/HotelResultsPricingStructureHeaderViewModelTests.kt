@@ -94,7 +94,7 @@ public class HotelResultsPricingStructureHeaderViewModelTests {
             hotelSearchResponse.hotelList.add(Hotel())
             this.hotelResultsCount--
         }
-        sut.resultsDeliveredObserver.onNext(hotelSearchResponse)
+        sut.resultsDeliveredObserver.onNext(Pair(hotelSearchResponse.hotelList, hotelSearchResponse.userPriceType))
     }
 
     private fun getContext(): Context {

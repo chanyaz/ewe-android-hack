@@ -76,8 +76,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean isFacebookShareIntegrationEnabled();
 
-	boolean isGoogleWalletPromoEnabled();
-
 	boolean isHangTagProgressBarEnabled();
 
 	boolean isSettingsInMenuVisible();

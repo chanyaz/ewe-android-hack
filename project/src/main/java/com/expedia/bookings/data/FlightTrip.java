@@ -186,7 +186,7 @@ public class FlightTrip implements JSONable {
 
 	public Money getTotalFareWithCardFee(BillingInfo billingInfo, TripBucketItem item) {
 		Money base = new Money(mTotalFare);
-		Money cardFee = item.getCardFee(billingInfo);
+		Money cardFee = item.getPaymentFee(billingInfo);
 
 		if (cardFee != null) {
 			base.add(cardFee);

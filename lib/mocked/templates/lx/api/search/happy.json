@@ -88,7 +88,8 @@
         "Cruises & Water Tours",
         "Sightseeing Passes",
         "Tours & Sightseeing",
-        "Private Transfers"
+        "Private Transfers",
+        "Unknown Category"
       ],
       "badgingDiscountPercentage": null,
       "latLng": "37.615223,-122.389979",
@@ -119,6 +120,10 @@
     },
     "Tours & Sightseeing": {
       "displayValue": "Tours & Sightseeing",
+      "checked": false
+    },
+    "Unknown Category": {
+      "displayValue": "Unknown Category",
       "checked": false
     }
   },

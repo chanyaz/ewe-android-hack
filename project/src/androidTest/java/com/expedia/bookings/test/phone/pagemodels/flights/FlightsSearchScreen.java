@@ -20,42 +20,33 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class FlightsSearchScreen {
-	private static final int DEPARTURE_AIRPORT_EDIT_TEXT_ID = R.id.departure_airport_edit_text;
-	private static final int ARRIVAL_AIRPORT_EDIT_TEXT_ID = R.id.arrival_airport_edit_text;
-	private static final int SELECT_DEPARTURE_VIEW_ID = R.id.dates_button;
-	private static final int CLEAR_DATE_BUTTON_ID = R.id.clear_dates_btn;
-	private static final int PASSENGER_SELECTION_BUTTON_ID = R.id.num_travelers_button;
-	private static final int CALENDAR_DATE_PICKER_ID = R.id.calendar_date_picker;
-	private static final int SEARCH_BUTTON_ID = R.id.search_button;
-
-	//Object retrievers
 
 	public static ViewInteraction departureEditText() {
-		return onView(withId(DEPARTURE_AIRPORT_EDIT_TEXT_ID));
+		return onView(withId(R.id.departure_airport_edit_text));
 	}
 
 	public static ViewInteraction arrivalEditText() {
-		return onView(withId(ARRIVAL_AIRPORT_EDIT_TEXT_ID));
+		return onView(withId(R.id.arrival_airport_edit_text));
 	}
 
 	public static ViewInteraction selectDepartureButton() {
-		return onView(withId(SELECT_DEPARTURE_VIEW_ID));
+		return onView(withId(R.id.dates_button));
 	}
 
 	public static ViewInteraction clearSelectedDatesButton() {
-		return onView(withId(CLEAR_DATE_BUTTON_ID));
+		return onView(withId(R.id.clear_dates_btn));
 	}
 
 	public static ViewInteraction passengerSelectionButton() {
-		return onView(withId(PASSENGER_SELECTION_BUTTON_ID));
+		return onView(withId(R.id.num_travelers_button));
 	}
 
 	public static ViewInteraction searchButton() {
-		return onView(withId(SEARCH_BUTTON_ID));
+		return onView(withId(R.id.search_button));
 	}
 
 	public static ViewInteraction calendarDatePicker() {
-		return onView(withId(CALENDAR_DATE_PICKER_ID));
+		return onView(withId(R.id.calendar_date_picker));
 	}
 
 	// Object interactions

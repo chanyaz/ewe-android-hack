@@ -241,7 +241,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
         sortByButtonGroup.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
-                val sort = Sort.values[position]
+                val sort = Sort.values()[position]
                 vm.userFilterChoices.userSort = sort
             }
 
@@ -290,7 +290,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
                 AnimUtils.rotate(neighborhoodMoreLessIcon)
                 neighborhoodMoreLessLabel.text = resources.getString(R.string.show_less)
 
-                for (i in 3..neighborhoodContainer.getChildCount() - 1) {
+                for (i in 3..neighborhoodContainer.childCount - 1) {
                     val v = neighborhoodContainer.getChildAt(i)
                     if (v is HotelsNeighborhoodFilter) {
                         v.visibility = View.VISIBLE
@@ -330,7 +330,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
         resizeAnimator.addViewSpec(neighborhoodContainer, rowHeight * 3)
         resizeAnimator.start()
 
-        for (i in 3..neighborhoodContainer.getChildCount() - 1) {
+        for (i in 3..neighborhoodContainer.childCount - 1) {
             val v = neighborhoodContainer.getChildAt(i)
             if (v is HotelsNeighborhoodFilter) {
                 v.visibility = View.GONE
@@ -361,7 +361,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
 
         toolbar.inflateMenu(R.menu.cars_lx_filter_menu)
         toolbar.title = resources.getString(R.string.Sort_and_Filter)
-        toolbar.setTitleTextAppearance(context, R.style.CarsToolbarTitleTextAppearance)
+        toolbar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
         toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.cars_actionbar_text_color))
 
         toolbar.menu.findItem(R.id.apply_check).setActionView(doneButton)

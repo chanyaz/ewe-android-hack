@@ -2,6 +2,7 @@ package com.expedia.bookings.test
 
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.ReviewSummary
 import com.expedia.bookings.data.hotels.ReviewSort
+import com.expedia.bookings.services.ReviewsServices
 import com.expedia.vm.HotelReviewsAdapterViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -14,7 +15,7 @@ import kotlin.test.assertEquals
 
 public class HotelReviewsTest {
 
-    public val reviewServicesRule: ReviewsServicesRule = ReviewsServicesRule()
+    public var reviewServicesRule = ServicesRule(ReviewsServices::class.java)
         @Rule get
 
     private val HOTEL_ID = "26650"
@@ -25,7 +26,7 @@ public class HotelReviewsTest {
 
     @Before
     fun before() {
-        vm = HotelReviewsAdapterViewModel(HOTEL_ID, reviewServicesRule.service, "en_US")
+        vm = HotelReviewsAdapterViewModel(HOTEL_ID, reviewServicesRule.services!!, "en_US")
     }
 
     @Test

@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Space;
@@ -29,12 +30,12 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.HotelV2Tracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.mobiata.android.Log;
@@ -62,10 +63,14 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@InjectView(R.id.checkout_toolbar)
 	Toolbar toolbar;
 
+	@InjectView(R.id.mandatory_text)
+	TextView requiredFieldTextView;
+
 	@InjectView(R.id.main_contact_info_card_view)
 	public TravelerContactDetailsWidget mainContactInfoCardView;
 
-	@InjectView(R.id.payment_info_card_view)
+	public ViewStub paymentStub;
+
 	public PaymentWidget paymentInfoCardView;
 
 	@InjectView(R.id.slide_to_purchase_layout)
@@ -111,6 +116,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	protected UserAccountRefresher userAccountRefresher;
 
 	private boolean listenToScroll = true;
+	boolean isBucketedForTravelerTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelTravelerTest);
+
 
 	@Override
 	protected void onFinishInflate() {
@@ -118,6 +125,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		ButterKnife.inject(this);
 		setupToolbar();
 
+		paymentStub = (ViewStub) findViewById(R.id.payment_info_card_view_stub);
+		paymentInfoCardView = (PaymentWidget) paymentStub.inflate();
 		addTransition(defaultToExpanded);
 		addTransition(defaultToReady);
 		addTransition(defaultToCheckoutFailed);
@@ -175,7 +184,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		});
 
 		toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
-		toolbar.inflateMenu(R.menu.cars_checkout_menu);
+		toolbar.inflateMenu(R.menu.checkout_menu);
 
 		menuDone = toolbar.getMenu().findItem(R.id.menu_done);
 		// Let's start with not showing the menuDone button
@@ -286,7 +295,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					menuDone.setVisible(false);
 				}
 				else {
-					menuDone.setVisible(true);
+					menuDone.setVisible(isCheckoutFormComplete() ? false : true);
 				}
 			}
 		}
@@ -304,6 +313,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			lastExpandedCard = currentExpandedCard;
 			currentExpandedCard = cardView;
 			menuDone.setTitle(currentExpandedCard.getMenuButtonTitle());
+			if (isBucketedForTravelerTest && getLineOfBusiness() == LineOfBusiness.HOTELSV2
+				&& cardView instanceof TravelerContactDetailsWidget) {
+				requiredFieldTextView.setVisibility(VISIBLE);
+			}
 			show(new WidgetExpanded());
 		}
 
@@ -354,12 +367,17 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					scrollView.fullScroll(ScrollView.FOCUS_DOWN);
 				}
 			}, 100);
-			if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
-				new HotelV2Tracking().trackHotelV2SlideToPurchase(Strings.capitalizeFirstLetter(paymentInfoCardView.getCardType().toString()));
-			}
-			else {
-				OmnitureTracking.trackCheckoutSlideToPurchase(getLineOfBusiness(), getContext(),
-					paymentInfoCardView.getCardType());
+			String cardType = paymentInfoCardView.getCardType().getOmnitureTrackingCode();
+			switch (getLineOfBusiness()) {
+				case HOTELSV2:
+					new HotelV2Tracking().trackHotelV2SlideToPurchase(cardType);
+					break;
+				case LX:
+					OmnitureTracking.trackAppLXCheckoutSlideToPurchase(cardType);
+					break;
+				case CARS:
+					OmnitureTracking.trackAppCarCheckoutSlideToPurchase(cardType);
+					break;
 			}
 		}
 	}
@@ -606,6 +624,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		if (CheckoutDefault.class.getName().equals(getCurrentState())) {
 			return true;
 		}
+		acceptTermsWidget.setVisibility(INVISIBLE);
 		return super.back();
 	}
 
@@ -631,12 +650,17 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		mainContactInfoCardView.onLogout();
 		paymentInfoCardView.onLogout();
 		hintContainer.setVisibility(VISIBLE);
+		acceptTermsWidget.setVisibility(INVISIBLE);
 		showCheckout();
 	}
 
 	@Override
 	public void collapsed(ExpandableCardView view) {
 		acceptTermsWidget.setAlpha(1f);
+		if (isBucketedForTravelerTest && getLineOfBusiness() == LineOfBusiness.HOTELSV2
+			&& view instanceof TravelerContactDetailsWidget) {
+			requiredFieldTextView.setVisibility(GONE);
+		}
 	}
 
 	@Override

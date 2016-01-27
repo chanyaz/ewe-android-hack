@@ -9,10 +9,9 @@ import org.junit.Test;
 
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
-import com.expedia.bookings.data.hotels.SuggestionV4;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.utils.HotelsV2DataUtil;
 import com.google.gson.Gson;
-
 
 public class HotelsV2DataUtilTest {
 

@@ -1,13 +1,9 @@
 package com.expedia.bookings.fragment;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -32,7 +28,6 @@ import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.model.FlightPaymentFlowState;
@@ -48,19 +43,20 @@ import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.TravelerListGenerator;
 import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.AccountButton;
 import com.expedia.bookings.widget.AccountButton.AccountButtonClickListener;
 import com.expedia.bookings.widget.UserToTripAssocLoginExtender;
-import com.expedia.bookings.widget.WalletButton;
-import com.google.android.gms.wallet.MaskedWallet;
-import com.google.android.gms.wallet.MaskedWalletRequest.Builder;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.BackgroundDownloader.Download;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.Log;
 
-public class FlightCheckoutFragment extends LoadWalletFragment implements AccountButtonClickListener,
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+public class FlightCheckoutFragment extends Fragment implements AccountButtonClickListener,
 	LoginConfirmLogoutDialogFragment.DoLogoutListener {
 
 	private static final String INSTANCE_REFRESHED_USER_TIME = "INSTANCE_REFRESHED_USER";
@@ -73,7 +69,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	private List<View> mAddTravelerSections = new ArrayList<View>();
 
 	private AccountButton mAccountButton;
-	private WalletButton mWalletButton;
 	private SectionBillingInfo mCreditCardSectionButton;
 	private SectionLocation mSectionLocation;
 	private SectionStoredCreditCard mStoredCreditCard;
@@ -119,8 +114,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			mWasLoggedIn = savedInstanceState.getBoolean(INSTANCE_WAS_LOGGED_IN);
 		}
 		else {
-			// Reset Google Wallet state each time we get here
-			Db.clearGoogleWallet();
 			mWasLoggedIn = User.isLoggedIn(getActivity());
 		}
 	}
@@ -149,7 +142,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		mCreditCardSectionButton = Ui.findView(v, R.id.creditcard_section_button);
 		mSectionLocation = Ui.findView(v, R.id.section_location_address);
 		mAccountButton = Ui.findView(v, R.id.account_button_root);
-		mWalletButton = Ui.findView(v, R.id.wallet_button_layout);
 		mTravelerContainer = Ui.findView(v, R.id.traveler_container);
 		mCardFeeTextView = Ui.findView(v, R.id.lcc_card_fee_warning);
 		mLccTriangle = Ui.findView(v, R.id.lcc_triangle);
@@ -163,9 +155,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 
 		// Detect user state, update account button accordingly
 		mAccountButton.setListener(this);
-
-		mWalletButton.setOnClickListener(mWalletButtonClickListener);
-		mWalletButton.setPromoVisible(false);
 
 		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
 			Ui.findView(v, R.id.airline_notice_fee_added).setOnClickListener(new View.OnClickListener() {
@@ -243,7 +232,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 	@Override
 	public void onDetach() {
 		super.onDetach();
-
 		mListener = null; // Just in case Wallet is leaking
 	}
 
@@ -386,15 +374,9 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 				TextView tv = Ui.findView(v, R.id.traveler_empty_text_view);
 				tv.setText(travelerBoxLabels.get(index));
 
-				boolean isUserBucketedForTest = Db.getAbacusResponse()
-					.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
-				int testVariate = Db.getAbacusResponse()
-					.variateForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
-				if (isUserBucketedForTest
-					&& testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
-					TextView promptView = Ui.findView(v, R.id.traveler_empty_prompt);
-					promptView.setVisibility(View.VISIBLE);
-				}
+				TextView promptView = Ui.findView(v, R.id.traveler_empty_prompt);
+				promptView.setVisibility(View.VISIBLE);
+
 
 				// We need to add traveler sections for all passengers in order to best
 				// maintain matched indexing between travelers and their info sections
@@ -527,20 +509,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		}
 		else {
 			mStoredCreditCard.setVisibility(View.GONE);
-			boolean isUserBucketedForTest = Db.getAbacusResponse()
-				.isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
-			int testVariate = Db.getAbacusResponse()
-				.variateForTest(AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
-
-			if (isUserBucketedForTest) {
-				if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SINGLE_LINE_CALLOUT.ordinal()) {
-					mSelectPaymentSentenceText.setText(R.string.select_payment_sentence_case_variate1);
-				}
-				else if (testVariate == AbacusUtils.FMissingTravelerCalloutVariate.SECOND_LINE_CALLOUT.ordinal()) {
-					mSelectPaymentSentenceText.setText(R.string.select_payment_sentence_case_variate2);
-					mSelectPaymentCalloutText.setVisibility(View.VISIBLE);
-				}
-			}
+			mSelectPaymentSentenceText.setText(R.string.select_payment_sentence_case_variate2);
+			mSelectPaymentCalloutText.setVisibility(View.VISIBLE);
 
 			mPaymentButton.setVisibility(View.VISIBLE);
 			mCreditCardSectionButton.setVisibility(View.GONE);
@@ -553,7 +523,7 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			mListener.checkoutInformationIsNotValid();
 		}
 
-		Money cardFee = Db.getTripBucket().getFlight().getCardFee(mBillingInfo);
+		Money cardFee = Db.getTripBucket().getFlight().getPaymentFee(mBillingInfo);
 		if (hasValidCard && cardFee != null) {
 			setPaymentContainerBg(R.drawable.bg_lcc_checkout_information_bottom_tab, false);
 
@@ -567,8 +537,6 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 			mCardFeeTextView.setVisibility(View.GONE);
 			mLccTriangle.setVisibility(View.GONE);
 		}
-
-		updateWalletViewVisibilities();
 	}
 
 	/**
@@ -712,80 +680,8 @@ public class FlightCheckoutFragment extends LoadWalletFragment implements Accoun
 		}
 	};
 
-	//////////////////////////////////////////////////////////////////////////
-	// LoadWalletFragment
-
-	private OnClickListener mWalletButtonClickListener = new OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			buyWithGoogleWallet();
-		}
-	};
-
-	@Override
 	protected Money getEstimatedTotal() {
 		return Db.getTripBucket().getFlight().getFlightTrip().getTotalFare();
-	}
-
-	@Override
-	protected void modifyMaskedWalletBuilder(Builder builder) {
-		builder.setCart(WalletUtils.buildFlightCart(getActivity()));
-
-		builder.setPhoneNumberRequired(true);
-	}
-
-	/**
-	 * Binds the masked wallet to the billing info.  Warning: it WILL
-	 * blow away whatever was here before - so only call this when
-	 * we want to override the current data with Google Wallet!
-	 */
-	@Override
-	protected void onMaskedWalletFullyLoaded(boolean fromPreauth) {
-		populateTravelerData();
-
-		MaskedWallet maskedWallet = Db.getMaskedWallet();
-
-		// If we don't currently have traveler data, and the wallet gives us sufficient data, use it
-		// NOTE: At the moment we are *guaranteed* not to get sufficient data, but there's no reason
-		// not to hope someday we will get it!
-		Traveler traveler = WalletUtils.addWalletAsTraveler(getActivity(), maskedWallet);
-		BookingInfoUtils.insertTravelerDataIfNotFilled(getActivity(), traveler, LineOfBusiness.FLIGHTS);
-
-		// Bind credit card data, but only if they explicitly clicked "buy with wallet" or they have
-		// no existing credit card info entered
-		if (!fromPreauth || (TextUtils.isEmpty(mBillingInfo.getNumber()) && !mBillingInfo.hasStoredCard())) {
-			WalletUtils.bindWalletToBillingInfo(maskedWallet, mBillingInfo);
-		}
-
-		bindAll();
-		refreshAccountButtonState();
-		updateViewVisibilities();
-	}
-
-	// We may want to update these more often than the rest of the Views
-	@Override
-	protected void updateWalletViewVisibilities() {
-		boolean isUserBucketedForTest = Db.getAbacusResponse()
-			.isUserBucketedForTest(AbacusUtils.EBAndroidAppPaySuppressGoogleWallet);
-
-		boolean showWalletButton = showWalletButton() && !isUserBucketedForTest;
-		boolean isWalletLoading = isWalletLoading();
-
-		mWalletButton.setVisibility(showWalletButton ? View.VISIBLE : View.GONE);
-		mWalletButton.setEnabled(!isWalletLoading);
-
-		// Enable buttons if we're either not showing the wallet button or we're not loading a masked wallet
-		boolean enableButtons = !showWalletButton || !isWalletLoading;
-		mAccountButton.setEnabled(enableButtons);
-		mPaymentButton.setEnabled(enableButtons);
-		mStoredCreditCard.setEnabled(enableButtons);
-		mCreditCardSectionButton.setEnabled(enableButtons);
-		for (SectionTravelerInfo info : mTravelerSections) {
-			info.setEnabled(enableButtons);
-		}
-		for (View v : mAddTravelerSections) {
-			v.setEnabled(enableButtons);
-		}
 	}
 
 	///////////////////////////////////

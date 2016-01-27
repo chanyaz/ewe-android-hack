@@ -203,10 +203,10 @@
 
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_credit_debit_label">Credit Card/Debit Card</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_google_wallet_label">Google Wallet</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Guest Details</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Enter your information</string>
     <!-- Text for enter payment details line 1 -->
@@ -1726,6 +1726,8 @@
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">Economy</string>
+    <!-- Label for "coach" cabin code -->
+    <string name="flight_class_selection">Coach / Economy</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Premium Economy</string>
     <!-- Label for "business" cabin code -->
@@ -1762,8 +1764,6 @@
     <string name="select_payment">Select Payment</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">Payment details</string>
-    <!-- Select payment sentence case AB Test variate1 -->
-    <string name="select_payment_sentence_case_variate1">Enter Payment Details</string>
     <!-- Select payment sentence case AB Test variate2 -->
     <string name="select_payment_sentence_case_variate2">Payment</string>
     <!-- Select payment callout AB Test variate2 -->
@@ -1855,15 +1855,19 @@
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">slide to book flight</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">Your card will be charged %1$s</string>
+    <string name="your_card_will_be_charged_template">Your card will be charged {dueamount}</string>
+    <!-- Your are using pwp points -->
+    <string name="you_are_using_expedia_points_TEMPLATE">You are using {points} ({amount}) Expedia+ points</string>
+    <!-- Payment through card + pwp points -->
+    <string name="payment_through_card_and_pwp_points">You are using {points} ({amount}) Expedia+ points\nYour card will be charged {dueamount}</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">Your card will be charged %1$s (plus airline fee)</string>
+    <string name="your_card_will_be_charged_plus_airline_fee_template">Your card will be charged {dueamount} (plus airline fee)</string>
     <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_TEMPLATE">Amount due today: %1$s</string>
+    <string name="amount_due_today_template">Amount due today: {dueamount}</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Amount to be paid now: %1$s</string>
+    <string name="amount_to_be_paid_now_TEMPLATE">Amount to be paid now: {dueamount}</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">To be collected by hotel: %1$s</string>
+    <string name="to_be_collected_by_the_hotel_TEMPLATE">To be collected by hotel: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Finish Booking</string>
     <!-- Checkout menu item -->
@@ -1881,7 +1885,7 @@
     <!-- Sign out -->
     <string name="sign_out">Sign Out</string>
     <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">You\'ll earn %1$s points &#x2014; 3x points for booking on the app!</string>
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">Earn %1$s points &#x2014; 3x for booking on the app!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">You\'ll earn %1$s points for this booking!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -1900,6 +1904,8 @@
     <string name="please_enter_a_valid_email_address">Please enter a valid email address</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Fees paid at hotel</string>
+    <!-- Row label for when we show resort fees as its own line item -->
+    <string name="fees_due_at_hotel">Fees due at hotel</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">Due to {brand}</string>
     <!-- Due to expedia today - today -->
@@ -1961,10 +1967,6 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Traveler Information</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">Main traveler details</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">Enter Main Traveler Details</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
     <string name="traveler_details_variate2">Main Traveler</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Saved</string>
@@ -1982,49 +1984,29 @@
     <string name="add_new_creditcard">Add New Card</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Guest details</string>
+    <!-- Guest all fields are required -->
+    <string name="guest_field_required">All fields are required.</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Adult %1$s details</string>
-    <!-- AB test variate 1 - Add adult traveler number template -->
-    <string name="add_adult_number_variate1_TEMPLATE">Enter Adult %1$s details</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
     <string name="add_adult_number_variate2_TEMPLATE">Adult %1$s</string>
     <!-- Add adult traveler details label -->
-    <string name="add_adult">Adult details</string>
-    <!-- AB test variate 1 - Add adult traveler details label -->
-    <string name="add_adult_variate1">Enter Adult details</string>
-    <!-- AB test variate 2 - Add adult traveler details label -->
     <string name="add_adult_variate2">Adult</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Child %1$s details</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_TEMPLATE">%1$s yr old details</string>
-    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_variate1_TEMPLATE">Enter %1$s yr old details</string>
-    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_variate2_TEMPLATE">%1$s yr old</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Infant in lap %1$s details</string>
-    <!-- AB test variate 1 - Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_variate1_TEMPLATE">Enter Infant in lap %1$s details</string>
     <!-- AB test variate 2 - Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_variate2_TEMPLATE">Infant in lap %1$s</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap">Infant in lap details</string>
-    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap_variate1">Enter Infant in lap details</string>
-    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap_variate2">Infant in lap</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">Infant in seat %1$s details</string>
-    <!-- AB test variate 1- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_variate1_TEMPLATE">Enter Infant in seat %1$s details</string>
     <!-- AB test variate 2- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_variate2_TEMPLATE">Infant in seat %1$s</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat">Infant in seat details</string>
-    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat_variate1">Enter Infant in seat details</string>
-    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat_variate2">Infant in seat</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Boarding may be denied if traveler name does not match government-issued photo ID.</string>
@@ -2053,6 +2035,10 @@
     <string name="first_name_field_text">first name</string>
     <!-- last name -->
     <string name="last_name_field_text">last name</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (e.g. %2$s)</string>
+
     <!-- Cardholder -->
     <string name="cardholder">Cardholder</string>
     <!-- email disclaimer -->
@@ -2225,10 +2211,10 @@
     <string name="add_to_your_trip">Add to your trip</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotels in %s</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 Room, %s guests</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Cars in %s</string>
-    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
-    <string name="lx_in_TEMPLATE">Activities in %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">More Actions</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -2378,6 +2364,7 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
     <string name="zero">0</string>
+    <!-- The verb "book" as in to make a booking for a hotel room -->
     <string name="book">Book</string>
 
     <!-- Highlight view stuff -->
@@ -2516,6 +2503,8 @@
     <string name="search_error">Search Error</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">Hotel %s</string>
+    <!-- Expedia Member Discount for a given property, AB test -->
+    <string name="member_pricing">Member Pricing</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2524,6 +2513,10 @@
         <item quantity="many">%d Rooms Left</item>
         <item quantity="other">%d Rooms Left</item>
     </plurals>
+
+    <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
+    <string name="EnableLocationPermissionSettings_TEMPLATE">To use current location, you must allow {brand} to access your location.\n\nTo enable, go to settings, tap \"permissions\" and enable location.</string>
+    <string name="go_to_settings">Go to Settings</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">To use Current Location, you must first turn on a Location source in Settings.\n\nGo to Settings and turn it on now?</string>
@@ -2884,7 +2877,7 @@
     <string name="not_included_in_the_price">Not included in the price</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">View Room</string>
-    <!-- Book Room button text -->
+    <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">Book</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Share via</string>
@@ -2945,6 +2938,12 @@
     <string name="unknown">Unknown</string>
 
     <!-- Expedia Accounts -->
+    <!-- Label for messaging on sign in Variate 1 -->
+    <string name="sign_in_messaging">Save with exclusive member-only deals</string>
+    <!-- Label for messaging on sign in Variate 2 -->
+    <string name="triple_point_messaging">Earn TRIPLE Expedia+ Rewards points</string>
+    <!-- Label for messaging on sign in Variate 3 -->
+    <string name="trip_alert_messaging">Receive important trip alerts</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Sign In</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3466,30 +3465,6 @@
     <string name="country_zw">Zimbabwe</string>
     <string name="country_ax">Åland Islands</string>
 
-    <!-- Google Wallet -->
-    <!-- Loading message -->
-    <string name="loading">Loading</string>
-    <!-- Google Wallet label -->
-    <string name="google_wallet">Google Wallet</string>
-    <!-- Google wallet unavailable error -->
-    <string name="google_wallet_unavailable">Google Wallet is unavailable</string>
-    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
-    <string name="spending_limit_exceeded">You have exceeded your Google Wallet spending limit</string>
-    <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">Buy with Google wallet</string>
-    <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Save <b>$50</b> on a <b>$200+ trip</b> with Google Wallet!</string>
-    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Only one coupon can be used per booking. We replaced your previous coupon with the $50 discount for using Google Wallet.</string>
-    <!-- Message shown while loading Wallet coupon -->
-    <string name="wallet_promo_applying">Applying Google Wallet discount…</string>
-    <!-- Title for Google Wallet promo terms & conditions -->
-    <string name="wallet_promo_tc_title">Google Wallet Coupon Terms &amp; Conditions</string>
-    <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Offer: Receive an instant $50 coupon discount off a hotel stay. The price of the qualifying booking must be at least $200. How to redeem: Select a qualifying hotel stay. On the checkout page, use “Buy with Google” to check out. Coupon must be redeemed in the Expedia Android app by 11:59 PM (Pacific Time) on December 31, 2014 for travel between now and March 31, 2015. Limited time offer: subject to change. Limit one (1) coupon per user account and per qualifying hotel booking. This offer is from Expedia.com and is valid for Expedia.com U.S. Android app customers only. Customers affiliated with Expedia\&apos;s Travel Agent Affiliate Program are not eligible for offer. Coupon valid for eligible Expedia Rate Hotels only . Bookings subject to availability and all applicable terms and conditions. Coupon may not be used with other coupons, promotions or special offers. Coupon discount cannot be applied against taxes, supplier-charged fees, cancellation or change penalties, administrative fees or other miscellaneous charges, which are the sole responsibility of the customer. A coupon will be deemed fully used once a qualifying booking has been made and may not be reused. In the event that you change or cancel any part of your booking, the coupon will not apply to the changed travel schedule. Terms and conditions of this coupon are as written and cannot be changed by any representation of any unauthorized person, including employees of Expedia, Inc. Coupon is not transferable and is not redeemable for cash. Expedia, Inc. may revoke or change this offer at any time. Void where prohibited by law.</string>
-    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
-    <string name="wallet_coupon_not_applied_manually">This coupon may only be applied when selecting Google Wallet as your form of payment.</string>
-
     <!-- Human readable credit card names -->
     <!-- American Express -->
     <string name="cc_american_express">American Express</string>
@@ -3809,4 +3784,30 @@
     <string name="airline_charge_notice">Airlines charge an additional fee based on payment method.</string>
     <string name="airline_fee_notice_payment">Airline fee applies based on payment method</string>
     <string name="airline_notice_fee_added">An <u><b>airline fee</b></u>, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
+    <string name="airline_notice_fee_added_tablet">An &lt;u&gt;&lt;b&gt;airline fee&lt;/b&gt;&lt;/u&gt;, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
+
+    <!-- Packages -->
+
+    <!-- Label for package search toolbar -->
+    <string name="package_toolbar_title">Hotel + Flight</string>
+    <!-- Label for package search toolbar -->
+    <string name="bundle_overview_title">Bundle Overview</string>
+    <!-- Fly from hint -->
+    <string name="fly_from_hint">Flying from</string>
+    <!-- Fly to hint -->
+    <string name="fly_to_hint">Flying to</string>
+    <!-- Bundle Overview Step 1, select a hotel -->
+    <string name="step_one">Step 1: Select Hotel</string>
+    <!-- Bundle Overview Step 2, select a flight -->
+    <string name="step_two">Step 2: Select Flights</string>
+
+    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_duration_template">%1$dd %2$dh %3$dm (%4$dhr layover)</string>
+    <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
+    <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dd</string>
+    <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
+    <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">Trip Overview</string>
 </resources>

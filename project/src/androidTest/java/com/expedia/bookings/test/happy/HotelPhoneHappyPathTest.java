@@ -21,9 +21,9 @@ public class HotelPhoneHappyPathTest extends PhoneTestCase {
 		LaunchScreen.launchHotels();
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
-		HotelsSearchScreen.enterSearchText("New York, NY");
+		HotelsSearchScreen.enterSearchText("SFO");
 		screenshot("Search_City_Entered");
-		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "New York, NY");
+		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "San Francisco, CA (SFO-San Francisco Intl.)");
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		LocalDate endDate = LocalDate.now().plusDays(40);
 		HotelsSearchScreen.clickOnCalendarButton();

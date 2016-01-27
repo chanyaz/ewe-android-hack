@@ -6,7 +6,8 @@ import com.expedia.bookings.R;
  * Dummy file so that lint don't complain about unused resources which are used only in kotlin files.
  * Have to delete this file once Lint is able to read kotlin files.
  */
-public class DummyFiletoHandleKotlinLintError {
+public class
+	DummyFiletoHandleKotlinLintError {
 
 	/**
 	 * Add resources which are only used in kotlin files.
@@ -133,6 +134,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.hotelsv2_slide_purchase,
 		R.layout.filter_amenity_row,
 		R.dimen.hotel_gallery_description_padding,
+		R.dimen.widget_hotel_info_padding,
 		R.layout.marker_window,
 		R.drawable.bg_message_loading,
 		R.color.hotel_filter_show_more_less,
@@ -194,6 +196,47 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.recent_search_header,
 		R.layout.recent_search_item,
 		R.layout.recent_search_view,
-		R.drawable.recent_searches
+		R.drawable.recent_searches,
+		R.layout.package_activity,
+		R.layout.package_presenter,
+		R.layout.bundle_overview,
+		R.layout.widget_package_search_params,
+		R.string.flight_class_selection,
+		R.string.fees_due_at_hotel,
+		R.layout.widget_package_hotel_results,
+		R.layout.package_hotel_presenter,
+		R.layout.package_hotel_results_presenter_stub,
+		R.layout.package_hotel_activity,
+		R.layout.flight_cell,
+		R.layout.package_flight_activity,
+		R.layout.package_flight_presenter,
+		R.layout.package_flight_results_presenter_stub,
+		R.layout.widget_flight_results_package,
+		R.dimen.card_view_container_margin,
+		R.drawable.ic_hotel_banner_expedia,
+		R.color.hotel_member_pricing_color,
+		R.string.member_pricing,
+		R.string.you_are_using_expedia_points_TEMPLATE,
+		R.string.payment_through_card_and_pwp_points,
+		R.string.flight_duration_template,
+		R.string.flight_departure_arrival_time_multi_day_template,
+		R.string.flight_departure_arrival_time_template,
+		R.layout.rail_activity,
+		R.layout.rail_presenter,
+		R.layout.rail_search_presenter,
+		R.layout.rail_results_presenter,
+		R.layout.rail_details_presenter,
+		R.layout.rail_checkout_presenter,
+		R.drawable.packages_search_arrival,
+		R.drawable.packages_search_departure,
+		R.layout.widget_search_autocomplete,
+		R.layout.suggestion_popup,
+		R.integer.calendar_max_days_package_stay,
+		R.color.hotel_result_background,
+		R.string.hotels_guest_TEMPLATE,
+		R.layout.bundle_hotel_widget,
+		R.layout.widget_base_checkout,
+		R.drawable.ic_chevron_up_black_48dp,
+		R.string.trip_overview
 	};
 }

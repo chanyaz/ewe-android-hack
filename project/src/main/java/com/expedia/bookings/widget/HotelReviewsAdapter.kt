@@ -17,8 +17,7 @@ public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager,
         viewPager.adapter = this
 
         vm.reviewsSummaryObservable.subscribe { reviewsSummary ->
-
-            for (reviewSort: ReviewSort in ReviewSort.values) {
+            for (reviewSort: ReviewSort in ReviewSort.values()) {
                 val hotelReviewsView = viewPager.findViewWithTag(reviewSort) as HotelReviewsPageView
                 hotelReviewsView.recyclerAdapter.updateSummary(reviewsSummary)
             }
@@ -77,7 +76,7 @@ public class HotelReviewsAdapter(val context: Context, val viewPager: ViewPager,
     }
 
     override fun getCount(): Int {
-        return ReviewSort.values.size
+        return ReviewSort.values().size
     }
 
     override public fun destroyItem(container: ViewGroup, position: Int, obj: Any) {

@@ -13,6 +13,8 @@ import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class CarPhoneHappyPathTest extends PhoneTestCase {
 
@@ -21,10 +23,8 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 	private final static int CREDIT_CARD_REQUIRED = 1;
 
 	private void goToCarDetails() throws Throwable {
-		screenshot("Launch");
 		LaunchScreen.launchCars();
 
-		screenshot("Car_Search");
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
 		CarScreen.pickupLocation().perform(typeText("SFO"));
@@ -32,11 +32,9 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		CarScreen.selectDateButton().perform(click());
 		CarScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
 
-		screenshot("Car_Search_Params_Entered");
 		CarScreen.searchButton().perform(click());
 		Common.delay(1);
 
-		screenshot("Car_Search_Results");
 		CarScreen.selectCarCategory(CATEGORY);
 		Common.delay(1);
 	}
@@ -45,39 +43,29 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		EspressoUtils.assertViewIsDisplayed(R.id.login_widget);
 		CheckoutViewModel.enterLoginDetails();
 		Common.delay(1);
-		screenshot("Car_LoginScreen");
 		CheckoutViewModel.pressDoLogin();
 		Common.delay(1);
-		screenshot("Car_Login_Success");
 	}
-
 
 	private void enterPaymentInfoWithScreenshot() throws Throwable {
 		EspressoUtils.assertViewIsDisplayed(R.id.payment_info_card_view);
 		CheckoutViewModel.enterPaymentInfo();
-		screenshot("Car_Checkout_Payment_Entered");
 		CheckoutViewModel.pressClose();
 	}
 
 	private void slideToPurchase() throws Throwable {
-		screenshot("Car_Checkout_Ready_To_Purchase");
 		CheckoutViewModel.performSlideToPurchase();
 		Common.delay(1);
-
-		screenshot("Car_Confirmation");
 	}
 
 	private void enterCVV(String cvv) throws Throwable {
 		CVVEntryScreen.enterCVV(cvv);
 		CVVEntryScreen.clickBookButton();
-		screenshot("Car_CVV");
 	}
 
 	public void testCarPhoneHappyPath() throws Throwable {
 		goToCarDetails();
-		screenshot("Car Offers");
 		CarScreen.selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
-		screenshot("Car Checkout");
 		EspressoUtils.assertViewIsNotDisplayed(R.id.payment_info_card_view);
 		CheckoutViewModel.enterTravelerInfo();
 
@@ -87,11 +75,8 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 
 	public void testCarPhoneCCRequiredHappyPath() throws Throwable {
 		goToCarDetails();
-		screenshot("Car Offers");
 		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);
-		screenshot("Car Checkout");
 		CheckoutViewModel.enterTravelerInfo();
-		screenshot("Car_Checkout_Driver_Entered");
 
 		enterPaymentInfoWithScreenshot();
 
@@ -101,9 +86,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 
 	public void testCarPhoneLoggedInHappyPath() throws Throwable {
 		goToCarDetails();
-		screenshot("Car Offers");
 		CarScreen.selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
-		screenshot("Car Checkout");
 		doLogin();
 
 		slideToPurchase();
@@ -112,9 +95,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 
 	public void testCarPhoneLoggedInCCRequiredHappyPath() throws Throwable {
 		goToCarDetails();
-		screenshot("Car Offers");
 		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);
-		screenshot("Car Checkout");
 		doLogin();
 
 		CheckoutViewModel.clickPaymentInfo();
@@ -127,16 +108,13 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 
 	public void testCarPhoneLoggedInStoredTravelerCC() throws Throwable {
 		goToCarDetails();
-		screenshot("Car Offers");
 		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);
-		screenshot("Car Checkout");
 		doLogin();
 
 		CheckoutViewModel.clickDriverInfo();
 		CheckoutViewModel.clickStoredTravelerButton();
 		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
 		CheckoutViewModel.pressClose();
-		screenshot("Car_Checkout_Driver_Entered");
 
 		CheckoutViewModel.clickPaymentInfo();
 		CheckoutViewModel.clickStoredCardButton();
@@ -145,4 +123,20 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		enterCVV("6286");
 	}
 
+	public void testCarPhoneSignedInCustomerCanEnterNewTraveler() throws Throwable {
+		goToCarDetails();
+		CarScreen.selectCarOffer(CREDIT_CARD_REQUIRED);
+		doLogin();
+
+		CheckoutViewModel.clickDriverInfo();
+		CheckoutViewModel.clickStoredTravelerButton();
+		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
+
+		CheckoutViewModel.clickStoredTravelerButton();
+		CheckoutViewModel.selectStoredTraveler("Add New Traveler");
+
+		CheckoutViewModel.firstName().check(matches(withText("")));
+		CheckoutViewModel.lastName().check(matches(withText("")));
+		CheckoutViewModel.phone().check(matches(withText("")));
+	}
 }

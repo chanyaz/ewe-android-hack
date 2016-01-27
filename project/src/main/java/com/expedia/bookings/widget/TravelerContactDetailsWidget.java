@@ -19,6 +19,8 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.enums.MerchandiseSpam;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.section.InvalidCharacterHelper;
@@ -259,6 +261,11 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 			}
 			bind();
 			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+				Boolean isBucketedForShowExampleNames = Db.getAbacusResponse().isUserBucketedForTest(
+					AbacusUtils.EBAndroidAppHotelShowExampleNamesTest);
+				if (isBucketedForShowExampleNames && PointOfSale.getPointOfSale().showExampleNames()) {
+					setExampleNames();
+				}
 				new HotelV2Tracking().trackHotelV2CheckoutTraveler();
 			}
 			else {
@@ -281,8 +288,36 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		}
 	}
 
+	private void setExampleNames() {
+		Context context = getContext();
+		if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.HONG_KONG)) {
+			firstName.setHint(getFirstNameHint(R.string.first_name_hk, context));
+			lastName.setHint(getLastNameHint(R.string.last_name_hk, context));
+		}
+		else if (PointOfSale.getPointOfSale().getPointOfSaleId().equals(PointOfSaleId.SOUTH_KOREA)) {
+			firstName.setHint(getFirstNameHint(R.string.first_name_kr, context));
+			lastName.setHint(getLastNameHint(R.string.last_name_kr, context));
+		}
+	}
+
+	private String getFirstNameHint(int name, Context context) {
+		return context.getString(R.string.hint_name_example_TEMPLATE, context.getString(R.string.first_name),
+			context.getString(name));
+	}
+
+	private String getLastNameHint(int name, Context context) {
+		return context.getString(R.string.hint_name_example_TEMPLATE, context.getString(R.string.last_name),
+			context.getString(name));
+	}
+
 	@Override
 	public void onTravelerChosen(Traveler traveler) {
+		sectionTravelerInfo.bind(traveler);
+	}
+
+	@Override
+	public void onAddNewTravelerSelected() {
+		Traveler traveler = Db.getWorkingTravelerManager().getWorkingTraveler();
 		sectionTravelerInfo.bind(traveler);
 	}
 
@@ -352,11 +387,5 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	public void setLineOfBusiness(LineOfBusiness lob) {
 		lineOfBusiness = lob;
-	}
-
-	public void bindGoogleWalletTraveler(Traveler traveler) {
-		if (traveler != null && !isFilled()) {
-			sectionTravelerInfo.bind(traveler);
-		}
 	}
 }

@@ -26,8 +26,8 @@ public class HotelCheckoutPriceChangeTest extends PhoneTestCase {
 		HotelsSearchScreen.clickSearchEditText();
 		HotelsSearchScreen.clickToClearSearchEditText();
 		Log.v(TAG, "Setting hotel search city to: " + "New York, NY");
-		HotelsSearchScreen.enterSearchText("New York, NY");
-		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "New York, NY");
+		HotelsSearchScreen.enterSearchText("SFO");
+		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "San Francisco, CA (SFO-San Francisco Intl.)");
 		HotelsSearchScreen.clickHotelWithName("hotel_price_change");
 		HotelsDetailsScreen.clickSelectButton();
 		Log.v(TAG, "Selecting first room listed for this hotel.");

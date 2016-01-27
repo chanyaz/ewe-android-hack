@@ -7,7 +7,7 @@ import android.support.annotation.StringRes;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.ApiError;
-import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
@@ -15,7 +15,7 @@ import com.expedia.bookings.utils.RetrofitUtils;
 
 import rx.Observer;
 
-public class LXCurrentLocationSuggestionObserver implements Observer<Suggestion> {
+public class LXCurrentLocationSuggestionObserver implements Observer<SuggestionV4> {
 
 	private Context context;
 	private LXSearchParams currentLocationSearchParams = null;
@@ -50,9 +50,9 @@ public class LXCurrentLocationSuggestionObserver implements Observer<Suggestion>
 	}
 
 	@Override
-	public void onNext(Suggestion suggestion) {
+	public void onNext(SuggestionV4 suggestion) {
 		if (currentLocationSearchParams != null) {
-			Events.post(new Events.LXNewSearchParamsAvailable(suggestion.fullName, suggestion.airportCode,
+			Events.post(new Events.LXNewSearchParamsAvailable(suggestion.regionNames.fullName, suggestion.hierarchyInfo.airport.airportCode,
 				currentLocationSearchParams.startDate,
 				currentLocationSearchParams.endDate,
 				currentLocationSearchParams.searchType));

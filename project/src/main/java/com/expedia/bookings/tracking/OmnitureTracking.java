@@ -1,16 +1,5 @@
 package com.expedia.bookings.tracking;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -36,7 +25,7 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.FlightFilter;
@@ -94,6 +83,17 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
+
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  *
@@ -171,6 +171,7 @@ public class OmnitureTracking {
 
 	private static final String HOTELV2_LOB = "hotels";
 	private static final String HOTELSV2_SEARCH_BOX = "App.Hotels.Dest-Search";
+	private static final String HOTELSV2_RECENT_SEARCH_CLICK = "App.Hotels.DS.RecentSearch";
 	private static final String HOTELSV2_GEO_SUGGESTION_CLICK = "App.Hotels.DS.DestSuggest";
 	private static final String HOTELSV2_TRAVELER = "App.Hotels.Traveler.";
 	private static final String HOTELSV2_RESULT = "App.Hotels.Search";
@@ -188,6 +189,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_SEARCH_THIS_AREA = "App.Hotels.Search.AreaSearch";
 	private static final String HOTELSV2_CAROUSEL_SCROLL = "App.Hotels.Search.ShowNext";
 	private static final String HOTELSV2_DETAILS_PAGE = "App.Hotels.Infosite";
+	private static final String HOTELSV2_SOLD_OUT_PAGE = "App.Hotels.Infosite.SoldOut";
 	private static final String HOTELSV2_DETAILS_ETP = "App.Hotels.IS.Select.";
 	private static final String HOTELSV2_DETAIL_VIEW_ROOM = "App.Hotels.IS.ViewRoom";
 	private static final String HOTELSV2_DETAIL_ROOM_INFO = "App.Hotels.IS.MoreRoomInfo";
@@ -205,8 +207,6 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_CHECKOUT_TRIP_SUMMARY = "App.Hotels.CKO.TripSummary";
 	private static final String HOTELSV2_CHECKOUT_PRICE_CHANGE = "App.Hotels.CKO.PriceChange";
 	private static final String HOTELSV2_CHECKOUT_TRAVELER_INFO = "App.Hotels.Checkout.Traveler.Edit.Info";
-	private static final String HOTELSV2_CHECKOUT_PAYMENT_INFO = "App.Hotels.Checkout.Payment.Select";
-	private static final String HOTELSV2_CHECKOUT_GOOGLE_WALLET = "App.Hotels.CKO.Payment.GoogleWallet";
 	private static final String HOTELSV2_CHECKOUT_SELECT_STORED_CARD = "App.Hotels.CKO.Payment.StoredCard";
 	private static final String HOTELSV2_CHECKOUT_EDIT_PAYMENT = "App.Hotels.Checkout.Payment.Edit.Card";
 	private static final String HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE = "App.Hotels.Checkout.SlideToPurchase";
@@ -233,8 +233,19 @@ public class OmnitureTracking {
 		s.setEvar(2, "D=c2");
 		s.setProp(2, HOTELV2_LOB);
 
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRecentSearchTest);
 		// Send the tracking data
 		s.track();
+
+	}
+
+	public static void trackRecentSearchClick() {
+		Log.d(TAG, "Tracking \"" + HOTELSV2_RECENT_SEARCH_CLICK + "\" click...");
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, HOTELSV2_RECENT_SEARCH_CLICK);
+		s.setProp(16, HOTELSV2_RECENT_SEARCH_CLICK);
+		s.trackLink(null, "o", "Search Results Update", null, null);
 
 	}
 
@@ -298,6 +309,11 @@ public class OmnitureTracking {
 				s.setEvar(28, HOTELS_SEARCH_SPONSORED_NOT_PRESENT);
 				s.setProp(16, HOTELS_SEARCH_SPONSORED_NOT_PRESENT);
 			}
+		}
+
+		//tracking for Map AB test
+		if (!ExpediaBookingApp.isDeviceShitty()) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultMapTest);
 		}
 
 		// Send the tracking data
@@ -448,8 +464,22 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Search Results Map View", null, null);
 	}
 
+	public static void trackPageLoadHotelV2SoldOut() {
+		String pageName = HOTELSV2_SOLD_OUT_PAGE;
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageload");
+
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+
+		s.setEvar(2, "D=c2");
+		s.setProp(2, HOTELV2_LOB);
+
+		// Send the tracking data
+		s.track();
+	}
+
 	public static void trackPageLoadHotelV2Infosite(HotelOffersResponse hotelOffersResponse, boolean isETPEligible,
 		boolean isCurrentLocationSearch, boolean isHotelSoldOut, boolean isRoomSoldOut) {
+
 		Log.d(TAG, "Tracking \"" + HOTELSV2_DETAILS_PAGE + "\" pageload");
 
 		ADMS_Measurement s = getFreshTrackingObject();
@@ -481,7 +511,7 @@ public class OmnitureTracking {
 			s.setEvents("event32");
 		}
 
-		s.setEvar(2, HOTELV2_LOB);
+		s.setEvar(2, "D=c2");
 		s.setProp(2, HOTELV2_LOB);
 		setDateValues(s, checkInDate, checkOutDate);
 
@@ -709,6 +739,10 @@ public class OmnitureTracking {
 
 
 		addStandardHotelV2Fields(s, searchParams);
+		if (hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees != 0f
+			|| hotelProductResponse.hotelRoomResponse.depositRequired) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelPriceBreakDownTest);
+		}
 		s.track();
 	}
 
@@ -732,22 +766,10 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_TRAVELER_INFO + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(HOTELSV2_CHECKOUT_TRAVELER_INFO);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelTravelerTest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelShowExampleNamesTest);
 		s.track();
 
-	}
-
-	public static void trackHotelV2PaymentInfo() {
-		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_PAYMENT_INFO + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setAppState(HOTELSV2_CHECKOUT_PAYMENT_INFO);
-		s.track();
-
-	}
-
-	public static void trackHotelV2GoogleWalletClick() {
-		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_GOOGLE_WALLET + "\" click...");
-		ADMS_Measurement s = createTrackLinkEvent(HOTELSV2_CHECKOUT_GOOGLE_WALLET);
-		s.trackLink(null, "o", "Hotel Checkout", null, null);
 	}
 
 	public static void trackHotelV2StoredCardSelect() {
@@ -761,8 +783,10 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(HOTELSV2_CHECKOUT_EDIT_PAYMENT);
 		s.setEvar(18, HOTELSV2_CHECKOUT_EDIT_PAYMENT);
+		if (!PointOfSale.getPointOfSale().requiresHotelPostalCode()) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCKOPostalCodeTest);
+		}
 		s.track();
-
 	}
 
 	public static void trackHotelV2SlideToPurchase(String cardType) {
@@ -1109,12 +1133,12 @@ public class OmnitureTracking {
 			}
 		}
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAATest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSRPercentRecommend);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelETPSearchResults);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHSRMapIconTest);
 		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsV2SuperlativeReviewsABTest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsMemberDealTest);
 
 		// Send the tracking data
 		s.track();
@@ -1719,8 +1743,6 @@ public class OmnitureTracking {
 		// order #
 		s.setProp(72, orderId);
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightConfCarsXsell);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightConfLXXsell);
 		s.track();
 	}
 
@@ -1806,11 +1828,6 @@ public class OmnitureTracking {
 		addProducts(s);
 		internalSetFlightDateProps(s, params);
 		addStandardFlightFields(s);
-
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppPaySuppressGoogleWallet);
-
-		// AB Test: FCKO - More prominent callout for missing traveler details
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightMissingTravelerInfoCallout);
 
 		s.track();
 	}
@@ -2127,6 +2144,12 @@ public class OmnitureTracking {
 	private static final String LX_CATEGORY_TEST = "App.LX.Category";
 	private static final String LX_SEARCH_CATEGORIES = "App.LX.Search.Categories";
 
+	public static void trackFirstActivityListingExpanded() {
+		Log.d(TAG, "Tracking \"" + LX_LOB + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXFirstActivityListingExpanded);
+		s.track();
+	}
 
 	public static void trackAppLXCategoryABTest() {
 		Log.d(TAG, "Tracking \"" + LX_CATEGORY_TEST + "\" category...");
@@ -2299,14 +2322,12 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppLXCheckoutSlideToPurchase(Context context, CreditCardType creditCardType) {
+	public static void trackAppLXCheckoutSlideToPurchase(String cardType) {
 		Log.d(TAG, "Tracking \"" + LX_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(LX_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(18, LX_CHECKOUT_SLIDE_TO_PURCHASE);
-		s.setEvar(37,
-			creditCardType != CreditCardType.UNKNOWN ? Strings.capitalizeFirstLetter(creditCardType.toString())
-				: context.getString(R.string.lx_omniture_checkout_no_credit_card));
+		s.setEvar(37, cardType);
 		s.track();
 	}
 
@@ -2336,6 +2357,14 @@ public class OmnitureTracking {
 
 		StringBuilder sb = new StringBuilder();
 		sb.append(LX_TICKET);
+		sb.append(rffr);
+		trackLinkLX(sb.toString());
+	}
+
+	public static void trackLinkLXCategoryClicks(String rffr) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(LX_SEARCH_CATEGORIES);
+		sb.append(".");
 		sb.append(rffr);
 		trackLinkLX(sb.toString());
 	}
@@ -2440,8 +2469,6 @@ public class OmnitureTracking {
 		s.setEvents("event2");
 		s.setEvar(47, getDSREvar47String(params));
 		s.setEvar(48, Html.fromHtml(params.getDestination().getDisplayName()).toString());
-
-		trackAbacusTest(s, AbacusUtils.EBAndroidAATest);
 
 		s.track();
 	}
@@ -3410,7 +3437,6 @@ public class OmnitureTracking {
 		s.setProp(16, ADD_LX_ITIN);
 		s.setEvar(12, CROSS_SELL_LX_FROM_ITIN);
 
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelItinLXXsell);
 		s.trackLink(null, "o", "Itinerary X-Sell", null, null);
 	}
 
@@ -3452,6 +3478,7 @@ public class OmnitureTracking {
 		// set the pageName
 		s.setAppState(LOGIN_SCREEN);
 		s.setEvar(18, LOGIN_SCREEN);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppSignInMessagingTest);
 		s.track();
 	}
 
@@ -3561,7 +3588,6 @@ public class OmnitureTracking {
 		final String link = "LogExperiement";
 
 		addStandardFields(s);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchScreenTest);
 
 		s.trackLink(null, "o", link, null, null);
 	}
@@ -4159,7 +4185,7 @@ public class OmnitureTracking {
 	private static String getPaymentType() {
 		BillingInfo billingInfo = Db.getBillingInfo();
 		StoredCreditCard scc = billingInfo.getStoredCard();
-		CreditCardType type;
+		PaymentType type;
 		if (scc != null) {
 			type = scc.getType();
 		}
@@ -4169,29 +4195,27 @@ public class OmnitureTracking {
 
 		if (type != null) {
 			switch (type) {
-			case AMERICAN_EXPRESS:
+			case CARD_AMERICAN_EXPRESS:
 				return "AmericanExpress";
-			case CARTE_BLANCHE:
+			case CARD_CARTE_BLANCHE:
 				return "CarteBlanche";
-			case CHINA_UNION_PAY:
+			case CARD_CHINA_UNION_PAY:
 				return "ChinaUnionPay";
-			case DINERS_CLUB:
+			case CARD_DINERS_CLUB:
 				return "DinersClub";
-			case DISCOVER:
+			case CARD_DISCOVER:
 				return "Discover";
-			case JAPAN_CREDIT_BUREAU:
+			case CARD_JAPAN_CREDIT_BUREAU:
 				return "JapanCreditBureau";
-			case MAESTRO:
+			case CARD_MAESTRO:
 				return "Maestro";
-			case MASTERCARD:
+			case CARD_MASTERCARD:
 				return "MasterCard";
-			case VISA:
+			case CARD_VISA:
 				return "Visa";
-			case GOOGLE_WALLET:
-				return "GoogleWallet";
-			case CARTE_BLEUE:
+			case CARD_CARTE_BLEUE:
 				return "CarteBleue";
-			case CARTA_SI:
+			case CARD_CARTA_SI:
 				return "CartaSi";
 			case UNKNOWN:
 				return "Unknown";
@@ -4291,7 +4315,6 @@ public class OmnitureTracking {
 			.capitalizeFirstLetter(offer.vehicleInfo.type.toString().replaceAll("_", " "));
 
 		s.setEvar(38, evar38String);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppCarRatesCollapseTopListing);
 		s.track();
 	}
 
@@ -4340,14 +4363,12 @@ public class OmnitureTracking {
 
 	}
 
-	public static void trackAppCarCheckoutSlideToPurchase(Context context, CreditCardType creditCardType) {
+	public static void trackAppCarCheckoutSlideToPurchase(String cardType) {
 		Log.d(TAG, "Tracking \"" + CAR_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(CAR_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(18, CAR_CHECKOUT_SLIDE_TO_PURCHASE);
-		s.setEvar(37,
-			creditCardType != CreditCardType.UNKNOWN ? Strings.capitalizeFirstLetter(creditCardType.toString())
-				: context.getString(R.string.car_omniture_checkout_no_credit_card));
+		s.setEvar(37, cardType);
 		s.track();
 
 	}
@@ -4383,7 +4404,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 
 		s.setEvar(12,
-			lob == LineOfBusiness.HOTELS ? "CrossSell.Cars.Confirm.Hotels" : "CrossSell.Cars.Confirm.Flights");
+				lob == LineOfBusiness.HOTELS ? "CrossSell.Cars.Confirm.Hotels" : "CrossSell.Cars.Confirm.Flights");
 		s.setEvar(28, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
 		s.setProp(16, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
 		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
@@ -4393,8 +4414,8 @@ public class OmnitureTracking {
 		String duration = Integer
 			.toString(JodaUtils.daysBetween(carOffer.getPickupTime(), carOffer.getDropOffTime()) + 1);
 		s.setProducts(
-			"Car;Agency Car:" + carOffer.vendor.code + ":" + carTrackingData.sippCode + ";" + duration + ";"
-				+ carOffer.detailedFare.grandTotal.amount);
+				"Car;Agency Car:" + carOffer.vendor.code + ":" + carTrackingData.sippCode + ";" + duration + ";"
+						+ carOffer.detailedFare.grandTotal.amount);
 	}
 
 	private static String getEvar47String(CarSearchParams params) {
@@ -4434,16 +4455,6 @@ public class OmnitureTracking {
 		return s;
 	}
 
-
-	public static void trackCheckoutSlideToPurchase(LineOfBusiness lineOfBusiness, Context context, CreditCardType creditCardType) {
-		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
-			trackAppCarCheckoutSlideToPurchase(context, creditCardType);
-		}
-		else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
-			trackAppLXCheckoutSlideToPurchase(context, creditCardType);
-		}
-	}
-
 	public static void trackCheckoutPayment(LineOfBusiness lineOfBusiness) {
 		if (lineOfBusiness.equals(LineOfBusiness.CARS)) {
 			trackAppCarCheckoutPayment();
@@ -4461,5 +4472,4 @@ public class OmnitureTracking {
 			trackAppLXCheckoutTraveler();
 		}
 	}
-
 }

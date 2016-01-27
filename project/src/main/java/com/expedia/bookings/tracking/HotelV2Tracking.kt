@@ -14,6 +14,10 @@ class HotelV2Tracking {
         OmnitureTracking.trackHotelV2SearchBox()
     }
 
+    fun trackRecentSearchClick() {
+        OmnitureTracking.trackRecentSearchClick()
+    }
+
     fun trackTravelerPickerClick(text: String) {
         OmnitureTracking.trackTravelerPickerClick(text)
     }
@@ -92,6 +96,10 @@ class HotelV2Tracking {
 
     fun trackHotelV2CarouselScroll() {
         OmnitureTracking.trackHotelV2CarouselScroll()
+    }
+
+    fun trackPageLoadHotelV2SoldOut() {
+        OmnitureTracking.trackPageLoadHotelV2SoldOut()
     }
 
     fun trackPageLoadHotelV2Infosite(hotelOffersResponse: HotelOffersResponse, searchParams: HotelSearchParams, isETPEligible: Boolean, isCurrentLocationSearch: Boolean, isHotelSoldOut: Boolean, isRoomSoldOut: Boolean) {
@@ -187,14 +195,6 @@ class HotelV2Tracking {
 
     fun trackHotelV2CheckoutTraveler() {
         OmnitureTracking.trackHotelV2CheckoutTraveler()
-    }
-
-    fun trackHotelV2PaymentInfo() {
-        OmnitureTracking.trackHotelV2PaymentInfo()
-    }
-
-    fun trackHotelV2GoogleWalletClick() {
-        OmnitureTracking.trackHotelV2GoogleWalletClick()
     }
 
     fun trackHotelV2PaymentEdit() {

@@ -248,7 +248,9 @@ public class LXSortFilterWidget extends LinearLayout {
 	public void categoryFilterVisibility(boolean visibility) {
 		categoryTitle.setVisibility(visibility ? VISIBLE : GONE);
 		filterCategoriesContainer.setVisibility(visibility ? VISIBLE : GONE);
-		toolbarBackgroundView.setVisibility(visibility ? VISIBLE : GONE);
+		if (toolbarBackgroundView != null) {
+			toolbarBackgroundView.setVisibility(visibility ? VISIBLE : GONE);
+		}
 	}
 
 	public void setToolbarTitle(CharSequence title) {

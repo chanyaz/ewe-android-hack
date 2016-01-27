@@ -122,10 +122,6 @@ public final class CarScreen {
 		return onView(withId(R.id.category_list));
 	}
 
-	public static void selectCarCategory(int position) {
-		carCategoryList().perform(RecyclerViewActions.actionOnItemAtPosition(position, click()));
-	}
-
 	public static void selectCarCategory(String name) {
 		carCategoryList().perform(RecyclerViewActions.actionOnItem(hasDescendant(withText(name)), click()));
 	}
@@ -139,7 +135,7 @@ public final class CarScreen {
 	}
 
 	public static ViewInteraction searchWidgetToolbarBack() {
-		return onView(allOf(withParent(withParent(withId(R.id.widget_car_params))), withParent(withId(R.id.toolbar)),
+		return onView(allOf(isDescendantOfA(withId(R.id.widget_car_params)), withParent(withId(R.id.toolbar)),
 			isAssignableFrom(ImageButton.class)));
 	}
 

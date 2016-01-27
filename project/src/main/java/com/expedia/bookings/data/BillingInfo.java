@@ -133,7 +133,7 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 	public void setNumberAndDetectType(String number) {
 		setNumber(number);
 
-		CreditCardType type = CurrencyUtils.detectCreditCardBrand(getNumber());
+		PaymentType type = CurrencyUtils.detectCreditCardBrand(getNumber());
 		setBrandCode(type.getCode());
 		setBrandName(type.name());
 	}
@@ -196,20 +196,20 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 	 * If we have a stored credit card, we return the type of that.
 	 * If we have a CC number we determine the type from that.
 	 *
-	 * @return the CreditCardType this billingInfo encapsulates (or null if it cannot be determined)
+	 * @return the PaymentType this billingInfo encapsulates (or null if it cannot be determined)
 	 */
-	public CreditCardType getCardType() {
-		CreditCardType selectedCardType = null;
+	public PaymentType getPaymentType() {
+		PaymentType selectedPaymentType = null;
 		StoredCreditCard scc = getStoredCard();
 
 		if (scc != null) {
-			selectedCardType = scc.getType();
+			selectedPaymentType = scc.getType();
 		}
 		else {
 			String number = getNumber();
-			selectedCardType = CurrencyUtils.detectCreditCardBrand(number);
+			selectedPaymentType = CurrencyUtils.detectCreditCardBrand(number);
 		}
-		return selectedCardType;
+		return selectedPaymentType;
 	}
 
 	public JSONObject toJson() {

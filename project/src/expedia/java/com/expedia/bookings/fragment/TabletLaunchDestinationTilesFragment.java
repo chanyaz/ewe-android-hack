@@ -21,6 +21,7 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CollectionStack;
 import com.expedia.bookings.widget.HorizontalScrollView;
+import com.expedia.util.PermissionsHelperKt;
 import com.squareup.otto.Subscribe;
 
 public class TabletLaunchDestinationTilesFragment extends MeasurableFragment implements HorizontalScrollView.OnScrollListener {
@@ -162,10 +163,13 @@ public class TabletLaunchDestinationTilesFragment extends MeasurableFragment imp
 					Events.post(new Events.SearchSuggestionSelected(collectionToAdd.locations.get(0).location,  true));
 				}
 				else if (collectionToAdd.id.equals(LaunchDb.CURRENT_LOCATION_SEARCH_TILE_ID)) {
-					if (null == collectionToAdd.locations || collectionToAdd.locations.isEmpty()) {
+					if (!PermissionsHelperKt.havePermissionToAccessLocation(getActivity())) {
+						PermissionsHelperKt.requestLocationPermission(getActivity()); //use activity so we get bus events
+					}
+					else if (null == collectionToAdd.locations || collectionToAdd.locations.isEmpty()) {
 						// Show the message to user to enable location
 						NoLocationServicesDialog dialog = NoLocationServicesDialog.newInstance();
-						dialog.show(getFragmentManager(), "NO_LOCATION_FRAG");
+						dialog.show(getFragmentManager(), NoLocationServicesDialog.TAG);
 					}
 					else {
 						//Deeplink the current location to Hotel Mode
