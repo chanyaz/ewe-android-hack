@@ -151,7 +151,7 @@ public class SuggestionResponseHandler extends JsonResponseHandler<SuggestionRes
 						location.setCountryCode(country.getString("isoCode3"));
 					}
 
-					JSONObject coordinates = suggestionJson.optJSONObject("hierarchyInfo").optJSONObject("coordinates");
+					JSONObject coordinates = suggestionJson.optJSONObject("coordinates");
 					if (coordinates != null) {
 						location.setLatitude(coordinates.getDouble("lat"));
 						location.setLongitude(coordinates.getDouble("long"));
