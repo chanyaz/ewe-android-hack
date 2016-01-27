@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="#a25d24">
+    android:color="@color/lx_book_now_button_ripple_color">
     <item>
         <selector>
             <item android:state_pressed="true">
