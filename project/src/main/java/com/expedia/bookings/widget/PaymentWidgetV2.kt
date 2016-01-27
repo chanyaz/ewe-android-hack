@@ -1,10 +1,11 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.graphics.PorterDuff
+import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
@@ -20,6 +21,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.WalletUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeText
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel
 import com.squareup.phrase.Phrase
@@ -31,11 +33,13 @@ import kotlin.properties.Delegates
 public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
     val remainingBalance: TextView by bindView(R.id.remaining_balance)
     val pwpSmallIcon: ImageView by bindView(R.id.pwp_small_icon)
+    val sectionCreditCardContainer: ViewGroup by bindView(R.id.section_credit_card_container)
     val rebindRequested = PublishSubject.create<Unit>()
     var paymentSplitsType: PaymentSplitsType by Delegates.notNull()
 
     var paymentWidgetViewModel by notNullAndObservable<IPaymentWidgetViewModel> {
         it.remainingBalanceDueOnCard.subscribeText(remainingBalance)
+        it.paymentSplitsAndTripResponse.map { it.paymentSplits.paymentSplitsType() != PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT }.subscribeEnabled(sectionCreditCardContainer)
 
         Observable.combineLatest(rebindRequested, it.paymentSplitsAndTripResponse) { unit, paymentSplitsAndTripResponse -> paymentSplitsAndTripResponse }
                 .subscribe {
@@ -51,9 +55,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
         Ui.getApplication(context).hotelComponent().inject(this)
         paymentButton = findViewById(R.id.payment_button_v2) as PaymentButton
 
-        val icon = ContextCompat.getDrawable(context, R.drawable.ic_hotel_credit_card).mutate()
-        icon.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
-        paymentButton.selectPayment.setCompoundDrawablesWithIntrinsicBounds(icon, null, ContextCompat.getDrawable(context, R.drawable.ic_picker_down), null)
+        paymentButton.selectPayment.setCompoundDrawablesWithIntrinsicBounds(creditCardIcon, null, ContextCompat.getDrawable(context, R.drawable.ic_picker_down), null)
         paymentButton.setPaymentButtonListener(paymentButtonListener)
     }
 
@@ -65,6 +67,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
         paymentButton.visibility = View.GONE
         if (!hasStoredCard()) {
             paymentButton.selectPayment.setText(R.string.select_saved_cards)
+            updatePaymentButtonLeftDrawable(creditCardIcon)
         }
     }
 
@@ -84,11 +87,17 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
             override fun onStoredCreditCardChosen(card: StoredCreditCard) {
                 sectionBillingInfo.billingInfo.storedCard = card
                 paymentButton.selectPayment.text = card.description
+                updatePaymentButtonLeftDrawable(ContextCompat.getDrawable(context, BookingInfoUtils.getTabletCardIcon(card.type)))
                 bind()
                 Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
                 paymentButton.dismissPopup()
             }
         }
+    }
+
+    private fun updatePaymentButtonLeftDrawable(drawableLeft: Drawable) {
+        val icons = paymentButton.selectPayment.compoundDrawables
+        paymentButton.selectPayment.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, icons[1], icons[2], icons[3])
     }
 
     override fun bind() {

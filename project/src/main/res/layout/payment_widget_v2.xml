@@ -98,7 +98,8 @@
             android:textSize="12sp"
             app:textStyle="normal" />
 
-        <LinearLayout
+        <com.expedia.bookings.widget.DisableableLinearLayout
+            android:id="@+id/section_credit_card_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/card_background"
@@ -131,7 +132,7 @@
                 style="@style/HotelPaymentOption"
                 android:drawableLeft="@drawable/ic_hotel_google_wallet"
                 android:text="@string/checkout_payment_option_android_pay_label" />
-        </LinearLayout>
+        </com.expedia.bookings.widget.DisableableLinearLayout>
     </LinearLayout>
 
     <LinearLayout

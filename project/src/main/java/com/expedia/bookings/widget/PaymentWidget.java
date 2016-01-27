@@ -202,10 +202,14 @@ public class PaymentWidget extends ExpandableCardView {
 		});
 		sectionBillingInfo.addChangeListener(mValidFormsOfPaymentListener);
 
+		paymentOptionCreditDebitCard.setCompoundDrawablesWithIntrinsicBounds(getCreditCardIcon(), null, null, null);
+
+	}
+
+	protected Drawable getCreditCardIcon() {
 		Drawable icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_hotel_credit_card).mutate();
 		icon.setColorFilter(ContextCompat.getColor(getContext(), R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN);
-		paymentOptionCreditDebitCard.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
-
+		return icon;
 	}
 
 	public void setLineOfBusiness(LineOfBusiness lineOfBusiness) {
