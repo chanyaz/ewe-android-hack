@@ -135,28 +135,28 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     public fun animationStart(): Float {
-        searchTop = hotelDetailView.toolbarTitle.top
-        hotelDetailView.toolbar.visibility = View.VISIBLE
-        hotelDetailView.toolbarTitle.translationY = searchTop.toFloat()
-        hotelDetailView.toolBarRating.translationY = searchTop.toFloat()
-        return hotelDetailView.toolbar.alpha
+        searchTop = hotelDetailView.hotelDetailsToolbar.toolbarTitle.top
+        hotelDetailView.hotelDetailsToolbar.visibility = View.VISIBLE
+        hotelDetailView.hotelDetailsToolbar.toolbarTitle.translationY = searchTop.toFloat()
+        hotelDetailView.hotelDetailsToolbar.toolBarRating.translationY = searchTop.toFloat()
+        return hotelDetailView.hotelDetailsToolbar.alpha
     }
 
     public fun animationUpdate(f: Float, forward: Boolean) {
         val yTrans = if (forward) -(searchTop * -f) else (searchTop * (1 - f))
-        hotelDetailView.toolbarTitle.translationY = yTrans
-        hotelDetailView.toolBarRating.translationY = yTrans
+        hotelDetailView.hotelDetailsToolbar.toolbarTitle.translationY = yTrans
+        hotelDetailView.hotelDetailsToolbar.toolBarRating.translationY = yTrans
     }
 
     public fun animationFinalize() {
-        hotelDetailView.toolbar.visibility = View.VISIBLE
-        hotelDetailView.toolbar.visibility = View.VISIBLE
-        hotelDetailView.toolbarTitle.translationY = 0f
-        hotelDetailView.toolBarRating.translationY = 0f
+        hotelDetailView.hotelDetailsToolbar.visibility = View.VISIBLE
+        hotelDetailView.hotelDetailsToolbar.visibility = View.VISIBLE
+        hotelDetailView.hotelDetailsToolbar.toolbarTitle.translationY = 0f
+        hotelDetailView.hotelDetailsToolbar.toolBarRating.translationY = 0f
     }
 
     override fun back(): Boolean {
-        if (hotelDetailView.navIcon.getParameter().toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
+        if (hotelDetailView.hotelDetailsToolbar.navIcon.getParameter().toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
             hotelDetailView.updateGallery(false)
             return true
         }

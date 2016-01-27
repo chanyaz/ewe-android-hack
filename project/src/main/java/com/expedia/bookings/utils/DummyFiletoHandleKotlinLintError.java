@@ -267,6 +267,7 @@ public class
 		R.layout.widget_flight_overview,
 		R.layout.package_confirmation_presenter,
 		R.layout.bundle_total_price_widget,
-		R.string.bundle_total_savings_TEMPLATE
+		R.string.bundle_total_savings_TEMPLATE,
+		R.layout.hotel_details_toolbar
 	};
 }
