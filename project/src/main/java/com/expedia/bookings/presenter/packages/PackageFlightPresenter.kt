@@ -6,8 +6,10 @@ import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.FlightLeg
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.utils.Constants
 import com.expedia.vm.FlightOverviewViewModel
 import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.FlightToolbarViewModel
@@ -23,7 +25,7 @@ public class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Pre
         var presenter = viewStub.inflate() as PackageFlightResultsPresenter
         presenter.resultsViewModel = FlightResultsViewModel()
         presenter.toolbarViewModel = FlightToolbarViewModel(context)
-        presenter.outboundFlightSelectedSubject.subscribe(selectedOutboundFlightObserver)
+        presenter.flightSelectedSubject.subscribe(selectedFlightObserver)
         presenter
     }
 
@@ -61,10 +63,16 @@ public class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Pre
         }
     }
 
-    val selectedOutboundFlightObserver = object : Observer<FlightLeg> {
+    val selectedFlightObserver = object : Observer<FlightLeg> {
         override fun onNext(flight: FlightLeg) {
             show(overViewPresenter)
             overViewPresenter.viewmodel.selectedFlightLeg.onNext(flight)
+
+            val params = Db.getPackageParams()
+            params.flightType = Constants.PACKAGE_FLIGHT_TYPE
+            params.selectedLegId = flight.departureLeg
+            params.packagePIID = flight.packageOfferModel.piid
+            if (flight.outbound) Db.setPackageSelectedOutboundFlight(flight) else Db.setPackageSelectedInboundFlight(flight)
         }
 
         override fun onCompleted() {

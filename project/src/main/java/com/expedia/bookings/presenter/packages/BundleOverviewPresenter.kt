@@ -2,34 +2,30 @@ package com.expedia.bookings.presenter.packages
 
 import android.app.ProgressDialog
 import android.content.Context
-import android.content.Intent
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
-import android.widget.ProgressBar
 import android.widget.ScrollView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.CheckoutToolbar
 import com.expedia.bookings.widget.PackageBundleHotelWidget
 import com.expedia.bookings.widget.PackageBundlePriceWidget
-import com.expedia.bookings.widget.TextView
-import com.expedia.ui.FlightPackageActivity
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeText
+import com.expedia.bookings.widget.PackageBundleFlightWidget
 import com.expedia.vm.BundleHotelViewModel
 import com.expedia.vm.BundleOverviewViewModel
 import com.expedia.vm.CheckoutToolbarViewModel
 import com.expedia.vm.PackageCreateTripViewModel
 import com.expedia.vm.BundlePriceViewModel
+import com.expedia.vm.BundleFlightViewModel
+import com.expedia.vm.PackageSearchType
 
 public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val ANIMATION_DURATION = 450L
@@ -38,34 +34,38 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     val bundleContainer: ScrollView by bindView(R.id.bundle_container)
     val checkoutPresenter: BaseCheckoutPresenter by bindView(R.id.checkout_presenter)
     val checkoutButton: Button by bindView(R.id.checkout_button)
-    val bundleHotelWidget: PackageBundleHotelWidget by bindView(R.id.package_bundle_widget)
-    val flightLoadingBar: ProgressBar by bindView(R.id.flight_loading_bar)
-    val selectDepartureButton: CardView by bindView(R.id.flight_departure_card_view)
-    val selectArrivalButton: CardView by  bindView(R.id.flight_arrival_card_view)
-    val destinationText: TextView by bindView(R.id.flight_departure_card_view_text)
-    val arrivalText: TextView by bindView(R.id.flight_arrival_card_view_text)
     val createTripDialog = ProgressDialog(context)
     val bundleTotalPriceWidget: PackageBundlePriceWidget by bindView(R.id.bundle_total)
 
+    val bundleHotelWidget: PackageBundleHotelWidget by bindView(R.id.package_bundle_hotel_widget)
+    val outboundFlightWidget: PackageBundleFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
+    val inboundFlightWidget: PackageBundleFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
+
     var viewModel: BundleOverviewViewModel by notNullAndObservable { vm ->
-        vm.hotelParamsObservable.subscribe {
+        vm.hotelParamsObservable.subscribe { param ->
             bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(true)
+            outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(param.destination.regionNames.shortName)))
+            inboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(param.origin.regionNames.shortName)))
         }
         vm.hotelResultsObservable.subscribe {
             bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
         }
-        vm.flightParamsObservable.subscribe {
-            selectDepartureButton.isEnabled = false
-            selectArrivalButton.isEnabled = false
-            flightLoadingBar.visibility = View.VISIBLE
+        vm.flightParamsObservable.subscribe { param ->
+            if (param.isOutboundSearch()) {
+                outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(true)
+            } else {
+                inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(true)
+            }
         }
-        vm.flightResultsObservable.subscribe {
-            selectDepartureButton.isEnabled = true
-            selectArrivalButton.isEnabled = true
-            flightLoadingBar.visibility = View.GONE
+        vm.flightResultsObservable.subscribe { searchType ->
+            if (searchType == PackageSearchType.OUTBOUND_FLIGHT){
+                outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
+            }
+            else{
+                inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
+            }
         }
-        vm.destinationTextObservable.subscribeText(destinationText)
-        vm.originTextObservable.subscribeText(arrivalText)
+
         vm.showBundleTotalObservable.subscribe { visible ->
             bundleTotalPriceWidget.visibility = if (visible) View.VISIBLE else View.GONE
             bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Db.getPackageResponse().packageResult.currentSelectedOffer.price.packageTotalPriceFormatted,
@@ -91,6 +91,14 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     init {
         View.inflate(context, R.layout.bundle_overview, this)
         bundleHotelWidget.viewModel = BundleHotelViewModel(context)
+
+        outboundFlightWidget.isOutbound = true
+        inboundFlightWidget.isOutbound = false
+        outboundFlightWidget.viewModel = BundleFlightViewModel(context)
+        inboundFlightWidget.viewModel = BundleFlightViewModel(context)
+        outboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_overview_flight1)
+        inboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_overview_flight2)
+
         bundleTotalPriceWidget.viewModel = BundlePriceViewModel(context)
         checkoutPresenter.travelerWidget.mToolbarListener = toolbar
         checkoutPresenter.paymentWidget.mToolbarListener = toolbar
@@ -112,14 +120,6 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         val padding = Ui.getToolbarSize(context) + statusBarHeight
         checkoutPresenter.setPadding(0, padding, 0, 0)
 
-        selectDepartureButton.isEnabled = false
-        selectArrivalButton.isEnabled = false
-        selectDepartureButton.setOnClickListener {
-            openFlightsForDeparture()
-        }
-        selectArrivalButton.setOnClickListener {
-            openFlightsForArrival()
-        }
         checkoutButton.setOnClickListener {
             show(checkoutPresenter)
             checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
@@ -163,16 +163,6 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
         }
-    }
-
-    fun openFlightsForDeparture() {
-        val intent = Intent(context, FlightPackageActivity::class.java)
-        (context as AppCompatActivity).startActivityForResult(intent, Constants.PACKAGE_FLIGHT_DEPARTURE_REQUEST_CODE, null)
-    }
-
-    fun openFlightsForArrival() {
-        val intent = Intent(context, FlightPackageActivity::class.java)
-        (context as AppCompatActivity).startActivityForResult(intent, Constants.PACKAGE_FLIGHT_ARRIVAL_REQUEST_CODE, null)
     }
 
     override fun back(): Boolean {

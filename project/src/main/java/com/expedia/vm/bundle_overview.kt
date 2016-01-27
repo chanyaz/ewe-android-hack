@@ -3,14 +3,15 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.data.packages.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
+import org.joda.time.LocalDate
+import org.joda.time.format.ISODateTimeFormat
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -20,37 +21,33 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val flightParamsObservable = PublishSubject.create<PackageSearchParams>()
 
     // Outputs
-
-    val destinationTextObservable = BehaviorSubject.create<String>()
-    val originTextObservable = BehaviorSubject.create<String>()
-    val hotelResultsObservable = BehaviorSubject.create<List<Hotel>>()
-    val flightResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
+    val hotelResultsObservable = BehaviorSubject.create<Unit>()
+    val flightResultsObservable = BehaviorSubject.create<PackageSearchType>()
     val showBundleTotalObservable = BehaviorSubject.create<Boolean>()
 
     init {
         hotelParamsObservable.subscribe { params ->
             Db.setPackageParams(params)
-            packageServices.packageSearch(params).subscribe(makeResultsObserver())
-            destinationTextObservable.onNext(context.getString(R.string.flights_to_TEMPLATE, params.destination.regionNames.shortName))
-            originTextObservable.onNext(context.getString(R.string.flights_to_TEMPLATE, params.origin.regionNames.shortName))
+            packageServices.packageSearch(params).subscribe(makeResultsObserver(PackageSearchType.HOTEL))
         }
 
         flightParamsObservable.subscribe { params ->
-            packageServices.packageSearch(params).subscribe(makeResultsObserver())
+            packageServices.packageSearch(params).subscribe(makeResultsObserver(if (params.isOutboundSearch()) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT))
         }
-
     }
 
-    fun makeResultsObserver(): Observer<PackageSearchResponse> {
+    fun makeResultsObserver(type: PackageSearchType): Observer<PackageSearchResponse> {
         return object : Observer<PackageSearchResponse> {
             override fun onNext(response: PackageSearchResponse) {
                 Db.setPackageResponse(response)
-                hotelResultsObservable.onNext(response.packageResult.hotelsPackage.hotels)
-                flightResultsObservable.onNext(response.packageResult.flightsPackage.flights)
+                hotelResultsObservable.onNext(Unit)
+                if (type != PackageSearchType.HOTEL) {
+                    flightResultsObservable.onNext(type)
+                }
                 if (!response.packageResult.currentSelectedOffer.equals(null)) {
                     showBundleTotalObservable.onNext(true)
+                    println("package success, Hotels:" + response.packageResult.hotelsPackage.hotels.size + "  Flights:" + response.packageResult.flightsPackage.flights.size)
                 }
-                println("package success, Hotels:" + response.packageResult.hotelsPackage.hotels.size + "  Flights:" + response.packageResult.flightsPackage.flights.size)
             }
 
             override fun onCompleted() {
@@ -63,6 +60,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         }
     }
 }
+
 
 class BundleHotelViewModel(val context: Context) {
     val showLoadingStateObservable = PublishSubject.create<Boolean>()
@@ -100,7 +98,6 @@ class BundleHotelViewModel(val context: Context) {
             hotelCityObservable.onNext(selectedHotel.stateProvinceCode + " , " + selectedHotel.countryCode)
         }
     }
-
 }
 
 class BundlePriceViewModel(val context: Context) {
@@ -117,5 +114,32 @@ class BundlePriceViewModel(val context: Context) {
                     .format().toString())
         }
     }
+}
 
+class BundleFlightViewModel(val context: Context) {
+    val showLoadingStateObservable = PublishSubject.create<Boolean>()
+    val selectedFlightObservable = PublishSubject.create<PackageSearchType>()
+
+    //output
+    val flightTextObservable = BehaviorSubject.create<String>()
+    val travelInfoTextObservable = BehaviorSubject.create<String>()
+    val flightArrowIconObservable = BehaviorSubject.create<Boolean>()
+
+
+    init {
+        selectedFlightObservable.subscribe { searchType ->
+            val selectedFlight = if (searchType == PackageSearchType.OUTBOUND_FLIGHT) Db.getPackageSelectedOutboundFlightFlight() else Db.getPackageSelectedInboundFlightFlight()
+            val fmt = ISODateTimeFormat.dateTime();
+            val localDate = LocalDate.parse(selectedFlight.departureDateTimeISO, fmt)
+
+            val numOfTravelers = Db.getPackageParams().guests()
+            val travelersStr = context.resources.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numOfTravelers, numOfTravelers)
+            travelInfoTextObservable.onNext(context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, DateUtils.localDateToMMMd(localDate), selectedFlight.departureTimeShort, travelersStr))
+            flightArrowIconObservable.onNext(true)
+        }
+    }
+}
+
+enum class PackageSearchType{
+    HOTEL, OUTBOUND_FLIGHT, INBOUND_FLIGHT
 }

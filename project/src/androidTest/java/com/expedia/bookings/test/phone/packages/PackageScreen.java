@@ -99,17 +99,17 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction hotelBundle() {
-		return onView(withId(R.id.package_bundle_widget));
+		return onView(withId(R.id.package_bundle_hotel_widget));
 	}
 
 	public static ViewInteraction outboundFlight() {
-		return onView(withId(R.id.flight_departure_card_view));
+		return onView(withId(R.id.package_bundle_outbound_flight_widget));
 	}
 
 	public static ViewInteraction inboundFLight() {
-		return onView(withId(R.id.flight_arrival_card_view));
+		return onView(withId(R.id.package_bundle_inbound_flight_widget));
 	}
-
+	
 	public static ViewInteraction flightList() {
 		return onView(withId(R.id.list_view));
 	}

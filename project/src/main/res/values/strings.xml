@@ -3827,9 +3827,10 @@
     <string name="step_two">Step 2: Select Flights</string>
     <!-- Package hotel cell: Price Includes flights -->
     <string name="package_price_include_flights">Price Includes flights</string>
+    <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
+    <string name="package_overview_flight_travel_info_TEMPLATE">%1$s at %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} Saved</string>
-
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3844,6 +3845,8 @@
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">Select flight to %1$s</string>
+    <!-- Flight to template -->
+    <string name="flight_to">Flight to %1$s</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
 
