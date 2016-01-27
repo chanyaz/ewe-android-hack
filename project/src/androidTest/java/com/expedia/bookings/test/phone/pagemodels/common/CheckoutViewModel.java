@@ -16,6 +16,7 @@ import com.expedia.bookings.test.espresso.ViewActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
@@ -239,5 +240,29 @@ public class CheckoutViewModel {
 		Matcher<View> displayedAndFilled = allOf(isDisplayed(), CustomMatchers.withAtLeastChildCount(1));
 		onView(withId(R.id.summary_container)).perform(ViewActions.waitFor(displayedAndFilled, 10, TimeUnit.SECONDS));
 		onView(withId(R.id.hint_container)).perform(ViewActions.waitForViewToDisplay());
+	}
+
+	public static void applyCoupon(String coupon) {
+		clickCoupon();
+		Common.delay(2);
+		couponEditText().perform(typeText(coupon), closeSoftKeyboard());
+		clickDone();
+		Common.delay(2);
+	}
+
+	public static ViewInteraction coupon() {
+		return onView(withText("Enter coupons or promotional code"));
+	}
+
+	public static void clickCoupon() {
+		coupon().perform(scrollTo(), click());
+	}
+
+	public static ViewInteraction couponEditText() {
+		return onView(withId(R.id.edit_coupon_code));
+	}
+
+	public static ViewInteraction scrollView() {
+		return onView(withId(R.id.checkout_scroll));
 	}
 }

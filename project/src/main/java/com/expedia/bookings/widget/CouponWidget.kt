@@ -96,16 +96,17 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
 
         View.inflate(getContext(), R.layout.coupon_widget, this)
         //Tests hates progress bars
+        val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        lp.gravity = Gravity.CENTER_VERTICAL
         if (ExpediaBookingApp.isAutomation()) {
             //Espresso hates progress bars
             progress = View(getContext(), null)
+            lp.width = 0
         } else {
             progress = ProgressBar(getContext(), null, android.R.attr.progressBarStyleSmall)
-            val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            lp.gravity = Gravity.CENTER_VERTICAL
-            progress.setLayoutParams(lp)
             (progress as ProgressBar).setIndeterminate(true)
         }
+        progress.layoutParams = lp
         couponCode.setOnEditorActionListener(object : android.widget.TextView.OnEditorActionListener {
             override fun onEditorAction(textView: android.widget.TextView, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_DONE && textView.text.length > 3) {
