@@ -17,7 +17,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.User
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.presenter.packages.BundleOverviewPresenter
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -28,7 +27,7 @@ import com.expedia.vm.BaseCheckoutViewModel
 import kotlin.properties.Delegates
 
 open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
-        UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener,  ExpandableCardView.IExpandedListener {
+        UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener, ExpandableCardView.IExpandedListener {
 
     val loginWidget: AccountButton by bindView(R.id.login_widget)
     val travelerWidget: TravelerContactDetailsWidget by bindView(R.id.traveler_widget)
@@ -36,6 +35,7 @@ open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Present
     val paymentViewStub: ViewStub by bindView(R.id.payment_info_card_view_stub)
     val widgetContainer: LinearLayout by bindView(R.id.checkout_widget_container)
     val sliderContainer: LinearLayout by bindView(R.id.slide_to_purchase_layout)
+    val sliderPurchaseTotalText: TextView by bindView(R.id.purchase_total_text_view)
     val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val depositPolicyText: TextView by bindView(R.id.disclaimer_text)
@@ -63,6 +63,7 @@ open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Present
         vm.checkoutResponse.subscribe {
             checkoutDialog.hide()
         }
+        vm.sliderPurchaseTotalText.subscribeText(sliderPurchaseTotalText)
     }
 
     init {
@@ -74,9 +75,9 @@ open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Present
         slideToPurchase.addSlideToListener(this)
 
         if (User.isLoggedIn(getContext())) {
-            loginWidget.bind(false, true, Db.getUser(), LineOfBusiness.HOTELSV2)
+            loginWidget.bind(false, true, Db.getUser(), LineOfBusiness.PACKAGES)
         } else {
-            loginWidget.bind(false, false, null, LineOfBusiness.HOTELSV2)
+            loginWidget.bind(false, false, null, LineOfBusiness.PACKAGES)
         }
 
         legalInformationText.setOnClickListener {
@@ -142,6 +143,7 @@ open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Present
                     child.visibility = View.VISIBLE
                 }
             }
+            sliderContainer.visibility = View.GONE
         }
 
         override fun finalizeTransition(forward: Boolean) {

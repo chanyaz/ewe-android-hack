@@ -3865,6 +3865,8 @@
 
     <!-- Package Trip Overview -->
     <string name="trip_overview">Trip Overview</string>
+    <!-- Slide to book -->
+    <string name="package_slider_text">Slide to book</string>
 
     <!-- Pay with points widget -->
     <string name="paying_with_points">Paying with points</string>
