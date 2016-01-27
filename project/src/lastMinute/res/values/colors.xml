@@ -71,6 +71,7 @@
     <color name="lx_secondary_color_disabled">#A1266C</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
     <color name="lx_ticket_selector_disabled_color_lm">#40E40088</color>
+    <color name="lx_book_now_button_ripple_color">@color/lx_ripple_color</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#E40088</color>
