@@ -106,6 +106,18 @@ public class PackageScreen {
 		return onView(withId(R.id.package_bundle_hotel_widget));
 	}
 
+	public static ViewInteraction flightsToolbar() {
+		return onView(withId(R.id.flights_toolbar));
+	}
+
+	public static ViewInteraction flightsToolbarSearchMenu() {
+		return onView(withId(R.id.menu_search));
+	}
+
+	public static ViewInteraction flightsToolbarFilterMenu() {
+		return onView(withId(R.id.menu_filter));
+	}
+
 	public static ViewInteraction outboundFlight() {
 		return onView(withId(R.id.package_bundle_outbound_flight_widget));
 	}
