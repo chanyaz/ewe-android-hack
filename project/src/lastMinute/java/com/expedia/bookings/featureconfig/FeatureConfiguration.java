@@ -46,12 +46,12 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isAppCrossSellInActivityShareContentEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isAppCrossSellInCarShareContentEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -241,16 +241,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public boolean isAppSupportUrlEnabled() {
 		return true;
-	}
-
-	@Override
-	public boolean isAppCrossSellInHotelShareContentEnabled() {
-		return false;
-	}
-
-	@Override
-	public boolean isAppCrossSellInFlightShareContentEnabled() {
-		return false;
 	}
 
 	@Override

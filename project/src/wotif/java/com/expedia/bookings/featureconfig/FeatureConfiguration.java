@@ -245,16 +245,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isAppCrossSellInHotelShareContentEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isAppCrossSellInFlightShareContentEnabled() {
-		return true;
-	}
-
-	@Override
 	public boolean isItinDisabled() {
 		return false;
 	}
