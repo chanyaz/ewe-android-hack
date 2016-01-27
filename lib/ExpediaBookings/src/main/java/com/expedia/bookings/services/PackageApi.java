@@ -34,7 +34,7 @@ public interface PackageApi {
 		@Query("packageTripType") String packageTripType);
 
 	@GET("/api/packages/hotelOffers")
-	Observable<PackageOffersResponse> hotelOffers(
+	Observable<PackageOffersResponse> packageHotelOffers(
 		@Query("productKey") String productKey,
 		@Query("checkInDate") String checkInDate,
 		@Query("checkOutDate") String checkOutDate);

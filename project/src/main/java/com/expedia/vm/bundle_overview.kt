@@ -10,6 +10,7 @@ import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
+import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -24,6 +25,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val originTextObservable = BehaviorSubject.create<String>()
     val hotelResultsObservable = BehaviorSubject.create<List<Hotel>>()
     val flightResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
+    val showBundleTotalObservable = BehaviorSubject.create<Boolean>()
 
     init {
         hotelParamsObservable.subscribe { params ->
@@ -45,6 +47,9 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                 Db.setPackageResponse(response)
                 hotelResultsObservable.onNext(response.packageResult.hotelsPackage.hotels)
                 flightResultsObservable.onNext(response.packageResult.flightsPackage.flights)
+                if (!response.packageResult.currentSelectedOffer.equals(null)) {
+                    showBundleTotalObservable.onNext(true)
+                }
                 println("package success, Hotels:" + response.packageResult.hotelsPackage.hotels.size + "  Flights:" + response.packageResult.flightsPackage.flights.size)
             }
 
@@ -95,4 +100,22 @@ class BundleHotelViewModel(val context: Context) {
             hotelCityObservable.onNext(selectedHotel.stateProvinceCode + " , " + selectedHotel.countryCode)
         }
     }
+
+}
+
+class BundlePriceViewModel(val context: Context) {
+    val setTextObservable = PublishSubject.create<Pair<String, String>>()
+
+    val totalPriceObservable = BehaviorSubject.create<String>()
+    val savingsPriceObservable = BehaviorSubject.create<String>()
+
+    init {
+        setTextObservable.subscribe { bundle ->
+            totalPriceObservable.onNext(bundle.first)
+            savingsPriceObservable.onNext(Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
+                    .put("savings", bundle.second)
+                    .format().toString())
+        }
+    }
+
 }

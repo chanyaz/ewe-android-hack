@@ -91,18 +91,18 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         loadingOverlay.visibility = View.VISIBLE
         loadingOverlay.animate(true)
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay)))
-        val offers = packageServices.hotelOffer(piid, checkIn, checkOut)
+        val packageHotelOffers = packageServices.hotelOffer(piid, checkIn, checkOut)
         val info = packageServices.hotelInfo(hotelId)
-        Observable.zip(offers, info, { offers, info ->
+        Observable.zip(packageHotelOffers, info, { packageHotelOffers, info ->
             println("zip success")
-            val offersResponse = HotelOffersResponse.convertToHotelOffersResponse(info, offers, Db.getPackageParams())
+            val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(info, packageHotelOffers, Db.getPackageParams())
             loadingOverlay.animate(false)
-            detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(offersResponse)
-            detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(offersResponse)
+            detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)
+            detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(hotelOffers)
             show(detailPresenter)
             detailPresenter.showDefault()
         }).subscribe()
-        offers.subscribe(getOfferObserver())
+        packageHotelOffers.subscribe(getOfferObserver())
         info.subscribe(getInfoObserver())
     }
 

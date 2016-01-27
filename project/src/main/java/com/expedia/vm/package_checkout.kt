@@ -14,6 +14,7 @@ public class PackageCreateTripViewModel(val packageServices: PackageServices) {
 
     val tripParams = PublishSubject.create<PackageCreateTripParams>()
     val tripResponseObservable = BehaviorSubject.create<PackageCreateTripResponse>()
+    val createTripBundleTotalObservable = BehaviorSubject.create<PackageCreateTripResponse>()
 
     init {
         tripParams.subscribe { params ->
@@ -30,6 +31,7 @@ public class PackageCreateTripViewModel(val packageServices: PackageServices) {
                     Db.getTripBucket().clearPackages()
                     Db.getTripBucket().add(TripBucketItemPackages(response))
                     tripResponseObservable.onNext(response)
+                    createTripBundleTotalObservable.onNext(response)
                 }
             }
 
