@@ -31,6 +31,5 @@ public class PackageFlightOverviewPresenter(context: Context, attrs: AttributeSe
 
     init {
         View.inflate(getContext(), R.layout.widget_flight_overview, this)
-
     }
 }
