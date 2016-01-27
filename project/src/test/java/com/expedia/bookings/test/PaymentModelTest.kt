@@ -203,7 +203,7 @@ public class PaymentModelTest {
         val userPreference = createTripResponse.userPreferencePoints
 
         //Expected Payment Split
-        val expectedPaymentSplits = PaymentSplits(userPreference.getUserPreference(ProgramName.ExpediaRewards)!!, userPreference.remainingPayableByCard)
+        val expectedPaymentSplits = PaymentSplits(userPreference!!.getUserPreference(ProgramName.ExpediaRewards)!!, userPreference.remainingPayableByCard)
 
         paymentModel.couponChangeSubject.onNext(createTripResponse)
         couponChangeTestSubscriber.assertNoErrors()

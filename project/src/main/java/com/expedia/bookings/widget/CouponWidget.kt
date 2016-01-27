@@ -16,6 +16,7 @@ import android.widget.ProgressBar
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
@@ -175,8 +176,11 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
     }
 
     private fun submitCoupon(paymentSplits: PaymentSplits) {
-        val payingWithPointsSplit = paymentSplits.payingWithPoints
-        var userPointsPreference = listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, payingWithPointsSplit))
+        var userPointsPreference: List<UserPreferencePointsDetails> = emptyList()
+        if (User.isLoggedIn(context)) {
+            val payingWithPointsSplit = paymentSplits.payingWithPoints
+            userPointsPreference = listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, payingWithPointsSplit))
+        }
 
         var couponParams = HotelApplyCouponParameters.Builder()
                 .tripId(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId)

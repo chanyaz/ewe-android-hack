@@ -10,7 +10,7 @@ import kotlin.properties.Delegates
 public abstract class TripResponse : BaseApiResponse() {
     lateinit var tripId: String
     var pointsDetails: List<PointsDetails>? = null
-    lateinit var userPreferencePoints: UserPaymentPreferences
+    var userPreferencePoints: UserPaymentPreferences? = null
     lateinit var validFormsOfPayment: List<ValidPayment>
     lateinit var expediaRewards: ExpediaRewards
     var guestUserPromoEmailOptInStatus : String? = null
