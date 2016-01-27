@@ -349,4 +349,8 @@
 
     <!-- From ABS, Dialog title height -->
     <dimen name="alert_dialog_window_title_height">64dip</dimen>
+
+    <!-- Material search -->
+    <dimen name="material_search_field_height">64dp</dimen>
+    <dimen name="search_form_margin">9dp</dimen>
 </resources>
