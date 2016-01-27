@@ -5,8 +5,10 @@ import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelCheckoutParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.vm.HotelCheckoutViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -23,6 +25,10 @@ public class HotelCheckoutViewModelTests {
     var mockHotelTestServiceRule = MockHotelServiceTestRule()
         @Rule get
 
+    public var loyaltyServiceRule = ServicesRule<LoyaltyServices>(LoyaltyServices::class.java)
+        @Rule get
+
+    lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
     lateinit var sut: HotelCheckoutViewModel
     lateinit var checkoutParams: HotelCheckoutParams
     lateinit var testSubscriber: TestSubscriber<HotelCheckoutResponse>
@@ -30,7 +36,8 @@ public class HotelCheckoutViewModelTests {
 
     @Before
     fun setup() {
-        sut = HotelCheckoutViewModel(mockHotelTestServiceRule.service)
+        paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
+        sut = HotelCheckoutViewModel(mockHotelTestServiceRule.service, paymentModel)
     }
 
     @Test
@@ -127,7 +134,7 @@ public class HotelCheckoutViewModelTests {
     fun newCheckoutParamsTriggersCheckoutCall() {
         givenGoodCheckoutResponse()
         testSubscriber = TestSubscriber<HotelCheckoutResponse>()
-        sut = TestHotelCheckoutViewModel(testSubscriber, mockHotelTestServiceRule.service)
+        sut = TestHotelCheckoutViewModel(testSubscriber, mockHotelTestServiceRule.service, paymentModel)
 
         sut.checkoutParams.onNext(checkoutParams)
 
@@ -156,7 +163,7 @@ public class HotelCheckoutViewModelTests {
         Db.getTripBucket().add(TripBucketItemHotelV2(happyCreateTripResponse))
     }
 
-    class TestHotelCheckoutViewModel(val testSubscriber: TestSubscriber<HotelCheckoutResponse>, hotelServices: HotelServices): HotelCheckoutViewModel(hotelServices) {
+    class TestHotelCheckoutViewModel(val testSubscriber: TestSubscriber<HotelCheckoutResponse>, hotelServices: HotelServices, paymentModel: PaymentModel<HotelCreateTripResponse>): HotelCheckoutViewModel(hotelServices,paymentModel) {
         override fun getCheckoutResponseObserver(): Observer<HotelCheckoutResponse> {
             return testSubscriber
         }

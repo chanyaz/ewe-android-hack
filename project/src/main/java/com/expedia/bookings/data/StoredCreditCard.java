@@ -12,7 +12,7 @@ import com.mobiata.android.json.JSONable;
 
 public class StoredCreditCard implements JSONable, Comparable<StoredCreditCard> {
 
-	private CreditCardType mType;
+	private PaymentType mType;
 	private String mDescription;
 	private String mRemoteId;
 	private String mCardNumber;
@@ -22,13 +22,13 @@ public class StoredCreditCard implements JSONable, Comparable<StoredCreditCard> 
 	// (Tablet Checkout) When user is logged in, can this credit card be selected from the list of stored credit cards or disabled?
 	private boolean mIsSelectable = true;
 
-	public void setType(CreditCardType type) {
+	public void setType(PaymentType type) {
 		mType = type;
 	}
 
-	public CreditCardType getType() {
+	public PaymentType getType() {
 		if (isGoogleWallet()) {
-			return CreditCardType.GOOGLE_WALLET;
+			return PaymentType.WALLET_GOOGLE;
 		}
 
 		return mType;
@@ -99,7 +99,7 @@ public class StoredCreditCard implements JSONable, Comparable<StoredCreditCard> 
 
 	@Override
 	public boolean fromJson(JSONObject obj) {
-		mType = JSONUtils.getEnum(obj, "creditCardType", CreditCardType.class);
+		mType = JSONUtils.getEnum(obj, "creditCardType", PaymentType.class);
 		mDescription = obj.optString("description", null);
 		mRemoteId = obj.optString("paymentsInstrumentsId", null);
 		mIsGoogleWallet = obj.optBoolean("isGoogleWallet");

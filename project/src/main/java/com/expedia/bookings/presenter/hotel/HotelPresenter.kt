@@ -14,8 +14,10 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -51,22 +53,27 @@ import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.collections.count
 import kotlin.properties.Delegates
 
 public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
-    var hotelServices: HotelServices by Delegates.notNull()
+    lateinit var hotelServices: HotelServices
+        @Inject set
+
+    lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
 
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
     val resultsMapView: MapView by bindView(R.id.map_view)
-    val detailsMapView: MapView by bindView(R.id.detailed_map_view)
+    val detailsMapView: MapView by bindView(R.id.details_map_view)
     val searchPresenter: HotelSearchPresenter by bindView(R.id.widget_hotel_params)
     val errorPresenter: HotelErrorPresenter by bindView(R.id.widget_hotel_errors)
     val resultsStub: ViewStub by bindView(R.id.results_stub)
     val resultsPresenter: HotelResultsPresenter by lazy {
         var presenter = resultsStub.inflate() as HotelResultsPresenter
         var resultsStub = presenter.findViewById(R.id.stub_map) as FrameLayout
+        resultsMapView.visibility = View.VISIBLE
         removeView(resultsMapView);
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
@@ -84,6 +91,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val detailPresenter: HotelDetailPresenter by lazy {
         var presenter = detailsStub.inflate() as HotelDetailPresenter
         var detailsStub = presenter.hotelMapView.findViewById(R.id.stub_map) as FrameLayout
+        detailsMapView.visibility = View.VISIBLE
         removeView(detailsMapView);
         detailsStub.addView(detailsMapView)
         presenter.hotelMapView.mapView = detailsMapView
@@ -114,8 +122,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val checkoutStub: ViewStub by bindView(R.id.checkout_stub)
     val checkoutPresenter: HotelCheckoutPresenter by lazy {
         var presenter = checkoutStub.inflate() as HotelCheckoutPresenter
-        presenter.hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(hotelServices)
-        presenter.hotelCheckoutViewModel = HotelCheckoutViewModel(hotelServices)
+        presenter.hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(hotelServices, paymentModel)
+        presenter.hotelCheckoutViewModel = HotelCheckoutViewModel(hotelServices, paymentModel)
         confirmationPresenter.hotelConfirmationViewModel = HotelConfirmationViewModel(presenter.hotelCheckoutViewModel.checkoutResponseObservable, context)
         presenter.hotelCheckoutViewModel.checkoutParams.subscribe { presenter.cvv.enableBookButton(false) }
         presenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
@@ -237,7 +245,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         addTransition(searchToError)
         addTransition(checkoutToError)
         addTransition(detailsToError)
-        searchPresenter.searchViewModel = HotelSearchViewModel(getContext())
+        searchPresenter.searchViewModel = HotelSearchViewModel(context)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
 
         //NOTE
@@ -305,13 +313,13 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         loadingOverlay.setBackground(R.color.hotels_primary_color)
     }
 
-    private val defaultSearchTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.getName()) {
+    private val defaultSearchTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.name) {
         override fun finalizeTransition(forward: Boolean) {
-            searchPresenter.setVisibility(View.VISIBLE)
+            searchPresenter.visibility = View.VISIBLE
         }
     }
 
-    private val defaultDetailsTransition = object : Presenter.DefaultTransition(HotelDetailPresenter::class.java.getName()) {
+    private val defaultDetailsTransition = object : Presenter.DefaultTransition(HotelDetailPresenter::class.java.name) {
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             loadingOverlay.visibility = View.GONE
@@ -324,7 +332,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
-    private val defaultResultsTransition = object : Presenter.DefaultTransition(HotelResultsPresenter::class.java.getName()) {
+    private val defaultResultsTransition = object : Presenter.DefaultTransition(HotelResultsPresenter::class.java.name) {
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
@@ -351,8 +359,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             loadingOverlay.visibility = View.GONE
-            searchPresenter.setVisibility(View.VISIBLE)
-            resultsPresenter.setVisibility(View.VISIBLE)
+            searchPresenter.visibility = View.VISIBLE
+            resultsPresenter.visibility = View.VISIBLE
             searchPresenter.animationStart(!forward)
             resultsPresenter.animationStart()
         }
@@ -365,15 +373,15 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
-            searchPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
-            resultsPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
+            searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+            resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             searchPresenter.animationFinalize(forward)
             resultsPresenter.animationFinalize(forward)
             if (!forward) HotelV2Tracking().trackHotelV2SearchBox()
         }
     }
 
-    private val resultsToDetail = object : Presenter.Transition(HotelResultsPresenter::class.java.getName(), HotelDetailPresenter::class.java.getName(), DecelerateInterpolator(), ANIMATION_DURATION) {
+    private val resultsToDetail = object : Presenter.Transition(HotelResultsPresenter::class.java.name, HotelDetailPresenter::class.java.name, DecelerateInterpolator(), ANIMATION_DURATION) {
         private var detailsHeight: Int = 0
 
         override fun startTransition(forward: Boolean) {
@@ -383,28 +391,28 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             else {
                 detailPresenter.hotelDetailView.refresh()
             }
-            val parentHeight = getHeight()
+            val parentHeight = height
             detailsHeight = parentHeight - Ui.getStatusBarHeight(getContext())
             val pos = (if (forward) detailsHeight else 0).toFloat()
-            detailPresenter.setTranslationY(pos)
-            detailPresenter.setVisibility(View.VISIBLE)
+            detailPresenter.translationY = pos
+            detailPresenter.visibility = View.VISIBLE
             detailPresenter.animationStart()
-            resultsPresenter.setVisibility(View.VISIBLE)
+            resultsPresenter.visibility = View.VISIBLE
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
             val pos = if (forward) (detailsHeight - (f * detailsHeight)) else (f * detailsHeight)
-            detailPresenter.setTranslationY(pos)
+            detailPresenter.translationY = pos
             detailPresenter.animationUpdate(f, !forward)
         }
 
         override fun finalizeTransition(forward: Boolean) {
-            detailPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
-            resultsPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
-            detailPresenter.setTranslationY(0f)
+            detailPresenter.visibility = if (forward) View.VISIBLE else View.GONE
+            resultsPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+            detailPresenter.translationY = 0f
             resultsPresenter.animationFinalize(!forward)
             detailPresenter.animationFinalize()
-            loadingOverlay.setVisibility(View.GONE)
+            loadingOverlay.visibility = View.GONE
             if (forward) {
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             } else {
@@ -414,12 +422,12 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
-    private val checkoutToError = object : Presenter.Transition(HotelCheckoutPresenter::class.java.getName(), HotelErrorPresenter::class.java.getName(), DecelerateInterpolator(), ANIMATION_DURATION) {
+    private val checkoutToError = object : Presenter.Transition(HotelCheckoutPresenter::class.java.name, HotelErrorPresenter::class.java.name, DecelerateInterpolator(), ANIMATION_DURATION) {
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
-            checkoutPresenter.setVisibility(View.VISIBLE)
-            errorPresenter.setVisibility(View.VISIBLE)
+            checkoutPresenter.visibility = View.VISIBLE
+            errorPresenter.visibility = View.VISIBLE
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -429,20 +437,20 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
-            checkoutPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
-            errorPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
+            checkoutPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+            errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             errorPresenter.animationFinalize()
         }
     }
 
 
-    private val searchToError = object : Presenter.Transition(HotelSearchPresenter::class.java.getName(), HotelErrorPresenter::class.java.getName(), DecelerateInterpolator(), ANIMATION_DURATION) {
+    private val searchToError = object : Presenter.Transition(HotelSearchPresenter::class.java.name, HotelErrorPresenter::class.java.name, DecelerateInterpolator(), ANIMATION_DURATION) {
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
-            loadingOverlay.setVisibility(View.GONE)
-            searchPresenter.setVisibility(View.VISIBLE)
-            errorPresenter.setVisibility(View.VISIBLE)
+            loadingOverlay.visibility = View.GONE
+            searchPresenter.visibility = View.VISIBLE
+            errorPresenter.visibility = View.VISIBLE
             searchPresenter.animationStart(!forward)
         }
 
@@ -454,8 +462,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
-            searchPresenter.setVisibility(if (forward) View.GONE else View.VISIBLE)
-            errorPresenter.setVisibility(if (forward) View.VISIBLE else View.GONE)
+            searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+            errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             searchPresenter.animationFinalize(forward)
             errorPresenter.animationFinalize()
             if (!forward) HotelV2Tracking().trackHotelV2SearchBox()
@@ -576,7 +584,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             showDetails(it.hotelId, false)
         } else if (!it.hotelOffersResponse.hasErrors()) {
             //correct hotel name if it is a deeplink HOTEL search
-            val intent = (context as Activity).getIntent()
+            val intent = (context as Activity).intent
             if (intent.getBooleanExtra(Codes.FROM_DEEPLINK, false)) {
                 intent.putExtra(Codes.FROM_DEEPLINK, false)
                 if (hotelSearchParams.suggestion.type == "HOTEL") {
@@ -595,7 +603,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         showDetails(hotel.hotelId, if (hotel.isSoldOut) false else true)
     }
 
-    private data class HotelDetailsRequestMetadata(val hotelId: String, val hotelOffersResponse: HotelOffersResponse, val isOffersRequest: Boolean)
+    data class HotelDetailsRequestMetadata(val hotelId: String, val hotelOffersResponse: HotelOffersResponse, val isOffersRequest: Boolean)
 
     private fun showDetails(hotelId: String, fetchOffers: Boolean) {
         if (fetchOffers) {

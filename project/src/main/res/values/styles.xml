@@ -1176,11 +1176,28 @@
         <item name="android:paddingRight">15dp</item>
         <item name="android:background">@drawable/hotel_detail_ripple</item>
         <item name="android:drawableRight">@drawable/smaller_details_info</item>
->>>>>>> expedia-stable
     </style>
 
     <style name="MarkerTextAppearance">
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:textSize">13sp</item>
     </style>
+
+    <style name="SearchAutocomplete" parent="Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:layout_height">50dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColorHint">#FFFFFF</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:background">@drawable/autocomplete_background</item>
+        <item name="android:theme">@style/SearchAutocompleteTheme</item>
+    </style>
+
+    <style name="SearchAutocompleteTheme">
+        <item name="colorControlNormal">#FFFFFF</item>
+        <item name="colorControlActivated">#FFFFFF</item>
+        <item name="colorControlHighlight">#FFFFFF</item>
+    </style>
+
 </resources>

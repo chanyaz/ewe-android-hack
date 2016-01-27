@@ -12,6 +12,49 @@
             android:theme="@style/V2.Theme.Cars" >
         </activity>
 
-     </application>
+         <activity
+            android:name="com.expedia.ui.PackageActivity"
+            android:taskAffinity="com.expedia.ui.PackageActivity"
+            android:label="Packages"
+            android:screenOrientation="portrait"
+            android:theme="@style/V2.Theme.Packages" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.expedia.ui.PackageHotelActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:theme="@style/V2.Theme.Hotels" />
+
+        <activity
+            android:name="com.expedia.ui.FlightPackageActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:theme="@style/V2.Theme.Hotels" />
+
+        <activity
+            android:name="com.expedia.ui.CheckoutActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:theme="@style/V2.Theme.Hotels" />
+
+        <activity
+            android:name="com.expedia.ui.RailActivity"
+            android:taskAffinity="com.expedia.ui.RailActivity"
+            android:label="Rail"
+            android:screenOrientation="portrait"
+            android:theme="@style/V2.Theme.Rail" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 
 </manifest>

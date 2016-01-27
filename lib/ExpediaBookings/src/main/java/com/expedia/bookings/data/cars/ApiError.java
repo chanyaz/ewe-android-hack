@@ -51,8 +51,10 @@ public class ApiError extends RuntimeException {
 		HOTEL_CHECKOUT_UNKNOWN,
 
 		HOTEL_PRODUCT_KEY_EXPIRY,
-		HOTEL_ROOM_UNAVAILABLE;
+		HOTEL_ROOM_UNAVAILABLE,
 
+		//Calculate Points Errors
+		POINTS_CONVERSION_UNAUTHENTICATED_ACCESS
 	}
 
 	public enum DetailCode {

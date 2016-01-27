@@ -203,10 +203,10 @@
 
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_credit_debit_label">Kreditkort/bankkort</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_google_wallet_label">Google Wallet</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Gästinformation</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Ange dina uppgifter</string>
     <!-- Text for enter payment details line 1 -->
@@ -1726,6 +1726,8 @@
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">Economy</string>
+    <!-- Label for "coach" cabin code -->
+    <string name="flight_class_selection">Economy</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">Premium Economy</string>
     <!-- Label for "business" cabin code -->
@@ -1762,8 +1764,6 @@
     <string name="select_payment">Välj betalning</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">Betalningsuppgifter</string>
-    <!-- Select payment sentence case AB Test variate1 -->
-    <string name="select_payment_sentence_case_variate1">Ange betalningsuppgifter</string>
     <!-- Select payment sentence case AB Test variate2 -->
     <string name="select_payment_sentence_case_variate2">Betalning</string>
     <!-- Select payment callout AB Test variate2 -->
@@ -1855,15 +1855,19 @@
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">dra för att boka flyg</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">Ditt kort kommer att debiteras %1$s</string>
+    <string name="your_card_will_be_charged_template">Ditt kort kommer att debiteras {dueamount}</string>
+    <!-- Your are using pwp points -->
+    <string name="you_are_using_expedia_points_TEMPLATE">Du använder {points} ({amount}) poäng i Expedia+</string>
+    <!-- Payment through card + pwp points -->
+    <string name="payment_through_card_and_pwp_points">Du använder {points} ({amount}) poäng i Expedia+\nDitt kort kommer att debiteras {dueamount}</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">Ditt kort kommer att debiteras %1$s (plus flygbolagsavgift)</string>
+    <string name="your_card_will_be_charged_plus_airline_fee_template">Ditt kort kommer att debiteras {dueamount} (plus flygbolagsavgift)</string>
     <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_TEMPLATE">Belopp att betala idag: %1$s</string>
+    <string name="amount_due_today_template">Belopp att betala idag: {dueamount}</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Belopp att betala nu: %1$s</string>
+    <string name="amount_to_be_paid_now_TEMPLATE">Belopp att betala nu: {dueamount}</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">Hotellet debiterar följande: %1$s</string>
+    <string name="to_be_collected_by_the_hotel_TEMPLATE">Hotellet debiterar följande: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Slutför bokning</string>
     <!-- Checkout menu item -->
@@ -1881,7 +1885,7 @@
     <!-- Sign out -->
     <string name="sign_out">Logga ut</string>
     <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">Du tjänar %1$s poäng — 3x mer för att du bokar i appen!</string>
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">Samla %1$s poäng – tre gånger mer med appen!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Du samlar %1$s poäng med den här bokningen!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -1900,6 +1904,8 @@
     <string name="please_enter_a_valid_email_address">Ange en giltig e-postadress</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Avgifter som betalades på hotellet</string>
+    <!-- Row label for when we show resort fees as its own line item -->
+    <string name="fees_due_at_hotel">Avgifter som ska betalas på hotellet</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">Att betala {brand}</string>
     <!-- Due to expedia today - today -->
@@ -1961,10 +1967,6 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Resenärens uppgifter</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">Huvudresenärens uppgifter</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">Ange huvudresenärens uppgifter</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
     <string name="traveler_details_variate2">Huvudresenär</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Sparat</string>
@@ -1982,49 +1984,29 @@
     <string name="add_new_creditcard">Lägg till nytt kort</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Gästinformation</string>
+    <!-- Guest all fields are required -->
+    <string name="guest_field_required">Alla fält måste fyllas i.</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Uppgifter för vuxen resenär %1$s</string>
-    <!-- AB test variate 1 - Add adult traveler number template -->
-    <string name="add_adult_number_variate1_TEMPLATE">Ange uppgifter för vuxen resenär %1$s</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
     <string name="add_adult_number_variate2_TEMPLATE">Vuxen resenär %1$s</string>
     <!-- Add adult traveler details label -->
-    <string name="add_adult">Vuxna resenärens uppgifter</string>
-    <!-- AB test variate 1 - Add adult traveler details label -->
-    <string name="add_adult_variate1">Ange uppgifter för vuxen resenär</string>
-    <!-- AB test variate 2 - Add adult traveler details label -->
     <string name="add_adult_variate2">Vuxen</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Uppgifter för barnresenär %1$s</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_TEMPLATE">Uppgifter för %1$s-åring</string>
-    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_variate1_TEMPLATE">Uppgifter för %1$s-åring</string>
-    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_variate2_TEMPLATE">%1$s-åring</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Uppgifter för spädbarn %1$s i knä</string>
-    <!-- AB test variate 1 - Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_variate1_TEMPLATE">Ange uppgifter för spädbarn %1$s i knä</string>
     <!-- AB test variate 2 - Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_variate2_TEMPLATE">Spädbarn %1$s i knä</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap">Uppgifter för spädbarn i knä</string>
-    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap_variate1">Ange uppgifter för spädbarn i knä</string>
-    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap_variate2">Spädbarn i knä</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">Uppgifter för spädbarn %1$s i säte</string>
-    <!-- AB test variate 1- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_variate1_TEMPLATE">Ange uppgifter för spädbarn %1$s i säte</string>
     <!-- AB test variate 2- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_variate2_TEMPLATE">Spädbarn %1$s i säte</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat">Uppgifter för spädbarn i säte</string>
-    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat_variate1">Ange uppgifter för spädbarn i säte</string>
-    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat_variate2">Spädbarn i säte</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Passagerare kan nekas ombordstigning om namnet i bokningen inte matchar namnet i den statligt utfärdade ID-handlingen</string>
@@ -2053,6 +2035,10 @@
     <string name="first_name_field_text">förnamn</string>
     <!-- last name -->
     <string name="last_name_field_text">efternamn</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (t.ex: %2$s)</string>
+
     <!-- Cardholder -->
     <string name="cardholder">Kortinnehavare</string>
     <!-- email disclaimer -->
@@ -2225,10 +2211,10 @@
     <string name="add_to_your_trip">Lägg till i din resa</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotell i %s</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 rum, %s gäster</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Bilar i %s</string>
-    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
-    <string name="lx_in_TEMPLATE">Aktiviteter i %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Mer</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -2516,6 +2502,8 @@
     <string name="search_error">Sökfel</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">Hotell %s</string>
+    <!-- Expedia Member Discount for a given property, AB test -->
+    <string name="member_pricing">Medlemspriser</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2524,6 +2512,10 @@
         <item quantity="many">%d rum kvar</item>
         <item quantity="other">%d rum kvar</item>
     </plurals>
+
+    <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
+    <string name="EnableLocationPermissionSettings_TEMPLATE">Om du vill använda din nuvarande plats måste du ge {brand} tillgång i dina platsinställningar.\n\nGå till inställningar klicka på \"Behörigheter\" där du kan aktivera platsinställningar.</string>
+    <string name="go_to_settings">Gå till \"Inställningar\"</string>
 
     <!-- Dialog message asking user if they want to enable a location provider. -->
     <string name="EnableLocationSettings">För att använda nuvarande plats, måste du först aktivera en positioneringskälla i dina inställningar.\n\nGå till inställningar och aktivera nu?</string>
@@ -2945,6 +2937,12 @@
     <string name="unknown">Okänt</string>
 
     <!-- Expedia Accounts -->
+    <!-- Label for messaging on sign in Variate 1 -->
+    <string name="sign_in_messaging">Spara med exklusiva medlemserbjudanden</string>
+    <!-- Label for messaging on sign in Variate 2 -->
+    <string name="triple_point_messaging">Tjäna TRIPPLA poäng i Expedia+</string>
+    <!-- Label for messaging on sign in Variate 3 -->
+    <string name="trip_alert_messaging">Få viktiga reseuppdateringar</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Logga in</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3466,30 +3464,6 @@
     <string name="country_zw">Zimbabwe</string>
     <string name="country_ax">Åland</string>
 
-    <!-- Google Wallet -->
-    <!-- Loading message -->
-    <string name="loading">Hämtar</string>
-    <!-- Google Wallet label -->
-    <string name="google_wallet">Google Wallet</string>
-    <!-- Google wallet unavailable error -->
-    <string name="google_wallet_unavailable">Google Wallet är inte tillgänglig</string>
-    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
-    <string name="spending_limit_exceeded">Du har överskridit din belastningsgräns för Google Wallet</string>
-    <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">Köp med Google Wallet</string>
-    <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Spara <b>$50</b> på din resa värd <b>$200+</b> med Google Wallet!</string>
-    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Endast en kupong kan användas per bokning. Vi ersatte din tidigare kupong med rabatten på $50 som du fick med Google Wallet.</string>
-    <!-- Message shown while loading Wallet coupon -->
-    <string name="wallet_promo_applying">Tillämpar Google Wallets rabatt…</string>
-    <!-- Title for Google Wallet promo terms & conditions -->
-    <string name="wallet_promo_tc_title">Google Wallet-kupongens regler och villkor</string>
-    <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Erbjudande: Få en rabattkupong värd $50 på din hotellvistelse. Priset måste vara minst $200 för att bokningen ska kvalificeras. Lös in din kupong: Välj en giltig hotellvistelse. På betalningssidan ska du välja “Köp med Google”. Kupongen måste lösas in via Expedias Androidapp senast 23:59 (Pacific Time) 31 december 2014 för resor mellan nu och 31 mars 2015. Erbjudandet gäller under begränsad tid: Ändringar kan tillkomma. Max en (1) kupong per användarkonto och giltig hotellbokning. Erbjudandet utfärdas av Expedia.com och är endast tillgängligt för amerikanska Androidkunder på Expedia.com. Kunder som är affillierade med Expedias Travel Agent Affiliate Program kan inte använda detta erbjudande. Kupongen är endast giltig för bokningar av Expedia Rate-hotell. Bokningar kan endast göras i mån av tillgång och i enlighet med samtliga regler och villkor. Kupongen kan inte användas i kombination med andra kuponger, kampanjer eller specialerbjudanden. Kupongrabatten kan inte tillämpas mot skatter, avgifter från leverantörer, avboknings- eller ändringsavgifter, administrativa avgifter eller andra avgifter av något slag, då kunden själv har ett ansvara att betala dessa. En kupong anses inlöst till fullo när en giltig bokningar har gjorts, och kupongen kan därefter inte återanvändas. Utifall att du avbokar eller ändrar någon del av din bokning kommer kupongen inte att tillämpas på det ändrade reseschemat. Regler och villkor för kupongen är giltiga såsom de är skrivna och kan inte ändras av någon representativ part eller någon icke-auktoriserad person, vilket inkluderar anställda på Expedia, Inc. Kupongen kan varken överföras eller lösas in mot kontanter. Expedia, Inc. har rätt att annullera eller ändra det här erbjudandet när som helst. Kupongen gäller ej där den strider mot lagen.</string>
-    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
-    <string name="wallet_coupon_not_applied_manually">Kupongen kan endast tillämpas när du väljer Google Wallet som betalningsmetod.</string>
-
     <!-- Human readable credit card names -->
     <!-- American Express -->
     <string name="cc_american_express">American Express</string>
@@ -3809,4 +3783,30 @@
     <string name="airline_charge_notice">Flygbolag tar ut en extraavgift baserat på betalningsmetod.</string>
     <string name="airline_fee_notice_payment">Flygbolagsavgift tas ut baserat på betalningsmetod</string>
     <string name="airline_notice_fee_added">En <u><b>flygbolagsavgift</b></u>, baserad på korttyp, läggs till vid betalning. Avgiften läggs till till totalbeloppet vid betalning.</string>
+    <string name="airline_notice_fee_added_tablet">En &lt;u&gt;&lt;b&gt;flygbolagsavgift&lt;/b&gt;&lt;/u&gt;, baserad på korttyp, läggs till vid betalning. Avgiften läggs till till totalbeloppet vid betalning.</string>
+
+    <!-- Packages -->
+
+    <!-- Label for package search toolbar -->
+    <string name="package_toolbar_title">Hotell + Flyg</string>
+    <!-- Label for package search toolbar -->
+    <string name="bundle_overview_title">Paketöversikt</string>
+    <!-- Fly from hint -->
+    <string name="fly_from_hint">Flyger från</string>
+    <!-- Fly to hint -->
+    <string name="fly_to_hint">Flyger till</string>
+    <!-- Bundle Overview Step 1, select a hotel -->
+    <string name="step_one">Steg 1: Välj hotell</string>
+    <!-- Bundle Overview Step 2, select a flight -->
+    <string name="step_two">Steg 2: Välj flyg</string>
+
+    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_duration_template">%1$dd %2$dh %3$dm (%4$dh mellanlandning)</string>
+    <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
+    <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dd</string>
+    <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
+    <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">Reseöversikt</string>
 </resources>

@@ -203,10 +203,10 @@
 
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_credit_debit_label">Kredittkort/debetkort</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_google_wallet_label">Google Wallet</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Gjestens detaljer</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Angi din informasjon</string>
     <!-- Text for enter payment details line 1 -->
@@ -1726,8 +1726,10 @@
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">Økonomi</string>
+    <!-- Label for "coach" cabin code -->
+    <string name="flight_class_selection">Økonomi</string>
     <!-- Label for "premium coach" cabin code -->
-    <string name="cabin_code_premium_coach">Premium-økonomiklasse</string>
+    <string name="cabin_code_premium_coach">Premium-økonomi</string>
     <!-- Label for "business" cabin code -->
     <string name="cabin_code_business">Business</string>
     <!-- Label for "first" cabin code -->
@@ -1762,8 +1764,6 @@
     <string name="select_payment">Velg betalingsform</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">Betalingsinfo</string>
-    <!-- Select payment sentence case AB Test variate1 -->
-    <string name="select_payment_sentence_case_variate1">Oppgi betalingsinformasjon</string>
     <!-- Select payment sentence case AB Test variate2 -->
     <string name="select_payment_sentence_case_variate2">Betaling</string>
     <!-- Select payment callout AB Test variate2 -->
@@ -1855,15 +1855,19 @@
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">sveip for å bestille fly</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">Kortet ditt vil bli belastet med %1$s</string>
+    <string name="your_card_will_be_charged_template">Kortet ditt vil bli belastet med {dueamount}</string>
+    <!-- Your are using pwp points -->
+    <string name="you_are_using_expedia_points_TEMPLATE">Du bruker {points} ({amount}) Expedia+ poeng</string>
+    <!-- Payment through card + pwp points -->
+    <string name="payment_through_card_and_pwp_points">Du bruker {points} ({amount}) Expedia+ poeng\nKortet ditt vil bli belastet {dueamount}</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">Kortet ditt vil bli belastet %1$s (pluss flyselskapsavgift)</string>
+    <string name="your_card_will_be_charged_plus_airline_fee_template">Kortet ditt vil bli belastet {dueamount} (pluss flyselskapsavgift)</string>
     <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_TEMPLATE">Må betales i dag: %1$s</string>
+    <string name="amount_due_today_template">Må betales i dag: {dueamount}</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">Beløp som må betales nå: %1$s</string>
+    <string name="amount_to_be_paid_now_TEMPLATE">Beløp som må betales nå: {dueamount}</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">Må hentes av hotellet: %1$s</string>
+    <string name="to_be_collected_by_the_hotel_TEMPLATE">Betales på hotellet: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Fullfør bestillingen</string>
     <!-- Checkout menu item -->
@@ -1881,11 +1885,11 @@
     <!-- Sign out -->
     <string name="sign_out">Logg av</string>
     <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">Du vil tjene %1$s poeng – tredoble poeng når du bestiller med appen!</string>
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">Tjen %1$s poeng – 3 ganger så mange ved bestilling med appen!</string>
     <!-- You'll earn points for this trip -->
-    <string name="youll_earn_points_TEMPLATE">Du vil opptjene %1$s poeng for denne reisen!</string>
+    <string name="youll_earn_points_TEMPLATE">Du vil tjene %1$s poeng for denne reisen!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
-    <string name="x_points_for_this_trip_TEMPLATE">Du vil opptjene %1$s poeng for denne reisen!</string>
+    <string name="x_points_for_this_trip_TEMPLATE">Du vil tjene %1$s poeng for denne reisen!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
     <string name="calculating_taxes_and_fees">Regner ut skatter og avgifter…</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -1900,6 +1904,8 @@
     <string name="please_enter_a_valid_email_address">Oppgi en gyldig e-postadresse</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Avgifter som betales på hotellet</string>
+    <!-- Row label for when we show resort fees as its own line item -->
+    <string name="fees_due_at_hotel">Avgifter som betales på hotellet</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">Betales til {brand}</string>
     <!-- Due to expedia today - today -->
@@ -1961,10 +1967,6 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">Reisendes informasjon</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">Informasjon om hovedreisende</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">Oppgi detaljer for hovedreisende</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
     <string name="traveler_details_variate2">Hovedreisende</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">Lagret</string>
@@ -1982,49 +1984,29 @@
     <string name="add_new_creditcard">Legg til nytt betalingskort</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Gjestens detaljer</string>
+    <!-- Guest all fields are required -->
+    <string name="guest_field_required">Alle feltene må fylles ut.</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Detaljer for voksen %1$s</string>
-    <!-- AB test variate 1 - Add adult traveler number template -->
-    <string name="add_adult_number_variate1_TEMPLATE">Oppgi detaljer for voksen %1$s</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
     <string name="add_adult_number_variate2_TEMPLATE">Voksen %1$s</string>
     <!-- Add adult traveler details label -->
-    <string name="add_adult">Detaljer for voksen</string>
-    <!-- AB test variate 1 - Add adult traveler details label -->
-    <string name="add_adult_variate1">Oppgi detaljer for voksen</string>
-    <!-- AB test variate 2 - Add adult traveler details label -->
     <string name="add_adult_variate2">Voksen</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">Detaljer for barn %1$s</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_TEMPLATE">Detaljer for %1$s-åring</string>
-    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_variate1_TEMPLATE">Oppgi detaljer for %1$s-åring</string>
-    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_variate2_TEMPLATE">%1$s-åring</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">Detaljer for spedbarn %1$s på fanget</string>
-    <!-- AB test variate 1 - Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_variate1_TEMPLATE">Oppgi detaljer for spedbarn %1$s på fanget</string>
     <!-- AB test variate 2 - Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_variate2_TEMPLATE">Spedbarn %1$s på fanget</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap">Detaljer for spedbarn på fanget</string>
-    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap_variate1">Oppgi detaljer for spedbarn på fanget</string>
-    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap_variate2">Spedbarn på fanget</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">Detaljer for spedbarn %1$s i sete</string>
-    <!-- AB test variate 1- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_variate1_TEMPLATE">Oppgi detaljer for spedbarn %1$s i sete</string>
     <!-- AB test variate 2- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_variate2_TEMPLATE">Spedbarn %1$s i sete</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat">Detaljer for spedbarn i sete</string>
-    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat_variate1">Oppgi detaljer for spedbarn i sete</string>
-    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat_variate2">Spedbarn i sete</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">Du kan nektes boarding på flyet dersom navnet på billetten ikke stemmer overens med din offentlig godkjente legitimasjon.</string>
@@ -2053,6 +2035,10 @@
     <string name="first_name_field_text">fornavn</string>
     <!-- last name -->
     <string name="last_name_field_text">etternavn</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (f.eks.: %2$s)</string>
+
     <!-- Cardholder -->
     <string name="cardholder">Kortinnehaver</string>
     <!-- email disclaimer -->
@@ -2172,9 +2158,9 @@
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Rediger den reisendes informasjon</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_TEMPLATE">Foretrekker sete %1$s</string>
+    <string name="prefers_seat_TEMPLATE">Foretrukket sete: %1$s</string>
     <!-- prefers seat template -->
-    <string name="prefers_seat_colored_TEMPLATE">Foretrekker sete %1$s</string>
+    <string name="prefers_seat_colored_TEMPLATE">Foretrukket sete: %1$s</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Henter informasjon om reisende…</string>
     <!-- Passport -->
@@ -2225,10 +2211,10 @@
     <string name="add_to_your_trip">Legg til reisen din</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hoteller i %s</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 rom, %s gjester</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Biler i %s</string>
-    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
-    <string name="lx_in_TEMPLATE">Aktiviteter i %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Annet</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -2516,6 +2502,8 @@
     <string name="search_error">Søkefeil</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">Hotell %s</string>
+    <!-- Expedia Member Discount for a given property, AB test -->
+    <string name="member_pricing">Medlemspris</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
@@ -2525,10 +2513,14 @@
         <item quantity="other">%d rom igjen på appen vår</item>
     </plurals>
 
+    <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
+    <string name="EnableLocationPermissionSettings_TEMPLATE">For å bruke nåværende sted må du først la {brand} få tilgang til din posisjon.\n\nFor å aktivere dette må du gå til innstillinger, gå inn på tillatelser og skru på posisjonsinformasjonen.</string>
+    <string name="go_to_settings">Gå til innstillinger.</string>
+
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">For å bruke din plassering må du skru på "sted" i innstillingene.\n\nVil du gå til innstillinger og skru det på nå?</string>
+    <string name="EnableLocationSettings">For å bruke din plassering må du gå til posisjon i innstillingene.\n\nVil du gå til innstillinger og endre dette nå?</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
-    <string name="ProviderDisabled">Posisjoneringssystemet er ikke slått på. Slå det på for å utføre et søk basert på posisjonen din.</string>
+    <string name="ProviderDisabled">Posisjonsinsformasjon er ikke slått på. Slå det på for å utføre et søk basert på posisjonen din.</string>
 
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by distance label -->
@@ -2945,6 +2937,12 @@
     <string name="unknown">Ukjent</string>
 
     <!-- Expedia Accounts -->
+    <!-- Label for messaging on sign in Variate 1 -->
+    <string name="sign_in_messaging">Spar penger med eksklusive medlemstilbud</string>
+    <!-- Label for messaging on sign in Variate 2 -->
+    <string name="triple_point_messaging">Samle tredoble poeng med Expedia+</string>
+    <!-- Label for messaging on sign in Variate 3 -->
+    <string name="trip_alert_messaging">Få viktige reisevarsler</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Logg på</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3466,30 +3464,6 @@
     <string name="country_zw">Zimbabwe</string>
     <string name="country_ax">Åland</string>
 
-    <!-- Google Wallet -->
-    <!-- Loading message -->
-    <string name="loading">Henter</string>
-    <!-- Google Wallet label -->
-    <string name="google_wallet">Google Wallet</string>
-    <!-- Google wallet unavailable error -->
-    <string name="google_wallet_unavailable">Google Wallet er utilgjengelig</string>
-    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
-    <string name="spending_limit_exceeded">Du har overgått din kostnadsgrense for Google Wallet</string>
-    <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">Kjøp med Google Wallet</string>
-    <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">Spar <b>$50</b> på en reise på <b>$200 eller mer</b> med Google Wallet!</string>
-    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">Kun én kupong kan brukes per bestilling. Vi erstattet din forrige kupong med en rabatt på $50 fordi du brukte Google Wallet.</string>
-    <!-- Message shown while loading Wallet coupon -->
-    <string name="wallet_promo_applying">Løser inn din Google Wallet-rabatt…</string>
-    <!-- Title for Google Wallet promo terms & conditions -->
-    <string name="wallet_promo_tc_title">Betingelsene og vilkårene for Google Wallet-kuponger</string>
-    <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">Tilbud: Motta en rabattkupong som gir deg $50 avslag på et hotellopphold. Prisen på en kvalifiserende bestilling må være minst $200. Slik løser du inn kupongen: Velg et deltagende hotell. Klikk på "kjøp med Google Wallet" ved betaling. Kupongen må brukes på Expedias Android-app senest kl 23.59 (PT) den 31. desember 2014, på reiser mellom nå og 31. mars 2015. Tidsbegrenset tilbud. Kan endres. Begrenset til én (1) kupong per brukerkonto og per hotellbestilling. Dette tilbudet kommer fra Expedia.com og gjelder kun for Expedia.com sine kunder i USA som bruker Android-appen. Kunder som er tilknyttet Expedias Travel Agent Affiliate Program kan ikke bruke tilbudet. Kupongen er kun gyldig for Expedia Rate-hoteller. Bestillingene avhenger av tilgjengelighet, og er underlagt vilkår og betingelser. Kupongen kan ikke brukes sammen med andre kuponger, kampanjer eller spesialtilbud. Rabatten kan ikke brukes på skatter, leverandørens gebyrer, avbestilling- eller endringsgebyrer, behandlingsgebyrer eller andre diverse utgifter, som kunden er helt og alene ansvarlig for. Kupongen vil ansees som brukt så snart en kvalifisert bestilling er utført, og den kan ikke brukes på nytt. Dersom du endrer eller kansellerer hele eller deler av bestillingen din, vil ikke kupongen gjelde for den endrede reiseplanen. Betingelsene og vilkårene for denne kupongen gjelder slik de er angitt og kan ikke endres av noen som ikke har myndighet til å gjøre dette, inkludert ansatte ved Expedia, Inc. Kupongen kan ikke overføres og kan ikke løses inn mot kontanter. Expedia, Inc. kan trekke tilbake eller endre dette tilbudet når som helst. Gjelder ikke der det er forbudt ved lov.</string>
-    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
-    <string name="wallet_coupon_not_applied_manually">Denne kupongen kan kun brukes når du velger Google Wallet som betalingsmåte.</string>
-
     <!-- Human readable credit card names -->
     <!-- American Express -->
     <string name="cc_american_express">American Express</string>
@@ -3809,4 +3783,30 @@
     <string name="airline_charge_notice">Flyselskaper belaster deg en tilleggsavgift som er basert på betalingsmåten du bruker.</string>
     <string name="airline_fee_notice_payment">Flyselskapsavgiften er basert på betalingsmåten</string>
     <string name="airline_notice_fee_added">En <u><b>flyselskapsavgift</b></u>, avhengig av korttypen, vil legges til ved betaling. En slik avgift vil legges til i totalsummen ved betaling.</string>
+    <string name="airline_notice_fee_added_tablet">En &lt;u&gt;&lt;b&gt;flyselskapsavgift&lt;/b&gt;&lt;/u&gt;, avhengig av korttypen, vil legges til ved betaling. En slik avgift vil legges til i totalsummen ved betaling.</string>
+
+    <!-- Packages -->
+
+    <!-- Label for package search toolbar -->
+    <string name="package_toolbar_title">Hotell + fly</string>
+    <!-- Label for package search toolbar -->
+    <string name="bundle_overview_title">Oversikt over pakkereise</string>
+    <!-- Fly from hint -->
+    <string name="fly_from_hint">Flyr fra</string>
+    <!-- Fly to hint -->
+    <string name="fly_to_hint">Flyr til</string>
+    <!-- Bundle Overview Step 1, select a hotel -->
+    <string name="step_one">Trinn 1: Velg hotell</string>
+    <!-- Bundle Overview Step 2, select a flight -->
+    <string name="step_two">Trinn 1: Velg flyvninger</string>
+
+    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_duration_template">%1$d d %2$d t %3$d m (%4$d t mellomlanding)</string>
+    <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
+    <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$d d</string>
+    <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
+    <string name="flight_departure_arrival_time_template">%1$s–%2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">Reiseoversikt</string>
 </resources>

@@ -13,7 +13,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.location.LXCurrentLocationSuggestionObserver;
@@ -78,7 +78,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 			.endDate(LocalDate.now().plusDays(getResources().getInteger(R.integer.lx_default_search_range)))
 			.searchType(SearchType.DEFAULT_SEARCH);
 
-		Observable<Suggestion> currentLocationSuggestionObservable = Ui.getApplication(this).lxComponent().currentLocationSuggestionObservable();
+		Observable<SuggestionV4> currentLocationSuggestionObservable = Ui.getApplication(this).lxComponent().currentLocationSuggestionObservable();
 		currentLocationSuggestionObserver = new LXCurrentLocationSuggestionObserver(this, currentLocationSearchParams);
 		currentLocationSuggestionSubscription = currentLocationSuggestionObservable.subscribe(currentLocationSuggestionObserver);
 	}

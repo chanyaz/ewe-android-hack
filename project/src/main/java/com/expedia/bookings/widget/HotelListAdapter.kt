@@ -18,8 +18,11 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.AdImpressionTracking
@@ -43,6 +46,10 @@ import com.squareup.picasso.Picasso
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
+import kotlin.collections.emptyList
+import kotlin.collections.firstOrNull
+import kotlin.collections.indexOfFirst
+import kotlin.collections.listOf
 import kotlin.properties.Delegates
 
 public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -53,11 +60,14 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
 
     var loading = true
     val loadingSubject = BehaviorSubject.create<Unit>()
-    val resultsSubject = PublishSubject.create<HotelSearchResponse>()
+    val resultsSubject = BehaviorSubject.create<Pair<List<Hotel>, HotelRate.UserPriceType>>()
     val hotelSoldOut = endlessObserver<String> { soldOutHotelId ->
         hotels.firstOrNull { it.hotelId == soldOutHotelId }?.isSoldOut = true
         hotelListItemsMetadata.firstOrNull { it.hotelId == soldOutHotelId }?.hotelSoldOut?.onNext(true)
     }
+
+    val isBucketedForResultMap = Db.getAbacusResponse().isUserBucketedForTest(
+            AbacusUtils.EBAndroidAppHotelResultMapTest)
 
     private data class HotelListItemMetadata(val hotelId: String, val hotelSoldOut: BehaviorSubject<Boolean>)
 
@@ -72,7 +82,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
     init {
         resultsSubject.subscribe { response ->
             loading = false
-            hotels = ArrayList(response.hotelList)
+            hotels = ArrayList(response.first)
             hotelListItemsMetadata.clear()
             notifyDataSetChanged()
         }
@@ -87,7 +97,11 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
 
     fun showLoading() {
         loadingSubject.onNext(Unit)
-        hotels = listOf(Hotel(), Hotel())
+        // show 3 tiles during loading if map is hidden to user
+        if (isBucketedForResultMap)
+            hotels = listOf(Hotel(), Hotel(), Hotel())
+        else
+            hotels = listOf(Hotel(), Hotel())
         notifyDataSetChanged()
     }
 
@@ -123,7 +137,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         if (viewType == MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW) {
             val header = View(parent.context)
             var lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-            lp.height = if (ExpediaBookingApp.isAutomation() || ExpediaBookingApp.isDeviceShitty()) 0 else parent.height
+            lp.height = if (isBucketedForResultMap || (ExpediaBookingApp.isAutomation() || ExpediaBookingApp.isDeviceShitty())) 0 else parent.height
             header.layoutParams = lp
 
             return MapSwitchClickInterceptorTransparentHeaderViewHolder(header)
@@ -320,7 +334,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         val shadow: View by root.bindView(R.id.drop_shadow)
 
         init {
-            if (ExpediaBookingApp.isDeviceShitty()) {
+            if (isBucketedForResultMap || ExpediaBookingApp.isDeviceShitty()) {
                 shadow.visibility = View.GONE
             }
             vm.pricingStructureHeaderObservable.subscribeText(pricingStructureHeader)

@@ -14,7 +14,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
-import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FontCache;
@@ -38,7 +38,7 @@ public class CollectionLaunchWidget extends LinearLayout {
 	Button searchFlights;
 	@InjectView(R.id.button_search_activities)
 	Button searchActivities;
-	private Suggestion suggestion;
+	private CollectionLocation.Location suggestion;
 	private Bundle animOptions;
 
 	public CollectionLaunchWidget(Context context, AttributeSet attrs) {

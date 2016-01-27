@@ -24,7 +24,7 @@ import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
-import com.expedia.bookings.widget.SwipeOutLayout;
+import com.mobiata.android.widget.SwipeOutLayout;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.widget.UndoBarController;

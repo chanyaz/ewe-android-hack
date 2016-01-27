@@ -54,8 +54,8 @@
         android:background="@color/hotels_primary_color"
         android:minHeight="?attr/actionBarSize"
         app:navigationIcon="@drawable/ic_close_white_24dp"
-        app:titleTextAppearance="@style/CarsToolbarTitleTextAppearance"
-        app:subtitleTextAppearance="@style/CarsToolbarSubtitleTextAppearance"/>
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+        app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"/>
 
 
 </merge>

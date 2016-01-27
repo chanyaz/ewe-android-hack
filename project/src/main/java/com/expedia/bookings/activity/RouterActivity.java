@@ -47,6 +47,7 @@ public class RouterActivity extends Activity {
 		facebookInstallTracking();
 
 		cleanupOldCookies();
+		cleanupOldSuggestions();
 
 		if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
 			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
@@ -93,6 +94,22 @@ public class RouterActivity extends Activity {
 
 		if (cleanedSomething) {
 			ClearPrivateDataUtil.clear(this);
+		}
+	}
+
+	public static final String RECENT_ROUTES_LX_LOCATION_FILE_BEFORE_V4 = "recent-lx-city-list.dat";
+	public static final String RECENT_ROUTES_CARS_LOCATION_FILE_BEFORE_V4 = "recent-cars-airport-routes-list.dat";
+	private void cleanupOldSuggestions() {
+		String[] files = new String[]{
+			RECENT_ROUTES_LX_LOCATION_FILE_BEFORE_V4,
+			RECENT_ROUTES_CARS_LOCATION_FILE_BEFORE_V4,
+		};
+		// Nuke old suggestions if they exist. Yay Happy new year, er I mean new SuggestionsV4 !!!
+		for (String file : files) {
+			File old = getFileStreamPath(file);
+			if (old.exists()) {
+				old.delete();
+			}
 		}
 	}
 

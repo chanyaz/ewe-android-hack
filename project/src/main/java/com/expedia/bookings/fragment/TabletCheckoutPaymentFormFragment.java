@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CreditCardType;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
@@ -180,47 +180,47 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 				// Let's show airline fees (LCC Fees) or messages if any
 				if (getLob() == LineOfBusiness.FLIGHTS) {
 					BillingInfo mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
-					if (mBillingInfo.getCardType() != null) {
+					if (mBillingInfo.getPaymentType() != null) {
 						TripBucketItem item = Db.getTripBucket().getFlight();
-						if (!item.isCardTypeSupported(mBillingInfo.getCardType())) {
+						if (!item.isPaymentTypeSupported(mBillingInfo.getPaymentType())) {
 							String cardName = CreditCardUtils
-								.getHumanReadableName(getActivity(), mBillingInfo.getCardType());
+								.getHumanReadableName(getActivity(), mBillingInfo.getPaymentType());
 							String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, cardName);
 							updateCardMessageText(message);
 							toggleCardMessage(true, true);
 						}
-						else if (item.getCardFee(mBillingInfo) != null) {
+						else if (item.getPaymentFee(mBillingInfo) != null) {
 							String message = getString(R.string.airline_processing_fee_TEMPLATE,
-								item.getCardFee(mBillingInfo).getFormattedMoney());
+								item.getPaymentFee(mBillingInfo).getFormattedMoney());
 							updateCardMessageText(message);
 							toggleCardMessage(true, true);
 						}
 						else {
-							hideCardMessageOrDisplayDefault(true);
+							hideCardMessageOrDisplayDefault(getLob(), true);
 						}
 					}
 					else {
-						hideCardMessageOrDisplayDefault(true);
+						hideCardMessageOrDisplayDefault(getLob(), true);
 					}
 				}
 
 				if (getLob() == LineOfBusiness.HOTELS) {
 					BillingInfo mBillingInfo = Db.getWorkingBillingInfoManager().getWorkingBillingInfo();
-					if (mBillingInfo.getCardType() != null) {
+					if (mBillingInfo.getPaymentType() != null) {
 						TripBucketItem item = Db.getTripBucket().getHotel();
-						if (!item.isCardTypeSupported(mBillingInfo.getCardType())) {
+						if (!item.isPaymentTypeSupported(mBillingInfo.getPaymentType())) {
 							String cardName = CreditCardUtils
-								.getHumanReadableName(getActivity(), mBillingInfo.getCardType());
+								.getHumanReadableName(getActivity(), mBillingInfo.getPaymentType());
 							String message = getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName);
 							updateCardMessageText(message);
 							toggleCardMessage(true, true);
 						}
 						else {
-							hideCardMessageOrDisplayDefault(true);
+							hideCardMessageOrDisplayDefault(getLob(), true);
 						}
 					}
 					else {
-						hideCardMessageOrDisplayDefault(true);
+						hideCardMessageOrDisplayDefault(getLob(), true);
 					}
 				}
 			}
@@ -253,12 +253,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	@Override
 	public void onFormOpened() {
 		if (Db.getBillingInfo().hasStoredCard()) {
-			if (Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
-				showStoredCardContainerGoogleWallet();
-			}
-			else {
-				showStoredCardContainer();
-			}
+			showStoredCardContainer();
+
 			Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(Db.getBillingInfo());
 		}
 		else {
@@ -284,8 +280,8 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	 *
 	 * @param animate
 	 */
-	public void hideCardMessageOrDisplayDefault(boolean animate) {
-		if (PointOfSale.getPointOfSale().doesNotAcceptDebitCardsForFlights()) {
+	public void hideCardMessageOrDisplayDefault(LineOfBusiness lob, boolean animate) {
+		if (lob == LineOfBusiness.FLIGHTS && PointOfSale.getPointOfSale().doesNotAcceptDebitCardsForFlights()) {
 			Resources res = getResources();
 			updateCardMessageText(res.getString(R.string.debit_cards_not_accepted));
 			toggleCardMessage(true, animate);
@@ -368,17 +364,11 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 	private void showStoredCardContainer() {
 		StoredCreditCard card = Db.getBillingInfo().getStoredCard();
 		String cardName = card.getDescription();
-		CreditCardType cardType = card.getType();
+		PaymentType cardType = card.getType();
 		showStoredCardContainer(cardName, cardType);
 	}
 
-	private void showStoredCardContainerGoogleWallet() {
-		String cardName = getString(R.string.google_wallet);
-		CreditCardType cardType = CreditCardType.GOOGLE_WALLET;
-		showStoredCardContainer(cardName, cardType);
-	}
-
-	private void showStoredCardContainer(String cardName, CreditCardType cardType) {
+	private void showStoredCardContainer(String cardName, PaymentType cardType) {
 		Ui.findView(getParentFragment().getActivity(), R.id.new_card_container).setVisibility(View.GONE);
 		View storedCardContainer = Ui.findView(getParentFragment().getActivity(), R.id.stored_card_container);
 		storedCardContainer.setVisibility(View.VISIBLE);

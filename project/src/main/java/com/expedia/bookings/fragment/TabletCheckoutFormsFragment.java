@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightRulesActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
@@ -30,13 +31,11 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.enums.CheckoutState;
 import com.expedia.bookings.enums.TripBucketItemState;
-import com.expedia.bookings.fragment.CheckoutLoginButtonsFragment.IWalletButtonStateChangedListener;
 import com.expedia.bookings.fragment.FlightCheckoutFragment.CheckoutInformationListener;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
@@ -55,16 +54,15 @@ import com.expedia.bookings.model.TravelerFlowStateTablet;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
+import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TravelerUtils;
-import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.SizeCopyView;
 import com.expedia.bookings.widget.TabletCheckoutScrollView;
 import com.expedia.bookings.widget.TouchableFrameLayout;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
 
@@ -75,9 +73,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	IStateProvider<CheckoutFormState>,
 	ICheckoutDataListener,
 	IFragmentAvailabilityProvider,
-	IWalletButtonStateChangedListener,
 	TabletCheckoutDataFormFragment.ICheckoutDataFormListener,
-	CheckoutLoginButtonsFragment.IWalletCouponListener,
 	TravelerButtonFragment.ITravelerButtonListener,
 	PaymentButtonFragment.IPaymentButtonListener {
 
@@ -123,6 +119,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private SizeCopyView mSizeCopyView;
 	private TravelerFlowStateTablet mTravelerFlowState;
 	private TextView mResortFeeText;
+	private TextView mCardFeeLegalText;
 	private TextView mDepositPolicyTxt;
 
 	private TripBucketHorizontalHotelFragment mHorizontalHotelFrag;
@@ -340,23 +337,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 	}
 
-	private void checkCouponForGoogleWallet() {
-		if (WalletUtils.offerGoogleWalletCoupon(getActivity())
-			&& mStateManager.getState() == CheckoutFormState.OVERVIEW) {
-			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-			if (hotel.isCouponGoogleWallet() && !(hotel.getState() == TripBucketItemState.PURCHASED)) {
-				if (!Db.getBillingInfo().hasStoredCard() || !Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
-					if (mCouponContainer != null) {
-						mCouponContainer.clearCoupon();
-					}
-				}
-			}
-			else if (Db.getBillingInfo().hasStoredCard() && Db.getBillingInfo().getStoredCard().isGoogleWallet()) {
-				applyWalletCoupon();
-			}
-		}
-	}
-
 	/*
 	 * VALIDATION
 	 */
@@ -373,7 +353,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	public void onCheckoutDataUpdated() {
 		bindAll();
 		mCheckoutInfoListener.onBillingInfoChange();
-		checkCouponForGoogleWallet();
 
 		if (hasValidCheckoutInfo()) {
 			mCheckoutInfoListener.checkoutInformationIsValid();
@@ -525,6 +504,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				public void run() {
 					Intent intent = new Intent(getActivity(),
 						getLob() == LineOfBusiness.FLIGHTS ? FlightRulesActivity.class : HotelRulesActivity.class);
+					intent.putExtra("LOB", getLob());
 					startActivity(intent);
 				}
 			}
@@ -551,6 +531,14 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			}
 			add(mResortFeeText);
 			updateResortFeeText();
+		}
+
+		if (getLob() == LineOfBusiness.FLIGHTS && PointOfSale.getPointOfSale(getContext()).doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
+			if (mCardFeeLegalText == null) {
+				mCardFeeLegalText = Ui.inflate(R.layout.include_tablet_card_fee_tv, mCheckoutRowsC, false);
+			}
+			add(mCardFeeLegalText);
+			setupCardFeeTextView();
 		}
 
 		//SET UP THE FORM FRAGMENTS
@@ -614,6 +602,24 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			Spanned resortBlurb = HotelUtils
 				.getCheckoutResortFeesText(getActivity(), Db.getTripBucket().getHotel().getRate());
 			mResortFeeText.setText(resortBlurb);
+		}
+	}
+
+	private void setupCardFeeTextView() {
+		if (mCardFeeLegalText != null) {
+			Spanned cardFeeLegalText = FlightUtils.getCardFeeLegalText(getContext());
+			mCardFeeLegalText.setText(cardFeeLegalText);
+			mCardFeeLegalText.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
+					builder.setUrl(PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL());
+					builder.setTheme(R.style.FlightTheme);
+					builder.setTitle(R.string.Airline_fee);
+					builder.setInjectExpediaCookies(true);
+					startActivity(builder.getIntent());
+				}
+			});
 		}
 	}
 
@@ -915,29 +921,9 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		if (!User.isLoggedIn(getActivity())) {
 			mCheckoutInfoListener.onLogout();
 		}
-		else {
-			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-			if (hotel != null && hotel.isCouponGoogleWallet()) {
-				mCouponContainer.onReplaceCoupon(WalletUtils.getWalletCouponCode(getActivity()), false);
-			}
-		}
 
 		// This calls bindAll() and changes the state if needed
 		onCheckoutDataUpdated();
-	}
-
-	/*
-	 * IWalletButtonStateChangedListener
-	 */
-
-	@Override
-	public void onWalletButtonStateChanged(boolean enable) {
-		Log.d("TabletCheckoutFormsFrag", "onWalletButtonStateChanged(" + enable + ")");
-		onCheckoutDataUpdated();
-		mPaymentButton.setEnabled(!enable);
-		for (TravelerButtonFragment tbf : mTravelerButtonFrags) {
-			tbf.setEnabled(enable);
-		}
 	}
 
 	/*
@@ -980,7 +966,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	public boolean travelerIsValid(int travelerNumber) {
 		if (travelerNumber >= 0 && Db.getTravelers() != null && travelerNumber < Db.getTravelers().size()
 			&& mTravelerFlowState != null) {
-			boolean needsEmail = TravelerUtils.travelerFormRequiresEmail(travelerNumber, getLob(), getActivity());
+			boolean needsEmail = TravelerUtils.travelerFormRequiresEmail(travelerNumber, getActivity());
 			boolean needsPassport = TravelerUtils.travelerFormRequiresPassport(getLob());
 			Traveler traveler = Db.getTravelers().get(travelerNumber);
 
@@ -1027,25 +1013,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	@Override
 	public void onStoredCreditCardChosen() {
 		onCheckoutDataUpdated();
-	}
-
-	/*
-	 * CheckoutLoginButtonsFragment.IWalletCouponListener
-	 * Didn't use Otto because there events weren't registering with subscribers for some reason.
-	 */
-
-	@Override
-	public void applyWalletCoupon() {
-		if (mCouponContainer != null) {
-			String couponCode = WalletUtils.getWalletCouponCode(getActivity());
-			if (!Db.getTripBucket().getHotel().isCouponApplied()) {
-				mCouponContainer.onApplyCoupon(couponCode);
-			}
-			else if (Db.getTripBucket().getHotel().isCouponApplied() && !Db.getTripBucket().getHotel()
-				.isCouponGoogleWallet()) {
-				mCouponContainer.onReplaceCoupon(couponCode, true);
-			}
-		}
 	}
 
 	/*

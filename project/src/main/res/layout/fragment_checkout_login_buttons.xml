@@ -14,11 +14,4 @@
         android:layout_marginBottom="@dimen/tablet_checkout_form_inter_card_gap"
         android:orientation="vertical" />
 
-    <include
-        android:id="@+id/wallet_button_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/wallet_button_bottom_margin"
-        layout="@layout/include_wallet_button" />
-
 </LinearLayout>

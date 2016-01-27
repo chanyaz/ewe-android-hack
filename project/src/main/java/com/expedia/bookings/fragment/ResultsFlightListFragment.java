@@ -15,6 +15,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearch.FlightTripQuery;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.ResultsFlightsListState;
 import com.expedia.bookings.enums.ResultsListState;
 import com.expedia.bookings.fragment.base.ResultsListFragment;
@@ -36,6 +37,7 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 	private static final String STATE_LEG_NUMBER = "STATE_LEG_NUMBER";
 
 	private TextView mStickySubtitleTv;
+	private TextView mCardFeeWarningTv;
 
 	private ListAdapter mAdapter;
 	private int mLegNumber = -1;
@@ -79,12 +81,15 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 		View v = super.onCreateView(inflater, container, savedInstanceState);
 		mStickySubtitleTv = Ui.findView(v, R.id.sticky_subtitle);
 		setSubtitleText();
+		mCardFeeWarningTv = Ui.findView(v, R.id.card_fee_warning_text);
+		setCardFeeWarningVisibility();
 		return v;
 	}
 
 	public void setListHeaderExpansionPercentage(float percentage) {
 		getListView().setTranslationY(mListHeaderRevealHeight * percentage);
 		mStickySubtitleTv.setAlpha(percentage);
+		mCardFeeWarningTv.setAlpha(percentage);
 	}
 
 	@Override
@@ -222,6 +227,11 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 				R.string.prices_oneway_label;
 			mStickySubtitleTv.setText(getString(labelResId));
 		}
+	}
+
+	private void setCardFeeWarningVisibility() {
+		boolean isVisible = PointOfSale.getPointOfSale(getContext()).doAirlinesChargeAdditionalFeeBasedOnPaymentMethod();
+		mCardFeeWarningTv.setVisibility(isVisible ? View.VISIBLE : View.GONE);
 	}
 
 	@Override

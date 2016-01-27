@@ -5,11 +5,12 @@ import android.content.res.Resources
 import android.location.Location
 import com.expedia.bookings.R
 import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.cars.BaseApiResponse
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.data.hotels.SuggestionV4
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.services.HotelServices
@@ -28,8 +29,15 @@ import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import kotlin.collections.emptyList
+import kotlin.collections.filter
+import kotlin.collections.first
+import kotlin.collections.firstOrNull
+import kotlin.collections.isNotEmpty
+import kotlin.collections.sortedBy
+import kotlin.collections.sortedByDescending
 
-public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices) {
+public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?) {
 
     // Inputs
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
@@ -78,7 +86,7 @@ public class HotelResultsViewModel(private val context: Context, private val hot
                 .put("guests", StrUtils.formatGuestString(context, params.guests()))
                 .format())
 
-        hotelServices.regionSearch(params).subscribe(object: Observer<HotelSearchResponse> {
+        hotelServices?.regionSearch(params)?.subscribe(object: Observer<HotelSearchResponse> {
             override fun onNext(it: HotelSearchResponse) {
                 if (it.hasErrors()) {
                     errorObservable.onNext(it.firstError)
@@ -114,7 +122,7 @@ public class HotelResultsViewModel(private val context: Context, private val hot
 public class HotelResultsPricingStructureHeaderViewModel(private val resources: Resources) {
     // Inputs
     val loadingStartedObserver = PublishSubject.create<Unit>()
-    val resultsDeliveredObserver = PublishSubject.create<HotelSearchResponse>()
+    val resultsDeliveredObserver = PublishSubject.create<Pair<List<Hotel>, HotelRate.UserPriceType>>()
 
     // Outputs
     val pricingStructureHeaderObservable = BehaviorSubject.create<String>()
@@ -125,9 +133,11 @@ public class HotelResultsPricingStructureHeaderViewModel(private val resources: 
         }
 
         resultsDeliveredObserver.subscribe { response ->
-            val hotelResultsCount = response.hotelList?.size ?: 0
+            val list = response.first
+            val priceType = response.second
+            val hotelResultsCount = list.size
             val header =
-                    when (response.userPriceType) {
+                    when (priceType) {
                         HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> resources.getQuantityString(R.plurals.hotel_results_pricing_header_total_price_for_stay_TEMPLATE, hotelResultsCount, hotelResultsCount)
                         else -> resources.getQuantityString(R.plurals.hotel_results_pricing_header_prices_avg_per_night_TEMPLATE, hotelResultsCount, hotelResultsCount)
                     }
@@ -137,7 +147,7 @@ public class HotelResultsPricingStructureHeaderViewModel(private val resources: 
     }
 }
 
-public class HotelResultsMapViewModel(val context: Context, val currentLocation: Location, val factory: IconGenerator) {
+public open class HotelResultsMapViewModel(val context: Context, val currentLocation: Location, val factory: IconGenerator) {
 
     var hotels: List<Hotel> = emptyList()
 
@@ -150,7 +160,7 @@ public class HotelResultsMapViewModel(val context: Context, val currentLocation:
 
     //outputs
     val markersObservable = PublishSubject.create<List<Hotel>>()
-    val newBoundsObservable = PublishSubject.create<LatLngBounds>()
+    val newBoundsObservable = BehaviorSubject.create<LatLngBounds>()
     val sortedHotelsObservable = PublishSubject.create<List<Hotel>>()
     val unselectedMarker = PublishSubject.create<Pair<Marker?, Hotel>>()
     val selectMarker = BehaviorSubject.create<Pair<Marker?, Hotel>>()
@@ -166,7 +176,6 @@ public class HotelResultsMapViewModel(val context: Context, val currentLocation:
     }
 
     init {
-
         mapBoundsSubject.subscribe {
             // Map bounds has changed(Search this area or map was animated to a region),
             // sort nearest hotels from center of screen
@@ -240,7 +249,8 @@ public class HotelResultsMapViewModel(val context: Context, val currentLocation:
         return hotel
     }
 
-    private fun getMapBounds(response: HotelSearchResponse): LatLngBounds {
+    fun getMapBounds(res: BaseApiResponse): LatLngBounds {
+        val response = res as HotelSearchResponse
         val searchRegionId = response.searchRegionId
         val currentLocationLatLng = LatLng(currentLocation.latitude, currentLocation.longitude)
 
@@ -260,7 +270,7 @@ public class HotelResultsMapViewModel(val context: Context, val currentLocation:
         //If neighborhood search, zoom to that neighborhood
         if (searchNeighborhood != null && searchNeighborhood.hotels.isNotEmpty()) {
             return boxHotels(searchNeighborhood.hotels)
-        //if current location is not within the search results, zoom to most "Dense" neighborhood
+            //if current location is not within the search results, zoom to most "Dense" neighborhood
         } else if (!isInsideSearchArea) {
             val mostInterestingNeighborhood: HotelSearchResponse.Neighborhood? = response.allNeighborhoodsInSearchRegion.sortedByDescending { it.score }.firstOrNull()
 
@@ -269,7 +279,7 @@ public class HotelResultsMapViewModel(val context: Context, val currentLocation:
             }
 
             return allHotelsBox
-        //If current location is near a neighborhood, zoom to closest neighborhood
+            //If current location is near a neighborhood, zoom to closest neighborhood
         } else if (closestHotelWithNeighborhood != null) {
             val closestNieghborhood = response.neighborhoodsMap.get(closestHotelWithNeighborhood.locationId)
             if (closestNieghborhood == null) {
@@ -277,13 +287,13 @@ public class HotelResultsMapViewModel(val context: Context, val currentLocation:
             } else {
                 return boxHotels(closestNieghborhood.hotels)
             }
-        //Default, zoom out and show all hotels
+            //Default, zoom out and show all hotels
         } else {
             return allHotelsBox
         }
     }
 
-    private fun sortByLocation(location: Location, hotels : List<Hotel>) : List<Hotel> {
+    fun sortByLocation(location: Location, hotels : List<Hotel>) : List<Hotel> {
         val hotelLocation = Location("other")
         val sortedHotels = hotels.sortedBy { h ->
             hotelLocation.latitude = h.latitude
@@ -293,7 +303,7 @@ public class HotelResultsMapViewModel(val context: Context, val currentLocation:
         return sortedHotels
     }
 
-    private fun boxHotels(hotels: List<Hotel>): LatLngBounds {
+    fun boxHotels(hotels: List<Hotel>): LatLngBounds {
         val box = LatLngBounds.Builder()
         for (hotel in hotels) {
             box.include(LatLng(hotel.latitude, hotel.longitude))

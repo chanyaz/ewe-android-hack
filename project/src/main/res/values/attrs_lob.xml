@@ -20,4 +20,7 @@
     <attr name="traveler_checkout_circle_drawable" format="reference" />
     <!-- Unexpanded space height on Checkout -->
     <attr name="checkout_unexpanded_space_height" format="reference" />
+    <!-- Payment Widget-->
+    <attr name="paymentWidgetLayout" format="reference" />
+
 </resources>

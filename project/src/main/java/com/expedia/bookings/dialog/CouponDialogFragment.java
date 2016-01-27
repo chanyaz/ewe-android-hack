@@ -25,8 +25,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.section.AfterChangeTextWatcher;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.WalletUtils;
-import com.mobiata.android.app.SimpleDialogFragment;
 
 /**
  * Shows a coupon entry dialog.
@@ -167,12 +165,7 @@ public class CouponDialogFragment extends DialogFragment {
 
 	private void applyCoupon() {
 		String couponCode = mCouponEditText.getText().toString();
-		if (WalletUtils.offerGoogleWalletCoupon(getActivity()) && WalletUtils.isCouponWalletCoupon(couponCode)) {
-			SimpleDialogFragment df = SimpleDialogFragment.newInstance(null, getString(R.string.wallet_coupon_not_applied_manually));
-			df.show(getFragmentManager(), "NO_WALLET_COUPON_FRAG");
-			dismiss();
-		}
-		else if (!TextUtils.isEmpty(couponCode)) {
+		if (!TextUtils.isEmpty(couponCode)) {
 			mListener.onApplyCoupon(couponCode);
 			mIsApplying = true;
 			updateViews();

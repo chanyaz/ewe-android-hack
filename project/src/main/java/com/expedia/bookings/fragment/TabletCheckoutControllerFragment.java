@@ -61,7 +61,6 @@ import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilit
 import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.utils.WalletUtils;
 import com.expedia.bookings.widget.SlideToWidgetJB;
 import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.Log;
@@ -275,17 +274,13 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void onLobSet(LineOfBusiness lob) {
-		if (mCurrentLob != null && mCurrentLob != lob) {
-			Db.clearGoogleWallet();
-			WalletUtils.unbindAllWalletDataFromBillingInfo(Db.getBillingInfo());
-		}
 		mCurrentLob = lob;
 
 		// Remove invalid credit cards when going from hotels -> flights
 		if (mCurrentLob == LineOfBusiness.FLIGHTS) {
 			BillingInfo billingInfo = Db.getBillingInfo();
 
-			boolean isValidCard = Db.getTripBucket().getFlight().isCardTypeSupported(billingInfo.getCardType());
+			boolean isValidCard = Db.getTripBucket().getFlight().isPaymentTypeSupported(billingInfo.getPaymentType());
 			if (!isValidCard) {
 				// We should probably be calling billingInfo.delete(getActivity()) instead, but due
 				// to race conditions, getActivity() can return null here. This is a less comprehensive
@@ -320,10 +315,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	public void setCheckoutState(CheckoutState state, boolean animate) {
 		mStateManager.setState(state, animate);
-	}
-
-	private boolean bookingWithGoogleWallet() {
-		return Db.getBillingInfo().isUsingGoogleWallet();
 	}
 
 	public void rebindCheckoutFragment() {
@@ -481,9 +472,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 			}
 			else if (state == CheckoutState.BOOKING) {
 				setShowBookingPercentage(1f);
-				if (bookingWithGoogleWallet()) {
-					setShowReadyForCheckoutPercentage(0f);
-				}
 				startBooking();
 			}
 			else if (state == CheckoutState.CONFIRMATION) {
@@ -625,12 +613,8 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	}
 
 	private void setShowBookingPercentage(float percentage) {
-		if (bookingWithGoogleWallet()) {
-			mFormContainer.setTranslationX(percentage * mFormContainer.getWidth());
-		}
-		else {
-			mCvvContainer.setTranslationX(percentage * -mCvvContainer.getWidth());
-		}
+		mCvvContainer.setTranslationX(percentage * -mCvvContainer.getWidth());
+
 		mBookingContainer.setTranslationX((1f - percentage) * mBookingContainer.getWidth());
 	}
 
@@ -923,20 +907,20 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void onSlideStart() {
-		CheckoutState stateTwo = bookingWithGoogleWallet() ? CheckoutState.BOOKING : CheckoutState.CVV;
+		CheckoutState stateTwo = CheckoutState.CVV;
 		startStateTransition(CheckoutState.READY_FOR_CHECKOUT, stateTwo);
 	}
 
 	@Override
 	public void onSlideProgress(float pixels, float total) {
-		CheckoutState stateTwo = bookingWithGoogleWallet() ? CheckoutState.BOOKING : CheckoutState.CVV;
+		CheckoutState stateTwo = CheckoutState.CVV;
 		mSlideProgress = pixels / mSlideFragment.getView().getWidth();
 		updateStateTransition(CheckoutState.READY_FOR_CHECKOUT, stateTwo, mSlideProgress);
 	}
 
 	@Override
 	public void onSlideAllTheWay() {
-		final CheckoutState stateTwo = bookingWithGoogleWallet() ? CheckoutState.BOOKING : CheckoutState.CVV;
+		final CheckoutState stateTwo = CheckoutState.CVV;
 		if (!BookingInfoUtils
 			.migrateRequiredCheckoutDataToDbBillingInfo(getActivity(), getLob(), Db.getTravelers().get(0))) {
 			//Somehow we don't have the information we need. This should be very rare, but it could happen.
@@ -981,7 +965,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Override
 	public void onSlideAbort() {
-		CheckoutState stateTwo = bookingWithGoogleWallet() ? CheckoutState.BOOKING : CheckoutState.CVV;
+		CheckoutState stateTwo = CheckoutState.CVV;
 		endStateTransition(CheckoutState.READY_FOR_CHECKOUT, stateTwo);
 		// 3371: Don't try to finish this state transition if we're offscreen
 		if (isAdded() && isResumed()) {
@@ -1081,12 +1065,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 		}
 		else {
 			if (BuildConfig.DEBUG) {
-				if (SettingUtils
-					.get(getActivity(), R.string.preference_force_google_wallet_error, false)) {
-					ServerError googleWalletError = new ServerError();
-					googleWalletError.setCode("GOOGLE_WALLET_ERROR");
-					results.addErrorToFront(googleWalletError);
-				}
 				if (SettingUtils.get(getActivity(), R.string.preference_force_passenger_category_error, false)) {
 					ServerError passengerCategoryError = new ServerError();
 					passengerCategoryError.setCode("INVALID_INPUT");
@@ -1136,7 +1114,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 					response.setProperty(property);
 					Db.getTripBucket().getHotel().setState(TripBucketItemState.PURCHASED);
 					Db.saveTripBucket(getActivity());
-					WalletUtils.unbindAllWalletDataFromBillingInfo(Db.getBillingInfo());
 					setCheckoutState(CheckoutState.CONFIRMATION, true);
 				}
 			}
@@ -1196,13 +1173,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Subscribe
 	public void onCancelUnhandledException(Events.UnhandledErrorDialogCancel event) {
-		// If we're booking via wallet, back out; otherwise sit on CVV screen
-		if (bookingWithGoogleWallet()) {
-			setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
-		}
-		else {
-			setCheckoutState(CheckoutState.CVV, true);
-		}
+		setCheckoutState(CheckoutState.CVV, true);
 	}
 
 	@Subscribe
@@ -1247,9 +1218,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 	@Subscribe
 	public void onBookingErrorDialogClick(Events.SimpleCallBackDialogOnClick event) {
 		setCheckoutState(CheckoutState.OVERVIEW, true);
-		if (bookingWithGoogleWallet()) {
-			return;
-		}
+
 		int callBackId = event.callBackId;
 		switch (callBackId) {
 		case SimpleCallbackDialogFragment.CODE_EXPIRED_CC:
@@ -1274,13 +1243,7 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 	@Subscribe
 	public void onBookingErrorDialogCancel(Events.SimpleCallBackDialogOnCancel event) {
-		// If we're booking via wallet, back out; otherwise sit on CVV screen
-		if (bookingWithGoogleWallet()) {
-			setCheckoutState(CheckoutState.READY_FOR_CHECKOUT, true);
-		}
-		else {
-			setCheckoutState(CheckoutState.CVV, true);
-		}
+		setCheckoutState(CheckoutState.CVV, true);
 	}
 
 	@Subscribe

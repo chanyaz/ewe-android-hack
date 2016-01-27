@@ -207,13 +207,14 @@
     <dimen name="account_button_text_padding">16dp</dimen>
     <dimen name="account_button_height">40dp</dimen>
     <dimen name="account_button_padding">0dp</dimen>
-    <dimen name="wallet_button_bottom_margin">8dp</dimen>
-    <dimen name="wallet_button_left_padding">0dp</dimen>
 
     <!-- Breakdown dialog -->
     <dimen name="breakdown_margin">10dp</dimen>
     <dimen name="breakdown_indentation">17dp</dimen>
     <dimen name="breakdown_text_margin">8dp</dimen>
+
+    <!-- Hotel information widget padding-->
+    <dimen name="widget_hotel_info_padding">18dp</dimen>
 
     <!-- Hotel Checkout -->
     <!-- -1px == match_parent forall screen sizes -->
@@ -281,7 +282,7 @@
     <dimen name="car_time_slider_text_container">110dp</dimen>
     <dimen name="car_search_list_image_container_height">134dp</dimen>
     <dimen name="car_search_list_image_container_margin">9dp</dimen>
-    <dimen name="car_search_details_container_height">35dp</dimen>
+    <dimen name="car_search_details_container_height">37dp</dimen>
 
     <!-- Car Details -->
     <dimen name="car_details_image_size">240dp</dimen>
@@ -383,5 +384,11 @@
 
     <!--Height of LOB box shadow height-->
     <dimen name="shadow_height">5dp</dimen>
+
+    <!-- px equivalents -->
+    <dimen name="two_px_allthethings">2dp</dimen>
+
+    <!-- CardView container margin -->
+    <dimen name="card_view_container_margin">9dp</dimen>
 
 </resources>

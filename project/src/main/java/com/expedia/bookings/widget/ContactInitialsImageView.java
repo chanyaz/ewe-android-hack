@@ -32,7 +32,7 @@ public class ContactInitialsImageView extends ImageView {
 
 	public ContactInitialsImageView(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.EBSwipeOutLayout, 0, 0);
+		TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.ContactDetailsCompleteness, 0, 0);
 
 		if (ta.hasValue(R.styleable.ContactDetailsCompleteness_state)) {
 			ContactDetailsCompletenessStatus direction = ContactDetailsCompletenessStatus.values()[ta.getInt(R.styleable.ContactDetailsCompleteness_state,

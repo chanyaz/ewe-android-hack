@@ -6,6 +6,8 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
 import com.expedia.bookings.data.cars.BaseApiResponse;
+import com.expedia.bookings.data.packages.PackageOffersResponse;
+import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.utils.Strings;
 
 public class HotelOffersResponse extends BaseApiResponse {
@@ -78,6 +80,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 		public boolean isSameDayDRR;
 		public boolean isPayLater;
 		public List<String> depositPolicy;
+		public boolean isMemberDeal;
 
 		public String depositPolicyAtIndex(int index) {
 			String policy = "";
@@ -120,6 +123,17 @@ public class HotelOffersResponse extends BaseApiResponse {
 
 	public static class ValueAdds {
 		public String description;
+	}
+
+	public static HotelOffersResponse convertToHotelOffersResponse(HotelOffersResponse hotelOffer, PackageOffersResponse packageOffer, PackageSearchParams searchParams) {
+		hotelOffer.checkInDate = searchParams.getCheckIn().toString();
+		hotelOffer.checkOutDate = searchParams.getCheckOut().toString();
+		hotelOffer.hotelRoomResponse = new ArrayList<>();
+		for (PackageOffersResponse.PackageHotelOffers offer : packageOffer.packageHotelOffers) {
+			offer.hotelOffer.productKey = offer.packageProductId;
+			hotelOffer.hotelRoomResponse.add(offer.hotelOffer);
+		}
+		return hotelOffer;
 	}
 
 }

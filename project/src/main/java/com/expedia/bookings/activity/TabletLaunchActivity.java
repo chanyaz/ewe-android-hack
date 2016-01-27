@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -31,6 +32,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.FacebookEvents;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.TuneUtils;
@@ -49,6 +51,11 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 
 	// Fragments
 	TabletLaunchControllerFragment mControllerFragment;
+
+	// when the system permission dialog is displayed, our activity is paused so we have to grab the response
+	// and post it after we resume and our fragments are available for events
+	private Events.PermissionEvent delayedPermissionEvent;
+	private boolean busRegistered;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -93,9 +100,19 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		super.onResume();
 		FacebookEvents.Companion.activateAppIfEnabledInConfig(this);
 		Events.register(this);
+		busRegistered = true;
 		Sp.loadSearchParamsFromDisk(this);
 		LaunchDb.getCollections(this);
 		TuneUtils.startTune(this);
+	}
+
+	@Override
+	protected void onResumeFragments() {
+		super.onResumeFragments();
+		if (delayedPermissionEvent != null) {
+			Events.post(delayedPermissionEvent);
+			delayedPermissionEvent = null;
+		}
 	}
 
 	@Override
@@ -103,6 +120,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		super.onPause();
 		FacebookEvents.Companion.deactivateAppIfEnabledInConfig(this);
 		Events.unregister(this);
+		busRegistered = false;
 	}
 
 	@Override
@@ -181,6 +199,34 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public final void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+		@NonNull int[] grantResults) {
+
+		boolean wasRationaleRequired = false;
+
+		switch (requestCode) {
+		case Constants.PERMISSION_REQUEST_LOCATION_WITH_RATIONALE:
+			wasRationaleRequired = true; //FALL THRU
+		case Constants.PERMISSION_REQUEST_LOCATION:
+			Events.PermissionEvent.PermissionResult result
+				= Events.PermissionEvent.PermissionResult.PermissionResult.from(grantResults[0]);
+			Events.PermissionEvent event = new Events.PermissionEvent(result, requestCode, permissions[0], wasRationaleRequired);
+
+			if (!busRegistered) {
+				// Will be handled when bus is registered - we get this result before onResume() is called
+				// 		- the system UI for permissions happens in a separate activity
+				delayedPermissionEvent = event;
+			}
+			else {
+				Events.post(event);
+			}
+			return;
+		default:
+			super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		}
 	}
 
 	/*

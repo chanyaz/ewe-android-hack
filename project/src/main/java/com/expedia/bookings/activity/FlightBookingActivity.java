@@ -30,7 +30,6 @@ import com.expedia.bookings.fragment.CVVEntryFragment;
 import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.FlightBookingFragment;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
-import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -113,17 +112,8 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 			mBookingFragment = new FlightBookingFragment();
 			ft.add(mBookingFragment, FlightBookingFragment.TAG);
 
-			if (mBookingFragment.willBookViaGoogleWallet()) {
-				// Start showing progress dialog; depend on the wallet client connecting for
-				// kicking off the reservation
-				showProgressDialog();
-				mBookingFragment.doBooking();
-			}
-			else {
-				mCVVEntryFragment = CVVEntryFragment.newInstance(Db.getBillingInfo());
-				ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
-			}
-
+			mCVVEntryFragment = CVVEntryFragment.newInstance(Db.getBillingInfo());
+			ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
 			ft.commit();
 
 			// If the debug setting is made to fake a price change, then fake the current price (by changing it)
@@ -195,16 +185,6 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 	}
 
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
-			mBookingFragment.onActivityResult(requestCode, resultCode, data);
-		}
-		else {
-			super.onActivityResult(requestCode, resultCode, data);
-		}
-	}
-
-	@Override
 	public void onBackPressed() {
 		// F1053: Do not let user go back when we are mid-download
 		if (!mBookingFragment.isBooking()) {
@@ -265,11 +245,6 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 	// Invalid CVV modes
 
 	public void setCvvErrorMode(boolean enabled) {
-		// If we're booking with Google Wallet, ignore this entirely
-		if (mBookingFragment.willBookViaGoogleWallet()) {
-			return;
-		}
-
 		mCvvErrorModeEnabled = enabled;
 
 		// Set the new title
@@ -344,11 +319,6 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 	@Subscribe
 	public void onSimpleDialogClick(Events.SimpleCallBackDialogOnClick event) {
 		int callbackId = event.callBackId;
-		// #1269: Don't do the invalid CC page jump if we're booking using Google Wallet
-		if (mBookingFragment.willBookViaGoogleWallet()) {
-			finish();
-			return;
-		}
 
 		switch (callbackId) {
 		case SimpleCallbackDialogFragment.CODE_INVALID_CC:
@@ -386,14 +356,6 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 		}
 	}
 
-	@Subscribe
-	public void onSimpleDialogCancel(Events.SimpleCallBackDialogOnCancel event) {
-		// If we're booking via wallet, back out; otherwise sit on CVV screen
-		if (mBookingFragment.willBookViaGoogleWallet()) {
-			finish();
-		}
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// BirthDateInvalidDialog
 
@@ -418,14 +380,6 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 	@Subscribe
 	public void onCallCustomerSupport(Events.UnhandledErrorDialogCallCustomerSupport event) {
 		SocialUtils.call(this, PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
-	}
-
-	@Subscribe
-	public void onCancelUnhandledException(Events.UnhandledErrorDialogCancel event) {
-		// If we're booking via wallet, back out; otherwise sit on CVV screen
-		if (mBookingFragment.willBookViaGoogleWallet()) {
-			finish();
-		}
 	}
 
 	@Subscribe

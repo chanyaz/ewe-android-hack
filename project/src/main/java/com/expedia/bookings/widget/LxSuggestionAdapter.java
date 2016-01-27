@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import java.util.List;
 
+import android.content.Context;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.SuggestionServices;
 import com.expedia.bookings.utils.StrUtils;
@@ -22,8 +23,12 @@ import rx.Subscription;
 
 public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 
-	protected Subscription getNearbySuggestions(String locale, String latLong, int siteId, Observer<List<Suggestion>> observer) {
-		return suggestionServices.getNearbyLxSuggestions(locale, latLong, siteId, observer);
+	public LxSuggestionAdapter(Context context) {
+		super(context);
+	}
+
+	protected Subscription getNearbySuggestions(String locale, String latLong, int siteId, String clientId, Observer<List<SuggestionV4>> observer) {
+		return suggestionServices.getNearbyLxSuggestions(locale, latLong, siteId, clientId, observer);
 	}
 
 	@Override
@@ -59,13 +64,13 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 			ButterKnife.inject(this, root);
 		}
 
-		public void bind(Suggestion suggestion) {
-			cityName.setText(StrUtils.formatAirportName(suggestion.shortName));
-			displayName.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.displayName)));
-			if (suggestion.iconType == Suggestion.IconType.HISTORY_ICON) {
+		public void bind(SuggestionV4 suggestion) {
+			cityName.setText(StrUtils.formatAirportName(suggestion.regionNames.shortName));
+			displayName.setText(Html.fromHtml(StrUtils.formatCityName(suggestion.regionNames.displayName)));
+			if (suggestion.iconType == SuggestionV4.IconType.HISTORY_ICON) {
 				dropdownImage.setImageResource(R.drawable.recents);
 			}
-			else if (Suggestion.CURRENT_LOCATION_ID.equalsIgnoreCase(suggestion.id)) {
+			else if (SuggestionV4.CURRENT_LOCATION_ID.equalsIgnoreCase(suggestion.gaiaId)) {
 				dropdownImage.setImageResource(R.drawable.ic_suggest_current_location);
 				displayName.setText(displayName.getContext().getString(R.string.current_location));
 				cityName.setVisibility(View.GONE);
@@ -80,7 +85,7 @@ public class LxSuggestionAdapter extends SuggestionBaseAdapter {
 	}
 
 	@Override
-	protected Subscription suggest(SuggestionServices service, Observer<List<Suggestion>> observer, CharSequence query) {
-		return service.getLxSuggestions(query.toString(), PointOfSale.getSuggestLocaleIdentifier(), observer);
+	protected Subscription suggest(SuggestionServices service, Observer<List<SuggestionV4>> observer, CharSequence query, String clientId) {
+		return service.getLxSuggestions(query.toString(), PointOfSale.getSuggestLocaleIdentifier(), clientId, observer);
 	}
 }

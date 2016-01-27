@@ -20,6 +20,17 @@ public class HotelReviewsPageView(context: Context) : LinearLayout(context) {
     val recyclerAdapter: HotelReviewsRecyclerAdapter = HotelReviewsRecyclerAdapter()
     val animation: ObjectAnimator
 
+    init {
+        View.inflate(getContext(), R.layout.hotel_reviews_page_widget, this)
+        recyclerView.adapter = recyclerAdapter
+
+        animation = ObjectAnimator.ofFloat(messageProgressLoading, "progress", 0f, 1f)
+        animation.repeatMode = ValueAnimator.RESTART
+        animation.repeatCount = ValueAnimator.INFINITE
+        animation.setDuration(1500)
+        animation.start()
+    }
+
     var viewModel: HotelReviewsPageViewModel by notNullAndObservable { vm ->
         vm.reviewsListObservable.subscribeVisibility(recyclerView)
         vm.messageProgressLoadingObservable.subscribeVisibility(messageProgressLoading)
@@ -36,16 +47,5 @@ public class HotelReviewsPageView(context: Context) : LinearLayout(context) {
                 recyclerAdapter.moreReviewsAvailable = moreReviewsAvailable
             }
         }
-    }
-
-    init {
-        View.inflate(getContext(), R.layout.hotel_reviews_page_widget, this)
-        recyclerView.adapter = recyclerAdapter
-
-        animation = ObjectAnimator.ofFloat(messageProgressLoading, "progress", 0f, 1f)
-        animation.repeatMode = ValueAnimator.RESTART
-        animation.repeatCount = ValueAnimator.INFINITE
-        animation.setDuration(1500)
-        animation.start()
     }
 }

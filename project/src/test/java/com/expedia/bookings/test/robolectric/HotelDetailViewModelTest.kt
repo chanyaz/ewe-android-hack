@@ -2,7 +2,8 @@ package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.test.HotelServicesRule
+import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.test.ServicesRule
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
@@ -12,7 +13,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.text.DecimalFormat
 import java.util.ArrayList
@@ -27,7 +27,7 @@ public class HotelDetailViewModelTest {
     // TODO: Improve HotelDetailViewModel test coverage
     //  -- TODO: Use MockHotelServiceTestRule (It provides helper functions to grab hotel responses. We shouldn't be creating mock hotel objects (see: makeHotel())
 
-    public var service: HotelServicesRule = HotelServicesRule()
+    public var service = ServicesRule(HotelServices::class.java)
         @Rule get
 
     private var vm: HotelDetailViewModel by Delegates.notNull()
@@ -38,7 +38,7 @@ public class HotelDetailViewModelTest {
     private val expectedTotalPriceWithMandatoryFees = 42f
 
     @Before fun before() {
-        vm = HotelDetailViewModel(RuntimeEnvironment.application, service.hotelServices(), endlessObserver { /*ignore*/ })
+        vm = HotelDetailViewModel(RuntimeEnvironment.application, service.services, endlessObserver { /*ignore*/ })
 
         offer1 = HotelOffersResponse()
         offer1.hotelId = "hotel1"

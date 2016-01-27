@@ -13,6 +13,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.HotelSuggestionViewModel
+import kotlin.text.replace
 
 public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 

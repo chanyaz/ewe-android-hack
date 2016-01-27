@@ -18,9 +18,10 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 
-import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.SuggestionServices;
+import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.LocationServices;
 
@@ -37,23 +38,29 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 
 	// Implementing class decides how to use the suggestion service to provide suggestions
 	protected abstract Subscription suggest(SuggestionServices suggestionServices,
-		Observer<List<Suggestion>> suggestionsObserver, CharSequence query);
-	protected abstract Subscription getNearbySuggestions(String locale, String latLong, int siteId, Observer<List<Suggestion>> observer);
+		Observer<List<SuggestionV4>> suggestionsObserver, CharSequence query, String clientId);
+	protected abstract Subscription getNearbySuggestions(String locale, String latLong, int siteId, String clientId, Observer<List<SuggestionV4>> observer);
 
 	private static final long MINIMUM_TIME_AGO = DateUtils.HOUR_IN_MILLIS;
 	private boolean showRecentSearch = true;
 	private boolean showNearby = false;
 
+	private Context context;
+
+	public SuggestionBaseAdapter(Context context) {
+		this.context = context;
+	}
+
 	@Inject
 	SuggestionServices suggestionServices;
 
-	private List<Suggestion> recentHistory = new ArrayList<>();
-	private List<Suggestion> nearbySuggestions = new ArrayList<>();
-	private List<Suggestion> suggestions = new ArrayList<>();
+	private List<SuggestionV4> recentHistory = new ArrayList<>();
+	private List<SuggestionV4> nearbySuggestions = new ArrayList<>();
+	private List<SuggestionV4> suggestions = new ArrayList<>();
 	private Subscription suggestSubscription;
 	private final SuggestFilter filter = new SuggestFilter();
 
-	private void updateSuggestionsBackingList(List<Suggestion> suggestions) {
+	private void updateSuggestionsBackingList(List<SuggestionV4> suggestions) {
 		this.suggestions = suggestions;
 	}
 
@@ -88,7 +95,7 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 		return convertView;
 	}
 
-	public void addNearbyAndRecents(List<Suggestion> list, Context ctx) {
+	public void addNearbyAndRecents(List<SuggestionV4> list, Context ctx) {
 		recentHistory.addAll(list);
 
 		long minTime = DateTime.now().getMillis() - MINIMUM_TIME_AGO;
@@ -99,7 +106,7 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 			showNearby = true;
 			String latlong = loc.getLatitude() + "|" + loc.getLongitude();
 
-			getNearbySuggestions(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().getSiteId(), suggestionsObserver);
+			getNearbySuggestions(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().getSiteId(), ServicesUtil.generateClientId(ctx), suggestionsObserver);
 		}
 		else {
 			suggestions.add(getDummySuggestionItem());
@@ -108,7 +115,7 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 		}
 	}
 
-	public void updateRecentHistory(List<Suggestion> list) {
+	public void updateRecentHistory(List<SuggestionV4> list) {
 		suggestions.removeAll(recentHistory);
 		recentHistory.clear();
 		recentHistory.addAll(list);
@@ -117,7 +124,7 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 	}
 
 	@Override
-	public Suggestion getItem(int position) {
+	public SuggestionV4 getItem(int position) {
 		if (suggestions == null || position >= suggestions.size()) {
 			return null;
 		}
@@ -138,18 +145,18 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 		@Override
 		protected FilterResults performFiltering(CharSequence query) {
 			FilterResults results = new FilterResults();
-			List<Suggestion> combinedSuggestionsList = new ArrayList<>();
+			List<SuggestionV4> combinedSuggestionsList = new ArrayList<>();
 			combinedSuggestionsList.add(getDummySuggestionItem());
 
 			if (Strings.isNotEmpty(query) && query.length() >= 3) {
 				cleanup();
-				suggestSubscription = suggest(suggestionServices, suggestionsObserver, query);
+				suggestSubscription = suggest(suggestionServices, suggestionsObserver, query, ServicesUtil.generateClientId(context));
 				showRecentSearch = false;
 				showNearby = false;
 			}
 			else {
 				// Default to show nearby and recent history
-				Set<Suggestion> suggestionsSet = new LinkedHashSet<Suggestion>();
+				Set<SuggestionV4> suggestionsSet = new LinkedHashSet<SuggestionV4>();
 				suggestionsSet.addAll(nearbySuggestions);
 				suggestionsSet.addAll(recentHistory);
 				combinedSuggestionsList.addAll(suggestionsSet);
@@ -167,13 +174,13 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 		}
 	}
 
-	private Suggestion getDummySuggestionItem() {
-		Suggestion dummySuggestionForDefaultAutofill = new Suggestion();
-		dummySuggestionForDefaultAutofill.id = DEFAULT_AUTOFILL_ITEM_ID;
+	private SuggestionV4 getDummySuggestionItem() {
+		SuggestionV4 dummySuggestionForDefaultAutofill = new SuggestionV4();
+		dummySuggestionForDefaultAutofill.gaiaId = DEFAULT_AUTOFILL_ITEM_ID;
 		return dummySuggestionForDefaultAutofill;
 	}
 
-	private final Observer<List<Suggestion>> suggestionsObserver = new Observer<List<Suggestion>>() {
+	private final Observer<List<SuggestionV4>> suggestionsObserver = new Observer<List<SuggestionV4>>() {
 		@Override
 		public void onCompleted() {
 			cleanup();
@@ -184,13 +191,13 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 		}
 
 		@Override
-		public void onNext(List<Suggestion> essSuggestions) {
+		public void onNext(List<SuggestionV4> essSuggestions) {
 			// Cache nearby
 			if (showNearby) {
 				nearbySuggestions.addAll(essSuggestions);
 			}
 
-			List<Suggestion> combinedSuggestionsList = new ArrayList<>();
+			List<SuggestionV4> combinedSuggestionsList = new ArrayList<>();
 			combinedSuggestionsList.add(getDummySuggestionItem());
 			combinedSuggestionsList.addAll(essSuggestions);
 			if (showRecentSearch) {

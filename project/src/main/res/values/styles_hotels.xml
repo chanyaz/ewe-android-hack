@@ -36,6 +36,8 @@
         <item name="skin_errorWidgetEditButtonStyle">@style/HotelButton</item>
         <item name="skin_rippleDrawable">@drawable/hotel_select_room_ripple</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
+        <item name="paymentWidgetLayout">@layout/payment_widget_v2</item>
+
     </style>
 
     <!--

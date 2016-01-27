@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.expedia.bookings.utils.Strings;
+
 public class HotelCheckoutParams {
 
 	@NotNull public String tripId;
@@ -55,7 +57,9 @@ public class HotelCheckoutParams {
 		queryMap.put("creditCardNumber", creditCardNumber);
 		queryMap.put("expirationDateYear", expirationDateYear);
 		queryMap.put("expirationDateMonth", expirationDateMonth);
-		queryMap.put("postalCode", postalCode);
+		if (!Strings.isEmpty(postalCode)) {
+			queryMap.put("postalCode", postalCode);
+		}
 		queryMap.put("tealeafTransactionId", tealeafTransactionId);
 		queryMap.put("emailOptIn", emailOptIn);
 

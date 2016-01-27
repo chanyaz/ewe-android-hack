@@ -1,61 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="Development" >
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Development" >
 
         <ListPreference
             android:entries="@array/api_names"
             android:entryValues="@array/api_names"
             android:key="@string/preference_which_api_to_use_key"
+            android:layout="@layout/preference"
             android:title="Select API" />
+
+        <Preference
+            android:title="Abacus Tests"
+            android:key="@string/preference_open_abacus_settings"
+            android:layout="@layout/preference"
+            android:summary="Click to view tests and change buckets" />
 
         <EditTextPreference
             android:defaultValue="localhost:3000"
             android:key="@string/preference_proxy_server_address"
+            android:layout="@layout/preference"
             android:summary="The address of your server/proxy (e.g., 192.168.0.5:3000 for proxy)"
             android:title="Server/Proxy Address" />
 
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="@string/preference_google_wallet_cvv_challenge"
-            android:summary="Tries to create a CVV challenge upon checkout using Google Wallet.  Not guaranteed."
-            android:title="Google Wallet CVV Challenge" />
-
         <Preference
             android:key="@string/preference_force_fs_db_update"
+            android:layout="@layout/preference"
             android:summary="If you think the internal FS.db is out of date"
             android:title="Force FlightStats DB Update" />
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="@string/preference_force_google_wallet_error"
-            android:summary="Force the GOOGLE_WALLET error to be added to the checkout response. Will be the primary error, no matter what."
-            android:title="Force Google Wallet error" />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
             android:key="@string/preference_enable_picasso_logging"
+            android:layout="@layout/preference"
             android:summary="Show detailed logging of Picasso activity."
             android:title="Enable Picasso Logging" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_enable_leakcanary"
+            android:layout="@layout/preference"
             android:summary="Enable super useful memory analysis tool (requires restart)"
             android:title="Enable LeakCanary" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Hotels" >
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Hotels" >
 
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/preference_suppress_hotel_bookings"
+            android:layout="@layout/preference"
             android:summary="Do hotel bookings, but suppress any actual booking from going through"
             android:title="Suppress Hotel Bookings" />
 
         <CheckBoxPreference
             android:key="@string/preference_filter_merchant_properties"
+            android:layout="@layout/preference"
             android:summary="Only return non-merchant hotels for testing"
             android:title="Filter Merchant Hotels" />
 
@@ -63,41 +68,46 @@
             android:defaultValue="@string/preference_fake_price_change_default"
             android:inputType="numberDecimal|numberSigned"
             android:key="@string/preference_fake_hotel_price_change"
+            android:layout="@layout/preference"
             android:summary="Fake a price change during checkout (e.g., 10.25 for a $10.25 price change)"
             android:title="Fake Hotel Price Change" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_fake_invalid_google_wallet_line_item"
-            android:summary="Add a bunk line item to our google wallet hotel checkout to cause unknown wallet error."
-            android:title="Cause unknown wallet error" />
-
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Cars" >
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Cars" >
 
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/preference_suppress_car_bookings"
+            android:layout="@layout/preference"
             android:summary="Do car bookings, but suppress any actual booking from going through"
             android:title="Suppress Car Bookings" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="LX" >
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="LX" >
 
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/preference_suppress_lx_bookings"
+            android:layout="@layout/preference"
             android:summary="Do LX bookings, but suppress any actual booking from going through"
             android:title="Suppress LX Bookings" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Flights" >
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Flights" >
 
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="@string/preference_suppress_flight_bookings"
+            android:layout="@layout/preference"
             android:summary="Do flight bookings, but suppress any actual booking from going through"
             android:title="Suppress Flight Bookings" />
 
@@ -105,6 +115,7 @@
             android:defaultValue="@string/preference_fake_price_change_default"
             android:inputType="numberDecimal|numberSigned"
             android:key="@string/preference_fake_flight_price_change"
+            android:layout="@layout/preference"
             android:summary="Fake a price change during checkout (e.g., 10.25 for a $10.25 price change)"
             android:title="Fake Flight Price Change" />
 
@@ -112,226 +123,59 @@
             android:defaultValue="@string/preference_flight_fake_obfees_default"
             android:inputType="numberDecimal|numberSigned"
             android:key="@string/preference_flight_fake_obfees"
+            android:layout="@layout/preference"
             android:summary="Fake some online booking fees.  Positive numbers only."
             android:title="Fake Flight ObFees" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_force_passenger_category_error"
+            android:layout="@layout/preference"
             android:summary="Force the main passenger's passenger category to be 'ADULT_CHILD' instead of 'ADULT'"
             android:title="Force a PassengerCategory error" />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Abacus" >
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="6714"
-            android:title="AA Abacus Test" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="7369"
-            android:title="Launch Screen NearBy Deals vs Collections" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="7373"
-            android:title="Hotel Result Rating Test" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="7370"
-            android:title="Flight Confirmation Car Cross sell" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="7535"
-            android:title="Hotel Search Sale Pin Green" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="7533"
-            android:title="Flight Confirmation Lx Cross sell" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="7532"
-            android:title="Hotels ETP book now/pay later search results" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="7612"
-            android:title="Hotel Itin Lx Cross sell" />
-
-        <ListPreference
-            android:entries="@array/abacus_hsr_map_choices"
-            android:entryValues="@array/abacus_hsr_map_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="7772"
-            android:title="Hotel HSR Map Icon" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="7769"
-            android:title="Car Rates Collapse Top Listing" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="7774"
-            android:title="Car Insurance Included CKO" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="7775"
-            android:title="Hotel Checkout Traveler to Payment" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="7777"
-            android:title="Hotel Coupon ETP Test" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="7973"
-            android:title="Hotel 3x points messaging" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="8126"
-            android:title="Hotel collapse amenities, policies, fees" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="8129"
-            android:title="Show hotel address and map in receipt" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="8148"
-            android:title="Payment collapse Google Wallet" />
-
-        <ListPreference
-            android:entries="@array/abacus_flight_missing_callout_choices"
-            android:entryValues="@array/abacus_flight_missing_callout_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="8128"
-            android:title="Flight Checkout Missing Traveler details Callout" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="8127"
-            android:title="Hotel CKO MER Email Guest opt/in/out" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="8369"
-            android:title="Split GT and LX Launch" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="8706"
-            android:title="Integration AA Test" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:key="8624"
-            android:title="Hotels AB Test" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_hotel_review_superlatives"
-            android:entryValues="@array/abacus_hotel_review_superlatives_values"
-            android:key="8688"
-            android:title="Hotels v2 Superlative reviews" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:key="9165"
-            android:summary="Select a test group"
-            android:title="LX Category Test" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:key="8692"
-            android:title="Hotels Recent Search AB Test" />
-        
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="Push" >
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Push" >
 
         <com.expedia.bookings.widget.GCMIdDialogPreference
             android:key="@string/preference_push_notification_gcm_id"
+            android:layout="@layout/preference"
             android:title="GCM Info" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_disable_push_registration"
+            android:layout="@layout/preference"
             android:summary="Don't tell the server about flights in your itineraries"
             android:title="Disable push registrations." />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_push_notification_any_flight"
+            android:layout="@layout/preference"
             android:summary="If we get a push notification for a flight, but can&apos;t find that flight locally, then just use any other available flight"
             android:title="Push notifications use local flight." />
 
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Location" >
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Location" >
 
         <EditTextPreference
             android:defaultValue=""
             android:key="@string/preference_fake_current_location"
+            android:layout="@layout/preference"
             android:summary="Type in as &apos;lat,lng&apos;.  Works on launcher and hotel search."
             android:title="Fake Current Location" />
 
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="@string/preference_force_new_location"
+            android:layout="@layout/preference"
             android:summary="Force launcher to fetch new location. Does not work if fake location set, remove fake location to force fetch."
             android:title="Force Location Fetch" />
 

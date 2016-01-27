@@ -6,7 +6,7 @@
     tools:ignore="UnusedResources" >
 
     <com.google.android.gms.maps.MapView
-        android:id="@+id/detailed_map_view"
+        android:id="@+id/details_map_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

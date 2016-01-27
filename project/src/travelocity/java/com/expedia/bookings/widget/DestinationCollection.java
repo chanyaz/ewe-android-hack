@@ -161,7 +161,7 @@ public class DestinationCollection extends FrameLayout implements View.OnClickLi
 			if (null == collectionToAdd.locations || collectionToAdd.locations.isEmpty()) {
 				// Show the message to user to enable location
 				NoLocationServicesDialog dialog = NoLocationServicesDialog.newInstance();
-				dialog.show(((FragmentActivity) getContext()).getSupportFragmentManager(), "NO_LOCATION_FRAG");
+				dialog.show(((FragmentActivity) getContext()).getSupportFragmentManager(), NoLocationServicesDialog.TAG);
 			}
 			else {
 				//Deeplink the current location to Hotel Mode

@@ -11,10 +11,8 @@ import android.text.Spanned
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import com.expedia.bookings.R
-import com.expedia.bookings.data.HotelMedia
-import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.User
+import com.expedia.bookings.data.*
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -106,7 +104,7 @@ class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<
     }
 }
 
-class HotelDetailViewModel(val context: Context, val hotelServices: HotelServices, val roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
+class HotelDetailViewModel(val context: Context, val hotelServices: HotelServices?, val roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) : RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
 
     override fun onGalleryItemClicked(item: Any) {
         galleryClickedSubject.onNext(Unit)
@@ -134,7 +132,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
     var etpOffersList = ArrayList<HotelOffersResponse.HotelRoomResponse>()
     var sectionBody: String by Delegates.notNull()
-    var commonList = ArrayList<String>()
+    var commonList = ArrayList<HotelOffersResponse.ValueAdds>()
 
     var isSectionExpanded = false
     val sectionBodyObservable = BehaviorSubject.create<String>()
@@ -345,6 +343,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         hasDiscountPercentageObservable.onNext(chargeableRateInfo?.isDiscountTenPercentOrBetter ?: false)
         hasVipAccessObservable.onNext(response.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess())
         promoMessageObservable.onNext(getPromoText(firstHotelRoomResponse))
+
         val priceToShowUsers = chargeableRateInfo?.priceToShowUsers ?: 0f
         val strikethroughPriceToShowUsers = chargeableRateInfo?.strikethroughPriceToShowUsers ?: 0f
         if (priceToShowUsers < strikethroughPriceToShowUsers) {
@@ -445,7 +444,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             if (rate.valueAdds != null) {
                 var unique = rate.valueAdds
                 if (!commonList.isEmpty()) {
-                    unique.removeAllRaw(commonList)
+                    unique.removeAll(commonList)
                 }
                 if (unique.size > 0) {
                     list.add(iRoom, context.getString(R.string.value_add_template, unique.get(0).description.toLowerCase(Locale.getDefault())))
@@ -557,7 +556,9 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         }
 
         val roomsLeft = roomOffer.currentAllotment.toInt()
-        return if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
+        return if (hasMemberDeal(roomOffer)) {
+            context.resources.getString(R.string.member_pricing)
+        } else if (roomsLeft > 0 && roomsLeft <= ROOMS_LEFT_CUTOFF) {
             context.resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft)
         } else if (roomOffer.isSameDayDRR) {
             context.resources.getString(R.string.tonight_only)
@@ -568,6 +569,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         }
     }
 
+    private fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse) : Boolean {
+        val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
+        return roomOffer.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)
+    }
 }
 
 val ROOMS_LEFT_CUTOFF = 5

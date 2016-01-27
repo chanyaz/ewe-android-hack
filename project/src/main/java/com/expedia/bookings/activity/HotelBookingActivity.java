@@ -26,7 +26,6 @@ import com.expedia.bookings.fragment.CVVEntryFragment.CVVEntryFragmentListener;
 import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.expedia.bookings.fragment.SimpleCallbackDialogFragment;
 import com.expedia.bookings.fragment.UnhandledErrorDialogFragment;
-import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.otto.Events.CreateTripDownloadRetry;
 import com.expedia.bookings.otto.Events.CreateTripDownloadRetryCancel;
@@ -89,16 +88,8 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 			mBookingFragment = new HotelBookingFragment();
 			ft.add(mBookingFragment, HotelBookingFragment.TAG);
 
-			if (mBookingFragment.willBookViaGoogleWallet()) {
-				// Start showing progress dialog; depend on the wallet client connecting for
-				// kicking off the reservation
-				showProgressDialog();
-				mBookingFragment.doBooking();
-			}
-			else {
-				mCVVEntryFragment = CVVEntryFragment.newInstance(Db.getBillingInfo());
-				ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
-			}
+			mCVVEntryFragment = CVVEntryFragment.newInstance(Db.getBillingInfo());
+			ft.add(R.id.cvv_frame, mCVVEntryFragment, CVVEntryFragment.TAG);
 
 			ft.commit();
 		}
@@ -158,16 +149,6 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 
 		if (mKillReceiver != null) {
 			mKillReceiver.onDestroy();
-		}
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
-			mBookingFragment.onActivityResult(requestCode, resultCode, data);
-		}
-		else {
-			super.onActivityResult(requestCode, resultCode, data);
 		}
 	}
 
@@ -260,11 +241,6 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 	// Invalid CVV modes
 
 	public void setCvvErrorMode(boolean enabled) {
-		// If we're booking with Google Wallet, ignore this entirely
-		if (mBookingFragment.willBookViaGoogleWallet()) {
-			return;
-		}
-
 		mCvvErrorModeEnabled = enabled;
 
 		// Set the new title
@@ -343,11 +319,6 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 		case SimpleCallbackDialogFragment.CODE_INVALID_CC:
 		case SimpleCallbackDialogFragment.CODE_INVALID_POSTALCODE:
 		case SimpleCallbackDialogFragment.CODE_INVALID_PAYMENT:
-			// #1269: Don't do the invalid CC page jump if we're booking using Google Wallet
-			if (!mBookingFragment.willBookViaGoogleWallet()) {
-				launchHotelPaymentCreditCardFragment();
-			}
-
 			finish();
 			break;
 		case SimpleCallbackDialogFragment.CODE_NAME_ONCARD_MISMATCH:
@@ -364,14 +335,6 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 		}
 	}
 
-	@Subscribe
-	public void onSimpleDialogCancel(Events.SimpleCallBackDialogOnCancel event) {
-		// If we're booking via wallet, back out; otherwise sit on CVV screen
-		if (mBookingFragment.willBookViaGoogleWallet()) {
-			finish();
-		}
-	}
-
 	//////////////////////////////////////////////////////////////////////////
 	// UnhandledErrorDialogFragment
 
@@ -383,14 +346,6 @@ public class HotelBookingActivity extends FragmentActivity implements CVVEntryFr
 	@Subscribe
 	public void onCallCustomerSupport(Events.UnhandledErrorDialogCallCustomerSupport event) {
 		SocialUtils.call(this, PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser()));
-	}
-
-	@Subscribe
-	public void onCancelUnhandledException(Events.UnhandledErrorDialogCancel event) {
-		// If we're booking via wallet, back out; otherwise sit on CVV screen
-		if (mBookingFragment.willBookViaGoogleWallet()) {
-			finish();
-		}
 	}
 
 	///////////////////////////////////

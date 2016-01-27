@@ -37,7 +37,7 @@ public class HotelMapViewTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         val viewGroup = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_map_widget, null) as FrameLayout
         hotelMapView = viewGroup.findViewById(R.id.hotel_map_view) as HotelMapView
-        val detailsMapView = viewGroup.findViewById(R.id.detailed_map_view) as MapView
+        val detailsMapView = viewGroup.findViewById(R.id.details_map_view) as MapView
         var detailsStub = hotelMapView.findViewById(R.id.stub_map) as FrameLayout
         viewGroup.removeView(detailsMapView);
         detailsStub.addView(detailsMapView)

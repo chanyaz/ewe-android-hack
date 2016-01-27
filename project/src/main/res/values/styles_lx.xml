@@ -51,6 +51,8 @@
         <item name="skin_lxErrorCurrentLocationText">@string/error_lx_current_location_search_message</item>
         <item name="skin_lxErrorWidgetDrawable">@drawable/error_lx</item>
         <item name="skin_rippleDrawable">@drawable/lx_button_ripple</item>
+        <item name="paymentWidgetLayout">@layout/payment_widget</item>
+
     </style>
 
     <style name="V2.Theme.LX.Transport" parent="V2.Theme.LX">
@@ -71,7 +73,7 @@
         <item name="skin_lxErrorNoResultsText">@string/gt_error_current_location_no_results</item>
         <item name="skin_lxErrorCurrentLocationText">@string/error_gt_current_location_search_message</item>
         <item name="skin_lxErrorWidgetDrawable">@drawable/error_gt</item>
-
+        <item name="skin_rippleDrawable">@drawable/gt_button_ripple</item>
     </style>
 
     <!--

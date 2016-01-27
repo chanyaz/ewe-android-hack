@@ -94,7 +94,7 @@ public class FlightStatsDbUtils {
 			Log.i("Static database does not exist, creating it.");
 			createDb = true;
 		}
-		else if (isRelease) {
+		else {
 			// Check that we have the latest version of the db
 			boolean doUpgrade = false;
 			File versionFile = context.getFileStreamPath(DB_VERSION_FILE);

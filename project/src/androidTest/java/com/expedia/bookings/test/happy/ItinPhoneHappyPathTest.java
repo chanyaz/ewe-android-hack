@@ -61,7 +61,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		boolean isInboundFlightDepartureAtStandardOffset = checkInboundFlightDepartureAtStandardOffset();
 
 		// Outbound flight assertions
-		DataInteraction outboundFlightRow = TripsScreen.tripsListItem().atPosition(1);
+		DataInteraction outboundFlightRow = TripsScreen.tripsListItem().atPosition(2);
 		outboundFlightRow.onChildView(withId(R.id.flight_status_bottom_line)).check(matches(
 			withText(isOutboundFlightDepartureAtStandardOffset ? "From SFO at 12:32 PM" : "From SFO at 11:32 AM")));
 		outboundFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
@@ -92,14 +92,14 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		outboundFlightRow.onChildView(withId(R.id.flight_status_bottom_line)).perform(scrollTo(), click());
 
 		// Air attach assertions
-		DataInteraction airAttachRow = TripsScreen.tripsListItem().atPosition(2);
+		DataInteraction airAttachRow = TripsScreen.tripsListItem().atPosition(3);
 		String airAttachMessage = getListItemValues(airAttachRow, R.id.itin_air_attach_text_view);
 		screenshot("Air Attach");
 		assertEquals("Because you booked a flight", airAttachMessage);
 		assertViewWithTextIsDisplayed(R.id.itin_air_attach_expiration_date_text_view, "1 day");
 
 		// Car assertions
-		DataInteraction carRow = TripsScreen.tripsListItem().atPosition(3);
+		DataInteraction carRow = TripsScreen.tripsListItem().atPosition(4);
 		String carTitle = getListItemValues(carRow, R.id.header_text_view);
 		carRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
 		screenshot("Car Itin");
@@ -107,7 +107,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		carRow.onChildView(withText(containsString("Pick up"))).perform(scrollTo(), click());
 
 		// Return flight assertions
-		DataInteraction returnFlightRow = TripsScreen.tripsListItem().atPosition(4);
+		DataInteraction returnFlightRow = TripsScreen.tripsListItem().atPosition(5);
 		String returnFlightAirportTimeStr = getListItemValues(returnFlightRow, R.id.flight_status_bottom_line);
 		assertEquals(isInboundFlightDepartureAtStandardOffset ? "From DTW at 10:59 PM" : "From DTW at 9:59 PM",
 			returnFlightAirportTimeStr);
@@ -117,7 +117,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 
 
 		// Lx assertions
-		DataInteraction lxRow = TripsScreen.tripsListItem().atPosition(5);
+		DataInteraction lxRow = TripsScreen.tripsListItem().atPosition(6);
 		String lxTitle = getListItemValues(lxRow, R.id.header_text_view);
 		screenshot("LX Itin");
 		final String expectedLxTitle = "Explorer Pass: Choose 4 Museums, Attractions, & Tours: Explorer Pass - Chose 4 Attractions & Tours";
@@ -131,7 +131,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		boolean isPackageInFlightDepartureAtStandardOffset = checkPackageInboundFlightDepartureAtStandardOffset();
 
 		// Pacakage outbound flight assertions
-		DataInteraction pckgOutboundFlightRow = TripsScreen.tripsListItem().atPosition(6);
+		DataInteraction pckgOutboundFlightRow = TripsScreen.tripsListItem().atPosition(7);
 		String pckgOutboundFlightAirportTimeStr = getListItemValues(pckgOutboundFlightRow,
 			R.id.flight_status_bottom_line);
 		assertEquals(isPackageOutboundFlightDepartureAtStandardOffset ? "From SFO at 5:00 AM" : "From SFO at 4:00 AM",
@@ -160,7 +160,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		pckgOutboundFlightRow.onChildView(withText(pckgOutboundFlightAirportTimeStr)).perform(scrollTo(), click());
 
 		// Package hotel assertions
-		DataInteraction pckgHotelRow = TripsScreen.tripsListItem().atPosition(7);
+		DataInteraction pckgHotelRow = TripsScreen.tripsListItem().atPosition(8);
 		String pckgHotelTitle = getListItemValues(pckgHotelRow, R.id.header_text_view);
 		final String expectedPckgHotelTitle = "Caesars Palace";
 		assertEquals(expectedPckgHotelTitle, pckgHotelTitle);
@@ -178,7 +178,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		pckgHotelRow.onChildView(withText(containsString("Check in"))).perform(scrollTo(), click());
 
 		// Package return flight assertions
-		DataInteraction pckgReturnFlightRow = TripsScreen.tripsListItem().atPosition(8);
+		DataInteraction pckgReturnFlightRow = TripsScreen.tripsListItem().atPosition(10);
 		String pckgReturnFlightAirportTimeStr = getListItemValues(pckgReturnFlightRow, R.id.flight_status_bottom_line);
 		assertEquals(isPackageInFlightDepartureAtStandardOffset ? "From LAS at 11:00 AM" : "From LAS at 10:00 AM",
 			pckgReturnFlightAirportTimeStr);
@@ -187,7 +187,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		pckgReturnFlightRow.onChildView(withText(pckgReturnFlightAirportTimeStr)).perform(scrollTo(), click());
 
 		// Cruise
-		DataInteraction cruiseRow = TripsScreen.tripsListItem().atPosition(9);
+		DataInteraction cruiseRow = TripsScreen.tripsListItem().atPosition(11);
 		String cruiseTitle = getListItemValues(cruiseRow, R.id.header_text_view);
 		screenshot("Cruise");
 		final String expectedCruiseTitle = "Cruise Card";

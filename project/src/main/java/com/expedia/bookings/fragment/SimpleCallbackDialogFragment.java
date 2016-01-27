@@ -29,8 +29,6 @@ public class SimpleCallbackDialogFragment extends DialogFragment {
 
 	public static final int CODE_FLIGHT_ROUTES_FAILURE = 200;
 
-	public static final int CODE_WALLET_PROMO_APPLY_ERROR = 300;
-
 	public static final int CODE_TABLET_FLIGHTS_INFANT_CHOOSER = 400;
 	public static final int CODE_TABLET_MISMATCHED_ITEMS = 401;
 	public static final int CODE_TABLET_NO_NET_CONNECTION_HOTEL_DETAILS = 402;

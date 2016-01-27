@@ -50,14 +50,12 @@
     <dimen name="account_button_points_text_size">15sp</dimen>
     <dimen name="account_rewards_container_height">23dp</dimen>
     <dimen name="card_icon_padding">6dp</dimen>
-    <dimen name="wallet_button_bottom_margin">-2dp</dimen>
-    <dimen name="wallet_button_left_padding">13.5dp</dimen>
 
     <!-- Search Results -->
     <dimen name="results_list_header_text_size">16sp</dimen>
     <dimen name="results_list_header_height">43dp</dimen>
-    <dimen name="results_list_header_height_expanded">63dp</dimen>
-    <dimen name="results_list_header_reveal_height">20dp</dimen>
+    <dimen name="results_list_header_height_expanded">68dp</dimen>
+    <dimen name="results_list_header_reveal_height">25dp</dimen>
     <dimen name="results_list_header_text_margin_top">10dp</dimen>
     <dimen name="results_list_subtitle_text_margin_top">30dp</dimen>
     <dimen name="results_guest_picker_padding_x">19dp</dimen>

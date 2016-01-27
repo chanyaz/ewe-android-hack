@@ -12,6 +12,7 @@ import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.FontCache
@@ -28,6 +29,8 @@ import com.expedia.util.subscribeVisibility
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.*
+import kotlin.collections.firstOrNull
+import kotlin.collections.indexOfFirst
 import kotlin.properties.Delegates
 
 public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {

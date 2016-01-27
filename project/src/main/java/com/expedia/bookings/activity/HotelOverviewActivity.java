@@ -17,7 +17,6 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.fragment.HotelOverviewFragment;
 import com.expedia.bookings.fragment.HotelOverviewFragment.BookingOverviewFragmentListener;
-import com.expedia.bookings.fragment.WalletFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.HotelUtils;
@@ -90,16 +89,6 @@ public class HotelOverviewActivity extends FragmentActivity implements BookingOv
 		}
 		clearCCNumber();
 		super.onBackPressed();
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (WalletFragment.isRequestCodeFromWalletFragment(requestCode)) {
-			mBookingOverviewFragment.onActivityResult(requestCode, resultCode, data);
-		}
-		else {
-			super.onActivityResult(requestCode, resultCode, data);
-		}
 	}
 
 	@Override

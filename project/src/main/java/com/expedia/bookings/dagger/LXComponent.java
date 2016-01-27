@@ -1,7 +1,7 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.LXScope;
-import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.presenter.lx.LXCheckoutPresenter;
 import com.expedia.bookings.presenter.lx.LXDetailsPresenter;
 import com.expedia.bookings.presenter.lx.LXResultsPresenter;
@@ -26,5 +26,5 @@ public interface LXComponent {
 	void inject(LXCheckoutSummaryWidget lxCheckoutSummaryWidget);
 	void inject(LXConfirmationWidget lxConfirmationWidget);
 
-	Observable<Suggestion> currentLocationSuggestionObservable();
+	Observable<SuggestionV4> currentLocationSuggestionObservable();
 }

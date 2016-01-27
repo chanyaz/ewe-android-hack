@@ -203,10 +203,10 @@
 
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_credit_debit_label">信用卡/扣帳卡</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_google_wallet_label">Google 電子錢包</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">旅客資料</string>
+    <!-- Text for Android pay label -->
+    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">輸入您的資料</string>
     <!-- Text for enter payment details line 1 -->
@@ -874,15 +874,15 @@
     <string name="photos_for_TEMPLATE">%s的照片</string>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
     <plurals name="n_rooms_left_TEMPLATE">
-        <item quantity="zero">僅餘 %s 間客房</item>
-        <item quantity="one">僅餘 %s 間客房</item>
-        <item quantity="two">僅餘 %s 間客房</item>
-        <item quantity="few">僅餘 %s 間客房</item>
-        <item quantity="many">僅餘 %s 間客房</item>
-        <item quantity="other">僅餘 %s 間客房</item>
+        <item quantity="zero">我們的 App 尚餘 %s 間客房</item>
+        <item quantity="one">我們的 App 尚餘 %s 間客房</item>
+        <item quantity="two">我們的 App 尚餘 %s 間客房</item>
+        <item quantity="few">我們的 App 尚餘 %s 間客房</item>
+        <item quantity="many">我們的 App 尚餘 %s 間客房</item>
+        <item quantity="other">我們的 App 尚餘 %s 間客房</item>
     </plurals>
     <!-- Title for the reviews section after we get the property name -->
-    <string name="reviews_for_TEMPLATE">%1$s的評論</string>
+    <string name="reviews_for_TEMPLATE">%1$s的評價</string>
     <!-- Information for the review about who submitted it and when -->
     <string name="submitted_by_on_date_TEMPLATE">%1$s 於 %2$s</string>
 
@@ -1725,13 +1725,15 @@
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class. For example: "4h 10m - Economy (K)" -->
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
     <!-- Label for "coach" cabin code -->
-    <string name="cabin_code_coach">經濟客位</string>
+    <string name="cabin_code_coach">經濟艙</string>
+    <!-- Label for "coach" cabin code -->
+    <string name="flight_class_selection">經濟艙</string>
     <!-- Label for "premium coach" cabin code -->
     <string name="cabin_code_premium_coach">特等經濟艙</string>
     <!-- Label for "business" cabin code -->
-    <string name="cabin_code_business">商務</string>
+    <string name="cabin_code_business">商務艙</string>
     <!-- Label for "first" cabin code -->
-    <string name="cabin_code_first">頭等客位</string>
+    <string name="cabin_code_first">頭等艙</string>
     <!-- Button label for selecting flight -->
     <string name="select_flight">選擇航班</string>
     <!-- Template for where the flight is departing from.  %s is the city, e.g. "Depart from San Francisco, CA" -->
@@ -1762,8 +1764,6 @@
     <string name="select_payment">選擇付款</string>
     <!-- Select payment sentence case -->
     <string name="select_payment_sentence_case">付款資料</string>
-    <!-- Select payment sentence case AB Test variate1 -->
-    <string name="select_payment_sentence_case_variate1">輸入付款資料</string>
     <!-- Select payment sentence case AB Test variate2 -->
     <string name="select_payment_sentence_case_variate2">付款</string>
     <!-- Select payment callout AB Test variate2 -->
@@ -1855,15 +1855,19 @@
     <!-- Slide-to-book widget prompt for flights -->
     <string name="slide_to_book_flight">滑動來預訂機票</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_TEMPLATE">您的信用卡將被收取 %1$s</string>
+    <string name="your_card_will_be_charged_template">您的信用卡將被收取 {dueamount}</string>
+    <!-- Your are using pwp points -->
+    <string name="you_are_using_expedia_points_TEMPLATE">您將使用 {points} 點 ({amount}) Expedia+ 積分</string>
+    <!-- Payment through card + pwp points -->
+    <string name="payment_through_card_and_pwp_points">您將使用 {points} 點 ({amount}) Expedia+ 積分\n您的信用卡將被收取 {dueamount}</string>
     <!-- Your card will be charged -->
-    <string name="your_card_will_be_charged_plus_airline_fee_TEMPLATE">您的信用卡將被收取 %1$s (加航空公司手續費)</string>
+    <string name="your_card_will_be_charged_plus_airline_fee_template">您的信用卡將被收取 {dueamount} (加航空公司手續費)</string>
     <!-- Cars amount due today without a required credit card -->
-    <string name="amount_due_today_TEMPLATE">今天須付金額：%1$s</string>
+    <string name="amount_due_today_template">今天須付金額：{dueamount}</string>
     <!-- Amount to be paid now -->
-    <string name="Amount_to_be_paid_now_TEMPLATE">現須付金額：%1$s</string>
+    <string name="amount_to_be_paid_now_TEMPLATE">現須付金額：{dueamount}</string>
     <!-- String for non-merchant hotel billing policy e.g.: $102.80 Collected by the hotel -->
-    <string name="collected_by_the_hotel_TEMPLATE">酒店將收取：%1$s</string>
+    <string name="to_be_collected_by_the_hotel_TEMPLATE">酒店將收取：{dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">完成預訂</string>
     <!-- Checkout menu item -->
@@ -1881,7 +1885,7 @@
     <!-- Sign out -->
     <string name="sign_out">登出</string>
     <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">您將獲得 %1$s 分 — App 內預訂可享 3 倍積分！</string>
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">賺取 %1$s 分 — 用 App 預訂可享 3 倍積分！</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">您這次預訂將獲得 %1$s 分！</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -1900,6 +1904,8 @@
     <string name="please_enter_a_valid_email_address">請輸入有效的電郵地址</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">於酒店支付的費用</string>
+    <!-- Row label for when we show resort fees as its own line item -->
+    <string name="fees_due_at_hotel">於酒店支付的費用</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">應付 {brand}</string>
     <!-- Due to expedia today - today -->
@@ -1961,10 +1967,6 @@
     <!-- Enter travler info button text -->
     <string name="enter_traveler_info">旅客資料</string>
     <!-- Traveler Details (for flights) -->
-    <string name="traveler_details">主要旅客資料</string>
-    <!-- AB test variate 1 - Traveler Details (for flights) -->
-    <string name="traveler_details_variate1">輸入主要旅客資料</string>
-    <!-- AB test variate 2 - Traveler Details (for flights) -->
     <string name="traveler_details_variate2">主要旅客</string>
     <!-- Saved button for traveler/payment -->
     <string name="saved_button">已儲存</string>
@@ -1982,49 +1984,29 @@
     <string name="add_new_creditcard">新增信用卡</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">房客資料</string>
+    <!-- Guest all fields are required -->
+    <string name="guest_field_required">所有欄位均須填寫。</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">成人 %1$s 資料</string>
-    <!-- AB test variate 1 - Add adult traveler number template -->
-    <string name="add_adult_number_variate1_TEMPLATE">輸入成人 %1$s 資料</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
     <string name="add_adult_number_variate2_TEMPLATE">成人 %1$s</string>
     <!-- Add adult traveler details label -->
-    <string name="add_adult">成人資料</string>
-    <!-- AB test variate 1 - Add adult traveler details label -->
-    <string name="add_adult_variate1">輸入成人資料</string>
-    <!-- AB test variate 2 - Add adult traveler details label -->
     <string name="add_adult_variate2">成人</string>
     <!-- Add child traveler number template -->
     <string name="add_child_number_TEMPLATE">小童 %1$s 資料</string>
     <!-- Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_TEMPLATE">%1$s 歲旅客資料</string>
-    <!-- AB test variate 1 - Add child traveler number template. We need to show the age of each child passenger -->
-    <string name="add_child_with_age_variate1_TEMPLATE">輸入 %1$s 歲旅客資料</string>
-    <!-- Add child variate 2 - traveler number template. We need to show the age of each child passenger -->
     <string name="add_child_with_age_variate2_TEMPLATE">%1$s 歲旅客</string>
     <!-- Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_TEMPLATE">手抱嬰幼兒 %1$s 資料</string>
-    <!-- AB test variate 1 - Add infant in lap traveler number template -->
-    <string name="add_infant_in_lap_number_variate1_TEMPLATE">輸入手抱嬰幼兒 %1$s 資料</string>
     <!-- AB test variate 2 - Add infant in lap traveler number template -->
     <string name="add_infant_in_lap_number_variate2_TEMPLATE">手抱嬰幼兒 %1$s</string>
     <!-- Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap">手抱嬰幼兒資料</string>
-    <!-- Ab test variate 1 - Add just one infant in lap, travelers checkout screen -->
-    <string name="add_infant_in_lap_variate1">輸入手抱嬰幼兒資料</string>
-    <!-- Ab test variate 2 - Add just one infant in lap, travelers checkout screen -->
     <string name="add_infant_in_lap_variate2">手抱嬰幼兒</string>
     <!-- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_TEMPLATE">佔位嬰幼兒 %1$s 資料</string>
-    <!-- AB test variate 1- Add infant in seat traveler number template -->
-    <string name="add_infant_in_seat_number_variate1_TEMPLATE">輸入佔位嬰幼兒 %1$s 資料</string>
     <!-- AB test variate 2- Add infant in seat traveler number template -->
     <string name="add_infant_in_seat_number_variate2_TEMPLATE">佔位嬰幼兒 %1$s</string>
     <!-- Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat">佔位嬰幼兒資料</string>
-    <!-- AB test variate 1 - Add just one infant in seat, travelers checkout screen -->
-    <string name="add_infant_in_seat_variate1">輸入佔位嬰幼兒資料</string>
-    <!-- AB test variate 2 - Add just one infant in seat, travelers checkout screen -->
     <string name="add_infant_in_seat_variate2">佔位嬰幼兒</string>
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">如旅客姓名與政府簽發附有照片的身分證明不符，可能會被拒登機。</string>
@@ -2053,6 +2035,10 @@
     <string name="first_name_field_text">名字 (英文)</string>
     <!-- last name -->
     <string name="last_name_field_text">姓氏 (英文)</string>
+    <!-- Template for hint on first and last name fields. For example: "Last name (e.g. Chan)"
+    For English locale we want to show "e.g." and for all non-English we want to show "example:"-->
+    <string name="hint_name_example_TEMPLATE">%1$s (例：%2$s)</string>
+
     <!-- Cardholder -->
     <string name="cardholder">持卡人</string>
     <!-- email disclaimer -->
@@ -2225,10 +2211,10 @@
     <string name="add_to_your_trip">添加到您的行程</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">%s酒店</string>
+    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
+    <string name="hotels_guest_TEMPLATE">1 間客房, %s 位旅客</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">%s租車</string>
-    <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Activities in San Francisco" -->
-    <string name="lx_in_TEMPLATE">%s的活動</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">其他指示</string>
     <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
@@ -2516,17 +2502,23 @@
     <string name="search_error">搜尋錯誤</string>
     <!-- Search by hotel id, when we don't know the hotel name.  %s is the id.  Example: "Hotel 152352" -->
     <string name="search_hotel_id_TEMPLATE">酒店 %s</string>
+    <!-- Expedia Member Discount for a given property, AB test -->
+    <string name="member_pricing">會員價</string>
 
     <!-- Expedia urgency messaging indicating the number of rooms left -->
     <plurals name="num_rooms_left">
-        <item quantity="one">尚餘 %d 間客房！</item>
-        <item quantity="two">尚餘 %d 間客房</item>
-        <item quantity="many">尚餘 %d 間客房</item>
-        <item quantity="other">尚餘 %d 間客房</item>
+        <item quantity="one">我們的 App 尚餘 %d 間客房！</item>
+        <item quantity="two">我們的 App 尚餘 %d 間客房</item>
+        <item quantity="many">我們的 App 尚餘 %d 間客房</item>
+        <item quantity="other">我們的 App 尚餘 %d 間客房</item>
     </plurals>
 
+    <!-- Dialog message asking user to enable Location permission in Settings (Marshmallow+). -->
+    <string name="EnableLocationPermissionSettings_TEMPLATE">如需使用目前位置，請先允許 {brand} 取得您的位置。\n\n如需啟用有關功能，請前往「設定」選取「權限」並啟用「位置」。</string>
+    <string name="go_to_settings">前往「設定」</string>
+
     <!-- Dialog message asking user if they want to enable a location provider. -->
-    <string name="EnableLocationSettings">如需使用「目前位置」，必須先於「設定」啟用「位置」來源。\n\n是否立即進入「設定」並啟用？</string>
+    <string name="EnableLocationSettings">如需使用「目前位置」，必須先於「設定」啟用「位置」來源。\n\n立即到「設定」啟用此功能？</string>
     <!-- Message displayed when user has disabled finding the device's location. -->
     <string name="ProviderDisabled">您的定位服務已停用。請重新啟用以根據您的地點進行搜尋。</string>
 
@@ -2855,10 +2847,10 @@
     <!-- Warning if there are only a few rooms left where %d represents the number of rooms left -->
     <plurals name="number_of_rooms_left">
         <item quantity="zero">我們的 App 已沒有房！</item>
-        <item quantity="one">僅剩下 1 間客房！</item>
-        <item quantity="two">僅剩下 %d 間客房！</item>
-        <item quantity="many">僅剩下 %d 間客房！</item>
-        <item quantity="other">僅剩下 %d 間客房！</item>
+        <item quantity="one">我們的 App 尚餘 1 間客房！</item>
+        <item quantity="two">我們的 App 尚餘 %d 間客房！</item>
+        <item quantity="many">我們的 App 尚餘 %d 間客房！</item>
+        <item quantity="other">我們的 App 尚餘 %d 間客房！</item>
     </plurals>
     <!-- The text we use to show room info for expanded room -->
     <string name="room_information">客房資料</string>
@@ -2945,6 +2937,12 @@
     <string name="unknown">未明</string>
 
     <!-- Expedia Accounts -->
+    <!-- Label for messaging on sign in Variate 1 -->
+    <string name="sign_in_messaging">尊享會員獨家優惠</string>
+    <!-- Label for messaging on sign in Variate 2 -->
+    <string name="triple_point_messaging">賺取三倍 Expedia+ 獎賞積分</string>
+    <!-- Label for messaging on sign in Variate 3 -->
+    <string name="trip_alert_messaging">收取重要行程提示</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">登入</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3466,30 +3464,6 @@
     <string name="country_zw">津巴布韋</string>
     <string name="country_ax">亞蘭群島</string>
 
-    <!-- Google Wallet -->
-    <!-- Loading message -->
-    <string name="loading">載入中</string>
-    <!-- Google Wallet label -->
-    <string name="google_wallet">Google 電子錢包</string>
-    <!-- Google wallet unavailable error -->
-    <string name="google_wallet_unavailable">無法使用 Google 電子錢包</string>
-    <!-- Error if you've exceeded your overall Google Wallet spending limit -->
-    <string name="spending_limit_exceeded">已超過 Google 電子錢包的消費限額</string>
-    <!-- Content description for "buy with wallet" button -->
-    <string name="wallet_buy_with_google_wallet">使用 Google 電子錢包購買</string>
-    <!-- Message for Google wallet coupon promotion -->
-    <string name="wallet_promo_offer">使用 Google 電子錢包預訂 <b>$200 或以上的行程</b>，可慳 <b>$50</b>！</string>
-    <!-- Message shown in dialog when users already had a coupon, but then tried to add the Google Wallet promotional coupon -->
-    <string name="coupon_replaced_message">每次預訂只可使用一張優惠券。我們已將您之前的優惠券換成使用 Google 電子錢包得到的 $50 優惠。</string>
-    <!-- Message shown while loading Wallet coupon -->
-    <string name="wallet_promo_applying">正在使用 Google 電子錢包優惠…</string>
-    <!-- Title for Google Wallet promo terms & conditions -->
-    <string name="wallet_promo_tc_title">Google 電子錢包優惠券條款及細則</string>
-    <!-- Terms & conditions for Google Wallet promo -->
-    <string name="wallet_promo_tc_message">優惠：酒店住宿即減 $50。預訂金額滿 $200 方可獲享折扣優惠。換領方法：選擇合資格的酒店住宿。於付款頁按「使用 Google 電子錢包購買」來結帳。優惠券必須於 2014 年 12 月 31 日 23:59 (太平洋時間) 或之前在 Expedia Android App 內換領，並於即日起至 2015 年 3 月 31 日期間住宿。限時優惠：可能隨時更改。每個使用者帳戶和每次合資格酒店訂房限用一 (1) 張優惠券。此優惠由 Expedia.com 提供並只適用於 Expedia.com 美國 Android App 客戶。此優惠不適用於參與 Expedia 旅行社聯盟計劃的顧客。此優惠券只適用於合資格的 Expedia 優惠價酒店。預訂視乎供應而定，並受所有適用條款及細則約束。優惠券不可與其他優惠券、推廣或特別優惠一同使用。優惠券不可用作扣減稅項、供應商收費、取消或更改手續費、行政費或其他雜費，客戶須自行承擔上述費用。優惠券於完成一次合資格預訂後即視為已完全使用，並不可重用。預訂的任何部分一經更改或取消，優惠券將不可用於已更改的行程。此優惠券的條款及細則經已列明，其不可由任何未經授權人士 (包括 Expedia, Inc. 的僱員) 以任何方式修改。優惠券不可轉讓亦不可兌換現金。Expedia, Inc. 可隨時取消或更改此優惠。受法律禁止地區無效。</string>
-    <!-- Message shown when user tries to manually enter Google Wallet promo coupon -->
-    <string name="wallet_coupon_not_applied_manually">選擇 Google 電子錢包作為付款方法方可使用此優惠券。</string>
-
     <!-- Human readable credit card names -->
     <!-- American Express -->
     <string name="cc_american_express">美國運通卡</string>
@@ -3809,4 +3783,30 @@
     <string name="airline_charge_notice">航空公司將根據付款方式收取附加費。</string>
     <string name="airline_fee_notice_payment">根據付款方式收取航空公司手續費</string>
     <string name="airline_notice_fee_added">付款時將附加根據信用卡類型收取的<u><b>航空公司手續費</b></u>。有關費用將於付款時加入總金額。</string>
+    <string name="airline_notice_fee_added_tablet">付款時將附加根據信用卡類型收取的&lt;u&gt;&lt;b&gt;航空公司手續費&lt;/b&gt;&lt;/u&gt;。有關費用將於付款時加入總金額。</string>
+
+    <!-- Packages -->
+
+    <!-- Label for package search toolbar -->
+    <string name="package_toolbar_title">酒店 + 機票</string>
+    <!-- Label for package search toolbar -->
+    <string name="bundle_overview_title">套票行程概覽</string>
+    <!-- Fly from hint -->
+    <string name="fly_from_hint">出發地：</string>
+    <!-- Fly to hint -->
+    <string name="fly_to_hint">目的地：</string>
+    <!-- Bundle Overview Step 1, select a hotel -->
+    <string name="step_one">步驟 1：選擇酒店</string>
+    <!-- Bundle Overview Step 2, select a flight -->
+    <string name="step_two">步驟 2：選擇航班</string>
+
+    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_duration_template">%1$d日%2$d小時%3$d分 (中途停留%4$d小時)</string>
+    <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
+    <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$d日</string>
+    <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
+    <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+
+    <!-- Package Trip Overview -->
+    <string name="trip_overview">行程概覽</string>
 </resources>

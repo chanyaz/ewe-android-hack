@@ -1,0 +1,43 @@
+{
+  "q": "${query}",
+  "rid": "e0b921ca-86fd-474d-a4e4-13253a4092ab",
+  "rc": "OK",
+  "sr": [
+    {
+      "@type": "gaiaRegionResult",
+      "index": "0",
+      "gaiaId": "6000581",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "search_failure",
+        "shortName": "San Francisco, CA (SFO-San Francisco Intl.)",
+        "displayName": "search_failure",
+        "lastSearchName": "San Francisco, CA, United States (SFO-San Francisco Intl.)"
+      },
+      "coordinates": {
+        "lat": "37.615940",
+        "long": "-122.387996"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SFO",
+          "metrocode": "QSF",
+          "multicity": "178305"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "392"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
+    }
+  ]
+}
