@@ -218,7 +218,7 @@ public class CheckoutViewModel {
 		selectStoredCard("AmexTesting");
 	}
 
-	private static void enterPaymentDetails() {
+	public static void enterPaymentDetails() {
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();

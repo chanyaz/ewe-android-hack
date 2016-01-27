@@ -34,13 +34,8 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         }
 
         // Packages API
-        if (request.path.startsWith("/getpackages/v1")) {
+        if (request.path.startsWith("/getpackages/v1") || request.path.startsWith("/api/packages")) {
             return packagesApiRequestDispatcher.dispatch(request)
-        }
-
-        // Hotels API
-        if (request.path.contains("/packages/hotelOffers")) {
-            return makeResponse("/getpackages/v1/happy_hotelOffers.json")
         }
         
         // Hotels API

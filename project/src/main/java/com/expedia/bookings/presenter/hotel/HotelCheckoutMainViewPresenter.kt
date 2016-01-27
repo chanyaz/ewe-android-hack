@@ -43,6 +43,7 @@ import com.squareup.otto.Subscribe
 import rx.Observer
 import rx.subjects.PublishSubject
 import javax.inject.Inject
+import kotlin.collections.listOf
 import kotlin.properties.Delegates
 
 public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : CheckoutBasePresenter(context, attr) {

@@ -3,6 +3,7 @@ package com.expedia.bookings.services;
 import java.util.Map;
 
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
+import com.expedia.bookings.data.packages.PackageCheckoutResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageOffersResponse;
 import com.expedia.bookings.data.packages.PackageSearchResponse;
@@ -45,5 +46,10 @@ public interface PackageApi {
 	@FormUrlEncoded
 	@POST("/api/packages/createTrip")
 	Observable<PackageCreateTripResponse> createTrip(
+		@FieldMap Map<String, Object> queryParams);
+
+	@FormUrlEncoded
+	@POST("/api/packages/checkout")
+	Observable<PackageCheckoutResponse> checkout(
 		@FieldMap Map<String, Object> queryParams);
 }

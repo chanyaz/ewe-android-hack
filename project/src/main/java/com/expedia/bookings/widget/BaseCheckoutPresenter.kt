@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.CardView
@@ -42,18 +43,26 @@ open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Present
     val chevron: View by bindView(R.id.chevron)
 
     var expandedView: ExpandableCardView? = null
+    val checkoutDialog = ProgressDialog(context)
 
     var viewModel: BaseCheckoutViewModel by notNullAndObservable { vm ->
         vm.infoCompleted.subscribeVisibility(sliderContainer)
         vm.lineOfBusiness.subscribe { lob ->
             travelerWidget.setLineOfBusiness(lob)
             paymentWidget.setLineOfBusiness(lob)
+            vm.creditCardRequired.onNext(lob == LineOfBusiness.PACKAGES)
         }
         vm.creditCardRequired.subscribe { required ->
             paymentWidget.isCreditCardRequired = required
         }
         vm.legalText.subscribeTextAndVisibility(legalInformationText)
         vm.depositPolicyText.subscribeTextAndVisibility(depositPolicyText)
+        vm.checkoutInfoCompleted.subscribe {
+            checkoutDialog.show()
+        }
+        vm.checkoutResponse.subscribe {
+            checkoutDialog.hide()
+        }
     }
 
     init {
@@ -62,6 +71,7 @@ open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Present
         loginWidget.setListener(this)
         travelerWidget.addExpandedListener(this)
         paymentWidget.addExpandedListener(this)
+        slideToPurchase.addSlideToListener(this)
 
         if (User.isLoggedIn(getContext())) {
             loginWidget.bind(false, true, Db.getUser(), LineOfBusiness.HOTELSV2)
@@ -98,6 +108,10 @@ open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Present
                 return true
             }
         })
+
+        checkoutDialog.setMessage(resources.getString(R.string.booking_loading))
+        checkoutDialog.setCancelable(false)
+        checkoutDialog.isIndeterminate = true
     }
 
     override fun onFinishInflate() {
@@ -165,7 +179,7 @@ open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Present
     }
 
     override fun onSlideAllTheWay() {
-
+        viewModel.cvvCompleted.onNext("123")
     }
 
     override fun onSlideAbort() {

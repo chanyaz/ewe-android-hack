@@ -22,7 +22,7 @@
                 app:textStyle="medium" />
 
             <com.expedia.bookings.widget.PackageBundleHotelWidget
-                android:id="@+id/packageBundleWidget"
+                android:id="@+id/package_bundle_widget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="9dp"
@@ -132,14 +132,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:text="@string/Checkout" />
+        android:text="@string/Checkout"
+        android:visibility="gone"/>
 
     <com.expedia.bookings.widget.BaseCheckoutPresenter
         android:id="@+id/checkout_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
         android:padding="20dp"
-        android:visibility="gone" />
+        android:visibility="gone"
+        android:fitsSystemWindows="true" />
 
     <com.expedia.bookings.widget.CheckoutToolbar
         android:id="@+id/checkout_toolbar"

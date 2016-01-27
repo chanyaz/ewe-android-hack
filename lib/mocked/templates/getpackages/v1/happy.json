@@ -448,7 +448,7 @@
   "packageResult":{
     "hotels":{
       "28496542433568":{
-        "hotelId":"28496",
+        "hotelId":"package_hotel_info",
         "hotelName":"The Kahala Hotel & Resort",
         "localizedHotelName":"The Kahala Hotel & Resort",
         "hotelAddress":{

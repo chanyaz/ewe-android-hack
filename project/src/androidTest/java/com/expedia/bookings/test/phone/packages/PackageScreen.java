@@ -11,12 +11,17 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.TabletViewActions;
 import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -89,8 +94,80 @@ public class PackageScreen {
 		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
-		PackageScreen.selectDates(startDate, null);
 		PackageScreen.selectDates(startDate, endDate);
 		PackageScreen.searchButton().perform(click());
+	}
+
+	public static ViewInteraction hotelBundle() {
+		return onView(withId(R.id.package_bundle_widget));
+	}
+
+	public static ViewInteraction outboundFlight() {
+		return onView(withId(R.id.flight_departure_card_view));
+	}
+
+	public static ViewInteraction inboundFLight() {
+		return onView(withId(R.id.flight_arrival_card_view));
+	}
+
+	public static ViewInteraction flightList() {
+		return onView(withId(R.id.list_view));
+	}
+
+	public static ViewInteraction selectFlight(int index) {
+		return flightList().perform(RecyclerViewActions.actionOnItemAtPosition(index, click()));
+	}
+
+	public static ViewInteraction selectThisFlight() {
+		return onView(withId(R.id.select_flight_button));
+	}
+
+	public static ViewInteraction checkout() {
+		return onView(withId(R.id.checkout_button));
+	}
+
+	public static ViewInteraction travelerInfo() {
+		return onView(withId(R.id.traveler_widget));
+	}
+
+	public static ViewInteraction itin() {
+		return onView(withId(R.id.itin_number));
+	}
+
+
+	public static void enterTravelerInfo() {
+		Common.delay(2);
+		travelerInfo().perform(scrollTo(), click());
+		Common.delay(1);
+		CheckoutViewModel.enterFirstName("FiveStar");
+		CheckoutViewModel.enterLastName("Bear");
+		Common.closeSoftKeyboard(CheckoutViewModel.lastName());
+		Common.delay(1);
+		CheckoutViewModel.enterEmail("noah@mobiata.com");
+		Common.closeSoftKeyboard(CheckoutViewModel.email());
+		Common.delay(1);
+		CheckoutViewModel.enterPhoneNumber("4158675309");
+		CheckoutViewModel.clickDone();
+		Common.delay(2);
+	}
+
+	public static void enterPaymentInfo() {
+		Common.delay(2);
+		CheckoutViewModel.clickPaymentInfo();
+		Common.delay(1);
+		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+		CardInfoScreen.clickOnExpirationDateButton();
+		CardInfoScreen.clickMonthUpButton();
+		CardInfoScreen.clickYearUpButton();
+		CardInfoScreen.clickSetButton();
+		CardInfoScreen.typeTextCvv("666");
+		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+
+		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
+		BillingAddressScreen.typeTextCity("San Francisco");
+		BillingAddressScreen.typeTextState("CA");
+		BillingAddressScreen.typeTextPostalCode("94105");
+		CheckoutViewModel.clickDone();
+		Common.delay(2);
 	}
 }
