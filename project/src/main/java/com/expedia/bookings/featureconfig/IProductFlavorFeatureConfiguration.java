@@ -98,10 +98,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	boolean isSigninEnabled();
 
-	boolean isAppCrossSellInHotelShareContentEnabled();
-
-	boolean isAppCrossSellInFlightShareContentEnabled();
-
 	boolean isItinDisabled();
 
 	boolean isAppIntroEnabled();
