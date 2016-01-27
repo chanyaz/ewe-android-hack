@@ -73,6 +73,10 @@
     <color name="lx_ticket_selector_disabled_color_lm">#40E40088</color>
 
     <!--Account Lib Colors -->
+    <color name="btn_sign_in_normal">#E40088</color>
+    <color name="btn_sign_in_pressed">#A1266C</color>
+    <color name="btn_sign_in_focused">#F8159C</color>
+    <color name="btn_sign_in_disabled">#80004C</color>
     <color name="acct__btn_sign_in_text_lm">#FFFFFF</color>
     <color name="acct__bg_input_text_error_lm">#FFFFFF</color>
     <color name="acct__bg_input_text_good_lm">#EEEEEE</color>
