@@ -5,7 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.cars.ApiError
-import com.expedia.bookings.data.hotels.HotelApplyCouponParams
+import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.HotelServices
@@ -24,7 +24,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val errorShowDialogObservable = PublishSubject.create<ApiError>()
     val errorMessageObservable = PublishSubject.create<String>()
     val discountObservable = PublishSubject.create<String>()
-    val couponParamsObservable = BehaviorSubject.create<HotelApplyCouponParams>()
+    val couponParamsObservable = BehaviorSubject.create<HotelApplyCouponParameters>()
     val hasDiscountObservable = BehaviorSubject.create<Boolean>()
 
     val createTripDownloadsObservable = PublishSubject.create<Observable<HotelCreateTripResponse>>()

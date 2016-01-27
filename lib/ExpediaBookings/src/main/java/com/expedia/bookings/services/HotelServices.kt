@@ -1,7 +1,7 @@
 package com.expedia.bookings.services
 
 import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.data.hotels.HotelApplyCouponParams
+import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -126,7 +126,7 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 				.subscribe(observer)
 	}
 
-	public fun applyCoupon(body: HotelApplyCouponParams): Observable<HotelCreateTripResponse> {
+	public fun applyCoupon(body: HotelApplyCouponParameters): Observable<HotelCreateTripResponse> {
 		return hotelApi.applyCoupon(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
