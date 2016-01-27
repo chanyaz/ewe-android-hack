@@ -1888,6 +1888,7 @@ public class OmnitureTracking {
 
 		s.setEvar(47, getEvar47String(searchParams));
 
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsRoundtripMessageTest);
 		s.track();
 	}
 

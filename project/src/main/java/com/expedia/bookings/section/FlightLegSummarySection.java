@@ -25,6 +25,7 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripBucketItemFlight;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
@@ -56,6 +57,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 	private ImageView mOperatingCarrierImageView;
 	private TextView mOperatingCarrierTextView;
 	private TextView mPriceTextView;
+	private TextView mRoundtripTextView;
 	private TextView mFlightTimeTextView;
 	private TextView mDepartureTimeTextView;
 	private TextView mArrivalTimeTextView;
@@ -77,13 +79,23 @@ public class FlightLegSummarySection extends RelativeLayout {
 		mOperatingCarrierImageView = Ui.findView(this, R.id.operating_carrier_image_view);
 		mOperatingCarrierTextView = Ui.findView(this, R.id.operating_carrier_text_view);
 		mPriceTextView = Ui.findView(this, R.id.price_text_view);
+		mRoundtripTextView = Ui.findView(this, R.id.roundtrip_text_view);
 		mFlightTimeTextView = Ui.findView(this, R.id.flight_time_text_view);
 		mDepartureTimeTextView = Ui.findView(this, R.id.departure_time_text_view);
 		mArrivalTimeTextView = Ui.findView(this, R.id.arrival_time_text_view);
 		mMultiDayTextView = Ui.findView(this, R.id.multi_day_text_view);
 		mFlightTripView = Ui.findView(this, R.id.flight_trip_view);
+
+		if (mRoundtripTextView != null &&
+				!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsRoundtripMessageTest)) {
+			// if user is not bucketed for this test, get rid of view so later logic can easily ignore it
+			mRoundtripTextView.setVisibility(View.GONE);
+			mRoundtripTextView = null;
+		}
 	}
 
+	// From FlightDetailsFragment via FlightSegmentSection.bind(), showing individual segments in a leg
+	// From FlightItinContentGenerator.getFlightView()
 	public void bindFlight(Flight flight, DateTime minTime, DateTime maxTime) {
 		// Fake a flight leg
 		FlightLeg pseudoLeg = new FlightLeg();
@@ -92,6 +104,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		bind(null, pseudoLeg, minTime, maxTime, true);
 	}
 
+	// From ResultsFlightDetailsFragment and ResultsRecursiveFlightLegsFragment; tablet
 	public void bind(FlightSearch flightSearch, int legNumber) {
 		FlightTripQuery query = flightSearch.queryTrips(legNumber);
 		DateTime minTime = new DateTime(query.getMinTime());
@@ -105,25 +118,30 @@ public class FlightLegSummarySection extends RelativeLayout {
 		bind(trip, leg, minTime, maxTime);
 	}
 
-	public void bind(FlightTrip trip, FlightLeg leg) {
-		bind(trip, leg, null, null, false);
+	// From FlightTripOverviewFragment.buildCards() via SectionFlightLeg.bind() (top of checkout screen)
+	// From FlightListFragment.onCreateView(), invisible, just takes up space
+	public void bind(FlightLeg leg) {
+		bind(null, leg, null, null, false);
 	}
 
+	// From FlightConfirmationFragment.onCreateView(), post-booking confirmation screen
 	public void bind(FlightTrip trip, FlightLeg leg, BillingInfo billingInfo,
 					 TripBucketItemFlight tripBucketItemFlight) {
 		bind(trip, leg, null, null, null, false, billingInfo, tripBucketItemFlight);
 	}
 
+	// From FlightAdapter.getView(), passes all args
+	// From FlightListFragment.onCreateView(), when showing at top of return flight list; trip is null
 	public void bind(FlightTrip trip, final FlightLeg leg, DateTime minTime, DateTime maxTime) {
 		bind(trip, leg, minTime, maxTime, false);
 	}
 
-	public void bind(FlightTrip trip, final FlightLeg leg, DateTime minTime, DateTime maxTime,
+	private void bind(FlightTrip trip, final FlightLeg leg, DateTime minTime, DateTime maxTime,
 					 boolean isIndividualFlight) {
 		bind(trip, leg, null, minTime, maxTime, isIndividualFlight, null, null);
 	}
 
-	public void bind(FlightTrip trip, final FlightLeg leg, final FlightLeg legTwo, DateTime minTime,
+	private void bind(FlightTrip trip, final FlightLeg leg, final FlightLeg legTwo, DateTime minTime,
 		DateTime maxTime, boolean isIndividualFlight, BillingInfo billingInfo,
 					 TripBucketItemFlight tripBucketItemFlight) {
 		Context context = getContext();
@@ -135,7 +153,10 @@ public class FlightLegSummarySection extends RelativeLayout {
 			isIndividualFlight = false;
 		}
 
-		adjustLayout(leg, isIndividualFlight);
+		if (trip != null && trip.getLegCount() < 2) {
+			// this is not a roundtrip flight
+			mRoundtripTextView = null;
+		}
 
 		if (mAirlineTextView != null) {
 			mAirlineTextView.setText(getAirlinesStr(context, firstFlight, leg, legTwo, isIndividualFlight));
@@ -209,9 +230,21 @@ public class FlightLegSummarySection extends RelativeLayout {
 					money = trip.getAverageTotalFare();
 				}
 				mPriceTextView.setText(money.getFormattedMoney(Money.F_NO_DECIMAL));
+				if (mRoundtripTextView != null) {
+					if (tripBucketItemFlight != null && billingInfo != null) {
+						// on post-booking confirmation screen, so hide "roundtrip"
+						mRoundtripTextView.setVisibility(View.GONE);
+					}
+					else {
+						mRoundtripTextView.setVisibility(View.VISIBLE);
+					}
+				}
 			}
 			else {
 				mPriceTextView.setVisibility(View.GONE);
+				if (mRoundtripTextView != null) {
+					mRoundtripTextView.setVisibility(View.GONE);
+				}
 			}
 		}
 
@@ -221,6 +254,8 @@ public class FlightLegSummarySection extends RelativeLayout {
 		else {
 			mFlightTripView.setUp(leg, minTime, maxTime);
 		}
+
+		adjustLayout(leg, isIndividualFlight);
 	}
 
 	private static String getAirlinesStr(Context context, Flight flight, FlightLeg leg, FlightLeg legTwo,
@@ -282,7 +317,10 @@ public class FlightLegSummarySection extends RelativeLayout {
 			// section_flight_leg_summary.xml and section_flight_leg_summary_itin.xml are similar but different layouts...
 			// The container has first order of precedence if present for proper laying out on section_flight_leg_summary
 			// section_flight_leg_summary_itin.xml does not require the container, so default to the TextView in that case
-			if (mAirlineContainer != null) {
+			if (mRoundtripTextView != null && mRoundtripTextView.getVisibility() == View.VISIBLE) {
+				belowTarget = mRoundtripTextView.getId();
+			}
+			else if (mAirlineContainer != null) {
 				belowTarget = mAirlineContainer.getId();
 			}
 			else if (mAirlineAndCitiesTextView != null) {
