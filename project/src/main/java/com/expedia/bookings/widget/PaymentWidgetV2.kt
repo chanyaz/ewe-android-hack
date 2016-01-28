@@ -14,6 +14,8 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.payment.PaymentSplitsType
+import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.NumberMaskFormatter
@@ -48,6 +50,33 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
                 }
     }
         @Inject set
+
+    override fun creditCardClicked() {
+        presenter.show(CreditCardWidgetExpandedState())
+    }
+
+    override fun setPresenter(presenter: Presenter) {
+        super.setPresenter(presenter)
+        presenter.addTransition(paymentWidgetExpandedToCreditCardWidgetTransition)
+    }
+
+    class CreditCardWidgetExpandedState
+
+    private val paymentWidgetExpandedToCreditCardWidgetTransition = object : Presenter.Transition(CheckoutBasePresenter.WidgetExpanded::class.java, CreditCardWidgetExpandedState::class.java) {
+        override fun finalizeTransition(forward: Boolean) {
+            mToolbarListener.setNavArrowBarParameter(
+                    if (forward)
+                        ArrowXDrawableUtil.ArrowDrawableType.BACK
+                    else
+                        ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+
+            if (forward) {
+                showPaymentDetails()
+            } else {
+                isExpanded = true
+            }
+        }
+    }
 
     override fun onFinishInflate() {
         super.onFinishInflate()

@@ -25,6 +25,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.section.SectionBillingInfo;
+import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpandableCardView;
 import com.expedia.bookings.widget.PaymentButton;
@@ -99,6 +100,11 @@ public class PaymentWidgetFlowTest {
 
 			@Override
 			public void showRightActionButton(boolean show) {
+
+			}
+
+			@Override
+			public void setNavArrowBarParameter(ArrowXDrawableUtil.ArrowDrawableType arrowDrawableType) {
 
 			}
 		};

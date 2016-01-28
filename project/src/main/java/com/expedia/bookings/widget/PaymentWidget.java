@@ -32,6 +32,7 @@ import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -55,6 +56,7 @@ public class PaymentWidget extends ExpandableCardView {
 	public static final int REQUEST_CODE_GOOGLE_WALLET_ACTIVITY = 1989;
 
 	private boolean isZipValidationRequired;
+	protected Presenter presenter;
 
 	public PaymentWidget(Context context, AttributeSet attr) {
 		super(context, attr);
@@ -632,5 +634,9 @@ public class PaymentWidget extends ExpandableCardView {
 				.compareTo(sectionBillingInfo.getBillingInfo()) != 0;
 		}
 		return false;
+	}
+
+	public void setPresenter(Presenter presenter) {
+		this.presenter = presenter;
 	}
 }

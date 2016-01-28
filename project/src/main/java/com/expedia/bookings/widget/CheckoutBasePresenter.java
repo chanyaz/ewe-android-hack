@@ -142,6 +142,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		paymentInfoCardView.setLineOfBusiness(getLineOfBusiness());
 		paymentInfoCardView.setToolbarListener(toolbarListener);
 		paymentInfoCardView.addExpandedListener(this);
+		paymentInfoCardView.setPresenter(this);
 		mainContactInfoCardView.addExpandedListener(this);
 		mainContactInfoCardView.setToolbarListener(toolbarListener);
 		hintContainer.setVisibility(User.isLoggedIn(getContext()) ? GONE : VISIBLE);
@@ -341,6 +342,11 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		@Override
 		public void showRightActionButton(boolean show) {
 			menuDone.setVisible(show);
+		}
+
+		@Override
+		public void setNavArrowBarParameter(ArrowXDrawableUtil.ArrowDrawableType arrowDrawableType) {
+			toolbarNavIcon.setParameter(arrowDrawableType.getType());
 		}
 	};
 
