@@ -433,6 +433,10 @@ public class StrUtils {
 		return displayName;
 	}
 
+	public static SpannableStringBuilder generateStatementWithClickableLink(String statementWithAnchorLink) {
+		return getSpannableTextByColor(statementWithAnchorLink, Color.WHITE, true);
+	}
+
 	public static SpannableStringBuilder generateHotelsBookingStatement(Context context, String hotelBookingStatement,
 		boolean makeClickable) {
 		return getSpannableTextByPrimaryColor(context, hotelBookingStatement, makeClickable);

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="15dp"
+    android:layout_marginBottom="15dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+    <TextView
+        android:id="@+id/split_ticket_rules_and_restrictions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="12dp"
+        android:textColor="@android:color/black"
+        android:text="@string/split_ticket_rules_with_link_TEMPLATE"/>
+    <TextView
+        android:id="@+id/split_ticket_cancellation_policy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="12dp"
+        android:text="@string/split_ticket_rules_cancellation_policy"
+        android:textColor="@android:color/black"/>
+    <TextView
+        android:id="@+id/split_ticket_baggage_fee_links"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="12dp"
+        android:textColor="@android:color/black"
+        android:linksClickable="true"/>
+</LinearLayout>

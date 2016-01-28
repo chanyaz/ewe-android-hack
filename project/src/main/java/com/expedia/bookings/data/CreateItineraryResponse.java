@@ -16,6 +16,8 @@ public class CreateItineraryResponse extends Response {
 
 	private List<ValidPayment> mValidPayments;
 
+	private boolean mIsSplitTicket;
+
 	public void setItinerary(Itinerary itinerary) {
 		mItinerary = itinerary;
 	}
@@ -38,6 +40,14 @@ public class CreateItineraryResponse extends Response {
 
 	public List<ValidPayment> getValidPayments() {
 		return mValidPayments;
+	}
+
+	public void setIsSplitTicket(boolean isSplitTicket) {
+		mIsSplitTicket = isSplitTicket;
+	}
+
+	public boolean isSplitTicket() {
+		return mIsSplitTicket;
 	}
 
 	//////////////////////////////////////////////////////////////////////////

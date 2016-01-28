@@ -1,0 +1,336 @@
+{
+  "newTrip": {
+    "itineraryNumber": "7899918581",
+    "travelRecordLocator": "16630187",
+    "tripId": "58fe02ca-85fe-4c77-b63a-c5caadf309f6"
+  },
+  "passengerCategories": [
+    "ADULT"
+  ],
+  "totalPrice": {
+    "amount": "64.00",
+    "formattedPrice": "$64.00",
+    "formattedWholePrice": "$64",
+    "currencyCode": "USD"
+  },
+  "details": {
+    "offer": {
+      "legIds": [
+        "34fa89938312d0fd8322ee27cb89f8a1",
+        "0558a569d2c6b1af709befca2e617390"
+      ],
+      "currency": "USD",
+      "baseFare": "48.95",
+      "baseFarePrice": {
+        "amount": "48.95",
+        "formattedPrice": "$48.95",
+        "formattedWholePrice": "$49",
+        "currencyCode": "USD"
+      },
+      "totalFare": "64.00",
+      "totalFarePrice": {
+        "amount": "64.00",
+        "formattedPrice": "$64.00",
+        "formattedWholePrice": "$64",
+        "currencyCode": "USD"
+      },
+      "pricePerPassengerCategory": [
+        {
+          "passengerCategory": "ADULT",
+          "totalPrice": {
+            "amount": "64.00",
+            "formattedPrice": "$64.00",
+            "formattedWholePrice": "$64",
+            "currencyCode": "USD"
+          },
+          "basePrice": {
+            "amount": "48.95",
+            "formattedPrice": "$48.95",
+            "formattedWholePrice": "$49",
+            "currencyCode": "USD"
+          },
+          "taxesPrice": {
+            "amount": "15.05",
+            "formattedPrice": "$15.05",
+            "formattedWholePrice": "$15",
+            "currencyCode": "USD"
+          }
+        }
+      ],
+      "averageTotalPricePerTicket": {
+        "amount": "64.00",
+        "formattedPrice": "$64.00",
+        "formattedWholePrice": "$64",
+        "currencyCode": "USD"
+      },
+      "numberOfTickets": 1,
+      "taxes": "15.05",
+      "taxesPrice": {
+        "amount": "15.05",
+        "formattedPrice": "$15.05",
+        "formattedWholePrice": "$15",
+        "currencyCode": "USD"
+      },
+      "fees": "0.00",
+      "feesPrice": {
+        "amount": "0.00",
+        "formattedPrice": "$0.00",
+        "formattedWholePrice": "$0",
+        "currencyCode": "USD"
+      },
+      "showFees": true,
+      "productKey": "fe8b6cf04e155354a8526aa226a033b3-1-2-st-cb0909d1433ea9098e3bd0af861a3128-1-1",
+      "seatsRemaining": 0,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "N",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "Y",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "baggageFeesUrl": "http://172.17.251.37/Flights-BagFees?originapt=KUL&destinationapt=PEN&cabinclass=3&mktgcarrier=MH&opcarrier=&farebasis=NBCFOWMY&bookingclass=N&travelDate=2016-01-31&flightNumber=1140&langid=1033",
+      "fareType": "WEB_FLAT",
+      "isInternational": false,
+      "isPassportNeeded": true,
+      "hasBagFee": false,
+      "hasNoBagFee": true,
+      "isSplitTicket": true
+    },
+    "productKey": "fe8b6cf04e155354a8526aa226a033b3-1-2-st-cb0909d1433ea9098e3bd0af861a3128-1-1",
+    "flightRules": [
+      {
+        "isChangeAllowed": true,
+        "isEnrouteChangeAllowed": false,
+        "isEnrouteRefundAllowed": false,
+        "isRefundable": false,
+        "changePenaltyAmount": "100.00",
+        "changePenaltyPrice": {
+          "amount": "100.00",
+          "formattedPrice": "$100.00",
+          "formattedWholePrice": "$100",
+          "currencyCode": "MYR"
+        },
+        "summaryText": ""
+      },
+      {
+        "isChangeAllowed": false,
+        "isEnrouteChangeAllowed": false,
+        "isEnrouteRefundAllowed": false,
+        "isRefundable": false,
+        "summaryText": "http://www.airasia.com/my/en/our-fares/fare-rules.page"
+      }
+    ],
+    "oldOffer": {
+      "legIds": [
+        "34fa89938312d0fd8322ee27cb89f8a1",
+        "0558a569d2c6b1af709befca2e617390"
+      ],
+      "currency": "USD",
+      "baseFare": "49.95",
+      "baseFarePrice": {
+        "amount": "49.95",
+        "formattedPrice": "$49.95",
+        "formattedWholePrice": "$50",
+        "currencyCode": "USD"
+      },
+      "totalFare": "65.06",
+      "totalFarePrice": {
+        "amount": "65.06",
+        "formattedPrice": "$65.06",
+        "formattedWholePrice": "$65",
+        "currencyCode": "USD"
+      },
+      "pricePerPassengerCategory": [
+        {
+          "passengerCategory": "ADULT",
+          "totalPrice": {
+            "amount": "65.06",
+            "formattedPrice": "$65.06",
+            "formattedWholePrice": "$65",
+            "currencyCode": "USD"
+          },
+          "basePrice": {
+            "amount": "49.95",
+            "formattedPrice": "$49.95",
+            "formattedWholePrice": "$50",
+            "currencyCode": "USD"
+          },
+          "taxesPrice": {
+            "amount": "15.11",
+            "formattedPrice": "$15.11",
+            "formattedWholePrice": "$15",
+            "currencyCode": "USD"
+          }
+        }
+      ],
+      "averageTotalPricePerTicket": {
+        "amount": "65.06",
+        "formattedPrice": "$65.06",
+        "formattedWholePrice": "$65",
+        "currencyCode": "USD"
+      },
+      "numberOfTickets": 1,
+      "taxes": "15.11",
+      "taxesPrice": {
+        "amount": "15.11",
+        "formattedPrice": "$15.11",
+        "formattedWholePrice": "$15",
+        "currencyCode": "USD"
+      },
+      "fees": "0.00",
+      "feesPrice": {
+        "amount": "0.00",
+        "formattedPrice": "$0.00",
+        "formattedWholePrice": "$0",
+        "currencyCode": "USD"
+      },
+      "showFees": true,
+      "productKey": "v5-08a370894d683fdabe0c6696f48bdcbf-0-2-st-v5-e14efb314e682244aa740a8f58b97d74-17-1",
+      "seatsRemaining": 0,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "N",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "Y",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "baggageFeesUrl": "http://172.17.251.37/Flights-BagFees?originapt=KUL&destinationapt=PEN&cabinclass=3&mktgcarrier=MH&opcarrier=&farebasis=NBCFOWMY&bookingclass=N&travelDate=2016-01-31&flightNumber=1140&langid=1033",
+      "fareType": "WEB_FLAT",
+      "isInternational": false,
+      "isPassportNeeded": true,
+      "hasBagFee": false,
+      "hasNoBagFee": true,
+      "isSplitTicket": true
+    },
+    "priceChangeAmount": "-1.06",
+    "changedPrice": {
+      "amount": "-1.06",
+      "formattedPrice": "($1.06)",
+      "formattedWholePrice": "($1)",
+      "currencyCode": "USD"
+    },
+    "obFeeTotalAmount": "0.00",
+    "obFeePrice": {
+      "amount": "0.00",
+      "formattedPrice": "$0.00",
+      "formattedWholePrice": "$0",
+      "currencyCode": "USD"
+    },
+    "legs": [
+      {
+        "legId": "34fa89938312d0fd8322ee27cb89f8a1",
+        "baggageFeesUrl": "http://172.17.251.37/Flights-BagFees?originapt=KUL&destinationapt=PEN&cabinclass=3&mktgcarrier=MH&opcarrier=&farebasis=NBCFOWMY&bookingclass=N&travelDate=2016-01-31&flightNumber=1140&langid=1033",
+        "segments": [
+          {
+            "departureTime": "February 1, 2016 11:15:00 AM",
+            "departureTimeEpochSeconds": 1454296500,
+            "departureTimeRaw": "2016-02-01T11:15:00.000+08:00",
+            "departureTimeZoneOffsetSeconds": 28800,
+            "arrivalTime": "February 1, 2016 12:05:00 PM",
+            "arrivalTimeEpochSeconds": 1454299500,
+            "arrivalTimeRaw": "2016-02-01T12:05:00.000+08:00",
+            "arrivalTimeZoneOffsetSeconds": 28800,
+            "arrivalAirportCode": "PEN",
+            "arrivalAirportLocation": "Penang, MYS",
+            "departureAirportCode": "KUL",
+            "departureAirportLocation": "Kuala Lumpur, MYS",
+            "airlineName": "Malaysia Airlines",
+            "airlineCode": "MH",
+            "flightNumber": "1140",
+            "equipmentCode": "738",
+            "equipmentDescription": "Boeing 737-800",
+            "duration": "PT50M",
+            "distance": 189,
+            "distanceUnits": "miles",
+            "stops": 0,
+            "meal": "Refreshments",
+            "providerCode": "Amadeus"
+          }
+        ],
+        "freeCancellationBy": {
+          "raw": "2016-01-21T23:59:00Z",
+          "localized": "Jan 21, 2016 11:59:00 PM",
+          "epochSeconds": 1453420740,
+          "timeZoneOffsetSeconds": 0,
+          "localizedShortDate": "Thu, 21 Jan"
+        }
+      },
+      {
+        "legId": "0558a569d2c6b1af709befca2e617390",
+        "baggageFeesUrl": "http://172.17.251.37/Flights-BagFees?originapt=PEN&destinationapt=KUL&cabinclass=3&mktgcarrier=H/&opcarrier=&farebasis=A1 promo&bookingclass=Y&travelDate=2016-02-02&flightNumber=6131&langid=1033",
+        "segments": [
+          {
+            "departureTime": "February 2, 2016 8:25:00 PM",
+            "departureTimeEpochSeconds": 1454415900,
+            "departureTimeRaw": "2016-02-02T20:25:00.000+08:00",
+            "departureTimeZoneOffsetSeconds": 28800,
+            "arrivalTime": "February 2, 2016 9:25:00 PM",
+            "arrivalTimeEpochSeconds": 1454419500,
+            "arrivalTimeRaw": "2016-02-02T21:25:00.000+08:00",
+            "arrivalTimeZoneOffsetSeconds": 28800,
+            "arrivalAirportCode": "KUL",
+            "arrivalAirportLocation": "Kuala Lumpur, MYS",
+            "departureAirportCode": "PEN",
+            "departureAirportLocation": "Penang, MYS",
+            "airlineName": "AirAsia",
+            "airlineCode": "H/",
+            "flightNumber": "6131",
+            "duration": "PT1H",
+            "stops": 0,
+            "providerCode": "TravelFusion"
+          }
+        ]
+      }
+    ],
+    "destinationRegionId": 6000497,
+    "isSplitTicket": true
+  },
+  "rules": {
+    "RuleToTextMap": {
+      "CompletePenaltyRules": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
+      "RefundabilityText": "Tickets are nonrefundable and nontransferable.",
+      "CancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+      "AirlineLiabilityLimitations": "Please read important information regarding airline liability limitations.",
+      "AdditionalAirlineFees": "The airline may charge additional fees for checked baggage or other optional services.",
+      "CancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+      "ChangePenaltyText": "A change fee of $100.00 per ticket is charged by the airline for all itinerary changes."
+    },
+    "RuleToUrlMap": {
+      "CompletePenaltyRules": "https://172.17.251.37/Fare-Rules?tripid=58fe02ca-85fe-4c77-b63a-c5caadf309f6&tlid=1033",
+      "AirlineLiabilityLimitations": "https://172.17.251.37/p/info-main/warsaw?&tlid=1033",
+      "AdditionalAirlineFees": "https://172.17.251.37/Flights-BagFees?originapt=KUL&destinationapt=PEN&cabinclass=3&mktgcarrier=MH&opcarrier=&farebasis=NBCFOWMY&bookingclass=N&travelDate=2016-01-31&flightNumber=1140"
+    }
+  },
+  "validFormsOfPayment": [
+    {
+      "name": "MasterCard"
+    },
+    {
+      "name": "Visa"
+    }
+  ],
+  "isCustomerTitleRequired": true,
+  "expediaRewards": {
+    "totalPointsToEarn": 13,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "activityId": "c7083ed4-f245-45cf-bb6a-e7bc74e923a4",
+  "tealeafTransactionId": "1f99f3285ec84894b81c8205dc8ea452",
+  "guestUserPromoEmailOptInStatus": "ALWAYS",
+  "isSplitTicket": true
+}

@@ -3,13 +3,19 @@ package com.expedia.bookings.activity;
 import org.joda.time.DateTime;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
+import android.text.method.LinkMovementMethod;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,6 +25,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewTreeObserver.OnPreDrawListener;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -84,6 +91,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 	private ImageView mBgImageView;
 	private TextView mFreeCancellation;
 	private TextView mAirlineFeeNotice;
+	private TextView mSplitTicketInfoTextView;
 
 	private ScrollViewListener mScrollViewListener;
 	private ScrollView mContentScrollView;
@@ -176,6 +184,19 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 
 		addOverviewFragment();
 		setUpFreeCancellationAbTest();
+
+		mAirlineFeeNotice = Ui.findView(this, R.id.airline_fee_notice);
+		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
+			mAirlineFeeNotice.setVisibility(View.VISIBLE);
+		}
+
+		mSplitTicketInfoTextView = Ui.findView(this, R.id.split_ticket_info_link);
+		mSplitTicketInfoTextView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				buildSplitTicketInformationDialog();
+			}
+		});
 
 		mScrollViewListener = new ScrollViewListener();
 		mContentScrollView.addOnScrollListener(mScrollViewListener);
@@ -576,6 +597,8 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 				mOverviewFragment.setExpandedPercentage(1f - percentage);
 			}
 			mFreeCancellation.setAlpha(1f - percentage);
+			mSplitTicketInfoTextView.setAlpha(1f - percentage);
+
 			mCheckoutContainer
 				.setTranslationY((Math.max(mContentRoot.getHeight(), mUnstackedHeight) - mOverviewContainer
 					.getHeight()) * (1f - percentage));
@@ -633,7 +656,6 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 		actionBar.setCustomView(customView);
 
 		this.supportInvalidateOptionsMenu();
-
 	}
 
 	@Override
@@ -754,6 +776,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 	// FlightTripPriceFragmentListener
 
 	public void onCreateTripFinished() {
+		showSplitTicketBaggageFees();
 		if (mCheckoutFragment != null) {
 			mCheckoutFragment.refreshData();
 		}
@@ -865,5 +888,39 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 		if (df != null) {
 			df.dismiss();
 		}
+	}
+
+	private void showSplitTicketBaggageFees() {
+		boolean showSplitTicketInfo = Db.getTripBucket().getFlight().getItineraryResponse().isSplitTicket();
+		mSplitTicketInfoTextView.setVisibility(showSplitTicketInfo ? View.VISIBLE : View.GONE);
+	}
+
+	private void buildSplitTicketInformationDialog() {
+		Context context = this;
+		String flightInformationHeaderText = this.getString(R.string.split_ticket_important_flight_information_header);
+		AlertDialog.Builder builder = new AlertDialog.Builder(context).setTitle(
+			flightInformationHeaderText);
+		builder.setNeutralButton(com.mobiata.android.R.string.ok, null);
+		final FrameLayout frameView = new FrameLayout(context);
+		builder.setView(frameView);
+
+		final AlertDialog alertDialog = builder.create();
+
+		// build split ticket information view
+		LayoutInflater layoutInflater = alertDialog.getLayoutInflater();
+		View splitTicketInformationView = layoutInflater.inflate(R.layout.split_ticket_info_phone_dialog_content, frameView);
+		FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+		String baggageFeesUrlLegOne = flightTrip.getLeg(0).getBaggageFeesUrl();
+		String baggageFeesUrlLegTwo = flightTrip.getLeg(1).getBaggageFeesUrl();
+
+		TextView splitTicketBaggageFeesTextView = (TextView) splitTicketInformationView.findViewById(R.id.split_ticket_baggage_fee_links);
+		String baggageFeesTextWithLinks =
+			this.getString(R.string.split_ticket_baggage_fees, baggageFeesUrlLegOne, baggageFeesUrlLegTwo);
+		SpannableStringBuilder spannableStringBuilder =
+			StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, Color.BLACK, true);
+		splitTicketBaggageFeesTextView.setText(spannableStringBuilder);
+		splitTicketBaggageFeesTextView.setMovementMethod(LinkMovementMethod.getInstance());
+
+		alertDialog.show();
 	}
 }
