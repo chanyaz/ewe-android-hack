@@ -26,6 +26,7 @@ import com.expedia.vm.PackageCreateTripViewModel
 import com.expedia.vm.BundlePriceViewModel
 import com.expedia.vm.BundleFlightViewModel
 import com.expedia.vm.PackageSearchType
+import com.squareup.phrase.Phrase
 
 public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val ANIMATION_DURATION = 450L
@@ -67,9 +68,12 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
 
         vm.showBundleTotalObservable.subscribe { visible ->
+            var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
+                    .put("savings", Db.getPackageResponse().packageResult.currentSelectedOffer.price.tripSavingsFormatted)
+                    .format().toString()
             bundleTotalPriceWidget.visibility = if (visible) View.VISIBLE else View.GONE
             bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Db.getPackageResponse().packageResult.currentSelectedOffer.price.packageTotalPriceFormatted,
-                    Db.getPackageResponse().packageResult.currentSelectedOffer.price.tripSavingsFormatted))
+                    packageSavings))
         }
     }
 
@@ -83,8 +87,11 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
         vm.tripResponseObservable.subscribe(checkoutPresenter.viewModel.packageTripResponse)
         createTripViewModel.createTripBundleTotalObservable.subscribe { response ->
+            var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
+                    .put("savings", response.packageDetails.pricing.savings.formattedPrice)
+                    .format().toString()
             bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(response.packageDetails.pricing.packageTotal.formattedWholePrice,
-                    response.packageDetails.pricing.savings.formattedPrice))
+                    packageSavings))
         }
     }
 

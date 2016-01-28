@@ -3826,6 +3826,8 @@
 
     <!-- Label for package search toolbar -->
     <string name="package_toolbar_title">Hotel + Flight</string>
+    <!-- Label for per person -->
+    <string name="per_person">per person</string>
     <!-- Label for package search toolbar -->
     <string name="bundle_overview_title">Bundle Overview</string>
     <!-- Fly from hint -->

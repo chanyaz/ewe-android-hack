@@ -21,7 +21,9 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.LoadingOverlayWidget
+import com.expedia.bookings.widget.PackageBundlePriceWidget
 import com.expedia.util.endlessObserver
+import com.expedia.vm.BundlePriceViewModel
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelResultsViewModel
@@ -37,6 +39,8 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
 
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
+    val bundleOverviewWidget: PackageBundlePriceWidget by bindView(R.id.bundle_total)
+
     val resultsPresenter: PackageHotelResultsPresenter by lazy {
         var viewStub = findViewById(R.id.results_stub) as ViewStub
         var presenter = viewStub.inflate() as PackageHotelResultsPresenter
@@ -60,6 +64,9 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         presenter.hotelMapView.mapView = detailsMapView
         presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView);
         presenter.hotelDetailView.viewmodel = HotelDetailViewModel(context, null, selectedRoomObserver)
+        presenter.hotelDetailView.viewmodel.hotelDetailsBundleTotalObservable.subscribe { bundle ->
+            bundleOverviewWidget.viewModel.setTextObservable.onNext(bundle)
+        }
         presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut)
         presenter
     }
@@ -69,6 +76,8 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
     init {
         Ui.getApplication(context).packageComponent().inject(this)
         View.inflate(getContext(), R.layout.package_hotel_presenter, this)
+        bundleOverviewWidget.viewModel = BundlePriceViewModel(context)
+
     }
 
     override fun onFinishInflate() {
@@ -106,7 +115,7 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         info.subscribe(getInfoObserver())
     }
 
-    fun getOfferObserver() :  Observer<PackageOffersResponse> {
+    fun getOfferObserver(): Observer<PackageOffersResponse> {
         return object : Observer<PackageOffersResponse> {
             override fun onNext(response: PackageOffersResponse) {
                 println("offers success, Hotels:" + response.packageHotelOffers.size);
@@ -122,7 +131,7 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    fun getInfoObserver() :  Observer<HotelOffersResponse> {
+    fun getInfoObserver(): Observer<HotelOffersResponse> {
         return object : Observer<HotelOffersResponse> {
             override fun onNext(response: HotelOffersResponse) {
                 println("info success, Hotel:" + response.hotelName);
@@ -155,6 +164,12 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
+            if (forward) {
+                bundleOverviewWidget.visibility = View.VISIBLE
+                bundleOverviewWidget.viewModel.setTextObservable.onNext(Pair("0.00", context.getString(R.string.per_person)))
+            } else {
+                bundleOverviewWidget.visibility = View.GONE
+            }
             resultsPresenter.animationFinalize(forward)
         }
     }
@@ -165,8 +180,7 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun startTransition(forward: Boolean) {
             if (!forward) {
                 detailPresenter.hotelDetailView.resetViews()
-            }
-            else {
+            } else {
                 detailPresenter.hotelDetailView.refresh()
             }
             val parentHeight = height
@@ -187,6 +201,7 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun finalizeTransition(forward: Boolean) {
             detailPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             resultsPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+            bundleOverviewWidget.visibility = if (forward) View.VISIBLE else View.GONE
             detailPresenter.translationY = 0f
             resultsPresenter.animationFinalize(!forward)
             detailPresenter.animationFinalize()
