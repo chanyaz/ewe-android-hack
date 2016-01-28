@@ -13,7 +13,6 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
@@ -21,15 +20,11 @@ import static org.hamcrest.Matchers.allOf;
 public class LXCreateTripErrorTest extends LxTestCase {
 
 	private void goToCheckout(int productPosition, String ticketName) throws Throwable {
-		if (getLxIdlingResource().isInSearchEditMode()) {
-			onView(allOf(withId(R.id.error_action_button), withText(R.string.edit_search), isDescendantOfA(withId(R.id.lx_search_error_widget))))
-				.perform(click());
-			LXScreen.location().perform(typeText("San"));
-			LXScreen.selectLocation("San Francisco, CA");
-			LXScreen.selectDateButton().perform(click());
-			LXScreen.selectDates(LocalDate.now(), null);
-			LXScreen.searchButton().perform(click());
-		}
+		LXScreen.location().perform(typeText("San"));
+		LXScreen.selectLocation("San Francisco, CA");
+		LXScreen.selectDateButton().perform(click());
+		LXScreen.selectDates(LocalDate.now(), null);
+		LXScreen.searchButton().perform(click());
 
 		LXScreen.waitForSearchListDisplayed();
 		LXScreen.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(productPosition, click()));

@@ -6,11 +6,11 @@ import android.content.DialogInterface;
 import android.support.annotation.StringRes;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.LXNavUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 
 import rx.Observer;
@@ -35,18 +35,9 @@ public class LXCurrentLocationSuggestionObserver implements Observer<SuggestionV
 			showNoInternetErrorDialog(R.string.error_no_internet);
 			return;
 		}
-		else if (e instanceof ApiError) {
-			ApiError apiError = (ApiError)e;
-			if (apiError.errorCode == ApiError.Code.CURRENT_LOCATION_ERROR
-				|| apiError.errorCode == ApiError.Code.SUGGESTIONS_NO_RESULTS) {
-				Events.post(new Events.LXShowSearchError(apiError, SearchType.DEFAULT_SEARCH));
-			}
-			return;
+		else {
+			LXNavUtils.handleLXSearchFailure(e, SearchType.DEFAULT_SEARCH);
 		}
-
-		//Default
-		ApiError apiError = new ApiError(ApiError.Code.SUGGESTIONS_NO_RESULTS);
-		Events.post(new Events.LXShowSearchError(apiError, SearchType.DEFAULT_SEARCH));
 	}
 
 	@Override
