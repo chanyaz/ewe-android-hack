@@ -1,301 +1,1273 @@
 {
-  "reviewDetails": {
-    "numberOfReviewsInThisPage": 25,
-    "reviewCollection": {
-      "review": [
+  "reviewDetails":{
+    "startIndex":0,
+    "numberOfReviewsInThisPage":20,
+    "reviewSummaryCollection":{
+      "reviewSummary":[
         {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "55e5b1df4ec1d608f02fddaf",
-          "reviewSubmissionTime": "2015-09-01T14:10:39Z",
-          "reviewText": "We stayed just one night. It was close to all we needed and it was very clean. The staff was courteous and very helpful. Our room was very quiet and very nice.",
-          "title": "Nice",
-          "userDisplayName": "",
-          "userLocation": ""
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "55dc61e2e8f46a08f0ab8c56",
-          "reviewSubmissionTime": "2015-08-25T12:38:58Z",
-          "reviewText": "The park and fly for this hotel is great the shuttle is quick and the valet has your car ready when you arrive from the airport. The staff and rooms are wonderful we are a family of  4 and we will be back",
-          "title": "Convenient and easy ",
-          "userDisplayName": "",
-          "userLocation": "Monterey, CA"
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "55dbc8d62cc7a908f057deda",
-          "reviewSubmissionTime": "2015-08-25T01:45:58Z",
-          "reviewText": "As always a Very Friendly Staff and Well Kept Facility",
-          "title": "Very Nice Hotel close to City and Airport",
-          "userDisplayName": "",
-          "userLocation": "Arroyo Grande, Ca"
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "55d930e324346308f03dbb54",
-          "reviewSubmissionTime": "2015-08-23T02:33:07Z",
-          "reviewText": "Some construction work was going on but noisy only between 9 and 5. Nothing within walking distance but shuttle to airport is frequent. Less frequent (hourly) is shuttle to the shops in Burlingame where many good eateries are.",
-          "title": "Convenient shuttle service to and from SFO airport",
-          "userDisplayName": "",
-          "userLocation": ""
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "55c96369eefa1808ec22db19",
-          "reviewSubmissionTime": "2015-08-11T02:52:25Z",
-          "reviewText": "Very nice, clean, quiet room for a decent price.  ",
-          "title": "",
-          "userDisplayName": "",
-          "userLocation": ""
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "55c233bd62f4e60906401877",
-          "reviewSubmissionTime": "2015-08-05T16:03:09Z",
-          "reviewText": "The hotel itself was beautiful with a big central atrium.  Loved being able to take nice long walks right along the water on a walking path. Convenient shuttle bus picks you up in front of the hotel and takes you to downtown Burlingame. A must visit. Great shops and restaurants. Also, free shuttle busses to and from the airport. I would definitely stay here again. Pool needs some new lounge chairs though. Pool is nice. ",
-          "title": "Very nice hotel on the water. ",
-          "userDisplayName": "",
-          "userLocation": "V."
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "55bd1c61af733a09115f9789",
-          "reviewSubmissionTime": "2015-08-01T19:22:09Z",
-          "reviewText": "Great service and the staff were very friendly and helpful in every way.  I would recommend to a friend. ",
-          "title": "Nice, close to the airport and friendly staff",
-          "userDisplayName": "",
-          "userLocation": ""
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "55bd0d4df359ba08f3d216ab",
-          "reviewSubmissionTime": "2015-08-01T18:17:49Z",
-          "reviewText": "Stayed the night and took the BART to the City. We left the car and took a shuttle.",
-          "title": "Clean and staff was so kind.",
-          "userDisplayName": "",
-          "userLocation": ""
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "55b6496e38a41b09006d61e8",
-          "reviewSubmissionTime": "2015-07-27T15:08:30Z",
-          "reviewText": "Great service and very helpful during our stay. Definitely recommend this hotel.",
-          "title": "Very nice and clean hotel. Great staff!",
-          "userDisplayName": "",
-          "userLocation": ""
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "55ad0f9958c0bc08e7a6be8e",
-          "reviewSubmissionTime": "2015-07-20T15:11:21Z",
-          "reviewText": "All Ok, clean, well maintained, good food, easy parking",
-          "title": "Convenient location - close to the airport",
-          "userDisplayName": "",
-          "userLocation": ""
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "55a67320e61efd08f8346652",
-          "reviewSubmissionTime": "2015-07-15T14:50:08Z",
-          "reviewText": "Close to the airport, timely shuttle service, free wifi. Everything we needed. We arrived late, went to sleep and got the early morning shuttle.",
-          "title": "Great Airport Hotel",
-          "userDisplayName": "",
-          "userLocation": ""
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "55a3e6ab05c50408f8b48448",
-          "reviewSubmissionTime": "2015-07-13T16:26:19Z",
-          "reviewText": "What a nice hotel to stay in just be prepared to pay for parking. I guess a city this size parking is a huge issue. Overall very nice hotel ",
-          "title": "From Tijuana ",
-          "userDisplayName": "",
-          "userLocation": ""
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "55a28e14460f0508f983526b",
-          "reviewSubmissionTime": "2015-07-12T15:56:04Z",
-          "reviewText": "El lugar es tranquilo, y la avenida invita a caminar frente al mar. Tiene un buen servicio de Shuttle al aeropuerto. El servicio es bueno, la gente es, en general, amable. \r\nLa comida es buena y suficientemente variada. En las cercanías hay también un par de restaurantes. \r\nMi estancia tuvo que ver con conferencias de trabajo, por lo cual y normalmente combinaba las horas de conferencia con trabajo desde mi habitación, lo cual me resultó muy cómodo.\r\nEl checkout fue expedito, aunque tuve que pasar por el counter porque el checkout automático desde la habitación no operaba.\r\nEn un buen hotel, particularmente para ocasiones de negocios.",
-          "title": "El hotel está cerca del aeropuerto Int. de SFO",
-          "userDisplayName": "",
-          "userLocation": "México City, México"
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "55a1463888016b08dd60043c",
-          "reviewSubmissionTime": "2015-07-11T16:37:12Z",
-          "reviewText": "Hotel was not too far from San Francisco main attractions (about 20 minutes). Staff was extremely polite. Nice rooms. Buffet was ok, but overpriced. The air conditioning in the room was not working well. It would turn off. ",
-          "title": "",
-          "userDisplayName": "",
-          "userLocation": "Gardena, Ca"
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "55a12c6460d67808f7de23a3",
-          "reviewSubmissionTime": "2015-07-11T14:47:00Z",
-          "reviewText": "My wife and I had been staying at the nearby redroof and were not thrilled with its obscure location and overworked staff, and switched to the Hyatt for just $30 more per night.  What a difference!  The Hyatt has actual restaurants and a gorgeous attrium, plus is close to several nice dining venues within walking distance. Everything else is at least two stars above the redroof, which Expedia anomoloisly grades 3.5 stars to the Hyatt\u0027s 4.0 stars. the Hyatt airport shuttle is also twice as frequent and dedicated to the Hyatt, in contrast to the redroof shuttle which runs just twice an hour and shares with another hotel. ",
-          "title": "Beautiful facilities, attentive staff",
-          "userDisplayName": "",
-          "userLocation": "oxnard"
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "5591707ea2064008e39c0c99",
-          "reviewSubmissionTime": "2015-06-29T16:21:18Z",
-          "reviewText": "It was great. The hotel is really impressive, and not too far from SF.",
-          "title": "",
-          "userDisplayName": "",
-          "userLocation": "los angeles, ca"
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "557cd4e1ec190809845aa40c",
-          "reviewSubmissionTime": "2015-06-14T01:12:01Z",
-          "reviewText": "Comfortable, near airport has a shuttle but is not terribly expensive.",
-          "title": "Great Airport hotel",
-          "userDisplayName": "",
-          "userLocation": "Falmouth, MA"
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "55773aef58c7190a0a9a78b2",
-          "reviewSubmissionTime": "2015-06-09T19:13:51Z",
-          "reviewText": "We only stayed one night, to fly out the next day, and paid for the stay and play package which included the parking.  The valet when we pulled up was so friendly and helpful! And then the staff at the registration desk made sure to give us a quiet room because we had an early flight. The room was clean and quiet, with a little balcony overlooking the atrium. The concierge gave us the rundown on restaurants we could walk to, and we really enjoyed our dinner at Max\u0027s,and the next morning, the shuttle was right on time, with a friendly driver, and it was all fantastic!  After our flight back, the shuttle was right there, we called the hotel, and our car was waiting for us, and the valet opened our doors for us with smiles and friendliness.  I highly reccommend!!",
-          "title": "Excellent location and super friendly staff",
-          "userDisplayName": "",
-          "userLocation": "central CA"
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "95624115",
-          "reviewSubmissionTime": "2015-06-05T20:45:17Z",
-          "reviewText": "The computers were down and there was a long line to check in, but the hotel staff handled the situation very well. They served beer to the guests waiting in line, which made my husband very happy. The breakfast buffet was very nice and the wait staff was exceptional. The room was nice and very comfortable. Would stay again!",
-          "title": "Would stay again!",
-          "userDisplayName": "",
-          "userLocation": ""
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 5,
-          "recommended": true,
-          "reviewId": "95504873",
-          "reviewSubmissionTime": "2015-06-03T13:40:31Z",
-          "reviewText": "Beautiful atrium lobby and enjoyable public spaces. Attentive and helpful staff. Lovely room ... beds on the firm side. If you are a light sleeper, ask for a room away from the elevators. All guests were wonderfully quiet, but we were near the elevator gear room, and I could hear the motors whirring all night....",
-          "title": "Great when you have a 5 a.m. SFO departure",
-          "userDisplayName": "Moira",
-          "userLocation": "Santa Rosa"
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 2,
-          "recommended": true,
-          "reviewId": "556ce36a0497650a0c4c1625",
-          "reviewSubmissionTime": "2015-06-01T22:57:46Z",
-          "reviewText": "My room wasn\u0027t ready upon check-in, so we had to wait about an hour.  The hotel representative was very helpful \u0026 gave us free parking for our stay.  I found the customer service to be excellent.",
-          "title": "Great location",
-          "userDisplayName": "",
-          "userLocation": " Ripon, CA"
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 2,
-          "recommended": true,
-          "reviewId": "95349236",
-          "reviewSubmissionTime": "2015-06-01T14:14:13Z",
-          "reviewText": "hotel muito bom, proximo ao aeroporto, somente o custo do estacionamento alto.",
-          "title": "muito bom",
-          "userDisplayName": "Carlos",
-          "userLocation": "campinas"
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 3,
-          "recommended": true,
-          "reviewId": "55b295f87134290907739717",
-          "reviewSubmissionTime": "2015-05-31T14:13:45Z",
-          "title":"価格に見合わない古いモーテル",
-          "reviewText":"部屋の中の匂いが臭く、服に匂いがうつった。通りに面しておりうるさい。スタッフが愛想もな、サービス業の認識がない。",
-          "userDisplayName": "",
-          "userLocation":"カルフォルニア州"
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 1,
-          "recommended": true,
-          "reviewId": "94827006",
-          "reviewSubmissionTime": "2015-05-25T14:04:49Z",
-          "reviewText": "",
-          "title": "",
-          "userDisplayName": "John",
-          "userLocation": ""
-        },
-        {
-          "hotelId": "26500",
-          "ratingOverall": 2,
-          "recommended": true,
-          "reviewId": "94786919",
-          "reviewSubmissionTime": "2015-05-24T14:47:39Z",
-          "reviewText": "",
-          "title": "",
-          "userDisplayName": "",
-          "userLocation": ""
+          "id":"26500-expedia",
+          "hotelId":"26500",
+          "totalReviewCnt":2375,
+          "avgOverallRating":4.0593705,
+          "cleanliness":4.3233643,
+          "serviceAndStaff":4.2374725,
+          "roomComfort":4.2056465,
+          "hotelCondition":4.1516805,
+          "convenienceOfLocation":4.2990108,
+          "neighborhoodSatisfaction":3.8214555,
+          "roomQuality":0.0,
+          "targetedBrand":"Expedia",
+          "originSummary":[
+            {
+              "origin":"CheapTickets",
+              "reviewCnt":12,
+              "recommendedPercent":100.0,
+              "avgOverallRating":4.2500005,
+              "cleanliness":4.5,
+              "serviceAndStaff":4.5,
+              "roomComfort":4.6666665,
+              "hotelCondition":0.0,
+              "convenienceOfLocation":4.6666665,
+              "neighborhoodSatisfaction":0.0,
+              "valueForMoney":4.1666665,
+              "roomQuality":0.0,
+              "categoryCounts":{
+                "BusinessTravelers":6,
+                "Couples":5,
+                "Families":1
+              },
+              "languageCounts":{
+                "en":12
+              }
+            },
+            {
+              "origin":"Ebookers",
+              "reviewCnt":1,
+              "recommendedPercent":100.0,
+              "avgOverallRating":4.0,
+              "cleanliness":4.0,
+              "serviceAndStaff":4.0,
+              "roomComfort":4.0,
+              "hotelCondition":0.0,
+              "convenienceOfLocation":5.0,
+              "neighborhoodSatisfaction":0.0,
+              "valueForMoney":4.0,
+              "roomQuality":0.0,
+              "categoryCounts":{
+                "BusinessTravelers":1
+              },
+              "languageCounts":{
+                "en":1
+              }
+            },
+            {
+              "origin":"Expedia",
+              "reviewCnt":885,
+              "recommendedPercent":80.22598,
+              "avgOverallRating":3.9615855,
+              "cleanliness":4.237284,
+              "serviceAndStaff":4.206784,
+              "roomComfort":4.1175127,
+              "hotelCondition":4.018075,
+              "convenienceOfLocation":4.206186,
+              "neighborhoodSatisfaction":3.7938144,
+              "valueForMoney":0.0,
+              "roomQuality":0.0,
+              "categoryCounts":{
+                "Everyone":544,
+                "Couples":42,
+                "BusinessTravelers":65,
+                "Students":1,
+                "Families":33,
+                "Other":5
+              },
+              "languageCounts":{
+                "de":17,
+                "sv":1,
+                "pt":3,
+                "ja":17,
+                "en":831,
+                "it":1,
+                "fr":3,
+                "da":1,
+                "nl":6,
+                "es":4,
+                "zh":1
+              }
+            },
+            {
+              "origin":"HotelClub",
+              "reviewCnt":6,
+              "recommendedPercent":100.0,
+              "avgOverallRating":4.0,
+              "cleanliness":4.3333335,
+              "serviceAndStaff":3.6666667,
+              "roomComfort":4.5,
+              "hotelCondition":0.0,
+              "convenienceOfLocation":3.6666667,
+              "neighborhoodSatisfaction":0.0,
+              "valueForMoney":3.6666667,
+              "roomQuality":0.0,
+              "categoryCounts":{
+                "Everyone":2,
+                "BusinessTravelers":2,
+                "Families":1,
+                "Other":1
+              },
+              "languageCounts":{
+                "de":1,
+                "en":5
+              }
+            },
+            {
+              "origin":"Hotels",
+              "reviewCnt":1283,
+              "recommendedPercent":97.03819,
+              "avgOverallRating":4.126268,
+              "cleanliness":4.3811326,
+              "serviceAndStaff":4.245513,
+              "roomComfort":4.2579894,
+              "hotelCondition":4.243179,
+              "convenienceOfLocation":4.317233,
+              "neighborhoodSatisfaction":3.8236246,
+              "valueForMoney":0.0,
+              "roomQuality":0.0,
+              "categoryCounts":{
+                "BusinessTravelers":263,
+                "Couples":90,
+                "Golf":3,
+                "OvernightStayBeforeDestination":61,
+                "Families":202,
+                "PersonalEvent":56,
+                "GetawayWithFriends":40
+              },
+              "languageCounts":{
+                "de":13,
+                "sv":13,
+                "ru":1,
+                "fi":4,
+                "ko":17,
+                "pt":6,
+                "en":1102,
+                "it":2,
+                "fr":14,
+                "zh":43,
+                "es":15,
+                "nb":11,
+                "th":1,
+                "ja":27,
+                "da":9,
+                "nl":4,
+                "tr":1
+              }
+            },
+            {
+              "origin":"Lastminute",
+              "reviewCnt":1,
+              "recommendedPercent":100.0,
+              "avgOverallRating":3.0,
+              "cleanliness":5.0,
+              "serviceAndStaff":4.0,
+              "roomComfort":5.0,
+              "hotelCondition":5.0,
+              "convenienceOfLocation":0.0,
+              "neighborhoodSatisfaction":0.0,
+              "valueForMoney":0.0,
+              "roomQuality":0.0,
+              "categoryCounts":{
+                "Everyone":1
+              },
+              "languageCounts":{
+                "en":1
+              }
+            },
+            {
+              "origin":"Orbitz",
+              "reviewCnt":187,
+              "recommendedPercent":100.0,
+              "avgOverallRating":4.0588217,
+              "cleanliness":4.320855,
+              "serviceAndStaff":4.3315506,
+              "roomComfort":4.2245975,
+              "hotelCondition":0.0,
+              "convenienceOfLocation":4.2513347,
+              "neighborhoodSatisfaction":0.0,
+              "valueForMoney":3.8877006,
+              "roomQuality":0.0,
+              "categoryCounts":{
+                "Couples":72,
+                "BusinessTravelers":56,
+                "Families":35,
+                "Other":18,
+                "GetawayWithFriends":6
+              },
+              "languageCounts":{
+                "en":187
+              }
+            }
+          ],
+          "recommendedPercent":90.93617,
+          "valueForMoney":3.8980582,
+          "categoryCounts":{
+            "Everyone":547,
+            "BusinessTravelers":393,
+            "Couples":209,
+            "Golf":3,
+            "Students":1,
+            "OvernightStayBeforeDestination":61,
+            "Families":272,
+            "PersonalEvent":56,
+            "Other":24,
+            "GetawayWithFriends":46
+          },
+          "languageCounts":{
+            "de":31,
+            "sv":14,
+            "ru":1,
+            "fi":4,
+            "pt":9,
+            "ko":17,
+            "en":2139,
+            "it":3,
+            "fr":17,
+            "es":19,
+            "zh":44,
+            "nb":11,
+            "th":1,
+            "ja":44,
+            "da":10,
+            "nl":10,
+            "tr":1
+          },
+          "featuredReview":{
+
+          }
         }
       ]
     },
-    "reviewSummaryCollection": {
-      "reviewSummary": [
+    "reviewCollection":{
+      "review":[
         {
-          "avgOverallRating": 4.091101,
-          "cleanliness": 4.349736,
-          "convenienceOfLocation": 4.3053875,
-          "hotelCondition": 4.196336,
-          "hotelId": "26500",
-          "id": "26500-expedia",
-          "neighborhoodSatisfaction": 3.8329005,
-          "roomComfort": 4.232463,
-          "serviceAndStaff": 4.2471204,
-          "totalReviewCnt": 1910
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1125114547051",
+          "reviewId":"56a80bdd514e320993982796",
+          "ratingOverall":4,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"",
+          "title":"Nice hotel close to airport",
+          "reviewText":"We had an early flight so chose this hotel due to proximity to the airport. The nice things about this hotel- very nice and clean, great facilities. Also, there is a shuttle at regular intervals that takes you to the airport. The room we had was on the 8th floor. Due to construction on site, it did tend to get a bit noisy during the day, but was reasonably quiet at night (other than traffic on the freeway).",
+          "campaignId":"hur",
+          "featured":false,
+          "recommended":true,
+          "ratingsOnly":false,
+          "userNickname":"",
+          "ratingRoomCleanliness":5,
+          "ratingHotelCondition":4,
+          "ratingService":5,
+          "ratingRoomComfort":4,
+          "positiveRemarks":"",
+          "negativeRemarks":"",
+          "locationRemarks":"",
+          "lastInitial":"",
+          "userLocation":"",
+          "managementResponses":[
+
+          ],
+          "trackingId":"32b11e5c-17ab-464e-80e1-6274e78fa30d",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"0E6A44C5A6E626D401806C0554163F44DBA22575",
+          "reviewSubmissionTime":"2016-01-27T00:14:21Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"YES",
+          "isFlaggable":true,
+          "isUnverified":false
+        },
+        {
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1125685557590",
+          "reviewId":"56a79f1493182e0994bd7fa6",
+          "ratingOverall":4,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"",
+          "title":"Okay ",
+          "reviewText":"Still under renovation, too high price for the noise that is going on now !!",
+          "campaignId":"REMINDER_HUR2",
+          "featured":false,
+          "recommended":true,
+          "ratingsOnly":false,
+          "userNickname":"",
+          "ratingRoomCleanliness":4,
+          "ratingHotelCondition":4,
+          "ratingService":4,
+          "ratingRoomComfort":4,
+          "positiveRemarks":"",
+          "negativeRemarks":"",
+          "locationRemarks":"",
+          "lastInitial":"",
+          "userLocation":"",
+          "managementResponses":[
+
+          ],
+          "trackingId":"7fcf69d4-0992-4fb0-ab68-8c5ac72836d3",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"C8AF4A058C38741239D83E160EDF0B6F0887D5F0",
+          "reviewSubmissionTime":"2016-01-26T16:30:12Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"YES",
+          "isFlaggable":true,
+          "isUnverified":false
+        },
+        {
+          "tpid":"4",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"4105",
+          "itinId":"1125775168549",
+          "reviewId":"56a64858b097020993cc1e16",
+          "ratingOverall":3,
+          "contentLocale":"en_ca",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"MMA HMP",
+          "title":"Hotel under major construction/renovation\r\n",
+          "reviewText":"Disappointed. Despite the fact that the hotel is under major renovation and the noise starts at 9am, including week end, the hotel is dated, the room is small, no accomodities... it was not what I expected from a Hyatt !!",
+          "campaignId":"hur",
+          "featured":false,
+          "recommended":false,
+          "ratingsOnly":false,
+          "userNickname":"Bruce",
+          "ratingRoomCleanliness":3,
+          "ratingHotelCondition":2,
+          "ratingService":3,
+          "ratingRoomComfort":2,
+          "positiveRemarks":"",
+          "negativeRemarks":"",
+          "locationRemarks":"",
+          "lastInitial":"J",
+          "userLocation":"Calgary",
+          "managementResponses":[
+
+          ],
+          "trackingId":"18105838-B769-4EC4-B80C-50D00396B5AB",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"655B53CFF7E36F424D48CE6A01F37CD2B2D20555",
+          "reviewSubmissionTime":"2016-01-25T16:07:52Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"NO",
+          "isFlaggable":false,
+          "isUnverified":false
+        },
+        {
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1125454864990",
+          "reviewId":"56a3a3fb8d40970994e46516",
+          "ratingOverall":2,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"HMP MMD",
+          "title":"",
+          "reviewText":"When we checked in for our two nights stay, we were told do not use water until 4:00pm as construction is going on.  Then next morning about 8am drilling sound started. It wasn't comfortable at all. We left the hotel during the daytime and came back late evening. Next day cleaning lady knocking our door even though we had do not disturb sign. I would rank this hotel 2-star.",
+          "campaignId":"REMINDER_HUR2",
+          "featured":false,
+          "recommended":false,
+          "ratingsOnly":false,
+          "userNickname":"",
+          "ratingRoomCleanliness":2,
+          "ratingHotelCondition":1,
+          "ratingService":3,
+          "ratingRoomComfort":2,
+          "positiveRemarks":"",
+          "negativeRemarks":"",
+          "locationRemarks":"",
+          "lastInitial":"",
+          "userLocation":"",
+          "managementResponses":[
+
+          ],
+          "trackingId":"ad92ab17-9606-45bc-940b-95202dc91811",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"E0C0DA08525951E86DE5B6383A3D87B0A026CFD0",
+          "reviewSubmissionTime":"2016-01-23T16:02:03Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"NO",
+          "isFlaggable":false,
+          "isUnverified":false
+        },
+        {
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1124464074921",
+          "reviewId":"56a30572ddbe1909959bb66f",
+          "ratingOverall":2,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"HMP MMD",
+          "title":"",
+          "reviewText":"Hotel is under construction.  I stayed over the weekend and the loud banging started Saturday 8AM and lasted all day.  Sunday, same thing.  I had to physically get out of the hotel because the noise was causing me a headache.  ",
+          "campaignId":"REMINDER_HUR2",
+          "featured":false,
+          "recommended":false,
+          "ratingsOnly":false,
+          "userNickname":"",
+          "ratingRoomCleanliness":5,
+          "ratingHotelCondition":2,
+          "ratingService":3,
+          "ratingRoomComfort":5,
+          "positiveRemarks":"",
+          "negativeRemarks":"",
+          "locationRemarks":"",
+          "lastInitial":"",
+          "userLocation":"",
+          "managementResponses":[
+
+          ],
+          "trackingId":"281d5d39-3703-4864-86cb-24c39e2a8ef9",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"D1BC964D689D6698CC7CD5387C1CD7B4BD84A2C0",
+          "reviewSubmissionTime":"2016-01-23T04:45:38Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"NO",
+          "isFlaggable":false,
+          "isUnverified":false
+        },
+        {
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1125788450293",
+          "reviewId":"56a256a79109a10996fff633",
+          "ratingOverall":2,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"NLI HMP MMD",
+          "title":"Construction - Beware",
+          "reviewText":"We were put in a \"newly-renovated\" room. The odor of carpet adhesive, off-gassing, etc. was unbearable, the bathroom had not been update and the tub had ground-in dirt, old mortar, etc. A nearby room under renovation was left wide open all evening/night, with construction debris and multiple hazards exposed. Poor management, no quality control, very unsatisfying experience. After complaining, the \"old\" room we were moved to could be considered a generic 2-3 star accommodation, an incredibly long walk from the elevators, a major design flaw of this hotel. ",
+          "campaignId":"hur",
+          "featured":false,
+          "recommended":false,
+          "ratingsOnly":false,
+          "userNickname":"",
+          "ratingRoomCleanliness":3,
+          "ratingHotelCondition":1,
+          "ratingService":4,
+          "ratingRoomComfort":3,
+          "positiveRemarks":"",
+          "negativeRemarks":"",
+          "locationRemarks":"",
+          "lastInitial":"",
+          "userLocation":"",
+          "managementResponses":[
+
+          ],
+          "trackingId":"a5740c8d-7920-40c3-b2d6-5695d942792e",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"67C27F51D3C2D1D9844F6A8FC3FB865EBA728A5D",
+          "reviewSubmissionTime":"2016-01-22T16:19:51Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"NO",
+          "isFlaggable":false,
+          "isUnverified":false
+        },
+        {
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1124272539455",
+          "reviewId":"569e67e118480e09549b020a",
+          "ratingOverall":5,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"",
+          "title":"Convenient Hotel",
+          "reviewText":"So the great thing about this hotel is the proximity to the airport. Also the rooms are remodeled and spacious.",
+          "campaignId":"hur",
+          "featured":false,
+          "recommended":true,
+          "ratingsOnly":false,
+          "userNickname":"",
+          "ratingRoomCleanliness":5,
+          "ratingHotelCondition":4,
+          "ratingService":5,
+          "ratingRoomComfort":5,
+          "positiveRemarks":"",
+          "negativeRemarks":"",
+          "locationRemarks":"",
+          "lastInitial":"",
+          "userLocation":"",
+          "managementResponses":[
+
+          ],
+          "trackingId":"42857464-E60A-44A9-8B2F-68ACA0DB549E",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"7E7F4C363E754964405DF11E8E20A919FEFC9916",
+          "reviewSubmissionTime":"2016-01-19T16:44:17Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"YES",
+          "isFlaggable":true,
+          "isUnverified":false
+        },
+        {
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1123638245111",
+          "reviewId":"569d417a68169c09687862d4",
+          "ratingOverall":3,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"",
+          "title":"OK hotel, close to the airport",
+          "reviewText":"Hotel looks old and in need of updating.  Room was clean; bathroom, tub and shower needed to be redone (tiles and caulking looked really dingy and grey; tub had stains as well).",
+          "campaignId":"REMINDER_HUR2",
+          "featured":false,
+          "recommended":false,
+          "ratingsOnly":false,
+          "userNickname":"Art",
+          "ratingRoomCleanliness":3,
+          "ratingHotelCondition":2,
+          "ratingService":4,
+          "ratingRoomComfort":2,
+          "positiveRemarks":"Close to the hotel; staff was friendly.",
+          "negativeRemarks":"The bathrooms really needed to be updated and refreshed.",
+          "locationRemarks":"",
+          "lastInitial":"",
+          "userLocation":"New York",
+          "managementResponses":[
+
+          ],
+          "trackingId":"0a9c7fc3-f7cd-4b23-a578-7447b5b5dd94",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"2DC15FB88FD3E1A1285A4407F64EA535782A50D3",
+          "reviewSubmissionTime":"2016-01-18T19:48:10Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"NO",
+          "isFlaggable":true,
+          "isUnverified":false
+        },
+        {
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1124614553470",
+          "reviewId":"569bee1d249b8509673a6759",
+          "ratingOverall":3,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"MMA",
+          "title":"Under Construction",
+          "reviewText":"It is hard to rate this hotel, because there was so much construction going on that it had almost none of its amenities available.  The staff did everything they could to compensate.  They were attentive and flexible, but they had few resources to work with.\r\n\r\nThe location was great (for the airport).  It is a good meeting location.  I hope the next time I am there, it will be a great meeting hotel.",
+          "campaignId":"REMINDER_HUR2",
+          "featured":false,
+          "recommended":true,
+          "ratingsOnly":false,
+          "userNickname":"GEB",
+          "ratingRoomCleanliness":3,
+          "ratingHotelCondition":2,
+          "ratingService":5,
+          "ratingRoomComfort":3,
+          "positiveRemarks":"Location to the airport.",
+          "negativeRemarks":"Finish construction.  Restaurant.  Fitness center.",
+          "locationRemarks":"We were there for meetings.  The airport location was terrific.",
+          "lastInitial":"",
+          "userLocation":"San Antonio",
+          "managementResponses":[
+
+          ],
+          "trackingId":"c38475c9-2aba-4efc-b6c9-21f61de2f842",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"89B400517974F9FE34CB087A659FDCC25873569E",
+          "reviewSubmissionTime":"2016-01-17T19:40:13Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"BusinessTravelers",
+              "categoryLabel":"BusinessTravelers"
+            }
+          ],
+          "isRecommended":"YES",
+          "isFlaggable":false,
+          "isUnverified":false
+        },
+        {
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1124979867004",
+          "reviewId":"5697c1d368169c0968b829cf",
+          "ratingOverall":2,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"HMP MMD",
+          "title":"High Price, Poor Quality",
+          "reviewText":"Paid over $500 per night and have never experienced such a poor relationship between price and value.  The hotel is under renovation - a good thing, as it certainly needs it.  In general. the place is shabby and not clean.  ",
+          "campaignId":"hur",
+          "featured":false,
+          "recommended":false,
+          "ratingsOnly":false,
+          "userNickname":"Steve",
+          "ratingRoomCleanliness":3,
+          "ratingHotelCondition":2,
+          "ratingService":3,
+          "ratingRoomComfort":3,
+          "positiveRemarks":"Convenient to airport.",
+          "negativeRemarks":"Where do I start?  The hotel is under renovation - long overdue, I would say.  ",
+          "locationRemarks":"",
+          "lastInitial":"",
+          "userLocation":"Houston",
+          "managementResponses":[
+
+          ],
+          "trackingId":"2FC4EAF0-4B54-4C5B-A6CE-6D0140E8274A",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"E1D8FC748B5E999942E5FC837580E4D3B4FA9629",
+          "reviewSubmissionTime":"2016-01-14T15:42:11Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"NO",
+          "isFlaggable":false,
+          "isUnverified":false
+        },
+        {
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1119541701986",
+          "reviewId":"5696aeee611f66096731dce8",
+          "ratingOverall":2,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"HMP MMD",
+          "title":"under construction, very difficult even to get to ",
+          "reviewText":"in room service? practically \"nothing\" THE MENU IS SO \"NOTHING\",  the person answered the call was so terrible cold and harsh.\r\nroom design is horrible.\r\nWILL NOT GO BACK THERE.",
+          "campaignId":"hur",
+          "featured":false,
+          "recommended":false,
+          "ratingsOnly":false,
+          "userNickname":"",
+          "ratingRoomCleanliness":3,
+          "ratingHotelCondition":2,
+          "ratingService":2,
+          "ratingRoomComfort":2,
+          "positiveRemarks":"NOTHING",
+          "negativeRemarks":"EVERYTHING",
+          "locationRemarks":"GET TO THE AIR PORT",
+          "lastInitial":"",
+          "userLocation":"",
+          "managementResponses":[
+
+          ],
+          "trackingId":"00ECC436-8266-4C80-8C63-398AEDBF622E",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"6ABCDCBBAF486C3429894AAF7B6C0F2E236721AA",
+          "reviewSubmissionTime":"2016-01-13T20:09:18Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"NO",
+          "isFlaggable":false,
+          "isUnverified":false
+        },
+        {
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1120201740538",
+          "reviewId":"56951ab99416db0967630967",
+          "ratingOverall":2,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"MMA",
+          "title":"Hotel Under Construction",
+          "reviewText":"We were never advised that the hotel was under construction. Its is also 15 minutes from the airport and when we were dropped off we had to lug our suitcases 0 yards since the front door is closed...very disappointed!",
+          "campaignId":"REMINDER_HUR2",
+          "featured":false,
+          "recommended":false,
+          "ratingsOnly":false,
+          "userNickname":"",
+          "ratingRoomCleanliness":4,
+          "ratingHotelCondition":2,
+          "ratingService":4,
+          "ratingRoomComfort":3,
+          "positiveRemarks":"Staff was friendly",
+          "negativeRemarks":"Finish construction and dont offer hotel as if there is nothing going on!\r\n",
+          "locationRemarks":"",
+          "lastInitial":"",
+          "userLocation":"",
+          "managementResponses":[
+
+          ],
+          "trackingId":"f96c92bb-b23d-4534-b522-d5e2fb60b952",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"98D350FC37C7B41B34BCDF3DBFD94CF2F8F128A2",
+          "reviewSubmissionTime":"2016-01-12T15:24:41Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"NO",
+          "isFlaggable":false,
+          "isUnverified":false
+        },
+        {
+          "tpid":"4",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"4105",
+          "itinId":"1120730679497",
+          "reviewId":"56915dc33aedb8432c070dd3",
+          "ratingOverall":2,
+          "contentLocale":"en_ca",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"HMP MMD",
+          "title":"Hotel is under renovation which is overdue",
+          "reviewText":"It should've been renovated 30 years ago. The noise all over. Can't rest at all. They charged over $240 for the night in this conditions. Also there was some hair in the bathtub. Not what you expect from Hyatt. The hallways and doors look like from another era. It will take years to bring this hotel up to 4* standard. ",
+          "campaignId":"hur",
+          "featured":false,
+          "recommended":false,
+          "ratingsOnly":false,
+          "userNickname":"Oscar",
+          "ratingRoomCleanliness":2,
+          "ratingHotelCondition":2,
+          "ratingService":3,
+          "ratingRoomComfort":3,
+          "positiveRemarks":"Location",
+          "negativeRemarks":"A lot of renovations required. Long walk from elevator. Elevators should be added.\r\nThe bar like the small town bar. Not very classy. ",
+          "locationRemarks":"",
+          "lastInitial":"",
+          "userLocation":"edmonton, Ab",
+          "managementResponses":[
+
+          ],
+          "trackingId":"46BA0905-C14F-4313-97D9-015B9AF68DA0",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"C68924A87907FD00F41E7230B49B2216B17CB4A1",
+          "reviewSubmissionTime":"2016-01-09T19:21:39Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"NO",
+          "isFlaggable":false,
+          "isUnverified":false
+        },
+        {
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1123482782208",
+          "reviewId":"568d3a9b8c371c46cf13b83b",
+          "ratingOverall":1,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"HMP MMD",
+          "title":"Under Construction",
+          "reviewText":"I picked this Hotel because I had stayed there before and it was beautiful. I had no idea the Hotel was under construction. The noise started at 7:00am. Everything was blocked off. You could get to the elevator and your hotel room and that was it. However, I can live with the construction and without the beautiful atrium courtyard for a brief stay. The topper to this stay was there was no running water in the bathtub/shower. The bathroom sink had water but not the tub. We called the front desk and there was no answer. We called the concierge, they answered, transferred us to the front desk and no answer. We tried four times to get someone to answer. We became extremely frustrated and packed up and left. When I checked out the lady at the \"front\" desk was very pleasant and took care of our dinner charge on our room. However, I will now always try the shower faucet when I first arrive at a Hotel to make sure it works before I settle in.  ",
+          "campaignId":"hur",
+          "featured":false,
+          "recommended":false,
+          "ratingsOnly":false,
+          "userNickname":"",
+          "ratingRoomCleanliness":4,
+          "ratingHotelCondition":1,
+          "ratingService":2,
+          "ratingRoomComfort":1,
+          "positiveRemarks":"It was close to the airport. ",
+          "negativeRemarks":"Notifying patrons that the hotel is under construction upon booking the reservation. ",
+          "locationRemarks":"It is on the bay so it is a wonderful place. ",
+          "lastInitial":"",
+          "userLocation":"",
+          "managementResponses":[
+
+          ],
+          "trackingId":"66C3C2E0-2114-4517-9A3D-4A9691982797",
+          "totalPositiveFeedbacks":1,
+          "totalThanks":1,
+          "externalLinkId":"165642C1491C8602FA9F70563C649D2FA82032EB",
+          "reviewSubmissionTime":"2016-01-06T16:02:35Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"NO",
+          "isFlaggable":false,
+          "isUnverified":false
+        },
+        {
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1122193083822",
+          "reviewId":"56895566f74cb4211975c149",
+          "ratingOverall":5,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"HMP MMD",
+          "title":"Wonderful staff ",
+          "reviewText":"We arrived on New Year's Eve completely sick with the flu. The  staff took pity on us and gave us an unsolicited upgrade to a suite with a bay view. It turned out to be a godsend with two very sick people. There was extensive construction going on so I'm sure they had the space but it was a truly wonderful gesture that made a huge difference to us since we didn't leave the room until the day we flew out. All of the staff were welcoming and super accommodating with any request. I'm sure they were super focused on customer service because of the inconvenience of the construction. Definitely plan to stay here again!",
+          "campaignId":"hur",
+          "featured":false,
+          "recommended":true,
+          "ratingsOnly":false,
+          "userNickname":"Sue",
+          "ratingRoomCleanliness":5,
+          "ratingHotelCondition":3,
+          "ratingService":5,
+          "ratingRoomComfort":5,
+          "positiveRemarks":"",
+          "negativeRemarks":"",
+          "locationRemarks":"",
+          "lastInitial":"c",
+          "userLocation":"new york",
+          "managementResponses":[
+
+          ],
+          "trackingId":"BADD62F3-404E-4D61-8617-3999AF5955DA",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"03F218C88184466EC2C12CEA1A3668C159CFE9CD",
+          "reviewSubmissionTime":"2016-01-03T17:07:50Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"YES",
+          "isFlaggable":false,
+          "isUnverified":false
+        },
+        {
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1123679754113",
+          "reviewId":"56894bbd9964285763613087",
+          "ratingOverall":1,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"MMA HMP",
+          "title":"Under construction",
+          "reviewText":"While place torn apart. Would have made a different choice for that much money.",
+          "campaignId":"hur",
+          "featured":false,
+          "recommended":false,
+          "ratingsOnly":false,
+          "userNickname":"",
+          "ratingRoomCleanliness":5,
+          "ratingHotelCondition":1,
+          "ratingService":5,
+          "ratingRoomComfort":4,
+          "positiveRemarks":"",
+          "negativeRemarks":"",
+          "locationRemarks":"",
+          "lastInitial":"",
+          "userLocation":"",
+          "managementResponses":[
+
+          ],
+          "trackingId":"FEE64787-3918-4C1E-9A73-FB52CBAC200B",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"7E6FFEE9A43FCFE7AC4EC2A2B97A744412C7EE4C",
+          "reviewSubmissionTime":"2016-01-03T16:26:37Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"NO",
+          "isFlaggable":false,
+          "isUnverified":false
+        },
+        {
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1123462887836",
+          "reviewId":"5688d00a9964285763e9e12f",
+          "ratingOverall":3,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"",
+          "title":"They are remodeling.  Right now it is not a 4 star",
+          "reviewText":"Stay was great.  Check in was great.  The entire atrium is torn up.  If it was a work day it would be very noisy. ",
+          "campaignId":"hur",
+          "featured":false,
+          "recommended":true,
+          "ratingsOnly":false,
+          "userNickname":"susan",
+          "ratingRoomCleanliness":5,
+          "ratingHotelCondition":2,
+          "ratingService":4,
+          "ratingRoomComfort":5,
+          "positiveRemarks":"",
+          "negativeRemarks":"",
+          "locationRemarks":"",
+          "lastInitial":"g",
+          "userLocation":"tracy ca",
+          "managementResponses":[
+
+          ],
+          "trackingId":"2D714A1A-94EE-44CD-971B-0EB4CB0C92D0",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"7045AFB13894C44593DDB03A58CB91B9C94D1164",
+          "reviewSubmissionTime":"2016-01-03T07:38:50Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"YES",
+          "isFlaggable":true,
+          "isUnverified":false
+        },
+        {
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1121531598935",
+          "reviewId":"568872e1603da63c71b8a51e",
+          "ratingOverall":2,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"",
+          "title":"",
+          "reviewText":"The hotel was in total renovation. Just one terrible restaurant. A steakhouse close to a motel is better. To far from san francisco center. Overall I'm totally desapoiting. ",
+          "campaignId":"hur",
+          "featured":false,
+          "recommended":false,
+          "ratingsOnly":false,
+          "userNickname":"",
+          "ratingRoomCleanliness":5,
+          "ratingHotelCondition":2,
+          "ratingService":3,
+          "ratingRoomComfort":2,
+          "positiveRemarks":"",
+          "negativeRemarks":"",
+          "locationRemarks":"",
+          "lastInitial":"",
+          "userLocation":"",
+          "managementResponses":[
+
+          ],
+          "trackingId":"A8C3EC0E-A3E0-448C-8406-B09F9603F98A",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"74B57A1B16E519B5DC44BD5C21E9357D7CD9B3C8",
+          "reviewSubmissionTime":"2016-01-03T01:01:21Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"NO",
+          "isFlaggable":true,
+          "isUnverified":false
+        },
+        {
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1123387527079",
+          "reviewId":"568808bd03d7d011f6f1aa0b",
+          "ratingOverall":2,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"PD HMP MMD",
+          "title":"Loud construction noise",
+          "reviewText":"They are undergoing construction inside the hotel. I woke up to loud hammering and drilling at 8:00am coming from right above my room, which shook the walls of my room. Extremely unpleasant. The noise lasted 3 hours in the morning. I was offered to switch rooms but I was checking out that day anyways, so there was no point. Room amenities were ok but slightly outdated. There was no lobby area like the pictures online because of the construction.",
+          "campaignId":"hur",
+          "featured":false,
+          "recommended":false,
+          "ratingsOnly":false,
+          "userNickname":"Natalie",
+          "ratingRoomCleanliness":3,
+          "ratingHotelCondition":3,
+          "ratingService":4,
+          "ratingRoomComfort":1,
+          "positiveRemarks":"",
+          "negativeRemarks":"",
+          "locationRemarks":"",
+          "lastInitial":"S",
+          "userLocation":"Fremont, CA",
+          "managementResponses":[
+
+          ],
+          "trackingId":"07B5976C-F8D4-488A-908B-A2F504BC5D88",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"5C9C707E63BCB9CC91AF48BEC0C141A3CBFB8991",
+          "reviewSubmissionTime":"2016-01-02T17:28:29Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"NO",
+          "isFlaggable":false,
+          "isUnverified":false
+        },
+        {
+          "tpid":"1",
+          "eapid":"0",
+          "hotelId":"26500",
+          "langId":"1033",
+          "itinId":"1122765998398",
+          "reviewId":"56856d2703d7d06ff65c5f04",
+          "ratingOverall":3,
+          "contentLocale":"en_us",
+          "userDisplayName":"",
+          "brandType":"Expedia",
+          "moderationStatus":"APPROVED",
+          "photos":[
+
+          ],
+          "contentCodes":"HMP MMD",
+          "title":"Not a comfortable night stay\r\n",
+          "reviewText":"Hotel was going through construction. This was not advertised during the time of reservations.  I booked the room for 3 people so I expected two queen beds.  At arrival, I was annoyed by the construction and on top of that I was told that Hyatt doesn't have queen beds only full size beds.  \r\nTo accommodate, I was offered complimentary parking. So I do appreciate the customer service. I don't appreciate being surprised about the construction and the small beds. ",
+          "campaignId":"hur",
+          "featured":false,
+          "recommended":false,
+          "ratingsOnly":false,
+          "userNickname":"M",
+          "ratingRoomCleanliness":4,
+          "ratingHotelCondition":2,
+          "ratingService":4,
+          "ratingRoomComfort":1,
+          "positiveRemarks":"",
+          "negativeRemarks":"",
+          "locationRemarks":"",
+          "lastInitial":"B",
+          "userLocation":"san fransisco",
+          "managementResponses":[
+
+          ],
+          "trackingId":"3F5BBA5E-0466-4359-907C-1407F35F98AF",
+          "totalPositiveFeedbacks":0,
+          "totalThanks":0,
+          "externalLinkId":"C033F8A0E7BCF3C9350FCCA619191186ED494624",
+          "reviewSubmissionTime":"2015-12-31T18:00:07Z",
+          "incrementalThanks":0,
+          "reviewerCategories":[
+            {
+              "categoryId":"Everyone",
+              "categoryLabel":"Everyone"
+            }
+          ],
+          "isRecommended":"NO",
+          "isFlaggable":false,
+          "isUnverified":false
         }
       ]
-    },
-    "startIndex": 0
+    }
   }
 }
