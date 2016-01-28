@@ -395,5 +395,6 @@
     <color name="preferences_divider">#c0c7cd</color>
     <color name="preferences_highlight">#40000000</color>
     <color name="preferences_text">@color/cars_launch_actionbar_color</color>
+    <color name="bundle_price_background_color">#FFFFFF</color>
 
 </resources>

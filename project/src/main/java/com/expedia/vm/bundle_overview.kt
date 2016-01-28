@@ -9,7 +9,6 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.Strings
-import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.joda.time.format.ISODateTimeFormat
 import rx.Observer
@@ -109,9 +108,7 @@ class BundlePriceViewModel(val context: Context) {
     init {
         setTextObservable.subscribe { bundle ->
             totalPriceObservable.onNext(bundle.first)
-            savingsPriceObservable.onNext(Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                    .put("savings", bundle.second)
-                    .format().toString())
+            savingsPriceObservable.onNext(bundle.second)
         }
     }
 }
