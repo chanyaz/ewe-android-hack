@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Travelocity Rating bar -->
+    <style name="RatingBar.UserReview.Blue">
+        <item name="android:progressDrawable">@drawable/ratingbar_userreview_blue</item>
+    </style>
+
+    <style name="LaunchActionBarTravelocity" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+        <item name="android:background">@color/action_bar_bg_color</item>
+        <item name="background">@color/action_bar_bg_color</item>
+        <item name="android:titleTextStyle">@style/TitleBarTextColorOrbitz</item>
+        <item name="titleTextStyle">@style/TitleBarTextColorOrbitz</item>
+    </style>
+
+    <style name="TitleBarTextColorOrbitz" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="textColor">#FFFFFF</item>
+    </style>
+
+    <style name="LaunchActionBarTabTextStyle" parent="@style/Widget.AppCompat.ActionBar.TabText">
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="Dark.ActionBar.Travelocity" parent="Dark.ActionBar">
+        <item name="android:background">@drawable/bg_action_bar_orb</item>
+        <item name="android:backgroundSplit">@drawable/bg_action_bar_bottom_orb</item>
+    </style>
+
+    <style name="Widget.ListView.DropDown.TVLY" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
+        <item name="android:background">@drawable/bg_action_bar_orb</item>
+    </style>
+
+    <style name="DestinationTileUpperTextAppearance">
+        <item name="android:textColor">@color/action_bar_bg_color</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="DestinationTileLowerTextAppearance">
+        <item name="android:textColor">@color/action_bar_bg_color</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+</resources>

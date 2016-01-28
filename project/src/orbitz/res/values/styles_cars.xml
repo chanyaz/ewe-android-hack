@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Whitelabel.CarsTheme.Base" parent="AppTheme.Base.Cars">
+        <item name="android:colorPrimaryDark">@color/cars_primary_color_orbitz</item>
+        <item name="android:colorButtonNormal">@color/cars_primary_color_orbitz</item>
+        <item name="colorAccent">@color/cars_primary_color_orbitz</item>
+        <item name="android:colorEdgeEffect">@color/cars_primary_color_orbitz</item>
+
+        <!-- Skins added for whitelabel -->
+        <item name="skin_carsPrimaryColor">@color/cars_primary_color_orbitz</item>
+        <item name="skin_carsSecondaryColor">@color/cars_primary_color_orbitz</item>
+        <item name="skin_carsTooltipColor">@color/cars_primary_color_orbitz</item>
+        <item name="primary_color">@color/cars_primary_color_orbitz</item>
+        <item name="skin_carsStatusBarColor">@color/cars_primary_color_orbitz</item>
+        <item name="skin_carsSortButtonSelectorDrawable">@drawable/cars_sort_button_selector_orbitz</item>
+        <item name="skin_carsSortButtonTextSelectorDrawable">@drawable/cars_sort_button_text_selector_orbitz</item>
+        <item name="skin_carsToggleBackgroundSelectorDrawable">@drawable/cars_toggle_background_selector_orbitz</item>
+        <item name="skin_loginBrandLogoDrawable">@drawable/orb</item>
+        <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe_orbitz</item>
+        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_orbitz</item>
+        <item name="skin_cvvDivDrawable">@drawable/div_cvv_orb</item>
+        <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_orbitz</item>
+        <item name="skin_checkoutLoginButtonColor">@android:color/white</item>
+        <item name="skin_loginBrandIconDrawable">@drawable/orb_login</item>
+        <item name="skin_carsUncheckedToggleTextColor">@color/cars_unchecked_toggle_text_color_orbitz</item>
+        <item name="skin_carsPinDrawable">@drawable/cars_pin_orb</item>
+        <item name="skin_carsErrorDefaultDrawable">@drawable/error_default_orb</item>
+
+        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin_orbitz</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/orb</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/orb</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/orb</item>
+        <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_cars_orbitz</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
+        <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle_orbitz</item>
+        <item name="skin_rippleDrawable">@drawable/car_button_ripple</item>
+    </style>
+</resources>

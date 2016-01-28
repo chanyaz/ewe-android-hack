@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="action_bar_bg_color">#00253C</color>
+    <color name="actionbar_button_background_pressed">#004888</color>
+
+    <color name="lob_btn_color">#004D7C</color>
+    <color name="hotel_lob_btn">@color/lob_btn_color</color>
+    <color name="flights_lob_btn">@color/lob_btn_color</color>
+    <color name="cars_lob_btn">@color/lob_btn_color</color>
+    <color name="lx_lob_btn">@color/lob_btn_color</color>
+
+    <color name="launch_tab_indicator_orbitz">@color/action_bar_text_blue_orbitz</color>
+    <color name="launch_actionbar_color_orbitz">@color/action_bar_bg_color</color>
+    <color name="action_bar_text_blue_orbitz">#7baed4</color>
+    <color name="bg_btn_color_orbitz">#7bae00</color>
+    <color name="bg_btn_pressed_color_orbitz">#295600</color>
+    <color name="itin_flight_line_color_orbitz">#7da426</color>
+    <color name="login_text_hotels">#FFFFFF</color>
+    <color name="login_text_flight">#FFFFFF</color>
+    <color name="coupon_success_message_color_orbitz">#7baed4</color>
+    <color name="collection_overlay_color">#56a1d5</color>
+    <color name="tablet_book_button_text_color_orbitz">#57B3FF</color>
+    <color name="hotel_room_rate_select_room_button_orbitz">#53A0D3</color>
+    <color name="hotel_room_rate_select_room_button_pressed_orbitz">#004E93</color>
+    <color name="hotel_room_rate_add_room_button_orbitz">#608405</color>
+    <color name="hotel_room_rate_add_room_button_pressed_orbitz">#2F5806</color>
+    <color name="tablet_trip_bucket_text_color_orbitz">#FFFFFF</color>
+    <color name="tablet_search_result_error_button_orbitz">#004E93</color>
+    <color name="tablet_search_result_error_button_pressed_orbitz">#D1EAFF</color>
+    <color name="tablet_results_search_blue_orbitz">#608405</color>
+    <color name="launch_pin_detail_button_text_orbitz">#D1EAFF</color>
+
+    <color name="launch_card_back_container_color">#393939</color>
+    <color name="launch_card_explore_now_background_color">#4791C0</color>
+    <color name="destination_list_launch_card_title_text_color">#003E6F</color>
+    <color name="destination_list_launch_card_country_text_color">#57A3CC</color>
+    <color name="destination_list_detail_container_background">#ff070f24</color>
+
+    <!-- Cars and LX-->
+    <color name="cars_primary_color_orbitz">#004D7C</color>
+    <color name="cars_unchecked_toggle_text_color_orbitz">#B3FFFFFF</color>
+    <color name="lx_primary_color_orbitz">#004D7C</color>
+    <color name="lx_ripple_color_orbitz">#53a0d3</color>
+    <color name="lx_secondary_color_disabled_orbitz">#032E4D</color>
+    <color name="lx_unchecked_toggle_text_color_orbitz">@android:color/white</color>
+    <color name="lx_ticket_selector_disabled_color_orbitz">#40003E74</color>
+
+    <!--Account Lib Colors -->
+    <color name="acct__btn_sign_in_text_orbitz">#FFFFFF</color>
+    <color name="acct__bg_input_text_error_orbitz">#FFFFFF</color>
+    <color name="acct__bg_input_text_good_orbitz">#EEEEEE</color>
+</resources>
