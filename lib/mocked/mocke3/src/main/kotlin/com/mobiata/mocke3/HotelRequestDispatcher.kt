@@ -58,7 +58,9 @@ public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
                 return getMockResponse("m/api/hotel/trip/create/$fileName.json", params)
             }
 
-            HotelRequestMatcher.isCouponCall(urlPath) -> getMockResponse("api/m/trip/coupon/" + params.get("coupon.code") + ".json", params)
+            HotelRequestMatcher.isCouponApplyCall(urlPath) -> getMockResponse("api/m/trip/coupon/" + params.get("coupon.code") + ".json", params)
+
+            HotelRequestMatcher.isCouponRemoveCall(urlPath) -> getMockResponse("api/m/trip/remove/coupon/" + params.get("tripId") + ".json", params)
 
             HotelRequestMatcher.isHotelCheckoutRequest(urlPath) -> {
                 val tripId = params.get("tripId") ?: throw RuntimeException("tripId required")
@@ -124,8 +126,12 @@ class HotelRequestMatcher() {
             return doesItMatch("^/m/api/hotel/trip/V2/checkout.*$", urlPath)
         }
 
-        fun isCouponCall(urlPath: String): Boolean {
+        fun isCouponApplyCall(urlPath: String): Boolean {
             return doesItMatch("^/api/m/trip/coupon.*$", urlPath)
+        }
+
+        fun isCouponRemoveCall(urlPath: String): Boolean {
+            return doesItMatch("^/api/m/trip/remove/coupon.*$", urlPath)
         }
 
         fun isHotelCreateTripRequest(urlPath: String): Boolean {
@@ -145,7 +151,7 @@ class HotelRequestMatcher() {
         }
 
         fun isCouponRequest(urlPath: String): Boolean {
-            return doesItMatch("^/api/m/trip/coupon.*$", urlPath)
+            return isCouponApplyCall(urlPath) || isCouponRemoveCall(urlPath)
         }
 
         fun isHotelRequest(urlPath: String): Boolean {

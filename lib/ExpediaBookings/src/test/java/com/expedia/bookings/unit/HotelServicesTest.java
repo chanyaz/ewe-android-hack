@@ -179,6 +179,18 @@ public class HotelServicesTest {
 	}
 
 	@Test
+	public void testCouponRemove() throws Throwable {
+		givenServerUsingMockResponses();
+
+		TestSubscriber<HotelCreateTripResponse> subscriber = new TestSubscriber<>();
+		service.removeCoupon("hotel_coupon_remove_success").subscribe(subscriber);
+		subscriber.awaitTerminalEvent(2, TimeUnit.SECONDS);
+		subscriber.assertCompleted();
+
+		Assert.assertNotNull(subscriber.getOnNextEvents().get(0).newHotelProductResponse);
+	}
+
+	@Test
 	public void testCouponError() throws IOException {
 		givenServerUsingMockResponses();
 

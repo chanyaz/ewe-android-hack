@@ -21,7 +21,10 @@ import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 public class HotelCouponTest {
@@ -101,6 +104,70 @@ public class HotelCouponTest {
         assertNotNull(userPreferencePoints)
         assertNotNull(userPreferencePoints?.amountOnPointsCard)
         assertNotNull(userPreferencePoints?.remainingPayableByCard)
+    }
+
+    @Test
+    fun removeCouponWorks() {
+        var tripId = "hotel_coupon_remove_success"
+
+        val testSubscriber = TestSubscriber<HotelCreateTripResponse>()
+        vm.couponObservable.subscribe(testSubscriber)
+
+        vm.couponRemoveObservable.onNext(tripId)
+
+        testSubscriber.awaitTerminalEvent(2, TimeUnit.SECONDS)
+        testSubscriber.assertValueCount(1)
+
+        var tripResponseWithoutCoupon = testSubscriber.onNextEvents[0]
+        assertNull(tripResponseWithoutCoupon.coupon)
+        assertFalse(vm.removeObservable.value)
+        assertFalse(vm.hasDiscountObservable.value)
+    }
+
+    @Test
+    fun removeCouponFailsWithUnknownError() {
+        checkCouponFailure("hotel_coupon_removal_unknown_error", ApiError.Code.UNKNOWN_ERROR)
+    }
+
+    @Test
+    fun removeCouponFailsWithRemoveError() {
+        checkCouponFailure("hotel_coupon_removal_remove_coupon_error",ApiError.Code.REMOVE_COUPON_ERROR)
+    }
+
+    @Test
+    fun removeCouponFailureWithRetry() {
+        val testSubscriberCouponObservable = TestSubscriber<HotelCreateTripResponse>()
+        vm.couponObservable.subscribe(testSubscriberCouponObservable)
+
+        val testSubscriberCouponRemoveErrorDialog = TestSubscriber<ApiError>()
+        vm.errorRemoveCouponShowDialogObservable.subscribe(testSubscriberCouponRemoveErrorDialog)
+
+        vm.couponRemoveObservable.onNext("hotel_coupon_removal_remove_coupon_error")
+        testSubscriberCouponRemoveErrorDialog.awaitTerminalEvent(2, TimeUnit.SECONDS)
+        testSubscriberCouponRemoveErrorDialog.assertValueCount(1)
+
+        vm.couponRemoveObservable.onNext("hotel_coupon_remove_success")
+        testSubscriberCouponObservable.awaitTerminalEvent(2, TimeUnit.SECONDS)
+        testSubscriberCouponObservable.assertValueCount(1)
+
+        var tripResponseWithoutCoupon = testSubscriberCouponObservable.onNextEvents[0]
+        assertNull(tripResponseWithoutCoupon.coupon)
+        assertFalse(vm.hasDiscountObservable.value)
+    }
+
+    private fun checkCouponFailure(tripId: String, expectedErrorCode: ApiError.Code) {
+        val testSubscriberCouponRemoveErrorDialog = TestSubscriber<ApiError>()
+        vm.errorRemoveCouponShowDialogObservable.subscribe(testSubscriberCouponRemoveErrorDialog)
+        val testSubscriberCouponObservable = TestSubscriber<HotelCreateTripResponse>()
+        vm.couponObservable.subscribe(testSubscriberCouponObservable)
+
+        vm.couponRemoveObservable.onNext(tripId)
+
+        testSubscriberCouponRemoveErrorDialog.awaitTerminalEvent(2, TimeUnit.SECONDS)
+        testSubscriberCouponRemoveErrorDialog.assertValueCount(1)
+        testSubscriberCouponObservable.assertValueCount(0)
+
+        assertEquals(expectedErrorCode, testSubscriberCouponRemoveErrorDialog.onNextEvents[0].errorCode)
     }
 
     fun makeErrorInfo(code : ApiError.Code, message : String): ApiError {

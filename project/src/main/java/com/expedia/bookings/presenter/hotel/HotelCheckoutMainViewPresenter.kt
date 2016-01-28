@@ -52,6 +52,7 @@ import kotlin.collections.listOf
 import kotlin.properties.Delegates
 
 public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : CheckoutBasePresenter(context, attr) {
+
     val COUPON_VIEW_INDEX = 4
     var slideAllTheWayObservable = PublishSubject.create<Unit>()
     var emailOptInStatus = PublishSubject.create<MerchandiseSpam>()
@@ -77,6 +78,25 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
             val alertDialog = builder.create()
             alertDialog.show()
             doCreateTrip()
+        }
+
+        couponCardView.viewmodel.errorRemoveCouponShowDialogObservable.subscribe {
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle(R.string.coupon_error_remove_dialog_title)
+            builder.setMessage(R.string.coupon_error_fallback)
+            builder.setPositiveButton(context.getString(R.string.cancel), object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                    createTripResponseListener.onNext(createTripViewmodel.tripResponseObservable.value)
+                    dialog.dismiss()
+                }
+            })
+            builder.setNegativeButton(context.getString(R.string.retry), object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                    couponCardView.viewmodel.removeObservable.onNext(true)
+                }
+            })
+            val alertDialog = builder.create()
+            alertDialog.show()
         }
     }
 
@@ -124,8 +144,10 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         couponCardView.setToolbarListener(toolbarListener)
 
         couponCardView.viewmodel.removeObservable.subscribe {
-            showProgress(true)
-            showCheckout()
+            if (it) {
+                showProgress(true)
+                showCheckout()
+            }
         }
 
         val params = couponCardView.getLayoutParams() as LinearLayout.LayoutParams
@@ -139,7 +161,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         paymentInfoCardView.setCreditCardRequired(true)
         paymentInfoCardView.setExpanded(false)
 
-        if (!hasDiscount && !couponCardView.removingCoupon) {
+        if (!hasDiscount) {
             clearCCNumber()
         }
 
@@ -204,20 +226,27 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         val childAges = hotelSearchParams.children
         val qualifyAirAttach = false
         val createTrip = createTripViewmodel.tripResponseObservable.value
-        val hasCoupon = couponCardView.viewmodel.hasDiscountObservable.value != null && couponCardView.viewmodel.hasDiscountObservable.value
 
-        if (createTrip != null && !couponCardView.removingCoupon && hasCoupon && createTrip.coupon != null && User.isLoggedIn(context)) {
-            // This is to apply a coupon in case user signs in after applying a coupon. So the user preference of paying with points is always 0.
-            var couponParams = HotelApplyCouponParameters.Builder()
-                    .tripId(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId)
-                    .couponCode(createTrip.coupon.code)
-                    .isFromNotSignedInToSignedIn(true)
-                    .userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(0, PointsType.BURN, Money()))))
-                    .build()
+        val tripHasCoupon = createTrip != null && createTrip.coupon != null
+        val isRemoveCoupon = couponCardView.viewmodel.removeObservable.value != null && couponCardView.viewmodel.removeObservable.value
 
-            couponCardView.viewmodel.couponParamsObservable.onNext(couponParams)
-        } else {
-            createTripViewmodel.tripParams.onNext(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges))
+        if (isRemoveCoupon) {
+            couponCardView.viewmodel.couponRemoveObservable.onNext(Db.getTripBucket().hotelV2.mHotelTripResponse.tripId)
+        }
+        else {
+            val shouldTryToApplyCouponAfterLogin = couponCardView.viewmodel.hasDiscountObservable.value != null && couponCardView.viewmodel.hasDiscountObservable.value
+            if (User.isLoggedIn(context) && tripHasCoupon && shouldTryToApplyCouponAfterLogin) {
+                // This is to apply a coupon in case user signs in after applying a coupon. So the user preference of paying with points is always 0.
+                var couponParams = HotelApplyCouponParameters.Builder()
+                        .tripId(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId)
+                        .couponCode(createTrip.coupon.code)
+                        .isFromNotSignedInToSignedIn(true)
+                        .userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(0, PointsType.BURN, Money()))))
+                        .build()
+                couponCardView.viewmodel.couponParamsObservable.onNext(couponParams)
+            } else {
+                createTripViewmodel.tripParams.onNext(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges))
+            }
         }
     }
 

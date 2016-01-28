@@ -273,6 +273,7 @@ public class
 		R.string.flight_to,
 		R.layout.bundle_flight_widget,
 		R.drawable.packages_overview_flight1,
-		R.drawable.packages_overview_flight2
+		R.drawable.packages_overview_flight2,
+		R.string.coupon_error_remove_dialog_title
 	};
 }
