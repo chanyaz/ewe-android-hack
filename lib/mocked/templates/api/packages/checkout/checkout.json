@@ -1,63 +1,63 @@
 {
   "newTrip": {
-    "itineraryNumber": "1126255898078",
-    "travelRecordLocator": "1262558980",
-    "tripId": "8c3cecc3-5740-486e-a75b-38805726102e"
+    "itineraryNumber": "1126420960431",
+    "travelRecordLocator": "1264209604",
+    "tripId": "5a72db42-e190-47f5-bdd9-5f316f214dc9"
   },
   "orderId": "000000",
   "currencyCode": "USD",
-  "totalCharges": "2014.96",
+  "totalCharges": "2538.62",
   "totalChargesPrice": {
-    "amount": "2014.96",
-    "formattedPrice": "$2,014.96",
-    "formattedWholePrice": "$2,015",
+    "amount": "2538.62",
+    "formattedPrice": "$2,538.62",
+    "formattedWholePrice": "$2,539",
     "currencyCode": "USD"
   },
   "packagePricing": {
     "packageTotal": {
-      "amount": "2014.96",
-      "formattedPrice": "$2,014.96",
-      "formattedWholePrice": "$2,015",
+      "amount": "2538.62",
+      "formattedPrice": "$2,538.62",
+      "formattedWholePrice": "$2,539",
       "currencyCode": "USD"
     },
     "basePrice": {
-      "amount": "2014.96",
-      "formattedPrice": "$2,014.96",
-      "formattedWholePrice": "$2,015",
+      "amount": "2595.12",
+      "formattedPrice": "$2,595.12",
+      "formattedWholePrice": "$2,595",
       "currencyCode": "USD"
     },
     "totalTaxesAndFees": {
-      "amount": "236.32",
-      "formattedPrice": "$236.32",
-      "formattedWholePrice": "$236",
+      "amount": "278.12",
+      "formattedPrice": "$278.12",
+      "formattedWholePrice": "$278",
       "currencyCode": "USD"
     },
     "hotelPrice": {
-      "amount": "454.56",
-      "formattedPrice": "$454.56",
-      "formattedWholePrice": "$455",
+      "amount": "342.72",
+      "formattedPrice": "$342.72",
+      "formattedWholePrice": "$343",
       "currencyCode": "USD"
     },
     "flightPrice": {
-      "amount": "1560.40",
-      "formattedPrice": "$1,560.40",
-      "formattedWholePrice": "$1,560",
+      "amount": "2252.40",
+      "formattedPrice": "$2,252.40",
+      "formattedWholePrice": "$2,252",
       "currencyCode": "USD"
     },
     "savings": {
-      "amount": "0.00",
-      "formattedPrice": "$0.00",
-      "formattedWholePrice": "$0",
+      "amount": "56.50",
+      "formattedPrice": "$56.50",
+      "formattedWholePrice": "$56",
       "currencyCode": "USD"
     },
     "marketingPrice": {
-      "grossBookingValue": "2014.96",
-      "netBookingValue": "1947.40",
-      "totalTaxes": "67.56",
-      "totalFees": "0.00",
-      "totalTaxesAndFees": "67.56"
+      "grossBookingValue": "2538.62",
+      "netBookingValue": "2479.90",
+      "totalTaxes": "44.72",
+      "totalFees": "14.00",
+      "totalTaxesAndFees": "58.72"
     },
     "taxesAndFeesIncluded": true
   },
-  "activityId": "acdf3f70-8a16-4466-a8e3-5a4ea66c7686"
+  "activityId": "ea2612ff-5b75-4ac6-82f4-96014013ce23"
 }
