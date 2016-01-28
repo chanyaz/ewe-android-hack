@@ -77,15 +77,6 @@
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_hotel_review_superlatives"
-            android:entryValues="@array/abacus_hotel_review_superlatives_values"
-            android:summary="%s"
-            android:key="8688"
-            android:layout="@layout/preference"
-            android:title="Hotels v2 Superlative reviews" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
@@ -141,6 +132,30 @@
             android:key="9634"
             android:summary="%s"
             android:title="Hotel Search Screen AB test" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="New (Material) Hotels Tests">
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_hotel_review_superlatives"
+            android:entryValues="@array/abacus_hotel_review_superlatives_values"
+            android:summary="%s"
+            android:key="8688"
+            android:layout="@layout/preference"
+            android:title="Hotels v2 Superlative reviews" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="0"
+            android:layout="@layout/preference"
+            android:title="ForceV2 Hotel API Search" />
 
     </PreferenceCategory>
 

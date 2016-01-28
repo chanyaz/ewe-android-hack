@@ -2521,6 +2521,13 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	public static void trackHotelV2ApiSearch() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSearchDomainV2);
+
+		s.track();
+	}
+
 	private static void trackAbacusTest(ADMS_Measurement s, int testKey) {
 		if (!ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
 			return;

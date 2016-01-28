@@ -77,6 +77,7 @@ import com.expedia.bookings.data.TravelerCommitResponse;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
@@ -709,6 +710,13 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("pageIndex", "0"));
 		query.add(new BasicNameValuePair("filterUnavailable", "true"));
 		query.add(new BasicNameValuePair("enableSponsoredListings", "true"));
+
+		boolean isV2HotelApiSearchEnabled =
+			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchDomainV2);
+		if (isV2HotelApiSearchEnabled) {
+			query.add(new BasicNameValuePair("forceV2Search", "true"));
+		}
+
 		return query;
 	}
 
