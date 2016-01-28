@@ -17,9 +17,11 @@ public class TripBucketItemHotelV2 extends TripBucketItem {
 		}
 	}
 
-	public HotelCreateTripResponse updateHotelProducts(HotelCheckoutResponse.PriceChangeResponse priceChange) {
-		mHotelTripResponse.originalHotelProductResponse = priceChange.oldProduct;
-		mHotelTripResponse.newHotelProductResponse = priceChange.newProduct;
+	public HotelCreateTripResponse updateHotelProductsAfterCheckoutPriceChange(HotelCheckoutResponse hotelCheckoutResponse) {
+		mHotelTripResponse.originalHotelProductResponse = hotelCheckoutResponse.checkoutResponse.jsonPriceChangeResponse.oldProduct;
+		mHotelTripResponse.newHotelProductResponse = hotelCheckoutResponse.checkoutResponse.jsonPriceChangeResponse.newProduct;
+		mHotelTripResponse.setPointsDetails(hotelCheckoutResponse.pointsDetails);
+		mHotelTripResponse.setUserPreferencePoints(hotelCheckoutResponse.userPreference);
 		return mHotelTripResponse;
 	}
 

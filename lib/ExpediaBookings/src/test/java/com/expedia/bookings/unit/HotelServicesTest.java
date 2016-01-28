@@ -43,6 +43,7 @@ import retrofit.RetrofitError;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class HotelServicesTest {
@@ -155,6 +156,31 @@ public class HotelServicesTest {
 		observer.assertNoErrors();
 		observer.assertCompleted();
 		observer.assertValueCount(1);
+	}
+
+	@Test
+	public void testCheckoutWithPriceChangeAndUserPreferences() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
+
+		String tripId = "hotel_price_change_with_user_preferences";
+		TripDetails tripDetails = new TripDetails(tripId, "675.81", "USD", "guid", true);
+
+		HotelCheckoutV2Params params = new HotelCheckoutV2Params.Builder().tripDetails(tripDetails)
+			.checkoutInfo(HotelCheckoutParamsMock.checkoutInfo()).paymentInfo(HotelCheckoutParamsMock.paymentInfo())
+			.traveler(HotelCheckoutParamsMock.traveler()).misc(HotelCheckoutParamsMock.miscellaneousParams(tripId)).build();
+
+		service.checkout(params, observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+		assertNotNull(observer.getOnNextEvents().get(0).pointsDetails);
+		assertNotNull(observer.getOnNextEvents().get(0).userPreference);
 	}
 
 	@Test
