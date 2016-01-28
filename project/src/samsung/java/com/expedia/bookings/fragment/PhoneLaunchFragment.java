@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.location.Location;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -24,14 +22,12 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.PhoneLaunchActivity;
 import com.expedia.bookings.data.collections.CollectionLocation;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.interfaces.IPhoneLaunchFragmentListener;
 import com.expedia.bookings.location.CurrentLocationObservable;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.Images;
-import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.CollectionLaunchWidget;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
@@ -45,14 +41,15 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	private Subscription locSubscription;
 	private boolean wasOffline;
 
-	private View collectionDetailsView;
+	private CollectionLaunchWidget collectionLaunchWidget;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View rootView = inflater.inflate(R.layout.widget_phone_launch, container, false);
-		collectionDetailsView = LayoutInflater.from(getActivity()).inflate(R.layout.widget_collection_launch,
+		collectionLaunchWidget = (CollectionLaunchWidget) LayoutInflater.from(getActivity()).inflate(
+			R.layout.widget_collection_launch,
 			(ViewGroup) rootView, false);
-		((ViewGroup) rootView).addView(collectionDetailsView);
+		((ViewGroup) rootView).addView(collectionLaunchWidget);
 		return rootView;
 	}
 
@@ -142,7 +139,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 
 	@Override
 	public boolean onBackPressed() {
-		if (collectionDetailsView.getVisibility() == View.VISIBLE) {
+		if (collectionLaunchWidget.getVisibility() == View.VISIBLE) {
 			switchView(false);
 			return true;
 		}
@@ -163,7 +160,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		actionBar.setBackgroundDrawable(new ColorDrawable(isCollectionClicked ? Color.TRANSPARENT
 			: getResources().getColor(R.color.launch_actionbar_bg_color_samsung)));
 
-		collectionDetailsView.setVisibility(isCollectionClicked ? View.VISIBLE : View.GONE);
+		collectionLaunchWidget.setVisibility(isCollectionClicked ? View.VISIBLE : View.GONE);
 		((DisableableViewPager) getActivity().findViewById(R.id.viewpager)).setPageSwipingEnabled(!isCollectionClicked);
 
 		Toolbar toolBar = ((PhoneLaunchActivity) getActivity()).getToolbar();
@@ -176,16 +173,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		((TextView) toolBar.findViewById(R.id.locationName)).setText(collectionLocation.title);
 		((TextView) toolBar.findViewById(R.id.locationCountryName)).setText(collectionLocation.subtitle);
 
-		(((TextView) collectionDetailsView.findViewById(R.id.collection_description))).setText(
-			collectionLocation.description);
-
-		HeaderBitmapDrawable drawable = Images
-			.makeCollectionBitmapDrawable(getActivity(), null, collectionUrl, "Collection_Details");
-
-		LayerDrawable layerDraw = new LayerDrawable(new Drawable[] {
-			drawable, getResources().getDrawable(R.drawable.collection_screen_gradient_overlay)
-		});
-
-		Ui.setViewBackground(collectionDetailsView, layerDraw);
+		collectionLaunchWidget.updateWidget(collectionLocation, collectionUrl);
 	}
 }
