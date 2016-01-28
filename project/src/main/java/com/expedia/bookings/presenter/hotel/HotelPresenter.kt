@@ -191,6 +191,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         Ui.getApplication(getContext()).hotelComponent().inject(this)
 
         hotelDetailViewModel = HotelDetailViewModel(context, hotelServices, endlessObserver<HotelOffersResponse.HotelRoomResponse> {
+            checkoutPresenter.hotelCheckoutWidget.couponCardView.viewmodel.hasDiscountObservable.onNext(false)
             checkoutPresenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
             checkoutPresenter.showCheckout(it)
             show(checkoutPresenter)
