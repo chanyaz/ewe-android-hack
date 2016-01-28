@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.PorterDuff
+import android.graphics.Rect
 import android.support.v4.content.ContextCompat
 import android.text.Html
 import android.util.AttributeSet
@@ -72,13 +73,12 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val screenSize by lazy { Ui.getScreenSize(context) }
 
     var initialScrollTop = 0
-    var galleryHeight = 0
 
     val hotelDetailsToolbar: HotelDetailsToolbar by bindView(R.id.hotel_details_toolbar)
     var toolBarHeight = 0
 
+    var galleryHeight = 0
     val gallery: RecyclerGallery by bindView(R.id.images_gallery)
-
     val galleryContainer: FrameLayout by bindView(R.id.gallery_container)
     val galleryRoot: LinearLayout by bindView(R.id.gallery)
 
@@ -430,6 +430,11 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         payByPhoneContainer.subscribeOnClick(vm.bookByPhoneContainerClickObserver)
     }
 
+    override fun onDetachedFromWindow() {
+        super.onDetachedFromWindow()
+        gallery.stopFlipping()
+    }
+
     fun resetViews() {
         detailContainer.viewTreeObserver.removeOnScrollChangedListener(scrollListener)
         AnimUtils.reverseRotate(readMoreView)
@@ -513,20 +518,26 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
     }
 
-    val scrollListener = object : ViewTreeObserver.OnScrollChangedListener {
-        override fun onScrollChanged() {
-            setViewVisibilities()
+    val scrollListener = ViewTreeObserver.OnScrollChangedListener {
+        setViewVisibilities()
+
+        // start/stop gallery when it's showing/not showing on display
+        val hitRect = Rect()
+        detailContainer.getHitRect(hitRect)
+        val isGalleryShowingOnDisplay = gallery.getLocalVisibleRect(hitRect)
+        if (isGalleryShowingOnDisplay && !gallery.isFlipping) {
+            gallery.startFlipping()
+        } else if (!isGalleryShowingOnDisplay && gallery.isFlipping) {
+            gallery.stopFlipping()
         }
     }
 
-    val touchListener = object : View.OnTouchListener {
-        override fun onTouch(v: View?, event: MotionEvent): Boolean {
-            val action = event.action;
-            if (action == MotionEvent.ACTION_UP) {
-                detailContainer.post { updateGallery(true) }
-            }
-            return false
+    val touchListener = View.OnTouchListener { v, event ->
+        val action = event.action;
+        if (action == MotionEvent.ACTION_UP) {
+            detailContainer.post { updateGallery(true) }
         }
+        false
     }
 
     private fun setViewVisibilities() {
@@ -649,11 +660,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         smoothScrollAnimation.setDuration(if (animate) SELECT_ROOM_ANIMATION else 0)
         smoothScrollAnimation.interpolator = (AccelerateDecelerateInterpolator())
-        smoothScrollAnimation.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
-            override fun onAnimationUpdate(animation: ValueAnimator) {
-                val scrollTo = animation.animatedValue as Int
-                detailContainer.scrollTo(0, scrollTo)
-            }
+        smoothScrollAnimation.addUpdateListener({ animation ->
+            val scrollTo = animation.animatedValue as Int
+            detailContainer.scrollTo(0, scrollTo)
         })
 
         smoothScrollAnimation.start()
@@ -662,11 +671,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
     init {
         View.inflate(getContext(), R.layout.widget_hotel_detail, this)
-        gallery.addImageViewCreatedListener(object : RecyclerGallery.IImageViewBitmapLoadedListener {
-            override fun onImageViewBitmapLoaded(index: Int) {
-                updateGalleryChildrenHeights(index)
-            }
-        })
+        gallery.addImageViewCreatedListener({ index -> updateGalleryChildrenHeights(index) })
         statusBarHeight = Ui.getStatusBarHeight(getContext())
         toolBarHeight = Ui.getToolbarSize(getContext())
         Ui.showTransparentStatusBar(getContext())
