@@ -131,6 +131,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 						}
 						scc.setDescription(sccJson.optString("description", null));
 						scc.setId(sccJson.optString("paymentsInstrumentsId", null));
+						scc.setNameOnCard(sccJson.optString("nameOnCard", null));
 						user.addStoredCreditCard(scc);
 					}
 				}

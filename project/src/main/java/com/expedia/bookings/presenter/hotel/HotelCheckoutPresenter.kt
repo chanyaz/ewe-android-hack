@@ -165,7 +165,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
                 cardsSelectedForPayment.add(creditCardDetails)
             } else {
                 val storedCreditCardId = billingInfo.storedCard.id
-                val nameOnCard = billingInfo.firstName + " " + billingInfo.lastName
+                val nameOnCard = billingInfo.storedCard.nameOnCard
 
                 val storedCreditCardDetails = CardDetails(storedCreditCardId = storedCreditCardId, nameOnCard = nameOnCard, amountOnCard = payingWithCardsSplit.amount.amount.toString(), cvv = cvv)
                 cardsSelectedForPayment.add(storedCreditCardDetails)
