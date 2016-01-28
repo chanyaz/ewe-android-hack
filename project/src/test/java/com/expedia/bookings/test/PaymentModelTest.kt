@@ -38,6 +38,7 @@ public class PaymentModelTest {
         it.currencyToPointsApiResponse.subscribe(currencyToPointsApiResponseTestSubscriber)
         it.currencyToPointsApiError.subscribe(currencyToPointsApiErrorTestSubscriber)
         it.couponChangeSubject.subscribe(couponChangeTestSubscriber)
+        it.priceChangeDuringCheckoutSubject.subscribe(priceChangeDuringCheckoutTestSubscriber)
     }
     var createTripResponse: HotelCreateTripResponse by Delegates.notNull()
 
@@ -47,6 +48,7 @@ public class PaymentModelTest {
     val currencyToPointsApiErrorTestSubscriber = TestSubscriber<ApiError>()
     val createTripResponseTestSubscriber = TestSubscriber<TripResponse>()
     val couponChangeTestSubscriber = TestSubscriber<TripResponse>()
+    val priceChangeDuringCheckoutTestSubscriber = TestSubscriber<TripResponse>()
 
     //TODO Mock data for price change and coupon change does not have points in response similar to create trip
     //so leaving the tests for these for now and created mingle card for the same
@@ -68,6 +70,14 @@ public class PaymentModelTest {
     private fun setupApplyCoupon() {
         createTripResponse = mockHotelServiceTestRule.getApplyCouponResponseWithUserPreference()
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
+        paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
+    }
+
+    private fun setupCheckout(withUserPreferences: Boolean) {
+        createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
+        Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
+        val checkoutResponse = if (withUserPreferences) mockHotelServiceTestRule.getPriceChangeWithUserPreferencesCheckoutResponse() else mockHotelServiceTestRule.getPriceChangeCheckoutResponse()
+        Db.getTripBucket().hotelV2.updateHotelProductsAfterCheckoutPriceChange(checkoutResponse)
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
     }
 
@@ -209,6 +219,54 @@ public class PaymentModelTest {
         couponChangeTestSubscriber.assertNoErrors()
         couponChangeTestSubscriber.assertValueCount(1)
         couponChangeTestSubscriber.assertValue(createTripResponse)
+
+        paymentSplitsTestSubscriber.assertNoErrors()
+        paymentSplitsTestSubscriber.assertValueCount(1)
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], expectedPaymentSplits))
+
+        currencyToPointsApiResponseTestSubscriber.assertNoErrors()
+        currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
+
+        currencyToPointsApiErrorTestSubscriber.assertNoErrors()
+        currencyToPointsApiErrorTestSubscriber.assertValueCount(0)
+    }
+
+    @Test
+    fun testCheckoutPriceChangeWithUserPreference() {
+        setupCheckout(true)
+        val userPreference = createTripResponse.userPreferencePoints
+
+        //Expected Payment Split
+        val expectedPaymentSplits = PaymentSplits(userPreference!!.getUserPreference(ProgramName.ExpediaRewards)!!, userPreference.remainingPayableByCard)
+
+        paymentModel.priceChangeDuringCheckoutSubject.onNext(createTripResponse)
+        priceChangeDuringCheckoutTestSubscriber.assertNoErrors()
+        priceChangeDuringCheckoutTestSubscriber.assertValueCount(1)
+        priceChangeDuringCheckoutTestSubscriber.assertValue(createTripResponse)
+
+        paymentSplitsTestSubscriber.assertNoErrors()
+        paymentSplitsTestSubscriber.assertValueCount(1)
+        Assert.assertTrue(comparePaymentSplits(paymentSplitsTestSubscriber.onNextEvents[0], expectedPaymentSplits))
+
+        currencyToPointsApiResponseTestSubscriber.assertNoErrors()
+        currencyToPointsApiResponseTestSubscriber.assertValueCount(0)
+
+        currencyToPointsApiErrorTestSubscriber.assertNoErrors()
+        currencyToPointsApiErrorTestSubscriber.assertValueCount(0)
+    }
+
+    @Test
+    fun testCheckoutPriceChangeWithoutUserPreference() {
+        setupCheckout(false)
+        //Expected Payment Split
+        val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money("0", createTripResponse.getTripTotal().currencyCode))
+        val payingWithCards = PointsAndCurrency(createTripResponse.expediaRewards!!.totalPointsToEarn, PointsType.EARN, createTripResponse.getTripTotal())
+        val expectedPaymentSplits = PaymentSplits(payingWithPoints, payingWithCards)
+
+        paymentModel.priceChangeDuringCheckoutSubject.onNext(createTripResponse)
+        priceChangeDuringCheckoutTestSubscriber.assertNoErrors()
+        priceChangeDuringCheckoutTestSubscriber.assertValueCount(1)
+        priceChangeDuringCheckoutTestSubscriber.assertValue(createTripResponse)
 
         paymentSplitsTestSubscriber.assertNoErrors()
         paymentSplitsTestSubscriber.assertValueCount(1)

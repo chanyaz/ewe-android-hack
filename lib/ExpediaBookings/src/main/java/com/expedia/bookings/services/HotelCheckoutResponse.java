@@ -1,8 +1,12 @@
 package com.expedia.bookings.services;
 
+import java.util.List;
+
 import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
+import com.expedia.bookings.data.payment.PointsDetails;
+import com.expedia.bookings.data.payment.UserPaymentPreferences;
 import com.expedia.bookings.utils.Strings;
 
 public class HotelCheckoutResponse extends BaseApiResponse {
@@ -11,6 +15,8 @@ public class HotelCheckoutResponse extends BaseApiResponse {
 	public String orderId;
 	public String currencyCode;
 	public String totalCharges;
+	public List<PointsDetails> pointsDetails;
+	public UserPaymentPreferences userPreference;
 
 	public static class BookingResponse {
 

@@ -113,6 +113,10 @@ public class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelService
         return getCheckoutTripResponse("hotel_price_change_checkout")
     }
 
+    fun getPriceChangeWithUserPreferencesCheckoutResponse(): HotelCheckoutResponse {
+        return getCheckoutTripResponse("hotel_price_change_with_user_preferences")
+    }
+
     fun getApplyCouponResponseWithUserPreference(): HotelCreateTripResponse {
         return getApplyCouponResponse("hotel_coupon_with_user_points_preference")
     }
