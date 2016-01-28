@@ -210,6 +210,8 @@ public class CheckoutViewModel {
 		addCreditCard().perform(click());
 		Common.delay(1);
 		enterPaymentDetails();
+		CheckoutViewModel.pressClose();
+		Common.delay(1);
 	}
 
 	public static void selectStoredCard(boolean isHotelsPath) throws Throwable {
