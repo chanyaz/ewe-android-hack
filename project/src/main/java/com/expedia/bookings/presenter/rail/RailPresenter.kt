@@ -4,12 +4,23 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.endlessObserver
+import com.expedia.vm.RailResultsViewModel
+import com.expedia.vm.RailSearchViewModel
+import rx.Observer
+import javax.inject.Inject
+import kotlin.properties.Delegates
 
 public class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+
+    lateinit var railServices: RailServices
+        @Inject set
 
     val searchPresenter: RailSearchPresenter by bindView(R.id.widget_rail_search_presenter)
     val resultsPresenter: RailResultsPresenter by bindView(R.id.widget_rail_results_presenter)
@@ -21,6 +32,15 @@ public class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     private val detailsToCheckout = LeftToRightTransition(this, RailDetailsPresenter::class.java, RailCheckoutPresenter::class.java)
     private val checkoutToSearch = LeftToRightTransition(this, RailCheckoutPresenter::class.java, RailSearchPresenter::class.java)
 
+    var railSearchParams: RailSearchRequest by Delegates.notNull()
+
+    val searchObserver: Observer<RailSearchRequest> = endlessObserver { params ->
+        railSearchParams = params
+
+        transitionToResults()
+        resultsPresenter.viewmodel.paramsSubject.onNext(params)
+    }
+
     init {
         Ui.getApplication(getContext()).railComponent().inject(this)
         View.inflate(context, R.layout.rail_presenter, this)
@@ -29,10 +49,14 @@ public class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         addTransition(detailsToCheckout)
         addTransition(checkoutToSearch)
 
-        searchPresenter.setOnClickListener { transitionToResults() }
         resultsPresenter.setOnClickListener { transitionToDetails() }
         detailsPresenter.setOnClickListener { transitionToCheckout() }
         checkoutPresenter.setOnClickListener { transitionToSearch() } //todo - should show confirmation
+        searchPresenter.searchViewModel = RailSearchViewModel(context)
+        searchPresenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
+
+        resultsPresenter.viewmodel = RailResultsViewModel(railServices)
+
         show(searchPresenter)
     }
 
@@ -41,7 +65,7 @@ public class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     }
 
     private fun transitionToResults() {
-        show(resultsPresenter)
+        show(resultsPresenter, FLAG_CLEAR_TOP)
     }
 
     private fun transitionToDetails() {

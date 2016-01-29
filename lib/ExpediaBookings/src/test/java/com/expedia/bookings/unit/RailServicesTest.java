@@ -9,13 +9,13 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.expedia.bookings.data.rail.Passengers;
-import com.expedia.bookings.data.rail.requests.RailValidateRequest;
-import com.expedia.bookings.data.rail.responses.RailSearchResponse;
 import com.expedia.bookings.data.rail.requests.RailDetailsRequest;
+import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel;
+import com.expedia.bookings.data.rail.requests.RailValidateRequest;
 import com.expedia.bookings.data.rail.responses.RailDetailsResponse;
+import com.expedia.bookings.data.rail.responses.RailSearchResponse;
 import com.expedia.bookings.data.rail.responses.RailValidateResponse;
 import com.expedia.bookings.interceptors.MockInterceptor;
-import com.expedia.bookings.data.rail.requests.RailSearchRequest;
 import com.expedia.bookings.services.RailServices;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
@@ -34,7 +34,7 @@ public class RailServicesTest {
 	@Rule
 	public MockWebServer server = new MockWebServer();
 	private RailServices service;
-	private RailSearchRequest railSearchRequest;
+	private RailApiSearchModel railSearchRequest;
 	private TestSubscriber<RailSearchResponse> searchResponseObserver;
 	private TestSubscriber<RailDetailsResponse> detailsResponseObserver;
 	private TestSubscriber<RailValidateResponse> validateResponseObserver;
@@ -107,6 +107,6 @@ public class RailServicesTest {
 	}
 
 	private void givenHappySearchRequest() {
-		railSearchRequest = new RailSearchRequest();
+		railSearchRequest = new RailApiSearchModel();
 	}
 }
