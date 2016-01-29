@@ -275,6 +275,7 @@ public class
 		R.drawable.packages_overview_flight1,
 		R.drawable.packages_overview_flight2,
 		R.string.coupon_error_remove_dialog_title,
-		R.string.per_person
+		R.string.per_person,
+		R.string.package_hotel_results_toolbar_title_TEMPLATE
 	};
 }

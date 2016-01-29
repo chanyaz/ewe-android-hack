@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.location.Location
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.cars.BaseApiResponse
@@ -30,7 +31,7 @@ import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?) {
+public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?, private val lob: LineOfBusiness) {
 
     // Inputs
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
@@ -71,7 +72,8 @@ public class HotelResultsViewModel(private val context: Context, private val hot
     }
 
     private fun doSearch(params: HotelSearchParams) {
-        titleSubject.onNext(params.suggestion.regionNames?.shortName)
+        val isPackages = lob == LineOfBusiness.PACKAGES
+        titleSubject.onNext(if (isPackages) StrUtils.formatCity(params.suggestion) else params.suggestion.regionNames.shortName)
 
         subtitleSubject.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
                 .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
@@ -79,7 +81,7 @@ public class HotelResultsViewModel(private val context: Context, private val hot
                 .put("guests", StrUtils.formatGuestString(context, params.guests()))
                 .format())
 
-        hotelServices?.regionSearch(params)?.subscribe(object: Observer<HotelSearchResponse> {
+        hotelServices?.regionSearch(params)?.subscribe(object : Observer<HotelSearchResponse> {
             override fun onNext(it: HotelSearchResponse) {
                 if (it.hasErrors()) {
                     errorObservable.onNext(it.firstError)
@@ -99,12 +101,17 @@ public class HotelResultsViewModel(private val context: Context, private val hot
                 }
             }
 
-            override fun onCompleted() {}
+            override fun onCompleted() {
+            }
 
             override fun onError(e: Throwable?) {
                 if (RetrofitUtils.isNetworkError(e)) {
-                    val retryFun = fun() { doSearch(paramsSubject.value) }
-                    val cancelFun = fun() { showHotelSearchViewObservable.onNext(Unit) }
+                    val retryFun = fun() {
+                        doSearch(paramsSubject.value)
+                    }
+                    val cancelFun = fun() {
+                        showHotelSearchViewObservable.onNext(Unit)
+                    }
                     DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
                 }
             }
@@ -237,7 +244,7 @@ public open class HotelResultsMapViewModel(val context: Context, val currentLoca
         }
     }
 
-    private fun getHotelWithMarker(marker : Marker?) : Hotel {
+    private fun getHotelWithMarker(marker: Marker?): Hotel {
         val hotelId = marker?.title
         val hotel = hotels.filter { it.hotelId == hotelId }.first()
         return hotel
@@ -248,7 +255,7 @@ public open class HotelResultsMapViewModel(val context: Context, val currentLoca
         val searchRegionId = response.searchRegionId
         val currentLocationLatLng = LatLng(currentLocation.latitude, currentLocation.longitude)
 
-        val sortedHotels = sortByLocation(currentLocation , response.hotelList)
+        val sortedHotels = sortByLocation(currentLocation, response.hotelList)
 
         val allHotelsBox: LatLngBounds = boxHotels(response.hotelList)
 
@@ -287,7 +294,7 @@ public open class HotelResultsMapViewModel(val context: Context, val currentLoca
         }
     }
 
-    fun sortByLocation(location: Location, hotels : List<Hotel>) : List<Hotel> {
+    fun sortByLocation(location: Location, hotels: List<Hotel>): List<Hotel> {
         val hotelLocation = Location("other")
         val sortedHotels = hotels.sortedBy { h ->
             hotelLocation.latitude = h.latitude
