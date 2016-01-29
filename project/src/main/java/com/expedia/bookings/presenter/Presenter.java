@@ -315,7 +315,7 @@ public class Presenter extends FrameLayout {
 	}
 
 	public void addDefaultTransition(DefaultTransition transition) {
-		if (toDefaultTransition != null) {
+		if (toDefaultTransition != null && !toDefaultTransition.equals(transition)) {
 			throw new RuntimeException("You can't have more than one default transition.");
 		}
 		toDefaultTransition = transition;

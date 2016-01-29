@@ -216,19 +216,18 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         }
 
         vm.calendarTooltipTextObservable.subscribe(endlessObserver { p ->
+            val showCalendarTooltip = (this.visibility == View.VISIBLE)
             val (top, bottom) = p
-            calendar.setToolTipText(top, bottom, true)
+            calendar.setToolTipText(top, bottom, true, showCalendarTooltip)
         })
 
-        if (vm.externalSearchParamsObservable.getValue()) {
-            postDelayed(object : Runnable {
-                override fun run() {
-                    if (ExpediaBookingApp.isAutomation()) {
-                        return
-                    }
-                    searchLocationEditText.requestFocus()
-                    com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
+        if (vm.externalSearchParamsObservable.value) {
+            postDelayed(Runnable {
+                if (ExpediaBookingApp.isAutomation()) {
+                    return@Runnable
                 }
+                searchLocationEditText.requestFocus()
+                com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
             }, 300)
         }
 
