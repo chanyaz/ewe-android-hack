@@ -6,7 +6,7 @@ public class Review {
 	private String mReviewId;
 	private String mTitle;
 	private String mBody;
-	private boolean mRecommended;
+	private IsRecommended mIsRecommended;
 	private DateTime mSubmissionDate;
 	private String mReviewerName;
 	private String mReviewerLocation;
@@ -36,12 +36,12 @@ public class Review {
 		this.mBody = body;
 	}
 
-	public boolean isRecommended() {
-		return mRecommended;
+	public IsRecommended isRecommended() {
+		return mIsRecommended;
 	}
 
-	public void setRecommended(boolean recommended) {
-		this.mRecommended = recommended;
+	public void setIsRecommended(IsRecommended mIsRecommended) {
+		this.mIsRecommended = mIsRecommended;
 	}
 
 	public DateTime getSubmissionDate() {
@@ -76,4 +76,9 @@ public class Review {
 		mOverallSatisfaction = overallSatisfaction;
 	}
 
+	public enum IsRecommended {
+		YES,
+		NO,
+		NONE
+	}
 }

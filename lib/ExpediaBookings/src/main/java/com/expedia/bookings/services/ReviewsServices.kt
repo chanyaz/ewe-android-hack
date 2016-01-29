@@ -35,8 +35,7 @@ public class ReviewsServices(endPoint: String, client: OkHttpClient, requestInte
                     override fun read(input: JsonReader): DateTime? {
                         return DateTime.parse(input.nextString())
                     }
-                })
-                .create()
+                }).create()
 
         val adapter = RestAdapter.Builder()
                 .setEndpoint(endPoint)

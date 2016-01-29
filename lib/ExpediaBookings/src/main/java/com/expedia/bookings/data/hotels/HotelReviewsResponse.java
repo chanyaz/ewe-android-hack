@@ -39,7 +39,14 @@ public class HotelReviewsResponse {
 		public String title;
 		public String reviewText;
 		public boolean recommended;
+		public IsRecommended isRecommended;
 		public String userLocation;
 		public DateTime reviewSubmissionTime;
+
+		public enum IsRecommended {
+			YES,
+			NO,
+			NONE
+		}
 	}
 }
