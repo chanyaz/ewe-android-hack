@@ -23,7 +23,6 @@ public class HotelCheckoutTest: HotelTestCase() {
         HotelScreen.selectRoom()
         enterTravelerAndPaymentDetails()
 
-        Espresso.pressBack() // nav back to checkout
         Espresso.pressBack() // nav back to details
         HotelScreen.selectRoom()
 

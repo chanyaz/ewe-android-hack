@@ -208,7 +208,7 @@ public class CarCheckoutPresenter extends Presenter {
 	public void showPaymentFailed(Events.CarsPaymentFailed event) {
 		show(checkout, FLAG_CLEAR_TOP);
 		checkout.slideWidget.resetSlider();
-		checkout.paymentInfoCardView.setExpanded(true, true);
+		checkout.paymentInfoCardView.getCardInfoContainer().performClick();
 	}
 
 	@Subscribe

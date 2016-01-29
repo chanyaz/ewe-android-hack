@@ -54,6 +54,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import kotlin.collections.count
 import kotlin.properties.Delegates
 
 public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -303,7 +304,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         errorPresenter.viewmodel.checkoutCardErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
             show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
-            checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.setExpanded(true, true)
+            checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.cardInfoContainer.performClick()
             checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
         }
 

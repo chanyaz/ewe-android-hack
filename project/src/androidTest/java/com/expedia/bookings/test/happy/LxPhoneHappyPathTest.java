@@ -147,7 +147,6 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 	private void manuallyEnterTravelerInfo() throws Throwable {
 		CheckoutViewModel.enterTravelerInfo();
 		CheckoutViewModel.enterPaymentInfo();
-		CheckoutViewModel.clickDone();
 	}
 
 	private void purchaseActivity(boolean isAmex) throws Throwable {

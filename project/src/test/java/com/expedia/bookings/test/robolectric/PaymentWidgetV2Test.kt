@@ -24,6 +24,7 @@ import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.bookings.widget.RoundImageView
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.PayWithPointsViewModel
+import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PaymentWidgetViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -49,8 +50,7 @@ public class PaymentWidgetV2Test {
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
     private var sut: PaymentWidgetV2 by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
-    private val toolbarShowRightActionButtonTestSubscriber = TestSubscriber<Boolean>()
-
+    private var viewModel: PaymentViewModel by Delegates.notNull()
     lateinit var paymentTileInfo: TextView
     lateinit var paymentTileOption: TextView
     lateinit var paymentTileIcon: RoundImageView
@@ -62,7 +62,8 @@ public class PaymentWidgetV2Test {
         activity.setTheme(R.style.V2_Theme_Hotels);
         Ui.getApplication(activity).defaultHotelComponents()
         sut = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
-
+        viewModel = PaymentViewModel(activity)
+        sut.viewmodel = viewModel;
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         val payWithPointsViewModel = PayWithPointsViewModel(paymentModel, activity.application.resources)
         sut.paymentWidgetViewModel = PaymentWidgetViewModel(activity.application, paymentModel, payWithPointsViewModel)
@@ -75,8 +76,7 @@ public class PaymentWidgetV2Test {
 
     @Test
     fun testPaymentTile() {
-        sut.bind()
-
+        sut.validateAndBind()
         //For Paying With Points Only
         paymentModel.createTripSubject.onNext(getCreateTripResponse(true))
         testPaymentTileInfo("Paying with Points", "Tap to edit", activity.resources.getDrawable(R.drawable.pwp_icon), View.GONE)
@@ -126,72 +126,9 @@ public class PaymentWidgetV2Test {
         user.addStoredCreditCard(card)
         Db.setUser(user)
 
-        sut.setCreditCardRequired(true)
+        sut.viewmodel.isCreditCardRequired.onNext(true)
         sut.sectionBillingInfo.bind(BillingInfo())
         sut.selectFirstAvailableCard()
         Db.setUser(null)
-    }
-
-    @Test
-    fun testDoneButtonState() {
-        sut.bind()
-        subscribeToolbarShowRightActionButtonCallback(toolbarShowRightActionButtonTestSubscriber)
-        paymentModel.createTripSubject.onNext(getCreateTripResponse(true))
-        sut.isExpanded = true
-
-        //Initially Done button is enabled because fully payablewith points
-        val expectedValues = ArrayList<Boolean>()
-        expectedValues.add(true)
-        toolbarShowRightActionButtonTestSubscriber.assertReceivedOnNext(expectedValues)
-
-        //User clicked on edit box to change value
-        sut.paymentWidgetViewModel.hasPwpEditBoxFocus.onNext(true)
-        expectedValues.add(false)
-        toolbarShowRightActionButtonTestSubscriber.assertReceivedOnNext(expectedValues)
-
-        //User clicked outside of edit box for API call
-        sut.paymentWidgetViewModel.hasPwpEditBoxFocus.onNext(false)
-        expectedValues.add(true)
-        sut.paymentWidgetViewModel.burnAmountApiCallResponsePending.onNext(true)
-        expectedValues.add(false)
-        toolbarShowRightActionButtonTestSubscriber.assertReceivedOnNext(expectedValues)
-
-        //Payment splits updated after API response
-        sut.paymentWidgetViewModel.burnAmountApiCallResponsePending.onNext(false)
-        expectedValues.add(true)
-        toolbarShowRightActionButtonTestSubscriber.assertReceivedOnNext(expectedValues)
-
-        //User selected stored card while waiting for API response
-        sut.paymentWidgetViewModel.burnAmountApiCallResponsePending.onNext(true)
-        expectedValues.add(false)
-        sut.paymentWidgetViewModel.onStoredCardChosen.onNext(Unit)
-        toolbarShowRightActionButtonTestSubscriber.assertReceivedOnNext(expectedValues)
-    }
-
-    private fun subscribeToolbarShowRightActionButtonCallback(subscriber: TestSubscriber<Boolean>) {
-        sut.setToolbarListener(object : ToolbarListener {
-            override fun setActionBarTitle(title: String?) {
-            }
-
-            override fun onWidgetExpanded(cardView: ExpandableCardView?) {
-            }
-
-            override fun onWidgetClosed() {
-            }
-
-            override fun onEditingComplete() {
-            }
-
-            override fun setMenuLabel(label: String?) {
-            }
-
-            override fun showRightActionButton(show: Boolean) {
-                subscriber.onNext(show)
-            }
-
-            override fun setNavArrowBarParameter(arrowDrawableType: ArrowXDrawableUtil.ArrowDrawableType?) {
-            }
-
-        })
     }
 }

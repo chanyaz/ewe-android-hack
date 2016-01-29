@@ -226,7 +226,7 @@ public class LXCheckoutPresenter extends Presenter {
 	public void showPaymentFailed(Events.LXPaymentFailed event) {
 		show(checkout, FLAG_CLEAR_TOP);
 		checkout.slideWidget.resetSlider();
-		checkout.paymentInfoCardView.setExpanded(true, true);
+		checkout.paymentInfoCardView.getCardInfoContainer().performClick();
 	}
 
 	private void showCheckoutErrorDialog(@StringRes int message) {

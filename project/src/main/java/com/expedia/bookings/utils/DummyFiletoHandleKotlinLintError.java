@@ -334,6 +334,9 @@ DummyFiletoHandleKotlinLintError {
 		R.string.car_does_not_accept_cardtype_TEMPLATE,
 		R.string.credit_debit_card_hint,
 		R.string.coupon_submit_button,
-		R.string.guests_with_rooms_TEMPLATE 
+		R.string.guests_with_rooms_TEMPLATE,
+		R.string.coupon_submit_button,
+		R.string.guests_with_rooms_TEMPLATE,
+		R.string.checkout_payment_option_credit_debit_label
 	};
 }

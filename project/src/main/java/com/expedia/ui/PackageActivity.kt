@@ -48,7 +48,7 @@ public class PackageActivity : AppCompatActivity() {
 
                     val params = PackageCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
                     if (params.isValid)
-                        packagePresenter.bundlePresenter.createTripViewModel.tripParams.onNext(params)
+                        packagePresenter.bundlePresenter.checkoutPresenter.createTripViewModel.tripParams.onNext(params)
                 }
             }
         }

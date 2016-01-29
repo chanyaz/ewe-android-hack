@@ -102,6 +102,11 @@
                     android:layout_marginTop="12dp"
                     android:layout="?attr/paymentWidgetLayout" />
 
+                <com.expedia.bookings.widget.FrameLayout
+                    android:id="@+id/coupon_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/legal_information_text_view"
                     android:layout_width="match_parent"
@@ -231,7 +236,7 @@
         android:layout_gravity="top"
         android:orientation="vertical">
 
-        <android.support.v7.widget.Toolbar
+        <com.expedia.bookings.widget.CheckoutToolbar
             android:id="@+id/checkout_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

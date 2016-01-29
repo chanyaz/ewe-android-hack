@@ -162,55 +162,6 @@
         android:orientation="vertical"
         android:paddingTop="16dp">
 
-        <com.expedia.bookings.widget.PaymentButton
-            android:id="@+id/payment_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:visibility="gone" />
-
-        <LinearLayout
-            android:id="@+id/stored_card_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingBottom="16dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
-
-            <com.expedia.bookings.widget.RoundImageView
-                android:id="@+id/display_credit_card_brand_icon_tablet"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/cars_checkout_cc_default_icon" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/stored_card_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight="1"
-                android:gravity="center|left"
-                android:paddingLeft="16dp"
-                android:singleLine="true"
-                android:textSize="16sp"
-                app:textStyle="medium" />
-
-            <ImageView
-                android:id="@+id/remove_stored_card_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/bg_clickable_row"
-                android:padding="8dp"
-                android:src="@drawable/ic_log_out" />
-
-        </LinearLayout>
-
         <com.expedia.bookings.section.SectionBillingInfo
             android:id="@+id/section_billing_info"
             android:layout_width="match_parent"
@@ -241,6 +192,8 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     android:hint="@string/credit_card_hint"
+                    android:nextFocusRight="@+id/edit_address_postal_code"
+                    android:nextFocusDown="@+id/edit_address_postal_code"
                     android:paddingLeft="48dp"
                     android:singleLine="true"
                     app:numberFormat="creditcard" />
@@ -274,6 +227,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/address_postal_code_hint"
+                        android:nextFocusRight="@+id/edit_name_on_card"
+                        android:nextFocusDown="@+id/edit_name_on_card"
                         android:singleLine="true" />
 
                 </com.expedia.bookings.section.SectionLocation>
@@ -293,6 +248,7 @@
                 android:id="@+id/edit_name_on_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
                 android:hint="@string/name_on_card_hint"
                 android:inputType="textPersonName|textCapWords"
                 android:singleLine="true" />

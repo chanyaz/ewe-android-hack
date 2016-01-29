@@ -36,6 +36,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.widget.StarRatingBar;
+import com.expedia.bookings.widget.CheckoutToolbar;
 import com.mobiata.android.Log;
 import com.mobiata.android.widget.CalendarDatePicker;
 
@@ -268,12 +269,12 @@ public final class ViewActions {
 
 			@Override
 			public Matcher<View> getConstraints() {
-				return Matchers.allOf(isAssignableFrom(ViewGroup.class));
+				return Matchers.allOf(isAssignableFrom(Toolbar.class));
 			}
 
 			@Override
 			public void perform(UiController uiController, View view) {
-				View childView = ((Toolbar) view).getChildAt(index);
+				View childView = ((CheckoutToolbar) view).getChildAt(index);
 				childView.performClick();
 				uiController.loopMainThreadUntilIdle();
 			}

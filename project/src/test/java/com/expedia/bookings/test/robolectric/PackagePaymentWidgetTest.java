@@ -22,6 +22,7 @@ import com.expedia.bookings.data.TripBucketItemPackages;
 import com.expedia.bookings.data.ValidPayment;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.widget.PackagePaymentWidget;
+import com.expedia.vm.PaymentViewModel;
 
 import butterknife.ButterKnife;
 
@@ -41,6 +42,7 @@ public class PackagePaymentWidgetTest {
 		activity.setTheme(R.style.V2_Theme_Packages);
 		packagePaymentWidget = (PackagePaymentWidget) LayoutInflater.from(activity)
 			.inflate(R.layout.package_payment_widget, null);
+		packagePaymentWidget.setViewmodel(new PaymentViewModel(activity));
 	}
 
 	@Test
@@ -53,9 +55,8 @@ public class PackagePaymentWidgetTest {
 
 	@Test
 	public void testNoTripValidator() {
-		packagePaymentWidget.setLineOfBusiness(LineOfBusiness.PACKAGES);
-		packagePaymentWidget.setCreditCardRequired(true);
-		packagePaymentWidget.setExpanded(true);
+		packagePaymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.PACKAGES);
+		packagePaymentWidget.getCardInfoContainer().performClick();
 
 		Db.getTripBucket().clear(LineOfBusiness.PACKAGES);
 
@@ -72,17 +73,16 @@ public class PackagePaymentWidgetTest {
 		location.setPostalCode("60661");
 		location.setStateCode("IL");
 		info.setLocation(location);
-		packagePaymentWidget.sectionBillingInfo.bind(info);
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
 
-		assertFalse(packagePaymentWidget.sectionBillingInfo.performValidation());
+		assertFalse(packagePaymentWidget.getSectionBillingInfo().performValidation());
 	}
 
 
 	@Test
 	public void testAmexSecurityCodeValidator() {
-		packagePaymentWidget.setLineOfBusiness(LineOfBusiness.PACKAGES);
-		packagePaymentWidget.setCreditCardRequired(true);
-		packagePaymentWidget.setExpanded(true);
+		packagePaymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.PACKAGES);
+		packagePaymentWidget.getCardInfoContainer().performClick();
 
 		PackageCreateTripResponse response = new PackageCreateTripResponse();
 		ValidPayment amexPayment = new ValidPayment();
@@ -107,19 +107,18 @@ public class PackagePaymentWidgetTest {
 		location.setPostalCode("60661");
 		location.setStateCode("IL");
 		info.setLocation(location);
-		packagePaymentWidget.sectionBillingInfo.bind(info);
-		assertFalse(packagePaymentWidget.sectionBillingInfo.performValidation());
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.getSectionBillingInfo().performValidation());
 
 		info.setSecurityCode("1234");
-		packagePaymentWidget.sectionBillingInfo.bind(info);
-		assertTrue(packagePaymentWidget.sectionBillingInfo.performValidation());
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertTrue(packagePaymentWidget.getSectionBillingInfo().performValidation());
 	}
 
 	@Test
 	public void testVisaSecurityCodeValidator() {
-		packagePaymentWidget.setLineOfBusiness(LineOfBusiness.PACKAGES);
-		packagePaymentWidget.setCreditCardRequired(true);
-		packagePaymentWidget.setExpanded(true);
+		packagePaymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.PACKAGES);
+		packagePaymentWidget.getCardInfoContainer().performClick();
 
 		PackageCreateTripResponse response = new PackageCreateTripResponse();
 		ValidPayment visaPayment = new ValidPayment();
@@ -144,11 +143,11 @@ public class PackagePaymentWidgetTest {
 		location.setPostalCode("94109");
 		location.setStateCode("CA");
 		info.setLocation(location);
-		packagePaymentWidget.sectionBillingInfo.bind(info);
-		assertFalse(packagePaymentWidget.sectionBillingInfo.performValidation());
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.getSectionBillingInfo().performValidation());
 
 		info.setSecurityCode("123");
-		packagePaymentWidget.sectionBillingInfo.bind(info);
-		assertTrue(packagePaymentWidget.sectionBillingInfo.performValidation());
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertTrue(packagePaymentWidget.getSectionBillingInfo().performValidation());
 	}
 }

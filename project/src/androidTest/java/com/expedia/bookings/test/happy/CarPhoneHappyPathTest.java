@@ -50,7 +50,6 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 	private void enterPaymentInfoWithScreenshot() throws Throwable {
 		EspressoUtils.assertViewIsDisplayed(R.id.payment_info_card_view);
 		CheckoutViewModel.enterPaymentInfo();
-		CheckoutViewModel.pressClose();
 	}
 
 	private void slideToPurchase() throws Throwable {

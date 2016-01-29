@@ -48,6 +48,7 @@ public abstract class ExpandableCardView extends FrameLayout
 		mCurrentEditText = (EditText) v;
 
 		if (mToolbarListener != null) {
+			mToolbarListener.editTextFocus(mCurrentEditText);
 			if (getMenuDoneButtonFocus()) {
 				mToolbarListener.setMenuLabel(getResources().getString(R.string.done));
 				mToolbarListener.onEditingComplete();

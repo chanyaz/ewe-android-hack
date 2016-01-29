@@ -6,7 +6,6 @@ import android.content.DialogInterface
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
-import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.HotelRulesActivity
 import com.expedia.bookings.data.BillingInfo
@@ -35,15 +34,16 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.CheckoutBasePresenter
 import com.expedia.bookings.widget.CouponWidget
 import com.expedia.bookings.widget.HotelCheckoutSummaryWidget
+import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.vm.HotelCheckoutMainViewModel
 import com.expedia.vm.HotelCheckoutOverviewViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.expedia.vm.HotelCouponViewModel
 import com.expedia.vm.HotelCreateTripViewModel
-import com.expedia.vm.HotelCheckoutMainViewModel
 import com.squareup.otto.Subscribe
 import rx.Observer
 import rx.subjects.PublishSubject
@@ -53,7 +53,6 @@ import kotlin.properties.Delegates
 
 public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : CheckoutBasePresenter(context, attr) {
 
-    val COUPON_VIEW_INDEX = 4
     var slideAllTheWayObservable = PublishSubject.create<Unit>()
     var emailOptInStatus = PublishSubject.create<MerchandiseSpam>()
     var hotelCheckoutSummaryWidget: HotelCheckoutSummaryWidget by Delegates.notNull()
@@ -137,11 +136,9 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         summaryContainer.addView(hotelCheckoutSummaryWidget)
 
         mainContactInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
-        paymentInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
 
-        val container = scrollView.findViewById(R.id.scroll_content) as LinearLayout
-        container.addView(couponCardView, container.getChildCount() - COUPON_VIEW_INDEX)
-        couponCardView.setToolbarListener(toolbarListener)
+        couponContainer.addView(couponCardView)
+        couponCardView.setToolbarListener(toolbar)
 
         couponCardView.viewmodel.removeObservable.subscribe {
             if (it) {
@@ -150,16 +147,14 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
             }
         }
 
-        val params = couponCardView.getLayoutParams() as LinearLayout.LayoutParams
+        val params = couponCardView.layoutParams as LayoutParams
         params.setMargins(0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, getResources().getDisplayMetrics()).toInt(), 0, 0);
     }
 
     fun bind() {
         mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.enter_driver_details))
         mainContactInfoCardView.setExpanded(false)
-
-        paymentInfoCardView.setCreditCardRequired(true)
-        paymentInfoCardView.setExpanded(false)
+        paymentInfoCardView.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
 
         if (!hasDiscount) {
             clearCCNumber()
