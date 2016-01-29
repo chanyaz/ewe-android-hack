@@ -252,6 +252,7 @@ public class
 		R.string.pwp_calculating_points,
 		R.string.pwp_points_applied_TEMPLATE,
 		R.string.pwp_remaining_balance_due_on_card_TEMPLATE,
+		R.string.pwp_total_due_today_TEMPLATE,
 		R.layout.pay_with_points_widget,
 		R.string.checkout_paying_with_points_only_line1,
 		R.string.checkout_paying_with_points_and_card_line1,

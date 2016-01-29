@@ -62,7 +62,7 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
             defaultAmount,
             clearButtonClick.map { "" })
 
-    override val pwpWidgetVisibility = paymentModel.createTripSubject.map { it.isExpediaRewardsRedeemable() }
+    override val pwpWidgetVisibility = paymentModel.tripResponses.map { it.isExpediaRewardsRedeemable() }
 
     override val totalPointsAndAmountAvailableToRedeem = paymentModel.tripResponses.filter { it.isExpediaRewardsRedeemable() }.map {
         Phrase.from(resources.getString(R.string.pay_with_point_total_available_TEMPLATE))

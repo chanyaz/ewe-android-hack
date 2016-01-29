@@ -3878,6 +3878,7 @@
     <string name="pwp_calculating_points">Calculating points…</string>
     <string name="pwp_points_applied_TEMPLATE">{points} points applied</string>
     <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Remaining balance due: {money}</string>
+    <string name="pwp_total_due_today_TEMPLATE">Total due today: {money}</string>
 
     <!-- Package Flight Overview -->
     <string name="package_flight_overview_select_flight">Select this Flight</string>
