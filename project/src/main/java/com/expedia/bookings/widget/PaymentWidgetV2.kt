@@ -25,6 +25,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -34,13 +35,16 @@ import kotlin.properties.Delegates
 
 public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
     val remainingBalance: TextView by bindView(R.id.remaining_balance)
+    val totalDueToday: TextView by bindView(R.id.total_due_today)
     val pwpSmallIcon: ImageView by bindView(R.id.pwp_small_icon)
     val sectionCreditCardContainer: ViewGroup by bindView(R.id.section_credit_card_container)
     val rebindRequested = PublishSubject.create<Unit>()
     var paymentSplitsType: PaymentSplitsType by Delegates.notNull()
 
     var paymentWidgetViewModel by notNullAndObservable<IPaymentWidgetViewModel> {
+        it.totalDueToday.subscribeText(totalDueToday)
         it.remainingBalanceDueOnCard.subscribeText(remainingBalance)
+        it.remainingBalanceDueOnCardVisibility.subscribeVisibility(remainingBalance)
         it.paymentSplitsAndTripResponse.map { it.paymentSplits.paymentSplitsType() != PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT }.subscribeEnabled(sectionCreditCardContainer)
 
         Observable.combineLatest(rebindRequested, it.paymentSplitsAndTripResponse) { unit, paymentSplitsAndTripResponse -> paymentSplitsAndTripResponse }
