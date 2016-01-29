@@ -51,7 +51,6 @@ import com.expedia.vm.HotelSearchViewModel
 import com.google.android.gms.maps.MapView
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
-import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -262,8 +261,12 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         addTransition(searchToError)
         addTransition(checkoutToError)
         addTransition(detailsToError)
+
+        // TODO Have to set create one vm based on test
         searchPresenter.searchViewModel = HotelSearchViewModel(context)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
+        searchV2Presenter.searchViewModel = HotelSearchViewModel(context)
+
 
         //NOTE
         //Reason for delay(XYZ, TimeUnit.ABC) to various errorObservables below:

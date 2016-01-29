@@ -3889,4 +3889,7 @@
     <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
     <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>
     <string name="pwp_unknown_error">An unknown error occurred. Please try again.</string>
+
+    <!-- New Hotel Search screen -->
+    <string name="select_traveler_title">Select traveler</string>
 </resources>

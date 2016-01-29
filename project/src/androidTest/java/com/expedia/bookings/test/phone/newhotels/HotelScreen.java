@@ -1,7 +1,5 @@
 package com.expedia.bookings.test.phone.newhotels;
 
-import java.util.concurrent.TimeUnit;
-
 import org.hamcrest.Matcher;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -20,6 +18,8 @@ import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
+
+import java.util.concurrent.TimeUnit;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -45,6 +45,10 @@ public class HotelScreen {
 
 	public static ViewInteraction selectDateButton() {
 		return onView(withId(R.id.select_date));
+	}
+
+	public static ViewInteraction selectTraveler() {
+		return onView(withId(R.id.traveler_card));
 	}
 
 	public static ViewInteraction location() {
