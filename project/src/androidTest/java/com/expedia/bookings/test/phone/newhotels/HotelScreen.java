@@ -410,4 +410,8 @@ public class HotelScreen {
 		CVVEntryScreen.enterCVV("123");
 		CVVEntryScreen.clickBookButton();
 	}
+
+	public static void clickRoom(String room) {
+		onView(withText(room)).perform(scrollTo(), click());
+	}
 }

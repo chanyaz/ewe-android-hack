@@ -1,0 +1,209 @@
+{
+  "tripId": "526abf74-430e-4449-b793-e072e0beecbf",
+  "userId": 888751164,
+  "originalHotelProductResponse": {
+
+  },
+  "newHotelProductResponse": {
+    "checkInDate": "2016-01-27",
+    "checkOutDate": "2016-01-28",
+    "adultCount": "1",
+    "numberOfNights": "1",
+    "numberOfRooms": "1",
+    "hotelId": "23395",
+    "hotelName": "Hotel Union Square",
+    "localizedHotelName": "Hotel Union Square",
+    "nonLocalizedHotelName": "Hotel Union Square",
+    "largeThumbnailUrl": "/hotels/1000000/30000/23400/23395/23395_49_d.jpg",
+    "thumbnailUrl": "/hotels/1000000/30000/23400/23395/23395_49_n.jpg",
+    "hotelAddress": "114 Powell St",
+    "hotelCity": "San Francisco",
+    "hotelStateProvince": "CA",
+    "hotelCountry": "USA",
+    "hotelStarRating": "3.5",
+    "hotelRoomResponse": {
+      "productKey": "dad92589-6af0-4516-8d4c-b58af6dab326_V3",
+      "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Hotel Union Square charges the following cancellation and change fees.</p><p><span class=\"rr-bold\">The room type and rate selected are non-refundable.</span> Should you change or cancel this reservation for any reason, your payment will not be refunded.</p><p>No refunds will be issued for late check-in or early check-out.</p><p>Stay extensions require a new reservation.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate hotels.</p>",
+      "rateDescription": "Deluxe Room, 1 Queen Bed",
+      "roomTypeDescription": "Deluxe Room, 1 Queen Bed",
+      "supplierType": "MERCHANT",
+      "rateChange": false,
+      "nonRefundable": true,
+      "hasFreeCancellation": false,
+      "guaranteeRequired": false,
+      "depositRequired": false,
+      "immediateChargeRequired": true,
+      "currentAllotment": "0",
+      "promoDescription": "Tonight only: save 27%",
+      "isDiscountRestrictedToCurrentSourceType": true,
+      "isSameDayDRR": false,
+      "smokingPreferences": "E",
+      "rateOccupancyPerRoom": "3",
+      "bedTypes": [
+        {
+          "id": "15",
+          "description": "1 queen bed"
+        }
+      ],
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": false,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "95.20",
+          "averageRate": "95.20",
+          "taxStatusType": "ESTIMATED",
+          "surchargeTotal": "19.56",
+          "surchargeTotalForEntireStay": "19.56",
+          "averageBaseRate": "164.00",
+          "nightlyRateTotal": "95.20",
+          "discountPercent": -42,
+          "total": "114.76",
+          "currencyCode": "USD",
+          "currencySymbol": "$",
+          "surcharges": [
+            {
+              "amount": "15.84",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "15.84",
+              "type": "TAX_OTHER"
+            },
+            {
+              "amount": "3.72",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "3.72",
+              "type": "FEE_MISC"
+            }
+          ],
+          "surchargesForEntireStay": [
+            {
+              "amount": "15.84",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "15.84",
+              "type": "TAX_OTHER"
+            },
+            {
+              "amount": "3.72",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "3.72",
+              "type": "FEE_MISC"
+            }
+          ],
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "true",
+              "baseRate": "164.00",
+              "rate": "95.20"
+            }
+          ],
+          "priceToShowUsers": "95",
+          "strikethroughPriceToShowUsers": "164",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "184",
+          "totalMandatoryFees": "15.00",
+          "totalPriceWithMandatoryFees": "129.76",
+          "formattedTotalPriceWithMandatoryFees": "$ 129.76",
+          "userPriceType": "PerNightRateNoTaxes",
+          "priceAdjustments": [
+            {
+              "type": "COUPON",
+              "amount": "23.80",
+              "formattedAmount": "$ 23.80"
+            }
+          ],
+          "checkoutPriceType": "totalPriceWithMandatoryFees",
+          "airAttached": false,
+          "roomTypeCode": "201149594",
+          "ratePlanCode": "205455983",
+          "showResortFeeMessage": true,
+          "resortFeeInclusion": true,
+          "dailyMandatoryFee": "15.00"
+        }
+      },
+      "quotedOccupancy": "2",
+      "minGuestAge": "0",
+      "roomTypeCode": "201149594",
+      "ratePlanCode": "205455983",
+      "isPayLater": false
+    },
+    "supplierType": "MERCHANT",
+    "accessibilityAmenities": [
+      {
+        "id": "2420",
+        "description": "Accessible bathroom"
+      },
+      {
+        "id": "2423",
+        "description": "In-room accessibility"
+      },
+      {
+        "id": "2421",
+        "description": "Roll-in shower"
+      }
+    ],
+    "isVipAccess": false,
+    "tealeafTransactionId": "74a3a9c4676b4c428ae9effefbbea992",
+    "bigImageUrl": "/hotels/1000000/30000/23400/23395/23395_49_b.jpg",
+    "regionId": "800129"
+  },
+  "airAttachedProductResponse": {
+
+  },
+  "loyaltyPoints": {
+    "totalLoyaltyPoints": 690.00,
+    "loyaltyPointInfoList": [
+      {
+        "pointValue": 230.00,
+        "pointType": "basePoint"
+      },
+      {
+        "pointValue": 460.00,
+        "pointType": "offerPoint"
+      }
+    ]
+  },
+  "expediaRewards": {
+    "totalPointsToEarn": 690,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "coupon": {
+    "code": "CL9XR34LHP6V3H2B"
+  },
+  "userCoupons": [
+    {
+      "name": "2015 Employee Escape Standalone Coupon - 20%",
+      "instanceId": 183757495,
+      "redemptionStatus": "VALID"
+    }
+  ],
+  "tealeafTransactionId": "74a3a9c4676b4c428ae9effefbbea992",
+  "validFormsOfPayment": [
+    {
+      "name": "AmericanExpress"
+    },
+    {
+      "name": "Diner's Club International"
+    },
+    {
+      "name": "Discover"
+    },
+    {
+      "name": "JCB"
+    },
+    {
+      "name": "MasterCard"
+    },
+    {
+      "name": "Visa"
+    }
+  ],
+  "guestUserPromoEmailOptInStatus": "ALWAYS"
+}

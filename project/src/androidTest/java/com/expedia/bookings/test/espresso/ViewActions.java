@@ -47,6 +47,11 @@ public final class ViewActions {
 		// ignore
 	}
 
+	public static ViewAction swipeDown() {
+		return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.CENTER,
+			GeneralLocation.BOTTOM_CENTER, Press.FINGER);
+	}
+
 	public static ViewAction swipeUp() {
 		return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.BOTTOM_CENTER,
 			GeneralLocation.TOP_CENTER, Press.FINGER);
