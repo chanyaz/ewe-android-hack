@@ -81,7 +81,7 @@ public class HotelResultsViewModel(private val context: Context, private val hot
                 .put("guests", StrUtils.formatGuestString(context, params.guests()))
                 .format())
 
-        hotelServices?.regionSearch(params)?.subscribe(object: Observer<HotelSearchResponse> {
+        hotelServices?.regionSearch(params)?.subscribe(object : Observer<HotelSearchResponse> {
             override fun onNext(it: HotelSearchResponse) {
                 if (it.hasErrors()) {
                     errorObservable.onNext(it.firstError)
@@ -101,12 +101,17 @@ public class HotelResultsViewModel(private val context: Context, private val hot
                 }
             }
 
-            override fun onCompleted() {}
+            override fun onCompleted() {
+            }
 
             override fun onError(e: Throwable?) {
                 if (RetrofitUtils.isNetworkError(e)) {
-                    val retryFun = fun() { doSearch(paramsSubject.value) }
-                    val cancelFun = fun() { showHotelSearchViewObservable.onNext(Unit) }
+                    val retryFun = fun() {
+                        doSearch(paramsSubject.value)
+                    }
+                    val cancelFun = fun() {
+                        showHotelSearchViewObservable.onNext(Unit)
+                    }
                     DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
                 }
             }
@@ -239,7 +244,7 @@ public open class HotelResultsMapViewModel(val context: Context, val currentLoca
         }
     }
 
-    private fun getHotelWithMarker(marker : Marker?) : Hotel {
+    private fun getHotelWithMarker(marker: Marker?): Hotel {
         val hotelId = marker?.title
         val hotel = hotels.filter { it.hotelId == hotelId }.first()
         return hotel
@@ -250,7 +255,7 @@ public open class HotelResultsMapViewModel(val context: Context, val currentLoca
         val searchRegionId = response.searchRegionId
         val currentLocationLatLng = LatLng(currentLocation.latitude, currentLocation.longitude)
 
-        val sortedHotels = sortByLocation(currentLocation , response.hotelList)
+        val sortedHotels = sortByLocation(currentLocation, response.hotelList)
 
         val allHotelsBox: LatLngBounds = boxHotels(response.hotelList)
 
@@ -289,7 +294,7 @@ public open class HotelResultsMapViewModel(val context: Context, val currentLoca
         }
     }
 
-    fun sortByLocation(location: Location, hotels : List<Hotel>) : List<Hotel> {
+    fun sortByLocation(location: Location, hotels: List<Hotel>): List<Hotel> {
         val hotelLocation = Location("other")
         val sortedHotels = hotels.sortedBy { h ->
             hotelLocation.latitude = h.latitude
