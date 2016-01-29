@@ -17,7 +17,7 @@ public class TripBucketItemHotelV2 extends TripBucketItem {
 		}
 	}
 
-	public HotelCreateTripResponse updateHotelProductsAfterCheckoutPriceChange(HotelCheckoutResponse hotelCheckoutResponse) {
+	public HotelCreateTripResponse updateAfterCheckoutPriceChange(HotelCheckoutResponse hotelCheckoutResponse) {
 		mHotelTripResponse.originalHotelProductResponse = hotelCheckoutResponse.checkoutResponse.jsonPriceChangeResponse.oldProduct;
 		mHotelTripResponse.newHotelProductResponse = hotelCheckoutResponse.checkoutResponse.jsonPriceChangeResponse.newProduct;
 		mHotelTripResponse.setPointsDetails(hotelCheckoutResponse.pointsDetails);

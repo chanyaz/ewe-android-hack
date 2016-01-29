@@ -57,7 +57,7 @@ open public class HotelCheckoutViewModel(val hotelServices: HotelServices, val p
                 if (checkout.hasErrors()) {
                     when (checkout.firstError.errorCode) {
                         ApiError.Code.PRICE_CHANGE -> {
-                            val hotelCreateTripResponse = Db.getTripBucket().hotelV2.updateHotelProductsAfterCheckoutPriceChange(checkout)
+                            val hotelCreateTripResponse = Db.getTripBucket().hotelV2.updateAfterCheckoutPriceChange(checkout)
                             priceChangeResponseObservable.onNext(hotelCreateTripResponse)
                             paymentModel.priceChangeDuringCheckoutSubject.onNext(hotelCreateTripResponse)
                         }

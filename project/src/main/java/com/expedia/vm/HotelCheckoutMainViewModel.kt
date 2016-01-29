@@ -5,8 +5,6 @@ import com.expedia.bookings.data.payment.PaymentModel
 import rx.Observable
 
 public class HotelCheckoutMainViewModel(paymentModel: PaymentModel<HotelCreateTripResponse>) {
-
-    val updateEarnedRewards: Observable<Int> = paymentModel.paymentSplitsAndTripResponseObservable.map { it ->
-        it.paymentSplits.payingWithCards.points
-    }
+    //OUTLETS
+    val updateEarnedRewards: Observable<Int> = paymentModel.paymentSplits.map { it.payingWithCards.points }
 }

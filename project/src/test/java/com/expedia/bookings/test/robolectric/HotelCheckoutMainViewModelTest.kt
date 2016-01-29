@@ -50,8 +50,8 @@ class HotelCheckoutMainViewModelTest {
 
         //When user chooses to pay through card and reward points
         val latch = CountDownLatch(1)
-        paymentModel.currencyToPointsApiResponse.subscribe { latch.countDown() }
-        paymentModel.amountChosenToBePaidWithPointsSubject.onNext(BigDecimal(32))
+        paymentModel.burnAmountToPointsApiResponse.subscribe { latch.countDown() }
+        paymentModel.burnAmountSubject.onNext(BigDecimal(32))
         latch.await(10, TimeUnit.SECONDS)
 
         updateEarnPointsText.assertValueCount(2)

@@ -12,17 +12,18 @@ import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.ServicesRule
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.IPayWithPointsViewModel
-import com.expedia.bookings.widget.PayWithPointsViewModel
 import com.expedia.bookings.widget.PayWithPointsWidget
 import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.util.notNullAndObservable
+import com.expedia.vm.PayWithPointsViewModel
+import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
+import java.util.ArrayList
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -32,23 +33,23 @@ public class PayWithPointsViewModelTest {
     public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
-    public var loyaltyServiceRule = ServicesRule<LoyaltyServices>(LoyaltyServices::class.java)
+    public var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
     private var createTripResponse: HotelCreateTripResponse by Delegates.notNull()
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
 
     private var payWithPointsViewModel by notNullAndObservable<IPayWithPointsViewModel> {
-        it.updateAmountOfEditText.subscribe(updateAmountOfEditTextTestSubscriber)
+        it.burnAmountUpdate.subscribe(burnAmountUpdateTestSubscriber)
         it.totalPointsAndAmountAvailableToRedeem.subscribe(totalPointsAndAmountAvailableToRedeemTestSubscriber)
         it.currencySymbol.subscribe(currencySymbolTestSubscriber)
-        it.pwpConversionResponse.subscribe(pwpConversionResponseTestSubscriber)
+        it.pointsAppliedMessage.subscribe(pointsAppliedMessageTestSubscriber)
     }
 
-    private val updateAmountOfEditTextTestSubscriber = TestSubscriber.create<String>()
+    private val burnAmountUpdateTestSubscriber = TestSubscriber.create<String>()
     private val totalPointsAndAmountAvailableToRedeemTestSubscriber = TestSubscriber.create<String>()
     private val currencySymbolTestSubscriber = TestSubscriber.create<String>()
-    private val pwpConversionResponseTestSubscriber = TestSubscriber.create<Pair<String, Boolean>>()
+    private val pointsAppliedMessageTestSubscriber = TestSubscriber.create<Pair<String, Boolean>>()
 
     @Before
     fun setup() {
@@ -73,169 +74,243 @@ public class PayWithPointsViewModelTest {
         totalPointsAndAmountAvailableToRedeemTestSubscriber.assertValueCount(1)
         totalPointsAndAmountAvailableToRedeemTestSubscriber.assertValue("$100.00 (1000 points) available")
 
-        updateAmountOfEditTextTestSubscriber.assertNoErrors()
-        updateAmountOfEditTextTestSubscriber.assertValueCount(1)
-        updateAmountOfEditTextTestSubscriber.assertValue("100.00")
+        burnAmountUpdateTestSubscriber.assertNoErrors()
+        burnAmountUpdateTestSubscriber.assertValueCount(1)
+        burnAmountUpdateTestSubscriber.assertValue("100.00")
 
         currencySymbolTestSubscriber.assertNoErrors()
         currencySymbolTestSubscriber.assertValueCount(1)
         currencySymbolTestSubscriber.assertValue("$")
 
-        pwpConversionResponseTestSubscriber.assertNoErrors()
-        pwpConversionResponseTestSubscriber.assertValueCount(1)
-        pwpConversionResponseTestSubscriber.assertValue(Pair("1000 points applied", true))
+        pointsAppliedMessageTestSubscriber.assertNoErrors()
+        pointsAppliedMessageTestSubscriber.assertValueCount(1)
+        pointsAppliedMessageTestSubscriber.assertValue(Pair("1000 points applied", true))
     }
 
     @Test
     public fun userEntersBlankEditBoxAndSubmit() {
-        payWithPointsViewModel.amountSubmittedByUser.onNext("")
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("")
 
-        pwpConversionResponseTestSubscriber.assertNoErrors()
-        pwpConversionResponseTestSubscriber.assertValueCount(2)
-        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true))
+        pointsAppliedMessageTestSubscriber.assertNoErrors()
+        pointsAppliedMessageTestSubscriber.assertValueCount(2)
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true))
     }
 
     @Test
     public fun userEntersMoreValueThanTripTotal() {
-        payWithPointsViewModel.amountSubmittedByUser.onNext("140")
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("140")
 
-        pwpConversionResponseTestSubscriber.assertNoErrors()
-        pwpConversionResponseTestSubscriber.assertValueCount(2)
-        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("The points value can not exceed the payment due today.", false))
+        pointsAppliedMessageTestSubscriber.assertNoErrors()
+        pointsAppliedMessageTestSubscriber.assertValueCount(2)
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("The points value can not exceed the payment due today.", false))
     }
 
     @Test
     public fun userEntersMoreValueThanAvailablePoints() {
-        payWithPointsViewModel.amountSubmittedByUser.onNext("110")
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("110")
 
-        pwpConversionResponseTestSubscriber.assertNoErrors()
-        pwpConversionResponseTestSubscriber.assertValueCount(2)
-        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("The points value exceeds your available balance.\\nPlease enter $100.00 or less.", false))
+        pointsAppliedMessageTestSubscriber.assertNoErrors()
+        pointsAppliedMessageTestSubscriber.assertValueCount(2)
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("The points value exceeds your available balance.\\nPlease enter $100.00 or less.", false))
     }
 
     @Test
     public fun userEntersZeroAmount() {
-        payWithPointsViewModel.amountSubmittedByUser.onNext("0")
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("0")
 
-        pwpConversionResponseTestSubscriber.assertNoErrors()
-        pwpConversionResponseTestSubscriber.assertValueCount(2)
-        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true))
+        pointsAppliedMessageTestSubscriber.assertNoErrors()
+        pointsAppliedMessageTestSubscriber.assertValueCount(2)
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true))
     }
 
     @Test
     public fun userEntersAmountLessThanTripTotalAndAvailablePoints() {
         val latch = CountDownLatch(1)
-        paymentModel.currencyToPointsApiResponse.subscribe { latch.countDown() }
-        payWithPointsViewModel.amountSubmittedByUser.onNext("32")
+        paymentModel.burnAmountToPointsApiResponse.subscribe { latch.countDown() }
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
         latch.await(10, TimeUnit.SECONDS)
 
-        pwpConversionResponseTestSubscriber.assertValueCount(3)
-        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("14005 points applied", true))
+        pointsAppliedMessageTestSubscriber.assertValueCount(3)
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("14005 points applied", true))
     }
 
     @Test
     public fun userEntersAmountLessThanTripTotalAndAvailablePointsBeforePreviousAPIResponse() {
         val latch = CountDownLatch(1)
-        paymentModel.currencyToPointsApiResponse.subscribe { latch.countDown() }
-        payWithPointsViewModel.amountSubmittedByUser.onNext("32")
+        paymentModel.burnAmountToPointsApiResponse.subscribe { latch.countDown() }
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
         createTripResponse.tripId = "happy_avaliable_points_less_than_trip"
-        payWithPointsViewModel.amountSubmittedByUser.onNext("30")
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("30")
         latch.await(10, TimeUnit.SECONDS)
 
-        pwpConversionResponseTestSubscriber.assertValueCount(4)
-        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("Calculating points…", true), Pair("300 points applied", true))
+        pointsAppliedMessageTestSubscriber.assertValueCount(4)
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("Calculating points…", true), Pair("300 points applied", true))
     }
 
     @Test
     public fun userTogglePwpSwitch() {
         //Toggle switch off
-        payWithPointsViewModel.pwpStateChange.onNext(false)
+        payWithPointsViewModel.pwpOpted.onNext(false)
 
-        pwpConversionResponseTestSubscriber.assertValueCount(2)
-        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true))
+        pointsAppliedMessageTestSubscriber.assertValueCount(2)
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true))
 
         //Toggle switch on
         val latch1 = CountDownLatch(1)
-        paymentModel.currencyToPointsApiResponse.subscribe { latch1.countDown() }
-        payWithPointsViewModel.pwpStateChange.onNext(true)
+        paymentModel.burnAmountToPointsApiResponse.subscribe { latch1.countDown() }
+        payWithPointsViewModel.pwpOpted.onNext(true)
         latch1.await(10, TimeUnit.SECONDS)
 
-        pwpConversionResponseTestSubscriber.assertValueCount(4)
-        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true), Pair("14005 points applied", true))
+        pointsAppliedMessageTestSubscriber.assertValueCount(4)
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true), Pair("14005 points applied", true))
 
         //New value entered and before calculation API response, PwP toggle off (call gets ignored)
-        payWithPointsViewModel.amountSubmittedByUser.onNext("32")
-        payWithPointsViewModel.pwpStateChange.onNext(false)
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
+        payWithPointsViewModel.pwpOpted.onNext(false)
 
-        pwpConversionResponseTestSubscriber.assertValueCount(6)
-        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true),
+        pointsAppliedMessageTestSubscriber.assertValueCount(6)
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true),
                 Pair("14005 points applied", true), Pair("Calculating points…", true), Pair("0 points applied", true))
 
         //Toggle switch on, last entered value in pwp edit box is used to make API call
         val latch3 = CountDownLatch(1)
-        paymentModel.currencyToPointsApiResponse.subscribe { latch3.countDown() }
-        payWithPointsViewModel.pwpStateChange.onNext(true)
+        paymentModel.burnAmountToPointsApiResponse.subscribe { latch3.countDown() }
+        payWithPointsViewModel.pwpOpted.onNext(true)
         latch3.await(10, TimeUnit.SECONDS)
 
-        pwpConversionResponseTestSubscriber.assertValueCount(8)
-        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true),
+        pointsAppliedMessageTestSubscriber.assertValueCount(8)
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true),
                 Pair("14005 points applied", true), Pair("Calculating points…", true), Pair("0 points applied", true), Pair("Calculating points…", true), Pair("14005 points applied", true))
     }
 
     @Test
     public fun clearButtonClicked() {
-        payWithPointsViewModel.clearButtonClick.onNext(Unit)
+        payWithPointsViewModel.clearUserEnteredBurnAmount.onNext(Unit)
 
-        pwpConversionResponseTestSubscriber.assertNoErrors()
-        pwpConversionResponseTestSubscriber.assertValueCount(2)
-        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true))
+        pointsAppliedMessageTestSubscriber.assertNoErrors()
+        pointsAppliedMessageTestSubscriber.assertValueCount(2)
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true))
     }
 
     @Test
     public fun userEntersPointAndAPIErrorThrown() {
         createTripResponse.tripId = "garbage";
         val latch = CountDownLatch(1)
-        paymentModel.currencyToPointsApiError.subscribe { latch.countDown() }
-        payWithPointsViewModel.amountSubmittedByUser.onNext("32")
+        paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
         latch.await(10, TimeUnit.SECONDS)
 
-        pwpConversionResponseTestSubscriber.assertValueCount(3)
-        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("An unknown error occurred. Please try again.", false))
+        pointsAppliedMessageTestSubscriber.assertValueCount(3)
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("An unknown error occurred. Please try again.", false))
     }
 
     @Test
     public fun pointsNotRedeemable() {
         createTripResponse.tripId = "garbage";
         val latch = CountDownLatch(1)
-        paymentModel.currencyToPointsApiError.subscribe { latch.countDown() }
-        payWithPointsViewModel.amountSubmittedByUser.onNext("32")
+        paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
         latch.await(10, TimeUnit.SECONDS)
 
-        pwpConversionResponseTestSubscriber.assertValueCount(3)
-        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("An unknown error occurred. Please try again.", false))
+        pointsAppliedMessageTestSubscriber.assertValueCount(3)
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("An unknown error occurred. Please try again.", false))
     }
 
     @Test
     public fun pwpCurrencyToPoints_TripServiceError() {
         createTripResponse.tripId = "trip_service_error";
         val latch = CountDownLatch(1)
-        paymentModel.currencyToPointsApiError.subscribe { latch.countDown() }
-        payWithPointsViewModel.amountSubmittedByUser.onNext("32")
+        paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
         latch.await(10, TimeUnit.SECONDS)
 
-        pwpConversionResponseTestSubscriber.assertValueCount(3)
-        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("We're sorry but we experienced a server problem. Please try again.", false))
+        pointsAppliedMessageTestSubscriber.assertValueCount(3)
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("We're sorry but we experienced a server problem. Please try again.", false))
     }
 
     @Test
     public fun pwpCurrencyToPoints_PointsConversionUnauthenticated() {
         createTripResponse.tripId = "points_conversion_unauthenticated";
+
         val latch = CountDownLatch(1)
-        paymentModel.currencyToPointsApiError.subscribe { latch.countDown() }
-        payWithPointsViewModel.amountSubmittedByUser.onNext("32")
+        paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
         latch.await(10, TimeUnit.SECONDS)
 
-        pwpConversionResponseTestSubscriber.assertValueCount(3)
-        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("We're sorry but we experienced a server problem. Please try again.", false))
+        pointsAppliedMessageTestSubscriber.assertValueCount(3)
+        pointsAppliedMessageTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("We're sorry but we experienced a server problem. Please try again.", false))
+    }
+
+    @Test
+    public fun testingMixedScenarios() {
+        val expectedMessagesList = ArrayList<Pair<String, Boolean>>()
+
+        //Default Splits
+        expectedMessagesList.add(Pair("1000 points applied", true))
+        assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
+
+        //User entered amount 20
+        val latch1 = CountDownLatch(1)
+        payWithPointsViewModel.pointsAppliedMessage.subscribe { latch1.countDown() }
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("20")
+        latch1.await(10, TimeUnit.SECONDS)
+
+        expectedMessagesList.add(Pair("Calculating points…", true))
+        expectedMessagesList.add(Pair("14005 points applied", true))
+        assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
+
+        //User again entered 20 which should be ignored
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("20")
+
+        assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
+
+        //User entered 30 but gets API Error
+        createTripResponse.tripId = "trip_service_error";
+        val latch2 = CountDownLatch(1)
+        payWithPointsViewModel.pointsAppliedMessage.subscribe { latch2.countDown() }
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("30")
+        latch2.await(10, TimeUnit.SECONDS)
+
+        expectedMessagesList.add(Pair("Calculating points…", true))
+        expectedMessagesList.add(Pair("We're sorry but we experienced a server problem. Please try again.", false))
+        assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
+
+        //User entered value exceeds available balance
+        createTripResponse.tripId = "happy";
+
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("110")
+
+        expectedMessagesList.add(Pair("The points value exceeds your available balance.\\nPlease enter $100.00 or less.", false))
+        assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
+
+        //User entered amount 20
+        val latch3 = CountDownLatch(1)
+        payWithPointsViewModel.pointsAppliedMessage.subscribe { latch3.countDown() }
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("20")
+        latch3.await(10, TimeUnit.SECONDS)
+
+        expectedMessagesList.add(Pair("Calculating points…", true))
+        expectedMessagesList.add(Pair("14005 points applied", true))
+        assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
+
+        //User entered amount 10 and press back before API response
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("10")
+        paymentModel.discardPendingCurrencyToPointsAPISubscription.onNext(Unit)
+
+        expectedMessagesList.add(Pair("Calculating points…", true))
+        expectedMessagesList.add(Pair("14005 points applied", true))
+        assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
+
+        //User entered 0 amount
+        payWithPointsViewModel.userEnteredBurnAmount.onNext("0")
+        expectedMessagesList.add(Pair("0 points applied", true))
+        assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
+
+    }
+
+    private fun <T> assertExpectedValuesOfSubscriber(testSubscriber: TestSubscriber<T>, expectedValues: List<T>) {
+        testSubscriber.assertNoErrors()
+        testSubscriber.assertValueCount(expectedValues.size)
+        testSubscriber.assertReceivedOnNext(expectedValues)
     }
 }

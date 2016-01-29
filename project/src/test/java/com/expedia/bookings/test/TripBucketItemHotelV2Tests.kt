@@ -25,7 +25,7 @@ class TripBucketItemHotelV2Tests {
         var createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         var checkoutPriceChangeResponse = mockHotelServiceTestRule.getPriceChangeCheckoutResponse()
-        Db.getTripBucket().hotelV2.updateHotelProductsAfterCheckoutPriceChange(checkoutPriceChangeResponse)
+        Db.getTripBucket().hotelV2.updateAfterCheckoutPriceChange(checkoutPriceChangeResponse)
         assertNull(createTripResponse.pointsDetails)
         assertNull(createTripResponse.userPreferencePoints)
     }
@@ -35,7 +35,7 @@ class TripBucketItemHotelV2Tests {
         var createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         var checkoutPriceChangeResponse = mockHotelServiceTestRule.getPriceChangeWithUserPreferencesCheckoutResponse()
-        Db.getTripBucket().hotelV2.updateHotelProductsAfterCheckoutPriceChange(checkoutPriceChangeResponse)
+        Db.getTripBucket().hotelV2.updateAfterCheckoutPriceChange(checkoutPriceChangeResponse)
         assertNotNull(createTripResponse.pointsDetails)
         assertNotNull(createTripResponse.userPreferencePoints)
     }

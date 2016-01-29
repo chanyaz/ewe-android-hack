@@ -34,9 +34,9 @@ public class PaymentModelTest {
     var paymentModel: PaymentModel<HotelCreateTripResponse> by notNullAndObservable {
         it.createTripSubject.subscribe(createTripResponseTestSubscriber)
         it.paymentSplits.subscribe(paymentSplitsTestSubscriber)
-        it.amountChosenToBePaidWithPointsSubject.subscribe(amountChosenToBePaidWithPointsTestSubscriber)
-        it.currencyToPointsApiResponse.subscribe(currencyToPointsApiResponseTestSubscriber)
-        it.currencyToPointsApiError.subscribe(currencyToPointsApiErrorTestSubscriber)
+        it.burnAmountSubject.subscribe(amountChosenToBePaidWithPointsTestSubscriber)
+        it.burnAmountToPointsApiResponse.subscribe(currencyToPointsApiResponseTestSubscriber)
+        it.burnAmountToPointsApiError.subscribe(currencyToPointsApiErrorTestSubscriber)
         it.couponChangeSubject.subscribe(couponChangeTestSubscriber)
         it.priceChangeDuringCheckoutSubject.subscribe(priceChangeDuringCheckoutTestSubscriber)
     }
@@ -77,7 +77,7 @@ public class PaymentModelTest {
         createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithRedeemablePointsCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
         val checkoutResponse = if (withUserPreferences) mockHotelServiceTestRule.getPriceChangeWithUserPreferencesCheckoutResponse() else mockHotelServiceTestRule.getPriceChangeCheckoutResponse()
-        Db.getTripBucket().hotelV2.updateHotelProductsAfterCheckoutPriceChange(checkoutResponse)
+        Db.getTripBucket().hotelV2.updateAfterCheckoutPriceChange(checkoutResponse)
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
     }
 
@@ -117,7 +117,7 @@ public class PaymentModelTest {
         createTripResponseTestSubscriber.assertValueCount(1)
         createTripResponseTestSubscriber.assertValue(createTripResponse)
 
-        paymentModel.amountChosenToBePaidWithPointsSubject.onNext(BigDecimal.ZERO)
+        paymentModel.burnAmountSubject.onNext(BigDecimal.ZERO)
 
         paymentSplitsTestSubscriber.assertNoErrors()
         paymentSplitsTestSubscriber.assertValueCount(2)
@@ -142,8 +142,8 @@ public class PaymentModelTest {
         createTripResponseTestSubscriber.assertValue(createTripResponse)
 
         val latch = CountDownLatch(1)
-        paymentModel.currencyToPointsApiResponse.subscribe { latch.countDown() }
-        paymentModel.amountChosenToBePaidWithPointsSubject.onNext(BigDecimal(32))
+        paymentModel.burnAmountToPointsApiResponse.subscribe { latch.countDown() }
+        paymentModel.burnAmountSubject.onNext(BigDecimal(32))
         latch.await(10, TimeUnit.SECONDS)
 
         currencyToPointsApiResponseTestSubscriber.assertNoErrors()
@@ -168,8 +168,8 @@ public class PaymentModelTest {
         createTripResponseTestSubscriber.assertValue(createTripResponse)
 
         val latch = CountDownLatch(1)
-        paymentModel.currencyToPointsApiError.subscribe { latch.countDown() }
-        paymentModel.amountChosenToBePaidWithPointsSubject.onNext(BigDecimal(32))
+        paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
+        paymentModel.burnAmountSubject.onNext(BigDecimal(32))
         latch.await(10, TimeUnit.SECONDS)
 
         currencyToPointsApiErrorTestSubscriber.assertNoErrors()
