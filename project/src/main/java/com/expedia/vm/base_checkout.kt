@@ -15,12 +15,12 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.StrUtils
+import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
-import kotlin.collections.firstOrNull
 
 public class BaseCheckoutViewModel(val context: Context, val packageServices: PackageServices) {
     val builder = PackageCheckoutParams.Builder()
@@ -39,6 +39,7 @@ public class BaseCheckoutViewModel(val context: Context, val packageServices: Pa
     val legalText = PublishSubject.create<SpannableStringBuilder>()
     val infoCompleted = PublishSubject.create<Boolean>()
     val checkoutResponse = PublishSubject.create<PackageCheckoutResponse>()
+    val sliderPurchaseTotalText = PublishSubject.create<CharSequence>()
 
     init {
         packageTripResponse.subscribe {
@@ -57,6 +58,8 @@ public class BaseCheckoutViewModel(val context: Context, val packageServices: Pa
             depositPolicyText.onNext(depositText)
 
             legalText.onNext(StrUtils.generateHotelsBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString(), false))
+
+            sliderPurchaseTotalText.onNext(Phrase.from(context, R.string.your_card_will_be_charged_template).put("dueamount", it.getTripTotal().formattedWholePrice).format())
         }
 
         travelerCompleted.subscribe {

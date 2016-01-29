@@ -162,7 +162,7 @@ public class AccountButton extends LinearLayout {
 			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
 			lp.height = LayoutParams.WRAP_CONTENT;
 			LayoutParams lpt = (LayoutParams) mLoginTextView.getLayoutParams();
-			if (lob == LineOfBusiness.HOTELSV2) {
+			if (lob == LineOfBusiness.HOTELSV2 || lob == LineOfBusiness.PACKAGES) {
 				lpt.width = LayoutParams.WRAP_CONTENT;
 				lpt.gravity = Gravity.CENTER;
 				mLoginContainer.setBackgroundResource(R.drawable.account_sign_in_button_ripple);

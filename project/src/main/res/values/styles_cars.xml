@@ -51,6 +51,7 @@
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle</item>
         <item name="paymentWidgetLayout">@layout/payment_widget</item>
+        <item name="sliderText">@string/cars_slider_text</item>
 
     </style>
 
