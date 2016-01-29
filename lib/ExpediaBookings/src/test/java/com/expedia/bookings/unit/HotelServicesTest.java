@@ -21,6 +21,7 @@ import com.expedia.bookings.data.hotels.HotelCheckoutParamsMock;
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
+import com.expedia.bookings.data.hotels.HotelRemoveCouponParameters;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
 import com.expedia.bookings.data.SuggestionV4;
@@ -209,7 +210,29 @@ public class HotelServicesTest {
 		givenServerUsingMockResponses();
 
 		TestSubscriber<HotelCreateTripResponse> subscriber = new TestSubscriber<>();
-		service.removeCoupon("hotel_coupon_remove_success").subscribe(subscriber);
+		HotelRemoveCouponParameters hotelRemoveCouponParams = new HotelRemoveCouponParameters.Builder()
+			.tripId("hotel_coupon_remove_success")
+			.userPreferencePointsDetails(new ArrayList<UserPreferencePointsDetails>())
+			.build();
+		service.removeCoupon(hotelRemoveCouponParams).subscribe(subscriber);
+		subscriber.awaitTerminalEvent(2, TimeUnit.SECONDS);
+		subscriber.assertCompleted();
+
+		Assert.assertNotNull(subscriber.getOnNextEvents().get(0).newHotelProductResponse);
+	}
+
+	@Test
+	public void testCouponRemoveWithUserPreferences() throws Throwable {
+		givenServerUsingMockResponses();
+
+		TestSubscriber<HotelCreateTripResponse> subscriber = new TestSubscriber<>();
+		List<UserPreferencePointsDetails> userPreferencePointsDetails = new ArrayList<>();
+		userPreferencePointsDetails.add(new UserPreferencePointsDetails(ProgramName.ExpediaRewards, new PointsAndCurrency(100, PointsType.BURN, new Money())));
+		HotelRemoveCouponParameters hotelRemoveCouponParams = new HotelRemoveCouponParameters.Builder()
+			.tripId("hotel_coupon_remove_success_with_user_preferences")
+			.userPreferencePointsDetails(userPreferencePointsDetails)
+			.build();
+		service.removeCoupon(hotelRemoveCouponParams).subscribe(subscriber);
 		subscriber.awaitTerminalEvent(2, TimeUnit.SECONDS);
 		subscriber.assertCompleted();
 

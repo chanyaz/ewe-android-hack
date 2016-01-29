@@ -3,6 +3,7 @@ package com.expedia.bookings.test
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -13,6 +14,11 @@ import kotlin.test.assertNull
 class TripBucketItemHotelV2Tests {
     public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
+
+    @Before
+    fun before() {
+        Db.getTripBucket().clear()
+    }
 
     @Test
     fun updateHotelProductsWithoutCheckoutUserPreferences() {
