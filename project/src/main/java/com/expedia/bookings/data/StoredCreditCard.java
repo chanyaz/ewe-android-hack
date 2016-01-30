@@ -16,7 +16,7 @@ public class StoredCreditCard implements JSONable, Comparable<StoredCreditCard> 
 	private String mDescription;
 	private String mRemoteId;
 	private String mCardNumber;
-
+	private String mNameOnCard;
 	private boolean mIsGoogleWallet;
 
 	// (Tablet Checkout) When user is logged in, can this credit card be selected from the list of stored credit cards or disabled?
@@ -54,6 +54,14 @@ public class StoredCreditCard implements JSONable, Comparable<StoredCreditCard> 
 		mCardNumber = number;
 	}
 
+	public void setNameOnCard(String name) {
+		mNameOnCard = name;
+	}
+
+	public String getNameOnCard() {
+		return mNameOnCard;
+	}
+
 	/**
 	 * TODO: this will always return null until the API gives us this information.
 	 * @return
@@ -89,6 +97,7 @@ public class StoredCreditCard implements JSONable, Comparable<StoredCreditCard> 
 			obj.putOpt("isGoogleWallet", mIsGoogleWallet);
 			obj.putOpt("cardNumber", mCardNumber);
 			obj.putOpt("isSelectable", mIsSelectable);
+			obj.putOpt("nameOnCard", mNameOnCard);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -105,6 +114,7 @@ public class StoredCreditCard implements JSONable, Comparable<StoredCreditCard> 
 		mIsGoogleWallet = obj.optBoolean("isGoogleWallet");
 		mCardNumber = obj.optString("cardNumber");
 		mIsSelectable = obj.optBoolean("isSelectable");
+		mNameOnCard = obj.optString("nameOnCard");
 		return true;
 	}
 
@@ -148,6 +158,13 @@ public class StoredCreditCard implements JSONable, Comparable<StoredCreditCard> 
 		// Compare description
 		if (!TextUtils.isEmpty(another.getDescription()) && !TextUtils.isEmpty(getDescription())) {
 			diff = Strings.compareTo(getDescription(), another.getDescription());
+			if (diff != 0) {
+				return diff;
+			}
+		}
+
+		if (!TextUtils.isEmpty(another.getNameOnCard()) && !TextUtils.isEmpty(getNameOnCard())) {
+			diff = Strings.compareTo(getNameOnCard(), another.getNameOnCard());
 			if (diff != 0) {
 				return diff;
 			}

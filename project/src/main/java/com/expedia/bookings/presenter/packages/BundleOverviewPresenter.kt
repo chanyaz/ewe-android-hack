@@ -11,12 +11,15 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.CheckoutToolbar
 import com.expedia.bookings.widget.PackageBundleHotelWidget
 import com.expedia.bookings.widget.PackageBundlePriceWidget
+import com.expedia.bookings.widget.CVVEntryWidget
+import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.bookings.widget.PackageBundleFlightWidget
 import com.expedia.vm.BundleHotelViewModel
@@ -28,7 +31,7 @@ import com.expedia.vm.BundleFlightViewModel
 import com.expedia.vm.PackageSearchType
 import com.squareup.phrase.Phrase
 
-public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
     val ANIMATION_DURATION = 450L
 
     val toolbar: CheckoutToolbar by bindView(R.id.checkout_toolbar)
@@ -37,6 +40,7 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     val checkoutButton: Button by bindView(R.id.checkout_button)
     val createTripDialog = ProgressDialog(context)
     val bundleTotalPriceWidget: PackageBundlePriceWidget by bindView(R.id.bundle_total)
+    val cvv: CVVEntryWidget by bindView(R.id.cvv)
 
     val bundleHotelWidget: PackageBundleHotelWidget by bindView(R.id.package_bundle_hotel_widget)
     val outboundFlightWidget: PackageBundleFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
@@ -141,7 +145,10 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         super.onFinishInflate()
         addDefaultTransition(defaultTransition)
         addTransition(checkoutTransition)
+        addTransition(checkoutToCvv)
         show(BundleDefault())
+        cvv.setCVVEntryListener(this)
+        checkoutPresenter.slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
     }
 
     val defaultTransition = object : Presenter.DefaultTransition(BundleDefault::class.java.name) {
@@ -170,6 +177,27 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
         }
+    }
+
+    private val checkoutToCvv = object : VisibilityTransition(this, BaseCheckoutPresenter::class.java, CVVEntryWidget::class.java) {
+        override fun finalizeTransition(forward: Boolean) {
+            super.finalizeTransition(forward)
+            if (!forward) {
+                checkoutPresenter.slideToPurchase.resetSlider()
+            } else {
+                cvv.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    val checkoutSliderSlidObserver = endlessObserver<Unit> {
+        val billingInfo = checkoutPresenter.paymentWidget.sectionBillingInfo.billingInfo
+        cvv.bind(billingInfo)
+        show(cvv)
+    }
+
+    override fun onBook(cvv: String?) {
+        checkoutPresenter.viewModel.cvvCompleted.onNext(cvv)
     }
 
     override fun back(): Boolean {

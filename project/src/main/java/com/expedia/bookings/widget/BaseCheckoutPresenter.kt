@@ -24,6 +24,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.BaseCheckoutViewModel
+import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
@@ -44,6 +45,8 @@ open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Present
 
     var expandedView: ExpandableCardView? = null
     val checkoutDialog = ProgressDialog(context)
+
+    var  slideAllTheWayObservable = PublishSubject.create<Unit>()
 
     var viewModel: BaseCheckoutViewModel by notNullAndObservable { vm ->
         vm.infoCompleted.subscribeVisibility(sliderContainer)
@@ -119,6 +122,7 @@ open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Present
         super.onFinishInflate()
         addDefaultTransition(defaultTransition)
         addTransition(checkoutExpanded)
+        slideToPurchase.addSlideToListener(this)
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
@@ -181,7 +185,12 @@ open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Present
     }
 
     override fun onSlideAllTheWay() {
-        viewModel.cvvCompleted.onNext("123")
+        if (viewModel.builder.hasValidParams()) {
+            val checkoutParams = viewModel.builder.build()
+            viewModel.checkoutInfoCompleted.onNext(checkoutParams)
+        } else {
+            slideAllTheWayObservable.onNext(Unit)
+        }
     }
 
     override fun onSlideAbort() {

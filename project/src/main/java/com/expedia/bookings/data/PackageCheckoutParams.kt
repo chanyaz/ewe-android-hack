@@ -5,6 +5,7 @@ import com.expedia.bookings.data.Traveler
 import java.util.ArrayList
 import java.util.HashMap
 import kotlin.collections.isNotEmpty
+import kotlin.text.isNullOrEmpty
 
 public data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: ArrayList<Traveler>, val tripId: String, val expectedTotalFare: String, val expectedFareCurrencyCode: String, val bedType: String, val cvv: String) {
 
@@ -72,7 +73,7 @@ public data class PackageCheckoutParams(val billingInfo: BillingInfo, val travel
         public fun hasValidParams(): Boolean {
             return travelers.isNotEmpty() &&
                     billingInfo != null &&
-                    cvv != null &&
+                    !cvv.isNullOrEmpty() &&
                     tripId != null &&
                     expectedTotalFare != null &&
                     expectedFareCurrencyCode != null
@@ -106,15 +107,24 @@ public data class PackageCheckoutParams(val billingInfo: BillingInfo, val travel
         params.put("sendEmailConfirmation", true)
 
         //BILLING
-        params.put("nameOnCard", billingInfo.nameOnCard)
-        params.put("streetAddress", billingInfo.location.streetAddress)
-        params.put("city", billingInfo.location.city)
-        params.put("state", billingInfo.location.stateCode)
-        params.put("country", billingInfo.location.countryCode)
-        params.put("postalCode", billingInfo.location.postalCode)
-        params.put("creditCardNumber", billingInfo.number)
-        params.put("expirationDateYear", billingInfo.expirationDate.year)
-        params.put("expirationDateMonth", billingInfo.expirationDate.monthOfYear)
+
+        val hasStoredCard = billingInfo.hasStoredCard()
+        if (hasStoredCard) {
+            val storedCard = billingInfo.storedCard
+            params.put("storedCreditCardId", storedCard.id)
+            params.put("nameOnCard", storedCard.nameOnCard)
+        } else {
+            params.put("nameOnCard", billingInfo.nameOnCard)
+            params.put("creditCardNumber", billingInfo.number)
+            params.put("expirationDateYear", billingInfo.expirationDate.year)
+            params.put("expirationDateMonth", billingInfo.expirationDate.monthOfYear)
+
+            params.put("streetAddress", billingInfo.location.streetAddress)
+            params.put("city", billingInfo.location.city)
+            params.put("state", billingInfo.location.stateCode)
+            params.put("country", billingInfo.location.countryCode)
+            params.put("postalCode", billingInfo.location.postalCode)
+        }
         params.put("cvv", cvv)
 
         //TODO: Toggle this under dev settings

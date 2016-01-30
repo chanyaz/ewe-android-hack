@@ -65,11 +65,11 @@ public class BaseCheckoutViewModel(val context: Context, val packageServices: Pa
         travelerCompleted.subscribe {
             builder.travelers(it)
             infoCompleted.onNext(builder.hasValidTravelerAndBillingInfo())
-
         }
 
-        paymentCompleted.subscribe {
-            builder.billingInfo(it)
+        paymentCompleted.subscribe { billingForm ->
+            builder.billingInfo(billingForm)
+            builder.cvv(billingForm.securityCode)
             infoCompleted.onNext(builder.hasValidTravelerAndBillingInfo())
         }
 
