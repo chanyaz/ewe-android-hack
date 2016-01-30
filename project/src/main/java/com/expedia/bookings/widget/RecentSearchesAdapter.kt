@@ -14,19 +14,19 @@ import com.expedia.util.subscribeText
 import com.expedia.vm.RecentSearchViewModel
 import com.expedia.vm.RecentSearchesAdapterViewModel
 
-public class RecentSearchesAdapter(val viewmodel: RecentSearchesAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+public class RecentSearchesAdapter(val viewmodel: RecentSearchesAdapterViewModel, val showHeader: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val HEADER_VIEW = 0
     val RECENT_SEARCH_VIEW = 1
 
 
     override fun getItemCount(): Int {
-        return viewmodel.recentSearches.size + 1
+        return if (showHeader) viewmodel.recentSearches.size + 1 else viewmodel.recentSearches.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
-        if (viewType == HEADER_VIEW) {
+        if (viewType == HEADER_VIEW && showHeader) {
             var view = LayoutInflater.from(parent.context).inflate(R.layout.recent_search_header, parent, false)
-            return HeaderViewHolder(parent.context,view as ViewGroup)
+            return HeaderViewHolder(parent.context, view as ViewGroup)
         } else {
             var view = LayoutInflater.from(parent.context).inflate(R.layout.recent_search_item, parent, false)
             val vm = RecentSearchViewModel(parent.context)
@@ -36,8 +36,9 @@ public class RecentSearchesAdapter(val viewmodel: RecentSearchesAdapterViewModel
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+        val index = if (showHeader) position - 1 else position
         when (holder) {
-            is RecentSearchesViewHolder -> holder.vm.recentSearchObserver.onNext(viewmodel.recentSearches.get(position-1))
+            is RecentSearchesViewHolder -> holder.vm.recentSearchObserver.onNext(viewmodel.recentSearches[index])
         }
     }
 

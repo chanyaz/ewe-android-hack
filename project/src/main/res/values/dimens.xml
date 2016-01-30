@@ -353,4 +353,7 @@
     <!-- Material search -->
     <dimen name="material_search_field_height">64dp</dimen>
     <dimen name="search_form_margin">9dp</dimen>
+    <!-- Recent Search item height -->
+    <dimen name="recent_search_item_height">55dp</dimen>
+
 </resources>
