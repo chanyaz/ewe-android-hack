@@ -8,13 +8,14 @@ import com.expedia.bookings.data.packages.FlightLeg
 import com.expedia.bookings.utils.JodaUtils
 import rx.subjects.BehaviorSubject
 import kotlin.collections.filter
+import kotlin.collections.sortedBy
 
 public class FlightResultsViewModel() {
     val flightResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
 
     init {
         val isOutboundSearch = Db.getPackageParams().isOutboundSearch()
-        flightResultsObservable.onNext(Db.getPackageResponse().packageResult.flightsPackage.flights.filter { it.outbound == isOutboundSearch && it.packageOfferModel != null})
+        flightResultsObservable.onNext(Db.getPackageResponse().packageResult.flightsPackage.flights.filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount })
     }
 }
 
