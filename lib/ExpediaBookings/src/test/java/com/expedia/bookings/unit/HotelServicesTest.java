@@ -181,7 +181,7 @@ public class HotelServicesTest {
 		observer.assertCompleted();
 		observer.assertValueCount(1);
 		assertNotNull(observer.getOnNextEvents().get(0).pointsDetails);
-		assertNotNull(observer.getOnNextEvents().get(0).userPreference);
+		assertNotNull(observer.getOnNextEvents().get(0).userPreferencePoints);
 	}
 
 	@Test

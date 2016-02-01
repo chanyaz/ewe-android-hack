@@ -16,7 +16,7 @@ public class HotelCheckoutResponse extends BaseApiResponse {
 	public String currencyCode;
 	public String totalCharges;
 	public List<PointsDetails> pointsDetails;
-	public UserPaymentPreferences userPreference;
+	public UserPaymentPreferences userPreferencePoints;
 
 	public static class BookingResponse {
 

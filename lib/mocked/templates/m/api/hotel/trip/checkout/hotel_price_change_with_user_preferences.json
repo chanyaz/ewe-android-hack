@@ -414,7 +414,7 @@
             "isAllowedToRedeem": true
         }
     ],
-    "userPreference": {
+    "userPreferencePoints": {
         "amountOnPointsCard": [
             {
                 "programName": "ExpediaRewards",
