@@ -38,15 +38,15 @@ class RailApiRequestMatcher() {
         }
 
         fun isRailApiSearchRequest(urlPath: String): Boolean {
-            return doesItMatch("^/rails/ecom/v1/shopping/search$", urlPath)
+            return doesItMatch("^/rails/ecom/v1/shopping/search.*$", urlPath)
         }
 
         fun isRailApiDetailsRequest(urlPath: String): Boolean {
-            return doesItMatch("^/rails/ecom/v1/shopping/getDetails$", urlPath)
+            return doesItMatch("^/rails/ecom/v1/shopping/getDetails.*$", urlPath)
         }
 
         fun isRailApiValidateOfferRequest(urlPath: String): Boolean {
-            return doesItMatch("^/rails/ecom/v1/shopping/validateOffer$", urlPath)
+            return doesItMatch("^/rails/ecom/v1/shopping/validateOffer.*$", urlPath)
         }
 
         fun doesItMatch(regExp: String, str: String): Boolean {
