@@ -23,6 +23,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.SuggestionServices;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.SuggestionV4Utils;
 import com.mobiata.android.LocationServices;
 
 import rx.Observer;
@@ -148,7 +149,7 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 			List<SuggestionV4> combinedSuggestionsList = new ArrayList<>();
 			combinedSuggestionsList.add(getDummySuggestionItem());
 
-			if (Strings.isNotEmpty(query) && query.length() >= 3) {
+			if (Strings.isNotEmpty(query) && query.length() >= SuggestionV4Utils.getMinSuggestQueryLength(context)) {
 				cleanup();
 				suggestSubscription = suggest(suggestionServices, suggestionsObserver, query, ServicesUtil.generateClientId(context));
 				showRecentSearch = false;

@@ -43,7 +43,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     // Inputs
     val queryObserver = endlessObserver<String> { query ->
         lastQuery = query
-        if (query.isNotBlank() && query.length >= 3 && !query.equals(currentLocationText)) {
+        if (query.isNotBlank() && query.length >= SuggestionV4Utils.getMinSuggestQueryLength(context) && !query.equals(currentLocationText)) {
             getSuggestionService(query)
         } else {
             suggestionsObservable.onNext(suggestionsListWithNearby())
