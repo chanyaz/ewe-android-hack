@@ -50,10 +50,11 @@
             android:layout_height="wrap_content"
             android:textColor="@color/hotelsv2_checkout_text_color"
             android:textSize="13sp"
+            android:layout_alignBaseline="@+id/edit_amount_view"
             app:textStyle="normal" />
 
         <EditText
-            android:id="@+id/edit_amount_view"
+            android:id="@id/edit_amount_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
