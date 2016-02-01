@@ -8,6 +8,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.hotels.HotelRemoveCouponParameters
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.NearbyHotelParams
@@ -128,8 +129,8 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 				.doOnNext { updatePayLaterRateInfo(it) }
 	}
 
-	public fun removeCoupon(tripId: String): Observable<HotelCreateTripResponse> {
-		return hotelApi.removeCoupon(tripId)
+	public fun removeCoupon(body: HotelRemoveCouponParameters): Observable<HotelCreateTripResponse> {
+		return hotelApi.removeCoupon(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.doOnNext { updatePayLaterRateInfo(it) }

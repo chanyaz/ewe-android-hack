@@ -1,6 +1,8 @@
 package com.expedia.bookings.test
 
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -9,7 +11,6 @@ import com.expedia.bookings.data.payment.PointsAndCurrency
 import com.expedia.bookings.data.payment.PointsType
 import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.data.payment.UserPreferencePointsDetails
-import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.HotelCouponViewModel
@@ -29,7 +30,7 @@ import kotlin.test.assertNull
 @RunWith(RobolectricRunner::class)
 public class HotelCouponTest {
 
-    public var service=ServicesRule<HotelServices>(HotelServices::class.java)
+    public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
     public var loyaltyServiceRule = ServicesRule<LoyaltyServices>(LoyaltyServices::class.java)
@@ -37,10 +38,13 @@ public class HotelCouponTest {
 
     private var vm: HotelCouponViewModel by Delegates.notNull()
 
+    var createTripResponse: HotelCreateTripResponse by Delegates.notNull()
+
     @Before
     fun before() {
         val context = RuntimeEnvironment.application
-        vm = HotelCouponViewModel(context, service.services!!, PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
+        vm = HotelCouponViewModel(context, mockHotelServiceTestRule.services!!, PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!))
+        Db.getTripBucket().clear()
     }
 
     @Test
@@ -106,14 +110,26 @@ public class HotelCouponTest {
         assertNotNull(userPreferencePoints?.remainingPayableByCard)
     }
 
+    private fun setupCreateTrip() {
+        createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
+        Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
+
+        val testSubscriber = TestSubscriber<HotelCreateTripResponse>()
+        vm.paymentModel.createTripSubject.subscribe(testSubscriber)
+
+        vm.paymentModel.createTripSubject.onNext(createTripResponse)
+        testSubscriber.awaitTerminalEvent(2, TimeUnit.SECONDS)
+    }
+
     @Test
     fun removeCouponWorks() {
-        var tripId = "hotel_coupon_remove_success"
+        setupCreateTrip()
+        createTripResponse.tripId = "hotel_coupon_remove_success";
 
         val testSubscriber = TestSubscriber<HotelCreateTripResponse>()
         vm.couponObservable.subscribe(testSubscriber)
 
-        vm.couponRemoveObservable.onNext(tripId)
+        vm.removeCouponWithPaymentSplitSubject.onNext(Unit)
 
         testSubscriber.awaitTerminalEvent(2, TimeUnit.SECONDS)
         testSubscriber.assertValueCount(1)
@@ -136,17 +152,21 @@ public class HotelCouponTest {
 
     @Test
     fun removeCouponFailureWithRetry() {
+        setupCreateTrip()
+
         val testSubscriberCouponObservable = TestSubscriber<HotelCreateTripResponse>()
         vm.couponObservable.subscribe(testSubscriberCouponObservable)
 
         val testSubscriberCouponRemoveErrorDialog = TestSubscriber<ApiError>()
         vm.errorRemoveCouponShowDialogObservable.subscribe(testSubscriberCouponRemoveErrorDialog)
 
-        vm.couponRemoveObservable.onNext("hotel_coupon_removal_remove_coupon_error")
+        createTripResponse.tripId = "hotel_coupon_removal_remove_coupon_error"
+        vm.removeCouponWithPaymentSplitSubject.onNext(Unit)
         testSubscriberCouponRemoveErrorDialog.awaitTerminalEvent(2, TimeUnit.SECONDS)
         testSubscriberCouponRemoveErrorDialog.assertValueCount(1)
 
-        vm.couponRemoveObservable.onNext("hotel_coupon_remove_success")
+        createTripResponse.tripId = "hotel_coupon_remove_success"
+        vm.removeCouponWithPaymentSplitSubject.onNext(Unit)
         testSubscriberCouponObservable.awaitTerminalEvent(2, TimeUnit.SECONDS)
         testSubscriberCouponObservable.assertValueCount(1)
 
@@ -156,12 +176,15 @@ public class HotelCouponTest {
     }
 
     private fun checkCouponFailure(tripId: String, expectedErrorCode: ApiError.Code) {
+        setupCreateTrip()
+        createTripResponse.tripId = tripId
+
         val testSubscriberCouponRemoveErrorDialog = TestSubscriber<ApiError>()
         vm.errorRemoveCouponShowDialogObservable.subscribe(testSubscriberCouponRemoveErrorDialog)
         val testSubscriberCouponObservable = TestSubscriber<HotelCreateTripResponse>()
         vm.couponObservable.subscribe(testSubscriberCouponObservable)
 
-        vm.couponRemoveObservable.onNext(tripId)
+        vm.removeCouponWithPaymentSplitSubject.onNext(Unit)
 
         testSubscriberCouponRemoveErrorDialog.awaitTerminalEvent(2, TimeUnit.SECONDS)
         testSubscriberCouponRemoveErrorDialog.assertValueCount(1)

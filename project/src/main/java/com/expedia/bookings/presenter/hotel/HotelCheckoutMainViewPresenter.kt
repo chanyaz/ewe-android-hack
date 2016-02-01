@@ -231,7 +231,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         val isRemoveCoupon = couponCardView.viewmodel.removeObservable.value != null && couponCardView.viewmodel.removeObservable.value
 
         if (isRemoveCoupon) {
-            couponCardView.viewmodel.couponRemoveObservable.onNext(Db.getTripBucket().hotelV2.mHotelTripResponse.tripId)
+            couponCardView.viewmodel.removeCouponWithPaymentSplitSubject.onNext(Unit)
         }
         else {
             val shouldTryToApplyCouponAfterLogin = couponCardView.viewmodel.hasDiscountObservable.value != null && couponCardView.viewmodel.hasDiscountObservable.value

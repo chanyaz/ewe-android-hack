@@ -4,10 +4,15 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripBucketItemHotelV2
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.hotels.HotelRemoveCouponParameters
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.payment.PaymentSplits
+import com.expedia.bookings.data.payment.ProgramName
+import com.expedia.bookings.data.payment.UserPreferencePointsDetails
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.util.endlessObserver
@@ -26,8 +31,8 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
     val errorMessageObservable = PublishSubject.create<String>()
     val discountObservable = PublishSubject.create<String>()
     val couponParamsObservable = BehaviorSubject.create<HotelApplyCouponParameters>()
-    val couponRemoveObservable = PublishSubject.create<String>()
     val hasDiscountObservable = BehaviorSubject.create<Boolean>()
+    val removeCouponWithPaymentSplitSubject = PublishSubject.create<Unit>()
 
     val createTripDownloadsObservable = PublishSubject.create<Observable<HotelCreateTripResponse>>()
     private val createTripObservable = Observable.concat(createTripDownloadsObservable)
@@ -37,20 +42,6 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
             applyObservable.onNext(params.tripId)
             val observable = hotelServices.applyCoupon(params)
             createTripDownloadsObservable.onNext(observable)
-        }
-
-        couponRemoveObservable.subscribe { tripId ->
-            removeObservable.onNext(false)
-            val observable = hotelServices.removeCoupon(tripId)
-            observable.subscribe { trip ->
-                if (trip.hasErrors()) {
-                    errorRemoveCouponShowDialogObservable.onNext(trip.firstError)
-                }
-                else {
-                    couponChangeSuccess(trip)
-                    // TODO Add omniture tracking for coupon removal
-                }
-            }
         }
 
         createTripObservable.subscribe(endlessObserver { trip ->
@@ -71,6 +62,37 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
                 HotelV2Tracking().trackHotelV2CouponSuccess(couponParamsObservable.value.couponCode)
             }
         })
+
+        removeCouponWithPaymentSplitSubject.withLatestFrom(paymentModel.paymentSplits, { unit, paymentSplits -> paymentSplits }).subscribe {
+            removeCoupon(it)
+        }
+    }
+
+    private fun removeCoupon(paymentSplits: PaymentSplits) {
+        removeObservable.onNext(false)
+
+        var userPointsPreference: List<UserPreferencePointsDetails> = emptyList()
+        if (User.isLoggedIn(context)) {
+            val payingWithPointsSplit = paymentSplits.payingWithPoints
+            userPointsPreference = listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, payingWithPointsSplit))
+        }
+
+        var removeCouponParams = HotelRemoveCouponParameters.Builder()
+                .tripId(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId)
+                .userPreferencePointsDetails(userPointsPreference)
+                .build()
+
+        val observable = hotelServices.removeCoupon(removeCouponParams)
+
+        observable.subscribe { trip ->
+            if (trip.hasErrors()) {
+                errorRemoveCouponShowDialogObservable.onNext(trip.firstError)
+            }
+            else {
+                couponChangeSuccess(trip)
+                // TODO Add omniture tracking for coupon removal
+            }
+        }
     }
 
     private fun couponChangeSuccess(trip: HotelCreateTripResponse) {

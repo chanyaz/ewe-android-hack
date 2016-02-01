@@ -8,7 +8,6 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchResponse;
 
 import retrofit.http.Body;
-import retrofit.http.Field;
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.GET;
@@ -56,7 +55,7 @@ public interface HotelApi {
 	@FormUrlEncoded
 	@POST("/api/m/trip/remove/coupon")
 	Observable<HotelCreateTripResponse> removeCoupon(
-			@Field("tripId") String tripId);
+		@FieldMap Map<String, Object> queryParams);
 
 	@FormUrlEncoded
 	@POST("/m/api/hotel/trip/create")
