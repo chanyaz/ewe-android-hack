@@ -57,9 +57,6 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         vm.paramsSubject.subscribe { params ->
             setMapToInitialState()
             showLoading()
-            if (params.suggestion.coordinates != null) {
-                googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.suggestion.coordinates.lat, params.suggestion.coordinates.lng), 14.0f))
-            }
             show(ResultsList())
             filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch && !params.suggestion.isGoogleSuggestionSearch)
             filterView.viewmodel.clearObservable.onNext(Unit)
@@ -193,6 +190,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
                 .target(latLng)
                 .zoom(8f)
                 .build();
+        googleMap?.setPadding(0, 0, 0, 0)
         googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 
