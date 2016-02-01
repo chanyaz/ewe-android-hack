@@ -15,7 +15,8 @@ import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
-import java.math.BigDecimal
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import javax.inject.Inject
 
 public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -36,10 +37,18 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         pwpSwitchView.subscribeOnCheckChanged(pwpViewModel.pwpStateChange)
 
         subscribeOnClick(endlessObserver {
-            if (pwpSwitchView.isChecked) {
-                pwpViewModel.amountSubmittedByUser.onNext(editAmountView.text.toString())
-            }
+            refreshPointsForUpdatedBurnAmount()
         })
+
+        editAmountView.setOnEditorActionListener { textView: android.widget.TextView, actionId: Int, event: KeyEvent? ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                refreshPointsForUpdatedBurnAmount()
+                true
+            }
+            false
+        }
+
+
         pwpViewModel.pwpStateChange.filter { it }.subscribe {
             pwpViewModel.amountSubmittedByUser.onNext(editAmountView.text.toString())
         }
@@ -49,6 +58,12 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
     }
         @Inject set
 
+    fun refreshPointsForUpdatedBurnAmount() {
+        if (pwpSwitchView.isChecked) {
+            payWithPointsViewModel.amountSubmittedByUser.onNext(editAmountView.text.toString())
+            Ui.hideKeyboard(editAmountView)
+        }
+    }
 
     init {
         View.inflate(getContext(), R.layout.pay_with_points_widget, this)
