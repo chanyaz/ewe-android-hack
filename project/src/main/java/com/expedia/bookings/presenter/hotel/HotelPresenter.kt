@@ -69,7 +69,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
     val searchPresenter: HotelSearchPresenter by bindView(R.id.widget_hotel_params)
-    val searchV2Presenter: HotelSearchV2Presenter by bindView(R.id.widget_hotel_params_v2)
+    val searchPresenterV2: HotelSearchPresenterV2 by bindView(R.id.widget_hotel_params_v2)
     val errorPresenter: HotelErrorPresenter by bindView(R.id.widget_hotel_errors)
     val resultsStub: ViewStub by bindView(R.id.results_stub)
     val resultsPresenter: HotelResultsPresenter by lazy {
@@ -239,7 +239,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             else -> {
                 if(isUserBucketedSearchScreenTest) {
                     addDefaultTransition(defaultSearchV2Transition)
-                    show(searchV2Presenter)
+                    show(searchPresenterV2)
                 } else {
                     addDefaultTransition(defaultSearchTransition)
                     show(searchPresenter)
@@ -265,7 +265,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         // TODO Have to set create one vm based on test
         searchPresenter.searchViewModel = HotelSearchViewModel(context)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
-        searchV2Presenter.searchViewModel = HotelSearchViewModel(context)
+        searchPresenterV2.searchViewModel = HotelSearchViewModel(context)
 
 
         //NOTE
@@ -340,9 +340,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
-    private val defaultSearchV2Transition = object : Presenter.DefaultTransition(HotelSearchV2Presenter::class.java.name) {
+    private val defaultSearchV2Transition = object : Presenter.DefaultTransition(HotelSearchPresenterV2::class.java.name) {
         override fun finalizeTransition(forward: Boolean) {
-            searchV2Presenter.visibility = View.VISIBLE
+            searchPresenterV2.visibility = View.VISIBLE
         }
     }
 

@@ -48,7 +48,7 @@ public class HotelScreen {
 	}
 
 	public static ViewInteraction selectTraveler() {
-		return onView(withId(R.id.traveler_card));
+		return onView(withId(R.id.traveler_label));
 	}
 
 	public static ViewInteraction location() {

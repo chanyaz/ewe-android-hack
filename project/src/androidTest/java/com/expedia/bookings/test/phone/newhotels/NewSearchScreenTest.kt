@@ -15,8 +15,6 @@ public class NewSearchScreenTest: HotelTestCase() {
 
     @Throws(Throwable::class)
     override fun runTest() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelsABTest,
-                AbacusUtils.DefaultVariate.BUCKETED.ordinal)
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest,
                 AbacusUtils.DefaultVariate.BUCKETED.ordinal)
         super.runTest()

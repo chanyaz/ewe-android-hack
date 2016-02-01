@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/recent_search_item_height">
+
+        <LinearLayout
+            android:id="@+id/search_v2_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/search_form_margin"
+            android:layout_marginRight="@dimen/search_form_margin"
+            android:layout_marginTop="@dimen/search_form_margin"
+            android:background="@color/hotel_search_background"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingTop="?attr/actionBarSize">
+
+            <com.expedia.bookings.widget.SearchInputCardView
+                android:id="@+id/destination_card"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginBottom="10dp"
+                app:input_icon="@drawable/google_search"
+                app:input_icon_tint_color="@color/hotels_primary_color"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="1dp"
+                app:cardUseCompatPadding="true"
+                app:input_text="Select Destination" />
+
+            <com.expedia.bookings.widget.CalendarTravelerWidgetV2
+                android:id="@+id/calendar_traveler_widget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="3dp"
+                app:cardElevation="1dp"
+                app:cardUseCompatPadding="true"
+                android:maxHeight="54dp"
+                android:minHeight="54dp" />
+
+
+            <com.expedia.bookings.widget.RecentSearchesWidgetV2
+                android:id="@+id/recent_search_widget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/suggestion_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:paddingTop="?attr/actionBarSize"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/search_button"
+        style="@style/HotelButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/hotels_primary_color"
+        android:enabled="false"
+        android:minHeight="@dimen/recent_search_item_height"
+        android:text="@string/search"
+        android:textSize="18sp" />
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/search_v2_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="@color/hotels_primary_color"
+        android:minHeight="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_close_white_24dp">
+
+        <LinearLayout
+            android:id="@+id/toolbar_two"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="@string/hotel_search_v2_toolbar_title"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                app:textStyle="medium" />
+
+            <android.support.v7.widget.SearchView
+                android:id="@+id/toolbar_searchView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:iconifiedByDefault="false">
+
+            </android.support.v7.widget.SearchView>
+
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+</merge>

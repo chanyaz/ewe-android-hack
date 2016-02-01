@@ -12,18 +12,23 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.RecentSearchesAdapterViewModel
 
 
-public class RecentSearchesWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+public class RecentSearchesWidgetV2(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-    val recentSearchesAdapter: RecyclerView  by bindView(R.id.recent_searches_adapter)
+    val recentSearchesAdapter: RecyclerView  by bindView(R.id.recent_searches_v2_list)
 
     init {
-        View.inflate(context, R.layout.recent_search_view, this)
+        View.inflate(context, R.layout.recent_search_view_v2, this)
         orientation = VERTICAL
         recentSearchesAdapter.layoutManager = LinearLayoutManager(context)
     }
 
     var recentSearchesAdapterViewModel: RecentSearchesAdapterViewModel by notNullAndObservable { vm ->
-        recentSearchesAdapter.adapter = RecentSearchesAdapter(vm, true)
+        recentSearchesAdapter.adapter = RecentSearchesAdapter(vm, false)
+       // used to wrap the height of card view which is holding recycler view
+        vm.recentSearchesObservable.subscribe {
+            val layoutParams = recentSearchesAdapter.layoutParams
+            layoutParams.height = it.size * resources.getDimensionPixelSize(R.dimen.recent_search_item_height)
+        }
     }
 }
 

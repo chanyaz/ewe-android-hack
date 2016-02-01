@@ -41,7 +41,7 @@
         android:layout_height="match_parent"
         android:visibility="gone"/>
 
-    <com.expedia.bookings.presenter.hotel.HotelSearchV2Presenter
+    <com.expedia.bookings.presenter.hotel.HotelSearchPresenterV2
         android:id="@+id/widget_hotel_params_v2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

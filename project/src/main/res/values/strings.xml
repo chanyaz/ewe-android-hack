@@ -113,6 +113,8 @@
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">Search Hotels</string>
+    <!-- Label for hotel search v2 toolbar -->
+    <string name="hotel_search_v2_toolbar_title">Hotels</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">Search Location</string>
     <!-- Label for recent searches -->
@@ -3892,4 +3894,6 @@
 
     <!-- New Hotel Search screen -->
     <string name="select_traveler_title">Select traveler</string>
+    <string name="enter_destination_hint">Enter Destination</string>
+
 </resources>
