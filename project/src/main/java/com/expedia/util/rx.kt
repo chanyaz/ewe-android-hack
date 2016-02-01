@@ -45,9 +45,15 @@ public fun GoogleMap.subscribeOnClick(observer: Observer<Unit>) {
     }
 }
 
-public fun CompoundButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
+public fun CompoundButton.subscribeOnClick(observer: Observer<Boolean>) {
     this.setOnClickListener {
         observer.onNext(this.isChecked)
+    }
+}
+
+public fun CompoundButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
+    this.setOnCheckedChangeListener { compoundButton: CompoundButton, isChecked: Boolean ->
+        observer.onNext(isChecked)
     }
 }
 
