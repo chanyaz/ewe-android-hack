@@ -76,7 +76,7 @@ public class EndpointProvider {
 		}
 
 		// Default to Dev on debug
-		return "http://phelabstb101.karmalab.net:9117/";
+		return "http://abacus-experiment-api-server.exp-int.net/";
 	}
 
 	/**
