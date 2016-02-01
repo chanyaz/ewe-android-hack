@@ -5,8 +5,9 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
-import android.widget.Button
 import android.widget.ScrollView
+import android.widget.Button
+import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
@@ -23,6 +24,7 @@ import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.bookings.widget.PackageBundleFlightWidget
+import com.expedia.bookings.widget.packages.CheckoutOverviewHeader
 import com.expedia.vm.BundleHotelViewModel
 import com.expedia.vm.BundleOverviewViewModel
 import com.expedia.vm.CheckoutToolbarViewModel
@@ -32,6 +34,7 @@ import com.expedia.vm.BundleFlightViewModel
 import com.expedia.vm.PackageSearchType
 import com.squareup.phrase.Phrase
 import java.math.BigDecimal
+import kotlin.properties.Delegates
 
 public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
     val ANIMATION_DURATION = 450L
@@ -43,10 +46,15 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     val createTripDialog = ProgressDialog(context)
     val bundleTotalPriceWidget: PackageBundlePriceWidget by bindView(R.id.bundle_total)
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
-
+    val stepOneText: TextView by bindView(R.id.step_one_text)
+    val stepTwoText: TextView by bindView(R.id.step_two_text)
     val bundleHotelWidget: PackageBundleHotelWidget by bindView(R.id.package_bundle_hotel_widget)
     val outboundFlightWidget: PackageBundleFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
     val inboundFlightWidget: PackageBundleFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
+    var statusBar: View by Delegates.notNull()
+    val checkoutOverviewHeader: CheckoutOverviewHeader by bindView(R.id.checkout_overview_header)
+    var toolbarHeight: Int by Delegates.notNull()
+    val scrollViewtopPadding = resources.getDimensionPixelSize(R.dimen.package_bundle_scroll_view_padding)
 
     var viewModel: BundleOverviewViewModel by notNullAndObservable { vm ->
         vm.hotelParamsObservable.subscribe { param ->
@@ -92,16 +100,27 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         vm.tripResponseObservable.subscribe {
             createTripDialog.hide()
             checkoutButton.visibility = VISIBLE
+            showCheckoutHeaderImage()
         }
         vm.tripResponseObservable.subscribe(checkoutPresenter.viewModel.packageTripResponse)
-        createTripViewModel.createTripBundleTotalObservable.subscribe { response ->
+        vm.createTripBundleTotalObservable.subscribe { response ->
             var packageTotalPrice = response.packageDetails.pricing
             var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
                     .put("savings", Money(BigDecimal(packageTotalPrice.savings.amount.toDouble()),
                             packageTotalPrice.savings.currencyCode).formattedMoney)
                     .format().toString()
+
             bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packageTotalPrice.packageTotal.amount.toDouble()),
                     packageTotalPrice.packageTotal.currencyCode).formattedMoney, packageSavings))
+
+            checkoutOverviewHeader.update(response.packageDetails.hotel, width)
+
+            stepOneText.text = Phrase.from(context, R.string.hotel_checkout_overview_TEMPLATE).put("city", response.packageDetails.hotel.hotelCity)
+                    .put("rooms", response.packageDetails.hotel.numberOfRooms)
+                    .put("nights", response.packageDetails.hotel.numberOfNights)
+                    .format()
+            stepTwoText.text = Phrase.from(context, R.string.flight_checkout_overview_TEMPLATE).put("origin", Db.getPackageParams().origin.hierarchyInfo?.airport?.airportCode).put("destination",
+                    Db.getPackageParams().destination.hierarchyInfo?.airport?.airportCode).format()
         }
     }
 
@@ -131,7 +150,7 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
             val color = ContextCompat.getColor(context, R.color.packages_primary_color)
-            val statusBar = Ui.setUpStatusBar(getContext(), toolbar, bundleContainer, color)
+            statusBar = Ui.setUpStatusBar(getContext(), toolbar, null, color)
             addView(statusBar)
         }
         val padding = Ui.getToolbarSize(context) + statusBarHeight
@@ -155,6 +174,24 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         show(BundleDefault())
         cvv.setCVVEntryListener(this)
         checkoutPresenter.slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
+        toolbarHeight = Ui.getStatusBarHeight(context) + Ui.getToolbarSize(context)
+        bundleContainer.setPadding(0, toolbarHeight, 0, 0)
+    }
+
+    public fun hideCheckoutHeaderImage() {
+        toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
+        statusBar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
+        toolbar.viewModel.toolbarTitle.onNext(resources.getString(R.string.Checkout))
+        checkoutOverviewHeader.visibility = GONE
+        bundleContainer.setPadding(0, toolbarHeight, 0, 0)
+    }
+
+    public fun showCheckoutHeaderImage() {
+        toolbar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
+        statusBar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
+        toolbar.viewModel.toolbarTitle.onNext("")
+        checkoutOverviewHeader.visibility = VISIBLE
+        bundleContainer.setPadding(0, scrollViewtopPadding, 0, 0)
     }
 
     val defaultTransition = object : Presenter.DefaultTransition(BundleDefault::class.java.name) {
@@ -169,6 +206,11 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             bundleContainer.visibility = View.VISIBLE
             checkoutPresenter.visibility = View.VISIBLE
             bundleTotalPriceWidget.visibility = if (forward) View.GONE else View.VISIBLE
+            if (forward) {
+                hideCheckoutHeaderImage()
+            } else {
+                showCheckoutHeaderImage()
+            }
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -208,6 +250,7 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     override fun back(): Boolean {
         bundleHotelWidget.collapseSelectedHotel()
+        hideCheckoutHeaderImage()
         return super.back()
     }
 

@@ -284,6 +284,9 @@ public class
 		R.drawable.packages_overview_flight2,
 		R.string.enter_destination_hint,
 		R.layout.recent_search_view_v2,
+		R.layout.checkout_overview_header,
+		R.string.hotel_city_country_checkout_header_TEMPLATE,
+		R.dimen.package_bundle_scroll_view_padding,
 		R.layout.widget_hotel_calendar_search,
 		R.layout.widget_traveler_calendar_search_v2,
 		R.string.coupon_error_remove_dialog_title,
@@ -291,6 +294,8 @@ public class
 		R.string.package_hotel_results_toolbar_title_TEMPLATE,
 		R.string.in_seat,
 		R.string.in_lap,
-		R.string.search_bundle_total_text
+		R.string.search_bundle_total_text,
+		R.string.flight_checkout_overview_TEMPLATE,
+		R.string.hotel_checkout_overview_TEMPLATE
 	};
 }

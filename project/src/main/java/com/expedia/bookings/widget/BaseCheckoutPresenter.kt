@@ -106,6 +106,7 @@ open class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Present
                         val diff = event.rawY - originY
                         if (rotateChevron(Math.max(diff, 0f))) {
                             doneForNow = true
+
                         }
                     }
                 }
