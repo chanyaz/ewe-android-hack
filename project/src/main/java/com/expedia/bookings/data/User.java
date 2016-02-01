@@ -2,6 +2,7 @@ package com.expedia.bookings.data;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONException;
@@ -78,7 +79,7 @@ public class User implements JSONable {
 	}
 
 	public List<StoredCreditCard> getStoredCreditCards() {
-		return mStoredCreditCards;
+		return (mStoredCreditCards != null) ? mStoredCreditCards : Collections.<StoredCreditCard>emptyList();
 	}
 
 	public List<StoredPointsCard> getStoredPointsCards() {
