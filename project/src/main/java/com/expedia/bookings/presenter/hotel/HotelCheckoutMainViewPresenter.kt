@@ -236,12 +236,12 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         else {
             val shouldTryToApplyCouponAfterLogin = couponCardView.viewmodel.hasDiscountObservable.value != null && couponCardView.viewmodel.hasDiscountObservable.value
             if (User.isLoggedIn(context) && tripHasCoupon && shouldTryToApplyCouponAfterLogin) {
-                // This is to apply a coupon in case user signs in after applying a coupon. So the user preference of paying with points is always 0.
+                // This is to apply a coupon in case user signs in after applying a coupon. So there is no user preference.
                 var couponParams = HotelApplyCouponParameters.Builder()
                         .tripId(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId)
                         .couponCode(createTrip.coupon.code)
                         .isFromNotSignedInToSignedIn(true)
-                        .userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(0, PointsType.BURN, Money()))))
+                        .userPreferencePointsDetails(emptyList())
                         .build()
                 couponCardView.viewmodel.couponParamsObservable.onNext(couponParams)
             } else {

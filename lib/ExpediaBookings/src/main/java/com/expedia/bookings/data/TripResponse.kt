@@ -74,11 +74,15 @@ public abstract class TripResponse : BaseApiResponse() {
         return PaymentSplits(expediaPointDetails.maxPayableWithPoints!!, expediaPointDetails.remainingPayableByCard!!)
     }
 
-    fun paymentSplitsFromUserPreferenceElseZero(): PaymentSplits {
-        if (userPreferencePoints != null)
-            return PaymentSplits(userPreferencePoints!!.getUserPreference(ProgramName.ExpediaRewards)!!, userPreferencePoints!!.remainingPayableByCard)
-        else
-        //For Guest user case, we do not want to be sending ProgramName in API Request Parameters!
+    fun paymentSplitsForPriceChange(): PaymentSplits {
+        if (isExpediaRewardsRedeemable()) {
+            if (userPreferencePoints != null)
+                return PaymentSplits(userPreferencePoints!!.getUserPreference(ProgramName.ExpediaRewards)!!, userPreferencePoints!!.remainingPayableByCard)
+            else
+                return paymentSplitsWhenMaxPayableWithPoints()
+        }
+        else {
             return paymentSplitsWhenZeroPayableWithPoints()
+        }
     }
 }
