@@ -89,6 +89,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         searchThisArea.visibility = View.GONE
         searchThisArea.setOnClickListener({ view ->
             fab.isEnabled = false
+            clearMarkers()
             hideSearchThisArea()
             doAreaSearch()
             HotelV2Tracking().trackHotelsV2SearchAreaClick()

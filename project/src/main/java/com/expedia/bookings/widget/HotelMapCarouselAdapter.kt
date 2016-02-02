@@ -12,7 +12,6 @@ import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.FontCache
@@ -24,11 +23,11 @@ import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeRating
 import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeText
-import com.mobiata.android.text.StrikethroughTagHandler
 import com.expedia.util.subscribeVisibility
+import com.mobiata.android.text.StrikethroughTagHandler
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.*
+import java.util.ArrayList
 import kotlin.collections.firstOrNull
 import kotlin.collections.indexOfFirst
 import kotlin.properties.Delegates
@@ -141,9 +140,7 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
 
 public fun priceFormatter(resources: Resources, rate: HotelRate?, strikeThrough: Boolean): CharSequence {
     if (rate == null) return ""
-    var hotelPrice = if (strikeThrough)
-        Money(Math.round(rate.strikethroughPriceToShowUsers).toString(), rate.currencyCode)
-    else Money(Math.round(rate.priceToShowUsers).toString(), rate.currencyCode)
+    var hotelPrice = HotelRate.getDisplayMoney(rate, strikeThrough).getFormattedMoney(Money.F_NO_DECIMAL)
 
-    return if (strikeThrough) Html.fromHtml(resources.getString(R.string.strike_template, hotelPrice.formattedMoney), null, StrikethroughTagHandler()) else hotelPrice.formattedMoney
+    return if (strikeThrough) Html.fromHtml(resources.getString(R.string.strike_template, hotelPrice), null, StrikethroughTagHandler()) else hotelPrice
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <!-- Style this -->
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/hotel_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/hotel_cluster_padding_horizontal"
+        android:paddingRight="@dimen/hotel_cluster_padding_horizontal"
+        android:paddingTop="@dimen/hotel_cluster_padding_vertical"
+        android:textColor="#FFF"
+        android:textSize="12sp"/>
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/price_range"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/hotel_cluster_padding_horizontal"
+        android:paddingRight="@dimen/hotel_cluster_padding_horizontal"
+        android:paddingBottom="@dimen/hotel_cluster_padding_vertical"
+        android:textColor="#FFF"
+        android:textSize="11sp" />
+</LinearLayout>

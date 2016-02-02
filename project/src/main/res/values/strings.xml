@@ -2653,6 +2653,11 @@
     <string name="From_x_per_night_template">From %s/night</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">Search this area</string>
+    <!-- Map cluster text for number of hotels-->
+    <string name="cluster_number_of_hotels_template">%s Hotels</string>
+    <!-- Map cluster price from range-->
+    <string name="cluster_price_from_range_template">From %s</string>
+
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->

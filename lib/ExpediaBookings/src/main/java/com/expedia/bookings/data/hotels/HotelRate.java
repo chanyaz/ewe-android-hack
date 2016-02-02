@@ -111,6 +111,12 @@ public class HotelRate {
 		}
 	}
 
+	public static Money getDisplayMoney(HotelRate rate, boolean strikeThrough) {
+		Money money = strikeThrough ? new Money(Float.toString(rate.strikethroughPriceToShowUsers), rate.currencyCode)
+			: new Money(Float.toString(rate.priceToShowUsers), rate.currencyCode);
+		return money;
+	}
+
 	public boolean isDiscountTenPercentOrBetter() {
 		return discountPercent <= -10;
 	}
