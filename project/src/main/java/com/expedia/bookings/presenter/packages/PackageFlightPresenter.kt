@@ -120,12 +120,6 @@ public class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Pre
         override fun onNext(flight: FlightLeg) {
             show(overViewPresenter)
             overViewPresenter.viewmodel.selectedFlightLeg.onNext(flight)
-
-            val params = Db.getPackageParams()
-            params.flightType = Constants.PACKAGE_FLIGHT_TYPE
-            params.selectedLegId = flight.departureLeg
-            params.packagePIID = flight.packageOfferModel.piid
-            if (flight.outbound) Db.setPackageSelectedOutboundFlight(flight) else Db.setPackageSelectedInboundFlight(flight)
         }
 
         override fun onCompleted() {
