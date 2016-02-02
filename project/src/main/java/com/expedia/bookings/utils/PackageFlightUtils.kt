@@ -38,9 +38,9 @@ public object PackageFlightUtils {
 
     @JvmStatic public fun getFlightDepartureArivalTimeAndDays(context: Context, flight: FlightLeg): String {
         if (flight.elapsedDays > 0) {
-            return context.getResources().getString(R.string.flight_departure_arrival_time_multi_day_template, flight.departureTimeShort, flight.arrivalTimeShort, flight.elapsedDays)
+            return context.getResources().getString(R.string.flight_departure_arrival_time_multi_day_template, DateUtils.formatTimeShort(flight.departureDateTimeISO), DateUtils.formatTimeShort(flight.arrivalDateTimeISO), flight.elapsedDays)
         }
-        return context.getResources().getString(R.string.flight_departure_arrival_time_template, flight.departureTimeShort, flight.arrivalTimeShort)
+        return context.getResources().getString(R.string.flight_departure_arrival_time_template, DateUtils.formatTimeShort(flight.departureDateTimeISO), DateUtils.formatTimeShort(flight.arrivalDateTimeISO))
     }
 
     @JvmStatic public fun getDistinctiveAirline(airlines: List<Airline>) : List<Airline> {
@@ -49,5 +49,4 @@ public object PackageFlightUtils {
         }
         return airlines
     }
-
 }
