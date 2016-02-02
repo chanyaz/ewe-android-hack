@@ -1036,7 +1036,7 @@
     <!-- Find Itinerary -->
     <string name="find_itinerary">Find Itinerary</string>
     <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">Unable to find itinerary. Please confirm Country (in settings) matches the website address of your booking.</string>
+    <string name="unable_to_find_itinerary">Unable to find itinerary. Please confirm Country (in Settings) matches the website address of your booking.</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">Find Guest Itinerary</string>
     <!-- Enter Itinerary Details -->
