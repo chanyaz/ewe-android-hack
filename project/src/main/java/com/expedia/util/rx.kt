@@ -65,6 +65,10 @@ public fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView) {
     this.subscribe { textview.text = it }
 }
 
+public fun Observable<Int>.subscribeTextColor(textview: TextView) {
+    this.subscribe { textview.setTextColor(it) }
+}
+
 public fun <T : CharSequence> Observable<T>.subscribeTextAndVisibility(textview: TextView) {
     this.subscribe {
         textview.text = it

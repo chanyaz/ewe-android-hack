@@ -48,7 +48,7 @@ public class PayWithPointsViewModelTest {
     private val updateAmountOfEditTextTestSubscriber = TestSubscriber.create<String>()
     private val totalPointsAndAmountAvailableToRedeemTestSubscriber = TestSubscriber.create<String>()
     private val currencySymbolTestSubscriber = TestSubscriber.create<String>()
-    private val pwpConversionResponseTestSubscriber = TestSubscriber.create<String>()
+    private val pwpConversionResponseTestSubscriber = TestSubscriber.create<Pair<String, Boolean>>()
 
     @Before
     fun setup() {
@@ -83,7 +83,7 @@ public class PayWithPointsViewModelTest {
 
         pwpConversionResponseTestSubscriber.assertNoErrors()
         pwpConversionResponseTestSubscriber.assertValueCount(1)
-        pwpConversionResponseTestSubscriber.assertValue("1000 points applied")
+        pwpConversionResponseTestSubscriber.assertValue(Pair("1000 points applied", true))
     }
 
     @Test
@@ -92,7 +92,7 @@ public class PayWithPointsViewModelTest {
 
         pwpConversionResponseTestSubscriber.assertNoErrors()
         pwpConversionResponseTestSubscriber.assertValueCount(2)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "0 points applied")
+        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true))
     }
 
     @Test
@@ -101,7 +101,7 @@ public class PayWithPointsViewModelTest {
 
         pwpConversionResponseTestSubscriber.assertNoErrors()
         pwpConversionResponseTestSubscriber.assertValueCount(2)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "The points value can not exceed the payment due today.")
+        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("The points value can not exceed the payment due today.", false))
     }
 
     @Test
@@ -110,7 +110,7 @@ public class PayWithPointsViewModelTest {
 
         pwpConversionResponseTestSubscriber.assertNoErrors()
         pwpConversionResponseTestSubscriber.assertValueCount(2)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "The points value exceeds your available balance.\\nPlease enter $100.00 or less.")
+        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("The points value exceeds your available balance.\\nPlease enter $100.00 or less.", false))
     }
 
     @Test
@@ -119,7 +119,7 @@ public class PayWithPointsViewModelTest {
 
         pwpConversionResponseTestSubscriber.assertNoErrors()
         pwpConversionResponseTestSubscriber.assertValueCount(2)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "0 points applied")
+        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true))
     }
 
     @Test
@@ -130,7 +130,7 @@ public class PayWithPointsViewModelTest {
         latch.await(10, TimeUnit.SECONDS)
 
         pwpConversionResponseTestSubscriber.assertValueCount(3)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "Calculating points…", "14005 points applied")
+        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("14005 points applied", true))
     }
 
     @Test
@@ -143,7 +143,7 @@ public class PayWithPointsViewModelTest {
         latch.await(10, TimeUnit.SECONDS)
 
         pwpConversionResponseTestSubscriber.assertValueCount(4)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "Calculating points…", "Calculating points…", "300 points applied")
+        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("Calculating points…", true), Pair("300 points applied", true))
     }
 
     @Test
@@ -152,7 +152,7 @@ public class PayWithPointsViewModelTest {
         payWithPointsViewModel.pwpStateChange.onNext(false)
 
         pwpConversionResponseTestSubscriber.assertValueCount(2)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "0 points applied")
+        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true))
 
         //Toggle switch on
         val latch1 = CountDownLatch(1)
@@ -161,15 +161,15 @@ public class PayWithPointsViewModelTest {
         latch1.await(10, TimeUnit.SECONDS)
 
         pwpConversionResponseTestSubscriber.assertValueCount(4)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "0 points applied", "Calculating points…", "14005 points applied")
+        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true), Pair("14005 points applied", true))
 
         //New value entered and before calculation API response, PwP toggle off (call gets ignored)
         payWithPointsViewModel.amountSubmittedByUser.onNext("32")
         payWithPointsViewModel.pwpStateChange.onNext(false)
 
         pwpConversionResponseTestSubscriber.assertValueCount(6)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "0 points applied", "Calculating points…",
-                "14005 points applied", "Calculating points…", "0 points applied")
+        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true),
+                Pair("14005 points applied", true), Pair("Calculating points…", true), Pair("0 points applied", true))
 
         //Toggle switch on, last entered value in pwp edit box is used to make API call
         val latch3 = CountDownLatch(1)
@@ -178,8 +178,8 @@ public class PayWithPointsViewModelTest {
         latch3.await(10, TimeUnit.SECONDS)
 
         pwpConversionResponseTestSubscriber.assertValueCount(8)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "0 points applied", "Calculating points…",
-                "14005 points applied", "Calculating points…", "0 points applied", "Calculating points…", "14005 points applied")
+        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true),
+                Pair("14005 points applied", true), Pair("Calculating points…", true), Pair("0 points applied", true), Pair("Calculating points…", true), Pair("14005 points applied", true))
     }
 
     @Test
@@ -188,7 +188,7 @@ public class PayWithPointsViewModelTest {
 
         pwpConversionResponseTestSubscriber.assertNoErrors()
         pwpConversionResponseTestSubscriber.assertValueCount(2)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "0 points applied")
+        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("0 points applied", true))
     }
 
     @Test
@@ -200,7 +200,7 @@ public class PayWithPointsViewModelTest {
         latch.await(10, TimeUnit.SECONDS)
 
         pwpConversionResponseTestSubscriber.assertValueCount(3)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "Calculating points…", "An unknown error occurred. Please try again.")
+        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("An unknown error occurred. Please try again.", false))
     }
 
     @Test
@@ -212,7 +212,7 @@ public class PayWithPointsViewModelTest {
         latch.await(10, TimeUnit.SECONDS)
 
         pwpConversionResponseTestSubscriber.assertValueCount(3)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "Calculating points…", "An unknown error occurred. Please try again.")
+        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("An unknown error occurred. Please try again.", false))
     }
 
     @Test
@@ -224,7 +224,7 @@ public class PayWithPointsViewModelTest {
         latch.await(10, TimeUnit.SECONDS)
 
         pwpConversionResponseTestSubscriber.assertValueCount(3)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "Calculating points…", "We're sorry but we experienced a server problem. Please try again.")
+        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("We're sorry but we experienced a server problem. Please try again.", false))
     }
 
     @Test
@@ -236,6 +236,6 @@ public class PayWithPointsViewModelTest {
         latch.await(10, TimeUnit.SECONDS)
 
         pwpConversionResponseTestSubscriber.assertValueCount(3)
-        pwpConversionResponseTestSubscriber.assertValues("1000 points applied", "Calculating points…", "We're sorry but we experienced a server problem. Please try again.")
+        pwpConversionResponseTestSubscriber.assertValues(Pair("1000 points applied", true), Pair("Calculating points…", true), Pair("We're sorry but we experienced a server problem. Please try again.", false))
     }
 }
