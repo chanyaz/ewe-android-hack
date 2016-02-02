@@ -638,7 +638,7 @@ public class HotelRoomRateViewModel(val context: Context, var hotelId: String, v
             HotelV2Tracking().trackLinkHotelV2RoomBookClick(hotelRoomResponse, hasETP)
 
 
-            if (hotelRoomResponse.rateInfo.chargeableRateInfo.airAttached) {
+            if (hotelRoomResponse.rateInfo.chargeableRateInfo?.airAttached?: false) {
                 HotelV2Tracking().trackLinkHotelV2AirAttachEligible(hotelRoomResponse, hotelId)
             }
         } else {
@@ -690,14 +690,15 @@ public class HotelRoomRateViewModel(val context: Context, var hotelId: String, v
             }
         }
 
-        onlyShowTotalPrice.onNext(chargeableRateInfo.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
+        //TODO: Get Package hotel Delta Price Type
+        onlyShowTotalPrice.onNext(chargeableRateInfo?.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
 
         if (isPayLater) {
             perNightPriceVisibleObservable.onNext(false)
             depositTerms.onNext(hotelRoomResponse.depositPolicy)
             // we show price per night in strikeThroughPriceObservable in case of pay later option
             if (hotelRoomResponse.depositPolicy == null || hotelRoomResponse.depositPolicy.isEmpty()) {
-                val depositAmount = chargeableRateInfo.depositAmountToShowUsers?.toDouble() ?: 0.0
+                val depositAmount = chargeableRateInfo?.depositAmountToShowUsers?.toDouble() ?: 0.0
                 val depositAmountMoney = Money(BigDecimal(depositAmount), currencyCode)
                 val payLaterText = Phrase.from(context, R.string.room_rate_pay_later_due_now).put("amount", depositAmountMoney.formattedMoney).format().toString()
                 dailyPricePerNightObservable.onNext(payLaterText)

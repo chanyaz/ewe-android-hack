@@ -298,6 +298,9 @@ public class HotelUtils {
 	}
 
 	public static float getDiscountPercent(HotelRate rate) {
+		if (rate == null) {
+			return 0;
+		}
 		return Math.abs(rate.discountPercent);
 	}
 

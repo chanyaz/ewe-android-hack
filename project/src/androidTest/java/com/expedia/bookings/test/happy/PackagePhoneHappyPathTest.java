@@ -43,7 +43,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		HotelScreen.selectHotel("packagehappypath");
 		Common.delay(1);
 
-		assertBundlePrice("$172", "View your bundle");
+		assertBundlePrice("$1,027.34","View your bundle");
 		onView(allOf(withId(R.id.per_person_text), withText("per person"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_savings))).check(matches(not(isDisplayed())));
 
