@@ -1105,6 +1105,8 @@ public class ExpediaServices implements DownloadListener {
 		if (mEndpointProvider.requestRequiresSiteId()) {
 			query.add(new BasicNameValuePair("siteid", ServicesUtil.generateSiteId()));
 		}
+
+		query.add(new BasicNameValuePair("clientid", ServicesUtil.generateClientId(mContext)));
 	}
 
 	private void addCommonFlightStatsParams(List<BasicNameValuePair> query) {
