@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Switch
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.DecimalNumberInputFilter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import android.view.KeyEvent
@@ -70,5 +71,6 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
     init {
         View.inflate(getContext(), R.layout.pay_with_points_widget, this)
         Ui.getApplication(getContext()).hotelComponent().inject(this)
+        editAmountView.filters = arrayOf(DecimalNumberInputFilter(2))
     }
 }
