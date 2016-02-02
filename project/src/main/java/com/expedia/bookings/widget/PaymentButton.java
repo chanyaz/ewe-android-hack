@@ -21,7 +21,6 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import butterknife.OnClick;
 
 public class PaymentButton extends LinearLayout {
 	private int layoutResId;
@@ -50,11 +49,6 @@ public class PaymentButton extends LinearLayout {
 	TextView selectPayment;
 
 	IPaymentButtonListener mPaymentButtonListener;
-
-	@OnClick(R.id.select_payment_button)
-	public void onShowTraveler() {
-		showStoredCards();
-	}
 
 	public interface IPaymentButtonListener {
 		void onAddNewCreditCardSelected();

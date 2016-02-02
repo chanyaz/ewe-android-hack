@@ -28,6 +28,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel
 import com.squareup.phrase.Phrase
+import butterknife.OnClick
 import rx.Observable
 import rx.subjects.PublishSubject
 import javax.inject.Inject
@@ -38,6 +39,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
     val totalDueToday: TextView by bindView(R.id.total_due_today)
     val pwpSmallIcon: ImageView by bindView(R.id.pwp_small_icon)
     val sectionCreditCardContainer: ViewGroup by bindView(R.id.section_credit_card_container)
+    val pwpWidget: PayWithPointsWidget by bindView(R.id.pwp_widget)
     val rebindRequested = PublishSubject.create<Unit>()
     var paymentSplitsType: PaymentSplitsType by Delegates.notNull()
 
@@ -57,6 +59,14 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
 
     override fun creditCardClicked() {
         presenter.show(CreditCardWidgetExpandedState())
+    }
+
+    @OnClick(R.id.select_payment_button)
+    override fun onSelectSavedCardButtonClick() {
+        pwpWidget.refreshPointsForUpdatedBurnAmount()
+        postDelayed({
+            paymentButton.showStoredCards()
+        }, 100)
     }
 
     override fun setPresenter(presenter: Presenter) {

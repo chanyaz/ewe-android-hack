@@ -65,7 +65,7 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         @Inject set
 
     fun refreshPointsForUpdatedBurnAmount() {
-        if (pwpSwitchView.isChecked) {
+        if (this.visibility == VISIBLE && pwpSwitchView.isChecked) {
             payWithPointsViewModel.userEnteredBurnAmount.onNext(editAmountView.text.toString())
             Ui.hideKeyboard(editAmountView)
         }
