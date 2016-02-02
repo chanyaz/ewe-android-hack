@@ -25,7 +25,9 @@ public interface IPayWithPointsViewModel {
     val pwpWidgetVisibility: Observable<Boolean>
     val totalPointsAndAmountAvailableToRedeem: Observable<String>
     val currencySymbol: Observable<String>
-    val pwpConversionResponse: Observable<String>
+    //Pairs of <Message To Be Displayed To User, Is Success Message>
+    val pwpConversionResponse: Observable<Pair<String, Boolean>>
+    val pwpConversionResponseMessageColor: Observable<Int>
 }
 
 public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>, val resources: Resources) : IPayWithPointsViewModel {
@@ -92,13 +94,19 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
             })
 
     private val pointsAppliedAndErrorMessages = Observable.merge(
-            amountSelectedAndLatestTripResponse.filter { it.amount.compareTo(it.response.getTripTotal().amount) == 1 }.map { userEntersMoreThanTripTotalString },
-            amountSelectedAndLatestTripResponse.filter { it.amount.compareTo(it.response.getTripTotal().amount) == -1 && it.amount.compareTo(paymentModel.maxPayableWithPoints(it.response)) == 1 }.map { userEntersMoreThanPointsMessage(it.response) },
-            paymentModel.currencyToPointsApiError.map { apiErrorString(it) },
-            paymentModel.paymentSplits.map { pointsAppliedMessage(it) }
+            amountSelectedAndLatestTripResponse.filter { it.amount.compareTo(it.response.getTripTotal().amount) == 1 }.map { Pair(userEntersMoreThanTripTotalString, false) },
+            amountSelectedAndLatestTripResponse.filter { it.amount.compareTo(it.response.getTripTotal().amount) == -1 && it.amount.compareTo(paymentModel.maxPayableWithPoints(it.response)) == 1 }.map { Pair(userEntersMoreThanPointsMessage(it.response), false) },
+            paymentModel.currencyToPointsApiError.map { Pair(apiErrorString(it), false) },
+            paymentModel.paymentSplits.map { Pair(pointsAppliedMessage(it), true) }
     )
 
-    override val pwpConversionResponse = Observable.merge(calculatingPointsMessage.map { calculatingPointsString }, pointsAppliedAndErrorMessages)
+    override val pwpConversionResponse = Observable.merge(calculatingPointsMessage.map { Pair(calculatingPointsString, true) }, pointsAppliedAndErrorMessages)
+    override val pwpConversionResponseMessageColor = pwpConversionResponse.map {
+        when (it.second) {
+            true -> resources.getColor(android.R.color.black);
+            false -> resources.getColor(R.color.cvv_error);
+        }
+    }
 
     init {
         amountSelectedAndLatestTripResponse.doOnNext {

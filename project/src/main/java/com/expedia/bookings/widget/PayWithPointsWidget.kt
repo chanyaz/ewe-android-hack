@@ -9,14 +9,15 @@ import android.widget.Switch
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
-import android.view.KeyEvent
-import android.view.inputmethod.EditorInfo
 import javax.inject.Inject
 
 public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -31,7 +32,8 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
     var payWithPointsViewModel by notNullAndObservable<IPayWithPointsViewModel> { pwpViewModel ->
         pwpViewModel.currencySymbol.subscribeText(currencySymbolView)
         pwpViewModel.totalPointsAndAmountAvailableToRedeem.subscribeText(totalPointsAvailableView)
-        pwpViewModel.pwpConversionResponse.subscribeText(messageView)
+        pwpViewModel.pwpConversionResponse.map { it.first }.subscribeText(messageView)
+        pwpViewModel.pwpConversionResponseMessageColor.subscribeTextColor(messageView)
         clearBtn.subscribeOnClick(pwpViewModel.clearButtonClick)
         pwpViewModel.updateAmountOfEditText.subscribeText(editAmountView)
         pwpSwitchView.subscribeOnCheckChanged(pwpViewModel.pwpStateChange)
@@ -41,13 +43,13 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         })
 
         editAmountView.setOnEditorActionListener { textView: android.widget.TextView, actionId: Int, event: KeyEvent? ->
+            var handled = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 refreshPointsForUpdatedBurnAmount()
-                true
+                handled = true
             }
-            false
+            handled
         }
-
 
         pwpViewModel.pwpStateChange.filter { it }.subscribe {
             pwpViewModel.amountSubmittedByUser.onNext(editAmountView.text.toString())
