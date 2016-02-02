@@ -104,6 +104,8 @@ class BundlePriceViewModel(val context: Context) {
 
     val totalPriceObservable = BehaviorSubject.create<String>()
     val savingsPriceObservable = BehaviorSubject.create<String>()
+    val bundleTextLabelObservable = BehaviorSubject.create<String>()
+    val perPersonTextLabelObservable = BehaviorSubject.create<Boolean>()
 
     init {
         setTextObservable.subscribe { bundle ->
@@ -137,6 +139,6 @@ class BundleFlightViewModel(val context: Context) {
     }
 }
 
-enum class PackageSearchType{
+enum class PackageSearchType {
     HOTEL, OUTBOUND_FLIGHT, INBOUND_FLIGHT
 }

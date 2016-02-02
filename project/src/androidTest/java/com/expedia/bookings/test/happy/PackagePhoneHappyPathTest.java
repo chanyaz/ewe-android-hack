@@ -17,6 +17,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.not;
 
 public class PackagePhoneHappyPathTest extends PackageTestCase {
 
@@ -35,17 +36,23 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.hotelBundle().perform(click());
 		Common.delay(1);
 
-		assertBundlePrice("0.00","per person");
+		assertBundlePrice("$0", "View your bundle");
+		onView(allOf(withId(R.id.per_person_text), withText("per person"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.bundle_total_savings))).check(matches(not(isDisplayed())));
 
 		HotelScreen.selectHotel("packagehappypath");
 		Common.delay(1);
 
-		assertBundlePrice("172.0","per person");
+		assertBundlePrice("$172", "View your bundle");
+		onView(allOf(withId(R.id.per_person_text), withText("per person"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.bundle_total_savings))).check(matches(not(isDisplayed())));
 
 		HotelScreen.selectRoom();
 		Common.delay(1);
 
-		assertBundlePrice("$3,864","$595 Saved");
+		assertBundlePrice("$3,863.38", "Bundle total");
+		onView(allOf(withId(R.id.bundle_total_savings), withText("$595.24 Saved"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.per_person_text))).check(matches(not(isDisplayed())));
 
 		PackageScreen.outboundFlight().perform(click());
 		Common.delay(1);
@@ -54,7 +61,9 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
 
-		assertBundlePrice("$4,212","$540 Saved");
+		assertBundlePrice("$4,211.90", "Bundle total");
+		onView(allOf(withId(R.id.bundle_total_savings), withText("$540.62 Saved"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.per_person_text))).check(matches(not(isDisplayed())));
 
 		PackageScreen.inboundFLight().perform(click());
 		Common.delay(1);
@@ -63,7 +72,9 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
 
-		assertBundlePrice("$2,539","$56.50 Saved");
+		assertBundlePrice("$2,538.62", "Bundle total");
+		onView(allOf(withId(R.id.bundle_total_savings), withText("$56.50 Saved"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.per_person_text))).check(matches(not(isDisplayed())));
 
 		PackageScreen.checkout().perform(click());
 
@@ -75,12 +86,10 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.itin().check(matches(withText("1126420960431")));
 	}
 
-	private void assertBundlePrice(String price, String savings) {
-		onView(allOf(withId(R.id.bundle_total_text), withText("Bundle Overview"))).check(matches(isDisplayed()));
+	private void assertBundlePrice(String price, String totalText) {
+		onView(allOf(withId(R.id.bundle_total_text), withText(totalText))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_includes_text), withText("Includes taxes, fees, flights + hotel"))).check(matches(isDisplayed()));
-
 		onView(allOf(withId(R.id.bundle_total_price), withText(price))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.bundle_total_savings), withText(savings))).check(matches(isDisplayed()));
 	}
 
 }
