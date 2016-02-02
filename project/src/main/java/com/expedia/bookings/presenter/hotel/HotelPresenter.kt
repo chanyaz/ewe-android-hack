@@ -560,6 +560,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     val selectedRoomObserver = object : Observer<HotelOffersResponse.HotelRoomResponse> {
         override fun onNext(t: HotelOffersResponse.HotelRoomResponse) {
+            checkoutPresenter.hotelCheckoutWidget.couponCardView.viewmodel.hasDiscountObservable.onNext(false)
             checkoutPresenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
             checkoutPresenter.showCheckout(t)
             show(checkoutPresenter)
