@@ -3862,6 +3862,10 @@
     <string name="select_flight_to">Select flight to %1$s</string>
     <!-- Flight to template -->
     <string name="flight_to">Flight to %1$s</string>
+    <!-- Select return flight -->
+    <string name="select_return_flight">Select return flight</string>
+    <!-- Flight overview - flight to template -->
+    <string name="flight_to_template">Flight to %1$s</string>
     <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
