@@ -30,7 +30,7 @@ public class PackageFlightsToolbarTest extends PackageTestCase {
 		PackageScreen.hotelBundle().perform(click());
 		Common.delay(1);
 
-		HotelScreen.selectHotel("The Kahala Hotel & Resort");
+		HotelScreen.selectHotel("packagehappypath");
 		Common.delay(1);
 
 		HotelScreen.selectRoom();

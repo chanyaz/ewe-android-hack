@@ -37,7 +37,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		assertBundlePrice("0.00","per person");
 
-		HotelScreen.selectHotel("packagehappyhath");
+		HotelScreen.selectHotel("packagehappypath");
 		Common.delay(1);
 
 		assertBundlePrice("172.0","per person");

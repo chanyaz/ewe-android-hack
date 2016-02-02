@@ -390,9 +390,9 @@
   "packageResult": {
     "hotels": {
       "897118536276357": {
-        "hotelId": "packagehappyhath",
-        "hotelName": "packagehappyhath",
-        "localizedHotelName": "packagehappyhath",
+        "hotelId": "packagehappypath",
+        "hotelName": "packagehappypath",
+        "localizedHotelName": "packagehappypath",
         "hotelAddress": {
           "firstAddressLine": "1000 Brush Avenue",
           "secondAddressLine": "",
@@ -423,7 +423,7 @@
         "reviewTotal": 1636,
         "drrMessage": "",
         "roomType": "Deluxe Suite, 2 Queen Beds",
-        "infositeURL": "/hotel.h897.Hotel-Information?packagePIID=c698fd40-63b4-4a5f-9e00-9a5dbc547ec7-12&usePS=1&packageType=fh&hotelId=packagehappyhath&currentRatePlan=118536276357&sourceType=mobileapp&packageType=fh&originId=6000581&ftla=SFO&packageTripType=2&ttla=DTW&toDate=2016-02-04&hlrId=0&clientid=expedia.app.android.phone%3A6.7.0&fromDate=2016-02-02&defaultFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70&destinationId=6000199&currentFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70&prices=1052.67",
+        "infositeURL": "/hotel.h897.Hotel-Information?packagePIID=c698fd40-63b4-4a5f-9e00-9a5dbc547ec7-12&usePS=1&packageType=fh&hotelId=packagehappypath&currentRatePlan=118536276357&sourceType=mobileapp&packageType=fh&originId=6000581&ftla=SFO&packageTripType=2&ttla=DTW&toDate=2016-02-04&hlrId=0&clientid=expedia.app.android.phone%3A6.7.0&fromDate=2016-02-02&defaultFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70&destinationId=6000199&currentFlights=bc35173f55f3dafc2c3a52ffa44a7ca1%2Cd7e01407041745020fc703efbd624b70&prices=1052.67",
         "showTHNectarDiv": false,
         "distanceFromAirport": 17.4,
         "distanceFromAirportUnit": "miles",
