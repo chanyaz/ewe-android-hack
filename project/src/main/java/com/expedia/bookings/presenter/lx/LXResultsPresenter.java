@@ -482,7 +482,7 @@ public class LXResultsPresenter extends Presenter {
 		else {
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 		}
-
+		trackLXSearch();
 		AdTracker.trackFilteredLXSearchResults(lxState.searchParams, searchResponse);
 	}
 
