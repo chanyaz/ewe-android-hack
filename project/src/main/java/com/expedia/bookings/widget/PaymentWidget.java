@@ -365,6 +365,7 @@ public class PaymentWidget extends ExpandableCardView {
 				&& !goToPaymentDetails()))) {
 				cardInfoContainer.setVisibility(GONE);
 				paymentOptionsContainer.setVisibility(VISIBLE);
+				paymentOptionGoogleWallet.setVisibility(WalletUtils.isWalletSupported(lineOfBusiness) ? VISIBLE : GONE);
 				billingInfoContainer.setVisibility(GONE);
 				if (mToolbarListener != null) {
 					mToolbarListener.showRightActionButton(false);
