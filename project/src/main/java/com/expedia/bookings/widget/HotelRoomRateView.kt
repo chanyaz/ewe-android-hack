@@ -33,7 +33,6 @@ import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeChecked
 import com.expedia.util.subscribeEnabled
-import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
@@ -98,7 +97,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
         vm.soldOutButtonLabelObservable.subscribeToggleButton(viewRoom)
 
         expandedAmenity.visibility = View.GONE
-        viewRoom.subscribeOnCheckChanged(vm.expandCollapseRoomRate)
+        viewRoom.subscribeOnClick(vm.expandCollapseRoomRate)
         row.setOnClickListener {
             vm.expandCollapseRoomRate.onNext(!viewRoom.isChecked)
         }
