@@ -47,12 +47,32 @@ public class HotelScreen {
 		return onView(withId(R.id.select_date));
 	}
 
-	public static ViewInteraction selectTraveler() {
+	public static ViewInteraction selectTravelerV2() {
 		return onView(withId(R.id.traveler_label));
 	}
 
+	public static ViewInteraction selectDestinationV2() {
+		return onView(withId(R.id.destination_card));
+	}
+
+	public static ViewInteraction selectDestinationTextViewV2() {
+		return onView(withId(R.id.input_label));
+	}
+	public static ViewInteraction selectCalendarV2() {
+		return onView(withId(R.id.calendar_label));
+	}
+
+	public static ViewInteraction searchAlertDialogDoneV2() {
+		return onView(withId(android.R.id.button1));
+	}
+
+
 	public static ViewInteraction location() {
 		return onView(withId(R.id.hotel_location_autocomplete));
+	}
+
+	public static ViewInteraction locationV2() {
+		return onView(withId(android.support.v7.appcompat.R.id.search_src_text));
 	}
 
 	public static ViewInteraction filterHotelName() {
@@ -131,6 +151,14 @@ public class HotelScreen {
 		hotelSuggestionList().perform(RecyclerViewActions.actionOnItem(viewMatcher, click()));
 	}
 
+	public static void selectLocationV2(String hotel) throws Throwable {
+		hotelSuggestionListV2().perform(ViewActions.waitForViewToDisplay());
+		final Matcher<View> viewMatcher = hasDescendant(withText(hotel));
+
+		hotelSuggestionListV2().perform(ViewActions.waitFor(viewMatcher, 10, TimeUnit.SECONDS));
+		hotelSuggestionListV2().perform(RecyclerViewActions.actionOnItem(viewMatcher, click()));
+	}
+
 	public static ViewInteraction suggestionMatches(Matcher<View> matcher, int position) throws Throwable {
 		return hotelSuggestionList()
 			.check(RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(matcher)));
@@ -143,6 +171,10 @@ public class HotelScreen {
 	public static ViewInteraction searchButton() {
 		onView(withId(R.id.search_container)).perform(ViewActions.waitForViewToDisplay());
 		return onView(allOf(withId(R.id.search_btn), isDescendantOfA(hasSibling(withId(R.id.search_container)))));
+	}
+
+	public static ViewInteraction searchButtonV2() {
+	return 	onView(withId(R.id.search_button_v2));
 	}
 
 	public static void clickSearchButton() {
@@ -195,6 +227,10 @@ public class HotelScreen {
 
 	public static ViewInteraction hotelSuggestionList() {
 		return onView(withId(R.id.drop_down_list));
+	}
+
+	public static ViewInteraction hotelSuggestionListV2() {
+		return onView(withId(R.id.suggestion_list));
 	}
 
 	public static void clickSortFilter() {

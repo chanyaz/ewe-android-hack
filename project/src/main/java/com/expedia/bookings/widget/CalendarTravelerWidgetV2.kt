@@ -26,72 +26,79 @@ public class CalendarTravelerWidgetV2(context: Context, attrs: AttributeSet?) : 
     val travelerText: TextView by bindView(R.id.traveler_label)
     val calendarText: TextView by bindView(R.id.calendar_label)
     val hotelSearchViewModelSubject = BehaviorSubject.create<HotelSearchViewModel>()
+    val travelerDialogView: View by lazy {
+        val view  = LayoutInflater.from(context).inflate(R.layout.widget_hotel_traveler_search, null)
+        view
+    }
+
+    val traveler: HotelTravelerPickerView by lazy {
+        val travelerView = travelerDialogView.findViewById(R.id.traveler_view) as HotelTravelerPickerView
+        travelerView.viewmodel = HotelTravelerPickerViewModel(context, false)
+        travelerView.viewmodel.travelerParamsObservable.subscribe(hotelSearchViewModelSubject.value.travelersObserver)
+        travelerView.viewmodel.guestsTextObservable.subscribeText(travelerText)
+        travelerView
+    }
 
     val travelerDialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context)
-        val li = LayoutInflater.from(context);
-        val myView = li.inflate(R.layout.widget_hotel_traveler_search, null)
-        builder.setView(myView)
-
-        val traveler = myView.findViewById(R.id.traveler_view) as HotelTravelerPickerView
-        traveler.viewmodel = HotelTravelerPickerViewModel(context, false)
-        traveler.viewmodel.travelerParamsObservable.subscribe(hotelSearchViewModelSubject.value.travelersObserver)
-        traveler.viewmodel.guestsTextObservable.subscribeText(travelerText)
-
+        traveler
+        builder.setView(travelerDialogView)
         builder.setTitle(R.string.select_traveler_title)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
             dialog.dismiss()
 
         })
-        builder.setNegativeButton(context.getString(R.string.cancel), { dialog, which -> dialog.dismiss() })
         builder.create()
     }
 
-    val calendarDialog: AlertDialog by lazy {
-        val builder = AlertDialog.Builder(context)
-        val li = LayoutInflater.from(context);
-        val myView = li.inflate(R.layout.widget_hotel_calendar_search, null)
-        builder.setView(myView)
+    val calendarDialogView: View by lazy {
+        val view = LayoutInflater.from(context).inflate(R.layout.widget_hotel_calendar_search, null)
+        view
+    }
 
-        val calendar = myView.findViewById(R.id.calendar) as CalendarPicker
+    val calendar: CalendarPicker by lazy {
+        val calendarPickerView = calendarDialogView.findViewById(R.id.calendar) as CalendarPicker
         val maxDate = LocalDate.now().plusDays(resources.getInteger(R.integer.calendar_max_selectable_date_range))
-        calendar.setSelectableDateRange(LocalDate.now(), maxDate)
-        calendar.setMaxSelectableDateRange(resources.getInteger(R.integer.calendar_max_selectable_date_range))
-        calendar.setDateChangedListener { start, end ->
+        calendarPickerView.setSelectableDateRange(LocalDate.now(), maxDate)
+        calendarPickerView.setMaxSelectableDateRange(resources.getInteger(R.integer.calendar_max_selectable_date_range))
+        calendarPickerView.setDateChangedListener { start, end ->
             if (JodaUtils.isEqual(start, end)) {
                 if (!JodaUtils.isEqual(end, maxDate)) {
-                    calendar.setSelectedDates(start, end.plusDays(1))
+                    calendarPickerView.setSelectedDates(start, end.plusDays(1))
                 } else {
                     // Do not select an end date beyond the allowed range
-                    calendar.setSelectedDates(start, null)
+                    calendarPickerView.setSelectedDates(start, null)
                 }
             } else {
                 hotelSearchViewModelSubject.value.datesObserver.onNext(Pair(start, end))
             }
         }
-        calendar.setYearMonthDisplayedChangedListener {
-            calendar.hideToolTip()
+        calendarPickerView.setYearMonthDisplayedChangedListener {
+            calendarPickerView.hideToolTip()
         }
 
         hotelSearchViewModelSubject.value.calendarTooltipTextObservable.subscribe(endlessObserver { p ->
             val (top, bottom) = p
-            calendar.setToolTipText(top, bottom, true)
+            calendarPickerView.setToolTipText(top, bottom, true)
         })
 
         hotelSearchViewModelSubject.value.searchParamsObservable.subscribe {
-            calendar.hideToolTip()
+            calendarPickerView.hideToolTip()
         }
         hotelSearchViewModelSubject.value.dateTextObservable.subscribeText(calendarText)
-        calendar.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
+        calendarPickerView.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
+        calendarPickerView
+    }
 
+
+    val calendarDialog: AlertDialog by lazy {
+        val builder = AlertDialog.Builder(context)
+        calendar
+        builder.setView(calendarDialogView)
         builder.setTitle(R.string.select_dates)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
-            dialog.dismiss()
             calendar.hideToolTip()
-        })
-        builder.setNegativeButton(context.getString(R.string.cancel), { dialog, which ->
             dialog.dismiss()
-            calendar.hideToolTip()
         })
         builder.create()
     }
@@ -104,7 +111,7 @@ public class CalendarTravelerWidgetV2(context: Context, attrs: AttributeSet?) : 
         View.inflate(context, R.layout.widget_traveler_calendar_search_v2, this)
         val travelerLeftDrawable = travelerText.compoundDrawables[0].mutate()
         val calendarLeftDrawable = calendarText.compoundDrawables[0].mutate()
-        val color = ContextCompat.getColor(context, R.color.hotels_primary_color)
+        val color = ContextCompat.getColor(context, R.color.search_screen_icon_color_v2)
         travelerLeftDrawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
         calendarLeftDrawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
         travelerText.setCompoundDrawablesWithIntrinsicBounds(travelerLeftDrawable, null, null, null)

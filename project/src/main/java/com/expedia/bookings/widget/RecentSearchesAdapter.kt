@@ -17,10 +17,12 @@ import com.expedia.vm.RecentSearchesAdapterViewModel
 public class RecentSearchesAdapter(val viewmodel: RecentSearchesAdapterViewModel, val showHeader: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val HEADER_VIEW = 0
     val RECENT_SEARCH_VIEW = 1
-
+    public companion object {
+        @JvmStatic val MAX_ROW_FOR_SEARCH_V2 = 5
+    }
 
     override fun getItemCount(): Int {
-        return if (showHeader) viewmodel.recentSearches.size + 1 else viewmodel.recentSearches.size
+        if (showHeader) return viewmodel.recentSearches.size + 1 else return Math.min(viewmodel.recentSearches.size, MAX_ROW_FOR_SEARCH_V2)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {

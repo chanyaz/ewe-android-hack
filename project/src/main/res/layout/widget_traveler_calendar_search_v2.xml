@@ -6,7 +6,7 @@
     <LinearLayout
         android:id="@+id/search_v2_container"
         android:layout_width="match_parent"
-        android:layout_height="54dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
         android:clipToPadding="false"
         android:orientation="horizontal">
@@ -17,20 +17,21 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight=".5"
-            android:drawableLeft="@drawable/ic_calendar"
-            android:drawablePadding="18dp"
+            android:drawableLeft="@drawable/search_form_icon_calendar"
+            android:drawablePadding="23dp"
+            android:textColor="@color/hotelsv2_checkout_text_color"
             android:gravity="center_vertical"
-            android:paddingLeft="12dp"
+            android:paddingLeft="19dp"
             android:text="@string/select_dates"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
         <View
             android:id="@+id/divider"
-            android:layout_width="1dp"
+            android:layout_width="1px"
             android:layout_height="match_parent"
-            android:layout_marginBottom="3dp"
-            android:layout_marginTop="3dp"
-            android:background="@color/hotel_detail_divider" />
+            android:layout_marginBottom="9dp"
+            android:layout_marginTop="9dp"
+            android:background="@color/black_twenty_opacity" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/traveler_label"
@@ -38,12 +39,14 @@
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:layout_weight=".5"
-            android:drawableLeft="@drawable/traveler"
-            android:drawablePadding="18dp"
+            android:drawableLeft="@drawable/search_form_icon_person"
+            android:drawablePadding="23dp"
             android:gravity="center_vertical"
-            android:paddingLeft="12dp"
+
+            android:textColor="@color/hotelsv2_checkout_text_color"
+            android:paddingLeft="19dp"
             android:text="@string/hotel_search_guest_default_text"
-            android:textSize="18sp" />
+            android:textSize="15sp" />
 
     </LinearLayout>
 
