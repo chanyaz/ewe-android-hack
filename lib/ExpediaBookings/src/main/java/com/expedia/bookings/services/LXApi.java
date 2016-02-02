@@ -3,14 +3,15 @@ package com.expedia.bookings.services;
 import java.util.Map;
 
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
-import com.expedia.bookings.data.lx.LXCreateTripParams;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
+import com.expedia.bookings.data.lx.LXCreateTripParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchResponse;
+import com.expedia.bookings.data.lx.RecommendedActivitiesResponse;
 
+import retrofit.http.Body;
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
-import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.Headers;
 import retrofit.http.POST;
@@ -36,6 +37,14 @@ public interface LXApi {
 	@GET("/lx/api/activity")
 	@Headers("Cache-Control: no-cache")
 	public Observable<ActivityDetailsResponse> activityDetails(
+		@Query("activityId") String activityId,
+		@Query("location") String location,
+		@Query("startDate") String startDate,
+		@Query("endDate") String endDate);
+
+	@GET("/lx/api/recommend")
+	@Headers("Cache-Control: no-cache")
+	public Observable<RecommendedActivitiesResponse> recommendedActivities(
 		@Query("activityId") String activityId,
 		@Query("location") String location,
 		@Query("startDate") String startDate,
