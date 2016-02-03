@@ -202,8 +202,8 @@
     <string name="successful_checkout_email_label">Itinerary sent to</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Directions to %1$s</string>
-    
-    <string name="shortened_checkout_payment_option_credit_debit_label">Credit/Debit Card</string>
+    <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
+    <string name="shortened_checkout_payment_option_credit_debit_label">Debit/Credit Card</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Guest Details</string>
     <!-- Text for Android pay label -->
@@ -1782,7 +1782,7 @@
     <string name="select_payment_callout">Enter Details</string>
     <!-- Add new card -->
     <string name="add_new_card">Add New Card</string>
-    <string name="new_credit_debit_card">New Credit/Debit Card</string>
+    <string name="new_credit_debit_card">New Debit/Credit Card</string>
     <!-- Overview button -->
     <string name="overview_btn">Overview</string>
     <!-- Stored Payment label -->
