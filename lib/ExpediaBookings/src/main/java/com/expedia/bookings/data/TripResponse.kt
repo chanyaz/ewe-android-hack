@@ -47,6 +47,12 @@ public abstract class TripResponse : BaseApiResponse() {
 
     abstract fun getTripTotal(): Money
 
+    /* Card details are not always required for booking.
+       1) Cars : If create trip response has the flag checkoutRequiresCard.
+       2) Hotels : In case booking with points only.
+    */
+    abstract fun isCardDetailsRequiredForBooking(): Boolean
+
     fun isExpediaRewardsRedeemable(): Boolean {
         val expediaRewardsPointsDetails = getPointDetails(ProgramName.ExpediaRewards)
         return if (expediaRewardsPointsDetails != null) expediaRewardsPointsDetails.isAllowedToRedeem else false

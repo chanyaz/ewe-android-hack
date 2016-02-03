@@ -201,7 +201,7 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                                         .format().toString()
                         }
                     false -> Phrase.from(context, R.string.your_card_will_be_charged_template)
-                            .put("dueamount", getDueNowAmount(it.hotelProductResponse)).format().toString()
+                            .put("dueamount", it.hotelProductResponse.dueNowAmount.formattedMoney).format().toString()
                 }
             }
 
@@ -334,7 +334,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             extraGuestFees.onNext(rate.extraGuestFees)
 
             // calculate trip total price
-            dueNowAmount.onNext(getDueNowAmount(it))
+            dueNowAmount.onNext(it.dueNowAmount.formattedMoney)
             tripTotalPrice.onNext(rate.displayTotalPrice.formattedMoney)
 
             showFeesPaidAtHotel.onNext(isResortCase.value)
@@ -347,19 +347,6 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
         guestCountObserver.subscribe {
             numGuests.onNext(StrUtils.formatGuestString(context, it))
         }
-    }
-}
-
-public fun getDueNowAmount(response: HotelCreateTripResponse.HotelProductResponse): String {
-    val room = response.hotelRoomResponse
-    val rate = room.rateInfo.chargeableRateInfo
-    val isPayLater = room.isPayLater
-
-    if (isPayLater) {
-        val depositAmount = rate.depositAmount ?: "0" // yup. For some reason API doesn't return $0 for deposit amounts
-        return Money(BigDecimal(depositAmount), rate.currencyCode).formattedMoney
-    } else {
-        return Money(BigDecimal(rate.total.toDouble()), rate.currencyCode).formattedMoney
     }
 }
 

@@ -43,18 +43,20 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
     val rebindRequested = PublishSubject.create<Unit>()
     var paymentSplitsType: PaymentSplitsType by Delegates.notNull()
     var isExpediaRewardsRedeemable: Boolean = false
+    var isFullPayableWithPoints: Boolean by Delegates.notNull()
 
     var paymentWidgetViewModel by notNullAndObservable<IPaymentWidgetViewModel> {
         it.totalDueToday.subscribeText(totalDueToday)
         it.remainingBalanceDueOnCard.subscribeText(remainingBalance)
         it.remainingBalanceDueOnCardVisibility.subscribeVisibility(remainingBalance)
-        it.paymentSplitsAndTripResponse.map { it.paymentSplits.paymentSplitsType() != PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT }.subscribeEnabled(sectionCreditCardContainer)
+        it.paymentSplitsAndTripResponse.map { it.isCardRequired() }.subscribeEnabled(sectionCreditCardContainer)
 
         Observable.combineLatest(rebindRequested, it.paymentSplitsAndTripResponse) { unit, paymentSplitsAndTripResponse -> paymentSplitsAndTripResponse }
                 .subscribe {
                     bindPaymentTile(it.tripResponse.isExpediaRewardsRedeemable(), it.paymentSplits.paymentSplitsType())
                     isExpediaRewardsRedeemable = it.tripResponse.isExpediaRewardsRedeemable()
                     paymentSplitsType = it.paymentSplits.paymentSplitsType()
+                    isFullPayableWithPoints = !it.isCardRequired()
                 }
     }
         @Inject set
@@ -310,7 +312,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
             return true
         }
         //If payment is done only through points
-        else if (paymentSplitsType == PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT) {
+        else if (isFullPayableWithPoints) {
             return true
         }
         // If payment through credit card is required check to see if the entered/selected stored CC is valid.
