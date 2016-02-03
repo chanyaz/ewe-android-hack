@@ -74,7 +74,12 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
     override val burnAmountUpdate = Observable.merge(
             startingPaymentSplits.map { it.toString() },
             clearUserEnteredBurnAmount.map { "" },
-            paymentModel.restoredPaymentSplitsInCaseOfDiscardedApiCall.map { it.payingWithPoints.amount.amount.toString() })
+            //Update textbox to restoredPaymentSplits in case of discarded api call and toggle is on
+            paymentModel.restoredPaymentSplitsInCaseOfDiscardedApiCall.withLatestFrom(pwpOpted, { paymentSplits, pwpOpted ->
+                Pair(paymentSplits, pwpOpted)
+            })
+                    .filter { it.second }
+                    .map { it.first.payingWithPoints.amount.amount.toString() })
 
     private val burnAmountEntered = Observable.merge(
             userEnteredBurnAmount.map { toBigDecimal(it) },
