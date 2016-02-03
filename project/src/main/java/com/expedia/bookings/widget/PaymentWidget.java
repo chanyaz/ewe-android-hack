@@ -174,6 +174,11 @@ public class PaymentWidget extends ExpandableCardView {
 		openGoogleWallet();
 	}
 
+	@OnClick(R.id.select_payment_button)
+	public void  onSelectSavedCardButtonClick() {
+		paymentButton.showStoredCards();
+	}
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
