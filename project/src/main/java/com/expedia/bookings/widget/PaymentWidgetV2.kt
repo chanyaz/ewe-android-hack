@@ -13,6 +13,8 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -26,6 +28,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel
 import com.squareup.phrase.Phrase
 import butterknife.OnClick
@@ -62,6 +65,9 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
     override fun directlyNavigateToPaymentDetails(): Boolean {
         return !isExpediaRewardsRedeemable && !(User.isLoggedIn(context) && !Db.getUser().storedCreditCards.isEmpty())
     }
+
+    lateinit var payWithPointsViewModel: IPayWithPointsViewModel
+        @Inject set
 
     override fun creditCardClicked() {
         presenter.show(CreditCardWidgetExpandedState())
@@ -314,5 +320,9 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
             return true
         }// If payment is required check to see if the entered/selected stored CC is valid.
         return false
+    }
+
+    override fun onLogin() {
+        payWithPointsViewModel.userSignedIn.onNext(true)
     }
 }
