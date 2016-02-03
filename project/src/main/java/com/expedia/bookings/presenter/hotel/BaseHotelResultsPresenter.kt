@@ -642,7 +642,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                 recyclerView.visibility = View.VISIBLE
                 previousWasList = forward
                 fabShouldVisiblyMove = if (forward) !fabShouldBeHiddenOnList() else (fab.visibility == View.VISIBLE)
-                initialListTranslation = recyclerView.getChildAt(1)?.top ?: 0
+                initialListTranslation = if (recyclerView.layoutManager.findFirstVisibleItemPosition() == 0) recyclerView.getChildAt(1)?.top ?: 0 else 0
                 if (forward) {
                     //If the fab is visible we want to do the transition - but if we're just hiding it, don't confuse the
                     // user with an unnecessary icon swap
