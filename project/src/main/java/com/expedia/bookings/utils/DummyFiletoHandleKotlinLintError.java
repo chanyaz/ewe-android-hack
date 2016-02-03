@@ -315,6 +315,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.package_flight_overview_total_duration_TEMPLATE,
 		R.layout.flight_segment_breakdown,
 		R.layout.flight_segment_layover_row,
-		R.layout.flight_segment_row
+		R.layout.flight_segment_row,
+		R.string.guests_with_rooms_TEMPLATE
 	};
 }
