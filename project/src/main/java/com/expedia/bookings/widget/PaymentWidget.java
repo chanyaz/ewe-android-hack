@@ -209,8 +209,6 @@ public class PaymentWidget extends ExpandableCardView {
 		});
 		sectionBillingInfo.addChangeListener(mValidFormsOfPaymentListener);
 
-		paymentOptionCreditDebitCard.setCompoundDrawablesWithIntrinsicBounds(getCreditCardIcon(), null, null, null);
-
 	}
 
 	protected Drawable getCreditCardIcon() {
@@ -335,7 +333,6 @@ public class PaymentWidget extends ExpandableCardView {
 			FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_REGULAR);
 			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
 				cardInfoExpiration.setVisibility(VISIBLE);
-				cardInfoExpiration.setText(getResources().getString(R.string.checkout_hotelsv2_enter_payment_details_line2));
 				FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_MEDIUM);
 			}
 			else {

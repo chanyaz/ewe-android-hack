@@ -13,14 +13,10 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.User
-import com.expedia.bookings.data.hotels.HotelCreateTripResponse
-import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.BookingInfoUtils
-import com.expedia.bookings.utils.JodaUtils
-import com.expedia.bookings.utils.NumberMaskFormatter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.WalletUtils
 import com.expedia.bookings.utils.bindView
@@ -36,6 +32,7 @@ import rx.Observable
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
+import com.expedia.bookings.utils.CreditCardUtils
 
 public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
     val remainingBalance: TextView by bindView(R.id.remaining_balance)
@@ -205,10 +202,9 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
         //Payment with "StoredCard only" OR "StoredCard and points"
         else if (hasStoredCard) {
             val card = sectionBillingInfo.billingInfo.storedCard
-            paymentInfo = card.description
             paymentType = card.type
-            paymentOptions = resources.getString(
-                    if (isRedeemable) R.string.checkout_tap_to_edit else R.string.checkout_payment_line2_storedcc)
+            paymentInfo = card.description
+            paymentOptions = resources.getString(R.string.checkout_tap_to_edit)
 
             bindStoredCard(paymentType, paymentInfo)
 
@@ -226,7 +222,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
             val info = sectionBillingInfo.billingInfo
             paymentType = info.paymentType
 
-            paymentInfo = NumberMaskFormatter.obscureCreditCardNumber(info.number)
+            paymentInfo = getPaymentInfo(paymentType, info.number)
             bindStoredCard(paymentType, paymentInfo)
             if (isRedeemable && splitsType == PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD) {
                 paymentInfo = Phrase.from(context, R.string.checkout_paying_with_points_and_card_line1)
@@ -234,11 +230,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
                         .format().toString()
             }
 
-            val expiration = JodaUtils.format(info.expirationDate, "MM/yy")
-            paymentOptions = if (isRedeemable)
-                resources.getString(R.string.checkout_tap_to_edit)
-            else
-                resources.getString(R.string.selected_card_template, expiration)
+            paymentOptions = resources.getString(R.string.checkout_tap_to_edit)
 
             bindPaymentTileInfo(paymentType, paymentInfo, paymentOptions, splitsType)
             paymentStatusIcon.status = ContactDetailsCompletenessStatus.COMPLETE
@@ -263,6 +255,14 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
             paymentStatusIcon.status = ContactDetailsCompletenessStatus.DEFAULT
             reset()
         }
+    }
+
+    private fun getPaymentInfo(paymentType: PaymentType?, cardNumber: String): String
+    {
+        return Phrase.from(context, R.string.checkout_selected_card)
+                .put("cardtype", CreditCardUtils.getHumanReadableCardTypeName(context,paymentType))
+                .put("cardno", cardNumber.drop(cardNumber.length - 4))
+                .format().toString()
     }
 
     private fun bindPaymentTileInfo(paymentType: PaymentType?, paymentInfoText: String, paymentOptionsText: String, splitsType: PaymentSplitsType) {

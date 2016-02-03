@@ -86,7 +86,7 @@ public class PaymentWidgetV2Test {
         //WithoutPayingWithPoints
         paymentModel.createTripSubject.onNext(getCreateTripResponse(false))
         setUserWithStoredCard()
-        testPaymentTileInfo("Visa 4111", "Stored Credit Card", activity.resources.getDrawable(R.drawable.ic_tablet_checkout_visa), View.GONE)
+        testPaymentTileInfo("Visa 4111", "Tap to edit", activity.resources.getDrawable(R.drawable.ic_tablet_checkout_visa), View.GONE)
 
     }
 
