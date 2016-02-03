@@ -15,12 +15,14 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeChecked
+import com.expedia.util.subscribeCursorVisible
 import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
+import java.util.Locale
 import javax.inject.Inject
 
 public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -36,6 +38,7 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         pwpViewModel.currencySymbol.subscribeText(currencySymbolView)
         pwpViewModel.totalPointsAndAmountAvailableToRedeem.subscribeText(totalPointsAvailableView)
 
+        editAmountView.setOnClickListener { editAmountView.isCursorVisible = true }
         editAmountView.setOnEditorActionListener { textView: android.widget.TextView, actionId: Int, event: KeyEvent? ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -51,6 +54,7 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         pwpViewModel.burnAmountUpdate.subscribeText(editAmountView)
         pwpSwitchView.subscribeOnCheckChanged(pwpViewModel.pwpOpted)
         pwpViewModel.enablePwPToggle.subscribeChecked(pwpSwitchView)
+        pwpViewModel.navigatingBackToCheckoutScreen.map { false }.subscribeCursorVisible(editAmountView)
 
         subscribeOnClick(endlessObserver {
             refreshPointsForUpdatedBurnAmount()
@@ -66,8 +70,9 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
 
     fun refreshPointsForUpdatedBurnAmount() {
         if (this.visibility == VISIBLE && pwpSwitchView.isChecked) {
-            payWithPointsViewModel.userEnteredBurnAmount.onNext(editAmountView.text.toString())
+            editAmountView.isCursorVisible = false
             Ui.hideKeyboard(editAmountView)
+            payWithPointsViewModel.userEnteredBurnAmount.onNext(editAmountView.text.toString())
         }
     }
 
@@ -75,5 +80,6 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         View.inflate(getContext(), R.layout.pay_with_points_widget, this)
         Ui.getApplication(getContext()).hotelComponent().inject(this)
         editAmountView.filters = arrayOf(DecimalNumberInputFilter(2))
+        editAmountView.hint = "%.2f".format(Locale.getDefault(), 0.0)
     }
 }

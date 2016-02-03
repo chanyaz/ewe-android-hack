@@ -88,7 +88,10 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
             burnAmountToPointsApiResponse.map { PaymentSplits(it.conversion!!, it.remainingPayableByCard!!) }
     )
 
-    val restoredPaymentSplitsInCaseOfDiscardedApiCall = discardPendingCurrencyToPointsAPISubscription
+    val restoredPaymentSplitsInCaseOfDiscardedApiCall = PublishSubject.create<PaymentSplits>()
+    //Intermediate Stream to ensure side-effects like `doOnNext` execute only once even if the stream is subscribe to multiple times!
+    //This Intermediate Stream is ultimately poured into `restoredPaymentSplitsInCaseOfDiscardedApiCall` which the clients can absorb.
+    private val restoredPaymentSplitsInCaseOfDiscardedApiCallIntermediateStream = discardPendingCurrencyToPointsAPISubscription
             .withLatestFrom(burnAmountToPointsApiSubscriptions, { unit, burnAmountToPointsApiSubscription -> burnAmountToPointsApiSubscription })
             .doOnNext { it?.unsubscribe() }
             .withLatestFrom(paymentSplits, { unit, paymentSplits -> paymentSplits })
@@ -120,5 +123,9 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
 
                     burnAmountToPointsApiSubscriptions.onNext(loyaltyServices.currencyToPoints(calculatePointsParams, makeCalculatePointsApiResponseObserver()))
                 }
+
+        restoredPaymentSplitsInCaseOfDiscardedApiCallIntermediateStream.subscribe {
+            restoredPaymentSplitsInCaseOfDiscardedApiCall.onNext(it)
+        }
     }
 }

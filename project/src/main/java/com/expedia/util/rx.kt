@@ -154,6 +154,10 @@ public fun Observable<Boolean>.subscribeChecked(compoundButton: CompoundButton) 
     this.subscribe { compoundButton.isChecked = it }
 }
 
+public fun Observable<Boolean>.subscribeCursorVisible(textView: TextView) {
+    this.subscribe { textView.isCursorVisible = it }
+}
+
 /**
  *  Returns an observable sequence that contains only distinct contiguous elements according to the comparer.
  *

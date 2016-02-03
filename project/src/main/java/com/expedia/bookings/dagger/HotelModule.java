@@ -62,13 +62,13 @@ public final class HotelModule {
 
 	@Provides
 	@HotelScope
-	IPaymentWidgetViewModel providePaymentWidgetViewModel(PaymentModel<HotelCreateTripResponse> paymentModel, Context context) {
-		return new PaymentWidgetViewModel<>(paymentModel, context.getResources());
+	IPayWithPointsViewModel providePayWithPointsViewModel(Context context, PaymentModel<HotelCreateTripResponse> paymentModel) {
+		return new PayWithPointsViewModel<>(paymentModel, context.getResources());
 	}
 
 	@Provides
 	@HotelScope
-	IPayWithPointsViewModel providePayWithPointsViewModel(PaymentModel<HotelCreateTripResponse> paymentModel, Context context) {
-		return new PayWithPointsViewModel<>(paymentModel, context.getResources());
+	IPaymentWidgetViewModel providePaymentWidgetViewModel(Context context, PaymentModel<HotelCreateTripResponse> paymentModel, IPayWithPointsViewModel payWithPointsViewModel) {
+		return new PaymentWidgetViewModel<>(context, paymentModel, payWithPointsViewModel);
 	}
 }

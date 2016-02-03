@@ -7,6 +7,7 @@ import com.expedia.bookings.data.payment.PointsDetails
 import com.expedia.bookings.data.payment.PointsType
 import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.data.payment.UserPaymentPreferences
+import java.math.BigDecimal
 import kotlin.collections.forEach
 import kotlin.properties.Delegates
 
@@ -64,7 +65,7 @@ public abstract class TripResponse : BaseApiResponse() {
     }
 
     fun paymentSplitsWhenZeroPayableWithPoints(): PaymentSplits {
-        val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money("0", getTripTotal().currencyCode))
+        val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money(BigDecimal.ZERO, getTripTotal().currencyCode))
         val payingWithCards = PointsAndCurrency(expediaRewards.totalPointsToEarn, PointsType.EARN, getTripTotal())
         return PaymentSplits(payingWithPoints, payingWithCards)
     }

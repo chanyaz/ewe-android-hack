@@ -33,6 +33,7 @@ import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
+import java.text.NumberFormat
 
 open public class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
 
@@ -184,7 +185,7 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                             PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT ->
                                 Phrase.from(context, R.string.you_are_using_expedia_points_TEMPLATE)
                                         .put("amount", it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
-                                        .put("points", it.payingWithPoints.points.toString())
+                                        .put("points", NumberFormat.getInstance().format(it.payingWithPoints.points))
                                         .format().toString()
 
                             PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD ->
@@ -195,7 +196,7 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                             PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD ->
                                 Phrase.from(context, R.string.payment_through_card_and_pwp_points)
                                         .put("amount", it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
-                                        .put("points", it.payingWithPoints.points.toString())
+                                        .put("points", NumberFormat.getInstance().format(it.payingWithPoints.points))
                                         .put("dueamount", it.payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode)
                                         .format().toString()
                         }
