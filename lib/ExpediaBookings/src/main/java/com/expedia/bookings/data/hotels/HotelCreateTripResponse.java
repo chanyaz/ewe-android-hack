@@ -2,6 +2,7 @@ package com.expedia.bookings.data.hotels;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Locale;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripResponse;
@@ -53,6 +54,7 @@ public class HotelCreateTripResponse extends TripResponse {
 	@Override
 	public Money getTripTotal() {
 		HotelRate hotelRate = newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo;
-		return new Money(new BigDecimal(hotelRate.total), hotelRate.currencyCode);
+		String expectedTotalFare = java.lang.String.format(Locale.ENGLISH, "%.2f", hotelRate.total);
+		return new Money(new BigDecimal(expectedTotalFare), hotelRate.currencyCode);
 	}
 }

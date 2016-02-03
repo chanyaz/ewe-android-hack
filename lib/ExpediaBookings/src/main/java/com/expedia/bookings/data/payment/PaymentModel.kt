@@ -84,7 +84,7 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
             startingPaymentSplitsFromCreateTrip,
             couponChangeSubject.map { it.paymentSplitsFromUserPreferenceElseZero() },
             priceChangeDuringCheckoutSubject.map { it.paymentSplitsFromUserPreferenceElseZero() },
-            burnAmountAndLatestTripResponse.filter { it.burnAmount.equals(BigDecimal.ZERO) }.map { it.latestTripResponse.paymentSplitsWhenZeroPayableWithPoints() },
+            burnAmountAndLatestTripResponse.filter { it.burnAmount.compareTo(BigDecimal.ZERO) == 0 }.map { it.latestTripResponse.paymentSplitsWhenZeroPayableWithPoints() },
             burnAmountToPointsApiResponse.map { PaymentSplits(it.conversion!!, it.remainingPayableByCard!!) }
     )
 
@@ -101,7 +101,7 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
 
     //Conditions when Currency To Points Conversion can be locally handled without an API call
     fun canHandleCurrencyToPointsConversionLocally(burnAmount: BigDecimal, amountForMaxPayableWithPoints: BigDecimal): Boolean {
-        return burnAmount.equals(BigDecimal.ZERO) || burnAmount.compareTo(amountForMaxPayableWithPoints) == 1
+        return burnAmount.compareTo(BigDecimal.ZERO) == 0 || burnAmount.compareTo(amountForMaxPayableWithPoints) == 1
     }
 
     init {
