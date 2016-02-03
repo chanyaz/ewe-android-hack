@@ -299,6 +299,8 @@ public class
 		R.string.hotel_checkout_overview_TEMPLATE,
 		R.string.checkout_selected_card,
 		R.drawable.add_new_credit_card,
-		R.string.checkout_hotelsv2_enter_payment_details_line2
+		R.string.checkout_hotelsv2_enter_payment_details_line2,
+		R.string.package_flight_overview_bundle_total_label,
+		R.string.package_flight_overview_per_person_TEMPLATE
 	};
 }

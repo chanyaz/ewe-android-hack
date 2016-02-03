@@ -16,6 +16,7 @@ import com.expedia.vm.FlightOverviewViewModel
 public class PackageFlightOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     val flightTimeTextView: TextView by bindView(R.id.flight_overview_time)
+    val bundlePriceTextView: TextView by bindView(R.id.bundle_price)
     val selectFlightButton: Button by bindView(R.id.select_flight_button)
     val flightAirlineTextView: TextView by bindView(R.id.flight_overview_airline)
     val flightAirportsTextView: TextView by bindView(R.id.flight_overview_dest_origin)
@@ -26,6 +27,7 @@ public class PackageFlightOverviewPresenter(context: Context, attrs: AttributeSe
         viewmodel.flightAirlineObserver.subscribeText(flightAirlineTextView)
         viewmodel.flightAirportsObserver.subscribeText(flightAirportsTextView)
         viewmodel.flightDurationObserver.subscribeText(flightDurationTextView)
+        viewmodel.bundlePriceObserver.subscribeText(bundlePriceTextView)
         selectFlightButton.subscribeOnClick(viewmodel.selectFlightClickObserver)
     }
 
