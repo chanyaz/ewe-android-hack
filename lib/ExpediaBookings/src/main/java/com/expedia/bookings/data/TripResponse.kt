@@ -47,7 +47,8 @@ public abstract class TripResponse : BaseApiResponse() {
     abstract fun getTripTotal(): Money
 
     fun isExpediaRewardsRedeemable(): Boolean {
-        return ValidPayment.isPaymentTypeSupported(validFormsOfPayment, PaymentType.POINTS_EXPEDIA_REWARDS)
+        val expediaRewardsPointsDetails = getPointDetails(ProgramName.ExpediaRewards)
+        return if (expediaRewardsPointsDetails != null) expediaRewardsPointsDetails.isAllowedToRedeem else false
     }
 
     fun expediaRewardsUserAccountDetails(): PointsDetails {
