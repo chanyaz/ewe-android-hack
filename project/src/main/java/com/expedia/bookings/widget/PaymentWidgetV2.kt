@@ -49,7 +49,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
 
     lateinit var payWithPointsViewModel: IPayWithPointsViewModel
         @Inject set
-    
+
 override fun onFinishInflate() {
         super.onFinishInflate()
         Ui.getApplication(context).hotelComponent().inject(this)

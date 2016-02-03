@@ -419,12 +419,12 @@
             {
                 "programName": "ExpediaRewards",
                 "payableByPoints": {
-                    "points": 6997,
+                    "points": 6658,
                     "pointsType": "BURN",
                     "amount": {
-                        "amount": "600.00",
-                        "formattedPrice": "$600.00",
-                        "formattedWholePrice": "$600",
+                        "amount": "665.81",
+                        "formattedPrice": "$665.81",
+                        "formattedWholePrice": "$666",
                         "currencyCode": "USD"
                     }
                 }
@@ -434,9 +434,9 @@
             "points": 372,
             "pointsType": "EARN",
             "amount": {
-                "amount": "75.81",
-                "formattedPrice": "$75.81",
-                "formattedWholePrice": "$76",
+                "amount": "10.00",
+                "formattedPrice": "$10.00",
+                "formattedWholePrice": "$10",
                 "currencyCode": "USD"
             }
         }
