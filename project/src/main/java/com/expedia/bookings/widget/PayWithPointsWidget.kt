@@ -2,7 +2,9 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.Switch
@@ -10,8 +12,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.DecimalNumberInputFilter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import android.view.KeyEvent
-import android.view.inputmethod.EditorInfo
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnCheckChanged
@@ -19,6 +19,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import javax.inject.Inject
 
 public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -33,15 +34,6 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
     var payWithPointsViewModel by notNullAndObservable<IPayWithPointsViewModel> { pwpViewModel ->
         pwpViewModel.currencySymbol.subscribeText(currencySymbolView)
         pwpViewModel.totalPointsAndAmountAvailableToRedeem.subscribeText(totalPointsAvailableView)
-        pwpViewModel.pwpConversionResponse.map { it.first }.subscribeText(messageView)
-        pwpViewModel.pwpConversionResponseMessageColor.subscribeTextColor(messageView)
-        clearBtn.subscribeOnClick(pwpViewModel.clearButtonClick)
-        pwpViewModel.updateAmountOfEditText.subscribeText(editAmountView)
-        pwpSwitchView.subscribeOnCheckChanged(pwpViewModel.pwpStateChange)
-
-        subscribeOnClick(endlessObserver {
-            refreshPointsForUpdatedBurnAmount()
-        })
 
         editAmountView.setOnEditorActionListener { textView: android.widget.TextView, actionId: Int, event: KeyEvent? ->
             var handled = false
@@ -52,18 +44,27 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
             handled
         }
 
-        pwpViewModel.pwpStateChange.filter { it }.subscribe {
-            pwpViewModel.amountSubmittedByUser.onNext(editAmountView.text.toString())
+        pwpViewModel.pointsAppliedMessage.map { it.first }.subscribeText(messageView)
+        pwpViewModel.pointsAppliedMessageColor.subscribeTextColor(messageView)
+        clearBtn.subscribeOnClick(pwpViewModel.clearUserEnteredBurnAmount)
+        pwpViewModel.burnAmountUpdate.subscribeText(editAmountView)
+        pwpSwitchView.subscribeOnCheckChanged(pwpViewModel.pwpOpted)
+
+        subscribeOnClick(endlessObserver {
+            refreshPointsForUpdatedBurnAmount()
+        })
+        pwpViewModel.pwpOpted.filter { it }.subscribe {
+            pwpViewModel.userEnteredBurnAmount.onNext(editAmountView.text.toString())
         }
         pwpViewModel.pwpWidgetVisibility.subscribeVisibility(this)
-        pwpViewModel.pwpStateChange.subscribeVisibility(pwpEditBoxContainer)
-        pwpViewModel.pwpStateChange.subscribeVisibility(messageView)
+        pwpViewModel.pwpOpted.subscribeVisibility(pwpEditBoxContainer)
+        pwpViewModel.pwpOpted.subscribeVisibility(messageView)
     }
         @Inject set
 
     fun refreshPointsForUpdatedBurnAmount() {
         if (pwpSwitchView.isChecked) {
-            payWithPointsViewModel.amountSubmittedByUser.onNext(editAmountView.text.toString())
+            payWithPointsViewModel.userEnteredBurnAmount.onNext(editAmountView.text.toString())
             Ui.hideKeyboard(editAmountView)
         }
     }

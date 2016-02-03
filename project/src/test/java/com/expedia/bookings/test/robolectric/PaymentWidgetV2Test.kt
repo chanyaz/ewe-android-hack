@@ -5,22 +5,22 @@ import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.BillingInfo
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.StoredCreditCard
+import com.expedia.bookings.data.TripBucketItemHotelV2
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.ServicesRule
 import com.expedia.bookings.utils.Ui
-import com.expedia.vm.PaymentWidgetViewModel
 import com.expedia.bookings.widget.PaymentWidgetV2
-import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.RoundImageView
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.User
-import com.expedia.bookings.data.StoredCreditCard
-import com.expedia.bookings.data.TripBucketItemHotelV2
-import com.expedia.bookings.data.PaymentType
-import com.expedia.bookings.data.BillingInfo
+import com.expedia.bookings.widget.TextView
+import com.expedia.vm.PaymentWidgetViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -75,8 +75,8 @@ public class PaymentWidgetV2Test {
 
         //When user chooses to pay through card and reward points
         val latch = CountDownLatch(1)
-        paymentModel.currencyToPointsApiResponse.subscribe { latch.countDown() }
-        paymentModel.amountChosenToBePaidWithPointsSubject.onNext(BigDecimal(32))
+        paymentModel.burnAmountToPointsApiResponse.subscribe { latch.countDown() }
+        paymentModel.burnAmountSubject.onNext(BigDecimal(32))
         latch.await(10, TimeUnit.SECONDS)
         setUserWithStoredCard()
         testPaymentTileInfo("Paying with Points & Visa 4111", "Tap to edit", activity.resources.getDrawable(R.drawable.ic_tablet_checkout_visa), View.VISIBLE)

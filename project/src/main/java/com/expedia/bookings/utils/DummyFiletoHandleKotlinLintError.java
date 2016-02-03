@@ -247,7 +247,7 @@ public class
 		R.string.infants_under_two_TEMPLATE,
 		R.string.paying_with_points,
 		R.string.pay_with_point_total_available_TEMPLATE,
-		R.string.user_enters_more_than_points_TEMPLATE,
+		R.string.user_enters_more_than_available_points_TEMPLATE,
 		R.string.user_enters_more_than_trip,
 		R.string.pwp_calculating_points,
 		R.string.pwp_points_applied_TEMPLATE,

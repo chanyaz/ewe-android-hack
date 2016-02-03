@@ -109,6 +109,8 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
         if (expand) {
             paymentButton.bind()
             paymentButton.visibility = if (User.isLoggedIn(context) && !Db.getUser().storedCreditCards.isEmpty()) View.VISIBLE else View.GONE
+        } else {
+            paymentWidgetViewModel.discardPendingCurrencyToPointsAPISubscription.onNext(Unit)
         }
     }
 

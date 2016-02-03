@@ -83,8 +83,8 @@ public class HotelCheckoutOverviewViewModelTest {
 
         //When user chooses to pay through card and reward points
         val latch = CountDownLatch(1)
-        sut.paymentModel.currencyToPointsApiResponse.subscribe { latch.countDown() }
-        sut.paymentModel.amountChosenToBePaidWithPointsSubject.onNext(BigDecimal(32))
+        sut.paymentModel.burnAmountToPointsApiResponse.subscribe { latch.countDown() }
+        sut.paymentModel.burnAmountSubject.onNext(BigDecimal(32))
         latch.await(10, TimeUnit.SECONDS)
 
         paymentSplitsSubscriber.assertValueCount(4)
