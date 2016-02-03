@@ -82,9 +82,9 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
                     .map { it.first.payingWithPoints.amount.amount.toString() })
 
     private val burnAmountEntered = Observable.merge(
-            userEnteredBurnAmount.map { toBigDecimal(it) },
-            pwpOpted.filter { !it }.map { BigDecimal.ZERO },
-            clearUserEnteredBurnAmount.map { BigDecimal.ZERO })
+            userEnteredBurnAmount.map { toBigDecimalWithScale2(it) },
+            pwpOpted.filter { !it }.map { toBigDecimalWithScale2("") },
+            clearUserEnteredBurnAmount.map { toBigDecimalWithScale2("") })
             .withLatestFrom(pointsForComparison, { burnAmount, pointsForComparison ->
                 object {
                     val burnAmount = burnAmount
@@ -140,5 +140,5 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
         burnAmountEntered.subscribe(distinctBurnAmount)
     }
 
-    private fun toBigDecimal(string: String): BigDecimal = if (Strings.isEmpty(string)) BigDecimal.ZERO else BigDecimal(string)
+    private fun toBigDecimalWithScale2(string: String): BigDecimal = (if (Strings.isEmpty(string)) BigDecimal.ZERO else BigDecimal(string)).setScale(2)
 }
