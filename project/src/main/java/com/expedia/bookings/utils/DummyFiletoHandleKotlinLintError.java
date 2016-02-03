@@ -288,6 +288,8 @@ public class
 		R.layout.widget_traveler_calendar_search_v2,
 		R.string.coupon_error_remove_dialog_title,
 		R.string.per_person,
-		R.string.package_hotel_results_toolbar_title_TEMPLATE
+		R.string.package_hotel_results_toolbar_title_TEMPLATE,
+		R.string.in_seat,
+		R.string.in_lap
 	};
 }

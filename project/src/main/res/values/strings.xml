@@ -3870,7 +3870,10 @@
     <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
     <!-- Toolbar text for hotel results -->
     <string name="package_hotel_results_toolbar_title_TEMPLATE">Hotels in %s</string>
-    
+    <!-- Description for infant travelers sitting in lap -->
+    <string name="in_lap">In Lap</string>
+    <!-- Description for infant travelers sitting in seat -->
+    <string name="in_seat">In Seat</string>
     <!-- Package Trip Overview -->
     <string name="trip_overview">Trip Overview</string>
     <!-- Slide to book -->
