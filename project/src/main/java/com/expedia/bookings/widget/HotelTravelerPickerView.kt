@@ -29,7 +29,7 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Fr
     val spinner4: Spinner by bindView(R.id.child_spinner_4)
     val infantPreferenceSeatingView: LinearLayout by bindView(R.id.infant_preference_seating_layout)
     val infantPreferenceSeatingSpinner: Spinner by bindView(R.id.infant_preference_seating)
-    val infantSeatPreferenceOptions = listOf(resources.getString(R.string.in_seats), resources.getString(R.string.in_laps))
+    val infantSeatPreferenceOptions = listOf(resources.getString(R.string.in_seat), resources.getString(R.string.in_lap))
     val childSpinners by lazy {
         listOf(spinner1, spinner2, spinner3, spinner4)
     }
