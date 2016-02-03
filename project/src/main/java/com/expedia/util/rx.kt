@@ -82,6 +82,13 @@ public fun <T : CharSequence> Observable<T>.subscribeTextAndVisibility(textview:
     this.map { it.toString().isNotBlank() }.subscribeVisibility(textview)
 }
 
+public fun <T : CharSequence> Observable<T>.subscribeTextAndVisibilityInvisible(textview: TextView) {
+    this.subscribe {
+        textview.text = it
+    }
+    this.map { it.toString().isNotBlank() }.subscribeVisibilityInvisible(textview)
+}
+
 public fun Observable<Drawable>.subscribeImageDrawable(imageView: ImageView) {
     this.subscribe { drawable -> imageView.setImageDrawable(drawable) }
 }
@@ -117,6 +124,12 @@ public fun Observable<CharSequence>.subscribeToggleButton(togglebutton: ToggleBu
 public fun Observable<Boolean>.subscribeVisibility(view: View) {
     this.subscribe { visible ->
         view.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+}
+
+public fun Observable<Boolean>.subscribeVisibilityInvisible(view: View) {
+    this.subscribe { visible ->
+        view.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }
 }
 

@@ -51,7 +51,7 @@ public class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Pre
     val overViewPresenter: PackageFlightOverviewPresenter by lazy {
         var viewStub = findViewById(R.id.overview_stub) as ViewStub
         var presenter = viewStub.inflate() as PackageFlightOverviewPresenter
-        presenter.viewmodel = FlightOverviewViewModel(context)
+        presenter.vm = FlightOverviewViewModel(context)
         presenter
     }
 
@@ -119,7 +119,7 @@ public class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Pre
     val selectedFlightObserver = object : Observer<FlightLeg> {
         override fun onNext(flight: FlightLeg) {
             show(overViewPresenter)
-            overViewPresenter.viewmodel.selectedFlightLeg.onNext(flight)
+            overViewPresenter.vm.selectedFlightLeg.onNext(flight)
         }
 
         override fun onCompleted() {
