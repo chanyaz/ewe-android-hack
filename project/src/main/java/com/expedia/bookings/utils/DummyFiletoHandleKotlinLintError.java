@@ -343,6 +343,10 @@ DummyFiletoHandleKotlinLintError {
 		R.string.checkout_payment_option_credit_debit_label,
 		R.layout.price_change_widget,
 		R.dimen.layover_bar_text_size,
-		R.layout.bundle_widget
+		R.layout.bundle_widget,
+		R.dimen.airlines_filter_height,
+		R.layout.labeled_checked_filter,
+		R.string.flight_duration_hour_short,
+		R.layout.widget_package_flight_filter
 	};
 }
