@@ -150,8 +150,8 @@ public fun Observable<Boolean>.subscribeEnabled(view: View) {
     this.subscribe { view.isEnabled = it }
 }
 
-public fun Observable<Boolean>.subscribeChecked(toggleButton: ToggleButton) {
-    this.subscribe { toggleButton.isChecked = it }
+public fun Observable<Boolean>.subscribeChecked(compoundButton: CompoundButton) {
+    this.subscribe { compoundButton.isChecked = it }
 }
 
 /**

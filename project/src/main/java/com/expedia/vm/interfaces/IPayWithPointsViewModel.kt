@@ -8,8 +8,10 @@ public interface IPayWithPointsViewModel {
     val userEnteredBurnAmount: PublishSubject<String>
     val pwpOpted: PublishSubject<Boolean>
     val clearUserEnteredBurnAmount: PublishSubject<Unit>
+    val userSignedIn: PublishSubject<Boolean>
 
     //OUTLETS
+    val enablePwPToggle: Observable<Boolean>
     val burnAmountUpdate: Observable<String>
     val pwpWidgetVisibility: Observable<Boolean>
     val totalPointsAndAmountAvailableToRedeem: Observable<String>
