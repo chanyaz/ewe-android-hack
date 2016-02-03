@@ -10,6 +10,7 @@ import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -31,6 +32,7 @@ import com.expedia.vm.HotelResultsViewModel
 import com.google.android.gms.maps.MapView
 import rx.Observable
 import rx.Observer
+import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -167,7 +169,10 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             if (forward) {
                 bundleOverviewWidget.visibility = View.VISIBLE
-                bundleOverviewWidget.viewModel.setTextObservable.onNext(Pair("0.00", context.getString(R.string.per_person)))
+                bundleOverviewWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
+                bundleOverviewWidget.viewModel.perPersonTextLabelObservable.onNext(true)
+                bundleOverviewWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(0),
+                        Db.getPackageResponse().packageResult.packageOfferModels[0].price.packageTotalPrice.currencyCode).formattedMoney, ""))
             } else {
                 bundleOverviewWidget.visibility = View.GONE
             }

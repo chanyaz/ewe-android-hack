@@ -290,6 +290,7 @@ public class
 		R.string.per_person,
 		R.string.package_hotel_results_toolbar_title_TEMPLATE,
 		R.string.in_seat,
-		R.string.in_lap
+		R.string.in_lap,
+		R.string.search_bundle_total_text
 	};
 }

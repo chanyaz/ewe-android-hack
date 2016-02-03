@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.ScrollView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.presenter.VisibilityTransition
@@ -30,6 +31,7 @@ import com.expedia.vm.BundlePriceViewModel
 import com.expedia.vm.BundleFlightViewModel
 import com.expedia.vm.PackageSearchType
 import com.squareup.phrase.Phrase
+import java.math.BigDecimal
 
 public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
     val ANIMATION_DURATION = 450L
@@ -63,21 +65,23 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             }
         }
         vm.flightResultsObservable.subscribe { searchType ->
-            if (searchType == PackageSearchType.OUTBOUND_FLIGHT){
+            if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
                 outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
-            }
-            else{
+            } else {
                 inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
             }
         }
 
         vm.showBundleTotalObservable.subscribe { visible ->
+            var packagePrice = Db.getPackageResponse().packageResult.currentSelectedOffer.price
+
             var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                    .put("savings", Db.getPackageResponse().packageResult.currentSelectedOffer.price.tripSavingsFormatted)
+                    .put("savings", Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
+                            packagePrice.tripSavings.currencyCode).formattedMoney)
                     .format().toString()
             bundleTotalPriceWidget.visibility = if (visible) View.VISIBLE else View.GONE
-            bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Db.getPackageResponse().packageResult.currentSelectedOffer.price.packageTotalPriceFormatted,
-                    packageSavings))
+            bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
+                    packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
         }
     }
 
@@ -91,11 +95,13 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
         vm.tripResponseObservable.subscribe(checkoutPresenter.viewModel.packageTripResponse)
         createTripViewModel.createTripBundleTotalObservable.subscribe { response ->
+            var packageTotalPrice = response.packageDetails.pricing
             var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                    .put("savings", response.packageDetails.pricing.savings.formattedPrice)
+                    .put("savings", Money(BigDecimal(packageTotalPrice.savings.amount.toDouble()),
+                            packageTotalPrice.savings.currencyCode).formattedMoney)
                     .format().toString()
-            bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(response.packageDetails.pricing.packageTotal.formattedWholePrice,
-                    packageSavings))
+            bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packageTotalPrice.packageTotal.amount.toDouble()),
+                    packageTotalPrice.packageTotal.currencyCode).formattedMoney, packageSavings))
         }
     }
 

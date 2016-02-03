@@ -3832,6 +3832,10 @@
     <string name="per_person">per person</string>
     <!-- Label for package search toolbar -->
     <string name="bundle_overview_title">Bundle Overview</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Bundle total</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">View your bundle</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">Flying from</string>
     <!-- Fly to hint -->
