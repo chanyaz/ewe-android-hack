@@ -105,9 +105,10 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     }
 
     init {
-        burnAmountAndLatestTripResponse.filter { !canHandleCurrencyToPointsConversionLocally(it.burnAmount, it.latestTripResponse.maxPayableWithExpediaRewardPoints().amount) }
+        burnAmountAndLatestTripResponse
                 .withLatestFrom(burnAmountToPointsApiSubscriptions, { burnAmountAndLatestTripResponse, burnAmountToPointsApiSubscription -> Pair(burnAmountAndLatestTripResponse, burnAmountToPointsApiSubscription) })
                 .doOnNext { it.second?.unsubscribe() }
+                .filter { !canHandleCurrencyToPointsConversionLocally(it.first.burnAmount, it.first.latestTripResponse.maxPayableWithExpediaRewardPoints().amount) }
                 .map { it.first }
                 .subscribe {
                     val calculatePointsParams = CalculatePointsParams.Builder()
