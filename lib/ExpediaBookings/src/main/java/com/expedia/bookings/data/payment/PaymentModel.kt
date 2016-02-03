@@ -82,8 +82,8 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     //Payment Splits (amount payable by points and by card) to be consumed by clients.
     val paymentSplits: Observable<PaymentSplits> = Observable.merge(
             startingPaymentSplitsFromCreateTrip,
-            couponChangeSubject.map { it.paymentSplitsFromUserPreferenceElseZero() },
-            priceChangeDuringCheckoutSubject.map { it.paymentSplitsFromUserPreferenceElseZero() },
+            couponChangeSubject.map { it.paymentSplitsForPriceChange() },
+            priceChangeDuringCheckoutSubject.map { it.paymentSplitsForPriceChange() },
             burnAmountAndLatestTripResponse.filter { it.burnAmount.compareTo(BigDecimal.ZERO) == 0 }.map { it.latestTripResponse.paymentSplitsWhenZeroPayableWithPoints() },
             burnAmountToPointsApiResponse.map { PaymentSplits(it.conversion!!, it.remainingPayableByCard!!) }
     )
