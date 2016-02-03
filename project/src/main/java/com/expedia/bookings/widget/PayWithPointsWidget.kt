@@ -14,6 +14,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeChecked
 import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
@@ -49,6 +50,7 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         clearBtn.subscribeOnClick(pwpViewModel.clearUserEnteredBurnAmount)
         pwpViewModel.burnAmountUpdate.subscribeText(editAmountView)
         pwpSwitchView.subscribeOnCheckChanged(pwpViewModel.pwpOpted)
+        pwpViewModel.enablePwPToggle.subscribeChecked(pwpSwitchView)
 
         subscribeOnClick(endlessObserver {
             refreshPointsForUpdatedBurnAmount()
