@@ -366,7 +366,7 @@ public class PaymentWidget extends ExpandableCardView {
 		super.setExpanded(expand, animate);
 
 		if (expand) {
-			if ((this instanceof PaymentWidgetV2) || ((WalletUtils.isWalletSupported(lineOfBusiness)
+			if (!directlyNavigateToPaymentDetails() || ((WalletUtils.isWalletSupported(lineOfBusiness)
 				&& !goToPaymentDetails()))) {
 				cardInfoContainer.setVisibility(GONE);
 				paymentOptionsContainer.setVisibility(VISIBLE);
@@ -394,6 +394,10 @@ public class PaymentWidget extends ExpandableCardView {
 			Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 			paymentButton.dismissPopup();
 		}
+	}
+
+	protected boolean directlyNavigateToPaymentDetails() {
+		return true;
 	}
 
 	private boolean goToPaymentDetails() {

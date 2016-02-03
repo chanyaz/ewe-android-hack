@@ -42,6 +42,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
     val pwpWidget: PayWithPointsWidget by bindView(R.id.pwp_widget)
     val rebindRequested = PublishSubject.create<Unit>()
     var paymentSplitsType: PaymentSplitsType by Delegates.notNull()
+    var isExpediaRewardsRedeemable: Boolean = false
 
     var paymentWidgetViewModel by notNullAndObservable<IPaymentWidgetViewModel> {
         it.totalDueToday.subscribeText(totalDueToday)
@@ -52,10 +53,15 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
         Observable.combineLatest(rebindRequested, it.paymentSplitsAndTripResponse) { unit, paymentSplitsAndTripResponse -> paymentSplitsAndTripResponse }
                 .subscribe {
                     bindPaymentTile(it.tripResponse.isExpediaRewardsRedeemable(), it.paymentSplits.paymentSplitsType())
+                    isExpediaRewardsRedeemable = it.tripResponse.isExpediaRewardsRedeemable()
                     paymentSplitsType = it.paymentSplits.paymentSplitsType()
                 }
     }
         @Inject set
+
+    override fun directlyNavigateToPaymentDetails(): Boolean {
+        return !isExpediaRewardsRedeemable && !(User.isLoggedIn(context) && !Db.getUser().storedCreditCards.isEmpty())
+    }
 
     override fun creditCardClicked() {
         presenter.show(CreditCardWidgetExpandedState())
@@ -92,6 +98,13 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
         }
     }
 
+    override fun onMenuButtonPressed() {
+        super.onMenuButtonPressed()
+        if (paymentOptionsContainer.visibility == View.VISIBLE && isComplete) {
+            mToolbarListener?.onWidgetClosed()
+        }
+    }
+
     override fun onFinishInflate() {
         super.onFinishInflate()
         background = null
@@ -117,8 +130,12 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
     override public fun setExpanded(expand: Boolean, animate: Boolean) {
         super.setExpanded(expand, animate)
         if (expand) {
-            paymentButton.bind()
-            paymentButton.visibility = if (User.isLoggedIn(context) && !Db.getUser().storedCreditCards.isEmpty()) View.VISIBLE else View.GONE
+            if (!directlyNavigateToPaymentDetails()) {
+                paymentButton.bind()
+                paymentButton.visibility = if (User.isLoggedIn(context) && !Db.getUser().storedCreditCards.isEmpty()) View.VISIBLE else View.GONE
+                mToolbarListener?.showRightActionButton(true)
+                mToolbarListener?.setMenuLabel(getMenuButtonTitle())
+            }
         } else {
             paymentWidgetViewModel.discardPendingCurrencyToPointsAPISubscription.onNext(Unit)
         }
