@@ -27,10 +27,10 @@ public class PackageFlightResultTest {
     @Test
     fun testFlightTime(){
         vm = PackageFlightViewModel(context, flight)
-        assertEquals(vm.flightTimeObserver.value, "1:10AM - 12:20PM +1d")
+        assertEquals(vm.flightTimeObserver.value, "1:10 am - 12:20 pm +1d")
         flight.elapsedDays = 0
         vm = PackageFlightViewModel(context, flight)
-        assertEquals(vm.flightTimeObserver.value, "1:10AM - 12:20PM")
+        assertEquals(vm.flightTimeObserver.value, "1:10 am - 12:20 pm")
     }
 
     @Test
@@ -86,6 +86,8 @@ public class PackageFlightResultTest {
         flight.durationMinute = 10
         flight.departureTimeShort = "1:10AM"
         flight.arrivalTimeShort = "12:20PM"
+        flight.departureDateTimeISO = "2016-07-10T01:10:00.000-05:00"
+        flight.arrivalDateTimeISO = "2016-07-10T12:20:00.000-07:00"
         flight.stopCount = 1
         flight.packageOfferModel = PackageOfferModel()
         flight.packageOfferModel.price = PackageOfferModel.PackagePrice()
@@ -99,5 +101,4 @@ public class PackageFlightResultTest {
         flight.airlines = airlines
         return flight
     }
-
 }
