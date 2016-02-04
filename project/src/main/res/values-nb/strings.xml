@@ -113,6 +113,8 @@
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">Søk etter hoteller</string>
+    <!-- Label for hotel search v2 toolbar -->
+    <string name="hotel_search_v2_toolbar_title">Hoteller</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">Søk etter sted</string>
     <!-- Label for recent searches -->
@@ -201,8 +203,7 @@
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Veibeskrivelse til %1$s</string>
 
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_credit_debit_label">Kredittkort/debetkort</string>
+    <string name="shortened_checkout_payment_option_credit_debit_label">Kreditt-/debetkort</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Gjestens detaljer</string>
     <!-- Text for Android pay label -->
@@ -215,6 +216,14 @@
     <string name="checkout_hotelsv2_enter_payment_details_line2">Velg betalingstype</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
     <string name="checkout_payment_line2_storedcc">Lagret kort</string>
+    <!-- Text for enter payment details line 1 when paying with pwp only -->
+    <string name="checkout_paying_with_points_only_line1">Betal med poeng</string>
+    <!-- Text for enter payment details line 1 when paying with pwp and Card -->
+    <string name="checkout_paying_with_points_and_card_line1">Betal med poeng og {carddescription}</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_tap_to_edit">Trykk for å endre</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_payment_options">Poeng, kort</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Sveip for å bestille</string>
@@ -735,6 +744,8 @@
     <string name="prices_roundtrip_label">Priser er for tur-retur per person</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Priser er for én vei per person</string>
+    <!-- Label clarifying that the price shown is for a roundtrip flight -->
+    <string name="roundtrip">Tur-retur</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Priser er for tur-retur per person, fra</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -819,7 +830,8 @@
     <string name="infants_in_seats_prompt">Barn med egne seter trenger egne billetter. Søk på nytt på billetter for barn.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">Barn som sitter på fanget trenger ikke sine egne billetter. Søk på nytt med færre billetter.</string>
-
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two_TEMPLATE">Spedbarn under 2 år: %s</string>
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Mellomlandinger</string>
@@ -1024,7 +1036,7 @@
     <!-- Find Itinerary -->
     <string name="find_itinerary">Finn reiserute</string>
     <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">Fant ikke reiseruten. Bekreft at landet (i innstillingene på mobilen) er det samme som versjonen av nettstedet du utførte bestillingen på.</string>
+    <string name="unable_to_find_itinerary">Fant ikke reiseruten. Bekreft at landet (i innstillingene på mobilen) matcher nettstedet du utførte bestillingen på.</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">Finn reiserute for gjest</string>
     <!-- Enter Itinerary Details -->
@@ -1770,6 +1782,7 @@
     <string name="select_payment_callout">Oppgi informasjon</string>
     <!-- Add new card -->
     <string name="add_new_card">Legg til nytt betalingskort</string>
+    <string name="new_credit_debit_card">Nytt kreditt-/debetkort</string>
     <!-- Overview button -->
     <string name="overview_btn">Oversikt</string>
     <!-- Stored Payment label -->
@@ -1804,6 +1817,8 @@
     <string name="your_trip_to_TEMPLATE">Reise til %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Inkluderer skatter og avgifter</string>
+    <!-- Includes taxes, fees, flights+hotels -->
+    <string name="includes_taxes_fees_flights_hotel">Inkluderer skatter, avgifter, fly + hotell</string>
     <!-- Includes taxes (but not necessarily fees) -->
     <string name="includes_taxes">Inkluderer skatter</string>
     <!-- Date and trip from _ to _ -->
@@ -1888,6 +1903,8 @@
     <string name="youll_earn_points_ab_test_3x_TEMPLATE">Tjen %1$s poeng – 3 ganger så mange ved bestilling med appen!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Du vil tjene %1$s poeng for denne reisen!</string>
+    <!-- You are a valued member -->
+    <string name="you_are_a_valued_member">Vi setter pris på deg som medlem!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_points_for_this_trip_TEMPLATE">Du vil tjene %1$s poeng for denne reisen!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2060,6 +2077,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Kredittkortnummer</string>
+    <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
+    <string name="credit_debit_card_hint">Debet-/kredittkortnummer</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Utløpsdato</string>
     <!-- Set expiration date button -->
@@ -2292,7 +2311,17 @@
     <string name="fare_information">PRISINFORMASJON</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">Flyselskapsavgift</string>
-
+    <!-- split ticket rules header -->
+    <string name="split_ticket_important_flight_information_header">Viktig flyinformasjon</string>
+    <!-- split ticket rules and restrictions -->
+    <string name="split_ticket_rules_with_link_TEMPLATE">• Din flyvning er en kombinasjon av to enveisbilletter, hver med separate regler og begrensninger.</string>
+    <string name="split_ticket_rules_with_link_TEMPLATE_tablet">Din flyvning er en kombinasjon av to enveisbilletter, hver med separate regler og begrensninger.</string>
+    <!-- split ticket rules - cancellation policy -->
+    <string name="split_ticket_rules_cancellation_policy">• Hvis én av flyvingene dine endres eller kanselleres, vil ikke den andre flyvningen oppdateres automatisk. Endringer i den andre flyvningen kan medføre at du blir belastet en avgift.</string>
+    <string name="split_ticket_rules_cancellation_policy_tablet">Hvis én av flyvingene dine endres eller kanselleres, vil ikke den andre flyvningen oppdateres automatisk. Endringer i den andre flyvningen kan medføre at du blir belastet en avgift.</string>
+    <!-- split ticket baggage fees -->
+    <string name="split_ticket_baggage_fees">&lt;a href=\"%1$s\"&gt;Avreise-&lt;/a&gt; og &lt;a href=\"%2$s\"&gt;returflyvningene&lt;/a&gt; har separate bagasjeavgifter</string>
+    <string name="split_ticket_baggage_fees_tablet">&lt;a href=\"%1$s\"&gt;Avreise-&lt;/a&gt; og &lt;a href=\"%2$s\"&gt;returflyvningene&lt;/a&gt; har separate bagasjeavgifter</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">Ugyldig sikkerhetskode</string>
@@ -2364,6 +2393,7 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
     <string name="zero">0</string>
+    <!-- The verb "book" as in to make a booking for a hotel room -->
     <string name="book">Bestill</string>
 
     <!-- Highlight view stuff -->
@@ -2389,6 +2419,7 @@
     <string name="See_front_of_card">Se foran på kortet</string>
     <!-- Hint on CVV widget title for where to look for CVV code -->
     <string name="cvv_enter_security_code">Angi sikkerhetskode</string>
+    <string name="cvv_enter_security_code_v2">CVV</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -2836,6 +2867,13 @@
         <item quantity="other">Gjennomsnittspris per natt • %d resultater</item>
     </plurals>
 
+    <!-- Hotel Results Pricing Header - Default -->
+    <plurals name="hotel_results_default_header_TEMPLATE">
+        <item quantity="zero">Ingen resultater</item>
+        <item quantity="one">1 resultat</item>
+        <item quantity="other">%d resultater</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
     <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
         <item quantity="zero">Ingen resultater</item>
@@ -2876,7 +2914,7 @@
     <string name="not_included_in_the_price">Ikke inkludert i prisen</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">Vis rom</string>
-    <!-- Book Room button text -->
+    <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">Bestill</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Del via</string>
@@ -3775,6 +3813,7 @@
     <string name="applied_coupon_message">Kupongen er lagt til: Du sparer %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
     <string name="coupon_error_dialog_title">Kupongen kunne ikke legges til</string>
+    <string name="coupon_error_remove_dialog_title">Fjerning av kupong var mislykket</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Det oppstod et problem med kupongen din. Prøv å angi koden på nytt.</string>
 
@@ -3789,6 +3828,8 @@
 
     <!-- Label for package search toolbar -->
     <string name="package_toolbar_title">Hotell + fly</string>
+    <!-- Label for per person -->
+    <string name="per_person">per person</string>
     <!-- Label for package search toolbar -->
     <string name="bundle_overview_title">Oversikt over pakkereise</string>
     <!-- Fly from hint -->
@@ -3799,14 +3840,67 @@
     <string name="step_one">Trinn 1: Velg hotell</string>
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">Trinn 1: Velg flyvninger</string>
-
-    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
-    <string name="flight_duration_template">%1$d d %2$d t %3$d m (%4$d t mellomlanding)</string>
+    <!-- Package hotel cell: Price Includes flights -->
+    <string name="package_price_include_flights">Prisen inkluderer flyvninger</string>
+    <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
+    <string name="package_overview_flight_travel_info_TEMPLATE">%1$s kl. %2$s, %3$s</string>
+    <!-- Template for package bundle total savings amount -->
+    <string name="bundle_total_savings_TEMPLATE">{savings} spart</string>
+    <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
+    <string name="flight_duration_description_template">%1$s (%2$s)</string>
+    <!-- Flight hour duration template e.g. 12h 42m -->
+    <string name="flight_hour_min_duration_template">%1$d t %2$d m</string>
+    <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_min_duration_template">%1$d m</string>
+    <!-- Flight Nonstop description -->
+    <string name="flight_nonstop_description">Direkte</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$d d</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
-    <string name="flight_departure_arrival_time_template">%1$s–%2$s</string>
-
+    <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
+    <!-- Select flight to template -->
+    <string name="select_flight_to">Velg en flyvning til %1$s</string>
+    <!-- Flight to template -->
+    <string name="flight_to">Flyvning til %1$s</string>
+    <!-- Select return flight -->
+    <string name="select_return_flight">Velg returflyvning</string>
+    <!-- Flight overview - flight to template -->
+    <string name="flight_to_template">Flyvning til %1$s</string>
+    <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
+    <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
+    <!-- Toolbar text for hotel results -->
+    <string name="package_hotel_results_toolbar_title_TEMPLATE">Hoteller i %s</string>
+    <!-- Description for infant travelers sitting in lap -->
+    <string name="in_lap">På fang</string>
+    <!-- Description for infant travelers sitting in seat -->
+    <string name="in_seat">I setet</string>
     <!-- Package Trip Overview -->
     <string name="trip_overview">Reiseoversikt</string>
+    <!-- Slide to book -->
+    <string name="package_slider_text">Sveip for å bestille</string>
+
+    <!-- Pay with points widget -->
+    <string name="paying_with_points">Betal med poeng</string>
+    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} poeng) tilgjengelig</string>
+    <string name="user_enters_more_than_points_TEMPLATE">Poengverdien er høyere enn din tilgjengelige saldo.\nAngi {money} eller mindre.</string>
+    <string name="user_enters_more_than_trip">Poengverdien kan ikke gå over summen som skal betales i dag.</string>
+    <string name="pwp_calculating_points">Kalkulerer poeng…</string>
+    <string name="pwp_points_applied_TEMPLATE">{points} poeng brukt</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Utestående beløp: {money}</string>
+    <string name="pwp_total_due_today_TEMPLATE">Totalbeløp som må betales i dag: {money}</string>
+
+    <!-- Package Flight Overview -->
+    <string name="package_flight_overview_select_flight">Velg denne flyvningen</string>
+
+    <!--Rail search screen title-->
+    <string name="trains">Tog</string>
+
+    <string name="pwp_points_conversion_unauthenticated_access">Beklager, det har oppstått et problem med serveren. Prøv på nytt.</string>
+    <string name="pwp_trip_service_error">Beklager, det har oppstått et problem med serveren. Prøv på nytt.</string>
+    <string name="pwp_unknown_error">Det oppstod en ukjent feil. Prøv på nytt.</string>
+
+    <!-- New Hotel Search screen -->
+    <string name="select_traveler_title">Velg reisende</string>
+    <string name="enter_destination_hint">Angi destinasjon</string>
+
 </resources>

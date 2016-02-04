@@ -113,6 +113,8 @@
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">Recherche d\&apos;hôtels</string>
+    <!-- Label for hotel search v2 toolbar -->
+    <string name="hotel_search_v2_toolbar_title">Hôtels</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">Recherche de destination</string>
     <!-- Label for recent searches -->
@@ -201,8 +203,7 @@
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Itinéraire pour aller à : %1$s</string>
 
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_credit_debit_label">Carte de paiement</string>
+    <string name="shortened_checkout_payment_option_credit_debit_label">Carte de crédit/débit</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Informations du client</string>
     <!-- Text for Android pay label -->
@@ -215,6 +216,14 @@
     <string name="checkout_hotelsv2_enter_payment_details_line2">Sélectionnez un type de paiement</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
     <string name="checkout_payment_line2_storedcc">Carte de paiement enregistrée</string>
+    <!-- Text for enter payment details line 1 when paying with pwp only -->
+    <string name="checkout_paying_with_points_only_line1">Payer avec des points</string>
+    <!-- Text for enter payment details line 1 when paying with pwp and Card -->
+    <string name="checkout_paying_with_points_and_card_line1">Payer avec des points et {carddescription}</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_tap_to_edit">Appuyez pour modifier</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_payment_options">Points, carte de paiement</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Faites glisser pour réserver</string>
@@ -735,6 +744,8 @@
     <string name="prices_roundtrip_label">Prix aller-retour par personne</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Prix aller simple par personne</string>
+    <!-- Label clarifying that the price shown is for a roundtrip flight -->
+    <string name="roundtrip">aller-retour</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Prix aller-retour par personne, à partir de</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -819,7 +830,8 @@
     <string name="infants_in_seats_prompt">Les jeunes enfants assis à un siège ont besoin de leur propre billet. Faisons une nouvelle recherche en incluant les billets des jeunes enfants.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">Les jeunes enfants assis sur les genoux d\&apos;une personne n\&apos;ont pas besoin de leur propre billet. Nous allons entamer une nouvelle recherche avec un plus petit nombre de billets.</string>
-
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two_TEMPLATE">Enfants -2 ans : %s</string>
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Escales</string>
@@ -1024,7 +1036,7 @@
     <!-- Find Itinerary -->
     <string name="find_itinerary">Trouver un voyage</string>
     <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">Impossible de trouver le voyage. Veuillez vous assurer que votre pays (dans Réglages) corresponde à l\&apos;adresse du site où vous avez effectué la réservation.</string>
+    <string name="unable_to_find_itinerary">Impossible de trouver le voyage. Veuillez vous assurer que votre pays (dans Paramètres) corresponde à l\&apos;adresse du site où vous avez effectué la réservation.</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">Trouver un voyage effectué en tant qu\&apos;invité</string>
     <!-- Enter Itinerary Details -->
@@ -1770,6 +1782,7 @@
     <string name="select_payment_callout">Saisir les informations</string>
     <!-- Add new card -->
     <string name="add_new_card">Ajouter une nouvelle carte</string>
+    <string name="new_credit_debit_card">Nouvelle carte de crédit/débit</string>
     <!-- Overview button -->
     <string name="overview_btn">Aperçu</string>
     <!-- Stored Payment label -->
@@ -1804,6 +1817,8 @@
     <string name="your_trip_to_TEMPLATE">Voyage à %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Taxes et frais inclus</string>
+    <!-- Includes taxes, fees, flights+hotels -->
+    <string name="includes_taxes_fees_flights_hotel">Inclut vols + hôtel, taxes et frais</string>
     <!-- Includes taxes (but not necessarily fees) -->
     <string name="includes_taxes">Taxes incluses</string>
     <!-- Date and trip from _ to _ -->
@@ -1888,6 +1903,8 @@
     <string name="youll_earn_points_ab_test_3x_TEMPLATE">Gagnez %1$s en réservant sur l\&apos;appli, soit 3x plus de points !</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Vous gagnerez %1$s points avec cette réservation !</string>
+    <!-- You are a valued member -->
+    <string name="you_are_a_valued_member">Vous faites partie de nos fidèles clients !</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_points_for_this_trip_TEMPLATE">Vous gagnerez %1$s points avec ce voyage !</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2060,6 +2077,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Numéro de carte de paiement</string>
+    <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
+    <string name="credit_debit_card_hint">Numéro de carte de crédit/débit</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Date d\&apos;expiration</string>
     <!-- Set expiration date button -->
@@ -2292,7 +2311,17 @@
     <string name="fare_information">INFORMATIONS SUR LES TARIFS</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">Frais de compagnie aérienne</string>
-
+    <!-- split ticket rules header -->
+    <string name="split_ticket_important_flight_information_header">Informations de vol importantes</string>
+    <!-- split ticket rules and restrictions -->
+    <string name="split_ticket_rules_with_link_TEMPLATE">• Votre vol est une combinaison de deux tarifs aller simple, chacun avec ses règles et restrictions particulières.</string>
+    <string name="split_ticket_rules_with_link_TEMPLATE_tablet">Votre vol est une combinaison de deux tarifs aller simple, chacun avec ses règles et restrictions particulières.</string>
+    <!-- split ticket rules - cancellation policy -->
+    <string name="split_ticket_rules_cancellation_policy">• Tout changement ou annulation de l\&apos;un de vos vols n\&apos;impactera pas automatiquement l\&apos;autre vol. Le changement de l\&apos;autre vol peut entraîner des frais supplémentaires.</string>
+    <string name="split_ticket_rules_cancellation_policy_tablet">Tout changement ou annulation de l\&apos;un de vos vols n\&apos;impactera pas automatiquement l\&apos;autre vol. Le changement de l\&apos;autre vol peut entraîner des frais supplémentaires.</string>
+    <!-- split ticket baggage fees -->
+    <string name="split_ticket_baggage_fees">• Des frais de bagages distincts s\&apos;appliquent aux vols &lt;a href=\"%1$s\"&gt;Aller&lt;/a&gt; et &lt;a href=\"%2$s\"&gt;Retour&lt;/a&gt;.</string>
+    <string name="split_ticket_baggage_fees_tablet">Des frais de bagages distincts s\&apos;appliquent aux vols &lt;a href=\"%1$s\"&gt;Aller&lt;/a&gt; et &lt;a href=\"%2$s\"&gt;Retour&lt;/a&gt;.</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">Code de sécurité non valide</string>
@@ -2364,6 +2393,7 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
     <string name="zero">0</string>
+    <!-- The verb "book" as in to make a booking for a hotel room -->
     <string name="book">Réserver</string>
 
     <!-- Highlight view stuff -->
@@ -2389,6 +2419,7 @@
     <string name="See_front_of_card">Voir au recto de la carte</string>
     <!-- Hint on CVV widget title for where to look for CVV code -->
     <string name="cvv_enter_security_code">Saisissez le cryptogramme</string>
+    <string name="cvv_enter_security_code_v2">CVV</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -2651,7 +2682,7 @@
     <!-- Recommended string shown in hotel details -->
     <string name="x_percent_guests_recommend">%2.0f%% de nos clients recommandent cet hôtel.</string>
     <!-- new material Hotel results cell guest rating -->
-    <string name="customer_rating_percent_Template">{rating}{percent}</string>
+    <string name="customer_rating_percent_Template">{rating} {percent}</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">sur 5 - avis clients</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -2836,6 +2867,13 @@
         <item quantity="other">Prix moyen par nuit • %d résultats</item>
     </plurals>
 
+    <!-- Hotel Results Pricing Header - Default -->
+    <plurals name="hotel_results_default_header_TEMPLATE">
+        <item quantity="zero">Aucun résultat</item>
+        <item quantity="one">1 résultat</item>
+        <item quantity="other">%d résultats</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
     <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
         <item quantity="zero">Aucun résultat</item>
@@ -2876,7 +2914,7 @@
     <string name="not_included_in_the_price">Non inclus dans le prix</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">Voir la chambre</string>
-    <!-- Book Room button text -->
+    <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">Réserver</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Partager via</string>
@@ -3775,6 +3813,7 @@
     <string name="applied_coupon_message">La réduction a été appliquée : vous avez économisé %1$s !</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
     <string name="coupon_error_dialog_title">Impossible d\&apos;appliquer le bon de réduction.</string>
+    <string name="coupon_error_remove_dialog_title">Échec du retrait du bon</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Un problème est survenu avec votre bon de réduction. Veuillez le saisir à nouveau.</string>
 
@@ -3789,6 +3828,8 @@
 
     <!-- Label for package search toolbar -->
     <string name="package_toolbar_title">Hôtel + Vol</string>
+    <!-- Label for per person -->
+    <string name="per_person">par personne</string>
     <!-- Label for package search toolbar -->
     <string name="bundle_overview_title">Formules</string>
     <!-- Fly from hint -->
@@ -3799,14 +3840,67 @@
     <string name="step_one">Étape 1 : sélectionnez l\&apos;hôtel</string>
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">Étape 2 : sélectionnez les vols</string>
-
-    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
-    <string name="flight_duration_template">%1$d j %2$d h %3$d m (escale de %4$d h )</string>
+    <!-- Package hotel cell: Price Includes flights -->
+    <string name="package_price_include_flights">Le prix inclut les vols</string>
+    <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
+    <string name="package_overview_flight_travel_info_TEMPLATE">%1$s à %2$s, %3$s</string>
+    <!-- Template for package bundle total savings amount -->
+    <string name="bundle_total_savings_TEMPLATE">{savings} économisés</string>
+    <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
+    <string name="flight_duration_description_template">%1$s (%2$s)</string>
+    <!-- Flight hour duration template e.g. 12h 42m -->
+    <string name="flight_hour_min_duration_template">%1$dh %2$dm</string>
+    <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_min_duration_template">%1$dm</string>
+    <!-- Flight Nonstop description -->
+    <string name="flight_nonstop_description">Direct</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s + %3$d j</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
-
+    <!-- Select flight to template -->
+    <string name="select_flight_to">Sélectionnez un vol vers %1$s</string>
+    <!-- Flight to template -->
+    <string name="flight_to">Vol vers %1$s</string>
+    <!-- Select return flight -->
+    <string name="select_return_flight">Sélectionnez votre vol de retour</string>
+    <!-- Flight overview - flight to template -->
+    <string name="flight_to_template">Vol vers %1$s</string>
+    <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
+    <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
+    <!-- Toolbar text for hotel results -->
+    <string name="package_hotel_results_toolbar_title_TEMPLATE">Hôtels à %s</string>
+    <!-- Description for infant travelers sitting in lap -->
+    <string name="in_lap">Sur des genoux</string>
+    <!-- Description for infant travelers sitting in seat -->
+    <string name="in_seat">Avec siège réservé</string>
     <!-- Package Trip Overview -->
     <string name="trip_overview">Récapitulatif du voyage</string>
+    <!-- Slide to book -->
+    <string name="package_slider_text">Faites glisser pour réserver</string>
+
+    <!-- Pay with points widget -->
+    <string name="paying_with_points">Payer avec des points</string>
+    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} points) disponibles</string>
+    <string name="user_enters_more_than_points_TEMPLATE">La valeur des points est supérieure à votre solde actuel.\nVeuillez saisir {money} ou moins.</string>
+    <string name="user_enters_more_than_trip">La valeur des points ne peut pas être supérieure au montant du paiement à régler aujourd\&apos;hui.</string>
+    <string name="pwp_calculating_points">Calcul des points…</string>
+    <string name="pwp_points_applied_TEMPLATE">{points} points appliqués</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Solde restant à payer : {money}</string>
+    <string name="pwp_total_due_today_TEMPLATE">Total dû aujourd\&apos;hui : {money}</string>
+
+    <!-- Package Flight Overview -->
+    <string name="package_flight_overview_select_flight">Sélectionnez ce vol</string>
+
+    <!--Rail search screen title-->
+    <string name="trains">Trains</string>
+
+    <string name="pwp_points_conversion_unauthenticated_access">Désolés, un problème technique est survenu. Veuillez réessayer.</string>
+    <string name="pwp_trip_service_error">Désolés, un problème technique est survenu. Veuillez réessayer.</string>
+    <string name="pwp_unknown_error">Une erreur inconnue s\&apos;est produite. Veuillez réessayer.</string>
+
+    <!-- New Hotel Search screen -->
+    <string name="select_traveler_title">Sélectionnez un voyageur</string>
+    <string name="enter_destination_hint">Saisissez la destination</string>
+
 </resources>
