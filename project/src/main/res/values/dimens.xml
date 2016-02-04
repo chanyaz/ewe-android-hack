@@ -355,5 +355,7 @@
     <dimen name="search_form_margin">9dp</dimen>
     <!-- Recent Search item height -->
     <dimen name="recent_search_item_height">55dp</dimen>
+    <dimen name="package_bundle_scroll_view_padding">200dp</dimen>
+
 
 </resources>

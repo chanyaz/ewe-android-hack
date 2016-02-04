@@ -75,6 +75,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		assertBundlePrice("$2,538.62", "Bundle total");
 		onView(allOf(withId(R.id.bundle_total_savings), withText("$56.50 Saved"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.per_person_text))).check(matches(not(isDisplayed())));
+		assertCheckoutOverview();
 
 		PackageScreen.checkout().perform(click());
 
@@ -84,6 +85,13 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		Common.delay(1);
 
 		PackageScreen.itin().check(matches(withText("1126420960431")));
+	}
+
+	private void assertCheckoutOverview() {
+		onView(allOf(withId(R.id.destination), withText("Detroit, USA"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.check_in_out_dates), withText("Feb 02, 2016 - Feb 04, 2016"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.step_one_text), withText("Hotel in Detroit - 1 room, 2 nights"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.step_two_text), withText("Flights - SFO to DTW, round trip"))).check(matches(isDisplayed()));
 	}
 
 	private void assertBundlePrice(String price, String totalText) {

@@ -3878,10 +3878,16 @@
     <string name="in_lap">In Lap</string>
     <!-- Description for infant travelers sitting in seat -->
     <string name="in_seat">In Seat</string>
+    <!-- Label for flights on checkout overview of Packages -->
+    <string name="flight_checkout_overview_TEMPLATE">Flights - {origin} to {destination}, round trip</string>
+    <!-- Label for hotel on checkout overview of Packages -->
+    <string name="hotel_checkout_overview_TEMPLATE">Hotel in {city} - {rooms} room, {nights} nights</string>
     <!-- Package Trip Overview -->
     <string name="trip_overview">Trip Overview</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Slide to book</string>
+    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
+
 
     <!-- Pay with points widget -->
     <string name="paying_with_points">Paying with points</string>
