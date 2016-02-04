@@ -29,10 +29,38 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/select_flight_button"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:text="@string/package_flight_overview_select_flight" />
+        android:background="@color/rail_primary_color">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/bundle_price_label"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:gravity="left"
+            android:text="@string/package_flight_overview_bundle_total_label"
+            android:textColor="@android:color/white" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/bundle_price"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_toRightOf="@id/bundle_price_label"
+            android:gravity="right"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/select_flight_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/bundle_price_label"
+            android:background="@color/packages_primary_color"
+            android:text="@string/package_flight_overview_select_flight"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
 </merge>

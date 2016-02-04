@@ -3903,6 +3903,8 @@
 
     <!-- Package Flight Overview -->
     <string name="package_flight_overview_select_flight">Select this Flight</string>
+    <string name="package_flight_overview_bundle_total_label">Bundle Total</string>
+    <string name="package_flight_overview_per_person_TEMPLATE">{money}/person</string>
 
     <!--Rail search screen title-->
     <string name="trains">Trains</string>

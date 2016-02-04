@@ -58,6 +58,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		Common.delay(1);
 
 		PackageScreen.selectFlight(0);
+		assertBundlePriceInFlight("$3,864");
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
 
@@ -69,6 +70,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		Common.delay(1);
 
 		PackageScreen.selectFlight(0);
+		assertBundlePriceInFlight("$4,212");
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
 
@@ -98,6 +100,11 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(allOf(withId(R.id.bundle_total_text), withText(totalText))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_includes_text), withText("Includes taxes, fees, flights + hotel"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_price), withText(price))).check(matches(isDisplayed()));
+	}
+
+	private void assertBundlePriceInFlight(String price) {
+		onView(allOf(withId(R.id.bundle_price_label), withText("Bundle Total"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.bundle_price), withText(price + "/person"))).check(matches(isDisplayed()));
 	}
 
 }
