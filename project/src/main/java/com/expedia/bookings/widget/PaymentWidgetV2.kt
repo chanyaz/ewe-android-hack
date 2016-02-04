@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import butterknife.OnClick
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -27,7 +28,6 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel
 import com.squareup.phrase.Phrase
-import butterknife.OnClick
 import rx.Observable
 import rx.subjects.PublishSubject
 import javax.inject.Inject
@@ -104,9 +104,21 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
     }
 
     override fun onMenuButtonPressed() {
-        super.onMenuButtonPressed()
-        if (paymentOptionsContainer.visibility == View.VISIBLE && isComplete) {
-            mToolbarListener?.onWidgetClosed()
+        if (billingInfoContainer.visibility == View.VISIBLE) {
+            val hasStoredCard = hasStoredCard()
+            val billingIsValid = !hasStoredCard && sectionBillingInfo.performValidation()
+            val postalIsValid = !hasStoredCard && sectionLocation.performValidation()
+            if (hasStoredCard || (billingIsValid && postalIsValid)) {
+                if (shouldShowSaveDialog()) {
+                    showSaveBillingInfoDialog()
+                } else if (directlyNavigateToPaymentDetails()) {
+                    isExpanded = false
+                } else {
+                    mToolbarListener.onWidgetClosed()
+                }
+            }
+        } else if (paymentOptionsContainer.visibility == View.VISIBLE && isComplete) {
+            isExpanded = false
         }
     }
 

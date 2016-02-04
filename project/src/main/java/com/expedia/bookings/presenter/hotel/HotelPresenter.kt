@@ -12,8 +12,8 @@ import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -151,7 +151,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.hotelCheckoutViewModel.checkoutParams.subscribe {
             checkoutDialog.show()
         }
-        presenter.hotelCheckoutWidget.slideAllTheWayObservable.subscribe {
+        presenter.hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(paymentModel.paymentSplitsAndLatestTripResponse) { unit, paymentSplitsAndLatestTripResponse ->
+            paymentSplitsAndLatestTripResponse.isCardRequired()
+        }.filter { it }.subscribe {
             checkoutDialog.hide()
         }
 
