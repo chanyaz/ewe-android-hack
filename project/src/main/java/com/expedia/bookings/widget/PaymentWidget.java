@@ -610,13 +610,13 @@ public class PaymentWidget extends ExpandableCardView {
 		return sectionBillingInfo.getBillingInfo() != null && sectionBillingInfo.getBillingInfo().hasStoredCard();
 	}
 
-	private boolean shouldShowSaveDialog() {
+	protected boolean shouldShowSaveDialog() {
 		return lineOfBusiness == LineOfBusiness.HOTELSV2 && User.isLoggedIn(getContext()) && !sectionBillingInfo
 			.getBillingInfo().getSaveCardToExpediaAccount() && workingBillingInfoChanged()
 			&& Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() == null;
 	}
 
-	private void showSaveBillingInfoDialog() {
+	protected void showSaveBillingInfoDialog() {
 		AlertDialog dialog = new AlertDialog.Builder(getContext())
 			.setTitle(R.string.save_billing_info)
 			.setCancelable(false)
@@ -624,12 +624,22 @@ public class PaymentWidget extends ExpandableCardView {
 			.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
 					sectionBillingInfo.getBillingInfo().setSaveCardToExpediaAccount(true);
-					setExpanded(false);
+					if (directlyNavigateToPaymentDetails()) {
+						setExpanded(false);
+					}
+					else {
+						mToolbarListener.onWidgetClosed();
+					}
 				}
 			}).setNegativeButton(R.string.no_thanks, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
 					sectionBillingInfo.getBillingInfo().setSaveCardToExpediaAccount(false);
-					setExpanded(false);
+					if (directlyNavigateToPaymentDetails()) {
+						setExpanded(false);
+					}
+					else {
+						mToolbarListener.onWidgetClosed();
+					}
 				}
 			}).create();
 		dialog.show();
