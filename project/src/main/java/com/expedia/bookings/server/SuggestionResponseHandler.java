@@ -81,6 +81,9 @@ public class SuggestionResponseHandler extends JsonResponseHandler<SuggestionRes
 					else if (searchType.equals("POI")) {
 						suggestion.setSearchType(SearchType.POI);
 					}
+					else if (searchType.equals("METROCODE")) {
+						suggestion.setSearchType(SearchType.METROCODE);
+					}
 					else if (!TextUtils.isEmpty(searchType)) {
 						Log.w("Unknown suggest search type: \"" + searchType + "\"");
 						unknown = true;
