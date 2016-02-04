@@ -1,20 +1,29 @@
 package com.expedia.bookings.test.phone.flights
 
-import com.expedia.bookings.test.espresso.FlightTestCase
+import android.support.test.espresso.Espresso.onView
+import android.support.test.espresso.action.ViewActions.click
+import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
+import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.espresso.matcher.ViewMatchers.withText
+import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.test.espresso.AbacusTestUtils
 import com.expedia.bookings.test.espresso.Common
+import com.expedia.bookings.test.espresso.FlightTestCase
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightLegScreen
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsScreen
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen
 import org.joda.time.LocalDate
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
-import android.support.test.espresso.matcher.ViewMatchers.withText
-import android.support.test.espresso.matcher.ViewMatchers.withId
-import com.expedia.bookings.R
-import android.support.test.espresso.action.ViewActions.click
 
 public class FlightSplitTicketRulesTest : FlightTestCase() {
+
+    @Throws(Throwable::class)
+    override fun runTest() {
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightSplitTicketing,
+                AbacusUtils.DefaultVariate.BUCKETED.ordinal)
+        super.runTest()
+    }
 
     fun testRulesAndRestrictions() {
         FlightsSearchScreen.enterDepartureAirport("SFO")

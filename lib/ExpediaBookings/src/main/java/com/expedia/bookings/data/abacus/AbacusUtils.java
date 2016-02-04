@@ -42,6 +42,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelCKOCreditDebitTest = 9642;
 	public static final int EBAndroidAppFlightsRoundtripMessageTest = 9636;
 	public static final int EBAndroidAppHotelSearchDomainV2 = 9707;
+	public static final int EBAndroidAppFlightSplitTicketing = 9774;
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -115,6 +116,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelCKOCreditDebitTest);
 		testIDs.add(EBAndroidAppFlightsRoundtripMessageTest);
 		testIDs.add(EBAndroidAppHotelSearchDomainV2);
+		testIDs.add(EBAndroidAppFlightSplitTicketing);
 		return testIDs;
 	}
 

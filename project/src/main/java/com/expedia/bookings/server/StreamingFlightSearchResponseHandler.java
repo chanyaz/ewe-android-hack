@@ -1,18 +1,10 @@
 package com.expedia.bookings.server;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.GZIPInputStream;
-
 import android.content.Context;
 import android.text.TextUtils;
 
 import com.expedia.bookings.BuildConfig;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightSegmentAttributes;
@@ -22,6 +14,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.ServerError.ApiMethod;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -31,6 +24,15 @@ import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
 import com.squareup.okhttp.Response;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.GZIPInputStream;
+
 /**
  * A streaming flight search results parser.
  * <p/>
@@ -39,6 +41,8 @@ import com.squareup.okhttp.Response;
 public class StreamingFlightSearchResponseHandler implements ResponseHandler<FlightSearchResponse> {
 
 	private boolean mIsRelease = false;
+	private boolean isSplitTicketingEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSplitTicketing);
+
 
 	private FlightSearchResponse mResponse;
 
@@ -130,7 +134,10 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 				reader.beginArray();
 				while (!reader.peek().equals(JsonToken.END_ARRAY)) {
 					FlightTrip trip = readTrip(reader);
-					mResponse.addTrip(trip);
+					// if split ticket enabled add all results otherwise just add non split ticket results
+					if (isSplitTicketingEnabled || !trip.isSplitTicket()) {
+						mResponse.addTrip(trip);
+					}
 				}
 				reader.endArray();
 			}
@@ -409,6 +416,9 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 			}
 			else if (name.equals("isPassportNeeded")) {
 				trip.setPassportNeeded(reader.nextBoolean());
+			}
+			else if (name.equals("isSplitTicket")) {
+				trip.setSplitTicket(reader.nextBoolean());
 			}
 			else {
 				reader.skipValue();
