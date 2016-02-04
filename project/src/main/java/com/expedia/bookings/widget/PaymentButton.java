@@ -54,6 +54,8 @@ public class PaymentButton extends LinearLayout {
 		void onAddNewCreditCardSelected();
 
 		void onStoredCreditCardChosen(StoredCreditCard card);
+
+		void onTemporarySavedCreditCardChosen(BillingInfo info);
 	}
 
 	@Override
@@ -92,7 +94,13 @@ public class PaymentButton extends LinearLayout {
 						return;
 					}
 					StoredCreditCard card = mStoredCreditCardAdapter.getItem(position);
-					if (card != null && card.isSelectable()) {
+					if (mStoredCreditCardAdapter.isTemporarilySavedCard(position)) {
+						Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(Db.getTemporarilySavedCard());
+						Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
+						mStoredCardPopup.dismiss();
+						mPaymentButtonListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard());
+					}
+					else if (card != null && card.isSelectable()) {
 
 						// Don't allow selection of invalid card types.
 						boolean isValidCard = Db.getTripBucket().getItem(lineOfBusiness)

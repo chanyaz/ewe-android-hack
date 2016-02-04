@@ -226,6 +226,8 @@
     <string name="checkout_payment_options">Credit card, pay with points</string>
     <!--Text for selected card -->
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
+    <!--Text for selecting user manually stored card -->
+    <string name="temporarily_saved_card_TEMPLATE">Saved {cardtype} …{cardno}</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Slide to reserve</string>
