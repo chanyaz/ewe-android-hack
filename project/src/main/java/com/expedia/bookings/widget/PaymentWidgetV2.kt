@@ -143,7 +143,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
                 mToolbarListener?.setMenuLabel(getMenuButtonTitle())
             }
         } else {
-            paymentWidgetViewModel.discardPendingCurrencyToPointsAPISubscription.onNext(Unit)
+            paymentWidgetViewModel.navigatingBackToCheckoutScreen.onNext(Unit)
         }
     }
 

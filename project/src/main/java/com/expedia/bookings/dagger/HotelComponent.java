@@ -9,6 +9,7 @@ import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.widget.CouponWidget;
 import com.expedia.bookings.widget.PayWithPointsWidget;
 import com.expedia.bookings.widget.PaymentWidgetV2;
+import com.expedia.vm.interfaces.IPayWithPointsViewModel;
 
 import dagger.Component;
 
@@ -24,4 +25,5 @@ public interface HotelComponent {
 
 	SuggestionV4Services suggestionsService();
 	ReviewsServices reviewsServices();
+	IPayWithPointsViewModel payWithPointsViewModel();
 }

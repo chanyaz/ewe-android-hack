@@ -9,10 +9,12 @@ import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.utils.Strings
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
+import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
+import java.text.NumberFormat
 
 public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>, val resources: Resources) : IPayWithPointsViewModel {
     //ERROR MESSAGING
@@ -36,7 +38,7 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
 
     //POINTS APPLIED MESSAGING
     private fun pointsAppliedMessage(paymentSplits: PaymentSplits) = Phrase.from(resources, R.string.pwp_points_applied_TEMPLATE)
-            .put("points", paymentSplits.payingWithPoints.points)
+            .put("points", NumberFormat.getInstance().format(paymentSplits.payingWithPoints.points))
             .format().toString()
 
     //INLETS
@@ -49,7 +51,7 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
     override val totalPointsAndAmountAvailableToRedeem = paymentModel.tripResponses.filter { it.isExpediaRewardsRedeemable() }.map {
         Phrase.from(resources.getString(R.string.pay_with_point_total_available_TEMPLATE))
                 .put("money", it.getPointDetails(ProgramName.ExpediaRewards)!!.totalAvailable.amount.formattedMoneyFromAmountAndCurrencyCode)
-                .put("points", it.getPointDetails(ProgramName.ExpediaRewards)!!.totalAvailable.points)
+                .put("points", NumberFormat.getInstance().format(it.getPointDetails(ProgramName.ExpediaRewards)!!.totalAvailable.points))
                 .format().toString()
     }
 
@@ -61,6 +63,8 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
     private val updatePwPToggleOnNewTrip = paymentModel.createTripSubject.map { it.isExpediaRewardsRedeemable() }
     override val userSignedIn = PublishSubject.create<Boolean>()
     override val enablePwPToggle = Observable.merge(userSignedIn, updatePwPToggleOnNewTrip)
+
+    override val navigatingBackToCheckoutScreen = PublishSubject.create<Unit>()
 
     //Critical to absorb tripResponses here as a trip can shift from redeemable to non-redeemable and vice-versa in case of Apply/Remove Coupon and Price Change on Checkout!
     override val pwpWidgetVisibility = paymentModel.tripResponses.map { it.isExpediaRewardsRedeemable() }
@@ -74,14 +78,20 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
     override val burnAmountUpdate = Observable.merge(
             startingPaymentSplits.map { it.toString() },
             clearUserEnteredBurnAmount.map { "" },
+            userEnteredBurnAmount.filter { !Strings.isEmpty(it) && !Strings.equals(toBigDecimalWithScale2(it).toString(), it) }. map { toBigDecimalWithScale2(it).toString() },
             //Update textbox to restoredPaymentSplits in case of discarded api call and toggle is on
             paymentModel.restoredPaymentSplitsInCaseOfDiscardedApiCall.withLatestFrom(pwpOpted, { paymentSplits, pwpOpted ->
                 Pair(paymentSplits, pwpOpted)
             })
                     .filter { it.second }
-                    .map { it.first.payingWithPoints.amount.amount.toString() })
+                    .map { it.first.payingWithPoints.amount.amount }
+                    .map { if(it.compareTo(BigDecimal.ZERO) == 0) "" else it.toString() }
+    )
 
-    private val burnAmountEntered = Observable.merge(
+    private val distinctBurnAmountEntered = PublishSubject.create<BigDecimal>()
+    //Intermediate Stream to ensure side-effects like `doOnNext` execute only once even if the stream is subscribe to multiple times!
+    //This Intermediate Stream is ultimately poured into `burnAmountEntered` which the clients can absorb.
+    private val distinctBurnAmountEnteredIntermediateStream = Observable.merge(
             userEnteredBurnAmount.map { toBigDecimalWithScale2(it) },
             pwpOpted.filter { !it }.map { toBigDecimalWithScale2("") },
             clearUserEnteredBurnAmount.map { toBigDecimalWithScale2("") })
@@ -95,9 +105,7 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
             .map { it.burnAmount }
             .doOnNext { pointsForComparison.onNext(it) }
 
-    private val distinctBurnAmount = PublishSubject.create<BigDecimal>()
-
-    private val burnAmountAndLatestTripTotalFacade = distinctBurnAmount
+    private val burnAmountAndLatestTripTotalFacade = distinctBurnAmountEntered
             .withLatestFrom(paymentModel.tripResponses, { burnAmount, tripResponse ->
                 object {
                     val burnAmount = burnAmount
@@ -136,8 +144,10 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
         paymentModel.restoredPaymentSplitsInCaseOfDiscardedApiCall.map { it.payingWithPoints.amount.amount }.subscribe(pointsForComparison)
 
         //Send it off to the Model!
-        distinctBurnAmount.subscribe(paymentModel.burnAmountSubject)
-        burnAmountEntered.subscribe(distinctBurnAmount)
+        distinctBurnAmountEntered.subscribe(paymentModel.burnAmountSubject)
+        navigatingBackToCheckoutScreen.subscribe(paymentModel.discardPendingCurrencyToPointsAPISubscription)
+
+        distinctBurnAmountEnteredIntermediateStream.subscribe(distinctBurnAmountEntered)
     }
 
     private fun toBigDecimalWithScale2(string: String): BigDecimal = (if (Strings.isEmpty(string)) BigDecimal.ZERO else BigDecimal(string)).setScale(2)

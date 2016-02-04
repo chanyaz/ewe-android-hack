@@ -20,6 +20,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.bookings.widget.RoundImageView
 import com.expedia.bookings.widget.TextView
+import com.expedia.vm.PayWithPointsViewModel
 import com.expedia.vm.PaymentWidgetViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -57,7 +58,8 @@ public class PaymentWidgetV2Test {
         sut = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
 
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        sut.paymentWidgetViewModel = PaymentWidgetViewModel(paymentModel, activity.application.resources)
+        val payWithPointsViewModel = PayWithPointsViewModel(paymentModel, activity.application.resources)
+        sut.paymentWidgetViewModel = PaymentWidgetViewModel(activity.application, paymentModel, payWithPointsViewModel)
 
         paymentTileInfo = sut.findViewById(R.id.card_info_name) as TextView
         paymentTileOption = sut.findViewById(R.id.card_info_expiration) as TextView

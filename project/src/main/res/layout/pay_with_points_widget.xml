@@ -35,7 +35,7 @@
             android:id="@+id/pwp_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="true" />
+            android:checked="false" />
 
     </LinearLayout>
 
@@ -55,6 +55,7 @@
 
         <EditText
             android:id="@id/edit_amount_view"
+            android:cursorVisible="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
