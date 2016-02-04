@@ -34,6 +34,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.enums.CheckoutState;
@@ -139,6 +140,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private SingleStateListener<CheckoutFormState> mTravelerOpenCloseListener;
 
 	private StateManager<CheckoutFormState> mStateManager = new StateManager<>(CheckoutFormState.OVERVIEW, this);
+	private boolean isSplitTicketingEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSplitTicketing);
 
 	public static TabletCheckoutFormsFragment newInstance() {
 		return new TabletCheckoutFormsFragment();
@@ -509,7 +511,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			setupCardFeeTextView();
 		}
 
-		if (getLob() == LineOfBusiness.FLIGHTS) {
+		if (getLob() == LineOfBusiness.FLIGHTS && isSplitTicketingEnabled) {
 			if (mSplitTicketRulesView == null) {
 				mSplitTicketRulesView = Ui.inflate(R.layout.include_split_ticket_fee_rules_tv, mCheckoutRowsC, false);
 				mSplitTicketFeeLinks = (TextView) mSplitTicketRulesView.findViewById(R.id.split_ticket_fee_rules_text);
@@ -637,7 +639,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	}
 
 	private void updateSplitTicketRulesText() {
-		if (mSplitTicketRulesView != null && Db.getTripBucket().getFlight().getItineraryResponse().isSplitTicket()) {
+		if (mSplitTicketRulesView != null && Db.getTripBucket().getFlight().getItineraryResponse().isSplitTicket() && isSplitTicketingEnabled) {
 			mSplitTicketRulesView.setVisibility(View.VISIBLE);
 			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
 			String baggageFeesUrlLegOne = flightTrip.getLeg(0).getBaggageFeesUrl();

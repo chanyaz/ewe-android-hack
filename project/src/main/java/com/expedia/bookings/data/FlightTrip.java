@@ -1,15 +1,5 @@
 package com.expedia.bookings.data;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.joda.time.DateTime;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,6 +13,16 @@ import com.expedia.bookings.utils.GsonUtil;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.flightlib.data.Flight;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class FlightTrip implements JSONable {
 
@@ -43,6 +43,7 @@ public class FlightTrip implements JSONable {
 	private Money mFees;
 
 	private boolean isPassportNeeded;
+	private boolean isSplitTicket;
 
 	// For price changes
 	private Money mOldTotalFare;
@@ -371,6 +372,14 @@ public class FlightTrip implements JSONable {
 
 	public boolean isPassportNeeded() {
 		return isPassportNeeded;
+	}
+
+	public void setSplitTicket(boolean splitTicket) {
+		isSplitTicket = splitTicket;
+	}
+
+	public boolean isSplitTicket() {
+		return isSplitTicket;
 	}
 
 	/**
