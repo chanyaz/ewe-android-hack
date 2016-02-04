@@ -9,7 +9,6 @@ import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.utils.Strings
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
-import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.subjects.PublishSubject
@@ -60,9 +59,9 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
     }
     //MESSAGING END
 
-    private val updatePwPToggleOnNewTrip = paymentModel.createTripSubject.map { it.isExpediaRewardsRedeemable() }
+    private val enablePwPToggleOnRedeemableNewTrip = paymentModel.createTripSubject.filter { it.isExpediaRewardsRedeemable() }.map { true }
     override val userSignedIn = PublishSubject.create<Boolean>()
-    override val enablePwPToggle = Observable.merge(userSignedIn, updatePwPToggleOnNewTrip)
+    override val enablePwPToggle = Observable.merge(userSignedIn, enablePwPToggleOnRedeemableNewTrip)
 
     override val navigatingBackToCheckoutScreen = PublishSubject.create<Unit>()
 
