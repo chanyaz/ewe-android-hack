@@ -322,10 +322,10 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         val firstHotelRoomResponse = response.hotelRoomResponse?.firstOrNull()
         if (firstHotelRoomResponse != null) {
             val rate = firstHotelRoomResponse.rateInfo.chargeableRateInfo
-            onlyShowTotalPrice.onNext(firstHotelRoomResponse.rateInfo.chargeableRateInfo.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
+            onlyShowTotalPrice.onNext(rate.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
             pricePerNightObservable.onNext(Money(BigDecimal(rate.averageRate.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
-            hotelDetailsBundleTotalObservable.onNext(Pair(Money(BigDecimal(rate.priceToShowUsers.toDouble()), rate.currencyCode).formattedMoney, ""))
-            totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).formattedMoney)
+            hotelDetailsBundleTotalObservable.onNext(Pair(Money(BigDecimal(rate.priceToShowUsers.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL), ""))
+            totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
         }
 
