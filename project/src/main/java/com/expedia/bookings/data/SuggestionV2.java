@@ -41,7 +41,8 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 		ATTRACTION,
 		AIRPORT,
 		HOTEL,
-		POI
+		POI,
+		METROCODE
 	}
 
 	/**
