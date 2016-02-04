@@ -203,7 +203,7 @@
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Directions to %1$s</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
-    <string name="shortened_checkout_payment_option_credit_debit_label">Debit/Credit Card</string>
+    <string name="shortened_checkout_payment_option_credit_debit_label">Enter new Debit/Credit Card</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Guest Details</string>
     <!-- Text for Android pay label -->
@@ -213,7 +213,7 @@
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_hotelsv2_enter_payment_details_line1">Payment Details</string>
     <!-- Text for enter payment details line 2 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line2">Select Payment Type</string>
+    <string name="checkout_hotelsv2_enter_payment_details_line2">Enter credit card</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
     <string name="checkout_payment_line2_storedcc">Stored Credit Card</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
@@ -223,7 +223,9 @@
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_tap_to_edit">Tap to edit</string>
     <!-- Text for enter payment details line 2 for pwp -->
-    <string name="checkout_payment_options">Points, credit card</string>
+    <string name="checkout_payment_options">Credit card, pay with points</string>
+    <!--Text for selected card -->
+    <string name="checkout_selected_card">{cardtype} …{cardno}</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Slide to reserve</string>

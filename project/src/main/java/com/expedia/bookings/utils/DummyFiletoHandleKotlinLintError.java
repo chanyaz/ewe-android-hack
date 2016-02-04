@@ -296,6 +296,9 @@ public class
 		R.string.in_lap,
 		R.string.search_bundle_total_text,
 		R.string.flight_checkout_overview_TEMPLATE,
-		R.string.hotel_checkout_overview_TEMPLATE
+		R.string.hotel_checkout_overview_TEMPLATE,
+		R.string.checkout_selected_card,
+		R.drawable.add_new_credit_card,
+		R.string.checkout_hotelsv2_enter_payment_details_line2
 	};
 }
