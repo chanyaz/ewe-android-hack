@@ -71,8 +71,8 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
     override fun onFinishInflate() {
         addTransition(checkoutToCvv)
         addDefaultTransition(defaultCheckoutTransition)
-        hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(paymentModel.paymentSplits) { unit, paymentSplits ->
-            paymentSplits.paymentSplitsType()
+        hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(paymentModel.paymentSplitsAndLatestTripResponse) { unit, paymentSplitsAndLatestTripResponse ->
+            paymentSplitsAndLatestTripResponse.isCardRequired()
         }.subscribe(checkoutSliderSlidObserver)
         hotelCheckoutWidget.emailOptInStatus.subscribe { status ->
             hotelCheckoutWidget.mainContactInfoCardView.setUPEMailOptCheckBox(status)
@@ -102,9 +102,9 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         }
     }
 
-    val checkoutSliderSlidObserver = endlessObserver<PaymentSplitsType> {
+    val checkoutSliderSlidObserver = endlessObserver<Boolean> {
         val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.getBillingInfo()
-        if (it.equals(PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT )) {
+        if (!it) {
             bookedWithoutCVVSubject.onNext(Unit)
         } else if (billingInfo.getStoredCard() != null && billingInfo.getStoredCard().isGoogleWallet()) {
             onBook(billingInfo.getSecurityCode())
@@ -148,7 +148,8 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         val expediaRewardsPointsDetails = hotelCreateTripResponse.getPointDetails(ProgramName.ExpediaRewards)
 
         val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.billingInfo
-        if (!cvv.isNullOrBlank() && !payingWithCardsSplit.amount.isZero) {
+        // Pay with card if CVV is entered. Pay later can have 0 amount also.
+        if (!cvv.isNullOrBlank()) {
             if (billingInfo.storedCard == null || billingInfo.storedCard.isGoogleWallet) {
                 val creditCardNumber = billingInfo.number
                 val expirationDateYear = JodaUtils.format(billingInfo.expirationDate, "yyyy")

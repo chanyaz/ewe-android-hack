@@ -14,7 +14,9 @@ import java.math.BigDecimal
 public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     val discardPendingCurrencyToPointsAPISubscription = PublishSubject.create<Unit>()
 
-    data class PaymentSplitsAndTripResponse(val tripResponse: TripResponse, val paymentSplits: PaymentSplits)
+    class PaymentSplitsAndTripResponse(val tripResponse: TripResponse, val paymentSplits: PaymentSplits) {
+        fun isCardRequired(): Boolean = if (this.tripResponse.isExpediaRewardsRedeemable()) this.paymentSplits.paymentSplitsType() != PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT else this.tripResponse.isCardDetailsRequiredForBooking()
+    }
 
     //API
     private val nullSubscription: Subscription? = null
@@ -101,6 +103,7 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     public val paymentSplitsAndLatestTripResponse = paymentSplits.withLatestFrom(tripResponses, { paymentSplits, tripResponse ->
         PaymentSplitsAndTripResponse(tripResponse, paymentSplits)
     })
+
 
     //Conditions when Currency To Points Conversion can be locally handled without an API call
     fun canHandleCurrencyToPointsConversionLocally(burnAmount: BigDecimal, amountForMaxPayableWithPoints: BigDecimal): Boolean {

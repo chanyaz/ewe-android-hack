@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Locale;
 
+import org.jetbrains.annotations.NotNull;
+
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripResponse;
 import com.expedia.bookings.utils.Strings;
@@ -49,12 +51,30 @@ public class HotelCreateTripResponse extends TripResponse {
 			}
 			return localizedHotelName;
 		}
+
+		public Money getDueNowAmount() {
+			HotelRate hotelRate = hotelRoomResponse.rateInfo.chargeableRateInfo;
+			boolean isPayLater = hotelRoomResponse.isPayLater;
+			String expectedTotalFare;
+			if (isPayLater) {
+				expectedTotalFare = Strings.isNotEmpty(hotelRate.depositAmount) ? hotelRate.depositAmount : "0"; // yup. For some reason API doesn't return $0 for deposit amounts
+			}
+			else {
+				expectedTotalFare = java.lang.String.format(Locale.ENGLISH, "%.2f", hotelRate.total);
+			}
+			return new Money(new BigDecimal(expectedTotalFare), hotelRate.currencyCode);
+		}
 	}
 
+	@NotNull
 	@Override
 	public Money getTripTotal() {
-		HotelRate hotelRate = newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo;
-		String expectedTotalFare = java.lang.String.format(Locale.ENGLISH, "%.2f", hotelRate.total);
-		return new Money(new BigDecimal(expectedTotalFare), hotelRate.currencyCode);
+		return newHotelProductResponse.getDueNowAmount();
+	}
+
+	@NotNull
+	@Override
+	public boolean isCardDetailsRequiredForBooking() {
+		return true;
 	}
 }

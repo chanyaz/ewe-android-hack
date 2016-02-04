@@ -37,4 +37,10 @@ public class PackageCreateTripResponse extends TripResponse {
 	public Money getTripTotal() {
 		return packageDetails.pricing.packageTotal;
 	}
+
+	@NotNull
+	@Override
+	public boolean isCardDetailsRequiredForBooking() {
+		return true;
+	}
 }
