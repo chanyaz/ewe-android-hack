@@ -3,7 +3,6 @@ package com.expedia.bookings.test.phone.pagemodels.common;
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.Common;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -11,6 +10,7 @@ import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 
 public class CardInfoScreen {
 	private static final int CREDIT_CARD_NUMBER_EDIT_TEXT_ID = R.id.edit_creditcard_number;
@@ -109,9 +109,6 @@ public class CardInfoScreen {
 
 	public static void clickOnDoneButton() {
 		doneButton().perform(click());
-
-		// Once returning to the checkout screen we want to let google wallet settle
-		Common.delay(5);
 	}
 
 	// Object interaction expiration date dialog
@@ -136,8 +133,6 @@ public class CardInfoScreen {
 	}
 
 	public static void clickNextButton() {
-		Common.delay(2);
-		nextButton().perform(click());
-		Common.delay(3);
+		nextButton().perform(waitForViewToDisplay(), click());
 	}
 }
