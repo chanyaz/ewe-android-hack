@@ -40,6 +40,8 @@ public class HotelsABTest extends PhoneTestCase {
 			AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelsABTest,
 				AbacusUtils.DefaultVariate.CONTROL.ordinal());
 		}
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest,
+			AbacusUtils.DefaultVariate.CONTROL.ordinal());
 		super.runTest();
 	}
 

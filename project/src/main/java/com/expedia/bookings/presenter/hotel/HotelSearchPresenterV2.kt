@@ -103,7 +103,6 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Bas
         com.mobiata.android.util.Ui.hideKeyboard(this)
         scrollView.scrollTo(0 ,0)
         searchButton.setTextColor(ContextCompat.getColor(context, R.color.white_disabled))
-
     }
 
     //TODO select calendar dates from deeplink
@@ -116,9 +115,6 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Bas
         calendarTravelerWidgetV2.traveler.viewmodel.travelerParamsObservable.onNext(hotelTravelerParams)
     }
 
-
-
-
     internal var listener: SearchView.OnQueryTextListener = object : SearchView.OnQueryTextListener {
         override fun onQueryTextSubmit(query: String): Boolean {
             return false
@@ -129,7 +125,6 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Bas
             return false
         }
     }
-
 
     init {
         View.inflate(context, R.layout.widget_hotel_search_params_v2, this)
@@ -167,7 +162,6 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Bas
         destinationCardView.setOnClickListener {
             show(SuggestionSelectionState())
         }
-
     }
 
     //TODO try to style search view in xml
