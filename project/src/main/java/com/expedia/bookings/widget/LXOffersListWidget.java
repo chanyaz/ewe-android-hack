@@ -1,6 +1,8 @@
 package com.expedia.bookings.widget;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -53,8 +55,7 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 				availableOffers.add(offer);
 			}
 		}
-
-		adapter.setOffers(availableOffers, lxOfferSubject);
+		adapter.setOffers(sortOfferByPrice(availableOffers), lxOfferSubject);
 
 		offerContainer.removeAllViews();
 
@@ -90,5 +91,16 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 
 	public LinearLayout getOfferContainer() {
 		return offerContainer;
+	}
+
+	public List<Offer> sortOfferByPrice(List<Offer> availableOffers) {
+		Collections.sort(availableOffers, new Comparator<Offer>() {
+			@Override
+			public int compare(Offer lhs, Offer rhs) {
+				return lhs.availabilityInfoOfSelectedDate.getLowestTicket().money
+					.compareTo(rhs.availabilityInfoOfSelectedDate.getLowestTicket().money);
+			}
+		});
+		return availableOffers;
 	}
 }

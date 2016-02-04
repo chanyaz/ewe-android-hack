@@ -39,6 +39,7 @@ public class LXOfferListWidgetTest {
     public fun testSetOffersBucketedForFirstOfferExpandedABTest() {
         bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariate.BUCKETED)
         val offersList = setActivityOfferList()
+        widget.sortOfferByPrice(offersList)
         assertTrue(offersList.get(0).isToggled)
     }
 
@@ -90,11 +91,15 @@ public class LXOfferListWidgetTest {
 
     private fun setActivityOfferList(): List<Offer> {
         val gson = GsonBuilder().create()
-        val offerOne = gson.fromJson("{\"id\": \"183619\", \"title\": \"1-Day New York Pass\", \"description\": \"\", \"currencySymbol\": \"$\", \"currencyDisplayedLeft\": true, \"freeCancellation\": true, \"duration\": \"1d\", \"discountPercentage\": null, \"directionality\": \"\", \"availabilityInfo\": [{\"availabilities\": {\"displayDate\": \"Tue, Feb 24\", \"valueDate\": \"2015-02-24 07:30:00\", \"allDayActivity\": false }, \"tickets\": [{\"code\": \"Adult\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"currencyCode\": \"USD\", \"displayName\": null, \"defaultTicketCount\": 2 }, {\"code\": \"Child\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$110\", \"originalPrice\": \"\", \"amount\": \"110\", \"currencyCode\": \"USD\", \"displayName\": null, \"defaultTicketCount\": 0 } ] } ], \"direction\": null }", javaClass<Offer>())
+        val offerOne = gson.fromJson("{\"id\": \"183619\", \"title\": \"1-Day New York Pass\", \"description\": \"\", \"currencySymbol\": \"$\", \"currencyDisplayedLeft\": true, \"freeCancellation\": true, \"duration\": \"1d\", \"discountPercentage\": null, \"directionality\": \"\", \"availabilityInfo\": [{\"availabilities\": {\"displayDate\": \"Tue, Feb 24\", \"valueDate\": \"2015-02-24 07:30:00\", \"allDayActivity\": false }, \"tickets\": [{\"code\": \"Adult\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"currencyCode\": \"USD\", \"displayName\": null, \"defaultTicketCount\": 2 }, {\"code\": \"Child\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$105\", \"originalPrice\": \"\", \"amount\": \"105\", \"currencyCode\": \"USD\", \"displayName\": null, \"defaultTicketCount\": 0 } ] } ], \"direction\": null }", javaClass<Offer>())
         val offerTwo = gson.fromJson("{\"id\": \"183620\", \"title\": \"2-Day New York Pass\", \"description\": \"\", \"currencySymbol\": \"$\", \"currencyDisplayedLeft\": true, \"freeCancellation\": true, \"duration\": \"2d\", \"discountPercentage\": null, \"directionality\": \"\", \"availabilityInfo\": [{\"availabilities\": {\"displayDate\": \"Tue, Feb 24\", \"valueDate\": \"2015-02-24 09:30:00\", \"allDayActivity\": false }, \"tickets\": [{\"code\": \"Adult\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"currencyCode\": \"USD\", \"displayName\": null, \"defaultTicketCount\": 2 }, {\"code\": \"Child\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$110\", \"originalPrice\": \"\", \"amount\": \"110\", \"currencyCode\": \"USD\", \"displayName\": null, \"defaultTicketCount\": 0 } ] } ], \"direction\": null }", javaClass<Offer>())
+        val offerThree = gson.fromJson("{\"id\": \"183620\", \"title\": \"3-Day New York Pass\", \"description\": \"\", \"currencySymbol\": \"$\", \"currencyDisplayedLeft\": true, \"freeCancellation\": true, \"duration\": \"2d\", \"discountPercentage\": null, \"directionality\": \"\", \"availabilityInfo\": [{\"availabilities\": {\"displayDate\": \"Tue, Feb 24\", \"valueDate\": \"2015-02-24 09:30:00\", \"allDayActivity\": false }, \"tickets\": [{\"code\": \"Adult\", \"ticketId\": \"90042\", \"name\": \"Adult\", \"restrictionText\": \"13+ years\", \"price\": \"$130\", \"originalPrice\": \"\", \"amount\": \"130\", \"currencyCode\": \"USD\", \"displayName\": null, \"defaultTicketCount\": 2 }, {\"code\": \"Child\", \"ticketId\": \"90043\", \"name\": \"Child\", \"restrictionText\": \"4-12 years\", \"price\": \"$100\", \"originalPrice\": \"\", \"amount\": \"100\", \"currencyCode\": \"USD\", \"displayName\": null, \"defaultTicketCount\": 0 } ] } ], \"direction\": null }", javaClass<Offer>())
+
         val offersList = ArrayList<Offer>()
         offersList.add(offerOne)
         offersList.add(offerTwo)
+        offersList.add(offerThree)
+
         for (offer in offersList) {
             for (availabilityInfo in offer.availabilityInfo) {
                 for (ticket in availabilityInfo.tickets) {
@@ -105,4 +110,14 @@ public class LXOfferListWidgetTest {
         widget.setOffers(offersList, LocalDate(2015, 2, 24))
         return offersList
     }
+
+    @Test
+    public fun testOffersSortedByPrice() {
+        var offerList = setActivityOfferList()
+        offerList = widget.sortOfferByPrice(offerList)
+        assertEquals("3-Day New York Pass", offerList.get(0).title)
+        assertEquals("1-Day New York Pass", offerList.get(1).title)
+        assertEquals("2-Day New York Pass", offerList.get(2).title)
+    }
+
 }
