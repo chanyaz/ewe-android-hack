@@ -4,6 +4,7 @@
     <string-array name="app_packages">
         <item>com.expedia.bookings</item>
         <item>com.expedia.bookings.debug</item>
+        <item>com.expedia.bookings.develop</item>
     </string-array>
 
 </resources>
