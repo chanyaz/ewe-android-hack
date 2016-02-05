@@ -60,8 +60,11 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
 
     //OUTLETS
 
-    //Merging to handle all 3 response types homogeneously
+    //Merging to handle all 3 Trip Response Types homogeneously
     val tripResponses = Observable.merge(createTripSubject, priceChangeDuringCheckoutSubject, couponChangeSubject)
+
+    //Merging to handle Price Change Response Types homogeneously
+    val priceChangeResponses = Observable.merge(priceChangeDuringCheckoutSubject, couponChangeSubject)
 
     //Facade to ensure there are no glitches!
     //Whenever you need Amount Chosen To Be Paid With Points and Latest Trip response and Latest Currency To Points Api Subscription, use this!
@@ -73,19 +76,24 @@ public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
         }
     })
 
+    val pwpOpted = BehaviorSubject.create<Boolean>(true)
+
     //If PwP is enabled, default to Max Payable With Points, otherwise default to Zero Payable With Points.
-    private val startingPaymentSplitsFromCreateTrip: Observable<PaymentSplits> = createTripSubject.map {
-        when (it.isExpediaRewardsRedeemable()) {
-            true -> it.paymentSplitsWhenMaxPayableWithPoints()
-            false -> it.paymentSplitsWhenZeroPayableWithPoints()
-        }
-    }
+    private val createTripResponsePaymentSplits: Observable<PaymentSplits> = createTripSubject.map { it.newTripPaymentSplits() }
+
+    //If PwP is disabled, API may still return Max-Payable-By-Points-Splits, but ignore those and fallback to Zero-Payable-With-Points
+    //If PwP is enabled, simply take the Payment-Splits-For-Price-Change which have all fallbacks in place
+    val priceChangeResponsePaymentSplits = priceChangeResponses.withLatestFrom(pwpOpted, { priceChangeResponse, pwpOpted -> Pair(priceChangeResponse, pwpOpted) })
+            .map { it.first.paymentSplitsForPriceChange(it.second) }
+
+    val paymentSplitsSuggestionUpdates = Observable.merge(createTripSubject.map { it.newTripPaymentSplits() },
+            priceChangeResponses.withLatestFrom(pwpOpted, { priceChangeResponse, pwpOpted -> Pair(priceChangeResponse, pwpOpted) })
+                    .map { it.first.paymentSplitsSuggestions(it.second) })
 
     //Payment Splits (amount payable by points and by card) to be consumed by clients.
     val paymentSplits: Observable<PaymentSplits> = Observable.merge(
-            startingPaymentSplitsFromCreateTrip,
-            couponChangeSubject.map { it.paymentSplitsForPriceChange() },
-            priceChangeDuringCheckoutSubject.map { it.paymentSplitsForPriceChange() },
+            createTripResponsePaymentSplits,
+            priceChangeResponsePaymentSplits,
             burnAmountAndLatestTripResponse.filter { it.burnAmount.compareTo(BigDecimal.ZERO) == 0 }.map { it.latestTripResponse.paymentSplitsWhenZeroPayableWithPoints() },
             burnAmountToPointsApiResponse.map { PaymentSplits(it.conversion!!, it.remainingPayableByCard!!) }
     )

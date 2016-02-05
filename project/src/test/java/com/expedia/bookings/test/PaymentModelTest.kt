@@ -215,6 +215,9 @@ public class PaymentModelTest {
         //Expected Payment Split
         val expectedPaymentSplits = PaymentSplits(userPreference!!.getUserPreference(ProgramName.ExpediaRewards)!!, userPreference.remainingPayableByCard)
 
+        //User has PwP opted
+        paymentModel.pwpOpted.onNext(true)
+
         paymentModel.couponChangeSubject.onNext(createTripResponse)
         couponChangeTestSubscriber.assertNoErrors()
         couponChangeTestSubscriber.assertValueCount(1)
@@ -236,6 +239,7 @@ public class PaymentModelTest {
         setupCheckout(true)
         val userPreference = createTripResponse.userPreferencePoints
 
+        paymentModel.pwpOpted.onNext(true)
         //Expected Payment Split
         val expectedPaymentSplits = PaymentSplits(userPreference!!.getUserPreference(ProgramName.ExpediaRewards)!!, userPreference.remainingPayableByCard)
 
@@ -258,6 +262,8 @@ public class PaymentModelTest {
     @Test
     fun testCheckoutPriceChangeWithoutUserPreference() {
         setupCheckout(false)
+
+        paymentModel.pwpOpted.onNext(true)
         //Expected Payment Split
         val payingWithPoints = PointsAndCurrency(0, PointsType.BURN, Money("0", createTripResponse.getTripTotal().currencyCode))
         val payingWithCards = PointsAndCurrency(createTripResponse.expediaRewards!!.totalPointsToEarn, PointsType.EARN, createTripResponse.getTripTotal())
