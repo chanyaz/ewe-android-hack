@@ -41,11 +41,16 @@ public class SuggestionV4 {
 	public static class HierarchyInfo {
 		@Nullable
 		public Airport airport;
+		public Country country;
 		public boolean isChild = false;
 	}
 
 	public static class Airport {
 		public String airportCode;
+	}
+
+	public static class Country {
+		public String name;
 	}
 
 	public static class LatLng {
