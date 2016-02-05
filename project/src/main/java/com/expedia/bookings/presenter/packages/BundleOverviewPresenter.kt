@@ -106,8 +106,8 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         inboundFlightWidget.isOutbound = false
         outboundFlightWidget.viewModel = BundleFlightViewModel(context)
         inboundFlightWidget.viewModel = BundleFlightViewModel(context)
-        outboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_overview_flight1)
-        inboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_overview_flight2)
+        outboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_flight1_icon)
+        inboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_flight2_icon)
 
         bundleTotalPriceWidget.viewModel = BundlePriceViewModel(context)
         checkoutPresenter.travelerWidget.mToolbarListener = toolbar

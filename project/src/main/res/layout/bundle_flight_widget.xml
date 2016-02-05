@@ -20,7 +20,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:orientation="horizontal"
-            android:animateLayoutChanges="true"
             android:padding="12dp">
 
             <ImageView
@@ -29,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:tint="@color/package_bundle_icon_color"
-                android:layout_marginRight="9dp"/>
+                android:layout_marginRight="5dp"/>
 
             <LinearLayout
                 android:id="@+id/flight_info_container"
@@ -38,6 +37,7 @@
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:layout_marginLeft="10dp"
+                android:animateLayoutChanges="true"
                 android:orientation="vertical">
 
                 <com.expedia.bookings.widget.TextView
@@ -78,7 +78,7 @@
                 android:layout_alignBaseline="@+id/flight_info_container"
                 android:layout_gravity="center"
                 android:layout_marginRight="9dp"
-                android:paddingLeft="12dp"
+                android:layout_marginLeft="12dp"
                 android:src="@drawable/bundle_forward_arrow"
                 android:tint="?attr/primary_color"
                 android:visibility="gone" />

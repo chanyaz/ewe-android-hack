@@ -86,12 +86,12 @@ class BundleHotelViewModel(val context: Context) {
         showLoadingStateObservable.subscribe { isShowing ->
             if (isShowing) {
                 hotelTextObservable.onNext(context.getString(R.string.progress_searching_hotels_hundreds))
-                hotelIconImageObservable.onNext(R.drawable.packages_overview_hotel)
+                hotelIconImageObservable.onNext(R.drawable.packages_hotel_icon)
                 hotelSelectIconObservable.onNext(false)
                 hotelDetailsIconObservable.onNext(false)
             } else if (!isShowing && Db.getPackageSelectedHotel() == null) {
                 hotelTextObservable.onNext(context.getString(R.string.select_hotel_template, Db.getPackageParams().destination.regionNames.shortName))
-                hotelRoomGuestObservable.onNext(getGuestString())
+                hotelRoomGuestObservable.onNext(StrUtils.formatGuestString(context, Db.getPackageParams().guests()))
                 hotelSelectIconObservable.onNext(true)
                 hotelDetailsIconObservable.onNext(false)
             }
@@ -112,11 +112,6 @@ class BundleHotelViewModel(val context: Context) {
             hotelFreeCancellationObservable.onNext(selectHotelRoom.freeCancellationWindowDate)
             hotelCityObservable.onNext(selectedHotel.stateProvinceCode + " , " + selectedHotel.countryCode)
         }
-    }
-
-    fun getGuestString(): String {
-        val numberOfGuests = Db.getPackageParams().guests()
-        return context.resources.getQuantityString(R.plurals.number_of_guests, numberOfGuests, numberOfGuests)
     }
 }
 
@@ -153,10 +148,10 @@ class BundleFlightViewModel(val context: Context) {
     init {
         hotelLoadingStateObservable.subscribe { searchType ->
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
-                flightIconImageObservable.onNext(Pair(R.drawable.packages_overview_flight1, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
+                flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
                 flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(Db.getPackageParams().destination.regionNames.shortName)))
             } else {
-                flightIconImageObservable.onNext(Pair(R.drawable.packages_overview_flight2, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
+                flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
                 flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(Db.getPackageParams().origin.regionNames.shortName)))
             }
             flightInfoContainerObservable.onNext(false)
