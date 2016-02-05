@@ -28,5 +28,10 @@
             style="@style/HotelCheckoutImageSummary.Common"
             android:textColor="@color/itin_white_text" />
 
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/travelers"
+            style="@style/HotelCheckoutImageSummary.Common"
+            android:textColor="@color/itin_white_text" />
+
     </LinearLayout>
 </merge>

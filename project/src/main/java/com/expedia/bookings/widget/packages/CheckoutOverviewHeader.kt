@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
+import android.text.format.DateUtils
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
@@ -12,6 +13,7 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
@@ -26,6 +28,7 @@ public class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : Fr
     val checkoutHeaderImage: ImageView by bindView(R.id.hotel_checkout_room_image)
     val destinationText: TextView by bindView(R.id.destination)
     val checkInOutDates: TextView by bindView(R.id.check_in_out_dates)
+    val travelers: TextView by bindView(R.id.travelers)
 
     init {
         View.inflate(context, R.layout.checkout_overview_header, this)
@@ -34,15 +37,17 @@ public class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : Fr
     public fun update(hotel: HotelCreateTripResponse.HotelProductResponse, size: Int) {
         destinationText.text = Phrase.from(context, R.string.hotel_city_country_checkout_header_TEMPLATE)
                 .put("city", hotel.hotelCity)
-                .put("country", hotel.hotelCountry)
+                .put("country", Db.getPackageParams().destination.hierarchyInfo?.country?.name)
                 .format()
-        checkInOutDates.text = DateFormatUtils.formatHotelsV2DateRange(context, hotel.checkInDate, hotel.checkOutDate)
+        checkInOutDates.text = DateFormatUtils.formatPackageDateRange(context, hotel.checkInDate, hotel.checkOutDate)
+        var numTravelers = Db.getPackageParams().guests()
+        travelers.text = resources.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers, numTravelers);
         PicassoHelper.Builder(context)
                 .setPlaceholder(R.drawable.room_fallback)
                 .setError(R.drawable.room_fallback)
                 .setTarget(picassoTarget)
                 .build()
-                .load(HotelMedia(Images.getMediaHost() + hotel.largeThumbnailUrl).getBestUrls(size/2))
+                .load(HotelMedia(Images.getMediaHost() + hotel.largeThumbnailUrl).getBestUrls(size / 2))
     }
 
     val picassoTarget = object : PicassoTarget() {
