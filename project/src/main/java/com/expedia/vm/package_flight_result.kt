@@ -15,7 +15,7 @@ public class FlightResultsViewModel() {
     val flightResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
 
     init {
-        val isOutboundSearch = Db.getPackageParams().isOutboundSearch()
+        val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch() ?: false
         flightResultsObservable.onNext(Db.getPackageResponse().packageResult.flightsPackage.flights.filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount })
     }
 }
