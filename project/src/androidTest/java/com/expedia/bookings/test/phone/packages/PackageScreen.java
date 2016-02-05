@@ -91,6 +91,10 @@ public class PackageScreen {
 		return onView(withId(R.id.hotel_results_toolbar));
 	}
 
+	public static ViewInteraction hotelDetailsToolbar() {
+		return onView(withId(R.id.hotel_details_toolbar));
+	}
+
 	public static void searchPackage() throws Throwable {
 		PackageScreen.destination().perform(typeText("SFO"));
 		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
@@ -100,6 +104,10 @@ public class PackageScreen {
 		LocalDate endDate = LocalDate.now().plusDays(8);
 		PackageScreen.selectDates(startDate, endDate);
 		PackageScreen.searchButton().perform(click());
+	}
+
+	public static ViewInteraction bundleToolbar() {
+		return onView(withId(R.id.checkout_toolbar));
 	}
 
 	public static ViewInteraction hotelBundle() {
