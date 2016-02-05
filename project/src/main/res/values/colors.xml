@@ -385,6 +385,8 @@
 
     <!-- Packages colors -->
     <color name="packages_primary_color">#0888BD</color>
+    <color name="packages_ripple_mask_color">#99D5CF</color>
+    <color name="packages_hotel_promo_background_color">#04445e</color>
 
     <!--Rail colors-->
     <color name="rail_primary_color">#00355f</color>
