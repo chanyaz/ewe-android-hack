@@ -2,7 +2,7 @@
   "newTrip": {
     "itineraryNumber": "7899918581",
     "travelRecordLocator": "16630187",
-    "tripId": "58fe02ca-85fe-4c77-b63a-c5caadf309f6"
+    "tripId": "happy_roundtrip_0"
   },
   "passengerCategories": [
     "ADULT"
@@ -101,7 +101,33 @@
       "isPassportNeeded": true,
       "hasBagFee": false,
       "hasNoBagFee": true,
-      "isSplitTicket": true
+      "isSplitTicket": true,
+      "splitFarePrice": [
+        {
+          "legId": "34fa89938312d0fd8322ee27cb89f8a1",
+          "flightFare": {
+            "currencyCode": "USD",
+            "totalPrice": {
+              "amount": "69.06",
+              "formattedPrice": "$69.06",
+              "formattedWholePrice": "$69",
+              "currencyCode": "USD"
+            }
+          }
+        },
+        {
+          "legId": "0558a569d2c6b1af709befca2e617390",
+          "flightFare": {
+            "currencyCode": "USD",
+            "totalPrice": {
+              "amount": "62.54",
+              "formattedPrice": "$62.54",
+              "formattedWholePrice": "$62",
+              "currencyCode": "USD"
+            }
+          }
+        }
+      ]
     },
     "productKey": "fe8b6cf04e155354a8526aa226a033b3-1-2-st-cb0909d1433ea9098e3bd0af861a3128-1-1",
     "flightRules": [
@@ -330,7 +356,7 @@
     "rewardsMembershipTierName": "Invalid Tier"
   },
   "activityId": "c7083ed4-f245-45cf-bb6a-e7bc74e923a4",
-  "tealeafTransactionId": "1f99f3285ec84894b81c8205dc8ea452",
+  "tealeafTransactionId": "tealeafFlight:happy_roundtrip_0",
   "guestUserPromoEmailOptInStatus": "ALWAYS",
   "isSplitTicket": true
 }

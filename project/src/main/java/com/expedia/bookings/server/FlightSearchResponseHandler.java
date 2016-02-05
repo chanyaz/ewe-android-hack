@@ -1,9 +1,5 @@
 package com.expedia.bookings.server;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,6 +19,10 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
 import com.squareup.okhttp.Response;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * An E3 flight search response parser.
@@ -300,6 +300,26 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 				trip.addFlightSegmentAttributes(a, attrs);
 			}
 		}
+
+		if (tripJson.has("splitFarePrice")) {
+			JSONArray legSplitFarePrices = tripJson.optJSONArray("splitFarePrice");
+
+			for (int i = 0; i < legSplitFarePrices.length(); i++) {
+
+				JSONObject legSplitTicketFare = legSplitFarePrices.optJSONObject(i);
+				String legId = legSplitTicketFare.optString("legId");
+				JSONObject flightFare = legSplitTicketFare.optJSONObject("flightFare");
+				JSONObject totalPrice = flightFare.optJSONObject("totalPrice");
+				String currencyCode = flightFare.optString("currencyCode");
+				FlightLeg flightLeg = new FlightLeg();
+				flightLeg.setLegId(legId);
+
+				flightLeg.setTotalFare(ParserUtils.createMoney(totalPrice.optString("amount"), currencyCode));
+
+				trip.addLeg(flightLeg);
+			}
+		}
+		trip.setSplitTicket(tripJson.optBoolean("isSplitTicket", false));
 
 		return trip;
 	}
