@@ -43,6 +43,8 @@
         <item name="hotel_toggle_background_selector_drawable">@drawable/hotel_toggle_background_selector</item>
         <item name="vip_info_select_ripple_drawable">@drawable/vip_info_select_ripple</item>
         <item name="hotel_select_room_ripple_drawable">@drawable/hotel_select_room_ripple</item>
+        <item name="hotel_map_tooltip_pressed_drawable">@drawable/hotel_tooltip_blue</item>
+        <item name="hotel_map_tooltip_drawable">@drawable/hotel_tooltip</item>
     </style>
 
     <!--
