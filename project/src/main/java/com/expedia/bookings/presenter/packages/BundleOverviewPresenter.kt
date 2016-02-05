@@ -11,9 +11,11 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.presenter.VisibilityTransition
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
@@ -168,6 +170,13 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         createTripDialog.setMessage(resources.getString(R.string.spinner_text_hotel_create_trip))
         createTripDialog.setCancelable(false)
         createTripDialog.isIndeterminate = true
+        bundleTotalPriceWidget.visibility = View.VISIBLE
+        var countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
+        var currencyCode = CurrencyUtils.currencyForLocale(countryCode)
+        bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal("0.00"), currencyCode).formattedMoney,
+                Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
+                        .put("savings", Money(BigDecimal("0.00"), currencyCode).formattedMoney)
+                        .format().toString()))
     }
 
     override fun onFinishInflate() {

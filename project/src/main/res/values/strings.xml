@@ -3847,7 +3847,7 @@
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">Step 2: Select Flights</string>
     <!-- Package hotel cell: Price Includes flights -->
-    <string name="package_price_include_flights">Price Includes flights</string>
+    <string name="package_price_include_flights">Price includes hotel + flight</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s at %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->

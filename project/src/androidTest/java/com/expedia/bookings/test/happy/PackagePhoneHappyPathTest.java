@@ -33,6 +33,10 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.searchButton().perform(click());
 		Common.delay(1);
 
+		assertBundlePrice("$0.00", "Bundle total");
+		onView(allOf(withId(R.id.bundle_total_savings), withText("$0.00 Saved"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.per_person_text))).check(matches(not(isDisplayed())));
+
 		PackageScreen.hotelBundle().perform(click());
 		Common.delay(1);
 
@@ -43,7 +47,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		HotelScreen.selectHotel("packagehappypath");
 		Common.delay(1);
 
-		assertBundlePrice("$1,027.34","View your bundle");
+		assertBundlePrice("$1,027","View your bundle");
 		onView(allOf(withId(R.id.per_person_text), withText("per person"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_savings))).check(matches(not(isDisplayed())));
 
