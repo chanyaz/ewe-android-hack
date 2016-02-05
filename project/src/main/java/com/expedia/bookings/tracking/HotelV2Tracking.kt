@@ -4,6 +4,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.payment.PointsDetails
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.utils.LeanPlumUtils
 import com.expedia.bookings.utils.TuneUtils
@@ -178,8 +179,9 @@ class HotelV2Tracking {
         OmnitureTracking.trackHotelV2RenovationInfo()
     }
 
-    fun trackPageLoadHotelV2CheckoutInfo(hotelProductResponse: HotelCreateTripResponse.HotelProductResponse, searchParams: HotelSearchParams) {
-        OmnitureTracking.trackPageLoadHotelV2CheckoutInfo(hotelProductResponse, searchParams)
+    fun trackPageLoadHotelV2CheckoutInfo(hotelCreateTripResponse: HotelCreateTripResponse, searchParams: HotelSearchParams) {
+        OmnitureTracking.trackPageLoadHotelV2CheckoutInfo(hotelCreateTripResponse, searchParams)
+        val hotelProductResponse = hotelCreateTripResponse.newHotelProductResponse
         LeanPlumUtils.trackHotelV2CheckoutStarted(hotelProductResponse)
         TuneUtils.trackHotelV2CheckoutStarted(hotelProductResponse)
         FacebookEvents().trackHotelV2Checkout(hotelProductResponse, searchParams)
@@ -294,6 +296,22 @@ class HotelV2Tracking {
 
     fun trackHotelV2CouponRemove(couponCode: String) {
         OmnitureTracking.trackHotelV2CouponRemove(couponCode)
+    }
+
+    fun trackPayWithPointsAmountUpdateSuccess(percentagePaidWithPoints: Int) {
+        OmnitureTracking.trackPayWithPointsAmountUpdateSuccess(percentagePaidWithPoints)
+    }
+
+    fun trackPayWithPointsDisabled() {
+        OmnitureTracking.trackPayWithPointsDisabled()
+    }
+
+    fun trackPayWithPointsReEnabled(percentagePaidWithPoints: Int) {
+        OmnitureTracking.trackPayWithPointsReEnabled(percentagePaidWithPoints)
+    }
+
+    fun trackPayWithPointsError(error: PayWithPointsErrorTrackingEnum) {
+        OmnitureTracking.trackPayWithPointsError(error.errorMessage)
     }
 
 }
