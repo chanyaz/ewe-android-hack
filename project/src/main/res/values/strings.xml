@@ -3852,6 +3852,11 @@
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s at %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} Saved</string>
+    <!-- Bundle Overview select hotel -->
+    <string name="select_hotel_template">Select hotel in %s</string>
+    <!-- Bundle Overview searching flight -->
+    <string name="searching_flight_to">Searching flight to %s</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->

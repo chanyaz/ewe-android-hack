@@ -21,6 +21,6 @@ public class PackageHotelResultsTest extends PackageTestCase {
 		PackageScreen.searchPackage();
 		PackageScreen.seeHotelResults();
 		PackageScreen.hotelResultsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(
-			isDisplayed(), withText("Hotels in San Francisco, CA")))));
+			isDisplayed(), withText("Hotels in Detroit, MI")))));
 	}
 }

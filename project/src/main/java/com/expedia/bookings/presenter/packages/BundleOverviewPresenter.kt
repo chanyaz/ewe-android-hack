@@ -59,8 +59,8 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     var viewModel: BundleOverviewViewModel by notNullAndObservable { vm ->
         vm.hotelParamsObservable.subscribe { param ->
             bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(true)
-            outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(param.destination.regionNames.shortName)))
-            inboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(param.origin.regionNames.shortName)))
+            outboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+            inboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
         }
         vm.hotelResultsObservable.subscribe {
             bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
@@ -68,15 +68,19 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         vm.flightParamsObservable.subscribe { param ->
             if (param.isOutboundSearch()) {
                 outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(true)
+                outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to, StrUtils.formatCityName(Db.getPackageParams().destination.regionNames.shortName)))
             } else {
                 inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(true)
+                inboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to, StrUtils.formatCityName(Db.getPackageParams().origin.regionNames.shortName)))
             }
         }
         vm.flightResultsObservable.subscribe { searchType ->
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
                 outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
+                outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatCityName(Db.getPackageParams().destination.regionNames.shortName)))
             } else {
                 inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
+                inboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatCityName(Db.getPackageParams().origin.regionNames.shortName)))
             }
         }
 
@@ -249,7 +253,7 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     override fun back(): Boolean {
-        bundleHotelWidget.collapseSelectedHotel()
+        bundleHotelWidget.backButtonPressed()
         hideCheckoutHeaderImage()
         return super.back()
     }

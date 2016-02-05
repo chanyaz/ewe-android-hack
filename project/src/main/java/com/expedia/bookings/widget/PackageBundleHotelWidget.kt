@@ -2,34 +2,34 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.content.Intent
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.ProgressBar
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.ui.PackageHotelActivity
-import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.util.subscribeVisibility
+import com.expedia.util.*
 import com.expedia.vm.BundleHotelViewModel
 
 public class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
 
-    val hotelLoadingBar: ProgressBar by bindView(R.id.hotel_loading_bar)
-    val hotelTextContainer: ViewGroup by bindView(R.id.hotel_info_container)
+    val hotelLoadingBar: ImageView by bindView(R.id.hotel_loading_bar)
+    val hotelInfoContainer: ViewGroup by bindView(R.id.hotel_info_container)
     val hotelsText: TextView by bindView(R.id.hotels_card_view_text)
     val hotelsRoomGuestInfoText: TextView by bindView(R.id.hotels_room_guest_info_text)
-    val hotelArrowIcon: ImageView by bindView(R.id.package_hotel_arrow_icon)
-    val hotelLuggageIcon: ImageView by bindView(R.id.package_hotel__luggage_icon)
+    val hotelDetailsIcon: ImageView by bindView(R.id.package_hotel_details_icon)
+    val hotelSelectIcon: ImageView by bindView(R.id.package_hotel_select_icon)
+    val hotelLuggageIcon: ImageView by bindView(R.id.package_hotel_luggage_icon)
     val hotelRoomImage: ImageView by bindView(R.id.selected_hotel_room_image)
     val hotelRoomInfo: TextView by bindView(R.id.hotel_room_info)
     val hotelRoomType: TextView by bindView(R.id.hotel_room_type)
@@ -39,7 +39,6 @@ public class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : 
 
     var viewModel: BundleHotelViewModel by notNullAndObservable { vm ->
 
-        viewModel.hotelArrowIconObservable.subscribeVisibility(hotelArrowIcon)
         viewModel.hotelRoomGuestObservable.subscribeTextAndVisibility(hotelsRoomGuestInfoText)
         viewModel.hotelRoomInfoObservable.subscribeText(hotelRoomInfo)
         viewModel.hotelRoomTypeObservable.subscribeText(hotelRoomType)
@@ -47,6 +46,8 @@ public class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : 
         viewModel.hotelCityObservable.subscribeText(hotelCity)
         viewModel.hotelFreeCancellationObservable.subscribeText(hotelFreeCancellation)
         viewModel.hotelTextObservable.subscribeText(hotelsText)
+        viewModel.hotelDetailsIconObservable.subscribeVisibility(hotelDetailsIcon)
+        viewModel.hotelIconImageObservable.subscribe { hotelLuggageIcon.setImageResource(it) }
 
         viewModel.hotelRoomImageUrlObservable.subscribe { imageUrl ->
             if (imageUrl.isNotBlank()) {
@@ -58,34 +59,53 @@ public class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : 
             }
         }
 
+        viewModel.showLoadingStateObservable.subscribeVisibility(hotelLoadingBar)
+        viewModel.showLoadingStateObservable.subscribeInverseVisibility(hotelsRoomGuestInfoText)
         viewModel.showLoadingStateObservable.subscribe { showLoading ->
             if (showLoading) {
-                this.isEnabled = false
-                hotelLoadingBar.visibility = View.VISIBLE
+                hotelInfoContainer.isEnabled = false
+                AnimUtils.progressForward(hotelLoadingBar)
+                hotelsText.setTextColor(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
+                hotelLuggageIcon.setColorFilter(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
             } else {
-                this.isEnabled = true
-                hotelLoadingBar.visibility = View.GONE
+                hotelInfoContainer.isEnabled = true
+                hotelLoadingBar.clearAnimation()
+                hotelsText.setTextColor(Ui.obtainThemeColor(context, R.attr.primary_color))
+                hotelLuggageIcon.setColorFilter(Ui.obtainThemeColor(context, R.attr.primary_color))
+                hotelsRoomGuestInfoText.setTextColor(Ui.obtainThemeColor(context, R.attr.primary_color))
             }
         }
-
+        viewModel.hotelSelectIconObservable.subscribe { showing ->
+            if (showing) {
+                hotelSelectIcon.visibility = View.VISIBLE
+                AnimUtils.getFadeInRotateAnim(hotelSelectIcon).start()
+            } else {
+                hotelSelectIcon.clearAnimation()
+                hotelSelectIcon.visibility = View.GONE
+            }
+        }
+        viewModel.selectedHotelObservable.subscribe {
+            hotelsText.setTextColor(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
+            hotelLuggageIcon.setColorFilter(0)
+            hotelsRoomGuestInfoText.setTextColor(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
+        }
     }
 
     init {
         View.inflate(getContext(), R.layout.bundle_hotel_widget, this)
-        hotelTextContainer.setOnClickListener {
+        hotelInfoContainer.setOnClickListener {
             openHotels()
         }
         hotelLuggageIcon.setOnClickListener {
             openHotels()
         }
-        hotelArrowIcon.setOnClickListener {
-            if (hotelRoomImage.visibility == View.GONE) {
+        hotelDetailsIcon.setOnClickListener {
+            if (hotelRoomImage.visibility == Presenter.GONE) {
                 expandSelectedHotel()
             } else {
                 collapseSelectedHotel()
             }
         }
-
     }
 
     fun openHotels() {
@@ -100,6 +120,7 @@ public class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : 
         hotelCity.visibility = Presenter.VISIBLE
         hotelAddress.visibility = Presenter.VISIBLE
         hotelFreeCancellation.visibility = Presenter.VISIBLE
+        AnimUtils.rotate(hotelDetailsIcon)
     }
 
     public fun collapseSelectedHotel() {
@@ -109,5 +130,13 @@ public class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : 
         hotelRoomType.visibility = Presenter.GONE
         hotelAddress.visibility = Presenter.GONE
         hotelFreeCancellation.visibility = Presenter.GONE
+        AnimUtils.reverseRotate(hotelDetailsIcon)
+        hotelDetailsIcon.clearAnimation()
+    }
+
+    public fun backButtonPressed() {
+        if (hotelRoomImage.visibility == Presenter.VISIBLE) {
+            collapseSelectedHotel()
+        }
     }
 }
