@@ -1,10 +1,5 @@
 package com.expedia.bookings.data;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.joda.time.DateTime;
 import org.joda.time.Duration;
 import org.json.JSONException;
@@ -24,6 +19,11 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 public class FlightLeg implements JSONable, ItinSharable {
 
 	private String mLegId;
@@ -37,6 +37,17 @@ public class FlightLeg implements JSONable, ItinSharable {
 	private String mFareType;
 
 	private boolean mIsFreeCancellable;
+
+	// split ticket fare details
+	private Money mTotalFare;
+
+	public Money getTotalFare() {
+		return mTotalFare;
+	}
+
+	public void setTotalFare(Money totalFare) {
+		this.mTotalFare = totalFare;
+	}
 
 	public String getLegId() {
 		return mLegId;

@@ -429,8 +429,8 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 
 		if (mLastTrackingMode != TrackingMode.OVERVIEW) {
 			mLastTrackingMode = TrackingMode.OVERVIEW;
-			OmnitureTracking.trackPageLoadFlightRateDetailsOverview();
 			AdTracker.trackFlightRateDetailOverview();
+			OmnitureTracking.trackPageLoadFlightRateDetailsOverview();
 		}
 	}
 

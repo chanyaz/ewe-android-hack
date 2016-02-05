@@ -738,6 +738,7 @@ public class FlightTrip implements JSONable {
 				JSONUtils.putJSONableList(obj, KEY_PASSENGERS, mPassengers);
 			}
 			obj.putOpt("isPassportNeeded", isPassportNeeded);
+			obj.putOpt("isSplitTicket", isSplitTicket);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -826,6 +827,7 @@ public class FlightTrip implements JSONable {
 				JSONUtils.getJSONableList(obj, KEY_PASSENGERS, PassengerCategoryPrice.class));
 		}
 		isPassportNeeded = obj.optBoolean("isPassportNeeded", false);
+		isSplitTicket = obj.optBoolean("isSplitTicket", false);
 		return true;
 	}
 

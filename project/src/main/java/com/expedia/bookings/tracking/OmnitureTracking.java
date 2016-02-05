@@ -25,10 +25,11 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.PaymentType;
+import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.FlightFilter;
+import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelBookingResponse;
@@ -39,6 +40,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
@@ -1703,10 +1705,14 @@ public class OmnitureTracking {
 	private static final String FLIGHT_INFANT_ALERT = "App.Flight.Search.LapAlert";
 
 	public static void trackPageLoadFlightCheckoutConfirmation() {
-		Log.d(TAG, "Tracking \"" + FLIGHT_CHECKOUT_CONFIRMATION + "\" pageLoad");
-		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_CHECKOUT_CONFIRMATION);
+		String pageName = FLIGHT_CHECKOUT_CONFIRMATION;
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 
 		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
+		CreateItineraryResponse createItineraryResponse = Db.getTripBucket().getFlight().getItineraryResponse();
+		FlightTrip createTripOffer = createItineraryResponse.getOffer();
+		boolean isSplitTicket = createItineraryResponse.isSplitTicket();
 
 		// Flight: <departure Airport Code>-<Destination Airport Code>:<departure date YYYYMMDD>-<return date YYYYMMDD>:<promo code applied N/Y>
 		FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
@@ -1729,7 +1735,12 @@ public class OmnitureTracking {
 		eVar30 += ":N";
 		s.setEvar(30, eVar30);
 
-		addProducts(s);
+		if (isSplitTicket) {
+			addFlightSplitTicketInfo(s, pageName, createTripOffer, true, true);
+		}
+		else {
+			addProducts(s);
+		}
 
 		s.setCurrencyCode(trip.getTotalFare().getCurrency());
 		s.setEvents("purchase");
@@ -1815,7 +1826,10 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadFlightCheckoutInfo() {
-		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_CHECKOUT_INFO);
+		String pageName = FLIGHT_CHECKOUT_INFO;
+		FlightTrip searchFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 		s.setEvents("event74");
 		FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
 		s.setEvar(47, getEvar47String(params));
@@ -1830,14 +1844,65 @@ public class OmnitureTracking {
 		addProducts(s);
 		internalSetFlightDateProps(s, params);
 		addStandardFlightFields(s);
+		addFlightSplitTicketInfo(s, pageName, searchFlightTrip, false, false);
 
 		s.track();
 	}
 
+	private static void addFlightSplitTicketInfo(ADMS_Measurement s, String pageName, FlightTrip flightTrip, boolean withTotalRevenue, boolean withPassengerCount) {
+		boolean isSplitTicket = flightTrip.isSplitTicket();
+		if (isSplitTicket) {
+			StringBuilder eventsSB = new StringBuilder();
+			StringBuilder productsSB = new StringBuilder();
+			int legCount = 0;
 
+			for (FlightLeg flightLeg : flightTrip.getLegs()) {
+				// fetch airline code from flight search response. We don't parse it from createTrip
+				String firstAirlineCodeForLeg = getAirlineCodeForLegId(flightLeg.getLegId());
+
+				productsSB.append("Flight;Agency Flight:");
+				productsSB.append(firstAirlineCodeForLeg)
+					.append(":ST")
+					.append(";");
+
+				if (withPassengerCount) {
+					productsSB.append(flightTrip.getPassengerCount());
+				}
+				productsSB.append(";");
+
+				if (withTotalRevenue) {
+					String totalRevenue = flightLeg.getTotalFare().getAmount().toString();
+					productsSB.append(totalRevenue);
+				}
+				if (legCount == 0) {
+					productsSB.append(",");
+				}
+			}
+			eventsSB.append("event5");
+			s.setEvar(18, pageName);
+			s.setProducts(productsSB.toString());
+		}
+	}
+
+	private static String getAirlineCodeForLegId(String legId) {
+		FlightTrip searchRespFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+		for (FlightLeg searchFlightLeg : searchRespFlightTrip.getLegs()) {
+			if (searchFlightLeg.getLegId().equals(legId)) {
+				return searchFlightLeg.getFirstAirlineCode();
+			}
+		}
+		return "";
+	}
 
 	public static void trackPageLoadFlightRateDetailsOverview() {
-		internalTrackPageLoadEventPriceChange(FLIGHT_RATE_DETAILS);
+		String pageName = FLIGHT_RATE_DETAILS;
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		FlightTrip searchFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+		ADMS_Measurement s = createTrackPageLoadEventPriceChange(pageName);
+		addFlightSplitTicketInfo(s, pageName, searchFlightTrip, false, false);
+		s.setEvents("event5");
+
+		s.track();
 	}
 
 	public static void trackPageLoadFlightSearchResults(int legPosition) {
