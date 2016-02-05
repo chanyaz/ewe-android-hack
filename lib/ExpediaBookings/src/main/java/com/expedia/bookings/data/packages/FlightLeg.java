@@ -62,12 +62,27 @@ public class FlightLeg {
 
 	public static class FlightSegment {
 		public String airplaneType;
-		public String arrivalAirportCode;
+		public String flightNumber;
+		public String carrier;
+		public boolean displayOperatedByAirlineName;
+		public String operatedByAirlineName;
+		public String operatingAirlineCode;
+
+		public String departureCity;
+		public String departureAirport;
 		public String departureAirportCode;
+		public String departureTime;
+
+		public String arrivalCity;
+		public String arrivalAirport;
+		public String arrivalAirportCode;
+		public String arrivalTime;
+
 		public int durationHours;
 		public int durationMinutes;
 		public int layoverDurationHours;
 		public int layoverDurationMinutes;
-		public String carrier;
+
+		public String seatClass;
 	}
 }

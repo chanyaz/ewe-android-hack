@@ -7,7 +7,7 @@ import com.expedia.bookings.R;
  * Have to delete this file once Lint is able to read kotlin files.
  */
 public class
-	DummyFiletoHandleKotlinLintError {
+DummyFiletoHandleKotlinLintError {
 
 	/**
 	 * Add resources which are only used in kotlin files.
@@ -306,6 +306,14 @@ public class
 		R.drawable.packages_flight2_checkmark_icon,
 		R.drawable.packages_hotels_checkmark_icon,
 		R.string.select_hotel_template,
-		R.string.searching_flight_to
+		R.string.searching_flight_to,
+		R.string.package_flight_overview_urgency_message_TEMPLATE,
+		R.string.package_flight_overview_departure_arrival_TEMPLATE,
+		R.string.package_flight_overview_layover_in_TEMPLATE,
+		R.string.package_flight_overview_airline_airplane_TEMPLATE,
+		R.string.package_flight_overview_total_duration_TEMPLATE,
+		R.layout.flight_segment_breakdown,
+		R.layout.flight_segment_layover_row,
+		R.layout.flight_segment_row
 	};
 }
