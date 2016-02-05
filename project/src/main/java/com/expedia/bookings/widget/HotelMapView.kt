@@ -45,7 +45,7 @@ public class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(c
 
     val toolBar: Toolbar by bindView(R.id.toolbar)
     val toolBarTitle: TextView by bindView(R.id.hotel_name_text)
-    val toolBarRating: StarRatingBar by bindView(R.id.hotel_star_rating_bar)
+    val toolBarRating: StarRatingBar by bindView(R.id.hotel_map_star_rating_bar)
     val toolBarBackground: View by bindView(R.id.toolbar_background)
 
     var googleMap : GoogleMap? = null

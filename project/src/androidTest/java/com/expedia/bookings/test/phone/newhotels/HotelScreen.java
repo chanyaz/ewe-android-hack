@@ -181,6 +181,10 @@ public class HotelScreen {
 		return onView(withId(R.id.fab));
 	}
 
+	public static ViewInteraction hotelDetailsStarRating() {
+		return onView(withId(R.id.hotel_star_rating_bar));
+	}
+
 	public static ViewInteraction hotelResultsToolbar() {
 		return onView(withId(R.id.hotel_results_toolbar));
 	}
