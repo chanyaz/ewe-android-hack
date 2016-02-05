@@ -3830,8 +3830,6 @@
     <string name="package_toolbar_title">호텔+항공</string>
     <!-- Label for per person -->
     <string name="per_person">1인당</string>
-    <!-- Label for package search toolbar -->
-    <string name="bundle_overview_title">패키지 정보</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">출발</string>
     <!-- Fly to hint -->

@@ -29,10 +29,19 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val hotelResultsObservable = BehaviorSubject.create<Unit>()
     val flightResultsObservable = BehaviorSubject.create<PackageSearchType>()
     val showBundleTotalObservable = BehaviorSubject.create<Boolean>()
+    val toolbarTitleObservable = BehaviorSubject.create<String>()
+    val toolbarSubtitleObservable = BehaviorSubject.create<String>()
 
     init {
         hotelParamsObservable.subscribe { params ->
             Db.setPackageParams(params)
+            val cityName = StrUtils.formatCity(params.destination)
+            toolbarTitleObservable.onNext(java.lang.String.format(context.getString(R.string.your_trip_to_TEMPLATE), cityName))
+            toolbarSubtitleObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
+                    .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
+                    .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
+                    .put("guests", StrUtils.formatTravelerString(context, params.guests()))
+                    .format().toString())
             packageServices.packageSearch(params).subscribe(makeResultsObserver(PackageSearchType.HOTEL))
         }
 
@@ -94,8 +103,11 @@ class BundleHotelViewModel(val context: Context) {
                 hotelSelectIconObservable.onNext(false)
                 hotelDetailsIconObservable.onNext(false)
             } else if (!isShowing && Db.getPackageSelectedHotel() == null) {
-                hotelTextObservable.onNext(context.getString(R.string.select_hotel_template, Db.getPackageParams().destination.regionNames.shortName))
-                hotelRoomGuestObservable.onNext(StrUtils.formatGuestString(context, Db.getPackageParams().guests()))
+                hotelTextObservable.onNext(context.getString(R.string.select_hotel_template, StrUtils.formatCity(Db.getPackageParams().destination)))
+                hotelRoomGuestObservable.onNext(Phrase.from(context, R.string.room_with_guests_TEMPLATE)
+                        .put("guests", StrUtils.formatGuestString(context, Db.getPackageParams().guests()))
+                        .format()
+                        .toString())
                 hotelSelectIconObservable.onNext(true)
                 hotelDetailsIconObservable.onNext(false)
             }
@@ -155,16 +167,25 @@ class BundleFlightViewModel(val context: Context) {
         hotelLoadingStateObservable.subscribe { searchType ->
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
-                flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(Db.getPackageParams().destination.regionNames.shortName)))
+                flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
+                travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
+                        .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().checkIn))
+                        .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests()))
+                        .format()
+                        .toString())
             } else {
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
-                flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(Db.getPackageParams().origin.regionNames.shortName)))
+                flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().origin)))
+                travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
+                        .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().checkOut))
+                        .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests()))
+                        .format()
+                        .toString())
             }
             flightInfoContainerObservable.onNext(false)
             flightDetailsIconObservable.onNext(false)
             flightSelectIconObservable.onNext(false)
             flightTextColorObservable.onNext(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
-            travelInfoTextObservable.onNext("")
         }
 
         showLoadingStateObservable.subscribe { isShowing ->
@@ -174,25 +195,25 @@ class BundleFlightViewModel(val context: Context) {
                 travelInfoTextObservable.onNext("")
             } else {
                 flightSelectIconObservable.onNext(true)
-                travelInfoTextObservable.onNext(getTravelerString())
                 flightTextColorObservable.onNext(Ui.obtainThemeColor(context, R.attr.primary_color))
             }
         }
 
         selectedFlightObservable.subscribe { searchType ->
-            val selectedFlight = if (searchType == PackageSearchType.OUTBOUND_FLIGHT) Db.getPackageSelectedOutboundFlightFlight() else Db.getPackageSelectedInboundFlightFlight()
+            val selectedFlight = if (searchType == PackageSearchType.OUTBOUND_FLIGHT) Db.getPackageSelectedOutboundFlight() else Db.getPackageSelectedInboundFlight()
             val fmt = ISODateTimeFormat.dateTime();
             val localDate = LocalDate.parse(selectedFlight.departureDateTimeISO, fmt)
 
             flightSelectIconObservable.onNext(false)
             flightDetailsIconObservable.onNext(true)
             flightTextColorObservable.onNext(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
-            travelInfoTextObservable.onNext(context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, DateUtils.localDateToMMMd(localDate), DateUtils.formatTimeShort(selectedFlight.departureDateTimeISO), getTravelerString()))
+            travelInfoTextObservable.onNext(context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, DateUtils.localDateToMMMd(localDate),
+                    DateUtils.formatTimeShort(selectedFlight.departureDateTimeISO), StrUtils.formatTravelerString(context, Db.getPackageParams().guests())))
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
-                flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(Db.getPackageParams().destination.regionNames.shortName)))
+                flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_checkmark_icon, 0))
             } else {
-                flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(Db.getPackageParams().origin.regionNames.shortName)))
+                flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().origin)))
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_checkmark_icon, 0))
             }
             var totalDuration = Phrase.from(context.resources.getString(R.string.package_flight_overview_total_duration_TEMPLATE))
@@ -201,11 +222,6 @@ class BundleFlightViewModel(val context: Context) {
             totalDurationObserver.onNext(totalDuration)
             selectedFlightLegObservable.onNext(selectedFlight)
         }
-    }
-
-    fun getTravelerString(): String {
-        val numOfTravelers = Db.getPackageParams().guests()
-        return context.resources.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numOfTravelers, numOfTravelers)
     }
 }
 

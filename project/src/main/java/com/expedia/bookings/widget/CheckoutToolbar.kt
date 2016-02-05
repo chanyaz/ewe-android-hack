@@ -24,6 +24,9 @@ public class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(co
         vm.toolbarTitle.subscribe {
             title = it
         }
+        vm.toolbarSubtitle.subscribe {
+            subtitle = it
+        }
         vm.menuTitle.subscribe {
             menuItem.setTitle(it)
         }

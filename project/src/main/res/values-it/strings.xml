@@ -3830,8 +3830,6 @@
     <string name="package_toolbar_title">Hotel + volo</string>
     <!-- Label for per person -->
     <string name="per_person">a persona</string>
-    <!-- Label for package search toolbar -->
-    <string name="bundle_overview_title">Riepilogo pacchetto</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">Volo da</string>
     <!-- Fly to hint -->

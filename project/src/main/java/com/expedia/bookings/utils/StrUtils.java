@@ -421,6 +421,13 @@ public class StrUtils {
 		return city;
 	}
 
+	public static String formatAirportCodeCityName(SuggestionV4 suggestion) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("(").append(suggestion.hierarchyInfo.airport.airportCode).append(") ");
+		sb.append(formatCity(suggestion));
+		return sb.toString();
+	}
+
 	public static String formatDisplayName(SuggestionResponse suggestionResponse) {
 		String displayName = suggestionResponse.getSuggestions().get(0).getDisplayName();
 		if (displayName.indexOf(",") != displayName.lastIndexOf(",")
@@ -652,5 +659,10 @@ public class StrUtils {
 	public static String formatGuestString(Context context, int guests) {
 		return context.getResources().getQuantityString(R.plurals.number_of_guests, guests,
 			guests);
+	}
+
+	public static String formatTravelerString(Context context, int numOfTravelers) {
+		return context.getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numOfTravelers,
+			numOfTravelers);
 	}
 }

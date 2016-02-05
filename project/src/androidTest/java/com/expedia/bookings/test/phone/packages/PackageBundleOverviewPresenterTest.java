@@ -20,11 +20,20 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.not;
 
 public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 	public void testBundleOverviewCheckoutFlow() throws Throwable {
 		PackageScreen.searchPackage();
+		PackageScreen.bundleToolbar().check(matches(hasDescendant(
+			CoreMatchers.allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
+		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
+			CoreMatchers.allOf(isDisplayed(), withText("Flight to (DTW) Detroit, MI")))));
+		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
+			CoreMatchers.allOf(isDisplayed(), withText("Flight to (SFO) San Francisco, CA")))));
+		PackageScreen.outboundFlightInfo().check(matches(not(isEnabled())));
+		PackageScreen.inboundFlightInfo().check(matches(not(isEnabled())));
 		Common.delay(1);
 
 		PackageScreen.hotelBundle().perform(click());
@@ -56,7 +65,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.hotelBundle().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Package Happy Path")))));
 		PackageScreen.hotelBundle().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("1 Guest")))));
+			CoreMatchers.allOf(isDisplayed(), withText("1 Room, 1 Guest")))));
 		onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)),
 			withId(R.id.package_hotel_details_icon))).check(matches(isEnabled()));
 
@@ -64,9 +73,9 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.inboundFlightInfo().check(matches(isEnabled()));
 
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("Flight to Detroit, MI")))));
+			CoreMatchers.allOf(isDisplayed(), withText("Flight to (DTW) Detroit, MI")))));
 		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("Flight to San Francisco, CA")))));
+			CoreMatchers.allOf(isDisplayed(), withText("Flight to (SFO) San Francisco, CA")))));
 
 		onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
 			withId(R.id.package_flight_details_icon))).check(matches(withEffectiveVisibility(

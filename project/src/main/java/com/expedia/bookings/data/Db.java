@@ -168,7 +168,7 @@ public class Db {
 		return sDb.mPackageSelectedRoom;
 	}
 
-	public static FlightLeg getPackageSelectedOutboundFlightFlight() {
+	public static FlightLeg getPackageSelectedOutboundFlight() {
 		return sDb.mPackageSelectedOutboundFlight;
 	}
 
@@ -176,7 +176,7 @@ public class Db {
 		sDb.mPackageSelectedOutboundFlight = mPackageSelectedFlight;
 	}
 
-	public static FlightLeg getPackageSelectedInboundFlightFlight() {
+	public static FlightLeg getPackageSelectedInboundFlight() {
 		return sDb.mPackageSelectedInboundFlight;
 	}
 

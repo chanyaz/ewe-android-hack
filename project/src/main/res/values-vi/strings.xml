@@ -3830,8 +3830,6 @@
     <string name="package_toolbar_title">Khách sạn + Chuyến bay</string>
     <!-- Label for per person -->
     <string name="per_person">/1 người</string>
-    <!-- Label for package search toolbar -->
-    <string name="bundle_overview_title">Tổng quan</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">Bay từ</string>
     <!-- Fly to hint -->

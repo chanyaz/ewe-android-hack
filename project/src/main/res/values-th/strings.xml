@@ -3832,8 +3832,6 @@
     <string name="package_toolbar_title">โรงแรม + เที่ยวบิน</string>
     <!-- Label for per person -->
     <string name="per_person">ต่อคน</string>
-    <!-- Label for package search toolbar -->
-    <string name="bundle_overview_title">ภาพรวมแพ็คเกจ</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">บินจาก</string>
     <!-- Fly to hint -->

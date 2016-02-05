@@ -1702,7 +1702,7 @@
     <string name="calendar_instructions_hotels_no_dates_selected">Select Check-in Date</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
-    <string name="guests_with_rooms_TEMPLATE">{guests}, 1 room</string>
+    <string name="room_with_guests_TEMPLATE">1 Room, {guests}</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -3851,8 +3851,6 @@
     <string name="package_toolbar_title">Hotel + Flight</string>
     <!-- Label for per person -->
     <string name="per_person">per person</string>
-    <!-- Label for package search toolbar -->
-    <string name="bundle_overview_title">Bundle Overview</string>
     <!-- Label for package bundle price on overview-->
     <string name="bundle_total_text">Bundle total</string>
     <!-- Label for package bundle price on search-->

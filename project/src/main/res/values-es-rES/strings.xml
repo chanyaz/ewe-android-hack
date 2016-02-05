@@ -3831,8 +3831,6 @@
     <string name="package_toolbar_title">Hotel + vuelo</string>
     <!-- Label for per person -->
     <string name="per_person">por persona</string>
-    <!-- Label for package search toolbar -->
-    <string name="bundle_overview_title">Resumen del paquete</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">Vuelo desde</string>
     <!-- Fly to hint -->

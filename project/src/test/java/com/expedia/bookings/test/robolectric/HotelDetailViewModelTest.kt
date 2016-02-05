@@ -96,7 +96,7 @@ public class HotelDetailViewModelTest {
         vm.paramsSubject.onNext(searchParams)
         val dates = DateUtils.localDateToMMMd(searchParams.checkIn) + " - " + DateUtils.localDateToMMMd(searchParams.checkOut)
         assertEquals(dates, vm.searchDatesObservable.value)
-        assertEquals("${searchParams.guests()} Guests, 1 room", vm.searchInfoObservable.value)
+        assertEquals("1 Room, ${searchParams.guests()} Guests", vm.searchInfoObservable.value)
     }
 
     @Test fun priceShownToCustomerIncludesCustomerFees() {
