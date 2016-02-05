@@ -17,9 +17,10 @@ public class TravelerIconUtils {
 	 * @param travelerDisplayName - human readable full name e.g. "John Doe"
 	 * @param backgroundColor     - The background color of the initials icon
 	 * @param isCircular		  - Is shape of icon circular or a square
+	 * @param borderSize		  - The size of the border in dp
 	 * @return
 	 */
-	public static Bitmap generateInitialIcon(Context context, String travelerDisplayName, int backgroundColor, boolean isCircular, boolean hasStroke) {
+	public static Bitmap generateInitialIcon(Context context, String travelerDisplayName, int backgroundColor, boolean isCircular, boolean hasStroke, float borderSize) {
 		String name = getInitialsFromDisplayName(travelerDisplayName);
 
 		float density = context.getResources().getDisplayMetrics().density;
@@ -50,7 +51,7 @@ public class TravelerIconUtils {
 		float textOffset = (textHeight / 2) - txtPaint.descent();
 
 		if (isCircular) {
-			int borderWidth = (int) (2.5 * density);
+			int borderWidth = (int) (borderSize * density);
 			if (hasStroke) {
 				canvas.drawCircle(size / 2, size / 2, size / 2, bgPaintWhite);
 			}
