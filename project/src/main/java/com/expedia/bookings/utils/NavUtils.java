@@ -38,6 +38,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.HotelBookingFragment;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.ui.CarActivity;
@@ -212,7 +213,7 @@ public class NavUtils {
 				intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
 			}
 
-		if (isUserBucketedForTest) {
+		if (isUserBucketedForTest || ProductFlavorFeatureConfiguration.getInstance().isNewHotelEnabled()) {
 			routingTarget = HotelActivity.class;
 			if (params != null) {
 				com.expedia.bookings.data.hotels.HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(params);

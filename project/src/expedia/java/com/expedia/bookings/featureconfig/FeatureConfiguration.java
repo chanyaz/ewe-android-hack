@@ -318,4 +318,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean isAbacusTestEnabled() {
 		return true;
 	}
+
+	@Override
+	public boolean isNewHotelEnabled() {
+		return false;
+	}
+
 }

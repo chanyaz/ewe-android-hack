@@ -132,4 +132,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isFacebookTrackingEnabled();
 
 	boolean isAbacusTestEnabled();
+
+	boolean isNewHotelEnabled();
 }
