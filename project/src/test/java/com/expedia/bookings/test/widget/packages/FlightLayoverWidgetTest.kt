@@ -50,7 +50,7 @@ public class FlightLayoverWidgetTest {
     @Test
     fun testDurationBarAboveMaxDuration() {
         val expectedWidth = 10f
-        testWidget.flightLegDuration = LEG_OVER_MAX.toFloat()
+        testWidget.legDuration = LEG_OVER_MAX.toFloat()
         testWidget.totalWidthForDurationBars = expectedWidth
 
         val durationBar = testWidget.createDurationBar(0, LEG_OVER_MAX, X_COORD)
@@ -64,7 +64,7 @@ public class FlightLayoverWidgetTest {
         val expectedWidth = 5f
         testWidget.totalWidthForDurationBars = expectedWidth * 2
         testWidget.maxLegDuration = MAX_LEG_DURATION.toFloat()
-        testWidget.flightLegDuration = LEG_DURATION.toFloat()
+        testWidget.legDuration = LEG_DURATION.toFloat()
 
         val durationBar = testWidget.createDurationBar(0, LEG_DURATION, X_COORD)
 
@@ -77,7 +77,7 @@ public class FlightLayoverWidgetTest {
         val expectedWidth = 5f
         testWidget.totalWidthForDurationBars = expectedWidth * 2
         testWidget.maxLegDuration = MAX_LEG_DURATION.toFloat()
-        testWidget.flightLegDuration = MAX_LEG_DURATION.toFloat()
+        testWidget.legDuration = MAX_LEG_DURATION.toFloat()
 
         val durationBar = testWidget.createDurationBar(0, LEG_DURATION, X_COORD)
         assertEquals(X_COORD, durationBar.leftX)
@@ -89,7 +89,7 @@ public class FlightLayoverWidgetTest {
         val expectedWidth = 5f
         testWidget.totalWidthForDurationBars = expectedWidth * 4
         testWidget.maxLegDuration = MAX_LEG_DURATION.toFloat()
-        testWidget.flightLegDuration = LEG_DURATION.toFloat()
+        testWidget.legDuration = LEG_DURATION.toFloat()
 
         val durationBar = testWidget.createDurationBar(0, SEGMENT_DURATION, X_COORD)
         assertEquals(X_COORD, durationBar.leftX)
@@ -104,7 +104,7 @@ public class FlightLayoverWidgetTest {
 
         addAirport(DEPART_CODE, ARRIVE_CODE)
 
-        val widthOfAirports = testWidget.calculateAirportsAndPaddingWidth()
+        val widthOfAirports = testWidget.calculateLocationsAndPaddingWidth()
 
         assertEquals(expectedWidth, widthOfAirports)
     }
@@ -124,7 +124,7 @@ public class FlightLayoverWidgetTest {
             // Do nothing
         }
 
-        override fun calculateTextBounds(airportCode: String) : Rect {
+        override fun calculateTextBounds(locationCode: String) : Rect {
             val mockRect = Mockito.mock(Rect::class.java)
             Mockito.`when`(mockRect.width()).thenReturn(CODE_WIDTH)
             return mockRect;

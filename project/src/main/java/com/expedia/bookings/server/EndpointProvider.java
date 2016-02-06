@@ -115,15 +115,13 @@ public class EndpointProvider {
 	}
 
 	private String getRailEndpointUrl(EndPoint endPoint) {
-		String endPointUrl = "http://rails-ecom-service.us-west-2.test.expedia.com:80";
-
-//		if (endPoint == EndPoint.PRODUCTION) {
-			// set production endpoint
-//
-//		}
-		return endPointUrl;
+		switch (endPoint) {
+		case MOCK_MODE:
+			return getCustomServerAddress();
+		default:
+			return "http://rails-ecom-service.us-west-2.test.expedia.com:80";
+		}
 	}
-
 
 	/**
 	 * Returns the base suggestion server url, based on dev settings
