@@ -113,7 +113,7 @@
                         app:textStyle="medium"/>
 
                     <com.expedia.bookings.widget.StarRatingBar
-                        android:id="@+id/hotel_star_rating_bar"
+                        android:id="@+id/hotel_map_star_rating_bar"
                         android:layout_width="200dp"
                         android:layout_height="14dp"
                         app:star_color="#F1B906"

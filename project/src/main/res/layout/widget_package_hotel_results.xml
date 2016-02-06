@@ -19,6 +19,16 @@
             android:layout_height="8dp"
             android:background="@drawable/map_shadow" />
 
+        <TextView
+            android:id="@+id/package_map_price_messaging"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#EAEAEA"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/package_price_includes_taxes_fees"
+            android:textColor="@color/hotel_cell_gray_text" />
+
         <com.expedia.bookings.widget.HotelCarouselRecycler
             android:id="@+id/hotel_carousel"
             android:layout_width="match_parent"

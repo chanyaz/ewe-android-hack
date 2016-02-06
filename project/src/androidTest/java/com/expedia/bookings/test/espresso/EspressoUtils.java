@@ -13,6 +13,7 @@ import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawabl
 import static com.expedia.bookings.test.espresso.ViewActions.getChildCount;
 import static com.expedia.bookings.test.espresso.ViewActions.getCount;
 import static com.expedia.bookings.test.espresso.ViewActions.getRating;
+import static com.expedia.bookings.test.espresso.ViewActions.getStarRating;
 import static com.expedia.bookings.test.espresso.ViewActions.getString;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -60,7 +61,8 @@ public class EspressoUtils {
 	}
 
 	public static void assertTextWithChildrenIsDisplayed(int id, String text) {
-		onView(allOf(withId(id), withChild(withText(text)), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))).check(matches(isDisplayed()));
+		onView(allOf(withId(id), withChild(withText(text)), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))).check(
+			matches(isDisplayed()));
 	}
 
 	public static void viewHasDescendantsWithText(int id, String text) {
@@ -106,6 +108,13 @@ public class EspressoUtils {
 	public static float getRatingValue(ViewInteraction view) {
 		final AtomicReference<Float> rating = new AtomicReference<Float>();
 		view.perform(getRating(rating));
+		float ratingValue = rating.get();
+		return ratingValue;
+	}
+
+	public static float getStarRatingValue(ViewInteraction view) {
+		final AtomicReference<Float> rating = new AtomicReference<Float>();
+		view.perform(getStarRating(rating));
 		float ratingValue = rating.get();
 		return ratingValue;
 	}

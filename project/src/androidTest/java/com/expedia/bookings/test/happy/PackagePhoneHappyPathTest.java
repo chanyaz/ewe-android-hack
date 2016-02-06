@@ -7,6 +7,7 @@ import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.phone.newhotels.HotelScreen;
@@ -49,6 +50,11 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		assertBundlePrice("$0", "View your bundle");
 		onView(allOf(withId(R.id.per_person_text), withText("per person"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_savings))).check(matches(not(isDisplayed())));
+
+		HotelScreen.mapFab().perform(click());
+		assertHotelMap();
+		Common.pressBack();
+		Common.delay(1);
 
 		assertHotelSRP();
 
@@ -118,17 +124,26 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 			"packagehappypath");
 		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.strike_through_price, "$1,076");
 		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.price_per_night, "$526");
+
 	}
 
 	private void assertHotelInfoSite() {
 		PackageScreen.hotelDetailsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("packagehappypath")))));
+		float detailsHotelRating = EspressoUtils.getStarRatingValue(HotelScreen.hotelDetailsStarRating());
+		assertEquals(4.0f, detailsHotelRating);
 		onView(allOf(withId(R.id.user_rating), withText("4.4"))).check(matches(isDisplayed()));
 		String startDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
 		String endDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(8));
 		onView(
 			allOf(withId(R.id.hotel_search_info), withText(startDate + " - " + endDate + ", 1 Guest")))
 			.check(matches(isDisplayed()));
+	}
+
+	private void assertHotelMap() {
+		onView(allOf(withId(R.id.package_map_price_messaging), withText("Price includes taxes, fees, flights + hotel per person"))).check(matches(isDisplayed()));
+		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelCarousel(), 0, R.id.hotel_strike_through_price, "$1,142");
+		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelCarousel(), 0, R.id.hotel_price_per_night, "$562");
 	}
 
 	private void assertFlightOutbound() {
