@@ -160,7 +160,7 @@
                             android:layout_height="wrap_content"
                             android:drawablePadding="9dp"
                             android:text="@string/deposit_terms"
-                            android:textColor="@color/hotels_primary_color"
+                            android:textColor="?attr/primary_color"
                             android:textSize="17sp"
                             app:textStyle="medium"
                             android:visibility="gone" />

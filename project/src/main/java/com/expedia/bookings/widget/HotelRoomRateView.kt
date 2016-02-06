@@ -28,6 +28,7 @@ import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
@@ -273,7 +274,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
             }
             collapsedContainer.setBackgroundColor(Color.WHITE)
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
-            dailyPricePerNight.setTextColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
+            dailyPricePerNight.setTextColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
             perNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
             perNight.setTextColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
 

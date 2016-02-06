@@ -43,6 +43,7 @@ public class HotelDetailsTest {
     @Before
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.V2_Theme_Hotels)
         hotelDetailView = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_details_widget, null) as HotelDetailView
         vm = HotelDetailViewModel(activity.applicationContext, service.services, endlessObserver { /*ignore*/ })
         hotelDetailView.viewmodel = vm

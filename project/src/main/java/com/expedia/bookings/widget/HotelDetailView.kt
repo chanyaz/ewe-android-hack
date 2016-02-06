@@ -686,7 +686,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         //share hotel listing text view set up drawable
         val phoneIconDrawable = ContextCompat.getDrawable(context, R.drawable.detail_phone).mutate()
-        phoneIconDrawable.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
+        phoneIconDrawable.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)), PorterDuff.Mode.SRC_IN)
         payByPhoneTextView.setCompoundDrawablesWithIntrinsicBounds(phoneIconDrawable, null, null, null)
         selectRoomButton.setOnClickListener {
             scrollToRoom(true)

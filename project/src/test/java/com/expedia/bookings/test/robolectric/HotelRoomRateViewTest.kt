@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import android.view.View
+import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.widget.HotelRoomRateView
@@ -26,6 +27,7 @@ public class HotelRoomRateViewTest {
     lateinit private var hotelRoomRateView: HotelRoomRateView
 
     @Before fun before() {
+        RuntimeEnvironment.application.setTheme(R.style.V2_Theme_Hotels)
         hotelRoomRateView = HotelRoomRateView(RuntimeEnvironment.application, ScrollView(RuntimeEnvironment.application), BehaviorSubject.create<View>(View(RuntimeEnvironment.application)), 0)
     }
 

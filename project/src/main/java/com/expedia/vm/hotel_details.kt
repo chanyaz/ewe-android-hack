@@ -27,6 +27,7 @@ import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.priceFormatter
@@ -126,7 +127,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
     val toolBarRatingColor = hotelSoldOut.map { if (it) ContextCompat.getColor(context, android.R.color.white) else ContextCompat.getColor(context, R.color.hotelsv2_detail_star_color) }
     val galleryColorFilter = hotelSoldOut.map { if (it) HotelDetailView.zeroSaturationColorMatrixColorFilter else null }
-    val priceWidgetBackground = hotelSoldOut.map { if (it) ContextCompat.getColor(context, R.color.hotel_cell_gray_text) else ContextCompat.getColor(context, R.color.hotels_primary_color) }
+    val priceWidgetBackground = hotelSoldOut.map { if (it) ContextCompat.getColor(context, R.color.hotel_cell_gray_text) else ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)) }
 
     val hotelOffersSubject = BehaviorSubject.create<HotelOffersResponse>()
     var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
