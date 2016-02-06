@@ -20,6 +20,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -163,10 +164,26 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(allOf(withId(R.id.destination), withText("Detroit, United States of America"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.check_in_out_dates), withText("Tue, Feb 2, 2016 - Thu, Feb 4, 2016"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.travelers), withText("1 Traveler"))).check(matches(isDisplayed()));
+
 		onView(allOf(withId(R.id.step_one_text),
 			withText("Hotel in Detroit - 1 room, 2 nights"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.step_two_text), withText("Flights - SFO to DTW, round trip"))).check(
 			matches(isDisplayed()));
+		onView(allOf(withId(R.id.hotels_card_view_text))).check(matches(withText("packagehappypath")));
+		onView(allOf(withId(R.id.hotels_room_guest_info_text))).check(matches(withText("1 Guest")));
+
+		onView(allOf(withId(R.id.flight_card_view_text),
+			isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(
+			matches(withText("Flight to Detroit, MI")));
+		onView(allOf(withId(R.id.travel_info_view_text),
+			isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(
+			matches(withText("Jul 10 at 9:00 am, 1 Traveler")));
+		onView(allOf(withId(R.id.flight_card_view_text),
+			isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)))).check(
+			matches(withText("Flight to San Francisco, CA")));
+		onView(allOf(withId(R.id.travel_info_view_text),
+			isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)))).check(
+			matches(withText("Jul 16 at 1:45 pm, 1 Traveler")));
 	}
 
 	private void assetCheckout() {
@@ -175,7 +192,8 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	private void assertBundlePrice(String price, String totalText) {
 		onView(allOf(withId(R.id.bundle_total_text), withText(totalText))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.bundle_total_includes_text), withText("Includes taxes, fees, flights + hotel"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.bundle_total_includes_text), withText(
+			"Includes taxes, fees, flights + hotel"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_price), withText(price))).check(matches(isDisplayed()));
 	}
 
