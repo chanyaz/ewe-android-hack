@@ -44,6 +44,7 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
     //INLETS
     override val userEnteredBurnAmount = PublishSubject.create<String>()
     override val pwpOpted = BehaviorSubject.create<Boolean>(true)
+    override val hasPwpEditBoxFocus = PublishSubject.create<Boolean>()
     override val clearUserEnteredBurnAmount = PublishSubject.create<Unit>()
 
     //OUTLETS

@@ -19,6 +19,7 @@ import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.BookingInfoUtils
+import com.expedia.bookings.utils.CreditCardUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.WalletUtils
 import com.expedia.bookings.utils.bindView
@@ -33,7 +34,6 @@ import rx.Observable
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
-import com.expedia.bookings.utils.CreditCardUtils
 
 public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
     val remainingBalance: TextView by bindView(R.id.remaining_balance)
@@ -48,21 +48,32 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
     var isExpediaRewardsRedeemable: Boolean = false
     var isFullPayableWithPoints: Boolean by Delegates.notNull()
 
-    var paymentWidgetViewModel by notNullAndObservable<IPaymentWidgetViewModel> {
-        it.totalDueToday.subscribeText(totalDueToday)
-        it.remainingBalanceDueOnCard.subscribeText(remainingBalance)
-        it.remainingBalanceDueOnCardVisibility.subscribeVisibility(remainingBalance)
-        it.paymentSplitsAndTripResponse.map { it.isCardRequired() }.subscribeEnabled(sectionCreditCardContainer)
 
-        Observable.combineLatest(rebindRequested, it.paymentSplitsAndTripResponse) { unit, paymentSplitsAndTripResponse -> paymentSplitsAndTripResponse }
+    var paymentWidgetViewModel by notNullAndObservable<IPaymentWidgetViewModel> { vm ->
+        vm.totalDueToday.subscribeText(totalDueToday)
+        vm.remainingBalanceDueOnCard.subscribeText(remainingBalance)
+        vm.remainingBalanceDueOnCardVisibility.subscribeVisibility(remainingBalance)
+        vm.paymentSplitsAndTripResponse.map { it.isCardRequired() }.subscribeEnabled(sectionCreditCardContainer)
+
+        Observable.combineLatest(rebindRequested, vm.paymentSplitsAndTripResponse) { unit, paymentSplitsAndTripResponse -> paymentSplitsAndTripResponse }
                 .subscribe {
                     bindPaymentTile(it.tripResponse.isExpediaRewardsRedeemable(), it.paymentSplits.paymentSplitsType())
                     isExpediaRewardsRedeemable = it.tripResponse.isExpediaRewardsRedeemable()
                     paymentSplitsType = it.paymentSplits.paymentSplitsType()
                     isFullPayableWithPoints = !it.isCardRequired()
+                    vm.burnAmountApiCallResponsePending.onNext(false)
                 }
+        vm.enableDoneButton.subscribe{
+            enableDoneButton(it)
+        }
     }
         @Inject set
+
+    private fun enableDoneButton(enable: Boolean) {
+        if (paymentOptionsContainer.visibility == View.VISIBLE) {
+            mToolbarListener?.showRightActionButton(enable && isComplete)
+        }
+    }
 
     override fun directlyNavigateToPaymentDetails(): Boolean {
         return !isExpediaRewardsRedeemable && !(User.isLoggedIn(context) && !Db.getUser().storedCreditCards.isEmpty()) && Db.getTemporarilySavedCard() == null
@@ -158,7 +169,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
             if (!directlyNavigateToPaymentDetails()) {
                 paymentButton.bind()
                 paymentButton.visibility = if ((User.isLoggedIn(context) && !Db.getUser().storedCreditCards.isEmpty()) || Db.getTemporarilySavedCard() != null) View.VISIBLE else View.GONE
-                mToolbarListener?.showRightActionButton(true)
+                paymentWidgetViewModel.hasPwpEditBoxFocus.onNext(false)
                 mToolbarListener?.setMenuLabel(getMenuButtonTitle())
             }
             if (!areFilledInCardDetailsCompleteAndValid()) {
@@ -182,6 +193,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
             override fun onStoredCreditCardChosen(card: StoredCreditCard) {
                 sectionBillingInfo.billingInfo.storedCard = card
                 selectedCardText(card.description, card.type, false)
+                paymentWidgetViewModel.onStoredCardChosen.onNext(Unit)
             }
 
             private fun selectedCardText(selectedCardText: String, paymentType: PaymentType,selects: Boolean) {
