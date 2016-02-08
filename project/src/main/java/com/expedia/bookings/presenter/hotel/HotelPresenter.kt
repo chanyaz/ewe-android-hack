@@ -151,7 +151,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.hotelCheckoutViewModel.checkoutParams.subscribe {
             checkoutDialog.show()
         }
-        presenter.hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(paymentModel.paymentSplitsAndLatestTripResponse) { unit, paymentSplitsAndLatestTripResponse ->
+        presenter.hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(paymentModel.paymentSplitsWithLatestTripResponse) { unit, paymentSplitsAndLatestTripResponse ->
             paymentSplitsAndLatestTripResponse.isCardRequired()
         }.filter { it }.subscribe {
             checkoutDialog.hide()
