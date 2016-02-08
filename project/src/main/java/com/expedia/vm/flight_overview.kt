@@ -29,6 +29,14 @@ class FlightOverviewViewModel(val context: Context) {
                         .put("seats", selectedFlight.packageOfferModel.urgencyMessage.ticketsLeft)
                         .format().toString()
             }
+            if (urgencyMessage.isNotBlank()) {
+                urgencyMessage += ", "
+            }
+            if (selectedFlight.packageOfferModel.price.deltaPositive) {
+                urgencyMessage += "+" + selectedFlight.packageOfferModel.price.differentialPriceFormatted
+            } else {
+                urgencyMessage += selectedFlight.packageOfferModel.price.differentialPriceFormatted
+            }
             urgencyMessagingObserver.onNext(urgencyMessage)
             var totalDuration = Phrase.from(context.resources.getString(R.string.package_flight_overview_total_duration_TEMPLATE))
                     .put("duration", PackageFlightUtils.getFlightDurationString(context, selectedFlight))
