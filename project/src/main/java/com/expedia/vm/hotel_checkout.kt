@@ -170,15 +170,15 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
     val slideToText = BehaviorSubject.create<String>()
     val resetMenuButton = BehaviorSubject.create<Unit>()
     val totalPriceCharged: Observable<String> =
-            paymentModel.paymentSplits.withLatestFrom(paymentModel.tripResponses, { paymentSplits, tripResponse ->
+            paymentModel.paymentSplitsWithLatestTripResponse.map {
                 object {
-                    val payingWithPoints = paymentSplits.payingWithPoints
-                    val payingWithCards = paymentSplits.payingWithCards
-                    val paymentSplitsType = paymentSplits.paymentSplitsType()
-                    val isExpediaRewardsRedeemable = tripResponse.isExpediaRewardsRedeemable()
-                    val hotelProductResponse = tripResponse.newHotelProductResponse
+                    val payingWithPoints = it.paymentSplits.payingWithPoints
+                    val payingWithCards = it.paymentSplits.payingWithCards
+                    val paymentSplitsType = it.paymentSplits.paymentSplitsType()
+                    val isExpediaRewardsRedeemable = it.tripResponse.isExpediaRewardsRedeemable()
+                    val dueNowAmount = it.tripResponse.getTripTotal()
                 }
-            }).map {
+            }.map {
                 when (it.isExpediaRewardsRedeemable) {
                     true ->
                         when (it.paymentSplitsType) {
@@ -201,7 +201,7 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                                         .format().toString()
                         }
                     false -> Phrase.from(context, R.string.your_card_will_be_charged_template)
-                            .put("dueamount", it.hotelProductResponse.dueNowAmount.formattedMoney).format().toString()
+                            .put("dueamount", it.dueNowAmount.formattedMoney).format().toString()
                 }
             }
 

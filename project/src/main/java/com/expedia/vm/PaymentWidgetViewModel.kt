@@ -26,17 +26,15 @@ public class PaymentWidgetViewModel<T : TripResponse>(val context: Context, paym
     override val totalDueToday = paymentModel.tripResponses.map { totalDueTodayMessage(it.getTripTotal()) }
     override val remainingBalanceDueOnCard = paymentModel.paymentSplits.map { remainingBalanceDueOnCardMessage(it.payingWithCards.amount) }
     override val remainingBalanceDueOnCardVisibility = paymentModel.tripResponses.map { it.isExpediaRewardsRedeemable() }
-    override val paymentSplitsAndTripResponse = paymentModel.paymentSplitsAndLatestTripResponse
+    override val paymentSplitsAndTripResponse = paymentModel.paymentSplitsWithLatestTripResponse
     override val burnAmountApiCallResponsePending = PublishSubject.create<Boolean>()
     override val onStoredCardChosen = PublishSubject.create<Unit>()
     override val enableDoneButton = PublishSubject.create<Boolean>()
-
 
     private val isPwpDirty = Observable.combineLatest(hasPwpEditBoxFocus, burnAmountApiCallResponsePending, {
         hasPwpEditBoxFocus, burnAmountApiCallResponsePending ->
         hasPwpEditBoxFocus || burnAmountApiCallResponsePending
     })
-
 
     init {
         //Send it off to the Sub ViewModels!
