@@ -81,15 +81,31 @@ public abstract class TripResponse : BaseApiResponse() {
         return PaymentSplits(expediaPointDetails.maxPayableWithPoints!!, expediaPointDetails.remainingPayableByCard!!)
     }
 
-    fun paymentSplitsForPriceChange(): PaymentSplits {
-        if (isExpediaRewardsRedeemable()) {
-            if (userPreferencePoints != null)
-                return PaymentSplits(userPreferencePoints!!.getUserPreference(ProgramName.ExpediaRewards)!!, userPreferencePoints!!.remainingPayableByCard)
-            else
-                return paymentSplitsWhenMaxPayableWithPoints()
-        }
-        else {
+    //Note: Invoking this makes sense on the response received from Create-Trip only, so we are not dealing with
+    fun newTripPaymentSplits(): PaymentSplits {
+        return if (isExpediaRewardsRedeemable()) paymentSplitsWhenMaxPayableWithPoints() else paymentSplitsWhenZeroPayableWithPoints()
+    }
+
+    fun paymentSplitsForPriceChange(pwpOpted: Boolean): PaymentSplits {
+        if (!pwpOpted) {
             return paymentSplitsWhenZeroPayableWithPoints()
+        } else if (!isExpediaRewardsRedeemable()) {
+            return paymentSplitsWhenZeroPayableWithPoints()
+        } else if (userPreferencePoints != null) {
+            return PaymentSplits(userPreferencePoints!!.getUserPreference(ProgramName.ExpediaRewards)!!, userPreferencePoints!!.remainingPayableByCard)
+        } else {
+            return paymentSplitsWhenMaxPayableWithPoints()
         }
+    }
+
+    fun paymentSplitsSuggestions(pwpOpted: Boolean): PaymentSplits {
+        if (!isExpediaRewardsRedeemable()) {
+            return paymentSplitsWhenZeroPayableWithPoints()
+        } else if (!pwpOpted) {
+            return paymentSplitsWhenMaxPayableWithPoints()
+        } else if (userPreferencePoints != null)
+            return PaymentSplits(userPreferencePoints!!.getUserPreference(ProgramName.ExpediaRewards)!!, userPreferencePoints!!.remainingPayableByCard)
+        else
+            return paymentSplitsWhenMaxPayableWithPoints()
     }
 }

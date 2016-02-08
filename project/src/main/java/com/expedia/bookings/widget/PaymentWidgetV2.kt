@@ -145,6 +145,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
     }
 
     override public fun setExpanded(expand: Boolean, animate: Boolean) {
+        val wasExpanded = isExpanded
         super.setExpanded(expand, animate)
         if (expand) {
             if (!directlyNavigateToPaymentDetails()) {
@@ -153,7 +154,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
                 mToolbarListener?.showRightActionButton(true)
                 mToolbarListener?.setMenuLabel(getMenuButtonTitle())
             }
-        } else {
+        } else if(wasExpanded) {
             paymentWidgetViewModel.navigatingBackToCheckoutScreen.onNext(Unit)
         }
     }

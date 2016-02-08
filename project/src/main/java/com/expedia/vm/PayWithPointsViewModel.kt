@@ -11,6 +11,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.squareup.phrase.Phrase
 import rx.Observable
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.text.NumberFormat
@@ -42,7 +43,7 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
 
     //INLETS
     override val userEnteredBurnAmount = PublishSubject.create<String>()
-    override val pwpOpted = PublishSubject.create<Boolean>()
+    override val pwpOpted = BehaviorSubject.create<Boolean>(true)
     override val clearUserEnteredBurnAmount = PublishSubject.create<Unit>()
 
     //OUTLETS
@@ -68,23 +69,22 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
     //Critical to absorb tripResponses here as a trip can shift from redeemable to non-redeemable and vice-versa in case of Apply/Remove Coupon and Price Change on Checkout!
     override val pwpWidgetVisibility = paymentModel.tripResponses.map { it.isExpediaRewardsRedeemable() }
 
-    private val startingPaymentSplits = paymentModel.tripResponses.filter {
-        it.isExpediaRewardsRedeemable()
-    }.map { it.maxPayableWithExpediaRewardPoints().amount }
+    private val burnAmountUpdatesFromPaymentSplitsSuggestions = paymentModel.paymentSplitsSuggestionUpdates.map { it.payingWithPoints.amount.amount }
 
-    private val pointsForComparison = PublishSubject.create<BigDecimal>()
+    private val burnAmountForComparison = PublishSubject.create<BigDecimal>()
 
     override val burnAmountUpdate = Observable.merge(
-            startingPaymentSplits.map { it.toString() },
+            burnAmountUpdatesFromPaymentSplitsSuggestions.map { it.toString() },
             clearUserEnteredBurnAmount.map { "" },
-            userEnteredBurnAmount.filter { !Strings.isEmpty(it) && !Strings.equals(toBigDecimalWithScale2(it).toString(), it) }. map { toBigDecimalWithScale2(it).toString() },
+            userEnteredBurnAmount.filter { !Strings.isEmpty(it) && !Strings.equals(toBigDecimalWithScale2(it).toString(), it) }.map { toBigDecimalWithScale2(it).toString() },
             //Update textbox to restoredPaymentSplits in case of discarded api call and toggle is on
-            paymentModel.restoredPaymentSplitsInCaseOfDiscardedApiCall.withLatestFrom(pwpOpted, { paymentSplits, pwpOpted ->
-                Pair(paymentSplits, pwpOpted)
-            })
-                    .filter { it.second }
+            paymentModel.restoredPaymentSplitsInCaseOfDiscardedApiCall
+                    .withLatestFrom(pwpOpted, { paymentSplits, pwpOpted -> Pair(paymentSplits, pwpOpted) })
+                    .filter {
+                        it.second
+                    }
                     .map { it.first.payingWithPoints.amount.amount }
-                    .map { if(it.compareTo(BigDecimal.ZERO) == 0) "" else it.toString() }
+                    .map { if (it.compareTo(BigDecimal.ZERO) == 0) "" else it.toString() }
     )
 
     private val distinctBurnAmountEntered = PublishSubject.create<BigDecimal>()
@@ -94,15 +94,15 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
             userEnteredBurnAmount.map { toBigDecimalWithScale2(it) },
             pwpOpted.filter { !it }.map { toBigDecimalWithScale2("") },
             clearUserEnteredBurnAmount.map { toBigDecimalWithScale2("") })
-            .withLatestFrom(pointsForComparison, { burnAmount, pointsForComparison ->
+            .withLatestFrom(burnAmountForComparison, { burnAmount, burnAmountForComparison ->
                 object {
                     val burnAmount = burnAmount
-                    val pointsForComparison = pointsForComparison
+                    val burnAmountForComparison = burnAmountForComparison
                 }
             })
-            .filter { it.pointsForComparison == null || it.burnAmount.compareTo(it.pointsForComparison) != 0 }
+            .filter { it.burnAmountForComparison == null || it.burnAmount.compareTo(it.burnAmountForComparison) != 0 }
             .map { it.burnAmount }
-            .doOnNext { pointsForComparison.onNext(it) }
+            .doOnNext { burnAmountForComparison.onNext(it) }
 
     private val burnAmountAndLatestTripTotalFacade = distinctBurnAmountEntered
             .withLatestFrom(paymentModel.tripResponses, { burnAmount, tripResponse ->
@@ -114,7 +114,7 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
                 }
             })
 
-    private val pointsAppliedAndErrorMessages = Observable.merge(
+    private val pointsAppliedAndErrorMessages: Observable<Pair<String, Boolean>> = Observable.merge(
             //Points received from Payment Splits
             paymentModel.paymentSplits.map { Pair(pointsAppliedMessage(it), true) },
             //Locally Handled Errors - Burn Amount > Trip Total
@@ -138,11 +138,15 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
     }
 
     init {
-        startingPaymentSplits.subscribe(pointsForComparison)
-        paymentModel.burnAmountToPointsApiError.map { null }.subscribe(pointsForComparison)
-        paymentModel.restoredPaymentSplitsInCaseOfDiscardedApiCall.map { it.payingWithPoints.amount.amount }.subscribe(pointsForComparison)
+        burnAmountUpdatesFromPaymentSplitsSuggestions
+                .withLatestFrom(pwpOpted, { burnAmountUpdateFromPaymentSplitsSuggestion, pwpOpted -> Pair(burnAmountUpdateFromPaymentSplitsSuggestion, pwpOpted) })
+                .map { if(!it.second) BigDecimal.ZERO else it.first }
+                .subscribe(burnAmountForComparison)
+        paymentModel.burnAmountToPointsApiError.map { null }.subscribe(burnAmountForComparison)
+        paymentModel.restoredPaymentSplitsInCaseOfDiscardedApiCall.map { it.payingWithPoints.amount.amount }.subscribe(burnAmountForComparison)
 
         //Send it off to the Model!
+        pwpOpted.subscribe(paymentModel.pwpOpted)
         distinctBurnAmountEntered.subscribe(paymentModel.burnAmountSubject)
         navigatingBackToCheckoutScreen.subscribe(paymentModel.discardPendingCurrencyToPointsAPISubscription)
 
