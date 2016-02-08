@@ -659,7 +659,7 @@ public class HotelRoomRateViewModel(val context: Context, var hotelId: String, v
             HotelV2Tracking().trackLinkHotelV2RoomBookClick(hotelRoomResponse, hasETP)
 
 
-            if (hotelRoomResponse.rateInfo.chargeableRateInfo?.airAttached?: false) {
+            if (hotelRoomResponse.rateInfo.chargeableRateInfo?.airAttached ?: false) {
                 HotelV2Tracking().trackLinkHotelV2AirAttachEligible(hotelRoomResponse, hotelId)
             }
         } else {

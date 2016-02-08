@@ -45,8 +45,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
             observable.subscribe { trip ->
                 if (trip.hasErrors()) {
                     errorRemoveCouponShowDialogObservable.onNext(trip.firstError)
-                }
-                else {
+                } else {
                     couponChangeSuccess(trip)
                     // TODO Add omniture tracking for coupon removal
                 }

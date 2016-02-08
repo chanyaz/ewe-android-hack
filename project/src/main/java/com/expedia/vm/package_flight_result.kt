@@ -8,8 +8,6 @@ import com.expedia.bookings.data.packages.FlightLeg
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.StrUtils
 import rx.subjects.BehaviorSubject
-import kotlin.collections.filter
-import kotlin.collections.sortedBy
 
 public class FlightResultsViewModel() {
     val flightResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
@@ -34,16 +32,16 @@ public class FlightToolbarViewModel(private val context: Context) {
         refreshToolBar.subscribe { isResults ->
             // Flights Toolbar content - 6235
             var isOutboundSearch = Db.getPackageParams().isOutboundSearch()
-            var cityBound : String = if (isOutboundSearch) Db.getPackageParams().destination.regionNames.shortName else Db.getPackageParams().origin.regionNames.shortName
-            var resultsTitle : String = StrUtils.formatCityName(context.resources.getString(R.string.select_flight_to, cityBound))
-            var overviewTitle : String = StrUtils.formatCityName(context.resources.getString(R.string.flight_to_template, cityBound))
-            var resultsOutInboundTitle : String = context.resources.getString(R.string.select_return_flight)
-            titleSubject.onNext( if(isResults && !isOutboundSearch) resultsOutInboundTitle else if (isResults) resultsTitle else overviewTitle)
+            var cityBound: String = if (isOutboundSearch) Db.getPackageParams().destination.regionNames.shortName else Db.getPackageParams().origin.regionNames.shortName
+            var resultsTitle: String = StrUtils.formatCityName(context.resources.getString(R.string.select_flight_to, cityBound))
+            var overviewTitle: String = StrUtils.formatCityName(context.resources.getString(R.string.flight_to_template, cityBound))
+            var resultsOutInboundTitle: String = context.resources.getString(R.string.select_return_flight)
+            titleSubject.onNext(if (isResults && !isOutboundSearch) resultsOutInboundTitle else if (isResults) resultsTitle else overviewTitle)
 
             val numTravelers = Db.getPackageParams().guests()
             val travelers = context.resources.getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numTravelers, numTravelers)
             val date = if (isOutboundSearch) Db.getPackageParams().checkIn else Db.getPackageParams().checkOut
-            val subtitle : CharSequence = JodaUtils.formatLocalDate(context, date, DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR + DateUtils.FORMAT_SHOW_WEEKDAY) + ", " + travelers
+            val subtitle: CharSequence = JodaUtils.formatLocalDate(context, date, DateUtils.FORMAT_SHOW_DATE + DateUtils.FORMAT_SHOW_YEAR + DateUtils.FORMAT_SHOW_WEEKDAY) + ", " + travelers
             subtitleSubject.onNext(subtitle)
             menuVisibilitySubject.onNext(isResults)
         }

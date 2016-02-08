@@ -141,7 +141,7 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
     init {
         burnAmountUpdatesFromPaymentSplitsSuggestions
                 .withLatestFrom(pwpOpted, { burnAmountUpdateFromPaymentSplitsSuggestion, pwpOpted -> Pair(burnAmountUpdateFromPaymentSplitsSuggestion, pwpOpted) })
-                .map { if(!it.second) BigDecimal.ZERO else it.first }
+                .map { if (!it.second) BigDecimal.ZERO else it.first }
                 .subscribe(burnAmountForComparison)
         paymentModel.burnAmountToPointsApiError.map { null }.subscribe(burnAmountForComparison)
         paymentModel.restoredPaymentSplitsInCaseOfDiscardedApiCall.map { it.payingWithPoints.amount.amount }.subscribe(burnAmountForComparison)

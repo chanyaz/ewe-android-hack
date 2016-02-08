@@ -74,7 +74,8 @@ public class CarActivity extends AbstractAppCompatActivity {
 	private void handleNavigationViaDeepLink() {
 		Intent intent = getIntent();
 		final String productKey = intent.getStringExtra(Codes.CARS_PRODUCT_KEY);
-		final CarSearchParams carSearchParams = CarDataUtils.getCarSearchParamsFromJSON(intent.getStringExtra("carSearchParams"));
+		final CarSearchParams carSearchParams
+			= CarDataUtils.getCarSearchParamsFromJSON(intent.getStringExtra("carSearchParams"));
 		if (carSearchParams != null && carSearchParams.startDateTime != null && carSearchParams.endDateTime != null) {
 			carSearchParams.startDateTime = carSearchParams.startDateTime.withZone(DateTimeZone.getDefault());
 			carSearchParams.endDateTime = carSearchParams.endDateTime.withZone(DateTimeZone.getDefault());

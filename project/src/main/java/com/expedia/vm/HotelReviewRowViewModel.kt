@@ -2,15 +2,11 @@ package com.expedia.vm
 
 import android.content.Context
 import android.text.TextUtils
-import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
-import com.expedia.util.endlessObserver
-import com.mobiata.android.Log
-import com.squareup.phrase.Phrase
-import rx.Observer
-import rx.Subscription
-import rx.subjects.BehaviorSubject
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.Review
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.util.endlessObserver
+import rx.subjects.BehaviorSubject
 
 class HotelReviewRowViewModel(val context: Context) {
 
