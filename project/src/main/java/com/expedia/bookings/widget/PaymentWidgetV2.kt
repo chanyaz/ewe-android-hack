@@ -14,6 +14,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -38,6 +39,8 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
     val remainingBalance: TextView by bindView(R.id.remaining_balance)
     val totalDueToday: TextView by bindView(R.id.total_due_today)
     val pwpSmallIcon: ImageView by bindView(R.id.pwp_small_icon)
+    val filledInCardDetailsMiniView: TextView by bindView(R.id.filled_in_card_details_mini_view)
+    val spacerAboveFilledInCardDetailsMiniView: View by bindView(R.id.spacer_above_filled_in_card_details_mini_view)
     val sectionCreditCardContainer: ViewGroup by bindView(R.id.section_credit_card_container)
     val pwpWidget: PayWithPointsWidget by bindView(R.id.pwp_widget)
     val rebindRequested = PublishSubject.create<Unit>()
@@ -62,7 +65,8 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
         @Inject set
 
     override fun directlyNavigateToPaymentDetails(): Boolean {
-        return !isExpediaRewardsRedeemable && !(User.isLoggedIn(context) && !Db.getUser().storedCreditCards.isEmpty())
+        return !isExpediaRewardsRedeemable && !(User.isLoggedIn(context) && !Db.getUser().storedCreditCards.isEmpty()) && Db.getTemporarilySavedCard() == null
+                && !(User.isLoggedIn(context) && areFilledInCardDetailsCompleteAndValid())
     }
 
     lateinit var payWithPointsViewModel: IPayWithPointsViewModel
@@ -130,6 +134,8 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
 
         paymentButton.selectPayment.setCompoundDrawablesWithIntrinsicBounds(creditCardIcon, null, ContextCompat.getDrawable(context, R.drawable.ic_picker_down), null)
         paymentButton.setPaymentButtonListener(paymentButtonListener)
+        filledInCardDetailsMiniView.setCompoundDrawablesWithIntrinsicBounds(getCreditCardIcon(), null, null, null)
+        Db.setTemporarilySavedCard(null)
     }
 
     override fun showPaymentDetails() {
@@ -142,6 +148,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
             paymentButton.selectPayment.setText(R.string.select_saved_cards)
             updatePaymentButtonLeftDrawable(creditCardIcon)
         }
+        temporarilySavedCardIsSelected(false)
     }
 
     override public fun setExpanded(expand: Boolean, animate: Boolean) {
@@ -150,29 +157,54 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
         if (expand) {
             if (!directlyNavigateToPaymentDetails()) {
                 paymentButton.bind()
-                paymentButton.visibility = if (User.isLoggedIn(context) && !Db.getUser().storedCreditCards.isEmpty()) View.VISIBLE else View.GONE
+                paymentButton.visibility = if ((User.isLoggedIn(context) && !Db.getUser().storedCreditCards.isEmpty()) || Db.getTemporarilySavedCard() != null) View.VISIBLE else View.GONE
                 mToolbarListener?.showRightActionButton(true)
                 mToolbarListener?.setMenuLabel(getMenuButtonTitle())
             }
-        } else if(wasExpanded) {
+            if (!areFilledInCardDetailsCompleteAndValid()) {
+                toggleFilledInCardDetailsMiniViewAndItsSpacerVisibility(GONE)
+            }
+        } else if (wasExpanded) {
             paymentWidgetViewModel.navigatingBackToCheckoutScreen.onNext(Unit)
         }
     }
 
     override fun getPaymentButtonListener(): PaymentButton.IPaymentButtonListener {
         return object : PaymentButton.IPaymentButtonListener {
+            override fun onTemporarySavedCreditCardChosen(info: BillingInfo) {
+                removeStoredCard()
+                selectedCardText(temporarilySavedCardLabel(info.paymentType, info.number), info.paymentType, true)
+            }
+
             override fun onAddNewCreditCardSelected() {
             }
 
             override fun onStoredCreditCardChosen(card: StoredCreditCard) {
                 sectionBillingInfo.billingInfo.storedCard = card
-                paymentButton.selectPayment.text = card.description
-                updatePaymentButtonLeftDrawable(ContextCompat.getDrawable(context, BookingInfoUtils.getTabletCardIcon(card.type)))
-                bind()
-                Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
-                paymentButton.dismissPopup()
+                selectedCardText(card.description, card.type, false)
+            }
+
+            private fun selectedCardText(selectedCardText: String, paymentType: PaymentType,selects: Boolean) {
+                paymentButton.selectPayment.text = selectedCardText
+                updatePaymentButtonLeftDrawable(ContextCompat.getDrawable(context, BookingInfoUtils.getTabletCardIcon(paymentType)))
+                toggleFilledInCardDetailsMiniViewAndItsSpacerVisibility(GONE)
+                temporarilySavedCardIsSelected(selects)
             }
         }
+    }
+
+    private fun temporarilySavedCardIsSelected(isSelected: Boolean) {
+        val info = Db.getTemporarilySavedCard()
+        if (info != null) {
+            info.saveCardToExpediaAccount = isSelected
+            Db.setTemporarilySavedCard(info)
+        }
+        bind()
+    }
+
+    private fun toggleFilledInCardDetailsMiniViewAndItsSpacerVisibility(visibility: Int){
+        filledInCardDetailsMiniView.visibility = visibility
+        spacerAboveFilledInCardDetailsMiniView.visibility = visibility
     }
 
     private fun updatePaymentButtonLeftDrawable(drawableLeft: Drawable) {
@@ -183,7 +215,6 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
     override fun bind() {
         rebindRequested.onNext(Unit)
     }
-
 
     fun bindPaymentTile(isRedeemable: Boolean, splitsType: PaymentSplitsType) {
         var paymentType: PaymentType? = null
@@ -219,37 +250,21 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
             val card = sectionBillingInfo.billingInfo.storedCard
             paymentType = card.type
             paymentInfo = card.description
-            paymentOptions = resources.getString(R.string.checkout_tap_to_edit)
-
-            bindStoredCard(paymentType, paymentInfo)
-
-            if (isRedeemable && splitsType == PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD) {
-                paymentInfo = Phrase.from(context, R.string.checkout_paying_with_points_and_card_line1)
-                        .put("carddescription", paymentInfo)
-                        .format().toString()
-            }
-
-            bindPaymentTileInfo(paymentType, paymentInfo, paymentOptions, splitsType)
-            paymentStatusIcon.status = ContactDetailsCompletenessStatus.COMPLETE
+            bindPaymentTileForValidBillingInfo(null, paymentType, isRedeemable, splitsType, paymentInfo)
+        }
+        //User selects his just filled in card (which he had chosen to save as well with checkout).
+        else if (Db.getTemporarilySavedCard() != null && Db.getTemporarilySavedCard().saveCardToExpediaAccount) {
+            val info = Db.getTemporarilySavedCard()
+            paymentType = info.paymentType
+            paymentInfo = temporarilySavedCardLabel(paymentType, info.number)
+            bindPaymentTileForValidBillingInfo(info, paymentType, isRedeemable, splitsType, paymentInfo)
         }
         // Card info user entered is valid
         else if (isBillingInfoValid && isPostalCodeValid) {
             val info = sectionBillingInfo.billingInfo
             paymentType = info.paymentType
-
             paymentInfo = getPaymentInfo(paymentType, info.number)
-            bindStoredCard(paymentType, paymentInfo)
-            if (isRedeemable && splitsType == PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD) {
-                paymentInfo = Phrase.from(context, R.string.checkout_paying_with_points_and_card_line1)
-                        .put("carddescription", paymentInfo)
-                        .format().toString()
-            }
-
-            paymentOptions = resources.getString(R.string.checkout_tap_to_edit)
-
-            bindPaymentTileInfo(paymentType, paymentInfo, paymentOptions, splitsType)
-            paymentStatusIcon.status = ContactDetailsCompletenessStatus.COMPLETE
-            Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(info)
+            bindPaymentTileForValidBillingInfo(info, paymentType, isRedeemable, splitsType, paymentInfo)
         }
         // Card info partially entered & not valid
         else if (isFilled() && (!isBillingInfoValid || !isPostalCodeValid)) {
@@ -272,10 +287,35 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
         }
     }
 
-    private fun getPaymentInfo(paymentType: PaymentType?, cardNumber: String): String
-    {
+    private fun bindPaymentTileForValidBillingInfo(info: BillingInfo?, paymentType: PaymentType?, isRedeemable: Boolean, splitsType: PaymentSplitsType, cardInfo: String) {
+        var paymentInfo = cardInfo
+        bindStoredCard(paymentType, paymentInfo)
+
+        val paymentOptions = resources.getString(R.string.checkout_tap_to_edit)
+
+        if (isRedeemable && splitsType == PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD) {
+            paymentInfo = Phrase.from(context, R.string.checkout_paying_with_points_and_card_line1)
+                    .put("carddescription", paymentInfo)
+                    .format().toString()
+        }
+        bindPaymentTileInfo(paymentType, paymentInfo, paymentOptions, splitsType)
+        paymentStatusIcon.status = ContactDetailsCompletenessStatus.COMPLETE
+
+        if (info != null) {
+            Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(info)
+        }
+    }
+
+    private fun getPaymentInfo(paymentType: PaymentType?, cardNumber: String): String {
         return Phrase.from(context, R.string.checkout_selected_card)
-                .put("cardtype", CreditCardUtils.getHumanReadableCardTypeName(context,paymentType))
+                .put("cardtype", CreditCardUtils.getHumanReadableCardTypeName(context, paymentType))
+                .put("cardno", cardNumber.drop(cardNumber.length - 4))
+                .format().toString()
+    }
+
+    private fun temporarilySavedCardLabel(paymentType: PaymentType?, cardNumber: String): String {
+        return Phrase.from(context, R.string.temporarily_saved_card_TEMPLATE)
+                .put("cardtype", CreditCardUtils.getHumanReadableCardTypeName(context, paymentType))
                 .put("cardno", cardNumber.drop(cardNumber.length - 4))
                 .format().toString()
     }
@@ -333,11 +373,30 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
             return true
         } else if (isCreditCardRequired && isFilled && sectionBillingInfo.performValidation() && sectionLocation.performValidation()) {
             return true
+        } else if (isCreditCardRequired && Db.getTemporarilySavedCard() != null && Db.getTemporarilySavedCard().saveCardToExpediaAccount) {
+            return true
         }// If payment is required check to see if the entered/selected stored CC is valid.
         return false
     }
 
     override fun onLogin() {
         payWithPointsViewModel.userSignedIn.onNext(true)
+    }
+
+    fun areFilledInCardDetailsCompleteAndValid(): Boolean{
+        return (sectionBillingInfo.billingInfo != null && isFilled && sectionBillingInfo.performValidation() && sectionLocation.performValidation())
+    }
+
+    override protected fun userChoosesNotToSaveCard() {
+        val info = sectionBillingInfo.billingInfo
+        toggleFilledInCardDetailsMiniViewAndItsSpacerVisibility(VISIBLE)
+        filledInCardDetailsMiniView.text = getPaymentInfo(info.paymentType, info.number)
+        super.userChoosesNotToSaveCard()
+    }
+
+    override protected fun userChoosesToSaveCard() {
+        super.userChoosesToSaveCard()
+        Db.setTemporarilySavedCard(sectionBillingInfo.billingInfo)
+        paymentButtonListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard())
     }
 }

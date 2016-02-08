@@ -73,6 +73,9 @@ public class Db {
 	// The billing info.  Make sure to properly clear this out when requested
 	private BillingInfo mBillingInfo;
 
+	//It will be set only if user chose 'Save' on filling in new card details. If he chose 'No Thanks', this won't be set then.
+	private BillingInfo temporarilySavedCard ;
+
 	// Google Full Wallet
 	private FullWallet mFullWallet;
 
@@ -231,6 +234,7 @@ public class Db {
 
 	public static void resetBillingInfo() {
 		sDb.mBillingInfo = new BillingInfo();
+		sDb.temporarilySavedCard = null;
 	}
 
 	public static void setBillingInfo(BillingInfo billingInfo) {
@@ -245,6 +249,13 @@ public class Db {
 		return sDb.mBillingInfo;
 	}
 
+	public static BillingInfo getTemporarilySavedCard() {
+		return sDb.temporarilySavedCard;
+	}
+
+	public static void setTemporarilySavedCard(BillingInfo temporarilySavedCard) {
+		sDb.temporarilySavedCard = temporarilySavedCard;
+	}
 	public static boolean hasBillingInfo() {
 		return sDb.mBillingInfo != null;
 	}

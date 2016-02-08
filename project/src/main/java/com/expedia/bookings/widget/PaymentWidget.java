@@ -524,6 +524,10 @@ public class PaymentWidget extends ExpandableCardView {
 				sectionBillingInfo.getBillingInfo().setStoredCard(card);
 				setExpanded(false);
 			}
+
+			@Override
+			public void onTemporarySavedCreditCardChosen(BillingInfo info) {
+			}
 		};
 	}
 
@@ -623,26 +627,34 @@ public class PaymentWidget extends ExpandableCardView {
 			.setMessage(Phrase.from(getContext(), R.string.save_billing_info_message_TEMPLATE).put("brand", BuildConfig.brand).format())
 			.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
-					sectionBillingInfo.getBillingInfo().setSaveCardToExpediaAccount(true);
-					if (directlyNavigateToPaymentDetails()) {
-						setExpanded(false);
-					}
-					else {
-						mToolbarListener.onWidgetClosed();
-					}
+					userChoosesToSaveCard();
 				}
 			}).setNegativeButton(R.string.no_thanks, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
-					sectionBillingInfo.getBillingInfo().setSaveCardToExpediaAccount(false);
-					if (directlyNavigateToPaymentDetails()) {
-						setExpanded(false);
-					}
-					else {
-						mToolbarListener.onWidgetClosed();
-					}
+					userChoosesNotToSaveCard();
 				}
 			}).create();
 		dialog.show();
+	}
+
+	protected void userChoosesToSaveCard() {
+		sectionBillingInfo.getBillingInfo().setSaveCardToExpediaAccount(true);
+		if (directlyNavigateToPaymentDetails()) {
+			setExpanded(false);
+		}
+		else {
+			mToolbarListener.onWidgetClosed();
+		}
+	}
+
+	protected void userChoosesNotToSaveCard() {
+		sectionBillingInfo.getBillingInfo().setSaveCardToExpediaAccount(false);
+		if (directlyNavigateToPaymentDetails()) {
+			setExpanded(false);
+		}
+		else {
+			mToolbarListener.onWidgetClosed();
+		}
 	}
 
 	private boolean workingBillingInfoChanged() {
