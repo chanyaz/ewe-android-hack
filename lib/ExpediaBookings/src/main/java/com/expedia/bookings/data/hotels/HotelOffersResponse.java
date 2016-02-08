@@ -47,6 +47,8 @@ public class HotelOffersResponse extends BaseApiResponse {
 	public List<Photos> photos;
 	public HotelText hotelRenovationText;
 
+	public transient boolean isPackage;
+
 	public static class HotelAmenities {
 		public String id;
 		public String description;
@@ -144,6 +146,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.currencyCode = packageHotelOffer.hotelOffer.packageHotelDeltaPrice.currencyCode;
 			hotelOffer.hotelRoomResponse.add(packageHotelOffer.hotelOffer);
 		}
+		hotelOffer.isPackage = true;
 		return hotelOffer;
 	}
 

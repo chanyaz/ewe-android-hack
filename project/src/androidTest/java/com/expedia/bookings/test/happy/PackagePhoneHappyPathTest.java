@@ -136,7 +136,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		String startDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
 		String endDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(8));
 		onView(
-			allOf(withId(R.id.hotel_search_info), withText(startDate + " - " + endDate + ", 1 Guest")))
+			allOf(withId(R.id.hotel_search_info), withText("1 Guest, 1 room")))
 			.check(matches(isDisplayed()));
 	}
 

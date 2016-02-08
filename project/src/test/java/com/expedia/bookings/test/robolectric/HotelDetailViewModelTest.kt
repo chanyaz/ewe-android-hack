@@ -1,12 +1,16 @@
 package com.expedia.bookings.test.robolectric
 
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.ServicesRule
+import com.expedia.bookings.utils.DateUtils
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
+import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -19,6 +23,7 @@ import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
@@ -79,6 +84,21 @@ public class HotelDetailViewModelTest {
         assertNull(vm.strikeThroughPriceObservable.value)
     }
 
+    @Test fun discountPercentageShouldNotShow() {
+        offer1.isPackage = true
+        vm.hotelOffersSubject.onNext(offer1)
+        assertFalse(vm.hasDiscountPercentageObservable.value)
+    }
+
+    @Test fun packageSearchInfoShouldShow() {
+        var searchParams = createSearchParams()
+        searchParams.forPackage = true
+        vm.paramsSubject.onNext(searchParams)
+        val dates = DateUtils.localDateToMMMd(searchParams.checkIn) + " - " + DateUtils.localDateToMMMd(searchParams.checkOut)
+        assertEquals(dates, vm.searchDatesObservable.value)
+        assertEquals("${searchParams.guests()} Guests, 1 room", vm.searchInfoObservable.value)
+    }
+
     @Test fun priceShownToCustomerIncludesCustomerFees() {
         vm.hotelOffersSubject.onNext(offer2)
         val df = DecimalFormat("#")
@@ -118,33 +138,33 @@ public class HotelDetailViewModelTest {
         testSub.assertReceivedOnNext(expected)
     }
 
-//  TODO: Fix the test.
-//      @Test fun expandNextAvailableRoomOnSoldOut() {
-//        vm.hotelOffersSubject.onNext(offer1)
-//
-//        val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>()
-//        (1..3).forEach {
-//            hotelRoomRateViewModels.add(HotelRoomRateViewModel(RuntimeEnvironment.application, offer1.hotelId, offer1.hotelRoomResponse.first(), "", it, PublishSubject.create(), endlessObserver { }))
-//        }
-//        vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
-//
-//        val expandRoom0TestSubscriber = TestSubscriber.create<Boolean>()
-//        hotelRoomRateViewModels.get(0).expandRoomObservable.subscribe(expandRoom0TestSubscriber)
-//        val expandRoom1TestSubscriber = TestSubscriber.create<Boolean>()
-//        hotelRoomRateViewModels.get(1).expandRoomObservable.subscribe(expandRoom1TestSubscriber)
-//        val expandRoom2TestSubscriber = TestSubscriber.create<Boolean>()
-//        hotelRoomRateViewModels.get(2).expandRoomObservable.subscribe(expandRoom2TestSubscriber)
-//
-//        vm.rowExpandingObservable.onNext(0)
-//        vm.selectedRoomSoldOut.onNext(Unit)
-//
-//        vm.rowExpandingObservable.onNext(1)
-//        vm.selectedRoomSoldOut.onNext(Unit)
-//
-//        expandRoom0TestSubscriber.assertNoValues()
-//        expandRoom1TestSubscriber.assertValues(false)
-//        expandRoom2TestSubscriber.assertValues(false)
-//    }
+    //  TODO: Fix the test.
+    //      @Test fun expandNextAvailableRoomOnSoldOut() {
+    //        vm.hotelOffersSubject.onNext(offer1)
+    //
+    //        val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>()
+    //        (1..3).forEach {
+    //            hotelRoomRateViewModels.add(HotelRoomRateViewModel(RuntimeEnvironment.application, offer1.hotelId, offer1.hotelRoomResponse.first(), "", it, PublishSubject.create(), endlessObserver { }))
+    //        }
+    //        vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
+    //
+    //        val expandRoom0TestSubscriber = TestSubscriber.create<Boolean>()
+    //        hotelRoomRateViewModels.get(0).expandRoomObservable.subscribe(expandRoom0TestSubscriber)
+    //        val expandRoom1TestSubscriber = TestSubscriber.create<Boolean>()
+    //        hotelRoomRateViewModels.get(1).expandRoomObservable.subscribe(expandRoom1TestSubscriber)
+    //        val expandRoom2TestSubscriber = TestSubscriber.create<Boolean>()
+    //        hotelRoomRateViewModels.get(2).expandRoomObservable.subscribe(expandRoom2TestSubscriber)
+    //
+    //        vm.rowExpandingObservable.onNext(0)
+    //        vm.selectedRoomSoldOut.onNext(Unit)
+    //
+    //        vm.rowExpandingObservable.onNext(1)
+    //        vm.selectedRoomSoldOut.onNext(Unit)
+    //
+    //        expandRoom0TestSubscriber.assertNoValues()
+    //        expandRoom1TestSubscriber.assertValues(false)
+    //        expandRoom2TestSubscriber.assertValues(false)
+    //    }
 
     @Test fun allRoomsSoldOutSignal() {
         vm.hotelOffersSubject.onNext(offer1)
@@ -204,5 +224,20 @@ public class HotelDetailViewModelTest {
 
         rooms.add(hotel)
         return rooms
+    }
+
+    private fun createSearchParams(): HotelSearchParams {
+        val suggestionV4 = SuggestionV4()
+        suggestionV4.gaiaId = "1234"
+        val regionNames = SuggestionV4.RegionNames()
+        regionNames.displayName = "San Francisco"
+        regionNames.shortName = "SFO"
+        suggestionV4.regionNames = regionNames
+        val childList = ArrayList<Int>()
+        childList.add(1)
+        var checkIn = LocalDate.now().plusDays(2)
+        var checkOut = LocalDate.now().plusDays(5)
+        val numAdults = 2
+        return HotelSearchParams(suggestionV4, checkIn, checkOut, numAdults, childList)
     }
 }

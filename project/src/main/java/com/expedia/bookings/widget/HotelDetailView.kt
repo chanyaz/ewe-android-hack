@@ -88,6 +88,8 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     val perNight: TextView by bindView(R.id.per_night)
     val detailsSoldOut: TextView by bindView(R.id.details_sold_out)
     val priceWidget: View by bindView(R.id.price_widget)
+    val searchDatesInfo: TextView by bindView(R.id.search_dates_info)
+    val hotelPriceContainer: View by bindView(R.id.hotel_price_container)
 
     val searchInfo: TextView by bindView(R.id.hotel_search_info)
     val ratingContainer: LinearLayout by bindView(R.id.rating_container)
@@ -242,6 +244,10 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         vm.roomPriceToShowCustomer.subscribeText(price)
         vm.perNightVisibility.subscribeInverseVisibility(perNight)
 
+        vm.isPackageHotelObservable.subscribeInverseVisibility(hotelPriceContainer)
+        vm.isPackageHotelObservable.subscribeVisibility(searchDatesInfo)
+        vm.searchDatesObservable.subscribeText(searchDatesInfo)
+
         vm.isUserRatingAvailableObservable.subscribeVisibility(userRating)
         vm.userRatingObservable.subscribeText(userRating)
         vm.userRatingBackgroundColorObservable.subscribeBackground(userRating)
@@ -255,7 +261,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             val location = Location()
             location.latitude = values[0]
             location.longitude = values[1]
-             miniMapView.setLocation(location)
+            miniMapView.setLocation(location)
         }
         vm.payByPhoneContainerVisibility.subscribe { spaceAboveSelectARoom() }
         vm.payByPhoneContainerVisibility.subscribeVisibility(payByPhoneContainer)
@@ -290,7 +296,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             roomContainerAlphaOneToZeroAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
             roomContainerAlphaOneToZeroAnimation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationEnd(p0: Animation?) {
-                    for (index in 0..(roomContainer.childCount-1) ) {
+                    for (index in 0..(roomContainer.childCount - 1)) {
                         val room = roomContainer.getChildAt(index) as HotelRoomRateView
                         recycleImageView(room.roomHeaderImage)
                     }
@@ -357,7 +363,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             roomContainerAlphaOneToZeroAnimation.duration = ANIMATION_DURATION_ROOM_CONTAINER
             roomContainerAlphaOneToZeroAnimation.setAnimationListener(object : Animation.AnimationListener {
                 override fun onAnimationEnd(p0: Animation?) {
-                    for (index in 0..(roomContainer.childCount-1) ) {
+                    for (index in 0..(roomContainer.childCount - 1)) {
                         val room = roomContainer.getChildAt(index) as HotelRoomRateView
                         recycleImageView(room.roomHeaderImage)
                     }
@@ -458,7 +464,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         payNowButtonContainer.unsubscribeOnClick()
         payLaterButtonContainer.unsubscribeOnClick()
         gallery.setDataSource(emptyList())
-        for (index in 0..(roomContainer.childCount-1) ) {
+        for (index in 0..(roomContainer.childCount - 1)) {
             val room = roomContainer.getChildAt(index) as HotelRoomRateView
             recycleImageView(room.roomHeaderImage)
         }

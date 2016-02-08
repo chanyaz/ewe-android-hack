@@ -6,6 +6,7 @@ import org.joda.time.Days
 import org.joda.time.LocalDate
 
 public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>) {
+    var forPackage = false
 
     public fun getGuestString() : String {
         val sb = StringBuilder {
@@ -24,6 +25,7 @@ public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: L
         private var checkOut: LocalDate? = null
         private var adults: Int = 1
         private var children: List<Int> = emptyList()
+        private var isPackage: Boolean = false
 
         fun suggestion(city: SuggestionV4?): Builder {
             this.suggestion = city
@@ -50,12 +52,19 @@ public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: L
             return this
         }
 
+        fun forPackage(pkg: Boolean): Builder {
+            this.isPackage = pkg
+            return this
+        }
+
         fun build(): HotelSearchParams {
             val location = suggestion ?: throw IllegalArgumentException()
             if (suggestion?.gaiaId == null && suggestion?.coordinates == null) throw IllegalArgumentException()
             val checkInDate = checkIn ?: throw IllegalArgumentException()
             val checkOutDate = checkOut ?: throw IllegalArgumentException()
-            return HotelSearchParams(location, checkInDate, checkOutDate, adults, children)
+            var params = HotelSearchParams(location, checkInDate, checkOutDate, adults, children)
+            params.forPackage = isPackage
+            return params
         }
 
         public fun areRequiredParamsFilled(): Boolean {
@@ -73,16 +82,15 @@ public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: L
         public fun hasValidDates(): Boolean {
             return Days.daysBetween(checkIn, checkOut).days <= maxStay
         }
-
     }
 
     public fun guests() : Int {
         return children.size + adults
     }
-
 }
 
 public fun convertPackageToSearchParams(packageParams: PackageSearchParams, maxStay: Int): HotelSearchParams {
-    val builder = HotelSearchParams.Builder(maxStay).suggestion(packageParams.destination).checkIn(packageParams.checkIn).checkOut(packageParams.checkOut)
+    val builder = HotelSearchParams.Builder(maxStay).suggestion(packageParams.destination)
+            .checkIn(packageParams.checkIn).checkOut(packageParams.checkOut).forPackage(true)
     return builder.build()
 }
