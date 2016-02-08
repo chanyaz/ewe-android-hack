@@ -105,26 +105,20 @@
       "splitFarePrice": [
         {
           "legId": "34fa89938312d0fd8322ee27cb89f8a1",
-          "flightFare": {
-            "currencyCode": "USD",
-            "totalPrice": {
-              "amount": "69.06",
-              "formattedPrice": "$69.06",
-              "formattedWholePrice": "$69",
-              "currencyCode": "USD"
-            }
+          "totalPrice": {
+            "amount": "69.06",
+            "formattedPrice": "$69.06",
+            "formattedWholePrice": "$69",
+            "currencyCode": "USD"
           }
         },
         {
           "legId": "0558a569d2c6b1af709befca2e617390",
-          "flightFare": {
-            "currencyCode": "USD",
-            "totalPrice": {
-              "amount": "62.54",
-              "formattedPrice": "$62.54",
-              "formattedWholePrice": "$62",
-              "currencyCode": "USD"
-            }
+          "totalPrice": {
+            "amount": "62.54",
+            "formattedPrice": "$62.54",
+            "formattedWholePrice": "$62",
+            "currencyCode": "USD"
           }
         }
       ]

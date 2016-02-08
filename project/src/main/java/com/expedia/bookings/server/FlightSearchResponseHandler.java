@@ -308,9 +308,8 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 
 				JSONObject legSplitTicketFare = legSplitFarePrices.optJSONObject(i);
 				String legId = legSplitTicketFare.optString("legId");
-				JSONObject flightFare = legSplitTicketFare.optJSONObject("flightFare");
-				JSONObject totalPrice = flightFare.optJSONObject("totalPrice");
-				String currencyCode = flightFare.optString("currencyCode");
+				JSONObject totalPrice = legSplitTicketFare.optJSONObject("totalPrice");
+				String currencyCode = totalPrice.optString("currencyCode");
 				FlightLeg flightLeg = new FlightLeg();
 				flightLeg.setLegId(legId);
 
