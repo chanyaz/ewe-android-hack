@@ -147,7 +147,7 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Pre
             searchEditText?.hint = context.resources.getString(R.string.enter_destination_hint)
 
             val close = searchLocationEditText?.findViewById(android.support.v7.appcompat.R.id.search_close_btn) as ImageView?
-            val drawable = ContextCompat.getDrawable(context, R.drawable.ic_close_white_24dp)
+            val drawable = ContextCompat.getDrawable(context, R.drawable.ic_close_white_24dp).mutate()
             drawable.setColorFilter(R.color.hotels_primary_color, PorterDuff.Mode.SRC_IN)
             close?.setImageDrawable(drawable)
         }
