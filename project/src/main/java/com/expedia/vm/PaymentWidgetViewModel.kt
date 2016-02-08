@@ -19,7 +19,7 @@ public class PaymentWidgetViewModel<T : TripResponse>(val context: Context, paym
             .put("money", amount.formattedMoneyFromAmountAndCurrencyCode).format().toString()
 
     //Inlets
-    override val navigatingBackToCheckoutScreen = PublishSubject.create<Unit>()
+    override val navigatingOutOfPaymentOptions = PublishSubject.create<Unit>()
     override val hasPwpEditBoxFocus = PublishSubject.create<Boolean>()
 
     //Outlets
@@ -40,7 +40,7 @@ public class PaymentWidgetViewModel<T : TripResponse>(val context: Context, paym
 
     init {
         //Send it off to the Sub ViewModels!
-        navigatingBackToCheckoutScreen.subscribe(payWithPointsViewModel.navigatingBackToCheckoutScreen)
+        navigatingOutOfPaymentOptions.subscribe(payWithPointsViewModel.navigatingOutOfPaymentOptions)
 
         payWithPointsViewModel.hasPwpEditBoxFocus.subscribe(hasPwpEditBoxFocus)
         paymentModel.burnAmountSubject.map { true }.subscribe(burnAmountApiCallResponsePending)

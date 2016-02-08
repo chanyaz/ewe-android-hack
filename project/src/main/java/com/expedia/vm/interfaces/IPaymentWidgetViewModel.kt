@@ -6,7 +6,7 @@ import rx.subjects.PublishSubject
 
 public interface IPaymentWidgetViewModel {
     //INLETS
-    val navigatingBackToCheckoutScreen: PublishSubject<Unit>
+    val navigatingOutOfPaymentOptions: PublishSubject<Unit>
     val hasPwpEditBoxFocus: PublishSubject<Boolean>
 
     //OUTLETS

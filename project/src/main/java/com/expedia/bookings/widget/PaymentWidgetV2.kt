@@ -85,6 +85,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
 
     override fun creditCardClicked() {
         presenter.show(CreditCardWidgetExpandedState())
+        paymentWidgetViewModel.navigatingOutOfPaymentOptions.onNext(Unit)
     }
 
     @OnClick(R.id.select_payment_button)
@@ -176,7 +177,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
                 toggleFilledInCardDetailsMiniViewAndItsSpacerVisibility(GONE)
             }
         } else if (wasExpanded) {
-            paymentWidgetViewModel.navigatingBackToCheckoutScreen.onNext(Unit)
+            paymentWidgetViewModel.navigatingOutOfPaymentOptions.onNext(Unit)
         }
     }
 

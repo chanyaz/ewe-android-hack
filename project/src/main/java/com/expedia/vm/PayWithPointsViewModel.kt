@@ -65,7 +65,7 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
     override val userSignedIn = PublishSubject.create<Boolean>()
     override val enablePwPToggle = Observable.merge(userSignedIn, enablePwPToggleOnRedeemableNewTrip)
 
-    override val navigatingBackToCheckoutScreen = PublishSubject.create<Unit>()
+    override val navigatingOutOfPaymentOptions = PublishSubject.create<Unit>()
 
     //Critical to absorb tripResponses here as a trip can shift from redeemable to non-redeemable and vice-versa in case of Apply/Remove Coupon and Price Change on Checkout!
     override val pwpWidgetVisibility = paymentModel.tripResponses.map { it.isExpediaRewardsRedeemable() }
@@ -149,7 +149,7 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
         //Send it off to the Model!
         pwpOpted.subscribe(paymentModel.pwpOpted)
         distinctBurnAmountEntered.subscribe(paymentModel.burnAmountSubject)
-        navigatingBackToCheckoutScreen.subscribe(paymentModel.discardPendingCurrencyToPointsAPISubscription)
+        navigatingOutOfPaymentOptions.subscribe(paymentModel.discardPendingCurrencyToPointsAPISubscription)
 
         distinctBurnAmountEnteredIntermediateStream.subscribe(distinctBurnAmountEntered)
     }

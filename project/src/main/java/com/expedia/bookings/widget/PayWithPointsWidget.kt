@@ -58,7 +58,7 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         pwpViewModel.burnAmountUpdate.subscribeText(editAmountView)
         pwpSwitchView.subscribeOnCheckChanged(pwpViewModel.pwpOpted)
         pwpViewModel.enablePwPToggle.subscribeChecked(pwpSwitchView)
-        pwpViewModel.navigatingBackToCheckoutScreen.map { false }.subscribeCursorVisible(editAmountView)
+        pwpViewModel.navigatingOutOfPaymentOptions.map { false }.subscribeCursorVisible(editAmountView)
 
         subscribeOnClick(endlessObserver {
             refreshPointsForUpdatedBurnAmount()

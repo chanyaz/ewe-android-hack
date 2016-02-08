@@ -11,7 +11,7 @@ public interface IPayWithPointsViewModel {
     val hasPwpEditBoxFocus: PublishSubject<Boolean>
     val clearUserEnteredBurnAmount: PublishSubject<Unit>
     val userSignedIn: PublishSubject<Boolean>
-    val navigatingBackToCheckoutScreen: PublishSubject<Unit>
+    val navigatingOutOfPaymentOptions: PublishSubject<Unit>
 
     //OUTLETS
     val enablePwPToggle: Observable<Boolean>
