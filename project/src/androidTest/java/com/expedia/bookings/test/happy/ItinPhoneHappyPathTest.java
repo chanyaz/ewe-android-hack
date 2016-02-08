@@ -66,9 +66,9 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		outboundFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
 		screenshot("Outbound Flight Itin");
 		assertViewWithTextIsDisplayed(R.id.departure_time, "11:32 AM");
-		assertViewWithTextIsDisplayed(R.id.departure_time_tz, isOutboundFlightDepartureAtStandardOffset ? "Depart (PST)" : "Depart (PDT)");
+//		assertViewWithTextIsDisplayed(R.id.departure_time_tz, isOutboundFlightDepartureAtStandardOffset ? "Depart (PST)" : "Depart (PDT)");
 		assertViewWithTextIsDisplayed(R.id.arrival_time, "6:04 PM");
-		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, isOutboundFlightArrivalAtStandardOffset ? "Arrive (EST)" : "Arrive (EDT)");
+//		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, isOutboundFlightArrivalAtStandardOffset ? "Arrive (EST)" : "Arrive (EDT)");
 		onView(withText("San Francisco Int'l Airport")).perform(scrollTo());
 		assertViewWithTextIsDisplayed("San Francisco Int'l Airport");
 		onView(withText("1102138068718")).perform(scrollTo());
@@ -129,9 +129,9 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		pckgOutboundFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
 		screenshot("Package Outbound Flight Itin");
 		assertViewWithTextIsDisplayed(R.id.departure_time, "4:00 AM");
-		assertViewWithTextIsDisplayed(R.id.departure_time_tz, isPackageOutboundFlightDepartureAtStandardOffset ? "Depart (PST)" : "Depart (PDT)");
+//		assertViewWithTextIsDisplayed(R.id.departure_time_tz, isPackageOutboundFlightDepartureAtStandardOffset ? "Depart (PST)" : "Depart (PDT)");
 		assertViewWithTextIsDisplayed(R.id.arrival_time, "6:04 AM");
-		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, isPackageOutboundFlightArrivalAtStandardOffset ? "Arrive (PST)" : "Arrive (PDT)");
+//		assertViewWithTextIsDisplayed(R.id.arrival_time_tz, isPackageOutboundFlightArrivalAtStandardOffset ? "Arrive (PST)" : "Arrive (PDT)");
 		onView(withText("San Francisco Int'l Airport")).perform(scrollTo());
 		assertViewWithTextIsDisplayed("San Francisco Int'l Airport");
 		onView(withText("11590764196")).perform(scrollTo());
