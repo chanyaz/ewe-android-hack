@@ -38,7 +38,11 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         pwpViewModel.currencySymbol.subscribeText(currencySymbolView)
         pwpViewModel.totalPointsAndAmountAvailableToRedeem.subscribeText(totalPointsAvailableView)
 
-        editAmountView.setOnClickListener { editAmountView.isCursorVisible = true }
+        editAmountView.setOnClickListener {
+            editAmountView.isCursorVisible = true
+            pwpViewModel.hasPwpEditBoxFocus.onNext(true)
+        }
+
         editAmountView.setOnEditorActionListener { textView: android.widget.TextView, actionId: Int, event: KeyEvent? ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -54,7 +58,7 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         pwpViewModel.burnAmountUpdate.subscribeText(editAmountView)
         pwpSwitchView.subscribeOnCheckChanged(pwpViewModel.pwpOpted)
         pwpViewModel.enablePwPToggle.subscribeChecked(pwpSwitchView)
-        pwpViewModel.navigatingBackToCheckoutScreen.map { false }.subscribeCursorVisible(editAmountView)
+        pwpViewModel.navigatingOutOfPaymentOptions.map { false }.subscribeCursorVisible(editAmountView)
 
         subscribeOnClick(endlessObserver {
             refreshPointsForUpdatedBurnAmount()
@@ -72,6 +76,7 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         if (this.visibility == VISIBLE && pwpSwitchView.isChecked) {
             editAmountView.isCursorVisible = false
             Ui.hideKeyboard(editAmountView)
+            payWithPointsViewModel.hasPwpEditBoxFocus.onNext(false)
             payWithPointsViewModel.userEnteredBurnAmount.onNext(editAmountView.text.toString())
         }
     }
