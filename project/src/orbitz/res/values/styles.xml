@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Travelocity Rating bar -->
+    <!-- Orbitz Rating bar -->
     <style name="RatingBar.UserReview.Blue">
         <item name="android:progressDrawable">@drawable/ratingbar_userreview_blue</item>
     </style>
 
-    <style name="LaunchActionBarTravelocity" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
+    <style name="LaunchActionBarOrbitz" parent="@style/Widget.AppCompat.Light.ActionBar.Solid">
         <item name="android:background">@color/action_bar_bg_color</item>
         <item name="background">@color/action_bar_bg_color</item>
         <item name="android:titleTextStyle">@style/TitleBarTextColorOrbitz</item>
@@ -23,12 +23,12 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="Dark.ActionBar.Travelocity" parent="Dark.ActionBar">
+    <style name="Dark.ActionBar.Orbitz" parent="Dark.ActionBar">
         <item name="android:background">@drawable/bg_action_bar_orb</item>
         <item name="android:backgroundSplit">@drawable/bg_action_bar_bottom_orb</item>
     </style>
 
-    <style name="Widget.ListView.DropDown.TVLY" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
+    <style name="Widget.ListView.DropDown.Orbitz" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
         <item name="android:background">@drawable/bg_action_bar_orb</item>
     </style>
 
