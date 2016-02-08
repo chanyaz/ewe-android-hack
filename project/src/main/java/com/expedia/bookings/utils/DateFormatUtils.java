@@ -1,5 +1,9 @@
 package com.expedia.bookings.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -149,9 +153,6 @@ public class DateFormatUtils {
 		return context.getString(R.string.calendar_instructions_date_range_TEMPLATE, formatter.print(checkinDateTime), formatter.print(checkoutDateTime));
 	}
 
-	/**
-	 * Convenience method for formatting date range in packages from 2015-10-1 to Tue, Oct 01, 2015
-	 */
 	public static String formatPackageDateRange(Context context, String checkinDate, String checkoutDate) {
 		DateTimeFormatter parser = DateTimeFormat.forPattern("yyyy-MM-dd");
 		String checkinDateTime = getFormattedDateDay(context, parser.parseDateTime(checkinDate));
@@ -160,9 +161,13 @@ public class DateFormatUtils {
 		return context.getString(R.string.calendar_instructions_date_range_TEMPLATE, checkinDateTime, checkoutDateTime);
 	}
 
+	/**
+	 * Convenience method for formatting date range in packages from 2015-10-1 to Tue Oct 01, 2015
+	 */
 	private static String getFormattedDateDay(Context context, DateTime date) {
-		return JodaUtils.formatDateTime(context, date, DateUtils.FORMAT_SHOW_DATE
+		SimpleDateFormat ft = new SimpleDateFormat("EEE MMM dd, yyyy", Locale.getDefault());
+		return ft.format(new Date(JodaUtils.formatDateTime(context, date, DateUtils.FORMAT_SHOW_DATE
 			| DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR
-			| DateUtils.FORMAT_ABBREV_MONTH);
+			| DateUtils.FORMAT_ABBREV_MONTH)));
 	}
 }

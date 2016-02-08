@@ -24,7 +24,7 @@ public class DateFormatUtilsTest {
 		String checkOutDate = "2018-10-15";
 
 		String obtained = DateFormatUtils.formatPackageDateRange(getContext(), checkInDate, checkOutDate);
-		assertEquals(obtained, "Thu, Oct 11, 2018 - Mon, Oct 15, 2018");
+		assertEquals(obtained, "Thu Oct 11, 2018 - Mon Oct 15, 2018");
 	}
 
 }

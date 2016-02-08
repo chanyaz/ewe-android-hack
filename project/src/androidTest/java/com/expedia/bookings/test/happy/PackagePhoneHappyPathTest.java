@@ -162,7 +162,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	private void assertCheckoutOverview() {
 		onView(allOf(withId(R.id.destination), withText("Detroit, United States of America"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.check_in_out_dates), withText("Tue, Feb 2, 2016 - Thu, Feb 4, 2016"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.check_in_out_dates), withText("Tue Feb 02, 2016 - Thu Feb 04, 2016"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.travelers), withText("1 Traveler"))).check(matches(isDisplayed()));
 
 		onView(allOf(withId(R.id.step_one_text),
