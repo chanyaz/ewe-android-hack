@@ -153,11 +153,10 @@ public class HotelActivity : AbstractAppCompatActivity() {
 
     private fun setupDeepLinkSearch(hotelSearchParams: HotelSearchParams?, shouldExecuteSearch: Boolean) {
         hotelPresenter.searchPresenter.searchViewModel.enableDateObserver.onNext(Unit)
-        hotelPresenter.searchPresenter.traveler.viewmodel.travelerParamsObservable.onNext(HotelTravelerParams(hotelSearchParams?.adults ?: 1, hotelSearchParams?.children ?: emptyList()))
+        hotelPresenter.searchPresenter.selectTravelers(HotelTravelerParams(hotelSearchParams?.adults ?: 1, hotelSearchParams?.children ?: emptyList()))
         val dates = Pair (hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
         hotelPresenter.searchPresenter.searchViewModel.datesObserver.onNext(dates)
-        hotelPresenter.searchPresenter.selectTraveler.isChecked = true
-        hotelPresenter.searchPresenter.calendar.setSelectedDates(hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
+        hotelPresenter.searchPresenter.selectDates(hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
         if (shouldExecuteSearch) {
             hotelPresenter.searchObserver.onNext(hotelSearchParams)
         }

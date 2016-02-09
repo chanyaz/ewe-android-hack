@@ -400,4 +400,10 @@
     <color name="preferences_text">@color/cars_launch_actionbar_color</color>
     <color name="bundle_price_background_color">#FFFFFF</color>
 
+    <!-- New Search Screen -->
+    <color name="search_screen_icon_color_v2">#7b7b7b</color>
+    <color name="black_twenty_opacity">#20000000</color>
+    <color name="white_disabled">#30FFFFFF</color>
+    <color name="search_suggestion_v2">#8a8a8a</color>
+    <color name="search_suggestion_hint_v2">#458a8a8a</color>
 </resources>

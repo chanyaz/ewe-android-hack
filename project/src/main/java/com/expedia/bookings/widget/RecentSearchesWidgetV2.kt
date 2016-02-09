@@ -26,8 +26,9 @@ public class RecentSearchesWidgetV2(context: Context, attrs: AttributeSet) : Lin
         recentSearchesAdapter.adapter = RecentSearchesAdapter(vm, false)
        // used to wrap the height of card view which is holding recycler view
         vm.recentSearchesObservable.subscribe {
+            val numberOfRows = Math.min(it.size, RecentSearchesAdapter.MAX_ROW_FOR_SEARCH_V2)
             val layoutParams = recentSearchesAdapter.layoutParams
-            layoutParams.height = it.size * resources.getDimensionPixelSize(R.dimen.recent_search_item_height)
+            layoutParams.height = numberOfRows * resources.getDimensionPixelSize(R.dimen.recent_search_item_height)
         }
     }
 }

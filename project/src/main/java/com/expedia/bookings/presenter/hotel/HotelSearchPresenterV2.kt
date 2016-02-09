@@ -16,9 +16,11 @@ import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ScrollView
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.location.CurrentLocationObservable
@@ -34,9 +36,12 @@ import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.bookings.widget.SearchInputCardView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
+import com.expedia.vm.HotelTravelerParams
 import com.expedia.vm.RecentSearchesAdapterViewModel
+import org.joda.time.LocalDate
 
 //TODO: Find this a better home
 fun calculateStep(start: Float, end: Float, percent: Float, forward: Boolean): Float {
@@ -51,27 +56,42 @@ fun calculateStep(start: Float, end: Float, percent: Float): Float {
     return (start + (percent * (end - start)))
 }
 
-public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
-
+public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelSearchPresenter(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.search_v2_toolbar)
+    val scrollView : ScrollView by bindView(R.id.scrollView)
     val searchContainer: ViewGroup by bindView(R.id.search_v2_container)
     val suggestionRecyclerView: RecyclerView by bindView(R.id.suggestion_list)
     var navIcon: ArrowXDrawable
     val destinationCardView: SearchInputCardView by bindView(R.id.destination_card)
     val calendarTravelerWidgetV2: CalendarTravelerWidgetV2 by bindView(R.id.calendar_traveler_widget)
     val recentSearchesV2: RecentSearchesWidgetV2 by bindView(R.id.recent_search_widget)
-    val searchButton: Button by bindView(R.id.search_button)
+    val searchButton: Button by bindView(R.id.search_button_v2)
     var searchLocationEditText: SearchView? = null
     val toolBarTitle : TextView by bindView(R.id.title)
-    var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
+    override var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
         calendarTravelerWidgetV2.hotelSearchViewModelSubject.onNext(vm)
         vm.searchButtonObservable.subscribe { enable ->
-            searchButton.isEnabled = if (enable) true else false
+            searchButton.setTextColor(  if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
+        }
+
+        vm.locationTextObservable.subscribe {
+            val text = if (it.equals(context.getString(R.string.current_location))) "" else it
+            destinationCardView.setText(text)
         }
 
         recentSearchesV2.recentSearchesAdapterViewModel.recentSearchSelectedSubject.subscribe {
-         //TODO set up UI and navigate user to results
+            searchViewModel.searchParamsObservable.onNext(it)
+            vm.suggestionObserver.onNext(it.suggestion)
+            calendarTravelerWidgetV2.traveler.viewmodel.travelerParamsObservable.onNext(HotelTravelerParams(it.adults, it.children))
+            for (index in 0..it.children.size -1) {
+                val spinner = calendarTravelerWidgetV2.traveler.childSpinners[index]
+                spinner.setSelection(it.children[index])
+            }
+            vm.datesObserver.onNext(Pair(it.checkIn, it.checkOut))
+            calendarTravelerWidgetV2.calendar.setSelectedDates(it.checkIn, it.checkOut)
         }
+
+        searchButton.subscribeOnClick(vm.searchObserver)
 
     }
 
@@ -81,7 +101,22 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Pre
         addDefaultTransition(defaultTransition)
         showDefault()
         com.mobiata.android.util.Ui.hideKeyboard(this)
+        scrollView.scrollTo(0 ,0)
+        searchButton.setTextColor(ContextCompat.getColor(context, R.color.white_disabled))
+
     }
+
+    //TODO select calendar dates from deeplink
+    override fun selectDates(startDate: LocalDate?, endDate: LocalDate?) {
+        calendarTravelerWidgetV2.calendar.setSelectedDates(startDate, endDate)
+    }
+
+    //TODO select travelers from deeplink
+    override fun selectTravelers(hotelTravelerParams: HotelTravelerParams) {
+        calendarTravelerWidgetV2.traveler.viewmodel.travelerParamsObservable.onNext(hotelTravelerParams)
+    }
+
+
 
 
     internal var listener: SearchView.OnQueryTextListener = object : SearchView.OnQueryTextListener {
@@ -117,11 +152,11 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Pre
         toolbar.navigationIcon = navIcon
         toolbar.setNavigationOnClickListener {
             com.mobiata.android.util.Ui.hideKeyboard(this@HotelSearchPresenterV2)
-            val activity = getContext() as AppCompatActivity
+            val activity = context as AppCompatActivity
             activity.onBackPressed()
         }
         searchLocationEditText = findViewById(R.id.toolbar_searchView) as SearchView?
-        searchLocationEditText?.setOnQueryTextListener(listener);
+        searchLocationEditText?.setOnQueryTextListener(listener)
         searchLocationEditText?.setIconifiedByDefault(false)
         searchLocationEditText?.visibility = View.GONE
         styleSearchView()
@@ -139,8 +174,11 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Pre
     fun styleSearchView() {
         if (searchLocationEditText != null) {
             val searchEditText = searchLocationEditText?.findViewById(android.support.v7.appcompat.R.id.search_src_text) as EditText?
-            searchEditText?.setTextColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
-            searchEditText?.setHintTextColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
+            searchEditText?.setTextColor(ContextCompat.getColor(context, R.color.search_suggestion_v2))
+            searchEditText?.setHintTextColor(ContextCompat.getColor(context, R.color.search_suggestion_hint_v2))
+
+            val searchPlate = searchLocationEditText?.findViewById(android.support.v7.appcompat.R.id.search_plate)
+            searchPlate?.setBackgroundColor(android.R.color.transparent)
 
             val imgViewSearchView = searchLocationEditText?.findViewById(android.support.v7.appcompat.R.id.search_mag_icon) as ImageView?
             imgViewSearchView?.setImageResource(0)
@@ -219,6 +257,10 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Pre
             if(forward) {
                 suggestionRecyclerView.adapter = hotelSuggestionAdapter
                 searchLocationEditText?.requestFocus()
+                (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).
+                        toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                                InputMethodManager.HIDE_IMPLICIT_ONLY);
+
             }
             suggestionRecyclerView.visibility = if (forward) VISIBLE else GONE
             searchLocationEditText?.visibility = if (forward) VISIBLE else GONE
@@ -231,12 +273,24 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Pre
     private fun setUpToolBarIcon(forward: Boolean) {
         if(forward) {
             navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)
-            navIcon.setColorFilter(Color.GRAY, PorterDuff.Mode.SRC_IN)
+            navIcon.setColorFilter(ContextCompat.getColor(context,R.color.search_suggestion_v2), PorterDuff.Mode.SRC_IN)
             toolbar.navigationIcon = navIcon
+            toolbar.setNavigationOnClickListener {
+                super.back()
+            }
         } else {
             navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
             navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
             toolbar.navigationIcon = navIcon
+            finishActivity()
+        }
+    }
+
+    private fun finishActivity() {
+        toolbar.setNavigationOnClickListener {
+            com.mobiata.android.util.Ui.hideKeyboard(this@HotelSearchPresenterV2)
+            val activity = context as AppCompatActivity
+            activity.onBackPressed()
         }
     }
 
@@ -258,5 +312,20 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Pre
         }
     }
 
+    override fun animationStart(b: Boolean) {
+        super.animationStart(b)
+        //TODO handle animations
+    }
 
+    override fun animationUpdate(f: Float, b: Boolean) {
+        super.animationUpdate(f, b)
+        //TODO handle animations
+    }
+
+    override fun animationFinalize(forward: Boolean) {
+        super.animationFinalize(forward)
+        this.visibility = if(forward) GONE else VISIBLE
+
+        //TODO handle animations
+    }
 }

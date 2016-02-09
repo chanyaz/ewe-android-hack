@@ -5,10 +5,16 @@ import kotlin.properties.Delegates
 
 open class ScaleTransition(val presenter: Presenter, val left: Class<*>, val right: Class<*>): Presenter.Transition(left, right) {
 
+    constructor(presenter: Presenter,left: Class<*>, right: Class<*>, leftClassName: Class<*>) : this(presenter, left, right) {
+        this.leftClassName = leftClassName
+    }
+
+
     val xScale = 0.75f
     val yScale = 0.75f
     var rightView: View by Delegates.notNull()
     var leftView: View by Delegates.notNull()
+    var leftClassName: Class<*>? = null
 
     override fun startTransition(forward: Boolean) {
         rightView = getRightChildView()
@@ -47,7 +53,7 @@ open class ScaleTransition(val presenter: Presenter, val left: Class<*>, val rig
     }
 
     private fun getLeftChildView(): View {
-        return getChildInPresenter(left)
+        return getChildInPresenter(leftClassName ?: left)
     }
 
     private fun getChildInPresenter(childClass: Class<*>): View {

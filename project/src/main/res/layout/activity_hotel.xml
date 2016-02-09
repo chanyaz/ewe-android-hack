@@ -35,18 +35,19 @@
         android:background="#EEEEEE"
         android:visibility="gone"/>
 
-    <com.expedia.bookings.presenter.hotel.HotelSearchPresenter
-        android:id="@+id/widget_hotel_params"
+    <ViewStub
+        android:id="@+id/search_v1_stub"
+        android:inflatedId="@+id/widget_hotel_search_v1"
+        android:layout="@layout/hotel_search_presenter_v1_stub"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"/>
+        android:layout_height="match_parent" />
 
-    <com.expedia.bookings.presenter.hotel.HotelSearchPresenterV2
-        android:id="@+id/widget_hotel_params_v2"
+    <ViewStub
+        android:id="@+id/search_v2_stub"
+        android:inflatedId="@+id/widget_hotel_search_v2"
+        android:layout="@layout/hotel_search_presenter_v2_stub"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#EEEEEE"
-        android:visibility="gone"/>
+        android:layout_height="match_parent" />
 
     <com.expedia.bookings.widget.LoadingOverlayWidget
         android:id="@+id/details_loading_overlay"

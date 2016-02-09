@@ -61,7 +61,7 @@ import org.joda.time.LocalDate
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+public class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelSearchPresenter(context, attrs) {
     val searchLocationTextView: TextView by bindView(R.id.hotel_location)
     val searchLocationEditText: EditText by bindView(R.id.hotel_location_autocomplete)
     val suggestionRecyclerView: RecyclerView by bindView(R.id.drop_down_list)
@@ -134,6 +134,14 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         }
     }
 
+    override fun selectTravelers(hotelTravelerParams: HotelTravelerParams) {
+        traveler.viewmodel.travelerParamsObservable.onNext(hotelTravelerParams)
+        selectTraveler.isChecked = true
+    }
+
+    override fun selectDates(startDate: LocalDate?, endDate: LocalDate?) {
+        calendar.setSelectedDates(startDate, endDate)
+    }
 
     private val hotelSuggestionAdapter by lazy {
         val service = Ui.getApplication(getContext()).hotelComponent().suggestionsService()
@@ -182,7 +190,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         })
     }
 
-    var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
+    override var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
         suggestionRecyclerView.layoutManager = LinearLayoutManager(context)
         suggestionRecyclerView.addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25f, resources.displayMetrics).toInt(), false))
         val maxDate = LocalDate.now().plusDays(getResources().getInteger(R.integer.calendar_max_selectable_date_range))
@@ -383,7 +391,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.setNavigationIcon(navIcon)
         toolbar.setNavigationOnClickListener {
-            com.mobiata.android.util.Ui.hideKeyboard(this@HotelSearchPresenter)
+            com.mobiata.android.util.Ui.hideKeyboard(this@HotelSearchPresenterV1)
             val activity = getContext() as AppCompatActivity
             activity.onBackPressed()
         }
@@ -430,7 +438,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         private var calendarHeight: Int = 0
 
         override fun startTransition(forward: Boolean) {
-            com.mobiata.android.util.Ui.hideKeyboard(this@HotelSearchPresenter)
+            com.mobiata.android.util.Ui.hideKeyboard(this@HotelSearchPresenterV1)
             if(forward) recentSearches.visibility = View.GONE
             suggestionRecyclerView.visibility = View.GONE
             val parentHeight = getHeight()
@@ -492,7 +500,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         override fun finalizeTransition(forward: Boolean) {
             calendar.setTranslationY((if (forward) 0 else calendarHeight).toFloat())
             if (forward) {
-                com.mobiata.android.util.Ui.hideKeyboard(this@HotelSearchPresenter)
+                com.mobiata.android.util.Ui.hideKeyboard(this@HotelSearchPresenterV1)
                 searchLocationEditText.clearFocus()
                 calendar.hideToolTip()
             }
@@ -509,7 +517,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     var toolbarTitleTop = 0
-    fun animationStart(forward : Boolean) {
+    override fun animationStart(forward : Boolean) {
         recentSearches.setTranslationY((if (forward) recentSearches.getHeight() else 0).toFloat())
         calendar.setTranslationY((if (forward) calendar.getHeight() else 0).toFloat())
         traveler.setTranslationY((if (forward) traveler.getHeight() else 0).toFloat())
@@ -517,7 +525,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         toolbarTitleTop = (toolbarTitle.getBottom() - toolbarTitle.getTop())/3
     }
 
-    fun animationUpdate(f : Float, forward : Boolean) {
+    override fun animationUpdate(f : Float, forward : Boolean) {
         val translationCalendar = if (forward) calendar.getHeight() * (1 - f) else calendar.getHeight() * f
         val translationRecentSearches = if (forward) recentSearches.getHeight() * (1 - f) else recentSearches.getHeight() * f
         val layoutParams = searchParamsContainer.getLayoutParams()
@@ -541,7 +549,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         toolbarTitle.setTranslationY((if (forward) Math.abs(1 - f) else f) * -toolbarTitleTop)
     }
 
-    fun animationFinalize(forward: Boolean) {
+    override fun animationFinalize(forward: Boolean) {
         if (forward) {
             recentSearches.visibility = View.GONE
             searchViewModel.enableTravelerObservable.onNext(true)
