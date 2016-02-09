@@ -49,8 +49,8 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
 
     lateinit var payWithPointsViewModel: IPayWithPointsViewModel
         @Inject set
-
-    override fun onFinishInflate() {
+    
+override fun onFinishInflate() {
         super.onFinishInflate()
         Ui.getApplication(context).hotelComponent().inject(this)
         filledInCardDetailsMiniView.setCompoundDrawablesWithIntrinsicBounds(getCreditCardIcon(), null, null, null)
