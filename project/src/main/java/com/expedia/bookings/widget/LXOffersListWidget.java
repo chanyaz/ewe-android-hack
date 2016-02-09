@@ -55,7 +55,7 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 				availableOffers.add(offer);
 			}
 		}
-		adapter.setOffers(sortOfferByPrice(availableOffers), lxOfferSubject);
+		adapter.setOffers(sortTicketByPriorityAndOfferByPrice(availableOffers), lxOfferSubject);
 
 		offerContainer.removeAllViews();
 
@@ -93,12 +93,22 @@ public class LXOffersListWidget extends android.widget.LinearLayout {
 		return offerContainer;
 	}
 
-	public List<Offer> sortOfferByPrice(List<Offer> availableOffers) {
+	public List<Offer> sortTicketByPriorityAndOfferByPrice(List<Offer> availableOffers) {
 		Collections.sort(availableOffers, new Comparator<Offer>() {
 			@Override
 			public int compare(Offer lhs, Offer rhs) {
-				return lhs.availabilityInfoOfSelectedDate.getLowestTicket().money
-					.compareTo(rhs.availabilityInfoOfSelectedDate.getLowestTicket().money);
+				int sortOrder = 0;
+				Collections.sort(lhs.availabilityInfoOfSelectedDate.tickets);
+				Collections.sort(rhs.availabilityInfoOfSelectedDate.tickets);
+				for (int iTicketCount = 0; iTicketCount < lhs.availabilityInfoOfSelectedDate.tickets.size();
+					iTicketCount++) {
+					sortOrder = lhs.availabilityInfoOfSelectedDate.tickets.get(iTicketCount).money
+						.compareTo(rhs.availabilityInfoOfSelectedDate.tickets.get(iTicketCount).money);
+					if (sortOrder != 0) {
+						break;
+					}
+				}
+				return sortOrder;
 			}
 		});
 		return availableOffers;

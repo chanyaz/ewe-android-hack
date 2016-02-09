@@ -5,7 +5,7 @@ import java.util.List;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.cars.PriceBreakdownItemType;
 
-public class Ticket {
+public class Ticket implements Comparable<Ticket> {
 	public String ticketId;
 	public LXTicketType code;
 	public String restrictionText;
@@ -22,5 +22,10 @@ public class Ticket {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public int compareTo(Ticket o) {
+		return code.compareTo(o.code);
 	}
 }
