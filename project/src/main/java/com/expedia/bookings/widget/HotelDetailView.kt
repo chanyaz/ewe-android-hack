@@ -599,6 +599,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
     fun priceViewAlpha(ratio: Float) {
         perNight.alpha = ratio
         price.alpha = ratio
+        searchDatesInfo.alpha = ratio
         searchInfo.alpha = ratio
         selectRoomButton.alpha = ratio
         strikeThroughPrice.alpha = ratio
