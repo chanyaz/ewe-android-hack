@@ -23,6 +23,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
+import rx.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -38,12 +39,14 @@ public class PayWithPointsViewModelTest {
 
     private var createTripResponse: HotelCreateTripResponse by Delegates.notNull()
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()
+    private val payWithPointsViewModelTestSubject = PublishSubject.create<Pair<String, Boolean>>()
 
     private var payWithPointsViewModel by notNullAndObservable<IPayWithPointsViewModel> {
         it.burnAmountUpdate.subscribe(burnAmountUpdateTestSubscriber)
         it.totalPointsAndAmountAvailableToRedeem.subscribe(totalPointsAndAmountAvailableToRedeemTestSubscriber)
         it.currencySymbol.subscribe(currencySymbolTestSubscriber)
         it.pointsAppliedMessage.subscribe(pointsAppliedMessageTestSubscriber)
+        it.pointsAppliedMessage.subscribe(payWithPointsViewModelTestSubject)
     }
 
     private val burnAmountUpdateTestSubscriber = TestSubscriber.create<String>()
@@ -234,8 +237,8 @@ public class PayWithPointsViewModelTest {
         assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
 
         //User entered amount 20
-        val latch1 = CountDownLatch(1)
-        payWithPointsViewModel.pointsAppliedMessage.subscribe { latch1.countDown() }
+        val latch1 = CountDownLatch(2)
+        payWithPointsViewModelTestSubject.subscribe { latch1.countDown() }
         payWithPointsViewModel.userEnteredBurnAmount.onNext("20")
         latch1.await(10, TimeUnit.SECONDS)
 
@@ -250,8 +253,8 @@ public class PayWithPointsViewModelTest {
 
         //User entered 30 but gets API Error
         createTripResponse.tripId = "trip_service_error";
-        val latch2 = CountDownLatch(1)
-        payWithPointsViewModel.pointsAppliedMessage.subscribe { latch2.countDown() }
+        val latch2 = CountDownLatch(2)
+        payWithPointsViewModelTestSubject.subscribe { latch2.countDown() }
         payWithPointsViewModel.userEnteredBurnAmount.onNext("30")
         latch2.await(10, TimeUnit.SECONDS)
 
@@ -268,8 +271,8 @@ public class PayWithPointsViewModelTest {
         assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
 
         //User entered amount 20
-        val latch3 = CountDownLatch(1)
-        payWithPointsViewModel.pointsAppliedMessage.subscribe { latch3.countDown() }
+        val latch3 = CountDownLatch(2)
+        payWithPointsViewModelTestSubject.subscribe { latch3.countDown() }
         payWithPointsViewModel.userEnteredBurnAmount.onNext("20")
         latch3.await(10, TimeUnit.SECONDS)
 
@@ -277,11 +280,8 @@ public class PayWithPointsViewModelTest {
         expectedMessagesList.add(Pair("14,005 points applied", true))
         assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
 
-        //User entered amount 10 and press back before API response
-        payWithPointsViewModel.userEnteredBurnAmount.onNext("10")
+        //User press back
         paymentModel.discardPendingCurrencyToPointsAPISubscription.onNext(Unit)
-
-        expectedMessagesList.add(Pair("Calculating points…", true))
         expectedMessagesList.add(Pair("14,005 points applied", true))
         assertExpectedValuesOfSubscriber(pointsAppliedMessageTestSubscriber, expectedMessagesList)
 
