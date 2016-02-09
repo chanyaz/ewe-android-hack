@@ -17,6 +17,7 @@ public class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : Ba
         viewModel.checkoutInfoCompleted.subscribe(vm.baseParams)
         vm.legalText.subscribeTextAndVisibility(legalInformationText)
         vm.depositPolicyText.subscribeTextAndVisibility(depositPolicyText)
+        vm.sliderPurchaseTotalText.subscribeTextAndVisibility(slideTotalText)
         vm.checkoutParams.subscribe {
             checkoutDialog.show()
         }

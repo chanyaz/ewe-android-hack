@@ -16,6 +16,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.StrUtils
+import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
@@ -74,6 +75,7 @@ public class PackageCheckoutViewModel(val context: Context, val packageServices:
     // Outputs
     val depositPolicyText = PublishSubject.create<Spanned>()
     val legalText = PublishSubject.create<SpannableStringBuilder>()
+    val sliderPurchaseTotalText = PublishSubject.create<CharSequence>()
 
     init {
         tripResponseObservable.subscribe {
@@ -91,6 +93,7 @@ public class PackageCheckoutViewModel(val context: Context, val packageServices:
             depositPolicyText.onNext(depositText)
 
             legalText.onNext(StrUtils.generateHotelsBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString(), false))
+            sliderPurchaseTotalText.onNext(Phrase.from(context, R.string.your_card_will_be_charged_template).put("dueamount", it.getTripTotal().formattedPrice).format())
         }
 
         baseParams.subscribe { params ->

@@ -37,8 +37,6 @@ public class BaseCheckoutViewModel(val context: Context, val packageServices: Pa
     // Outputs
     val infoCompleted = BehaviorSubject.create<Boolean>()
 
-    val sliderPurchaseTotalText = PublishSubject.create<CharSequence>()
-
     init {
         travelerCompleted.subscribe {
             builder.travelers(it)
