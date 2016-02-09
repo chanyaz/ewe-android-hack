@@ -65,6 +65,7 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortType;
+import com.expedia.bookings.data.payment.ProgramName;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -79,6 +80,7 @@ import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.NumberUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.DebugUtils;
@@ -90,6 +92,7 @@ import com.mobiata.android.util.SettingUtils;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
@@ -223,6 +226,12 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_CONFIRMATION_COUPON_SUCCESS = "App.CKO.Coupon.Success";
 	private static final String HOTELSV2_CONFIRMATION_COUPON_FAIL = "App.CKO.Coupon.Fail";
 	private static final String HOTELSV2_CONFIRMATION_COUPON_REMOVE = "App.CKO.Coupon.Remove";
+
+	private static final String EXPEDIA_POINTS_PERCENTAGE = "expedia | %d";
+	private static final String REWARDS_POINTS_UPDATE = "App.Hotels.CKO.Points.Update";
+	private static final String PAY_WITH_POINTS_DISABLED = "App.Hotels.CKO.Points.None";
+	private static final String PAY_WITH_POINTS_REENABLED = "App.Hotels.CKO.Points.Select.Expedia";
+	private static final String PAY_WITH_POINTS_ERROR = "App.Hotels.CKO.Points.Error";
 
 	public static void trackHotelV2SearchBox() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_BOX + "\" pageLoad...");
@@ -718,13 +727,22 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadHotelV2CheckoutInfo(
-		HotelCreateTripResponse.HotelProductResponse hotelProductResponse,
+		HotelCreateTripResponse trip,
 		com.expedia.bookings.data.hotels.HotelSearchParams searchParams) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_CHECKOUT_INFO);
 		s.setEvents("event70");
+		if (trip.isExpediaRewardsRedeemable()) {
+			s.setEvents("event114");
+			BigDecimal amountPaidWithPoints = trip.getPointDetails(ProgramName.ExpediaRewards).getMaxPayableWithPoints().getAmount().amount;
+			BigDecimal totalAmount = trip.getTripTotal().amount;
+			int percentagePaidWithPoints = NumberUtils.getPercentagePaidWithPointsForOmniture(amountPaidWithPoints,
+				totalAmount);
+			s.setEvar(53, String.format(EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
+		}
 
 		addHotelV2RegionId(s, searchParams);
 
+		HotelCreateTripResponse.HotelProductResponse hotelProductResponse = trip.newHotelProductResponse;
 		String supplierType = hotelProductResponse.hotelRoomResponse.supplierType;
 		int numOfNights = JodaUtils.daysBetween(searchParams.getCheckIn(), searchParams.getCheckOut());
 		String price = hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.total + "";
@@ -4525,7 +4543,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 
 		s.setEvar(12,
-				lob == LineOfBusiness.HOTELS ? "CrossSell.Cars.Confirm.Hotels" : "CrossSell.Cars.Confirm.Flights");
+			lob == LineOfBusiness.HOTELS ? "CrossSell.Cars.Confirm.Hotels" : "CrossSell.Cars.Confirm.Flights");
 		s.setEvar(28, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
 		s.setProp(16, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
 		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
@@ -4535,8 +4553,8 @@ public class OmnitureTracking {
 		String duration = Integer
 			.toString(JodaUtils.daysBetween(carOffer.getPickupTime(), carOffer.getDropOffTime()) + 1);
 		s.setProducts(
-				"Car;Agency Car:" + carOffer.vendor.code + ":" + carTrackingData.sippCode + ";" + duration + ";"
-						+ carOffer.detailedFare.grandTotal.amount);
+			"Car;Agency Car:" + carOffer.vendor.code + ":" + carTrackingData.sippCode + ";" + duration + ";"
+				+ carOffer.detailedFare.grandTotal.amount);
 	}
 
 	private static String getEvar47String(CarSearchParams params) {
@@ -4592,5 +4610,48 @@ public class OmnitureTracking {
 		else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
 			trackAppLXCheckoutTraveler();
 		}
+	}
+
+	// Pay with points tracking
+	private static final String PAY_WITH_POINTS_CUSTOM_LINK_NAME = "Pay With Points";
+
+	public static void trackPayWithPointsAmountUpdateSuccess(int percentagePaidWithPoints) {
+		Log.d(TAG, "Tracking \"" + REWARDS_POINTS_UPDATE);
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, REWARDS_POINTS_UPDATE);
+		s.setProp(16, REWARDS_POINTS_UPDATE);
+		s.setEvar(53, String.format(EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
+		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
+	}
+
+	public static void trackPayWithPointsDisabled() {
+		Log.d(TAG, "Tracking \"" + PAY_WITH_POINTS_DISABLED);
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, PAY_WITH_POINTS_DISABLED);
+		s.setProp(16, PAY_WITH_POINTS_DISABLED);
+		s.setEvar(53, "no points used");
+		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
+	}
+
+	public static void trackPayWithPointsReEnabled(int percentagePaidWithPoints) {
+		Log.d(TAG, "Tracking \"" + PAY_WITH_POINTS_REENABLED);
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, PAY_WITH_POINTS_REENABLED);
+		s.setProp(16, PAY_WITH_POINTS_REENABLED);
+		s.setEvar(53, String.format(EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
+		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
+	}
+
+	public static void trackPayWithPointsError(String errorMessage) {
+		Log.d(TAG, "Tracking \"" + PAY_WITH_POINTS_ERROR);
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, PAY_WITH_POINTS_ERROR);
+		s.setProp(16, PAY_WITH_POINTS_ERROR);
+		s.setProp(36, errorMessage);
+		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
 	}
 }
