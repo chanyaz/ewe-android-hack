@@ -22,6 +22,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.PhoneLaunchActivity;
 import com.expedia.bookings.data.collections.CollectionLocation;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.interfaces.IPhoneLaunchFragmentListener;
 import com.expedia.bookings.location.CurrentLocationObservable;
@@ -149,8 +151,14 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	// Hotel search in collection location
 	@Subscribe
 	public void onCollectionLocationSelected(Events.LaunchCollectionItemSelected event) {
-		updateCollectionDetailsView(event.collectionLocation, event.collectionUrl);
-		switchView(true);
+		// CollectionLaunchWidget will not be launched in case of KR POS.
+		if (PointOfSale.getPointOfSale().getPointOfSaleId() == PointOfSaleId.SOUTH_KOREA) {
+			collectionLaunchWidget.hotelClicked();
+		}
+		else {
+			updateCollectionDetailsView(event.collectionLocation, event.collectionUrl);
+			switchView(true);
+		}
 	}
 
 	private void switchView(boolean isCollectionClicked) {
