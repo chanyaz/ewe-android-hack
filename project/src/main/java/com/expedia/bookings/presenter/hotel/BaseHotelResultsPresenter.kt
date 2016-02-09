@@ -422,6 +422,9 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
     override fun onMapReady(googleMap: GoogleMap?) {
         MapsInitializer.initialize(context)
         this.googleMap = googleMap
+        if (havePermissionToAccessLocation(context)) {
+            googleMap?.isMyLocationEnabled = true
+        }
         val uiSettings = googleMap?.uiSettings
         //Explicitly disallow map-cluttering ui (but keep the gestures)
         if (uiSettings != null) {
@@ -936,8 +939,8 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
     fun animationFinalize(forward: Boolean) {
         recyclerTempBackground.visibility = View.GONE
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
-        if (havePermissionToAccessLocation(context)) {
-            googleMap?.isMyLocationEnabled = forward
+        if (!forward && havePermissionToAccessLocation(context)) {
+            googleMap?.isMyLocationEnabled = false
         }
     }
 
