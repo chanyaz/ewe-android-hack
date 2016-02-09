@@ -51,7 +51,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
     val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
 
     init {
-        checkoutResponseObservable.subscribe({hotelCheckoutResponse ->
+        checkoutResponseObservable.subscribe({ hotelCheckoutResponse ->
             val product = hotelCheckoutResponse.checkoutResponse.productResponse
             val itinNumber = hotelCheckoutResponse.checkoutResponse.bookingResponse.itineraryNumber
             val checkInLocalDate = dtf.parseLocalDate(product.checkInDate)
@@ -76,7 +76,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
             customerEmail.onNext(hotelCheckoutResponse.checkoutResponse.bookingResponse.email)
 
             // Adding the guest trip in itin
-            if(!User.isLoggedIn(context)) {
+            if (!User.isLoggedIn(context)) {
                 ItineraryManager.getInstance().addGuestTrip(hotelCheckoutResponse.checkoutResponse.bookingResponse.email, itinNumber)
             }
             // disabled for now. See mingle: #5574
@@ -99,7 +99,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
     }
 
     fun getAddFlightBtnObserver(context: Context): Observer<Unit> {
-        return object: Observer<Unit> {
+        return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
                 val flightSearchParams = Db.getFlightSearch().getSearchParams()
                 flightSearchParams.reset()
@@ -123,7 +123,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
     }
 
     fun getAddCarBtnObserver(context: Context): Observer<Unit> {
-        return object: Observer<Unit> {
+        return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
                 val builder = CarSearchParamsBuilder()
                 val dateTimeBuilder = CarSearchParamsBuilder.DateTimeBuilder().startDate(checkInDate.getValue()).endDate(checkOutDate.getValue())
@@ -146,7 +146,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
     }
 
     fun getAddToCalendarBtnObserver(context: Context): Observer<Unit> {
-        return object: Observer<Unit> {
+        return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
                 showAddToCalendarIntent(checkIn = true, context = context)
                 HotelV2Tracking().trackHotelV2ConfirmationCalendar()
@@ -176,7 +176,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
     }
 
     fun getCallSupportBtnObserver(context: Context): Observer<Unit> {
-        return object: Observer<Unit> {
+        return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
                 val phoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser())
                 SocialUtils.call(context, phoneNumber)
@@ -193,7 +193,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
     }
 
     fun getDirectionsToHotelBtnObserver(context: Context): Observer<Unit> {
-        return object: Observer<Unit> {
+        return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + hotelLocation.getValue().toLongFormattedString()))
                 context.startActivity(intent)

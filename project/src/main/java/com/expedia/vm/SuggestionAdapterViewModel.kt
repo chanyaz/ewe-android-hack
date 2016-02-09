@@ -17,14 +17,6 @@ import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
-import kotlin.collections.count
-import kotlin.collections.emptyList
-import kotlin.collections.first
-import kotlin.collections.forEach
-import kotlin.collections.listOf
-import kotlin.collections.plus
-import kotlin.text.isNotBlank
-import kotlin.text.isNullOrBlank
 
 abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsService: SuggestionV4Services, val locationObservable: Observable<Location>?, val shouldShowCurrentLocation: Boolean, val rawQueryEnabled: Boolean) {
     private val currentLocationText = context.getString(R.string.current_location)
@@ -146,5 +138,5 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
 
     abstract fun getSuggestionService(query: String)
 
-    abstract fun getSuggestionHistoryFile() : String
+    abstract fun getSuggestionHistoryFile(): String
 }

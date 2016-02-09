@@ -38,12 +38,11 @@ public class GeocodeSearchModel(val context: Context) {
     }
 
     private fun geoCallback(): BackgroundDownloader.OnDownloadComplete<List<Address>?> {
-        return object: BackgroundDownloader.OnDownloadComplete<List<Address>?> {
+        return object : BackgroundDownloader.OnDownloadComplete<List<Address>?> {
             override fun onDownload(results: List<Address>?) {
                 if (results != null && results.count() > 0) {
                     geoResults.onNext(results)
-                }
-                else {
+                } else {
                     errorObservable.onNext(ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS))
                 }
             }

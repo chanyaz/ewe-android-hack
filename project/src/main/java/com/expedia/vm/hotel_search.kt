@@ -474,19 +474,16 @@ public class HotelDeepLinkHandler(private val context: Context, private val deep
                     // go to specific hotel requested
                     deepLinkSearchObserver.onNext(hotelSearchParams)
                     defaultTransitionObserver.onNext(HotelActivity.Screen.DETAILS)
-                }
-                else if (hotelSearchParams.suggestion.gaiaId != null || lat != 0.0 || lon != 0.0) {
+                } else if (hotelSearchParams.suggestion.gaiaId != null || lat != 0.0 || lon != 0.0) {
                     // search specified region or lat/lon
                     defaultTransitionObserver.onNext(HotelActivity.Screen.RESULTS)
                     deepLinkSearchObserver.onNext(hotelSearchParams)
-                }
-                else {
+                } else {
                     val displayName = hotelSearchParams.suggestion.regionNames?.displayName ?: ""
                     if (displayName.length > 0 ) {
                         // get suggestion for searched location
                         suggestionLookupObserver.onNext(Pair(displayName, generateSuggestionServiceCallback(hotelSearchParams)))
-                    }
-                    else {
+                    } else {
                         // this should not happen unless something has gone very wrong, so just send user to search screen
                         defaultTransitionObserver.onNext(HotelActivity.Screen.SEARCH)
                     }

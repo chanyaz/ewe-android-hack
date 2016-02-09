@@ -17,7 +17,7 @@ import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
 
-public fun <T> endlessObserver(body: (T) -> Unit) : Observer<T> {
+public fun <T> endlessObserver(body: (T) -> Unit): Observer<T> {
     return object : Observer<T> {
         override fun onNext(t: T) {
             body(t)
@@ -106,7 +106,7 @@ public fun Observable<Float>.subscribeRating(ratingBar: RatingBar) {
 }
 
 public fun Observable<Float>.subscribeRating(ratingBar: StarRatingBar) {
-    this.subscribe { ratingBar.setRating(it)}
+    this.subscribe { ratingBar.setRating(it) }
 }
 
 public fun Observable<Int>.subscribeBackgroundResource(view: View) {

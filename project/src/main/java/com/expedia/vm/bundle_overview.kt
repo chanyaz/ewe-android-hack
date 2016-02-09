@@ -7,7 +7,11 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.services.PackageServices
-import com.expedia.bookings.utils.*
+import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.Images
+import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.Ui
 import org.joda.time.LocalDate
 import org.joda.time.format.ISODateTimeFormat
 import rx.Observer

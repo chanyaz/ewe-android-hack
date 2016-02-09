@@ -8,32 +8,30 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 
-fun getGuestRatingRecommendedText(rating: Float, resources:Resources): String {
+fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String {
     return if (isSuperlativeReviewsABTestOn()) {
-                if (isWithSuperlative()) {
-                    if (rating < 3.5f) {
-                        resources.getString(R.string.hotel_guest_recommend)
-                    } else if (rating < 4f) {
-                        resources.getString(R.string.hotel_guest_recommend_good_superlative)
-                    } else if (rating < 4.3f) {
-                        resources.getString(R.string.hotel_guest_recommend_very_good_superlative)
-                    } else if (rating < 4.5f) {
-                        resources.getString(R.string.hotel_guest_recommend_excellent_superlative)
-                    } else if (rating < 4.7f) {
-                        resources.getString(R.string.hotel_guest_recommend_wonderful_superlative)
-                    } else {
-                        resources.getString(R.string.hotel_guest_recommend_exceptional_superlative)
-                    }
-                }
-                else if (isWithColorNoSuperlatives()) {
-                    resources.getString(R.string.hotel_guest_recommend)
-                }
-                else {
-                    ""
-                }
-            } else {
+        if (isWithSuperlative()) {
+            if (rating < 3.5f) {
                 resources.getString(R.string.hotel_guest_recommend)
+            } else if (rating < 4f) {
+                resources.getString(R.string.hotel_guest_recommend_good_superlative)
+            } else if (rating < 4.3f) {
+                resources.getString(R.string.hotel_guest_recommend_very_good_superlative)
+            } else if (rating < 4.5f) {
+                resources.getString(R.string.hotel_guest_recommend_excellent_superlative)
+            } else if (rating < 4.7f) {
+                resources.getString(R.string.hotel_guest_recommend_wonderful_superlative)
+            } else {
+                resources.getString(R.string.hotel_guest_recommend_exceptional_superlative)
             }
+        } else if (isWithColorNoSuperlatives()) {
+            resources.getString(R.string.hotel_guest_recommend)
+        } else {
+            ""
+        }
+    } else {
+        resources.getString(R.string.hotel_guest_recommend)
+    }
 }
 
 fun getGuestRatingBackgroundDrawable(rating: Float, context: Context): Drawable {
@@ -41,8 +39,7 @@ fun getGuestRatingBackgroundDrawable(rating: Float, context: Context): Drawable 
 
     return if (isSuperlativeReviewsABTestOn() && isShowColorBackground() && isRatingExceptional) {
         ContextCompat.getDrawable(context, R.drawable.user_review_background_green)
-    }
-    else {
+    } else {
         ContextCompat.getDrawable(context, R.drawable.user_review_background)
     }
 }
