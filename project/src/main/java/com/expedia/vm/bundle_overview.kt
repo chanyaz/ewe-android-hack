@@ -182,7 +182,7 @@ class BundleFlightViewModel(val context: Context) {
             flightSelectIconObservable.onNext(false)
             flightDetailsIconObservable.onNext(true)
             flightTextColorObservable.onNext(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
-            travelInfoTextObservable.onNext(context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, DateUtils.localDateToMMMd(localDate), selectedFlight.departureTimeShort, getTravelerString()))
+            travelInfoTextObservable.onNext(context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, DateUtils.localDateToMMMd(localDate), DateUtils.formatTimeShort(selectedFlight.departureDateTimeISO), getTravelerString()))
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
                 flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(Db.getPackageParams().destination.regionNames.shortName)))
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_checkmark_icon, 0))
