@@ -265,7 +265,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
         acceptTermsWidget.vm.resetAcceptedTerms()
-        HotelV2Tracking().trackPageLoadHotelV2CheckoutInfo(trip, hotelSearchParams)
+        HotelV2Tracking().trackPageLoadHotelV2CheckoutInfo(trip.newHotelProductResponse, hotelSearchParams)
 
         if (trip.guestUserPromoEmailOptInStatus != null) {
             emailOptInStatus.onNext(MerchandiseSpam.valueOf(trip.guestUserPromoEmailOptInStatus!!))
