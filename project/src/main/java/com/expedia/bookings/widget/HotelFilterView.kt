@@ -146,6 +146,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
             }
 
             dynamicFeedbackWidget.hideDynamicFeedback()
+            neighborhoodMoreLessView.visibility = View.GONE
         }
 
         vm.newPriceRangeObservable.subscribe { priceRange ->
