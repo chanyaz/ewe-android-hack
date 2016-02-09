@@ -1880,7 +1880,6 @@ public class OmnitureTracking {
 		if (isSplitTicket) {
 			StringBuilder productsSB = new StringBuilder();
 			int legCount = 0;
-
 			for (FlightLeg flightLeg : flightTrip.getLegs()) {
 				// fetch airline code from flight search response. We don't parse it from createTrip
 				String firstAirlineCodeForLeg = getAirlineCodeForLegId(flightLeg.getLegId());
@@ -1904,6 +1903,7 @@ public class OmnitureTracking {
 				}
 				legCount++;
 			}
+
 			s.setEvar(18, pageName);
 			s.setProducts(productsSB.toString());
 		}
