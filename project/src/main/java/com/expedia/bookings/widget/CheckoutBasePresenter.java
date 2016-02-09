@@ -34,7 +34,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.presenter.Presenter;
-import com.expedia.bookings.tracking.HotelV2Tracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.Ui;
@@ -350,7 +349,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 	};
 
-	public void animateInSlideToPurchase(boolean visible) {
+	protected void animateInSlideToPurchase(boolean visible) {
 		// If its already in position, don't do it again
 		if (slideToContainer.getVisibility() == (visible ? VISIBLE : INVISIBLE)) {
 			return;
@@ -378,9 +377,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}, 100);
 			String cardType = paymentInfoCardView.getCardType().getOmnitureTrackingCode();
 			switch (getLineOfBusiness()) {
-				case HOTELSV2:
-					new HotelV2Tracking().trackHotelV2SlideToPurchase(cardType);
-					break;
 				case LX:
 					OmnitureTracking.trackAppLXCheckoutSlideToPurchase(cardType);
 					break;
