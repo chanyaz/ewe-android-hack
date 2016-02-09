@@ -65,7 +65,7 @@ public class CollectionLaunchWidget extends LinearLayout {
 	}
 
 	@OnClick(R.id.button_search_hotels)
-	void hotelClicked() {
+	public void hotelClicked() {
 		HotelSearchParams params = new HotelSearchParams();
 
 		params.setQuery(suggestion.shortName);
