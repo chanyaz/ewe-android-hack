@@ -113,6 +113,8 @@
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">Hotels zoeken</string>
+    <!-- Label for hotel search v2 toolbar -->
+    <string name="hotel_search_v2_toolbar_title">Hotels</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">Locatie zoeken</string>
     <!-- Label for recent searches -->
@@ -201,8 +203,7 @@
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Route naar %1$s</string>
 
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_credit_debit_label">Creditcard/betaalpas</string>
+    <string name="shortened_checkout_payment_option_credit_debit_label">Creditcard</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Reizigersinfo</string>
     <!-- Text for Android pay label -->
@@ -215,6 +216,14 @@
     <string name="checkout_hotelsv2_enter_payment_details_line2">Selecteer betalingsmethode</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
     <string name="checkout_payment_line2_storedcc">Opgeslagen creditcard</string>
+    <!-- Text for enter payment details line 1 when paying with pwp only -->
+    <string name="checkout_paying_with_points_only_line1">Betalen met punten</string>
+    <!-- Text for enter payment details line 1 when paying with pwp and Card -->
+    <string name="checkout_paying_with_points_and_card_line1">Betalen met punten &amp; {carddescription}</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_tap_to_edit">Tik om te bewerken</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_payment_options">Punten, creditcard</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Swipe om te reserveren</string>
@@ -735,6 +744,8 @@
     <string name="prices_roundtrip_label">Retourprijzen per persoon</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Prijzen per persoon (enkele vlucht)</string>
+    <!-- Label clarifying that the price shown is for a roundtrip flight -->
+    <string name="roundtrip">retour</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Retourprijzen, per persoon, vanaf</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -819,7 +830,8 @@
     <string name="infants_in_seats_prompt">Baby\&apos;s op een stoel hebben hun eigen ticket nodig. Zoek opnieuw met inbegrip van tickets voor baby\&apos;s.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">Baby\&apos;s op schoot hebben geen ticket nodig. We voeren een nieuwe zoekopdracht uit met minder tickets.</string>
-
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two_TEMPLATE">Baby\&apos;s (&lt; 2 jaar): %s</string>
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Tussenstops</string>
@@ -1770,6 +1782,7 @@
     <string name="select_payment_callout">details invoeren</string>
     <!-- Add new card -->
     <string name="add_new_card">Nieuwe creditcard toevoegen</string>
+    <string name="new_credit_debit_card">Nieuwe creditcard</string>
     <!-- Overview button -->
     <string name="overview_btn">Overzicht</string>
     <!-- Stored Payment label -->
@@ -1804,6 +1817,8 @@
     <string name="your_trip_to_TEMPLATE">Reis naar %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Inclusief belastingen en toeslagen</string>
+    <!-- Includes taxes, fees, flights+hotels -->
+    <string name="includes_taxes_fees_flights_hotel">Incl. belastingen, toeslagen, Vlucht + Hotel</string>
     <!-- Includes taxes (but not necessarily fees) -->
     <string name="includes_taxes">Incl. belastingen</string>
     <!-- Date and trip from _ to _ -->
@@ -1888,6 +1903,8 @@
     <string name="youll_earn_points_ab_test_3x_TEMPLATE">Verzamel %1$s punten — 3x zo veel punten via de app!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Je verdient %1$s bonuspunten voor deze boeking!</string>
+    <!-- You are a valued member -->
+    <string name="you_are_a_valued_member">Je bent een fantastisch lid!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_points_for_this_trip_TEMPLATE">Je verdient %1$s punten voor deze reis!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2060,6 +2077,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Creditcardnummer</string>
+    <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
+    <string name="credit_debit_card_hint">Kaartnummer</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Vervaldatum</string>
     <!-- Set expiration date button -->
@@ -2292,7 +2311,17 @@
     <string name="fare_information">PRIJSGEGEVENS</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">Airlinetoeslag</string>
-
+    <!-- split ticket rules header -->
+    <string name="split_ticket_important_flight_information_header">Belangrijke vluchtinfo</string>
+    <!-- split ticket rules and restrictions -->
+    <string name="split_ticket_rules_with_link_TEMPLATE">• Je vlucht is een combinatie van 2 enkele tickets, met hun eigen regels en beperkingen.</string>
+    <string name="split_ticket_rules_with_link_TEMPLATE_tablet">Je vlucht is een combinatie van 2 enkele tickets, met hun eigen regels en beperkingen.</string>
+    <!-- split ticket rules - cancellation policy -->
+    <string name="split_ticket_rules_cancellation_policy">• Als één van de vluchten gewijzigd/geannuleerd wordt, wordt de andere vlucht niet automatisch gewijzigd. Mogelijk zijn er kosten van toepassing als je de andere vlucht wijzigt.</string>
+    <string name="split_ticket_rules_cancellation_policy_tablet">Als één van de vluchten gewijzigd/geannuleerd wordt, wordt de andere vlucht niet automatisch gewijzigd. Mogelijk zijn er kosten van toepassing als je de andere vlucht wijzigt.</string>
+    <!-- split ticket baggage fees -->
+    <string name="split_ticket_baggage_fees">• &lt;a href=\"%1$s\"&gt;Heenvluchten&lt;/a&gt; en &lt;a href=\"%2$s\"&gt;terugvluchten&lt;/a&gt; hebben hun eigen bagagekosten</string>
+    <string name="split_ticket_baggage_fees_tablet">&lt;a href=\"%1$s\"&gt;Heenvluchten&lt;/a&gt; en &lt;a href=\"%2$s\"&gt;terugvluchten&lt;/a&gt; hebben hun eigen bagagekosten</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">Ongeldige CVV-code</string>
@@ -2364,6 +2393,7 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
     <string name="zero">0</string>
+    <!-- The verb "book" as in to make a booking for a hotel room -->
     <string name="book">Boeken</string>
 
     <!-- Highlight view stuff -->
@@ -2389,6 +2419,7 @@
     <string name="See_front_of_card">Zie voorkant creditcard</string>
     <!-- Hint on CVV widget title for where to look for CVV code -->
     <string name="cvv_enter_security_code">Voer CVV in</string>
+    <string name="cvv_enter_security_code_v2">CVV</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -2836,6 +2867,13 @@
         <item quantity="other">Gemiddelde prijzen per nacht • %d resultaten</item>
     </plurals>
 
+    <!-- Hotel Results Pricing Header - Default -->
+    <plurals name="hotel_results_default_header_TEMPLATE">
+        <item quantity="zero">Geen resultaten</item>
+        <item quantity="one">1 resultaat</item>
+        <item quantity="other">%d resultaten</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
     <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
         <item quantity="zero">Geen resultaten</item>
@@ -2876,7 +2914,7 @@
     <string name="not_included_in_the_price">Niet inbegrepen bij de prijs</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">Kamer bekijken</string>
-    <!-- Book Room button text -->
+    <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">Boeken</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Delen via</string>
@@ -3775,6 +3813,7 @@
     <string name="applied_coupon_message">Coupon toegepast: je bespaart %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
     <string name="coupon_error_dialog_title">Toepassing coupon mislukt</string>
+    <string name="coupon_error_remove_dialog_title">Verwijdering coupon mislukt</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Er was een probleem met je coupon. Probeer het opnieuw in te voeren.</string>
 
@@ -3789,6 +3828,8 @@
 
     <!-- Label for package search toolbar -->
     <string name="package_toolbar_title">Hotel + Vlucht</string>
+    <!-- Label for per person -->
+    <string name="per_person">per persoon</string>
     <!-- Label for package search toolbar -->
     <string name="bundle_overview_title">Pakketoverzicht</string>
     <!-- Fly from hint -->
@@ -3799,14 +3840,67 @@
     <string name="step_one">Stap 1: Hotel selecteren</string>
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">Stap 2: Vluchten selecteren</string>
-
-    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
-    <string name="flight_duration_template">%1$d d. %2$d u. %3$d min. (tussenstop van %4$d u.)</string>
+    <!-- Package hotel cell: Price Includes flights -->
+    <string name="package_price_include_flights">Prijs is incl. vluchten</string>
+    <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
+    <string name="package_overview_flight_travel_info_TEMPLATE">%1$s om %2$s, %3$s</string>
+    <!-- Template for package bundle total savings amount -->
+    <string name="bundle_total_savings_TEMPLATE">{savings} bespaard</string>
+    <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
+    <string name="flight_duration_description_template">%1$s (%2$s)</string>
+    <!-- Flight hour duration template e.g. 12h 42m -->
+    <string name="flight_hour_min_duration_template">%1$d u. %2$d min.</string>
+    <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_min_duration_template">%1$d mln.</string>
+    <!-- Flight Nonstop description -->
+    <string name="flight_nonstop_description">Rechtstreeks</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$d d.</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
-
+    <!-- Select flight to template -->
+    <string name="select_flight_to">Kies vlucht naar %1$s</string>
+    <!-- Flight to template -->
+    <string name="flight_to">Vlucht naar %1$s</string>
+    <!-- Select return flight -->
+    <string name="select_return_flight">Kies terugvlucht</string>
+    <!-- Flight overview - flight to template -->
+    <string name="flight_to_template">Vlucht naar %1$s</string>
+    <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
+    <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
+    <!-- Toolbar text for hotel results -->
+    <string name="package_hotel_results_toolbar_title_TEMPLATE">Hotels in %s</string>
+    <!-- Description for infant travelers sitting in lap -->
+    <string name="in_lap">Op schoot</string>
+    <!-- Description for infant travelers sitting in seat -->
+    <string name="in_seat">Op stoel</string>
     <!-- Package Trip Overview -->
     <string name="trip_overview">Reisoverzicht</string>
+    <!-- Slide to book -->
+    <string name="package_slider_text">Swipe om te boeken</string>
+
+    <!-- Pay with points widget -->
+    <string name="paying_with_points">Betalen met punten</string>
+    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} punten) beschikbaar</string>
+    <string name="user_enters_more_than_points_TEMPLATE">De puntenwaarde overschrijdt de beschikbare puntenbalans.\nVoer {money} of minder in.</string>
+    <string name="user_enters_more_than_trip">De puntenwaarde mag het nu te betalen bedrag niet overschrijden.</string>
+    <string name="pwp_calculating_points">Punten aan het berekenen …</string>
+    <string name="pwp_points_applied_TEMPLATE">{points} punten toegepast</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Te betalen restbedrag: {money}</string>
+    <string name="pwp_total_due_today_TEMPLATE">Totaal nu te betalen: {money}</string>
+
+    <!-- Package Flight Overview -->
+    <string name="package_flight_overview_select_flight">Selecteer deze vlucht</string>
+
+    <!--Rail search screen title-->
+    <string name="trains">Treinen</string>
+
+    <string name="pwp_points_conversion_unauthenticated_access">Sorry, er deed zich een serverprobleem voor. Probeer het opnieuw.</string>
+    <string name="pwp_trip_service_error">Sorry, er deed zich een serverprobleem voor. Probeer het opnieuw.</string>
+    <string name="pwp_unknown_error">Er is een onbekende fout opgetreden. Probeer het opnieuw.</string>
+
+    <!-- New Hotel Search screen -->
+    <string name="select_traveler_title">Selecteer reiziger</string>
+    <string name="enter_destination_hint">Voer bestemming in</string>
+
 </resources>

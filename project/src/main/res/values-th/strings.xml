@@ -113,6 +113,8 @@
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">ค้นหาโรงแรม</string>
+    <!-- Label for hotel search v2 toolbar -->
+    <string name="hotel_search_v2_toolbar_title">โรงแรม</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">ค้นหาตำแหน่ง</string>
     <!-- Label for recent searches -->
@@ -201,8 +203,7 @@
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">วิธีการเดินทางไป %1$s</string>
 
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_credit_debit_label">บัตรเครดิต/บัตรเดบิต</string>
+    <string name="shortened_checkout_payment_option_credit_debit_label">บัตรเครดิต/เดบิต</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">รายละเอียดผู้เข้าพัก</string>
     <!-- Text for Android pay label -->
@@ -215,6 +216,14 @@
     <string name="checkout_hotelsv2_enter_payment_details_line2">เลือกประเภทการชำระเงิน</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
     <string name="checkout_payment_line2_storedcc">บัตรเครดิตที่บันทึกไว้</string>
+    <!-- Text for enter payment details line 1 when paying with pwp only -->
+    <string name="checkout_paying_with_points_only_line1">จ่ายด้วยคะแนน</string>
+    <!-- Text for enter payment details line 1 when paying with pwp and Card -->
+    <string name="checkout_paying_with_points_and_card_line1">จ่ายด้วยคะแนนและ {carddescription}</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_tap_to_edit">แตะเพื่อแก้ไข</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_payment_options">คะแนน, บัตรเครดิต</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">เลื่อนเพื่อจอง</string>
@@ -735,6 +744,8 @@
     <string name="prices_roundtrip_label">ราคาไป-กลับต่อคน</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">ราคาเที่ยวเดียวต่อคน</string>
+    <!-- Label clarifying that the price shown is for a roundtrip flight -->
+    <string name="roundtrip">ไป-กลับ</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">ราคาไป-กลับต่อคน เริ่มที่</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -821,7 +832,8 @@
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">ไม่เป็นต้องจองตั๋วสำหรับทารกนั่งตัก
 เราจะทำการค้นหาใหม่เพื่อดูตั๋วน้อยลง</string>
-
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two_TEMPLATE">ทารกอายุต่ำกว่า 2 ปี: %s</string>
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">แวะพัก</string>
@@ -1772,6 +1784,7 @@
     <string name="select_payment_callout">ป้อนรายละเอียด</string>
     <!-- Add new card -->
     <string name="add_new_card">เพิ่มบัตรใหม่</string>
+    <string name="new_credit_debit_card">บัตรเครดิต/เดบิตใบใหม่</string>
     <!-- Overview button -->
     <string name="overview_btn">ดูข้อมูล</string>
     <!-- Stored Payment label -->
@@ -1806,6 +1819,8 @@
     <string name="your_trip_to_TEMPLATE">การเดินทางไปยัง %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">รวมภาษีและค่าธรรมเนียม</string>
+    <!-- Includes taxes, fees, flights+hotels -->
+    <string name="includes_taxes_fees_flights_hotel">รวมภาษี, ค่าธรรมเนียม, เที่ยวบิน + โรงแรม</string>
     <!-- Includes taxes (but not necessarily fees) -->
     <string name="includes_taxes">รวมภาษี</string>
     <!-- Date and trip from _ to _ -->
@@ -1890,6 +1905,8 @@
     <string name="youll_earn_points_ab_test_3x_TEMPLATE">รับ %1$s คะแนน — 3 เท่าของคะแนนปกติเพราะคุณจองผ่านแอพ!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">คุณจะได้รับ %1$s คะแนนจากการจองนี้!</string>
+    <!-- You are a valued member -->
+    <string name="you_are_a_valued_member">คุณเป็นสมาชิกผู้ทรงเกียรติ</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_points_for_this_trip_TEMPLATE">คุณจะได้รับ %1$s คะแนนจากทริปนี้!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2062,6 +2079,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">หมายเลขบัตรเครดิต</string>
+    <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
+    <string name="credit_debit_card_hint">หมายเลขบัตรเดบิต/เครดิต</string>
     <!-- Expiration date label -->
     <string name="expiration_date">วันหมดอายุ</string>
     <!-- Set expiration date button -->
@@ -2294,7 +2313,17 @@
     <string name="fare_information">ข้อมูลค่าโดยสาร</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">ค่าธรรมเนียมสายการบิน</string>
-
+    <!-- split ticket rules header -->
+    <string name="split_ticket_important_flight_information_header">ข้อมูลสำคัญของเที่ยวบิน</string>
+    <!-- split ticket rules and restrictions -->
+    <string name="split_ticket_rules_with_link_TEMPLATE">• การจองเที่ยวบินของคุณประกอบด้วยค่าโดยสารแบบเที่ยวเดียวสองรายการ ซึ่งมีกฎและข้อจำกัดที่แยกออกจากกัน</string>
+    <string name="split_ticket_rules_with_link_TEMPLATE_tablet">การจองเที่ยวบินของคุณประกอบด้วยค่าโดยสารแบบเที่ยวเดียวสองรายการ ซึ่งมีกฎและข้อจำกัดที่แยกออกจากกัน</string>
+    <!-- split ticket rules - cancellation policy -->
+    <string name="split_ticket_rules_cancellation_policy">• หากคุณเปลี่ยนแปลงหรือยกเลิกเที่ยวบินใดเที่ยวบินหนึ่ง เที่ยวบินอีกเที่ยวจะไม่เปลี่ยนแปลงตามไปด้วยโดยอัตโนมัติ การแก้ไขเปลี่ยนแปลงเที่ยวบินอีกเที่ยวนั้นอาจมีค่าธรรมเนียมเพิ่มเติม</string>
+    <string name="split_ticket_rules_cancellation_policy_tablet">หากคุณเปลี่ยนแปลงหรือยกเลิกเที่ยวบินใดเที่ยวบินหนึ่ง เที่ยวบินอีกเที่ยวจะไม่เปลี่ยนแปลงตามไปด้วยโดยอัตโนมัติ การแก้ไขเปลี่ยนแปลงเที่ยวบินอีกเที่ยวนั้นอาจมีค่าธรรมเนียมเพิ่มเติม</string>
+    <!-- split ticket baggage fees -->
+    <string name="split_ticket_baggage_fees">• &lt;a href=\"%1$s\"&gt;เที่ยวบินขาไป&lt;/a&gt; และ &lt;a href=\"%2$s\"&gt;เที่ยวบินขากลับ&lt;/a&gt; มีค่าธรรมเนียมสัมภาระที่แยกออกจากกัน</string>
+    <string name="split_ticket_baggage_fees_tablet">&lt;a href=\"%1$s\"&gt;เที่ยวบินขาไป&lt;/a&gt; และ &lt;a href=\"%2$s\"&gt;เที่ยวบินขากลับ&lt;/a&gt; มีค่าธรรมเนียมสัมภาระที่แยกออกจากกัน</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">รหัสรักษาความปลอดภัยไม่ถูกต้อง</string>
@@ -2366,6 +2395,7 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
     <string name="zero">0</string>
+    <!-- The verb "book" as in to make a booking for a hotel room -->
     <string name="book">จอง</string>
 
     <!-- Highlight view stuff -->
@@ -2391,6 +2421,7 @@
     <string name="See_front_of_card">ดูด้านหน้าบัตร</string>
     <!-- Hint on CVV widget title for where to look for CVV code -->
     <string name="cvv_enter_security_code">ป้อนรหัสความปลอดภัย</string>
+    <string name="cvv_enter_security_code_v2">หมายเลข CVV</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -2838,6 +2869,13 @@
         <item quantity="other">ราคาเฉลี่ยต่อคืน • %d รายการ</item>
     </plurals>
 
+    <!-- Hotel Results Pricing Header - Default -->
+    <plurals name="hotel_results_default_header_TEMPLATE">
+        <item quantity="zero">ไม่พบผลลัพธ์</item>
+        <item quantity="one">1 ผลลัพธ์</item>
+        <item quantity="other">%d ผลลัพธ์</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
     <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
         <item quantity="zero">ไม่พบผลลัพธ์</item>
@@ -2878,7 +2916,7 @@
     <string name="not_included_in_the_price">ยังไม่รวมอยู่ในราคา</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">ดูห้องพัก</string>
-    <!-- Book Room button text -->
+    <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">จอง</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">แชร์ผ่าน</string>
@@ -3777,6 +3815,7 @@
     <string name="applied_coupon_message">ใช้คูปองแล้ว: คุณประหยัดไป %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
     <string name="coupon_error_dialog_title">การใช้คูปองล้มเหลว</string>
+    <string name="coupon_error_remove_dialog_title">การยกเลิกคูปองล้มเหลว</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">มีปัญหากับคูปองของคุณ โปรดลองป้อนคูปองอีกครั้ง</string>
 
@@ -3791,6 +3830,8 @@
 
     <!-- Label for package search toolbar -->
     <string name="package_toolbar_title">โรงแรม + เที่ยวบิน</string>
+    <!-- Label for per person -->
+    <string name="per_person">ต่อคน</string>
     <!-- Label for package search toolbar -->
     <string name="bundle_overview_title">ภาพรวมแพ็คเกจ</string>
     <!-- Fly from hint -->
@@ -3801,14 +3842,67 @@
     <string name="step_one">ขั้นที่ 1: เลือกโรงแรม</string>
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">ขั้นที่ 2: เลือกเที่ยวบิน</string>
-
-    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
-    <string name="flight_duration_template">%1$dวัน %2$dชม. %3$dน. (แวะพัก %4$d ชม.)</string>
+    <!-- Package hotel cell: Price Includes flights -->
+    <string name="package_price_include_flights">ราคารวมเที่ยวบิน</string>
+    <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
+    <string name="package_overview_flight_travel_info_TEMPLATE">%1$s เวลา %2$s, %3$s</string>
+    <!-- Template for package bundle total savings amount -->
+    <string name="bundle_total_savings_TEMPLATE">ประหยัด {savings}</string>
+    <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
+    <string name="flight_duration_description_template">%1$s (%2$s)</string>
+    <!-- Flight hour duration template e.g. 12h 42m -->
+    <string name="flight_hour_min_duration_template">%1$dชม. %2$dน.</string>
+    <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_min_duration_template">%1$dน.</string>
+    <!-- Flight Nonstop description -->
+    <string name="flight_nonstop_description">ไม่แวะพัก</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dวัน</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
-
+    <!-- Select flight to template -->
+    <string name="select_flight_to">เลือกเที่ยวบินไปยัง%1$s</string>
+    <!-- Flight to template -->
+    <string name="flight_to">เที่ยวบินไปยัง%1$s</string>
+    <!-- Select return flight -->
+    <string name="select_return_flight">เลือกเที่ยวบินขากลับ</string>
+    <!-- Flight overview - flight to template -->
+    <string name="flight_to_template">เที่ยวบินไปยัง %1$s</string>
+    <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
+    <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
+    <!-- Toolbar text for hotel results -->
+    <string name="package_hotel_results_toolbar_title_TEMPLATE">โรงแรมใน%s</string>
+    <!-- Description for infant travelers sitting in lap -->
+    <string name="in_lap">นั่งตัก</string>
+    <!-- Description for infant travelers sitting in seat -->
+    <string name="in_seat">นั่งเก้าอี้</string>
     <!-- Package Trip Overview -->
     <string name="trip_overview">ข้อมูลสรุปการเดินทาง</string>
+    <!-- Slide to book -->
+    <string name="package_slider_text">เลื่อนเพื่อจอง</string>
+
+    <!-- Pay with points widget -->
+    <string name="paying_with_points">จ่ายด้วยคะแนน</string>
+    <string name="pay_with_point_total_available_TEMPLATE">มีอยู่ {money} ({points} คะแนน)</string>
+    <string name="user_enters_more_than_points_TEMPLATE">มูลค่าคะแนนเกินยอดคะแนนที่คุณมีอยู่\nโปรดใส่ {money} หรือน้อยกว่านั้น</string>
+    <string name="user_enters_more_than_trip">มูลค่าคะแนนไม่สามารถเกินยอดที่ต้องชำระวันนี้ได้</string>
+    <string name="pwp_calculating_points">กำลังคำนวณคะแนน…</string>
+    <string name="pwp_points_applied_TEMPLATE">ใช้ไป {points} คะแนน</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">ยอดเงินคงเหลือที่ต้องชำระ: {money}</string>
+    <string name="pwp_total_due_today_TEMPLATE">ยอดทั้งหมดที่ต้องชำระวันนี้: {money}</string>
+
+    <!-- Package Flight Overview -->
+    <string name="package_flight_overview_select_flight">เลือกเที่ยวบินนี้</string>
+
+    <!--Rail search screen title-->
+    <string name="trains">รถไฟ</string>
+
+    <string name="pwp_points_conversion_unauthenticated_access">ขออภัย เซิร์ฟเวอร์มีปัญหา โปรดลองอีกครั้ง</string>
+    <string name="pwp_trip_service_error">ขออภัย เซิร์ฟเวอร์มีปัญหา โปรดลองอีกครั้ง</string>
+    <string name="pwp_unknown_error">เกิดข้อผิดพลาด โปรดลองอีกครั้ง</string>
+
+    <!-- New Hotel Search screen -->
+    <string name="select_traveler_title">เลือกผู้เดินทาง</string>
+    <string name="enter_destination_hint">ป้อนจุดหมายปลายทาง</string>
+
 </resources>
