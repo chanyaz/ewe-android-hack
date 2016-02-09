@@ -19,7 +19,6 @@ import android.support.v7.widget.Toolbar
 import android.text.format.DateUtils
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -443,20 +442,18 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         filterBtn.setOnClickListener { view ->
             show(ResultsFilter())
             filterView.viewmodel.sortContainerObservable.onNext(false)
-            filterView.toolbar.setTitle(getResources().getString(R.string.filter))
+            filterView.toolbar.title = resources.getString(R.string.filter)
         }
 
         filterBtnWithCountWidget?.setOnClickListener {
             show(ResultsFilter())
             filterView.viewmodel.sortContainerObservable.onNext(true)
-            filterView.toolbar.setTitle(getResources().getString(R.string.Sort_and_Filter))
+            filterView.toolbar.title = resources.getString(R.string.Sort_and_Filter)
         }
 
-        searchMenuItem.setOnMenuItemClickListener(object : MenuItem.OnMenuItemClickListener {
-            override fun onMenuItemClick(menuItem: MenuItem): Boolean {
-                searchOverlaySubject.onNext(Unit)
-                return true
-            }
+        searchMenuItem.setOnMenuItemClickListener({
+            searchOverlaySubject.onNext(Unit)
+            true
         })
 
         filterMenuItem.setVisible(false)
@@ -495,7 +492,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
             uiSettings.isMyLocationButtonEnabled = false
             uiSettings.isIndoorLevelPickerEnabled = false
         }
-
+        
         googleMap?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
 
             override fun getInfoWindow(marker: Marker): View? {
@@ -961,13 +958,13 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
             val translatePercentage = if (forward) 1 - f else f
-            filterView.translationY = filterView.getHeight() * translatePercentage
+            filterView.translationY = filterView.height * translatePercentage
         }
 
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             filterView.visibility = if (forward) View.VISIBLE else View.GONE
-            filterView.translationY = (if (forward) 0 else filterView.getHeight()).toFloat()
+            filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
             if (!forward && !fabShouldBeHiddenOnList()) {
                 fab.visibility = View.VISIBLE
                 getFabAnimIn().start()

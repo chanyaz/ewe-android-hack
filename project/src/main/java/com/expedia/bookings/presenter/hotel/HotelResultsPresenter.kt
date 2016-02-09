@@ -100,7 +100,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     }
 
     override fun inflate() {
-        View.inflate(getContext(), R.layout.widget_hotel_results, this)
+        View.inflate(context, R.layout.widget_hotel_results, this)
         toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
     }
 
@@ -120,7 +120,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     }
 
     override fun hideSearchThisArea() {
-        if (searchThisArea?.getVisibility() == View.VISIBLE) {
+        if (searchThisArea?.visibility == View.VISIBLE) {
             val anim: Animator = ObjectAnimator.ofFloat(searchThisArea, "alpha", 1f, 0f)
             anim.addListener(object : Animator.AnimatorListener {
                 override fun onAnimationCancel(animation: Animator?) {
@@ -128,7 +128,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
                 }
 
                 override fun onAnimationEnd(animator: Animator?) {
-                    searchThisArea?.setVisibility(View.GONE)
+                    searchThisArea?.visibility = View.GONE
                 }
 
                 override fun onAnimationStart(animator: Animator?) {
