@@ -115,6 +115,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
                 showPaymentDetails()
             } else {
                 isExpanded = true
+                Ui.hideKeyboard(this@PaymentWidgetV2)
             }
         }
     }
@@ -404,6 +405,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
         val info = sectionBillingInfo.billingInfo
         toggleFilledInCardDetailsMiniViewAndItsSpacerVisibility(VISIBLE)
         filledInCardDetailsMiniView.text = getPaymentInfo(info.paymentType, info.number)
+        Db.setTemporarilySavedCard(null)
         super.userChoosesNotToSaveCard()
     }
 
