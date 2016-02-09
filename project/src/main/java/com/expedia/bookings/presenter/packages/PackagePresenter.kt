@@ -6,6 +6,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -14,7 +15,10 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.BaseCheckoutViewModel
 import com.expedia.vm.BundleOverviewViewModel
+import com.expedia.vm.PackageCheckoutViewModel
 import com.expedia.vm.PackageCreateTripViewModel
+import com.squareup.phrase.Phrase
+import java.math.BigDecimal
 import javax.inject.Inject
 
 public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -30,12 +34,41 @@ public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter
         View.inflate(context, R.layout.package_presenter, this)
         bundlePresenter.viewModel = BundleOverviewViewModel(context, packageServices)
         bundlePresenter.checkoutPresenter.viewModel = BaseCheckoutViewModel(context, packageServices)
+        bundlePresenter.checkoutPresenter.createTripViewModel = PackageCreateTripViewModel(packageServices)
+        bundlePresenter.checkoutPresenter.packageCheckoutViewModel = PackageCheckoutViewModel(context, packageServices)
+        bundlePresenter.checkoutPresenter.createTripViewModel.bundleTotalPrice.subscribe(bundlePresenter.bundleTotalPriceWidget.viewModel.setTextObservable)
+        bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe { bundlePresenter.checkoutButton.visibility = VISIBLE }
+        bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe( bundlePresenter.checkoutPresenter.packageCheckoutViewModel.tripResponseObservable)
         bundlePresenter.checkoutPresenter.viewModel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
-        bundlePresenter.checkoutPresenter.viewModel.checkoutResponse.subscribe {
+        bundlePresenter.checkoutPresenter.paymentWidget.viewmodel.completeBillingInfo.subscribe(bundlePresenter.checkoutPresenter.viewModel.paymentCompleted)
+        bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe {
+            bundlePresenter.showCheckoutHeaderImage()
+        }
+        bundlePresenter.checkoutPresenter.createTripViewModel.createTripBundleTotalObservable.subscribe { response ->
+            var packageTotalPrice = response.packageDetails.pricing
+            var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
+                    .put("savings", Money(BigDecimal(packageTotalPrice.savings.amount.toDouble()),
+                            packageTotalPrice.savings.currencyCode).formattedMoney)
+                    .format().toString()
+
+            bundlePresenter.bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packageTotalPrice.packageTotal.amount.toDouble()),
+                    packageTotalPrice.packageTotal.currencyCode).formattedMoney, packageSavings))
+
+            bundlePresenter.checkoutOverviewHeader.update(response.packageDetails.hotel, width)
+
+            bundlePresenter.stepOneText.text = Phrase.from(context, R.string.hotel_checkout_overview_TEMPLATE).put("city", response.packageDetails.hotel.hotelCity)
+                    .put("rooms", response.packageDetails.hotel.numberOfRooms)
+                    .put("nights", response.packageDetails.hotel.numberOfNights)
+                    .format()
+            bundlePresenter.stepTwoText.text = Phrase.from(context, R.string.flight_checkout_overview_TEMPLATE).put("origin", Db.getPackageParams().origin.hierarchyInfo?.airport?.airportCode).put("destination",
+                    Db.getPackageParams().destination.hierarchyInfo?.airport?.airportCode).format()
+        }
+
+        bundlePresenter.checkoutPresenter.packageCheckoutViewModel.checkoutResponse.subscribe {
             show(confirmationPresenter)
             confirmationPresenter.itinNumber.text = it.newTrip?.itineraryNumber
         }
-        bundlePresenter.createTripViewModel = PackageCreateTripViewModel(packageServices)
+
         searchPresenter.searchViewModel.searchParamsObservable.subscribe {
             // Starting a new search clear previous selection
             Db.clearPackageSelection()

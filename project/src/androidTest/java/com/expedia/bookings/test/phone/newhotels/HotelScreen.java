@@ -405,7 +405,6 @@ public class HotelScreen {
 		else {
 			CheckoutViewModel.enterPaymentInfo();
 		}
-		CheckoutViewModel.pressClose();
 	}
 
 	public static void slideToPurchase() throws Throwable {

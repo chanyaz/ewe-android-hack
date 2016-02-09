@@ -6,13 +6,13 @@ import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.CarServices;
+import com.expedia.bookings.test.espresso.CarTestCase;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.espresso.CarTestCase;
-import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.google.gson.Gson;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
 import com.squareup.phrase.Phrase;
 
 import okio.Okio;
@@ -177,7 +177,6 @@ public class CarCheckoutErrorTest extends CarTestCase {
 		EspressoUtils.assertViewIsDisplayed(R.id.payment_info_card_view);
 		CheckoutViewModel.enterPaymentInfo();
 		screenshot("Car Checkout Payment Entered");
-		CheckoutViewModel.clickDone();
 	}
 
 }

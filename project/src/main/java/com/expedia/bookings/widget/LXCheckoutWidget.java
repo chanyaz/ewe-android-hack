@@ -21,6 +21,7 @@ import com.expedia.bookings.data.lx.LXBookableItem;
 import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.services.LXServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -68,8 +69,6 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 		summaryWidget = Ui.inflate(R.layout.lx_checkout_summary_widget, summaryContainer, false);
 		summaryContainer.addView(summaryWidget);
 		mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.lx_enter_contact_details));
-		paymentInfoCardView.setLineOfBusiness(LineOfBusiness.LX);
-		paymentInfoCardView.setZipValidationRequired(false);
 	}
 
 	@Subscribe
@@ -90,20 +89,20 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 	private void bind(String tripId, Money originalPrice, Money newPrice, LXBookableItem lxBookableItem) {
 		this.tripId = tripId;
 		summaryWidget.bind(originalPrice, newPrice, lxBookableItem);
-		paymentInfoCardView.setCreditCardRequired(true);
+		paymentInfoCardView.getViewmodel().isCreditCardRequired().onNext(true);
 		clearCCNumber();
 		scrollCheckoutToTop();
 		slideWidget.resetSlider();
 
-		sliderTotalText.setText(Phrase.from(getContext(), R.string.your_card_will_be_charged_template).put("dueamount", newPrice.getFormattedMoneyFromAmountAndCurrencyCode(
-			newPrice.getAmount(), newPrice.getCurrency())).format().toString());
+		sliderTotalText.setText(Phrase.from(getContext(), R.string.your_card_will_be_charged_template)
+			.put("dueamount", newPrice.getFormattedMoneyFromAmountAndCurrencyCode(
+				newPrice.getAmount(), newPrice.getCurrency())).format().toString());
 
 		acceptTermsWidget.getVm().resetAcceptedTerms();
 
 		mainContactInfoCardView.setExpanded(false);
-		paymentInfoCardView.setExpanded(false);
 		slideToContainer.setVisibility(INVISIBLE);
-
+		paymentInfoCardView.show(new PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK);
 		String e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().getE3EndpointUrl();
 		String rulesAndRestrictionsURL = LXDataUtils.getRulesRestrictionsUrl(e3EndpointUrl, tripId);
 		legalInformationText.setText(StrUtils.generateLegalClickableLink(getContext(), rulesAndRestrictionsURL));

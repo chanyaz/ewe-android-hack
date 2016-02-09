@@ -5,11 +5,8 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -23,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Space;
 
-import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -32,21 +28,24 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
-import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.HotelV2Tracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
+import com.expedia.vm.CheckoutToolbarViewModel;
+import com.expedia.vm.PaymentViewModel;
 import com.mobiata.android.Log;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import kotlin.Unit;
 import rx.Observer;
 
 public abstract class CheckoutBasePresenter extends Presenter implements SlideToWidgetLL.ISlideToListener,
-	UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener, ExpandableCardView.IExpandedListener {
+	UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener,
+	ExpandableCardView.IExpandedListener {
 
 	protected abstract LineOfBusiness getLineOfBusiness();
 
@@ -62,9 +61,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	public LinearLayout checkoutContent;
 
 	@InjectView(R.id.checkout_toolbar)
-	Toolbar toolbar;
-
-	ArrowXDrawable toolbarNavIcon;
+	public CheckoutToolbar toolbar;
 
 	@InjectView(R.id.mandatory_text)
 	TextView requiredFieldTextView;
@@ -81,6 +78,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	@InjectView(R.id.summary_container)
 	public FrameLayout summaryContainer;
+
+	@InjectView(R.id.coupon_container)
+	public FrameLayout couponContainer;
 
 	public View mSummaryProgressLayout;
 
@@ -119,7 +119,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	protected UserAccountRefresher userAccountRefresher;
 
 	private boolean listenToScroll = true;
-	boolean isBucketedForTravelerTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelTravelerTest);
+	boolean isBucketedForTravelerTest = Db.getAbacusResponse()
+		.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelTravelerTest);
 
 
 	@Override
@@ -133,18 +134,27 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		addTransition(defaultToExpanded);
 		addTransition(defaultToReady);
 		addTransition(defaultToCheckoutFailed);
+		addTransition(defaultToPayment);
+		addTransition(defaultToPaymentV2);
 		addDefaultTransition(defaultTransition);
-
+		paymentInfoCardView.setViewmodel(new PaymentViewModel(getContext()));
+		paymentInfoCardView.getViewmodel().getLineOfBusiness().onNext(getLineOfBusiness());
+		paymentInfoCardView.getViewmodel().getExpandObserver().subscribe(expandPaymentObserver);
+		paymentInfoCardView.getViewmodel().getToolbarTitle().subscribe(toolbar.getViewModel().getToolbarTitle());
+		paymentInfoCardView.getViewmodel().getEditText().subscribe(toolbar.getViewModel().getEditText());
+		paymentInfoCardView.getViewmodel().getEnableMenu().subscribe(toolbar.getViewModel().getEnableMenu());
+		paymentInfoCardView.getViewmodel().getEnableMenuDone().subscribe(toolbar.getViewModel().getEnableMenuDone());
+		if (paymentInfoCardView instanceof PaymentWidgetV2) {
+			paymentInfoCardView.getViewmodel().getUserLogin().subscribe(((PaymentWidgetV2) paymentInfoCardView).payWithPointsViewModel.getUserSignedIn());
+		}
+		toolbar.getViewModel().getDoneClicked().subscribe(paymentInfoCardView.getViewmodel().getDoneClicked());
 		slideWidget.addSlideToListener(this);
 
 		loginWidget.setListener(this);
 		mainContactInfoCardView.setLineOfBusiness(getLineOfBusiness());
-		paymentInfoCardView.setLineOfBusiness(getLineOfBusiness());
-		paymentInfoCardView.setToolbarListener(toolbarListener);
-		paymentInfoCardView.addExpandedListener(this);
-		paymentInfoCardView.setPresenter(this);
+
 		mainContactInfoCardView.addExpandedListener(this);
-		mainContactInfoCardView.setToolbarListener(toolbarListener);
+		mainContactInfoCardView.setToolbarListener(toolbar);
 		hintContainer.setVisibility(User.isLoggedIn(getContext()) ? GONE : VISIBLE);
 		legalInformationText.setMovementMethod(LinkMovementMethod.getInstance());
 		slideToContainer.setOnTouchListener(new OnTouchListener() {
@@ -177,9 +187,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 
 	public void setupToolbar() {
-		toolbarNavIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK);
-		toolbarNavIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
-		toolbar.setNavigationIcon(toolbarNavIcon);
+		toolbar.setViewModel(new CheckoutToolbarViewModel(getContext()));
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -188,35 +196,96 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		});
 
 		toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
-		toolbar.inflateMenu(R.menu.checkout_menu);
 
 		menuDone = toolbar.getMenu().findItem(R.id.menu_done);
 		// Let's start with not showing the menuDone button
 		menuDone.setVisible(false);
 
-		toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+		toolbar.getViewModel().getNextClicked().subscribe(new Observer<Unit>() {
 			@Override
-			public boolean onMenuItemClick(MenuItem menuItem) {
-				switch (menuItem.getItemId()) {
-				case R.id.menu_done:
-					if (menuItem.getTitle().equals(getResources().getString(R.string.done)) || menuItem.getTitle().equals(getResources().getString(R.string.coupon_submit_button))) {
-						currentExpandedCard.onMenuButtonPressed();
-						Ui.hideKeyboard(CheckoutBasePresenter.this);
-					}
-					else if (menuItem.getTitle().equals(getResources().getString(R.string.next))) {
-						if (getLineOfBusiness() == LineOfBusiness.HOTELSV2 && listenToScroll) {
-							scrollToEnterDetails();
-						}
-						else {
-							currentExpandedCard.setNextFocus();
-						}
-					}
-					return true;
-				}
+			public void onCompleted() {
 
-				return false;
+			}
+
+			@Override
+			public void onError(Throwable e) {
+
+			}
+
+			@Override
+			public void onNext(Unit unit) {
+				if (getLineOfBusiness() == LineOfBusiness.HOTELSV2 && listenToScroll) {
+					scrollToEnterDetails();
+				}
+				else if (currentExpandedCard != null) {
+					currentExpandedCard.setNextFocus();
+				}
 			}
 		});
+
+		toolbar.getViewModel().getDoneClicked().subscribe(new Observer<Unit>() {
+			@Override
+			public void onCompleted() {
+
+			}
+
+			@Override
+			public void onError(Throwable e) {
+
+			}
+
+			@Override
+			public void onNext(Unit unit) {
+				if (currentExpandedCard != null) {
+					currentExpandedCard.onMenuButtonPressed();
+				}
+				Ui.hideKeyboard(CheckoutBasePresenter.this);
+			}
+		});
+
+
+		toolbar.getViewModel().getExpanded().subscribe(new Observer<ExpandableCardView>() {
+			@Override
+			public void onCompleted() {
+
+			}
+
+			@Override
+			public void onError(Throwable e) {
+
+			}
+
+			@Override
+			public void onNext(ExpandableCardView cardView) {
+				lastExpandedCard = currentExpandedCard;
+				currentExpandedCard = cardView;
+				menuDone.setTitle(currentExpandedCard.getMenuButtonTitle());
+				if (isBucketedForTravelerTest && getLineOfBusiness() == LineOfBusiness.HOTELSV2
+					&& cardView instanceof TravelerContactDetailsWidget) {
+					requiredFieldTextView.setVisibility(VISIBLE);
+				}
+				show(new WidgetExpanded());
+			}
+		});
+
+
+		toolbar.getViewModel().getClosed().subscribe(new Observer<Unit>() {
+			@Override
+			public void onCompleted() {
+
+			}
+
+			@Override
+			public void onError(Throwable e) {
+
+			}
+
+			@Override
+			public void onNext(Unit unit) {
+				back();
+			}
+		});
+
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		if (statusBarHeight > 0) {
@@ -238,7 +307,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	private void scrollToEnterDetails() {
 		Ui.hideKeyboard(CheckoutBasePresenter.this);
 
-		int targetScrollY = loginWidget.getTop() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, getResources().getDisplayMetrics());
+		int targetScrollY = loginWidget.getTop() - (int) TypedValue
+			.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, getResources().getDisplayMetrics());
 		final ValueAnimator scrollAnimation =
 			ValueAnimator.ofInt(scrollView.getScrollY(), targetScrollY);
 		scrollAnimation.setDuration(300);
@@ -294,7 +364,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					return;
 				}
 
-				int top = loginWidget.getTop() - (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, getResources().getDisplayMetrics());
+				int top = loginWidget.getTop() - (int) TypedValue
+					.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, getResources().getDisplayMetrics());
 				if (y >= top) {
 					menuDone.setVisible(false);
 				}
@@ -302,51 +373,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					menuDone.setVisible(isCheckoutFormComplete() ? false : true);
 				}
 			}
-		}
-	};
-
-	// Listener to update the toolbar status when a widget(Login, Driver Info, Payment) is being interacted with
-	public ToolbarListener toolbarListener = new ToolbarListener() {
-		@Override
-		public void setActionBarTitle(String title) {
-			toolbar.setTitle(title);
-		}
-
-		@Override
-		public void onWidgetExpanded(ExpandableCardView cardView) {
-			lastExpandedCard = currentExpandedCard;
-			currentExpandedCard = cardView;
-			menuDone.setTitle(currentExpandedCard.getMenuButtonTitle());
-			if (isBucketedForTravelerTest && getLineOfBusiness() == LineOfBusiness.HOTELSV2
-				&& cardView instanceof TravelerContactDetailsWidget) {
-				requiredFieldTextView.setVisibility(VISIBLE);
-			}
-			show(new WidgetExpanded());
-		}
-
-		@Override
-		public void onWidgetClosed() {
-			back();
-		}
-
-		@Override
-		public void onEditingComplete() {
-			menuDone.setVisible(true);
-		}
-
-		@Override
-		public void setMenuLabel(String label) {
-			menuDone.setTitle(label);
-		}
-
-		@Override
-		public void showRightActionButton(boolean show) {
-			menuDone.setVisible(show);
-		}
-
-		@Override
-		public void setNavArrowBarParameter(ArrowXDrawableUtil.ArrowDrawableType arrowDrawableType) {
-			toolbarNavIcon.setParameter(arrowDrawableType.getType());
 		}
 	};
 
@@ -378,15 +404,15 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}, 100);
 			String cardType = paymentInfoCardView.getCardType().getOmnitureTrackingCode();
 			switch (getLineOfBusiness()) {
-				case HOTELSV2:
-					new HotelV2Tracking().trackHotelV2SlideToPurchase(cardType);
-					break;
-				case LX:
-					OmnitureTracking.trackAppLXCheckoutSlideToPurchase(cardType);
-					break;
-				case CARS:
-					OmnitureTracking.trackAppCarCheckoutSlideToPurchase(cardType);
-					break;
+			case HOTELSV2:
+				new HotelV2Tracking().trackHotelV2SlideToPurchase(cardType);
+				break;
+			case LX:
+				OmnitureTracking.trackAppLXCheckoutSlideToPurchase(cardType);
+				break;
+			case CARS:
+				OmnitureTracking.trackAppCarCheckoutSlideToPurchase(cardType);
+				break;
 			}
 		}
 	}
@@ -423,10 +449,13 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	public static class CheckoutDefault {
 	}
+
 	public static class Ready {
 	}
+
 	public static class WidgetExpanded {
 	}
+
 	public static class CheckoutFailed {
 	}
 
@@ -435,8 +464,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void finalizeTransition(boolean forward) {
 			showProgress(true);
 			menuDone.setVisible(false);
-			paymentInfoCardView.setCreditCardRequired(false);
-			for (int i = 0; i < checkoutContent.getChildCount(); i ++) {
+			for (int i = 0; i < checkoutContent.getChildCount(); i++) {
 				View v = checkoutContent.getChildAt(i);
 				if (v instanceof ExpandableCardView) {
 					((ExpandableCardView) v).setExpanded(false, false);
@@ -501,7 +529,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 						ViewGroup.LayoutParams params = space.getLayoutParams();
 						params.height = slideToContainer.getVisibility() == VISIBLE ? slideToContainer.getHeight() : 0;
 
-						if (slideToContainer.getVisibility() == VISIBLE || acceptTermsWidget.getVisibility() == VISIBLE) {
+						if (slideToContainer.getVisibility() == VISIBLE
+							|| acceptTermsWidget.getVisibility() == VISIBLE) {
 							params.height = Math.max(slideToContainer.getHeight(), acceptTermsWidget.getHeight());
 						}
 						else {
@@ -512,7 +541,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				}
 				else {
 					// if not complete, provide enough space for sign in button to be anchored at top of viewable area
-					int remainingHeight = scrollView.getChildAt(0).getHeight() - space.getHeight() - summaryContainer.getHeight();
+					int remainingHeight =
+						scrollView.getChildAt(0).getHeight() - space.getHeight() - summaryContainer.getHeight();
 					ViewGroup.LayoutParams params = space.getLayoutParams();
 					params.height = scrollView.getHeight() - remainingHeight - Ui.getToolbarSize(getContext());
 					space.setLayoutParams(params);
@@ -534,49 +564,44 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		@Override
 		public void startTransition(boolean forward) {
+			summaryContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
+			loginWidget.setVisibility(forward ? View.GONE : View.VISIBLE);
+			hintContainer.setVisibility(forward ? View.GONE : User.isLoggedIn(getContext()) ? GONE : VISIBLE);
+			mainContactInfoCardView.setVisibility(
+				!forward ? View.VISIBLE : currentExpandedCard instanceof TravelerContactDetailsWidget ? VISIBLE : GONE);
+			paymentInfoCardView
+				.setVisibility(forward ? GONE : paymentInfoCardView.isCreditCardRequired() ? VISIBLE : GONE);
+			couponContainer
+				.setVisibility(!forward ? View.VISIBLE : currentExpandedCard instanceof CouponWidget ? VISIBLE : GONE);
+			legalInformationText.setVisibility(forward ? View.GONE : View.VISIBLE);
+			disclaimerText.setVisibility(forward ? View.GONE : View.VISIBLE);
+			depositPolicyText.setVisibility(forward ? View.GONE : View.VISIBLE);
+			space.setVisibility(forward ? View.GONE : View.VISIBLE);
 			if (forward) {
-				for (int i = 0; i < checkoutContent.getChildCount(); i++) {
-					View v = checkoutContent.getChildAt(i);
-					if (v instanceof ExpandableCardView && v == currentExpandedCard) {
-						continue;
-					}
-					v.setVisibility(GONE);
-				}
-				listenToScroll = false;
 				if (lastExpandedCard != null && lastExpandedCard != currentExpandedCard) {
 					lastExpandedCard.setExpanded(false, false);
 				}
 			}
 			else {
-				currentExpandedCard.setExpanded(false, false);
-				for (int i = 0; i < checkoutContent.getChildCount(); i++) {
-					View v = checkoutContent.getChildAt(i);
-					if (v == hintContainer) {
-						hintContainer.setVisibility(User.isLoggedIn(getContext()) ? GONE : VISIBLE);
-					}
-					else if (v == paymentInfoCardView) {
-						paymentInfoCardView.setVisibility(paymentInfoCardView.isCreditCardRequired() ? VISIBLE : GONE);
-					}
-					else {
-						v.setVisibility(VISIBLE);
-					}
+				if (currentExpandedCard != null) {
+					currentExpandedCard.setExpanded(false, false);
 				}
-
 				Ui.hideKeyboard(CheckoutBasePresenter.this);
 				resetMenuButton();
-				listenToScroll = true;
 			}
-
+			listenToScroll = !forward;
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle()
 				: getContext().getString(R.string.cars_checkout_text));
 
-			toolbarNavIcon.setParameter((float)(forward ? ArrowXDrawableUtil.ArrowDrawableType.BACK.getType() : ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()));
+			toolbar.getToolbarNavIcon().setParameter(
+				(float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()
+					: ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()));
 		}
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			super.updateTransition(f, forward);
-			toolbarNavIcon.setParameter(forward ? f : Math.abs(1 - f));
+			toolbar.getToolbarNavIcon().setParameter(forward ? f : Math.abs(1 - f));
 		}
 
 		@Override
@@ -593,18 +618,140 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			else {
 				checkoutFormWasUpdated();
 				updateSpacerHeight();
-				scrollToEnterDetails();
+				if (getLineOfBusiness() == LineOfBusiness.HOTELSV2 && listenToScroll) {
+					scrollToEnterDetails();
+				}
 			}
-			toolbarNavIcon.setParameter((float)(forward ? ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType() : ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()));
+			toolbar.getToolbarNavIcon().setParameter(
+				(float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()
+					: ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()));
+		}
+	};
+
+	private Presenter.Transition defaultToPayment = new Presenter.Transition(Ready.class,
+		PaymentWidget.class) {
+
+		@Override
+		public void startTransition(boolean forward) {
+			summaryContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
+			loginWidget.setVisibility(forward ? View.GONE : View.VISIBLE);
+			hintContainer.setVisibility(forward ? View.GONE : User.isLoggedIn(getContext()) ? GONE : VISIBLE);
+			mainContactInfoCardView.setVisibility(forward ? View.GONE : View.VISIBLE);
+			couponContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
+			legalInformationText.setVisibility(forward ? View.GONE : View.VISIBLE);
+			disclaimerText.setVisibility(forward ? View.GONE : View.VISIBLE);
+			depositPolicyText.setVisibility(forward ? View.GONE : View.VISIBLE);
+			space.setVisibility(forward ? View.GONE : View.VISIBLE);
+			listenToScroll = !forward;
+			if (!forward) {
+				paymentInfoCardView.show(new PaymentWidget.PaymentDefault(), FLAG_CLEAR_BACKSTACK);
+				paymentInfoCardView.setVisibility(paymentInfoCardView.isCreditCardRequired() ? VISIBLE : GONE);
+				Ui.hideKeyboard(CheckoutBasePresenter.this);
+				resetMenuButton();
+
+			}
+
+
+			toolbar.getToolbarNavIcon().setParameter(
+				(float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()
+					: ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()));
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			super.updateTransition(f, forward);
+			toolbar.getToolbarNavIcon().setParameter(forward ? f : Math.abs(1 - f));
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+			if (forward) {
+				slideToContainer.setVisibility(INVISIBLE);
+				acceptTermsWidget.setVisibility(INVISIBLE);
+				// Space to avoid keyboard hiding the view behind.
+				int spacerHeight = (int) getResources().getDimension(R.dimen.car_expanded_space_height);
+				ViewGroup.LayoutParams params = space.getLayoutParams();
+				params.height = spacerHeight;
+				space.setLayoutParams(params);
+			}
+			else {
+				checkoutFormWasUpdated();
+				updateSpacerHeight();
+				if (getLineOfBusiness() == LineOfBusiness.HOTELSV2 && listenToScroll) {
+					scrollToEnterDetails();
+				}
+			}
+			toolbar.getToolbarNavIcon()
+				.setParameter((float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()
+					: ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()));
+		}
+	};
+
+	private Presenter.Transition defaultToPaymentV2 = new Presenter.Transition(Ready.class,
+		PaymentWidgetV2.class) {
+
+		@Override
+		public void startTransition(boolean forward) {
+			summaryContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
+			loginWidget.setVisibility(forward ? View.GONE : View.VISIBLE);
+			hintContainer.setVisibility(forward ? View.GONE : User.isLoggedIn(getContext()) ? GONE : VISIBLE);
+			mainContactInfoCardView.setVisibility(forward ? View.GONE : View.VISIBLE);
+			couponContainer.setVisibility(forward ? View.GONE : View.VISIBLE);
+			legalInformationText.setVisibility(forward ? View.GONE : View.VISIBLE);
+			disclaimerText.setVisibility(forward ? View.GONE : View.VISIBLE);
+			depositPolicyText.setVisibility(forward ? View.GONE : View.VISIBLE);
+			space.setVisibility(forward ? View.GONE : View.VISIBLE);
+			listenToScroll = !forward;
+			if (!forward) {
+				paymentInfoCardView.show(new PaymentWidget.PaymentDefault(), FLAG_CLEAR_BACKSTACK);
+				paymentInfoCardView.setVisibility(paymentInfoCardView.isCreditCardRequired() ? VISIBLE : GONE);
+				Ui.hideKeyboard(CheckoutBasePresenter.this);
+				resetMenuButton();
+
+			}
+
+
+			toolbar.getToolbarNavIcon().setParameter(
+				(float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()
+					: ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()));
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			super.updateTransition(f, forward);
+			toolbar.getToolbarNavIcon().setParameter(forward ? f : Math.abs(1 - f));
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+			if (forward) {
+				slideToContainer.setVisibility(INVISIBLE);
+				acceptTermsWidget.setVisibility(INVISIBLE);
+				// Space to avoid keyboard hiding the view behind.
+				int spacerHeight = (int) getResources().getDimension(R.dimen.car_expanded_space_height);
+				ViewGroup.LayoutParams params = space.getLayoutParams();
+				params.height = spacerHeight;
+				space.setLayoutParams(params);
+			}
+			else {
+				checkoutFormWasUpdated();
+				updateSpacerHeight();
+				if (getLineOfBusiness() == LineOfBusiness.HOTELSV2 && listenToScroll) {
+					scrollToEnterDetails();
+				}
+			}
+			toolbar.getToolbarNavIcon()
+				.setParameter((float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()
+					: ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()));
 		}
 	};
 
 	public void clearCCNumber() {
 		try {
-			paymentInfoCardView.creditCardNumber.setText("");
+			paymentInfoCardView.getCreditCardNumber().setText("");
 			Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setNumber(null);
 			Db.getBillingInfo().setNumber(null);
-			paymentInfoCardView.bind();
+			paymentInfoCardView.validateAndBind();
 		}
 		catch (Exception ex) {
 			Log.e("Error clearing billingInfo card number", ex);
@@ -619,7 +766,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	public void onUserAccountRefreshed() {
 		if (User.isLoggedIn(getContext())) {
 			listenToScroll = true;
-			scrollToEnterDetails();
+			if (getLineOfBusiness() == LineOfBusiness.HOTELSV2 && listenToScroll) {
+				scrollToEnterDetails();
+			}
 		}
 		doCreateTrip();
 	}
@@ -646,7 +795,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		showProgress(true);
 		loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness());
 		mainContactInfoCardView.onLogin();
-		paymentInfoCardView.onLogin();
+		paymentInfoCardView.getViewmodel().getUserLogin().onNext(true);
 		hintContainer.setVisibility(GONE);
 		showCheckout();
 	}
@@ -662,7 +811,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		User.signOut(getContext());
 		showProgress(true);
 		mainContactInfoCardView.onLogout();
-		paymentInfoCardView.onLogout();
+		paymentInfoCardView.getViewmodel().getUserLogin().onNext(false);
 		hintContainer.setVisibility(VISIBLE);
 		acceptTermsWidget.setVisibility(INVISIBLE);
 		showCheckout();
@@ -685,4 +834,24 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	public boolean isCheckoutFormComplete() {
 		return mainContactInfoCardView.isComplete() && paymentInfoCardView.isComplete();
 	}
+
+	public Observer<Boolean> expandPaymentObserver = new Observer<Boolean>() {
+
+		@Override
+		public void onCompleted() {
+		}
+
+		@Override
+		public void onError(Throwable e) {
+
+		}
+
+		@Override
+		public void onNext(Boolean expand) {
+			if (expand) {
+				currentExpandedCard = null;
+				show(paymentInfoCardView);
+			}
+		}
+	};
 }

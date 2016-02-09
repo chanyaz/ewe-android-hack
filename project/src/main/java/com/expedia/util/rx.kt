@@ -16,6 +16,7 @@ import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
+import kotlin.text.isNotBlank
 
 public fun <T> endlessObserver(body: (T) -> Unit): Observer<T> {
     return object : Observer<T> {
@@ -67,8 +68,8 @@ public fun View.publishOnClick(publishSubject: PublishSubject<Unit>) {
     }
 }
 
-public fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView) {
-    this.subscribe { textview.text = it }
+public fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView?) {
+    this.subscribe { textview?.text = it }
 }
 
 public fun Observable<Int>.subscribeTextColor(textview: TextView) {
@@ -89,8 +90,8 @@ public fun <T : CharSequence> Observable<T>.subscribeTextAndVisibilityInvisible(
     this.map { it.toString().isNotBlank() }.subscribeVisibilityInvisible(textview)
 }
 
-public fun Observable<Drawable>.subscribeImageDrawable(imageView: ImageView) {
-    this.subscribe { drawable -> imageView.setImageDrawable(drawable) }
+public fun Observable<Drawable>.subscribeImageDrawable(imageView: ImageView?) {
+    this.subscribe { drawable -> imageView?.setImageDrawable(drawable) }
 }
 
 public fun Observable<Int>.subscribeBackgroundColor(view: View) {
@@ -121,9 +122,9 @@ public fun Observable<CharSequence>.subscribeToggleButton(togglebutton: ToggleBu
     }
 }
 
-public fun Observable<Boolean>.subscribeVisibility(view: View) {
+public fun Observable<Boolean>.subscribeVisibility(view: View?) {
     this.subscribe { visible ->
-        view.visibility = if (visible) View.VISIBLE else View.GONE
+        view?.visibility = if (visible) View.VISIBLE else View.GONE
     }
 }
 

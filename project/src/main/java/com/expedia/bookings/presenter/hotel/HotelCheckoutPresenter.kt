@@ -37,6 +37,7 @@ import java.util.ArrayList
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.properties.Delegates
+import kotlin.text.isNullOrBlank
 
 public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
 

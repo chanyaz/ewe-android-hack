@@ -72,7 +72,6 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 		CheckoutViewModel.enterTravelerInfo();
 		LXScreen.checkoutSlideToPurchase().check(matches(not(isDisplayed())));
 		CheckoutViewModel.enterPaymentInfo();
-		CheckoutViewModel.clickDone();
 		LXScreen.checkoutSlideToPurchase().check(matches(isDisplayed()));
 	}
 
@@ -101,7 +100,6 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 		screenshot("Checkout_Payment_Card");
 		CheckoutViewModel.enterTravelerInfo();
 		CheckoutViewModel.enterPaymentInfo();
-		CheckoutViewModel.clickDone();
 		LXScreen.acceptTermsWidget().check(matches(isDisplayed()));
 	}
 
@@ -111,7 +109,6 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 		screenshot("Checkout_Payment_Card");
 		CheckoutViewModel.enterTravelerInfo();
 		CheckoutViewModel.enterPaymentInfo();
-		CheckoutViewModel.clickDone();
 		Common.pressBack();
 		LXInfositeScreen.bookNowButton("2-Day").perform(scrollTo(), click());
 		CheckoutViewModel.driverInfo().perform(waitForViewToDisplay());

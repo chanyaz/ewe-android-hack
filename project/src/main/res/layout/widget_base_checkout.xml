@@ -42,7 +42,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ScrollView
+            <com.expedia.bookings.widget.ScrollView
+                android:id="@+id/scrollView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -130,9 +131,20 @@
                         android:textSize="10sp"
                         android:visibility="gone" />
 
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/deposit_policy_text"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="16dp"
+                        android:paddingLeft="1.5dp"
+                        android:paddingRight="1.5dp"
+                        android:textSize="10sp"
+                        android:visibility="gone" />
+
                 </LinearLayout>
 
-            </ScrollView>
+            </com.expedia.bookings.widget.ScrollView>
 
             <com.expedia.bookings.widget.AcceptTermsWidget
                 android:id="@+id/layout_confirm_tos"

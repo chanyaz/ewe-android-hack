@@ -26,6 +26,7 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 	private LocalDate mExpirationDate;
 	private StoredCreditCard mStoredCard;
 	private boolean mSaveCardToExpediaAccount = false;
+	private boolean mIsTempCard = false;
 
 	public BillingInfo() {
 		// default
@@ -176,6 +177,14 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 
 	public boolean hasStoredCard() {
 		return mStoredCard != null;
+	}
+
+	public boolean isTempCard() {
+		return mIsTempCard;
+	}
+
+	public void setIsTempCard(boolean isTempCard) {
+		mIsTempCard = isTempCard;
 	}
 
 	public boolean isUsingGoogleWallet() {

@@ -23,8 +23,8 @@ public data class PackageCheckoutParams(val billingInfo: BillingInfo, val travel
             return this
         }
 
-        fun travelers(traveler: Traveler): PackageCheckoutParams.Builder {
-            this.travelers.add(traveler)
+        fun travelers(travelers: ArrayList<Traveler>): PackageCheckoutParams.Builder {
+            this.travelers.addAll(travelers)
             return this
         }
 
@@ -64,10 +64,6 @@ public data class PackageCheckoutParams(val billingInfo: BillingInfo, val travel
             val expectedFareCurrencyCode = expectedFareCurrencyCode ?: throw IllegalArgumentException()
             val cvv = cvv ?: throw IllegalArgumentException()
             return PackageCheckoutParams(billingInfo, travelers, tripId, expectedTotalFare, expectedFareCurrencyCode, bedType, cvv)
-        }
-
-        public fun hasValidTravelerAndBillingInfo(): Boolean {
-            return travelers.isNotEmpty() && billingInfo != null
         }
 
         public fun hasValidParams(): Boolean {

@@ -319,6 +319,24 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.flight_segment_breakdown,
 		R.layout.flight_segment_layover_row,
 		R.layout.flight_segment_row,
-		R.string.guests_with_rooms_TEMPLATE
+		R.string.guests_with_rooms_TEMPLATE,
+		R.string.cars_payment_details_text,
+		R.string.cars_payment_options_text,
+		R.string.enter_payment_details,
+		R.string.checkout_hotelsv2_enter_payment_details_line1,
+		R.string.checkout_hotelsv2_enter_payment_details_line2,
+		R.string.selected_card_template,
+		R.menu.checkout_menu,
+		R.drawable.ic_hotel_credit_card,
+		R.string.checkout_payment_line2_storedcc,
+		R.string.lx_does_not_accept_cardtype_TEMPLATE,
+		R.string.new_credit_debit_card,
+		R.string.car_does_not_accept_cardtype_TEMPLATE,
+		R.string.credit_debit_card_hint,
+		R.string.coupon_submit_button,
+		R.string.guests_with_rooms_TEMPLATE,
+		R.string.coupon_submit_button,
+		R.string.guests_with_rooms_TEMPLATE,
+		R.string.checkout_payment_option_credit_debit_label
 	};
 }

@@ -8,6 +8,7 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.LxTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
@@ -99,14 +100,13 @@ public class LXCheckoutErrorTest extends LxTestCase {
 
 		screenshot("Checkout after price change");
 		CheckoutViewModel.enterPaymentInfo();
-		CheckoutViewModel.clickDone();
 		CheckoutViewModel.performSlideToPurchase();
 
 		CVVEntryScreen.enterCVV("111");
 		CVVEntryScreen.clickBookButton();
 
 		// this time click on the back button. Expected : we must come to the CVV Screen
-		CheckoutViewModel.pressClose();
+		Common.pressBack();
 		onView(withId(R.id.lx_base_presenter)).inRoot(
 			withDecorView(is(getActivity().getWindow().getDecorView())))
 			.perform(waitFor((isDisplayed()), 10L, TimeUnit.SECONDS));
@@ -133,7 +133,6 @@ public class LXCheckoutErrorTest extends LxTestCase {
 		CheckoutViewModel.phone().perform(typeText("4151234567"));
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.enterPaymentInfo();
-		CheckoutViewModel.clickDone();
 		CheckoutViewModel.waitForSlideToPurchase();
 		CheckoutViewModel.performSlideToPurchase();
 

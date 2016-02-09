@@ -123,7 +123,7 @@
             app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
     </FrameLayout>
 
-    <com.expedia.bookings.widget.BaseCheckoutPresenter
+    <com.expedia.bookings.widget.PackageCheckoutPresenter
         android:id="@+id/checkout_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

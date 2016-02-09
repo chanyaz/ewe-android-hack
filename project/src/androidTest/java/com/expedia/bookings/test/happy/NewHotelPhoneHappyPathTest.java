@@ -25,7 +25,6 @@ public class NewHotelPhoneHappyPathTest extends HotelTestCase {
 		CheckoutViewModel.enterTravelerInfo();
 
 		CheckoutViewModel.enterPaymentInfoHotels();
-		CheckoutViewModel.pressClose();
 		CheckoutViewModel.performSlideToPurchase(false);
 		HotelScreen.enterCVVAndBook();
 		assertICanSeeItinNumber();
@@ -44,7 +43,7 @@ public class NewHotelPhoneHappyPathTest extends HotelTestCase {
 
 		// checkout
 		CheckoutViewModel.selectStoredCard(true);
-		CheckoutViewModel.pressClose();
+		CheckoutViewModel.clickDone();
 		CheckoutViewModel.performSlideToPurchase(true);
 
 		assertICanSeeItinNumber();
