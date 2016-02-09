@@ -11,7 +11,6 @@ import com.expedia.bookings.activity.HotelRulesActivity
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
@@ -20,10 +19,6 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
-import com.expedia.bookings.data.payment.PointsAndCurrency
-import com.expedia.bookings.data.payment.PointsType
-import com.expedia.bookings.data.payment.ProgramName
-import com.expedia.bookings.data.payment.UserPreferencePointsDetails
 import com.expedia.bookings.enums.MerchandiseSpam
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
@@ -48,7 +43,6 @@ import com.squareup.otto.Subscribe
 import rx.Observer
 import rx.subjects.PublishSubject
 import javax.inject.Inject
-import kotlin.collections.listOf
 import kotlin.properties.Delegates
 
 public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : CheckoutBasePresenter(context, attr) {
@@ -108,6 +102,9 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         it.updateEarnedRewards.subscribe { it ->
             Db.getTripBucket().hotelV2.updateTotalPointsToEarn(it)
             loginWidget.updateRewardsText(lineOfBusiness)
+        }
+        it.animateSlideToPurchaseWithPaymentSplits.subscribe {
+            HotelV2Tracking().trackHotelV2SlideToPurchase(paymentInfoCardView.cardType, it)
         }
     }
 
@@ -278,4 +275,10 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     @Subscribe fun onLogin(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccessful()
     }
+
+    override fun animateInSlideToPurchase(visible: Boolean) {
+        super.animateInSlideToPurchase(visible)
+        hotelCheckoutMainViewModel.animateInSlideToPurchaseSubject.onNext(Unit)
+    }
+
 }
