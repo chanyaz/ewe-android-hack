@@ -1873,7 +1873,6 @@ public class OmnitureTracking {
 		if (isSplitTicket) {
 			StringBuilder eventsSB = new StringBuilder();
 			StringBuilder productsSB = new StringBuilder();
-			int legCount = 0;
 
 			for (FlightLeg flightLeg : flightTrip.getLegs()) {
 				// fetch airline code from flight search response. We don't parse it from createTrip
@@ -1893,10 +1892,15 @@ public class OmnitureTracking {
 					String totalRevenue = flightLeg.getTotalFare().getAmount().toString();
 					productsSB.append(totalRevenue);
 				}
-				if (legCount == 0) {
-					productsSB.append(",");
-				}
+				productsSB.append(",");
+
 			}
+
+			// removing last comma
+			if (productsSB.toString().length() > 0) {
+				productsSB.deleteCharAt(productsSB.lastIndexOf(","));
+			}
+
 			eventsSB.append("event5");
 			s.setEvar(18, pageName);
 			s.setProducts(productsSB.toString());
