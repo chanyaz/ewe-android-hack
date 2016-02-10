@@ -9,6 +9,7 @@ import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.widget.CouponWidget;
 import com.expedia.bookings.widget.PayWithPointsWidget;
 import com.expedia.bookings.widget.PaymentWidgetV2;
+import com.expedia.vm.HotelConfirmationViewModel;
 import com.expedia.vm.interfaces.IPayWithPointsViewModel;
 
 import dagger.Component;
@@ -22,6 +23,7 @@ public interface HotelComponent {
 	void inject(PayWithPointsWidget payWithPointsWidget);
 	void inject(HotelCheckoutPresenter hotelCheckoutPresenter);
 	void inject(CouponWidget couponWidget);
+	void inject(HotelConfirmationViewModel hotelConfirmationViewModel);
 
 	SuggestionV4Services suggestionsService();
 	ReviewsServices reviewsServices();

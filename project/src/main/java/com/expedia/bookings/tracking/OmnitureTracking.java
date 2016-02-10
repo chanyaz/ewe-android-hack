@@ -65,6 +65,7 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortType;
+import com.expedia.bookings.data.payment.PaymentSplitsType;
 import com.expedia.bookings.data.payment.ProgramName;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
@@ -815,14 +816,33 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackHotelV2SlideToPurchase(String cardType) {
+	public static void trackHotelV2SlideToPurchase(PaymentType paymentType, PaymentSplitsType paymentSplitsType) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(18, HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE);
-		s.setEvar(37, cardType);
+		s.setEvar(37, getPaymentTypeOmnitureCode(paymentType, paymentSplitsType));
 		s.track();
 
+	}
+
+	private static String getPaymentTypeOmnitureCode(PaymentType paymentType, PaymentSplitsType paymentSplitsType) {
+		String paymentTypeOmnitureCode = null;
+		switch (paymentSplitsType) {
+		case IS_FULL_PAYABLE_WITH_CARD:
+			paymentTypeOmnitureCode = paymentType.getOmnitureTrackingCode();
+			break;
+		case IS_FULL_PAYABLE_WITH_POINT:
+			paymentTypeOmnitureCode = "Points";
+			break;
+		case IS_PARTIAL_PAYABLE_WITH_CARD:
+			paymentTypeOmnitureCode = paymentType.getOmnitureTrackingCode() + " + Points";
+			break;
+		}
+		if (paymentTypeOmnitureCode == null) {
+			throw new IllegalArgumentException("Payment type omniture string should be initialized");
+		}
+		return paymentTypeOmnitureCode;
 	}
 
 	public static void trackHotelV2CheckoutPaymentCid() {
@@ -847,7 +867,7 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Hotel Checkout", null, null);
 	}
 
-	public static void trackHotelV2PurchaseConfirmation(HotelCheckoutResponse hotelCheckoutResponse) {
+	public static void trackHotelV2PurchaseConfirmation(HotelCheckoutResponse hotelCheckoutResponse, int percentagePaidWithPoints) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_PURCHASE_CONFIRMATION + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELSV2_PURCHASE_CONFIRMATION);
@@ -883,7 +903,9 @@ public class OmnitureTracking {
 		// Currency code
 		s.setCurrencyCode(hotelCheckoutResponse.currencyCode);
 
-			// Send the tracking data
+		String percentageOfAmountPaidWithPoints = percentagePaidWithPoints == 0 ? "no points used" : String.format(Locale.ENGLISH, EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints);
+		s.setEvar(53, percentageOfAmountPaidWithPoints);
+		// Send the tracking data
 		s.track();
 	}
 
