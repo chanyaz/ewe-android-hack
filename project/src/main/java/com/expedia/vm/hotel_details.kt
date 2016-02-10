@@ -124,6 +124,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
     }
 
+    var subscriber: Subscription? = null
     private val allRoomsSoldOut = BehaviorSubject.create<Boolean>(false)
     private val noRoomsInOffersResponse = BehaviorSubject.create<Boolean>(false)
     val hotelSoldOut = BehaviorSubject.create<Boolean>(false)
@@ -387,6 +388,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         hotelOffersSubject.subscribe(offersObserver)
 
         hotelRoomRateViewModelsObservable.subscribe {
+            subscriber?.unsubscribe()
             val hotelRoomRateViewModels = hotelRoomRateViewModelsObservable.value
 
             if (hotelRoomRateViewModels == null || hotelRoomRateViewModels.isEmpty()) {
@@ -415,7 +417,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             val listOfObservables = listOfListOfRoomRateViewModels.map { listOfRoomRateViewModels -> Observable.combineLatest(listOfRoomRateViewModels.map { it.roomSoldOut }, { obj -> obj.all({ it -> it as Boolean }) }) }
             Observable.combineLatest(listOfObservables, { obj -> obj.all({ it -> it as Boolean }) }).distinctUntilChanged().subscribe(allRoomsSoldOut)
 
-            selectedRoomSoldOut.subscribe {
+            subscriber = selectedRoomSoldOut.subscribe {
                 for (hotelRoomRateViewModel in hotelRoomRateViewModels.drop(lastExpandedRowObservable.value)) {
                     if (!hotelRoomRateViewModel.roomSoldOut.value) {
                         hotelRoomRateViewModel.expandRoomObservable.onNext(false)

@@ -43,14 +43,19 @@ import com.expedia.vm.HotelRoomRateViewModel
 import com.mobiata.android.util.AndroidUtils
 import rx.Observable
 import rx.Subscription
+import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
+import kotlin.collections.forEach
+import kotlin.collections.isNotEmpty
 import kotlin.properties.Delegates
+import kotlin.text.isNotBlank
 
-public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView, var rowTopConstraintViewObservable: Observable<View>, var rowIndex: Int) : LinearLayout(context) {
+public class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(context) {
 
     private val ANIMATION_DURATION = 250L
 
     //views for room row
-    private val row: ViewGroup by bindView(R.id.root)
+    public val row: ViewGroup by bindView(R.id.root)
 
     private val roomType: TextView by bindView(R.id.room_type_text_view)
     private val collapsedBedType: TextView by bindView(R.id.collapsed_bed_type_text_view)
@@ -60,37 +65,35 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
     private val dailyPricePerNight: TextView by bindView(R.id.daily_price_per_night)
     private val perNight: TextView by bindView(R.id.per_night)
     val viewRoom: ToggleButton by bindView(R.id.view_room_button)
-    private val roomHeaderImageContainer: FrameLayout by bindView(R.id.room_header_image_container)
+    public val roomHeaderImageContainer: FrameLayout by bindView(R.id.room_header_image_container)
     public val roomHeaderImage: ImageView by bindView(R.id.room_header_image)
     private val roomDiscountPercentage: TextView by bindView(R.id.discount_percentage)
     private val roomInfoDescriptionText: TextView by bindView(R.id.room_info_description_text)
-    private val roomInfoChevron: ImageView by bindView(R.id.room_info_chevron)
+    public val roomInfoChevron: ImageView by bindView(R.id.room_info_chevron)
     private val roomInfoContainer: RelativeLayout by bindView(R.id.room_info_container)
     private val expandedAmenity: TextView by bindView(R.id.expanded_amenity_text_view)
     private val freeCancellation: TextView by bindView(R.id.expanded_free_cancellation_text_view)
-    private val roomInfoHeader: TextView by bindView(R.id.room_info_header_text)
-    private val roomInfoDivider: View by bindView(R.id.room_info_divider)
+    public val roomInfoHeader: TextView by bindView(R.id.room_info_header_text)
+    public val roomInfoDivider: View by bindView(R.id.room_info_divider)
     private val roomDivider: View by bindView(R.id.row_divider)
-    private val spaceAboveRoomInfo: View by bindView(R.id.space_above_room_info)
+    public val spaceAboveRoomInfo: View by bindView(R.id.space_above_room_info)
     private val collapsedContainer: RelativeLayout by bindView(R.id.collapsed_container)
     private val depositTermsButton: TextView by bindView(R.id.deposit_terms_buttons)
 
-    private var roomInfoHeaderTextHeight = -1
-    private var roomHeaderImageHeight = -1
-    private var roomInfoDividerHeight = -1
-    private var roomInfoDescriptionTextHeight = -1
-    private var roomInfoChevronHeight = -1
-    private var spaceAboveRoomInfoHeight = -1
+    public var roomInfoHeaderTextHeight = -1
+    public var roomHeaderImageHeight = -1
+    public var roomInfoDividerHeight = -1
+    public var roomInfoDescriptionTextHeight = -1
+    public var roomInfoChevronHeight = -1
+    public var spaceAboveRoomInfoHeight = -1
     private var toggleCollapsed = 0
     private var toggleExpanded = 0
     private var roomContainerTopBottomPadding = 0
     private var roomContainerLeftRightPadding = 0
     private var showTerms = false
-    public var rowTopConstraintView: View by Delegates.notNull()
     var viewsToHideInExpandedState : Array<View> by Delegates.notNull()
     var viewsToShowInExpandedState : Array<View> by Delegates.notNull()
-    var rowTopConstraintSubscription: Subscription? = null
-
+    val animateRoom = PublishSubject.create<Pair<HotelRoomRateView, Boolean>>()
     var viewmodel: HotelRoomRateViewModel by notNullAndObservable { vm ->
 
         vm.roomSoldOut.filter { it }.map { false }.subscribeChecked(viewRoom)
@@ -240,7 +243,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
                 PicassoHelper.Builder(roomHeaderImage)
                         .setPlaceholder(R.drawable.room_fallback)
                         .build()
-                        .load(hotelMedia.getBestUrls(scrollAncestor.width/2))
+                        .load(hotelMedia.getBestUrls(width/2))
             } else {
                 roomHeaderImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.room_fallback))
             }
@@ -283,35 +286,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
             topMarginForView(row, resources.getDimension(R.dimen.launch_tile_margin_top).toInt())
             topMarginForView(roomDivider, resources.getDimension(R.dimen.launch_tile_margin_top).toInt())
 
-            val resizeAnimator = ResizeHeightAnimator(if (animate) ANIMATION_DURATION else 0)
-            resizeAnimator.addViewSpec(roomHeaderImageContainer, roomHeaderImageHeight)
-            resizeAnimator.addViewSpec(roomInfoHeader, roomInfoHeaderTextHeight)
-            resizeAnimator.addViewSpec(roomInfoDivider, roomInfoDividerHeight)
-            resizeAnimator.addViewSpec(roomInfoChevron, roomInfoChevronHeight)
-            resizeAnimator.addViewSpec(spaceAboveRoomInfo, spaceAboveRoomInfoHeight)
-
-            if (animate) {
-                val screenHeight = AndroidUtils.getScreenSize(context).y
-                resizeAnimator.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
-                    override fun onAnimationUpdate(p0: ValueAnimator?) {
-                        val location = IntArray(2)
-
-                        row.getLocationOnScreen(location)
-                        val rowLocationTopY = location[1]
-                        val rowLocationBottomY = rowLocationTopY + row.height
-
-                        rowTopConstraintView.getLocationOnScreen(location)
-                        val rowTopConstraintViewBottomY = location[1] + rowTopConstraintView.height
-
-                        if (rowLocationBottomY > screenHeight) {
-                            scrollAncestor.smoothScrollBy(0, rowLocationBottomY - screenHeight)
-                        } else if (rowLocationTopY < rowTopConstraintViewBottomY) {
-                            scrollAncestor.smoothScrollBy(0, rowLocationTopY - rowTopConstraintViewBottomY)
-                        }
-                    }
-                })
-            }
-            resizeAnimator.start()
+            animateRoom.onNext(Pair(this, animate))
         }
 
         Observable.combineLatest(vm.collapseRoomObservable, vm.expandedMeasurementsDone) { animate, unit ->
@@ -411,7 +386,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
         }
         row.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
 
-        viewSetup(scrollAncestor, rowTopConstraintViewObservable, rowIndex)
+        viewSetup(rowIndex)
 
         val transitionDrawable = TransitionDrawable(arrayOf(ColorDrawable(Color.parseColor("#00000000")), ContextCompat.getDrawable(context, R.drawable.card_background)))
         transitionDrawable.isCrossFadeEnabled = true
@@ -423,13 +398,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
         roomContainerLeftRightPadding = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15f, context.resources.displayMetrics).toInt()
     }
 
-    fun viewSetup(scrollAncestor: ScrollView, rowTopConstraintViewObservable: Observable<View>, rowIndex: Int) {
-        this.scrollAncestor = scrollAncestor
-        this.rowTopConstraintViewObservable = rowTopConstraintViewObservable
-        this.rowIndex = rowIndex
-
-        rowTopConstraintSubscription?.unsubscribe()
-        rowTopConstraintSubscription = rowTopConstraintViewObservable.subscribe { rowTopConstraintView = it }
+    fun viewSetup(rowIndex: Int) {
 
         val transitionDrawable = TransitionDrawable(arrayOf(ColorDrawable(Color.parseColor("#00000000")), ContextCompat.getDrawable(context, R.drawable.card_background)))
         transitionDrawable.isCrossFadeEnabled = true

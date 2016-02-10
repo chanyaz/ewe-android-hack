@@ -39,7 +39,7 @@ import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.HotelRoomRateViewFactory
+import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.publishOnClick
@@ -54,9 +54,13 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
+import com.mobiata.android.util.AndroidUtils
 import rx.Observable
 import rx.Observer
 import java.util.ArrayList
+import kotlin.collections.emptyList
+import kotlin.collections.forEach
+import kotlin.collections.forEachIndexed
 import kotlin.properties.Delegates
 
 val DESCRIPTION_ANIMATION = 150L
@@ -274,15 +278,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
 
         vm.hotelMessagingContainerVisibility.subscribeVisibility(hotelMessagingContainer)
 
-
-        // TODO: We don't need an observable here! > Make this manual
-        val rowTopConstraintViewObservable: Observable<View> = vm.hasETPObservable.map { hasETP ->
-            when {
-                hasETP -> etpContainer
-                else -> hotelDetailsToolbar
-            }
-        }
-
         vm.roomResponseListObservable.subscribe { roomList: Pair<List<HotelOffersResponse.HotelRoomResponse>, List<String>> ->
             if (CollectionUtils.isEmpty(roomList.first)) {
                 return@subscribe
@@ -303,8 +298,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                     roomContainer.removeAllViews()
                     roomList.first.forEachIndexed { roomResponseIndex, room ->
                         val hasETP = viewmodel.hasETPObservable.value
-                        val view = HotelRoomRateViewFactory.makeHotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex,
-                                vm.hotelOffersResponse.hotelId, roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), vm.rowExpandingObservable, hasETP)
+                        val view = HotelRoomRateView(context, roomResponseIndex)
+                        view.viewmodel = HotelRoomRateViewModel(context,  vm.hotelOffersResponse.hotelId, roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), roomResponseIndex, vm.rowExpandingObservable, vm.roomSelectedObserver, hasETP)
+                        view.animateRoom.subscribe(rowAnimation)
                         var parent = view.parent
                         if (parent != null) {
                             (parent as ViewGroup).removeView(view)
@@ -370,8 +366,9 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                     roomContainer.removeAllViews()
                     etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
                         val hasETP = viewmodel.hasETPObservable.value
-                        val view = HotelRoomRateViewFactory.makeHotelRoomRateView(getContext(), detailContainer, rowTopConstraintViewObservable, vm.roomSelectedObserver, roomResponseIndex,
-                                vm.hotelOffersResponse.hotelId, etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), vm.rowExpandingObservable, hasETP)
+                        val view = HotelRoomRateView(context, roomResponseIndex)
+                        view.viewmodel = HotelRoomRateViewModel(context,  vm.hotelOffersResponse.hotelId, etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), roomResponseIndex, vm.rowExpandingObservable, vm.roomSelectedObserver, hasETP)
+                        view.animateRoom.subscribe(rowAnimation)
                         var parent = view.parent
                         if (parent != null) {
                             (parent as ViewGroup).removeView(view)
@@ -384,7 +381,6 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                     }
                     vm.lastExpandedRowObservable.onNext(-1)
                     vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
-
                     roomContainer.startAnimation(roomContainerAlphaZeroToOneAnimation)
                 }
 
@@ -792,5 +788,41 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         var drawable = imageView.drawable;
         drawable?.callback = null
         drawable = null
+    }
+
+    val rowAnimation = endlessObserver<Pair<HotelRoomRateView, Boolean>> { pair ->
+        val room = pair.first
+        val animate = pair.second
+        val resizeAnimator = ResizeHeightAnimator(if (animate) ANIMATION_DURATION else 0)
+        resizeAnimator.addViewSpec(room.roomHeaderImageContainer, room.roomHeaderImageHeight)
+        resizeAnimator.addViewSpec(room.roomInfoHeader, room.roomInfoHeaderTextHeight)
+        resizeAnimator.addViewSpec(room.roomInfoDivider, room.roomInfoDividerHeight)
+        resizeAnimator.addViewSpec(room.roomInfoChevron, room.roomInfoChevronHeight)
+        resizeAnimator.addViewSpec(room.spaceAboveRoomInfo, room.spaceAboveRoomInfoHeight)
+        if (animate) {
+            resizeAnimator.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
+                override fun onAnimationUpdate(p0: ValueAnimator?) {
+
+                    val rowTopConstraintView = if (viewmodel.hasETPObservable.value) etpContainer else hotelDetailsToolbar
+
+                    val screenHeight = AndroidUtils.getScreenSize(context).y
+                    val location = IntArray(2)
+
+                    room.row.getLocationOnScreen(location)
+                    val rowLocationTopY = location[1]
+                    val rowLocationBottomY = rowLocationTopY + room.row.height
+
+                    rowTopConstraintView.getLocationOnScreen(location)
+                    val rowTopConstraintViewBottomY = location[1] + rowTopConstraintView.height
+
+                    if (rowLocationBottomY > screenHeight) {
+                        detailContainer.smoothScrollBy(0, rowLocationBottomY - screenHeight)
+                    } else if (rowLocationTopY < rowTopConstraintViewBottomY) {
+                        detailContainer.smoothScrollBy(0, rowLocationTopY - rowTopConstraintViewBottomY)
+                    }
+                }
+            })
+        }
+        resizeAnimator.start()
     }
 }
