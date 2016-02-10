@@ -22,7 +22,7 @@ data class CardDetails(
         val expirationDateMonth: String? = null,
         val cvv: String?,
         val nameOnCard: String,
-        val amountOnCard: String,
+        val amountOnCard: String?,
         val storeCreditCardInUserProfile: Boolean = false)
 
 data class RewardDetails(
