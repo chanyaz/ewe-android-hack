@@ -67,7 +67,7 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         subscribeOnClick(endlessObserver {
             refreshPointsForUpdatedBurnAmount()
         })
-        
+
         pwpViewModel.pwpOpted.filter { it }.subscribe {
             pwpViewModel.userEnteredBurnAmount.onNext(editAmountView.text.toString())
             editAmountView.isCursorVisible = false
