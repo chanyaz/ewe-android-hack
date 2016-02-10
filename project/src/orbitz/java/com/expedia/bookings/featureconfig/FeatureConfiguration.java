@@ -26,12 +26,12 @@ import java.util.List;
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
 	@Override
 	public String getServerEndpointsConfigurationPath() {
-		return "ExpediaSharedData/ExpediaServerURLs.json";
+		return "ExpediaSharedData/OrbitzServerURLs.json";
 	}
 
 	@Override
 	public String getPOSConfigurationPath() {
-		return "ExpediaSharedData/ExpediaPointOfSaleConfig.json";
+		return "ExpediaSharedData/OrbitzPointOfSaleConfig.json";
 	}
 
 	@Override
