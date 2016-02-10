@@ -23,4 +23,5 @@ public interface IPayWithPointsViewModel {
     //Pairs of <Message To Be Displayed To User, Is Success Message>
     val pointsAppliedMessage: Observable<Pair<String, Boolean>>
     val pointsAppliedMessageColor: Observable<Int>
+    val enablePwpEditBox: Observable<Boolean>
 }

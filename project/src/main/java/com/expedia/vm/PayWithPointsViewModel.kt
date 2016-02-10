@@ -152,10 +152,14 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
 
     override val pointsAppliedMessageColor = pointsAppliedMessage.map {
         when (it.second) {
-            true -> resources.getColor(android.R.color.black);
+            true -> resources.getColor((R.color.hotels_primary_color));
             false -> resources.getColor(R.color.cvv_error);
         }
     }
+
+    override val enablePwpEditBox = Observable.merge(
+            pointsAppliedAndErrorMessages.map { true },
+            showCalculatingPointsMessage.map { false } )
 
     init {
         burnAmountUpdatesFromPaymentSplitsSuggestions
