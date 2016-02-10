@@ -64,6 +64,7 @@ public class CreateItineraryResponse extends Response {
 			JSONUtils.putJSONable(obj, "itinerary", mItinerary);
 			JSONUtils.putJSONable(obj, "offer", mOffer);
 			GsonUtil.putListForJsonable(obj, "validPayments", mValidPayments);
+			obj.put("isSplitTicket", mIsSplitTicket);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -78,6 +79,7 @@ public class CreateItineraryResponse extends Response {
 		mItinerary = JSONUtils.getJSONable(obj, "itinerary", Itinerary.class);
 		mOffer = JSONUtils.getJSONable(obj, "offer", FlightTrip.class);
 		mValidPayments = GsonUtil.getListForJsonable(obj, "validPayments", ValidPayment.gsonListTypeToken);
+		mIsSplitTicket = obj.optBoolean("isSplitTicket", false);
 
 		return true;
 	}

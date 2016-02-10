@@ -517,6 +517,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				mSplitTicketFeeLinks = (TextView) mSplitTicketRulesView.findViewById(R.id.split_ticket_fee_rules_text);
 			}
 			add(mSplitTicketRulesView);
+			updateSplitTicketRulesText();
 		}
 
 		// LEGAL BLURB
@@ -639,7 +640,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	}
 
 	private void updateSplitTicketRulesText() {
-		if (mSplitTicketRulesView != null && Db.getTripBucket().getFlight().getItineraryResponse().isSplitTicket() && isSplitTicketingEnabled) {
+		if (mSplitTicketRulesView != null && Db.getTripBucket().getFlight().getItineraryResponse() != null &&
+				Db.getTripBucket().getFlight().getItineraryResponse().isSplitTicket() && isSplitTicketingEnabled) {
 			mSplitTicketRulesView.setVisibility(View.VISIBLE);
 			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
 			String baggageFeesUrlLegOne = flightTrip.getLeg(0).getBaggageFeesUrl();
