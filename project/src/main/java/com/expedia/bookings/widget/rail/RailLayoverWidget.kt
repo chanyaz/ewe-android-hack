@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.rail
 
 import android.content.Context
+import android.graphics.RectF
 import android.util.AttributeSet
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.widget.BaseLayoverWidget
@@ -44,16 +45,17 @@ public open class RailLayoverWidget(context: Context, attrs: AttributeSet?) : Ba
         val stationCodeY = (height / 2).toFloat() + (stationCodeBounds.height() / 2).toFloat()
         drawObjects.add(LayoverDrawObject(railSegmentList[0].departureStationDetails.shortStationCode(), stationCodeX, stationCodeY, null, null))
 
-        durationBarTopY = stationCodeY - stationCodeBounds.height()
-        durationBarBottomY = stationCodeY
+        val durationBarTopY = stationCodeY - stationCodeBounds.height()
+        val durationBarBottomY = stationCodeY
         var durationBarX = stationCodeX + stationCodeBounds.width() + durationBarPadding
 
         for ((index, railSegment) in railSegmentList.withIndex()) {
 
-            var layoverBar: DurationBar? = null
-            var durationBar = createDurationBar(railSegment.durationHours(), railSegment.durationMinutes(), durationBarX)
+            var layoverBar: RectF? = null
+            var durationBar = createDurationBar(railSegment.durationHours(), railSegment.durationMinutes(), durationBarX,
+                    durationBarTopY, durationBarBottomY)
 
-            stationCodeX = durationBar.rightX + durationBarPadding
+            stationCodeX = durationBar.right + durationBarPadding
 
             if (index < railSegmentList.size - 1) {
                 //all but last one will have "layover"
@@ -61,8 +63,9 @@ public open class RailLayoverWidget(context: Context, attrs: AttributeSet?) : Ba
                 durationBarX = stationCodeX + stationCodeWidth + durationBarPadding
                 val first = railSegmentList.get(index)
                 val second = railSegmentList.get(index + 1)
-                layoverBar = createDurationBar(hoursBetween(first, second), minutesBetween(first, second), durationBarX)
-                durationBarX = layoverBar.rightX + durationBarPadding
+                layoverBar = createDurationBar(hoursBetween(first, second), minutesBetween(first, second), durationBarX,
+                        durationBarTopY, durationBarBottomY)
+                durationBarX = layoverBar.right + durationBarPadding
             }
             var railObject = LayoverDrawObject(railSegment.arrivalStationDetails.shortStationCode(), stationCodeX, stationCodeY,
                     durationBar, layoverBar)

@@ -67,7 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
                 app:location_text_color="@color/packages_primary_color"
-                app:location_text_size="14sp"
+                app:location_text_size="@dimen/layover_bar_text_size"
                 app:duration_bar_color="@color/packages_primary_color"
                 app:duration_bar_padding="@dimen/layover_bar_padding"
                 app:layover_background="@drawable/flight_layover_pattern_bg"/>
