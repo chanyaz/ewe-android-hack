@@ -61,23 +61,24 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         clearBtn.subscribeOnClick(pwpViewModel.clearUserEnteredBurnAmount)
         pwpViewModel.burnAmountUpdate.subscribeText(editAmountView)
         pwpSwitchView.subscribeOnCheckChanged(pwpViewModel.pwpOpted)
-        pwpViewModel.enablePwPToggle.doOnNext { if (!pwpSwitchView.isEnabled) wasLastEnableProgrammatic.onNext(true) }.subscribeChecked(pwpSwitchView)
+        pwpViewModel.enablePwPToggle.doOnNext { if (!pwpSwitchView.isChecked) wasLastEnableProgrammatic.onNext(true) }.subscribeChecked(pwpSwitchView)
         pwpViewModel.navigatingOutOfPaymentOptions.map { false }.subscribeCursorVisible(editAmountView)
 
         subscribeOnClick(endlessObserver {
             refreshPointsForUpdatedBurnAmount()
         })
+        
         pwpViewModel.pwpOpted.filter { it }.subscribe {
             pwpViewModel.userEnteredBurnAmount.onNext(editAmountView.text.toString())
             editAmountView.isCursorVisible = false
         }
 
         // Send Omniture tracking for PWP toggle only in case of user doing it.
-        pwpViewModel.pwpOpted.withLatestFrom(wasLastEnableProgrammatic, { pwpOpted, programmaticEnable -> Pair(pwpOpted, programmaticEnable) })
-                .doOnNext { if (it.second) wasLastEnableProgrammatic.onNext(false) }
-                .filter { !it.second }
-                .map { it.first }
-                .subscribe { pwpViewModel.userToggledPwPSwitchWithUserEnteredBurnedAmountSubject.onNext(Pair(it, editAmountView.text.toString())) }
+        pwpViewModel.pwpOpted.withLatestFrom(wasLastEnableProgrammatic, { pwpOpted, wasLastEnableProgrammatic -> Pair(pwpOpted, wasLastEnableProgrammatic) })
+                .subscribe {
+                    if (!it.second) pwpViewModel.userToggledPwPSwitchWithUserEnteredBurnedAmountSubject.onNext(Pair(it.first, editAmountView.text.toString()))
+                    else wasLastEnableProgrammatic.onNext(false)
+                }
 
         pwpViewModel.pwpWidgetVisibility.subscribeVisibility(this)
         pwpViewModel.pwpOpted.subscribeVisibility(pwpEditBoxContainer)
