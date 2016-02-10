@@ -147,7 +147,10 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
 
         val expediaRewardsPointsDetails = hotelCreateTripResponse.getPointDetails(ProgramName.ExpediaRewards)
 
-        val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.billingInfo
+        val billingInfo = if (Db.getTemporarilySavedCard() != null && Db.getTemporarilySavedCard().saveCardToExpediaAccount)
+                            Db.getTemporarilySavedCard()
+                            else hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.billingInfo
+
         // Pay with card if CVV is entered. Pay later can have 0 amount also.
         if (!cvv.isNullOrBlank()) {
             val amountOnCard = if (payingWithCardsSplit.amount.amount.equals(BigDecimal.ZERO)) null else payingWithCardsSplit.amount.amount.toString()
