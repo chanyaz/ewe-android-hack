@@ -867,11 +867,11 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Hotel Checkout", null, null);
 	}
 
-	public static void trackHotelV2PurchaseConfirmation(HotelCheckoutResponse hotelCheckoutResponse, int percentagePaidWithPoints) {
+	public static void trackHotelV2PurchaseConfirmation(HotelCheckoutResponse hotelCheckoutResponse, int percentagePaidWithPoints, int totalBurnedAmount) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_PURCHASE_CONFIRMATION + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELSV2_PURCHASE_CONFIRMATION);
-		s.setEvents("purchase");
+		s.setEvents("purchase,event117=" + totalBurnedAmount);
 
 		// Product details
 		DateTimeFormatter dtf = ISODateTimeFormat.basicDate();
@@ -885,7 +885,10 @@ public class OmnitureTracking {
 		// 14103: Remove timestamp from the purchaseID variable
 		s.setProp(71, hotelCheckoutResponse.checkoutResponse.bookingResponse.travelRecordLocator);
 		s.setProp(72, hotelCheckoutResponse.orderId);
+		s.setProp(2, "hotels");
 		s.setPurchaseID("onum" + hotelCheckoutResponse.orderId);
+
+		s.setEvar(2, "D=c2");
 
 		int numNights = JodaUtils.daysBetween(checkInDate,checkOutDate);
 		String totalCost = hotelCheckoutResponse.totalCharges;
