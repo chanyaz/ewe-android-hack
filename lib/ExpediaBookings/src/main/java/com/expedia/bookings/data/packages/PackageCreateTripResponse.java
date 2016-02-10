@@ -8,7 +8,10 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 
 public class PackageCreateTripResponse extends TripResponse {
 	public PackageDetails packageDetails;
-
+	public PackageDetails oldPackageDetails;
+	public Money changedPrice;
+	public String newTotalPrice;
+	
 	public static class PackageDetails {
 		public String tealeafTransactionId;
 		public String tripId;

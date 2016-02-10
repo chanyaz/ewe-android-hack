@@ -43,7 +43,7 @@ public class PackageCreateTripViewModel(val packageServices: PackageServices) {
     fun makeCreateTripResponseObserver(): Observer<PackageCreateTripResponse> {
         return object : Observer<PackageCreateTripResponse> {
             override fun onNext(response: PackageCreateTripResponse) {
-                if (response.hasErrors()) {
+                if (response.hasErrors() && !response.hasPriceChange()) {
                     //TODO handle errors (unhappy path story)
                 } else {
                     Db.getTripBucket().clearPackages()

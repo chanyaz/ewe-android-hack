@@ -27,7 +27,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.hotelBundle().perform(click());
 		Common.delay(1);
 
-		HotelScreen.selectHotel("packagehappypath");
+		HotelScreen.selectHotel("Package Happy Path");
 		Common.delay(1);
 
 		HotelScreen.selectRoom();
@@ -51,7 +51,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		Common.pressBack();
 
 		PackageScreen.hotelBundle().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("packagehappypath")))));
+			CoreMatchers.allOf(isDisplayed(), withText("Package Happy Path")))));
 		PackageScreen.hotelBundle().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("1 Guest")))));
 		onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)),

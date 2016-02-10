@@ -18,19 +18,23 @@ public class PackagesApiRequestDispatcher(fileOpener: FileOpener) : AbstractDisp
             }
 
             PackageApiRequestMatcher.isOutboundFlightRequest(urlParams, urlPath) -> {
-                getMockResponse("getpackages/v1/happy_outbound_flight.json")
+                val productKey = urlParams.get("packagePIID") ?: return make404()
+                getMockResponse("getpackages/v1/$productKey.json")
             }
 
             PackageApiRequestMatcher.isReturnFlightRequest(urlParams, urlPath) -> {
-                getMockResponse("getpackages/v1/happy_inbound_flight.json")
+                val productKey = urlParams.get("packagePIID") ?: return make404()
+                getMockResponse("getpackages/v1/$productKey.json")
             }
 
             PackageApiRequestMatcher.isHotelOffers(urlPath) -> {
-                getMockResponse("api/packages/hoteloffers/offers.json")
+                val productKey = urlParams.get("productKey") ?: return make404()
+                getMockResponse("api/packages/hoteloffers/$productKey.json")
             }
 
             PackageApiRequestMatcher.isCreateTrip(urlPath) -> {
-                getMockResponse("api/packages/createtrip/create_trip.json")
+                val productKey = urlParams.get("productKey") ?: return make404()
+                getMockResponse("api/packages/createtrip/$productKey.json")
             }
 
             PackageApiRequestMatcher.isCheckout(urlPath) -> {

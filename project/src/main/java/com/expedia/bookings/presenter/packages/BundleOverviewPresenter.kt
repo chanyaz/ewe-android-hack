@@ -24,6 +24,7 @@ import com.expedia.bookings.widget.PackageBundleFlightWidget
 import com.expedia.bookings.widget.PackageBundleHotelWidget
 import com.expedia.bookings.widget.PackageBundlePriceWidget
 import com.expedia.bookings.widget.PackageCheckoutPresenter
+import com.expedia.bookings.widget.PriceChangeWidget
 import com.expedia.bookings.widget.TravelerContactDetailsWidget
 import com.expedia.bookings.widget.packages.CheckoutOverviewHeader
 import com.expedia.util.endlessObserver
@@ -34,6 +35,7 @@ import com.expedia.vm.BundleOverviewViewModel
 import com.expedia.vm.BundlePriceViewModel
 import com.expedia.vm.CheckoutToolbarViewModel
 import com.expedia.vm.PackageSearchType
+import com.expedia.vm.PriceChangeViewModel
 import com.squareup.phrase.Phrase
 import java.math.BigDecimal
 import kotlin.properties.Delegates
@@ -43,6 +45,7 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     val toolbar: CheckoutToolbar by bindView(R.id.checkout_toolbar)
     val bundleContainer: ScrollView by bindView(R.id.bundle_container)
+    val priceChangeWidget: PriceChangeWidget by bindView(R.id.price_change)
     val checkoutPresenter: PackageCheckoutPresenter by bindView(R.id.checkout_presenter)
     val checkoutButton: Button by bindView(R.id.checkout_button)
     val bundleTotalPriceWidget: PackageBundlePriceWidget by bindView(R.id.bundle_total)
@@ -101,6 +104,7 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     init {
         View.inflate(context, R.layout.bundle_overview, this)
         bundleHotelWidget.viewModel = BundleHotelViewModel(context)
+        priceChangeWidget.viewmodel = PriceChangeViewModel(context)
 
         outboundFlightWidget.isOutbound = true
         inboundFlightWidget.isOutbound = false
@@ -192,6 +196,7 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             checkoutButton.visibility = if (forward) View.GONE else View.VISIBLE
             bundleContainer.visibility = View.VISIBLE
             checkoutPresenter.visibility = View.VISIBLE
+            priceChangeWidget.visibility = if (priceChangeWidget.viewmodel.priceChangeVisibility.value && !forward) VISIBLE else GONE
             bundleTotalPriceWidget.visibility = if (forward) View.GONE else View.VISIBLE
             if (forward) {
                 hideCheckoutHeaderImage()

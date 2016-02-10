@@ -17,7 +17,7 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		PackageScreen.hotelBundle().perform(click());
 		Common.delay(1);
 
-		HotelScreen.selectHotel("packagehappypath");
+		HotelScreen.selectHotel("Package Happy Path");
 		Common.delay(3);
 
 		EspressoUtils.assertViewWithSiblingIsNotDisplayed(R.id.discount_percentage, R.id.promo_text);
