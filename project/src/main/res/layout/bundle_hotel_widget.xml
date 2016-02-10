@@ -27,8 +27,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginRight="9dp"
-                android:src="@drawable/packages_overview_hotel"/>
+                android:layout_marginRight="5dp"
+                android:src="@drawable/packages_hotel_icon"/>
 
             <LinearLayout
                 android:id="@+id/hotel_info_container"
@@ -67,7 +67,7 @@
                 android:layout_alignBaseline="@+id/hotel_info_container"
                 android:layout_gravity="center"
                 android:layout_marginRight="9dp"
-                android:paddingLeft="12dp"
+                android:layout_marginLeft="12dp"
                 android:src="@drawable/read_more"
                 android:tint="@color/package_bundle_icon_color"
                 android:visibility="gone" />
@@ -79,7 +79,7 @@
                 android:layout_alignBaseline="@+id/hotel_info_container"
                 android:layout_gravity="center"
                 android:layout_marginRight="9dp"
-                android:paddingLeft="12dp"
+                android:layout_marginLeft="12dp"
                 android:src="@drawable/bundle_forward_arrow"
                 android:tint="?attr/primary_color"
                 android:visibility="gone" />

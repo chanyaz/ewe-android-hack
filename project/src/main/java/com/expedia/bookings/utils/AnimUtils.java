@@ -10,6 +10,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -169,7 +170,7 @@ public class AnimUtils {
 	public static void progressForward(View v) {
 		Context context = v.getContext();
 		final int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
-		final int loadingImgWidth = context.getDrawable(R.drawable.packages_loading_pattern).getIntrinsicWidth();
+		final int loadingImgWidth = ContextCompat.getDrawable(context, R.drawable.packages_loading_pattern).getIntrinsicWidth();
 		int animatedViewWidth = 0;
 		while (animatedViewWidth < screenWidth) {
 			animatedViewWidth += loadingImgWidth;
@@ -189,8 +190,8 @@ public class AnimUtils {
 	public static AnimatorSet getFadeInRotateAnim(View v) {
 		AnimatorSet set = new AnimatorSet();
 		set.playTogether(
-				ObjectAnimator.ofFloat(v, "rotation", -180f, 0f),
-				ObjectAnimator.ofFloat(v, "alpha", 0f, 1f)
+			ObjectAnimator.ofFloat(v, "rotation", -180f, 0f),
+			ObjectAnimator.ofFloat(v, "alpha", 0f, 1f)
 		);
 		set.setDuration(300);
 		set.setInterpolator(new DecelerateInterpolator());
