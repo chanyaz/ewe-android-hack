@@ -65,6 +65,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
             object {
                 val hotelCheckoutResponse = checkoutResponse
                 val percentagePaidWithPoints = if (BigDecimal(checkoutResponse.totalCharges).equals(BigDecimal.ZERO)) 0 else NumberUtils.getPercentagePaidWithPointsForOmniture(paymentSplits.payingWithPoints.amount.amount, BigDecimal(checkoutResponse.totalCharges))
+                val totalBurnedAmount = paymentSplits.payingWithPoints.points
             }
         } ).subscribe{
             val product = it.hotelCheckoutResponse.checkoutResponse.productResponse
@@ -108,7 +109,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
             location.addStreetAddressLine(product.hotelAddress)
             hotelLocation.onNext(location)
             AdImpressionTracking.trackAdConversion(context, it.hotelCheckoutResponse.checkoutResponse.bookingResponse.tripId)
-            HotelV2Tracking().trackHotelV2PurchaseConfirmation(it.hotelCheckoutResponse, it.percentagePaidWithPoints)
+            HotelV2Tracking().trackHotelV2PurchaseConfirmation(it.hotelCheckoutResponse, it.percentagePaidWithPoints, it.totalBurnedAmount)
         }
 
     }
