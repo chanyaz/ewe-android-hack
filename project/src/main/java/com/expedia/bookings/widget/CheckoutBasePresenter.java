@@ -566,13 +566,18 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle()
 				: getContext().getString(R.string.cars_checkout_text));
 
-			toolbarNavIcon.setParameter((float)(forward ? ArrowXDrawableUtil.ArrowDrawableType.BACK.getType() : ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()));
+			if (!(currentExpandedCard instanceof PaymentWidgetV2)) {
+				toolbarNavIcon.setParameter((float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()
+					: ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()));
+			}
 		}
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			super.updateTransition(f, forward);
-			toolbarNavIcon.setParameter(forward ? f : Math.abs(1 - f));
+			if (!(currentExpandedCard instanceof PaymentWidgetV2)) {
+				toolbarNavIcon.setParameter(forward ? f : Math.abs(1 - f));
+			}
 		}
 
 		@Override
@@ -591,7 +596,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				updateSpacerHeight();
 				scrollToEnterDetails();
 			}
-			toolbarNavIcon.setParameter((float)(forward ? ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType() : ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()));
+			if (!(currentExpandedCard instanceof PaymentWidgetV2)) {
+				toolbarNavIcon.setParameter((float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()
+					: ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()));
+			}
 		}
 	};
 

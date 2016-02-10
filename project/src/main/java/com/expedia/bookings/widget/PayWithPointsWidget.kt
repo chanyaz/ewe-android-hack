@@ -21,6 +21,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
+import com.expedia.util.subscribeEnabled
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import rx.subjects.BehaviorSubject
 import java.util.Locale
@@ -79,6 +80,7 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         pwpViewModel.pwpWidgetVisibility.subscribeVisibility(this)
         pwpViewModel.pwpOpted.subscribeVisibility(pwpEditBoxContainer)
         pwpViewModel.pwpOpted.subscribeVisibility(messageView)
+        pwpViewModel.enablePwpEditBox.subscribeEnabled(editAmountView)
     }
         @Inject set
 

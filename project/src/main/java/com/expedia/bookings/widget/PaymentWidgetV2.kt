@@ -105,12 +105,6 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
 
     private val paymentWidgetExpandedToCreditCardWidgetTransition = object : Presenter.Transition(CheckoutBasePresenter.WidgetExpanded::class.java, CreditCardWidgetExpandedState::class.java) {
         override fun finalizeTransition(forward: Boolean) {
-            mToolbarListener.setNavArrowBarParameter(
-                    if (forward)
-                        ArrowXDrawableUtil.ArrowDrawableType.BACK
-                    else
-                        ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
-
             if (forward) {
                 showPaymentDetails()
             } else {
