@@ -88,7 +88,8 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:textSize="12sp"
-            app:textStyle="normal" />
+            app:textStyle="normal"
+            android:layout_marginBottom="8dp"/>
 
         <com.expedia.bookings.widget.PayWithPointsWidget
             android:id="@+id/pwp_widget"
@@ -103,7 +104,9 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:textSize="12sp"
-            app:textStyle="normal" />
+            app:textStyle="normal"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp"/>
 
         <com.expedia.bookings.widget.DisableableLinearLayout
             android:id="@+id/section_credit_card_container"
