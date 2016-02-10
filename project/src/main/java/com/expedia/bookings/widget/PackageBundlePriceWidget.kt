@@ -1,6 +1,9 @@
 package com.expedia.bookings.widget
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
@@ -13,6 +16,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.BundlePriceViewModel
+import com.expedia.vm.PackageBreakdownViewModel
 
 public class PackageBundlePriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
@@ -29,9 +33,32 @@ public class PackageBundlePriceWidget(context: Context, attrs: AttributeSet?) : 
         vm.perPersonTextLabelObservable.subscribeVisibility(perPersonText)
     }
 
+    val packagebreakdown = PackageBreakDownView(context, null)
+    val dialog: AlertDialog by lazy {
+        val builder = AlertDialog.Builder(context)
+        builder.setView(packagebreakdown)
+        builder.setTitle(R.string.cost_summary)
+        builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface, which: Int) {
+                dialog.dismiss()
+            }
+        })
+        builder.create()
+    }
+
     init {
         View.inflate(getContext(), R.layout.bundle_total_price_widget, this)
         rotateChevron(true)
+
+        packagebreakdown.viewmodel = PackageBreakdownViewModel(context)
+        packagebreakdown.viewmodel.iconVisibilityObservable.subscribe { show ->
+            toggleBundleTotalCompoundDrawable(show)
+        }
+        bundleTotalText.setOnClickListener {
+            // We want to show cost breakdown ONLY in checkout screen. We set the rightDrawable only when createTrip returns. So let's check
+            if (bundleTotalText.compoundDrawables[2] != null)
+                dialog.show()
+        }
     }
 
     fun rotateChevron(isCollapsed: Boolean) {
@@ -40,5 +67,15 @@ public class PackageBundlePriceWidget(context: Context, attrs: AttributeSet?) : 
         } else {
             AnimUtils.reverseRotate(bundleChevron)
         }
+    }
+
+    fun toggleBundleTotalCompoundDrawable(show: Boolean) {
+        if (show) {
+            val icon = ContextCompat.getDrawable(context, R.drawable.ic_checkout_info).mutate()
+            bundleTotalText.setCompoundDrawablesWithIntrinsicBounds(null, null, icon, null)
+        } else {
+            bundleTotalText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
+        }
+
     }
 }
