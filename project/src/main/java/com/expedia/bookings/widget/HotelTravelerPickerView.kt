@@ -97,7 +97,7 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Fr
                 selectedText.text = resources.getString(R.string.infants_under_two_TEMPLATE, infantSeatPreferenceOptions[position])
                 selectedText.setTextColor(Color.WHITE)
                 //TODO with the selected infant's seat preference
-
+                vm.isInfantInLapObservable.onNext(position != 0)
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {

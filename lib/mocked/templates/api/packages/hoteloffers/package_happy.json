@@ -7,6 +7,12 @@
         "formattedWholePrice": "$1,027",
         "currencyCode": "USD"
       },
+      "priceDifferencePerNight": {
+        "amount": "0.00",
+        "formattedPrice": "$0.00",
+        "formattedWholePrice": "$0.00",
+        "currencyCode": "USD"
+      },
       "packagePricing": {
         "packageTotal": {
           "amount": "2054.67",
@@ -144,6 +150,12 @@
         "amount": "1027.34",
         "formattedPrice": "$1,027.34",
         "formattedWholePrice": "$1,027",
+        "currencyCode": "USD"
+      },
+      "priceDifferencePerNight": {
+        "amount": "-3.21",
+        "formattedPrice": "-$3.21",
+        "formattedWholePrice": "-$3.21",
         "currencyCode": "USD"
       },
       "packagePricing": {
@@ -285,6 +297,12 @@
         "formattedWholePrice": "$1,032",
         "currencyCode": "USD"
       },
+      "priceDifferencePerNight": {
+        "amount": "10.00",
+        "formattedPrice": "$10.00",
+        "formattedWholePrice": "$10.00",
+        "currencyCode": "USD"
+      },
       "packagePricing": {
         "packageTotal": {
           "amount": "2063.46",
@@ -422,6 +440,12 @@
         "amount": "1031.73",
         "formattedPrice": "$1,031.73",
         "formattedWholePrice": "$1,032",
+        "currencyCode": "USD"
+      },
+      "priceDifferencePerNight": {
+        "amount": "10.00",
+        "formattedPrice": "$10.00",
+        "formattedWholePrice": "$10.00",
         "currencyCode": "USD"
       },
       "packagePricing": {

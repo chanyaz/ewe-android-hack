@@ -4,8 +4,9 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.utils.Constants
 import org.joda.time.Days
 import org.joda.time.LocalDate
+import java.util.HashMap
 
-public data class PackageSearchParams(val origin: SuggestionV4, val destination: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>) {
+public data class PackageSearchParams(val origin: SuggestionV4, val destination: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>, val infantSeatingInLap: Boolean) {
 
     var searchProduct: String? = null
     var packagePIID: String? = null
@@ -17,8 +18,9 @@ public data class PackageSearchParams(val origin: SuggestionV4, val destination:
                 searchProduct = null
             }
         }
-    var flightType: String? = null  //null for outbound flights & 1 for inbound flights
     var selectedLegId: String? = null
+    var currentFlights: String? = null
+    var numberOfRooms: String = Constants.NUMBER_OF_ROOMS
 
     class Builder(val maxStay: Int) {
         private var origin: SuggestionV4? = null
@@ -27,6 +29,8 @@ public data class PackageSearchParams(val origin: SuggestionV4, val destination:
         private var checkOut: LocalDate? = null
         private var adults: Int = 1
         private var children: List<Int> = emptyList()
+        private var infantSeatingInLap: Boolean = false
+
 
         fun origin(origin: SuggestionV4?): PackageSearchParams.Builder {
             this.origin = origin
@@ -58,12 +62,17 @@ public data class PackageSearchParams(val origin: SuggestionV4, val destination:
             return this
         }
 
+        fun infantSeatingInLap(infantSeatingInLap: Boolean): PackageSearchParams.Builder {
+            this.infantSeatingInLap = infantSeatingInLap
+            return this
+        }
+
         fun build(): PackageSearchParams {
             val flightOrigin = origin ?: throw IllegalArgumentException()
             val flightDestination = destination ?: throw IllegalArgumentException()
             val checkInDate = checkIn ?: throw IllegalArgumentException()
             val checkOutDate = checkOut ?: throw IllegalArgumentException()
-            return PackageSearchParams(flightOrigin, flightDestination, checkInDate, checkOutDate, adults, children)
+            return PackageSearchParams(flightOrigin, flightDestination, checkInDate, checkOutDate, adults, children, infantSeatingInLap)
         }
 
         public fun areRequiredParamsFilled(): Boolean {
@@ -96,6 +105,40 @@ public data class PackageSearchParams(val origin: SuggestionV4, val destination:
     }
 
     public fun isOutboundSearch() : Boolean {
-        return flightType == null
+        return packagePIID != null && selectedLegId == null
+    }
+
+    public fun toQueryMap(): Map<String, Any?> {
+        val params = HashMap<String, Any?>()
+        params.put("originId", origin.gaiaId)
+        params.put("destinationId", destination.gaiaId)
+        params.put("ftla",origin.hierarchyInfo?.airport?.airportCode)
+        params.put("ttla", destination.hierarchyInfo?.airport?.airportCode)
+        params.put("fromDate", checkIn.toString())
+        params.put("toDate", checkOut.toString())
+        params.put("numberOfRooms", numberOfRooms)
+        params.put("adultsPerRoom[1]", adults)
+        params.put("infantSeatingInLap", infantSeatingInLap)
+        if (children.size > 0) {
+            params.put("childrenPerRoom[1]", children.size)
+            makeChildrenAgesParams(params, "childAges[1]", children, 1)
+        }
+        params.put("searchProduct", searchProduct)
+        params.put("packagePIID", packagePIID)
+        params.put("selectedLegId", selectedLegId)
+        params.put("packageTripType", Constants.PACKAGE_TRIP_TYPE)
+        if (isOutboundSearch()) {
+            params.put("currentFlights", currentFlights)
+        }
+
+        return params
+    }
+
+    private fun makeChildrenAgesParams(params: HashMap<String, Any?>, keyString: String, valueList: List<Any>, startIndex: Int) {
+        for (i in startIndex..valueList.size) {
+            var key = StringBuilder(keyString)
+            key.append("[").append(i).append("]")
+            params.put(key.toString(), valueList[i-1])
+        }
     }
 }

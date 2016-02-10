@@ -126,7 +126,6 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 			"Package Happy Path");
 		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.strike_through_price, "$1,076");
 		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.price_per_night, "$526");
-
 	}
 
 	private void assertHotelInfoSite() {

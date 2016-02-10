@@ -52,7 +52,7 @@ class FlightOverviewViewModel(val context: Context) {
     val selectFlightClickObserver: Observer<Unit> = endlessObserver {
         val params = Db.getPackageParams()
         val flight = selectedFlightLeg.value
-        params.flightType = Constants.PACKAGE_FLIGHT_TYPE
+        params.currentFlights = null
         params.selectedLegId = flight.departureLeg
         params.packagePIID = flight.packageOfferModel.piid
         if (flight.outbound) Db.setPackageSelectedOutboundFlight(flight) else Db.setPackageSelectedInboundFlight(flight)

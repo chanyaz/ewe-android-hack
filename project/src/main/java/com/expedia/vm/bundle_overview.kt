@@ -44,10 +44,11 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                 Db.setPackageResponse(response)
                 if (type == PackageSearchType.HOTEL) {
                     hotelResultsObservable.onNext(Unit)
+                    Db.getPackageParams().currentFlights = response.packageResult.flightsPackage.flights[0].legId + "," + response.packageResult.flightsPackage.flights[1].legId
                 } else {
                     flightResultsObservable.onNext(type)
                 }
-                if (!response.packageResult.currentSelectedOffer.equals(null)) {
+                if (response.packageResult.currentSelectedOffer != null) {
                     showBundleTotalObservable.onNext(true)
                     println("package success, Hotels:" + response.packageResult.hotelsPackage.hotels.size + "  Flights:" + response.packageResult.flightsPackage.flights.size)
                 }

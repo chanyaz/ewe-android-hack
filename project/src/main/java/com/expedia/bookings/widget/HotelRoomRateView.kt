@@ -279,7 +279,7 @@ public class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayo
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
             dailyPricePerNight.setTextColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
             perNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
-            perNight.setTextColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
+            perNight.setTextColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
 
             if (animate) (row.background as TransitionDrawable).startTransition(ANIMATION_DURATION.toInt())
 
