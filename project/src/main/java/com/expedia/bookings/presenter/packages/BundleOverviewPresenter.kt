@@ -119,11 +119,11 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packageTotalPrice.packageTotal.amount.toDouble()),
                     packageTotalPrice.packageTotal.currencyCode).formattedMoney, packageSavings))
 
-            checkoutOverviewHeader.update(response.packageDetails.hotel, width)
-
-            stepOneText.text = Phrase.from(context, R.string.hotel_checkout_overview_TEMPLATE).put("city", response.packageDetails.hotel.hotelCity)
-                    .put("rooms", response.packageDetails.hotel.numberOfRooms)
-                    .put("nights", response.packageDetails.hotel.numberOfNights)
+            var hotel = response.packageDetails.hotel
+            checkoutOverviewHeader.update(hotel, width)
+            stepOneText.text = Phrase.from(resources.getQuantityString(R.plurals.hotel_checkout_overview_TEMPLATE, hotel.numberOfNights.toInt()))
+                    .put("number", hotel.numberOfNights)
+                    .put("city", hotel.hotelCity)
                     .format()
             stepTwoText.text = Phrase.from(context, R.string.flight_checkout_overview_TEMPLATE).put("origin", Db.getPackageParams().origin.hierarchyInfo?.airport?.airportCode).put("destination",
                     Db.getPackageParams().destination.hierarchyInfo?.airport?.airportCode).format()
