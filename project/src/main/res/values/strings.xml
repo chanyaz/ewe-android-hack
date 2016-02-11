@@ -2050,6 +2050,8 @@
     <!-- Section edit contact -->
     <!-- name on card hint -->
     <string name="name_on_card_hint">Name On Card</string>
+    <!-- Package cardholder name hint -->
+    <string name="cardholder_name_hint">Cardholder name</string>
     <!-- email hint -->
     <string name="email_address_hint">Email Address</string>
     <!-- phone number hint -->
@@ -2105,6 +2107,8 @@
     <string name="address_state_hint">State</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Postal Code</string>
+    <!-- Zip Code hint for Packages -->
+    <string name="address_zip_code_hint">Zip Code</string>
     <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
     <string name="address_postal_code_hint_US">Zip</string>
 
