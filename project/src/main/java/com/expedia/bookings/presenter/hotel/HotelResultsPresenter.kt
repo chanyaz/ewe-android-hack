@@ -160,11 +160,11 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
                     viewmodel.paramsSubject.value?.suggestion?.coordinates?.lng != 0.0) {
                 moveCameraToLatLng(LatLng(viewmodel.paramsSubject.value.suggestion.coordinates.lat,
                         viewmodel.paramsSubject.value.suggestion.coordinates.lng))
-            } else if (viewmodel.paramsSubject.value?.suggestion?.regionNames?.fullName != null) {
+            } else if (viewmodel.paramsSubject.value?.suggestion?.regionNames?.shortName != null) {
                 val BD_KEY = "geo_search"
                 val bd = BackgroundDownloader.getInstance()
                 bd.cancelDownload(BD_KEY)
-                bd.startDownload(BD_KEY, mGeocodeDownload(viewmodel.paramsSubject.value.suggestion.regionNames.fullName), geoCallback())
+                bd.startDownload(BD_KEY, mGeocodeDownload(viewmodel.paramsSubject.value.suggestion.regionNames.shortName), geoCallback())
             }
         }
     }
