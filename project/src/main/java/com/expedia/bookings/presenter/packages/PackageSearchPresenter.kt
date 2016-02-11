@@ -125,6 +125,7 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
         }
 
         traveler.viewmodel.travelerParamsObservable.subscribe(vm.travelersObserver)
+        traveler.viewmodel.isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
         traveler.viewmodel.guestsTextObservable.subscribeToggleButton(selectTraveler)
         selectTraveler.subscribeOnClick(vm.enableTravelerObserver)
         vm.enableTravelerObservable.subscribe { enable ->

@@ -13,5 +13,6 @@ public class PackageOffersResponse extends BaseApiResponse {
 		public String packageProductId;
 		public HotelOffersResponse.HotelRoomResponse hotelOffer;
 		public Money pricePerPerson;
+		public Money priceDifferencePerNight;
 	}
 }

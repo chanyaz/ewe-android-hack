@@ -188,6 +188,7 @@ public class HotelTravelerPickerViewModel(val context: Context, val showSeatingP
     val childPlusObservable = BehaviorSubject.create<Boolean>()
     val childMinusObservable = BehaviorSubject.create<Boolean>()
     val infantPreferenceSeatingObservable = BehaviorSubject.create<Boolean>()
+    val isInfantInLapObservable = BehaviorSubject.create<Boolean>()
 
     init {
         travelerParamsObservable.subscribe { travelers ->

@@ -64,9 +64,8 @@ class PackageApiRequestMatcher {
             if (!isFlightSearch(urlParams)) {
                 return false
             }
-            val isSelectReturnFlightRequest = Strings.equals(urlParams["selectLegId"], "1")
             val hasSelectedDepartureLegId = (urlParams["selectedLegId"] != null)
-            return isSelectReturnFlightRequest && hasSelectedDepartureLegId && isPackageSearch(urlPath)
+            return hasSelectedDepartureLegId && isPackageSearch(urlPath)
         }
 
         fun isPackageSearch(urlPath: String): Boolean {

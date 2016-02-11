@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Strings;
 
 public class HotelRate {
@@ -36,6 +37,8 @@ public class HotelRate {
 	public String depositAmountToShowUsers;
 	public String depositAmount;
 
+	public transient float packagePricePerPerson;
+
 	// The types of display rates
 	public enum UserPriceType {
 		RATE_FOR_WHOLE_STAY_WITH_TAXES,
@@ -49,6 +52,9 @@ public class HotelRate {
 			}
 			else if ("PerNightRateNoTaxes".equals(value)) {
 				return UserPriceType.PER_NIGHT_RATE_NO_TAXES;
+			}
+			else if (Constants.PACKAGE_HOTEL_DELTA_PRICE_TYPE.equals(value)) {
+				return UserPriceType.PACKAGES;
 			}
 
 			return UserPriceType.UNKNOWN;

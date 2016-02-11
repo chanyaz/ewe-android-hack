@@ -9,6 +9,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.data.packages.PackageOffersResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Strings;
 
 public class HotelOffersResponse extends BaseApiResponse {
@@ -109,6 +110,10 @@ public class HotelOffersResponse extends BaseApiResponse {
 			}
 			return Strings.joinWithoutEmpties(", ", bedNames);
 		}
+
+		public boolean isPackage() {
+			return packageHotelDeltaPrice != null;
+		}
 	}
 
 	public static class BedTypes {
@@ -136,18 +141,21 @@ public class HotelOffersResponse extends BaseApiResponse {
 		hotelOffer.hotelRoomResponse = new ArrayList<>();
 		for (PackageOffersResponse.PackageHotelOffer packageHotelOffer : packageOffer.packageHotelOffers) {
 			packageHotelOffer.hotelOffer.productKey = packageHotelOffer.packageProductId;
-
-			//TODO: use hotel delta price when API is ready
-			packageHotelOffer.hotelOffer.packageHotelDeltaPrice = packageHotelOffer.pricePerPerson;
 			if (packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo == null) {
 				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo = new HotelRate();
 			}
-			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.priceToShowUsers = packageHotelOffer.hotelOffer.packageHotelDeltaPrice.amount.floatValue();
-			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.currencyCode = packageHotelOffer.hotelOffer.packageHotelDeltaPrice.currencyCode;
+			if (packageHotelOffer.priceDifferencePerNight != null) {
+				packageHotelOffer.hotelOffer.packageHotelDeltaPrice = packageHotelOffer.priceDifferencePerNight;
+				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.priceToShowUsers = packageHotelOffer.hotelOffer.packageHotelDeltaPrice.amount.floatValue();
+				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.currencyCode = packageHotelOffer.hotelOffer.packageHotelDeltaPrice.currencyCode;
+				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 0;
+				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.userPriceType = Constants.PACKAGE_HOTEL_DELTA_PRICE_TYPE;
+			}
+			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packagePricePerPerson = packageHotelOffer.pricePerPerson.amount.floatValue();
+
 			hotelOffer.hotelRoomResponse.add(packageHotelOffer.hotelOffer);
 		}
 		hotelOffer.isPackage = true;
 		return hotelOffer;
 	}
-
 }

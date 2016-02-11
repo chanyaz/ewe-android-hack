@@ -45,9 +45,7 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 	}
 
 	public fun packageSearch(params: PackageSearchParams): Observable<PackageSearchResponse> {
-		return packageApi.packageSearch(params.origin.regionNames.shortName, params.destination.regionNames.shortName, params.origin.gaiaId, params.destination.gaiaId, params.origin.hierarchyInfo?.airport?.airportCode, params.destination.hierarchyInfo?.airport?.airportCode,
-				params.checkIn.toString(), params.checkOut.toString(), params.packagePIID, params.searchProduct, params.flightType, params.selectedLegId, Constants.PACKAGE_TRIP_TYPE)
-				.observeOn(observeOn)
+		return packageApi.packageSearch(params.toQueryMap()).observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.doOnNext { response ->
 					response.packageResult.hotelsPackage.hotels.forEach { hotel ->

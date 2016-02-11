@@ -71,6 +71,10 @@ class PackageSearchViewModel(val context: Context) {
         paramsBuilder.children(update.children)
     }
 
+    val isInfantInLapObserver = endlessObserver<Boolean> { isInfantInLap ->
+        paramsBuilder.infantSeatingInLap(isInfantInLap)
+    }
+
     val originObserver = endlessObserver<SuggestionV4> { suggestion ->
         paramsBuilder.origin(suggestion)
         originTextObservable.onNext(StrUtils.formatAirport(suggestion))

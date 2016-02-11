@@ -52,6 +52,7 @@ import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.Locale
 import kotlin.properties.Delegates
+import kotlin.text.startsWith
 
 class HotelMapViewModel(val context: Context, val selectARoomObserver: Observer<Unit>, val hotelSoldOut: Observable<Boolean>) {
     //Outputs for View
@@ -245,7 +246,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             val rate = firstHotelRoomResponse.rateInfo.chargeableRateInfo
             onlyShowTotalPrice.onNext(rate.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
             pricePerNightObservable.onNext(Money(BigDecimal(rate.averageRate.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
-            hotelDetailsBundleTotalObservable.onNext(Pair(Money(BigDecimal(rate.priceToShowUsers.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL), ""))
+            hotelDetailsBundleTotalObservable.onNext(Pair(Money(BigDecimal(rate.packagePricePerPerson.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL), ""))
             totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
         }
@@ -671,10 +672,17 @@ public class HotelRoomRateViewModel(val context: Context, var hotelId: String, v
         }
     }
 
-    fun makePriceToShowCustomer(): String {
+    fun makePayLaterPriceToShow(): String {
         val sb = StringBuilder(dailyPrice.formattedMoney)
         if (!onlyShowTotalPrice.value) sb.append(context.resources.getString(R.string.per_night))
         return sb.toString()
+    }
+
+    fun makePayNowPriceToShow(): String {
+        if (hotelRoomResponse.isPackage && dailyPrice.amount.compareTo(BigDecimal.ZERO) >= 0) {
+            return "+" + dailyPrice.formattedMoney
+        }
+        return dailyPrice.formattedMoney
     }
 
     // TODO: We could have an observable for hotelRoomResponse here and do all this when we get a new one
@@ -726,12 +734,12 @@ public class HotelRoomRateViewModel(val context: Context, var hotelId: String, v
                 val payLaterText = Phrase.from(context, R.string.room_rate_pay_later_due_now).put("amount", depositAmountMoney.formattedMoney).format().toString()
                 dailyPricePerNightObservable.onNext(payLaterText)
             } else {
-                dailyPricePerNightObservable.onNext(makePriceToShowCustomer())
+                dailyPricePerNightObservable.onNext(makePayLaterPriceToShow())
             }
-            strikeThroughPriceObservable.onNext(makePriceToShowCustomer())
+            strikeThroughPriceObservable.onNext(makePayLaterPriceToShow())
         } else {
             perNightPriceVisibleObservable.onNext(true)
-            dailyPricePerNightObservable.onNext(dailyPrice.formattedMoney)
+            dailyPricePerNightObservable.onNext(makePayNowPriceToShow())
             depositTerms.onNext(null)
         }
 
