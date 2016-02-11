@@ -89,6 +89,6 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
     }
 
     override fun closePopup() {
-        
+
     }
 }
