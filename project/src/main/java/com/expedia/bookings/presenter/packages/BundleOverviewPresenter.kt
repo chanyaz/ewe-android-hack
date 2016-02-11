@@ -55,10 +55,10 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     val bundleHotelWidget: PackageBundleHotelWidget by bindView(R.id.package_bundle_hotel_widget)
     val outboundFlightWidget: PackageBundleFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
     val inboundFlightWidget: PackageBundleFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
-    var statusBar: View by Delegates.notNull()
+    var statusBar: View? = null
     val checkoutOverviewHeader: CheckoutOverviewHeader by bindView(R.id.checkout_overview_header)
     var toolbarHeight: Int by Delegates.notNull()
-    val scrollViewtopPadding = resources.getDimensionPixelSize(R.dimen.package_bundle_scroll_view_padding)
+    val scrollViewTopPadding = resources.getDimensionPixelSize(R.dimen.package_bundle_scroll_view_padding)
 
     var viewModel: BundleOverviewViewModel by notNullAndObservable { vm ->
         vm.hotelParamsObservable.subscribe { param ->
@@ -171,7 +171,8 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     public fun hideCheckoutHeaderImage() {
         toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
-        statusBar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
+        statusBar?.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
+
         toolbar.viewModel.toolbarTitle.onNext(resources.getString(R.string.Checkout))
         checkoutOverviewHeader.visibility = GONE
         bundleContainer.setPadding(0, toolbarHeight, 0, 0)
@@ -179,10 +180,10 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     public fun showCheckoutHeaderImage() {
         toolbar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
-        statusBar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
+        statusBar?.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         toolbar.viewModel.toolbarTitle.onNext("")
         checkoutOverviewHeader.visibility = VISIBLE
-        bundleContainer.setPadding(0, scrollViewtopPadding, 0, 0)
+        bundleContainer.setPadding(0, scrollViewTopPadding, 0, 0)
     }
 
     val defaultTransition = object : Presenter.DefaultTransition(BundleDefault::class.java.name) {
