@@ -405,7 +405,7 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
 
     override protected fun userChoosesToSaveCard() {
         super.userChoosesToSaveCard()
-        Db.setTemporarilySavedCard(sectionBillingInfo.billingInfo)
+        Db.setTemporarilySavedCard(BillingInfo(sectionBillingInfo.billingInfo))
         paymentButtonListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard())
     }
 }
