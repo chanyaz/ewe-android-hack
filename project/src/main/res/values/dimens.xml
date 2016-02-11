@@ -302,6 +302,7 @@
     <dimen name="hotel_checkout_image_corner_radius">3dp</dimen>
 
     <!-- Package Results -->
+    <dimen name="layover_bar_text_size">14sp</dimen>
     <dimen name="layover_bar_padding">4dp</dimen>
     <dimen name="card_view_container_margin">9dp</dimen>
 

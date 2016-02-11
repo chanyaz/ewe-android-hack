@@ -1,13 +1,8 @@
 package com.expedia.bookings.widget.packages
 
 import android.content.Context
-import android.graphics.Paint
-import android.graphics.Canvas
-import android.graphics.Rect
-import android.graphics.drawable.BitmapDrawable
+import android.graphics.RectF
 import android.util.AttributeSet
-import android.view.View
-import com.expedia.bookings.R
 import com.expedia.bookings.data.packages.FlightLeg
 import com.expedia.bookings.widget.BaseLayoverWidget
 import java.util.ArrayList
@@ -48,22 +43,24 @@ public open class FlightLayoverWidget(context: Context, attrs: AttributeSet?) : 
         val airportCodeY = (height / 2).toFloat() + (airportCodeBounds.height() / 2).toFloat()
         drawObjects.add(LayoverDrawObject(flightSegmentList[0].departureAirportCode, airportCodeX, airportCodeY, null, null))
 
-        durationBarTopY = airportCodeY - airportCodeBounds.height()
-        durationBarBottomY = airportCodeY
+        val durationBarTopY = airportCodeY - airportCodeBounds.height()
+        val durationBarBottomY = airportCodeY
         var durationBarX = airportCodeX + airportCodeBounds.width() + durationBarPadding
 
         for (flightSegment in flightSegmentList) {
 
-            var layoverBar: DurationBar? = null
-            var durationBar = createDurationBar(flightSegment.durationHours, flightSegment.durationMinutes, durationBarX)
+            var layoverBar: RectF? = null
+            var durationBar = createDurationBar(flightSegment.durationHours, flightSegment.durationMinutes,
+                    durationBarX, durationBarTopY, durationBarBottomY)
 
-            airportCodeX = durationBar.rightX + durationBarPadding
+            airportCodeX = durationBar.right + durationBarPadding
 
             if (flightSegment.layoverDurationHours > 0 || flightSegment.layoverDurationMinutes > 0) {
                 val airportCodeWidth = calculateTextBounds(flightSegment.arrivalAirportCode).width()
                 durationBarX = airportCodeX + airportCodeWidth + durationBarPadding
-                layoverBar = createDurationBar(flightSegment.layoverDurationHours, flightSegment.layoverDurationMinutes, durationBarX)
-                durationBarX = layoverBar.rightX + durationBarPadding
+                layoverBar = createDurationBar(flightSegment.layoverDurationHours, flightSegment.layoverDurationMinutes,
+                        durationBarX, durationBarTopY, durationBarBottomY)
+                durationBarX = layoverBar.right + durationBarPadding
             }
             var flightObject = LayoverDrawObject(flightSegment.arrivalAirportCode, airportCodeX, airportCodeY,
                     durationBar, layoverBar)
