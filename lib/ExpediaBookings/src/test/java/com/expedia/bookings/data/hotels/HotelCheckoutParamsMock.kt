@@ -17,5 +17,5 @@ public object HotelCheckoutParamsMock {
                 return paymentInfo
         }
 
-        @JvmStatic fun miscellaneousParams(tripId: String) = MiscellaneousParams(true, "tealeafHotel:" + tripId)
+        @JvmStatic fun miscellaneousParams(tripId: String) = MiscellaneousParams(true, "tealeafHotel:" + tripId, "expedia.app.android.phone:x.x.x")
 }

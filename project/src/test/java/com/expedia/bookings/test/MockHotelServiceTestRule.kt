@@ -147,7 +147,7 @@ public class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelService
         val tripId = responseFileName
         val observer = TestSubscriber<HotelCheckoutResponse>()
         val tripDetails = TripDetails(tripId, "42.00", "USD", "guid", true)
-        val miscParameters = MiscellaneousParams(true, "tealeafHotel:" + tripId)
+        val miscParameters = MiscellaneousParams(true, "tealeafHotel:" + tripId, "expedia.app.android.phone:x.x.x")
         val checkoutParams = HotelCheckoutV2Params.Builder()
                 .tripDetails(tripDetails)
                 .checkoutInfo(HotelCheckoutParamsMock.checkoutInfo())

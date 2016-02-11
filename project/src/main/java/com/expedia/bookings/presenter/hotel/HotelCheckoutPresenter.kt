@@ -24,6 +24,7 @@ import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.JodaUtils
+import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CVVEntryWidget
@@ -137,7 +138,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         val tripDetails = TripDetails(tripId, expectedTotalFare, expectedFareCurrencyCode, abacusUserGuid, true)
 
         val tealeafTransactionId = hotelCreateTripResponse.tealeafTransactionId
-        val miscParams = MiscellaneousParams(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_hotel_bookings), tealeafTransactionId)
+        val miscParams = MiscellaneousParams(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_hotel_bookings), tealeafTransactionId, ServicesUtil.generateClientId(context))
 
         val cardsSelectedForPayment = ArrayList<CardDetails>()
         val rewardsSelectedForPayment = ArrayList<RewardDetails>()
