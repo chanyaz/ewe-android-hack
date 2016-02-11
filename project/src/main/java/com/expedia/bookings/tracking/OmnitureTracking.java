@@ -734,16 +734,17 @@ public class OmnitureTracking {
 		HotelCreateTripResponse trip,
 		com.expedia.bookings.data.hotels.HotelSearchParams searchParams) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_CHECKOUT_INFO);
-		s.setEvents("event70");
+
+		StringBuilder events = new StringBuilder("event70");
 		if (trip.isExpediaRewardsRedeemable()) {
-			s.setEvents("event114");
+			events.append(",event114");
 			BigDecimal amountPaidWithPoints = trip.getPointDetails(ProgramName.ExpediaRewards).getMaxPayableWithPoints().getAmount().amount;
 			BigDecimal totalAmount = trip.getTripTotal().amount;
 			int percentagePaidWithPoints = NumberUtils.getPercentagePaidWithPointsForOmniture(amountPaidWithPoints,
 				totalAmount);
 			s.setEvar(53, String.format(EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
 		}
-
+		s.setEvents(events.toString());
 		addHotelV2RegionId(s, searchParams);
 
 		HotelCreateTripResponse.HotelProductResponse hotelProductResponse = trip.newHotelProductResponse;
