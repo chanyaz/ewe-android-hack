@@ -37,7 +37,11 @@ public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter
         bundlePresenter.checkoutPresenter.createTripViewModel = PackageCreateTripViewModel(packageServices)
         bundlePresenter.checkoutPresenter.packageCheckoutViewModel = PackageCheckoutViewModel(context, packageServices)
         bundlePresenter.checkoutPresenter.createTripViewModel.bundleTotalPrice.subscribe(bundlePresenter.bundleTotalPriceWidget.viewModel.setTextObservable)
-        bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe { bundlePresenter.checkoutButton.visibility = VISIBLE }
+        bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe { trip ->
+            bundlePresenter.priceChangeWidget.viewmodel.originalPackagePrice.onNext(trip.oldPackageDetails?.pricing?.packageTotal)
+            bundlePresenter.priceChangeWidget.viewmodel.packagePrice.onNext(trip.packageDetails.pricing.packageTotal)
+            bundlePresenter.checkoutButton.visibility = VISIBLE 
+        }
         bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe( bundlePresenter.checkoutPresenter.packageCheckoutViewModel.tripResponseObservable)
         bundlePresenter.checkoutPresenter.viewModel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
         bundlePresenter.checkoutPresenter.paymentWidget.viewmodel.completeBillingInfo.subscribe(bundlePresenter.checkoutPresenter.viewModel.paymentCompleted)

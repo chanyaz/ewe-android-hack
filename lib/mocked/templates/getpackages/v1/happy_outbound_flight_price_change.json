@@ -1350,7 +1350,7 @@
     },
     "packageOfferModels":[
       {
-        "piid": "happy_inbound_flight",
+        "piid": "6ba595aa-f375-4d95-8495-b4d8affcee57-141",
         "hotel": "7385200840145204243012",
         "flight": "69e89375b650dd941ad41bba867a9172",
         "car": null,
@@ -1446,7 +1446,7 @@
         "packageCancelable": false
       },
       {
-        "piid": "happy_inbound_flight",
+        "piid": "happy_inbound_flight_price_change",
         "hotel": "7385200840145204243012",
         "flight": "ffd1985ed56d42a7f48394b6fce1142a",
         "car": null,
@@ -1542,7 +1542,7 @@
         "packageCancelable": false
       },
       {
-        "piid": "happy_inbound_flight",
+        "piid": "6ba595aa-f375-4d95-8495-b4d8affcee57-8",
         "hotel": "7385200840145204243012",
         "flight": "56d1058f7f5895dc77bc3634298764a3",
         "car": null,

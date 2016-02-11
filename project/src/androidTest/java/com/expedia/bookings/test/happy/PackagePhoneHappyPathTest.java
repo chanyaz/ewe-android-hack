@@ -65,7 +65,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.hotelBundle().perform(click());
 		Common.delay(1);
 
-		HotelScreen.selectHotel("packagehappypath");
+		HotelScreen.selectHotel("Package Happy Path");
 		Common.delay(1);
 
 		assertHotelInfoSite();
@@ -123,7 +123,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		HotelScreen.hotelResultsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Hotels in Detroit, MI")))));
 		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.hotel_name_text_view,
-			"packagehappypath");
+			"Package Happy Path");
 		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.strike_through_price, "$1,076");
 		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.price_per_night, "$526");
 
@@ -131,7 +131,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	private void assertHotelInfoSite() {
 		PackageScreen.hotelDetailsToolbar().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("packagehappypath")))));
+			CoreMatchers.allOf(isDisplayed(), withText("Package Happy Path")))));
 		float detailsHotelRating = EspressoUtils.getStarRatingValue(HotelScreen.hotelDetailsStarRating());
 		assertEquals(4.0f, detailsHotelRating);
 		onView(allOf(withId(R.id.user_rating), withText("4.4"))).check(matches(isDisplayed()));
@@ -170,7 +170,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 			withText("Hotel in Detroit - 1 room, 2 nights"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.step_two_text), withText("Flights - SFO to DTW, round trip"))).check(
 			matches(isDisplayed()));
-		onView(allOf(withId(R.id.hotels_card_view_text))).check(matches(withText("packagehappypath")));
+		onView(allOf(withId(R.id.hotels_card_view_text))).check(matches(withText("Package Happy Path")));
 		onView(allOf(withId(R.id.hotels_room_guest_info_text))).check(matches(withText("1 Guest")));
 
 		onView(allOf(withId(R.id.flight_card_view_text),

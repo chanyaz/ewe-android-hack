@@ -41,7 +41,7 @@
         },
         "taxesAndFeesIncluded": true
       },
-      "packageProductId": "offers",
+      "packageProductId": "happy_outbound_flight",
       "hotelOffer": {
         "cancellationPolicy": "",
         "rateDescription": "Deluxe Suite, 1 King Bed",
