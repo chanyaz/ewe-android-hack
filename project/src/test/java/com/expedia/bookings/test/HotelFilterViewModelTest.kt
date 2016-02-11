@@ -83,7 +83,7 @@ public class HotelFilterViewModelTest {
         assertEquals(false, vm.userFilterChoices.hotelStarRating.one)
         assertEquals(0, vm.userFilterChoices.minPrice)
         assertEquals(0, vm.userFilterChoices.maxPrice)
-        assertEquals(ogResponse.hotelList.size(), vm.filteredResponse.hotelList.size())
+        assertEquals(ogResponse.hotelList.size, vm.filteredResponse.hotelList.size)
     }
 
     @Test
@@ -91,23 +91,23 @@ public class HotelFilterViewModelTest {
         vm.originalResponse = fakeFilteredResponse()
         var str = "Hil"
         vm.filterHotelNameObserver.onNext(str)
-        assertEquals(1, vm.filteredResponse.hotelList.size())
+        assertEquals(1, vm.filteredResponse.hotelList.size)
 
         str = "junk"
         vm.filterHotelNameObserver.onNext(str)
-        assertEquals(0, vm.filteredResponse.hotelList.size())
+        assertEquals(0, vm.filteredResponse.hotelList.size)
 
         str = ""
         vm.filterHotelNameObserver.onNext(str)
-        assertEquals(2, vm.filteredResponse.hotelList.size())
+        assertEquals(2, vm.filteredResponse.hotelList.size)
 
         vm.userFilterChoices.hotelStarRating.three = false
         vm.threeStarFilterObserver.onNext(Unit)
-        assertEquals(1, vm.filteredResponse.hotelList.size())
+        assertEquals(1, vm.filteredResponse.hotelList.size)
 
         vm.clearObservable.onNext(Unit)
         vm.vipFilteredObserver.onNext(true)
-        assertEquals(1, vm.filteredResponse.hotelList.size())
+        assertEquals(1, vm.filteredResponse.hotelList.size)
     }
 
     @Test
@@ -115,7 +115,7 @@ public class HotelFilterViewModelTest {
         var amenityId = 16
         vm.originalResponse = fakeFilteredResponse()
         vm.selectAmenity.onNext(amenityId)
-        assertEquals(1, vm.filteredResponse.hotelList.size())
+        assertEquals(1, vm.filteredResponse.hotelList.size)
     }
 
     @Test
@@ -124,10 +124,10 @@ public class HotelFilterViewModelTest {
         vm.originalResponse = fakeFilteredResponse()
         vm.selectNeighborhood.onNext(region)
         assertEquals(region, vm.filteredResponse.hotelList.first().locationDescription)
-        assertTrue(vm.filteredResponse.hotelList.size() == 1)
+        assertTrue(vm.filteredResponse.hotelList.size == 1)
 
         vm.selectNeighborhood.onNext(region)
-        assertTrue(vm.filteredResponse.hotelList.size() == vm.originalResponse!!.hotelList.size())
+        assertTrue(vm.filteredResponse.hotelList.size == vm.originalResponse!!.hotelList.size)
     }
 
     @Test
@@ -141,7 +141,7 @@ public class HotelFilterViewModelTest {
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortObserver.onNext(HotelFilterViewModel.Sort.POPULAR)
 
-        for (i in 1..vm.filteredResponse.hotelList.size() - 1) {
+        for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).sortIndex
             val previous = vm.filteredResponse.hotelList.elementAt(i-1).sortIndex
             assertTrue(current >= previous)
@@ -153,7 +153,7 @@ public class HotelFilterViewModelTest {
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortObserver.onNext(HotelFilterViewModel.Sort.PRICE)
 
-        for (i in 1..vm.filteredResponse.hotelList.size() - 1) {
+        for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).lowRateInfo.priceToShowUsers
             val previous = vm.filteredResponse.hotelList.elementAt(i-1).lowRateInfo.priceToShowUsers
             assertTrue(current >= previous, "Expected $current >= $previous")
@@ -164,7 +164,7 @@ public class HotelFilterViewModelTest {
     fun sortByDeals() {
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortObserver.onNext(HotelFilterViewModel.Sort.DEALS)
-        for (i in 1..vm.filteredResponse.hotelList.size() - 1) {
+        for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val currentDeals = vm.filteredResponse.hotelList.elementAt(i).lowRateInfo.discountPercent
             val previousDeals = vm.filteredResponse.hotelList.elementAt(i-1).lowRateInfo.discountPercent
             assertTrue(currentDeals >= previousDeals, "Expected $currentDeals >= $previousDeals")
@@ -176,7 +176,7 @@ public class HotelFilterViewModelTest {
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortObserver.onNext(HotelFilterViewModel.Sort.RATING)
 
-        for (i in 1..vm.filteredResponse.hotelList.size() - 1) {
+        for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).hotelGuestRating
             val previous = vm.filteredResponse.hotelList.elementAt(i-1).hotelGuestRating
             assertTrue(current <= previous, "Expected $current <= $previous")
@@ -188,7 +188,7 @@ public class HotelFilterViewModelTest {
         vm.filteredResponse = fakeFilteredResponse()
         vm.sortObserver.onNext(HotelFilterViewModel.Sort.DISTANCE)
 
-        for (i in 1..vm.filteredResponse.hotelList.size() - 1) {
+        for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).proximityDistanceInMiles
             val previous = vm.filteredResponse.hotelList.elementAt(i-1).proximityDistanceInMiles
             assertTrue(current >= previous, "Expected $current >= $previous")

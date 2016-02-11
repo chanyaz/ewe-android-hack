@@ -52,7 +52,7 @@ public object SuggestionV4Utils {
 
         recentSuggestions.forEach { it.iconType = SuggestionV4.IconType.HISTORY_ICON }
 
-        return recentSuggestions.toArrayList()
+        return recentSuggestions.toMutableList()
     }
 
     @JvmStatic public fun deleteCachedSuggestions(context: Context) {

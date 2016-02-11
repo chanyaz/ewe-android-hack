@@ -21,18 +21,22 @@ public class TravelerTextInput(context: Context, attrs: AttributeSet?) : Materia
     public fun setError() {
         if (valid) {
             errorIcon.bounds = Rect(0, 0, errorIcon.intrinsicWidth, errorIcon.intrinsicHeight)
-            val compounds = editText.compoundDrawables
-            preErrorDrawable = compounds[2]
-            editText.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], errorIcon, compounds[3])
-            valid = false
+            val compounds = editText?.compoundDrawables
+            if (compounds != null) {
+                preErrorDrawable = compounds[2]
+                editText?.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], errorIcon, compounds[3])
+                valid = false
+            }
         }
     }
 
     public fun resetError() {
         if (!valid) {
-            val compounds = editText.compoundDrawables
-            editText.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], preErrorDrawable, compounds[3])
-            valid = true
+            val compounds = editText?.compoundDrawables
+            if (compounds != null) {
+                editText?.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], preErrorDrawable, compounds[3])
+                valid = true
+            }
         }
     }
 }

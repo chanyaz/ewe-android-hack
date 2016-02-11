@@ -35,9 +35,9 @@ public class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayou
         }
 
 
-        firstName.editText.addTextChangedListener(TextInputTextWatcher(vm.firstNameObserver, firstName))
-        middleInitial.editText.addTextChangedListener(TextInputTextWatcher(vm.middleNameObserver, middleInitial))
-        lastName.editText.addTextChangedListener(TextInputTextWatcher(vm.lastNameObserver, lastName))
+        firstName.editText?.addTextChangedListener(TextInputTextWatcher(vm.firstNameObserver, firstName))
+        middleInitial.editText?.addTextChangedListener(TextInputTextWatcher(vm.middleNameObserver, middleInitial))
+        lastName.editText?.addTextChangedListener(TextInputTextWatcher(vm.lastNameObserver, lastName))
     }
 
     init {

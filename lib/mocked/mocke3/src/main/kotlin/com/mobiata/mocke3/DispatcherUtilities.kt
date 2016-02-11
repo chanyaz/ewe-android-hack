@@ -81,12 +81,12 @@ fun makeResponse(filePath: String, params: Map<String, String>?, fileOpener: Fil
     try {
         var body = getResponse(path, fileOpener)
         if (params != null) {
-            val it = params.entrySet().iterator()
+            val it = params.entries.iterator()
             while (it.hasNext()) {
                 val entry = it.next()
-                val key = "\${" + entry.getKey() + "}"
-                if (body.contains(entry.getKey())) {
-                    body = body.replace(key, entry.getValue())
+                val key = "\${" + entry.key + "}"
+                if (body.contains(entry.key)) {
+                    body = body.replace(key, entry.value)
                 }
             }
         }

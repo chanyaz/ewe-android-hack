@@ -26,7 +26,7 @@ public class HotelRecentSearchTest {
 
     @Before
     fun before() {
-        activity = Robolectric.buildActivity(javaClass<Activity>()).create().get()
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
         vm = HotelSearchViewModel(activity)
         val builder = GsonBuilder().registerTypeAdapter(LocalDate::class.java, LocalDateTypeAdapter(HotelSearchParamsUtil.PATTERN))
         val type = object : TypeToken<List<HotelSearchParams>>() {}.type

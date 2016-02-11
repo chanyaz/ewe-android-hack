@@ -8,16 +8,7 @@ import org.joda.time.LocalDate
 public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>) {
     var forPackage = false
 
-    public fun getGuestString() : String {
-        val sb = StringBuilder {
-            append(adults)
-            for (i in 0..children.size() - 1) {
-                append(",")
-                append(children.get(i))
-            }
-        }
-        return sb.toString()
-    }
+    public val guestString = listOf(adults).plus(children).joinToString(",")
 
     class Builder(val maxStay: Int) {
         private var suggestion: SuggestionV4? = null

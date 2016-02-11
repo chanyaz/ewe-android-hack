@@ -2,6 +2,7 @@ package com.expedia.bookings.utils;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Locale;
 
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -689,7 +690,7 @@ public class TuneUtils {
 						String currency = activity.price.currencyCode;
 						double price = activity.price.amount.doubleValue();
 						topFiveActivities.append(title);
-						sb.append(String.format("%s|%s|%f", title, currency, price));
+						sb.append(String.format(Locale.getDefault(), "%s|%s|%f", title, currency, price));
 						if (i != 4) {
 							sb.append(":");
 							topFiveActivities.append(",");

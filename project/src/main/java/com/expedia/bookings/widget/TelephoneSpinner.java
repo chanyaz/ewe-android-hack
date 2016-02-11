@@ -1,5 +1,7 @@
 package com.expedia.bookings.widget;
 
+import java.util.Locale;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.text.TextUtils;
@@ -44,7 +46,7 @@ public class TelephoneSpinner extends Spinner {
 	public void updateText() {
 		View child = getChildAt(0);
 		if (child instanceof TextView) {
-			((TextView) child).setText(String.format("+%d", getSelectedTelephoneCountryCode()));
+			((TextView) child).setText(String.format(Locale.getDefault(), "+%d", getSelectedTelephoneCountryCode()));
 		}
 	}
 

@@ -197,7 +197,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     }
 
     private fun mGeocodeDownload(query: String): BackgroundDownloader.Download<List<Address>?> {
-        return BackgroundDownloader.Download<kotlin.List<android.location.Address>?> {
+        return BackgroundDownloader.Download<List<android.location.Address>?> {
             LocationServices.geocodeGoogle(context, query)
         }
     }

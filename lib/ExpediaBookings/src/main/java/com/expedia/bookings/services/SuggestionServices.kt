@@ -54,7 +54,7 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
     }
 
     private fun renameFirstResultIdToCurrentLocation(suggestions: MutableList<SuggestionV4>): List<SuggestionV4> {
-        if (suggestions.size() > 0) {
+        if (suggestions.size > 0) {
             suggestions.get(0).gaiaId = SuggestionV4.CURRENT_LOCATION_ID
         }
         return suggestions
@@ -115,6 +115,6 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
                         suggestion.iconType = SuggestionV4.IconType.CURRENT_LOCATION_ICON
                     }
                 }
-                .map {list -> list.toArrayList() }
+                .map {list -> list.toMutableList() }
     }
 }

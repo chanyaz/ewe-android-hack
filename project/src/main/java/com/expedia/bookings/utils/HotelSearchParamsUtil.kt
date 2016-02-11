@@ -53,11 +53,11 @@ public object HotelSearchParamsUtil {
             val builder = GsonBuilder().registerTypeAdapter(LocalDate::class.java, LocalDateTypeAdapter(PATTERN))
             val recentSearches = builder.create().fromJson<List<HotelSearchParams>>(str, type)
                     .filter { JodaUtils.isBeforeOrEquals(LocalDate.now(), it.checkIn) }
-            return recentSearches.toArrayList()
+            return recentSearches.toCollection(ArrayList())
         } catch (e: IOException) {
             e.printStackTrace()
         }
-        return emptyList<HotelSearchParams>().toArrayList()
+        return emptyList<HotelSearchParams>().toCollection(ArrayList())
     }
 
     @JvmStatic public fun deleteCachedSearches(context: Context) {

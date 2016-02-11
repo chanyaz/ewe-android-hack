@@ -48,14 +48,14 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 			params.checkOutDate, params.sortOrder, params.filterUnavailable)
 			.observeOn(observeOn)
 			.subscribeOn(subscribeOn)
-			.map { response -> response.hotelList.take(25).toArrayList() }
+			.map { response -> response.hotelList.take(25).toMutableList() }
 			.subscribe(observer)
 	}
 
 	public fun regionSearch(params: HotelSearchParams, clientLogBuilder: ClientLog.Builder?): Observable<HotelSearchResponse> {
 		clientLogBuilder?.requestTime(DateTime.now())
 		return hotelApi.search(params.suggestion.gaiaId, params.suggestion.coordinates.lat, params.suggestion.coordinates.lng,
-				params.checkIn.toString(), params.checkOut.toString(), params.getGuestString())
+				params.checkIn.toString(), params.checkOut.toString(), params.guestString)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.doOnNext { response ->
@@ -86,7 +86,7 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 	}
 
     public fun offers(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
-        return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(), hotelSearchParams.getGuestString(), hotelId)
+        return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(), hotelSearchParams.guestString, hotelId)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
 				.doOnNext {

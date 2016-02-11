@@ -21,7 +21,7 @@ public class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayo
     var viewModel: PhoneEntryViewModel by notNullAndObservable { vm ->
         vm.phoneSubject.subscribe { phone ->
             if (!TextUtils.isEmpty(phone.number)) {
-                phoneNumber.editText.setText(phone.number)
+                phoneNumber.editText?.setText(phone.number)
             }
             if (!TextUtils.isEmpty(phone.countryCode)) {
                 phoneSpinner.update(phone.countryCode, phone.countryName)
@@ -31,7 +31,7 @@ public class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayo
             phoneNumber.setError()
         }
 
-        phoneNumber.editText.addTextChangedListener(TextInputTextWatcher(vm.phoneNumberObserver, phoneNumber))
+        phoneNumber.editText?.addTextChangedListener(TextInputTextWatcher(vm.phoneNumberObserver, phoneNumber))
         spinnerUpdated()
     }
 

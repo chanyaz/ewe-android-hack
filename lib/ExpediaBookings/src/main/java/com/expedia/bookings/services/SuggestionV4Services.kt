@@ -44,14 +44,14 @@ public class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, 
         return suggestApi.suggestNearbyV4(locale, latlng, siteId, SuggestionResultType.MULTI_CITY, "distance", clientId, "HOTELS")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .map { response -> response.suggestions.take(2).toArrayList() }
+                .map { response -> response.suggestions.take(2).toMutableList() }
     }
 
     public fun suggestNearbyFlightsV4(locale: String, latlng: String, siteId: Int, clientId: String): Observable<MutableList<SuggestionV4>> {
         return suggestApi.suggestNearbyV4(locale, latlng, siteId, SuggestionResultType.AIRPORT, "distance", clientId, "PACKAGES")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
-                .map { response -> response.suggestions.take(2).toArrayList() }
+                .map { response -> response.suggestions.take(2).toMutableList() }
     }
 
     public fun suggestPackagesV4(query: String, clientId: String, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {

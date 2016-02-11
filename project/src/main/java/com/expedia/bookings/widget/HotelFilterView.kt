@@ -92,7 +92,7 @@ public class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayou
     val ANIMATION_DURATION = 500L
 
     val sortByObserver: Observer<Boolean> = endlessObserver { isCurrentLocationSearch ->
-        var sortOptions: ArrayList<String> = resources.getStringArray(R.array.sort_options_material_hotels).toArrayList()
+        var sortOptions: ArrayList<String> = resources.getStringArray(R.array.sort_options_material_hotels).toCollection(ArrayList())
 
         if (isCurrentLocationSearch) {
             sortOptions.add(getContext().getString(R.string.distance))

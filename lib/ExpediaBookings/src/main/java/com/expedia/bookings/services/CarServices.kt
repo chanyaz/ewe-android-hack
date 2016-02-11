@@ -196,14 +196,14 @@ public class CarServices(endpoint: String, okHttpClient: OkHttpClient, requestIn
         filteredResponse
     }
 
-    public companion object {
+    companion object {
 
-        @JvmStatic public fun generateGson(): Gson {
+        @JvmStatic fun generateGson(): Gson {
             return GsonBuilder().registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
                     .registerTypeAdapter(RateTerm::class.java, RateTermDeserializer()).create()
         }
 
-        @JvmStatic public val SORT_OFFERS_BY_LOWEST_TOTAL = object : Action1<CarSearchResponse> {
+        @JvmStatic val SORT_OFFERS_BY_LOWEST_TOTAL = object : Action1<CarSearchResponse> {
             override fun call(carSearchResponse: CarSearchResponse) {
                 Collections.sort(carSearchResponse.offers, object : Comparator<SearchCarOffer> {
                     override fun compare(o1: SearchCarOffer, o2: SearchCarOffer): Int {

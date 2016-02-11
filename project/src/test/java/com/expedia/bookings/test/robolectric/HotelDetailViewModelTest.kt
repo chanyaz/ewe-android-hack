@@ -112,7 +112,7 @@ public class HotelDetailViewModelTest {
 
         vm.reviewsClickedWithHotelData
                 .map { hotel -> hotel.hotelName }
-                .take(expected.size())
+                .take(expected.size)
                 .subscribe(testSub)
 
         vm.hotelOffersSubject.onNext(offer1)
