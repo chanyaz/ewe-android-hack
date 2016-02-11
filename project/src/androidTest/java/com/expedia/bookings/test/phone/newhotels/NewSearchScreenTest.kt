@@ -9,6 +9,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.test.espresso.AbacusTestUtils
+import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.HotelTestCase
 import org.joda.time.LocalDate
@@ -63,6 +64,7 @@ public class NewSearchScreenTest: HotelTestCase() {
     fun testNewSearchScreenToDetail() {
         HotelScreen.selectDestinationV2().perform(click())
         HotelScreen.locationV2().perform(typeText("SFO"))
+        Common.closeSoftKeyboard(HotelScreen.locationV2())
         HotelScreen.selectLocationV2("Hyatt Regency San Francisco");
         HotelScreen.selectDestinationTextViewV2().check(matches(withText("Hyatt Regency San Francisco")))
 
