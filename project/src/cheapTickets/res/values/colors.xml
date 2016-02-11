@@ -38,9 +38,9 @@
     <color name="destination_list_detail_container_background">#ff070f24</color>
 
     <!-- Cars and LX-->
-    <color name="cars_primary_color">#004D7C</color>
+    <color name="cars_primary_color">#003e74</color>
     <color name="cars_unchecked_toggle_text_color">#B3FFFFFF</color>
-    <color name="lx_primary_color">#004D7C</color>
+    <color name="lx_primary_color">#003E74</color>
     <color name="lx_ripple_color">#53a0d3</color>
     <color name="lx_secondary_color_disabled">#032E4D</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
