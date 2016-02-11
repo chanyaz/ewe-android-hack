@@ -40,4 +40,5 @@ data class PaymentInfo(
 
 data class MiscellaneousParams(
         val suppressFinalBooking: Boolean,
-        val teaLeafTransactionId: String)
+        val teaLeafTransactionId: String,
+        val clientId: String)
