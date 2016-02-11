@@ -172,8 +172,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(presenter.hotelCheckoutWidget.createTripResponseListener)
         presenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(endlessObserver { createTripResponse ->
             checkoutDialog.dismiss()
-            show(presenter, Presenter.FLAG_CLEAR_BACKSTACK)
-            presenter.show(presenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_BACKSTACK)
+            show(presenter, Presenter.FLAG_CLEAR_TOP)
+            presenter.show(presenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
         })
         presenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
         presenter
