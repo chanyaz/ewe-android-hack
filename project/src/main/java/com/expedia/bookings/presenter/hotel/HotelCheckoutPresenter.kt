@@ -104,7 +104,10 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
     }
 
     val checkoutSliderSlidObserver = endlessObserver<Boolean> {
-        val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.billingInfo
+        val billingInfo = if (Db.getTemporarilySavedCard() != null && Db.getTemporarilySavedCard().saveCardToExpediaAccount)
+            Db.getTemporarilySavedCard()
+        else hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.billingInfo
+
         if (!it) {
             bookedWithoutCVVSubject.onNext(Unit)
         } else if (billingInfo.storedCard != null && billingInfo.storedCard.isGoogleWallet()) {
