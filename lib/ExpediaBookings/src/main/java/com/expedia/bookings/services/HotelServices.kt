@@ -1,6 +1,7 @@
 package com.expedia.bookings.services
 
 import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
@@ -52,35 +53,38 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 			.subscribe(observer)
 	}
 
-    public fun regionSearch(params: HotelSearchParams): Observable<HotelSearchResponse> {
-        return hotelApi.search(params.suggestion.gaiaId, params.suggestion.coordinates.lat, params.suggestion.coordinates.lng,
-                params.checkIn.toString(), params.checkOut.toString(), params.getGuestString())
-                .observeOn(observeOn)
-                .subscribeOn(subscribeOn)
-                .doOnNext { response ->
-                    if (response.hasErrors()) return@doOnNext
+	public fun regionSearch(params: HotelSearchParams, clientLogBuilder: ClientLog.Builder?): Observable<HotelSearchResponse> {
+		clientLogBuilder?.requestTime(DateTime.now())
+		return hotelApi.search(params.suggestion.gaiaId, params.suggestion.coordinates.lat, params.suggestion.coordinates.lng,
+				params.checkIn.toString(), params.checkOut.toString(), params.getGuestString())
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+				.doOnNext { response ->
+					clientLogBuilder?.responseTime(DateTime.now())
+					if (response.hasErrors()) return@doOnNext
 
-                    response.userPriceType = getUserPriceType(response.hotelList)
-                    response.allNeighborhoodsInSearchRegion.map { response.neighborhoodsMap.put(it.id, it) }
-                    response.hotelList.map { hotel ->
-                        if (hotel.locationId != null && response.neighborhoodsMap.containsKey(hotel.locationId)) {
-                            response.neighborhoodsMap.get(hotel.locationId)?.hotels?.add(hotel)
-                        }
-                    }
+					response.userPriceType = getUserPriceType(response.hotelList)
+					response.allNeighborhoodsInSearchRegion.map { response.neighborhoodsMap.put(it.id, it) }
+					response.hotelList.map { hotel ->
+						if (hotel.locationId != null && response.neighborhoodsMap.containsKey(hotel.locationId)) {
+							response.neighborhoodsMap.get(hotel.locationId)?.hotels?.add(hotel)
+						}
+					}
 
-                    response.allNeighborhoodsInSearchRegion.map {
-                        it.score = it.hotels.map { 1 }.sum()
-                    }
+					response.allNeighborhoodsInSearchRegion.map {
+						it.score = it.hotels.map { 1 }.sum()
+					}
 
-		     if (!params.suggestion.isCurrentLocationSearch || params.suggestion.isGoogleSuggestionSearch) {
-			     response.hotelList.forEach { hotel ->
-				     hotel.proximityDistanceInMiles = 0.0
-			    }
-		     }
+					if (!params.suggestion.isCurrentLocationSearch || params.suggestion.isGoogleSuggestionSearch) {
+						response.hotelList.forEach { hotel ->
+							hotel.proximityDistanceInMiles = 0.0
+						}
+					}
 
 					response.hotelList = putSponsoredItemsInCorrectPlaces(response.hotelList)
-                }
-    }
+					clientLogBuilder?.processingTime(DateTime.now())
+				}
+	}
 
     public fun offers(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
         return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(), hotelSearchParams.getGuestString(), hotelId)

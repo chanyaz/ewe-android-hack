@@ -21,6 +21,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.AbacusServices;
+import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -189,6 +190,13 @@ public class AppModule {
 	AbacusServices provideAbacus(OkHttpClient client, EndpointProvider endpointProvider, RequestInterceptor interceptor, RestAdapter.LogLevel loglevel) {
 		final String endpoint = endpointProvider.getAbacusEndpointUrl();
 		return new AbacusServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), loglevel);
+	}
+
+	@Provides
+	@Singleton
+	ClientLogServices provideClientLog(OkHttpClient client, EndpointProvider endpointProvider, RequestInterceptor interceptor, RestAdapter.LogLevel loglevel) {
+		final String endpoint = endpointProvider.getE3EndpointUrl();
+		return new ClientLogServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), loglevel);
 	}
 
 	@Provides

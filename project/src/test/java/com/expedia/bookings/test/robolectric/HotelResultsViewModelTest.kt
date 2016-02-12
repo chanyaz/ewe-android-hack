@@ -32,7 +32,7 @@ public class HotelResultsViewModelTest {
 
     @Before
     fun setup() {
-        sut = HotelResultsViewModel(context, mockHotelServiceTestRule.services!!, LineOfBusiness.HOTELSV2)
+        sut = HotelResultsViewModel(context, mockHotelServiceTestRule.services!!, LineOfBusiness.HOTELSV2, null)
     }
 
     @Test

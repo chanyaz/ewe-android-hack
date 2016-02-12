@@ -10,6 +10,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.cars.BaseApiResponse
+import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -38,7 +39,7 @@ import kotlin.collections.sortedBy
 import kotlin.collections.sortedByDescending
 import kotlin.properties.Delegates
 
-public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?, private val lob: LineOfBusiness) {
+public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?, private val lob: LineOfBusiness, private val clientLogBuilder: ClientLog.Builder?) {
 
     // Inputs
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
@@ -88,7 +89,7 @@ public class HotelResultsViewModel(private val context: Context, private val hot
                 .put("guests", StrUtils.formatGuestString(context, params.guests()))
                 .format())
 
-        hotelServices?.regionSearch(params)?.subscribe(object : Observer<HotelSearchResponse> {
+        hotelServices?.regionSearch(params, clientLogBuilder)?.subscribe(object : Observer<HotelSearchResponse> {
             override fun onNext(it: HotelSearchResponse) {
                 if (it.hasErrors()) {
                     errorObservable.onNext(it.firstError)
