@@ -33,6 +33,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
@@ -48,7 +49,11 @@ public class HotelScreen {
 	}
 
 	public static ViewInteraction selectTravelerV2() {
-		return onView(withId(R.id.traveler_label));
+		return onView(withId(R.id.traveler_card));
+	}
+
+	public static ViewInteraction selectTravelerV2Text() {
+		return onView(allOf(withId(R.id.input_label), withParent(withId(R.id.traveler_card))));
 	}
 
 	public static ViewInteraction selectDestinationV2() {
@@ -56,11 +61,16 @@ public class HotelScreen {
 	}
 
 	public static ViewInteraction selectDestinationTextViewV2() {
-		return onView(withId(R.id.input_label));
+		return onView(allOf(withId(R.id.input_label), withParent(withId(R.id.destination_card))));
 	}
 	public static ViewInteraction selectCalendarV2() {
-		return onView(withId(R.id.calendar_label));
+		return onView(withId(R.id.calendar_card));
 	}
+
+	public static ViewInteraction selectCalendarV2Text() {
+		return onView(allOf(withId(R.id.input_label), withParent(withId(R.id.calendar_card))));
+	}
+
 
 	public static ViewInteraction searchAlertDialogDoneV2() {
 		return onView(withId(android.R.id.button1));
