@@ -3922,7 +3922,6 @@
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">ช่วงเวลาที่จะเดินทางมาถึง</string>
 
-
     <!-- Pay with points widget -->
     <string name="paying_with_points">จ่ายด้วยคะแนน</string>
     <string name="pay_with_point_total_available_TEMPLATE">มีอยู่ {money} ({points} คะแนน)</string>

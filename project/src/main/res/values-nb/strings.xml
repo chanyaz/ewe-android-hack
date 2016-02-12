@@ -3920,7 +3920,6 @@
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">Tidsrom for ankomst</string>
 
-
     <!-- Pay with points widget -->
     <string name="paying_with_points">Betal med poeng</string>
     <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} poeng) tilgjengelig</string>

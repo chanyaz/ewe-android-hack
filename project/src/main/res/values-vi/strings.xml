@@ -205,7 +205,11 @@
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_credit_debit_label">Thẻ tín dụng/ghi nợ</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
+<<<<<<< HEAD
     <string name="shortened_checkout_payment_option_credit_debit_label">Nhập thẻ tín dụng/ghi nợ mới</string>
+=======
+    <string name="shortened_checkout_payment_option_credit_debit_label">Nhập Thẻ tín dụng/ghi nợ mới</string>
+>>>>>>> Loc dump valentine week
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Thông tin khách</string>
     <!-- Text for Android pay label -->
@@ -3919,7 +3923,6 @@
     <string name="departure_time_range">Khoảng thời gian khởi hành</string>
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">Khoảng thời gian đến</string>
-
 
     <!-- Pay with points widget -->
     <string name="paying_with_points">Thanh toán bằng điểm thưởng</string>

@@ -3911,7 +3911,7 @@
     <!-- Slide to book -->
     <string name="package_slider_text">Skub for at reservere</string>
     <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
-
+    
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Flyrejsens varighed</string>
     <string name="flight_duration_hour_short">t</string>
@@ -3919,7 +3919,6 @@
     <string name="departure_time_range">Tidsinterval for afgang</string>
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">Tidsinterval for ankomst</string>
-
 
     <!-- Pay with points widget -->
     <string name="paying_with_points">Betal med point</string>

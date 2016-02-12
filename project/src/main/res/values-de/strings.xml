@@ -3921,7 +3921,6 @@
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">Ankunftszeitraum</string>
 
-
     <!-- Pay with points widget -->
     <string name="paying_with_points">Mit Punkten zahlen</string>
     <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} Punkte) verfügbar</string>
