@@ -202,8 +202,10 @@
     <string name="successful_checkout_email_label">ส่งแผนการเดินทางไปยัง</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">วิธีการเดินทางไป %1$s</string>
-
-    <string name="shortened_checkout_payment_option_credit_debit_label">บัตรเครดิต/เดบิต</string>
+    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
+    <string name="checkout_payment_option_credit_debit_label">บัตรเครดิต/บัตรเดบิต</string>
+    <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
+    <string name="shortened_checkout_payment_option_credit_debit_label">ป้อนบัตรเครดิต/เดบิตใบใหม่</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">รายละเอียดผู้เข้าพัก</string>
     <!-- Text for Android pay label -->
@@ -213,7 +215,7 @@
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_hotelsv2_enter_payment_details_line1">รายละเอียดการชำระเงิน</string>
     <!-- Text for enter payment details line 2 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line2">เลือกประเภทการชำระเงิน</string>
+    <string name="checkout_hotelsv2_enter_payment_details_line2">ป้อนบัตรเครดิต</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
     <string name="checkout_payment_line2_storedcc">บัตรเครดิตที่บันทึกไว้</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
@@ -223,7 +225,11 @@
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_tap_to_edit">แตะเพื่อแก้ไข</string>
     <!-- Text for enter payment details line 2 for pwp -->
-    <string name="checkout_payment_options">คะแนน, บัตรเครดิต</string>
+    <string name="checkout_payment_options">บัตรเครดิต, จ่ายด้วยคะแนน</string>
+    <!--Text for selected card -->
+    <string name="checkout_selected_card">{cardtype} …{cardno}</string>
+    <!--Text for selecting user manually stored card -->
+    <string name="temporarily_saved_card_TEMPLATE">บันทึก {cardtype} …{cardno}</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">เลื่อนเพื่อจอง</string>
@@ -233,11 +239,11 @@
     <string name="change_dates">เปลี่ยนวันที่</string>
 
     <!-- Car error strings -->
-    <!-- Message for user that pick-up time is too early."  -->
+    <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">โปรดปรับเวลารับหรือส่งคืนรถของคุณ</string>
-    <!-- Message for user  to choose a closer date.""  -->
+    <!-- Message for user  to choose a closer date.  -->
     <string name="drop_off_too_far_error">วันที่คุณเลือกอยู่ห่างเกินไป โปรดเลือกวันที่ใกล้ขึ้น</string>
-    <!-- Message for user that date is too far out."  -->
+    <!-- Message for user that date is too far out.  -->
     <string name="date_out_of_range">วันที่คุณเลือกอยู่ห่างเกินไป โปรดเลือกวันที่ใกล้ขึ้น</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">โปรดเพิ่มระยะเวลาการจองของคุณ</string>
@@ -1696,6 +1702,8 @@
     <string name="calendar_instructions_hotels_no_dates_selected">เลือกวันเช็คอิน</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <string name="guests_with_rooms_TEMPLATE">{guests}, 1 ห้อง</string>
+
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">ตั๋วเที่ยวเดียวในราคา &lt;b&gt;%s&lt;/b&gt;</string>
@@ -3834,6 +3842,10 @@
     <string name="per_person">ต่อคน</string>
     <!-- Label for package search toolbar -->
     <string name="bundle_overview_title">ภาพรวมแพ็คเกจ</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">ยอดรวมแพ็คเกจ</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">ดูแพ็คเกจของคุณ</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">บินจาก</string>
     <!-- Fly to hint -->
@@ -3843,11 +3855,18 @@
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">ขั้นที่ 2: เลือกเที่ยวบิน</string>
     <!-- Package hotel cell: Price Includes flights -->
-    <string name="package_price_include_flights">ราคารวมเที่ยวบิน</string>
+    <string name="package_price_include_flights">ราคารวมโรงแรม + เที่ยวบิน</string>
+    <!-- Package hotel map cell: Price Includes Taxes and Fees -->
+    <string name="package_price_includes_taxes_fees">ราคารวมภาษี, ค่าธรรมเนียม, เที่ยวบิน + โรงแรม ต่อคน</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s เวลา %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">ประหยัด {savings}</string>
+    <!-- Bundle Overview select hotel -->
+    <string name="select_hotel_template">เลือกโรงแรมใน%s</string>
+    <!-- Bundle Overview searching flight -->
+    <string name="searching_flight_to">ค้นหาเที่ยวบินไปยัง%s</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3876,15 +3895,21 @@
     <string name="in_lap">นั่งตัก</string>
     <!-- Description for infant travelers sitting in seat -->
     <string name="in_seat">นั่งเก้าอี้</string>
+    <!-- Label for flights on checkout overview of Packages -->
+    <string name="flight_checkout_overview_TEMPLATE">เที่ยวบิน - {origin} ไปยัง {destination}, ไป-กลับ</string>
+    <!-- Label for hotel on checkout overview of Packages -->
+    <string name="hotel_checkout_overview_TEMPLATE">โรงแรมใน{city} - {rooms} ห้อง, {nights} คืน</string>
     <!-- Package Trip Overview -->
     <string name="trip_overview">ข้อมูลสรุปการเดินทาง</string>
     <!-- Slide to book -->
     <string name="package_slider_text">เลื่อนเพื่อจอง</string>
+    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
+
 
     <!-- Pay with points widget -->
     <string name="paying_with_points">จ่ายด้วยคะแนน</string>
     <string name="pay_with_point_total_available_TEMPLATE">มีอยู่ {money} ({points} คะแนน)</string>
-    <string name="user_enters_more_than_points_TEMPLATE">มูลค่าคะแนนเกินยอดคะแนนที่คุณมีอยู่\nโปรดใส่ {money} หรือน้อยกว่านั้น</string>
+    <string name="user_enters_more_than_available_points_TEMPLATE">มูลค่าคะแนนเกินยอดคะแนนที่คุณมีอยู่\nโปรดใส่ {money} หรือน้อยกว่านั้น</string>
     <string name="user_enters_more_than_trip">มูลค่าคะแนนไม่สามารถเกินยอดที่ต้องชำระวันนี้ได้</string>
     <string name="pwp_calculating_points">กำลังคำนวณคะแนน…</string>
     <string name="pwp_points_applied_TEMPLATE">ใช้ไป {points} คะแนน</string>
@@ -3892,7 +3917,14 @@
     <string name="pwp_total_due_today_TEMPLATE">ยอดทั้งหมดที่ต้องชำระวันนี้: {money}</string>
 
     <!-- Package Flight Overview -->
+    <string name="package_flight_overview_urgency_message_TEMPLATE">เหลือ {seats} ที่นั่ง</string>
     <string name="package_flight_overview_select_flight">เลือกเที่ยวบินนี้</string>
+    <string name="package_flight_overview_bundle_total_label">ยอดรวมแพ็คเกจ</string>
+    <string name="package_flight_overview_per_person_TEMPLATE">{money}/คน</string>
+    <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
+    <string name="package_flight_overview_layover_in_TEMPLATE">แวะพักที่ ({airportcode}) {city}</string>
+    <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
+    <string name="package_flight_overview_total_duration_TEMPLATE">ระยะเวลารวม: {duration}</string>
 
     <!--Rail search screen title-->
     <string name="trains">รถไฟ</string>

@@ -202,8 +202,10 @@
     <string name="successful_checkout_email_label">旅程送信先 :</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">%1$sへのアクセス方法</string>
-
-    <string name="shortened_checkout_payment_option_credit_debit_label">クレジットカード / デビットカード</string>
+    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
+    <string name="checkout_payment_option_credit_debit_label">クレジットカード / デビットカード</string>
+    <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
+    <string name="shortened_checkout_payment_option_credit_debit_label">新しいデビット / クレジットカード情報を入力</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">ゲストの詳細</string>
     <!-- Text for Android pay label -->
@@ -213,17 +215,21 @@
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_hotelsv2_enter_payment_details_line1">支払い情報の詳細</string>
     <!-- Text for enter payment details line 2 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line2">支払いタイプを選択してください</string>
+    <string name="checkout_hotelsv2_enter_payment_details_line2">クレジットカード情報を入力</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
     <string name="checkout_payment_line2_storedcc">保存済みのクレジット カード</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
     <string name="checkout_paying_with_points_only_line1">ポイントで支払い</string>
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
-    <string name="checkout_paying_with_points_and_card_line1">ポイント &amp; {carddescription}で支払い</string>
+    <string name="checkout_paying_with_points_and_card_line1">ポイント &amp; {carddescription} で支払い</string>
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_tap_to_edit">タップして編集</string>
     <!-- Text for enter payment details line 2 for pwp -->
-    <string name="checkout_payment_options">ポイント、クレジットカード</string>
+    <string name="checkout_payment_options">クレジットカード、ポイントで支払い</string>
+    <!--Text for selected card -->
+    <string name="checkout_selected_card">{cardtype} (カード番号 {cardno})</string>
+    <!--Text for selecting user manually stored card -->
+    <string name="temporarily_saved_card_TEMPLATE">保存済み{cardtype} (カード番号 {cardno})</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">スライドして予約</string>
@@ -233,11 +239,11 @@
     <string name="change_dates">日付の変更</string>
 
     <!-- Car error strings -->
-    <!-- Message for user that pick-up time is too early."  -->
+    <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">借出時間または返却時間を調整してください。</string>
-    <!-- Message for user  to choose a closer date.""  -->
+    <!-- Message for user  to choose a closer date.  -->
     <string name="drop_off_too_far_error">指定できる期間を超えています。近い日にちを選択してください。</string>
-    <!-- Message for user that date is too far out."  -->
+    <!-- Message for user that date is too far out.  -->
     <string name="date_out_of_range">指定できる期間を超えています。近い日にちを選択してください。</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">予約期間を入力してください。</string>
@@ -1036,7 +1042,7 @@
     <!-- Find Itinerary -->
     <string name="find_itinerary">旅程を検索する</string>
     <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">旅程が見つかりません。国設定 (アプリの設定内) がご予約時のサイトアドレスと一致していることをご確認ください (例：Expedia.co.jp でご予約の際にはアプリの国設定を日本に設定）。</string>
+    <string name="unable_to_find_itinerary">旅程が見つかりません。国設定 (アプリの設定内) がご予約時の Web サイトアドレスと一致していることをご確認ください (例 ： Expedia.co.jp でご予約の際はアプリの国設定を日本に設定)。</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">ゲスト旅程の検索</string>
     <!-- Enter Itinerary Details -->
@@ -1046,9 +1052,9 @@
     <!-- Expedia Itinerary -->
     <string name="itinerary_TEMPLATE">{brand} 旅程番号</string>
     <!-- Label for exclusive +silver phone number, "Expedia +silver Customer Support" -->
-    <string name="Expedia_plus_Silver_Customer_Support">Expedia +silver カスタマー サポート</string>
+    <string name="Expedia_plus_Silver_Customer_Support">Expedia +シルバー カスタマー サポート</string>
     <!-- Label for exclusive +gold phone number, "Expedia +gold Customer Support" -->
-    <string name="Expedia_plus_Gold_Customer_Support">Expedia +gold カスタマー サポート</string>
+    <string name="Expedia_plus_Gold_Customer_Support">Expedia +ゴールド カスタマー サポート</string>
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">予約された旅行はありません。</string>
     <!-- Enter itinerary number -->
@@ -1352,9 +1358,9 @@
     <string name="car_category_result_oversize">大型</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア 自動車</string>
-    <string name="car_type_three_door">3 ドア 自動車</string>
-    <string name="car_type_four_door">4 ドア 自動車</string>
+    <string name="car_type_two_door">2 ドア自動車</string>
+    <string name="car_type_three_door">3 ドア自動車</string>
+    <string name="car_type_four_door">4 ドア自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -1555,9 +1561,9 @@
     <!-- Title for dialog asking the user to choose the type of message to share -->
     <string name="Choose_message_style">メッセージ形式を選択する</string>
     <!-- Button label for a button that shares a long message suitable for an email -->
-    <string name="Long_message">ロング (電子メール)</string>
+    <string name="Long_message">ロングメッセージ (電子メール)</string>
     <!-- Button label for a buton that shares a short message suitable for social media or SMS -->
-    <string name="Short_message">ショート (SMS)</string>
+    <string name="Short_message">ショートメッセージ (SMS)</string>
     <!-- Button label for a button that shares a short message to only Facebook -->
     <string name="Short_message_Facebook">Facebook</string>
 
@@ -1638,7 +1644,7 @@
     <!-- Hint when no dates are selected for a flight trip -->
     <string name="hint_select_departure">往路 (行き) 出発日を選択する</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the trip date -->
-    <string name="one_way_TEMPLATE">%1$s 片道</string>
+    <string name="one_way_TEMPLATE">%1$s (片道)</string>
     <!-- Explanation of trip dates for one-way trip.  %1$s is the outbound date, %2$s is the inbound date -->
     <string name="round_trip_TEMPLATE">%1$s → %2$s</string>
     <!-- Label for "sort" button -->
@@ -1694,6 +1700,8 @@
     <string name="calendar_instructions_hotels_no_dates_selected">チェックイン日を選択</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <string name="guests_with_rooms_TEMPLATE">{guests}、1 室</string>
+
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">片道 &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1782,7 +1790,7 @@
     <string name="select_payment_callout">詳細を入力</string>
     <!-- Add new card -->
     <string name="add_new_card">新しいカードを追加する</string>
-    <string name="new_credit_debit_card">新しいクレジットカード / デビットカード</string>
+    <string name="new_credit_debit_card">新しいデビット / クレジットカード</string>
     <!-- Overview button -->
     <string name="overview_btn">概要</string>
     <!-- Stored Payment label -->
@@ -1872,9 +1880,9 @@
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_template">カードに {dueamount} が課金されます</string>
     <!-- Your are using pwp points -->
-    <string name="you_are_using_expedia_points_TEMPLATE">{points} ({amount} 相当) の Expedia+ ポイントを使用します</string>
+    <string name="you_are_using_expedia_points_TEMPLATE">{points} Expedia+ ポイント ({amount} 相当) を使用します</string>
     <!-- Payment through card + pwp points -->
-    <string name="payment_through_card_and_pwp_points">{points} ({amount} 相当) の Expedia+ ポイントを使用します\nご利用のクレジット カードには {dueamount} が課金されます</string>
+    <string name="payment_through_card_and_pwp_points">{points} Expedia+ ポイント ({amount} 相当) を使用します\nご利用のクレジット カードには {dueamount} が課金されます</string>
     <!-- Your card will be charged -->
     <string name="your_card_will_be_charged_plus_airline_fee_template">カードに {dueamount} が課金されます (航空会社の手数料別)</string>
     <!-- Cars amount due today without a required credit card -->
@@ -1904,7 +1912,7 @@
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">今回のご予約で %1$s ポイント付与されます !</string>
     <!-- You are a valued member -->
-    <string name="you_are_a_valued_member">いつもご利用くださいましてありがとうございます。</string>
+    <string name="you_are_a_valued_member">いつもご利用ありがとうございます。</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_points_for_this_trip_TEMPLATE">今回の旅行で %1$s ポイント付与されます !</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2317,10 +2325,10 @@
     <string name="split_ticket_rules_with_link_TEMPLATE">• 航空券の料金は、片道フライト 2 件の合計となります。それぞれの運賃には、航空会社の規則および制限事項が適用されます。</string>
     <string name="split_ticket_rules_with_link_TEMPLATE_tablet">航空券の料金は、片道フライト 2 件の合計となります。それぞれの運賃には、航空会社の規則および制限事項が適用されます。</string>
     <!-- split ticket rules - cancellation policy -->
-    <string name="split_ticket_rules_cancellation_policy">・万一どちらかのフライトが変更あるいはキャンセルされた場合でも、残りのフライトが自動的に変更されることはありませんのでご注意ください。残りのフライトの変更には手数料がかかる場合があります。</string>
+    <string name="split_ticket_rules_cancellation_policy">• 万一どちらかのフライトが変更あるいはキャンセルされた場合でも、残りのフライトが自動的に変更されることはありませんのでご注意ください。残りのフライトの変更には手数料がかかる場合があります。</string>
     <string name="split_ticket_rules_cancellation_policy_tablet">万一どちらかのフライトが変更あるいはキャンセルされた場合でも、残りのフライトが自動的に変更されることはありませんのでご注意ください。残りのフライトの変更には手数料がかかる場合があります。</string>
     <!-- split ticket baggage fees -->
-    <string name="split_ticket_baggage_fees">・&lt;a href=\"%1$s\"&gt;往路 (行き) 便&lt;/a&gt;および&lt;a href=\"%2$s\"&gt;復路 (帰り) 便&lt;/a&gt;には、それぞれの手荷物料金が適用されます。</string>
+    <string name="split_ticket_baggage_fees">• &lt;a href=\"%1$s\"&gt;往路 (行き) 便&lt;/a&gt;および&lt;a href=\"%2$s\"&gt;復路 (帰り) 便&lt;/a&gt;には、それぞれの手荷物料金が適用されます。</string>
     <string name="split_ticket_baggage_fees_tablet">&lt;a href=\"%1$s\"&gt;往路 (行き) 便&lt;/a&gt;および&lt;a href=\"%2$s\"&gt;復路 (帰り) 便&lt;/a&gt;には、それぞれの手荷物料金が適用されます。</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -2665,9 +2673,9 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">+VIP Accessホテルでは、+silver および +gold メンバーは、客室無料アップグレードおよびその他の特典をご利用いただけます (チェックイン時の利用状況による)。</string>
+    <string name="vip_access_message">+VIP Access 提携ホテルでは、+シルバー会員および +ゴールド会員は、客室無料アップグレードおよびその他の特典をご利用いただけます (チェックイン時の利用状況による)。</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_vip_access">+VIP Access ホテルのみ</string>
+    <string name="filter_vip_access">+VIP Access 提携ホテルのみ</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="VIP_Access_Only">+VIP Access のみ</string>
     <!-- Title for VIP Access message for Hotel Results -->
@@ -2990,11 +2998,11 @@
     <!-- Label for sign out confirmation -->
     <string name="sign_out_confirmation_TEMPLATE">{brand} のアカウントからサインアウトしてもよろしいですか ?</string>
     <!-- Label for Expedia +blue rewards program name -->
-    <string name="Expedia_plus_blue">Expedia +blue</string>
+    <string name="Expedia_plus_blue">Expedia +ブルー</string>
     <!-- Label for Expedia +silver rewards program name -->
-    <string name="Expedia_plus_silver">Expedia +silver</string>
+    <string name="Expedia_plus_silver">Expedia +シルバー</string>
     <!-- Label for Expedia +gold rewards program name -->
-    <string name="Expedia_plus_gold">Expedia +gold</string>
+    <string name="Expedia_plus_gold">Expedia +ゴールド</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">{brand} アカウントを読み込み中</string>
     <!-- Label for coupon code area of booking form -->
@@ -3832,6 +3840,10 @@
     <string name="per_person">1 名あたり</string>
     <!-- Label for package search toolbar -->
     <string name="bundle_overview_title">ツアー (航空券 + ホテル) の概要</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">ツアー (航空券 + ホテル) 合計料金</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">ツアー (航空券 + ホテル) を表示</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">出発地</string>
     <!-- Fly to hint -->
@@ -3841,17 +3853,24 @@
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">ステップ 2 : 航空券を選択する</string>
     <!-- Package hotel cell: Price Includes flights -->
-    <string name="package_price_include_flights">料金には航空券が含まれます</string>
+    <string name="package_price_include_flights">ホテル + 航空券を含む料金</string>
+    <!-- Package hotel map cell: Price Includes Taxes and Fees -->
+    <string name="package_price_includes_taxes_fees">1 名あたりの税、サービス料、航空券 + ホテルを含む料金</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s %2$s、%3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings}保存済み</string>
+    <!-- Bundle Overview select hotel -->
+    <string name="select_hotel_template">%sのホテルを選択</string>
+    <!-- Bundle Overview searching flight -->
+    <string name="searching_flight_to">%sへのフライトを検索中</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
     <string name="flight_hour_min_duration_template">%1$d 時間 %2$d 分</string>
     <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
-    <string name="flight_min_duration_template">%1$d百万</string>
+    <string name="flight_min_duration_template">%1$d 分</string>
     <!-- Flight Nonstop description -->
     <string name="flight_nonstop_description">直行便</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
@@ -3861,7 +3880,7 @@
     <!-- Select flight to template -->
     <string name="select_flight_to">%1$sへのフライトを選択</string>
     <!-- Flight to template -->
-    <string name="flight_to">%1$sへの航空券</string>
+    <string name="flight_to">%1$sへのフライト</string>
     <!-- Select return flight -->
     <string name="select_return_flight">復路 (帰り) 便を選択</string>
     <!-- Flight overview - flight to template -->
@@ -3874,15 +3893,21 @@
     <string name="in_lap">膝抱き</string>
     <!-- Description for infant travelers sitting in seat -->
     <string name="in_seat">座席利用</string>
+    <!-- Label for flights on checkout overview of Packages -->
+    <string name="flight_checkout_overview_TEMPLATE">フライト - {origin} → {destination}、往復</string>
+    <!-- Label for hotel on checkout overview of Packages -->
+    <string name="hotel_checkout_overview_TEMPLATE">{city}のホテル - {rooms} 室、{nights} 泊</string>
     <!-- Package Trip Overview -->
     <string name="trip_overview">旅行の概要</string>
     <!-- Slide to book -->
     <string name="package_slider_text">スライドして予約</string>
+    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}、{country}</string>
+
 
     <!-- Pay with points widget -->
     <string name="paying_with_points">ポイントで支払い</string>
     <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} ポイント) 利用可能</string>
-    <string name="user_enters_more_than_points_TEMPLATE">ポイント相当額が残高を超えています。\n{money} 以下の値を入力してください。</string>
+    <string name="user_enters_more_than_available_points_TEMPLATE">ポイント相当額が残高を超えています。\n{money} 以下の値を入力してください。</string>
     <string name="user_enters_more_than_trip">本日お支払いの金額以下のポイント相当額を入力してください。</string>
     <string name="pwp_calculating_points">ポイントを計算しています…</string>
     <string name="pwp_points_applied_TEMPLATE">{points} ポイントが適用されました</string>
@@ -3890,7 +3915,14 @@
     <string name="pwp_total_due_today_TEMPLATE">本日お支払いの合計金額 : {money}</string>
 
     <!-- Package Flight Overview -->
+    <string name="package_flight_overview_urgency_message_TEMPLATE">残り {seats} 席</string>
     <string name="package_flight_overview_select_flight">このフライトを選択</string>
+    <string name="package_flight_overview_bundle_total_label">ツアー (航空券 + ホテル) 合計料金</string>
+    <string name="package_flight_overview_per_person_TEMPLATE">1 名あたり {money}</string>
+    <string name="package_flight_overview_departure_arrival_TEMPLATE">{departurecity} ({departureairportcode}) - {arrivalcity} ({arrivalairportcode})</string>
+    <string name="package_flight_overview_layover_in_TEMPLATE">{city} ({airportcode}) で乗り継ぎ</string>
+    <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
+    <string name="package_flight_overview_total_duration_TEMPLATE">合計所要時間 : {duration}</string>
 
     <!--Rail search screen title-->
     <string name="trains">鉄道</string>
