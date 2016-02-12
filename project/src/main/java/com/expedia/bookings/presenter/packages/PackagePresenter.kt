@@ -32,15 +32,15 @@ public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter
     init {
         Ui.getApplication(getContext()).packageComponent().inject(this)
         View.inflate(context, R.layout.package_presenter, this)
-        bundlePresenter.viewModel = BundleOverviewViewModel(context, packageServices)
+        bundlePresenter.bundleWidget.viewModel = BundleOverviewViewModel(context, packageServices)
         bundlePresenter.checkoutPresenter.viewModel = BaseCheckoutViewModel(context, packageServices)
         bundlePresenter.checkoutPresenter.createTripViewModel = PackageCreateTripViewModel(packageServices)
         bundlePresenter.checkoutPresenter.packageCheckoutViewModel = PackageCheckoutViewModel(context, packageServices)
-        bundlePresenter.checkoutPresenter.createTripViewModel.bundleTotalPrice.subscribe(bundlePresenter.bundleTotalPriceWidget.viewModel.setTextObservable)
+        bundlePresenter.checkoutPresenter.createTripViewModel.bundleTotalPrice.subscribe(bundlePresenter.bundleWidget.bundleTotalPriceWidget.viewModel.setTextObservable)
         bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe { trip ->
-            bundlePresenter.priceChangeWidget.viewmodel.originalPackagePrice.onNext(trip.oldPackageDetails?.pricing?.packageTotal)
-            bundlePresenter.priceChangeWidget.viewmodel.packagePrice.onNext(trip.packageDetails.pricing.packageTotal)
-            bundlePresenter.checkoutButton.visibility = VISIBLE 
+            bundlePresenter.bundleWidget.priceChangeWidget.viewmodel.originalPackagePrice.onNext(trip.oldPackageDetails?.pricing?.packageTotal)
+            bundlePresenter.bundleWidget.priceChangeWidget.viewmodel.packagePrice.onNext(trip.packageDetails.pricing.packageTotal)
+            bundlePresenter.bundleWidget.checkoutButton.visibility = VISIBLE
         }
         bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe( bundlePresenter.checkoutPresenter.packageCheckoutViewModel.tripResponseObservable)
         bundlePresenter.checkoutPresenter.viewModel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
@@ -55,16 +55,16 @@ public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter
                             packageTotalPrice.savings.currencyCode).formattedMoney)
                     .format().toString()
 
-            bundlePresenter.bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packageTotalPrice.packageTotal.amount.toDouble()),
+            bundlePresenter.bundleWidget.bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packageTotalPrice.packageTotal.amount.toDouble()),
                     packageTotalPrice.packageTotal.currencyCode).formattedMoney, packageSavings))
 
             bundlePresenter.checkoutOverviewHeader.update(response.packageDetails.hotel, width)
 
-            bundlePresenter.stepOneText.text = Phrase.from(context, R.string.hotel_checkout_overview_TEMPLATE).put("city", response.packageDetails.hotel.hotelCity)
+            bundlePresenter.bundleWidget.stepOneText.text = Phrase.from(context, R.string.hotel_checkout_overview_TEMPLATE).put("city", response.packageDetails.hotel.hotelCity)
                     .put("rooms", response.packageDetails.hotel.numberOfRooms)
                     .put("nights", response.packageDetails.hotel.numberOfNights)
                     .format()
-            bundlePresenter.stepTwoText.text = Phrase.from(context, R.string.flight_checkout_overview_TEMPLATE).put("origin", Db.getPackageParams().origin.hierarchyInfo?.airport?.airportCode).put("destination",
+            bundlePresenter.bundleWidget.stepTwoText.text = Phrase.from(context, R.string.flight_checkout_overview_TEMPLATE).put("origin", Db.getPackageParams().origin.hierarchyInfo?.airport?.airportCode).put("destination",
                     Db.getPackageParams().destination.hierarchyInfo?.airport?.airportCode).format()
         }
 
@@ -79,7 +79,7 @@ public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter
             show(bundlePresenter)
             bundlePresenter.show(BundleOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         }
-        searchPresenter.searchViewModel.searchParamsObservable.subscribe(bundlePresenter.viewModel.hotelParamsObservable)
+        searchPresenter.searchViewModel.searchParamsObservable.subscribe(bundlePresenter.bundleWidget.viewModel.hotelParamsObservable)
     }
 
     override fun onFinishInflate() {

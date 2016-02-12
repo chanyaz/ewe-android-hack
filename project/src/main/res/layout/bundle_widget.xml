@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ScrollView
+        android:id="@+id/bundle_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/step_one_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                android:text="@string/step_one"
+                android:textSize="16sp"
+                app:textStyle="medium" />
+
+            <com.expedia.bookings.widget.PackageBundleHotelWidget
+                android:id="@+id/package_bundle_hotel_widget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:animateLayoutChanges="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:minHeight="64dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="1dp" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/step_two_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="16dp"
+                android:text="@string/step_two"
+                android:textSize="16sp"
+                app:textStyle="medium" />
+
+            <com.expedia.bookings.widget.PackageBundleFlightWidget
+                android:id="@+id/package_bundle_outbound_flight_widget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:animateLayoutChanges="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:minHeight="64dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="1dp" />
+
+            <com.expedia.bookings.widget.PackageBundleFlightWidget
+                android:id="@+id/package_bundle_inbound_flight_widget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:layout_marginLeft="9dp"
+                android:layout_marginRight="9dp"
+                android:animateLayoutChanges="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:minHeight="64dp"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="1dp" />
+
+            <Space
+                android:id="@+id/space_view"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <com.expedia.bookings.widget.PriceChangeWidget
+            android:id="@+id/price_change"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <com.expedia.bookings.widget.PackageBundlePriceWidget
+            android:id="@+id/bundle_total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/itin_white_text"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/checkout_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Checkout"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</merge>

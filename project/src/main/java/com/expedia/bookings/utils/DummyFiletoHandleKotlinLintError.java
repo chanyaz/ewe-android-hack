@@ -339,6 +339,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.guests_with_rooms_TEMPLATE,
 		R.string.checkout_payment_option_credit_debit_label,
 		R.layout.price_change_widget,
-		R.dimen.layover_bar_text_size
+		R.dimen.layover_bar_text_size,
+		R.layout.bundle_widget
 	};
 }
