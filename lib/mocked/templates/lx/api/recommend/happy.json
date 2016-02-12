@@ -31,7 +31,7 @@
     "searchRequestType": "STANDALONE"
   },
   "activities": [{
-    "id": "192704",
+    "id": "happy",
     "title": "Alcatraz Package: Hop-On Hop-Off Cruise & City Tour by Big Bus",
     "imageUrl": "//www.expedia.com/lx/mv/100999/lxmedia-192704-350x197-0.jpeg",
     "largeImageURL": "//www.expedia.com/lx/mv/100999/lxmedia-192704-1005x565-0.jpeg",
@@ -106,5 +106,6 @@
     "discountType": null,
     "shortDescription": null
   }],
-  "isSortedByRecommender": false
+  "isSortedByRecommender": false,
+  "currencyCode": "USD"
 }

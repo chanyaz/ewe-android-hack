@@ -28,6 +28,7 @@ import com.expedia.bookings.testrule.ServicesRule;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -169,7 +170,11 @@ public class LXServicesTest {
 		observer.assertCompleted();
 
 		RecommendedActivitiesResponse activityDetailsResponse = observer.getOnNextEvents().get(0);
+
 		assertEquals(3, activityDetailsResponse.getActivities().size());
+		assertEquals(new BigDecimal("135.00"), activityDetailsResponse.getActivities().get(0).price.amount);
+		assertEquals("USD", activityDetailsResponse.getActivities().get(0).price.currencyCode);
+		assertEquals("USD", activityDetailsResponse.getCurrencyCode());
 	}
 
 	@Test

@@ -18,7 +18,7 @@ import rx.schedulers.Schedulers;
 public class LXModule {
 	@Provides
 	@LXScope
-	LxServices provideLXServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
+	LxServices provideLxServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new LxServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}

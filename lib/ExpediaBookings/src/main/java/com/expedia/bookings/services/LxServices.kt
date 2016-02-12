@@ -30,7 +30,6 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 import rx.functions.Action1
-import rx.functions.Func2
 import java.util.Collections
 import java.util.Comparator
 import java.util.LinkedHashSet
@@ -84,7 +83,18 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, requestIntercepto
         return lxApi.recommendedActivities(activityId, location, DateUtils.convertToLXDate(startDate), DateUtils.convertToLXDate(endDate))
                 .observeOn(this.observeOn)
                 .subscribeOn(this.subscribeOn)
+                .doOnNext(RECOMMENDED_ACTIVITIES_MONEY_TITLE)
                 .subscribe(observer)
+    }
+
+
+    private val RECOMMENDED_ACTIVITIES_MONEY_TITLE = { response: RecommendedActivitiesResponse ->
+        val currencyCode = response.currencyCode
+        for (activity in response.activities) {
+            activity.price = Money(activity.fromPriceValue, currencyCode)
+            activity.originalPrice = Money(activity.fromOriginalPriceValue, currencyCode)
+            activity.title = Strings.escapeQuotes(activity.title)
+        }
     }
 
     private val HANDLE_SEARCH_ERROR = { response: LXSearchResponse ->

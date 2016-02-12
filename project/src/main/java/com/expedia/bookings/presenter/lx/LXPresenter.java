@@ -1,12 +1,16 @@
 package com.expedia.bookings.presenter.lx;
 
+import javax.inject.Inject;
+
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
@@ -32,6 +36,12 @@ public class LXPresenter extends Presenter {
 	@InjectView(R.id.search_list_presenter)
 	LXResultsPresenter resultsPresenter;
 
+
+	// This will always be the first to be shown under the AB test/ Non- AB Test scenario.
+	@InjectView(R.id.activity_recommended_details_presenter)
+	LXDetailsWithRecommendationsPresenter recommendationPresenter;
+
+	// This will take care of the recommendation selected under the A/B Test.
 	@InjectView(R.id.activity_details_presenter)
 	LXDetailsPresenter detailsPresenter;
 
@@ -50,15 +60,28 @@ public class LXPresenter extends Presenter {
 	@InjectView(R.id.lx_checkout_presenter)
 	LXCheckoutPresenter checkoutPresenter;
 
+	@Inject
+	LXState lxState;
+
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
+		Ui.getApplication(getContext()).lxComponent().inject(this);
 		addTransition(searchParamsToResults);
-		addTransition(resultsToDetails);
+		addTransition(resultsToRecommendations);
 		addTransition(searchOverlayOnResults);
+
 		addTransition(searchOverlayOnDetails);
+		addTransition(searchOverlayOnRecommendations);
+
 		addTransition(detailsToCheckout);
+		addTransition(recommendationsToCheckout);
+
+		addTransition(recommendationToDetails);
+
 		addTransition(detailsToSearch);
+		addTransition(recommendationsToSearch);
+
 		addTransition(checkoutToConfirmation);
 		addTransition(checkoutToResults);
 		show(resultsPresenter);
@@ -99,9 +122,10 @@ public class LXPresenter extends Presenter {
 	};
 
 	private Transition detailsToCheckout = new VisibilityTransition(this, LXDetailsPresenter.class, LXCheckoutPresenter.class);
+	private Transition recommendationsToCheckout = new VisibilityTransition(this, LXDetailsWithRecommendationsPresenter.class, LXCheckoutPresenter.class);
 
-	private Presenter.Transition resultsToDetails = new Presenter.Transition(LXResultsPresenter.class.getName(),
-		LXDetailsPresenter.class.getName(),
+	private Presenter.Transition recommendationToDetails = new Presenter.Transition(
+		LXDetailsWithRecommendationsPresenter.class.getName(), LXDetailsPresenter.class.getName(),
 		new DecelerateInterpolator(), ANIMATION_DURATION) {
 		private int detailsHeight;
 
@@ -113,7 +137,7 @@ public class LXPresenter extends Presenter {
 			detailsPresenter.setTranslationY(pos);
 			detailsPresenter.setVisibility(View.VISIBLE);
 			detailsPresenter.animationStart(!forward);
-			resultsPresenter.setVisibility(VISIBLE);
+			recommendationPresenter.setVisibility(VISIBLE);
 		}
 
 		@Override
@@ -132,12 +156,55 @@ public class LXPresenter extends Presenter {
 		public void finalizeTransition(boolean forward) {
 			detailsPresenter.setTranslationY(forward ? 0 : detailsHeight);
 			detailsPresenter.setVisibility(forward ? VISIBLE : GONE);
-			resultsPresenter.setVisibility(forward ? GONE : VISIBLE);
+			recommendationPresenter.setVisibility(forward ? GONE : VISIBLE);
 			loadingOverlay.setVisibility(GONE);
 			detailsPresenter.animationFinalize(!forward);
 			if (!forward) {
-				resultsPresenter.trackLXSearch();
 				detailsPresenter.cleanup();
+				lxState.onActivitySelected(new Events.LXActivitySelected(recommendationPresenter.getLxActivity()));
+				lxState.onShowActivityDetails(new Events.LXShowDetails(recommendationPresenter.details.getActivityDetails()));
+			}
+		}
+	};
+
+	private Presenter.Transition resultsToRecommendations = new Presenter.Transition(LXResultsPresenter.class.getName(),
+		LXDetailsWithRecommendationsPresenter.class.getName(),
+		new DecelerateInterpolator(), ANIMATION_DURATION) {
+		private int detailsHeight;
+
+		@Override
+		public void startTransition(boolean forward) {
+			final int parentHeight = getHeight();
+			detailsHeight = parentHeight - Ui.getStatusBarHeight(getContext());
+			float pos = forward ? parentHeight + detailsHeight : detailsHeight;
+			recommendationPresenter.setTranslationY(pos);
+			resultsPresenter.setVisibility(View.VISIBLE);
+			recommendationPresenter.animationStart(!forward);
+			recommendationPresenter.setVisibility(VISIBLE);
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			float pos = forward ? detailsHeight + (-f * detailsHeight) : (f * detailsHeight);
+			recommendationPresenter.setTranslationY(pos);
+			recommendationPresenter.animationUpdate(f, !forward);
+		}
+
+		@Override
+		public void endTransition(boolean forward) {
+			recommendationPresenter.setTranslationY(forward ? 0 : detailsHeight);
+		}
+
+		@Override
+		public void finalizeTransition(boolean forward) {
+			recommendationPresenter.setTranslationY(forward ? 0 : detailsHeight);
+			recommendationPresenter.setVisibility(forward ? VISIBLE : GONE);
+			resultsPresenter.setVisibility(forward ? GONE : VISIBLE);
+			loadingOverlay.setVisibility(GONE);
+			recommendationPresenter.animationFinalize(!forward);
+			if (!forward) {
+				resultsPresenter.trackLXSearch();
+				recommendationPresenter.cleanup();
 			}
 		}
 	};
@@ -173,41 +240,50 @@ public class LXPresenter extends Presenter {
 		}
 	};
 
-	private Transition searchOverlayOnDetails = new Transition(LXDetailsPresenter.class,
-		LXParamsOverlay.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
-		@Override
-		public void startTransition(boolean forward) {
-			detailsPresenter.setVisibility(VISIBLE);
-			searchParamsWidget.setVisibility(VISIBLE);
-			if (forward) {
-				searchStartingAlpha = detailsPresenter.animationStart(forward);
+
+	private Transition searchOverlayOnDetails = transitionDetailsStateToSearchOverlay(LXDetailsPresenter.class);
+	private Transition searchOverlayOnRecommendations = transitionDetailsStateToSearchOverlay(
+		LXDetailsWithRecommendationsPresenter.class);
+
+	@NonNull
+	private Transition transitionDetailsStateToSearchOverlay(Class state) {
+		return new Transition(state,
+			LXParamsOverlay.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
+			@Override
+			public void startTransition(boolean forward) {
+				detailsPresenter.setVisibility(VISIBLE);
+				searchParamsWidget.setVisibility(VISIBLE);
+				if (forward) {
+					searchStartingAlpha = detailsPresenter.animationStart(forward);
+				}
+				else {
+					detailsPresenter.animationStart(forward);
+				}
+				searchParamsWidget.animationStart(forward);
 			}
-			else {
-				detailsPresenter.animationStart(forward);
+
+			@Override
+			public void updateTransition(float f, boolean forward) {
+				detailsPresenter.animationUpdate(f, forward);
+				searchParamsWidget.animationUpdate(f, forward, searchStartingAlpha);
 			}
-			searchParamsWidget.animationStart(forward);
-		}
 
-		@Override
-		public void updateTransition(float f, boolean forward) {
-			detailsPresenter.animationUpdate(f, forward);
-			searchParamsWidget.animationUpdate(f, forward, searchStartingAlpha);
-		}
+			@Override
+			public void endTransition(boolean forward) {
+			}
 
-		@Override
-		public void endTransition(boolean forward) {
-		}
-
-		@Override
-		public void finalizeTransition(boolean forward) {
-			detailsPresenter.setVisibility(VISIBLE);
-			searchParamsWidget.setVisibility(forward ? VISIBLE : GONE);
-			detailsPresenter.animationFinalize(forward);
-			searchParamsWidget.animationFinalize(forward);
-		}
-	};
+			@Override
+			public void finalizeTransition(boolean forward) {
+				detailsPresenter.setVisibility(VISIBLE);
+				searchParamsWidget.setVisibility(forward ? VISIBLE : GONE);
+				detailsPresenter.animationFinalize(forward);
+				searchParamsWidget.animationFinalize(forward);
+			}
+		};
+	}
 
 	private Transition detailsToSearch = new VisibilityTransition(this, LXDetailsPresenter.class, LXSearchParamsPresenter.class);
+	private Transition recommendationsToSearch = new VisibilityTransition(this, LXDetailsWithRecommendationsPresenter.class, LXSearchParamsPresenter.class);
 
 	private Transition checkoutToConfirmation = new VisibilityTransition(this, LXCheckoutPresenter.class, LXConfirmationWidget.class);
 
@@ -227,12 +303,27 @@ public class LXPresenter extends Presenter {
 	public void onActivitySelected(Events.LXActivitySelected event) {
 		loadingOverlay.setVisibility(VISIBLE);
 		loadingOverlay.animate(true);
+
+		if (isCurrentStateDetailsWithRecommedation()) {
+			detailsPresenter.onActivitySelected(event.lxActivity);
+		}
+		else {
+			recommendationPresenter.onActivitySelected(event.lxActivity);
+		}
 	}
 
 	@Subscribe
 	public void onShowActivityDetails(Events.LXShowDetails event) {
 		loadingOverlay.animate(false);
-		show(detailsPresenter);
+
+		if (isCurrentStateDetailsWithRecommedation()) {
+			show(detailsPresenter);
+			detailsPresenter.details.onShowActivityDetails(event.activityDetails);
+		}
+		else {
+			show(recommendationPresenter);
+			recommendationPresenter.details.onShowActivityDetails(event.activityDetails);
+		}
 	}
 
 	@Subscribe
@@ -242,7 +333,7 @@ public class LXPresenter extends Presenter {
 
 	@Subscribe
 	public void onActivitySelectedRetry(Events.LXActivitySelectedRetry event) {
-		show(detailsPresenter, FLAG_CLEAR_TOP);
+		show(isCurrentStateDetailsWithRecommedation() ? recommendationPresenter : detailsPresenter, FLAG_CLEAR_TOP);
 	}
 
 	@Subscribe
@@ -268,4 +359,11 @@ public class LXPresenter extends Presenter {
 		resultsPresenter.setUserBucketedForCategoriesTest(isUserBucketedForTest);
 	}
 
+	public void setUserBucketedForRecommendationTest(boolean isUserBucketedForTest) {
+		recommendationPresenter.setUserBucketedForRecommendationTest(isUserBucketedForTest);
+	}
+
+	public boolean isCurrentStateDetailsWithRecommedation() {
+		return LXDetailsWithRecommendationsPresenter.class.getName().equals(getCurrentState());
+	}
 }

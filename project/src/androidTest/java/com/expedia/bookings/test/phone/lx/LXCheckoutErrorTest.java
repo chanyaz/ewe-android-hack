@@ -21,10 +21,12 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
+import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.Is.is;
 
 public class LXCheckoutErrorTest extends LxTestCase {
@@ -74,7 +76,7 @@ public class LXCheckoutErrorTest extends LxTestCase {
 		LXScreen.checkoutErrorButton().perform(click());
 
 		screenshot("LX Details");
-		EspressoUtils.assertViewIsDisplayed(R.id.activity_gallery);
+		onView(allOf(withId(R.id.activity_gallery), isDescendantOfA(withId(R.id.activity_recommended_details_presenter)))).check(matches(isDisplayed()));
 	}
 
 	public void testPaymentFailed() throws Throwable {
