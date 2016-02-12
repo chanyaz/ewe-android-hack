@@ -297,6 +297,23 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         mapCarouselRecycler.adapter = HotelMapCarouselAdapter(emptyList(), hotelSelectedSubject)
         mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
 
+        mapViewModel.newBoundsObservable.subscribe {
+            if(isMapReady) {
+                val center = it.center
+                val latLng = LatLng(center.latitude, center.longitude)
+                mapViewModel.mapBoundsSubject.onNext(latLng)
+                val padding = 60
+                googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * padding), object : GoogleMap.CancelableCallback {
+                    override fun onFinish() {
+
+                    }
+
+                    override fun onCancel() {
+                    }
+                })
+            }
+        }
+
     }
 
     fun clearMarkers() {
@@ -493,26 +510,15 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         })
 
         mapView.viewTreeObserver.addOnGlobalLayoutListener(mapViewLayoutReadyListener)
-        isMapReady = true
     }
 
     private val mapViewLayoutReadyListener = object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
+            isMapReady = true
             mapView.viewTreeObserver.removeOnGlobalLayoutListener(this);
-            mapViewModel.newBoundsObservable.subscribe {
-                val center = it.center
-                val latLng = LatLng(center.latitude, center.longitude)
-                mapViewModel.mapBoundsSubject.onNext(latLng)
-                val padding = 60
-                googleMap?.animateCamera(CameraUpdateFactory.newLatLngBounds(it, resources.displayMetrics.density.toInt() * padding), object : GoogleMap.CancelableCallback {
-                    override fun onFinish() {
+            mapViewModel.mapInitializedObservable.onNext(Unit)
+            mapViewModel.createMarkersObservable.onNext(Unit)
 
-                    }
-
-                    override fun onCancel() {
-                    }
-                })
-            }
         }
     }
 

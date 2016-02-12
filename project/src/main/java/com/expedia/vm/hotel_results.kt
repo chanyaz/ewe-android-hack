@@ -5,9 +5,9 @@ import android.content.res.Resources
 import android.location.Location
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.cars.BaseApiResponse
 import com.expedia.bookings.data.hotels.Hotel
@@ -15,7 +15,6 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
-import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelV2Tracking
@@ -23,12 +22,9 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.widget.MapItem
-import com.expedia.bookings.widget.createHotelMarkerIcon
 import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.Marker
-import com.google.maps.android.ui.IconGenerator
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
@@ -160,13 +156,15 @@ public class HotelResultsPricingStructureHeaderViewModel(private val resources: 
 }
 
 public open class HotelResultsMapViewModel(val context: Context, val currentLocation: Location) {
+    val mapInitializedObservable = PublishSubject.create<Unit>()
+    val createMarkersObservable = PublishSubject.create<Unit>()
     val clusterChangeSubject = PublishSubject.create<Unit>()
     var isClusteringEnabled by Delegates.notNull<Boolean>()
 
     var hotels: List<Hotel> = emptyList()
 
     //inputs
-    val hotelResultsSubject = PublishSubject.create<HotelSearchResponse>()
+    val hotelResultsSubject = BehaviorSubject.create<HotelSearchResponse>()
     val mapResultsSubject = PublishSubject.create<HotelSearchResponse>()
     val mapPinSelectSubject = BehaviorSubject.create<MapItem>()
     val carouselSwipedObservable = PublishSubject.create<MapItem>()
@@ -189,6 +187,11 @@ public open class HotelResultsMapViewModel(val context: Context, val currentLoca
 
     init {
         isClusteringEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHSRMapClusteringTest)
+
+        createMarkersObservable.subscribe {
+            val response = hotelResultsSubject.value
+            if (response != null) newBoundsObservable.onNext(getMapBounds(response))
+        }
 
         mapBoundsSubject.subscribe {
             // Map bounds has changed(Search this area or map was animated to a region),
