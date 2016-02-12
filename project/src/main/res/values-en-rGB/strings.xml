@@ -202,8 +202,10 @@
     <string name="successful_checkout_email_label">Itinerary sent to</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Directions to %1$s</string>
-
-    <string name="shortened_checkout_payment_option_credit_debit_label">Credit/Debit Card</string>
+    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
+    <string name="checkout_payment_option_credit_debit_label">Credit Card/Debit Card</string>
+    <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
+    <string name="shortened_checkout_payment_option_credit_debit_label">Enter new Debit/Credit Card</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Guest Details</string>
     <!-- Text for Android pay label -->
@@ -213,7 +215,7 @@
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_hotelsv2_enter_payment_details_line1">Payment Details</string>
     <!-- Text for enter payment details line 2 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line2">Select Payment Type</string>
+    <string name="checkout_hotelsv2_enter_payment_details_line2">Enter credit card</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
     <string name="checkout_payment_line2_storedcc">Stored Credit Card</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
@@ -223,7 +225,11 @@
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_tap_to_edit">Tap to edit</string>
     <!-- Text for enter payment details line 2 for pwp -->
-    <string name="checkout_payment_options">Points, credit card</string>
+    <string name="checkout_payment_options">Credit card, pay with points</string>
+    <!--Text for selected card -->
+    <string name="checkout_selected_card">{cardtype} …{cardno}</string>
+    <!--Text for selecting user manually stored card -->
+    <string name="temporarily_saved_card_TEMPLATE">Saved {cardtype} …{cardno}</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Slide to reserve</string>
@@ -233,11 +239,11 @@
     <string name="change_dates">Change Dates</string>
 
     <!-- Car error strings -->
-    <!-- Message for user that pick-up time is too early."  -->
+    <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">Please adjust your pick-up or drop-off times.</string>
-    <!-- Message for user  to choose a closer date.""  -->
+    <!-- Message for user  to choose a closer date.  -->
     <string name="drop_off_too_far_error">This date is too far out, please choose a closer date.</string>
-    <!-- Message for user that date is too far out."  -->
+    <!-- Message for user that date is too far out.  -->
     <string name="date_out_of_range">This date is too far out, please choose a closer date.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Please increase your reservation duration.</string>
@@ -1694,6 +1700,8 @@
     <string name="calendar_instructions_hotels_no_dates_selected">Select Check-in Date</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <string name="guests_with_rooms_TEMPLATE">{guests}, 1 room</string>
+
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">One-way for &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1782,7 +1790,7 @@
     <string name="select_payment_callout">Enter Details</string>
     <!-- Add new card -->
     <string name="add_new_card">Add New Card</string>
-    <string name="new_credit_debit_card">New Credit/Debit Card</string>
+    <string name="new_credit_debit_card">New Debit/Credit Card</string>
     <!-- Overview button -->
     <string name="overview_btn">Overview</string>
     <!-- Stored Payment label -->
@@ -3832,6 +3840,10 @@
     <string name="per_person">per person</string>
     <!-- Label for package search toolbar -->
     <string name="bundle_overview_title">Package Overview</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Bundle total</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">View your bundle</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">Flying from</string>
     <!-- Fly to hint -->
@@ -3841,11 +3853,18 @@
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">Step 2: Select Flights</string>
     <!-- Package hotel cell: Price Includes flights -->
-    <string name="package_price_include_flights">Price Includes flights</string>
+    <string name="package_price_include_flights">Price includes hotel + flights</string>
+    <!-- Package hotel map cell: Price Includes Taxes and Fees -->
+    <string name="package_price_includes_taxes_fees">Price includes taxes, fees, flights + hotel per person</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s at %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} Saved</string>
+    <!-- Bundle Overview select hotel -->
+    <string name="select_hotel_template">Select hotel in %s</string>
+    <!-- Bundle Overview searching flight -->
+    <string name="searching_flight_to">Searching flight to %s</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3874,15 +3893,21 @@
     <string name="in_lap">In Lap</string>
     <!-- Description for infant travelers sitting in seat -->
     <string name="in_seat">In Seat</string>
+    <!-- Label for flights on checkout overview of Packages -->
+    <string name="flight_checkout_overview_TEMPLATE">Flights - {origin} to {destination}, round trip</string>
+    <!-- Label for hotel on checkout overview of Packages -->
+    <string name="hotel_checkout_overview_TEMPLATE">Hotel in {city} - {rooms} room, {nights} nights</string>
     <!-- Package Trip Overview -->
     <string name="trip_overview">Trip Overview</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Slide to book</string>
+    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
+
 
     <!-- Pay with points widget -->
     <string name="paying_with_points">Paying with points</string>
     <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} points) available</string>
-    <string name="user_enters_more_than_points_TEMPLATE">The points value exceeds your available balance.\nPlease enter {money} or less.</string>
+    <string name="user_enters_more_than_available_points_TEMPLATE">The points value exceeds your available balance.\nPlease enter {money} or less.</string>
     <string name="user_enters_more_than_trip">The points value can not exceed the payment due today.</string>
     <string name="pwp_calculating_points">Calculating points…</string>
     <string name="pwp_points_applied_TEMPLATE">{points} points applied</string>
@@ -3890,7 +3915,14 @@
     <string name="pwp_total_due_today_TEMPLATE">Total due today: {money}</string>
 
     <!-- Package Flight Overview -->
+    <string name="package_flight_overview_urgency_message_TEMPLATE">{seats} seats left</string>
     <string name="package_flight_overview_select_flight">Select this Flight</string>
+    <string name="package_flight_overview_bundle_total_label">Bundle Total</string>
+    <string name="package_flight_overview_per_person_TEMPLATE">{money}/person</string>
+    <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
+    <string name="package_flight_overview_layover_in_TEMPLATE">Layover in ({airportcode}) {city}</string>
+    <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
+    <string name="package_flight_overview_total_duration_TEMPLATE">Total Duration: {duration}</string>
 
     <!--Rail search screen title-->
     <string name="trains">Trains</string>

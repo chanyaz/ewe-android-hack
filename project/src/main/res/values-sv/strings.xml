@@ -202,8 +202,10 @@
     <string name="successful_checkout_email_label">Resplan skickades till</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Vägbeskrivning till %1$s</string>
-
-    <string name="shortened_checkout_payment_option_credit_debit_label">Kreditkort/bankkort</string>
+    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
+    <string name="checkout_payment_option_credit_debit_label">Kreditkort/bankkort</string>
+    <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
+    <string name="shortened_checkout_payment_option_credit_debit_label">Ange nytt bankkort/kreditkort</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Gästinformation</string>
     <!-- Text for Android pay label -->
@@ -213,7 +215,7 @@
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_hotelsv2_enter_payment_details_line1">Betalningsuppgifter</string>
     <!-- Text for enter payment details line 2 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line2">Välj betalningstyp</string>
+    <string name="checkout_hotelsv2_enter_payment_details_line2">Ange kreditkort</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
     <string name="checkout_payment_line2_storedcc">Sparat kreditkort</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
@@ -223,7 +225,11 @@
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_tap_to_edit">Klicka för att redigera</string>
     <!-- Text for enter payment details line 2 for pwp -->
-    <string name="checkout_payment_options">Poäng, kreditkort</string>
+    <string name="checkout_payment_options">Kreditkort, betala med poäng</string>
+    <!--Text for selected card -->
+    <string name="checkout_selected_card">{cardtype} …{cardno}</string>
+    <!--Text for selecting user manually stored card -->
+    <string name="temporarily_saved_card_TEMPLATE">Sparat {cardtype} …{cardno}</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Dra för att boka</string>
@@ -233,11 +239,11 @@
     <string name="change_dates">Ändra datum</string>
 
     <!-- Car error strings -->
-    <!-- Message for user that pick-up time is too early."  -->
+    <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">Ändra dina tider för hämtning eller avlämning.</string>
-    <!-- Message for user  to choose a closer date.""  -->
+    <!-- Message for user  to choose a closer date.  -->
     <string name="drop_off_too_far_error">Datumet är för sent, välj ett tidigare datum.</string>
-    <!-- Message for user that date is too far out."  -->
+    <!-- Message for user that date is too far out.  -->
     <string name="date_out_of_range">Datumet är för sent, välj ett tidigare datum.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Förläng bokningen.</string>
@@ -1694,6 +1700,8 @@
     <string name="calendar_instructions_hotels_no_dates_selected">Välj incheckningsdatum</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <string name="guests_with_rooms_TEMPLATE">{guests}, 1 rum</string>
+
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">Enkelresa för &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1782,7 +1790,7 @@
     <string name="select_payment_callout">Ange uppgifter</string>
     <!-- Add new card -->
     <string name="add_new_card">Lägg till nytt kort</string>
-    <string name="new_credit_debit_card">Nytt kreditkort/bankkort</string>
+    <string name="new_credit_debit_card">Nytt bankkort/kreditkort</string>
     <!-- Overview button -->
     <string name="overview_btn">Översikt</string>
     <!-- Stored Payment label -->
@@ -3832,6 +3840,10 @@
     <string name="per_person">per person</string>
     <!-- Label for package search toolbar -->
     <string name="bundle_overview_title">Paketöversikt</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Paket totalt</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Se ditt paket</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">Flyger från</string>
     <!-- Fly to hint -->
@@ -3841,11 +3853,18 @@
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">Steg 2: Välj flyg</string>
     <!-- Package hotel cell: Price Includes flights -->
-    <string name="package_price_include_flights">Priset inkluderar flyg</string>
+    <string name="package_price_include_flights">Priset inkluderar hotell + flyg</string>
+    <!-- Package hotel map cell: Price Includes Taxes and Fees -->
+    <string name="package_price_includes_taxes_fees">Priset inkluderar skatter, avgifter, flyg + hotell per person</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s kl. %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} sparat</string>
+    <!-- Bundle Overview select hotel -->
+    <string name="select_hotel_template">Välj hotell i %s</string>
+    <!-- Bundle Overview searching flight -->
+    <string name="searching_flight_to">Söker efter flyg till %s</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3874,15 +3893,21 @@
     <string name="in_lap">I knät</string>
     <!-- Description for infant travelers sitting in seat -->
     <string name="in_seat">I sittplats</string>
+    <!-- Label for flights on checkout overview of Packages -->
+    <string name="flight_checkout_overview_TEMPLATE">Flyg - {origin} till {destination}, tur-och-retur</string>
+    <!-- Label for hotel on checkout overview of Packages -->
+    <string name="hotel_checkout_overview_TEMPLATE">Hotell i {city} - {rooms} rum, {nights} nätter</string>
     <!-- Package Trip Overview -->
     <string name="trip_overview">Reseöversikt</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Dra för att boka</string>
+    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
+
 
     <!-- Pay with points widget -->
     <string name="paying_with_points">Betala med poäng</string>
     <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} poäng) tillgängligt</string>
-    <string name="user_enters_more_than_points_TEMPLATE">Poängvärdet är högre än ditt tillgängliga saldo.\nAnge {money} eller mindre.</string>
+    <string name="user_enters_more_than_available_points_TEMPLATE">Poängvärdet är högre än ditt tillgängliga saldo.\nAnge {money} eller mindre.</string>
     <string name="user_enters_more_than_trip">Poängvärdet kan inte vara högre än beloppet som ska betalas idag.</string>
     <string name="pwp_calculating_points">Räknar poäng…</string>
     <string name="pwp_points_applied_TEMPLATE">{points} poäng har tillämpats</string>
@@ -3890,7 +3915,14 @@
     <string name="pwp_total_due_today_TEMPLATE">Totalt att betala idag: {money}</string>
 
     <!-- Package Flight Overview -->
+    <string name="package_flight_overview_urgency_message_TEMPLATE">{seats} platser kvar</string>
     <string name="package_flight_overview_select_flight">Välj detta flyg</string>
+    <string name="package_flight_overview_bundle_total_label">Paket totalt</string>
+    <string name="package_flight_overview_per_person_TEMPLATE">{money}/person</string>
+    <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
+    <string name="package_flight_overview_layover_in_TEMPLATE">Mellanlandning i ({airportcode}) {city}</string>
+    <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
+    <string name="package_flight_overview_total_duration_TEMPLATE">Total restid: {duration}</string>
 
     <!--Rail search screen title-->
     <string name="trains">Tåg</string>

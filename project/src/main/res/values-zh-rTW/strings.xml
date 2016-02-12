@@ -202,8 +202,10 @@
     <string name="successful_checkout_email_label">行程已傳送到</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">前往 %1$s 的路線</string>
-
-    <string name="shortened_checkout_payment_option_credit_debit_label">信用卡/金融卡</string>
+    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
+    <string name="checkout_payment_option_credit_debit_label">信用卡/金融卡</string>
+    <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
+    <string name="shortened_checkout_payment_option_credit_debit_label">輸入新的金融卡/信用卡號碼</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">旅客資訊</string>
     <!-- Text for Android pay label -->
@@ -213,7 +215,7 @@
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_hotelsv2_enter_payment_details_line1">付款詳細資訊</string>
     <!-- Text for enter payment details line 2 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line2">選擇付款類型</string>
+    <string name="checkout_hotelsv2_enter_payment_details_line2">輸入信用卡號碼</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
     <string name="checkout_payment_line2_storedcc">已儲存的信用卡</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
@@ -223,7 +225,11 @@
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_tap_to_edit">輕觸以修改</string>
     <!-- Text for enter payment details line 2 for pwp -->
-    <string name="checkout_payment_options">點數、信用卡</string>
+    <string name="checkout_payment_options">信用卡，以點數支付</string>
+    <!--Text for selected card -->
+    <string name="checkout_selected_card">{cardtype} …{cardno}</string>
+    <!--Text for selecting user manually stored card -->
+    <string name="temporarily_saved_card_TEMPLATE">已儲存的{cardtype}{cardno}</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">滑動以預訂</string>
@@ -233,11 +239,11 @@
     <string name="change_dates">變更日期</string>
 
     <!-- Car error strings -->
-    <!-- Message for user that pick-up time is too early."  -->
+    <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">請調整您的取車或還車時間。</string>
-    <!-- Message for user  to choose a closer date.""  -->
+    <!-- Message for user  to choose a closer date.  -->
     <string name="drop_off_too_far_error">此日期距現在太遠，請選擇距現在較近的日期。</string>
-    <!-- Message for user that date is too far out."  -->
+    <!-- Message for user that date is too far out.  -->
     <string name="date_out_of_range">此日期距現在太遠，請選擇距現在較近的日期。</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">請延長您的預訂時間。</string>
@@ -1694,6 +1700,8 @@
     <string name="calendar_instructions_hotels_no_dates_selected">選擇入住日期</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}，{guests}</string>
+    <string name="guests_with_rooms_TEMPLATE">{guests}，1 間客房</string>
+
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">單程 &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1782,7 +1790,7 @@
     <string name="select_payment_callout">輸入詳細資訊</string>
     <!-- Add new card -->
     <string name="add_new_card">新增信用卡</string>
-    <string name="new_credit_debit_card">新增信用卡/金融卡</string>
+    <string name="new_credit_debit_card">新的金融卡/信用卡號碼</string>
     <!-- Overview button -->
     <string name="overview_btn">摘要</string>
     <!-- Stored Payment label -->
@@ -3832,6 +3840,10 @@
     <string name="per_person">每人</string>
     <!-- Label for package search toolbar -->
     <string name="bundle_overview_title">套裝行程摘要</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">套裝行程總價</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">查看您的套裝行程</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">出發地</string>
     <!-- Fly to hint -->
@@ -3841,11 +3853,18 @@
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">步驟 2：選擇班機</string>
     <!-- Package hotel cell: Price Includes flights -->
-    <string name="package_price_include_flights">價格包含機票</string>
+    <string name="package_price_include_flights">價格包含機 + 酒</string>
+    <!-- Package hotel map cell: Price Includes Taxes and Fees -->
+    <string name="package_price_includes_taxes_fees">價格包含稅金、費用以及機 + 酒 (每人)</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s %2$s，%3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">省 {savings}</string>
+    <!-- Bundle Overview select hotel -->
+    <string name="select_hotel_template">選擇%s飯店</string>
+    <!-- Bundle Overview searching flight -->
+    <string name="searching_flight_to">搜尋%s班機</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3874,15 +3893,21 @@
     <string name="in_lap">不佔位</string>
     <!-- Description for infant travelers sitting in seat -->
     <string name="in_seat">佔位</string>
+    <!-- Label for flights on checkout overview of Packages -->
+    <string name="flight_checkout_overview_TEMPLATE">班機：{origin}到{destination}，來回</string>
+    <!-- Label for hotel on checkout overview of Packages -->
+    <string name="hotel_checkout_overview_TEMPLATE">{city}飯店：{rooms} 間客房，{nights} 晚</string>
     <!-- Package Trip Overview -->
     <string name="trip_overview">行程摘要</string>
     <!-- Slide to book -->
     <string name="package_slider_text">滑動以預訂</string>
+    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
+
 
     <!-- Pay with points widget -->
     <string name="paying_with_points">以點數支付</string>
     <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} 點) 可用</string>
-    <string name="user_enters_more_than_points_TEMPLATE">點數價值超過須支付的金額。\n請輸入 {money} 或以下。</string>
+    <string name="user_enters_more_than_available_points_TEMPLATE">點數價值超過須支付的金額。\n請輸入 {money} 或以下。</string>
     <string name="user_enters_more_than_trip">點數價值不得超過現在應付金額。</string>
     <string name="pwp_calculating_points">正在計算點數…</string>
     <string name="pwp_points_applied_TEMPLATE">已使用 {points} 點</string>
@@ -3890,7 +3915,14 @@
     <string name="pwp_total_due_today_TEMPLATE">現在應付總額：{money}</string>
 
     <!-- Package Flight Overview -->
+    <string name="package_flight_overview_urgency_message_TEMPLATE">剩下 {seats} 個座位</string>
     <string name="package_flight_overview_select_flight">選擇此班機</string>
+    <string name="package_flight_overview_bundle_total_label">套裝行程總價</string>
+    <string name="package_flight_overview_per_person_TEMPLATE">{money}/人</string>
+    <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
+    <string name="package_flight_overview_layover_in_TEMPLATE">中途停留：({airportcode}) {city}</string>
+    <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
+    <string name="package_flight_overview_total_duration_TEMPLATE">轉機等待時間：{duration}</string>
 
     <!--Rail search screen title-->
     <string name="trains">火車</string>
