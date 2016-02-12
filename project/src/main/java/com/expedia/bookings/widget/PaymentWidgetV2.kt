@@ -391,6 +391,12 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
         payWithPointsViewModel.userSignedIn.onNext(true)
     }
 
+    override fun onLogout() {
+        super.onLogout()
+        paymentButton.selectPayment.setText(R.string.select_saved_cards)
+        updatePaymentButtonLeftDrawable(creditCardIcon)
+    }
+
     fun areFilledInCardDetailsCompleteAndValid(): Boolean{
         return (sectionBillingInfo.billingInfo != null && isFilled && sectionBillingInfo.performValidation() && sectionLocation.performValidation())
     }
