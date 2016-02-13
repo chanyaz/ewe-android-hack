@@ -15,6 +15,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeText
 import com.expedia.vm.HotelSearchViewModel
+import com.expedia.vm.HotelTravelerParams
 import com.expedia.vm.HotelTravelerPickerViewModel
 import com.mobiata.android.time.util.JodaUtils
 import com.mobiata.android.time.widget.CalendarPicker
@@ -22,12 +23,13 @@ import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 
 public class CalendarTravelerWidgetV2(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
-
+    var oldTravelerData: HotelTravelerParams? = null;
+    var oldCalendarSelection: Pair<LocalDate, LocalDate>? = null;
     val travelerText: TextView by bindView(R.id.traveler_label)
     val calendarText: TextView by bindView(R.id.calendar_label)
     val hotelSearchViewModelSubject = BehaviorSubject.create<HotelSearchViewModel>()
     val travelerDialogView: View by lazy {
-        val view  = LayoutInflater.from(context).inflate(R.layout.widget_hotel_traveler_search, null)
+        val view = LayoutInflater.from(context).inflate(R.layout.widget_hotel_traveler_search, null)
         view
     }
 
@@ -45,10 +47,21 @@ public class CalendarTravelerWidgetV2(context: Context, attrs: AttributeSet?) : 
         builder.setView(travelerDialogView)
         builder.setTitle(R.string.select_traveler_title)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
+            oldTravelerData = null
             dialog.dismiss()
-
         })
-        builder.create()
+        val dialog: AlertDialog = builder.create()
+        dialog.setOnShowListener {
+            oldTravelerData = traveler.viewmodel.travelerParamsObservable.value
+        }
+        dialog.setOnDismissListener {
+            if (oldTravelerData != null) {
+                //if it's not null, the user dismissed the dialog, otherwise we clear it on Done
+                traveler.viewmodel.travelerParamsObservable.onNext(oldTravelerData)
+                oldTravelerData = null
+            }
+        }
+        dialog
     }
 
     val calendarDialogView: View by lazy {
@@ -72,6 +85,9 @@ public class CalendarTravelerWidgetV2(context: Context, attrs: AttributeSet?) : 
             } else {
                 hotelSearchViewModelSubject.value.datesObserver.onNext(Pair(start, end))
             }
+
+            //only enable the done button if at least start is selected - we'll default end date if necessary
+            calendarDialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = start != null
         }
         calendarPickerView.setYearMonthDisplayedChangedListener {
             calendarPickerView.hideToolTip()
@@ -90,21 +106,34 @@ public class CalendarTravelerWidgetV2(context: Context, attrs: AttributeSet?) : 
         calendarPickerView
     }
 
-
     val calendarDialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context)
         calendar
         builder.setView(calendarDialogView)
         builder.setTitle(R.string.select_dates)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
+            oldCalendarSelection = null
             calendar.hideToolTip()
             dialog.dismiss()
         })
-        builder.create()
-    }
+        var dialog: AlertDialog = builder.create()
+        dialog.setOnShowListener() {
+            calendar.visibility = VISIBLE
+            calendarDialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = calendar.startDate != null
+            oldCalendarSelection = Pair(calendar.startDate, calendar.endDate)
+        }
+        dialog.setOnDismissListener {
+            if (oldCalendarSelection != null && oldCalendarSelection?.first != null) {
+                calendar.visibility = GONE // ensures tooltip does not reopen
+                //if it's not null, the user dismissed the dialog, otherwise we clear it on Done
+                hotelSearchViewModelSubject.value.datesObserver.onNext(oldCalendarSelection)
+                calendar.setSelectedDates(oldCalendarSelection?.first, oldCalendarSelection?.second)
+                oldCalendarSelection = null
+            }
+            calendar.hideToolTip()
+        }
 
-    override fun onFinishInflate() {
-        super.onFinishInflate()
+        dialog
     }
 
     init {

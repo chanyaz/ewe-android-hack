@@ -68,7 +68,7 @@ class HotelSearchViewModel(val context: Context) {
             paramsBuilder.checkOut(end)
         }
 
-        dateTextObservable.onNext(computeDateText(start, end))
+        dateTextObservable.onNext(HotelSearchViewModel.computeDateText(context, start, end))
 
         calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
 
@@ -116,30 +116,6 @@ class HotelSearchViewModel(val context: Context) {
     }
 
     // Helpers
-    private fun computeDateRangeText(start: LocalDate?, end: LocalDate?): String? {
-        if (start == null && end == null) {
-            return context.getResources().getString(R.string.select_dates)
-        } else if (end == null) {
-            return context.getResources().getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
-        } else {
-            return context.getResources().getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
-        }
-    }
-
-    private fun computeDateText(start: LocalDate?, end: LocalDate?): CharSequence {
-        val dateRangeText = computeDateRangeText(start, end)
-        val sb = SpannableBuilder()
-        sb.append(dateRangeText)
-
-        if (start != null && end != null) {
-            val nightCount = JodaUtils.daysBetween(start, end)
-            val nightsString = context.getResources().getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
-            sb.append(" ");
-            sb.append(context.getResources().getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
-        }
-        return sb.build()
-    }
-
     private fun computeTopTextForToolTip(start: LocalDate?, end: LocalDate?): String {
         if (start == null && end == null) {
             return context.getResources().getString(R.string.select_dates_proper_case)
@@ -164,6 +140,33 @@ class HotelSearchViewModel(val context: Context) {
                 AbacusUtils.EBAndroidAppHotelRecentSearchTest)
         userBucketedObservable.onNext(isUserBucketedForTest)
         externalSearchParamsObservable.onNext(!intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS) && !isUserBucketedForTest)
+    }
+
+    companion object {
+        fun computeDateText(context : Context, start: LocalDate?, end: LocalDate?): CharSequence {
+            val dateRangeText = computeDateRangeText(context, start, end)
+            val sb = SpannableBuilder()
+            sb.append(dateRangeText)
+
+            if (start != null && end != null) {
+                val nightCount = JodaUtils.daysBetween(start, end)
+                val nightsString = context.getResources().getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
+                sb.append("\n");
+                sb.append(context.getResources().getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
+            }
+            return sb.build()
+        }
+
+        // Helpers
+        private fun computeDateRangeText(context: Context, start: LocalDate?, end: LocalDate?): String? {
+            if (start == null && end == null) {
+                return context.getResources().getString(R.string.select_dates)
+            } else if (end == null) {
+                return context.getResources().getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
+            } else {
+                return context.getResources().getString(R.string.calendar_instructions_date_range_TEMPLATE, DateUtils.localDateToMMMd(start), DateUtils.localDateToMMMd(end))
+            }
+        }
     }
 }
 
