@@ -91,6 +91,7 @@ public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: L
 
 public fun convertPackageToSearchParams(packageParams: PackageSearchParams, maxStay: Int): HotelSearchParams {
     val builder = HotelSearchParams.Builder(maxStay).suggestion(packageParams.destination)
-            .checkIn(packageParams.checkIn).checkOut(packageParams.checkOut).forPackage(true)
+            .checkIn(packageParams.checkIn).checkOut(packageParams.checkOut).adults(packageParams.adults)
+            .children(packageParams.children).forPackage(true)
     return builder.build()
 }

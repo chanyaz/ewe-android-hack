@@ -43,6 +43,29 @@ public class PackageScreen {
 		return onView(withId(R.id.select_date));
 	}
 
+	public static ViewInteraction selectGuestsButton() {
+		return onView(withId(R.id.select_traveler));
+	}
+
+	public static void setGuests(int adults, int children) {
+		//Minimum 1 ADT selected
+		for (int i = 1; i < adults; i++) {
+			incrementAdultsButton();
+		}
+
+		for (int i = 0; i < children; i++) {
+			incrementChildrenButton();
+		}
+	}
+
+	public static void incrementChildrenButton() {
+		onView(withId(R.id.children_plus)).perform(click());
+	}
+
+	public static void incrementAdultsButton() {
+		onView(withId(R.id.adults_plus)).perform(click());
+	}
+
 	public static ViewInteraction destination() {
 		return onView(allOf(isDescendantOfA(withId(R.id.flying_from)), withId(R.id.location_edit_text)));
 	}
@@ -96,14 +119,11 @@ public class PackageScreen {
 	}
 
 	public static void searchPackage() throws Throwable {
-		PackageScreen.destination().perform(typeText("SFO"));
-		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
-		PackageScreen.arrival().perform(typeText("DTW"));
-		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
-		LocalDate startDate = LocalDate.now().plusDays(3);
-		LocalDate endDate = LocalDate.now().plusDays(8);
-		PackageScreen.selectDates(startDate, endDate);
-		PackageScreen.searchButton().perform(click());
+		search(1, 0);
+	}
+
+	public static void searchPackageFor(int adults, int children) throws Throwable {
+		search(adults, children);
 	}
 
 	public static ViewInteraction bundleToolbar() {
@@ -203,5 +223,18 @@ public class PackageScreen {
 		BillingAddressScreen.typeTextPostalCode("94105");
 		CheckoutViewModel.clickDone();
 		Common.delay(2);
+	}
+
+	private static void search(int adults, int children) throws Throwable {
+		PackageScreen.destination().perform(typeText("SFO"));
+		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		PackageScreen.arrival().perform(typeText("DTW"));
+		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
+		LocalDate startDate = LocalDate.now().plusDays(3);
+		LocalDate endDate = LocalDate.now().plusDays(8);
+		PackageScreen.selectDates(startDate, endDate);
+		PackageScreen.selectGuestsButton().perform(click());
+		PackageScreen.setGuests(adults, children);
+		PackageScreen.searchButton().perform(click());
 	}
 }
