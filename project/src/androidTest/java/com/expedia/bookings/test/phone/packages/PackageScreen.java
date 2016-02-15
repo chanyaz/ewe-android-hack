@@ -163,6 +163,11 @@ public class PackageScreen {
 	public static ViewInteraction inboundFLight() {
 		return onView(withId(R.id.package_bundle_inbound_flight_widget));
 	}
+
+	public static ViewInteraction outboundFlightDetails() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
+			withId(R.id.package_flight_details_icon)));
+	}
 	
 	public static ViewInteraction flightList() {
 		return onView(withId(R.id.list_view));
