@@ -24,6 +24,7 @@ import com.expedia.bookings.widget.PackageBundleFlightWidget
 import com.expedia.bookings.widget.PackageBundleHotelWidget
 import com.expedia.bookings.widget.PackageBundlePriceWidget
 import com.expedia.bookings.widget.PackageCheckoutPresenter
+import com.expedia.bookings.widget.PackagePaymentWidget
 import com.expedia.bookings.widget.PriceChangeWidget
 import com.expedia.bookings.widget.TravelerContactDetailsWidget
 import com.expedia.bookings.widget.packages.CheckoutOverviewHeader
@@ -133,7 +134,11 @@ public class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         checkoutPresenter.paymentWidget.viewmodel.editText.subscribe(toolbar.viewModel.editText)
         checkoutPresenter.paymentWidget.viewmodel.enableMenu.subscribe(toolbar.viewModel.enableMenu)
         checkoutPresenter.paymentWidget.viewmodel.enableMenuDone.subscribe(toolbar.viewModel.enableMenuDone)
-        toolbar.viewModel.doneClicked.subscribe(checkoutPresenter.paymentWidget.viewmodel.doneClicked)
+        toolbar.viewModel.doneClicked.subscribe {
+            if (checkoutPresenter.currentState == PackagePaymentWidget::class.java.name) {
+                checkoutPresenter.paymentWidget.viewmodel.doneClicked.onNext(Unit)
+            }
+        }
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
             val color = ContextCompat.getColor(context, R.color.packages_primary_color)

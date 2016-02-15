@@ -32,6 +32,7 @@ import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.HotelV2Tracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.vm.CheckoutToolbarViewModel;
@@ -147,7 +148,25 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		if (paymentInfoCardView instanceof PaymentWidgetV2) {
 			paymentInfoCardView.getViewmodel().getUserLogin().subscribe(((PaymentWidgetV2) paymentInfoCardView).payWithPointsViewModel.getUserSignedIn());
 		}
-		toolbar.getViewModel().getDoneClicked().subscribe(paymentInfoCardView.getViewmodel().getDoneClicked());
+		toolbar.getViewModel().getDoneClicked().subscribe(new Observer<Unit>() {
+			@Override
+			public void onCompleted() {
+
+			}
+
+			@Override
+			public void onError(Throwable e) {
+
+			}
+
+			@Override
+			public void onNext(Unit unit) {
+				if (Strings.equals(getCurrentState(), PaymentWidget.class.getName()) || Strings.equals(getCurrentState(), PaymentWidgetV2.class.getName())) {
+					paymentInfoCardView.getViewmodel().getDoneClicked().onNext(Unit.INSTANCE);
+				}
+			}
+		});
+
 		slideWidget.addSlideToListener(this);
 
 		loginWidget.setListener(this);
@@ -247,12 +266,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		toolbar.getViewModel().getExpanded().subscribe(new Observer<ExpandableCardView>() {
 			@Override
 			public void onCompleted() {
-
 			}
 
 			@Override
 			public void onError(Throwable e) {
-
 			}
 
 			@Override
