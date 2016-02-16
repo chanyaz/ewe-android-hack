@@ -160,12 +160,14 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 			"9:00 am - 11:12 am");
 		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 0, R.id.flight_duration_text_view, "5h 12m (Nonstop)");
 		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 0, R.id.price_text_view, "+$0");
+		assertViewWithIdIsDisplayedAtPosition(PackageScreen.flightList(), 0, R.id.custom_flight_layover_widget);
 	}
 
 	private void assertFlightInOutbound() {
 		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 0, R.id.flight_time_detail_text_view, "1:45 pm - 10:00 pm");
 		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 0, R.id.flight_duration_text_view, "5h 15m (Nonstop)");
 		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 0, R.id.price_text_view, "+$0");
+		assertViewWithIdIsDisplayedAtPosition(PackageScreen.flightList(), 0, R.id.custom_flight_layover_widget);
 	}
 
 	private void assertCheckoutOverview() {
@@ -217,4 +219,9 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 				CoreMatchers.allOf(withId(id), isDisplayed(), withText(text)))));
 	}
 
+	private void assertViewWithIdIsDisplayedAtPosition(ViewInteraction viewInteraction, int position, int id) {
+		viewInteraction.check(
+			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
+				CoreMatchers.allOf(withId(id), isDisplayed()))));
+	}
 }
