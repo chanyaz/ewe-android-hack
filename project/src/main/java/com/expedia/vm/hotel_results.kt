@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.res.Resources
 import android.location.Location
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.cars.BaseApiResponse
 import com.expedia.bookings.data.hotels.Hotel
@@ -13,23 +15,28 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
-import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.widget.createHotelMarkerIcon
+import com.expedia.bookings.widget.MapItem
 import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
-import com.google.android.gms.maps.model.Marker
-import com.google.maps.android.ui.IconGenerator
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import kotlin.collections.emptyList
+import kotlin.collections.filter
+import kotlin.collections.first
+import kotlin.collections.firstOrNull
+import kotlin.collections.isNotEmpty
+import kotlin.collections.sortedBy
+import kotlin.collections.sortedByDescending
+import kotlin.properties.Delegates
 
 public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?, private val lob: LineOfBusiness) {
 
@@ -148,24 +155,26 @@ public class HotelResultsPricingStructureHeaderViewModel(private val resources: 
     }
 }
 
-public open class HotelResultsMapViewModel(val context: Context, val currentLocation: Location, val factory: IconGenerator) {
+public open class HotelResultsMapViewModel(val context: Context, val currentLocation: Location) {
+    val mapInitializedObservable = PublishSubject.create<Unit>()
+    val createMarkersObservable = PublishSubject.create<Unit>()
+    val clusterChangeSubject = PublishSubject.create<Unit>()
+    var isClusteringEnabled by Delegates.notNull<Boolean>()
 
     var hotels: List<Hotel> = emptyList()
 
     //inputs
-    val hotelResultsSubject = PublishSubject.create<HotelSearchResponse>()
+    val hotelResultsSubject = BehaviorSubject.create<HotelSearchResponse>()
     val mapResultsSubject = PublishSubject.create<HotelSearchResponse>()
-    val mapPinSelectSubject = PublishSubject.create<Marker>()
-    val carouselSwipedObservable = PublishSubject.create<Marker>()
+    val mapPinSelectSubject = BehaviorSubject.create<MapItem>()
+    val carouselSwipedObservable = PublishSubject.create<MapItem>()
     val mapBoundsSubject = BehaviorSubject.create<LatLng>()
 
     //outputs
-    val markersObservable = PublishSubject.create<List<Hotel>>()
-    val newBoundsObservable = BehaviorSubject.create<LatLngBounds>()
+    val newBoundsObservable = PublishSubject.create<LatLngBounds>()
     val sortedHotelsObservable = PublishSubject.create<List<Hotel>>()
-    val unselectedMarker = PublishSubject.create<Pair<Marker?, Hotel>>()
-    val selectMarker = BehaviorSubject.create<Pair<Marker?, Hotel>>()
-    val soldOutMarker = BehaviorSubject.create<Pair<Marker?, Hotel>>()
+    val unselectedMarker = PublishSubject.create<Pair<MapItem?, Hotel>>()
+    val selectMarker = BehaviorSubject.create<Pair<MapItem, Hotel>>()
     val soldOutHotel = PublishSubject.create<Hotel>()
 
     val hotelSoldOutWithIdObserver = endlessObserver<String> { soldOutHotelId ->
@@ -177,6 +186,13 @@ public open class HotelResultsMapViewModel(val context: Context, val currentLoca
     }
 
     init {
+        isClusteringEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHSRMapClusteringTest)
+
+        createMarkersObservable.subscribe {
+            val response = hotelResultsSubject.value
+            if (response != null) newBoundsObservable.onNext(getMapBounds(response))
+        }
+
         mapBoundsSubject.subscribe {
             // Map bounds has changed(Search this area or map was animated to a region),
             // sort nearest hotels from center of screen
@@ -185,7 +201,7 @@ public open class HotelResultsMapViewModel(val context: Context, val currentLoca
             location.latitude = currentRegion.latitude
             location.longitude = currentRegion.longitude
             val sortedHotels = sortByLocation(location, hotels)
-            markersObservable.onNext(sortedHotels)
+            sortedHotelsObservable.onNext(sortedHotels)
         }
 
         hotelResultsSubject.subscribe { response ->
@@ -197,19 +213,7 @@ public open class HotelResultsMapViewModel(val context: Context, val currentLoca
 
         mapResultsSubject.subscribe { response ->
             hotels = response.hotelList
-            markersObservable.onNext(hotels)
-        }
-
-        mapPinSelectSubject.subscribe {
-            // Map pin was click, sort nearest hotels from pin
-            val hotel = getHotelWithMarker(it)
-            val hotelLocation = Location("selected")
-            hotelLocation.latitude = hotel.latitude
-            hotelLocation.longitude = hotel.longitude
-            val sortedHotels = sortByLocation(hotelLocation, hotels)
-
-            sortedHotelsObservable.onNext(sortedHotels)
-            HotelV2Tracking().trackHotelV2MapTapPin()
+            sortedHotelsObservable.onNext(hotels)
         }
 
         carouselSwipedObservable.subscribe {
@@ -217,34 +221,9 @@ public open class HotelResultsMapViewModel(val context: Context, val currentLoca
             if (previousMarker != null) unselectedMarker.onNext(previousMarker)
             selectMarker.onNext(Pair(it, getHotelWithMarker(it)))
         }
-
-        soldOutMarker.subscribe {
-            if (it != null) {
-                val marker = it.first
-                val hotel = it.second
-                marker?.setIcon(createHotelMarkerIcon(context, factory, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
-            }
-        }
-
-        unselectedMarker.subscribe {
-            if (it != null) {
-                val marker = it.first
-                val hotel = it.second
-                marker?.setIcon(createHotelMarkerIcon(context, factory, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
-            }
-        }
-
-        selectMarker.subscribe {
-            if (it != null) {
-                val marker = it.first
-                val hotel = it.second
-                marker?.setIcon(createHotelMarkerIcon(context, factory, hotel, true, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut))
-                marker?.showInfoWindow()
-            }
-        }
     }
 
-    private fun getHotelWithMarker(marker: Marker?): Hotel {
+    private fun getHotelWithMarker(marker: MapItem?): Hotel {
         val hotelId = marker?.title
         val hotel = hotels.filter { it.hotelId == hotelId }.first()
         return hotel
