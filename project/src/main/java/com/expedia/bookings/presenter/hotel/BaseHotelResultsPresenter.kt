@@ -9,7 +9,6 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.TransitionDrawable
 import android.location.Location
-import android.os.Handler
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -275,7 +274,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
     init {
         inflate()
         mapViewModel = HotelResultsMapViewModel(context, lastBestLocationSafe())
-        mapViewModel.clusterChangeSubject.subscribe{
+        mapViewModel.clusterChangeSubject.subscribe {
             updateCarouselItems()
         }
         headerClickedSubject.subscribe(mapSelectedObserver)
@@ -504,7 +503,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
 
         googleMap?.setOnCameraChangeListener() { position ->
             synchronized(currentZoom) {
-                if (mapViewModel.isClusteringEnabled && currentZoom != position.zoom) {
+                if (mapViewModel.isClusteringEnabled && Math.abs(currentZoom) != Math.abs(position.zoom)) {
                     val selectedHotels = mapItems.filter { it.isSelected }.map { it.hotel }
                     (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(selectedHotels)
                     clusterMarkers()
