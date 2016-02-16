@@ -4,7 +4,7 @@ import org.joda.time.LocalDate;
 
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
-import com.expedia.bookings.test.phone.newhotels.HotelScreen;
+import com.expedia.bookings.test.phone.hotels.HotelScreen;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;

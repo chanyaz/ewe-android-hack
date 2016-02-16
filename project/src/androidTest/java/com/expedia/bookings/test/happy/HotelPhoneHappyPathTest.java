@@ -1,72 +1,83 @@
 package com.expedia.bookings.test.happy;
 
-import org.joda.time.LocalDate;
+import android.support.test.espresso.Espresso;
 
-import com.expedia.bookings.test.espresso.PhoneTestCase;
-import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.CommonTravelerInformationScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsCheckoutScreen;
-import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsConfirmationScreen;
-import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsDetailsScreen;
-import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsRoomsRatesScreen;
-import com.expedia.bookings.test.phone.pagemodels.hotels.HotelsSearchScreen;
+import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.HotelTestCase;
+import com.expedia.bookings.test.phone.hotels.HotelScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.utils.MockModeShim;
+import com.mobiata.mocke3.ExpediaDispatcher;
 
-public class HotelPhoneHappyPathTest extends PhoneTestCase {
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
-	public void testBookHotel() throws Throwable {
-		screenshot("Launch");
-		LaunchScreen.launchHotels();
-		HotelsSearchScreen.clickSearchEditText();
-		HotelsSearchScreen.clickToClearSearchEditText();
-		HotelsSearchScreen.enterSearchText("SFO");
-		screenshot("Search_City_Entered");
-		HotelsSearchScreen.clickSuggestionWithName(getActivity(), "San Francisco, CA (SFO-San Francisco Intl.)");
-		LocalDate startDate = LocalDate.now().plusDays(35);
-		LocalDate endDate = LocalDate.now().plusDays(40);
-		HotelsSearchScreen.clickOnCalendarButton();
-		HotelsSearchScreen.clickDate(startDate, endDate);
-		screenshot("Search");
-		HotelsSearchScreen.clickOnGuestsButton();
-		HotelsSearchScreen.guestPicker().clickOnSearchButton();
-		screenshot("Search_Results");
-		HotelsSearchScreen.clickHotelWithName("happypath");
-		screenshot("Details");
-		HotelsDetailsScreen.clickSelectButton();
-		screenshot("RoomsAndRates");
-		HotelsRoomsRatesScreen.selectRoomItem(0);
-		HotelsCheckoutScreen.clickCheckoutButton();
+public class HotelPhoneHappyPathTest extends HotelTestCase {
 
-		HotelsCheckoutScreen.clickGuestDetails();
-		screenshot("Checkout_Traveler");
-		CommonTravelerInformationScreen.enterFirstName("Mobiata");
-		CommonTravelerInformationScreen.enterLastName("Auto");
-		CommonTravelerInformationScreen.enterPhoneNumber("1112223333");
-		CommonTravelerInformationScreen.enterEmailAddress("mobiataauto@gmail.com");
-		screenshot("Checkout_Traveler_Entered");
-		CommonTravelerInformationScreen.clickDoneButton();
+	public void testHotelPhoneHappyPath() throws Throwable {
+		HotelScreen.doGenericSearch();
+		HotelScreen.selectHotel();
+		reviews();
+		launchFullMap();
+		HotelScreen.selectRoom();
 
-		HotelsCheckoutScreen.clickSelectPaymentButton();
-		screenshot("Checkout_Payment");
-		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
-		Common.closeSoftKeyboard(CardInfoScreen.creditCardNumberEditText());
-		CardInfoScreen.clickOnExpirationDateButton();
-		CardInfoScreen.clickMonthUpButton();
-		CardInfoScreen.clickYearUpButton();
-		CardInfoScreen.clickSetButton();
-		CardInfoScreen.typeTextPostalCode("94015");
-		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
-		screenshot("Checkout_Payment_Entered");
-		CardInfoScreen.clickOnDoneButton();
+		CheckoutViewModel.clickDone();
+		CheckoutViewModel.enterTravelerInfo();
 
-		screenshot("Slide_To_Purchase");
-		HotelsCheckoutScreen.slideToCheckout();
-		CVVEntryScreen.enterCVV("111");
-		screenshot("CVV");
-		CVVEntryScreen.clickBookButton();
-		screenshot("Confirmation");
-		HotelsConfirmationScreen.clickDoneButton();
+		CheckoutViewModel.enterPaymentInfoHotels();
+		CheckoutViewModel.performSlideToPurchase(false);
+		HotelScreen.enterCVVAndBook();
+		assertICanSeeItinNumber();
+		verifyTravelAdTracking();
+	}
+
+	public void testNewHotelPhoneHappyPathLoggedInCustomer() throws Throwable {
+		HotelScreen.doGenericSearch();
+		HotelScreen.selectHotel();
+		HotelScreen.selectRoom();
+		CheckoutViewModel.clickDone();
+
+		HotelScreen.doLogin();
+		CheckoutViewModel.selectStoredTraveler();
+		Common.delay(1);
+
+		// checkout
+		CheckoutViewModel.selectStoredCard(true);
+		CheckoutViewModel.clickDone();
+		CheckoutViewModel.performSlideToPurchase(true);
+
+		assertICanSeeItinNumber();
+	}
+
+	private void assertICanSeeItinNumber() throws Throwable {
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.itin_text_view, "Itinerary #174113329733");
+	}
+
+	private void reviews() throws Throwable {
+		HotelScreen.clickRatingContainer();
+		Common.delay(1);
+		onView(withText(R.string.user_review_sort_button_critical)).perform(click());
+		onView(withText(R.string.user_review_sort_button_favorable)).perform(click());
+		onView(withText(R.string.user_review_sort_button_recent)).perform(click());
+		// TO-DO: Change to close button once the functionality is implemented.
+		Espresso.pressBack();
+	}
+
+	private void launchFullMap() throws Throwable {
+		Common.delay(1);
+		HotelScreen.clickDetailsMiniMap();
+		Common.delay(1);
+		HotelScreen.clickSelectARoomInFullMap();
+	}
+
+	private void verifyTravelAdTracking() {
+		ExpediaDispatcher dispatcher = MockModeShim.getDispatcher();
+		assertEquals(1, dispatcher.numOfTravelAdRequests("/travel"));
+		assertEquals(1, dispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdImpression"));
+		assertEquals(1, dispatcher.numOfTravelAdRequests("/TravelAdsService/v3/Hotels/TravelAdClick"));
+		assertEquals(1, dispatcher.numOfTravelAdRequests("/ads/hooklogic"));
 	}
 }
