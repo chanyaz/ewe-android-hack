@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.newhotels;
 
+import java.util.concurrent.TimeUnit;
+
 import org.hamcrest.Matcher;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -18,8 +20,6 @@ import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
-
-import java.util.concurrent.TimeUnit;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -137,6 +137,20 @@ public class HotelScreen {
 
 	public static ViewInteraction commonAmenitiesText() {
 		return onView(withId(R.id.common_amenities_text));
+	}
+
+	public static ViewInteraction expandedFreeCancellation() {
+		return onView(
+			allOf(withId(R.id.expanded_free_cancellation_text_view),
+				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
+				hasSibling(allOf(withId(R.id.view_room_button), allOf(withText("Book"))))));
+	}
+
+	public static ViewInteraction expandedBedType() {
+		return onView(
+			allOf(withId(R.id.expanded_bed_type_text_view),
+				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
+				hasSibling(allOf(withId(R.id.view_room_button), allOf(withText("Book"))))));
 	}
 
 	public static ViewInteraction renovationContainer() {
@@ -269,8 +283,8 @@ public class HotelScreen {
 		return onView(
 			allOf(
 				withId(R.id.view_room_button), allOf(withText("View Room")),
-				isDescendantOfA(allOf(withId(R.id.collapsed_container),
-					withChild(allOf(withId(R.id.collapsed_bed_type_text_view), withText(roomName))))),
+				hasSibling(allOf(withId(R.id.parent_room_type_and_price_container),
+					withChild(allOf(withId(R.id.room_type_text_view), withText(roomName))))),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 		);
 	}
