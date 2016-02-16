@@ -335,7 +335,7 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
 
             // calculate trip total price
             dueNowAmount.onNext(it.dueNowAmount.formattedMoney)
-            tripTotalPrice.onNext(rate.displayTotalPrice.formattedMoney)
+            tripTotalPrice.onNext(rate.displayTotalPrice.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
 
             showFeesPaidAtHotel.onNext(isResortCase.value)
             feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
