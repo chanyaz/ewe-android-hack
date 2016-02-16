@@ -37,6 +37,7 @@ DummyFiletoHandleKotlinLintError {
 		R.drawable.room_non_refundable,
 		R.drawable.ic_amenity_pool,
 		R.drawable.ic_amenity_pool,
+		R.layout.package_toolbar_filter_item,
 		R.drawable.ic_amenity_internet,
 		R.drawable.ic_amenity_breakfast,
 		R.drawable.ic_amenity_parking,

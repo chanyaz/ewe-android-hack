@@ -18,7 +18,6 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.text.format.DateUtils
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
@@ -29,7 +28,6 @@ import android.view.animation.LinearInterpolator
 import android.widget.Button
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
@@ -59,9 +57,6 @@ import com.expedia.bookings.widget.createHotelMarkerIcon
 import com.expedia.util.endlessObserver
 import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeInverseVisibility
-import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.HotelResultsMapViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -103,7 +98,6 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
     val mapCarouselRecycler: HotelCarouselRecycler by bindView(R.id.hotel_carousel)
     val fab: FloatingActionButton by bindView(R.id.fab)
     var adapter: HotelListAdapter by Delegates.notNull()
-    val filterBtn: LinearLayout by bindView(R.id.filter_btn)
     open val filterBtnWithCountWidget: FilterButtonWithCountWidget? = null
     open val searchThisArea: Button? = null
     var isMapReady = false
@@ -125,10 +119,11 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
 
     val hotelSelectedSubject = PublishSubject.create<Hotel>()
     val headerClickedSubject = PublishSubject.create<Unit>()
+    val hideBundlePriceOverviewSubject = PublishSubject.create<Boolean>()
 
     var googleMap: GoogleMap? = null
 
-    val filterMenuItem by lazy { toolbar.menu.findItem(R.id.menu_filter) }
+    open val filterMenuItem by lazy { toolbar.menu.findItem(R.id.menu_filter) }
     val searchMenuItem by lazy { toolbar.menu.findItem(R.id.menu_open_search) }
 
     var filterCountText: TextView by Delegates.notNull()
@@ -415,16 +410,14 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
             }
         }
 
-        inflateAndSetupToolbarMenu()
+        toolbar.inflateMenu(R.menu.menu_filter_item)
+
         toolbar.setNavigationOnClickListener { view ->
             val activity = context as AppCompatActivity
             activity.onBackPressed()
         }
 
         filterView.viewmodel.filterCountObservable.subscribe(filterCountObserver)
-        filterView.viewmodel.filterCountObservable.map { it.toString() }.subscribeText(filterCountText)
-        filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeVisibility(filterCountText)
-        filterView.viewmodel.filterCountObservable.map { it > 0 }.subscribeInverseVisibility(filterPlaceholderImageView)
 
         val fabDrawable: TransitionDrawable? = (fab.drawable as? TransitionDrawable)
         // Enabling crossfade prevents the icon ending up with a weird mishmash of both icons.
@@ -437,12 +430,6 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                 show(ResultsList(), Presenter.FLAG_CLEAR_BACKSTACK)
                 HotelV2Tracking().trackHotelV2MapToList()
             }
-        }
-
-        filterBtn.setOnClickListener { view ->
-            show(ResultsFilter())
-            filterView.viewmodel.sortContainerObservable.onNext(false)
-            filterView.toolbar.title = resources.getString(R.string.filter)
         }
 
         filterBtnWithCountWidget?.setOnClickListener {
@@ -463,17 +450,6 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
 
     public fun showDefault() {
         show(ResultsList())
-    }
-
-    private fun inflateAndSetupToolbarMenu() {
-        toolbar.inflateMenu(R.menu.menu_filter_item)
-
-        val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
-        filterCountText = toolbarFilterItemActionView.findViewById(R.id.filter_count_text) as TextView
-        filterPlaceholderImageView = toolbarFilterItemActionView.findViewById(R.id.filter_placeholder_icon) as ImageView
-        filterPlaceholderImageView.setImageDrawable(filterPlaceholderIcon)
-
-        toolbar.menu.findItem(R.id.menu_filter).setActionView(toolbarFilterItemActionView)
     }
 
     override fun onMapReady(googleMap: GoogleMap?) {
@@ -848,6 +824,9 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                         createMarkers()
                     }
                 }
+                hideBundlePriceOverview(!forward)
+                toolbarTitle.translationY = 0f
+                toolbarSubtitle.translationY = 0f
             }
         }
 
@@ -964,11 +943,12 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             filterView.visibility = if (forward) View.VISIBLE else View.GONE
-            filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
+            filterView.translationY = (if (forward) 0 else filterView.getHeight()).toFloat()
             if (!forward && !fabShouldBeHiddenOnList()) {
                 fab.visibility = View.VISIBLE
                 getFabAnimIn().start()
             }
+            hideBundlePriceOverview(forward)
         }
     }
 
@@ -1078,6 +1058,14 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         set.interpolator = AccelerateInterpolator()
         set.setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION)
         return set
+    }
+
+    open fun updateFilterButtonText(forward: Boolean) {
+        //
+    }
+
+    open fun hideBundlePriceOverview(forward: Boolean) {
+        //
     }
 
     // Classes for state
