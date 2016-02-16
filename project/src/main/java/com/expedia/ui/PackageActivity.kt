@@ -31,20 +31,20 @@ public class PackageActivity : AppCompatActivity() {
         when (requestCode) {
             Constants.HOTEL_REQUEST_CODE -> when (resultCode) {
                 Activity.RESULT_OK -> {
-                    packagePresenter.bundlePresenter.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
-                    packagePresenter.bundlePresenter.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
+                    packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
+                    packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
                 }
             }
             Constants.PACKAGE_FLIGHT_DEPARTURE_REQUEST_CODE -> when (resultCode) {
                 Activity.RESULT_OK -> {
-                    packagePresenter.bundlePresenter.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
-                    packagePresenter.bundlePresenter.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+                    packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
+                    packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
                 }
             }
 
             Constants.PACKAGE_FLIGHT_ARRIVAL_REQUEST_CODE -> when (resultCode) {
                 Activity.RESULT_OK -> {
-                    packagePresenter.bundlePresenter.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+                    packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
 
                     val params = PackageCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
                     if (params.isValid)
