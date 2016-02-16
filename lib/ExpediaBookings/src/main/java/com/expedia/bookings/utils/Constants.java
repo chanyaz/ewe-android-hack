@@ -13,4 +13,5 @@ public class Constants {
 	public static final String PACKAGE_TRIP_TYPE = "2"; // 2 mean BYOT (build your own trip)
 	public static final String NUMBER_OF_ROOMS = "1";
 	public static final String PACKAGE_HOTEL_DELTA_PRICE_TYPE = "per night all travelers";
+	public static final String CLIENT_LOG_MATERIAL_HOTEL_SEARCH = "Material_Hotel_Search";
 }

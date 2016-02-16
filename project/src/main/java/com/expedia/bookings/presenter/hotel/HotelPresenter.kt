@@ -15,6 +15,8 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.ApiError
+import com.expedia.bookings.data.clientlog.ClientLog
+import com.expedia.bookings.data.clientlog.EmptyResponse
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -23,8 +25,10 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
+import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
@@ -49,12 +53,12 @@ import com.expedia.vm.HotelResultsViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.google.android.gms.maps.MapView
+import org.joda.time.DateTime
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.collections.count
 import kotlin.properties.Delegates
 
 public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -62,8 +66,13 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     lateinit var hotelServices: HotelServices
         @Inject set
 
+    lateinit var clientLogServices: ClientLogServices
+        @Inject set
+
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
+
+    val clientLogBuilder = ClientLog.Builder()
     val isUserBucketedSearchScreenTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest)
     var hotelDetailViewModel: HotelDetailViewModel by Delegates.notNull()
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
@@ -96,7 +105,11 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
         presenter.mapView.getMapAsync(presenter)
-        presenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices, LineOfBusiness.HOTELSV2)
+        presenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices, LineOfBusiness.HOTELSV2, clientLogBuilder)
+        presenter.viewmodel.hotelResultsObservable.subscribe {
+            clientLogBuilder.requestToUser(DateTime.now())
+            clientLogServices.log(clientLogBuilder.build())
+        }
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
         presenter.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
         presenter.viewmodel.errorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
@@ -242,6 +255,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         checkoutDialog.setMessage(resources.getString(R.string.booking_loading))
         checkoutDialog.setCancelable(false)
         checkoutDialog.isIndeterminate = true
+        clientLogBuilder.pageName(Constants.CLIENT_LOG_MATERIAL_HOTEL_SEARCH)
     }
 
     val defaultTransitionObserver: Observer<Screen> = endlessObserver {

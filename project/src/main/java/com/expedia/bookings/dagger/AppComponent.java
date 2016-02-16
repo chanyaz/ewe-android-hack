@@ -8,6 +8,7 @@ import com.expedia.account.server.ExpediaAccountApi;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.AbacusServices;
+import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.squareup.okhttp.OkHttpClient;
 import dagger.Component;
@@ -26,5 +27,6 @@ public interface AppComponent {
 	PersistentCookieManager persistentCookieManager();
 	RestAdapter.LogLevel logLevel();
 	AbacusServices abacus();
+	ClientLogServices clientLog();
 	ExpediaAccountApi accountApi();
 }
