@@ -84,8 +84,8 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
         @Inject set
 
     override fun creditCardClicked() {
-        presenter.show(CreditCardWidgetExpandedState())
-        paymentWidgetViewModel.navigatingOutOfPaymentOptions.onNext(Unit)
+        reset()
+        showCreditCardForm()
     }
 
     @OnClick(R.id.select_payment_button)
@@ -142,6 +142,9 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
         paymentButton.selectPayment.setCompoundDrawablesWithIntrinsicBounds(creditCardIcon, null, ContextCompat.getDrawable(context, R.drawable.ic_picker_down), null)
         paymentButton.setPaymentButtonListener(paymentButtonListener)
         filledInCardDetailsMiniView.setCompoundDrawablesWithIntrinsicBounds(getCreditCardIcon(), null, null, null)
+        filledInCardDetailsMiniView.setOnClickListener {
+            showCreditCardForm()
+        }
         Db.setTemporarilySavedCard(null)
     }
 
@@ -365,6 +368,11 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
                             BookingInfoUtils.getTabletCardIcon(paymentType)
                         else
                             R.drawable.cars_checkout_cc_default_icon))
+    }
+
+    private fun showCreditCardForm() {
+        presenter.show(CreditCardWidgetExpandedState())
+        paymentWidgetViewModel.navigatingOutOfPaymentOptions.onNext(Unit)
     }
 
     override fun isComplete(): Boolean {
