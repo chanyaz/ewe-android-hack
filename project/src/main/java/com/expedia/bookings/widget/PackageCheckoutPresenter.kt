@@ -3,6 +3,7 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.util.AttributeSet
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.otto.Events
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeTextAndVisibility
@@ -33,6 +34,7 @@ public class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : Ba
             userAccountRefresher.ensureAccountIsRefreshed()
         }
         vm.tripResponseObservable.subscribe {
+            loginWidget.updateRewardsText(getLineOfBusiness())
             createTripDialog.hide()
         }
         createTripViewModel.createTripBundleTotalObservable.subscribe { response ->
