@@ -9,12 +9,19 @@
         android:inflatedId="@+id/widget_flight_results"
         android:layout="@layout/package_flight_results_presenter_stub" />
 
-    <ViewStub android:id="@+id/overview_stub"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <ViewStub
+        android:id="@+id/overview_stub"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:inflatedId="@+id/widget_flight_overview"
         android:layout="@layout/package_flight_overview_presenter_stub" />
+
+    <ViewStub
+        android:id="@+id/filter_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/flight_filter"
+        android:layout="@layout/package_flight_filter_stub" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,8 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:minHeight="?attr/actionBarSize"
-            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
-            app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"/>
+            app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
 
         <View
             android:id="@+id/toolbar_dropshadow"
