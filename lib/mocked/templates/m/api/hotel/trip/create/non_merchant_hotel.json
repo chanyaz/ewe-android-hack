@@ -1,0 +1,250 @@
+{
+  "tripId": "bf14c648-43b7-4cfb-a735-8883d41aade9",
+  "userId": 373581081,
+  "originalHotelProductResponse": {
+
+  },
+  "newHotelProductResponse": {
+    "checkInDate": "2016-03-03",
+    "checkOutDate": "2016-03-04",
+    "adultCount": "1",
+    "numberOfNights": "1",
+    "numberOfRooms": "1",
+    "hotelId": "8126393",
+    "hotelName": "Hostel Cat",
+    "localizedHotelName": "Hostel Cat",
+    "nonLocalizedHotelName": "Hostel Cat",
+    "largeThumbnailUrl": "/hotels/9000000/8130000/8126400/8126393/8126393_7_d.jpg",
+    "thumbnailUrl": "/hotels/9000000/8130000/8126400/8126393/8126393_7_n.jpg",
+    "hotelAddress": "1236 Las Vegas Boulevard S",
+    "hotelCity": "Las Vegas",
+    "hotelStateProvince": "NV",
+    "hotelCountry": "USA",
+    "hotelStarRating": "1.5",
+    "hotelRoomResponse": {
+      "productKey": "241121dc-2938-4955-afc7-9ec768680efd_V3",
+      "cancellationPolicy": "<p>If you cancel or change your plans, please cancel your reservation in accordance with the hotel''s cancellation policies to avoid a no-show charge.</p><p>Cancellations or changes made after 6:00 PM (hotel local time) on Mar 1, 2016 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.</p><p>If a late check-in is planned, contact this hotel directly for their late check-in policy.</p>",
+      "rateDescription": "One Bed in 10-Bed Mixed Sex Dormitory",
+      "roomTypeDescription": "One Bed in 10-Bed Mixed Sex Dormitory",
+      "supplierType": "DIRECT_AGENCY",
+      "rateChange": false,
+      "nonRefundable": false,
+      "hasFreeCancellation": true,
+      "freeCancellationWindowDate": "2016-03-01 18:00",
+      "guaranteeRequired": false,
+      "depositRequired": false,
+      "immediateChargeRequired": false,
+      "currentAllotment": "0",
+      "promoDescription": "",
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isSameDayDRR": false,
+      "smokingPreferences": "NS",
+      "rateOccupancyPerRoom": "10",
+      "bedTypes": [
+        {
+          "id": "40",
+          "description": "1 bed"
+        }
+      ],
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": false,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "16.00",
+          "averageRate": "16.00",
+          "taxStatusType": "ESTIMATED",
+          "surchargeTotal": "2.08",
+          "surchargeTotalForEntireStay": "2.08",
+          "averageBaseRate": "16.00",
+          "nightlyRateTotal": "16.00",
+          "discountPercent": 0,
+          "total": "18.08",
+          "currencyCode": "USD",
+          "currencySymbol": "$",
+          "surcharges": [
+            {
+              "amount": "2.08",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "2.08",
+              "type": "TAX_OTHER"
+            }
+          ],
+          "surchargesForEntireStay": [
+            {
+              "amount": "2.08",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "2.08",
+              "type": "TAX_OTHER"
+            }
+          ],
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "false",
+              "baseRate": "16.00",
+              "rate": "16.00"
+            }
+          ],
+          "priceToShowUsers": "16",
+          "strikethroughPriceToShowUsers": "16",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "18",
+          "totalMandatoryFees": "3.00",
+          "totalPriceWithMandatoryFees": "21.08",
+          "formattedTotalPriceWithMandatoryFees": "$ 21.08",
+          "userPriceType": "PerNightRateNoTaxes",
+          "priceAdjustments": [
+
+          ],
+          "checkoutPriceType": "totalPriceWithMandatoryFees",
+          "airAttached": false,
+          "roomTypeCode": "200756360",
+          "ratePlanCode": "203852051",
+          "showResortFeeMessage": true,
+          "resortFeeInclusion": true,
+          "dailyMandatoryFee": "3.00"
+        }
+      },
+      "quotedOccupancy": "10",
+      "minGuestAge": "18",
+      "roomTypeCode": "200756360",
+      "ratePlanCode": "203852051",
+      "isPayLater": true
+    },
+    "supplierType": "DIRECT_AGENCY",
+    "accessibilityAmenities": [
+      {
+        "id": "2420",
+        "description": "Accessible bathroom"
+      }
+    ],
+    "isVipAccess": false,
+    "tealeafTransactionId": "ae3a0acd7e05414cbf748acfe750bcf4",
+    "bigImageUrl": "/hotels/9000000/8130000/8126400/8126393/8126393_7_b.jpg",
+    "regionId": "800047"
+  },
+  "airAttachedProductResponse": {
+
+  },
+  "loyaltyPoints": {
+    "totalLoyaltyPoints": 108.00,
+    "loyaltyPointInfoList": [
+      {
+        "pointValue": 36.00,
+        "pointType": "basePoint"
+      },
+      {
+        "pointValue": 72.00,
+        "pointType": "offerPoint"
+      }
+    ]
+  },
+  "expediaRewards": {
+    "totalPointsToEarn": 108,
+    "isActiveRewardsMember": true,
+    "rewardsMembershipTierName": "Blue"
+  },
+  "userCoupons": [
+    {
+      "name": "T2D - 2015 EG Backup Mobile Offer",
+      "instanceId": 183779851,
+      "redemptionStatus": "VALID"
+    },
+    {
+      "name": "Employee Escape Standalone Coupon - 20% V4",
+      "instanceId": 183752863,
+      "redemptionStatus": "VALID"
+    },
+    {
+      "name": "T2D - 2015 EG Mobile Offer",
+      "instanceId": 181925580,
+      "redemptionStatus": "EXPIRED"
+    },
+    {
+      "name": "T2D - 2015 EG Mobile Offer",
+      "instanceId": 181925581,
+      "redemptionStatus": "EXPIRED"
+    },
+    {
+      "name": "T2D - 2015 EG Mobile Offer",
+      "instanceId": 181925602,
+      "redemptionStatus": "EXPIRED"
+    },
+    {
+      "name": "T2D - 2015 EG Backup Mobile Offer",
+      "instanceId": 182940854,
+      "redemptionStatus": "EXPIRED"
+    },
+    {
+      "name": "2014 20% Employee Hotel Coupon",
+      "instanceId": 181248503,
+      "redemptionStatus": "REDEEMED"
+    },
+    {
+      "name": "2014 20% Employee Hotel Coupon",
+      "instanceId": 182121110,
+      "redemptionStatus": "REDEEMED"
+    }
+  ],
+  "tealeafTransactionId": "ae3a0acd7e05414cbf748acfe750bcf4",
+  "validFormsOfPayment": [
+    {
+      "name": "MasterCard",
+      "verificationTypes": [
+        "THREE_DS"
+      ]
+    },
+    {
+      "name": "Visa",
+      "verificationTypes": [
+        "THREE_DS"
+      ]
+    }
+  ],
+  "storedCreditCards": [
+    {
+      "description": "Visa 1736",
+      "paymentsInstrumentsId": "047A2CCB-A88F-42D7-8BE2-952C1FFA9753",
+      "creditCardType": "Visa",
+      "nameOnCard": "Jexper Io MobiataTestaverde",
+      "expired": "false",
+      "expirationDate": "2018-11"
+    },
+    {
+      "description": "Visa 6134",
+      "paymentsInstrumentsId": "3103ECAD-1C4C-42FA-B6EC-60F4907D9B1C",
+      "creditCardType": "Visa",
+      "nameOnCard": "Jexper Io MobiataTestaverde",
+      "expired": "false",
+      "expirationDate": "2018-04"
+    },
+    {
+      "description": "Visa",
+      "paymentsInstrumentsId": "33924B95-8884-4A06-A0FF-5CB88F275F82",
+      "creditCardType": "Visa",
+      "nameOnCard": "Girija Balachandran",
+      "expired": "false",
+      "expirationDate": "2017-03"
+    },
+    {
+      "description": "Visa 1111",
+      "paymentsInstrumentsId": "616A15FA-5653-4101-B867-0F58167A7B4B",
+      "creditCardType": "Visa",
+      "nameOnCard": "Jexper Io MobiataTestaverde",
+      "expired": "false",
+      "expirationDate": "2016-05"
+    }
+  ],
+  "storedPointsCards": [
+
+  ],
+  "paymentRules": {
+    "maxPaymentInstrumentsForBooking": 2
+  },
+  "pointsDetails": [
+
+  ]
+}
