@@ -40,8 +40,6 @@ public class HotelsABTest extends PhoneTestCase {
 			AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelsABTest,
 				AbacusUtils.DefaultVariate.CONTROL.ordinal());
 		}
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest,
-			AbacusUtils.DefaultVariate.CONTROL.ordinal());
 		super.runTest();
 	}
 
@@ -92,7 +90,7 @@ public class HotelsABTest extends PhoneTestCase {
 		LocalDate checkOut = LocalDate.now().plusDays(2);
 		String expectedCheckInDate = DateUtils.localDateToMMMd(checkIn);
 		String expectedCheckoutDate = DateUtils.localDateToMMMd(checkOut);
-		String expected = expectedCheckInDate + " - " + expectedCheckoutDate + " (1 night)";
+		String expected = expectedCheckInDate + " - " + expectedCheckoutDate + "\n(1 night)";
 		EspressoUtils.assertViewWithTextIsDisplayed(expected);
 	}
 
@@ -146,7 +144,7 @@ public class HotelsABTest extends PhoneTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed("2 Guests");
 		String expectedCheckInDate = DateUtils.localDateToMMMd(checkIn);
 		String expectedCheckoutDate = DateUtils.localDateToMMMd(checkOut);
-		String expected = expectedCheckInDate + " - " + expectedCheckoutDate + " (2 nights)";
+		String expected = expectedCheckInDate + " - " + expectedCheckoutDate + "\n(2 nights)";
 		EspressoUtils.assertViewWithTextIsDisplayed(expected);
 
 	}
