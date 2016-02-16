@@ -12,8 +12,12 @@
         "formattedPrice": "$696.00",
         "formattedWholePrice": "$696"
     },
-    "flightDetailResponse": {
-        "destinationRegionId": 6139107
+    "flightAggregatedResponse": {
+        "flightsDetailResponse": [
+            {
+                "destinationRegionId": "6139107"
+            }
+        ]
     },
     "mobileAirAttachQualifier": {
         "offerExpires": {
