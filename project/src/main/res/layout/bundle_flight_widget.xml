@@ -83,5 +83,26 @@
                 android:tint="?attr/primary_color"
                 android:visibility="gone" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/flight_details_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+            <com.expedia.bookings.widget.FlightSegmentBreakdownView
+                android:id="@+id/segment_breakdown"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/flight_total_duration"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_gravity="bottom"
+                android:background="@android:color/darker_gray"
+                android:gravity="center"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+        <!--</FrameLayout>-->
     </LinearLayout>
 </merge>

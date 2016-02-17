@@ -4,14 +4,17 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.packages.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Images
+import com.expedia.bookings.utils.PackageFlightUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
+import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.joda.time.format.ISODateTimeFormat
 import rx.Observer
@@ -145,6 +148,8 @@ class BundleFlightViewModel(val context: Context) {
     val flightIconImageObservable = BehaviorSubject.create<Pair<Int, Int>>()
     val flightTextColorObservable = BehaviorSubject.create<Int>()
     val flightInfoContainerObservable = BehaviorSubject.create<Boolean>()
+    val selectedFlightLegObservable = BehaviorSubject.create<FlightLeg>()
+    val totalDurationObserver = BehaviorSubject.create<String>()
 
     init {
         hotelLoadingStateObservable.subscribe { searchType ->
@@ -190,6 +195,11 @@ class BundleFlightViewModel(val context: Context) {
                 flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatCityName(Db.getPackageParams().origin.regionNames.shortName)))
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_checkmark_icon, 0))
             }
+            var totalDuration = Phrase.from(context.resources.getString(R.string.package_flight_overview_total_duration_TEMPLATE))
+                    .put("duration", PackageFlightUtils.getFlightDurationString(context, selectedFlight))
+                    .format().toString()
+            totalDurationObserver.onNext(totalDuration)
+            selectedFlightLegObservable.onNext(selectedFlight)
         }
     }
 

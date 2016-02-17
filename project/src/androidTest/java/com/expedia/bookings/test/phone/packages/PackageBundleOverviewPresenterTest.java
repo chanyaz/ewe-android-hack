@@ -2,6 +2,8 @@ package com.expedia.bookings.test.phone.packages;
 
 import org.hamcrest.CoreMatchers;
 
+import android.support.test.espresso.matcher.ViewMatchers;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
@@ -14,6 +16,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
@@ -59,9 +62,19 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 		PackageScreen.outboundFlightInfo().check(matches(isEnabled()));
 		PackageScreen.inboundFlightInfo().check(matches(isEnabled()));
+
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Flight to Detroit, MI")))));
 		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Flight to San Francisco, CA")))));
+
+		onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
+			withId(R.id.package_flight_details_icon))).check(matches(withEffectiveVisibility(
+			ViewMatchers.Visibility.VISIBLE)));
+		PackageScreen.outboundFlightDetails().perform(click());
+
+		onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
+			withId(R.id.flight_details_container))).check(matches(withEffectiveVisibility(
+			ViewMatchers.Visibility.VISIBLE)));
 	}
 }
