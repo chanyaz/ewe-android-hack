@@ -11,8 +11,11 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
+import java.util.*
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
 public class FlightLayoverWidgetTest {
@@ -27,6 +30,7 @@ public class FlightLayoverWidgetTest {
     val DURATION_BAR_PADDING = 5f
 
     val DEPART_CODE = "ORD"
+    val LAYOVER_CODE = "JFK"
     val ARRIVE_CODE = "LHR"
 
     @Before
@@ -89,17 +93,40 @@ public class FlightLayoverWidgetTest {
         val expectedDurationPadding = testWidget.durationBarPadding * 2
         val expectedWidth = expectedAirportWidth + expectedDurationPadding + testWidget.LEFT_RIGHT_PADDING * 2 + testWidget.OFF_BY_ONE_BUFFER
 
-        addAirport(DEPART_CODE, ARRIVE_CODE)
+        addAirport(DEPART_CODE, ARRIVE_CODE, 0)
 
         val widthOfAirports = testWidget.calculateLocationsAndPaddingWidth()
 
         assertEquals(expectedWidth, widthOfAirports)
     }
 
-    private fun addAirport(departCode: String, arriveCode: String) {
+    @Test
+    fun testAirportsPopulated() {
+        addAirport(DEPART_CODE, ARRIVE_CODE, 0)
+        testWidget.createDrawObjects()
+        assertFalse(testWidget.drawObjects.isEmpty())
+
+        assertEquals(DEPART_CODE, testWidget.drawObjects[0].locationCode)
+        assertEquals(ARRIVE_CODE, testWidget.drawObjects[1].locationCode)
+    }
+
+    @Test
+    fun testAirportCodesWithLayover() {
+        addAirport(DEPART_CODE, LAYOVER_CODE, 5)
+        addAirport(LAYOVER_CODE, ARRIVE_CODE, 0)
+        testWidget.createDrawObjects()
+        assertFalse(testWidget.drawObjects.isEmpty())
+
+        assertEquals(DEPART_CODE, testWidget.drawObjects[0].locationCode)
+        assertEquals(LAYOVER_CODE, testWidget.drawObjects[1].locationCode)
+        assertEquals(ARRIVE_CODE, testWidget.drawObjects[2].locationCode)
+    }
+
+    private fun addAirport(departCode: String, arriveCode: String, layoverDurationHours: Int) {
         val testFlightSegment = FlightLeg.FlightSegment()
         testFlightSegment.departureAirportCode = departCode
         testFlightSegment.arrivalAirportCode = arriveCode
+        testFlightSegment.layoverDurationHours = layoverDurationHours
         testWidget.flightSegmentList.add(testFlightSegment)
     }
 
