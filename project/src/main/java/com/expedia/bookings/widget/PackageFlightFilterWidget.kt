@@ -177,7 +177,6 @@ public class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : 
             dynamicFeedbackWidget.animateDynamicFeedbackWidget()
         }
 
-
         sortByButtonGroup.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) {
                 val sort = FlightFilter.Sort.values()[position]
@@ -192,7 +191,13 @@ public class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : 
             stopsContainer.removeAllViews()
             if (list != null && !list.isEmpty()) {
                 stopsLabel.visibility = VISIBLE
-                val labels = list.map { java.lang.String.format(resources.getQuantityString(R.plurals.x_Stops_TEMPLATE, it), it) }
+                val labels = list.map {
+                    if (it == 0) {
+                        resources.getString(R.string.flight_nonstop_description)
+                    } else {
+                        java.lang.String.format(resources.getQuantityString(R.plurals.x_Stops_TEMPLATE, it), it)
+                    }
+                }
                 for (i in 0..list.size - 1) {
                     val view = LayoutInflater.from(context).inflate(R.layout.labeled_checked_filter, this, false) as LabeledCheckableFilter<Int>
                     view.bind(labels[i], list[i], vm.selectStop)

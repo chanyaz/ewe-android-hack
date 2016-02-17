@@ -5,12 +5,14 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.FlightLeg
 import com.expedia.util.endlessObserver
 import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.*
 
 class PackageFlightFilterViewModel() {
+    val hourMinuteFormatter = DateTimeFormat.forPattern("hh:mma")
     val doneObservable = PublishSubject.create<Unit>()
     val doneButtonEnableObservable = PublishSubject.create<Boolean>()
     val clearObservable = PublishSubject.create<Unit>()
@@ -35,9 +37,7 @@ class PackageFlightFilterViewModel() {
     val newArrivalRangeObservable = PublishSubject.create<TimeRange>()
     val filteredZeroResultObservable = PublishSubject.create<Unit>()
     var previousSort = FlightFilter.Sort.PRICE
-
     var isAirlinesExpanded: Boolean = false
-
 
     data class UserFilterChoices(var userSort: FlightFilter.Sort = FlightFilter.Sort.PRICE,
                                  var minPrice: Int = 0,
@@ -99,12 +99,41 @@ class PackageFlightFilterViewModel() {
         }
     }
 
-    val sortObserver = endlessObserver<FlightFilter.Sort> { sort ->
+    private val departureComparator: Comparator<FlightLeg> = object : Comparator<FlightLeg> {
+        override fun compare(lhs: FlightLeg?, rhs: FlightLeg?): Int {
+            val leftStart = DateTime.parse(lhs?.flightSegments?.first()?.departureTime, hourMinuteFormatter)
+            val rightStart = DateTime.parse(rhs?.flightSegments?.first()?.departureTime, hourMinuteFormatter)
 
+            if (leftStart.isBefore(rightStart)) {
+                return -1;
+            } else if (leftStart.isAfter(rightStart)) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
+
+    private val arrivalComparator: Comparator<FlightLeg> = object : Comparator<FlightLeg> {
+        override fun compare(lhs: FlightLeg?, rhs: FlightLeg?): Int {
+            val leftStart = DateTime.parse(lhs?.flightSegments?.last()?.arrivalTime, hourMinuteFormatter)
+            val rightStart = DateTime.parse(rhs?.flightSegments?.last()?.arrivalTime, hourMinuteFormatter)
+
+            if (leftStart.isBefore(rightStart)) {
+                return -1;
+            } else if (leftStart.isAfter(rightStart)) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
+
+    val sortObserver = endlessObserver<FlightFilter.Sort> { sort ->
         when (sort) {
             FlightFilter.Sort.PRICE -> filteredList = filteredList.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount.toInt() }
-            FlightFilter.Sort.DEPARTURE -> filteredList = filteredList.sortedBy { it.departureTimeShort }
-            FlightFilter.Sort.ARRIVAL -> filteredList = filteredList.sortedBy { it.arrivalTimeShort }
+            FlightFilter.Sort.DEPARTURE -> Collections.sort(filteredList, departureComparator)
+            FlightFilter.Sort.ARRIVAL -> Collections.sort(filteredList, arrivalComparator)
             FlightFilter.Sort.DURATION -> filteredList = filteredList.sortedBy { it.durationHour * 60 + it.durationMinute }
         }
     }
@@ -216,6 +245,7 @@ class PackageFlightFilterViewModel() {
         userFilterChoices.maxDeparture = p.second
         handleFiltering()
     }
+
     val arrivalRangeChangedObserver = endlessObserver<Pair<Int, Int>> { p ->
         userFilterChoices.minArrival = p.first
         userFilterChoices.maxArrival = p.second
@@ -233,7 +263,6 @@ class PackageFlightFilterViewModel() {
         stopsObservable.onNext(ArrayList(stops).sortedBy { it })
         airlinesObservable.onNext(ArrayList(airlines).sortedBy { it })
     }
-
 
     private fun resetRangeBars() {
         resetPriceRange()
@@ -304,7 +333,6 @@ class PackageFlightFilterViewModel() {
         }
         handleFiltering()
     }
-
 
     val airlinesMoreLessObservable: Observer<Unit> = endlessObserver {
         isAirlinesExpanded = !isAirlinesExpanded
