@@ -30,7 +30,6 @@ import com.expedia.util.subscribeText
 import com.expedia.vm.HotelCouponViewModel
 import com.mobiata.android.util.Ui
 import rx.subjects.PublishSubject
-import java.util.ArrayList
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -58,7 +57,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
         viewmodel.errorObservable.subscribe {
             showProgress(false)
             if (viewmodel.hasDiscountObservable.value != null && viewmodel.hasDiscountObservable.value) {
-                setExpanded(false)
+                isExpanded = false
             } else {
                 showError(true)
             }
@@ -66,7 +65,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
         viewmodel.couponObservable.subscribe {
             showProgress(false)
             showError(false)
-            setExpanded(false)
+            isExpanded = false
         }
         viewmodel.discountObservable.subscribe {
             appliedCouponMessage.text = context.getString(R.string.applied_coupon_message, it)
@@ -107,13 +106,11 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
             (progress as ProgressBar).setIndeterminate(true)
         }
         progress.layoutParams = lp
-        couponCode.setOnEditorActionListener(object : android.widget.TextView.OnEditorActionListener {
-            override fun onEditorAction(textView: android.widget.TextView, actionId: Int, event: KeyEvent?): Boolean {
-                if (actionId == EditorInfo.IME_ACTION_DONE && textView.text.length > 3) {
-                    onMenuButtonPressed()
-                }
-                return false
+        couponCode.setOnEditorActionListener({ textView, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE && textView.text.length > 3) {
+                onMenuButtonPressed()
             }
+            false
         })
         expanded.addView(progress)
         showProgress(false)
@@ -126,7 +123,7 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
     }
 
     override fun getMenuDoneButtonFocus(): Boolean {
-        if (couponCode.getText().length > 0) {
+        if (couponCode.text.length > 0) {
             return true
         }
         return false
@@ -136,10 +133,10 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
         super.setExpanded(expand, animate)
         if (expand) {
             couponCode.addTextChangedListener(textWatcher)
-            setBackground(null)
-            expanded.setVisibility(View.VISIBLE)
-            unexpanded.setVisibility(View.GONE)
-            applied.setVisibility(View.GONE)
+            background = null
+            expanded.visibility = View.VISIBLE
+            unexpanded.visibility = View.GONE
+            applied.visibility = View.GONE
             if (mToolbarListener != null) {
                 mToolbarListener.onEditingComplete()
                 mToolbarListener.showRightActionButton(false)
@@ -151,20 +148,20 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
             couponCode.removeTextChangedListener(textWatcher)
             resetFields()
             setBackgroundResource(R.drawable.card_background)
-            expanded.setVisibility(View.GONE)
+            expanded.visibility = View.GONE
             if (viewmodel.hasDiscountObservable.value != null && viewmodel.hasDiscountObservable.value) {
-                applied.setVisibility(View.VISIBLE)
-                unexpanded.setVisibility(View.GONE)
+                applied.visibility = View.VISIBLE
+                unexpanded.visibility = View.GONE
             }
             else {
-                applied.setVisibility(View.GONE)
-                unexpanded.setVisibility(View.VISIBLE)
+                applied.visibility = View.GONE
+                unexpanded.visibility = View.VISIBLE
             }
         }
     }
 
     override fun getActionBarTitle(): String? {
-        return getContext().getString(R.string.coupon_promo_title)
+        return context.getString(R.string.coupon_promo_title)
     }
 
     override fun onMenuButtonPressed() {
@@ -179,8 +176,8 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
         }
 
         var couponParams = HotelApplyCouponParameters.Builder()
-                .tripId(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId)
-                .couponCode(couponCode.getText().toString())
+                .tripId(Db.getTripBucket().hotelV2.mHotelTripResponse.tripId)
+                .couponCode(couponCode.text.toString())
                 .isFromNotSignedInToSignedIn(false)
                 .userPreferencePointsDetails(userPointsPreference)
                 .build()
@@ -209,19 +206,19 @@ public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCa
     }
 
     private fun showProgress(show: Boolean) {
-        progress.setVisibility(if (show) { View.VISIBLE } else { View.INVISIBLE })
+        progress.visibility = if (show) { View.VISIBLE } else { View.INVISIBLE }
     }
 
     private fun showError(show: Boolean) {
-        error.setVisibility(if (show) { View.VISIBLE } else { View.INVISIBLE })
+        error.visibility = if (show) { View.VISIBLE } else { View.INVISIBLE }
     }
 
     override fun getMenuButtonTitle(): String? {
-       return getResources().getString(R.string.coupon_submit_button)
+       return resources.getString(R.string.coupon_submit_button)
     }
 
     private fun resetFields() {
-        couponCode.setText(null)
-        error.setText(null)
+        couponCode.text = null
+        error.text = null
     }
 }

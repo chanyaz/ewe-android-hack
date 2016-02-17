@@ -13,7 +13,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
@@ -22,7 +21,6 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelErrorViewModel
-import kotlin.properties.Delegates
 
 public class HotelErrorPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr) {
 

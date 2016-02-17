@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.packages.FlightLeg
 import com.expedia.bookings.utils.bindView
@@ -44,7 +43,7 @@ public class PackageFlightListAdapter(val flightSelectedSubject: PublishSubject<
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         if (holder is PackageFlightListAdapter.FlightViewHolder) {
-            holder.bind(PackageFlightViewModel(holder.itemView.context, flights.get(position)))
+            holder.bind(PackageFlightViewModel(holder.itemView.context, flights[position]))
         }
     }
 
@@ -85,6 +84,6 @@ public class PackageFlightListAdapter(val flightSelectedSubject: PublishSubject<
     }
 
     private fun getFlight(rawAdapterPosition: Int): FlightLeg {
-        return flights.get(rawAdapterPosition)
+        return flights[rawAdapterPosition]
     }
 }

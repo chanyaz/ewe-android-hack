@@ -11,7 +11,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.RecentSearchesAdapterViewModel
 
-
 public class RecentSearchesWidgetV2(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     val recentSearchesAdapter: RecyclerView  by bindView(R.id.recent_searches_v2_list)

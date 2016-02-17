@@ -40,7 +40,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     val toolbar: CheckoutToolbar? by bindOptionalView(R.id.checkout_toolbar)
     val scrollView: ScrollView by bindView(R.id.scrollView)
-    val summaryContainer: FrameLayout? by bindOptionalView(R.id.summary_container)
     val loginWidget: AccountButton by bindView(R.id.login_widget)
     var paymentWidget: PaymentWidget by Delegates.notNull()
     val paymentViewStub: ViewStub by bindView(R.id.payment_info_card_view_stub)
@@ -52,7 +51,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val hintContainer: LinearLayout by bindView(R.id.hint_container)
     val depositPolicyText: TextView by bindView(R.id.disclaimer_text)
-    val disclaimerText: TextView by bindView(R.id.deposit_policy_text)
     val acceptTermsWidget: AcceptTermsWidget by bindView(R.id.layout_confirm_tos)
     val slideContainer: LinearLayout by bindView(R.id.slide_to_purchase_layout)
     val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
@@ -317,15 +315,15 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             return  // don't show if terms have not ben accepted yet
         }
 
-        slideContainer.setTranslationY((if (visible) slideContainer.getHeight() else 0).toFloat())
-        slideContainer.setVisibility(View.VISIBLE)
-        val animator = ObjectAnimator.ofFloat(slideContainer, "translationY", if (visible) 0f else slideContainer.getHeight().toFloat())
+        slideContainer.translationY = (if (visible) slideContainer.height else 0).toFloat()
+        slideContainer.visibility = View.VISIBLE
+        val animator = ObjectAnimator.ofFloat(slideContainer, "translationY", if (visible) 0f else slideContainer.height.toFloat())
         animator.setDuration(300)
         animator.start()
 
         if (visible) {
             scrollView.postDelayed({ scrollView.fullScroll(ScrollView.FOCUS_DOWN) }, 100)
-            val cardType = paymentWidget.getCardType().getOmnitureTrackingCode()
+            val cardType = paymentWidget.getCardType().omnitureTrackingCode
             when (getLineOfBusiness()) {
                 LineOfBusiness.HOTELSV2 -> HotelV2Tracking().trackHotelV2SlideToPurchase(cardType)
                 LineOfBusiness.LX -> OmnitureTracking.trackAppLXCheckoutSlideToPurchase(cardType)

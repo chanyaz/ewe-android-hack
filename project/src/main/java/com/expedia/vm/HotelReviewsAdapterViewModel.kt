@@ -43,7 +43,7 @@ class HotelReviewsAdapterViewModel(val hotelId: String, val reviewsServices: Rev
         }
 
         reviewsObservable
-                .map { it.second.reviewDetails.reviewSummaryCollection.reviewSummary.get(0) }
+                .map { it.second.reviewDetails.reviewSummaryCollection.reviewSummary[0] }
                 .subscribe(reviewsSummaryObservable)
 
         reviewsObservable

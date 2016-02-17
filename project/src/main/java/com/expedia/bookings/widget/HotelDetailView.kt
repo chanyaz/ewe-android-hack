@@ -68,7 +68,6 @@ val HOTEL_DESC_COLLAPSE_LINES = 2
 
 public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
-    val MAP_ZOOM_LEVEL = 12f
     var bottomMargin = 0
     val ANIMATION_DURATION = 200L
     val SELECT_ROOM_ANIMATION = 300L
@@ -299,7 +298,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
                     roomList.first.forEachIndexed { roomResponseIndex, room ->
                         val hasETP = viewmodel.hasETPObservable.value
                         val view = HotelRoomRateView(context, roomResponseIndex)
-                        view.viewmodel = HotelRoomRateViewModel(context,  vm.hotelOffersResponse.hotelId, roomList.first.get(roomResponseIndex), roomList.second.get(roomResponseIndex), roomResponseIndex, vm.rowExpandingObservable, vm.roomSelectedObserver, hasETP)
+                        view.viewmodel = HotelRoomRateViewModel(context,  vm.hotelOffersResponse.hotelId, roomList.first[roomResponseIndex], roomList.second[roomResponseIndex], roomResponseIndex, vm.rowExpandingObservable, vm.roomSelectedObserver, hasETP)
                         view.animateRoom.subscribe(rowAnimation)
                         var parent = view.parent
                         if (parent != null) {
@@ -800,26 +799,23 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         resizeAnimator.addViewSpec(room.roomInfoChevron, room.roomInfoChevronHeight)
         resizeAnimator.addViewSpec(room.spaceAboveRoomInfo, room.spaceAboveRoomInfoHeight)
         if (animate) {
-            resizeAnimator.addUpdateListener(object : ValueAnimator.AnimatorUpdateListener {
-                override fun onAnimationUpdate(p0: ValueAnimator?) {
+            resizeAnimator.addUpdateListener({
+                val rowTopConstraintView = if (viewmodel.hasETPObservable.value) etpContainer else hotelDetailsToolbar
 
-                    val rowTopConstraintView = if (viewmodel.hasETPObservable.value) etpContainer else hotelDetailsToolbar
+                val screenHeight = AndroidUtils.getScreenSize(context).y
+                val location = IntArray(2)
 
-                    val screenHeight = AndroidUtils.getScreenSize(context).y
-                    val location = IntArray(2)
+                room.row.getLocationOnScreen(location)
+                val rowLocationTopY = location[1]
+                val rowLocationBottomY = rowLocationTopY + room.row.height
 
-                    room.row.getLocationOnScreen(location)
-                    val rowLocationTopY = location[1]
-                    val rowLocationBottomY = rowLocationTopY + room.row.height
+                rowTopConstraintView.getLocationOnScreen(location)
+                val rowTopConstraintViewBottomY = location[1] + rowTopConstraintView.height
 
-                    rowTopConstraintView.getLocationOnScreen(location)
-                    val rowTopConstraintViewBottomY = location[1] + rowTopConstraintView.height
-
-                    if (rowLocationBottomY > screenHeight) {
-                        detailContainer.smoothScrollBy(0, rowLocationBottomY - screenHeight)
-                    } else if (rowLocationTopY < rowTopConstraintViewBottomY) {
-                        detailContainer.smoothScrollBy(0, rowLocationTopY - rowTopConstraintViewBottomY)
-                    }
+                if (rowLocationBottomY > screenHeight) {
+                    detailContainer.smoothScrollBy(0, rowLocationBottomY - screenHeight)
+                } else if (rowLocationTopY < rowTopConstraintViewBottomY) {
+                    detailContainer.smoothScrollBy(0, rowLocationTopY - rowTopConstraintViewBottomY)
                 }
             })
         }

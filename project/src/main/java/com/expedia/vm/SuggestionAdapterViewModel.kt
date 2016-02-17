@@ -53,7 +53,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     private fun getNearbySuggestions(location: Location) {
         val latlong = "" + location.latitude + "|" + location.longitude;
         suggestionsService
-                .suggestNearbyV4(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().getSiteId(), ServicesUtil.generateClientId(context))
+                .suggestNearbyV4(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().siteId, ServicesUtil.generateClientId(context))
                 .doOnNext { nearbySuggestions ->
                     if (nearbySuggestions.size < 1) {
                         throw ApiError(ApiError.Code.SUGGESTIONS_NO_RESULTS)

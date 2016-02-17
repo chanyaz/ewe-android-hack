@@ -291,12 +291,10 @@ public class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : 
         adapter.setDropDownViewResource(R.layout.spinner_sort_dropdown_item)
         sortByButtonGroup.adapter = adapter
 
-        filterContainer.viewTreeObserver.addOnScrollChangedListener(object : ViewTreeObserver.OnScrollChangedListener {
-            override fun onScrollChanged() {
-                val scrollY = filterContainer.scrollY
-                val ratio = (scrollY).toFloat() / 100
-                toolbarDropshadow.alpha = ratio
-            }
+        filterContainer.viewTreeObserver.addOnScrollChangedListener({
+            val scrollY = filterContainer.scrollY
+            val ratio = (scrollY).toFloat() / 100
+            toolbarDropshadow.alpha = ratio
         })
     }
 

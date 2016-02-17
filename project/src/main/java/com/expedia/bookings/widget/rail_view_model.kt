@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget
 
-import android.content.Context
-import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject

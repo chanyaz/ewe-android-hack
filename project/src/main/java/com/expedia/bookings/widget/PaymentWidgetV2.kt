@@ -6,10 +6,8 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.WalletUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeEnabled
@@ -18,7 +16,6 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel
 import javax.inject.Inject
-import kotlin.collections.isNotEmpty
 
 public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
     val remainingBalance: TextView by bindView(R.id.remaining_balance)

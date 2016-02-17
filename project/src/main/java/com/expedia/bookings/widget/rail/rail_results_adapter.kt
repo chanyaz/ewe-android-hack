@@ -12,8 +12,6 @@ import com.expedia.bookings.widget.RailViewModel
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
 import com.mobiata.flightlib.utils.DateTimeUtils
-import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
@@ -30,7 +28,7 @@ public class RailResultsAdapter(val context: Context, val legSelectedSubject: Pu
     init {
         resultsSubject.subscribe { response ->
             loading = false
-            legs = response.legList.get(0).legOptions
+            legs = response.legList[0].legOptions
             notifyDataSetChanged()
         }
         loadingSubject.subscribe {
@@ -57,7 +55,7 @@ public class RailResultsAdapter(val context: Context, val legSelectedSubject: Pu
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is RailViewHolder -> holder.bind(legs.get(position))
+            is RailViewHolder -> holder.bind(legs[position])
         }
     }
 
@@ -98,7 +96,7 @@ public class RailResultsAdapter(val context: Context, val legSelectedSubject: Pu
         }
 
         override fun onClick(v: View?) {
-            legSelectedSubject.onNext(legs.get(adapterPosition))
+            legSelectedSubject.onNext(legs[adapterPosition])
         }
 
         private fun longestLegDuration(): Int {

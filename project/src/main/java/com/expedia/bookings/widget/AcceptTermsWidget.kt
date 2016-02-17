@@ -7,7 +7,6 @@ import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.publishOnClick
 import com.expedia.vm.AcceptTermsViewModel
 
 public class AcceptTermsWidget(context: Context, attrs: AttributeSet): LinearLayout(context, attrs) {

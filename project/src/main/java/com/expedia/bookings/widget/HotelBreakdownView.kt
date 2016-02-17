@@ -40,37 +40,37 @@ public class HotelBreakDownView(context: Context, attrs: AttributeSet?) : Scroll
     }
 
     private fun createRow(breakdown: Breakdown, isDiscount: Boolean): View {
-        val row = LayoutInflater.from(getContext()).inflate(R.layout.hotel_cost_summary_row, null)
+        val row = LayoutInflater.from(context).inflate(R.layout.hotel_cost_summary_row, null)
         val priceDescription = row.findViewById(R.id.price_type_text_view) as TextView
         val priceValue = row.findViewById(R.id.price_text_view) as TextView
-        priceDescription.setText(breakdown.title)
+        priceDescription.text = breakdown.title
         if (isDiscount) {
-            priceValue.setText("(" + breakdown.cost + ")")
+            priceValue.text = "(" + breakdown.cost + ")"
             priceValue.setTextColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
         }
         else {
-            priceValue.setText(breakdown.cost)
+            priceValue.text = breakdown.cost
         }
         return row
     }
 
     private fun createDateRow(breakdown: Breakdown): View {
-        val row = LayoutInflater.from(getContext()).inflate(R.layout.hotel_cost_summary_date_row, null)
+        val row = LayoutInflater.from(context).inflate(R.layout.hotel_cost_summary_date_row, null)
         val priceDescription = row.findViewById(R.id.price_type_text_view) as TextView
         val priceValue = row.findViewById(R.id.price_text_view) as TextView
-        priceDescription.setText(breakdown.title)
-        priceValue.setText(breakdown.cost)
+        priceDescription.text = breakdown.title
+        priceValue.text = breakdown.cost
         return row
     }
 
     private fun createLine(): View {
-        val view = View(getContext(), null);
+        val view = View(context, null);
         val lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         lp.height = 1
-        var paddingTop = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, getResources().getDisplayMetrics()).toInt()
-        var paddingSide = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, getResources().getDisplayMetrics()).toInt()
+        var paddingTop = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics).toInt()
+        var paddingSide = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics).toInt()
         lp.setMargins(paddingSide, paddingTop, paddingSide, paddingTop)
-        view.setLayoutParams(lp)
+        view.layoutParams = lp
         view.setBackgroundColor(Color.parseColor("#979797"))
         return view
     }

@@ -943,7 +943,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             filterView.visibility = if (forward) View.VISIBLE else View.GONE
-            filterView.translationY = (if (forward) 0 else filterView.getHeight()).toFloat()
+            filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
             if (!forward && !fabShouldBeHiddenOnList()) {
                 fab.visibility = View.VISIBLE
                 getFabAnimIn().start()

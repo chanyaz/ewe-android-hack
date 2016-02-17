@@ -241,11 +241,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 val freeformLocations = StrUtils.formatAddresses(geoResults)
                 val builder = AlertDialog.Builder(context)
                 builder.setTitle(R.string.ChooseLocation)
-                val dialogItemClickListener = object : DialogInterface.OnClickListener {
-                    override fun onClick(dialog: DialogInterface?, which: Int) {
-                        triggerNewSearch(which)
-                        HotelV2Tracking().trackGeoSuggestionClick()
-                    }
+                val dialogItemClickListener = DialogInterface.OnClickListener { dialog, which ->
+                    triggerNewSearch(which)
+                    HotelV2Tracking().trackGeoSuggestionClick()
                 }
                 builder.setItems(freeformLocations, dialogItemClickListener)
                 val alertDialog = builder.create()
