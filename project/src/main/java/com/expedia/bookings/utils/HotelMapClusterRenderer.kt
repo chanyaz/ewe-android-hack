@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.utils
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
@@ -8,7 +8,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.extension.isShowAirAttached
-import com.expedia.bookings.utils.DefaultClusterRenderer
+import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.createHotelMarkerIcon
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory

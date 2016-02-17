@@ -47,9 +47,9 @@ import com.expedia.bookings.widget.HotelFilterView
 import com.expedia.bookings.widget.HotelListAdapter
 import com.expedia.bookings.widget.HotelListRecyclerView
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
-import com.expedia.bookings.widget.HotelMapClusterAlgorithm
-import com.expedia.bookings.widget.HotelMapClusterRenderer
-import com.expedia.bookings.widget.MapItem
+import com.expedia.bookings.utils.HotelMapClusterAlgorithm
+import com.expedia.bookings.utils.HotelMapClusterRenderer
+import com.expedia.bookings.utils.MapItem
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.createHotelMarkerIcon
