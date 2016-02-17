@@ -51,7 +51,7 @@
       "hotelOffer": {
         "cancellationPolicy": "",
         "rateDescription": "Deluxe Suite, 1 King Bed",
-        "roomTypeDescription": "Deluxe Suite, 1 King Bed",
+        "roomTypeDescription": "happy_outbound_flight",
         "roomLongDescription": " 1 king bed   580 sq feet (54 sq meters)   Entertainment  - Free WiFi, 42-inch LCD TV with satellite channels, and MP3 dock  Food & Drink  - Coffee/tea maker and minibar  Bathroom  - Hair dryer  Comfort  - Air conditioning Non-Smoking  ",
         "hasFreeCancellation": false,
         "currentAllotment": "15",
@@ -192,11 +192,11 @@
         },
         "taxesAndFeesIncluded": true
       },
-      "packageProductId": "44df432b-0dad-4584-af99-1a5ccae485e5-1",
+      "packageProductId": "create_trip",
       "hotelOffer": {
         "cancellationPolicy": "",
         "rateDescription": "Deluxe Suite, 2 Queen Beds",
-        "roomTypeDescription": "Deluxe Suite, 2 Queen Beds",
+        "roomTypeDescription": "change_hotel_room",
         "roomLongDescription": " 2 queen beds   580 sq feet (54 sq meters)   Entertainment  - Free WiFi, 42-inch LCD TV with satellite channels, and MP3 dock  Food & Drink  - Coffee/tea maker and minibar  Bathroom  - Hair dryer  Comfort  - Air conditioning Non-Smoking  ",
         "hasFreeCancellation": false,
         "currentAllotment": "14",

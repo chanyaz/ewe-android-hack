@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import android.widget.EditText
 import com.expedia.bookings.widget.ExpandableCardView
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 public class CheckoutToolbarViewModel(val context: Context) {
@@ -21,4 +22,5 @@ public class CheckoutToolbarViewModel(val context: Context) {
 
     val expanded = PublishSubject.create<ExpandableCardView>()
     val closed = PublishSubject.create<Unit>()
+    val showChangePackageMenuObservable = BehaviorSubject.create<Boolean>()
 }

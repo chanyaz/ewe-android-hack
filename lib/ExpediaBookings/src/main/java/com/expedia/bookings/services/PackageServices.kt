@@ -71,8 +71,8 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 				}
 	}
 
-	public fun hotelOffer(piid: String, checkInDate: String, checkOutDate: String): Observable<PackageOffersResponse> {
-		return packageApi.packageHotelOffers(piid, checkInDate, checkOutDate)
+	public fun hotelOffer(piid: String, checkInDate: String, checkOutDate: String, ratePlanCode: String?, roomTypeCode: String?): Observable<PackageOffersResponse> {
+		return packageApi.packageHotelOffers(piid, checkInDate, checkOutDate, ratePlanCode, roomTypeCode)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 	}

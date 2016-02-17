@@ -41,6 +41,12 @@ public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter
             bundlePresenter.bundleWidget.priceChangeWidget.viewmodel.originalPackagePrice.onNext(trip.oldPackageDetails?.pricing?.packageTotal)
             bundlePresenter.bundleWidget.priceChangeWidget.viewmodel.packagePrice.onNext(trip.packageDetails.pricing.packageTotal)
             bundlePresenter.bundleWidget.checkoutButton.visibility = VISIBLE
+            bundlePresenter.toolbar.viewModel.showChangePackageMenuObservable.onNext(true)
+            bundlePresenter.bundleWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
+            bundlePresenter.bundleWidget.inboundFlightWidget.toggleFlightWidget(1f, true)
+            bundlePresenter.bundleWidget.bundleHotelWidget.toggleHotelWidget(1f, true)
+            bundlePresenter.bundleWidget.toggleMenuObservable.onNext(true)
+            bundlePresenter.bundleWidget.toggleCheckoutButton(1f, true)
         }
         bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe( bundlePresenter.checkoutPresenter.packageCheckoutViewModel.tripResponseObservable)
         bundlePresenter.checkoutPresenter.viewModel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)

@@ -362,6 +362,9 @@ DummyFiletoHandleKotlinLintError {
 		R.color.packages_breakdown_savings_cost_color,
 		R.color.packages_breakdown_line_seperator_color,
 		R.layout.package_breakdown,
-		R.layout.package_cost_summary_row
+		R.layout.package_cost_summary_row,
+		R.string.flight_time_traveler_TEMPLATE,
+		R.drawable.ic_create_white_24dp,
+		R.menu.menu_package_checkout
 	};
 }

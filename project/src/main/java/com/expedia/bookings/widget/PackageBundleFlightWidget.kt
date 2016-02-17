@@ -89,8 +89,8 @@ public class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) :
 
     init {
         View.inflate(getContext(), R.layout.bundle_flight_widget, this)
-        flightInfoContainer.isEnabled = false
-        flightInfoContainer.setOnClickListener {
+        isEnabled = false
+        setOnClickListener {
             if (isOutbound) {
                 openFlightsForDeparture()
             } else {
@@ -138,5 +138,14 @@ public class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) :
         if (isFlightSegmentDetailsExpanded()) {
             collapseFlightDetails()
         }
+    }
+
+    fun toggleFlightWidget(alpha: Float, isEnabled: Boolean) {
+        travelInfoText.alpha = alpha
+        flightCardText.alpha = alpha
+        flightIcon.alpha = alpha
+        flightDetailsIcon.alpha = alpha
+        this.isEnabled = isEnabled
+        flightDetailsIcon.isEnabled = isEnabled
     }
 }

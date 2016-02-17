@@ -154,6 +154,13 @@ public class Db {
 		sDb.mPackageSelectedRoom = null;
 	}
 
+	public static void clearPackageHotelRoomSelection() {
+		if (sDb.mPackageSelectedRoom != null) {
+			sDb.mPackageSelectedRoom.ratePlanCode = null;
+			sDb.mPackageSelectedRoom.roomTypeCode = null;
+		}
+	}
+
 	public static void clearPackageFlightSelection() {
 		sDb.mPackageSelectedInboundFlight = null;
 		sDb.mPackageSelectedOutboundFlight = null;

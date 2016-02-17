@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.AnimUtils
@@ -106,6 +107,7 @@ public class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : 
     }
 
     fun openHotels() {
+        Db.clearPackageHotelRoomSelection()
         val intent = Intent(context, PackageHotelActivity::class.java)
         (context as AppCompatActivity).startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
     }
@@ -135,5 +137,14 @@ public class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : 
         if (hotelRoomImage.visibility == Presenter.VISIBLE) {
             collapseSelectedHotel()
         }
+    }
+
+    fun toggleHotelWidget(alpha: Float, isEnabled: Boolean) {
+        hotelsText.alpha = alpha
+        hotelsRoomGuestInfoText.alpha = alpha
+        hotelLuggageIcon.alpha = alpha
+        hotelDetailsIcon.alpha = alpha
+        this.isEnabled = isEnabled
+        hotelDetailsIcon.isEnabled = isEnabled
     }
 }

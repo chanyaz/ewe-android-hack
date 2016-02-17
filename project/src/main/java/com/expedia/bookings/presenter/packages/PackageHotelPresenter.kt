@@ -28,6 +28,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.PackageBundlePriceWidget
+import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BundleOverviewViewModel
 import com.expedia.vm.BundlePriceViewModel
@@ -94,31 +95,26 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        addDefaultTransition(defaultTransition)
         addTransition(resultsToDetail)
         addTransition(resultsToOverview)
         addTransition(detailsToOverview)
-        show(resultsPresenter)
-        resultsPresenter.showDefault()
-        resultsPresenter.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay)))
-        resultsPresenter.viewmodel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
         loadingOverlay.setBackground(R.color.packages_primary_color)
     }
 
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
         selectedPackageHotel = hotel
-        getDetails(hotel.packageOfferModel.piid, hotel.hotelId, Db.getPackageParams().checkIn.toString(), Db.getPackageParams().checkOut.toString())
+        getDetails(hotel.packageOfferModel.piid, hotel.hotelId, Db.getPackageParams().checkIn.toString(), Db.getPackageParams().checkOut.toString(), Db.getPackageSelectedRoom()?.ratePlanCode, Db.getPackageSelectedRoom()?.roomTypeCode)
     }
 
     val hideBundlePriceOverviewObserver: Observer<Boolean> = endlessObserver { hide ->
         bundlePriceWidget.visibility = if (hide) GONE else VISIBLE
     }
 
-    private fun getDetails(piid: String, hotelId: String, checkIn: String, checkOut: String) {
+    private fun getDetails(piid: String, hotelId: String, checkIn: String, checkOut: String, ratePlanCode: String?, roomTypeCode: String?) {
         loadingOverlay.visibility = View.VISIBLE
         loadingOverlay.animate(true)
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay)))
-        val packageHotelOffers = packageServices.hotelOffer(piid, checkIn, checkOut)
+        val packageHotelOffers = packageServices.hotelOffer(piid, checkIn, checkOut, ratePlanCode, roomTypeCode)
         val info = packageServices.hotelInfo(hotelId)
         Observable.zip(packageHotelOffers, info, { packageHotelOffers, info ->
             val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(info, packageHotelOffers, Db.getPackageParams())
@@ -132,7 +128,7 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         info.subscribe()
     }
 
-    private val defaultTransition = object : Presenter.DefaultTransition(PackageHotelResultsPresenter::class.java.name) {
+    private val defaultResultsTransition = object : Presenter.DefaultTransition(PackageHotelResultsPresenter::class.java.name) {
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
@@ -292,4 +288,32 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         bundleToolbar.navigationIcon = icon
     }
+
+    val defaultTransitionObserver: Observer<PackageHotelActivity.Screen> = endlessObserver {
+        when (it) {
+            PackageHotelActivity.Screen.DETAILS -> {
+                addDefaultTransition(defaultDetailsTransition)
+            }
+            PackageHotelActivity.Screen.RESULTS -> {
+                addDefaultTransition(defaultResultsTransition)
+                show(resultsPresenter)
+                resultsPresenter.showDefault()
+                resultsPresenter.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay)))
+                resultsPresenter.viewmodel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
+            }
+        }
+    }
+
+    private val defaultDetailsTransition = object : Presenter.DefaultTransition(HotelDetailPresenter::class.java.name) {
+        override fun finalizeTransition(forward: Boolean) {
+            super.finalizeTransition(forward)
+            loadingOverlay.visibility = View.GONE
+            detailPresenter.visibility = View.VISIBLE
+            if (forward) {
+                detailPresenter.hotelDetailView.refresh()
+                detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
+            }
+        }
+    }
+
 }

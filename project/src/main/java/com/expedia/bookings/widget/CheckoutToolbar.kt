@@ -11,6 +11,7 @@ import android.widget.EditText
 import com.expedia.bookings.R
 import com.expedia.bookings.interfaces.ToolbarListener
 import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.CheckoutToolbarViewModel
 import kotlin.properties.Delegates
@@ -71,6 +72,16 @@ public class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(co
 
         toolbarNavIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         navigationIcon = toolbarNavIcon
+    }
+
+    val toggleMenuObserver = endlessObserver<Boolean> { visible ->
+        if (!visible) {
+            overflowIcon?.alpha = (255f * 0.25).toInt()
+            menu.setGroupEnabled(R.id.package_change_menu, false)
+        } else {
+            overflowIcon?.alpha = 255
+            menu.setGroupEnabled(R.id.package_change_menu, true)
+        }
     }
 
     override fun setActionBarTitle(title: String?) {
