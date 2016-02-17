@@ -175,7 +175,7 @@ android {
 
         multiDexEnabled = true
         testApplicationId "com.expedia.bookings.test"
-        testInstrumentationRunner "com.expedia.bookings.test.espresso.SpoonInstrumentationTestRunner"
+        testInstrumentationRunner "com.expedia.bookings.test.espresso.InstrumentationTestRunner"
 
         buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
         buildConfigField "String", "BUILD_NUMBER",  "\"${System.env.BUILD_NUMBER}\""
