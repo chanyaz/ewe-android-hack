@@ -131,6 +131,14 @@ public class PackageScreen {
 		return onView(withId(R.id.checkout_toolbar));
 	}
 
+	public static ViewInteraction bundleHotelToolbar() {
+		return onView(withId(R.id.bundle_toolbar));
+	}
+
+	public static ViewInteraction hotelBundleWidget() {
+		return onView(withId(R.id.bundle_widget));
+	}
+
 	public static ViewInteraction hotelBundle() {
 		return onView(withId(R.id.package_bundle_hotel_widget));
 	}
@@ -149,6 +157,11 @@ public class PackageScreen {
 
 	public static ViewInteraction outboundFlight() {
 		return onView(withId(R.id.package_bundle_outbound_flight_widget));
+	}
+
+	public static ViewInteraction hotelInfo() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)),
+			withId(R.id.hotel_info_container)));
 	}
 
 	public static ViewInteraction outboundFlightInfo() {
@@ -194,6 +207,9 @@ public class PackageScreen {
 		return onView(withId(R.id.itin_number));
 	}
 
+	public static ViewInteraction hotelPriceWidget() {
+		return onView(withId(R.id.bundle_price_widget));
+	}
 
 	public static void enterTravelerInfo() {
 		Common.delay(2);

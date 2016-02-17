@@ -20,6 +20,7 @@ import com.expedia.bookings.widget.PackageBundleHotelWidget
 import com.expedia.bookings.widget.PackageBundlePriceWidget
 import com.expedia.bookings.widget.PriceChangeWidget
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeText
 import com.expedia.vm.BundleFlightViewModel
 import com.expedia.vm.BundleHotelViewModel
 import com.expedia.vm.BundleOverviewViewModel
@@ -40,7 +41,6 @@ class BundleWidget(context: Context, attrs: AttributeSet) : FrameLayout(context,
     val priceChangeWidget: PriceChangeWidget by bindView(R.id.price_change)
     val bundleTotalPriceWidget: PackageBundlePriceWidget by bindView(R.id.bundle_total)
     val checkoutButton: Button by bindView(R.id.checkout_button)
-
 
     var viewModel: BundleOverviewViewModel by notNullAndObservable { vm ->
         vm.hotelParamsObservable.subscribe { param ->
@@ -86,6 +86,9 @@ class BundleWidget(context: Context, attrs: AttributeSet) : FrameLayout(context,
             bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
                     packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
         }
+        vm.stepOneTextObservable.subscribeText(stepOneText)
+        vm.stepTwoTextObservable.subscribeText(stepTwoText)
+        vm.createTripObservable.subscribe(bundleTotalPriceWidget.viewModel.createTripObservable)
     }
 
     init {
