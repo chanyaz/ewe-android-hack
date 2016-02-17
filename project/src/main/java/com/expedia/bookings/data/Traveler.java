@@ -16,6 +16,7 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.UserPreference.Category;
+import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Strings;
@@ -316,28 +317,42 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mPassengerCategory = passengerCategory;
 	}
 
-	public void determinePassengerCategory() {
-		LocalDate endOfTrip = Db.getTripBucket().getFlight().getFlightSearchParams().getReturnDate() != null ?
-			Db.getTripBucket().getFlight().getFlightSearchParams().getReturnDate() :
-			Db.getTripBucket().getFlight().getFlightSearchParams().getDepartureDate();
-		if (endOfTrip != null && mBirthDate != null) {
-			int yearsOld = Years.yearsBetween(mBirthDate, endOfTrip).getYears();
-			mPassengerCategory = yearsToPassengerCategory(yearsOld);
-		}
-	}
-
-	public PassengerCategory getPassengerCategory() {
+	public PassengerCategory getPassengerCategory(FlightSearchParams searchParams) {
 		// If we haven't assigned a passengerCategory yet (e.g. passenger is from account)
 		// Passenger category is determine by their max age during the duration of their trip
 		if (mPassengerCategory == null) {
-			determinePassengerCategory();
+			LocalDate endOfTrip = searchParams.getReturnDate() != null ?
+				searchParams.getReturnDate() :
+				searchParams.getDepartureDate();
+			mPassengerCategory = determinePassengerCategory(endOfTrip, searchParams.getInfantSeatingInLap());
 		}
 		return mPassengerCategory;
 	}
 
-	private PassengerCategory yearsToPassengerCategory(int years) {
+	public PassengerCategory getPassengerCategory(PackageSearchParams searchParams) {
+		// If we haven't assigned a passengerCategory yet (e.g. passenger is from account)
+		// Passenger category is determine by their max age during the duration of their trip
+		if (mPassengerCategory == null) {
+			mPassengerCategory = determinePassengerCategory(searchParams.getCheckOut(), false);
+		}
+		if (mPassengerCategory == PassengerCategory.INFANT_IN_LAP
+				|| mPassengerCategory == PassengerCategory.INFANT_IN_SEAT) {
+			throw new UnsupportedOperationException("TODO MUST IMPLEMENT INFANT FUNCTIONALITY");
+		}
+		return mPassengerCategory;
+	}
+
+	private PassengerCategory determinePassengerCategory(LocalDate endOfTrip, boolean infantsInLap) {
+		if (endOfTrip != null && mBirthDate != null) {
+			int yearsOld = Years.yearsBetween(mBirthDate, endOfTrip).getYears();
+			return fromAgeInYearsToPassengerCategory(yearsOld, infantsInLap);
+		}
+		return null;
+	}
+
+	private PassengerCategory fromAgeInYearsToPassengerCategory(int years, boolean infantsInLap) {
 		if (years < MIN_CHILD_AGE) {
-			if (Db.getTripBucket().getFlight().getFlightSearchParams().getInfantSeatingInLap()) {
+			if (infantsInLap) {
 				return PassengerCategory.INFANT_IN_LAP;
 			}
 			else {

@@ -23,6 +23,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity.YoYoMode;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
@@ -121,7 +122,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 		mEnterManuallyBtn.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				PassengerCategory category = Db.getTravelers().get(mCurrentTravelerIndex).getPassengerCategory();
+				FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
+				PassengerCategory category = Db.getTravelers().get(mCurrentTravelerIndex).getPassengerCategory(searchParams);
 				Traveler trav = new Traveler();
 				trav.setPassengerCategory(category);
 				Db.getWorkingTravelerManager().shiftWorkingTraveler(trav);
@@ -293,7 +295,8 @@ public class FlightTravelerInfoOptionsFragment extends Fragment {
 				public void onClick(View v) {
 					FlightTravelerFlowState state = FlightTravelerFlowState.getInstance(getActivity());
 					mCurrentTraveler = section.getTraveler();
-					PassengerCategory category = Db.getTravelers().get(mCurrentTravelerIndex).getPassengerCategory();
+					FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
+					PassengerCategory category = Db.getTravelers().get(mCurrentTravelerIndex).getPassengerCategory(searchParams);
 					mCurrentTraveler.setPassengerCategory(category);
 					BackgroundDownloader bd = BackgroundDownloader.getInstance();
 

@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
@@ -29,10 +30,11 @@ public class TravelerUtils {
 			int sectionLabelId = 0;
 			int displayNumber = 0;
 
+			FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
 			// This the only way to get count of each passenger category, before we can accordingly assign labels numbered or not.
 			for (int index = 0; index < travelers.size(); index++) {
 				Traveler traveler = travelers.get(index);
-				PassengerCategory travelerPassengerCategory = traveler.getPassengerCategory();
+				PassengerCategory travelerPassengerCategory = traveler.getPassengerCategory(searchParams);
 				switch (travelerPassengerCategory) {
 				case ADULT:
 				case SENIOR:
@@ -57,7 +59,7 @@ public class TravelerUtils {
 
 			for (int index = 0; index < travelers.size(); index++) {
 				Traveler traveler = travelers.get(index);
-				PassengerCategory travelerPassengerCategory = traveler.getPassengerCategory();
+				PassengerCategory travelerPassengerCategory = traveler.getPassengerCategory(searchParams);
 				boolean useTemplate = false;
 				switch (travelerPassengerCategory) {
 				case ADULT:

@@ -33,6 +33,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.Traveler;
@@ -861,7 +862,8 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 				if (hasBoundData()) {
 					if (getData().getBirthDate() != null) {
 						LocalDate birthDate = getData().getBirthDate();
-						PassengerCategory passengerCategory = getData().getPassengerCategory();
+						FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
+						PassengerCategory passengerCategory = getData().getPassengerCategory(searchParams);
 						if (birthDate.isAfter(LocalDate.now())) {
 							retVal = ValidationError.ERROR_DATA_INVALID;
 						}

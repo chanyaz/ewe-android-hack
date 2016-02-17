@@ -1197,7 +1197,8 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair(prefix + "lastName", traveler.getLastName()));
 		query.add(new BasicNameValuePair(prefix + "birthDate", dtf.print(traveler.getBirthDate())));
 		query.add(new BasicNameValuePair(prefix + "gender", (traveler.getGender() == Gender.MALE) ? "MALE" : "FEMALE"));
-		query.add(new BasicNameValuePair(prefix + "passengerCategory", traveler.getPassengerCategory().toString()));
+		FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
+		query.add(new BasicNameValuePair(prefix + "passengerCategory", traveler.getPassengerCategory(searchParams).toString()));
 		String assistanceOption;
 		if (traveler.getAssistance() != null) {
 			assistanceOption = traveler.getAssistance().name();

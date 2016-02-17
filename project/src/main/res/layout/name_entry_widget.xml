@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.expedia.bookings.widget.TravelerTextInput
+        android:id="@+id/first_name_input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:hint="@string/first_name"
+        android:textSize="@dimen/traveler_input_text_size"/>
+
+    <com.expedia.bookings.widget.TravelerTextInput
+        android:id="@+id/middle_initial_input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="5"
+        android:hint="@string/initial_name"
+        android:textSize="@dimen/traveler_input_text_size"/>
+
+    <com.expedia.bookings.widget.TravelerTextInput
+        android:id="@+id/last_name_input"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="10"
+        android:hint="@string/last_name"
+        android:textSize="@dimen/traveler_input_text_size"/>
+</merge>

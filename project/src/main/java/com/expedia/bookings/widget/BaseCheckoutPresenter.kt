@@ -10,6 +10,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewStub
+import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
@@ -21,10 +22,12 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.presenter.packages.TravelerPresenter
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
+
 import com.expedia.vm.BaseCheckoutViewModel
 import com.expedia.vm.PaymentViewModel
 import com.mobiata.android.Log
@@ -39,9 +42,13 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     val scrollView: ScrollView by bindView(R.id.scrollView)
     val summaryContainer: FrameLayout? by bindOptionalView(R.id.summary_container)
     val loginWidget: AccountButton by bindView(R.id.login_widget)
-    val travelerWidget: TravelerContactDetailsWidget by bindView(R.id.traveler_widget)
     var paymentWidget: PaymentWidget by Delegates.notNull()
     val paymentViewStub: ViewStub by bindView(R.id.payment_info_card_view_stub)
+
+    //TODO TEMP
+    val travelersButton: Button by bindView(R.id.travelers_button);
+    val travelerPresenter: TravelerPresenter by bindView(R.id.traveler_presenter)
+
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val hintContainer: LinearLayout by bindView(R.id.hint_container)
     val depositPolicyText: TextView by bindView(R.id.disclaimer_text)
@@ -66,13 +73,14 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             }
         }
         vm.lineOfBusiness.subscribe { lob ->
-            travelerWidget.setLineOfBusiness(lob)
             paymentWidget.viewmodel.lineOfBusiness.onNext(lob)
             userAccountRefresher = UserAccountRefresher(context, lob, this)
         }
         vm.creditCardRequired.subscribe { required ->
             paymentWidget.viewmodel.isCreditCardRequired.onNext(required)
         }
+
+        travelerPresenter.travelersCompleteSubject.subscribe(vm.travelerCompleted)
     }
 
     init {
@@ -80,10 +88,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         paymentWidget = paymentViewStub.inflate() as PaymentWidget
         paymentWidget.viewmodel = PaymentViewModel(context)
         loginWidget.setListener(this)
-        travelerWidget.addExpandedListener(this)
         slideToPurchase.addSlideToListener(this)
 
         loginWidget.bind(false, Db.getUser() != null, Db.getUser(), LineOfBusiness.PACKAGES)
+
+        travelersButton.setOnClickListener { showTravelerPresenter() }
+
         legalInformationText.setOnClickListener {
             context.startActivity(HotelRulesActivity.createIntent(context, LineOfBusiness.PACKAGES))
         }
@@ -130,25 +140,24 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         super.onFinishInflate()
         addDefaultTransition(defaultTransition)
         slideToPurchase.addSlideToListener(this)
+
         addTransition(defaultToTraveler)
         addTransition(defaultToPayment)
         paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
+
+        travelerPresenter.travelersCompleteSubject.subscribe {
+                show(CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
+        }
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
         override fun finalizeTransition(forward: Boolean) {
             loginWidget.bind(false, Db.getUser() != null, Db.getUser(), LineOfBusiness.PACKAGES)
-            travelerWidget.isExpanded = false
-            if (travelerWidget.isComplete) {
-                viewModel.travelerCompleted.onNext(travelerWidget.sectionTravelerInfo.traveler)
-            } else {
-                viewModel.travelerCompleted.onNext(null)
-            }
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
         }
     }
 
-    private val defaultToTraveler = object : Presenter.Transition(CheckoutDefault::class.java, TravelerContactDetailsWidget::class.java) {
+    private val defaultToTraveler = object : Presenter.Transition(CheckoutDefault::class.java, TravelerPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             handle.setVisibility(forward)
             loginWidget.setVisibility(forward)
@@ -157,14 +166,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             legalInformationText.setVisibility(forward)
             depositPolicyText.setVisibility(forward)
             slideContainer.visibility = View.GONE
-            if (!forward) {
-                travelerWidget.isExpanded = false
-                if (travelerWidget.isComplete) {
-                    viewModel.travelerCompleted.onNext(travelerWidget.sectionTravelerInfo.traveler)
-                } else {
-                    viewModel.travelerCompleted.onNext(null)
-                }
-            }
+
+            travelersButton.visibility = if (!forward) View.VISIBLE else View.GONE
+            travelerPresenter.visibility = if (forward) View.VISIBLE else View.GONE
         }
     }
 
@@ -174,7 +178,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             handle.setVisibility(forward)
             loginWidget.setVisibility(forward)
             hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
-            travelerWidget.setVisibility(forward)
+            travelersButton.visibility = if (!forward) View.VISIBLE else View.GONE
             legalInformationText.setVisibility(forward)
             depositPolicyText.setVisibility(forward)
             slideContainer.visibility = View.GONE
@@ -231,7 +235,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     override fun accountLogoutClicked() {
         User.signOut(context)
         loginWidget.bind(false, false, null, getLineOfBusiness())
-        travelerWidget.onLogout()
+        //travelerWidget.onLogout()
         paymentWidget.viewmodel.userLogin.onNext(false)
         hintContainer.visibility = View.VISIBLE
         acceptTermsWidget.visibility = View.INVISIBLE
@@ -243,7 +247,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     override fun expanded(view: ExpandableCardView?) {
-        show(travelerWidget)
+        //show(travelerWidget)
+    }
+
+    private fun showTravelerPresenter() {
+        show(travelerPresenter)
     }
 
     class CheckoutDefault
@@ -267,7 +275,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     fun onLoginSuccess() {
         loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness())
-        travelerWidget.onLogin()
+        //travelerWidget.onLogin()
         paymentWidget.viewmodel.userLogin.onNext(true)
         hintContainer.visibility = View.GONE
         doCreateTrip()
