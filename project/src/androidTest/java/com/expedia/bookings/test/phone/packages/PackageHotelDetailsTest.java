@@ -55,7 +55,7 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		PackageScreen.hotelDetailsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Package Happy Path")))));
 
-		onView(allOf(withId(R.id.hotel_search_info), withText("3 Guests, 1 room")))
+		onView(allOf(withId(R.id.hotel_search_info), withText("1 Room, 3 Guests")))
 			.check(matches(isDisplayed()));
 	}
 }

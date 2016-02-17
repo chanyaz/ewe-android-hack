@@ -3830,8 +3830,6 @@
     <string name="package_toolbar_title">酒店 + 機票</string>
     <!-- Label for per person -->
     <string name="per_person">一位</string>
-    <!-- Label for package search toolbar -->
-    <string name="bundle_overview_title">套票行程概覽</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">出發地：</string>
     <!-- Fly to hint -->

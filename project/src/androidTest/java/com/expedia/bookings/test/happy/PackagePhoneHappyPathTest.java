@@ -145,7 +145,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		String startDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
 		String endDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(8));
 		onView(
-			allOf(withId(R.id.hotel_search_info), withText("1 Guest, 1 room")))
+			allOf(withId(R.id.hotel_search_info), withText("1 Room, 1 Guest")))
 			.check(matches(isDisplayed()));
 	}
 
@@ -180,17 +180,17 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(allOf(withId(R.id.step_two_text), withText("Flights - SFO to DTW, round trip"))).check(
 			matches(isDisplayed()));
 		onView(allOf(withId(R.id.hotels_card_view_text))).check(matches(withText("Package Happy Path")));
-		onView(allOf(withId(R.id.hotels_room_guest_info_text))).check(matches(withText("1 Guest")));
+		onView(allOf(withId(R.id.hotels_room_guest_info_text))).check(matches(withText("1 Room, 1 Guest")));
 
 		onView(allOf(withId(R.id.flight_card_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(
-			matches(withText("Flight to Detroit, MI")));
+			matches(withText("Flight to (DTW) Detroit, MI")));
 		onView(allOf(withId(R.id.travel_info_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(
 			matches(withText("Jul 10 at 9:00 am, 1 Traveler")));
 		onView(allOf(withId(R.id.flight_card_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)))).check(
-			matches(withText("Flight to San Francisco, CA")));
+			matches(withText("Flight to (SFO) San Francisco, CA")));
 		onView(allOf(withId(R.id.travel_info_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)))).check(
 			matches(withText("Jul 16 at 1:45 pm, 1 Traveler")));

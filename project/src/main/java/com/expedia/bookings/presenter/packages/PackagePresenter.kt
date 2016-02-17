@@ -80,6 +80,8 @@ public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter
             bundlePresenter.show(BundleOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         }
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(bundlePresenter.bundleWidget.viewModel.hotelParamsObservable)
+        bundlePresenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(bundlePresenter.toolbar.viewModel.toolbarTitle)
+        bundlePresenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(bundlePresenter.toolbar.viewModel.toolbarSubtitle)
     }
 
     override fun onFinishInflate() {

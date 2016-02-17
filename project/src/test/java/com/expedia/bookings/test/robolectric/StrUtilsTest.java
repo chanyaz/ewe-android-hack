@@ -17,6 +17,7 @@ import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.utils.LegalClickableSpan;
 import com.expedia.bookings.utils.StrUtils;
 
@@ -128,6 +129,12 @@ public class StrUtilsTest {
 	}
 
 	@Test
+	public void testAirportCodeCityNameFormatting() {
+		String formattedString = StrUtils.formatAirportCodeCityName(getDummySuggestion());
+		assertEquals("(CHI) Chicago, IL", formattedString);
+	}
+
+	@Test
 	public void testRoundOff() {
 		float testNumber = 4.0481f;
 		assertEquals("4", StrUtils.roundOff(testNumber, 0));
@@ -142,4 +149,17 @@ public class StrUtilsTest {
 		assertEquals("A complimentary breakfast is offered.eStone Villa Inn San Mateo is a smoke-free property.<br/><br/>• 24-hour front desk<br/>", formattedString);
 	}
 
+
+	private SuggestionV4 getDummySuggestion() {
+		SuggestionV4 suggestion = new SuggestionV4();
+		suggestion.gaiaId = "";
+		suggestion.regionNames = new SuggestionV4.RegionNames();
+		suggestion.regionNames.displayName = "Chicago, IL";
+		suggestion.regionNames.fullName = "Chicago (and vicinity), Illinois, United States of America";
+		suggestion.regionNames.shortName = "Chicago (and vicinity)";
+		suggestion.hierarchyInfo = new SuggestionV4.HierarchyInfo();
+		suggestion.hierarchyInfo.airport = new SuggestionV4.Airport();
+		suggestion.hierarchyInfo.airport.airportCode = "CHI";
+		return suggestion;
+	}
 }

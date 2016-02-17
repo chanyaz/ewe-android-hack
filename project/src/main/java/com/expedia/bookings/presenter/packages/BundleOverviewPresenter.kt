@@ -4,7 +4,6 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
-
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
@@ -72,6 +71,8 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
         checkoutPresenter.slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
         toolbarHeight = Ui.getStatusBarHeight(context) + Ui.getToolbarSize(context)
         bundleWidget.bundleContainer.setPadding(0, toolbarHeight, 0, 0)
+        toolbar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
+        toolbar.setSubtitleTextAppearance(context, R.style.ToolbarSubtitleTextAppearance)
     }
 
     public fun hideCheckoutHeaderImage() {
@@ -87,6 +88,7 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
         toolbar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         statusBar?.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         toolbar.viewModel.toolbarTitle.onNext("")
+        toolbar.viewModel.toolbarSubtitle.onNext("")
         checkoutOverviewHeader.visibility = VISIBLE
         bundleWidget.bundleContainer.setPadding(0, scrollViewTopPadding, 0, 0)
     }

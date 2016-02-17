@@ -3830,8 +3830,6 @@
     <string name="package_toolbar_title">Hotell + Flyg</string>
     <!-- Label for per person -->
     <string name="per_person">per person</string>
-    <!-- Label for package search toolbar -->
-    <string name="bundle_overview_title">Paketöversikt</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">Flyger från</string>
     <!-- Fly to hint -->

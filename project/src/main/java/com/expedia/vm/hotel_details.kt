@@ -368,7 +368,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
         paramsSubject.subscribe { params ->
             if (params.forPackage) {
-                searchInfoObservable.onNext(Phrase.from(context, R.string.guests_with_rooms_TEMPLATE)
+                searchInfoObservable.onNext(Phrase.from(context, R.string.room_with_guests_TEMPLATE)
                         .put("guests", StrUtils.formatGuestString(context, params.guests()))
                         .format()
                         .toString())

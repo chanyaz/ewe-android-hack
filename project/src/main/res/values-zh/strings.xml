@@ -3830,8 +3830,6 @@
     <string name="package_toolbar_title">机 + 酒</string>
     <!-- Label for per person -->
     <string name="per_person">每人</string>
-    <!-- Label for package search toolbar -->
-    <string name="bundle_overview_title">打包套餐</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">出发城市</string>
     <!-- Fly to hint -->

@@ -11,6 +11,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.CurrencyUtils
+import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
@@ -40,6 +41,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : FrameLayout(context,
     val bundleTotalPriceWidget: PackageBundlePriceWidget by bindView(R.id.bundle_total)
     val checkoutButton: Button by bindView(R.id.checkout_button)
 
+
     var viewModel: BundleOverviewViewModel by notNullAndObservable { vm ->
         vm.hotelParamsObservable.subscribe { param ->
             bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(true)
@@ -52,22 +54,27 @@ class BundleWidget(context: Context, attrs: AttributeSet) : FrameLayout(context,
         vm.flightParamsObservable.subscribe { param ->
             if (param.isOutboundSearch()) {
                 outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(true)
-                outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to, StrUtils.formatCityName(Db.getPackageParams().destination.regionNames.shortName)))
+                outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
             } else {
                 inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(true)
-                inboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to, StrUtils.formatCityName(Db.getPackageParams().origin.regionNames.shortName)))
+                inboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().origin)))
             }
         }
         vm.flightResultsObservable.subscribe { searchType ->
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
                 outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
-                outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatCityName(Db.getPackageParams().destination.regionNames.shortName)))
+                outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
+                outboundFlightWidget.viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
+                        .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().checkIn))
+                        .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests())).format().toString())
             } else {
                 inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
-                inboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatCityName(Db.getPackageParams().origin.regionNames.shortName)))
+                inboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().origin)))
+                inboundFlightWidget.viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
+                        .put("date", DateUtils.localDateToMMMd(Db.getPackageParams().checkOut))
+                        .put("travelers", StrUtils.formatTravelerString(context, Db.getPackageParams().guests())).format().toString())
             }
         }
-
         vm.showBundleTotalObservable.subscribe { visible ->
             var packagePrice = Db.getPackageResponse().packageResult.currentSelectedOffer.price
 

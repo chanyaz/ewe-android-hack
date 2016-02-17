@@ -9,6 +9,7 @@ public class CheckoutToolbarViewModel(val context: Context) {
 
     // inputs
     val toolbarTitle = PublishSubject.create<String>()
+    val toolbarSubtitle = PublishSubject.create<String>()
     val menuTitle = PublishSubject.create<String>()
     val enableMenu = PublishSubject.create<Boolean>()
     val enableMenuDone = PublishSubject.create<Boolean>()

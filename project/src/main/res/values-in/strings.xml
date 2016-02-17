@@ -3830,8 +3830,6 @@
     <string name="package_toolbar_title">Hotel + Penerbangan</string>
     <!-- Label for per person -->
     <string name="per_person">per orang</string>
-    <!-- Label for package search toolbar -->
-    <string name="bundle_overview_title">Ringkasan Paket</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">Terbang dari</string>
     <!-- Fly to hint -->
