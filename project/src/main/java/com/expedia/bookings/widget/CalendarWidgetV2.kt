@@ -2,68 +2,22 @@ package com.expedia.bookings.widget
 
 import android.app.AlertDialog
 import android.content.Context
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
-import android.support.v4.content.ContextCompat
-import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.FontCache
-import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeText
 import com.expedia.vm.HotelSearchViewModel
-import com.expedia.vm.HotelTravelerParams
-import com.expedia.vm.HotelTravelerPickerViewModel
 import com.mobiata.android.time.util.JodaUtils
 import com.mobiata.android.time.widget.CalendarPicker
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 
-public class CalendarTravelerWidgetV2(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
-    var oldTravelerData: HotelTravelerParams? = null;
+public class CalendarWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCardView(context, attrs) {
     var oldCalendarSelection: Pair<LocalDate, LocalDate>? = null;
-    val travelerText: TextView by bindView(R.id.traveler_label)
-    val calendarText: TextView by bindView(R.id.calendar_label)
     val hotelSearchViewModelSubject = BehaviorSubject.create<HotelSearchViewModel>()
-    val travelerDialogView: View by lazy {
-        val view = LayoutInflater.from(context).inflate(R.layout.widget_hotel_traveler_search, null)
-        view
-    }
-
-    val traveler: HotelTravelerPickerView by lazy {
-        val travelerView = travelerDialogView.findViewById(R.id.traveler_view) as HotelTravelerPickerView
-        travelerView.viewmodel = HotelTravelerPickerViewModel(context, false)
-        travelerView.viewmodel.travelerParamsObservable.subscribe(hotelSearchViewModelSubject.value.travelersObserver)
-        travelerView.viewmodel.guestsTextObservable.subscribeText(travelerText)
-        travelerView
-    }
-
-    val travelerDialog: AlertDialog by lazy {
-        val builder = AlertDialog.Builder(context)
-        traveler
-        builder.setView(travelerDialogView)
-        builder.setTitle(R.string.select_traveler_title)
-        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
-            oldTravelerData = null
-            dialog.dismiss()
-        })
-        val dialog: AlertDialog = builder.create()
-        dialog.setOnShowListener {
-            oldTravelerData = traveler.viewmodel.travelerParamsObservable.value
-        }
-        dialog.setOnDismissListener {
-            if (oldTravelerData != null) {
-                //if it's not null, the user dismissed the dialog, otherwise we clear it on Done
-                traveler.viewmodel.travelerParamsObservable.onNext(oldTravelerData)
-                oldTravelerData = null
-            }
-        }
-        dialog
-    }
-
     val calendarDialogView: View by lazy {
         val view = LayoutInflater.from(context).inflate(R.layout.widget_hotel_calendar_search, null)
         view
@@ -101,7 +55,7 @@ public class CalendarTravelerWidgetV2(context: Context, attrs: AttributeSet?) : 
         hotelSearchViewModelSubject.value.searchParamsObservable.subscribe {
             calendarPickerView.hideToolTip()
         }
-        hotelSearchViewModelSubject.value.dateTextObservable.subscribeText(calendarText)
+        hotelSearchViewModelSubject.value.dateTextObservable.subscribeText(this.text)
         calendarPickerView.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
         calendarPickerView
     }
@@ -137,21 +91,8 @@ public class CalendarTravelerWidgetV2(context: Context, attrs: AttributeSet?) : 
     }
 
     init {
-        View.inflate(context, R.layout.widget_traveler_calendar_search_v2, this)
-        val travelerLeftDrawable = travelerText.compoundDrawables[0].mutate()
-        val calendarLeftDrawable = calendarText.compoundDrawables[0].mutate()
-        val color = ContextCompat.getColor(context, R.color.search_screen_icon_color_v2)
-        travelerLeftDrawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
-        calendarLeftDrawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
-        travelerText.setCompoundDrawablesWithIntrinsicBounds(travelerLeftDrawable, null, null, null)
-        calendarText.setCompoundDrawablesWithIntrinsicBounds(calendarLeftDrawable, null, null, null)
-
-        calendarText.setOnClickListener {
+        this.setOnClickListener {
             calendarDialog.show()
-        }
-
-        travelerText.setOnClickListener {
-            travelerDialog.show()
         }
     }
 }

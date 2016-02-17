@@ -1653,6 +1653,8 @@
     <string name="edit_search">Edit Search</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">Select Dates</string>
+    <!-- Action mode asking users to select location -->
+    <string name="select_destination">Select Destination</string>
     <!-- Number of adults template -->
     <plurals name="number_of_adults_TEMPLATE">
         <item quantity="zero">%1$d Adults</item>

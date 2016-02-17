@@ -41,7 +41,7 @@ public class NewSearchScreenTest : HotelTestCase() {
         HotelScreen.searchAlertDialogDoneV2().perform(click())
 
         HotelScreen.selectCalendarV2().perform(ViewActions.waitForViewToDisplay())
-        HotelScreen.selectCalendarV2().check(matches(withText(HotelSearchViewModel.computeDateText(activity, firstStartDate, firstEndDate).toString())))
+        HotelScreen.selectCalendarV2Text().check(matches(withText(HotelSearchViewModel.computeDateText(activity, firstStartDate, firstEndDate).toString())))
 
         val secondStartDate = LocalDate.now().plusDays(20)
         val secondEndDate = LocalDate.now().plusDays(22)
@@ -53,7 +53,7 @@ public class NewSearchScreenTest : HotelTestCase() {
 
         // verify updates when second set of dates is selected
         HotelScreen.selectCalendarV2().perform(ViewActions.waitForViewToDisplay())
-        HotelScreen.selectCalendarV2().check(matches(withText(HotelSearchViewModel.computeDateText(activity, secondStartDate, secondEndDate).toString())))
+        HotelScreen.selectCalendarV2Text().check(matches(withText(HotelSearchViewModel.computeDateText(activity, secondStartDate, secondEndDate).toString())))
 
         val thirdStartDate = LocalDate.now().plusDays(15)
         val thirdEndDate = LocalDate.now().plusDays(17)
@@ -65,7 +65,7 @@ public class NewSearchScreenTest : HotelTestCase() {
 
         // make sure second date is still displayed on back
         HotelScreen.selectCalendarV2().perform(ViewActions.waitForViewToDisplay())
-        HotelScreen.selectCalendarV2().check(matches(withText(HotelSearchViewModel.computeDateText(activity, secondStartDate, secondEndDate).toString())))
+        HotelScreen.selectCalendarV2Text().check(matches(withText(HotelSearchViewModel.computeDateText(activity, secondStartDate, secondEndDate).toString())))
     }
 
     @Throws(Throwable::class)
@@ -79,7 +79,7 @@ public class NewSearchScreenTest : HotelTestCase() {
         // closing traveler dialog click on widget
         HotelScreen.searchAlertDialogDoneV2().perform(click())
         HotelScreen.selectTravelerV2().check(matches(isDisplayed()))
-        HotelScreen.selectTravelerV2().check(matches(withText(StrUtils.formatGuestString(activity, 1))))
+        HotelScreen.selectTravelerV2Text().check(matches(withText(StrUtils.formatGuestString(activity, 1))))
 
         // opening traveler dialog click on widget
         HotelScreen.selectTravelerV2().perform(click())
@@ -89,7 +89,7 @@ public class NewSearchScreenTest : HotelTestCase() {
         // closing traveler dialog click on widget
         HotelScreen.searchAlertDialogDoneV2().perform(click())
         HotelScreen.selectTravelerV2().check(matches(isDisplayed()))
-        HotelScreen.selectTravelerV2().check(matches(withText(StrUtils.formatGuestString(activity, 2))))
+        HotelScreen.selectTravelerV2Text().check(matches(withText(StrUtils.formatGuestString(activity, 2))))
 
         // opening traveler dialog click on widget
         HotelScreen.selectTravelerV2().perform(click())
@@ -99,7 +99,7 @@ public class NewSearchScreenTest : HotelTestCase() {
         // closing traveler dialog click on widget
         Common.pressBack()
         HotelScreen.selectTravelerV2().check(matches(isDisplayed()))
-        HotelScreen.selectTravelerV2().check(matches(withText(StrUtils.formatGuestString(activity, 2))))
+        HotelScreen.selectTravelerV2Text().check(matches(withText(StrUtils.formatGuestString(activity, 2))))
     }
 
     @Throws(Throwable::class)
