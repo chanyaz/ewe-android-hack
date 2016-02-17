@@ -55,6 +55,7 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         presenter.mapView.getMapAsync(presenter)
         presenter.viewmodel = HotelResultsViewModel(context, null, LineOfBusiness.PACKAGES, null)
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
+        presenter.hideBundlePriceOverviewSubject.subscribe(hideBundlePriceOverviewObserver)
         presenter
     }
     val detailPresenter: HotelDetailPresenter by lazy {
@@ -97,6 +98,10 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
         selectedPackageHotel = hotel
         getDetails(hotel.packageOfferModel.piid, hotel.hotelId, Db.getPackageParams().checkIn.toString(), Db.getPackageParams().checkOut.toString())
+    }
+
+    val hideBundlePriceOverviewObserver: Observer<Boolean> = endlessObserver { hide ->
+        bundleOverviewWidget.visibility = if (hide) GONE else VISIBLE
     }
 
     private fun getDetails(piid: String, hotelId: String, checkIn: String, checkOut: String) {

@@ -65,6 +65,8 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.hotelBundle().perform(click());
 		Common.delay(1);
 
+		assertFilter();
+
 		HotelScreen.selectHotel("Package Happy Path");
 		Common.delay(1);
 
@@ -117,6 +119,12 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		Common.delay(1);
 
 		PackageScreen.itin().check(matches(withText("1126420960431")));
+	}
+
+	private void assertFilter() {
+		onView(withId(R.id.filter_button)).perform(click());
+		onView(withId(R.id.sort_by_selection_spinner)).check(matches(isDisplayed()));
+		Common.pressBack();
 	}
 
 	private void assertHotelSRP() {
@@ -208,6 +216,5 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
 				CoreMatchers.allOf(withId(id), isDisplayed(), withText(text)))));
 	}
-
 
 }
