@@ -33,7 +33,7 @@ public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter
         Ui.getApplication(getContext()).packageComponent().inject(this)
         View.inflate(context, R.layout.package_presenter, this)
         bundlePresenter.bundleWidget.viewModel = BundleOverviewViewModel(context, packageServices)
-        bundlePresenter.checkoutPresenter.viewModel = BaseCheckoutViewModel(context, packageServices)
+        bundlePresenter.checkoutPresenter.viewModel = BaseCheckoutViewModel(context)
         bundlePresenter.checkoutPresenter.createTripViewModel = PackageCreateTripViewModel(packageServices)
         bundlePresenter.checkoutPresenter.packageCheckoutViewModel = PackageCheckoutViewModel(context, packageServices)
         bundlePresenter.checkoutPresenter.createTripViewModel.bundleTotalPrice.subscribe(bundlePresenter.bundleWidget.bundleTotalPriceWidget.viewModel.setTextObservable)

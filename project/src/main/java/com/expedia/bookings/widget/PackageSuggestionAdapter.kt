@@ -29,7 +29,7 @@ public class PackageSuggestionAdapter(val viewmodel: SuggestionAdapterViewModel)
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         when (holder) {
-            is PackageSuggestionViewHolder -> holder.vm.suggestionObserver.onNext(viewmodel.suggestions.get(position))
+            is PackageSuggestionViewHolder -> holder.vm.suggestionObserver.onNext(viewmodel.suggestions[position])
         }
     }
 

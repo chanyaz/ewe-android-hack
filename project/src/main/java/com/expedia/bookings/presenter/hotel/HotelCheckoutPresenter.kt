@@ -19,7 +19,6 @@ import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.data.payment.RewardDetails
 import com.expedia.bookings.data.payment.Traveler
 import com.expedia.bookings.data.payment.TripDetails
-import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.tracking.HotelV2Tracking
@@ -31,7 +30,6 @@ import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelCheckoutViewModel
 import org.joda.time.format.ISODateTimeFormat
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.Locale
@@ -88,8 +86,8 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
 
     private val defaultCheckoutTransition = object : Presenter.DefaultTransition(HotelCheckoutMainViewPresenter::class.java.name) {
         override fun finalizeTransition(forward: Boolean) {
-            hotelCheckoutWidget.setVisibility(View.VISIBLE)
-            cvv.setVisibility(View.GONE)
+            hotelCheckoutWidget.visibility = View.VISIBLE
+            cvv.visibility = View.GONE
         }
     }
 
@@ -104,11 +102,11 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
     }
 
     val checkoutSliderSlidObserver = endlessObserver<Boolean> {
-        val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.getBillingInfo()
+        val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.billingInfo
         if (!it) {
             bookedWithoutCVVSubject.onNext(Unit)
-        } else if (billingInfo.getStoredCard() != null && billingInfo.getStoredCard().isGoogleWallet()) {
-            onBook(billingInfo.getSecurityCode())
+        } else if (billingInfo.storedCard != null && billingInfo.storedCard.isGoogleWallet()) {
+            onBook(billingInfo.securityCode)
         } else {
             cvv.bind(billingInfo)
             show(cvv)

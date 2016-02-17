@@ -43,7 +43,7 @@ public abstract class BaseLayoverWidget(context: Context, attrs: AttributeSet?) 
 
     init {
         if (attrs != null) {
-            val attrSet = context.getTheme().obtainStyledAttributes(attrs, R.styleable.LayoverWidget, 0, 0);
+            val attrSet = context.theme.obtainStyledAttributes(attrs, R.styleable.LayoverWidget, 0, 0);
             try {
                 locationCodeTextColor = attrSet.getColor(R.styleable.LayoverWidget_location_text_color,
                         R.color.packages_primary_color);

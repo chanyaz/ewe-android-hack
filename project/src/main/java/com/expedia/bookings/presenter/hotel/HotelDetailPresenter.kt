@@ -156,7 +156,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
     }
 
     override fun back(): Boolean {
-        if (hotelDetailView.hotelDetailsToolbar.navIcon.getParameter().toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
+        if (hotelDetailView.hotelDetailsToolbar.navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type) {
             hotelDetailView.updateGallery(false)
             return true
         }

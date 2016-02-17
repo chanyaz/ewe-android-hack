@@ -23,16 +23,16 @@ public class HotelsNeighborhoodFilter(context: Context, attrs: AttributeSet) : R
     var viewModel: HotelFilterViewModel by Delegates.notNull()
 
     val checkObserver : Observer<Unit> = endlessObserver {
-        neighborhoodCheckBox.setChecked(!neighborhoodCheckBox.isChecked())
-        viewModel.selectNeighborhood.onNext(neighborhoodName.getText().toString())
+        neighborhoodCheckBox.isChecked = !neighborhoodCheckBox.isChecked
+        viewModel.selectNeighborhood.onNext(neighborhoodName.text.toString())
         if (neighborhoodCheckBox.isChecked) HotelV2Tracking().trackLinkHotelV2FilterNeighbourhood()
     }
 
     public fun bind(neighborhood: Neighborhood, vm:HotelFilterViewModel) {
         this.viewModel = vm
         this.neighborhood = neighborhood
-        neighborhoodName.setText(neighborhood.name)
-        neighborhoodCheckBox.setChecked(false)
+        neighborhoodName.text = neighborhood.name
+        neighborhoodCheckBox.isChecked = false
     }
 }
 

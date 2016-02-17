@@ -58,19 +58,19 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Fr
         vm.childTextObservable.subscribeText(childText)
 
         vm.adultPlusObservable.subscribe {
-            adultPlus.setEnabled(it)
+            adultPlus.isEnabled = it
             adultPlus.setImageButtonColorFilter(it)
         }
         vm.adultMinusObservable.subscribe {
-            adultMinus.setEnabled(it)
+            adultMinus.isEnabled = it
             adultMinus.setImageButtonColorFilter(it)
         }
         vm.childPlusObservable.subscribe {
-            childPlus.setEnabled(it)
+            childPlus.isEnabled = it
             childPlus.setImageButtonColorFilter(it)
         }
         vm.childMinusObservable.subscribe {
-            childMinus.setEnabled(it)
+            childMinus.isEnabled = it
             childMinus.setImageButtonColorFilter(it)
         }
 
@@ -107,16 +107,16 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Fr
 
         vm.travelerParamsObservable.subscribe { travelers ->
             if (travelers.children.size == 0) {
-                childAgeLabel.setVisibility(View.GONE)
+                childAgeLabel.visibility = View.GONE
             } else {
-                childAgeLabel.setVisibility(View.VISIBLE)
+                childAgeLabel.visibility = View.VISIBLE
             }
             for (i in childSpinners.indices) {
                 val spinner = childSpinners[i]
                 if (i >= travelers.children.size) {
-                    spinner.setVisibility(View.INVISIBLE)
+                    spinner.visibility = View.INVISIBLE
                 } else {
-                    spinner.setVisibility(View.VISIBLE)
+                    spinner.visibility = View.VISIBLE
                 }
             }
         }

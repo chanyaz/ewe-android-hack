@@ -19,10 +19,10 @@ public class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) 
     var viewmodel: FlightSegmentBreakdownViewModel by notNullAndObservable { vm ->
         vm.addSegmentRowsObserver.subscribe {
             linearLayout.removeAllViews()
-            for (segmentbreakdown in it) {
-                linearLayout.addView(createSegmentRow(segmentbreakdown))
-                if (segmentbreakdown.hasLayover && it.indexOf(segmentbreakdown) != it.size - 1) {
-                    linearLayout.addView(createLayoverRow(segmentbreakdown))
+            for (segmentBreakdown in it) {
+                linearLayout.addView(createSegmentRow(segmentBreakdown))
+                if (segmentBreakdown.hasLayover && it.indexOf(segmentBreakdown) != it.size - 1) {
+                    linearLayout.addView(createLayoverRow(segmentBreakdown))
                 }
             }
         }
@@ -33,7 +33,7 @@ public class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) 
     }
 
     private fun createSegmentRow(breakdown: FlightSegmentBreakdown): View {
-        val row = LayoutInflater.from(getContext()).inflate(R.layout.flight_segment_row, null)
+        val row = LayoutInflater.from(context).inflate(R.layout.flight_segment_row, null)
         val departureArrivalTime = row.findViewById(R.id.departure_arrival_time) as TextView
         val airlineAirplaneType = row.findViewById(R.id.airline_airplane_type) as TextView
         val departureArrivalAirports = row.findViewById(R.id.departure_arrival_airport) as TextView
@@ -46,7 +46,7 @@ public class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) 
     }
 
     private fun createLayoverRow(breakdown: FlightSegmentBreakdown): View {
-        val row = LayoutInflater.from(getContext()).inflate(R.layout.flight_segment_layover_row, null)
+        val row = LayoutInflater.from(context).inflate(R.layout.flight_segment_layover_row, null)
         val layoverIn = row.findViewById(R.id.flight_segment_layover_in) as TextView
         val layoverDuration = row.findViewById(R.id.flight_segment_layover_duration) as TextView
         layoverIn.text = Phrase.from(context.resources.getString(R.string.package_flight_overview_layover_in_TEMPLATE))

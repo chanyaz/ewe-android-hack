@@ -30,7 +30,7 @@ public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewMod
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
         when (holder) {
-            is HotelSuggestionViewHolder -> holder.vm.suggestionObserver.onNext(viewmodel.suggestions.get(position))
+            is HotelSuggestionViewHolder -> holder.vm.suggestionObserver.onNext(viewmodel.suggestions[position])
         }
     }
 

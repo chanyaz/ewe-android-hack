@@ -119,7 +119,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     override fun onGalleryItemScrolled(position: Int) {
         val havePhotoWithIndex = CollectionUtils.isNotEmpty(hotelOffersResponse.photos) && (position < hotelOffersResponse.photos.count())
         if (havePhotoWithIndex && hotelOffersResponse.photos[position].displayText != null)
-            galleryItemChangeObservable.onNext(Pair(position, hotelOffersResponse.photos.get(position).displayText))
+            galleryItemChangeObservable.onNext(Pair(position, hotelOffersResponse.photos[position].displayText))
         else
             galleryItemChangeObservable.onNext(Pair(position, ""))
 
@@ -295,8 +295,8 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
     val bookByPhoneContainerClickObserver: Observer<Unit> = endlessObserver {
         val number = when (User.getLoggedInLoyaltyMembershipTier(context)) {
-            Traveler.LoyaltyMembershipTier.SILVER -> PointOfSale.getPointOfSale().getSupportPhoneNumberSilver()
-            Traveler.LoyaltyMembershipTier.GOLD -> PointOfSale.getPointOfSale().getSupportPhoneNumberGold()
+            Traveler.LoyaltyMembershipTier.SILVER -> PointOfSale.getPointOfSale().supportPhoneNumberSilver
+            Traveler.LoyaltyMembershipTier.GOLD -> PointOfSale.getPointOfSale().supportPhoneNumberGold
             else -> hotelOffersResponse.telesalesNumber
         }
         SocialUtils.call(context, number)
@@ -317,7 +317,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
     }
 
     val resortFeeContainerClickObserver: Observer<Unit> = endlessObserver {
-        var renovationInfo = Pair<String, String>(context.getResources().getString(R.string.additional_fees),
+        var renovationInfo = Pair<String, String>(context.resources.getString(R.string.additional_fees),
                 hotelOffersResponse.hotelMandatoryFeesText?.content ?: "")
         hotelRenovationObservable.onNext(renovationInfo)
         HotelV2Tracking().trackHotelV2ResortFeeInfo()
@@ -372,7 +372,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
                         .put("guests", StrUtils.formatGuestString(context, params.guests()))
                         .format()
                         .toString())
-                val dates = context.getResources().getString(R.string.calendar_instructions_date_range_TEMPLATE,
+                val dates = context.resources.getString(R.string.calendar_instructions_date_range_TEMPLATE,
                         DateUtils.localDateToMMMd(params.checkIn), DateUtils.localDateToMMMd(params.checkOut))
                 searchDatesObservable.onNext(dates)
             } else {
@@ -459,7 +459,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         //Set up entire text for hotel info
         if (hotelOffersResponse.hotelOverviewText != null && hotelOffersResponse.hotelOverviewText.size > 1 ) {
             for (index in 1..hotelOffersResponse.hotelOverviewText.size - 1) {
-                listHotelInfo.add(hotelOffersResponse.hotelOverviewText.get(index))
+                listHotelInfo.add(hotelOffersResponse.hotelOverviewText[index])
             }
         }
 

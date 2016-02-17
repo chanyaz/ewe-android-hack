@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.FlightLeg
-import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageFlightUtils
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase

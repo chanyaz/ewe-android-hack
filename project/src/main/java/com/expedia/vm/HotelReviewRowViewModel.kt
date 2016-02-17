@@ -38,7 +38,7 @@ class HotelReviewRowViewModel(val context: Context) {
         val hasLocation = !TextUtils.isEmpty(location)
 
         if (hasName && hasLocation) {
-            nameAndLocationText = context.getResources().getString(R.string.user_review_name_and_location_signature, name, location)
+            nameAndLocationText = context.resources.getString(R.string.user_review_name_and_location_signature, name, location)
         } else if (!hasName && hasLocation) {
             nameAndLocationText = location
         } else if (hasName && !hasLocation) {

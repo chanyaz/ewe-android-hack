@@ -1,6 +1,5 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters

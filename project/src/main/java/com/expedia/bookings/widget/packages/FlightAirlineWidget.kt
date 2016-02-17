@@ -12,7 +12,6 @@ import com.expedia.bookings.data.packages.Airline
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 
-
 public class FlightAirlineWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     fun update(airlines: List<Airline>) {

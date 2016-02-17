@@ -69,11 +69,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
             val builder = AlertDialog.Builder(context)
             builder.setTitle(R.string.coupon_error_dialog_title)
             builder.setMessage(R.string.coupon_error_dialog_message)
-            builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface, which: Int) {
-                    dialog.dismiss()
-                }
-            })
+            builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which -> dialog.dismiss() })
             val alertDialog = builder.create()
             alertDialog.show()
             doCreateTrip()
@@ -83,17 +79,11 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
             val builder = AlertDialog.Builder(context)
             builder.setTitle(R.string.coupon_error_remove_dialog_title)
             builder.setMessage(R.string.coupon_error_fallback)
-            builder.setPositiveButton(context.getString(R.string.cancel), object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface, which: Int) {
-                    createTripResponseListener.onNext(createTripViewmodel.tripResponseObservable.value)
-                    dialog.dismiss()
-                }
+            builder.setPositiveButton(context.getString(R.string.cancel), { dialog, which ->
+                createTripResponseListener.onNext(createTripViewmodel.tripResponseObservable.value)
+                dialog.dismiss()
             })
-            builder.setNegativeButton(context.getString(R.string.retry), object : DialogInterface.OnClickListener {
-                override fun onClick(dialog: DialogInterface, which: Int) {
-                    couponCardView.viewmodel.removeObservable.onNext(true)
-                }
-            })
+            builder.setNegativeButton(context.getString(R.string.retry), { dialog, which -> couponCardView.viewmodel.removeObservable.onNext(true) })
             val alertDialog = builder.create()
             alertDialog.show()
         }
@@ -117,7 +107,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     var hotelCheckoutMainViewModel: HotelCheckoutMainViewModel by notNullAndObservable {
         it.updateEarnedRewards.subscribe { it ->
             Db.getTripBucket().hotelV2.updateTotalPointsToEarn(it)
-            loginWidget.updateRewardsText(getLineOfBusiness())
+            loginWidget.updateRewardsText(lineOfBusiness)
         }
     }
 
@@ -132,7 +122,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(getContext(), null, HotelCheckoutSummaryViewModel(getContext()))
+        hotelCheckoutSummaryWidget = HotelCheckoutSummaryWidget(context, null, HotelCheckoutSummaryViewModel(context))
         summaryContainer.addView(hotelCheckoutSummaryWidget)
 
         mainContactInfoCardView.setLineOfBusiness(LineOfBusiness.HOTELSV2)
@@ -148,12 +138,12 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         }
 
         val params = couponCardView.layoutParams as LayoutParams
-        params.setMargins(0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, getResources().getDisplayMetrics()).toInt(), 0, 0);
+        params.setMargins(0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics).toInt(), 0, 0);
     }
 
     fun bind() {
-        mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.enter_driver_details))
-        mainContactInfoCardView.setExpanded(false)
+        mainContactInfoCardView.setEnterDetailsText(resources.getString(R.string.enter_driver_details))
+        mainContactInfoCardView.isExpanded = false
         paymentInfoCardView.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
 
         if (!hasDiscount) {
@@ -163,20 +153,16 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         couponCardView.setExpanded(false)
 
         slideWidget.resetSlider()
-        slideToContainer.setVisibility(View.INVISIBLE)
-        legalInformationText.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View) {
-                context.startActivity(HotelRulesActivity.createIntent(context, LineOfBusiness.HOTELSV2))
-            }
-        })
-        if (User.isLoggedIn(getContext())) {
-            if (!hasSomeManuallyEnteredData(paymentInfoCardView.sectionBillingInfo.billingInfo) && Db.getUser().getStoredCreditCards().size == 1) {
+        slideToContainer.visibility = View.INVISIBLE
+        legalInformationText.setOnClickListener({ context.startActivity(HotelRulesActivity.createIntent(context, LineOfBusiness.HOTELSV2)) })
+        if (User.isLoggedIn(context)) {
+            if (!hasSomeManuallyEnteredData(paymentInfoCardView.sectionBillingInfo.billingInfo) && Db.getUser().storedCreditCards.size == 1) {
                 paymentInfoCardView.sectionBillingInfo.bind(Db.getBillingInfo())
                 paymentInfoCardView.selectFirstAvailableCard()
             }
-            loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness())
+            loginWidget.bind(false, true, Db.getUser(), lineOfBusiness)
         } else {
-            loginWidget.bind(false, false, null, getLineOfBusiness())
+            loginWidget.bind(false, false, null, lineOfBusiness)
         }
     }
 
@@ -268,8 +254,8 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     }
 
     override fun showProgress(show: Boolean) {
-        hotelCheckoutSummaryWidget.setVisibility(if (show) View.INVISIBLE else View.VISIBLE)
-        mSummaryProgressLayout.setVisibility(if (show) View.VISIBLE else View.GONE)
+        hotelCheckoutSummaryWidget.visibility = if (show) View.INVISIBLE else View.VISIBLE
+        mSummaryProgressLayout.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     override fun onSlideStart() {

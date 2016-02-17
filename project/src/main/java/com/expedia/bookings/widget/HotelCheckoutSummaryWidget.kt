@@ -69,11 +69,7 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
         val builder = AlertDialog.Builder(context)
         builder.setView(breakdown)
         builder.setTitle(R.string.cost_summary)
-        builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface, which: Int) {
-                dialog.dismiss()
-            }
-        })
+        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which -> dialog.dismiss() })
         builder.create()
     }
 
@@ -81,7 +77,7 @@ public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, 
     val priceBreakDownTestVariate = Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppHotelPriceBreakDownTest)
 
     init {
-        setOrientation(LinearLayout.VERTICAL)
+        orientation = LinearLayout.VERTICAL
         View.inflate(getContext(), R.layout.hotel_checkout_summary_widget, this)
         costSummary.setOnClickListener {
             dialog.show()

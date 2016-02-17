@@ -40,10 +40,7 @@ import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeToggleButton
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelRoomRateViewModel
-import com.mobiata.android.util.AndroidUtils
 import rx.Observable
-import rx.Subscription
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import kotlin.collections.forEach
 import kotlin.collections.isNotEmpty

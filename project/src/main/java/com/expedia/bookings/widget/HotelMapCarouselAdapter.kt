@@ -53,7 +53,7 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
 
     override fun onBindViewHolder(given: RecyclerView.ViewHolder?, position: Int) {
         val holder: HotelViewHolder = given as HotelViewHolder
-        val viewModel = HotelViewModel(holder.itemView.context, hotels.get(position))
+        val viewModel = HotelViewModel(holder.itemView.context, hotels[position])
         holder.bind(viewModel)
         holder.itemView.setOnClickListener(holder)
     }
@@ -81,7 +81,7 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
         }
 
         override fun onClick(view: View) {
-            val hotel: Hotel = hotels.get(adapterPosition)
+            val hotel: Hotel = hotels[adapterPosition]
             hotelSubject.onNext(hotel)
             HotelV2Tracking().trackHotelV2CarouselClick()
         }

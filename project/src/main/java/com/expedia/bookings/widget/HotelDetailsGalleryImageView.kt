@@ -24,7 +24,7 @@ public class HotelDetailsGalleryImageView(context: Context, attrs: AttributeSet)
         val normValue = normalizeValue(1 - value)
         val height = (startHeight + (actualHeight - startHeight) * normValue).toInt()
 
-        setLayoutParams(FrameLayout.LayoutParams(Ui.getScreenSize(getContext()).x, height))
+        layoutParams = FrameLayout.LayoutParams(Ui.getScreenSize(getContext()).x, height)
 
         var actualScrollHeight = (finalHeight - startHeight) * (1 - normValue)
         (parent as View).translationY = actualScrollHeight
