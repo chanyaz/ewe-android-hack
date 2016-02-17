@@ -9,8 +9,8 @@
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="skin_hotelListMapMarkerDrawable">@drawable/map_pin_normal_orb</item>
         <item name="skin_bestPriceGuaranteeString">@string/orbitz_best_price_guarantee</item>
-        <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_orbitz</item>
-        <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe_orbitz</item>
+        <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
+        <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner_orbitz</item>
         <item name="skin_actionBarCheckMarkDrawable">@drawable/ic_action_bar_checkmark_blue_orb</item>
         <item name="skin_actionBarCheckoutDrawable">@drawable/ic_action_bar_checkout_arrow_blue_orb</item>
@@ -45,7 +45,7 @@
         <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error_orb</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_orbitz</item>
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_log_in_orb</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_tablet_checkout_logo</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal_orbitz</item>
         <item name="skin_tablet_pin_detail_image_size">@dimen/launch_pin_detail_size_orbitz</item>
         <item name="skin_tablet_ab_launch_text1_base">@string/app_name</item>
