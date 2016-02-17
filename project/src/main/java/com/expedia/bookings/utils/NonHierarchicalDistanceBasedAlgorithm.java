@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;/*
+package com.expedia.bookings.utils;/*
  * Copyright 2013 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

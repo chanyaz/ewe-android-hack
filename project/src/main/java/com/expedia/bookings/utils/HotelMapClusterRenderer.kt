@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.utils
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
@@ -8,13 +8,14 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.extension.isShowAirAttached
+import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.createHotelMarkerIcon
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.maps.android.clustering.Cluster
 import com.google.maps.android.clustering.ClusterManager
-import com.google.maps.android.clustering.view.DefaultClusterRenderer
 import com.google.maps.android.ui.IconGenerator
 import rx.subjects.PublishSubject
 import kotlin.collections.filter
@@ -22,7 +23,7 @@ import kotlin.collections.first
 import kotlin.collections.forEach
 import kotlin.collections.isNotEmpty
 
-class HotelMapClusterRenderer(private val context: Context, private val map: GoogleMap?, private val clusterManager: ClusterManager<MapItem>?, private val isClusteringEnabled: Boolean, private val clusterChangeSubject: PublishSubject<Unit>) : DefaultClusterRenderer<MapItem>(context, map, clusterManager) {
+class HotelMapClusterRenderer(private val context: Context, private val map: GoogleMap?, private val clusterManager: ClusterManager<MapItem>?, private val isClusteringEnabled: Boolean, clusterChangeSubject: PublishSubject<Unit>) : DefaultClusterRenderer<MapItem>(context, map, clusterManager, clusterChangeSubject) {
     private val clusterIconGenerator = IconGenerator(context)
     private val clusterCountText: TextView
     private val clusterRangeText: TextView
@@ -82,11 +83,5 @@ class HotelMapClusterRenderer(private val context: Context, private val map: Goo
         factory.setBackground(ContextCompat.getDrawable(context, R.drawable.hotel_tooltip))
         return BitmapDescriptorFactory.fromBitmap(factory.makeIcon())
     }
-
-    override fun onClustersChanged(clusters: MutableSet<out Cluster<MapItem>>?) {
-        super.onClustersChanged(clusters)
-        clusterChangeSubject.onNext(Unit)
-    }
-
 
 }

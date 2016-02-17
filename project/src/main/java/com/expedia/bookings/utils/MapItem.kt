@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget
+package com.expedia.bookings.utils
 
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate

@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.utils;
 
 import java.util.Collection;
 import java.util.HashMap;
