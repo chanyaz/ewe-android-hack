@@ -6,6 +6,7 @@ import org.joda.time.DateTimeZone;
 import android.support.test.espresso.DataInteraction;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
@@ -82,6 +83,11 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed("Airline Confirmation");
 		assertViewWithTextIsDisplayed("1102138068718");
 		assertViewWithTextIsDisplayed("Directions");
+		onView(withText("Reload Flight Info")).perform(scrollTo());
+		onView(withId(R.id.booking_info)).perform(click());
+		assertViewWithTextIsDisplayed("Additional Information");
+		Common.pressBack();
+
 		outboundFlightRow.onChildView(withId(R.id.flight_status_bottom_line)).perform(scrollTo(), click());
 
 		// Air attach assertions
@@ -142,6 +148,10 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed("Airline Confirmation");
 		assertViewWithTextIsDisplayed("11590764196");
 		assertViewWithTextIsDisplayed("Directions");
+		onView(withText("Reload Flight Info")).perform(scrollTo());
+		onView(withId(R.id.booking_info)).perform(click());
+		assertViewWithTextIsDisplayed("Additional Information");
+		Common.pressBack();
 		pckgOutboundFlightRow.onChildView(withText(pckgOutboundFlightAirportTimeStr)).perform(scrollTo(), click());
 
 		// Package hotel assertions
