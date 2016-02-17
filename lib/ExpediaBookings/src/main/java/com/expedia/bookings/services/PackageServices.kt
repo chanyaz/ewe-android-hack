@@ -53,7 +53,7 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 							offer.hotel == hotel.hotelPid
 						}
 						val lowRateInfo = HotelRate()
-						lowRateInfo.strikethroughPriceToShowUsers = hotel.packageOfferModel.price.sumFlightAndHotel.amount.toFloat()
+						lowRateInfo.strikethroughPriceToShowUsers = hotel.packageOfferModel.price.sumFlightAndHotel?.amount?.toFloat() ?: 0f
 						lowRateInfo.priceToShowUsers = hotel.packageOfferModel.price.pricePerPerson.amount.toFloat()
 						lowRateInfo.currencyCode = hotel.packageOfferModel.price.pricePerPerson.currencyCode
 						hotel.lowRateInfo = lowRateInfo
