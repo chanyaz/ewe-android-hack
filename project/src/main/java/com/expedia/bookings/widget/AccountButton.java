@@ -322,9 +322,6 @@ public class AccountButton extends LinearLayout {
 				break;
 			case HOTELSV2:
 			case PACKAGES:
-				youllEarnRewardsPointsText = Html
-					.fromHtml(mContext.getString(R.string.youll_earn_points_TEMPLATE, rewardPoints));
-				break;
 			case HOTELS:
 				boolean isUserBucketedForTest = Db.getAbacusResponse()
 					.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotel3xMessaging);
