@@ -1,15 +1,18 @@
 package com.expedia.bookings.presenter.hotel
 
+import android.animation.ArgbEvaluator
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
@@ -17,7 +20,6 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.clientlog.ClientLog
-import com.expedia.bookings.data.clientlog.EmptyResponse
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -399,13 +401,16 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
-    private val searchToResults = object : Presenter.Transition(SearchTransition::class.java, HotelResultsPresenter::class.java) {
+    val searchArgbEvaluator = ArgbEvaluator()
+    val searchBackgroundColor = HotelSearchPresenterV2.TransitionElement(ContextCompat.getColor(context, R.color.hotel_search_background), Color.TRANSPARENT)
+    private val searchToResults = object : Presenter.Transition(SearchTransition::class.java, HotelResultsPresenter::class.java, AccelerateDecelerateInterpolator(), 500) {
 
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             loadingOverlay.visibility = View.GONE
             searchPresenter.visibility = View.VISIBLE
             resultsPresenter.visibility = View.VISIBLE
+            searchPresenter.setBackgroundColor(searchBackgroundColor.start)
             searchPresenter.animationStart(!forward)
             resultsPresenter.animationStart()
         }
@@ -413,15 +418,21 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
             searchPresenter.animationUpdate(f, !forward)
+            if(forward) {
+                searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.start, searchBackgroundColor.end) as Int)
+            } else {
+                searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.end, searchBackgroundColor.start) as Int)
+            }
             resultsPresenter.animationUpdate(f, !forward)
         }
 
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
+            searchPresenter.setBackgroundColor(if (forward) searchBackgroundColor.end else searchBackgroundColor.start)
             searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
-            searchPresenter.animationFinalize(forward)
             resultsPresenter.animationFinalize(forward)
+            searchPresenter.animationFinalize(forward)
             if (!forward) HotelV2Tracking().trackHotelV2SearchBox()
         }
     }
@@ -673,6 +684,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
 
     override fun back(): Boolean {
+        if (searchPresenter.back()) {
+            return true
+        }
         if (loadingOverlay.visibility != View.VISIBLE) {
             return super.back()
         }

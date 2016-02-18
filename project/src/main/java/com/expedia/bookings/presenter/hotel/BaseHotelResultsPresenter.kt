@@ -77,14 +77,6 @@ import com.mobiata.android.LocationServices
 import org.joda.time.DateTime
 import rx.Observer
 import rx.subjects.PublishSubject
-import kotlin.collections.arrayListOf
-import kotlin.collections.emptyList
-import kotlin.collections.filter
-import kotlin.collections.first
-import kotlin.collections.forEach
-import kotlin.collections.isNotEmpty
-import kotlin.collections.map
-import kotlin.collections.sortedBy
 import kotlin.properties.Delegates
 
 public abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
@@ -106,6 +98,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
     open val searchThisArea: Button? = null
     var isMapReady = false
     val isBucketedForResultMap = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultMapTest)
+    val isUserBucketedSearchScreenTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest)
 
     var clusterManager: ClusterManager<MapItem> by Delegates.notNull()
 
@@ -1052,7 +1045,9 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
     fun animationUpdate(f: Float, forward: Boolean) {
         setupToolbarMeasurements()
         var factor = if (forward) f else Math.abs(1 - f)
-        recyclerView.translationY = factor * yTranslationRecyclerView
+        if(!isUserBucketedSearchScreenTest) {
+            recyclerView.translationY = factor * yTranslationRecyclerView
+        }
         navIcon.parameter = factor
         toolbarTitle.translationY = factor * toolbarTitleTop
         toolbarSubtitle.translationY = factor * toolbarSubtitleTop

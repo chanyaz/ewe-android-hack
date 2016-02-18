@@ -15,8 +15,8 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
-import android.view.animation.LinearInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
@@ -25,6 +25,7 @@ import android.widget.ScrollView
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.location.CurrentLocationObservable
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
@@ -48,6 +49,8 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Bas
     val toolbar: Toolbar by bindView(R.id.search_v2_toolbar)
     val scrollView : ScrollView by bindView(R.id.scrollView)
     val searchContainer: ViewGroup by bindView(R.id.search_v2_container)
+    val searchCardContainer: ViewGroup by bindView(R.id.search_cards_container)
+
     val suggestionContainer: View by bindView(R.id.suggestions_container)
     val suggestionRecyclerView: RecyclerView by bindView(R.id.suggestion_list)
     var navIcon: ArrowXDrawable
@@ -78,8 +81,8 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Bas
                 val spinner = travelerWidgetV2.traveler.childSpinners[index]
                 spinner.setSelection(it.children[index])
             }
+            selectDates(it.checkIn, it.checkOut)
             vm.datesObserver.onNext(Pair(it.checkIn, it.checkOut))
-            calendarWidgetV2.calendar.setSelectedDates(it.checkIn, it.checkOut)
         }
 
         searchButton.subscribeOnClick(vm.searchObserver)
@@ -119,6 +122,7 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Bas
 
     init {
         View.inflate(context, R.layout.widget_hotel_search_params_v2, this)
+        HotelV2Tracking().trackHotelV2SearchBox()
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
             val color = ContextCompat.getColor(context, R.color.hotels_primary_color)
@@ -145,6 +149,7 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Bas
                 activity.onBackPressed()
             }
         }
+
         searchLocationEditText = findViewById(R.id.toolbar_searchView) as SearchView?
         searchLocationEditText?.setOnQueryTextListener(listener)
         searchLocationEditText?.setIconifiedByDefault(false)
@@ -206,7 +211,7 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Bas
      */
     data class TransitionElement<T>(val start: T, val end: T)
 
-    private val selectionToSuggestionTransition = object : Transition(InputSelectionState::class.java, SuggestionSelectionState::class.java, LinearInterpolator(), 600) {
+    private val selectionToSuggestionTransition = object : Transition(InputSelectionState::class.java, SuggestionSelectionState::class.java, AccelerateDecelerateInterpolator(), 300) {
 
     fun calculateStep(start: Float, end: Float, percent: Float, forward: Boolean): Float {
         if (forward) {
@@ -341,20 +346,44 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Bas
         }
     }
 
-    override fun animationStart(b: Boolean) {
-        super.animationStart(b)
-        //TODO handle animations
+    var toolbarTitleTop = 0
+    val screenHeight = Ui.getScreenSize(context).y
+
+    override fun animationStart(forward: Boolean) {
+        super.animationStart(forward)
+        searchCardContainer.translationY = (if (forward) 0 else -searchCardContainer.height).toFloat()
+        searchButton.translationY = (if (forward) 0 else searchButton.height).toFloat()
+        toolbarTitleTop = (toolBarTitle.bottom - toolBarTitle.top) / 3
     }
 
-    override fun animationUpdate(f: Float, b: Boolean) {
-        super.animationUpdate(f, b)
-        //TODO handle animations
+    override fun animationUpdate(f: Float, forward: Boolean) {
+        super.animationUpdate(f, forward)
+        val translationRecentSearches = (screenHeight - recentSearchesV2.top) * if (forward) (1 - f) else f
+        val translationSearchesCardContainer = (-searchCardContainer.height) * if (forward) (1 - f) else f
+        recentSearchesV2.translationY = translationRecentSearches
+        searchCardContainer.translationY = translationSearchesCardContainer
+        searchButton.translationY = (if (forward) searchButton.height * (1 - f) else searchButton.height * f).toFloat()
+        val factor: Float = if (forward) f else Math.abs(1 - f)
+        toolBarTitle.alpha = factor
+        navIcon.parameter = factor
+        this.alpha = factor
+        toolBarTitle.translationY = (if (forward) Math.abs(1 - f) else f) * -toolbarTitleTop
     }
 
     override fun animationFinalize(forward: Boolean) {
         super.animationFinalize(forward)
-        this.visibility = if(forward) GONE else VISIBLE
+        if (forward) {
+            recentSearchesV2.visibility = View.GONE
+            searchViewModel.enableTravelerObservable.onNext(true)
+            searchViewModel.enableDateObservable.onNext(true)
+        }
+        navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type.toFloat()
+    }
 
-        //TODO handle animations
+    override fun back(): Boolean {
+        if (SuggestionSelectionState().javaClass.name == currentState) {
+            return super.back()
+        }
+        return false
     }
 }
