@@ -29,9 +29,9 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.bundleToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("Flight to (DTW) Detroit, MI")))));
+			CoreMatchers.allOf(isDisplayed(), withText("Flight to (DTW) Detroit")))));
 		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("Flight to (SFO) San Francisco, CA")))));
+			CoreMatchers.allOf(isDisplayed(), withText("Flight to (SFO) San Francisco")))));
 		PackageScreen.outboundFlightInfo().check(matches(not(isEnabled())));
 		PackageScreen.inboundFlightInfo().check(matches(not(isEnabled())));
 		Common.delay(1);
@@ -73,9 +73,9 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 		PackageScreen.inboundFlightInfo().check(matches(isEnabled()));
 
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("Flight to (DTW) Detroit, MI")))));
+			CoreMatchers.allOf(isDisplayed(), withText("Flight to (DTW) Detroit")))));
 		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("Flight to (SFO) San Francisco, CA")))));
+			CoreMatchers.allOf(isDisplayed(), withText("Flight to (SFO) San Francisco")))));
 
 		onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
 			withId(R.id.package_flight_details_icon))).check(matches(withEffectiveVisibility(

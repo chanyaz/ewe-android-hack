@@ -131,7 +131,13 @@ public class StrUtilsTest {
 	@Test
 	public void testAirportCodeCityNameFormatting() {
 		String formattedString = StrUtils.formatAirportCodeCityName(getDummySuggestion());
-		assertEquals("(CHI) Chicago, IL", formattedString);
+		assertEquals("(CHI) Chicago", formattedString);
+	}
+
+	@Test
+	public void testCityNameFormatting() {
+		String formattedString = StrUtils.formatCityName(getDummySuggestion());
+		assertEquals("Chicago", formattedString);
 	}
 
 	@Test
