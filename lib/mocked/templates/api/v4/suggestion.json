@@ -6,7 +6,7 @@
     {
       "@type": "gaiaRegionResult",
       "index": "0",
-      "gaiaId": "6000581",
+      "gaiaId": "happy",
       "type": "AIRPORT",
       "regionNames": {
         "fullName": "San Francisco, CA, United States (SFO-San Francisco Intl.)",
@@ -42,7 +42,7 @@
     {
       "@type": "gaiaRegionResult",
       "index": "1",
-      "gaiaId": "6000338",
+      "gaiaId": "happy",
       "type": "AIRPORT",
       "regionNames": {
         "fullName": "Kathmandu, Nepal (KTM-Tribhuvan Intl.)",
@@ -73,10 +73,11 @@
       },
       "isMinorAirport": "false",
       "packageable": "false"
-    },{
+    },
+    {
       "@type": "gaiaRegionResult",
       "index": "2",
-      "gaiaId": "6000199",
+      "gaiaId": "happy",
       "type": "AIRPORT",
       "regionNames": {
         "fullName": "Detroit, MI, United States (DTW-Detroit Metropolitan Wayne County)",
@@ -143,6 +144,45 @@
         "globalGrade": "99"
       },
       "packageable": "true"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "4",
+      "gaiaId": "noresults",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "Glasgow, MT, United States (GGW-Glasgow Intl.)",
+        "shortName": "Glasgow, MT (GGW-Glasgow Intl.)",
+        "displayName": "<B>Glasgow</B>, <B>MT</B> (GGW-<B>Glasgow</B> Intl.)",
+        "lastSearchName": "Glasgow, MT (GGW-Glasgow Intl.)"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6028000"
+      },
+      "coordinates": {
+        "lat": "48.208460",
+        "long": "-106.626110"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "GGW",
+          "multicity": "1318"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "1"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
     }
   ]
 }

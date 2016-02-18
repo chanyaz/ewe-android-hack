@@ -63,6 +63,7 @@ public class HotelScreen {
 	public static ViewInteraction selectDestinationTextViewV2() {
 		return onView(allOf(withId(R.id.input_label), withParent(withId(R.id.destination_card))));
 	}
+
 	public static ViewInteraction selectCalendarV2() {
 		return onView(withId(R.id.calendar_card));
 	}
@@ -198,7 +199,7 @@ public class HotelScreen {
 	}
 
 	public static ViewInteraction searchButtonV2() {
-	return 	onView(withId(R.id.search_button_v2));
+		return onView(withId(R.id.search_button_v2));
 	}
 
 	public static void clickSearchButton() {
@@ -442,7 +443,6 @@ public class HotelScreen {
 	}
 
 
-
 	public static ViewInteraction selectRoomButton() throws Throwable {
 		return onView(withId(R.id.select_room_button));
 	}
@@ -466,7 +466,7 @@ public class HotelScreen {
 	public static void signIn() {
 		signIn("qa-ehcc@mobiata.com");
 	}
-	
+
 	public static void signIn(String username) {
 		LogInScreen.typeTextEmailEditText(username);
 		LogInScreen.typeTextPasswordEditText("password");
@@ -480,5 +480,9 @@ public class HotelScreen {
 
 	public static void clickRoom(String room) {
 		onView(withText(room)).perform(scrollTo(), click());
+	}
+
+	public static ViewInteraction hotelErrorToolbar() {
+		return onView(withId(R.id.error_toolbar));
 	}
 }
