@@ -68,8 +68,11 @@
     </ScrollView>
 
     <FrameLayout
+        android:id="@+id/suggestions_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/search_suggestion_background_v2"
+        android:visibility="gone" >
 
         <Button
             android:id="@+id/search_button_v2"
@@ -110,25 +113,28 @@
             <FrameLayout
                 android:id="@+id/toolbar_two"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical">
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/title"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:text="@string/hotel_search_v2_toolbar_title"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
+                    android:gravity="center_vertical"
                     app:textStyle="medium" />
 
+                <!-- The -16dip is to undo the padding included inside searchView. This is risky behavior, as if that view changes, then we're
+                    going to be adjusting by the wrong amount. -->
                 <android.support.v7.widget.SearchView
                     android:id="@+id/toolbar_searchView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="-16dip"
                     android:iconifiedByDefault="false">
 
                 </android.support.v7.widget.SearchView>

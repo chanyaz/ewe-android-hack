@@ -15,6 +15,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
@@ -24,7 +25,6 @@ import android.widget.ScrollView
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.location.CurrentLocationObservable
-import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
@@ -44,23 +44,11 @@ import com.expedia.vm.HotelTravelerParams
 import com.expedia.vm.RecentSearchesAdapterViewModel
 import org.joda.time.LocalDate
 
-//TODO: Find this a better home
-fun calculateStep(start: Float, end: Float, percent: Float, forward: Boolean): Float {
-    if (forward) {
-        return calculateStep(start, end, percent)
-    } else {
-        return calculateStep(end, start, percent)
-    }
-}
-
-fun calculateStep(start: Float, end: Float, percent: Float): Float {
-    return (start + (percent * (end - start)))
-}
-
 public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelSearchPresenter(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.search_v2_toolbar)
     val scrollView : ScrollView by bindView(R.id.scrollView)
     val searchContainer: ViewGroup by bindView(R.id.search_v2_container)
+    val suggestionContainer: View by bindView(R.id.suggestions_container)
     val suggestionRecyclerView: RecyclerView by bindView(R.id.suggestion_list)
     var navIcon: ArrowXDrawable
     val destinationCardView: SearchInputCardView by bindView(R.id.destination_card)
@@ -197,10 +185,10 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Bas
     class SuggestionSelectionState
 
     public fun showDefault() {
-        show(InputSelectionState(), Presenter.FLAG_CLEAR_BACKSTACK)
+        show(InputSelectionState(), FLAG_CLEAR_BACKSTACK)
     }
 
-    private val defaultTransition = object : Presenter.DefaultTransition(InputSelectionState::class.java.name) {
+    private val defaultTransition = object : DefaultTransition(InputSelectionState::class.java.name) {
 
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
@@ -214,81 +202,125 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Bas
     /**
      * This is a watered down version of a higher ideal where instead of calculating each step, we define the start and
      * end, and allow the transition to do the work for us. Right now it's just a tuple that stores start and end
-     * for us.
+     * for us, and we run calculatestep on it.
      */
     data class TransitionElement<T>(val start: T, val end: T)
 
-    private val selectionToSuggestionTransition = object : Presenter.Transition(InputSelectionState::class.java, SuggestionSelectionState::class.java, LinearInterpolator(), 100) {
+    private val selectionToSuggestionTransition = object : Transition(InputSelectionState::class.java, SuggestionSelectionState::class.java, LinearInterpolator(), 600) {
 
-        //Parts of the animation:
-        // suggestion bg fade from alpha 0 to goal alpha
-        // If toolbar:  navbarIcon animation
-        //              toolbar bg color from default to white
-        //              Toolbar font color from white to grey
-        //
+    fun calculateStep(start: Float, end: Float, percent: Float, forward: Boolean): Float {
+        if (forward) {
+            return calculateStep(start, end, percent)
+        } else {
+            return calculateStep(end, start, percent)
+        }
+    }
+
+    fun calculateStep(start: Float, end: Float, percent: Float): Float {
+        return (start + (percent * (end - start)))
+    }
+
+
         val bgFade = TransitionElement(0f, 1f)
+        // Start with a large dummy value, and adjust it once we have an actual height
+        var recyclerY = TransitionElement(-2000f, 0f)
+
+        val recyclerStartTime = .33f
         // This is probably not even
         val eval: ArgbEvaluator = ArgbEvaluator()
-        //TODO: use actual colors
+        val decelInterp: DecelerateInterpolator = DecelerateInterpolator()
+        val toolbarTextColor = TransitionElement(Color.WHITE, ContextCompat.getColor(context, R.color.search_suggestion_v2))
         val toolbarBgColor = TransitionElement(ContextCompat.getColor(context, R.color.hotels_primary_color), Color.WHITE)
 
         override fun startTransition(forward: Boolean) {
-            //Toolbar color
-            //TODO: use actual colors
+
+            recyclerY = TransitionElement(-(suggestionContainer.height.toFloat()), 0f)
+
+            searchLocationEditText?.visibility = VISIBLE
+            toolBarTitle.visibility = VISIBLE
+            suggestionRecyclerView.visibility = VISIBLE
+            suggestionContainer.visibility = VISIBLE
+
+            // Toolbar color
             toolbar.setBackgroundColor(if (forward) toolbarBgColor.start else toolbarBgColor.end)
-            //Suggestion Fade In
-            suggestionRecyclerView.alpha = calculateStep(bgFade.start, bgFade.end, 0f, forward)
-            suggestionRecyclerView.visibility = if (forward) GONE else VISIBLE
+            toolBarTitle.alpha = calculateStep(bgFade.end, bgFade.start, 0f)
+
+            // Suggestion Fade In
+            suggestionContainer.alpha = calculateStep(bgFade.start, bgFade.end, 0f, forward)
+
+            // Edit text fade in
+            searchLocationEditText?.alpha = calculateStep(bgFade.start, bgFade.end, 0f, forward)
+
+            // RecyclerView vertical transition
+            suggestionRecyclerView.translationY = recyclerY.start;
+
+            if(forward) {
+                applyAdapter()
+            }
+
             searchButton.visibility = if (forward) GONE else VISIBLE
             searchContainer.visibility = if (forward) VISIBLE else GONE
+
+            if (forward) {
+                navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+                navIcon.setColorFilter(toolbarTextColor.start, PorterDuff.Mode.SRC_IN)
+            } else {
+                navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)
+                navIcon.setColorFilter(toolbarTextColor.end, PorterDuff.Mode.SRC_IN)
+            }
+            toolbar.navigationIcon = navIcon
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
-            //TODO: Worry about asymmetric interpolators
             val progress = if (forward) f else 1f - f
             super.updateTransition(f, forward)
+            // toolbar fading
+            val currentToolbarTextColor = eval.evaluate(progress, toolbarTextColor.start, toolbarTextColor.end) as Int
             toolbar.setBackgroundColor(eval.evaluate(progress, toolbarBgColor.start, toolbarBgColor.end) as Int)
-            suggestionRecyclerView.alpha = calculateStep(bgFade.start, bgFade.end, progress)
+
+            //NavIcon
+            navIcon.setColorFilter(currentToolbarTextColor, PorterDuff.Mode.SRC_IN)
+            navIcon.parameter = 1f - progress
+
+            //recycler bg
+            suggestionContainer.alpha = calculateStep(bgFade.start, bgFade.end, progress)
             searchLocationEditText?.alpha = calculateStep(bgFade.start, bgFade.end, progress)
+
             toolBarTitle.alpha = calculateStep(bgFade.end, bgFade.start, progress)
+
+            // recycler movement - only moves during its portion of the animation
+            if (forward && f > recyclerStartTime){
+                suggestionRecyclerView.translationY = calculateStep(recyclerY.start, recyclerY.end, decelInterp.getInterpolation(com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, f)))
+            } else if (!forward && progress > recyclerStartTime) {
+                suggestionRecyclerView.translationY = calculateStep(recyclerY.start, recyclerY.end, com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, progress))
+            }
         }
 
         override fun finalizeTransition(forward: Boolean) {
             // Toolbar bg color
             toolbar.setBackgroundColor(if (forward) toolbarBgColor.end else toolbarBgColor.start)
-            suggestionRecyclerView.alpha = if (forward) bgFade.end else bgFade.start
-
-            if(forward) {
-                suggestionRecyclerView.adapter = hotelSuggestionAdapter
-                searchLocationEditText?.requestFocus()
-                (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).
-                        toggleSoftInput(InputMethodManager.SHOW_FORCED,
-                                InputMethodManager.HIDE_IMPLICIT_ONLY);
-
-            }
+            suggestionContainer.alpha = if (forward) bgFade.end else bgFade.start
+            searchLocationEditText?.alpha = if (forward) bgFade.end else bgFade.start
+            suggestionRecyclerView.translationY = if (forward) recyclerY.end else recyclerY.start
             suggestionRecyclerView.visibility = if (forward) VISIBLE else GONE
+
             searchContainer.visibility = if (forward) GONE else VISIBLE
             if (!forward) {
-                toolBarTitle.visibility = VISIBLE
                 searchLocationEditText?.visibility = GONE
             } else {
-                toolBarTitle.visibility = GONE
                 searchLocationEditText?.visibility = VISIBLE
             }
-            setUpToolBarIcon(forward)
+
+            toolBarTitle.visibility = if (forward) GONE else VISIBLE
         }
     }
 
-    private fun setUpToolBarIcon(forward: Boolean) {
-        if(forward) {
-            navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)
-            navIcon.setColorFilter(ContextCompat.getColor(context,R.color.search_suggestion_v2), PorterDuff.Mode.SRC_IN)
-            toolbar.navigationIcon = navIcon
-        } else {
-            navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
-            navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-            toolbar.navigationIcon = navIcon
-        }
+    fun applyAdapter() {
+        suggestionRecyclerView.adapter = hotelSuggestionAdapter
+        searchLocationEditText?.requestFocus()
+        (context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).
+                toggleSoftInput(InputMethodManager.SHOW_FORCED,
+                        InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
     private val hotelSuggestionAdapter by lazy {
