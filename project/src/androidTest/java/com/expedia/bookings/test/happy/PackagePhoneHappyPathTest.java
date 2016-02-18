@@ -184,13 +184,13 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		onView(allOf(withId(R.id.flight_card_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(
-			matches(withText("Flight to (DTW) Detroit, MI")));
+			matches(withText("Flight to (DTW) Detroit")));
 		onView(allOf(withId(R.id.travel_info_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(
 			matches(withText("Jul 10 at 9:00 am, 1 Traveler")));
 		onView(allOf(withId(R.id.flight_card_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)))).check(
-			matches(withText("Flight to (SFO) San Francisco, CA")));
+			matches(withText("Flight to (SFO) San Francisco")));
 		onView(allOf(withId(R.id.travel_info_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)))).check(
 			matches(withText("Jul 16 at 1:45 pm, 1 Traveler")));

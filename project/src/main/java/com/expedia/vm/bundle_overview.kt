@@ -103,7 +103,7 @@ class BundleHotelViewModel(val context: Context) {
                 hotelSelectIconObservable.onNext(false)
                 hotelDetailsIconObservable.onNext(false)
             } else if (!isShowing && Db.getPackageSelectedHotel() == null) {
-                hotelTextObservable.onNext(context.getString(R.string.select_hotel_template, StrUtils.formatCity(Db.getPackageParams().destination)))
+                hotelTextObservable.onNext(context.getString(R.string.select_hotel_template, StrUtils.formatCityName(Db.getPackageParams().destination)))
                 hotelRoomGuestObservable.onNext(Phrase.from(context, R.string.room_with_guests_TEMPLATE)
                         .put("guests", StrUtils.formatGuestString(context, Db.getPackageParams().guests()))
                         .format()
