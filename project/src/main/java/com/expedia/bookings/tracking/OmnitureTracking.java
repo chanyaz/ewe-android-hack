@@ -1831,7 +1831,7 @@ public class OmnitureTracking {
 		FlightTrip searchFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
-		s.setEvents("event74");
+		s.setEvents("event71");
 		FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
 		s.setEvar(47, getEvar47String(params));
 
@@ -2824,7 +2824,7 @@ public class OmnitureTracking {
 		String pageName = getBase(isFlights) + ".Info";
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 		if (isFlights) {
-			s.setEvents("event74");
+			s.setEvents("event71");
 			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
 			s.setEvar(47, getEvar47String(params));
 
