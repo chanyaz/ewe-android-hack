@@ -87,6 +87,11 @@ public class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet)
         }
     }
 
+    override fun showMenuItem(isResults: Boolean){
+        filterMenuItem.setVisible(true)
+        searchMenuItem.setVisible(isResults)
+    }
+
     override fun hideBundlePriceOverview(hide: Boolean) {
        hideBundlePriceOverviewSubject.onNext(hide)
     }

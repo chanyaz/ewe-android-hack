@@ -70,7 +70,7 @@ public class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(co
         }
 
         toolbarNavIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
-        setNavigationIcon(toolbarNavIcon)
+        navigationIcon = toolbarNavIcon
     }
 
     override fun setActionBarTitle(title: String?) {
@@ -98,7 +98,7 @@ public class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(co
     }
 
     override fun setNavArrowBarParameter(arrowDrawableType: ArrowXDrawableUtil.ArrowDrawableType) {
-        toolbarNavIcon.setParameter(arrowDrawableType.getType().toFloat())
+        toolbarNavIcon.parameter = arrowDrawableType.type.toFloat()
     }
 
     override fun editTextFocus(editText: EditText?) {
