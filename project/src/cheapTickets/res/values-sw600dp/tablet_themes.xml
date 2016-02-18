@@ -54,9 +54,4 @@
 
     <style name="V2.Theme" parent="Theme.CheapTickets.Tablet" />
 
-    <style name="V2.Widget.ActionBar.TabletLaunch">
-        <item name="android:displayOptions">showHome|useLogo|showCustom</item>
-        <item name="android:background">@drawable/bg_action_bar</item>
-    </style>
-
 </resources>
