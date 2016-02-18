@@ -34,6 +34,8 @@
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_orb_white_logo_small</item>
         <item name="skin_bgFindItineraryButton">@drawable/btn_find_orbitz</item>
 
+        <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
+        <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="android:logo" tools:targetApi="11">@drawable/ic_logo_hotels_orb</item>
         <item name="skin_hotelWebViewActionBarLogo">@drawable/ic_logo_hotels_orb</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_orb</item>
@@ -77,6 +79,14 @@
         <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color</item>
     </style>
 
+    <style name="ItineraryThemeOverflowMenuButton" parent="@android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_menu_overflow_image</item>
+    </style>
+
+    <style name="OverflowMenuButton" parent="@android:style/Widget.Holo.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_menu_overflow_image</item>
+    </style>
+
     <!-- Override the phone theme -->
     <style name="Theme.Phone" parent="@style/Theme.Orbitz">
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.Orbitz</item>
@@ -87,7 +97,8 @@
         <item name="android:logo">@drawable/ic_ab_orb_logo</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
-        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
+        <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
+        <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="skin_flightLineColor">@color/flight_trip</item>
         <!-- PopupMenu -->
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_orb_placeholder_activities</item>
@@ -147,6 +158,8 @@
         <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
+        <item name="android:actionOverflowButtonStyle">@style/ItineraryThemeOverflowMenuButton</item>
+        <item name="actionOverflowButtonStyle">@style/ItineraryThemeOverflowMenuButton</item>
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
