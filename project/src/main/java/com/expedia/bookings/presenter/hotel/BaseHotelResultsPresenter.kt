@@ -751,6 +751,13 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                         getFabAnimIn().start()
                     }
                 }
+                hideBundlePriceOverview(!forward)
+                toolbarTitle.translationY = 0f
+                toolbarSubtitle.translationY = 0f
+                updateFilterButtonText(forward)
+                searchMenuItem.setVisible(forward)
+                filterMenuItem.setVisible(!forward)
+                showMenuItem(forward)
             }
 
             override fun updateTransition(f: Float, forward: Boolean) {
@@ -780,8 +787,6 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
             override fun finalizeTransition(forward: Boolean) {
                 navIcon.parameter = (if (forward) ArrowXDrawableUtil.ArrowDrawableType.BACK else ArrowXDrawableUtil.ArrowDrawableType.CLOSE).type.toFloat()
 
-                searchMenuItem.setVisible(forward)
-                filterMenuItem.setVisible(!forward)
                 //When we are about to show the menu filter item, ensure that it is of sufficient height
                 if (filterMenuItem.actionView.height != toolbar.height) {
                     filterMenuItem.actionView.layoutParams.height = toolbar.measuredHeight
@@ -823,9 +828,6 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                         createMarkers()
                     }
                 }
-                hideBundlePriceOverview(!forward)
-                toolbarTitle.translationY = 0f
-                toolbarSubtitle.translationY = 0f
             }
         }
 
@@ -844,6 +846,8 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                 } else {
                     mapCarouselContainer.translationX = screenWidth
                 }
+                updateFilterButtonText(forward)
+                showMenuItem(forward)
             }
 
             override fun updateTransition(f: Float, forward: Boolean) {
@@ -931,6 +935,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
             if (forward) {
                 fab.visibility = View.GONE
             }
+            hideBundlePriceOverview(forward)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -947,7 +952,6 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                 fab.visibility = View.VISIBLE
                 getFabAnimIn().start()
             }
-            hideBundlePriceOverview(forward)
         }
     }
 
@@ -1064,6 +1068,10 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
     }
 
     open fun hideBundlePriceOverview(forward: Boolean) {
+        //
+    }
+
+    open fun showMenuItem(forward: Boolean) {
         //
     }
 
