@@ -64,7 +64,7 @@ public class HotelResultsViewModelTest {
 
     @Test
     fun errorResponseCallsErrorObservable() {
-        val paramsForErrorResp = makeParams("error_response", "")
+        val paramsForErrorResp = makeParams("mock_error", "")
         val testSubscriber = TestSubscriber<ApiError>()
         sut.errorObservable.subscribe(testSubscriber)
 

@@ -16,6 +16,10 @@ public class ErrorScreen {
 		onView(withText(R.string.edit_guest_details)).perform(click());
 	}
 
+	public static void clickOnEditSearch() {
+		onView(withText(R.string.edit_search)).perform(click());
+	}
+
 	public static void clickOnRetry() {
 		onView(withText(R.string.retry)).perform(click());
 	}

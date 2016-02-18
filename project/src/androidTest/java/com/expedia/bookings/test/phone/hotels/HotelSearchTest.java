@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.phone.hotels;
 
+import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.Espresso;
@@ -7,15 +8,19 @@ import android.support.test.espresso.Espresso;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.HotelTestCase;
+import com.expedia.bookings.test.espresso.ViewActions;
 
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.startsWith;
@@ -60,5 +65,25 @@ public class HotelSearchTest extends HotelTestCase {
 		HotelScreen.searchButton().perform(click());
 		HotelScreen.waitForDetailsLoaded();
 		HotelScreen.selectRoomButton().check(matches((isDisplayed())));
+	}
+
+	public void testLocationWithNoHotels() throws Throwable {
+		//Search Glasgow
+		HotelScreen.location().perform(typeText("Glasgow, MT"));
+		Espresso.closeSoftKeyboard();
+		HotelScreen.selectLocation("Glasgow, MT (GGW-Glasgow Intl.)");
+		LocalDate startDate = LocalDate.now().plusDays(35);
+		HotelScreen.selectDates(startDate, null);
+		HotelScreen.searchButton().perform(click());
+
+		//Test error screen
+		HotelScreen.waitForErrorDisplayed();
+		HotelScreen.hotelErrorToolbar().check(matches(hasDescendant(CoreMatchers.allOf(
+			isDisplayed(), withText("Glasgow, MT (GGW-Glasgow Intl.)")))));
+		ErrorScreen.clickOnEditSearch();
+
+		//Assert search screen is displayed
+		onView(withId(R.id.search_container)).perform(ViewActions.waitForViewToDisplay());
+		assertViewIsDisplayed(R.id.search_container);
 	}
 }
