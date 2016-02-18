@@ -53,7 +53,7 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 			else {
 				// Region id for cross-sell
 				JSONObject aggregatedResponse = response.optJSONObject("flightAggregatedResponse");
-				JSONArray detailArray = aggregatedResponse.optJSONArray("flightDetailResponse");
+				JSONArray detailArray = aggregatedResponse.optJSONArray("flightsDetailResponse");
 				if (detailArray != null && detailArray.length() > 0) {
 					JSONObject detailObject = detailArray.optJSONObject(0);
 					checkoutResponse.setDestinationRegionId(detailObject.optString("destinationRegionId"));
