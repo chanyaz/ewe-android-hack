@@ -202,8 +202,10 @@
     <string name="successful_checkout_email_label">Reisplan gestuurd naar</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Route naar %1$s</string>
-
-    <string name="shortened_checkout_payment_option_credit_debit_label">Creditcard</string>
+    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
+    <string name="checkout_payment_option_credit_debit_label">Creditcard/betaalpas</string>
+    <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
+    <string name="shortened_checkout_payment_option_credit_debit_label">Voer nieuwe debit/creditcard in</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Reizigersinfo</string>
     <!-- Text for Android pay label -->
@@ -213,7 +215,7 @@
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_hotelsv2_enter_payment_details_line1">Betalingsinfo</string>
     <!-- Text for enter payment details line 2 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line2">Selecteer betalingsmethode</string>
+    <string name="checkout_hotelsv2_enter_payment_details_line2">Voer creditcard in</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
     <string name="checkout_payment_line2_storedcc">Opgeslagen creditcard</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
@@ -223,7 +225,11 @@
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_tap_to_edit">Tik om te bewerken</string>
     <!-- Text for enter payment details line 2 for pwp -->
-    <string name="checkout_payment_options">Punten, creditcard</string>
+    <string name="checkout_payment_options">Creditcard, betaal met punten</string>
+    <!--Text for selected card -->
+    <string name="checkout_selected_card">{cardtype} …{cardno}</string>
+    <!--Text for selecting user manually stored card -->
+    <string name="temporarily_saved_card_TEMPLATE">{cardtype} …{cardno} opgeslagen</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Swipe om te reserveren</string>
@@ -233,11 +239,11 @@
     <string name="change_dates">Datums wijzigen</string>
 
     <!-- Car error strings -->
-    <!-- Message for user that pick-up time is too early."  -->
+    <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">Pas de ophaal- of inlevertijden aan</string>
-    <!-- Message for user  to choose a closer date.""  -->
+    <!-- Message for user  to choose a closer date.  -->
     <string name="drop_off_too_far_error">Kies een datum die minder ver in de toekomst ligt.</string>
-    <!-- Message for user that date is too far out."  -->
+    <!-- Message for user that date is too far out.  -->
     <string name="date_out_of_range">Kies een datum die minder ver in de toekomst ligt.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Verleng de huurperiode voor deze reservering.</string>
@@ -1694,6 +1700,8 @@
     <string name="calendar_instructions_hotels_no_dates_selected">Kies de incheckdatum</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <string name="guests_with_rooms_TEMPLATE">{guests}, 1 kamer</string>
+
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">Enkele reis voor &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1782,7 +1790,7 @@
     <string name="select_payment_callout">details invoeren</string>
     <!-- Add new card -->
     <string name="add_new_card">Nieuwe creditcard toevoegen</string>
-    <string name="new_credit_debit_card">Nieuwe creditcard</string>
+    <string name="new_credit_debit_card">Nieuwe debit/creditcard</string>
     <!-- Overview button -->
     <string name="overview_btn">Overzicht</string>
     <!-- Stored Payment label -->
@@ -2042,6 +2050,8 @@
     <!-- Section edit contact -->
     <!-- name on card hint -->
     <string name="name_on_card_hint">Naam op creditcard</string>
+    <!-- Package cardholder name hint -->
+    <string name="cardholder_name_hint">Naam kaarthouder</string>
     <!-- email hint -->
     <string name="email_address_hint">E-mailadres</string>
     <!-- phone number hint -->
@@ -2097,6 +2107,8 @@
     <string name="address_state_hint">Provincie</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Postcode</string>
+    <!-- Zip Code hint for Packages -->
+    <string name="address_zip_code_hint">Zip code</string>
     <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
     <string name="address_postal_code_hint_US">Zip</string>
 
@@ -2641,6 +2653,11 @@
     <string name="From_x_per_night_template">Vanaf %s/nacht</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">In deze buurt zoeken</string>
+    <!-- Map cluster text for number of hotels-->
+    <string name="cluster_number_of_hotels_template">%s hotels</string>
+    <!-- Map cluster price from range-->
+    <string name="cluster_price_from_range_template">Vanaf %s</string>
+
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -3830,6 +3847,12 @@
     <string name="package_toolbar_title">Hotel + Vlucht</string>
     <!-- Label for per person -->
     <string name="per_person">per persoon</string>
+    <!-- Label for package search toolbar -->
+    <string name="bundle_overview_title">Pakketoverzicht</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Totaal pakket</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Pakket weergeven</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">Vlucht vanaf</string>
     <!-- Fly to hint -->
@@ -3839,11 +3862,18 @@
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">Stap 2: Vluchten selecteren</string>
     <!-- Package hotel cell: Price Includes flights -->
-    <string name="package_price_include_flights">Prijs is incl. vluchten</string>
+    <string name="package_price_include_flights">Prijs is incl. hotel + vluchten</string>
+    <!-- Package hotel map cell: Price Includes Taxes and Fees -->
+    <string name="package_price_includes_taxes_fees">Prijs is incl. belastingen, toeslagen, vluchten + hotel per persoon</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s om %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} bespaard</string>
+    <!-- Bundle Overview select hotel -->
+    <string name="select_hotel_template">Selecteer hotel in %s</string>
+    <!-- Bundle Overview searching flight -->
+    <string name="searching_flight_to">We zoeken vluchten naar %s</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3872,15 +3902,29 @@
     <string name="in_lap">Op schoot</string>
     <!-- Description for infant travelers sitting in seat -->
     <string name="in_seat">Op stoel</string>
+    <!-- Label for flights on checkout overview of Packages -->
+    <string name="flight_checkout_overview_TEMPLATE">Vluchten - {origin} naar {destination}, retour</string>
+    <!-- Label for hotel on checkout overview of Packages -->
+    <string name="hotel_checkout_overview_TEMPLATE">Hotel in {city} - {rooms} kamer, {nights} nachten</string>
     <!-- Package Trip Overview -->
     <string name="trip_overview">Reisoverzicht</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Swipe om te boeken</string>
+    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
+
+    <!-- Flight Duration filter label-->
+    <string name="flight_duration_label">Vliegtijd</string>
+    <string name="flight_duration_hour_short">u</string>
+    <!-- Departure Time Range filter label-->
+    <string name="departure_time_range">Vertrekperiode</string>
+    <!-- Arrival Time Range filter label-->
+    <string name="arrival_time_range">Aankomstperiode</string>
+
 
     <!-- Pay with points widget -->
     <string name="paying_with_points">Betalen met punten</string>
     <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} punten) beschikbaar</string>
-    <string name="user_enters_more_than_points_TEMPLATE">De puntenwaarde overschrijdt de beschikbare puntenbalans.\nVoer {money} of minder in.</string>
+    <string name="user_enters_more_than_available_points_TEMPLATE">De puntenwaarde overschrijdt de beschikbare puntenbalans.\nVoer {money} of minder in.</string>
     <string name="user_enters_more_than_trip">De puntenwaarde mag het nu te betalen bedrag niet overschrijden.</string>
     <string name="pwp_calculating_points">Punten aan het berekenen …</string>
     <string name="pwp_points_applied_TEMPLATE">{points} punten toegepast</string>
@@ -3888,7 +3932,14 @@
     <string name="pwp_total_due_today_TEMPLATE">Totaal nu te betalen: {money}</string>
 
     <!-- Package Flight Overview -->
+    <string name="package_flight_overview_urgency_message_TEMPLATE">{seats} stoelen over</string>
     <string name="package_flight_overview_select_flight">Selecteer deze vlucht</string>
+    <string name="package_flight_overview_bundle_total_label">Totaal pakket</string>
+    <string name="package_flight_overview_per_person_TEMPLATE">{money}/persoon</string>
+    <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
+    <string name="package_flight_overview_layover_in_TEMPLATE">Tussenstop in ({airportcode}) {city}</string>
+    <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
+    <string name="package_flight_overview_total_duration_TEMPLATE">Totale reisduur: {duration}</string>
 
     <!--Rail search screen title-->
     <string name="trains">Treinen</string>
