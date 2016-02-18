@@ -1,5 +1,8 @@
 package com.expedia.bookings.fragment;
 
+import org.joda.time.LocalDate;
+import org.json.JSONException;
+
 import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -20,14 +23,17 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.cars.Suggestion;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.location.CurrentLocationObservable;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.PhoneLaunchWidget;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.NetUtils;
+import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -153,5 +159,22 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	@Override
 	public boolean onBackPressed() {
 		return false;
+	}
+
+	// Hotel search in collection location
+	@Subscribe
+	public void onCollectionLocationSelected(Events.LaunchCollectionItemSelected event) throws JSONException {
+		Suggestion location = event.collectionLocation.location;
+		HotelSearchParams params = new HotelSearchParams();
+		params.setQuery(location.shortName);
+		params.setSearchType(HotelSearchParams.SearchType.valueOf(location.type));
+		params.setRegionId(location.id);
+		params.setSearchLatLon(location.latLong.lat, location.latLong.lng);
+		LocalDate now = LocalDate.now();
+		params.setCheckInDate(now.plusDays(1));
+		params.setCheckOutDate(now.plusDays(2));
+		params.setNumAdults(2);
+		params.setChildren(null);
+		NavUtils.goToHotels(getContext(), params, event.animOptions, 0);
 	}
 }
