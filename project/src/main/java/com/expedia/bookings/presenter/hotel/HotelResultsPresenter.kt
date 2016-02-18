@@ -26,12 +26,6 @@ import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelResultsViewModel
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.mobiata.android.BackgroundDownloader
-import com.mobiata.android.LocationServices
 
 public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
     override val filterBtnWithCountWidget: FilterButtonWithCountWidget by bindView(R.id.sort_filter_button_container)
@@ -45,7 +39,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             filterBtnWithCountWidget?.translationY = 0f
         }
         mapViewModel.mapInitializedObservable.subscribe{
-            setMapToInitialState()
+            setMapToInitialState(viewmodel.paramsSubject.value?.suggestion)
         }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
@@ -66,7 +60,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         }
 
         vm.paramsSubject.subscribe { params ->
-            setMapToInitialState()
+            setMapToInitialState(params.suggestion)
             showLoading()
             show(ResultsList())
             filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch && !params.suggestion.isGoogleSuggestionSearch)
@@ -180,45 +174,5 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         }
     }
 
-    fun setMapToInitialState() {
-        if (isMapReady) {
-            if (viewmodel.paramsSubject.value?.suggestion?.coordinates != null &&
-                    viewmodel.paramsSubject.value?.suggestion?.coordinates?.lat != 0.0 &&
-                    viewmodel.paramsSubject.value?.suggestion?.coordinates?.lng != 0.0) {
-                moveCameraToLatLng(LatLng(viewmodel.paramsSubject.value.suggestion.coordinates.lat,
-                        viewmodel.paramsSubject.value.suggestion.coordinates.lng))
-            } else if (viewmodel.paramsSubject.value?.suggestion?.regionNames?.fullName != null) {
-                val BD_KEY = "geo_search"
-                val bd = BackgroundDownloader.getInstance()
-                bd.cancelDownload(BD_KEY)
-                bd.startDownload(BD_KEY, mGeocodeDownload(viewmodel.paramsSubject.value.suggestion.regionNames.fullName), geoCallback())
-            }
-        }
-    }
-
-    private fun mGeocodeDownload(query: String): BackgroundDownloader.Download<List<Address>?> {
-        return BackgroundDownloader.Download<List<android.location.Address>?> {
-            LocationServices.geocodeGoogle(context, query)
-        }
-    }
-
-    private fun geoCallback(): BackgroundDownloader.OnDownloadComplete<List<Address>?> {
-        return BackgroundDownloader.OnDownloadComplete<List<Address>?> { results ->
-            if (results != null && results.isNotEmpty()) {
-                if (results[0].latitude != 0.0 && results[0].longitude != 0.0) {
-                    moveCameraToLatLng(LatLng(results[0].latitude, results[0].longitude))
-                }
-            }
-        }
-    }
-
-    private fun moveCameraToLatLng(latLng: LatLng) {
-        var cameraPosition = CameraPosition.Builder()
-                .target(latLng)
-                .zoom(8f)
-                .build();
-        googleMap?.setPadding(0, 0, 0, 0)
-        googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
-    }
 
 }

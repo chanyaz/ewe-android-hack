@@ -8,6 +8,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.TransitionDrawable
+import android.location.Address
 import android.location.Location
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.content.ContextCompat
@@ -31,6 +32,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -38,6 +40,9 @@ import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.HotelMapClusterAlgorithm
+import com.expedia.bookings.utils.HotelMapClusterRenderer
+import com.expedia.bookings.utils.MapItem
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -47,9 +52,6 @@ import com.expedia.bookings.widget.HotelFilterView
 import com.expedia.bookings.widget.HotelListAdapter
 import com.expedia.bookings.widget.HotelListRecyclerView
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
-import com.expedia.bookings.utils.HotelMapClusterAlgorithm
-import com.expedia.bookings.utils.HotelMapClusterRenderer
-import com.expedia.bookings.utils.MapItem
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.createHotelMarkerIcon
@@ -63,11 +65,13 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.MapsInitializer
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.ui.IconGenerator
+import com.mobiata.android.BackgroundDownloader
 import com.mobiata.android.LocationServices
 import org.joda.time.DateTime
 import rx.Observer
@@ -1088,6 +1092,49 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         init {
             HotelV2Tracking().trackHotelV2Filter()
         }
+    }
+
+    fun setMapToInitialState(suggestion: SuggestionV4?) {
+        if (isMapReady) {
+            if (suggestion != null) {
+                if (suggestion.coordinates != null &&
+                        suggestion.coordinates?.lat != 0.0 &&
+                        suggestion.coordinates?.lng != 0.0) {
+                    moveCameraToLatLng(LatLng(suggestion.coordinates.lat,
+                            suggestion.coordinates.lng))
+                } else if (suggestion.regionNames?.fullName != null) {
+                    val BD_KEY = "geo_search"
+                    val bd = BackgroundDownloader.getInstance()
+                    bd.cancelDownload(BD_KEY)
+                    bd.startDownload(BD_KEY, mGeocodeDownload(suggestion.regionNames.fullName), geoCallback())
+                }
+            }
+        }
+    }
+
+    private fun mGeocodeDownload(query: String): BackgroundDownloader.Download<List<Address>?> {
+        return BackgroundDownloader.Download<List<android.location.Address>?> {
+            LocationServices.geocodeGoogle(context, query)
+        }
+    }
+
+    private fun geoCallback(): BackgroundDownloader.OnDownloadComplete<List<Address>?> {
+        return BackgroundDownloader.OnDownloadComplete<List<Address>?> { results ->
+            if (results != null && results.isNotEmpty()) {
+                if (results[0].latitude != 0.0 && results[0].longitude != 0.0) {
+                    moveCameraToLatLng(LatLng(results[0].latitude, results[0].longitude))
+                }
+            }
+        }
+    }
+
+    private fun moveCameraToLatLng(latLng: LatLng) {
+        var cameraPosition = CameraPosition.Builder()
+                .target(latLng)
+                .zoom(8f)
+                .build();
+        googleMap?.setPadding(0, 0, 0, 0)
+        googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 
     abstract fun inflate()
