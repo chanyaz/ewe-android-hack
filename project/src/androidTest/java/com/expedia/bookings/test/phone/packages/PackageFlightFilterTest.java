@@ -9,6 +9,7 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
@@ -17,20 +18,45 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.Matchers.instanceOf;
+import static org.hamcrest.Matchers.is;
 
 public class PackageFlightFilterTest extends PackageTestCase {
 
-	public void testPackageFlightsOverview() throws Throwable {
+	public void testPackageFlightsFiltersOverview() throws Throwable {
 		openFlightFilter();
-		checkInitialFilters();
+		scrollToViewWithId(R.id.price_range_min_text);
+		visibleWithText(R.id.price_range_min_text, "$3,863");
+		visibleWithText(R.id.price_range_max_text, "$4,211");
+		scrollToViewWithId(R.id.duration_range_min_text);
+		visibleWithText(R.id.duration_range_min_text, "5h");
+		visibleWithText(R.id.duration_range_max_text, "9h");
+		scrollToViewWithId(R.id.departure_range_min_text);
+		visibleWithText(R.id.departure_range_min_text, "8:00");
+		visibleWithText(R.id.departure_range_max_text, "10:00");
+		scrollToViewWithId(R.id.arrival_range_min_text);
+		visibleWithText(R.id.arrival_range_min_text, "11:00");
+		visibleWithText(R.id.arrival_range_max_text, "17:00");
 	}
 
-	public void testPackageFilters() throws Throwable {
+	public void testCheckableFilters() throws Throwable {
 		openFlightFilter();
+
+		tickCheckboxWithText("Nonstop");
+		checkFilteredFlights("3 Results");
+		resetFilters();
+
 		tickCheckboxWithText("1 Stop");
 		checkFilteredFlights("1 Result");
+		resetFilters();
+
+		tickCheckboxWithText("Nonstop");
+		tickCheckboxWithText("1 Stop");
+		checkFilteredFlights("4 Results");
 		resetFilters();
 
 		tickCheckboxWithText("Hawaiian Airlines");
@@ -49,6 +75,22 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		tickCheckboxWithText("United");
 		tickCheckboxWithText("Virgin America");
 		checkFilteredFlights("4 Results");
+	}
+
+	public void testDurationSorting() throws Throwable {
+		openFlightFilter();
+		selectSorting("Duration");
+		Common.delay(1);
+		done();
+	}
+	private void done() {
+		onView(withId(R.id.search_btn)).perform(click());
+	}
+
+	private void selectSorting(String duration) {
+		onView(withId(R.id.sort_by_selection_spinner)).perform(click());
+		onData(allOf(is(instanceOf(String.class)), is(duration))).perform(click());
+		onView(withId(R.id.sort_by_selection_spinner)).check(matches(withSpinnerText(containsString(duration))));
 	}
 
 	private void openFlightFilter() throws Throwable {
@@ -76,21 +118,6 @@ public class PackageFlightFilterTest extends PackageTestCase {
 
 		PackageScreen.flightsToolbarFilterMenu().perform(click());
 		Common.delay(1);
-	}
-
-	private void checkInitialFilters() {
-		scrollToViewWithId(R.id.price_range_min_text);
-		visibleWithText(R.id.price_range_min_text, "$3,863");
-		visibleWithText(R.id.price_range_max_text, "$4,211");
-		scrollToViewWithId(R.id.duration_range_min_text);
-		visibleWithText(R.id.duration_range_min_text, "5h");
-		visibleWithText(R.id.duration_range_max_text, "9h");
-		scrollToViewWithId(R.id.departure_range_min_text);
-		visibleWithText(R.id.departure_range_min_text, "8:00");
-		visibleWithText(R.id.departure_range_max_text, "10:00");
-		scrollToViewWithId(R.id.arrival_range_min_text);
-		visibleWithText(R.id.arrival_range_min_text, "11:00");
-		visibleWithText(R.id.arrival_range_max_text, "17:00");
 	}
 
 	@IdRes
