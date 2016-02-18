@@ -202,8 +202,10 @@
     <string name="successful_checkout_email_label">行程单已发送至</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">前往%1$s的路线</string>
-
-    <string name="shortened_checkout_payment_option_credit_debit_label">信用/借记卡</string>
+    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
+    <string name="checkout_payment_option_credit_debit_label">信用卡/借记卡</string>
+    <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
+    <string name="shortened_checkout_payment_option_credit_debit_label">输入新的借记卡或信用卡信息</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">住客详细信息</string>
     <!-- Text for Android pay label -->
@@ -213,7 +215,7 @@
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_hotelsv2_enter_payment_details_line1">付款详细信息</string>
     <!-- Text for enter payment details line 2 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line2">选择付款类型</string>
+    <string name="checkout_hotelsv2_enter_payment_details_line2">输入信用卡信息</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
     <string name="checkout_payment_line2_storedcc">保存的信用卡</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
@@ -223,7 +225,11 @@
     <!-- Text for enter payment details line 2 for pwp -->
     <string name="checkout_tap_to_edit">点击编辑</string>
     <!-- Text for enter payment details line 2 for pwp -->
-    <string name="checkout_payment_options">积分和信用卡</string>
+    <string name="checkout_payment_options">信用卡，积分支付</string>
+    <!--Text for selected card -->
+    <string name="checkout_selected_card">{cardtype} …{cardno}</string>
+    <!--Text for selecting user manually stored card -->
+    <string name="temporarily_saved_card_TEMPLATE">已保存 {cardtype} …{cardno}</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">滑动屏幕，开始预订</string>
@@ -233,11 +239,11 @@
     <string name="change_dates">变更日期</string>
 
     <!-- Car error strings -->
-    <!-- Message for user that pick-up time is too early."  -->
+    <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">请调整您的取车或还车时间。</string>
-    <!-- Message for user  to choose a closer date.""  -->
+    <!-- Message for user  to choose a closer date.  -->
     <string name="drop_off_too_far_error">日期距离太远了，请选择一个较近的日期。</string>
-    <!-- Message for user that date is too far out."  -->
+    <!-- Message for user that date is too far out.  -->
     <string name="date_out_of_range">日期距离太远了，请选择一个较近的日期。</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">请延长预订时间。</string>
@@ -1694,6 +1700,8 @@
     <string name="calendar_instructions_hotels_no_dates_selected">选择入住日期</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <string name="guests_with_rooms_TEMPLATE">{guests}, 1 间房</string>
+
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">单程价格为 &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1782,7 +1790,7 @@
     <string name="select_payment_callout">输入详细信息</string>
     <!-- Add new card -->
     <string name="add_new_card">添加新卡</string>
-    <string name="new_credit_debit_card">新的信用/借记卡</string>
+    <string name="new_credit_debit_card">新的借记卡或信用卡</string>
     <!-- Overview button -->
     <string name="overview_btn">概要</string>
     <!-- Stored Payment label -->
@@ -2042,8 +2050,10 @@
     <!-- Section edit contact -->
     <!-- name on card hint -->
     <string name="name_on_card_hint">信用卡上的姓名</string>
+    <!-- Package cardholder name hint -->
+    <string name="cardholder_name_hint">持卡人姓名</string>
     <!-- email hint -->
-    <string name="email_address_hint">电子邮件地址</string>
+    <string name="email_address_hint">邮箱</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">电话号码</string>
     <!-- phone number -->
@@ -2097,6 +2107,8 @@
     <string name="address_state_hint">省</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">邮政编码</string>
+    <!-- Zip Code hint for Packages -->
+    <string name="address_zip_code_hint">邮政编码</string>
     <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
     <string name="address_postal_code_hint_US">邮编</string>
 
@@ -2641,6 +2653,11 @@
     <string name="From_x_per_night_template">每晚 %s 起</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">搜索此区域</string>
+    <!-- Map cluster text for number of hotels-->
+    <string name="cluster_number_of_hotels_template">%s 家酒店</string>
+    <!-- Map cluster price from range-->
+    <string name="cluster_price_from_range_template">%s 起</string>
+
 
     <!-- Widget -->
     <!-- Default Loading message for widget -->
@@ -3830,6 +3847,12 @@
     <string name="package_toolbar_title">机 + 酒</string>
     <!-- Label for per person -->
     <string name="per_person">每人</string>
+    <!-- Label for package search toolbar -->
+    <string name="bundle_overview_title">打包套餐</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">套餐总额</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">查看您的套餐</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">出发城市</string>
     <!-- Fly to hint -->
@@ -3839,11 +3862,18 @@
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">第 2 步：选航班</string>
     <!-- Package hotel cell: Price Includes flights -->
-    <string name="package_price_include_flights">价格保护机票</string>
+    <string name="package_price_include_flights">价格包括机 + 酒</string>
+    <!-- Package hotel map cell: Price Includes Taxes and Fees -->
+    <string name="package_price_includes_taxes_fees">价格包括税费及机 + 酒/人</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s到达：%2$s%3$s</string>
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings}已保存</string>
+    <!-- Bundle Overview select hotel -->
+    <string name="select_hotel_template">选择%s的酒店</string>
+    <!-- Bundle Overview searching flight -->
+    <string name="searching_flight_to">搜索飞往%s的航班</string>
+
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->
@@ -3872,15 +3902,29 @@
     <string name="in_lap">怀抱</string>
     <!-- Description for infant travelers sitting in seat -->
     <string name="in_seat">占座</string>
+    <!-- Label for flights on checkout overview of Packages -->
+    <string name="flight_checkout_overview_TEMPLATE">机票 - {origin}至{destination}，往返</string>
+    <!-- Label for hotel on checkout overview of Packages -->
+    <string name="hotel_checkout_overview_TEMPLATE">{city}酒店 - {rooms} 间房，{nights} 晚</string>
     <!-- Package Trip Overview -->
     <string name="trip_overview">行程摘要</string>
     <!-- Slide to book -->
     <string name="package_slider_text">滑动屏幕，开始预订</string>
+    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
+
+    <!-- Flight Duration filter label-->
+    <string name="flight_duration_label">飞行时间</string>
+    <string name="flight_duration_hour_short">小时</string>
+    <!-- Departure Time Range filter label-->
+    <string name="departure_time_range">出发时间范围</string>
+    <!-- Arrival Time Range filter label-->
+    <string name="arrival_time_range">到达时间范围</string>
+
 
     <!-- Pay with points widget -->
     <string name="paying_with_points">使用积分支付</string>
     <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} 分) 可用</string>
-    <string name="user_enters_more_than_points_TEMPLATE">积分价值超出您现有的余额。\n请输入 {money} 或以下。</string>
+    <string name="user_enters_more_than_available_points_TEMPLATE">积分价值超出您现有的余额。\n请输入 {money} 或以下。</string>
     <string name="user_enters_more_than_trip">积分价值不能超出今天应付的款额。</string>
     <string name="pwp_calculating_points">正在计算积分…</string>
     <string name="pwp_points_applied_TEMPLATE">使用了 {points} 分</string>
@@ -3888,7 +3932,14 @@
     <string name="pwp_total_due_today_TEMPLATE">今天应付总额：{money}</string>
 
     <!-- Package Flight Overview -->
+    <string name="package_flight_overview_urgency_message_TEMPLATE">还剩 {seats} 个座位！</string>
     <string name="package_flight_overview_select_flight">选择此航班</string>
+    <string name="package_flight_overview_bundle_total_label">套餐总额</string>
+    <string name="package_flight_overview_per_person_TEMPLATE">{money}/人</string>
+    <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
+    <string name="package_flight_overview_layover_in_TEMPLATE">在 ({airportcode}) {city}中转</string>
+    <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
+    <string name="package_flight_overview_total_duration_TEMPLATE">总时长：{duration}</string>
 
     <!--Rail search screen title-->
     <string name="trains">火车</string>
