@@ -92,7 +92,7 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Bas
         addDefaultTransition(defaultTransition)
         showDefault()
         com.mobiata.android.util.Ui.hideKeyboard(this)
-        scrollView.scrollTo(0 ,0)
+        scrollView.scrollTo(0 ,scrollView.top)
         searchButton.setTextColor(ContextCompat.getColor(context, R.color.white_disabled))
     }
 

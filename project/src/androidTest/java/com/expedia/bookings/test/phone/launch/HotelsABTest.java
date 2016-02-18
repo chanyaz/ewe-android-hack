@@ -1,8 +1,5 @@
 package com.expedia.bookings.test.phone.launch;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
@@ -18,6 +15,9 @@ import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.utils.DateUtils;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class HotelsABTest extends PhoneTestCase {
 
@@ -90,7 +90,7 @@ public class HotelsABTest extends PhoneTestCase {
 		LocalDate checkOut = LocalDate.now().plusDays(2);
 		String expectedCheckInDate = DateUtils.localDateToMMMd(checkIn);
 		String expectedCheckoutDate = DateUtils.localDateToMMMd(checkOut);
-		String expected = expectedCheckInDate + " - " + expectedCheckoutDate + "\n(1 night)";
+		String expected = expectedCheckInDate + " - " + expectedCheckoutDate + " (1 night)";
 		EspressoUtils.assertViewWithTextIsDisplayed(expected);
 	}
 
@@ -144,7 +144,7 @@ public class HotelsABTest extends PhoneTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed("2 Guests");
 		String expectedCheckInDate = DateUtils.localDateToMMMd(checkIn);
 		String expectedCheckoutDate = DateUtils.localDateToMMMd(checkOut);
-		String expected = expectedCheckInDate + " - " + expectedCheckoutDate + "\n(2 nights)";
+		String expected = expectedCheckInDate + " - " + expectedCheckoutDate + " (2 nights)";
 		EspressoUtils.assertViewWithTextIsDisplayed(expected);
 
 	}
