@@ -35,6 +35,7 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         vm.hotelResultsObservable.subscribe{
             filterBtnWithCountWidget.visibility = View.VISIBLE
             filterBtnWithCountWidget.translationY = 0f
+            fab.isEnabled = true
         }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
