@@ -11,15 +11,16 @@
         android:orientation="vertical"
         android:paddingTop="?attr/actionBarSize">
 
-        <RelativeLayout android:id="@+id/search_params_container"
+        <RelativeLayout
+            android:id="@+id/search_params_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/packages_primary_color"
             android:layout_alignParentTop="true"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:background="@color/packages_primary_color"
             android:clipChildren="false"
-            android:clipToPadding="false">
+            android:clipToPadding="false"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
             <LinearLayout
                 android:id="@+id/search_bar"
@@ -36,7 +37,7 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     app:search_drawable="@drawable/packages_search_departure"
-                    app:search_hint="@string/fly_from_hint"/>
+                    app:search_hint="@string/fly_from_hint" />
 
                 <com.expedia.bookings.widget.SearchAutoCompleteView
                     android:id="@+id/flying_to"
@@ -47,7 +48,7 @@
                     android:focusable="true"
                     android:focusableInTouchMode="true"
                     app:search_drawable="@drawable/packages_search_arrival"
-                    app:search_hint="@string/fly_to_hint"/>
+                    app:search_hint="@string/fly_to_hint" />
 
             </LinearLayout>
 
@@ -101,6 +102,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:orientation="vertical"
+            android:paddingBottom="16dp"
             android:visibility="gone" />
 
         <com.mobiata.android.time.widget.CalendarPicker
