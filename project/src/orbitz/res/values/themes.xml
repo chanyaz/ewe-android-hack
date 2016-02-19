@@ -33,6 +33,7 @@
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_orb_white_logo_small</item>
         <item name="skin_bgFindItineraryButton">@drawable/btn_find_orbitz</item>
+        <item name="skin_actionBarAboutLogo">@drawable/ic_action_bar_orb_logo</item>
 
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
