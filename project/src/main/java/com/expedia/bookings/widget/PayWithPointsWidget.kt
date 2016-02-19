@@ -65,6 +65,7 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         })
         pwpViewModel.pwpOpted.filter { it }.subscribe {
             pwpViewModel.userEnteredBurnAmount.onNext(editAmountView.text.toString())
+            editAmountView.isCursorVisible = false
         }
         pwpViewModel.pwpWidgetVisibility.subscribeVisibility(this)
         pwpViewModel.pwpOpted.subscribeVisibility(pwpEditBoxContainer)
