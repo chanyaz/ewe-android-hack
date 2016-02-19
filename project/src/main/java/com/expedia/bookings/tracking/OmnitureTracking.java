@@ -314,8 +314,11 @@ public class OmnitureTracking {
 			}
 		}
 
-		//tracking for Map AB test
+
 		if (!ExpediaBookingApp.isDeviceShitty()) {
+			//tracking for Map Clustering AB test
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppHSRMapClusteringTest);
+			//tracking for Map AB test
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultMapTest);
 		}
 
