@@ -293,7 +293,6 @@ DummyFiletoHandleKotlinLintError {
 		R.string.hotel_city_country_checkout_header_TEMPLATE,
 		R.dimen.package_bundle_scroll_view_padding,
 		R.layout.widget_hotel_calendar_search,
-		R.layout.widget_traveler_calendar_search_v2,
 		R.string.coupon_error_remove_dialog_title,
 		R.string.per_person,
 		R.string.package_hotel_results_toolbar_title_TEMPLATE,
@@ -357,6 +356,12 @@ DummyFiletoHandleKotlinLintError {
 		R.dimen.airlines_filter_height,
 		R.layout.labeled_checked_filter,
 		R.string.flight_duration_hour_short,
-		R.layout.widget_package_flight_filter
+		R.layout.widget_package_flight_filter,
+		R.color.packages_breakdown_text_color,
+		R.color.packages_breakdown_total_cost_color,
+		R.color.packages_breakdown_savings_cost_color,
+		R.color.packages_breakdown_line_seperator_color,
+		R.layout.package_breakdown,
+		R.layout.package_cost_summary_row
 	};
 }

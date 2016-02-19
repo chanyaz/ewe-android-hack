@@ -9,6 +9,7 @@ import org.hamcrest.TypeSafeMatcher;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
@@ -46,6 +47,23 @@ public class CustomMatchers {
 					if (sameBitmap(textView.getContext(), drawable, resId)) {
 						return true;
 					}
+				}
+				return false;
+			}
+		};
+	}
+
+	public static Matcher<View> withTextColor(final String hexColor) {
+		return new BoundedMatcher<View, TextView>(TextView.class) {
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("has hex color " + hexColor);
+			}
+
+			@Override
+			public boolean matchesSafely(TextView textView) {
+				if (Color.parseColor(hexColor) == textView.getCurrentTextColor()) {
+					return true;
 				}
 				return false;
 			}
