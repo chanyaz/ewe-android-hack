@@ -1,13 +1,11 @@
 package com.expedia.bookings.test.happy;
 
 import android.support.test.espresso.Espresso;
-import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.ViewMatchers;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
-import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
@@ -135,10 +133,10 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 	private void assertHotelSRP() {
 		HotelScreen.hotelResultsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Hotels in Detroit, MI")))));
-		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.hotel_name_text_view,
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.hotel_name_text_view,
 			"Package Happy Path");
-		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.strike_through_price, "$538");
-		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.price_per_night, "$526");
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.strike_through_price, "$538");
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.price_per_night, "$526");
 	}
 
 	private void assertHotelInfoSite() {
@@ -153,11 +151,9 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 	}
 
 	private void assertHotelMap() {
-		onView(allOf(withId(R.id.package_map_price_messaging),
-			withText("Price includes taxes, fees, flights + hotel per person"))).check(matches(isDisplayed()));
-		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelCarousel(), 0, R.id.hotel_strike_through_price,
-			"$571");
-		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelCarousel(), 0, R.id.hotel_price_per_night, "$562");
+		onView(allOf(withId(R.id.package_map_price_messaging), withText("Price includes taxes, fees, flights + hotel per person"))).check(matches(isDisplayed()));
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelCarousel(), 0, R.id.hotel_strike_through_price, "$571");
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelCarousel(), 0, R.id.hotel_price_per_night, "$562");
 	}
 
 	private void assertCheckoutOverview(LocalDate startDate, LocalDate endDate) {
@@ -221,13 +217,6 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 	private void assertBundlePriceInFlight(String price) {
 		onView(allOf(withId(R.id.bundle_price_label), withText("Bundle Total"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_price), withText(price + "/person"))).check(matches(isDisplayed()));
-	}
-
-	private void assertViewWithTextIsDisplayedAtPosition(ViewInteraction viewInteraction, int position, int id,
-		String text) {
-		viewInteraction.check(
-			RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(
-				CoreMatchers.allOf(withId(id), isDisplayed(), withText(text)))));
 	}
 
 	private void reviews() throws Throwable {

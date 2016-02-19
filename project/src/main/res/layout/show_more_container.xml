@@ -32,3 +32,4 @@
             android:text="@string/show_more" />
     </RelativeLayout>
 </merge>
+

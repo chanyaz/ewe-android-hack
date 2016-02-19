@@ -53,7 +53,7 @@ open class BaseFlightPresenter(context: Context, attrs: AttributeSet) : Presente
     val filter: PackageFlightFilterWidget by lazy {
         val viewStub = findViewById(R.id.filter_stub) as ViewStub
         val filterView = viewStub.inflate() as PackageFlightFilterWidget
-        filterView.viewModel = PackageFlightFilterViewModel()
+        filterView.viewModel = PackageFlightFilterViewModel(context)
         resultsPresenter.resultsViewModel.flightResultsObservable.subscribe {
             filterView.viewModel.flightResultsObservable.onNext(it)
         }

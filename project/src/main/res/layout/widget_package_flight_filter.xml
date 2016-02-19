@@ -48,7 +48,7 @@
             <include layout="@layout/package_flight_filter_divider" />
 
             <com.expedia.bookings.widget.TextView
-                android:id="@+id/duration"
+                android:id="@+id/duration_label"
                 style="@style/FilterSortLabelTheme"
                 android:text="@string/flight_duration_label" />
 
@@ -61,28 +61,17 @@
                 android:paddingLeft="@dimen/sort_filter_padding_normal"
                 android:paddingRight="@dimen/sort_filter_padding_normal">
 
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/duration"
+                    style="@style/FilterSortValueTheme" />
 
-                    <TextView
-                        android:id="@+id/duration_range_min_text"
-                        style="@style/FilterSortValueTheme" />
-
-                    <TextView
-                        android:id="@+id/duration_range_max_text"
-                        style="@style/FilterSortValueTheme"
-                        android:layout_gravity="right" />
-
-                </FrameLayout>
-
-                <com.expedia.bookings.widget.FilterRangeSeekBar
-                    android:id="@+id/duration_range_bar"
+                <com.expedia.bookings.widget.FilterSeekBar
+                    android:id="@+id/duration_seek_bar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/sort_filter_padding_small"
+                    android:maxHeight="6dp"
+                    android:minHeight="6dp"
                     app:rsb__activeColor="@color/packages_primary_color" />
-
             </LinearLayout>
 
             <include layout="@layout/package_flight_filter_divider" />
@@ -99,7 +88,6 @@
                 android:orientation="vertical" />
 
             <include layout="@layout/package_flight_filter_divider" />
-
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/departure"
@@ -126,7 +114,6 @@
                         android:id="@+id/departure_range_max_text"
                         style="@style/FilterSortValueTheme"
                         android:layout_gravity="right" />
-
                 </FrameLayout>
 
                 <com.expedia.bookings.widget.FilterRangeSeekBar

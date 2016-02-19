@@ -324,7 +324,7 @@
 
     <!-- Package Hotel Map -->
     <dimen name="packages_hotel_map_message">@dimen/temporary_font_size_small</dimen>
-
+    
     <!-- Package Filter Sort -->
     <dimen name="package_sort_filter_label_text_size">15sp</dimen>
     <dimen name="package_sort_filter_value_text_size">13sp</dimen>

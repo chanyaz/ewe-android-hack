@@ -484,6 +484,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.feeds_flight_search_card,
 		R.layout.widget_package_search,
 		R.string.hotel_free_cancellation_TEMPLATE,
-		R.string.passport_country_colon
+		R.string.passport_country_colon,
+		R.array.hoursList
 	};
 }
