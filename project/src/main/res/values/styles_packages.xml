@@ -131,4 +131,25 @@
     </style>
 
 
+    <style name="FilterSortLabelTheme">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/packages_flight_filter_text</item>
+        <item name="android:textSize">@dimen/package_sort_filter_label_text_size</item>
+        <item name="android:layout_marginTop">@dimen/sort_filter_padding_small</item>
+        <item name="android:layout_marginBottom">@dimen/sort_filter_padding_small</item>
+        <item name="android:paddingLeft">@dimen/sort_filter_padding_normal</item>
+        <item name="android:paddingRight">@dimen/sort_filter_padding_normal</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="FilterSortValueTheme">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="layout_gravity">left</item>
+        <item name="android:textColor">@color/packages_flight_filter_text</item>
+        <item name="android:textSize">@dimen/package_sort_filter_value_text_size</item>
+    </style>
+
 </resources>
+

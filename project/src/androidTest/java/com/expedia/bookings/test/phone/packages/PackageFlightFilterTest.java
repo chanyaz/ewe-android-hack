@@ -3,6 +3,7 @@ package com.expedia.bookings.test.phone.packages;
 import org.joda.time.LocalDate;
 
 import android.support.annotation.IdRes;
+import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -29,18 +30,22 @@ public class PackageFlightFilterTest extends PackageTestCase {
 
 	public void testPackageFlightsFiltersOverview() throws Throwable {
 		openFlightFilter();
-		scrollToViewWithId(R.id.price_range_min_text);
-		visibleWithText(R.id.price_range_min_text, "$3,863");
-		visibleWithText(R.id.price_range_max_text, "$4,211");
 		scrollToViewWithId(R.id.duration_range_min_text);
-		visibleWithText(R.id.duration_range_min_text, "5h");
-		visibleWithText(R.id.duration_range_max_text, "9h");
+		visibleWithText(R.id.duration_range_min_text, "5hr");
+		visibleWithText(R.id.duration_range_max_text, "12hr");
 		scrollToViewWithId(R.id.departure_range_min_text);
 		visibleWithText(R.id.departure_range_min_text, "8:00");
 		visibleWithText(R.id.departure_range_max_text, "10:00");
 		scrollToViewWithId(R.id.arrival_range_min_text);
 		visibleWithText(R.id.arrival_range_min_text, "11:00");
 		visibleWithText(R.id.arrival_range_max_text, "17:00");
+
+		// Fix these counts for best flight #6747
+		checkResultsCountForCheckbox("Nonstop", "3");
+		checkResultsCountForCheckbox("2+ Stops", "1");
+		checkResultsCountForCheckbox("Hawaiian Airlines", "1");
+		checkResultsCountForCheckbox("United", "2");
+		checkResultsCountForCheckbox("Virgin America", "1");
 	}
 
 	public void testCheckableFilters() throws Throwable {
@@ -50,12 +55,12 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		checkFilteredFlights("2 Results");
 		resetFilters();
 
-		tickCheckboxWithText("1 Stop");
+		tickCheckboxWithText("2+ Stops");
 		checkFilteredFlights("1 Result");
 		resetFilters();
 
 		tickCheckboxWithText("Nonstop");
-		tickCheckboxWithText("1 Stop");
+		tickCheckboxWithText("2+ Stops");
 		checkFilteredFlights("3 Results");
 		resetFilters();
 
@@ -131,9 +136,17 @@ public class PackageFlightFilterTest extends PackageTestCase {
 	}
 
 	private void tickCheckboxWithText(String title) {
-		onView(allOf(withId(R.id.check_box), hasSibling(allOf(withId(R.id.label), withText(title)))))
-			.perform(scrollTo());
-		onView(allOf(withId(R.id.check_box), hasSibling(allOf(withId(R.id.label), withText(title))))).perform(click());
+		checkBoxWithTitle(title).perform(scrollTo());
+		checkBoxWithTitle(title).perform(click());
+	}
+
+	private void checkResultsCountForCheckbox(String title, String count) {
+		checkBoxWithTitle(title).perform(scrollTo());
+		checkBoxWithTitle(title).check(matches(hasSibling(allOf(withId(R.id.results_label), withText(count)))));
+	}
+
+	private ViewInteraction checkBoxWithTitle(String title) {
+		return onView(allOf(withId(R.id.check_box), hasSibling(allOf(withId(R.id.label), withText(title)))));
 	}
 
 	private void checkFilteredFlights(String text) {
