@@ -37,9 +37,9 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
             .format().toString()
 
     //POINTS APPLIED MESSAGING
-    private fun pointsAppliedMessage(paymentSplits: PaymentSplits) = Phrase.from(resources, R.string.pwp_points_applied_TEMPLATE)
+    private fun pointsAppliedMessage(paymentSplits: PaymentSplits) = Phrase.from(resources.getQuantityString(R.plurals.pwp_points_applied_TEMPLATE, paymentSplits.payingWithPoints.points))
             .put("points", NumberFormat.getInstance().format(paymentSplits.payingWithPoints.points))
-            .format().toString()
+            .format().toString();
 
     //INLETS
     override val userEnteredBurnAmount = PublishSubject.create<String>()
@@ -135,6 +135,13 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
         when (it.second) {
             true -> resources.getColor(android.R.color.black);
             false -> resources.getColor(R.color.cvv_error);
+        }
+    }
+
+    override val payWithPointsMessage = pwpOpted.map {
+        when (it) {
+            true -> resources.getString(R.string.paying_with_expedia_points)
+            false -> resources.getString(R.string.pay_with_expedia_points)
         }
     }
 
