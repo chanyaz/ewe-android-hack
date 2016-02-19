@@ -63,7 +63,7 @@ public class HotelSearchPresenterTest extends HotelTestCase {
 		// Select end date
 		HotelScreen.selectDates(startDate, endDate);
 		String expectedEndDate = DateUtils.localDateToMMMd(endDate);
-		String expected = expectedStartDate + " - " + expectedEndDate + "\n(5 nights)" ;
+		String expected = expectedStartDate + " - " + expectedEndDate + " (5 nights)" ;
 		HotelScreen.selectDateButton().check(matches(withText(expected)));
 	}
 

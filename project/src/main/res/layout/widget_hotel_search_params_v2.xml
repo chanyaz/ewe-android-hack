@@ -74,18 +74,6 @@
         android:background="@color/search_suggestion_background_v2"
         android:visibility="gone" >
 
-        <Button
-            android:id="@+id/search_button_v2"
-            style="@style/HotelButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="@color/hotels_primary_color"
-            android:enabled="true"
-            android:minHeight="@dimen/recent_search_item_height"
-            android:text="@string/search"
-            android:textSize="17sp" />
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/suggestion_list"
             android:layout_width="match_parent"
@@ -95,6 +83,18 @@
             android:visibility="gone" />
 
     </FrameLayout>
+
+    <Button
+        android:id="@+id/search_button_v2"
+        style="@style/HotelButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/hotels_primary_color"
+        android:enabled="true"
+        android:minHeight="@dimen/recent_search_item_height"
+        android:text="@string/search"
+        android:textSize="17sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
