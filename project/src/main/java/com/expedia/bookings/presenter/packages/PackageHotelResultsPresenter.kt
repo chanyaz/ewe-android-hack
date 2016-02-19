@@ -13,8 +13,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelResultsViewModel
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.model.LatLng
 import kotlin.properties.Delegates
 
 public class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
@@ -23,9 +21,7 @@ public class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet)
     var filterButtonText: TextView by Delegates.notNull()
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
-        vm.hotelResultsObservable.subscribe {
-            vm.hotelResultsObservable.subscribe(listResultsObserver)
-        }
+        vm.hotelResultsObservable.subscribe(listResultsObserver)
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
 
         vm.titleSubject.subscribe {
@@ -37,12 +33,15 @@ public class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet)
         }
 
         vm.paramsSubject.subscribe { params ->
-            if (params.suggestion.coordinates != null) {
-                googleMap?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(params.suggestion.coordinates.lat, params.suggestion.coordinates.lng), 14.0f))
-            }
+            setMapToInitialState(params.suggestion)
             filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch && !params.suggestion.isGoogleSuggestionSearch)
             filterView.viewmodel.clearObservable.onNext(Unit)
         }
+
+        mapViewModel.mapInitializedObservable.subscribe{
+            setMapToInitialState(viewmodel.paramsSubject.value?.suggestion)
+        }
+
     }
 
     override fun inflate() {
