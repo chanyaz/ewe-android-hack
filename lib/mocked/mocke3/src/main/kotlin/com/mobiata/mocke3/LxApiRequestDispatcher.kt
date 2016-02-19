@@ -45,6 +45,11 @@ public class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
                 }
             }
 
+            LxApiRequestMatcher.isRecommendRequest(urlPath) -> {
+                val params = parseRequest(request)
+                return getMockResponse("lx/api/recommend/happy.json", params)
+            }
+
             LxApiRequestMatcher.isCreateTripRequest(urlPath) -> {
                 val obj = JsonParser().parse(request.body.readUtf8()).asJsonObject
                 val activityId = obj.getAsJsonArray("items").get(0).asJsonObject.get("activityId").asString
@@ -87,6 +92,10 @@ class LxApiRequestMatcher {
 
         fun isDetailsRequest(urlPath: String): Boolean {
             return doesItMatch("^/lx/api/activity.*$", urlPath)
+        }
+
+        fun isRecommendRequest(urlPath: String): Boolean {
+            return doesItMatch("^/lx/api/recommend.*$", urlPath)
         }
 
         fun isCreateTripRequest(urlPath: String): Boolean {

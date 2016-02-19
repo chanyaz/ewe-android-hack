@@ -27,6 +27,7 @@ import com.expedia.bookings.data.lx.LXOfferSelected;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.Offer;
+import com.expedia.bookings.data.lx.RecommendedActivitiesResponse;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.LXServices;
@@ -162,6 +163,24 @@ public class LXServicesTest {
 		ActivityDetailsResponse activityDetailsResponse = observer.getOnNextEvents().get(0);
 		assertEquals(5, activityDetailsResponse.images.size());
 		assertEquals(5, activityDetailsResponse.highlights.size());
+	}
+
+	@Test
+	public void recommendedResponse() throws Throwable {
+		givenServerUsingMockResponses();
+
+		TestSubscriber<RecommendedActivitiesResponse> observer = new TestSubscriber<>();
+		LXActivity lxActivity = new LXActivity();
+		lxActivity.id = "happy_recommend";
+		service.lxRecommendedSearch(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1), observer);
+		observer.awaitTerminalEvent();
+
+		observer.assertNoErrors();
+		observer.assertValueCount(1);
+		observer.assertCompleted();
+
+		RecommendedActivitiesResponse activityDetailsResponse = observer.getOnNextEvents().get(0);
+		assertEquals(3, activityDetailsResponse.getActivities().size());
 	}
 
 	@Test
