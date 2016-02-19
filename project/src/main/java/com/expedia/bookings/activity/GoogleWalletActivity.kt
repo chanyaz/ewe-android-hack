@@ -127,7 +127,7 @@ public class GoogleWalletActivity : AppCompatActivity() {
 
     val connectionFailed = object : GoogleApiClient.OnConnectionFailedListener
     {
-        override fun onConnectionFailed(p0: ConnectionResult?) {
+        override fun onConnectionFailed(p0: ConnectionResult) {
         }
     }
 

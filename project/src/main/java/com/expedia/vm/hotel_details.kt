@@ -212,7 +212,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         var galleryUrls = ArrayList<HotelMedia>()
 
         if (Images.getHotelImages(hotelOffersResponse).isNotEmpty()) {
-            galleryUrls.addAll(Images.getHotelImages(hotelOffersResponse).toArrayList())
+            galleryUrls.addAll(Images.getHotelImages(hotelOffersResponse).toMutableList())
         } else {
             var placeHolder = HotelMedia()
             placeHolder.setIsPlaceholder(true)
@@ -495,7 +495,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
                 if (!allValueAdds.isEmpty()) {
                     val commonValueAdds: List<String> = allValueAdds
                             .drop(1)
-                            .fold(allValueAdds.first().toArrayList(), { initial, nextValueAdds ->
+                            .fold(allValueAdds.first().toMutableList(), { initial, nextValueAdds ->
                                 initial.retainAll(nextValueAdds)
                                 initial
                             })
@@ -513,7 +513,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
         val hasETPOffer = hasEtpOffer(hotelOffersResponse)
         if (hasETPOffer) {
             etpOffersList = hotelOffersResponse.hotelRoomResponse
-                    .filter { it.payLaterOffer != null }.toArrayList()
+                    .filter { it.payLaterOffer != null }.toCollection(ArrayList())
 
             etpUniqueValueAddForRooms = getValueAdd(etpOffersList)
         }
@@ -547,7 +547,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
             return emptyList()
         }
 
-        var list = Array(hotelRooms!!.size, { i -> "" }).toArrayList()
+        var list = Array(hotelRooms!!.size, { i -> "" }).toMutableList()
         for (iRoom in 0..hotelRooms.size - 1) {
             val rate = hotelOffersResponse.hotelRoomResponse.get(iRoom)
             if (rate.valueAdds != null) {

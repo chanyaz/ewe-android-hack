@@ -118,7 +118,7 @@ public class HotelDetailsTest {
         val string = Phrase.from(activity, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
                 DateUtils.localDateToMMMd(checkIn)).put("enddate",
                 DateUtils.localDateToMMMd(checkOut)).put("guests",
-                activity.resources.getQuantityString(R.plurals.number_of_guests, searchParams.children.size() + searchParams.adults, searchParams.children.size() + searchParams.adults))
+                activity.resources.getQuantityString(R.plurals.number_of_guests, searchParams.children.size + searchParams.adults, searchParams.children.size + searchParams.adults))
                 .format()
                 .toString()
 

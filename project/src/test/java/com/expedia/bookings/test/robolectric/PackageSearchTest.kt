@@ -21,7 +21,7 @@ public class PackageSearchTest {
 
     @Before
     fun before() {
-        activity = Robolectric.buildActivity(javaClass<Activity>()).create().get()
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
         vm = PackageSearchViewModel(activity)
     }
 

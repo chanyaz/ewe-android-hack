@@ -78,7 +78,7 @@ public abstract class LoadingRecyclerViewAdapter<T> : RecyclerView.Adapter<Recyc
     }
 
     companion object {
-        public val LOADING_VIEW: Int = 0
-        public val DATA_VIEW: Int = 1
+        @JvmStatic public val LOADING_VIEW: Int = 0
+        @JvmStatic public val DATA_VIEW: Int = 1
     }
 }

@@ -292,7 +292,7 @@ public class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : 
         toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.cars_actionbar_text_color))
         toolbar.menu.findItem(R.id.menu_done).setActionView(doneButton).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
 
-        val adapter = ArrayAdapter(getContext(), R.layout.spinner_sort_item, resources.getStringArray(R.array.sort_options_flights).toArrayList())
+        val adapter = ArrayAdapter(getContext(), R.layout.spinner_sort_item, resources.getStringArray(R.array.sort_options_flights).toMutableList())
         adapter.setDropDownViewResource(R.layout.spinner_sort_dropdown_item)
         sortByButtonGroup.adapter = adapter
 

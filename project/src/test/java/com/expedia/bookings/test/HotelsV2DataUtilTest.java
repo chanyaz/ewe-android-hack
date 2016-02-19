@@ -8,8 +8,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import com.expedia.bookings.data.ChildTraveler;
-import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.utils.HotelsV2DataUtil;
 import com.google.gson.Gson;
 
@@ -110,4 +110,12 @@ public class HotelsV2DataUtilTest {
 
 	}
 
+	@Test
+	public void testGuestString() {
+		ArrayList children = new ArrayList<Integer>();
+		children.add(10);
+		children.add(7);
+		HotelSearchParams params = new HotelSearchParams(new SuggestionV4(), LocalDate.now().plusDays(5), LocalDate.now().plusDays(15), 2, children);
+		Assert.assertEquals("2,10,7", params.getGuestString());
+	}
 }

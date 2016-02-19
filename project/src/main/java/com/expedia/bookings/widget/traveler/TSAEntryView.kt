@@ -52,7 +52,7 @@ public class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout
         genderSpinner.adapter = genderAdapter
         genderSpinner.onItemSelectedListener = GenderItemSelectedListener()
 
-        dateOfBirth.editText.setOnClickListener(DateOfBirthClickListener(this))
+        dateOfBirth.editText?.setOnClickListener(DateOfBirthClickListener(this))
     }
 
     override fun handleDateChosen(year: Int, month: Int, day: Int, formattedDate: String) {
@@ -62,7 +62,7 @@ public class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout
     }
 
     fun setBirthDateText(formattedDate: String) {
-        dateOfBirth.editText.setText(formattedDate)
+        dateOfBirth.editText?.setText(formattedDate)
     }
 
     private inner class GenderItemSelectedListener(): AdapterView.OnItemSelectedListener {

@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.espresso;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -463,7 +464,7 @@ public final class ViewActions {
 
 			@Override
 			public String getDescription() {
-				return String.format("Waiting for view to match given matcher, max wait time is: %d seconds",
+				return String.format(Locale.getDefault(), "Waiting for view to match given matcher, max wait time is: %d seconds",
 					timeoutSeconds);
 			}
 

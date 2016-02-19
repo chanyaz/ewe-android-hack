@@ -53,7 +53,7 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 	@Override
 	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		super.onBindViewHolder(holder, position);
-		if (holder.getItemViewType() == DATA_VIEW) {
+		if (holder.getItemViewType() == getDATA_VIEW()) {
 			LXActivity activity = (LXActivity) getItems().get(position);
 			((ViewHolder) holder).bind(activity);
 		}
