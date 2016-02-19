@@ -3,8 +3,10 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
@@ -14,6 +16,7 @@ import com.expedia.vm.BundlePriceViewModel
 
 public class PackageBundlePriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
+    val bundleChevron: ImageView by bindView(R.id.bundle_chevron)
     val bundleTotalPrice: TextView by bindView(R.id.bundle_total_price)
     val bundleSavings: TextView by bindView(R.id.bundle_total_savings)
     val bundleTotalText: TextView by bindView(R.id.bundle_total_text)
@@ -28,5 +31,14 @@ public class PackageBundlePriceWidget(context: Context, attrs: AttributeSet?) : 
 
     init {
         View.inflate(getContext(), R.layout.bundle_total_price_widget, this)
+        rotateChevron(true)
+    }
+
+    fun rotateChevron(isCollapsed: Boolean) {
+        if (isCollapsed) {
+            AnimUtils.rotate(bundleChevron)
+        } else {
+            AnimUtils.reverseRotate(bundleChevron)
+        }
     }
 }

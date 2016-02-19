@@ -93,10 +93,7 @@ public class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : 
 
     init {
         View.inflate(getContext(), R.layout.bundle_hotel_widget, this)
-        hotelInfoContainer.setOnClickListener {
-            openHotels()
-        }
-        hotelLuggageIcon.setOnClickListener {
+        setOnClickListener {
             openHotels()
         }
         hotelDetailsIcon.setOnClickListener {

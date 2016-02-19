@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/map_view"
@@ -13,38 +14,57 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent" >
 
         <ViewStub
             android:id="@+id/results_stub"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bundle_price_widget"
             android:inflatedId="@+id/widget_hotel_results"
             android:layout="@layout/package_hotel_results_presenter_stub" />
 
         <ViewStub
             android:id="@+id/details_stub"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/bundle_price_widget"
             android:inflatedId="@+id/widget_hotel_detail"
             android:layout="@layout/hotel_detail_presenter_stub" />
 
+        <com.expedia.bookings.presenter.packages.BundleWidget
+            android:id="@+id/bundle_widget"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#EEEEEE"
+            android:visibility="gone" >
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/bundle_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:background="@color/packages_primary_color"
+                android:clickable="true"
+                app:navigationIcon="@drawable/read_more"
+                app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+                app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance" />
+
+        </com.expedia.bookings.presenter.packages.BundleWidget>
+
         <com.expedia.bookings.widget.PackageBundlePriceWidget
-            android:id="@+id/bundle_total"
+            android:id="@+id/bundle_price_widget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
             android:background="@color/bundle_price_background_color"
+            android:layout_alignParentBottom="true"
             android:orientation="horizontal"
-            android:padding="12dp"
-            android:visibility="gone"/>
-    </LinearLayout>
+            android:clickable="true"
+            android:padding="12dp" />
 
+    </RelativeLayout>
 
     <com.expedia.bookings.widget.LoadingOverlayWidget
         android:id="@+id/details_loading_overlay"

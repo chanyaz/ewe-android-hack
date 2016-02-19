@@ -4,6 +4,7 @@ import org.hamcrest.CoreMatchers;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -20,9 +21,12 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.not;
@@ -49,8 +53,8 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		Common.delay(1);
 
 		assertBundlePrice("$0", "View your bundle");
-		onView(allOf(withId(R.id.per_person_text), withText("per person"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.bundle_total_savings))).check(matches(not(isDisplayed())));
+		onView(allOf(withId(R.id.per_person_text), withParent(hasSibling(hasDescendant(withText("View your bundle")))), withText("per person"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.bundle_total_savings), withParent(hasSibling(hasDescendant(withText("View your bundle")))))).check(matches(not(isDisplayed())));
 
 		HotelScreen.mapFab().perform(click());
 		assertHotelMap();
@@ -72,8 +76,8 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		assertHotelInfoSite();
 		assertBundlePrice("$1,027", "View your bundle");
-		onView(allOf(withId(R.id.per_person_text), withText("per person"))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.bundle_total_savings))).check(matches(not(isDisplayed())));
+		onView(allOf(withId(R.id.per_person_text), withParent(hasSibling(hasDescendant(withText("View your bundle")))), withText("per person"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.bundle_total_savings), withParent(hasSibling(hasDescendant(withText("View your bundle")))))).check(matches(not(isDisplayed())));
 
 		HotelScreen.selectRoom();
 		Common.delay(1);
@@ -203,8 +207,9 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	private void assertBundlePrice(String price, String totalText) {
 		onView(allOf(withId(R.id.bundle_total_text), withText(totalText))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.bundle_total_includes_text), withText(
-			"Includes taxes, fees, flights + hotel"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.bundle_total_includes_text), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
+			withText(
+				"Includes taxes, fees, flights + hotel"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_price), withText(price))).check(matches(isDisplayed()));
 	}
 

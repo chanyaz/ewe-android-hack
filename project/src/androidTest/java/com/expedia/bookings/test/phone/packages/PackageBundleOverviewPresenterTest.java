@@ -86,4 +86,42 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 			withId(R.id.flight_details_container))).check(matches(withEffectiveVisibility(
 			ViewMatchers.Visibility.VISIBLE)));
 	}
+
+	public void testHotelBundleOverviewFlow() throws Throwable {
+		PackageScreen.searchPackage();
+		Common.delay(1);
+
+		PackageScreen.hotelBundle().perform(click());
+		Common.delay(1);
+
+		//Test strings and bundle state
+		PackageScreen.hotelPriceWidget().perform(click());
+		PackageScreen.bundleHotelToolbar().check(matches(hasDescendant(
+			CoreMatchers.allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
+		PackageScreen.hotelInfo().check(matches(hasDescendant(
+			CoreMatchers.allOf(isDisplayed(), withText("Select hotel in Detroit")))));
+		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
+			CoreMatchers.allOf(isDisplayed(), withText("Flight to (DTW) Detroit")))));
+		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
+			CoreMatchers.allOf(isDisplayed(), withText("Flight to (SFO) San Francisco")))));
+
+		//Test clicking on toolbar returns to results
+		PackageScreen.bundleHotelToolbar().perform(click());
+		Common.delay(1);
+		PackageScreen.hotelBundleWidget().check(matches(not(isDisplayed())));
+
+		//Test clicking on hotel returns to results
+		PackageScreen.hotelPriceWidget().perform(click());
+		Common.delay(1);
+		PackageScreen.hotelBundle().perform(click());
+		Common.delay(1);
+		PackageScreen.hotelBundleWidget().check(matches(not(isDisplayed())));
+
+		//Test back returns to results
+		PackageScreen.hotelPriceWidget().perform(click());
+		Common.delay(1);
+		Common.pressBack();
+		Common.delay(1);
+		PackageScreen.hotelBundleWidget().check(matches(not(isDisplayed())));
+	}
 }

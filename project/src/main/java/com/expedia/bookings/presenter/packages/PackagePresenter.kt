@@ -48,26 +48,10 @@ public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter
         bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe {
             bundlePresenter.showCheckoutHeaderImage()
         }
-        bundlePresenter.checkoutPresenter.createTripViewModel.createTripBundleTotalObservable.subscribe { response ->
-            var packageTotalPrice = response.packageDetails.pricing
-            var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                    .put("savings", Money(BigDecimal(packageTotalPrice.savings.amount.toDouble()),
-                            packageTotalPrice.savings.currencyCode).formattedMoney)
-                    .format().toString()
-
-            bundlePresenter.bundleWidget.bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packageTotalPrice.packageTotal.amount.toDouble()),
-                    packageTotalPrice.packageTotal.currencyCode).formattedMoney, packageSavings))
-
-            bundlePresenter.checkoutOverviewHeader.update(response.packageDetails.hotel, width)
-
-            bundlePresenter.bundleWidget.stepOneText.text = Phrase.from(context, R.string.hotel_checkout_overview_TEMPLATE).put("city", response.packageDetails.hotel.hotelCity)
-                    .put("rooms", response.packageDetails.hotel.numberOfRooms)
-                    .put("nights", response.packageDetails.hotel.numberOfNights)
-                    .format()
-            bundlePresenter.bundleWidget.stepTwoText.text = Phrase.from(context, R.string.flight_checkout_overview_TEMPLATE).put("origin", Db.getPackageParams().origin.hierarchyInfo?.airport?.airportCode).put("destination",
-                    Db.getPackageParams().destination.hierarchyInfo?.airport?.airportCode).format()
+        bundlePresenter.checkoutPresenter.createTripViewModel.createTripBundleTotalObservable.subscribe(bundlePresenter.bundleWidget.viewModel.createTripObservable)
+        bundlePresenter.checkoutPresenter.createTripViewModel.createTripBundleTotalObservable.subscribe { trip ->
+            bundlePresenter.checkoutOverviewHeader.update(trip.packageDetails.hotel, width)
         }
-
         bundlePresenter.checkoutPresenter.packageCheckoutViewModel.checkoutResponse.subscribe {
             show(confirmationPresenter)
             confirmationPresenter.itinNumber.text = it.newTrip?.itineraryNumber

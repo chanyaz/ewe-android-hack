@@ -4,7 +4,9 @@ import android.content.Context
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.FlightLeg
+import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.services.PackageServices
@@ -20,10 +22,12 @@ import org.joda.time.format.ISODateTimeFormat
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.math.BigDecimal
 
-class BundleOverviewViewModel(val context: Context, val packageServices: PackageServices) {
+class BundleOverviewViewModel(val context: Context, val packageServices: PackageServices?) {
     val hotelParamsObservable = PublishSubject.create<PackageSearchParams>()
     val flightParamsObservable = PublishSubject.create<PackageSearchParams>()
+    val createTripObservable = PublishSubject.create<PackageCreateTripResponse>()
 
     // Outputs
     val hotelResultsObservable = BehaviorSubject.create<Unit>()
@@ -31,6 +35,8 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val showBundleTotalObservable = BehaviorSubject.create<Boolean>()
     val toolbarTitleObservable = BehaviorSubject.create<String>()
     val toolbarSubtitleObservable = BehaviorSubject.create<String>()
+    val stepOneTextObservable = BehaviorSubject.create<String>()
+    val stepTwoTextObservable = BehaviorSubject.create<String>()
 
     init {
         hotelParamsObservable.subscribe { params ->
@@ -42,11 +48,26 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
                     .put("guests", StrUtils.formatTravelerString(context, params.guests()))
                     .format().toString())
-            packageServices.packageSearch(params).subscribe(makeResultsObserver(PackageSearchType.HOTEL))
+            packageServices?.packageSearch(params)?.subscribe(makeResultsObserver(PackageSearchType.HOTEL))
         }
 
         flightParamsObservable.subscribe { params ->
-            packageServices.packageSearch(params).subscribe(makeResultsObserver(if (params.isOutboundSearch()) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT))
+            packageServices?.packageSearch(params)?.subscribe(makeResultsObserver(if (params.isOutboundSearch()) PackageSearchType.OUTBOUND_FLIGHT else PackageSearchType.INBOUND_FLIGHT))
+        }
+
+        createTripObservable.subscribe { trip ->
+            val stepOne = Phrase.from(context, R.string.hotel_checkout_overview_TEMPLATE).put("city", trip.packageDetails.hotel.hotelCity)
+                    .put("rooms", trip.packageDetails.hotel.numberOfRooms)
+                    .put("nights", trip.packageDetails.hotel.numberOfNights)
+                    .format().toString()
+            stepOneTextObservable.onNext(stepOne)
+
+            val stepTwo = Phrase.from(context, R.string.flight_checkout_overview_TEMPLATE)
+                    .put("origin", Db.getPackageParams().origin.hierarchyInfo?.airport?.airportCode)
+                    .put("destination", Db.getPackageParams().destination.hierarchyInfo?.airport?.airportCode)
+                    .format().toString()
+            stepTwoTextObservable.onNext(stepTwo)
+
         }
     }
 
@@ -133,6 +154,7 @@ class BundleHotelViewModel(val context: Context) {
 
 class BundlePriceViewModel(val context: Context) {
     val setTextObservable = PublishSubject.create<Pair<String, String>>()
+    val createTripObservable = PublishSubject.create<PackageCreateTripResponse>()
 
     val totalPriceObservable = BehaviorSubject.create<String>()
     val savingsPriceObservable = BehaviorSubject.create<String>()
@@ -143,6 +165,17 @@ class BundlePriceViewModel(val context: Context) {
         setTextObservable.subscribe { bundle ->
             totalPriceObservable.onNext(bundle.first)
             savingsPriceObservable.onNext(bundle.second)
+        }
+
+        createTripObservable.subscribe { trip ->
+            var packageTotalPrice = trip.packageDetails.pricing
+            var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
+                    .put("savings", Money(BigDecimal(packageTotalPrice.savings.amount.toDouble()),
+                            packageTotalPrice.savings.currencyCode).formattedMoney)
+                    .format().toString()
+
+            setTextObservable.onNext(Pair(Money(BigDecimal(packageTotalPrice.packageTotal.amount.toDouble()),
+                    packageTotalPrice.packageTotal.currencyCode).formattedMoney, packageSavings))
         }
     }
 }
