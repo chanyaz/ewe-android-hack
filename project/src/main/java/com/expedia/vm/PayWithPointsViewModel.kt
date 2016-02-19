@@ -78,9 +78,8 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
     }
     //MESSAGING END
 
-    private val enablePwPToggleOnRedeemableNewTrip = paymentModel.createTripSubject.filter { it.isExpediaRewardsRedeemable() }.map { true }
-    override val userSignedIn = PublishSubject.create<Boolean>()
-    override val enablePwPToggle = Observable.merge(userSignedIn, enablePwPToggleOnRedeemableNewTrip)
+    override val userSignedIn = PublishSubject.create<Unit>()
+    override val enablePwPToggle = Observable.merge(userSignedIn, paymentModel.enablePwPToggleOnRedeemableNewTrip)
 
     override val navigatingOutOfPaymentOptions = PublishSubject.create<Unit>()
 

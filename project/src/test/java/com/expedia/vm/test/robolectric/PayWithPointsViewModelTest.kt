@@ -24,6 +24,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
 import rx.subjects.PublishSubject
+import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -133,8 +134,8 @@ class PayWithPointsViewModelTest {
 
     @Test
     fun userEntersAmountLessThanTripTotalAndAvailablePointsBeforePreviousAPIResponse() {
-        val latch = CountDownLatch(1)
-        paymentModel.burnAmountToPointsApiResponse.subscribe { latch.countDown() }
+        val latch = CountDownLatch(3)
+        payWithPointsViewModel.pointsAppliedMessage.subscribe { latch.countDown() }
 
         createTripResponse.tripId = "happy|500"
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
@@ -153,8 +154,8 @@ class PayWithPointsViewModelTest {
         pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("0 points applied", true))
 
         //Toggle switch on
-        val latch1 = CountDownLatch(1)
-        paymentModel.burnAmountToPointsApiResponse.subscribe { latch1.countDown() }
+        val latch1 = CountDownLatch(2)
+        payWithPointsViewModel.pointsAppliedMessage.subscribe { latch1.countDown() }
         payWithPointsViewModel.pwpOpted.onNext(true)
         latch1.await(10, TimeUnit.SECONDS)
 
@@ -163,6 +164,7 @@ class PayWithPointsViewModelTest {
         //New value entered and before calculation API response, PwP toggle off (call gets ignored)
         createTripResponse.tripId = "happy|500"
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
+
         payWithPointsViewModel.pwpOpted.onNext(false)
 
         pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true),
@@ -171,7 +173,7 @@ class PayWithPointsViewModelTest {
         //Toggle switch on, last entered value in pwp edit box is used to make API call
         createTripResponse.tripId = "happy"
         val latch3 = CountDownLatch(1)
-        paymentModel.burnAmountToPointsApiResponse.subscribe { latch3.countDown() }
+        payWithPointsViewModel.pointsAppliedMessage.subscribe { latch3.countDown() }
         payWithPointsViewModel.pwpOpted.onNext(true)
         latch3.await(10, TimeUnit.SECONDS)
 

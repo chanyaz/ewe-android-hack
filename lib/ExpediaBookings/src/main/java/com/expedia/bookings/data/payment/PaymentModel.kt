@@ -112,9 +112,14 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
         return burnAmount.compareTo(BigDecimal.ZERO) == 0 || burnAmount.compareTo(amountForMaxPayableWithPoints) == 1
     }
 
+    val enablePwPToggleOnRedeemableNewTrip = PublishSubject.create<Unit>()
+
     init {
         createTripSubject.subscribe {
             //Explicitly ensuring that tripResponses has the latest Trip Response onloaded to it before a Payment-Split is onloaded to paymentSplits (via createTripResponsePaymentSplits)
+            if (it.isExpediaRewardsRedeemable()) {
+                enablePwPToggleOnRedeemableNewTrip.onNext(Unit)
+            }
             tripResponses.onNext(it)
             createTripResponsePaymentSplits.onNext(it.newTripPaymentSplits())
             paymentSplitsSuggestionUpdates.onNext(it.newTripPaymentSplits())
