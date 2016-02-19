@@ -74,7 +74,7 @@ public class PayWithPointsViewModelTest {
     @Test
     public fun testSubscribersAfterCreateTrip() {
         totalPointsAndAmountAvailableToRedeemTestSubscriber.assertNoErrors()
-        totalPointsAndAmountAvailableToRedeemTestSubscriber.assertValue("$100.00 (1,000 points) available")
+        totalPointsAndAmountAvailableToRedeemTestSubscriber.assertValue("$100.00 available (1,000 Expedia+ points)")
 
         burnAmountUpdateTestSubscriber.assertNoErrors()
         burnAmountUpdateTestSubscriber.assertValue("100.00")

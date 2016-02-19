@@ -16,9 +16,10 @@
             android:orientation="vertical">
 
             <com.expedia.bookings.widget.TextView
+                android:id="@+id/pay_with_points_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/paying_with_points"
+                android:text="@string/paying_with_expedia_points"
                 android:textColor="@color/hotelsv2_checkout_text_color"
                 android:textSize="13sp"
                 app:textStyle="bold" />

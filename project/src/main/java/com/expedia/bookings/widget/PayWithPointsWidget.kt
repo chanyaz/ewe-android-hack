@@ -28,6 +28,7 @@ import javax.inject.Inject
 public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     val currencySymbolView: TextView by bindView(R.id.currency_symbol_view)
     val editAmountView: EditText by bindView(R.id.edit_amount_view)
+    val payWithPointsMessage: TextView by bindView(R.id.pay_with_points_view)
     val totalPointsAvailableView: TextView by bindView(R.id.total_points_available_view)
     val messageView: TextView by bindView(R.id.message_view)
     val clearBtn: View by bindView(R.id.clear_btn)
@@ -70,6 +71,7 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         pwpViewModel.pwpWidgetVisibility.subscribeVisibility(this)
         pwpViewModel.pwpOpted.subscribeVisibility(pwpEditBoxContainer)
         pwpViewModel.pwpOpted.subscribeVisibility(messageView)
+        pwpViewModel.payWithPointsMessage.subscribeText(payWithPointsMessage)
     }
         @Inject set
 
