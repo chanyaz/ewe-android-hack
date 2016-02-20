@@ -17,6 +17,7 @@
             android:id="@+id/hotel_preview_image"
             android:layout_width="90dp"
             android:layout_height="90dp"
+            android:scaleType="centerCrop"
             android:layout_marginRight="@dimen/hotel_preview_margin_large" />
 
         <LinearLayout
