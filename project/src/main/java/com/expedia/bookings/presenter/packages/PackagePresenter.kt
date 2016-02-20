@@ -51,6 +51,7 @@ public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter
         bundlePresenter.checkoutPresenter.createTripViewModel.createTripBundleTotalObservable.subscribe(bundlePresenter.bundleWidget.viewModel.createTripObservable)
         bundlePresenter.checkoutPresenter.createTripViewModel.createTripBundleTotalObservable.subscribe { trip ->
             bundlePresenter.checkoutOverviewHeader.update(trip.packageDetails.hotel, width)
+            bundlePresenter.bundleWidget.bundleTotalPriceWidget.packagebreakdown.viewmodel.newDataObservable.onNext(trip.packageDetails)
         }
         bundlePresenter.checkoutPresenter.packageCheckoutViewModel.checkoutResponse.subscribe {
             show(confirmationPresenter)

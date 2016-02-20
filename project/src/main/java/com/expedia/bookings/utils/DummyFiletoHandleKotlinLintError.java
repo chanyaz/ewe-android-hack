@@ -323,6 +323,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.flight_segment_breakdown,
 		R.layout.flight_segment_layover_row,
 		R.layout.flight_segment_row,
+		R.string.guests_with_rooms_TEMPLATE,
 		R.string.cars_payment_details_text,
 		R.string.cars_payment_options_text,
 		R.string.enter_payment_details,
@@ -337,10 +338,14 @@ DummyFiletoHandleKotlinLintError {
 		R.string.car_does_not_accept_cardtype_TEMPLATE,
 		R.string.credit_debit_card_hint,
 		R.string.coupon_submit_button,
-		R.string.coupon_submit_button,
 		R.string.room_with_guests_TEMPLATE,
 		R.string.checkout_payment_option_credit_debit_label,
 		R.layout.price_change_widget,
+		R.dimen.layover_bar_text_size,
+		R.string.package_breakdown_hotel_flight_summary,
+		R.string.package_breakdown_taxes_fees,
+		R.string.package_breakdown_taxes_fees_included_TEMPLATE,
+		R.string.package_breakdown_total_savings,
 		R.dimen.layover_bar_text_size,
 		R.layout.flight_traveler_entry_widget,
 		R.layout.gender_spinner_item,
@@ -351,6 +356,12 @@ DummyFiletoHandleKotlinLintError {
 		R.dimen.airlines_filter_height,
 		R.layout.labeled_checked_filter,
 		R.string.flight_duration_hour_short,
-		R.layout.widget_package_flight_filter
+		R.layout.widget_package_flight_filter,
+		R.color.packages_breakdown_text_color,
+		R.color.packages_breakdown_total_cost_color,
+		R.color.packages_breakdown_savings_cost_color,
+		R.color.packages_breakdown_line_seperator_color,
+		R.layout.package_breakdown,
+		R.layout.package_cost_summary_row
 	};
 }

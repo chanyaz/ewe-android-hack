@@ -3959,4 +3959,9 @@
     <string name="select_traveler_title">Select traveler</string>
     <string name="enter_destination_hint">Enter Destination</string>
 
+    <!-- Package breakdown dialog -->
+    <string name="package_breakdown_hotel_flight_summary">Hotel + Flight</string>
+    <string name="package_breakdown_taxes_fees">Taxes &amp; Fees</string>
+    <string name="package_breakdown_taxes_fees_included_TEMPLATE">Taxes &amp; Fees Included ({taxes})</string>
+    <string name="package_breakdown_total_savings">Total Savings</string>
 </resources>
