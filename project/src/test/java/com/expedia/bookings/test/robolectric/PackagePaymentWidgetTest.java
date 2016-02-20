@@ -65,6 +65,7 @@ public class PackagePaymentWidgetTest {
 		info.setNameOnCard("Expedia Chicago");
 		info.setExpirationDate(new LocalDate(2017, 1, 1));
 		info.setSecurityCode("1234");
+		info.setEmail("test@email.com");
 
 		Location location = new Location();
 		location.setCity("San Francisco");
@@ -99,6 +100,7 @@ public class PackagePaymentWidgetTest {
 		info.setNameOnCard("Expedia Chicago");
 		info.setExpirationDate(new LocalDate(2017, 1, 1));
 		info.setSecurityCode("123");
+		info.setEmail("test@email.com");
 
 		Location location = new Location();
 		location.setCity("San Francisco");
@@ -135,6 +137,7 @@ public class PackagePaymentWidgetTest {
 		info.setNameOnCard("Expedia Chicago");
 		info.setExpirationDate(new LocalDate(2017, 1, 1));
 		info.setSecurityCode("1234");
+		info.setEmail("test@email.com");
 
 		Location location = new Location();
 		location.setCity("San Francisco");
