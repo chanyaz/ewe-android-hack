@@ -2,16 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center">
 
-    <TextView android:id="@+id/datePickerTitle"
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/datePickerTitle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textColor="@android:color/black"
-        android:text="@string/date_of_birth"/>
+        android:text="@string/date_of_birth"
+        app:textStyle="medium" />
 
     <DatePicker android:id="@+id/datePicker"
         android:layout_gravity="center_horizontal"
@@ -28,23 +31,15 @@
         android:orientation="horizontal"
         android:layout_gravity="right">
 
-        <TextView
-            android:id="@+id/cancel_dialog_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/packages_primary_color"
-            android:background="@drawable/dialog_button"
-            android:text="@string/cancel"
-            android:padding="16dp"
-            android:textAllCaps="true"/>
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/datePickerDoneButton"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:padding="16dp"
             android:background="@drawable/dialog_button"
             android:textColor="@color/packages_primary_color"
-            android:text="@string/ok"
-            android:textAllCaps="true"/>
+            android:text="@string/done"
+            android:textAllCaps="true"
+            app:textStyle="medium" />
     </LinearLayout>
 </LinearLayout>

@@ -6,21 +6,20 @@ import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.TravelerTextInput
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.vm.traveler.NameEntryViewModel
 
-public class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
-    val firstName: TravelerTextInput by bindView(R.id.first_name_input)
-    val middleInitial: TravelerTextInput by bindView(R.id.middle_initial_input)
-    val lastName: TravelerTextInput by bindView(R.id.last_name_input)
+    val firstName: TravelerEditText by bindView(R.id.first_name_input)
+    val middleInitial: TravelerEditText by bindView(R.id.middle_initial_input)
+    val lastName: TravelerEditText by bindView(R.id.last_name_input)
 
     var viewModel: NameEntryViewModel by notNullAndObservable { vm ->
-        vm.firstNameSubject.subscribeText(firstName.editText)
-        vm.middleNameSubject.subscribeText(middleInitial.editText)
-        vm.lastNameSubject.subscribeText(lastName.editText)
+        vm.firstNameSubject.subscribeText(firstName)
+        vm.middleNameSubject.subscribeText(middleInitial)
+        vm.lastNameSubject.subscribeText(lastName)
 
         vm.firstNameErrorSubject.subscribe { error ->
             firstName.setError()
@@ -35,13 +34,13 @@ public class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayou
         }
 
 
-        firstName.editText?.addTextChangedListener(TextInputTextWatcher(vm.firstNameObserver, firstName))
-        middleInitial.editText?.addTextChangedListener(TextInputTextWatcher(vm.middleNameObserver, middleInitial))
-        lastName.editText?.addTextChangedListener(TextInputTextWatcher(vm.lastNameObserver, lastName))
+        firstName.addTextChangedListener(TravelerEditTextWatcher(vm.firstNameObserver, firstName))
+        middleInitial.addTextChangedListener(TravelerEditTextWatcher(vm.middleNameObserver, middleInitial))
+        lastName.addTextChangedListener(TravelerEditTextWatcher(vm.lastNameObserver, lastName))
     }
 
     init {
-        View.inflate(context, R.layout.name_entry_widget, this)
+        View.inflate(context, R.layout.name_entry_view, this)
         orientation = HORIZONTAL
     }
 }

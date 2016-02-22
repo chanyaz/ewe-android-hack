@@ -309,7 +309,9 @@
     <dimen name="layover_bar_padding">4dp</dimen>
     <dimen name="card_view_container_margin">9dp</dimen>
 
-    <dimen name="traveler_input_text_size">8sp</dimen>
+    <!-- Traveler Checkout -->
+    <dimen name="traveler_input_bottom_margin">4dp</dimen>
+    <dimen name="traveler_input_text_size">16sp</dimen>
 
     <!-- Checkout -->
     <dimen name="checkout_data_button_icon_size">48dp</dimen>

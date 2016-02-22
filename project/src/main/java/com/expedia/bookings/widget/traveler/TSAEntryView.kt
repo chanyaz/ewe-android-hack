@@ -12,19 +12,18 @@ import com.expedia.bookings.R
 import com.expedia.bookings.section.GenderSpinnerAdapter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.TravelerTextInput
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.traveler.TSAEntryViewModel
 import org.joda.time.LocalDate
 
 
-public class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
+class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs),
         DatePickerDialogFragment.DateChosenListener {
 
     val fragmentActivity: FragmentActivity
     private val TAG_DATE_PICKER = "TAG_DATE_PICKER"
 
-    val dateOfBirth: TravelerTextInput by bindView(R.id.edit_birth_date_text_btn)
+    val dateOfBirth: TravelerEditText by bindView(R.id.edit_birth_date_text_btn)
     val genderSpinner: Spinner by bindView(R.id.edit_gender_spinner)
 
     var viewModel: TSAEntryViewModel by notNullAndObservable { vm ->
@@ -42,17 +41,17 @@ public class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout
     }
 
     init {
-        View.inflate(context, R.layout.tsa_entry_widget, this)
+        View.inflate(context, R.layout.tsa_entry_view, this)
         orientation = HORIZONTAL
         setGravity(Gravity.BOTTOM)
 
         fragmentActivity = context as FragmentActivity
 
-        val genderAdapter = GenderSpinnerAdapter(context, R.layout.gender_spinner_item)
+        val genderAdapter = GenderSpinnerAdapter(context, R.layout.gender_spinner_item, R.layout.spinner_traveler_entry_dropdown_item)
         genderSpinner.adapter = genderAdapter
         genderSpinner.onItemSelectedListener = GenderItemSelectedListener()
 
-        dateOfBirth.editText?.setOnClickListener(DateOfBirthClickListener(this))
+        dateOfBirth.setOnClickListener(DateOfBirthClickListener(this))
     }
 
     override fun handleDateChosen(year: Int, month: Int, day: Int, formattedDate: String) {
@@ -62,7 +61,7 @@ public class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout
     }
 
     fun setBirthDateText(formattedDate: String) {
-        dateOfBirth.editText?.setText(formattedDate)
+        dateOfBirth.setText(formattedDate)
     }
 
     private inner class GenderItemSelectedListener(): AdapterView.OnItemSelectedListener {

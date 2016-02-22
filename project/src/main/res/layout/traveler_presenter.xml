@@ -2,7 +2,7 @@
 
     <com.expedia.bookings.widget.FlightTravelerEntryWidget
         android:id="@+id/traveler_entry_widget"
-        style="?attr/checkout_card_view_style"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"/>
 </merge>

@@ -50,13 +50,7 @@ public class DatePickerDialogFragment extends DialogFragment implements DatePick
 		datePicker = (DatePicker) view.findViewById(R.id.datePicker);
 		View doneButton = view.findViewById(R.id.datePickerDoneButton);
 		doneButton.setOnClickListener(new DateChosenClickListener());
-		View cancelButton = view.findViewById(R.id.cancel_dialog_button);
-		cancelButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dismiss();
-			}
-		});
+
 		if (date != null) {
 			datePicker.init(date.getYear(), date.getMonthOfYear() - 1, date.getDayOfMonth(), this);
 		}

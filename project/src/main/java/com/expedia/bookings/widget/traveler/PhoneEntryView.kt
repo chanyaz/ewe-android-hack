@@ -10,18 +10,17 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TelephoneSpinner
-import com.expedia.bookings.widget.TravelerTextInput
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.traveler.PhoneEntryViewModel
 
-public class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val phoneSpinner: TelephoneSpinner by bindView(R.id.edit_phone_number_country_code_spinner)
-    val phoneNumber: TravelerTextInput by bindView(R.id.edit_phone_number)
+    val phoneNumber: TravelerEditText by bindView(R.id.edit_phone_number)
 
     var viewModel: PhoneEntryViewModel by notNullAndObservable { vm ->
         vm.phoneSubject.subscribe { phone ->
             if (!TextUtils.isEmpty(phone.number)) {
-                phoneNumber.editText?.setText(phone.number)
+                phoneNumber.setText(phone.number)
             }
             if (!TextUtils.isEmpty(phone.countryCode)) {
                 phoneSpinner.update(phone.countryCode, phone.countryName)
@@ -31,16 +30,15 @@ public class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayo
             phoneNumber.setError()
         }
 
-        phoneNumber.editText?.addTextChangedListener(TextInputTextWatcher(vm.phoneNumberObserver, phoneNumber))
+        phoneSpinner.onItemSelectedListener = PhoneSpinnerItemSelected()
+        phoneNumber.addTextChangedListener(TravelerEditTextWatcher(vm.phoneNumberObserver, phoneNumber))
         spinnerUpdated()
     }
 
     init {
-        View.inflate(context, R.layout.phone_entry_widget, this)
+        View.inflate(context, R.layout.phone_entry_view, this)
         orientation = HORIZONTAL
         setGravity(Gravity.BOTTOM)
-
-        phoneSpinner.onItemSelectedListener = PhoneSpinnerItemSelected()
     }
 
     private fun spinnerUpdated() {

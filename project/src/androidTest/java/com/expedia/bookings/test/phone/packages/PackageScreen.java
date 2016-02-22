@@ -28,7 +28,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
@@ -230,18 +229,15 @@ public class PackageScreen {
 
 	// TODO Probably want to move these methods somewhere else.
 	private static void enterFirstName(String name) {
-		onView(allOf(withId(R.id.material_edit_text), withParent(withId(R.id.first_name_input))))
-			.perform(typeText(name));
+		onView(withId(R.id.first_name_input)).perform(typeText(name));
 	}
 
 	private static void enterLastName(String name) {
-		onView(allOf(withId(R.id.material_edit_text), withParent(withId(R.id.last_name_input))))
-			.perform(typeText(name));
+		onView(withId(R.id.last_name_input)).perform(typeText(name));
 	}
 
 	private static void enterPhoneNumber(String phoneNumber) {
-		onView(allOf(withId(R.id.material_edit_text), withParent(withId(R.id.edit_phone_number))))
-			.perform(typeText(phoneNumber));
+		onView(withId(R.id.edit_phone_number)).perform(typeText(phoneNumber));
 	}
 
 	private static void selectBirthDate() {
