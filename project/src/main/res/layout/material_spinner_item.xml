@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 /* //device/apps/common/assets/res/any/layout/simple_spinner_item.xml
 **
 ** Copyright 2006, The Android Open Source Project
@@ -19,13 +18,13 @@
 
 This is here because some devices (SGS2) override the textSize and we want to make sure it's consistent.
 -->
-<com.expedia.bookings.widget.TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/text1"
+<com.expedia.bookings.widget.TextView android:id="@android:id/text1"
     style="?android:attr/spinnerItemStyle"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:drawableRight="@drawable/material_dropdown"
-    android:paddingRight="0dp"
     android:ellipsize="marquee"
+    android:paddingRight="0dp"
     android:singleLine="true"
-    android:textSize="16sp"/>
+    android:textSize="16sp" />

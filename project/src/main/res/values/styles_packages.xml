@@ -64,7 +64,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:ellipsize">marquee</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textColor">@drawable/gender_drop_down_text_color</item>
+        <item name="android:textColor">@drawable/traveler_entry_drop_down_text_color</item>
     </style>
 
     <!--Bundle Overview Footer-->

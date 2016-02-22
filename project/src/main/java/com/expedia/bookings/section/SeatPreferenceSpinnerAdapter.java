@@ -49,11 +49,18 @@ public class SeatPreferenceSpinnerAdapter extends ArrayAdapter<CharSequence> {
 	private String mFormatString = "%s";
 
 	public SeatPreferenceSpinnerAdapter(Context context) {
-		super(context, R.layout.simple_spinner_traveler_item);
-		setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+		this(context, R.layout.simple_spinner_traveler_item);
+	}
+
+	public SeatPreferenceSpinnerAdapter(Context context, int textViewId) {
+		this(context, textViewId, R.layout.simple_spinner_dropdown_item);
+	}
+
+	public SeatPreferenceSpinnerAdapter(Context context, int textViewId, int dropDownResource) {
+		super(context, textViewId);
+		setDropDownViewResource(dropDownResource);
 		fillSeatPreferences(context);
 		color = getContext().getResources().getColor(R.color.checkout_traveler_birth_color);
-
 	}
 
 	public void setFormatString(String formatString) {
@@ -86,13 +93,13 @@ public class SeatPreferenceSpinnerAdapter extends ArrayAdapter<CharSequence> {
 		return mSeatPreferences.get(position).getSeatPreference();
 	}
 
-	public int getSeatPreferencePosition(SeatPreference gender) {
-		if (gender == null) {
+	public int getSeatPreferencePosition(SeatPreference seatPreference) {
+		if (seatPreference == null) {
 			return -1;
 		}
 
 		for (int i = 0; i < mSeatPreferences.size(); i++) {
-			if (mSeatPreferences.get(i).getSeatPreference() == gender) {
+			if (mSeatPreferences.get(i).getSeatPreference() == seatPreference) {
 				return i;
 			}
 		}
@@ -104,6 +111,5 @@ public class SeatPreferenceSpinnerAdapter extends ArrayAdapter<CharSequence> {
 		mSeatPreferences = new ArrayList<SeatPreferenceSpinnerHelper>();
 		mSeatPreferences.add(new SeatPreferenceSpinnerHelper(SeatPreference.AISLE, res.getString(R.string.aisle)));
 		mSeatPreferences.add(new SeatPreferenceSpinnerHelper(SeatPreference.WINDOW, res.getString(R.string.window)));
-
 	}
 }

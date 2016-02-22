@@ -223,6 +223,11 @@ public class PackageScreen {
 		Common.delay(1);
 		enterPhoneNumber("7732025862");
 		selectBirthDate();
+
+		clickTravelerAdvanced();
+		Common.delay(1);
+		enterRedressNumber("1234567");
+
 		clickTravelerDone();
 		Common.delay(2);
 	}
@@ -234,6 +239,10 @@ public class PackageScreen {
 
 	private static void enterLastName(String name) {
 		onView(withId(R.id.last_name_input)).perform(typeText(name));
+	}
+
+	private static void enterRedressNumber(String redressNumber) {
+		onView(withId(R.id.redress_number)).perform(typeText(redressNumber));
 	}
 
 	private static void enterPhoneNumber(String phoneNumber) {
@@ -249,6 +258,10 @@ public class PackageScreen {
 
 	private static void clickTravelerDone() {
 		onView(withId(R.id.new_traveler_done_button)).perform(click());
+	}
+
+	private static void clickTravelerAdvanced() {
+		onView(withId(R.id.advanced_options_button)).perform(click());
 	}
 
 	public static void enterPaymentInfo() {
