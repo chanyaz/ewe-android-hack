@@ -241,7 +241,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public String getClientShortName() {
-		return "expedia";
+		return "orbitz";
 	}
 
 	public String getAdXKey() {
