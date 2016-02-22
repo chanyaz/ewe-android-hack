@@ -9,7 +9,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
@@ -70,7 +69,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
     val searchPresenter: HotelSearchPresenter by bindView(R.id.widget_hotel_params)
-    val searchPresenterV2: HotelSearchPresenterV2 by bindView(R.id.widget_hotel_params_v2)
     val errorPresenter: HotelErrorPresenter by bindView(R.id.widget_hotel_errors)
     val resultsStub: ViewStub by bindView(R.id.results_stub)
     val resultsPresenter: HotelResultsPresenter by lazy {
@@ -240,13 +238,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 addDefaultTransition(defaultResultsTransition)
             }
             else -> {
-                if (isUserBucketedSearchScreenTest && BuildConfig.DEBUG) {
-                    addDefaultTransition(defaultSearchV2Transition)
-                    show(searchPresenterV2)
-                } else {
-                    addDefaultTransition(defaultSearchTransition)
-                    show(searchPresenter)
-                }
+                addDefaultTransition(defaultSearchTransition)
+                show(searchPresenter)
             }
         }
     }
@@ -268,7 +261,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         // TODO Have to set create one vm based on test
         searchPresenter.searchViewModel = HotelSearchViewModel(context)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
-        searchPresenterV2.searchViewModel = HotelSearchViewModel(context)
 
 
         //NOTE
@@ -340,12 +332,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private val defaultSearchTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.name) {
         override fun finalizeTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
-        }
-    }
-
-    private val defaultSearchV2Transition = object : Presenter.DefaultTransition(HotelSearchPresenterV2::class.java.name) {
-        override fun finalizeTransition(forward: Boolean) {
-            searchPresenterV2.visibility = View.VISIBLE
         }
     }
 
