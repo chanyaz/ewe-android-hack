@@ -1845,18 +1845,21 @@ public class OmnitureTracking {
 		s.setEvar(4, dest);
 		s.setProp(4, dest);
 
-		addProducts(s);
 		internalSetFlightDateProps(s, params);
 		addStandardFlightFields(s);
-		addFlightSplitTicketInfo(s, pageName, searchFlightTrip, false, false);
 
+		if (searchFlightTrip.isSplitTicket()) {
+			addFlightSplitTicketInfo(s, pageName, searchFlightTrip, false, false);
+		}
+		else {
+			addProducts(s);
+		}
 		s.track();
 	}
 
 	private static void addFlightSplitTicketInfo(ADMS_Measurement s, String pageName, FlightTrip flightTrip, boolean withTotalRevenue, boolean withPassengerCount) {
 		boolean isSplitTicket = flightTrip.isSplitTicket();
 		if (isSplitTicket) {
-			StringBuilder eventsSB = new StringBuilder();
 			StringBuilder productsSB = new StringBuilder();
 			int legCount = 0;
 
@@ -1881,8 +1884,8 @@ public class OmnitureTracking {
 				if (legCount == 0) {
 					productsSB.append(",");
 				}
+				legCount++;
 			}
-			eventsSB.append("event5");
 			s.setEvar(18, pageName);
 			s.setProducts(productsSB.toString());
 		}
@@ -1904,7 +1907,7 @@ public class OmnitureTracking {
 		FlightTrip searchFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
 		ADMS_Measurement s = createTrackPageLoadEventPriceChange(pageName);
 		addFlightSplitTicketInfo(s, pageName, searchFlightTrip, false, false);
-		s.setEvents("event5");
+		s.setEvents("event4");
 
 		s.track();
 	}
@@ -2838,9 +2841,15 @@ public class OmnitureTracking {
 			s.setEvar(4, dest);
 			s.setProp(4, dest);
 
-			addProducts(s);
 			internalSetFlightDateProps(s, params);
 			addStandardFlightFields(s);
+			FlightTrip searchFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+			if (searchFlightTrip.isSplitTicket()) {
+				addFlightSplitTicketInfo(s, pageName, searchFlightTrip, false, false);
+			}
+			else {
+				addProducts(s);
+			}
 		}
 		else {
 			s.setEvents("event70");
@@ -2968,6 +2977,9 @@ public class OmnitureTracking {
 		boolean isFlights = lob == LineOfBusiness.FLIGHTS;
 		String pageName = getBase(isFlights) + pageNameSuffix;
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+		CreateItineraryResponse createItineraryResponse = Db.getTripBucket().getFlight().getItineraryResponse();
+		FlightTrip createTripOffer = createItineraryResponse.getOffer();
+		boolean isSplitTicket = createItineraryResponse.isSplitTicket();
 		if (includePaymentInfo) {
 			s.setEvar(37, getPaymentType());
 		}
@@ -2981,7 +2993,12 @@ public class OmnitureTracking {
 
 			if (isConfirmation) {
 				s.setEvents("purchase");
-				addProducts(s);
+				if (isSplitTicket) {
+					addFlightSplitTicketInfo(s, pageName, createTripOffer, true, true);
+				}
+				else {
+					addProducts(s);
+				}
 				String itinId = trip.getItineraryNumber();
 				s.setProp(71, itinId);
 				String orderNumber = Db.getTripBucket().getFlight().getCheckoutResponse().getOrderId();
