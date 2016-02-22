@@ -127,10 +127,10 @@
         <item name="skin_hotelBookButtonColor">@android:color/black</item>
         <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg</item>
         <item name="skin_hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
-        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_tablet_checkout_expedia_logo</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
-        <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_login_hotels</item>
-        <item name="skin_phoneCheckoutLoginButtonTextColor">@color/login_text_hotels</item>
+        <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_tablet_checkout_logo</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/card_background</item>
+        <item name="skin_phoneCheckoutLoginButtonTextColor">@color/cars_lx_checkout_button_text_color</item>
         <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_tablet</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
@@ -164,7 +164,7 @@
         <item name="skin_flightLineColor">@color/flight_trip</item>
         <item name="skin_icSuitCaseBaggage">@drawable/ic_suitcase_baggage_fee_blue</item>
         <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
-        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_tablet_checkout_expedia_logo</item>
+        <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_tablet_checkout_logo</item>
         <item name="skin_actionMenuDoneButtonText">@string/button_confirmation_done</item>
         <item name="skin_tablet_pin_detail_image_size">@dimen/launch_pin_detail_size</item>
         <item name="skin_tablet_ab_launch_text1_base">@string/Explore</item>
@@ -237,6 +237,7 @@
     </style>
 
     <style name="Theme.Phone.Dark" parent="Theme.Phone">
+        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_hotel</item>
         <item name="android:windowBackground">@color/window_background_dark</item>
         <item name="android:editTextStyle">@style/Widget.EditText.Phone.Dark</item>
         <item name="android:textViewStyle">@style/Widget.TextView.Phone.Dark</item>
@@ -389,6 +390,8 @@
         <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
         <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
         <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color</item>
+        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_flight</item>
+
     </style>
 
     <style name="FlightTheme.DropDownSearch">

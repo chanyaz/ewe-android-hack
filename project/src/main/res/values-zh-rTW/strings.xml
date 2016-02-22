@@ -1885,7 +1885,7 @@
     <!-- Sign out -->
     <string name="sign_out">登出</string>
     <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">獲得 %1$s 點 — 使用 App 預訂，點數 3 倍！</string>
+    <string name="youll_earn_points_ab_test_3x_TEMPLATE">您將可獲得 %1$s 點 — 使用 App 預訂，點數 3 倍！</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">此次預訂您將可獲得 %1$s 點！</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
@@ -3752,7 +3752,9 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">完成此預訂即表示我同意並接受%1$s、%2$s和%3$s。</string>
     <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_TEMPLATE">我已經閱讀並同意%1$s和%2$s。加入 {brand}+，即表示我接受所有%3$s。</string>
+    <string name="account_creation_legal_TEMPLATE">我已經閱讀並同意{terms_of_use}和{privacy_policy}。加入 {brand}+，即表示我接受所有{terms_and_conditions}。</string>
+    <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
+    <string name="account_creation_legal_excluding_rewards_TEMPLATE">我已經閱讀並同意{terms_of_use}和{privacy_policy}。</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">請選擇每位兒童的年齡</string>

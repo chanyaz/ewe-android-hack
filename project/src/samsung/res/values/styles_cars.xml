@@ -31,5 +31,6 @@
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/expedia</item>
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle_samsung</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
+        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_car_lx</item>
     </style>
 </resources>

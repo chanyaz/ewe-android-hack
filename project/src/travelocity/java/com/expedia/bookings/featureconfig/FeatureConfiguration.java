@@ -77,7 +77,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public int getSearchProgressImageResId() {
-		return R.id.search_progress_image_tvly;
+		return 0;
 	}
 
 	@Override
@@ -123,7 +123,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public List<BasicNameValuePair> getAdditionalParamsForReviewsRequest() {
 		List<BasicNameValuePair> additionalParamsForReviewsRequest = new ArrayList<>();
-		additionalParamsForReviewsRequest.add(new BasicNameValuePair("origin", "TRAVELOCITY"));
+		additionalParamsForReviewsRequest.add(new BasicNameValuePair("caller", "TRAVELOCITY"));
 		additionalParamsForReviewsRequest.add(new BasicNameValuePair("locale", PointOfSale.getPointOfSale().getLocaleIdentifier()));
 		return additionalParamsForReviewsRequest;
 	}
@@ -152,7 +152,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isLeanPlumEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -187,17 +187,17 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isFacebookLoginIntegrationEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isFacebookShareIntegrationEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isHangTagProgressBarEnabled() {
-		return false;
+		return true;
 	}
 
 	@Override
@@ -264,7 +264,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public int getFlightSearchProgressImageResId() {
-		return R.drawable.search_progress_static_flight_tvly;
+		return 0;
 	}
 
 	@Override

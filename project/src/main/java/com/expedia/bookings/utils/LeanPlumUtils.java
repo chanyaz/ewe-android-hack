@@ -35,6 +35,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelSearchResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -86,7 +87,7 @@ public class LeanPlumUtils {
 			public void customize(NotificationCompat.Builder builder, Bundle bundle) {
 				String campaignText = bundle.getString(CAMPAIGN_TEXT_KEY, DEFAULT_CAMPAIGN_TEXT);
 				OmnitureTracking.trackLeanPlumNotification(campaignText);
-				builder.setSmallIcon(R.drawable.ic_stat_expedia);
+				builder.setSmallIcon(ProductFlavorFeatureConfiguration.getInstance().getNotificationIconResourceId());
 			}
 		});
 

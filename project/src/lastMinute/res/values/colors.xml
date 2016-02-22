@@ -18,7 +18,6 @@
     <color name="action_bar_text_white_lm">#FFFFFF</color>
     <color name="bg_btn_pressed_color_lm">#FFFFFF</color>
     <color name="itin_flight_line_color_lm">#7da426</color>
-    <color name="login_text_hotels">#FFFFFF</color>
     <color name="login_text_flight">#FFFFFF</color>
     <color name="coupon_success_message_color_lm">#E40088</color>
     <color name="collection_overlay_color">#56a1d5</color>

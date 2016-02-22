@@ -3753,7 +3753,9 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Mit dem Durchführen dieser Buchung bestätige ich, dass ich die %1$s, die %2$s und die %3$s gelesen habe und anerkenne.</string>
     <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_TEMPLATE">Ich habe die %1$s und die %2$s gelesen und akzeptiert. Indem Sie sich für {brand}+ anmelden, akzeptieren Sie die %3$s.</string>
+    <string name="account_creation_legal_TEMPLATE">Ich habe die {terms_of_use} und die {privacy_policy} gelesen und akzeptiert. Indem Sie sich für {brand}+ anmelden, akzeptieren Sie die {terms_and_conditions}.</string>
+    <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
+    <string name="account_creation_legal_excluding_rewards_TEMPLATE">Ich habe die {terms_of_use} und die {privacy_policy} gelesen und akzeptiert.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Geben Sie das Alter jedes Kindes an</string>
