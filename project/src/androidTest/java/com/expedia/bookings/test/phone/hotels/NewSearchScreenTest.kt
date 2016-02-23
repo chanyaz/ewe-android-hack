@@ -74,7 +74,7 @@ public class NewSearchScreenTest : HotelTestCase() {
 
         // opening traveler dialog click on widget
         HotelScreen.selectTravelerV2().perform(click())
-        onView(withText(R.string.select_traveler_title)).check(matches(isDisplayed()))
+        onView(withText(R.string.DONE)).check(matches(isDisplayed()))
 
         // closing traveler dialog click on widget
         HotelScreen.searchAlertDialogDoneV2().perform(click())
@@ -83,7 +83,7 @@ public class NewSearchScreenTest : HotelTestCase() {
 
         // opening traveler dialog click on widget
         HotelScreen.selectTravelerV2().perform(click())
-        onView(withText(R.string.select_traveler_title)).check(matches(isDisplayed()))
+        onView(withText(R.string.DONE)).check(matches(isDisplayed()))
         onView(withId(R.id.adults_plus)).perform(click())
 
         // closing traveler dialog click on widget
@@ -93,7 +93,7 @@ public class NewSearchScreenTest : HotelTestCase() {
 
         // opening traveler dialog click on widget
         HotelScreen.selectTravelerV2().perform(click())
-        onView(withText(R.string.select_traveler_title)).check(matches(isDisplayed()))
+        onView(withText(R.string.DONE)).check(matches(isDisplayed()))
         onView(withId(R.id.adults_plus)).perform(click())
 
         // closing traveler dialog click on widget
@@ -108,7 +108,7 @@ public class NewSearchScreenTest : HotelTestCase() {
 
         // opening traveler dialog click on widget
         HotelScreen.selectTravelerV2().perform(click())
-        onView(withText(R.string.select_traveler_title)).check(matches(isDisplayed()))
+        onView(withText(R.string.DONE)).check(matches(isDisplayed()))
 
         // closing traveler dialog click on widget
         HotelScreen.searchAlertDialogDoneV2().perform(click())

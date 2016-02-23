@@ -412,6 +412,7 @@
     <!-- New Search Screen -->
     <color name="search_screen_icon_color_v2">#7b7b7b</color>
     <color name="white_disabled">#30FFFFFF</color>
+    <color name="search_dialog_background_v2">#FFFFFFFF</color>
     <color name="search_suggestion_background_v2">#FAFAFA</color>
     <color name="search_suggestion_v2">#8a8a8a</color>
     <color name="search_suggestion_hint_v2">#458a8a8a</color>

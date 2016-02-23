@@ -8,8 +8,8 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ImageButton
-import android.widget.Spinner
 import android.widget.LinearLayout
+import android.widget.Spinner
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -17,7 +17,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.vm.HotelTravelerPickerViewModel
 
-public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     val adultText: TextView by bindView(R.id.adult)
     val childText: TextView by bindView(R.id.children)
@@ -38,6 +38,8 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Fr
     val adultMinus: ImageButton by bindView(R.id.adults_minus)
     val childPlus: ImageButton by bindView(R.id.children_plus)
     val childMinus: ImageButton by bindView(R.id.children_minus)
+
+    val childBottomContainer: View by bindView(R.id.children_ages_bottom_container)
 
     val DEFAULT_CHILD_AGE = 10
     val enabledColor = ContextCompat.getColor(context, R.color.hotel_guest_selector_enabled_color)
@@ -110,6 +112,7 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Fr
                 childAgeLabel.visibility = View.GONE
             } else {
                 childAgeLabel.visibility = View.VISIBLE
+                childBottomContainer.visibility = if (travelers.children.size > 2) View.VISIBLE else View.GONE
             }
             for (i in childSpinners.indices) {
                 val spinner = childSpinners[i]

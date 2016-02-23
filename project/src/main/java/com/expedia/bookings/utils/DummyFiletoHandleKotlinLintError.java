@@ -280,7 +280,6 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.cardview_search_input,
 		R.string.bundle_total_savings_TEMPLATE,
 		R.layout.hotel_details_toolbar,
-		R.string.select_traveler_title,
 		R.string.package_overview_flight_travel_info_TEMPLATE,
 		R.string.flight_to,
 		R.layout.bundle_flight_widget,

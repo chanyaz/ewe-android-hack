@@ -3968,7 +3968,6 @@
     <string name="pwp_unknown_error">An unknown error occurred. Please try again.</string>
 
     <!-- New Hotel Search screen -->
-    <string name="select_traveler_title">Select traveler</string>
     <string name="enter_destination_hint">Enter Destination</string>
 
     <!-- Package breakdown dialog -->

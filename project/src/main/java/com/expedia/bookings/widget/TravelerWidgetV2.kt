@@ -12,7 +12,7 @@ import com.expedia.vm.HotelTravelerParams
 import com.expedia.vm.HotelTravelerPickerViewModel
 import rx.subjects.BehaviorSubject
 
-public class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCardView(context, attrs) {
+class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCardView(context, attrs) {
     var oldTravelerData: HotelTravelerParams? = null;
     val hotelSearchViewModelSubject = BehaviorSubject.create<HotelSearchViewModel>()
     val travelerDialogView: View by lazy {
@@ -32,7 +32,6 @@ public class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchIn
         val builder = AlertDialog.Builder(context)
         traveler
         builder.setView(travelerDialogView)
-        builder.setTitle(R.string.select_traveler_title)
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
             oldTravelerData = null
             dialog.dismiss()
