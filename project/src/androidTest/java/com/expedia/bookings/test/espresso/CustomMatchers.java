@@ -59,7 +59,7 @@ public class CustomMatchers {
 		return new BoundedMatcher<View, TextView>(TextView.class) {
 			@Override
 			public void describeTo(Description description) {
-				description.appendText("has hex color " + hexColor);
+				description.appendText("TextView has this hex color -> " + hexColor);
 			}
 
 			@Override
