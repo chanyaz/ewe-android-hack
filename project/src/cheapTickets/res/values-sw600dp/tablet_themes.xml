@@ -50,6 +50,8 @@
         <item name="skin_roomRateRefundableCancellationTextColor">@color/room_rate_refundable_cancellation_text_color</item>
         <item name="skin_icRenovationTabletDrawable">@drawable/ic_renovation_tablet</item>
         <item name="skin_icFeesTabletDrawable">@drawable/ic_fees_tablet</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow.White</item>
+        <item name="actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow.White</item>
     </style>
 
     <style name="V2.Theme" parent="Theme.CheapTickets.Tablet" />

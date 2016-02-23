@@ -3,6 +3,7 @@
 
     <color name="action_bar_bg_color">#00253C</color>
     <color name="actionbar_button_background_pressed">#004888</color>
+    <color name="actionbar_text_ctx">#D00000</color>
 
     <color name="lob_btn_color">#004D7C</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
@@ -20,7 +21,7 @@
     <color name="login_text_flight">#FFFFFF</color>
     <color name="coupon_success_message_color">#7baed4</color>
     <color name="collection_overlay_color">#56a1d5</color>
-    <color name="tablet_book_button_text_color">#57B3FF</color>
+    <color name="tablet_book_button_text_color">@android:color/white</color>
     <color name="hotel_room_rate_select_room_button">#53A0D3</color>
     <color name="hotel_room_rate_select_room_button_pressed">#004E93</color>
     <color name="hotel_room_rate_add_room_button">#608405</color>
@@ -30,6 +31,7 @@
     <color name="tablet_search_result_error_button_pressed">#D1EAFF</color>
     <color name="tablet_results_search_blue">#608405</color>
     <color name="launch_pin_detail_button_text">#D1EAFF</color>
+    <color name="action_bar_flight_text_color">@color/actionbar_text_ctx</color>
 
     <color name="launch_card_back_container_color">#393939</color>
     <color name="launch_card_explore_now_background_color">#4791C0</color>
