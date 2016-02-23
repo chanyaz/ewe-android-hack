@@ -5,9 +5,14 @@ import com.expedia.bookings.utils.Constants
 import org.joda.time.Days
 import org.joda.time.LocalDate
 import java.util.HashMap
+import java.util.ArrayList
+import kotlin.collections.emptyList
+import kotlin.collections.joinToString
+import kotlin.properties.Delegates
 
 public data class PackageSearchParams(val origin: SuggestionV4, val destination: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>, val infantSeatingInLap: Boolean) {
 
+    var pageType: String? = null
     var searchProduct: String? = null
     var packagePIID: String? = null
         set(value) {
@@ -19,7 +24,8 @@ public data class PackageSearchParams(val origin: SuggestionV4, val destination:
             }
         }
     var selectedLegId: String? = null
-    var currentFlights: String? = null
+    var currentFlights: Array<String?> by Delegates.notNull()
+    var defaultFlights: Array<String?> by Delegates.notNull()
     var numberOfRooms: String = Constants.NUMBER_OF_ROOMS
 
     class Builder(val maxStay: Int) {
@@ -108,8 +114,13 @@ public data class PackageSearchParams(val origin: SuggestionV4, val destination:
         return packagePIID != null && selectedLegId == null
     }
 
+    public fun isChangePackageSearch() : Boolean {
+        return pageType == Constants.PACKAGE_CHANGE_HOTEL || pageType == Constants.PACKAGE_CHANGE_FLIGHT
+    }
+
     public fun toQueryMap(): Map<String, Any?> {
         val params = HashMap<String, Any?>()
+        params.put("pageType", pageType)
         params.put("originId", origin.gaiaId)
         params.put("destinationId", destination.gaiaId)
         params.put("ftla",origin.hierarchyInfo?.airport?.airportCode)
@@ -127,8 +138,16 @@ public data class PackageSearchParams(val origin: SuggestionV4, val destination:
         params.put("packagePIID", packagePIID)
         params.put("selectedLegId", selectedLegId)
         params.put("packageTripType", Constants.PACKAGE_TRIP_TYPE)
-        if (isOutboundSearch()) {
-            params.put("currentFlights", currentFlights)
+        if (isOutboundSearch() || isChangePackageSearch()) {
+            params.put("currentFlights", currentFlights.joinToString(","))
+        }
+
+        if (isChangePackageSearch()) {
+            params.put("defaultFlights", defaultFlights.joinToString(","))
+        }
+
+        if (pageType == Constants.PACKAGE_CHANGE_FLIGHT) {
+            params.put("action", Constants.PACKAGE_FILTER_CHANGE_FLIGHT)
         }
 
         return params

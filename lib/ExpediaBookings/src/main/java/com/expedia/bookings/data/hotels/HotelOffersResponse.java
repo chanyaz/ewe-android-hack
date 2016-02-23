@@ -85,6 +85,8 @@ public class HotelOffersResponse extends BaseApiResponse {
 		public boolean isPayLater;
 		public List<String> depositPolicy;
 		public boolean isMemberDeal;
+		public String ratePlanCode;
+		public String roomTypeCode;
 
 		public transient Money packageHotelDeltaPrice;
 

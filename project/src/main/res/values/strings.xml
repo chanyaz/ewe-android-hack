@@ -3867,6 +3867,8 @@
     <string name="package_price_include_flights">Price includes hotel + flights</string>
     <!-- Package hotel map cell: Price Includes Taxes and Fees -->
     <string name="package_price_includes_taxes_fees">Price includes taxes, fees, flights + hotel per person</string>
+    <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
+    <string name="flight_time_traveler_TEMPLATE">%1$s, %2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s at %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
@@ -3922,6 +3924,12 @@
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">Arrival Time Range</string>
 
+    <!-- Package Change hotel description -->
+    <string name="package_change_hotel">Change hotel</string>
+    <!-- Package Change hotel room description -->
+    <string name="package_change_hotel_room">Change hotel room</string>
+    <!-- Package Change flight description -->
+    <string name="package_change_flight">Change flights</string>
 
     <!-- Pay with points widget -->
     <string name="paying_with_expedia_points">Paying with Expedia+ points</string>

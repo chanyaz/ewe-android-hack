@@ -24,6 +24,7 @@ import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
+import kotlin.collections.arrayListOf
 
 class BundleOverviewViewModel(val context: Context, val packageServices: PackageServices?) {
     val hotelParamsObservable = PublishSubject.create<PackageSearchParams>()
@@ -78,7 +79,9 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                 Db.setPackageResponse(response)
                 if (type == PackageSearchType.HOTEL) {
                     hotelResultsObservable.onNext(Unit)
-                    Db.getPackageParams().currentFlights = response.packageResult.flightsPackage.flights[0].legId + "," + response.packageResult.flightsPackage.flights[1].legId
+                    val currentFlights = arrayOf(response.packageResult.flightsPackage.flights[0].legId, response.packageResult.flightsPackage.flights[1].legId)
+                    Db.getPackageParams().currentFlights = currentFlights
+                    Db.getPackageParams().defaultFlights = currentFlights
                 } else {
                     flightResultsObservable.onNext(type)
                 }
@@ -124,7 +127,7 @@ class BundleHotelViewModel(val context: Context) {
                 hotelIconImageObservable.onNext(R.drawable.packages_hotel_icon)
                 hotelSelectIconObservable.onNext(false)
                 hotelDetailsIconObservable.onNext(false)
-            } else if (!isShowing && Db.getPackageSelectedHotel() == null) {
+            } else {
                 hotelTextObservable.onNext(context.getString(R.string.select_hotel_template, StrUtils.formatCityName(Db.getPackageParams().destination)))
                 hotelRoomGuestObservable.onNext(Phrase.from(context, R.string.room_with_guests_TEMPLATE)
                         .put("guests", StrUtils.formatGuestString(context, Db.getPackageParams().guests()))

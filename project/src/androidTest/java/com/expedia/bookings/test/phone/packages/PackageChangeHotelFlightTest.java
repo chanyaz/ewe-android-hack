@@ -1,0 +1,160 @@
+package com.expedia.bookings.test.phone.packages;
+
+import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.phone.hotels.HotelScreen;
+import com.expedia.bookings.utils.DateUtils;
+import org.joda.time.LocalDate;
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.allOf;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
+import static org.hamcrest.Matchers.not;
+
+public class PackageChangeHotelFlightTest extends PackageTestCase {
+
+	public void testPackageChangeHotelFlightTest() throws Throwable {
+		PackageScreen.searchPackage();
+
+		PackageScreen.hotelBundle().perform(click());
+		Common.delay(1);
+		HotelScreen.selectHotel("Package Happy Path");
+		Common.delay(1);
+		HotelScreen.selectRoom();
+		Common.delay(1);
+		PackageScreen.outboundFlight().perform(click());
+		Common.delay(1);
+		PackageScreen.selectFlight(0);
+		PackageScreen.selectThisFlight().perform(click());
+		Common.delay(1);
+		PackageScreen.inboundFLight().perform(click());
+		Common.delay(1);
+		PackageScreen.selectFlight(0);
+		PackageScreen.selectThisFlight().perform(click());
+		Common.delay(1);
+
+		//change hotel room
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		onView(withText("Change hotel room")).perform(click());
+		Common.delay(1);
+
+		HotelScreen.selectRoomButton().perform(click());
+		Common.delay(1);
+		HotelScreen.clickRoom("change_hotel_room");
+		HotelScreen.clickAddRoom();
+		Common.delay(2);
+		assertAfterChange();
+
+		//change hotel
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		onView(withText("Change hotel")).check(matches(isEnabled()));
+		onView(withText("Change hotel")).perform(click());
+		assertBeforeChangeHotel();
+		PackageScreen.hotelBundle().perform(click());
+		Common.delay(1);
+
+		HotelScreen.selectHotel("Price Change");
+		Common.delay(1);
+
+		HotelScreen.selectRoomButton().perform(click());
+		Common.delay(1);
+		HotelScreen.clickRoom("change_hotel");
+		HotelScreen.clickAddRoom();
+		Common.delay(1);
+		assertAfterChange();
+
+		//change flights
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		onView(withText("Change flights")).perform(click());
+		assertBeforeChangeFlights();
+
+		PackageScreen.outboundFlight().perform(click());
+		Common.delay(1);
+
+		PackageScreen.selectFlight(0);
+		PackageScreen.selectThisFlight().perform(click());
+		Common.delay(1);
+
+		PackageScreen.inboundFLight().perform(click());
+		Common.delay(1);
+		PackageScreen.selectFlight(0);
+		PackageScreen.selectThisFlight().perform(click());
+		Common.delay(1);
+		assertAfterChange();
+	}
+
+	private void assertBeforeChangeHotel() {
+		onView(withText("Select hotel in Detroit")).check(
+			matches(isDisplayed()));
+		onView(allOf(withId(R.id.hotels_room_guest_info_text), withText("1 Room, 1 Guest"))).check(matches(isDisplayed()));
+		onView(withId(R.id.package_hotel_select_icon)).check(matches(isDisplayed()));
+		onView(withImageDrawable(R.drawable.packages_hotel_icon)).check(matches(isDisplayed()));
+
+		onView(withImageDrawable(R.drawable.packages_flight1_checkmark_icon)).check(matches(isDisplayed()));
+		onView(withImageDrawable(R.drawable.packages_flight2_checkmark_icon)).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.package_flight_details_icon),
+			isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(
+			matches(isDisplayed()));
+		onView(allOf(withId(R.id.package_flight_details_icon),
+			isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)))).check(
+			matches(isDisplayed()));
+		onView(withText("Flight to (DTW) Detroit")).check(matches(isDisplayed()));
+		onView(withText("Jul 10 at 9:00 am, 1 Traveler")).check(matches(isDisplayed()));
+		onView(withText("Flight to (SFO) San Francisco")).check(matches(isDisplayed()));
+		onView(withText("Jul 16 at 1:45 pm, 1 Traveler")).check(matches(isDisplayed()));
+		onView(withId(R.id.package_bundle_outbound_flight_widget)).check(matches(not(isEnabled())));
+		onView(withId(R.id.package_bundle_inbound_flight_widget)).check(matches(not(isEnabled())));
+
+		onView(withId(R.id.checkout_button)).check(matches(not(isEnabled())));
+		assertDisabledMenu();
+	}
+
+	private void assertBeforeChangeFlights() {
+		onView(withText("Price Change")).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.hotels_room_guest_info_text), withText("1 Room, 1 Guest"))).check(matches(isDisplayed()));
+		onView(withImageDrawable(R.drawable.packages_hotels_checkmark_icon)).check(matches(isDisplayed()));
+		onView(withId(R.id.package_hotel_details_icon)).check(matches(isDisplayed()));
+
+		onView(withImageDrawable(R.drawable.packages_flight1_icon)).check(matches(isDisplayed()));
+		onView(withImageDrawable(R.drawable.packages_flight2_icon)).check(matches(isDisplayed()));
+		onView(withText("Select flight to (DTW) Detroit")).check(matches(isDisplayed()));
+		String startDate = DateUtils.localDateToMMMd(LocalDate.now().plusDays(3));
+		onView(allOf(withText(startDate + ", 1 Traveler"), withId(R.id.travel_info_view_text))).check(matches(isDisplayed()));
+		onView(withText("Flight to (SFO) San Francisco")).check(matches(isDisplayed()));
+		onView(withText("Jul 16 at 1:45 pm, 1 Traveler")).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.package_flight_select_icon),
+			isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(
+			matches(isDisplayed()));
+		onView(allOf(withId(R.id.package_flight_details_icon),
+			isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)))).check(
+			matches(not(isDisplayed())));
+		onView(withId(R.id.package_bundle_hotel_widget)).check(matches(not(isEnabled())));
+		onView(withId(R.id.package_bundle_inbound_flight_widget)).check(matches(not(isEnabled())));
+		onView(withId(R.id.checkout_button)).check(matches(not(isEnabled())));
+		assertDisabledMenu();
+	}
+
+	private void assertAfterChange() {
+		onView(withId(R.id.checkout_button)).check(matches(isEnabled()));
+	}
+
+	private void assertDisabledMenu() {
+		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
+		onView(withText("Change hotel")).check(matches(not(isClickable())));
+		onView(withText("Change hotel room")).check(matches(not(isClickable())));
+		onView(withText("Change flights")).check(matches(not(isClickable())));
+		pressBack();
+	}
+
+}
+

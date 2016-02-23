@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.packages
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
@@ -28,6 +29,7 @@ import com.expedia.vm.BundlePriceViewModel
 import com.expedia.vm.PackageSearchType
 import com.expedia.vm.PriceChangeViewModel
 import com.squareup.phrase.Phrase
+import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 
 class BundleWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
@@ -41,23 +43,47 @@ class BundleWidget(context: Context, attrs: AttributeSet) : FrameLayout(context,
     val priceChangeWidget: PriceChangeWidget by bindView(R.id.price_change)
     val bundleTotalPriceWidget: PackageBundlePriceWidget by bindView(R.id.bundle_total)
     val checkoutButton: Button by bindView(R.id.checkout_button)
+    val opacity: Float = 0.25f
+
+    val toggleMenuObservable = BehaviorSubject.create<Boolean>()
 
     var viewModel: BundleOverviewViewModel by notNullAndObservable { vm ->
         vm.hotelParamsObservable.subscribe { param ->
             bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(true)
-            outboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-            inboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+            if (!param.isChangePackageSearch()) {
+                outboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+                inboundFlightWidget.viewModel.hotelLoadingStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+            } else {
+                toggleMenuObservable.onNext(false)
+                toggleCheckoutButton(opacity, false)
+            }
+            outboundFlightWidget.toggleFlightWidget(opacity, false)
+            inboundFlightWidget.toggleFlightWidget(opacity, false)
         }
         vm.hotelResultsObservable.subscribe {
             bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
         }
         vm.flightParamsObservable.subscribe { param ->
+            if (param.isChangePackageSearch()) {
+                bundleHotelWidget.toggleHotelWidget(opacity, false)
+                outboundFlightWidget.flightIcon.setImageResource(R.drawable.packages_flight1_icon)
+                inboundFlightWidget.viewModel.flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_icon, ContextCompat.getColor(context, R.color.package_bundle_icon_color)))
+                inboundFlightWidget.flightDetailsIcon.visibility = View.GONE
+                toggleMenuObservable.onNext(false)
+                toggleCheckoutButton(opacity, false)
+            }
             if (param.isOutboundSearch()) {
+                outboundFlightWidget.toggleFlightWidget(1f, true)
+                inboundFlightWidget.toggleFlightWidget(opacity, false)
                 outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(true)
                 outboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
             } else {
+                if (param.isChangePackageSearch()) {
+                    outboundFlightWidget.toggleFlightWidget(opacity, false)
+                }
                 inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(true)
                 inboundFlightWidget.viewModel.flightTextObservable.onNext(context.getString(R.string.searching_flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().origin)))
+                inboundFlightWidget.toggleFlightWidget(1f, true)
             }
         }
         vm.flightResultsObservable.subscribe { searchType ->
@@ -115,5 +141,16 @@ class BundleWidget(context: Context, attrs: AttributeSet) : FrameLayout(context,
 
     override fun onFinishInflate() {
         super.onFinishInflate()
+    }
+
+    fun toggleCheckoutButton(alpha: Float, isEnabled: Boolean)  {
+        checkoutButton.isEnabled = isEnabled
+        checkoutButton.setTextColor(checkoutButton.textColors.withAlpha((alpha * 255f).toInt()))
+    }
+
+    fun collapseBundleWidgets() {
+        bundleHotelWidget.backButtonPressed()
+        outboundFlightWidget.backButtonPressed()
+        inboundFlightWidget.backButtonPressed()
     }
 }

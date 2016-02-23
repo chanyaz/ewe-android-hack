@@ -1,10 +1,8 @@
 package com.mobiata.mocke3
 
-import com.expedia.bookings.utils.Strings
 import com.squareup.okhttp.mockwebserver.MockResponse
 import com.squareup.okhttp.mockwebserver.RecordedRequest
 import java.util.regex.Pattern
-import kotlin.text.toInt
 
 public class PackagesApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
@@ -18,7 +16,7 @@ public class PackagesApiRequestDispatcher(fileOpener: FileOpener) : AbstractDisp
             }
 
             PackageApiRequestMatcher.isOutboundFlightRequest(urlParams, urlPath) -> {
-                val productKey = urlParams.get("packagePIID") ?: return make404()
+                var productKey = urlParams.get("packagePIID") ?: return make404()
                 getMockResponse("getpackages/v1/$productKey.json")
             }
 
@@ -33,7 +31,7 @@ public class PackagesApiRequestDispatcher(fileOpener: FileOpener) : AbstractDisp
             }
 
             PackageApiRequestMatcher.isCreateTrip(urlPath) -> {
-                val productKey = urlParams.get("productKey") ?: return make404()
+                var productKey = urlParams.get("productKey") ?: return make404()
                 getMockResponse("api/packages/createtrip/$productKey.json")
             }
 

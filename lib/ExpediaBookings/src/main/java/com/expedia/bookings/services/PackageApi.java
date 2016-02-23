@@ -26,7 +26,10 @@ public interface PackageApi {
 	Observable<PackageOffersResponse> packageHotelOffers(
 		@Query("productKey") String productKey,
 		@Query("checkInDate") String checkInDate,
-		@Query("checkOutDate") String checkOutDate);
+		@Query("checkOutDate") String checkOutDate,
+		@Query("ratePlanCode") String ratePlanCode,
+		@Query("roomTypeCode") String roomTypeCode);
+
 
 	@GET("/m/api/hotel/info")
 	Observable<HotelOffersResponse> hotelInfo(

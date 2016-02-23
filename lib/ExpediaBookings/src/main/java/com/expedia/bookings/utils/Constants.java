@@ -14,4 +14,7 @@ public class Constants {
 	public static final String NUMBER_OF_ROOMS = "1";
 	public static final String PACKAGE_HOTEL_DELTA_PRICE_TYPE = "per night all travelers";
 	public static final String CLIENT_LOG_MATERIAL_HOTEL_SEARCH = "Material_Hotel_Search";
+	public static final String PACKAGE_CHANGE_HOTEL = "CHANGE_HOTEL";
+	public static final String PACKAGE_CHANGE_FLIGHT = "CHANGE_FLIGHT";
+	public static final String PACKAGE_FILTER_CHANGE_FLIGHT = "filterChangeFlight";
 }
