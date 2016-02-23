@@ -104,7 +104,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
             loginWidget.updateRewardsText(lineOfBusiness)
         }
         it.animateSlideToPurchaseWithPaymentSplits.subscribe {
-            HotelV2Tracking().trackHotelV2SlideToPurchase(paymentInfoCardView.cardType, it)
+            HotelV2Tracking().trackHotelV2SlideToPurchase(paymentInfoCardView.getCardType(), it)
         }
     }
 

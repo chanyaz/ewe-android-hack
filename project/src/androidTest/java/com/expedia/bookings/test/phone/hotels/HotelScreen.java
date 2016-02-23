@@ -293,21 +293,12 @@ public class HotelScreen {
 
 	public static ViewInteraction viewRoom(String roomName) {
 		return onView(
-<<<<<<< HEAD:project/src/androidTest/java/com/expedia/bookings/test/phone/hotels/HotelScreen.java
 			allOf(
 				withId(R.id.view_room_button), allOf(withText("View Room")),
 				hasSibling(allOf(withId(R.id.parent_room_type_and_price_container),
 					withChild(allOf(withId(R.id.room_type_text_view), withText(roomName))))),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 		);
-=======
-			allOf(withId(R.id.view_room_button), allOf(withText("View Room")),
-				isDescendantOfA(allOf(withId(R.id.collapsed_container),
-						withChild(allOf(withId(R.id.parent_room_type_and_price_container),
-							withChild(allOf(withId(R.id.room_type_text_view), withText(roomName))))),
-						withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
-				)));
->>>>>>> Tests for Price changes - pwp:project/src/androidTest/java/com/expedia/bookings/test/phone/newhotels/HotelScreen.java
 	}
 
 	public static void clickAddRoom() {
