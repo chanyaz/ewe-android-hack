@@ -1093,10 +1093,10 @@ public class OmnitureTracking {
 	public static void trackAppHotelsSearch() {
 		HotelSearchParams searchParams = Db.getHotelSearch().getSearchParams();
 		HotelSearchResponse searchResponse = Db.getHotelSearch().getSearchResponse();
-		internalTrackHotelsSearch(searchParams, searchResponse);
+		internalTrackOldHotelsSearch(searchParams, searchResponse);
 	}
 
-	private static void internalTrackHotelsSearch(HotelSearchParams searchParams,
+	private static void internalTrackOldHotelsSearch(HotelSearchParams searchParams,
 		HotelSearchResponse searchResponse) {
 		// Start actually tracking the search result change
 		Log.d(TAG, "Tracking \"App.Hotels.Search\" pageLoad...");
