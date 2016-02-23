@@ -7,7 +7,7 @@
         <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_orb_detail_screen</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
-        <item name="skin_hotelListMapMarkerDrawable">@drawable/map_pin_normal_orb</item>
+        <item name="skin_hotelListMapMarkerDrawable">@drawable/map_pin_normal</item>
         <item name="skin_bestPriceGuaranteeString">@string/orbitz_best_price_guarantee</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
@@ -44,8 +44,8 @@
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_orb</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_orb_traveller_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_orb_white_logo_small</item>
-        <item name="skin_cvvDivDrawable">@drawable/div_cvv_orb</item>
-        <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error_orb</item>
+        <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
+        <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_flat_blue_orbitz</item>
         <item name="skin_clearEditTextImage">@drawable/ic_clear_edittext_dark</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/ic_tablet_checkout_logo</item>
@@ -62,7 +62,7 @@
         <item name="skin_flightLoginActionBarIcon">@drawable/ic_logo_flights_orb</item>
         <item name="skin_tablet_hotel_coupon_text_color">@color/tablet_hotel_coupon_text_color</item>
         <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/btn_signin_orbitz</item>
-        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
     </style>
 
     <style name="FlightTheme" parent="@style/Theme.Orbitz">
