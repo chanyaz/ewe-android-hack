@@ -21,7 +21,9 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
+import com.expedia.util.subscribeEnabled
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
+import rx.subjects.BehaviorSubject
 import java.util.Locale
 import javax.inject.Inject
 
@@ -35,7 +37,8 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
     val pwpSwitchView: Switch by bindView(R.id.pwp_switch)
     val pwpEditBoxContainer: View by bindView(R.id.pwp_edit_box_container)
 
-    var payWithPointsViewModel by notNullAndObservable<IPayWithPointsViewModel> { pwpViewModel ->
+    val wasLastEnableProgrammatic = BehaviorSubject.create<Boolean>(false)
+    var payWithPointsViewModel: IPayWithPointsViewModel by notNullAndObservable<IPayWithPointsViewModel> { pwpViewModel ->
         pwpViewModel.currencySymbol.subscribeText(currencySymbolView)
         pwpViewModel.totalPointsAndAmountAvailableToRedeem.subscribeText(totalPointsAvailableView)
 
@@ -58,20 +61,30 @@ public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : Linear
         clearBtn.subscribeOnClick(pwpViewModel.clearUserEnteredBurnAmount)
         pwpViewModel.burnAmountUpdate.subscribeText(editAmountView)
         pwpSwitchView.subscribeOnCheckChanged(pwpViewModel.pwpOpted)
-        pwpViewModel.enablePwPToggle.subscribeChecked(pwpSwitchView)
+        pwpViewModel.enablePwPToggle.doOnNext { if (!pwpSwitchView.isChecked) wasLastEnableProgrammatic.onNext(true) }.subscribeChecked(pwpSwitchView)
         pwpViewModel.navigatingOutOfPaymentOptions.map { false }.subscribeCursorVisible(editAmountView)
 
         subscribeOnClick(endlessObserver {
             refreshPointsForUpdatedBurnAmount()
         })
+
         pwpViewModel.pwpOpted.filter { it }.subscribe {
             pwpViewModel.userEnteredBurnAmount.onNext(editAmountView.text.toString())
             editAmountView.isCursorVisible = false
         }
+
+        // Send Omniture tracking for PWP toggle only in case of user doing it.
+        pwpViewModel.pwpOpted.withLatestFrom(wasLastEnableProgrammatic, { pwpOpted, wasLastEnableProgrammatic -> Pair(pwpOpted, wasLastEnableProgrammatic) })
+                .subscribe {
+                    if (!it.second) pwpViewModel.userToggledPwPSwitchWithUserEnteredBurnedAmountSubject.onNext(Pair(it.first, editAmountView.text.toString()))
+                    else wasLastEnableProgrammatic.onNext(false)
+                }
+
         pwpViewModel.pwpWidgetVisibility.subscribeVisibility(this)
         pwpViewModel.pwpOpted.subscribeVisibility(pwpEditBoxContainer)
         pwpViewModel.pwpOpted.subscribeVisibility(messageView)
         pwpViewModel.payWithPointsMessage.subscribeText(payWithPointsMessage)
+        pwpViewModel.enablePwpEditBox.subscribeEnabled(editAmountView)
     }
         @Inject set
 

@@ -53,8 +53,16 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
     override fun onFinishInflate() {
         super.onFinishInflate()
         Ui.getApplication(context).hotelComponent().inject(this)
-        filledInCardDetailsMiniView.setCompoundDrawablesWithIntrinsicBounds(getCreditCardIcon(), null, null, null)
         Db.setTemporarilySavedCard(null)
+
+        paymentOptionCreditDebitCard.setOnClickListener {
+            if (shouldShowPaymentOptions()) {
+                reset()
+                show(PaymentDetails())
+            } else {
+                show(PaymentDetails(), FLAG_CLEAR_BACKSTACK)
+            }
+        }
     }
 
 

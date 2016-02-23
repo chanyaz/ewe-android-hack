@@ -3920,7 +3920,6 @@
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">Intervalo de tempo de chegada</string>
 
-
     <!-- Pay with points widget -->
     <string name="paying_with_points">Pagando com pontos</string>
     <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} pontos) disponíveis</string>

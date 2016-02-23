@@ -191,6 +191,10 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             viewmodel.expandObserver.onNext(true)
         }
 
+        filledInCardDetailsMiniView.setOnClickListener {
+            show(PaymentDetails())
+        }
+
         paymentOptionCreditDebitCard.setOnClickListener {
             if (shouldShowPaymentOptions()) {
                 show(PaymentDetails())

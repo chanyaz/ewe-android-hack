@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -61,6 +62,7 @@ public class TravelerButton extends LinearLayout {
 	@OnClick(R.id.select_traveler_button)
 	public void onShowTraveler() {
 		showSavedTravelers();
+		Ui.hideKeyboard((Activity) getContext());
 	}
 
 	@Override
@@ -131,6 +133,7 @@ public class TravelerButton extends LinearLayout {
 				}
 			});
 		}
+		mStoredTravelerPopup.setInputMethodMode(ListPopupWindow.INPUT_METHOD_NEEDED);
 		mStoredTravelerPopup.setAnchorView(selectTraveler);
 		mStoredTravelerPopup.setInputMethodMode(ListPopupWindow.INPUT_METHOD_NEEDED);
 		int selectTravelerBtnHeight = selectTraveler.getHeight();

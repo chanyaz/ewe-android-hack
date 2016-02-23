@@ -300,7 +300,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.in_lap,
 		R.string.search_bundle_total_text,
 		R.string.flight_checkout_overview_TEMPLATE,
-		R.string.hotel_checkout_overview_TEMPLATE,
+		R.plurals.hotel_checkout_overview_TEMPLATE,
 		R.string.checkout_selected_card,
 		R.drawable.add_new_credit_card,
 		R.layout.rail_cell,
@@ -365,6 +365,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.package_cost_summary_row,
 		R.string.flight_time_traveler_TEMPLATE,
 		R.drawable.ic_create_white_24dp,
-		R.menu.menu_package_checkout
+		R.menu.menu_package_checkout,
+		R.color.pwp_total_available_points
 	};
 }

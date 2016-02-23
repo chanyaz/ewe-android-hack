@@ -515,6 +515,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				mSplitTicketFeeLinks = (TextView) mSplitTicketRulesView.findViewById(R.id.split_ticket_fee_rules_text);
 			}
 			add(mSplitTicketRulesView);
+			updateSplitTicketRulesText();
 		}
 
 		// LEGAL BLURB

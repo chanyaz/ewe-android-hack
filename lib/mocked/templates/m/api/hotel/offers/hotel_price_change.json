@@ -346,6 +346,138 @@
       "roomTypeCode": "200410806",
       "ratePlanCode": "202384972",
       "isPayLater": false
+    },
+    {
+      "productKey": "hotel_price_change_with_user_preferences",
+      "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Palace Hotel - Luxury Collection charges the following cancellation and change fees.</p><p>Cancellations or changes made before 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to the first night's rate plus taxes and fees.</p><p>Cancellations or changes made after 4:00 PM (hotel local time) on September 27, 2014 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking an Expedia Special Rate hotel.</p>",
+      "rateDescription": "hotel_price_change_with_user_preferences",
+      "roomTypeDescription": "hotel_price_change_with_user_preferences",
+      "roomLongDescription": "   2 double   Get a good night's sleep with premium bedding and blackout drapes/curtains. Wired and wireless Internet access (surcharge) keeps you connected, and the 37-inch flat-screen TV is offered for your entertainment. You can request an in-room massage. You will have a shower/tub combination, as well as bathrobes, designer toiletries, and complimentary toiletries. Air conditioning, complimentary bottled water, and a laptop-compatible safe are among the conveniences offered. This room is Non-Smoking.   ",
+      "roomThumbnailUrl": "/hotels/1000000/30000/27300/27274/27274_178_d.jpg",
+      "supplierType": "MERCHANT",
+      "rateChange": false,
+      "nonRefundable": false,
+      "hasFreeCancellation": false,
+      "guaranteeRequired": false,
+      "depositRequired": false,
+      "immediateChargeRequired": true,
+      "currentAllotment": "13",
+      "promoDescription": "",
+      "isDiscountRestrictedToCurrentSourceType": false,
+      "isSameDayDRR": false,
+      "smokingPreferences": "NS",
+      "rateOccupancyPerRoom": "7",
+      "bedTypes": [
+        {
+          "id": "21",
+          "description": "2 double"
+        }
+      ],
+      "rateInfo": {
+        "priceBreakdown": true,
+        "promo": true,
+        "rateChange": false,
+        "chargeableRateInfo": {
+          "maxNightlyRate": "150.66",
+          "averageRate": "150.66",
+          "taxStatusType": "ESTIMATED",
+          "surchargeTotal": "177.26",
+          "surchargeTotalForEntireStay": "354.52",
+          "averageBaseRate": "160.66",
+          "nightlyRateTotal": "301.32",
+          "discountPercent": 0,
+          "total": "665.81",
+          "currencyCode": "USD",
+          "currencySymbol": "$",
+          "surcharges": [
+            {
+              "amount": "61.05",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "23.43",
+              "type": "TAX_VAT"
+            },
+            {
+              "amount": "37.62",
+              "type": "TAX_OTHER"
+            },
+            {
+              "amount": "116.21",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "100.70",
+              "type": "FEE_SERVICE"
+            },
+            {
+              "amount": "15.51",
+              "type": "FEE_MISC"
+            }
+          ],
+          "surchargesForEntireStay": [
+            {
+              "amount": "122.10",
+              "type": "TAX_ALL"
+            },
+            {
+              "amount": "46.86",
+              "type": "TAX_VAT"
+            },
+            {
+              "amount": "75.24",
+              "type": "TAX_OTHER"
+            },
+            {
+              "amount": "232.42",
+              "type": "FEE_ALL"
+            },
+            {
+              "amount": "201.40",
+              "type": "FEE_SERVICE"
+            },
+            {
+              "amount": "31.02",
+              "type": "FEE_MISC"
+            }
+          ],
+          "nightlyRatesPerRoom": [
+            {
+              "promo": "false",
+              "baseRate": "150.66",
+              "rate": "160.66"
+            },
+            {
+              "promo": "false",
+              "baseRate": "160.66",
+              "rate": "150.66"
+            }
+          ],
+          "priceToShowUsers": "151",
+          "strikethroughPriceToShowUsers": "151",
+          "strikethroughPriceWithTaxesAndFeesToShowUsers": "666",
+          "totalMandatoryFees": "64.96",
+          "totalPriceWithMandatoryFees": "720.77",
+          "formattedTotalPriceWithMandatoryFees": "$ 720.77",
+          "userPriceType": "PerNightRateNoTaxes",
+          "priceAdjustments": [
+
+          ],
+          "checkoutPriceType": "totalPriceWithMandatoryFees",
+          "airAttached": false,
+          "roomTypeCode": "339879",
+          "ratePlanCode": "204699502",
+          "showResortFeeMessage": true,
+          "resortFeeInclusion": true,
+          "dailyMandatoryFee": "32.48"
+        }
+      },
+      "valueAdds": [],
+      "quotedOccupancy": "4",
+      "minGuestAge": "0",
+      "roomTypeCode": "200410806",
+      "ratePlanCode": "202384972",
+      "isPayLater": false
     }
   ],
   "hotelStarRating": "4.0",

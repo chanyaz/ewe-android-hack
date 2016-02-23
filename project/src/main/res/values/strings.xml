@@ -3909,7 +3909,11 @@
     <!-- Label for flights on checkout overview of Packages -->
     <string name="flight_checkout_overview_TEMPLATE">Flights - {origin} to {destination}, round trip</string>
     <!-- Label for hotel on checkout overview of Packages -->
-    <string name="hotel_checkout_overview_TEMPLATE">Hotel in {city} - {rooms} room, {nights} nights</string>
+    <plurals name="hotel_checkout_overview_TEMPLATE">
+        <item quantity="one">Hotel in {city} - 1 room, {number} night</item>
+        <item quantity="other">Hotel in {city} - 1 room, {number} nights</item>
+    </plurals>
+
     <!-- Package Trip Overview -->
     <string name="trip_overview">Trip Overview</string>
     <!-- Slide to book -->

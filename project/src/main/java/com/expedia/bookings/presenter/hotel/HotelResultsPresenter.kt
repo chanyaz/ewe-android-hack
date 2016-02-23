@@ -173,6 +173,4 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             ObjectAnimator.ofFloat(searchThisArea, "alpha", 0f, 1f).setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION).start()
         }
     }
-
-
 }

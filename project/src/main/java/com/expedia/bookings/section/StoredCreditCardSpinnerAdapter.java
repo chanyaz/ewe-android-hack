@@ -135,6 +135,7 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 			BillingInfo info = Db.getTemporarilySavedCard();
 			PaymentType cardType = info.getPaymentType();
 			retView = bindStoredCardTile(retView, cardType, getUserSavedTemporaryCardText(cardType, info.getNumber()));
+			retView.setEnabled(!Db.getTemporarilySavedCard().getSaveCardToExpediaAccount());
 			break;
 		}
 

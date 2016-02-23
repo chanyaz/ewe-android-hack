@@ -126,7 +126,7 @@ public class PaymentViewModel(val context: Context) {
 
         userLogin.subscribe { isLoggedIn ->
             if (!isLoggedIn) {
-                emptyBillingInfo.onNext(Unit)
+                storedCardRemoved.onNext(null)
             }
         }
 

@@ -86,6 +86,7 @@
             android:id="@+id/total_due_today"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:padding="5dp"
             android:textSize="12sp"
             app:textStyle="normal" />
@@ -101,6 +102,8 @@
             android:id="@+id/remaining_balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="12dp"
             android:padding="5dp"
             android:textSize="12sp"
             app:textStyle="normal" />
@@ -128,7 +131,8 @@
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/filled_in_card_details_mini_view"
                 style="@style/HotelPaymentOption"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:textStyle="bold" />
 
             <View
                 android:layout_width="fill_parent"

@@ -300,7 +300,7 @@ public class CarSearchPresenter extends Presenter
 			.getString(R.string.current_location)
 			: StrUtils.formatCityName(suggest.regionNames.fullName), filter);
 
-		if (!suggest.isMajorAirport() && suggest.coordinates != null) {
+		if (!suggest.isMajorAirport() && suggest.coordinates.lat != 0.0 && suggest.coordinates.lng != 0.0) {
 			searchParamsBuilder.origin(null);
 			searchParamsBuilder.pickupLocationLatLng(new LatLong(suggest.coordinates.lat, suggest.coordinates.lng));
 			searchParamsBuilder.originDescription(StrUtils.formatCityName(suggest.regionNames.fullName));

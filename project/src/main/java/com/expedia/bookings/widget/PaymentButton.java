@@ -95,6 +95,9 @@ public class PaymentButton extends LinearLayout {
 					}
 					StoredCreditCard card = mStoredCreditCardAdapter.getItem(position);
 					if (mStoredCreditCardAdapter.isTemporarilySavedCard(position)) {
+						if (Db.getTemporarilySavedCard().getSaveCardToExpediaAccount()) {
+							return;
+						}
 						Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(Db.getTemporarilySavedCard());
 						Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 						mStoredCardPopup.dismiss();

@@ -325,7 +325,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             scrollView.postDelayed({ scrollView.fullScroll(ScrollView.FOCUS_DOWN) }, 100)
             val cardType = paymentWidget.getCardType().omnitureTrackingCode
             when (getLineOfBusiness()) {
-                LineOfBusiness.HOTELSV2 -> HotelV2Tracking().trackHotelV2SlideToPurchase(cardType)
+                LineOfBusiness.HOTELSV2 -> HotelV2Tracking().trackHotelV2SlideToPurchase(paymentWidget.getCardType(), paymentWidget.viewmodel.splitsType.value)
                 LineOfBusiness.LX -> OmnitureTracking.trackAppLXCheckoutSlideToPurchase(cardType)
                 LineOfBusiness.CARS -> OmnitureTracking.trackAppCarCheckoutSlideToPurchase(cardType)
             }

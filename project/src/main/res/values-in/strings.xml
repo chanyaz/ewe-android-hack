@@ -3920,7 +3920,6 @@
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">Kisaran Waktu Tiba</string>
 
-
     <!-- Pay with points widget -->
     <string name="paying_with_points">Bayar dengan poin</string>
     <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} poin) tersedia</string>

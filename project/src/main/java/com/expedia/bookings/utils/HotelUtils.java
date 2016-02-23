@@ -187,15 +187,21 @@ public class HotelUtils {
 
 		// Determine price to be paid now
 		Money sliderCharge;
-		if (rate.isPayLater() && !isTablet && property.isMerchant()) {
+		boolean isTabletPayLater = isTablet && rate.isPayLater();
+		if (isTabletPayLater) {
+			sliderCharge = new Money(0, rate.getTotalAmountAfterTax().getCurrency());
+		}
+		else if (rate.isPayLater() && !isTablet && property.isMerchant()) {
 			sliderCharge = rate.getDepositAmount();
 		}
 		else {
 			sliderCharge = rate.getTotalAmountAfterTax();
 		}
-
 		// Determine the slider message template
-		if (!property.isMerchant()) {
+		if (isTabletPayLater) {
+			chargeTypeMessageId = R.string.your_card_will_be_charged_template;
+		}
+		else if (!property.isMerchant()) {
 			chargeTypeMessageId = R.string.to_be_collected_by_the_hotel_TEMPLATE;
 		}
 		else if (rate.getCheckoutPriceType() == Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES || rate.isPayLater()) {

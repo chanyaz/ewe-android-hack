@@ -27,7 +27,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
@@ -150,7 +150,8 @@ public class CheckoutViewModel {
 
 	public static ViewInteraction performSlideToPurchase(boolean isStoredCard) {
 		onView(withId(R.id.slide_to_purchase_widget)).perform(ViewActions.waitForViewToDisplay());
-		ViewInteraction viewInteraction = onView(withId(R.id.slide_to_purchase_widget)).perform(ViewActions.swipeRight());
+		ViewInteraction viewInteraction = onView(withId(R.id.slide_to_purchase_widget))
+			.perform(ViewActions.swipeRight());
 		Common.delay(1);
 		if (isStoredCard) {
 			CVVEntryScreen.enterCVV("6286");
@@ -211,6 +212,15 @@ public class CheckoutViewModel {
 		Common.delay(1);
 	}
 
+	public static void enterPaymentInfo(boolean defaultSelection) {
+		if (defaultSelection) {
+			return;
+		}
+		CheckoutViewModel.clickPaymentInfo();
+		Common.delay(1);
+		PaymentOptionsScreen.enterCardInfo();
+	}
+
 	public static void enterPaymentInfoHotels() {
 		Common.delay(2);
 		CheckoutViewModel.clickPaymentInfo();
@@ -269,5 +279,9 @@ public class CheckoutViewModel {
 
 	public static ViewInteraction scrollView() {
 		return onView(withId(R.id.checkout_scroll));
+	}
+
+	public static void scrollToPriceChangeMessage() {
+		onView(withId(R.id.price_change_container)).perform(scrollTo());
 	}
 }

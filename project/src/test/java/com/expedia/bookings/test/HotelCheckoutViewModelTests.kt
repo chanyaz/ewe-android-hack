@@ -156,7 +156,7 @@ public class HotelCheckoutViewModelTests {
 
     private fun givenSomeCheckoutParams(tripId: String) {
         val tripDetails = TripDetails(tripId, "42.00", "USD", "guid", true)
-        val miscParameters = MiscellaneousParams(true, "tealeafHotel:" + tripId)
+        val miscParameters = MiscellaneousParams(true, "tealeafHotel:" + tripId, "expedia.app.android.phone:x.x.x")
         checkoutParams = HotelCheckoutV2Params.Builder()
                 .tripDetails(tripDetails)
                 .checkoutInfo(HotelCheckoutParamsMock.checkoutInfo())

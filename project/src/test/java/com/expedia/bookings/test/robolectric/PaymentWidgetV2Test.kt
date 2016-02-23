@@ -13,13 +13,10 @@ import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
-import com.expedia.bookings.interfaces.ToolbarListener
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.ServicesRule
-import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.ExpandableCardView
 import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.bookings.widget.RoundImageView
 import com.expedia.bookings.widget.TextView
@@ -31,9 +28,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import rx.observers.TestSubscriber
 import java.math.BigDecimal
-import java.util.ArrayList
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates

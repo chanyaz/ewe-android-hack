@@ -3920,7 +3920,6 @@
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">到达时间范围</string>
 
-
     <!-- Pay with points widget -->
     <string name="paying_with_points">使用积分支付</string>
     <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} 分) 可用</string>

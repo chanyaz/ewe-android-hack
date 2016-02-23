@@ -35,6 +35,7 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
     val toolbar: CheckoutToolbar by bindView(R.id.checkout_toolbar)
     val checkoutOverviewHeader: CheckoutOverviewHeader by bindView(R.id.checkout_overview_header)
     var toolbarHeight: Int by Delegates.notNull()
+
     val scrollViewTopPadding = resources.getDimensionPixelSize(R.dimen.package_bundle_scroll_view_padding)
     val bundleWidget: BundleWidget by bindView(R.id.bundle_widget)
     val checkoutPresenter: PackageCheckoutPresenter by bindView(R.id.checkout_presenter)

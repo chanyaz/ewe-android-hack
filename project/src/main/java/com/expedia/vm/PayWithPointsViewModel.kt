@@ -1,12 +1,17 @@
 package com.expedia.vm
 
 import android.content.res.Resources
+import android.util.Log
 import com.expedia.bookings.R
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.ProgramName
+import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.PayWithPointsErrorTrackingEnum
+import com.expedia.bookings.utils.NumberUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.squareup.phrase.Phrase
@@ -32,6 +37,14 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
         return pwpUnknownError
     }
 
+    private fun amountToPointsConversionAPIErrorTracking(apiError: ApiError): PayWithPointsErrorTrackingEnum {
+        when (apiError.errorCode) {
+            ApiError.Code.POINTS_CONVERSION_UNAUTHENTICATED_ACCESS -> return PayWithPointsErrorTrackingEnum.UNAUTHENTICATED_ACCESS
+            ApiError.Code.TRIP_SERVICE_ERROR -> return PayWithPointsErrorTrackingEnum.TRIP_SERVICE_ERROR
+        }
+        return PayWithPointsErrorTrackingEnum.UNKNOWN_ERROR
+    }
+
     private fun userEntersMoreThanAvailableBurnAmountMessage(amountForMaxPayableByPoints: String) = Phrase.from(resources, R.string.user_enters_more_than_available_points_TEMPLATE)
             .put("money", amountForMaxPayableByPoints)
             .format().toString()
@@ -46,6 +59,8 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
     override val pwpOpted = BehaviorSubject.create<Boolean>(true)
     override val hasPwpEditBoxFocus = PublishSubject.create<Boolean>()
     override val clearUserEnteredBurnAmount = PublishSubject.create<Unit>()
+    override val userToggledPwPSwitchWithUserEnteredBurnedAmountSubject = PublishSubject.create<Pair<Boolean, String>>()
+
 
     //OUTLETS
     //MESSAGING START
@@ -115,13 +130,17 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
                 }
             })
 
+    //Locally Handled Errors - Burn Amount > Trip Total
+    private val burnAmountGreaterThanTripTotalToBeHandledLocallyError = burnAmountAndLatestTripTotalFacade.filter { it.burnAmount.compareTo(it.tripTotal.amount) == 1 }
+
+    //Locally Handled Errors - Burn Amount <= Trip Total AND Burn Amount > Total Burn Amount Available
+    private val burnAmountLessThanTripTotalAndGreaterThanAvailableInAccountToBeHandledLocallyError = burnAmountAndLatestTripTotalFacade.filter { it.burnAmount.compareTo(it.tripTotal.amount) != 1 && it.burnAmount.compareTo(it.totalAvailableBurnAmount.amount) == 1 }
+
     private val pointsAppliedAndErrorMessages: Observable<Pair<String, Boolean>> = Observable.merge(
             //Points received from Payment Splits
             paymentModel.paymentSplits.map { Pair(pointsAppliedMessage(it), true) },
-            //Locally Handled Errors - Burn Amount > Trip Total
-            burnAmountAndLatestTripTotalFacade.filter { it.burnAmount.compareTo(it.tripTotal.amount) == 1 }.map { Pair(userEntersMoreThanTripTotalString, false) },
-            //Locally Handled Errors - Burn Amount <= Trip Total AND Burn Amount > Total Burn Amount Available
-            burnAmountAndLatestTripTotalFacade.filter { it.burnAmount.compareTo(it.tripTotal.amount) != 1 && it.burnAmount.compareTo(it.totalAvailableBurnAmount.amount) == 1 }.map { Pair(userEntersMoreThanAvailableBurnAmountMessage(it.maxPayableWithPoints.formattedMoneyFromAmountAndCurrencyCode), false) },
+            burnAmountGreaterThanTripTotalToBeHandledLocallyError.map { Pair(userEntersMoreThanTripTotalString, false) },
+            burnAmountLessThanTripTotalAndGreaterThanAvailableInAccountToBeHandledLocallyError.map { Pair(userEntersMoreThanAvailableBurnAmountMessage(it.maxPayableWithPoints.formattedMoneyFromAmountAndCurrencyCode), false) },
             //API Errors
             paymentModel.burnAmountToPointsApiError.map { Pair(amountToPointsConversionAPIErrorString(it), false) },
             //In case of back reset points applied
@@ -133,7 +152,7 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
 
     override val pointsAppliedMessageColor = pointsAppliedMessage.map {
         when (it.second) {
-            true -> resources.getColor(android.R.color.black);
+            true -> resources.getColor((R.color.hotels_primary_color));
             false -> resources.getColor(R.color.cvv_error);
         }
     }
@@ -144,6 +163,10 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
             false -> resources.getString(R.string.pay_with_expedia_points)
         }
     }
+
+    override val enablePwpEditBox = Observable.merge(
+            pointsAppliedAndErrorMessages.map { true },
+            showCalculatingPointsMessage.map { false } )
 
     init {
         burnAmountUpdatesFromPaymentSplitsSuggestions
@@ -159,7 +182,47 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
         navigatingOutOfPaymentOptions.subscribe(paymentModel.discardPendingCurrencyToPointsAPISubscription)
 
         distinctBurnAmountEnteredIntermediateStream.subscribe(distinctBurnAmountEntered)
+
+        setupTracking()
     }
 
+
+    private fun setupTracking() {
+        // User decides to change the pay with points amount
+        paymentModel.burnAmountToPointsApiResponse.map {
+            val payingWithPointsAmount = it.conversion!!.amount.amount
+            val totalAmount = payingWithPointsAmount.plus(it.remainingPayableByCard!!.amount.amount)
+            NumberUtils.getPercentagePaidWithPointsForOmniture(payingWithPointsAmount, totalAmount)
+        }.subscribe {
+            HotelV2Tracking().trackPayWithPointsAmountUpdateSuccess(it)
+        }
+
+        distinctBurnAmountEntered.filter { pwpOpted.value && it.compareTo(BigDecimal.ZERO) == 0}.subscribe {
+            HotelV2Tracking().trackPayWithPointsAmountUpdateSuccess(0)
+        }
+
+        //User decides to toggle pay with points widget
+        userToggledPwPSwitchWithUserEnteredBurnedAmountSubject.withLatestFrom(paymentModel.tripResponses, { pwpSwitchStateWithUserBurnAmount, tripResponse ->
+            object {
+                val pwpSwitchState = pwpSwitchStateWithUserBurnAmount.first
+                val userEnteredBurnAmount = pwpSwitchStateWithUserBurnAmount.second
+                val trip = tripResponse
+            }
+        }).subscribe {
+            if (!it.pwpSwitchState) {
+                HotelV2Tracking().trackPayWithPointsDisabled()
+            }
+            else {
+                val percentage  = if(Strings.isNotEmpty(it.userEnteredBurnAmount)) NumberUtils.getPercentagePaidWithPointsForOmniture(BigDecimal(it.userEnteredBurnAmount), it.trip.getTripTotal().amount) else 0
+                HotelV2Tracking().trackPayWithPointsReEnabled(percentage)
+            }
+        }
+
+        // User enters wrong pay with points amount or calculate points api gives error.
+        burnAmountGreaterThanTripTotalToBeHandledLocallyError.subscribe { HotelV2Tracking().trackPayWithPointsError(PayWithPointsErrorTrackingEnum.AMOUNT_ENTERED_GREATER_THAN_TRIP_TOTAL) }
+        burnAmountLessThanTripTotalAndGreaterThanAvailableInAccountToBeHandledLocallyError.subscribe { HotelV2Tracking().trackPayWithPointsError(PayWithPointsErrorTrackingEnum.AMOUNT_ENTERED_GREATER_THAN_AVAILABLE) }
+        paymentModel.burnAmountToPointsApiError.map { amountToPointsConversionAPIErrorTracking(it) }.subscribe {HotelV2Tracking().trackPayWithPointsError(it) }
+        userToggledPwPSwitchWithUserEnteredBurnedAmountSubject.filter { it.first }.map { it.second }.subscribe(userEnteredBurnAmount)
+    }
     private fun toBigDecimalWithScale2(string: String): BigDecimal = (if (Strings.isEmpty(string)) BigDecimal.ZERO else BigDecimal(string)).setScale(2)
 }

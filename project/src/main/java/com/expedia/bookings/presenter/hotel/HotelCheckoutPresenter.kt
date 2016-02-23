@@ -24,6 +24,7 @@ import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.JodaUtils
+import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CVVEntryWidget
@@ -31,6 +32,7 @@ import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelCheckoutViewModel
 import org.joda.time.format.ISODateTimeFormat
 import rx.subjects.PublishSubject
+import java.math.BigDecimal
 import java.util.ArrayList
 import java.util.Locale
 import javax.inject.Inject
@@ -102,7 +104,10 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
     }
 
     val checkoutSliderSlidObserver = endlessObserver<Boolean> {
-        val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.billingInfo
+        val billingInfo = if (Db.getTemporarilySavedCard() != null && Db.getTemporarilySavedCard().saveCardToExpediaAccount)
+            Db.getTemporarilySavedCard()
+        else hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.billingInfo
+
         if (!it) {
             bookedWithoutCVVSubject.onNext(Unit)
         } else if (billingInfo.storedCard != null && billingInfo.storedCard.isGoogleWallet()) {
@@ -136,7 +141,7 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         val tripDetails = TripDetails(tripId, expectedTotalFare, expectedFareCurrencyCode, abacusUserGuid, true)
 
         val tealeafTransactionId = hotelCreateTripResponse.tealeafTransactionId
-        val miscParams = MiscellaneousParams(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_hotel_bookings), tealeafTransactionId)
+        val miscParams = MiscellaneousParams(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_hotel_bookings), tealeafTransactionId, ServicesUtil.generateClientId(context))
 
         val cardsSelectedForPayment = ArrayList<CardDetails>()
         val rewardsSelectedForPayment = ArrayList<RewardDetails>()
@@ -146,9 +151,13 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
 
         val expediaRewardsPointsDetails = hotelCreateTripResponse.getPointDetails(ProgramName.ExpediaRewards)
 
-        val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.billingInfo
+        val billingInfo = if (Db.getTemporarilySavedCard() != null && Db.getTemporarilySavedCard().saveCardToExpediaAccount)
+                            Db.getTemporarilySavedCard()
+                            else hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.billingInfo
+
         // Pay with card if CVV is entered. Pay later can have 0 amount also.
         if (!cvv.isNullOrBlank()) {
+            val amountOnCard = if (payingWithCardsSplit.amount.amount.equals(BigDecimal.ZERO)) null else payingWithCardsSplit.amount.amount.toString()
             if (billingInfo.storedCard == null || billingInfo.storedCard.isGoogleWallet) {
                 val creditCardNumber = billingInfo.number
                 val expirationDateYear = JodaUtils.format(billingInfo.expirationDate, "yyyy")
@@ -161,13 +170,13 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
                         creditCardNumber = creditCardNumber, expirationDateYear = expirationDateYear,
                         expirationDateMonth = expirationDateMonth, nameOnCard = nameOnCard,
                         postalCode = postalCode, storeCreditCardInUserProfile = storeCreditCardInUserProfile,
-                        cvv = cvv, amountOnCard = payingWithCardsSplit.amount.amount.toString())
+                        cvv = cvv, amountOnCard = amountOnCard)
                 cardsSelectedForPayment.add(creditCardDetails)
             } else {
                 val storedCreditCardId = billingInfo.storedCard.id
                 val nameOnCard = billingInfo.storedCard.nameOnCard
 
-                val storedCreditCardDetails = CardDetails(storedCreditCardId = storedCreditCardId, nameOnCard = nameOnCard, amountOnCard = payingWithCardsSplit.amount.amount.toString(), cvv = cvv)
+                val storedCreditCardDetails = CardDetails(storedCreditCardId = storedCreditCardId, nameOnCard = nameOnCard, amountOnCard = amountOnCard, cvv = cvv)
                 cardsSelectedForPayment.add(storedCreditCardDetails)
             }
         }

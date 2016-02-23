@@ -22,7 +22,7 @@ data class CardDetails(
         val expirationDateMonth: String? = null,
         val cvv: String?,
         val nameOnCard: String,
-        val amountOnCard: String,
+        val amountOnCard: String?,
         val storeCreditCardInUserProfile: Boolean = false)
 
 data class RewardDetails(
@@ -40,4 +40,5 @@ data class PaymentInfo(
 
 data class MiscellaneousParams(
         val suppressFinalBooking: Boolean,
-        val teaLeafTransactionId: String)
+        val teaLeafTransactionId: String,
+        val clientId: String)

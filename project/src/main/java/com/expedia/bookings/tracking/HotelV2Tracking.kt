@@ -1,9 +1,12 @@
 package com.expedia.bookings.tracking
 
+import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.data.payment.PaymentSplitsType
+import com.expedia.bookings.data.payment.PointsDetails
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.utils.LeanPlumUtils
 import com.expedia.bookings.utils.TuneUtils
@@ -178,8 +181,9 @@ class HotelV2Tracking {
         OmnitureTracking.trackHotelV2RenovationInfo()
     }
 
-    fun trackPageLoadHotelV2CheckoutInfo(hotelProductResponse: HotelCreateTripResponse.HotelProductResponse, searchParams: HotelSearchParams) {
-        OmnitureTracking.trackPageLoadHotelV2CheckoutInfo(hotelProductResponse, searchParams)
+    fun trackPageLoadHotelV2CheckoutInfo(hotelCreateTripResponse: HotelCreateTripResponse, searchParams: HotelSearchParams) {
+        OmnitureTracking.trackPageLoadHotelV2CheckoutInfo(hotelCreateTripResponse, searchParams)
+        val hotelProductResponse = hotelCreateTripResponse.newHotelProductResponse
         LeanPlumUtils.trackHotelV2CheckoutStarted(hotelProductResponse)
         TuneUtils.trackHotelV2CheckoutStarted(hotelProductResponse)
         FacebookEvents().trackHotelV2Checkout(hotelProductResponse, searchParams)
@@ -205,8 +209,8 @@ class HotelV2Tracking {
         OmnitureTracking.trackHotelV2StoredCardSelect()
     }
 
-    fun trackHotelV2SlideToPurchase(cardType: String) {
-        OmnitureTracking.trackHotelV2SlideToPurchase(cardType)
+    fun trackHotelV2SlideToPurchase(paymentType: PaymentType, paymentSplitsType: PaymentSplitsType) {
+        OmnitureTracking.trackHotelV2SlideToPurchase(paymentType, paymentSplitsType)
     }
 
     fun trackHotelV2CheckoutPaymentCid() {
@@ -249,8 +253,8 @@ class HotelV2Tracking {
         OmnitureTracking.trackHotelV2CheckoutErrorRetry()
     }
 
-    fun trackHotelV2PurchaseConfirmation(hotelCheckoutResponse: HotelCheckoutResponse) {
-        OmnitureTracking.trackHotelV2PurchaseConfirmation(hotelCheckoutResponse)
+    fun trackHotelV2PurchaseConfirmation(hotelCheckoutResponse: HotelCheckoutResponse, percentagePaidWithPoints: Int, totalBurnedAmount: Int) {
+        OmnitureTracking.trackHotelV2PurchaseConfirmation(hotelCheckoutResponse, percentagePaidWithPoints, totalBurnedAmount)
         LeanPlumUtils.trackHotelV2Booked(hotelCheckoutResponse)
         TuneUtils.trackHotelV2Confirmation(hotelCheckoutResponse)
         FacebookEvents().trackHotelV2Confirmation(hotelCheckoutResponse)
@@ -294,6 +298,22 @@ class HotelV2Tracking {
 
     fun trackHotelV2CouponRemove(couponCode: String) {
         OmnitureTracking.trackHotelV2CouponRemove(couponCode)
+    }
+
+    fun trackPayWithPointsAmountUpdateSuccess(percentagePaidWithPoints: Int) {
+        OmnitureTracking.trackPayWithPointsAmountUpdateSuccess(percentagePaidWithPoints)
+    }
+
+    fun trackPayWithPointsDisabled() {
+        OmnitureTracking.trackPayWithPointsDisabled()
+    }
+
+    fun trackPayWithPointsReEnabled(percentagePaidWithPoints: Int) {
+        OmnitureTracking.trackPayWithPointsReEnabled(percentagePaidWithPoints)
+    }
+
+    fun trackPayWithPointsError(error: PayWithPointsErrorTrackingEnum) {
+        OmnitureTracking.trackPayWithPointsError(error.errorMessage)
     }
 
 }
