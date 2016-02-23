@@ -18,13 +18,6 @@ import org.joda.time.LocalDate
 
 public class FlightSplitTicketRulesTest : FlightTestCase() {
 
-    @Throws(Throwable::class)
-    override fun runTest() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightSplitTicketing,
-                AbacusUtils.DefaultVariate.BUCKETED.ordinal)
-        super.runTest()
-    }
-
     fun testRulesAndRestrictions() {
         FlightsSearchScreen.enterDepartureAirport("SFO")
         FlightsSearchScreen.enterArrivalAirport("LAS")

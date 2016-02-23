@@ -157,19 +157,6 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="Flight tests">
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
-            android:key="9774"
-            android:layout="@layout/preference"
-            android:title="Flight Split Ticketing Test - 9774" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
         android:title="LX tests">
         <ListPreference
             android:entries="@array/abacus_default_choices"
