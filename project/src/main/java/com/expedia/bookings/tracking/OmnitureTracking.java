@@ -1,5 +1,17 @@
 package com.expedia.bookings.tracking;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -25,7 +37,6 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.FlightFilter;
@@ -89,18 +100,6 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.HashSet;
-import java.util.Locale;
-import java.util.Set;
 
 /**
  *
@@ -1757,10 +1756,8 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 
-		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-		CreateItineraryResponse createItineraryResponse = Db.getTripBucket().getFlight().getItineraryResponse();
-		FlightTrip createTripOffer = createItineraryResponse.getOffer();
-		boolean isSplitTicket = createItineraryResponse.isSplitTicket();
+		FlightTrip newestFlightOffer = getNewestFlightOffer();
+		boolean isSplitTicket = newestFlightOffer.isSplitTicket();
 
 		// Flight: <departure Airport Code>-<Destination Airport Code>:<departure date YYYYMMDD>-<return date YYYYMMDD>:<promo code applied N/Y>
 		FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
@@ -1784,13 +1781,13 @@ public class OmnitureTracking {
 		s.setEvar(30, eVar30);
 
 		if (isSplitTicket) {
-			addFlightSplitTicketInfo(s, pageName, createTripOffer, true, true);
+			addFlightSplitTicketInfo(s, pageName, newestFlightOffer, true, true);
 		}
 		else {
 			addProducts(s);
 		}
 
-		s.setCurrencyCode(trip.getTotalFare().getCurrency());
+		s.setCurrencyCode(newestFlightOffer.getTotalFare().getCurrency());
 		s.setEvents("purchase");
 
 		// order number with an "onum" prefix, described here: http://confluence/pages/viewpage.action?pageId=419913476
@@ -1899,6 +1896,13 @@ public class OmnitureTracking {
 			addProducts(s);
 		}
 		s.track();
+	}
+
+	private static FlightTrip getNewestFlightOffer() {
+		TripBucketItemFlight tripBucketItemFlight = Db.getTripBucket().getFlight();
+		FlightTrip createTripRespOffer = tripBucketItemFlight.getItineraryResponse().getOffer();
+		FlightTrip checkoutResponseOffer = tripBucketItemFlight.getCheckoutResponse().getNewOffer();
+		return (checkoutResponseOffer != null) ? checkoutResponseOffer : createTripRespOffer;
 	}
 
 	private static void addFlightSplitTicketInfo(ADMS_Measurement s, String pageName, FlightTrip flightTrip, boolean withTotalRevenue, boolean withPassengerCount) {
@@ -3021,9 +3025,8 @@ public class OmnitureTracking {
 		boolean isFlights = lob == LineOfBusiness.FLIGHTS;
 		String pageName = getBase(isFlights) + pageNameSuffix;
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
-		CreateItineraryResponse createItineraryResponse = Db.getTripBucket().getFlight().getItineraryResponse();
-		FlightTrip createTripOffer = createItineraryResponse.getOffer();
-		boolean isSplitTicket = createItineraryResponse.isSplitTicket();
+		FlightTrip newestFlightOffer = getNewestFlightOffer();
+		boolean isSplitTicket = newestFlightOffer.isSplitTicket();
 		if (includePaymentInfo) {
 			s.setEvar(37, getPaymentType());
 		}
@@ -3038,7 +3041,7 @@ public class OmnitureTracking {
 			if (isConfirmation) {
 				s.setEvents("purchase");
 				if (isSplitTicket) {
-					addFlightSplitTicketInfo(s, pageName, createTripOffer, true, true);
+					addFlightSplitTicketInfo(s, pageName, newestFlightOffer, true, true);
 				}
 				else {
 					addProducts(s);
