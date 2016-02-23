@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
@@ -16,6 +17,7 @@ import com.expedia.util.subscribeTextAndVisibilityInvisible
 import com.expedia.vm.FlightOverviewViewModel
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
+import rx.subjects.PublishSubject
 
 class PackageFlightOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
@@ -24,6 +26,13 @@ class PackageFlightOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     val urgencyMessagingText: TextView by bindView(R.id.flight_overview_urgency_messaging)
     val totalDurationText: TextView by bindView(R.id.flight_total_duration)
     val flightSegmentWidget: FlightSegmentBreakdownView by bindView(R.id.segment_breakdown)
+    val baggageFeeURLText: TextView by bindView(R.id.show_baggage_fees)
+    val baggageFeeShowSubject = PublishSubject.create<String>()
+
+    init {
+        View.inflate(getContext(), R.layout.widget_flight_overview, this)
+        flightSegmentWidget.viewmodel = FlightSegmentBreakdownViewModel(context)
+    }
 
     var vm: FlightOverviewViewModel by notNullAndObservable {
         vm.bundlePriceObserver.subscribeText(bundlePriceTextView)
@@ -35,12 +44,11 @@ class PackageFlightOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             for (segment in selectedFlight.flightSegments) {
                 segmentbreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover))
             }
+            baggageFeeURLText.setOnClickListener {
+                val e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().e3EndpointUrl
+                baggageFeeShowSubject.onNext(e3EndpointUrl + selectedFlight.baggageFeesUrl)
+            }
             flightSegmentWidget.viewmodel.addSegmentRowsObserver.onNext(segmentbreakdowns)
         }
-    }
-
-    init {
-        View.inflate(getContext(), R.layout.widget_flight_overview, this)
-        flightSegmentWidget.viewmodel = FlightSegmentBreakdownViewModel(context)
     }
 }

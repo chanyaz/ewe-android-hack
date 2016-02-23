@@ -17,8 +17,10 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.BaggageFeeInfoWidget
 import com.expedia.bookings.widget.PackageFlightFilterWidget
 import com.expedia.util.notNullAndObservable
+import com.expedia.vm.BaggageFeeInfoViewModel
 import com.expedia.vm.FlightOverviewViewModel
 import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.FlightToolbarViewModel
@@ -39,6 +41,14 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(
         sortDrawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         sortDrawable
     }
+
+    val baggageFeeinfo: BaggageFeeInfoWidget by lazy {
+        var viewStub = findViewById(R.id.baggage_fee_stub) as ViewStub
+        var baggageFeeView = viewStub.inflate() as BaggageFeeInfoWidget
+        baggageFeeView.viewModel = BaggageFeeInfoViewModel()
+        baggageFeeView
+    }
+
     val filter: PackageFlightFilterWidget by lazy {
         val viewStub = findViewById(R.id.filter_stub) as ViewStub
         val filterView = viewStub.inflate() as PackageFlightFilterWidget
@@ -78,7 +88,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(
         menuSearch = toolbar.findViewById(R.id.menu_search) as ActionMenuItemView
         menuFilter.setIcon(filterPlaceholderIcon)
         menuFilter.setOnClickListener { show(filter) }
-
+        overViewPresenter.baggageFeeShowSubject.subscribe { url ->
+            baggageFeeinfo.viewModel.baggageFeeURLObserver.onNext(url)
+            show(baggageFeeinfo)
+        }
     }
 
     override fun onFinishInflate() {
@@ -95,6 +108,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(
 
         addTransition(overviewTransition)
         addTransition(listToFiltersTransition)
+        addTransition(baggageFeeTransition)
         addDefaultTransition(defaultTransition)
         show(resultsPresenter)
     }
@@ -129,6 +143,20 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(
             toolbarViewModel.refreshToolBar.onNext(forward)
             overViewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
             resultsPresenter.visibility = if (!forward) View.GONE else View.VISIBLE
+        }
+    }
+
+    private val baggageFeeTransition = object : Presenter.Transition(PackageFlightOverviewPresenter::class.java, BaggageFeeInfoWidget::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+        override fun finalizeTransition(forward: Boolean) {
+            super.finalizeTransition(forward)
+            if (forward) {
+                toolbarViewModel.setTitleOnly.onNext(context.getString(R.string.package_flight_overview_baggage_fees))
+            }
+            else {
+                toolbarViewModel.refreshToolBar.onNext(false)
+            }
+            overViewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
+            baggageFeeinfo.visibility = if (!forward) View.GONE else View.VISIBLE
         }
     }
 
