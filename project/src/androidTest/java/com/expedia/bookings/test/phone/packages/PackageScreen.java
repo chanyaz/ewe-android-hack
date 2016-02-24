@@ -266,6 +266,7 @@ public class PackageScreen {
 		CardInfoScreen.clickSetButton();
 		CardInfoScreen.typeTextCvv("666");
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+		CardInfoScreen.typeTextEmailEditText("test@email.com");
 
 		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
 		BillingAddressScreen.typeTextCity("San Francisco");

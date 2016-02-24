@@ -92,7 +92,7 @@ public data class PackageCheckoutParams(val billingInfo: BillingInfo, val travel
         params.put("flight.mainFlightPassenger.gender", travelers[0].gender)
         params.put("flight.mainFlightPassenger.passportCountryCode", travelers[0].primaryPassportCountry)
         params.put("flight.mainFlightPassenger.specialAssistanceOption", travelers[0].assistance)
-        params.put("flight.mainFlightPassenger.email", travelers[0].email)
+        params.put("flight.mainFlightPassenger.email", billingInfo.email)
 
         //TODO: Support other travelers
 
