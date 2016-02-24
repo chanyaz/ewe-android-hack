@@ -177,6 +177,11 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 		addOverviewFragment();
 		setUpFreeCancellationAbTest();
 
+		mAirlineFeeNotice = Ui.findView(this, R.id.airline_fee_notice);
+		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
+			mAirlineFeeNotice.setVisibility(View.VISIBLE);
+		}
+
 		mScrollViewListener = new ScrollViewListener();
 		mContentScrollView.addOnScrollListener(mScrollViewListener);
 		mContentScrollView.setOnTouchListener(mScrollViewListener);

@@ -98,19 +98,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return 2601;
 	}
 
-	public String getOmnitureReportSuiteIds() {
-		if (BuildConfig.RELEASE) {
-			return "expediaglobalapp";
-		}
-		else {
-			return "expediaglobalappdev";
-		}
-	}
-
-	public String getOmnitureTrackingServer() {
-		return "om.expedia.com";
-	}
-
 	public void contactUsViaWeb(Context context) {
 		AboutUtils.openWebsite(context, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
 	}
@@ -232,14 +219,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isSigninEnabled() {
-		return true;
-	}
-
-	public boolean isAppCrossSellInHotelShareContentEnabled() {
-		return true;
-	}
-
-	public boolean isAppCrossSellInFlightShareContentEnabled() {
 		return true;
 	}
 

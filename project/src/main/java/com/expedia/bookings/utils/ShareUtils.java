@@ -422,10 +422,8 @@ public class ShareUtils {
 
 		body.append("\n");
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInFlightShareContentEnabled()) {
-			body.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
-				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
-		}
+		body.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+			.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
 
 		return body.toString();
 	}
@@ -537,10 +535,8 @@ public class ShareUtils {
 			builder.append("\n\n");
 		}
 
-		if (ProductFlavorFeatureConfiguration.getInstance().isAppCrossSellInHotelShareContentEnabled()) {
-			builder.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
-				.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
-		}
+		builder.append(Phrase.from(mContext, R.string.share_long_ad_TEMPLATE).put("brand", BuildConfig.brand)
+			.put("appinfourl", PointOfSale.getPointOfSale().getAppInfoUrl()).format());
 
 		return builder.toString();
 	}

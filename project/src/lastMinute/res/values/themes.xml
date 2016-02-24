@@ -42,8 +42,10 @@
         <item name="skin_bookNowButtonDrawable">@drawable/btn_signin_lm</item>
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_lm</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_lm</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in_lm</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_lm_logo_white</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_lm_logo</item>
+        <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/card_background_lm</item>
+        <item name="skin_phoneCheckoutLoginButtonTextColor">@android:color/white</item>
         <item name="skin_loginButtonColor">@android:color/white</item>
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book_lm</item>
@@ -108,7 +110,7 @@
     <!-- Override the phone theme -->
     <style name="Theme.Phone" parent="@style/Theme.LM">
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.LM</item>
-        <item name="android:actionBarTabStyle">@style/ActionBarTabBar</item>
+        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
     </style>
 
     <style name="Theme.Phone.HotelSearchActivity" parent="@style/Theme.Phone">
@@ -120,10 +122,10 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:logo">@drawable/ic_ab_lm_logo</item>
-        <item name="actionBarTabStyle">@style/ActionBarTabBar</item>
+        <item name="actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
         <item name="actionBarTabBarStyle">@style/ActionBarTabBar</item>
         <item name="actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
-        <item name="android:actionBarTabStyle">@style/ActionBarTabBar</item>
+        <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
         <item name="android:actionBarTabBarStyle">@style/ActionBarTabBar</item>
         <item name="android:actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
@@ -255,7 +257,7 @@
         <item name="skin_acctLogoTextDrawable">@drawable/acct__logo_large_lm</item>
         <item name="skin_acctInputTextErrorColor">@color/acct__bg_input_text_error_lm</item>
         <item name="skin_acctInputTextGoodColor">@color/acct__bg_input_text_good_lm</item>
-        <item name="skin_acctSignInButtonBackgroundDrawable">@drawable/btn_signin_lm</item>
+        <item name="skin_acctSignInButtonBackgroundDrawable">@drawable/acct__bg_btn_sign_in</item>
         <item name="skin_acctSignInButtonTextColor">@color/acct__btn_sign_in_text_lm</item>
         <item name="skin_acctCheckmarkGoodDrawable">@drawable/acct__ic_checkmark_lm</item>
         <item name="skin_acctCheckmarkWarningDrawable">@drawable/acct__ic_warning_lm</item>

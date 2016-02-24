@@ -42,7 +42,9 @@
         <item name="skin_bookNowButtonDrawable">@drawable/btn_signin_wotif</item>
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_wotif</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_wotif</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_log_in_wotif</item>
+        <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/card_background_wotif</item>
+        <item name="skin_phoneCheckoutLoginButtonTextColor">@android:color/white</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/ic_wotif_logo_white</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_log_out_wotif</item>
         <item name="skin_loginButtonColor">@android:color/white</item>
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
@@ -250,7 +252,7 @@
         <item name="skin_acctLogoTextDrawable">@drawable/acct__logo_text_wotif</item>
         <item name="skin_acctInputTextErrorColor">@color/acct__bg_input_text_error_wotif</item>
         <item name="skin_acctInputTextGoodColor">@color/acct__bg_input_text_good_wotif</item>
-        <item name="skin_acctSignInButtonBackgroundDrawable">@drawable/btn_signin_wotif</item>
+        <item name="skin_acctSignInButtonBackgroundDrawable">@drawable/acct__bg_btn_sign_in</item>
         <item name="skin_acctSignInButtonTextColor">@color/acct__btn_sign_in_text_wotif</item>
         <item name="skin_acctCheckmarkGoodDrawable">@drawable/acct__ic_checkmark_wotif</item>
         <item name="skin_acctCheckmarkWarningDrawable">@drawable/acct__ic_warning_wotif</item>

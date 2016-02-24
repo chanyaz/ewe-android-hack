@@ -101,22 +101,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public PointOfSaleId getDefaultPOS() {
 		return PointOfSaleId.UNITED_KINGDOM;
 	}
-
-	@Override
-	public String getOmnitureReportSuiteIds() {
-		if (BuildConfig.RELEASE) {
-			return "expediaglobalapp";
-		}
-		else {
-			return "expediaglobalappdev";
-		}
-	}
-
-	@Override
-	public String getOmnitureTrackingServer() {
-		return "om.expedia.com";
-	}
-
+	
 	@Override
 	public void contactUsViaWeb(Context context) {
 		AboutUtils.openWebsite(context, PointOfSale.getPointOfSale().getAppSupportUrl(), true);
@@ -249,16 +234,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public boolean isAppSupportUrlEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isAppCrossSellInHotelShareContentEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isAppCrossSellInFlightShareContentEnabled() {
 		return true;
 	}
 
