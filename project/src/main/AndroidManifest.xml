@@ -304,6 +304,9 @@
             android:name="com.expedia.bookings.activity.AboutActivity"
             android:theme="@style/Theme.Phone.AboutActivity" />
         <activity
+            android:name="com.expedia.bookings.activity.AccountSettingsActivity"
+            android:theme="@style/AccountSettingsTheme" />
+        <activity
             android:name="com.expedia.bookings.activity.ExpediaBookingPreferenceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Phone.Preferences" />

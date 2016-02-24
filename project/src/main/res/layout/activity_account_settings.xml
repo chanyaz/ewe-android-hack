@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/account_background_color">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        style="@style/LaunchActionBar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/skin_launchActionBarBackgroundColor"
+        app:contentInsetLeft="0dp"
+        app:contentInsetStart="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@android:id/home"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:background="?attr/controlBackground"
+                android:scaleType="center"
+                android:src="@drawable/ic_arrow_back_white_24dp" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/toolbar_not_signed_in"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/account_settings_menu_label"
+                    android:textColor="@color/account_toolbar_text_color"
+                    android:textSize="@dimen/account_toolbar_title_text_size"
+                    tools:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/toolbar_signed_in"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/toolbar_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/account_toolbar_text_color"
+                            android:textSize="@dimen/account_toolbar_title_text_size"
+                            android:textStyle="bold"
+                            tools:text="Lauren LoPrete" />
+
+                        <TextView
+                            android:id="@+id/toolbar_email"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/toolbar_name"
+                            android:textColor="@color/account_toolbar_text_color"
+                            android:textSize="@dimen/account_toolbar_subtitle_text_size"
+                            tools:text="laurenloprete@gmail.com" />
+                    </LinearLayout>
+
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/toolbar_loyalty_tier_box"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="16dp"
+                        android:layout_marginRight="16dp"
+                        app:cardBackgroundColor="@color/expedia_plus_silver_text"
+                        app:cardCornerRadius="6dp"
+                        app:cardElevation="0dp">
+
+                        <TextView
+                            android:id="@+id/toolbar_loyalty_tier_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="6dp"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_marginTop="6dp"
+                            android:textColor="@color/expedia_plus_silver"
+                            tools:text="+silver" />
+                    </android.support.v7.widget.CardView>
+                </LinearLayout>
+            </FrameLayout>
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:fadingEdge="none"
+        android:fillViewport="true">
+
+        <LinearLayout
+            style="@style/MarginPoint"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/section_loyalty_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/skin_launchActionBarBackgroundColor">
+
+                <View
+                    android:id="@+id/center"
+                    android:layout_width="1dp"
+                    android:layout_height="1dp"
+                    android:layout_centerHorizontal="true" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/account_background_color" />
+
+                <TextView
+                    android:id="@+id/available_points_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_toLeftOf="@id/center"
+                    android:text="@string/available_loyalty_points"
+                    android:textColor="@color/account_toolbar_text_color"
+                    android:textSize="@dimen/account_loyalty_label_text_size" />
+
+                <TextView
+                    android:id="@+id/available_points"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/available_points_label"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_toLeftOf="@id/center"
+                    android:textColor="@color/account_toolbar_text_color"
+                    android:textSize="@dimen/account_loyalty_value_text_size"
+                    android:textStyle="bold"
+                    tools:text="51,203" />
+
+                <TextView
+                    android:id="@+id/pending_points"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@id/available_points"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_toLeftOf="@id/center"
+                    android:textColor="@color/account_toolbar_text_color_light"
+                    android:textSize="13sp"
+                    tools:text="1,176 pending" />
+
+                <TextView
+                    android:id="@+id/country_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/available_points_label"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_toRightOf="@+id/center"
+                    android:text="@string/preference_point_of_sale_title"
+                    android:textColor="@color/account_toolbar_text_color"
+                    android:textSize="@dimen/account_loyalty_label_text_size" />
+
+                <TextView
+                    android:id="@+id/country"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/available_points"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_toRightOf="@+id/center"
+                    android:textColor="@color/account_toolbar_text_color"
+                    android:textSize="@dimen/account_loyalty_value_text_size"
+                    android:textStyle="bold"
+                    tools:text="United States" />
+            </RelativeLayout>
+
+            <!-- TODO add logged out views -->
+
+            <FrameLayout
+                android:id="@+id/section_app_settings"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/about_section_margin" />
+
+            <FrameLayout
+                android:id="@+id/section_contact_us"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/about_section_margin" />
+
+            <FrameLayout
+                android:id="@+id/section_communicate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/about_section_margin" />
+
+            <FrameLayout
+                android:id="@+id/section_legal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/about_section_margin" />
+
+            <FrameLayout
+                android:id="@+id/section_also_by"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/about_section_margin" />
+
+            <Button
+                android:id="@+id/sign_out_button"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_margin="@dimen/about_section_margin"
+                android:text="@string/sign_out"
+                android:textColor="@color/account_sign_out_button_text_color"
+                app:backgroundTint="@color/account_sign_out_button_background_color" />
+
+            <FrameLayout
+                android:id="@+id/section_copyright"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/about_section_margin" />
+
+            <TextView
+                android:id="@+id/open_source_credits_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:gravity="center"
+                android:textColor="@color/AboutRowTextColor" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

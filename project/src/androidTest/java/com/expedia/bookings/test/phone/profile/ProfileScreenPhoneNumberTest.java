@@ -1,7 +1,5 @@
-package com.expedia.bookings.test.phone.launch;
+package com.expedia.bookings.test.phone.profile;
 
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -11,33 +9,29 @@ import org.junit.runners.model.Statement;
 
 import android.app.Activity;
 import android.app.Instrumentation;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.AboutActivity;
+import com.expedia.bookings.activity.AccountSettingsActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.test.phone.pagemodels.common.InfoScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.ProfileScreen;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 
-import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.intending;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.isInternal;
-import static org.hamcrest.Matchers.allOf;
+import static com.expedia.bookings.test.espresso.CustomMatchers.hasPhoneNumber;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertIntentFiredToViewUri;
 import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
-public class InfoScreenPhoneNumberTest {
+public class ProfileScreenPhoneNumberTest {
 
-	private static final String TAG = InfoScreenPhoneNumberTest.class.getName();
+	private static final String TAG = ProfileScreenPhoneNumberTest.class.getName();
 
 	/*
 	 *  #264 eb_tp test for Info screen phone numbers by POS and device (phone).
@@ -45,7 +39,7 @@ public class InfoScreenPhoneNumberTest {
 
 	//Launch directly into the About/Info Screen
 	@Rule
-	public IntentsTestRule<AboutActivity> intentRule = new IntentsTestRule<>(AboutActivity.class);
+	public IntentsTestRule<AccountSettingsActivity> intentRule = new IntentsTestRule<>(AccountSettingsActivity.class);
 
 	@Rule
 	public TestRule posRule = new TestRule() {
@@ -103,30 +97,6 @@ public class InfoScreenPhoneNumberTest {
 		}
 	};
 
-
-	private org.hamcrest.Matcher<Uri> hasPhoneNumber(final String expected) {
-		return new BaseMatcher<Uri>() {
-			private String remembered;
-
-			@Override
-			public boolean matches(Object uriObject) {
-				Uri intentUri = (Uri) uriObject;
-				remembered = intentUri.toString().replaceAll("[^0-9]", "");
-				return remembered.equals(expected);
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description
-					.appendText("Expected phone number: ")
-					.appendValue(expected)
-					.appendText(", but got: ")
-					.appendValue(remembered);
-			}
-
-		};
-	}
-
 	@Before
 	public void stubAllExternalIntents() {
 		// By default Espresso Intents does not stub any Intents. Stubbing needs to be setup before
@@ -137,12 +107,10 @@ public class InfoScreenPhoneNumberTest {
 
 	@Test
 	public void phoneNumbers() {
-		InfoScreen.clickBookingSupport();
-		InfoScreen.clickContactPhone();
+		ProfileScreen.clickBookingSupport();
+		ProfileScreen.clickContactPhone();
 		String supportNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser());
 		supportNumber = supportNumber.replaceAll("[^0-9]", "");
-		intended(allOf(
-			hasAction(Intent.ACTION_VIEW),
-			hasData(hasPhoneNumber(supportNumber))));
+		assertIntentFiredToViewUri(hasPhoneNumber(supportNumber));
 	}
 }

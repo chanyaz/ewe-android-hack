@@ -184,6 +184,8 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 		traveler.setLoyaltyMembershipActive(obj.optBoolean("loyaltyMemebershipActive", false));
 		traveler.setLoyaltyMembershipName(obj.optString("loyaltyMemebershipName", null));
 		traveler.setLoyaltyMembershipTier(obj.optString("membershipTierName", null));
+		traveler.setLoyaltyPointsAvailable(obj.optLong("loyaltyPointsAvailable", 0));
+		traveler.setLoyaltyPointsPending(obj.optLong("loyaltyPointsPending", 0));
 		return traveler;
 	}
 

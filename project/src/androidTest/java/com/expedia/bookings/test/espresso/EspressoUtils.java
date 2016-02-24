@@ -2,25 +2,37 @@ package com.expedia.bookings.test.espresso;
 
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.hamcrest.Matcher;
+
+import android.content.Intent;
+import android.net.Uri;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IdRes;
+import android.support.annotation.StringRes;
 import android.support.test.espresso.DataInteraction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.ViewMatchers;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasExtra;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
 import static com.expedia.bookings.test.espresso.ViewActions.getChildCount;
 import static com.expedia.bookings.test.espresso.ViewActions.getCount;
 import static com.expedia.bookings.test.espresso.ViewActions.getRating;
 import static com.expedia.bookings.test.espresso.ViewActions.getStarRating;
 import static com.expedia.bookings.test.espresso.ViewActions.getString;
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.not;
@@ -31,23 +43,31 @@ public class EspressoUtils {
 		onView(withText(text)).check(matches(isDisplayed()));
 	}
 
-	public static void assertViewWithTextIsDisplayed(int id, String text) {
+	public static void assertViewWithTextIsDisplayed(@StringRes int textResId) {
+		onView(withText(textResId)).check(matches(isDisplayed()));
+	}
+
+	public static void assertViewWithTextIsDisplayed(@IdRes int id, String text) {
 		onView(allOf(withId(id), withText(text))).check(matches(isDisplayed()));
 	}
 
-	public static void assertViewWithSiblingIsNotDisplayed(int viewId, int siblingId) {
+	public static void assertViewWithTextIsDisplayed(@IdRes int id, @StringRes int textResId) {
+		onView(allOf(withId(id), withText(textResId))).check(matches(isDisplayed()));
+	}
+
+	public static void assertViewWithSiblingIsNotDisplayed(@IdRes int viewId, @IdRes int siblingId) {
 		onView(allOf(withId(viewId), hasSibling(withId(siblingId)))).check(matches(not(isDisplayed())));
 	}
 
-	public static void assertViewWithTextIsNotDisplayed(int id, String text) {
+	public static void assertViewWithTextIsNotDisplayed(@IdRes int id, String text) {
 		onView(allOf(withId(id), withText(text))).check(matches(not(isDisplayed())));
 	}
 
-	public static void assertViewIsDisplayed(int id) {
+	public static void assertViewIsDisplayed(@IdRes int id) {
 		onView(withId(id)).check(matches(isDisplayed()));
 	}
 
-	public static void assertViewIsNotDisplayed(int id) {
+	public static void assertViewIsNotDisplayed(@IdRes int id) {
 		onView(withId(id)).check(matches(not(isDisplayed())));
 	}
 
@@ -55,7 +75,7 @@ public class EspressoUtils {
 		onView(withText(containsString(substring))).check(matches(isDisplayed()));
 	}
 
-	public static void assertViewWithSubstringIsDisplayed(int id, String substring) {
+	public static void assertViewWithSubstringIsDisplayed(@IdRes int id, String substring) {
 		onView(allOf(withId(id), withText(containsString(substring))))
 				.check(matches(isDisplayed()));
 	}
@@ -64,16 +84,20 @@ public class EspressoUtils {
 		view.check(matches(withText(containsString(str))));
 	}
 
-	public static void assertTextWithChildrenIsDisplayed(int id, String text) {
+	public static void assertTextWithChildrenIsDisplayed(@IdRes int id, String text) {
 		onView(allOf(withId(id), withChild(withText(text)), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))).check(
 			matches(isDisplayed()));
 	}
 
-	public static void viewHasDescendantsWithText(int id, String text) {
+	public static void assertViewIsGone(@IdRes int id) {
+		onView(withId(id)).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)));
+	}
+
+	public static void viewHasDescendantsWithText(@IdRes int id, String text) {
 		onView(allOf(withId(id), hasDescendant(withText(text)), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))).check(matches(isDisplayed()));
 	}
 
-	public static String getText(int id) {
+	public static String getText(@IdRes int id) {
 		final AtomicReference<String> value = new AtomicReference<String>();
 		onView(withId(id)).perform(getString(value));
 		String stringValue = value.get();
@@ -81,14 +105,14 @@ public class EspressoUtils {
 	}
 
 	// to avoid multiple matches to a view
-	public static String getTextWithSibling(int id, int siblingId) {
+	public static String getTextWithSibling(@IdRes int id, @IdRes int siblingId) {
 		final AtomicReference<String> value = new AtomicReference<String>();
 		onView(allOf(withId(id), hasSibling(withId(siblingId)), isDisplayed())).perform(getString(value));
 		String stringValue = value.get();
 		return stringValue;
 	}
 
-	public static String getListItemValues(DataInteraction row, int id) {
+	public static String getListItemValues(DataInteraction row, @IdRes int id) {
 		final AtomicReference<String> value = new AtomicReference<String>();
 		row.onChildView(withId(id)).perform(getString(value));
 		String stringValue = value.get();
@@ -123,11 +147,32 @@ public class EspressoUtils {
 		return ratingValue;
 	}
 
-	public static void assertContainsImageDrawable(int viewID, int imageID) {
+	public static void assertContainsImageDrawable(@IdRes int viewID, @DrawableRes int imageID) {
 		onView(allOf(withId(viewID), isDisplayed())).check(matches(withImageDrawable(imageID)));
 	}
 
-	public static void assertContainsImageDrawable(int viewID, int imageID, int siblingID) {
+	public static void assertContainsImageDrawable(@IdRes int viewID, @DrawableRes int imageID, @IdRes int siblingID) {
 		onView(allOf(withId(viewID), hasSibling(withId(siblingID)), isDisplayed())).check(matches(withImageDrawable(imageID)));
+	}
+
+	public static void assertIntentFiredToViewUri(String uri) {
+		intended(allOf(
+				hasAction(Intent.ACTION_VIEW),
+				hasData(uri)
+		));
+	}
+
+	public static void assertIntentFiredToViewUri(Matcher<Uri> matcher) {
+		intended(allOf(
+				hasAction(Intent.ACTION_VIEW),
+				hasData(matcher)
+		));
+	}
+
+	public static <T> void assertIntentFiredToStartActivityWithExtra(Class<?> activityClass, String key, T value) {
+		intended(allOf(
+				hasComponent(activityClass.getName()),
+				hasExtra(key, value)
+		));
 	}
 }

@@ -195,7 +195,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		AboutSectionFragment.RowDescriptor app = new AboutSectionFragment.RowDescriptor();
 		app.title = context.getString(R.string.VSC_Voyages_SNF);
 		app.description = context.getString(R.string.VSC_Voyages_SNF_description);
-		app.clickId = AboutActivity.ROW_VSC_VOYAGES;
+		app.clickTag = AboutActivity.ROW_VSC_VOYAGES;
 		app.drawableId = R.drawable.ic_vsc_train_app;
 		builder.addRow(app);
 

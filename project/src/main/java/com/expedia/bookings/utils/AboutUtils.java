@@ -1,26 +1,33 @@
 package com.expedia.bookings.utils;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutWebViewActivity;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.dialog.DomainPreference;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
 // Methods that tie together TabletAboutActivity and AboutActivity
@@ -37,60 +44,148 @@ public class AboutUtils {
 	//////////////////////////////////////////////////////////////////////////
 	// Handling clicks on different items
 
-	@SuppressLint("NewApi")
-	public Dialog createContactExpediaDialog(final Runnable onDismiss) {
-		AlertDialog.Builder builder = new Builder(mActivity, R.style.LightDialog);
+	public DialogFragment createContactExpediaDialog() {
+		return new DialogFragment() {
+			@NonNull
+			@Override
+			public Dialog onCreateDialog(Bundle savedInstanceState) {
+				AlertDialog.Builder builder = new Builder(mActivity, R.style.LightDialog);
 
-		builder.setTitle(Phrase.from(mActivity, R.string.contact_via_TEMPLATE).put("brand", BuildConfig.brand).format());
+				builder.setTitle(Phrase.from(mActivity, R.string.contact_via_TEMPLATE)
+						.put("brand", BuildConfig.brand).format());
 
-		// Figure out which items to display to the user
-		List<String> items = new ArrayList<String>();
-		final List<Runnable> actions = new ArrayList<Runnable>();
+				// Figure out which items to display to the user
+				String[] items = new String[2];
+				final Runnable[] actions = new Runnable[2];
 
-		// Let's always show the phone option and have the OS take care of how to handle onClick for tablets without telephony.
-		// In which case it pops up a dialog to show the number and give 2 options i.e. "Close" & "Add to Contacts"
-		items.add(mActivity.getString(R.string.contact_expedia_phone));
-		actions.add(new Runnable() {
-			public void run() {
-				contactViaPhone();
-			}
-		});
-
-		// Always show website option
-		items.add(mActivity.getString(R.string.contact_expedia_website));
-		actions.add(new Runnable() {
-			public void run() {
-				ProductFlavorFeatureConfiguration.getInstance().contactUsViaWeb(mActivity);
-			}
-		});
-
-		builder.setItems(items.toArray(new String[0]), new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				if (onDismiss != null) {
-					onDismiss.run();
-				}
-
-				actions.get(which).run();
-			}
-		});
-		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int which) {
-				if (onDismiss != null) {
-					onDismiss.run();
-				}
-			}
-		});
-		if (onDismiss != null) {
-			builder.setOnCancelListener(new OnCancelListener() {
-				public void onCancel(DialogInterface dialog) {
-					if (onDismiss != null) {
-						onDismiss.run();
+				// Let's always show the phone option and have the OS take care of how to handle onClick for tablets without telephony.
+				// In which case it pops up a dialog to show the number and give 2 options i.e. "Close" & "Add to Contacts"
+				items[0] = mActivity.getString(R.string.contact_expedia_phone);
+				actions[0] = new Runnable() {
+					public void run() {
+						contactViaPhone();
 					}
-				}
-			});
+				};
+
+				// Always show website option
+				items[1] = mActivity.getString(R.string.contact_expedia_website);
+				actions[1] = new Runnable() {
+					public void run() {
+						ProductFlavorFeatureConfiguration.getInstance().contactUsViaWeb(mActivity);
+					}
+				};
+
+				builder.setItems(items, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						actions[which].run();
+					}
+				});
+				builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						// nothing to do since user has cancelled
+					}
+				});
+				builder.setOnCancelListener(new OnCancelListener() {
+					public void onCancel(DialogInterface dialog) {
+						// nothing to do since user has cancelled
+					}
+				});
+
+				return builder.create();
+			}
+		};
+	}
+
+	public interface CountrySelectDialogListener {
+		void showDialogFragment(DialogFragment dialog);
+		void onNewCountrySelected(int pointOfSaleId);
+	}
+
+	public DialogFragment createCountrySelectDialog() {
+		if (!(mActivity instanceof CountrySelectDialogListener)) {
+			throw new IllegalStateException("Activity must implement CountrySelectDialogListener");
 		}
 
-		return builder.create();
+		return new DialogFragment() {
+			@NonNull
+			@Override
+			public Dialog onCreateDialog(Bundle savedInstanceState) {
+				AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+
+				List<PointOfSale> poses = PointOfSale.getAllPointsOfSale(mActivity);
+				int len = poses.size();
+				CharSequence[] entries = new CharSequence[len];
+				CharSequence[] entrySubText = new CharSequence[len];
+				final int[] entryValues = new int[len];
+				for (int a = 0; a < len; a++) {
+					PointOfSale info = poses.get(a);
+					entries[a] = mActivity.getString(info.getCountryNameResId());
+					entrySubText[a] = info.getUrl();
+					entryValues[a] = info.getPointOfSaleId().getId();
+				}
+
+				final int startingIndex = getIndexOfValue(entryValues, SettingUtils.get(mActivity, R.string.PointOfSaleKey, -1));
+				DomainPreference.DomainAdapter domainAdapter = new DomainPreference.DomainAdapter(mActivity);
+				domainAdapter.setDomains(entries, entrySubText);
+				domainAdapter.setSelected(startingIndex);
+				builder.setAdapter(domainAdapter, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, final int newIndex) {
+						if (newIndex != startingIndex) {
+							((CountrySelectDialogListener) mActivity).showDialogFragment(new DialogFragment() {
+								@NonNull
+								@Override
+								public Dialog onCreateDialog(Bundle savedInstanceState) {
+									Builder builder = new AlertDialog.Builder(mActivity);
+									builder.setTitle(R.string.dialog_clear_private_data_title);
+									if (User.isLoggedIn(mActivity)) {
+										builder.setMessage(R.string.dialog_sign_out_and_clear_private_data_msg);
+									}
+									else {
+										builder.setMessage(R.string.dialog_clear_private_data_msg);
+									}
+									builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+										public void onClick(DialogInterface dialog, int which) {
+											((CountrySelectDialogListener) mActivity).onNewCountrySelected(entryValues[newIndex]);
+										}
+									});
+									builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+										@Override
+										public void onClick(DialogInterface dialog, int which) {
+											// ignore, just let the dialog go away
+										}
+									});
+									return builder.create();
+								}
+							});
+						}
+					}
+				});
+				builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// user did not change setting, nothing to do
+					}
+				});
+				builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						// user did not change setting, nothing to do
+					}
+				});
+
+				return builder.create();
+			}
+		};
+	}
+
+	private int getIndexOfValue(int[] values, int value) {
+		for (int i = 0; i < values.length; i++) {
+			if (values[i] == value) {
+				return i;
+			}
+		}
+
+		return -1;
 	}
 
 	public void contactViaPhone() {
@@ -119,6 +214,26 @@ public class AboutUtils {
 	public void openPrivacyPolicy() {
 		PointOfSale posInfo = PointOfSale.getPointOfSale();
 		openWebsite(mActivity, posInfo.getPrivacyPolicyUrl(), false);
+	}
+
+	public void rateApp() {
+		Uri uri = Uri.parse("market://details?id=" + mActivity.getPackageName());
+		Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+
+		// To count with Play market backstack, After pressing back button,
+		// to taken back to our application, we need to add following flags to intent.
+		//noinspection deprecation
+		goToMarket.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY |
+				Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET |
+				Intent.FLAG_ACTIVITY_MULTIPLE_TASK);
+
+		try {
+			mActivity.startActivity(goToMarket);
+		}
+		catch (ActivityNotFoundException e) {
+			mActivity.startActivity(new Intent(Intent.ACTION_VIEW,
+					Uri.parse("http://play.google.com/store/apps/details?id=" + mActivity.getPackageName())));
+		}
 	}
 
 	public static void openWebsite(Context context, String url, boolean useExternalBrowser) {

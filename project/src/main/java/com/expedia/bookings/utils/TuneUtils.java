@@ -89,9 +89,10 @@ public class TuneUtils {
 	}
 
 	public static void updatePOS() {
-		String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
-		mobileAppTracker.setTwitterUserId(posTpid);
-
+		if (initialized) {
+			String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
+			mobileAppTracker.setTwitterUserId(posTpid);
+		}
 	}
 
 	public static void startTune(Activity activity) {
