@@ -1776,6 +1776,8 @@
     <string name="baggage_fees">Baggage Fees</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Payment Processing Fees</string>
+    <!-- Label indicating number of tickets left for given flight -->
+    <string name="number_tickets_left">%d left at</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
