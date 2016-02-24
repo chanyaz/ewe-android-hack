@@ -194,6 +194,10 @@ public class PackageScreen {
 		return onView(withId(R.id.select_flight_button));
 	}
 
+	public static ViewInteraction baggageFeeInfo() {
+		return onView(withId(R.id.show_baggage_fees));
+	}
+
 	public static ViewInteraction checkout() {
 		return onView(withId(R.id.checkout_button));
 	}
