@@ -81,6 +81,8 @@
         <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell_aag</item>
         <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup_aag</item>
         <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color</item>
+        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_flight</item>
+
     </style>
 
     <!-- Override the phone theme -->

@@ -3752,7 +3752,9 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">完成此預訂，即表示本人同意已閱讀並接受%1$s、%2$s及%3$s。</string>
     <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_TEMPLATE">我已閱讀並同意%1$s及%2$s。登記 {brand}+，即表示我接受所有%3$s。</string>
+    <string name="account_creation_legal_TEMPLATE">我已閱讀並同意{terms_of_use}及{privacy_policy}。登記 {brand}+，即表示我接受所有{terms_and_conditions}。</string>
+    <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
+    <string name="account_creation_legal_excluding_rewards_TEMPLATE">我已閱讀並同意{terms_of_use}和{privacy_policy}。</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">請選擇每位小童的年齡</string>

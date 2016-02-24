@@ -11,6 +11,7 @@
         <item name="android:colorPrimaryDark">@color/lx_primary_color_wotif</item>
         <item name="android:colorButtonNormal">@color/lx_primary_color_wotif</item>
         <item name="colorAccent">@color/lx_primary_color_wotif</item>
+        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_car_lx</item>
 
         <!-- Skins added for whitelabel -->
         <item name="skin_loginBrandLogoDrawable">@drawable/wotif</item>

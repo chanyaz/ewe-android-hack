@@ -3752,7 +3752,9 @@
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">この予約を完了をもって、%1$s、%2$s、%3$sを読み、理解したものと見なされます。</string>
     <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_TEMPLATE">%1$sおよび%2$sを読み、これに同意します。{brand}+ への入会をもって、すべての%3$sに同意したものとみなされます。</string>
+    <string name="account_creation_legal_TEMPLATE">{terms_of_use}および{privacy_policy}を読み、これに同意します。{brand}+ への入会をもって、すべての{terms_and_conditions}に同意したものとみなされます。</string>
+    <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
+    <string name="account_creation_legal_excluding_rewards_TEMPLATE">{terms_of_use}および{privacy_policy}を読み、これに同意します。</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">お子様の年齢を選択する</string>

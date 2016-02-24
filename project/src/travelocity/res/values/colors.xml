@@ -9,7 +9,6 @@
     <color name="bg_btn_color_travelocity">#7bae00</color>
     <color name="bg_btn_pressed_color_travelocity">#295600</color>
     <color name="itin_flight_line_color_tvly">#7da426</color>
-    <color name="login_text_hotels">#FFFFFF</color>
     <color name="login_text_flight">#FFFFFF</color>
     <color name="coupon_success_message_color_tvly">#7baed4</color>
     <color name="collection_overlay_color">#56a1d5</color>
@@ -21,7 +20,7 @@
     <color name="tablet_trip_bucket_text_color_tvly">#FFFFFF</color>
     <color name="tablet_search_result_error_button_tvly">#004E93</color>
     <color name="tablet_search_result_error_button_pressed_tvly">#D1EAFF</color>
-    <color name="tablet_results_search_blue_tvly">#608405</color>
+    <color name="tablet_dates_popup_done_color_tvly">#7abb00</color>
     <color name="launch_pin_detail_button_text_travelocity">#D1EAFF</color>
 
     <color name="launch_card_back_container_color">#393939</color>
@@ -29,10 +28,15 @@
     <color name="destination_list_launch_card_title_text_color">#003E6F</color>
     <color name="destination_list_launch_card_country_text_color">#57A3CC</color>
     <color name="destination_list_detail_container_background">#ff070f24</color>
+    <color name="accept_terms_color">#608405</color>
+    <color name="accept_terms_ripple_color">#7dad06</color>
 
     <!-- Cars -->
-    <color name="cars_primary_color_tvly">#003E74</color>
+    <color name="cars_primary_color">#003E74</color>
     <color name="cars_unchecked_toggle_text_color_tvly">#B3FFFFFF</color>
+    <color name="cars_drop_off_hint_text_color">#4b7fad</color>
+
+    <!-- Lx -->
     <color name="lx_primary_color_tvly">#003E74</color>
     <color name="lx_ripple_color_tvly">#53a0d3</color>
     <color name="lx_secondary_color_disabled_tvly">#032E4D</color>
@@ -43,4 +47,5 @@
     <color name="acct__btn_sign_in_text_tvly">#FFFFFF</color>
     <color name="acct__bg_input_text_error_tvly">#FFFFFF</color>
     <color name="acct__bg_input_text_good_tvly">#EEEEEE</color>
+    <color name="acct__tos_checkbox_checked">@color/bg_blue_color_travelocity</color>
 </resources>

@@ -391,4 +391,13 @@
     <!-- CardView container margin -->
     <dimen name="card_view_container_margin">9dp</dimen>
 
+    <!-- Dimension for left margin on icon of new login button on flight checkout-->
+    <dimen name="checkout_icon_right_margin_flight">16dp</dimen>
+
+    <!-- Dimension for left margin on icon of new login button on gotel checkout-->
+    <dimen name="checkout_icon_right_margin_hotel">16dp</dimen>
+
+    <!-- Dimension for left margin on icon of new login button on car >>>>>>> expedia-stable& LX checkout-->
+    <dimen name="checkout_icon_right_margin_car_lx">16dp</dimen>
+
 </resources>

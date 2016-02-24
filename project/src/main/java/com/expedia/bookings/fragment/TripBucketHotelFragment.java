@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import java.util.Locale;
-
 import android.app.Activity;
 import android.text.Html;
 import android.view.LayoutInflater;
