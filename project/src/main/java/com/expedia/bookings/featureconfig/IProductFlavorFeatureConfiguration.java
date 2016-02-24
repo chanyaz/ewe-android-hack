@@ -44,10 +44,6 @@ public interface IProductFlavorFeatureConfiguration {
 
 	PointOfSaleId getDefaultPOS();
 
-	String getOmnitureReportSuiteIds();
-
-	String getOmnitureTrackingServer();
-
 	void contactUsViaWeb(Context context);
 
 	List<BasicNameValuePair> getAdditionalParamsForReviewsRequest();
@@ -97,10 +93,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean isAppSupportUrlEnabled();
 
 	boolean isSigninEnabled();
-
-	boolean isAppCrossSellInHotelShareContentEnabled();
-
-	boolean isAppCrossSellInFlightShareContentEnabled();
 
 	boolean isItinDisabled();
 
