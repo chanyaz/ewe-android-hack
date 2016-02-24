@@ -41,7 +41,7 @@ public class CalendarWidgetV2(context: Context, attrs: AttributeSet?) : SearchIn
             }
 
             //only enable the done button if at least start is selected - we'll default end date if necessary
-            calendarDialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = start != null
+            calendarDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = start != null
         }
         calendarPickerView.setYearMonthDisplayedChangedListener {
             calendarPickerView.hideToolTip()

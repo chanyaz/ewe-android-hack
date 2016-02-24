@@ -246,6 +246,7 @@ public class OmnitureTracking {
 		s.setProp(2, HOTELV2_LOB);
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelRecentSearchTest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsSearchScreenTest);
 		// Send the tracking data
 		s.track();
 

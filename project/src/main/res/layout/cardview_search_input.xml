@@ -8,6 +8,8 @@
     android:drawablePadding="23dp"
     android:gravity="center_vertical"
     android:textColor="@color/hotelsv2_checkout_text_color"
+    android:maxLines="1"
+    android:ellipsize="end"
     android:paddingLeft="19dp"
     android:paddingRight="19dp"
     android:textSize="15sp" />

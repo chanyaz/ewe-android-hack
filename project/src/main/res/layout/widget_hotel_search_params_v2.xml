@@ -6,8 +6,7 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingBottom="@dimen/recent_search_item_height">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/search_v2_container"
@@ -15,53 +14,58 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/search_form_margin"
             android:layout_marginRight="@dimen/search_form_margin"
-            android:layout_marginTop="@dimen/search_form_margin"
-            android:background="@color/hotel_search_background"
+            android:layout_marginTop="@dimen/search_form_top_margin"
             android:clipToPadding="false"
-            android:orientation="vertical"
-            android:paddingTop="?attr/actionBarSize">
+            android:orientation="vertical">
 
-            <com.expedia.bookings.widget.SearchInputCardView
-                android:id="@+id/destination_card"
+            <LinearLayout
+                android:id="@+id/search_cards_container"
                 android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginBottom="@dimen/search_form_margin"
-                app:input_icon="@drawable/search_form_icon_search"
-                app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                app:cardCornerRadius="3dp"
-                app:cardElevation="1dp"
-                app:cardUseCompatPadding="true"
-                app:input_text="@string/select_destination" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            <com.expedia.bookings.widget.CalendarWidgetV2
-                android:id="@+id/calendar_card"
-                android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginBottom="@dimen/search_form_margin"
-                app:input_icon="@drawable/search_form_icon_calendar"
-                app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                app:cardCornerRadius="3dp"
-                app:cardElevation="1dp"
-                app:cardUseCompatPadding="true"
-                app:input_text="@string/select_dates" />
+                <com.expedia.bookings.widget.SearchInputCardView
+                    android:id="@+id/destination_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:layout_marginBottom="@dimen/material_search_field_bottom_margin"
+                    app:cardCornerRadius="3dp"
+                    app:cardElevation="1dp"
+                    app:cardUseCompatPadding="true"
+                    app:input_icon="@drawable/search_form_icon_search"
+                    app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                    app:input_text="@string/search_destination" />
 
-            <com.expedia.bookings.widget.TravelerWidgetV2
-                android:id="@+id/traveler_card"
-                android:layout_width="match_parent"
-                android:layout_height="58dp"
-                android:layout_marginBottom="@dimen/search_form_margin"
-                app:input_icon="@drawable/search_form_icon_person"
-                app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-                app:cardCornerRadius="3dp"
-                app:cardElevation="1dp"
-                app:cardUseCompatPadding="true"
-                app:input_text="@string/hotel_search_guest_default_text" />
+                <com.expedia.bookings.widget.CalendarWidgetV2
+                    android:id="@+id/calendar_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    android:layout_marginBottom="@dimen/material_search_field_bottom_margin"
+                    app:cardCornerRadius="3dp"
+                    app:cardElevation="1dp"
+                    app:cardUseCompatPadding="true"
+                    app:input_icon="@drawable/search_form_icon_calendar"
+                    app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                    app:input_text="@string/select_dates" />
 
+                <com.expedia.bookings.widget.TravelerWidgetV2
+                    android:id="@+id/traveler_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="58dp"
+                    app:cardCornerRadius="3dp"
+                    app:cardElevation="1dp"
+                    app:cardUseCompatPadding="true"
+                    app:input_icon="@drawable/search_form_icon_person"
+                    app:input_icon_tint_color="@color/search_screen_icon_color_v2"
+                    app:input_text="@string/hotel_search_guest_default_text" />
+
+            </LinearLayout>
 
             <com.expedia.bookings.widget.RecentSearchesWidgetV2
                 android:id="@+id/recent_search_widget"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/recent_search_item_height" />
 
         </LinearLayout>
 
@@ -72,7 +76,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/search_suggestion_background_v2"
-        android:visibility="gone" >
+        android:visibility="gone">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/suggestion_list"
@@ -90,7 +94,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/hotels_primary_color"
+        android:background="?attr/hotel_select_room_ripple_drawable"
         android:enabled="true"
         android:minHeight="@dimen/recent_search_item_height"
         android:text="@string/search"
@@ -121,11 +125,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:ellipsize="end"
+                    android:gravity="center_vertical"
                     android:maxLines="1"
                     android:text="@string/hotel_search_v2_toolbar_title"
                     android:textColor="#FFFFFF"
                     android:textSize="18sp"
-                    android:gravity="center_vertical"
                     app:textStyle="medium" />
 
                 <!-- The -16dip is to undo the padding included inside searchView. This is risky behavior, as if that view changes, then we're
