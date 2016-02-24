@@ -1,22 +1,27 @@
 package com.expedia.bookings.utils;
 
-import java.util.Collection;
-import java.util.Stack;
-
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.TranslateAnimation;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.widget.FrameLayout;
+
+import java.util.Collection;
+import java.util.Stack;
 
 public class AnimUtils {
 
@@ -159,5 +164,36 @@ public class AnimUtils {
 	public static void fadeIn(View v) {
 		Animation fadeIn = AnimationUtils.loadAnimation(v.getContext(), R.anim.fade_in);
 		v.startAnimation(fadeIn);
+	}
+
+	public static void progressForward(View v) {
+		Context context = v.getContext();
+		final int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
+		final int loadingImgWidth = context.getDrawable(R.drawable.packages_loading_pattern).getIntrinsicWidth();
+		int animatedViewWidth = 0;
+		while (animatedViewWidth < screenWidth) {
+			animatedViewWidth += loadingImgWidth;
+		}
+
+		FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) v.getLayoutParams();
+		layoutParams.width = animatedViewWidth + (loadingImgWidth * 3);
+		v.setLayoutParams(layoutParams);
+
+		Animation progressAnimation = new TranslateAnimation(-(loadingImgWidth * 2), 0, 0, 0);
+		progressAnimation.setInterpolator(new LinearInterpolator());
+		progressAnimation.setRepeatCount(Animation.INFINITE);
+		progressAnimation.setDuration(1000);
+		v.startAnimation(progressAnimation);
+	}
+
+	public static AnimatorSet getFadeInRotateAnim(View v) {
+		AnimatorSet set = new AnimatorSet();
+		set.playTogether(
+				ObjectAnimator.ofFloat(v, "rotation", -180f, 0f),
+				ObjectAnimator.ofFloat(v, "alpha", 0f, 1f)
+		);
+		set.setDuration(300);
+		set.setInterpolator(new DecelerateInterpolator());
+		return set;
 	}
 }

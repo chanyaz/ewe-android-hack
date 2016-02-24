@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
@@ -8,6 +9,7 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ImageButton
 import android.widget.Spinner
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -15,7 +17,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.vm.HotelTravelerPickerViewModel
 
-public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : ScrollView(context, attrs) {
+public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     val adultText: TextView by bindView(R.id.adult)
     val childText: TextView by bindView(R.id.children)
@@ -25,7 +27,9 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Sc
     val spinner2: Spinner by bindView(R.id.child_spinner_2)
     val spinner3: Spinner by bindView(R.id.child_spinner_3)
     val spinner4: Spinner by bindView(R.id.child_spinner_4)
-
+    val infantPreferenceSeatingView: LinearLayout by bindView(R.id.infant_preference_seating_layout)
+    val infantPreferenceSeatingSpinner: Spinner by bindView(R.id.infant_preference_seating)
+    val infantSeatPreferenceOptions = listOf(resources.getString(R.string.in_seat), resources.getString(R.string.in_lap))
     val childSpinners by lazy {
         listOf(spinner1, spinner2, spinner3, spinner4)
     }
@@ -45,7 +49,11 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Sc
 
         childPlus.subscribeOnClick(vm.incrementChildrenObserver)
         childMinus.subscribeOnClick(vm.decrementChildrenObserver)
-
+        if (vm.showSeatingPreference) {
+            vm.infantPreferenceSeatingObservable.subscribe { hasInfants ->
+                infantPreferenceSeatingView.visibility = if (hasInfants) View.VISIBLE else View.GONE
+            }
+        }
         vm.adultTextObservable.subscribeText(adultText)
         vm.childTextObservable.subscribeText(childText)
 
@@ -68,17 +76,34 @@ public class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : Sc
 
         for (i in childSpinners.indices) {
             val spinner = childSpinners[i]
-            spinner.setAdapter(ChildAgeSpinnerAdapter())
+            spinner.adapter = ChildAgeSpinnerAdapter()
             spinner.setSelection(DEFAULT_CHILD_AGE)
-            spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     vm.childAgeSelectedObserver.onNext(Pair(i, position))
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
                 }
-            })
+            }
         }
+
+        infantPreferenceSeatingSpinner.adapter = InfantSeatPreferenceAdapter(context, infantSeatPreferenceOptions)
+        infantPreferenceSeatingSpinner.setSelection(0)
+        infantPreferenceSeatingSpinner.background.setColorFilter(resources.getColor(R.color.itin_white_text), PorterDuff.Mode.SRC_ATOP);
+        infantPreferenceSeatingSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val selectedText = parent?.selectedView as android.widget.TextView
+                selectedText.text = resources.getString(R.string.infants_under_two_TEMPLATE, infantSeatPreferenceOptions[position])
+                selectedText.setTextColor(Color.WHITE)
+                //TODO with the selected infant's seat preference
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        }
+
 
         vm.travelerParamsObservable.subscribe { travelers ->
             if (travelers.children.size == 0) {

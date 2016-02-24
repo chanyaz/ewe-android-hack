@@ -4,10 +4,8 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.utils.Constants
 import org.joda.time.Days
 import org.joda.time.LocalDate
-import kotlin.collections.emptyList
-import kotlin.text.isNullOrEmpty
 
-public data class PackageSearchParams(val destination: SuggestionV4, val arrival: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>) {
+public data class PackageSearchParams(val origin: SuggestionV4, val destination: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>) {
 
     var searchProduct: String? = null
     var packagePIID: String? = null
@@ -23,20 +21,20 @@ public data class PackageSearchParams(val destination: SuggestionV4, val arrival
     var selectedLegId: String? = null
 
     class Builder(val maxStay: Int) {
+        private var origin: SuggestionV4? = null
         private var destination: SuggestionV4? = null
-        private var arrival: SuggestionV4? = null
         private var checkIn: LocalDate? = null
         private var checkOut: LocalDate? = null
         private var adults: Int = 1
         private var children: List<Int> = emptyList()
 
-        fun destination(destination: SuggestionV4?): PackageSearchParams.Builder {
-            this.destination = destination
+        fun origin(origin: SuggestionV4?): PackageSearchParams.Builder {
+            this.origin = origin
             return this
         }
 
-        fun arrival(arrival: SuggestionV4?): PackageSearchParams.Builder {
-            this.arrival = arrival
+        fun destination(destination: SuggestionV4?): PackageSearchParams.Builder {
+            this.destination = destination
             return this
         }
 
@@ -61,31 +59,31 @@ public data class PackageSearchParams(val destination: SuggestionV4, val arrival
         }
 
         fun build(): PackageSearchParams {
+            val flightOrigin = origin ?: throw IllegalArgumentException()
             val flightDestination = destination ?: throw IllegalArgumentException()
-            val flightArrival = arrival ?: throw IllegalArgumentException()
             val checkInDate = checkIn ?: throw IllegalArgumentException()
             val checkOutDate = checkOut ?: throw IllegalArgumentException()
-            return PackageSearchParams(flightDestination, flightArrival, checkInDate, checkOutDate, adults, children)
+            return PackageSearchParams(flightOrigin, flightDestination, checkInDate, checkOutDate, adults, children)
         }
 
         public fun areRequiredParamsFilled(): Boolean {
-            return hasOrigin() && hasStartAndEndDates()
+            return hasOriginAndDestination() && hasStartAndEndDates()
         }
 
         public fun hasStartAndEndDates(): Boolean {
             return checkIn != null && checkOut != null
         }
 
+        public fun hasOriginAndDestination(): Boolean {
+            return hasOrigin() && hasDestination()
+        }
+
         public fun hasOrigin(): Boolean {
-            return hasDestination() && hasArrival()
+            return origin != null
         }
 
         public fun hasDestination(): Boolean {
             return destination != null
-        }
-
-        public fun hasArrival(): Boolean {
-            return arrival != null
         }
 
         public fun hasValidDates(): Boolean {
@@ -95,5 +93,9 @@ public data class PackageSearchParams(val destination: SuggestionV4, val arrival
 
     public fun guests() : Int {
         return children.size + adults
+    }
+
+    public fun isOutboundSearch() : Boolean {
+        return flightType == null
     }
 }

@@ -72,7 +72,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.4'
     compile 'com.jakewharton:butterknife:6.1.0'
     compile 'com.leanplum:Leanplum:1.2.15'
-    compile 'io.reactivex:rxandroid:1.0.1'
+    compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     compile ('com.wefika:flowlayout:0.4.0') {
         exclude group: 'com.intellij'
@@ -191,8 +191,8 @@ android {
             applicationId "com.expedia.bookings"
 
             def major = 6
-            def minor = 7
-            def patch = 1
+            def minor = 8
+            def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
@@ -309,6 +309,10 @@ android {
     sourceSets {
         debug {
             assets.srcDirs = ['../lib/mocked/templates']
+        }
+
+        test {
+            java.srcDir '../lib/ExpediaBookings/src/test/java/com/expedia/bookings/data'
         }
     }
 

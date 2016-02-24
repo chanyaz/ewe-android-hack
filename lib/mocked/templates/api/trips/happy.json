@@ -11,12 +11,12 @@
       "description": "",
       "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/fb24d134-adbd-44f6-9904-48cfb33bbd50/updateTripNameDescription",
       "startTime": {
-        "epochSeconds": "${hotelCheckOutEpochSeconds}",
-        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+        "epochSeconds": "${hotelCheckInEpochSeconds}",
+        "timeZoneOffsetSeconds": "${hotelCheckInTzOffset}"
       },
       "endTime": {
         "epochSeconds": "${hotelCheckOutEpochSeconds}",
-        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+        "timeZoneOffsetSeconds": "${hotelCheckOutTzOffset}"
       },
       "bookingStatus": "BOOKED",
       "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/pIKlUOQoG9oOTMrSCQKbBQOvgzOArmMlOrDMFACXvO_6jYldmVbMU54aZwdZbn7e",
@@ -37,11 +37,11 @@
           "hotelId": "564858",
           "checkInDateTime": {
             "epochSeconds": "${hotelCheckInEpochSeconds}",
-            "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+            "timeZoneOffsetSeconds": "${hotelCheckInTzOffset}"
           },
           "checkOutDateTime": {
             "epochSeconds": "${hotelCheckOutEpochSeconds}",
-            "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+            "timeZoneOffsetSeconds": "${hotelCheckOutTzOffset}"
           },
           "numberOfNights": 2,
           "bookingStatus": "BOOKED",
@@ -226,17 +226,17 @@
       "description": "",
       "startTime": {
         "epochSeconds": "${outboundFlightDepartureEpochSeconds}",
-        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+        "timeZoneOffsetSeconds": "${outboundFlightDepartureTzOffset}"
       },
       "endTime": {
         "epochSeconds": "${inboundFlightArrivalEpochSeconds}",
-        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+        "timeZoneOffsetSeconds": "${inboundFlightArrivalTzOffset}"
       },
       "airAttachQualificationInfo": {
         "airAttachQualified": true,
         "offerExpires": {
           "epochSeconds": "${airAttachOfferExpiresEpochSeconds}",
-          "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+          "timeZoneOffsetSeconds": "${airAttachOfferExpiresTzOffset}"
         }
       },
       "bookingStatus": "BOOKED",
@@ -382,7 +382,7 @@
                   },
                   "departureTime": {
                     "epochSeconds": "${outboundFlightDepartureEpochSeconds}",
-                    "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+                    "timeZoneOffsetSeconds": "${outboundFlightDepartureTzOffset}"
                   },
                   "arrivalType": "FLIGHT_ARRIVAL",
                   "arrivalLocation": {
@@ -397,7 +397,7 @@
                   },
                   "arrivalTime": {
                     "epochSeconds": "${outboundFlightArrivalEpochSeconds}",
-                    "timeZoneOffsetSeconds": "${tzOffsetEastern}"
+                    "timeZoneOffsetSeconds": "${outboundFlightArrivalTzOffset}"
                   },
                   "airlineCode": "DL",
                   "externalAirlineCode": "DL",
@@ -446,7 +446,7 @@
                   },
                   "departureTime": {
                     "epochSeconds": "${inboundFlightDepartureEpochSeconds}",
-                    "timeZoneOffsetSeconds": "${tzOffsetEastern}"
+                    "timeZoneOffsetSeconds": "${inboundFlightDepartureTzOffset}"
                   },
                   "arrivalType": "FLIGHT_ARRIVAL",
                   "arrivalLocation": {
@@ -461,7 +461,7 @@
                   },
                   "arrivalTime": {
                     "epochSeconds": "${inboundFlightArrivalEpochSeconds}",
-                    "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+                    "timeZoneOffsetSeconds": "${inboundFlightArrivalTzOffset}"
                   },
                   "airlineCode": "DL",
                   "externalAirlineCode": "DL",
@@ -501,12 +501,12 @@
       "tripNumber": 7106609170947,
       "title": "Car rental in Detroit",
       "startTime": {
-        "epochSeconds": "${carStartEpochSeconds}",
-        "timeZoneOffsetSeconds": "${tzOffsetEastern}"
+        "epochSeconds": "${carPickupEpochSeconds}",
+        "timeZoneOffsetSeconds": "${carPickupTzOffset}"
       },
       "endTime": {
-        "epochSeconds": "${carEndEpochSeconds}",
-        "timeZoneOffsetSeconds": "${tzOffsetEastern}"
+        "epochSeconds": "${carDropoffEpochSeconds}",
+        "timeZoneOffsetSeconds": "${carDropoffTzOffset}"
       },
       "bookingStatus": "BOOKED",
       "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/9wODx0vGI3nZFtzlflGSniTguNtBrsomygGG1QO_oXrb99ZxgVH6kVO_T_F2S7Fg",
@@ -565,11 +565,11 @@
           ],
           "pickupTime": {
             "epochSeconds": "${carPickupEpochSeconds}",
-            "timeZoneOffsetSeconds": "${tzOffsetEastern}"
+            "timeZoneOffsetSeconds": "${carPickupTzOffset}"
           },
           "dropOffTime": {
             "epochSeconds": "${carDropoffEpochSeconds}",
-            "timeZoneOffsetSeconds": "${tzOffsetEastern}"
+            "timeZoneOffsetSeconds": "${carDropoffTzOffset}"
           },
           "pickupLocation": {
             "locationType": "AIRPORT_SHUTTLE_TO_CAR_AND_COUNTER",
@@ -618,11 +618,11 @@
       "title": "San Francisco, United States",
       "startTime": {
         "epochSeconds": "${lxStartEpochSeconds}",
-        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+        "timeZoneOffsetSeconds": "${lxStartTzOffset}"
       },
       "endTime": {
         "epochSeconds": "${lxEndEpochSeconds}",
-        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+        "timeZoneOffsetSeconds": "${lxEndTzOffset}"
       },
       "bookingStatus": "BOOKED",
       "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/gqIS1pvThIQGMeVGFK88ly_D0E56QTNnvV6IvUzoNv2nXHkC-Xx99-q-zBPCmUEQ",
@@ -646,11 +646,11 @@
           "supplierReferenceNumber": "1103690045523",
           "startTime": {
             "epochSeconds": "${lxStartEpochSeconds}",
-            "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+            "timeZoneOffsetSeconds": "${lxStartTzOffset}"
           },
           "endTime": {
             "epochSeconds": "${lxEndEpochSeconds}",
-            "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+            "timeZoneOffsetSeconds": "${lxEndTzOffset}"
           },
           "activityTitle": "Explorer Pass: Choose 4 Museums, Attractions, & Tours: Explorer Pass - Chose 4 Attractions & Tours",
           "travelers": [
@@ -701,11 +701,11 @@
       "updateTripNameDescPathURL": "https://wwwexpediacom.integration.sb.karmalab.net/api/trips/ff2c0a06-90da-4d9e-86cf-61f3767f66f0/updateTripNameDescription",
       "startTime": {
         "epochSeconds": "${pckgStartEpochSeconds}",
-        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+        "timeZoneOffsetSeconds": "${pckgStartTzOffset}"
       },
       "endTime": {
         "epochSeconds": "${pckgEndEpochSeconds}",
-        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+        "timeZoneOffsetSeconds": "${pckgEndTzOffset}"
       },
       "bookingStatus": "BOOKED",
       "sharableDetailsURL": "https://wwwexpediacom.integration.sb.karmalab.net/api/trips/shared/69Ew7MwI9lWWrTPTsRYx0K5y1J0N1EYtYafcTcVdKl5HbQIfG38_omKM-irN3rBr",
@@ -800,7 +800,7 @@
                       },
                       "departureTime": {
                         "epochSeconds": "${pckgOutboundFlightDepartureEpochSeconds}",
-                        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+                        "timeZoneOffsetSeconds": "${pckgOutboundFlightDepartureTzOffset}"
                       },
                       "arrivalType": "FLIGHT_ARRIVAL",
                       "arrivalLocation": {
@@ -815,7 +815,7 @@
                       },
                       "arrivalTime": {
                         "epochSeconds": "${pckgOutboundFlightArrivalEpochSeconds}",
-                        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+                        "timeZoneOffsetSeconds": "${pckgOutboundFlightArrivalTzOffset}"
                       },
                       "departureTerminal": "I",
                       "arrivalTerminal": "3",
@@ -866,7 +866,7 @@
                       },
                       "departureTime": {
                         "epochSeconds": "${pckgInboundFlightDepartureEpochSeconds}",
-                        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+                        "timeZoneOffsetSeconds": "${pckgInboundFlightDepartureTzOffset}"
                       },
                       "arrivalType": "FLIGHT_ARRIVAL",
                       "arrivalLocation": {
@@ -881,7 +881,7 @@
                       },
                       "arrivalTime": {
                         "epochSeconds": "${pckgInboundFlightArrivalEpochSeconds}",
-                        "timeZoneOffsetSeconds": "${tzOffsetPacific}"
+                        "timeZoneOffsetSeconds": "${pckgInboundFlightArrivalTzOffset}"
                       },
                       "departureTerminal": "3",
                       "arrivalTerminal": "I",
@@ -929,11 +929,11 @@
               "hotelId": "41245",
               "checkInDateTime": {
                 "epochSeconds": "${pckgHotelCheckInEpochSeconds}",
-                "timeZoneOffsetSeconds": "{tzOffsetPacific}"
+                "timeZoneOffsetSeconds": "{pckgHotelCheckInTzOffset}"
               },
               "checkOutDateTime": {
                 "epochSeconds": "${pckgHotelCheckOutEpochSeconds}",
-                "timeZoneOffsetSeconds": "{tzOffsetPacific}"
+                "timeZoneOffsetSeconds": "{pckgHotelCheckOutTzOffset}"
               },
               "numberOfNights": 5,
               "bookingStatus": "BOOKED",

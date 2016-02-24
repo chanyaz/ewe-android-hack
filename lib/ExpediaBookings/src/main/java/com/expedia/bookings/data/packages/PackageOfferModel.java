@@ -7,6 +7,7 @@ public class PackageOfferModel {
 	public String hotel;
 	public String flight;
 	public PackagePrice price;
+	public UrgencyMessage urgencyMessage;
 
 	public static class PackagePrice {
 		public Money packageTotalPrice;
@@ -26,5 +27,12 @@ public class PackageOfferModel {
 		public String differentialPriceFormatted;
 		public int percentageSavings;
 		public boolean deltaPositive;
+	}
+
+	public static class UrgencyMessage {
+		public int roomsLeft;
+		public int ticketsLeft;
+		public boolean showRoomsUrgency;
+		public boolean showFlightUrgency;
 	}
 }

@@ -6,7 +6,7 @@ public class PaymentSplits(
 ) {
     fun paymentSplitsType(): PaymentSplitsType {
         when {
-            this.payingWithCards.amount.isZero -> return PaymentSplitsType.IS_FULL_PAYABLE_WITH_EXPEDIA_POINT
+            this.payingWithCards.amount.isZero -> return PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT
             this.payingWithPoints.amount.isZero -> return PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD
             else -> return PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD
         }
@@ -14,7 +14,7 @@ public class PaymentSplits(
 }
 
 public enum class PaymentSplitsType {
-    IS_FULL_PAYABLE_WITH_EXPEDIA_POINT,
+    IS_FULL_PAYABLE_WITH_POINT,
     IS_FULL_PAYABLE_WITH_CARD,
     IS_PARTIAL_PAYABLE_WITH_CARD
 }

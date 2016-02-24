@@ -28,12 +28,12 @@ import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeChecked
 import com.expedia.util.subscribeEnabled
-import com.expedia.util.subscribeOnCheckChanged
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
@@ -98,7 +98,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
         vm.soldOutButtonLabelObservable.subscribeToggleButton(viewRoom)
 
         expandedAmenity.visibility = View.GONE
-        viewRoom.subscribeOnCheckChanged(vm.expandCollapseRoomRate)
+        viewRoom.subscribeOnClick(vm.expandCollapseRoomRate)
         row.setOnClickListener {
             vm.expandCollapseRoomRate.onNext(!viewRoom.isChecked)
         }
@@ -274,7 +274,7 @@ public class HotelRoomRateView(context: Context, var scrollAncestor: ScrollView,
             }
             collapsedContainer.setBackgroundColor(Color.WHITE)
             dailyPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17f)
-            dailyPricePerNight.setTextColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
+            dailyPricePerNight.setTextColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
             perNight.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12f)
             perNight.setTextColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
 

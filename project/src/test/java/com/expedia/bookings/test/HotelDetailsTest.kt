@@ -43,6 +43,7 @@ public class HotelDetailsTest {
     @Before
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.V2_Theme_Hotels)
         hotelDetailView = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_details_widget, null) as HotelDetailView
         vm = HotelDetailViewModel(activity.applicationContext, service.services, endlessObserver { /*ignore*/ })
         hotelDetailView.viewmodel = vm
@@ -467,7 +468,7 @@ public class HotelDetailsTest {
 
         Assert.assertEquals(View.VISIBLE, hotelDetailView.changeDatesButton.getVisibility())
         Assert.assertEquals(View.VISIBLE, hotelDetailView.detailsSoldOut.getVisibility())
-        Assert.assertEquals(activity.getResources().getColor(android.R.color.white), hotelDetailView.toolBarRating.getStarColor())
+        Assert.assertEquals(activity.getResources().getColor(android.R.color.white), hotelDetailView.hotelDetailsToolbar.toolBarRating.getStarColor())
         Assert.assertEquals(View.GONE, hotelDetailView.selectRoomButton.getVisibility())
         Assert.assertEquals(View.GONE, hotelDetailView.roomContainer.getVisibility())
         Assert.assertEquals(View.GONE, hotelDetailView.price.getVisibility())
@@ -483,7 +484,7 @@ public class HotelDetailsTest {
     private fun testDefaultDetailView() {
         Assert.assertEquals(View.GONE, hotelDetailView.changeDatesButton.getVisibility())
         Assert.assertEquals(View.GONE, hotelDetailView.detailsSoldOut.getVisibility())
-        Assert.assertEquals(activity.getResources().getColor(R.color.hotelsv2_detail_star_color), hotelDetailView.toolBarRating.getStarColor())
+        Assert.assertEquals(activity.getResources().getColor(R.color.hotelsv2_detail_star_color), hotelDetailView.hotelDetailsToolbar.toolBarRating.getStarColor())
         Assert.assertEquals(View.VISIBLE, hotelDetailView.selectRoomButton.getVisibility())
         Assert.assertEquals(View.VISIBLE, hotelDetailView.roomContainer.getVisibility())
         Assert.assertEquals(View.VISIBLE, hotelDetailView.price.getVisibility())

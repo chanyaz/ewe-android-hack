@@ -36,7 +36,7 @@ public class LaunchScreen {
 	}
 
 	public static ViewInteraction tripsButton() {
-		return onView(withText(R.string.Your_Trips));
+		return onView(withText(R.string.trips));
 	}
 
 	public static ViewInteraction shopButton() {

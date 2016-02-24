@@ -35,13 +35,13 @@ public class HotelCreateTripViewModelTests {
     fun setup() {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         testSubscriber = TestSubscriber<HotelCreateTripResponse>()
-        sut = HotelCreateTripViewModel(mockHotelServicesTestRule.service, paymentModel)
+        sut = HotelCreateTripViewModel(mockHotelServicesTestRule.services!!, paymentModel)
     }
 
     @Test
     fun hotelServicesCreateTripIsCalled() {
         givenGoodCreateTripParams()
-        sut = TestHotelCreateTripViewModel(testSubscriber, mockHotelServicesTestRule.service, paymentModel)
+        sut = TestHotelCreateTripViewModel(testSubscriber, mockHotelServicesTestRule.services!!, paymentModel)
 
         sut.tripParams.onNext(hotelCreateTripParams)
         testSubscriber.awaitTerminalEvent()

@@ -5,6 +5,7 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -87,6 +88,11 @@ public class DeepLinkRouterActivity extends Activity {
 		// Handle incoming intents
 		Intent intent = getIntent();
 		Uri data = intent.getData();
+		if (data == null || data.getHost() == null) {
+			// bad data
+			finish();
+			return;
+		}
 		String host = data.getHost();
 		String dataString = data.toString();
 
@@ -108,7 +114,7 @@ public class DeepLinkRouterActivity extends Activity {
 		 * iOS prepends the sharableLink this way "expda://addSharedItinerary?url=<actual_sharable_link_here>"
 		 * We intercept this uri too, extract the link and then send to fetch the itin.
 		 */
-		if (host.equals("addSharedItinerary") && dataString.contains("m/trips/shared")) {
+		if (host.equalsIgnoreCase("addSharedItinerary") && dataString.contains("m/trips/shared")) {
 			goFetchSharedItin(data.getQueryParameter("url"));
 			finish();
 			return;
@@ -140,36 +146,37 @@ public class DeepLinkRouterActivity extends Activity {
 		}
 
 		boolean finish;
-		switch (host) {
+		String hostLowerCase = host.toLowerCase(Locale.US); // deliberately using US here, as the host will always be formatted in US ASCII
+		switch (hostLowerCase) {
 		case "home":
 			Log.i(TAG, "Launching home screen from deep link!");
 			NavUtils.goToLaunchScreen(this, true);
 			finish = true;
 			break;
-		case "showTrips":
+		case "showtrips":
 		case "trips":
 			Log.i(TAG, "Launching itineraries from deep link!");
 			NavUtils.goToItin(this);
 			finish = true;
 			break;
-		case "hotelSearch":
+		case "hotelsearch":
 			finish = handleHotelSearch(data, queryData);
 			break;
-		case "flightSearch":
+		case "flightsearch":
 			handleFlightSearch(data, queryData);
 			finish = true;
 			break;
-		case "activitySearch":
+		case "activitysearch":
 			handleActivitySearch(data, queryData);
 			finish = true;
 			break;
-		case "carSearch":
+		case "carsearch":
 			handleCarsSearch(data, queryData);
 			finish = true;
 			break;
 		case "destination":
 			Log.i(TAG, "Launching destination search from deep link!");
-			handleDestination(data, queryData);
+			handleDestination(data);
 			finish = true;
 			break;
 		default:
@@ -282,9 +289,10 @@ public class DeepLinkRouterActivity extends Activity {
 	 * This will search for hotel suggestions based on the location text, and launch the first suggestion
 	 * expda://hotelSearch/?checkInDate=2015-01-01&checkOutDate=2015-01-02&numAdults=2&childAges=5,6,7&location=San+Diego
 	 *
-	 * @param data
-	 * @param queryData
-	 * @return
+	 * @param data the deep link
+	 * @param queryData a set of query parameter names included in the deep link
+	 * @return true if all processing is complete and the activity can finish, false if there is more processing to
+	 *         be done so the activity should not be allowed to finish yet
 	 */
 	private boolean handleHotelSearch(Uri data, Set<String> queryData) {
 		LocalDate startDate = null;
@@ -548,9 +556,8 @@ public class DeepLinkRouterActivity extends Activity {
 	 * Example:
 	 * expda://flightSearch/?origin=LAX&destination=SFO&departureDate=2015-01-01&returnDate=2015-01-02&numAdults=2
 	 *
-	 * @param data
-	 * @param queryData
-	 * @return
+	 * @param data the deep link
+	 * @param queryData a set of query parameter names included in the deep link
 	 */
 	private void handleFlightSearch(Uri data, Set<String> queryData) {
 		String originAirportCode = null;
@@ -558,7 +565,6 @@ public class DeepLinkRouterActivity extends Activity {
 		LocalDate startDate = null;
 		LocalDate endDate = null;
 		int numAdults = 0;
-		List<ChildTraveler> children = null;
 
 		if (queryData.contains("origin")) {
 			originAirportCode = data.getQueryParameter("origin");
@@ -676,7 +682,7 @@ public class DeepLinkRouterActivity extends Activity {
 		}
 	}
 
-	private void handleDestination(Uri data, Set<String> queryData) {
+	private void handleDestination(Uri data) {
 		try {
 			if (ExpediaBookingApp.useTabletInterface(this)) {
 				SuggestionV2 destination = new SuggestionV2();
@@ -855,7 +861,7 @@ public class DeepLinkRouterActivity extends Activity {
 			}
 
 			if (children.size() > 0) {
-				Log.d(TAG, "Setting children ages: " + Arrays.toString(children.toArray(new ChildTraveler[0])));
+				Log.d(TAG, "Setting children ages: " + Arrays.toString(children.toArray(new ChildTraveler[children.size()])));
 				return children;
 			}
 		}

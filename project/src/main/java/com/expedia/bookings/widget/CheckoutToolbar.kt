@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.MenuItem
 import com.expedia.bookings.R
 import com.expedia.bookings.interfaces.ToolbarListener
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.CheckoutToolbarViewModel
 import kotlin.properties.Delegates
@@ -66,4 +67,7 @@ public class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(co
         viewModel.enableMenu.onNext(enabled)
     }
 
+    override fun setNavArrowBarParameter(arrowDrawableType: ArrowXDrawableUtil.ArrowDrawableType?) {
+
+    }
 }

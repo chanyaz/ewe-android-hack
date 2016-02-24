@@ -22,6 +22,7 @@ import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.test.robolectric.AddToCalendarUtilsTests;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.vm.HotelConfirmationViewModel;
 import com.google.gson.Gson;
 
@@ -46,6 +47,7 @@ public class HotelConfirmationViewModelTest {
 
 	@Before
 	public void before() {
+		Ui.getApplication(getContext()).defaultHotelComponents();
 		Observable<HotelCheckoutResponse> checkoutResponseObservable = BehaviorSubject.create();
 		vm = new HotelConfirmationViewModel(checkoutResponseObservable, getContext());
 		shadowApplication = Shadows.shadowOf(getContext()).getShadowApplication();

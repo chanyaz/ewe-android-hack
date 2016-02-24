@@ -49,18 +49,22 @@ public class HotelActivity : AbstractAppCompatActivity() {
             OmnitureTracking.trackHotelsABTest()
         }
 
-        if (getIntent().hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
-            val hotelSearchParams = HotelsV2DataUtil.getHotelV2SearchParamsFromJSON(getIntent().getStringExtra(EXTRA_HOTEL_SEARCH_PARAMS))
-            HotelDeepLinkHandler(this,
-                    deepLinkSearchObserver,
-                    suggestionLookupObserver,
-                    currentLocationSearchObserver,
-                    hotelPresenter.defaultTransitionObserver,
-                    hotelPresenter.searchPresenter.searchViewModel.suggestionObserver)
-                .handleNavigationViaDeepLink(hotelSearchParams)
+        if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
+            handleDeeplink(intent)
         } else {
             hotelPresenter.defaultTransitionObserver.onNext(Screen.SEARCH)
         }
+    }
+
+    private fun handleDeeplink(intent: Intent) {
+        val hotelSearchParams = HotelsV2DataUtil.getHotelV2SearchParamsFromJSON(intent.getStringExtra(EXTRA_HOTEL_SEARCH_PARAMS))
+        HotelDeepLinkHandler(this,
+                deepLinkSearchObserver,
+                suggestionLookupObserver,
+                currentLocationSearchObserver,
+                hotelPresenter.defaultTransitionObserver,
+                hotelPresenter.searchPresenter.searchViewModel.suggestionObserver)
+                .handleNavigationViaDeepLink(hotelSearchParams)
     }
 
     override fun onBackPressed() {
@@ -77,6 +81,13 @@ public class HotelActivity : AbstractAppCompatActivity() {
         if (isFinishing()) {
             clearCCNumber()
             clearStoredCard()
+        }
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
+            handleDeeplink(intent)
         }
     }
 
@@ -117,19 +128,7 @@ public class HotelActivity : AbstractAppCompatActivity() {
     }
 
     private val deepLinkSearchObserver = endlessObserver<HotelSearchParams?> { hotelSearchParams ->
-        setUpDeepLinkSearch(hotelSearchParams, true)
-    }
-
-    private fun setUpDeepLinkSearch(hotelSearchParams: HotelSearchParams?, shouldExecuteSearch: Boolean) {
-        hotelPresenter.searchPresenter.searchViewModel.enableDateObserver.onNext(Unit)
-        hotelPresenter.searchPresenter.traveler.viewmodel.travelerParamsObservable.onNext(HotelTravelerParams(hotelSearchParams?.adults ?: 1, hotelSearchParams?.children ?: emptyList()))
-        val dates = Pair (hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
-        hotelPresenter.searchPresenter.searchViewModel.datesObserver.onNext(dates)
-        hotelPresenter.searchPresenter.selectTraveler.isChecked = true
-        hotelPresenter.searchPresenter.calendar.setSelectedDates(hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
-        if (shouldExecuteSearch) {
-            hotelPresenter.searchObserver.onNext(hotelSearchParams)
-        }
+        setupDeepLinkSearch(hotelSearchParams, true)
     }
 
     private val suggestionLookupObserver = endlessObserver<Pair<String, Observer<List<SuggestionV4>>>> { params ->
@@ -149,7 +148,19 @@ public class HotelActivity : AbstractAppCompatActivity() {
         hotelPresenter.defaultTransitionObserver.onNext(Screen.RESULTS)
         hotelPresenter.searchPresenter.searchViewModel.suggestionObserver.onNext(hotelSearchParams?.suggestion)
         hotelPresenter.searchObserver.onNext(hotelSearchParams)
-        setUpDeepLinkSearch(hotelSearchParams, false)
+        setupDeepLinkSearch(hotelSearchParams, false)
+    }
+
+    private fun setupDeepLinkSearch(hotelSearchParams: HotelSearchParams?, shouldExecuteSearch: Boolean) {
+        hotelPresenter.searchPresenter.searchViewModel.enableDateObserver.onNext(Unit)
+        hotelPresenter.searchPresenter.traveler.viewmodel.travelerParamsObservable.onNext(HotelTravelerParams(hotelSearchParams?.adults ?: 1, hotelSearchParams?.children ?: emptyList()))
+        val dates = Pair (hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
+        hotelPresenter.searchPresenter.searchViewModel.datesObserver.onNext(dates)
+        hotelPresenter.searchPresenter.selectTraveler.isChecked = true
+        hotelPresenter.searchPresenter.calendar.setSelectedDates(hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
+        if (shouldExecuteSearch) {
+            hotelPresenter.searchObserver.onNext(hotelSearchParams)
+        }
     }
 
     // Showing different presenter based on deeplink

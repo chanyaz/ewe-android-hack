@@ -15,7 +15,7 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.5.0'
     compile 'com.squareup.okio:okio:1.6.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile 'io.reactivex:rxjava:1.0.14'
+    compile 'io.reactivex:rxjava:1.1.0'
     compile 'org.json:json:20140107'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
     compile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"

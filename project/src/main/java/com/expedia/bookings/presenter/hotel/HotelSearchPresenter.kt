@@ -60,7 +60,6 @@ import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
 import java.text.SimpleDateFormat
 import java.util.Locale
-import kotlin.text.toUpperCase
 
 public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val searchLocationTextView: TextView by bindView(R.id.hotel_location)
@@ -217,19 +216,18 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
         }
 
         vm.calendarTooltipTextObservable.subscribe(endlessObserver { p ->
+            val showCalendarTooltip = (this.visibility == View.VISIBLE)
             val (top, bottom) = p
-            calendar.setToolTipText(top, bottom, true)
+            calendar.setToolTipText(top, bottom, true, showCalendarTooltip)
         })
 
-        if (vm.externalSearchParamsObservable.getValue()) {
-            postDelayed(object : Runnable {
-                override fun run() {
-                    if (ExpediaBookingApp.isAutomation()) {
-                        return
-                    }
-                    searchLocationEditText.requestFocus()
-                    com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
+        if (vm.externalSearchParamsObservable.value) {
+            postDelayed(Runnable {
+                if (ExpediaBookingApp.isAutomation()) {
+                    return@Runnable
                 }
+                searchLocationEditText.requestFocus()
+                com.mobiata.android.util.Ui.showKeyboard(searchLocationEditText, null)
             }, 300)
         }
 
@@ -355,7 +353,7 @@ public class HotelSearchPresenter(context: Context, attrs: AttributeSet) : Prese
     init {
         View.inflate(context, R.layout.widget_hotel_search_params, this)
         HotelV2Tracking().trackHotelV2SearchBox()
-        traveler.viewmodel = HotelTravelerPickerViewModel(getContext())
+        traveler.viewmodel = HotelTravelerPickerViewModel(getContext(), false)
         recentSearches.recentSearchesAdapterViewModel = RecentSearchesAdapterViewModel(getContext())
         recentSearches.recentSearchesAdapterViewModel.recentSearchesObservable.subscribe { searchList ->
             if(searchList.isEmpty()) {

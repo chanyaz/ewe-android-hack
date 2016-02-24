@@ -28,6 +28,7 @@ import com.expedia.bookings.section.HotelReceiptExtraSection;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
 
 /**
@@ -164,7 +165,11 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 	}
 
 	private void addDueToBrandRow(Rate rate, boolean showDepositAmount) {
-		String formattedMoney = showDepositAmount ? rate.getDepositAmount().getFormattedMoney() : rate.getTotalAmountAfterTax().getFormattedMoney();
+		boolean isTabletPayLater = AndroidUtils.isTablet(this.getContext()) && rate.isPayLater();
+		String formattedMoney =
+			isTabletPayLater ? new Money(0, rate.getTotalAmountAfterTax().getCurrency()).getFormattedMoney()
+				: (showDepositAmount ? rate.getDepositAmount().getFormattedMoney()
+					: rate.getTotalAmountAfterTax().getFormattedMoney());
 		String totalDueToOurBrandToday;
 		if (showDepositAmount) {
 			totalDueToOurBrandToday = Phrase.from(getActivity(), R.string.due_to_brand_today_today_TEMPLATE)

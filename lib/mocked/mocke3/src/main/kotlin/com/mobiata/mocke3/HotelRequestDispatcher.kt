@@ -1,9 +1,12 @@
 package com.mobiata.mocke3
 
+import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
+import com.google.gson.GsonBuilder
 import com.squareup.okhttp.mockwebserver.MockResponse
 import com.squareup.okhttp.mockwebserver.RecordedRequest
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
+import java.util.LinkedHashMap
 import java.util.regex.Pattern
 
 public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
@@ -13,7 +16,11 @@ public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
     override fun dispatch(request: RecordedRequest): MockResponse {
 
         val urlPath = request.path
-        val params = parseRequest(request)
+        var params: MutableMap<String, String> = LinkedHashMap()
+
+        // Hotel checkout V2 uses JSON POST body which other requests do not.
+        if (!HotelRequestMatcher.isHotelCheckoutV2Request(urlPath))
+            params = parseRequest(request)
 
         if (!HotelRequestMatcher.isHotelRequest(urlPath) && !HotelRequestMatcher.isCouponRequest(urlPath)) {
             throwUnsupportedRequestException(urlPath)
@@ -51,12 +58,36 @@ public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher
                 return getMockResponse("m/api/hotel/trip/create/$fileName.json", params)
             }
 
-            HotelRequestMatcher.isCouponCall(urlPath) -> getMockResponse("api/m/trip/coupon/" + params.get("coupon.code") + ".json", params)
+            HotelRequestMatcher.isCouponApplyCall(urlPath) -> getMockResponse("api/m/trip/coupon/" + params.get("coupon.code") + ".json", params)
+
+            HotelRequestMatcher.isCouponRemoveCall(urlPath) -> getMockResponse("api/m/trip/remove/coupon/" + params.get("tripId") + ".json", params)
 
             HotelRequestMatcher.isHotelCheckoutRequest(urlPath) -> {
                 val tripId = params.get("tripId") ?: throw RuntimeException("tripId required")
                 val expectedTotalFare = params.get("expectedTotalFare") ?: throw RuntimeException("expectedTotalFare required")
                 val tealeafTransactionId = params.get("tealeafTransactionId") ?: throw RuntimeException("tealeafTransactionId required")
+
+                if ("tealeafHotel:" + tripId != tealeafTransactionId) {
+                    throw RuntimeException("tripId must match tealeafTransactionId got: $tealeafTransactionId")
+                }
+
+                if (!HotelRequestMatcher.isExpectedFareFormatDecimal(expectedTotalFare)) {
+                    throw RuntimeException("expectedTotalFare must be in decimal format")
+                }
+
+                val isHotelCouponError = HotelRequestMatcher.doesItMatch("^hotel_coupon_errors$", tripId)
+                val fileName = if (!isHotelCouponError) tripId else "hotel_coupon_errors"
+
+                return getMockResponse("m/api/hotel/trip/checkout/$fileName.json", params)
+            }
+
+
+            HotelRequestMatcher.isHotelCheckoutV2Request(urlPath) -> {
+                val gson = GsonBuilder().create()
+                val checkoutParams = gson.fromJson(request.body.readUtf8(), HotelCheckoutV2Params::class.java)
+                val tripId = checkoutParams.tripDetails.tripId
+                val expectedTotalFare = checkoutParams.tripDetails.expectedTotalFare
+                val tealeafTransactionId = checkoutParams.misc.teaLeafTransactionId
 
                 if ("tealeafHotel:" + tripId != tealeafTransactionId) {
                     throw RuntimeException("tripId must match tealeafTransactionId got: $tealeafTransactionId")
@@ -91,8 +122,16 @@ class HotelRequestMatcher() {
             return doesItMatch("^/m/api/hotel/trip/checkout.*$", urlPath)
         }
 
-        fun isCouponCall(urlPath: String): Boolean {
+        fun isHotelCheckoutV2Request(urlPath: String): Boolean {
+            return doesItMatch("^/m/api/hotel/trip/V2/checkout.*$", urlPath)
+        }
+
+        fun isCouponApplyCall(urlPath: String): Boolean {
             return doesItMatch("^/api/m/trip/coupon.*$", urlPath)
+        }
+
+        fun isCouponRemoveCall(urlPath: String): Boolean {
+            return doesItMatch("^/api/m/trip/remove/coupon.*$", urlPath)
         }
 
         fun isHotelCreateTripRequest(urlPath: String): Boolean {
@@ -112,7 +151,7 @@ class HotelRequestMatcher() {
         }
 
         fun isCouponRequest(urlPath: String): Boolean {
-            return doesItMatch("^/api/m/trip/coupon.*$", urlPath)
+            return isCouponApplyCall(urlPath) || isCouponRemoveCall(urlPath)
         }
 
         fun isHotelRequest(urlPath: String): Boolean {

@@ -7,7 +7,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Html;
+import android.text.SpannableStringBuilder;
 import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -32,6 +34,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.CheckoutFormState;
 import com.expedia.bookings.enums.CheckoutState;
@@ -121,6 +124,8 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private TextView mResortFeeText;
 	private TextView mCardFeeLegalText;
 	private TextView mDepositPolicyTxt;
+	private View mSplitTicketRulesView;
+	private TextView mSplitTicketFeeLinks;
 
 	private TripBucketHorizontalHotelFragment mHorizontalHotelFrag;
 	private TripBucketHorizontalFlightFragment mHorizontalFlightFrag;
@@ -135,6 +140,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	private SingleStateListener<CheckoutFormState> mTravelerOpenCloseListener;
 
 	private StateManager<CheckoutFormState> mStateManager = new StateManager<>(CheckoutFormState.OVERVIEW, this);
+	private boolean isSplitTicketingEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightSplitTicketing);
 
 	public static TabletCheckoutFormsFragment newInstance() {
 		return new TabletCheckoutFormsFragment();
@@ -497,6 +503,23 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			add(couponFrame);
 		}
 
+		if (getLob() == LineOfBusiness.FLIGHTS && PointOfSale.getPointOfSale(getContext()).doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
+			if (mCardFeeLegalText == null) {
+				mCardFeeLegalText = Ui.inflate(R.layout.include_tablet_card_fee_tv, mCheckoutRowsC, false);
+			}
+			add(mCardFeeLegalText);
+			setupCardFeeTextView();
+		}
+
+		if (getLob() == LineOfBusiness.FLIGHTS && isSplitTicketingEnabled) {
+			if (mSplitTicketRulesView == null) {
+				mSplitTicketRulesView = Ui.inflate(R.layout.include_split_ticket_fee_rules_tv, mCheckoutRowsC, false);
+				mSplitTicketFeeLinks = (TextView) mSplitTicketRulesView.findViewById(R.id.split_ticket_fee_rules_text);
+			}
+			add(mSplitTicketRulesView);
+			updateSplitTicketRulesText();
+		}
+
 		// LEGAL BLURB
 		TextView legalBlurb = (TextView) addActionable(com.expedia.bookings.R.layout.include_tablet_legal_blurb_tv,
 			new Runnable() {
@@ -531,14 +554,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			}
 			add(mResortFeeText);
 			updateResortFeeText();
-		}
-
-		if (getLob() == LineOfBusiness.FLIGHTS && PointOfSale.getPointOfSale(getContext()).doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
-			if (mCardFeeLegalText == null) {
-				mCardFeeLegalText = Ui.inflate(R.layout.include_tablet_card_fee_tv, mCheckoutRowsC, false);
-			}
-			add(mCardFeeLegalText);
-			setupCardFeeTextView();
 		}
 
 		//SET UP THE FORM FRAGMENTS
@@ -613,13 +628,33 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				@Override
 				public void onClick(View v) {
 					WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getActivity());
-					builder.setUrl(PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL());
+					builder.setUrl(
+						PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL());
 					builder.setTheme(R.style.FlightTheme);
 					builder.setTitle(R.string.Airline_fee);
 					builder.setInjectExpediaCookies(true);
 					startActivity(builder.getIntent());
 				}
 			});
+		}
+	}
+
+	private void updateSplitTicketRulesText() {
+		if (mSplitTicketRulesView != null && Db.getTripBucket().getFlight().getItineraryResponse() != null &&
+				Db.getTripBucket().getFlight().getItineraryResponse().isSplitTicket() && isSplitTicketingEnabled) {
+			mSplitTicketRulesView.setVisibility(View.VISIBLE);
+			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+			String baggageFeesUrlLegOne = flightTrip.getLeg(0).getBaggageFeesUrl();
+			String baggageFeesUrlLegTwo = flightTrip.getLeg(1).getBaggageFeesUrl();
+
+			String baggageFeesTextWithLinks =
+				getString(R.string.split_ticket_baggage_fees_tablet, baggageFeesUrlLegOne, baggageFeesUrlLegTwo);
+			int color = com.expedia.bookings.utils.Ui.obtainThemeColor(getContext(),
+				R.attr.skin_tablet_legal_blurb_text_color);
+			SpannableStringBuilder spannableStringBuilder =
+				StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, color, true);
+			mSplitTicketFeeLinks.setText(spannableStringBuilder);
+			mSplitTicketFeeLinks.setMovementMethod(LinkMovementMethod.getInstance());
 		}
 	}
 
@@ -1067,5 +1102,6 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 		updateResortFeeText();
 		updateDepositPolicyText();
+		updateSplitTicketRulesText();
 	}
 }

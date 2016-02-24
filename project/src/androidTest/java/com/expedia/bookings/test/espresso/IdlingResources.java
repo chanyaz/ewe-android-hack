@@ -28,13 +28,6 @@ public class IdlingResources {
 	}
 
 	public static class LxIdlingResource extends Resource {
-		private boolean isEditSearchWindowPresent = false;
-
-		public boolean isInSearchEditMode() {
-			Common.delay(1);
-			return isEditSearchWindowPresent;
-		}
-
 		public LxIdlingResource() {
 			super(LxIdlingResource.class.getSimpleName());
 		}
@@ -52,15 +45,11 @@ public class IdlingResources {
 		}
 
 		@Subscribe
-		public void on(Events.LXShowSearchError event) {
-			Log.v("LxIdlingResource - Events.LXShowSearchError");
-			//LXNewSearchParamsAvailable can be terminated with LXSearchResultsAvailable or LXShowSearchError
-			//Though LXShowSearchError can be broadcast without LXNewSearchParamsAvailable
-			//This takes care of both the scenarios for our purposes
+		public void on(Events.LXShowSearchWidget event) {
+			Log.d("LxIdlingResource - Events.LXShowSearchWidget");
 			if (!resource.isIdleNow()) {
 				resource.decrement();
 			}
-			isEditSearchWindowPresent = true;
 		}
 	}
 

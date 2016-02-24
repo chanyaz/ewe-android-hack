@@ -77,6 +77,7 @@ import com.expedia.bookings.data.TravelerCommitResponse;
 import com.expedia.bookings.data.TripBucketItemFlight;
 import com.expedia.bookings.data.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripDetailsResponse;
@@ -348,13 +349,15 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public SuggestionResponse suggestionResolution(String regionId) {
-		String urlBase = getSuggestUrl(1, SuggestType.RID);
-		urlBase += "/";
-		urlBase += regionId;
+		String urlBase = getSuggestUrl(4, SuggestType.RID);
 		String url = NetUtils.formatUrl(urlBase);
 
-		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+		List<BasicNameValuePair> params = new ArrayList<>();
 		addCommonParams(params);
+
+		params.add(new BasicNameValuePair("gaiaid", regionId));
+		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
+		params.add(new BasicNameValuePair("client", ServicesUtil.generateClientId(mContext)));
 
 		return doSuggestionRequest(url, params);
 	}
@@ -405,7 +408,7 @@ public class ExpediaServices implements DownloadListener {
 			sb.append("hid/");
 			break;
 		case RID:
-			sb.append("rid/");
+			sb.append("list/region/");
 			break;
 		}
 
@@ -709,6 +712,13 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("pageIndex", "0"));
 		query.add(new BasicNameValuePair("filterUnavailable", "true"));
 		query.add(new BasicNameValuePair("enableSponsoredListings", "true"));
+
+		boolean isV2HotelApiSearchEnabled =
+			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchDomainV2);
+		if (isV2HotelApiSearchEnabled) {
+			query.add(new BasicNameValuePair("forceV2Search", "true"));
+		}
+
 		return query;
 	}
 
@@ -998,14 +1008,29 @@ public class ExpediaServices implements DownloadListener {
 	public SignInResponse signIn(int flags) {
 		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
 
+		addSignInParams(query, flags);
+		return doE3Request("api/user/sign-in", query, new SignInResponseHandler());
+	}
+
+	public SignInResponse signInWithEmailForAutomationTests(int flags, String email) {
+		if (!ExpediaBookingApp.isAutomation()) {
+			throw new RuntimeException("signInWithEmailForAutomationTests can be called only from automation builds");
+		}
+		List<BasicNameValuePair> query = new ArrayList<BasicNameValuePair>();
+
+		addSignInParams(query, flags);
+		query.add(new BasicNameValuePair("email", email));
+
+		return doE3Request("api/user/sign-in", query, new SignInResponseHandler());
+	}
+
+	private void addSignInParams(List<BasicNameValuePair> query, int flags) {
 		addCommonParams(query);
 
 		query.add(new BasicNameValuePair("profileOnly", "true"));
 		query.add(new BasicNameValuePair("includeFullPaymentProfile", "true"));
 
 		addProfileTypes(query, flags);
-
-		return doE3Request("api/user/sign-in", query, new SignInResponseHandler());
 	}
 
 	public AssociateUserToTripResponse associateUserToTrip(String tripId, int flags) {

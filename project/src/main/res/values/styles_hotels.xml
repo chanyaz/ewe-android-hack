@@ -38,6 +38,14 @@
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
         <item name="paymentWidgetLayout">@layout/payment_widget_v2</item>
         <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_hotel</item>
+        <item name="sliderText">@string/hotelsv2_slide_reserve</item>
+        <item name="hotel_promo_background_colors">@color/hotel_promo_background</item>
+        <item name="hotel_toggle_text_drawable">@drawable/hotel_toggle_text</item>
+        <item name="hotel_toggle_background_selector_drawable">@drawable/hotel_toggle_background_selector</item>
+        <item name="vip_info_select_ripple_drawable">@drawable/vip_info_select_ripple</item>
+        <item name="hotel_select_room_ripple_drawable">@drawable/hotel_select_room_ripple</item>
+        <item name="hotel_map_tooltip_pressed_drawable">@drawable/hotel_tooltip_blue</item>
+        <item name="hotel_map_tooltip_drawable">@drawable/hotel_tooltip</item>
     </style>
 
     <!--
@@ -123,8 +131,13 @@
         <item name="android:textAllCaps">false</item>
         <item name="android:textOff">@string/view_room_button_text</item>
         <item name="android:textOn">@string/book_room_button_text</item>
-        <item name="android:background">@drawable/hotel_toggle_background_selector</item>
-        <item name="android:textColor">@drawable/hotel_toggle_text</item>
+        <item name="android:background">?attr/hotel_toggle_background_selector_drawable</item>
+        <item name="android:textColor">?attr/hotel_toggle_text_drawable</item>
+    </style>
+
+    <style name="HotelButtonStyle">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@drawable/hotel_text_color</item>
     </style>
 
     <style name="HotelToggleButtonTextAppearance">
@@ -135,11 +148,19 @@
     <style name="HotelButtonTextAppearance">
         <item name="android:textSize">17sp</item>
         <item name="android:textStyle">normal</item>
-        <item name="android:textColor">@color/hotels_primary_color</item>
+        <item name="android:textColor">?attr/primary_color</item>
     </style>
 
     <style name="HotelButton" parent="CarButton">
         <item name="android:background">@drawable/hotels_button_selector</item>
+    </style>
+
+    <style name="PayWithPointWidget">
+        <item name="android:background">@drawable/card_background</item>
+        <item name="android:paddingBottom">13dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">13dp</item>
     </style>
 
 </resources>

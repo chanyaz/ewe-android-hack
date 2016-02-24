@@ -7,7 +7,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Space;
 
+import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -34,8 +34,8 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.presenter.Presenter;
-import com.expedia.bookings.tracking.HotelV2Tracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.mobiata.android.Log;
@@ -62,6 +62,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	@InjectView(R.id.checkout_toolbar)
 	Toolbar toolbar;
+
+	ArrowXDrawable toolbarNavIcon;
 
 	@InjectView(R.id.mandatory_text)
 	TextView requiredFieldTextView;
@@ -139,6 +141,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		paymentInfoCardView.setLineOfBusiness(getLineOfBusiness());
 		paymentInfoCardView.setToolbarListener(toolbarListener);
 		paymentInfoCardView.addExpandedListener(this);
+		paymentInfoCardView.setPresenter(this);
 		mainContactInfoCardView.addExpandedListener(this);
 		mainContactInfoCardView.setToolbarListener(toolbarListener);
 		hintContainer.setVisibility(User.isLoggedIn(getContext()) ? GONE : VISIBLE);
@@ -173,9 +176,9 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 
 	public void setupToolbar() {
-		Drawable nav = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp).mutate();
-		nav.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
-		toolbar.setNavigationIcon(nav);
+		toolbarNavIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK);
+		toolbarNavIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
+		toolbar.setNavigationIcon(toolbarNavIcon);
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -339,9 +342,14 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		public void showRightActionButton(boolean show) {
 			menuDone.setVisible(show);
 		}
+
+		@Override
+		public void setNavArrowBarParameter(ArrowXDrawableUtil.ArrowDrawableType arrowDrawableType) {
+			toolbarNavIcon.setParameter(arrowDrawableType.getType());
+		}
 	};
 
-	public void animateInSlideToPurchase(boolean visible) {
+	protected void animateInSlideToPurchase(boolean visible) {
 		// If its already in position, don't do it again
 		if (slideToContainer.getVisibility() == (visible ? VISIBLE : INVISIBLE)) {
 			return;
@@ -369,9 +377,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}, 100);
 			String cardType = paymentInfoCardView.getCardType().getOmnitureTrackingCode();
 			switch (getLineOfBusiness()) {
-				case HOTELSV2:
-					new HotelV2Tracking().trackHotelV2SlideToPurchase(cardType);
-					break;
 				case LX:
 					OmnitureTracking.trackAppLXCheckoutSlideToPurchase(cardType);
 					break;
@@ -560,10 +565,19 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle()
 				: getContext().getString(R.string.cars_checkout_text));
-			Drawable nav = getResources().getDrawable(forward ? R.drawable.ic_close_white_24dp : R.drawable.ic_arrow_back_white_24dp)
-				.mutate();
-			nav.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
-			toolbar.setNavigationIcon(nav);
+
+			if (!(currentExpandedCard instanceof PaymentWidgetV2)) {
+				toolbarNavIcon.setParameter((float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()
+					: ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()));
+			}
+		}
+
+		@Override
+		public void updateTransition(float f, boolean forward) {
+			super.updateTransition(f, forward);
+			if (!(currentExpandedCard instanceof PaymentWidgetV2)) {
+				toolbarNavIcon.setParameter(forward ? f : Math.abs(1 - f));
+			}
 		}
 
 		@Override
@@ -581,6 +595,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				checkoutFormWasUpdated();
 				updateSpacerHeight();
 				scrollToEnterDetails();
+			}
+			if (!(currentExpandedCard instanceof PaymentWidgetV2)) {
+				toolbarNavIcon.setParameter((float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()
+					: ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()));
 			}
 		}
 	};
@@ -603,11 +621,11 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	@Override
 	public void onUserAccountRefreshed() {
-		doCreateTrip();
 		if (User.isLoggedIn(getContext())) {
 			listenToScroll = true;
 			scrollToEnterDetails();
 		}
+		doCreateTrip();
 	}
 
 	public abstract void doCreateTrip();

@@ -12,6 +12,7 @@ import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.packages.PackageSearchResponse;
+import com.expedia.bookings.data.packages.FlightLeg;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.utils.LeanPlumUtils;
@@ -72,6 +73,9 @@ public class Db {
 	// The billing info.  Make sure to properly clear this out when requested
 	private BillingInfo mBillingInfo;
 
+	//It will be set only if user chose 'Save' on filling in new card details. If he chose 'No Thanks', this won't be set then.
+	private BillingInfo temporarilySavedCard ;
+
 	// Google Full Wallet
 	private FullWallet mFullWallet;
 
@@ -126,6 +130,8 @@ public class Db {
 	private PackageSearchResponse mPackageResponse;
 	private Hotel mPackageSelectedHotel;
 	private HotelOffersResponse.HotelRoomResponse mPackageSelectedRoom;
+	private FlightLeg mPackageSelectedOutboundFlight;
+	private FlightLeg mPackageSelectedInboundFlight;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
@@ -143,8 +149,39 @@ public class Db {
 		return sDb.mPackageSelectedHotel;
 	}
 
+	public static void clearPackageHotelSelection () {
+		sDb.mPackageSelectedHotel = null;
+		sDb.mPackageSelectedRoom = null;
+	}
+
+	public static void clearPackageFlightSelection() {
+		sDb.mPackageSelectedInboundFlight = null;
+		sDb.mPackageSelectedOutboundFlight = null;
+	}
+
+	public static void clearPackageSelection() {
+		clearPackageHotelSelection();
+		clearPackageFlightSelection();
+	}
+
 	public static HotelOffersResponse.HotelRoomResponse getPackageSelectedRoom() {
 		return sDb.mPackageSelectedRoom;
+	}
+
+	public static FlightLeg getPackageSelectedOutboundFlightFlight() {
+		return sDb.mPackageSelectedOutboundFlight;
+	}
+
+	public static void setPackageSelectedOutboundFlight(FlightLeg mPackageSelectedFlight) {
+		sDb.mPackageSelectedOutboundFlight = mPackageSelectedFlight;
+	}
+
+	public static FlightLeg getPackageSelectedInboundFlightFlight() {
+		return sDb.mPackageSelectedInboundFlight;
+	}
+
+	public static void setPackageSelectedInboundFlight(FlightLeg mPackageSelectedFlight) {
+		sDb.mPackageSelectedInboundFlight = mPackageSelectedFlight;
 	}
 
 	public static void setPackageParams(PackageSearchParams params) {
@@ -197,6 +234,7 @@ public class Db {
 
 	public static void resetBillingInfo() {
 		sDb.mBillingInfo = new BillingInfo();
+		sDb.temporarilySavedCard = null;
 	}
 
 	public static void setBillingInfo(BillingInfo billingInfo) {
@@ -211,6 +249,13 @@ public class Db {
 		return sDb.mBillingInfo;
 	}
 
+	public static BillingInfo getTemporarilySavedCard() {
+		return sDb.temporarilySavedCard;
+	}
+
+	public static void setTemporarilySavedCard(BillingInfo temporarilySavedCard) {
+		sDb.temporarilySavedCard = temporarilySavedCard;
+	}
 	public static boolean hasBillingInfo() {
 		return sDb.mBillingInfo != null;
 	}

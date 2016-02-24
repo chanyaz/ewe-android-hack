@@ -44,6 +44,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.LXDataUtils;
+import com.expedia.bookings.utils.LXNavUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -126,6 +127,7 @@ public class LXResultsPresenter extends Presenter {
 
 	@OnClick(R.id.sort_filter_button)
 	public void onSortFilterClicked() {
+		OmnitureTracking.trackAppLXSortAndFilterOpen();
 		show(sortFilterWidget);
 	}
 
@@ -299,17 +301,10 @@ public class LXResultsPresenter extends Presenter {
 				showSearchErrorDialog(R.string.error_no_internet);
 				return;
 			}
-			else if (e instanceof ApiError) {
-				Events.post(new Events.LXShowSearchError((ApiError) e, searchType));
-				return;
+			else {
+				LXNavUtils.handleLXSearchFailure(e, searchType);
 			}
 
-			//Bucket all other errors as Unknown to give some feedback to the user
-			ApiError error = new ApiError(ApiError.Code.UNKNOWN_ERROR);
-			error.errorInfo = new ApiError.ErrorInfo();
-			error.errorInfo.summary = "Unknown";
-			error.errorInfo.cause = "Unknown";
-			Events.post(new Events.LXShowSearchError(error, searchType));
 			sortFilterButton.setVisibility(View.GONE);
 		}
 
@@ -487,7 +482,7 @@ public class LXResultsPresenter extends Presenter {
 		else {
 			show(searchResultsWidget, FLAG_CLEAR_BACKSTACK);
 		}
-
+		trackLXSearch();
 		AdTracker.trackFilteredLXSearchResults(lxState.searchParams, searchResponse);
 	}
 
@@ -612,9 +607,16 @@ public class LXResultsPresenter extends Presenter {
 	@Override
 	public boolean back() {
 		if (LXSearchResultsWidget.class.getName().equals(getCurrentState()) && searchResponse != null
-			&& searchResponse.regionId != null) {
+			&& searchResponse.regionId != null && isUserBucketedForCategoriesTest) {
 			OmnitureTracking.trackAppLXSearchCategories(lxState.searchParams, searchResponse);
 		}
 		return super.back();
 	}
+
+	public void trackLXSearch() {
+		if (searchResponse != null && searchResponse.regionId != null) {
+			OmnitureTracking.trackAppLXSearch(lxState.searchParams, searchResponse);
+		}
+	}
+
 }

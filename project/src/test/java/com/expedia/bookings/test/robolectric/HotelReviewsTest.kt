@@ -19,8 +19,8 @@ public class HotelReviewsTest {
         @Rule get
 
     private val HOTEL_ID = "26650"
-    private val NUMBER_FAVOURABLE_REVIEWS: Int = 21
-    private val NUMBER_CRITICAL_REVIEWS: Int = 4
+    private val NUMBER_FAVOURABLE_REVIEWS: Int = 9
+    private val NUMBER_CRITICAL_REVIEWS: Int = 11
 
     public var vm: HotelReviewsAdapterViewModel by Delegates.notNull()
 
@@ -72,10 +72,6 @@ public class HotelReviewsTest {
         assertEquals(getExpectedReviewRequestStr(50), recordedRequest3.path);
     }
 
-    private fun getExpectedReviewRequestStr(startParam: Int): String {
-        return "/api/hotelreviews/hotel/%s?sortBy=RATINGASC&start=%d&items=25&locale=en_US".format(HOTEL_ID, startParam)
-    }
-
     @Test
     fun reviewsSummary() {
         val testSubscriber = TestSubscriber<ReviewSummary>()
@@ -89,5 +85,9 @@ public class HotelReviewsTest {
         testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
         testSubscriber.assertNoErrors()
         testSubscriber.assertCompleted()
+    }
+
+    private fun getExpectedReviewRequestStr(startParam: Int): String {
+        return "/api/hotelreviews/hotel/%s?sortBy=RATINGASC&start=%d&items=25&locale=en_US".format(HOTEL_ID, startParam)
     }
 }

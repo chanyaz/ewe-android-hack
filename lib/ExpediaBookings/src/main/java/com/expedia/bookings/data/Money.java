@@ -22,6 +22,11 @@ public class Money {
 	public static final int F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL = 2;
 
 	/**
+	 * Flag to always use 2 Decimal Places
+	 */
+	public static final int F_ALWAYS_TWO_PLACES_AFTER_DECIMAL = 4;
+
+	/**
 	 * Rounding Flags
 	 */
 	public static final int F_ROUND_HALF_UP = 8;
@@ -324,8 +329,14 @@ public class Money {
 			sFormats.put(key, nf);
 		}
 
-		//Handle F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL which trumps all other flags
-		if ((flags & F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL) != 0) {
+		//Handle F_ALWAYS_TWO_PLACES_AFTER_DECIMAL which trumps all other flags
+		if ((flags & F_ALWAYS_TWO_PLACES_AFTER_DECIMAL) != 0) {
+			nf = (NumberFormat) nf.clone();
+			nf.setMaximumFractionDigits(2);
+			nf.setMinimumFractionDigits(2);
+		}
+		//Handle F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL flag
+		else if ((flags & F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL) != 0) {
 			nf = (NumberFormat) nf.clone();
 			nf.setMaximumFractionDigits(amount.stripTrailingZeros().scale() <= 0 ? 0 : 2);
 		}
@@ -340,5 +351,9 @@ public class Money {
 		}
 
 		return nf.format(amount);
+	}
+
+	public String getCurrencySymbol() {
+		return Currency.getInstance(currencyCode).getSymbol();
 	}
 }

@@ -95,6 +95,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
     val filterBtn: LinearLayout by bindView(R.id.filter_btn)
     open val filterBtnWithCountWidget: FilterButtonWithCountWidget? = null
     open val searchThisArea: Button? = null
+    var isMapReady = false
     val isBucketedForResultMap = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultMapTest)
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
@@ -421,6 +422,9 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
     override fun onMapReady(googleMap: GoogleMap?) {
         MapsInitializer.initialize(context)
         this.googleMap = googleMap
+        if (havePermissionToAccessLocation(context)) {
+            googleMap?.isMyLocationEnabled = true
+        }
         val uiSettings = googleMap?.uiSettings
         //Explicitly disallow map-cluttering ui (but keep the gestures)
         if (uiSettings != null) {
@@ -430,6 +434,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
             uiSettings.isMyLocationButtonEnabled = false
             uiSettings.isIndoorLevelPickerEnabled = false
         }
+
 
         googleMap?.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
             override fun onMarkerClick(marker: Marker): Boolean {
@@ -452,7 +457,9 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                 return null
             }
         })
+
         mapView.viewTreeObserver.addOnGlobalLayoutListener(mapViewLayoutReadyListener)
+        isMapReady = true
     }
 
     private val mapViewLayoutReadyListener = object: ViewTreeObserver.OnGlobalLayoutListener {
@@ -638,7 +645,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
                 recyclerView.visibility = View.VISIBLE
                 previousWasList = forward
                 fabShouldVisiblyMove = if (forward) !fabShouldBeHiddenOnList() else (fab.visibility == View.VISIBLE)
-                initialListTranslation = recyclerView.getChildAt(1)?.top ?: 0
+                initialListTranslation = if (recyclerView.layoutManager.findFirstVisibleItemPosition() == 0) recyclerView.getChildAt(1)?.top ?: 0 else 0
                 if (forward) {
                     //If the fab is visible we want to do the transition - but if we're just hiding it, don't confuse the
                     // user with an unnecessary icon swap
@@ -932,8 +939,8 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
     fun animationFinalize(forward: Boolean) {
         recyclerTempBackground.visibility = View.GONE
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
-        if (havePermissionToAccessLocation(context)) {
-            googleMap?.isMyLocationEnabled = forward
+        if (!forward && havePermissionToAccessLocation(context)) {
+            googleMap?.isMyLocationEnabled = false
         }
     }
 

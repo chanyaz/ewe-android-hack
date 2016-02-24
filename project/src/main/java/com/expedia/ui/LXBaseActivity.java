@@ -12,8 +12,8 @@ import android.view.ViewTreeObserver.OnPreDrawListener;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.location.LXCurrentLocationSuggestionObserver;
@@ -47,7 +47,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 		Intent intent = getIntent();
 		boolean isGroundTransport = intent.getBooleanExtra(EXTRA_IS_GROUND_TRANSPORT, false);
 		boolean isUserBucketedForTest = Db.getAbacusResponse()
-		.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCategoryABTest);
+			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCategoryABTest);
 
 		if (isGroundTransport) {
 			this.setTheme(R.style.V2_Theme_LX_Transport);
@@ -78,17 +78,21 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 			.endDate(LocalDate.now().plusDays(getResources().getInteger(R.integer.lx_default_search_range)))
 			.searchType(SearchType.DEFAULT_SEARCH);
 
-		Observable<SuggestionV4> currentLocationSuggestionObservable = Ui.getApplication(this).lxComponent().currentLocationSuggestionObservable();
+		Observable<SuggestionV4> currentLocationSuggestionObservable =
+			Ui.getApplication(this).lxComponent().currentLocationSuggestionObservable();
 		currentLocationSuggestionObserver = new LXCurrentLocationSuggestionObserver(this, currentLocationSearchParams);
-		currentLocationSuggestionSubscription = currentLocationSuggestionObservable.subscribe(currentLocationSuggestionObserver);
+		currentLocationSuggestionSubscription =
+			currentLocationSuggestionObservable.subscribe(currentLocationSuggestionObserver);
 	}
 
 	private void handleNavigationViaDeepLink() {
 		Intent intent = getIntent();
 		final boolean navigateToResults = (intent != null) && intent.getBooleanExtra(Codes.EXTRA_OPEN_RESULTS, false);
 		final boolean navigateToSearch = (intent != null) && intent.getBooleanExtra(Codes.EXTRA_OPEN_SEARCH, false);
-		final boolean navigateToResultsFromDeepLink = (intent != null) && intent.getBooleanExtra(Codes.FROM_DEEPLINK, false);
-		final boolean navigateToDetailsFromDeepLink = (intent != null) && intent.getBooleanExtra(Codes.FROM_DEEPLINK_TO_DETAILS, false);
+		final boolean navigateToResultsFromDeepLink =
+			(intent != null) && intent.getBooleanExtra(Codes.FROM_DEEPLINK, false);
+		final boolean navigateToDetailsFromDeepLink =
+			(intent != null) && intent.getBooleanExtra(Codes.FROM_DEEPLINK_TO_DETAILS, false);
 
 		final String location = intent.getStringExtra("location");
 		final LocalDate startDate = DateUtils.yyyyMMddToLocalDateSafe(intent.getStringExtra("startDateStr"),
@@ -102,8 +106,9 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 			public boolean onPreDraw() {
 				lxPresenter.getViewTreeObserver().removeOnPreDrawListener(this);
 				if (startDate.isBefore(LocalDate.now())) {
-					AlertDialogUtils.showDialog(LXBaseActivity.this, getResources().getString(R.string.lx_start_date_error),
-						new Events.LXShowSearchWidget(), getResources().getString(R.string.ok), null, null);
+					AlertDialogUtils
+						.showDialog(LXBaseActivity.this, getResources().getString(R.string.lx_start_date_error),
+							new Events.LXShowSearchWidget(), getResources().getString(R.string.ok), null, null);
 					return true;
 				}
 				if (navigateToSearch) {

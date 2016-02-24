@@ -41,7 +41,9 @@ public class ReviewsResponseHandler extends JsonResponseHandler<ReviewsResponse>
 					continue;
 				}
 
-				review.setRecommended(reviewJson.optBoolean("recommended"));
+				String isRecommendedValue = reviewJson.optString("isRecommended", Review.IsRecommended.NONE.name());
+				review.setIsRecommended(Review.IsRecommended.valueOf(isRecommendedValue));
+
 				review.setOverrallSatisfaction(reviewJson.optInt("ratingOverall"));
 
 				String submissionDateStr = reviewJson.getString("reviewSubmissionTime");

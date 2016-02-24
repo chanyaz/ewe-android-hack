@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/search_v2_container"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_gravity="center"
+        android:clipToPadding="false"
+        android:orientation="horizontal">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/calendar_label"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight=".5"
+            android:drawableLeft="@drawable/ic_calendar"
+            android:drawablePadding="18dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="12dp"
+            android:text="@string/select_dates"
+            android:textSize="18sp" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/hotel_detail_divider" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/traveler_label"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight=".5"
+            android:drawableLeft="@drawable/traveler"
+            android:drawablePadding="18dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="12dp"
+            android:text="@string/hotel_search_guest_default_text"
+            android:textSize="18sp" />
+
+    </LinearLayout>
+
+</merge>

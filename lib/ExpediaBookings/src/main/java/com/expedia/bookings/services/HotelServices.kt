@@ -1,8 +1,9 @@
 package com.expedia.bookings.services
 
+import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.Hotel
-import com.expedia.bookings.data.hotels.HotelApplyCouponParams
-import com.expedia.bookings.data.hotels.HotelCheckoutParams
+import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
+import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -116,31 +117,26 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 		return hotelApi.createTrip(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
-				.doOnNext {
-					val payLater = it.newHotelProductResponse?.hotelRoomResponse
-					if (payLater != null && payLater.isPayLater && payLater.depositPolicy != null && !payLater.depositPolicy.isEmpty()) {
-						payLater.rateInfo.chargeableRateInfo.depositAmount = "0";
-						payLater.rateInfo.chargeableRateInfo.depositAmountToShowUsers = "0";
-					}
-				}
+				.doOnNext { updatePayLaterRateInfo(it) }
 				.subscribe(observer)
 	}
 
-	public fun applyCoupon(body: HotelApplyCouponParams): Observable<HotelCreateTripResponse> {
+	public fun applyCoupon(body: HotelApplyCouponParameters): Observable<HotelCreateTripResponse> {
 		return hotelApi.applyCoupon(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
-				.doOnNext {
-					val payLater = it.newHotelProductResponse?.hotelRoomResponse
-					if (payLater != null && payLater.isPayLater && payLater.depositPolicy != null && !payLater.depositPolicy.isEmpty()) {
-						payLater.rateInfo.chargeableRateInfo.depositAmount = "0";
-						payLater.rateInfo.chargeableRateInfo.depositAmountToShowUsers = "0";
-					}
-				}
+				.doOnNext { updatePayLaterRateInfo(it) }
 	}
 
-	public fun checkout(params: HotelCheckoutParams, observer: Observer<HotelCheckoutResponse>): Subscription {
-		return hotelApi.checkout(params.toQueryMap())
+	public fun removeCoupon(tripId: String): Observable<HotelCreateTripResponse> {
+		return hotelApi.removeCoupon(tripId)
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+				.doOnNext { updatePayLaterRateInfo(it) }
+	}
+
+	public fun checkout(params: HotelCheckoutV2Params, observer: Observer<HotelCheckoutResponse>): Subscription {
+		return hotelApi.checkout(params)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.subscribe(observer)
@@ -166,6 +162,14 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 			val thirdChunk = sponsored.drop(1)
 			val rest = nonSponsored.drop(49)
 			return firstChunk + secondChunk + thirdChunk + rest
+		}
+
+		private fun updatePayLaterRateInfo(hotelCreateTripResponse: HotelCreateTripResponse) {
+			val payLater = hotelCreateTripResponse.newHotelProductResponse?.hotelRoomResponse
+			if (payLater != null && payLater.isPayLater && payLater.depositPolicy != null && !payLater.depositPolicy.isEmpty()) {
+				payLater.rateInfo.chargeableRateInfo.depositAmount = "0";
+				payLater.rateInfo.chargeableRateInfo.depositAmountToShowUsers = "0";
+			}
 		}
 	}
 }

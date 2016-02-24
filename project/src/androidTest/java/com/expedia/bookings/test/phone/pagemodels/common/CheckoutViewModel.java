@@ -16,6 +16,7 @@ import com.expedia.bookings.test.espresso.ViewActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
@@ -23,7 +24,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 
@@ -119,9 +120,15 @@ public class CheckoutViewModel {
 			.perform(click());
 	}
 
-	public static void clickStoredCardButton() {
+	public static void clickStoredCardButton(boolean isHotelsPath) {
 		Espresso.closeSoftKeyboard();
-		onView(withId(R.id.select_payment_button)).perform(click());
+		if (isHotelsPath) {
+			onView(allOf(withParent(withId(R.id.payment_button_v2)), withId(R.id.select_payment_button)))
+				.perform(click());
+		}
+		else {
+			onView(withId(R.id.select_payment_button)).perform(click());
+		}
 	}
 
 	public static void selectStoredCard(String cardname) throws Throwable {
@@ -138,7 +145,8 @@ public class CheckoutViewModel {
 
 	public static ViewInteraction performSlideToPurchase(boolean isStoredCard) {
 		onView(withId(R.id.slide_to_purchase_widget)).perform(ViewActions.waitForViewToDisplay());
-		ViewInteraction viewInteraction = onView(withId(R.id.slide_to_purchase_widget)).perform(ViewActions.swipeRight());
+		ViewInteraction viewInteraction = onView(withId(R.id.slide_to_purchase_widget))
+			.perform(ViewActions.swipeRight());
 		Common.delay(1);
 		if (isStoredCard) {
 			CVVEntryScreen.enterCVV("6286");
@@ -163,7 +171,7 @@ public class CheckoutViewModel {
 
 	public static void enterLoginDetails() {
 		clickLogin();
-		enterUsername("username@gmail.com");
+		enterUsername("qa-ehcc@mobiata.com");
 		enterPassword("password");
 	}
 
@@ -197,6 +205,15 @@ public class CheckoutViewModel {
 		enterPaymentDetails();
 	}
 
+	public static void enterPaymentInfo(boolean defaultSelection) {
+		if (defaultSelection) {
+			return;
+		}
+		CheckoutViewModel.clickPaymentInfo();
+		Common.delay(1);
+		PaymentOptionsScreen.enterCardInfo();
+	}
+
 	public static void enterPaymentInfoHotels() {
 		Common.delay(2);
 		CheckoutViewModel.clickPaymentInfo();
@@ -204,13 +221,13 @@ public class CheckoutViewModel {
 		enterPaymentDetails();
 	}
 
-	public static void selectStoredCard() throws Throwable {
+	public static void selectStoredCard(boolean isHotelsPath) throws Throwable {
 		clickPaymentInfo();
-		clickStoredCardButton();
+		clickStoredCardButton(isHotelsPath);
 		selectStoredCard("AmexTesting");
 	}
 
-	private static void enterPaymentDetails() {
+	public static void enterPaymentDetails() {
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();
@@ -229,5 +246,33 @@ public class CheckoutViewModel {
 		Matcher<View> displayedAndFilled = allOf(isDisplayed(), CustomMatchers.withAtLeastChildCount(1));
 		onView(withId(R.id.summary_container)).perform(ViewActions.waitFor(displayedAndFilled, 10, TimeUnit.SECONDS));
 		onView(withId(R.id.hint_container)).perform(ViewActions.waitForViewToDisplay());
+	}
+
+	public static void applyCoupon(String coupon) {
+		clickCoupon();
+		Common.delay(2);
+		couponEditText().perform(typeText(coupon), closeSoftKeyboard());
+		clickDone();
+		Common.delay(2);
+	}
+
+	public static ViewInteraction coupon() {
+		return onView(withText("Enter coupons or promotional code"));
+	}
+
+	public static void clickCoupon() {
+		coupon().perform(scrollTo(), click());
+	}
+
+	public static ViewInteraction couponEditText() {
+		return onView(withId(R.id.edit_coupon_code));
+	}
+
+	public static ViewInteraction scrollView() {
+		return onView(withId(R.id.checkout_scroll));
+	}
+
+	public static void scrollToPriceChangeMessage() {
+		onView(withId(R.id.price_change_container)).perform(scrollTo());
 	}
 }

@@ -76,7 +76,7 @@ public class EndpointProvider {
 		}
 
 		// Default to Dev on debug
-		return "http://phelabstb101.karmalab.net:9117/";
+		return "http://abacus-experiment-api-server.exp-int.net/";
 	}
 
 	/**
@@ -107,6 +107,19 @@ public class EndpointProvider {
 		}
 		else {
 			throw new RuntimeException("Didn't know how to handle EndPoint: " + endPoint);
+		}
+	}
+
+	public String getRailEndpointUrl() {
+		return getRailEndpointUrl(getEndPoint());
+	}
+
+	private String getRailEndpointUrl(EndPoint endPoint) {
+		switch (endPoint) {
+		case MOCK_MODE:
+			return getCustomServerAddress();
+		default:
+			return "http://rails-ecom-service.us-west-2.test.expedia.com:80";
 		}
 	}
 

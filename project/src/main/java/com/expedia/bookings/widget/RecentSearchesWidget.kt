@@ -23,7 +23,7 @@ public class RecentSearchesWidget(context: Context, attrs: AttributeSet) : Linea
     }
 
     var recentSearchesAdapterViewModel: RecentSearchesAdapterViewModel by notNullAndObservable { vm ->
-        recentSearchesAdapter.adapter = RecentSearchesAdapter(vm)
+        recentSearchesAdapter.adapter = RecentSearchesAdapter(vm, true)
     }
 }
 

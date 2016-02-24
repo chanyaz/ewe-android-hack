@@ -10,6 +10,7 @@ import android.content.res.TypedArray;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -174,6 +175,10 @@ public class SectionStoredCreditCard extends LinearLayout implements ISection<St
 				amexPatternMatcher.appendTail(sb);
 				mDescriptionView.setText(sb.toString());
 			}
+
+			mDescriptionView.setTextColor(mPrimaryTextColor);
+			mDescriptionView.setTextSize(TypedValue.COMPLEX_UNIT_PX,
+				getResources().getDimensionPixelSize(R.dimen.data_display_primary_text));
 
 			// Icon
 			int iconResId;

@@ -9,9 +9,12 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -49,11 +52,9 @@ import com.expedia.vm.HotelSearchViewModel
 import com.google.android.gms.maps.MapView
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
-import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.collections.count
 import kotlin.properties.Delegates
 
 public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -64,10 +65,12 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
 
+    var hotelDetailViewModel: HotelDetailViewModel by Delegates.notNull()
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
     val searchPresenter: HotelSearchPresenter by bindView(R.id.widget_hotel_params)
+    val searchPresenterV2: HotelSearchPresenterV2 by bindView(R.id.widget_hotel_params_v2)
     val errorPresenter: HotelErrorPresenter by bindView(R.id.widget_hotel_errors)
     val resultsStub: ViewStub by bindView(R.id.results_stub)
     val resultsPresenter: HotelResultsPresenter by lazy {
@@ -78,7 +81,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
         presenter.mapView.getMapAsync(presenter)
-        presenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices)
+        presenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices, LineOfBusiness.HOTELSV2)
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
         presenter.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
         presenter.viewmodel.errorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
@@ -96,7 +99,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         detailsStub.addView(detailsMapView)
         presenter.hotelMapView.mapView = detailsMapView
         presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView);
-        presenter.hotelDetailView.viewmodel = HotelDetailViewModel(context, hotelServices, selectedRoomObserver)
+        presenter.hotelDetailView.viewmodel = hotelDetailViewModel
         presenter.hotelDetailView.viewmodel.depositInfoContainerClickObservable.subscribe { pair: Pair<String, HotelOffersResponse.HotelRoomResponse> ->
             presenter.hotelDepositInfoObserver.onNext(pair)
         }
@@ -149,7 +152,9 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.hotelCheckoutViewModel.checkoutParams.subscribe {
             checkoutDialog.show()
         }
-        presenter.hotelCheckoutWidget.slideAllTheWayObservable.subscribe {
+        presenter.hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(paymentModel.paymentSplitsWithLatestTripResponse) { unit, paymentSplitsAndLatestTripResponse ->
+            paymentSplitsAndLatestTripResponse.isCardRequired()
+        }.filter { it }.subscribe {
             checkoutDialog.hide()
         }
 
@@ -168,8 +173,8 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         presenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(presenter.hotelCheckoutWidget.createTripResponseListener)
         presenter.hotelCheckoutViewModel.priceChangeResponseObservable.subscribe(endlessObserver { createTripResponse ->
             checkoutDialog.dismiss()
-            show(presenter, Presenter.FLAG_CLEAR_BACKSTACK)
-            presenter.show(presenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_BACKSTACK)
+            show(presenter, Presenter.FLAG_CLEAR_TOP)
+            presenter.show(presenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
         })
         presenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
         presenter
@@ -183,9 +188,18 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private val checkoutDialog = ProgressDialog(context)
     var viewModel: HotelPresenterViewModel by Delegates.notNull()
     private val DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW = 100L
+    val isUserBucketedSearchScreenTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest)
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
+
+        hotelDetailViewModel = HotelDetailViewModel(context, hotelServices, endlessObserver<HotelOffersResponse.HotelRoomResponse> {
+            checkoutPresenter.hotelCheckoutWidget.couponCardView.viewmodel.hasDiscountObservable.onNext(false)
+            checkoutPresenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
+            checkoutPresenter.showCheckout(it)
+            show(checkoutPresenter)
+        })
+
         geoCodeSearchModel.geoResults.subscribe { geoResults ->
             fun triggerNewSearch(selectedResultIndex: Int) {
                 val newHotelSearchParams = hotelSearchParams.copy()
@@ -226,8 +240,13 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 addDefaultTransition(defaultResultsTransition)
             }
             else -> {
-                addDefaultTransition(defaultSearchTransition)
-                show(searchPresenter)
+                if (isUserBucketedSearchScreenTest && BuildConfig.DEBUG) {
+                    addDefaultTransition(defaultSearchV2Transition)
+                    show(searchPresenterV2)
+                } else {
+                    addDefaultTransition(defaultSearchTransition)
+                    show(searchPresenter)
+                }
             }
         }
     }
@@ -245,8 +264,12 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         addTransition(searchToError)
         addTransition(checkoutToError)
         addTransition(detailsToError)
+
+        // TODO Have to set create one vm based on test
         searchPresenter.searchViewModel = HotelSearchViewModel(context)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
+        searchPresenterV2.searchViewModel = HotelSearchViewModel(context)
+
 
         //NOTE
         //Reason for delay(XYZ, TimeUnit.ABC) to various errorObservables below:
@@ -261,6 +284,7 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         //`show` the previous state on the stack by animating from the current (popped) state to the previous state, which is not required at all as our intent is to
         //`show (xyzPresenter, Presenter.FLAG_CLEAR_TOP)` which is being done in various errorObservable subscriptions
 
+        errorPresenter.hotelDetailViewModel = hotelDetailViewModel
         errorPresenter.viewmodel = HotelErrorViewModel(context)
         errorPresenter.viewmodel.searchErrorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe {
             show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
@@ -316,6 +340,12 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     private val defaultSearchTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.name) {
         override fun finalizeTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
+        }
+    }
+
+    private val defaultSearchV2Transition = object : Presenter.DefaultTransition(HotelSearchPresenterV2::class.java.name) {
+        override fun finalizeTransition(forward: Boolean) {
+            searchPresenterV2.visibility = View.VISIBLE
         }
     }
 
@@ -556,23 +586,6 @@ public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         reviewsView.viewModel = HotelReviewsViewModel(getContext())
         reviewsView.viewModel.hotelObserver.onNext(hotel)
         show(reviewsView)
-    }
-
-    val selectedRoomObserver = object : Observer<HotelOffersResponse.HotelRoomResponse> {
-        override fun onNext(t: HotelOffersResponse.HotelRoomResponse) {
-            checkoutPresenter.hotelCheckoutWidget.couponCardView.viewmodel.hasDiscountObservable.onNext(false)
-            checkoutPresenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
-            checkoutPresenter.showCheckout(t)
-            show(checkoutPresenter)
-        }
-
-        override fun onCompleted() {
-            throw UnsupportedOperationException()
-        }
-
-        override fun onError(e: Throwable) {
-            throw OnErrorNotImplementedException(e)
-        }
     }
 
     private val hotelDetailsListener: Observer<HotelDetailsRequestMetadata> = endlessObserver {

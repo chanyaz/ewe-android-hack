@@ -198,6 +198,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
         val airAttachSVG: SVGView by root.bindView(R.id.air_attach_curve)
         val airAttachContainer: LinearLayout by root.bindView(R.id.air_attach_layout)
         val ratingAmenityContainer: View by root.bindView(R.id.rating_amenity_container)
+        val priceIncludesFlightsView: LinearLayout by root.bindView(R.id.price_includes_flights)
 
         init {
             itemView.setOnClickListener(this)
@@ -249,6 +250,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             viewModel.toolBarRatingColor.subscribeStarColor(ratingBar)
             viewModel.imageColorFilter.subscribeColorFilter(imageView)
             viewModel.hotelStarRatingObservable.subscribeStarRating(ratingBar)
+            viewModel.priceIncludesFlightsObservable.subscribeVisibility(priceIncludesFlightsView)
 
             viewModel.adImpressionObservable.subscribe {
                 AdImpressionTracking.trackAdClickOrImpression(itemView.context, it, null)

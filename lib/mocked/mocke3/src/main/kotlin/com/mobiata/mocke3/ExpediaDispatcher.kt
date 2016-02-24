@@ -5,6 +5,7 @@ import com.squareup.okhttp.mockwebserver.MockResponse
 import com.squareup.okhttp.mockwebserver.RecordedRequest
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
+import org.joda.time.Days
 import kotlin.text.Regex
 import kotlin.text.contains
 
@@ -17,6 +18,8 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
     private val flightApiRequestDispatcher = FlightApiRequestDispatcher(fileOpener)
     private val carApiRequestDispatcher = CarApiRequestDispatcher(fileOpener)
     private val lxApiRequestDispatcher = LxApiRequestDispatcher(fileOpener)
+    private val packagesApiRequestDispatcher = PackagesApiRequestDispatcher(fileOpener)
+    private val railApiRequestDispatcher = RailApiRequestDispatcher(fileOpener)
 
     @Throws(InterruptedException::class)
     override fun dispatch(request: RecordedRequest): MockResponse {
@@ -25,27 +28,18 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
             throw UnsupportedOperationException("Valid user-agent not passed. I expect to see a user-agent resembling: ExpediaBookings/x.x.x (EHad; Mobiata)")
         }
 
-        // Packages API
-        if (request.path.startsWith("/getpackages/v1")) {
-            if (!request.path.contains("searchProduct")) {
-                return makeResponse("/getpackages/v1/happy.json")
-            }
-            else {
-                if (!request.path.contains("selectedLegId")) {
-                    return makeResponse("/getpackages/v1/happy_outbound_flight.json")
-                }
-                else {
-                    return makeResponse("/getpackages/v1/happy_inbound_flight.json")
-                }
-            }
+        // Rails API
+        if (request.path.startsWith("/rails/ecom/v1/shopping")) {
+            return railApiRequestDispatcher.dispatch(request)
         }
 
-        if (request.path.contains("/packages/hotelOffers")) {
-            return makeResponse("/getpackages/v1/happy_hotelOffers.json")
+        // Packages API
+        if (request.path.startsWith("/getpackages/v1") || request.path.startsWith("/api/packages")) {
+            return packagesApiRequestDispatcher.dispatch(request)
         }
         
         // Hotels API
-        if (request.path.startsWith("/m/api/hotel") || request.path.startsWith("/api/m/trip/coupon")) {
+        if (request.path.startsWith("/m/api/hotel") || request.path.startsWith("/api/m/trip/coupon") || request.path.startsWith("/api/m/trip/remove/coupon")) {
             return hotelRequestDispatcher.dispatch(request)
         }
 
@@ -150,18 +144,19 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         val params = parseRequest(request)
 
         // Common to all trips
-        val startOfTodayPacific = DateTime.now().withTimeAtStartOfDay().withZone(DateTimeZone.forOffsetHours(-7))
-        val startOfTodayEastern = DateTime.now().withTimeAtStartOfDay().withZone(DateTimeZone.forOffsetHours(-4))
-        val pacificDaylightTzOffset = -7 * 60 * 60.toLong()
-        val easternDaylightTzOffset = -4 * 60 * 60.toLong()
-        params.put("tzOffsetPacific", "" + pacificDaylightTzOffset)
-        params.put("tzOffsetEastern", "" + easternDaylightTzOffset)
+        // NOTE: using static hour offset so that daylight savings doesn't muck with the data
+        val pacificTimeZone = DateTimeZone.forID("America/Los_Angeles")
+        val easternTimeZone = DateTimeZone.forID("America/New_York")
+        val startOfTodayPacific = DateTime.now().withZone(pacificTimeZone).withTimeAtStartOfDay()
+        val startOfTodayEastern = DateTime.now().withZone(easternTimeZone).withTimeAtStartOfDay()
 
         // Inject hotel DateTimes
         val hotelCheckIn = startOfTodayPacific.plusDays(10).plusHours(11).plusMinutes(32)
         val hotelCheckOut = startOfTodayPacific.plusDays(12).plusHours(18).plusMinutes(4)
         params.put("hotelCheckInEpochSeconds", "" + hotelCheckIn.millis / 1000)
+        params.put("hotelCheckInTzOffset", "" + pacificTimeZone.getOffset(hotelCheckIn.millis) / 1000)
         params.put("hotelCheckOutEpochSeconds", "" + hotelCheckOut.millis / 1000)
+        params.put("hotelCheckOutTzOffset", "" + pacificTimeZone.getOffset(hotelCheckOut.millis) / 1000)
 
         // Inject flight DateTimes
         val outboundFlightDeparture = startOfTodayPacific.plusDays(14).plusHours(11).plusMinutes(32)
@@ -169,24 +164,39 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         val inboundFlightDeparture = startOfTodayEastern.plusDays(22).plusHours(18).plusMinutes(59)
         val inboundFlightArrival = startOfTodayPacific.plusDays(22).plusHours(22).plusMinutes(11)
         params.put("outboundFlightDepartureEpochSeconds", "" + outboundFlightDeparture.millis / 1000)
+        params.put("outboundFlightDepartureTzOffset", "" + pacificTimeZone.getOffset(outboundFlightDeparture.millis) / 1000)
         params.put("outboundFlightArrivalEpochSeconds", "" + outboundFlightArrival.millis / 1000)
+        params.put("outboundFlightArrivalTzOffset", "" + easternTimeZone.getOffset(outboundFlightArrival.millis) / 1000)
         params.put("inboundFlightDepartureEpochSeconds", "" + inboundFlightDeparture.millis / 1000)
+        params.put("inboundFlightDepartureTzOffset", "" + easternTimeZone.getOffset(inboundFlightDeparture.millis) / 1000)
         params.put("inboundFlightArrivalEpochSeconds", "" + inboundFlightArrival.millis / 1000)
+        params.put("inboundFlightArrivalTzOffset", "" + pacificTimeZone.getOffset(inboundFlightArrival.millis) / 1000)
 
         // Inject air attach times
-        params.put("airAttachOfferExpiresEpochSeconds", "" + startOfTodayPacific.plusDays(1).millis / 1000);
+        var airAttachExpiry = startOfTodayPacific.plusDays(1);
+        // near midnight, during standard time, this can get stretched to 2 days (25 hours), but test expects 1 day
+        // NOTE: this is all because we force the timezones in the test to daylight savings time, even during standard time periods
+        while (Days.daysBetween(DateTime.now().toLocalDate(), airAttachExpiry.toLocalDate()).days > 1) {
+            airAttachExpiry = airAttachExpiry.minusHours(1)
+        }
+        params.put("airAttachOfferExpiresEpochSeconds", "" + airAttachExpiry.millis / 1000);
+        params.put("airAttachOfferExpiresTzOffset", "" + pacificTimeZone.getOffset(airAttachExpiry.millis) / 1000);
 
         // Inject car DateTimes
         val carPickup = startOfTodayEastern.plusDays(14).plusHours(11).plusMinutes(32)
         val carDropoff = startOfTodayEastern.plusDays(22).plusHours(18).plusMinutes(29)
         params.put("carPickupEpochSeconds", "" + carPickup.millis / 1000)
+        params.put("carPickupTzOffset", "" + easternTimeZone.getOffset(carPickup.millis) / 1000)
         params.put("carDropoffEpochSeconds", "" + carDropoff.millis / 1000)
+        params.put("carDropoffTzOffset", "" + easternTimeZone.getOffset(carDropoff.millis) / 1000)
 
         // Inject lx DateTimes
         val lxStart = startOfTodayPacific.plusDays(25).plusHours(11)
         val lxEnd = startOfTodayPacific.plusDays(25).plusHours(17)
         params.put("lxStartEpochSeconds", "" + lxStart.millis / 1000)
+        params.put("lxStartTzOffset", "" + pacificTimeZone.getOffset(lxStart.millis) / 1000)
         params.put("lxEndEpochSeconds", "" + lxEnd.millis / 1000)
+        params.put("lxEndTzOffset", "" + pacificTimeZone.getOffset(lxEnd.millis) / 1000)
 
 
         // Inject package DateTimes
@@ -195,17 +205,25 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         val pckgHotelCheckIn = startOfTodayPacific.plusDays(35).plusHours(8).plusMinutes(0)
         val pckgHotelCheckOut = startOfTodayPacific.plusDays(40).plusHours(2).plusMinutes(0)
         val pckgOutboundFlightDeparture = startOfTodayPacific.plusDays(35).plusHours(4)
-        val pckgOutboundFlightArrival = startOfTodayEastern.plusDays(35).plusHours(6).plusMinutes(4)
-        val pckgInboundFlightDeparture = startOfTodayEastern.plusDays(40).plusHours(10)
+        val pckgOutboundFlightArrival = startOfTodayPacific.plusDays(35).plusHours(6).plusMinutes(4)
+        val pckgInboundFlightDeparture = startOfTodayPacific.plusDays(40).plusHours(10)
         val pckgInboundFlightArrival = startOfTodayPacific.plusDays(40).plusHours(12)
         params.put("pckgStartEpochSeconds", "" + pckgStart.millis / 1000)
+        params.put("pckgStartTzOffset", "" + pacificTimeZone.getOffset(pckgStart.millis) / 1000)
         params.put("pckgEndEpochSeconds", "" + pckgEnd.millis / 1000)
+        params.put("pckgEndTzOffset", "" + pacificTimeZone.getOffset(pckgEnd.millis) / 1000)
         params.put("pckgOutboundFlightDepartureEpochSeconds", "" + pckgOutboundFlightDeparture.millis / 1000)
+        params.put("pckgOutboundFlightDepartureTzOffset", "" + pacificTimeZone.getOffset(pckgOutboundFlightDeparture.millis) / 1000)
         params.put("pckgOutboundFlightArrivalEpochSeconds", "" + pckgOutboundFlightArrival.millis / 1000)
+        params.put("pckgOutboundFlightArrivalTzOffset", "" + pacificTimeZone.getOffset(pckgOutboundFlightArrival.millis) / 1000)
         params.put("pckgInboundFlightDepartureEpochSeconds", "" + pckgInboundFlightDeparture.millis / 1000)
+        params.put("pckgInboundFlightDepartureTzOffset", "" + pacificTimeZone.getOffset(pckgInboundFlightDeparture.millis) / 1000)
         params.put("pckgInboundFlightArrivalEpochSeconds", "" + pckgInboundFlightArrival.millis / 1000)
+        params.put("pckgInboundFlightArrivalTzOffset", "" + pacificTimeZone.getOffset(pckgInboundFlightArrival.millis) / 1000)
         params.put("pckgHotelCheckInEpochSeconds", "" + pckgHotelCheckIn.millis / 1000)
+        params.put("pckgHotelCheckInTzOffset", "" + pacificTimeZone.getOffset(pckgHotelCheckIn.millis) / 1000)
         params.put("pckgHotelCheckOutEpochSeconds", "" + pckgHotelCheckOut.millis / 1000)
+        params.put("pckgHotelCheckOutTzOffset", "" + pacificTimeZone.getOffset(pckgHotelCheckOut.millis) / 1000)
 
 
         return makeResponse("/api/trips/happy.json", params)
@@ -267,9 +285,10 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         val params = parseRequest(request)
         lastSignInEmail = params.get("email") ?: lastSignInEmail
         params.put("email", lastSignInEmail)
-        return when (lastSignInEmail) {
-            "singlecard@mobiata.com" -> makeResponse("api/user/sign-in/singlecard@mobiata.com.json", params)
-            else -> makeResponse("api/user/sign-in/qa-ehcc@mobiata.com.json", params)
+        return if (lastSignInEmail.isNotEmpty()) {
+            makeResponse("api/user/sign-in/" + lastSignInEmail + ".json", params)
+        } else {
+            makeResponse("api/user/sign-in/qa-ehcc@mobiata.com.json", params)
         }
     }
 

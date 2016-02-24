@@ -11,12 +11,18 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.view.View;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.TabletViewActions;
 import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
@@ -71,5 +77,131 @@ public class PackageScreen {
 	public static ViewInteraction errorDialog(String text) {
 		return onView(withText(text))
 			.inRoot(withDecorView(not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))));
+	}
+
+	public static void seeHotelResults() {
+		onView(withId(R.id.hotel_info_container)).perform(click());
+	}
+
+	public static ViewInteraction hotelResultsHeader() {
+		return onView(withId(R.id.pricing_structure_header));
+	}
+
+	public static ViewInteraction hotelResultsToolbar() {
+		return onView(withId(R.id.hotel_results_toolbar));
+	}
+
+	public static ViewInteraction hotelDetailsToolbar() {
+		return onView(withId(R.id.hotel_details_toolbar));
+	}
+
+	public static void searchPackage() throws Throwable {
+		PackageScreen.destination().perform(typeText("SFO"));
+		PackageScreen.selectLocation("San Francisco, CA (SFO-San Francisco Intl.)");
+		PackageScreen.arrival().perform(typeText("DTW"));
+		PackageScreen.selectLocation("Detroit, MI (DTW-Detroit Metropolitan Wayne County)");
+		LocalDate startDate = LocalDate.now().plusDays(3);
+		LocalDate endDate = LocalDate.now().plusDays(8);
+		PackageScreen.selectDates(startDate, endDate);
+		PackageScreen.searchButton().perform(click());
+	}
+
+	public static ViewInteraction bundleToolbar() {
+		return onView(withId(R.id.checkout_toolbar));
+	}
+
+	public static ViewInteraction hotelBundle() {
+		return onView(withId(R.id.package_bundle_hotel_widget));
+	}
+
+	public static ViewInteraction flightsToolbar() {
+		return onView(withId(R.id.flights_toolbar));
+	}
+
+	public static ViewInteraction flightsToolbarSearchMenu() {
+		return onView(withId(R.id.menu_search));
+	}
+
+	public static ViewInteraction flightsToolbarFilterMenu() {
+		return onView(withId(R.id.menu_filter));
+	}
+
+	public static ViewInteraction outboundFlight() {
+		return onView(withId(R.id.package_bundle_outbound_flight_widget));
+	}
+
+	public static ViewInteraction outboundFlightInfo() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
+			withId(R.id.flight_info_container)));
+	}
+
+	public static ViewInteraction inboundFlightInfo() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)),
+			withId(R.id.flight_info_container)));
+	}
+
+	public static ViewInteraction inboundFLight() {
+		return onView(withId(R.id.package_bundle_inbound_flight_widget));
+	}
+	
+	public static ViewInteraction flightList() {
+		return onView(withId(R.id.list_view));
+	}
+
+	public static ViewInteraction selectFlight(int index) {
+		return flightList().perform(RecyclerViewActions.actionOnItemAtPosition(index, click()));
+	}
+
+	public static ViewInteraction selectThisFlight() {
+		return onView(withId(R.id.select_flight_button));
+	}
+
+	public static ViewInteraction checkout() {
+		return onView(withId(R.id.checkout_button));
+	}
+
+	public static ViewInteraction travelerInfo() {
+		return onView(withId(R.id.traveler_widget));
+	}
+
+	public static ViewInteraction itin() {
+		return onView(withId(R.id.itin_number));
+	}
+
+
+	public static void enterTravelerInfo() {
+		Common.delay(2);
+		travelerInfo().perform(scrollTo(), click());
+		Common.delay(1);
+		CheckoutViewModel.enterFirstName("FiveStar");
+		CheckoutViewModel.enterLastName("Bear");
+		Common.closeSoftKeyboard(CheckoutViewModel.lastName());
+		Common.delay(1);
+		CheckoutViewModel.enterEmail("noah@mobiata.com");
+		Common.closeSoftKeyboard(CheckoutViewModel.email());
+		Common.delay(1);
+		CheckoutViewModel.enterPhoneNumber("4158675309");
+		CheckoutViewModel.clickDone();
+		Common.delay(2);
+	}
+
+	public static void enterPaymentInfo() {
+		Common.delay(2);
+		CheckoutViewModel.clickPaymentInfo();
+		Common.delay(1);
+		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+		CardInfoScreen.clickOnExpirationDateButton();
+		CardInfoScreen.clickMonthUpButton();
+		CardInfoScreen.clickYearUpButton();
+		CardInfoScreen.clickSetButton();
+		CardInfoScreen.typeTextCvv("666");
+		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+
+		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
+		BillingAddressScreen.typeTextCity("San Francisco");
+		BillingAddressScreen.typeTextState("CA");
+		BillingAddressScreen.typeTextPostalCode("94105");
+		CheckoutViewModel.clickDone();
+		Common.delay(2);
 	}
 }

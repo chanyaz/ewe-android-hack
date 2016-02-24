@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <string-array name="app_packages">
+        <item>com.expedia.bookings</item>
+        <item>com.expedia.bookings.debug</item>
+        <item>com.expedia.bookings.develop</item>
+    </string-array>
+
+</resources>

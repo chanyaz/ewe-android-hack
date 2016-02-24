@@ -31,6 +31,7 @@ public class HotelUtilsTest {
 		boolean isTablet = false;
 		final Property property = new Property();
 		final Rate rate = new Rate();
+		final Money zeroMoney = new Money("0", "USD");
 		final Money depositAmount = new Money("0", "USD");
 		final Money totalAmount = new Money("123.45", "USD");
 		rate.setDepositAmount(depositAmount);
@@ -73,17 +74,16 @@ public class HotelUtilsTest {
 		property.setSupplierType(MERCHANT_SUPPLIER_TYPE);
 		isTablet = true;
 		resultText = HotelUtils.getSlideToPurchaseString(activity, property, rate, isTablet);
-		expectedText = Phrase.from(activity.getApplicationContext(), R.string.amount_to_be_paid_now_TEMPLATE)
-			.put("dueamount", totalAmount.getFormattedMoney()).format().toString();
+		expectedText = Phrase.from(activity.getApplicationContext(), R.string.your_card_will_be_charged_template)
+			.put("dueamount", zeroMoney.getFormattedMoney()).format().toString();
 		assertEquals(expectedText, resultText);
 
 		rate.setIsPayLater(true);
 		property.setSupplierType(NON_MERCHANT_SUPPLIER_TYPE);
 		isTablet = true;
 		resultText = HotelUtils.getSlideToPurchaseString(activity, property, rate, isTablet);
-		expectedText = Phrase.from(activity.getApplicationContext(), R.string.to_be_collected_by_the_hotel_TEMPLATE)
-			.put("dueamount",
-				totalAmount.getFormattedMoney()).format().toString();
+		expectedText = Phrase.from(activity.getApplicationContext(), R.string.your_card_will_be_charged_template)
+			.put("dueamount", zeroMoney.getFormattedMoney()).format().toString();
 		assertEquals(expectedText, resultText);
 
 		// Pay now, merchant

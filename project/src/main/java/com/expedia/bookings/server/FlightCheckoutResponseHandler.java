@@ -1,5 +1,6 @@
 package com.expedia.bookings.server;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -51,8 +52,12 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 			}
 			else {
 				// Region id for cross-sell
-				JSONObject detailResponse = response.optJSONObject("flightDetailResponse");
-				checkoutResponse.setDestinationRegionId(detailResponse.optString("destinationRegionId"));
+				JSONObject aggregatedResponse = response.optJSONObject("flightAggregatedResponse");
+				JSONArray detailArray = aggregatedResponse.optJSONArray("flightsDetailResponse");
+				if (detailArray != null && detailArray.length() > 0) {
+					JSONObject detailObject = detailArray.optJSONObject(0);
+					checkoutResponse.setDestinationRegionId(detailObject.optString("destinationRegionId"));
+				}
 			}
 
 			// Continue parsing other fields even if we got an error.  This is

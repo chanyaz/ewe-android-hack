@@ -17,7 +17,7 @@ public class HotelRoomRateViewFactory() {
         val viewsPool: ArrayList<HotelRoomRateView> = ArrayList()
 
         fun makeHotelRoomRateView(context: Context, scrollAncestor: ScrollView, rowTopConstraintViewObservable: Observable<View>, selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>, rowIndex: Int,
-                    hotelId: String, hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, amenity: String, rowExpanding: PublishSubject<Int>, hasETP: Boolean): HotelRoomRateView {
+                                  hotelId: String, hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, amenity: String, rowExpanding: PublishSubject<Int>, hasETP: Boolean): HotelRoomRateView {
 
             val poolOfViews = viewsPool
 
@@ -27,8 +27,7 @@ public class HotelRoomRateViewFactory() {
                 view.viewSetup(scrollAncestor, rowTopConstraintViewObservable, rowIndex)
                 view.viewmodel.setupModel(hotelRoomResponse, hotelId, amenity, rowIndex, rowExpanding, selectedRoomObserver)
                 return view
-            }
-            else {
+            } else {
                 val view = HotelRoomRateView(context, scrollAncestor, rowTopConstraintViewObservable, rowIndex)
                 view.viewmodel = HotelRoomRateViewModel(context, hotelId, hotelRoomResponse, amenity, rowIndex, rowExpanding, selectedRoomObserver, hasETP)
 

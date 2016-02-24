@@ -40,6 +40,7 @@ public class ApiError extends RuntimeException {
 
 		//Hotel Coupon Errors
 		APPLY_COUPON_ERROR,
+		REMOVE_COUPON_ERROR,
 
 		//Hotel Search Errors
 		HOTEL_SEARCH_NO_RESULTS,

@@ -2,6 +2,7 @@ package com.expedia.bookings.data;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.json.JSONException;
@@ -23,6 +24,7 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
+import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
@@ -46,6 +48,9 @@ public class User implements JSONable {
 	private List<Traveler> mAssociatedTravelers = new ArrayList<>();
 
 	private List<StoredCreditCard> mStoredCreditCards = new ArrayList<>();
+	private List<StoredPointsCard> mStoredPointsCards = new ArrayList<>();
+
+	private String mExpediaRewardsMembershipId;
 
 	private static final String[] ADDRESS_LINE_KEYS = new String[] { "firstAddressLine", "secondAddressLine" };
 
@@ -69,8 +74,16 @@ public class User implements JSONable {
 		mStoredCreditCards.add(cc);
 	}
 
+	public void addStoredPointsCard(StoredPointsCard storedPointsCard) {
+		mStoredPointsCards.add(storedPointsCard);
+	}
+
 	public List<StoredCreditCard> getStoredCreditCards() {
-		return mStoredCreditCards;
+		return (mStoredCreditCards != null) ? mStoredCreditCards : Collections.<StoredCreditCard>emptyList();
+	}
+
+	public List<StoredPointsCard> getStoredPointsCards() {
+		return mStoredPointsCards;
 	}
 
 	public void addAssociatedTraveler(Traveler traveler) {
@@ -97,6 +110,13 @@ public class User implements JSONable {
 		return null;
 	}
 
+	public String getExpediaRewardsMembershipId() {
+		return mExpediaRewardsMembershipId;
+	}
+
+	public void setExpediaRewardsMembershipId(String expediaRewardsMembershipId) {
+		this.mExpediaRewardsMembershipId = expediaRewardsMembershipId;
+	}
 	//////////////////////////////////////////////////////////////////////////
 	// Logging in/out
 
@@ -389,6 +409,7 @@ public class User implements JSONable {
 			obj.put("version", VERSION);
 			JSONUtils.putJSONable(obj, "primaryTraveler", mPrimaryTraveler);
 			JSONUtils.putJSONableList(obj, "storedCreditCards", mStoredCreditCards);
+			JSONUtils.putJSONableList(obj, "storedPointsCards", mStoredPointsCards);
 			JSONUtils.putJSONableList(obj, "associatedTravelers", mAssociatedTravelers);
 			return obj;
 		}
@@ -449,8 +470,10 @@ public class User implements JSONable {
 		}
 
 		mStoredCreditCards = JSONUtils.getJSONableList(obj, "storedCreditCards", StoredCreditCard.class);
+		mStoredPointsCards = JSONUtils.getJSONableList(obj, "storedPointsCards", StoredPointsCard.class);
 
 		mAssociatedTravelers = JSONUtils.getJSONableList(obj, "associatedTravelers", Traveler.class);
+		mExpediaRewardsMembershipId = obj.optString("loyaltyAccountNumber");
 
 		return true;
 	}
@@ -484,5 +507,17 @@ public class User implements JSONable {
 		}
 
 		return Traveler.LoyaltyMembershipTier.NONE;
+	}
+
+	public StoredPointsCard getStoredPointsCard(PaymentType paymentType) {
+		paymentType.assertIsPoints();
+		if (CollectionUtils.isNotEmpty(mStoredPointsCards)) {
+			for (StoredPointsCard storedPointsCard : mStoredPointsCards) {
+				if (storedPointsCard.getPaymentType().equals(paymentType)) {
+					return storedPointsCard;
+				}
+			}
+		}
+		return null;
 	}
 }

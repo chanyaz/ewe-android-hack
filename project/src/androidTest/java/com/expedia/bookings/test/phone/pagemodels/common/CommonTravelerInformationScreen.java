@@ -3,7 +3,6 @@ package com.expedia.bookings.test.phone.pagemodels.common;
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.ViewActions;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -87,9 +86,6 @@ public class CommonTravelerInformationScreen {
 
 	public static void clickDoneButton() {
 		doneButton().perform(click());
-
-		// Once returning to the checkout screen we want to let google wallet settle
-		Common.delay(5);
 	}
 
 	public static void enterEmailAddress(String emailAddress) {

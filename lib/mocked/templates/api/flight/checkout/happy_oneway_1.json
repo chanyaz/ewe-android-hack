@@ -7,8 +7,12 @@
     },
     "orderId": "000001",
     "totalCharges": "596.00",
-    "flightDetailResponse": {
-        "destinationRegionId": 6139107
+    "flightAggregatedResponse": {
+        "flightsDetailResponse": [
+            {
+                "destinationRegionId": "6139107"
+            }
+        ]
     },
     "totalChargesPrice": {
         "amount": "596.00",

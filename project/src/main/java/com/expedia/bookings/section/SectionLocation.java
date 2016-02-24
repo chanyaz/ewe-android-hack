@@ -145,7 +145,7 @@ public class SectionLocation extends LinearLayout
 	//////INVALID CHARACTER STUFF
 	//////////////////////////////////////
 
-	ArrayList<InvalidCharacterListener> mInvalidCharacterListeners = new ArrayList<InvalidCharacterListener>();
+	ArrayList<InvalidCharacterListener> mInvalidCharacterListeners = new ArrayList<>();
 
 	@Override
 	public void onInvalidCharacterEntered(CharSequence text, Mode mode) {
@@ -210,15 +210,15 @@ public class SectionLocation extends LinearLayout
 	//////////////////////////////////////
 	////// VALIDATION INDICATOR FIELDS
 	//////////////////////////////////////
-	ValidationIndicatorExclaimation<Location> mValidAddrLineOne = new ValidationIndicatorExclaimation<Location>(
+	ValidationIndicatorExclaimation<Location> mValidAddrLineOne = new ValidationIndicatorExclaimation<>(
 		R.id.edit_address_line_one);
-	ValidationIndicatorExclaimation<Location> mValidAddrLineTwo = new ValidationIndicatorExclaimation<Location>(
+	ValidationIndicatorExclaimation<Location> mValidAddrLineTwo = new ValidationIndicatorExclaimation<>(
 		R.id.edit_address_line_two);
-	ValidationIndicatorExclaimation<Location> mValidCity = new ValidationIndicatorExclaimation<Location>(
+	ValidationIndicatorExclaimation<Location> mValidCity = new ValidationIndicatorExclaimation<>(
 		R.id.edit_address_city);
-	ValidationIndicatorExclaimation<Location> mValidState = new ValidationIndicatorExclaimation<Location>(
+	ValidationIndicatorExclaimation<Location> mValidState = new ValidationIndicatorExclaimation<>(
 		R.id.edit_address_state);
-	ValidationIndicatorExclaimation<Location> mValidPostalCode = new ValidationIndicatorExclaimation<Location>(
+	ValidationIndicatorExclaimation<Location> mValidPostalCode = new ValidationIndicatorExclaimation<>(
 		R.id.edit_address_postal_code);
 
 	//////////////////////////////////////
@@ -230,7 +230,7 @@ public class SectionLocation extends LinearLayout
 
 		@Override
 		protected Validator<EditText> getValidator() {
-			MultiValidator<EditText> addrValidators = new MultiValidator<EditText>();
+			MultiValidator<EditText> addrValidators = new MultiValidator<>();
 			addrValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
 			addrValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			return addrValidators;
@@ -278,7 +278,7 @@ public class SectionLocation extends LinearLayout
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<SectionFieldValidIndicator<?, Location>>();
+			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<>();
 			retArr.add(mValidAddrLineOne);
 			return retArr;
 		}
@@ -289,7 +289,7 @@ public class SectionLocation extends LinearLayout
 
 		@Override
 		protected Validator<EditText> getValidator() {
-			MultiValidator<EditText> addrValidators = new MultiValidator<EditText>();
+			MultiValidator<EditText> addrValidators = new MultiValidator<>();
 			addrValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
 			addrValidators.addValidator(CommonSectionValidators.ALWAYS_VALID_VALIDATOR_ET);
 			return addrValidators;
@@ -347,7 +347,7 @@ public class SectionLocation extends LinearLayout
 		R.id.edit_address_city) {
 		@Override
 		protected Validator<EditText> getValidator() {
-			MultiValidator<EditText> addrValidators = new MultiValidator<EditText>();
+			MultiValidator<EditText> addrValidators = new MultiValidator<>();
 			addrValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
 			addrValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
 			return addrValidators;
@@ -395,7 +395,7 @@ public class SectionLocation extends LinearLayout
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<SectionFieldValidIndicator<?, Location>>();
+			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<>();
 			retArr.add(mValidCity);
 			return retArr;
 		}
@@ -406,9 +406,9 @@ public class SectionLocation extends LinearLayout
 
 		@Override
 		protected Validator<EditText> getValidator() {
-			MultiValidator<EditText> addrValidators = new MultiValidator<EditText>();
+			MultiValidator<EditText> addrValidators = new MultiValidator<>();
 			addrValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
-			if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
+			if (mLineOfBusiness == LineOfBusiness.FLIGHTS || mLineOfBusiness == LineOfBusiness.PACKAGES) {
 				addrValidators.addValidator(CommonSectionValidators.ADDRESS_STATE_VALIDATOR);
 			}
 			else {
@@ -439,7 +439,7 @@ public class SectionLocation extends LinearLayout
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<SectionFieldValidIndicator<?, Location>>();
+			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<>();
 			retArr.add(mValidState);
 			return retArr;
 		}
@@ -484,7 +484,7 @@ public class SectionLocation extends LinearLayout
 
 		@Override
 		protected Validator<EditText> getValidator() {
-			MultiValidator<EditText> postalCodeValidators = new MultiValidator<EditText>();
+			MultiValidator<EditText> postalCodeValidators = new MultiValidator<>();
 			postalCodeValidators.addValidator(mPostalCodeCharacterCountValidator);
 			postalCodeValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
 			postalCodeValidators.addValidator(mCurrentCountryValidator);
@@ -519,7 +519,7 @@ public class SectionLocation extends LinearLayout
 
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
-			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<SectionFieldValidIndicator<?, Location>>();
+			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<>();
 			retArr.add(mValidPostalCode);
 			return retArr;
 		}
@@ -566,7 +566,10 @@ public class SectionLocation extends LinearLayout
 			// TODO Check with product for CARS lob postal code restrictions.
 			return true;
 		}
-
+		if (mLineOfBusiness == LineOfBusiness.PACKAGES) {
+			// TODO Check with product for PACKAGES lob postal code restrictions.
+			return true;
+		}
 		return false;
 	}
 

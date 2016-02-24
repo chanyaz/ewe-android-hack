@@ -15,22 +15,35 @@ buildscript {
         classpath 'com.jakewharton.sdkmanager:gradle-plugin:0.12.0'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.7'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlin_version}"
-        classpath ('com.shazam.fork:fork-gradle-plugin:1.0.0') {
+        classpath('com.shazam.fork:fork-gradle-plugin:1.0.0') {
             exclude group: 'com.google.guava'
         }
         classpath 'com.github.ben-manes:gradle-versions-plugin:0.11.3'
+        classpath "net.rdrei.android.buildtimetracker:gradle-plugin:0.5.0"
     }
 }
+
+apply plugin: "build-time-tracker"
+buildtimetracker {
+    reporters {
+        summary {
+            ordered false
+            threshold 500
+            barstyle "unicode"
+        }
+    }
+}
+
 
 apply plugin: 'com.github.ben-manes.versions'
 
 // Sub-projects/library projects will refer to these top-level SDK and buildTools versions
 
-ext.supportLibVersion="23.1.1"
-ext.googlePlayServicesVersion="8.4.0"
+ext.supportLibVersion = "23.1.1"
+ext.googlePlayServicesVersion = "8.4.0"
 
-ext.compileSdkVersion=23
-ext.buildToolsVersion="22.0.1"
+ext.compileSdkVersion = 23
+ext.buildToolsVersion = "22.0.1"
 
 ext.preDexLibs = !project.hasProperty('disablePreDex')
 

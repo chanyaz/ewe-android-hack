@@ -85,6 +85,7 @@
         <item name="android:dropDownListViewStyle">@style/DropDownListViewStyle</item>
         <item name="checkout_card_view_style">@style/LXCardView</item>
         <item name="checkout_slider_text">@string/lx_slider_text</item>
+        <item name="sliderText">@string/cars_slider_text</item>
         <item name="toolbar_title_style">@style/LXToolbarTitleTextAppearance</item>
         <item name="android:textColorSecondary">@color/lx_actionbar_text_color</item>
         <item name="skin_icCheckoutCheckmarkDrawable">@drawable/ic_checkout_checkmark</item>

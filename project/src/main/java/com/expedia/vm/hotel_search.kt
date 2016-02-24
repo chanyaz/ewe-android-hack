@@ -47,8 +47,6 @@ class HotelSearchViewModel(val context: Context) {
     val errorMaxDatesObservable = PublishSubject.create<Unit>()
     val enableDateObservable = PublishSubject.create<Boolean>()
     val enableTravelerObservable = PublishSubject.create<Boolean>()
-    val showRecentSearchesObservable = PublishSubject.create<Unit>()
-
 
     val enableDateObserver = endlessObserver<Unit> {
         enableDateObservable.onNext(paramsBuilder.hasOrigin())
@@ -171,7 +169,7 @@ class HotelSearchViewModel(val context: Context) {
 
 public data class HotelTravelerParams(val numberOfAdults: Int, val children: List<Int>)
 
-public class HotelTravelerPickerViewModel(val context: Context) {
+public class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreference: Boolean) {
     private val MAX_GUESTS = 6
     private val MIN_ADULTS = 1
     private val MIN_CHILDREN = 0
@@ -189,6 +187,7 @@ public class HotelTravelerPickerViewModel(val context: Context) {
     val adultMinusObservable = BehaviorSubject.create<Boolean>()
     val childPlusObservable = BehaviorSubject.create<Boolean>()
     val childMinusObservable = BehaviorSubject.create<Boolean>()
+    val infantPreferenceSeatingObservable = BehaviorSubject.create<Boolean>()
 
     init {
         travelerParamsObservable.subscribe { travelers ->
@@ -248,6 +247,7 @@ public class HotelTravelerPickerViewModel(val context: Context) {
     val childAgeSelectedObserver: Observer<Pair<Int, Int>> = endlessObserver { p ->
         val (which, age) = p
         childAges[which] = age
+        infantPreferenceSeatingObservable.onNext(childAges.contains(0))
 
         val hotelTravelerParams = travelerParamsObservable.getValue()
         travelerParamsObservable.onNext(HotelTravelerParams(hotelTravelerParams.numberOfAdults, (0..hotelTravelerParams.children.size - 1).map { childAges[it] }))
@@ -268,6 +268,7 @@ public class HotelErrorViewModel(private val context: Context) {
     val titleObservable = BehaviorSubject.create<String>()
     val subTitleObservable = BehaviorSubject.create<String>()
     val actionObservable = BehaviorSubject.create<Unit>()
+    val hotelSoldOutErrorObservable = PublishSubject.create<Boolean>()
 
     // Handle different errors
     val searchErrorObservable = BehaviorSubject.create<Unit>()
@@ -330,6 +331,7 @@ public class HotelErrorViewModel(private val context: Context) {
 
         apiErrorObserver.subscribe {
             error = it
+            hotelSoldOutErrorObservable.onNext(false)
             when (it.errorCode) {
                 ApiError.Code.HOTEL_SEARCH_NO_RESULTS -> {
                     imageObservable.onNext(R.drawable.error_default)
@@ -380,6 +382,7 @@ public class HotelErrorViewModel(private val context: Context) {
                     HotelV2Tracking().trackHotelsV2ProductExpiredError()
                 }
                 ApiError.Code.HOTEL_ROOM_UNAVAILABLE -> {
+                    hotelSoldOutErrorObservable.onNext(true)
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.error_room_sold_out))
                     buttonTextObservable.onNext(context.getString(R.string.select_another_room))
@@ -471,19 +474,16 @@ public class HotelDeepLinkHandler(private val context: Context, private val deep
                     // go to specific hotel requested
                     deepLinkSearchObserver.onNext(hotelSearchParams)
                     defaultTransitionObserver.onNext(HotelActivity.Screen.DETAILS)
-                }
-                else if (hotelSearchParams.suggestion.gaiaId != null || lat != 0.0 || lon != 0.0) {
+                } else if (hotelSearchParams.suggestion.gaiaId != null || lat != 0.0 || lon != 0.0) {
                     // search specified region or lat/lon
                     defaultTransitionObserver.onNext(HotelActivity.Screen.RESULTS)
                     deepLinkSearchObserver.onNext(hotelSearchParams)
-                }
-                else {
+                } else {
                     val displayName = hotelSearchParams.suggestion.regionNames?.displayName ?: ""
                     if (displayName.length > 0 ) {
                         // get suggestion for searched location
                         suggestionLookupObserver.onNext(Pair(displayName, generateSuggestionServiceCallback(hotelSearchParams)))
-                    }
-                    else {
+                    } else {
                         // this should not happen unless something has gone very wrong, so just send user to search screen
                         defaultTransitionObserver.onNext(HotelActivity.Screen.SEARCH)
                     }
