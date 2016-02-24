@@ -23,7 +23,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelSearchParams;
-import com.expedia.bookings.data.cars.Suggestion;
+import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.location.CurrentLocationObservable;
@@ -163,7 +163,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	// Hotel search in collection location
 	@Subscribe
 	public void onCollectionLocationSelected(Events.LaunchCollectionItemSelected event) throws JSONException {
-		Suggestion location = event.collectionLocation.location;
+		CollectionLocation.Location location = event.collectionLocation.location;
 		HotelSearchParams params = new HotelSearchParams();
 		params.setQuery(location.shortName);
 		params.setSearchType(HotelSearchParams.SearchType.valueOf(location.type));
@@ -174,6 +174,6 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		params.setCheckOutDate(now.plusDays(2));
 		params.setNumAdults(2);
 		params.setChildren(null);
-		NavUtils.goToHotels(getContext(), params, event.animOptions, 0);
+		NavUtils.goToHotels(getActivity(), params, event.animOptions, 0);
 	}
 }
