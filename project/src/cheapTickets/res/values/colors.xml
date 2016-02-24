@@ -39,6 +39,11 @@
     <color name="destination_list_launch_card_country_text_color">#57A3CC</color>
     <color name="destination_list_detail_container_background">#ff070f24</color>
 
+    <!-- Popular Hotels Tonight Discount strips-->
+    <color name="launch_mobile_exclusive">#116FAA</color>
+    <color name="launch_discount">#D00000</color>
+    <color name="launch_tonight_only">#990033</color>
+
     <!-- Cars and LX-->
     <color name="cars_primary_color">#003e74</color>
     <color name="cars_unchecked_toggle_text_color">#B3FFFFFF</color>
