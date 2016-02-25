@@ -1066,12 +1066,6 @@ public class ItineraryManager implements JSONable {
 		 */
 		private ExpediaServices mServices;
 
-		// If we have not yet loaded itineraries from disk, then we skip whatever the system
-		// requested and do a "quick sync" instead.  A quick sync only loads what was on the disk
-		// before and then organizes the data.  It then calls a normal, full sync, which
-		// will actually do a refresh in the background.
-		private boolean mQuickSync = false;
-
 		// Used for determining whether to publish an "added" or "update" when we refresh a guest trip
 		private Set<String> mGuestTripsNotYetLoaded = new HashSet<String>();
 
@@ -1099,13 +1093,14 @@ public class ItineraryManager implements JSONable {
 		@Override
 		protected void onPreExecute() {
 			if (mTrips == null) {
-				Log.i(LOGGING_TAG, "Sync called with mTrips == null. Clearing queue and performing quick sync.");
-				mQuickSync = true;
+				Log.i(LOGGING_TAG, "Sync called with mTrips == null. Loading trips from disk and generating itin cards before other operations in queue.");
+				TaskPriorityQueue queueWithLoadFromDiskFirst = new TaskPriorityQueue();
+				queueWithLoadFromDiskFirst.add(new Task(Operation.LOAD_FROM_DISK));
+				queueWithLoadFromDiskFirst.add(new Task(Operation.GENERATE_ITIN_CARDS));
+				queueWithLoadFromDiskFirst.addAll(mSyncOpQueue);
 
 				mSyncOpQueue.clear();
-
-				mSyncOpQueue.add(new Task(Operation.LOAD_FROM_DISK));
-				mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+				mSyncOpQueue.addAll(queueWithLoadFromDiskFirst);
 			}
 		}
 
@@ -1113,13 +1108,11 @@ public class ItineraryManager implements JSONable {
 		protected Collection<Trip> doInBackground(Void... params) {
 
 			if (ProductFlavorFeatureConfiguration.getInstance().isItinDisabled()) {
-				mTrips = new HashMap<String, Trip>();
+				mTrips = new HashMap<>();
 				return null;
 			}
 			while (!mSyncOpQueue.isEmpty()) {
 				Task nextTask = mSyncOpQueue.remove();
-
-				Log.v(LOGGING_TAG, "Processing " + nextTask + " mQuickSync=" + mQuickSync);
 
 				switch (nextTask.mOp) {
 				case LOAD_FROM_DISK:
@@ -1238,15 +1231,10 @@ public class ItineraryManager implements JSONable {
 			super.onPostExecute(trips);
 
 			onSyncFinished(trips);
-
 			logStats();
 
-			if (mQuickSync) {
-				Log.i(LOGGING_TAG, "Quick sync completed. Starting force sync.");
-				mFinished = true;
-				startSync(true);
-			}
-			else if (User.isLoggedIn(mContext) || (trips != null && trips.size() > 0)) {
+			mFinished = true;
+			if (User.isLoggedIn(mContext) || (trips != null && trips.size() > 0)) {
 				// Only remember the last update time if there was something actually updated;
 				// either the user was logged in (but had no trips) or there are guest trips
 				// present.  Also, don't bother doing this w/ quick sync as we'll just be
