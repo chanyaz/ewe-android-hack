@@ -1,5 +1,8 @@
 package com.expedia.bookings.featureconfig;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 
@@ -19,9 +22,6 @@ import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.fragment.AboutSectionFragment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
 	@Override
@@ -100,21 +100,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public PointOfSaleId getDefaultPOS() {
 		return PointOfSaleId.UNITED_KINGDOM;
-	}
-
-	@Override
-	public String getOmnitureReportSuiteIds() {
-		if (BuildConfig.RELEASE) {
-			return "expediaglobalapp";
-		}
-		else {
-			return "expediaglobalappdev";
-		}
-	}
-
-	@Override
-	public String getOmnitureTrackingServer() {
-		return "om.expedia.com";
 	}
 
 	@Override
@@ -201,11 +186,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public boolean isGoogleWalletPromoEnabled() {
-		return true;
-	}
-
-	@Override
 	public boolean isHangTagProgressBarEnabled() {
 		return true;
 	}
@@ -255,16 +235,6 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	public boolean isAppSupportUrlEnabled() {
 		return false;
-	}
-
-	@Override
-	public boolean isAppCrossSellInHotelShareContentEnabled() {
-		return true;
-	}
-
-	@Override
-	public boolean isAppCrossSellInFlightShareContentEnabled() {
-		return true;
 	}
 
 	@Override

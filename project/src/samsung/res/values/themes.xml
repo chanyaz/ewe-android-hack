@@ -158,13 +158,6 @@
         <item name="android:titleTextStyle" tools:targetApi="11">@style/FlightActionBarTextAppearance</item>
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow_samsung</item>
     </style>
-    <style name="Theme.Phone.Preferences">
-        <item name="android:logo" tools:targetApi="11">?attr/skin_webViewPreferencesActionBarLogo</item>
-    </style>
-
-    <style name="Theme.Tablet.Preferences" parent="@style/Theme.AppCompat.Light.Dialog">
-        <item name="android:windowNoTitle">true</item>
-    </style>
 
     <!-- Override the phone theme -->
     <style name="Theme.Phone" parent="@style/Theme.Samsung">
