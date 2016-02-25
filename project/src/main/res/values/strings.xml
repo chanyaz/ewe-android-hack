@@ -3006,6 +3006,8 @@
     <string name="triple_point_messaging">Earn TRIPLE Expedia+ Rewards points</string>
     <!-- Label for messaging on sign in Variate 3 -->
     <string name="trip_alert_messaging">Receive important trip alerts</string>
+    <!-- Label for menu item to open account settings screen -->
+    <string name="account_settings_menu_label">Account</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Sign In</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3016,10 +3018,16 @@
     <string name="sign_out_confirmation_TEMPLATE">Are you sure you want to sign out of your {brand} account?</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia +blue</string>
+    <!-- Label for Expedia +blue rewards tier without brand name -->
+    <string name="plus_blue">+blue</string>
     <!-- Label for Expedia +silver rewards program name -->
     <string name="Expedia_plus_silver">Expedia +silver</string>
+    <!-- Label for Expedia +silver rewards tier without brand name-->
+    <string name="plus_silver">+silver</string>
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
+    <!-- Label for Expedia +gold rewards tier without brand name -->
+    <string name="plus_gold">+gold</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Loading {brand} Account</string>
     <!-- Label for coupon code area of booking form -->
@@ -3114,6 +3122,14 @@
     <string name="website_TEMPLATE">{brand} Website</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App Support</string>
+    <!-- Section label for app settings functionality -->
+    <string name="about_section_app_settings">App Settings</string>
+    <!-- Section label for user support functionality -->
+    <string name="about_section_support">Support</string>
+    <!-- Section label for communication options that are not related to user support -->
+    <string name="about_section_communicate">Communicate</string>
+    <!-- Label for button that takes the user to screen to rate the app on the app store -->
+    <string name="rate_our_app">Rate our app!</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Terms and Conditions</string>
     <!-- Label for link to terms of use -->
@@ -3140,6 +3156,10 @@
     <string name="open_source_software_licenses">Open Source Software Licenses</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">This app makes use of the following open-source libraries:</string>
+    <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia+) -->
+    <string name="available_loyalty_points">Available points</string>
+    <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia+); parameter is the number of points (e.g. "7,253 pending") -->
+    <string name="loyalty_points_pending">%1$s pending</string>
 
     <!-- App support WebView -->
     <!-- menu -->

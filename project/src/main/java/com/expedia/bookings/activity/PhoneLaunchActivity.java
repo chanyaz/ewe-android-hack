@@ -293,6 +293,11 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 			gotoWaterfall();
 			return true;
 		}
+		case R.id.account_settings: {
+			Intent intent = new Intent(this, AccountSettingsActivity.class);
+			startActivityForResult(intent, REQUEST_SETTINGS);
+			return true;
+		}
 		case R.id.ab_log_in: {
 			if (Ui.isAdded(mItinListFragment)) {
 				mItinListFragment.startLoginActivity();

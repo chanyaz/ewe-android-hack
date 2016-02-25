@@ -1,7 +1,5 @@
-package com.expedia.bookings.test.phone.launch;
+package com.expedia.bookings.test.phone.profile;
 
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -9,36 +7,32 @@ import org.junit.runner.RunWith;
 
 import android.app.Activity;
 import android.app.Instrumentation;
-import android.content.Intent;
-import android.net.Uri;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.AboutActivity;
+import com.expedia.bookings.activity.AccountSettingsActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.test.phone.pagemodels.common.InfoScreen;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.phone.pagemodels.common.ProfileScreen;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 
-import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.intending;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasData;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.isInternal;
-import static org.hamcrest.Matchers.allOf;
+import static com.expedia.bookings.test.espresso.CustomMatchers.hasPhoneNumber;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertIntentFiredToViewUri;
 import static org.hamcrest.Matchers.not;
 
 @RunWith(AndroidJUnit4.class)
-public class InfoScreenSupportNumberLoyaltyTierTest {
+public class ProfileScreenSupportNumberLoyaltyTierTest {
 
-	private static final String TAG = InfoScreenSupportNumberLoyaltyTierTest.class.getName();
+	private static final String TAG = ProfileScreenSupportNumberLoyaltyTierTest.class.getName();
 	private String supportNumber;
 
 	/*
@@ -46,26 +40,7 @@ public class InfoScreenSupportNumberLoyaltyTierTest {
 	 */
 
 	@Rule
-	public IntentsTestRule<AboutActivity> mRule = new IntentsTestRule<>(AboutActivity.class);
-
-	private org.hamcrest.Matcher<Uri> hasPhoneNumber(final String number) {
-		return new BaseMatcher<Uri>() {
-
-			@Override
-			public boolean matches(Object uriObject) {
-				Uri intentUri = (Uri) uriObject;
-				String intentNumber = intentUri.toString().replaceAll("[^0-9]", "");
-				Log.v(TAG, "Matching IntentURI (" + intentUri + ") with support number = " + number);
-				return intentNumber.equals(number);
-			}
-
-			@Override
-			public void describeTo(Description description) {
-				description.appendText("Booking Support number should be = ").appendValue(number);
-			}
-
-		};
-	}
+	public IntentsTestRule<AccountSettingsActivity> mRule = new IntentsTestRule<>(AccountSettingsActivity.class);
 
 	@Before
 	public void stubAllExternalIntents() {
@@ -95,11 +70,9 @@ public class InfoScreenSupportNumberLoyaltyTierTest {
 	}
 
 	private void clickAndVerifyNumber() {
-		InfoScreen.clickBookingSupport();
-		InfoScreen.clickContactPhone();
-		intended(allOf(
-			hasAction(Intent.ACTION_VIEW),
-			hasData(hasPhoneNumber(supportNumber))));
+		ProfileScreen.clickBookingSupport();
+		ProfileScreen.clickContactPhone();
+		assertIntentFiredToViewUri(hasPhoneNumber(supportNumber));
 	}
 
 	@Test

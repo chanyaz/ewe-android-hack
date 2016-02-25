@@ -3,7 +3,6 @@ package com.expedia.bookings.activity;
 import java.util.Calendar;
 
 import android.app.ActionBar;
-import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
@@ -232,29 +231,10 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
 	}
 
-	private static final int DIALOG_CONTACT_EXPEDIA = 100;
-
-	@Override
-	public Dialog onCreateDialog(int id) {
-		switch (id) {
-		case DIALOG_CONTACT_EXPEDIA: {
-			return mAboutUtils.createContactExpediaDialog(new Runnable() {
-				@Override
-				public void run() {
-					removeDialog(DIALOG_CONTACT_EXPEDIA);
-				}
-			});
-		}
-		default:
-			return super.onCreateDialog(id);
-		}
-	}
-
 	@Override
 	public boolean onAboutRowClicked(int id) {
 		switch (id) {
 		case ROW_BOOKING_SUPPORT: {
-			showDialog(DIALOG_CONTACT_EXPEDIA);
 			return true;
 		}
 		case ROW_EXPEDIA_WEBSITE: {
@@ -330,6 +310,11 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		}
 
 		return false;
+	}
+
+	@Override
+	public void onAboutRowRebind(int id, TextView titleTextView, TextView descriptionTextView) {
+		// do nothing
 	}
 
 	//////////////////////////////////////////////////////////////////////////

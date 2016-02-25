@@ -419,4 +419,11 @@
     <color name="search_suggestion_v2">#8a8a8a</color>
     <color name="search_suggestion_hint_v2">#458a8a8a</color>
 
+    <!-- Account Screen -->
+    <color name="about_row_description_text_color">#5000</color>
+    <color name="account_background_color">#eee</color>
+    <color name="account_toolbar_text_color">#fff</color>
+    <color name="account_toolbar_text_color_light">#7fff</color>
+    <color name="account_sign_out_button_background_color">#c00</color>
+    <color name="account_sign_out_button_text_color">#fff</color>
 </resources>

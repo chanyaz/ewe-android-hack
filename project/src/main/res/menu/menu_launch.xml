@@ -2,6 +2,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/account_settings"
+        android:showAsAction="never"
+        android:title="@string/account_settings_menu_label" />
+    <item
         android:id="@+id/add_itinerary_guest"
         android:icon="@drawable/btn_add_guest_itin_normal"
         android:showAsAction="ifRoom"
@@ -20,10 +24,5 @@
         android:icon="@android:drawable/ic_menu_manage"
         android:showAsAction="never"
         android:title="@string/Settings"/>
-    <item
-        android:id="@+id/about"
-        android:icon="@android:drawable/ic_menu_info_details"
-        android:showAsAction="never"
-        android:title="@string/Info"/>
 
 </menu>

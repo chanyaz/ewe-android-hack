@@ -33,6 +33,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private String mLoyaltyMembershipName;
 	private boolean mIsLoyaltyMembershipActive = false;
 	private LoyaltyMembershipTier mLoyaltyMembershipTier = LoyaltyMembershipTier.NONE;
+	private Long mLoyaltyPointsAvailable = 0L;
+	private Long mLoyaltyPointsPending = 0L;
 	private Long mExpediaUserId;
 
 	// General
@@ -138,6 +140,14 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public boolean isLoyaltyMember() {
 		return mLoyaltyMembershipTier != LoyaltyMembershipTier.NONE;
+	}
+
+	public Long getLoyaltyPointsAvailable() {
+		return mLoyaltyPointsAvailable;
+	}
+
+	public Long getLoyaltyPointsPending() {
+		return mLoyaltyPointsPending;
 	}
 
 	public String getFirstName() {
@@ -427,6 +437,14 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mLoyaltyMembershipTier = loyaltyMembershipTier;
 	}
 
+	public void setLoyaltyPointsAvailable(Long pointsAvailable) {
+		mLoyaltyPointsAvailable = pointsAvailable;
+	}
+
+	public void setLoyaltyPointsPending(Long pointsPending) {
+		mLoyaltyPointsPending = pointsPending;
+	}
+
 	public void setFirstName(String firstName) {
 		mFirstName = firstName;
 	}
@@ -601,6 +619,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			obj.putOpt("loyaltyMemebershipActive", mIsLoyaltyMembershipActive);
 			obj.putOpt("loyaltyMemebershipName", mLoyaltyMembershipName);
 			obj.putOpt("membershipTier", mLoyaltyMembershipTier.name());
+			obj.putOpt("loyaltyPointsAvailable", mLoyaltyPointsAvailable);
+			obj.putOpt("loyaltyPointsPending", mLoyaltyPointsPending);
 
 			obj.putOpt("firstName", mFirstName);
 			obj.putOpt("middleName", mMiddleName);
@@ -655,6 +675,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mIsLoyaltyMembershipActive = obj.optBoolean("loyaltyMemebershipActive", false);
 		mLoyaltyMembershipName = obj.optString("loyaltyMemebershipName", null);
 		setLoyaltyMembershipTier(obj.optString("membershipTier", null));
+		mLoyaltyPointsAvailable = obj.optLong("loyaltyPointsAvailable", 0);
+		mLoyaltyPointsPending = obj.optLong("loyaltyPointsPending", 0);
 
 		mFirstName = obj.optString("firstName", null);
 		mMiddleName = obj.optString("middleName", null);

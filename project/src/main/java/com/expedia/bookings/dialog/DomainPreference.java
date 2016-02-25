@@ -166,7 +166,7 @@ public class DomainPreference extends ListPreference {
 		setValue(v);
 	}
 
-	public class DomainAdapter extends BaseAdapter {
+	public static class DomainAdapter extends BaseAdapter {
 		private CharSequence[] mNames;
 		private CharSequence[] mDomains;
 		private LayoutInflater mInflater;
@@ -193,8 +193,8 @@ public class DomainPreference extends ListPreference {
 		}
 
 		public class DomainTuple {
-			CharSequence mName;
-			CharSequence mDomain;
+			public CharSequence mName;
+			public CharSequence mDomain;
 		}
 
 		// Adapter implementation
