@@ -51,7 +51,7 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
         toolbar.viewModel = CheckoutToolbarViewModel(context)
 
         toolbar.inflateMenu(R.menu.menu_package_checkout)
-        toolbar.overflowIcon = resources.getDrawable(R.drawable.ic_create_white_24dp)
+        toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
 
         toolbar.viewModel.showChangePackageMenuObservable.subscribe { visible ->
             toolbar.menu.setGroupVisible(R.id.package_change_menu, visible)

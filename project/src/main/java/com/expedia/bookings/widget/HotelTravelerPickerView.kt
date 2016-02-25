@@ -92,7 +92,7 @@ class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : FrameLayo
 
         infantPreferenceSeatingSpinner.adapter = InfantSeatPreferenceAdapter(context, infantSeatPreferenceOptions)
         infantPreferenceSeatingSpinner.setSelection(0)
-        infantPreferenceSeatingSpinner.background.setColorFilter(resources.getColor(R.color.itin_white_text), PorterDuff.Mode.SRC_ATOP);
+        infantPreferenceSeatingSpinner.background.setColorFilter(ContextCompat.getColor(context, R.color.itin_white_text), PorterDuff.Mode.SRC_ATOP);
         infantPreferenceSeatingSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val selectedText = parent?.selectedView as android.widget.TextView

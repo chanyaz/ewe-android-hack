@@ -87,8 +87,8 @@ public class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet)
     }
 
     override fun showMenuItem(isResults: Boolean){
-        filterMenuItem.setVisible(true)
-        searchMenuItem.setVisible(isResults)
+        filterMenuItem.isVisible = true
+        searchMenuItem.isVisible = isResults
     }
 
     override fun hideBundlePriceOverview(hide: Boolean) {

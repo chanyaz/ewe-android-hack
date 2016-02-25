@@ -9,7 +9,9 @@ import org.joda.time.format.DateTimeFormat
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.*
+import java.util.ArrayList
+import java.util.Collections
+import java.util.Comparator
 
 class PackageFlightFilterViewModel() {
     val hourMinuteFormatter = DateTimeFormat.forPattern("hh:mma")
@@ -154,7 +156,7 @@ class PackageFlightFilterViewModel() {
                 sortObserver.onNext(userFilterChoices.userSort)
             }
 
-            if (filteredList != null && filteredList.isNotEmpty()) {
+            if (filteredList.isNotEmpty()) {
                 filterObservable.onNext(filteredList)
             } else {
                 filteredZeroResultObservable.onNext(Unit)
@@ -273,7 +275,7 @@ class PackageFlightFilterViewModel() {
 
     private fun resetPriceRange() {
         val list = ArrayList(originalList)
-        if (list != null && list.isNotEmpty()) {
+        if (list.isNotEmpty()) {
             val sortedList = list.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount.toInt() }
             val min = sortedList.first().packageOfferModel.price.packageTotalPrice.amount.toInt()
             val max = sortedList.last().packageOfferModel.price.packageTotalPrice.amount.toInt()
@@ -284,7 +286,7 @@ class PackageFlightFilterViewModel() {
 
     private fun resetDurationRange() {
         val list = ArrayList(originalList)
-        if (list != null && list.isNotEmpty()) {
+        if (list.isNotEmpty()) {
             val sortedList = list.sortedBy { it.durationHour }
             val min = sortedList.first().durationHour
             val max = sortedList.last().durationHour
@@ -294,7 +296,7 @@ class PackageFlightFilterViewModel() {
 
     private fun resetDepartureRange() {
         val list = ArrayList(originalList)
-        if (list != null && list.isNotEmpty()) {
+        if (list.isNotEmpty()) {
             val sortedList = list.sortedBy { getHourOfTheDay(it.departureDateTimeISO) }
             val min = getHourOfTheDay(sortedList.first().departureDateTimeISO)
             val max = getHourOfTheDay(sortedList.last().departureDateTimeISO)
@@ -304,7 +306,7 @@ class PackageFlightFilterViewModel() {
 
     private fun resetArrivalRange() {
         val list = ArrayList(originalList)
-        if (list != null && list.isNotEmpty()) {
+        if (list.isNotEmpty()) {
             val sortedList = list.sortedBy { getHourOfTheDay(it.arrivalDateTimeISO) }
             val min = getHourOfTheDay(sortedList.first().arrivalDateTimeISO)
             val max = getHourOfTheDay(sortedList.last().arrivalDateTimeISO)

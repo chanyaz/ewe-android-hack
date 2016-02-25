@@ -53,10 +53,10 @@ class FlightOverviewViewModel(val context: Context) {
         val flight = selectedFlightLeg.value
         if (flight.outbound) {
             Db.setPackageSelectedOutboundFlight(flight)
-            params.currentFlights!![0] = flight.legId
+            params.currentFlights[0] = flight.legId
         } else {
             Db.setPackageSelectedInboundFlight(flight)
-            params.currentFlights!![1] = flight.legId
+            params.currentFlights[1] = flight.legId
         }
         params.selectedLegId = flight.departureLeg
         params.packagePIID = flight.packageOfferModel.piid

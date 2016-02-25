@@ -20,7 +20,6 @@ import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import kotlin.text.drop
 
 public class PaymentViewModel(val context: Context) {
     val resources = context.resources
@@ -154,15 +153,15 @@ public class PaymentViewModel(val context: Context) {
     }
 
     fun setPaymentTileInfo(type: PaymentType?, title: String, subTitle: String, splitsType: PaymentSplitsType, completeStatus: ContactDetailsCompletenessStatus) {
-        var title = title
+        var paymentTitle = title
         if (isRedeemable.value && splitsType == PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD) {
-            title = Phrase.from(context, R.string.checkout_paying_with_points_and_card_line1)
+            paymentTitle = Phrase.from(context, R.string.checkout_paying_with_points_and_card_line1)
                     .put("carddescription", title)
                     .format().toString()
         }
         iconStatus.onNext(completeStatus)
         paymentType.onNext(getCardIcon(type))
-        cardTitle.onNext(title)
+        cardTitle.onNext(paymentTitle)
         cardSubtitle.onNext(subTitle)
         pwpSmallIcon.onNext(getPwPSmallIconVisibility(type, splitsType))
     }
