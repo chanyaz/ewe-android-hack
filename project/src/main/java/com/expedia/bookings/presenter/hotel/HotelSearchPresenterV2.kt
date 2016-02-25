@@ -151,7 +151,6 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Bas
         }
 
         searchLocationEditText = findViewById(R.id.toolbar_searchView) as SearchView?
-        searchLocationEditText?.setOnQueryTextListener(listener)
         searchLocationEditText?.setIconifiedByDefault(false)
         searchLocationEditText?.visibility = GONE
         searchLocationEditText?.alpha = 0f
@@ -335,6 +334,7 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Bas
     }
 
     public var suggestionViewModel: HotelSuggestionAdapterViewModel by notNullAndObservable { vm ->
+        searchLocationEditText?.setOnQueryTextListener(listener)
         vm.suggestionSelectedSubject.subscribe { suggestion ->
             com.mobiata.android.util.Ui.hideKeyboard(this)
             searchViewModel.suggestionObserver.onNext(suggestion)
