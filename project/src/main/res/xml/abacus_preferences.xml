@@ -198,6 +198,29 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
+        android:title="Flights tests">
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="9897"
+            android:layout="@layout/preference"
+            android:title="Number of tickets urgency messaging - 9897" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="9636"
+            android:layout="@layout/preference"
+            android:title="Flights Show Roundtrip Message Under Price - 9636" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
         android:title="Checkout tests">
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -283,15 +306,6 @@
             android:key="8369"
             android:layout="@layout/preference"
             android:title="Split GT and LX Launch - 8369" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="9636"
-            android:layout="@layout/preference"
-            android:title="Flights Show Roundtrip Message Under Price - 9636" />
 
         <ListPreference
             android:entries="@array/abacus_hotel_sign_in_messaging_choices"
