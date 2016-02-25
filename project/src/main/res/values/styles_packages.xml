@@ -67,4 +67,23 @@
         <item name="android:textColor">@drawable/gender_drop_down_text_color</item>
     </style>
 
+    <!--Bundle Overview Footer-->
+    <style name="BundleOverviewFooter" />
+
+    <style name="BundleOverviewFooter.PrimaryText">
+        <item name="android:textColor">@color/packages_bundle_overview_footer_primary_text</item>
+        <item name="android:textSize">@dimen/packages_bundle_overview_footer_primary_text</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="BundleOverviewFooter.SecondaryText">
+        <item name="android:textColor">@color/packages_bundle_overview_footer_secondary_text</item>
+        <item name="android:textSize">@dimen/packages_bundle_overview_footer_secondary_text</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="BundleOverviewFooter.SecondaryText.Savings">
+        <item name="android:textColor">@color/packages_bundle_overview_footer_secondary_text_savings</item>
+    </style>
+
 </resources>

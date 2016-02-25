@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Expedia Styleguide dimensions -->
+    <!-- These are base dimensions that we intend to use throughout all LOB and portions of the app.
+            The goal is that future mockups and styles just reference these values instead of
+            each rewriting the hex values on their own. This is a work in progress, and any values
+            prepended with "temporary" are almost definitely going to change when we finalize the
+            style guide, so we want to avoid naming them fully for now, while still having this
+            paradigm in place. -->
+    <dimen name="temporary_font_size_medium">14sp</dimen>
+    <dimen name="temporary_font_size_small">12sp</dimen>
+
+</resources>
