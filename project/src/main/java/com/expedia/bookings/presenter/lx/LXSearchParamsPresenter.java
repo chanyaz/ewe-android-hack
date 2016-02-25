@@ -496,7 +496,7 @@ public class LXSearchParamsPresenter extends Presenter
 		calendarContainer.setTranslationY(translation);
 		toolBarSearchText.setTranslationY(yTrans);
 		toolBarSearchText.setAlpha(forward ? f : Math.abs(1 - f));
-		searchButton.setAlpha(forward ? f : Math.abs(1 - f));
+		setUpSearchButton();
 		toolbar.setAlpha(forward ? f : Math.abs(1 - f));
 		navIcon.setParameter(forward ? f : Math.abs(1 - f));
 	}
