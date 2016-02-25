@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
 import com.expedia.bookings.R
 import com.expedia.util.subscribeText
 import com.expedia.vm.HotelSearchViewModel
@@ -39,6 +40,7 @@ class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
         val dialog: AlertDialog = builder.create()
         dialog.setOnShowListener {
             oldTravelerData = traveler.viewmodel.travelerParamsObservable.value
+            dialog.getWindow()?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         }
         dialog.setOnDismissListener {
             if (oldTravelerData != null) {

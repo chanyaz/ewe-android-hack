@@ -36,7 +36,7 @@ class NewSearchScreenTest : HotelTestCase() {
 
         // opening calendar dialog click on widget
         HotelScreen.selectCalendarV2().perform(click())
-        onView(withText(R.string.select_dates)).check(matches(isDisplayed()))
+        onView(withText(R.string.DONE)).check(matches(isDisplayed()))
         HotelScreen.selectDates(firstStartDate, firstEndDate)
         HotelScreen.searchAlertDialogDoneV2().perform(click())
 
@@ -47,7 +47,7 @@ class NewSearchScreenTest : HotelTestCase() {
         val secondEndDate = LocalDate.now().plusDays(22)
 
         HotelScreen.selectCalendarV2().perform(click())
-        onView(withText(R.string.select_dates)).check(matches(isDisplayed()))
+        onView(withText(R.string.DONE)).check(matches(isDisplayed()))
         HotelScreen.selectDates(secondStartDate, secondEndDate)
         HotelScreen.searchAlertDialogDoneV2().perform(click())
 
@@ -59,7 +59,7 @@ class NewSearchScreenTest : HotelTestCase() {
         val thirdEndDate = LocalDate.now().plusDays(17)
 
         HotelScreen.selectCalendarV2().perform(click())
-        onView(withText(R.string.select_dates)).check(matches(isDisplayed()))
+        onView(withText(R.string.DONE)).check(matches(isDisplayed()))
         HotelScreen.selectDates(thirdStartDate, thirdEndDate)
         Common.pressBack() //NOTE - pressing back instead of clicking "DONE"
 
@@ -116,7 +116,7 @@ class NewSearchScreenTest : HotelTestCase() {
 
         // opening calendar dialog click on widget
         HotelScreen.selectCalendarV2().perform(click())
-        onView(withText(R.string.select_dates)).check(matches(isDisplayed()))
+        onView(withText(R.string.DONE)).check(matches(isDisplayed()))
 
         val startDate = LocalDate.now().plusDays(10)
         HotelScreen.selectDates(startDate, null)
@@ -145,8 +145,8 @@ class NewSearchScreenTest : HotelTestCase() {
         HotelScreen.selectDestinationTextViewV2().check(matches(withText("Hyatt Regency San Francisco")))
 
         HotelScreen.selectCalendarV2().perform(click())
-        onView(withText(R.string.select_dates)).perform(ViewActions.waitForViewToDisplay())
-        onView(withText(R.string.select_dates)).check(matches(isDisplayed()))
+        onView(withText(R.string.DONE)).perform(ViewActions.waitForViewToDisplay())
+        onView(withText(R.string.DONE)).check(matches(isDisplayed()))
 
         val startDate = LocalDate.now().plusDays(10)
         HotelScreen.selectDates(startDate, null)

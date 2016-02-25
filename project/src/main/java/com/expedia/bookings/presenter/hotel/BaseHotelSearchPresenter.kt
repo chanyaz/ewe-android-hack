@@ -2,13 +2,13 @@ package com.expedia.bookings.presenter.hotel
 
 import android.content.Context
 import android.util.AttributeSet
-import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.presenter.BaseSearchPresenter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelTravelerParams
 import org.joda.time.LocalDate
 
-abstract class BaseHotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+abstract class BaseHotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
 
     open var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
     }
