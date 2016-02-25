@@ -1,0 +1,2492 @@
+{
+  "responseStatus": {
+    "success": true,
+    "errorList": [],
+    "warningList": []
+  },
+  "railSearchResult": {
+    "fareQualifiers": [],
+    "passengers": [
+      {
+        "passengerId": "",
+        "age": 30,
+        "fareQualifierRefId": null,
+        "fareQualifier": null
+      },
+      {
+        "passengerId": "",
+        "age": 14,
+        "fareQualifierRefId": null,
+        "fareQualifier": null
+      }
+    ],
+    "legList": [
+      {
+        "departureStationDetails": {
+          "stationCode": "GBRDG",
+          "stationName": "Reading",
+          "stationType": "STATION",
+          "stationCity": null
+        },
+        "arrivalStationDetails": {
+          "stationCode": "GBQQM",
+          "stationName": "Manchester Piccadilly",
+          "stationType": "STATION",
+          "stationCity": null
+        },
+        "legOptions": [
+          {
+            "departureStationDetails": {
+              "stationCode": "GBRDG",
+              "stationName": "Reading",
+              "stationType": "STATION",
+              "stationCity": null
+            },
+            "arrivalStationDetails": {
+              "stationCode": "GBQQM",
+              "stationName": "Manchester Piccadilly",
+              "stationType": "STATION",
+              "stationCity": null
+            },
+            "departureDateTime": "2016-03-05T07:47:00.000Z",
+            "arrivalDateTime": "2016-03-05T10:59:00.000Z",
+            "durationInMinutes": 192,
+            "segmentList": [
+              {
+                "departureStationDetails": {
+                  "stationCode": "GBRDG",
+                  "stationName": "Reading",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "arrivalStationDetails": {
+                  "stationCode": "GBQQN",
+                  "stationName": "Birmingham New Street",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "departureDateTime": "2016-03-05T07:47:00.000Z",
+                "arrivalDateTime": "2016-03-05T09:18:00.000Z",
+                "serviceName": "CrossCountry",
+                "durationInMinutes": 91,
+                "changeTimeInMinutes": 13,
+                "equipment": {
+                  "code": "",
+                  "name": "CrossCountry"
+                },
+                "supplier": {
+                  "supplierEquipmentId": "XC2087",
+                  "supplierEquipmentType": "CrossCountry-ICY",
+                  "operatingCarrier": "CrossCountry",
+                  "marketingCarrier": "CrossCountry"
+                },
+                "nightTrain": false,
+                "highSpeed": false,
+                "availableSeatPreferences": [],
+                "segmentId": "LS_1_0_TS_0",
+                "travelMode": "Train",
+                "onbound": true,
+                "inbound": null
+              },
+              {
+                "departureStationDetails": {
+                  "stationCode": "GBQQN",
+                  "stationName": "Birmingham New Street",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "arrivalStationDetails": {
+                  "stationCode": "GBQQM",
+                  "stationName": "Manchester Piccadilly",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "departureDateTime": "2016-03-05T09:31:00.000Z",
+                "arrivalDateTime": "2016-03-05T10:59:00.000Z",
+                "serviceName": "CrossCountry",
+                "durationInMinutes": 88,
+                "changeTimeInMinutes": -1,
+                "equipment": {
+                  "code": "",
+                  "name": "CrossCountry"
+                },
+                "supplier": {
+                  "supplierEquipmentId": "XC4027",
+                  "supplierEquipmentType": "CrossCountry-ICY",
+                  "operatingCarrier": "CrossCountry",
+                  "marketingCarrier": "CrossCountry"
+                },
+                "nightTrain": false,
+                "highSpeed": false,
+                "availableSeatPreferences": [],
+                "segmentId": "LS_1_0_TS_1",
+                "travelMode": "Train",
+                "onbound": true,
+                "inbound": null
+              }
+            ],
+            "passengerInformationRequired": null,
+            "legOptionId": "LS_1_0"
+          },
+          {
+            "departureStationDetails": {
+              "stationCode": "GBRDG",
+              "stationName": "Reading",
+              "stationType": "STATION",
+              "stationCity": null
+            },
+            "arrivalStationDetails": {
+              "stationCode": "GBQQM",
+              "stationName": "Manchester Piccadilly",
+              "stationType": "STATION",
+              "stationCity": null
+            },
+            "departureDateTime": "2016-03-05T07:49:00.000Z",
+            "arrivalDateTime": "2016-03-05T11:07:00.000Z",
+            "durationInMinutes": 198,
+            "segmentList": [
+              {
+                "departureStationDetails": {
+                  "stationCode": "GBRDG",
+                  "stationName": "Reading",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "arrivalStationDetails": {
+                  "stationCode": "GBQQP",
+                  "stationName": "London Paddington",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "departureDateTime": "2016-03-05T07:49:00.000Z",
+                "arrivalDateTime": "2016-03-05T08:16:00.000Z",
+                "serviceName": "FirstGrtWest",
+                "durationInMinutes": 27,
+                "changeTimeInMinutes": 0,
+                "equipment": {
+                  "code": "",
+                  "name": "FirstGrtWest"
+                },
+                "supplier": {
+                  "supplierEquipmentId": "GW4227",
+                  "supplierEquipmentType": "FirstGrtWest-ICY",
+                  "operatingCarrier": "FirstGrtWest",
+                  "marketingCarrier": "FirstGrtWest"
+                },
+                "nightTrain": false,
+                "highSpeed": false,
+                "availableSeatPreferences": [],
+                "segmentId": "LS_1_1_TS_0",
+                "travelMode": "Train",
+                "onbound": true,
+                "inbound": null
+              },
+              {
+                "departureStationDetails": {
+                  "stationCode": "GBQQP",
+                  "stationName": "London Paddington",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "arrivalStationDetails": {
+                  "stationCode": "GBQQU",
+                  "stationName": "London Euston",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "departureDateTime": "2016-03-05T08:16:00.000Z",
+                "arrivalDateTime": "2016-03-05T08:59:00.000Z",
+                "serviceName": "LonUnderground",
+                "durationInMinutes": 43,
+                "changeTimeInMinutes": 1,
+                "equipment": {
+                  "code": "",
+                  "name": "LonUnderground"
+                },
+                "supplier": {
+                  "supplierEquipmentId": null,
+                  "supplierEquipmentType": "LonUnderground-MCT",
+                  "operatingCarrier": "LonUnderground",
+                  "marketingCarrier": "LonUnderground"
+                },
+                "nightTrain": false,
+                "highSpeed": false,
+                "availableSeatPreferences": [],
+                "segmentId": "LS_1_1_TS_1",
+                "travelMode": null,
+                "onbound": true,
+                "inbound": null
+              },
+              {
+                "departureStationDetails": {
+                  "stationCode": "GBQQU",
+                  "stationName": "London Euston",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "arrivalStationDetails": {
+                  "stationCode": "GBQQM",
+                  "stationName": "Manchester Piccadilly",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "departureDateTime": "2016-03-05T09:00:00.000Z",
+                "arrivalDateTime": "2016-03-05T11:07:00.000Z",
+                "serviceName": "Virgin",
+                "durationInMinutes": 127,
+                "changeTimeInMinutes": -1,
+                "equipment": {
+                  "code": "",
+                  "name": "Virgin"
+                },
+                "supplier": {
+                  "supplierEquipmentId": "VT7077",
+                  "supplierEquipmentType": "Virgin-ICY",
+                  "operatingCarrier": "Virgin",
+                  "marketingCarrier": "Virgin"
+                },
+                "nightTrain": false,
+                "highSpeed": false,
+                "availableSeatPreferences": [],
+                "segmentId": "LS_1_1_TS_2",
+                "travelMode": "Train",
+                "onbound": true,
+                "inbound": null
+              }
+            ],
+            "passengerInformationRequired": null,
+            "legOptionId": "LS_1_1"
+          },
+          {
+            "departureStationDetails": {
+              "stationCode": "GBRDG",
+              "stationName": "Reading",
+              "stationType": "STATION",
+              "stationCity": null
+            },
+            "arrivalStationDetails": {
+              "stationCode": "GBQQM",
+              "stationName": "Manchester Piccadilly",
+              "stationType": "STATION",
+              "stationCity": null
+            },
+            "departureDateTime": "2016-03-05T08:15:00.000Z",
+            "arrivalDateTime": "2016-03-05T11:35:00.000Z",
+            "durationInMinutes": 200,
+            "segmentList": [
+              {
+                "departureStationDetails": {
+                  "stationCode": "GBRDG",
+                  "stationName": "Reading",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "arrivalStationDetails": {
+                  "stationCode": "GBQQM",
+                  "stationName": "Manchester Piccadilly",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "departureDateTime": "2016-03-05T08:15:00.000Z",
+                "arrivalDateTime": "2016-03-05T11:35:00.000Z",
+                "serviceName": "CrossCountry",
+                "durationInMinutes": 200,
+                "changeTimeInMinutes": -1,
+                "equipment": {
+                  "code": "",
+                  "name": "CrossCountry"
+                },
+                "supplier": {
+                  "supplierEquipmentId": "XC3087",
+                  "supplierEquipmentType": "CrossCountry-ICY",
+                  "operatingCarrier": "CrossCountry",
+                  "marketingCarrier": "CrossCountry"
+                },
+                "nightTrain": false,
+                "highSpeed": false,
+                "availableSeatPreferences": [],
+                "segmentId": "LS_1_2_TS_0",
+                "travelMode": "Train",
+                "onbound": true,
+                "inbound": null
+              }
+            ],
+            "passengerInformationRequired": null,
+            "legOptionId": "LS_1_2"
+          },
+          {
+            "departureStationDetails": {
+              "stationCode": "GBRDG",
+              "stationName": "Reading",
+              "stationType": "STATION",
+              "stationCity": null
+            },
+            "arrivalStationDetails": {
+              "stationCode": "GBQQM",
+              "stationName": "Manchester Piccadilly",
+              "stationType": "STATION",
+              "stationCity": null
+            },
+            "departureDateTime": "2016-03-05T08:45:00.000Z",
+            "arrivalDateTime": "2016-03-05T11:59:00.000Z",
+            "durationInMinutes": 194,
+            "segmentList": [
+              {
+                "departureStationDetails": {
+                  "stationCode": "GBRDG",
+                  "stationName": "Reading",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "arrivalStationDetails": {
+                  "stationCode": "GBQQN",
+                  "stationName": "Birmingham New Street",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "departureDateTime": "2016-03-05T08:45:00.000Z",
+                "arrivalDateTime": "2016-03-05T10:18:00.000Z",
+                "serviceName": "CrossCountry",
+                "durationInMinutes": 93,
+                "changeTimeInMinutes": 13,
+                "equipment": {
+                  "code": "",
+                  "name": "CrossCountry"
+                },
+                "supplier": {
+                  "supplierEquipmentId": "XC2107",
+                  "supplierEquipmentType": "CrossCountry-ICY",
+                  "operatingCarrier": "CrossCountry",
+                  "marketingCarrier": "CrossCountry"
+                },
+                "nightTrain": false,
+                "highSpeed": false,
+                "availableSeatPreferences": [],
+                "segmentId": "LS_1_3_TS_0",
+                "travelMode": "Train",
+                "onbound": true,
+                "inbound": null
+              },
+              {
+                "departureStationDetails": {
+                  "stationCode": "GBQQN",
+                  "stationName": "Birmingham New Street",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "arrivalStationDetails": {
+                  "stationCode": "GBQQM",
+                  "stationName": "Manchester Piccadilly",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "departureDateTime": "2016-03-05T10:31:00.000Z",
+                "arrivalDateTime": "2016-03-05T11:59:00.000Z",
+                "serviceName": "CrossCountry",
+                "durationInMinutes": 88,
+                "changeTimeInMinutes": -1,
+                "equipment": {
+                  "code": "",
+                  "name": "CrossCountry"
+                },
+                "supplier": {
+                  "supplierEquipmentId": "XC4047",
+                  "supplierEquipmentType": "CrossCountry-ICY",
+                  "operatingCarrier": "CrossCountry",
+                  "marketingCarrier": "CrossCountry"
+                },
+                "nightTrain": false,
+                "highSpeed": false,
+                "availableSeatPreferences": [],
+                "segmentId": "LS_1_3_TS_1",
+                "travelMode": "Train",
+                "onbound": true,
+                "inbound": null
+              }
+            ],
+            "passengerInformationRequired": null,
+            "legOptionId": "LS_1_3"
+          },
+          {
+            "departureStationDetails": {
+              "stationCode": "GBRDG",
+              "stationName": "Reading",
+              "stationType": "STATION",
+              "stationCity": null
+            },
+            "arrivalStationDetails": {
+              "stationCode": "GBQQM",
+              "stationName": "Manchester Piccadilly",
+              "stationType": "STATION",
+              "stationCity": null
+            },
+            "departureDateTime": "2016-03-05T08:51:00.000Z",
+            "arrivalDateTime": "2016-03-05T12:07:00.000Z",
+            "durationInMinutes": 196,
+            "segmentList": [
+              {
+                "departureStationDetails": {
+                  "stationCode": "GBRDG",
+                  "stationName": "Reading",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "arrivalStationDetails": {
+                  "stationCode": "GBQQP",
+                  "stationName": "London Paddington",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "departureDateTime": "2016-03-05T08:51:00.000Z",
+                "arrivalDateTime": "2016-03-05T09:17:00.000Z",
+                "serviceName": "FirstGrtWest",
+                "durationInMinutes": 26,
+                "changeTimeInMinutes": 0,
+                "equipment": {
+                  "code": "",
+                  "name": "FirstGrtWest"
+                },
+                "supplier": {
+                  "supplierEquipmentId": "GW1220",
+                  "supplierEquipmentType": "FirstGrtWest-ICY",
+                  "operatingCarrier": "FirstGrtWest",
+                  "marketingCarrier": "FirstGrtWest"
+                },
+                "nightTrain": false,
+                "highSpeed": false,
+                "availableSeatPreferences": [],
+                "segmentId": "LS_1_4_TS_0",
+                "travelMode": "Train",
+                "onbound": true,
+                "inbound": null
+              },
+              {
+                "departureStationDetails": {
+                  "stationCode": "GBQQP",
+                  "stationName": "London Paddington",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "arrivalStationDetails": {
+                  "stationCode": "GBQQU",
+                  "stationName": "London Euston",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "departureDateTime": "2016-03-05T09:17:00.000Z",
+                "arrivalDateTime": "2016-03-05T09:59:59.000Z",
+                "serviceName": "LonUnderground",
+                "durationInMinutes": 42,
+                "changeTimeInMinutes": 1,
+                "equipment": {
+                  "code": "",
+                  "name": "LonUnderground"
+                },
+                "supplier": {
+                  "supplierEquipmentId": null,
+                  "supplierEquipmentType": "LonUnderground-MCT",
+                  "operatingCarrier": "LonUnderground",
+                  "marketingCarrier": "LonUnderground"
+                },
+                "nightTrain": false,
+                "highSpeed": false,
+                "availableSeatPreferences": [],
+                "segmentId": "LS_1_4_TS_1",
+                "travelMode": null,
+                "onbound": true,
+                "inbound": null
+              },
+              {
+                "departureStationDetails": {
+                  "stationCode": "GBQQU",
+                  "stationName": "London Euston",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "arrivalStationDetails": {
+                  "stationCode": "GBQQM",
+                  "stationName": "Manchester Piccadilly",
+                  "stationType": "STATION",
+                  "stationCity": null
+                },
+                "departureDateTime": "2016-03-05T10:00:00.000Z",
+                "arrivalDateTime": "2016-03-05T12:07:00.000Z",
+                "serviceName": "Virgin",
+                "durationInMinutes": 127,
+                "changeTimeInMinutes": -1,
+                "equipment": {
+                  "code": "",
+                  "name": "Virgin"
+                },
+                "supplier": {
+                  "supplierEquipmentId": "VT7107",
+                  "supplierEquipmentType": "Virgin-ICY",
+                  "operatingCarrier": "Virgin",
+                  "marketingCarrier": "Virgin"
+                },
+                "nightTrain": false,
+                "highSpeed": false,
+                "availableSeatPreferences": [],
+                "segmentId": "LS_1_4_TS_2",
+                "travelMode": "Train",
+                "onbound": true,
+                "inbound": null
+              }
+            ],
+            "passengerInformationRequired": null,
+            "legOptionId": "LS_1_4"
+          }
+        ],
+        "legId": "LS_1_4"
+      }
+    ],
+    "railOfferList": [
+      {
+        "totalPrice": {
+          "value": 211.83,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 211.83,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_0"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IXC-SOS-00700-STD-1",
+                        "travelSegmentIDRef": "LS_1_0_TS_0",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IXC-SOS-00700-STD-1",
+                        "travelSegmentIDRef": "LS_1_0_TS_1",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "THIRD",
+            "fareClass": "THIRD",
+            "openReturn": false,
+            "refundable": true,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CPPdJRCz3yUYAyIaCKaIhwMQpoDhBhjz3SUgzt4lKgZYQzIwODciGgimgOEGEKaAoQYY294lILPfJSoGWEM0MDI3KgIIHioCCA4yFQoHQU5ZVElNRRADGghTdGFuZGFyZDgBQAA="
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CPPdJRCz3yUYAyIaCKaIhwMQpoDhBhjz3SUgzt4lKgZYQzIwODciGgimgOEGEKaAoQYY294lILPfJSoGWEM0MDI3KgIIHioCCA4yFQoHQU5ZVElNRRADGghTdGFuZGFyZDgBQAA="
+      },
+      {
+        "totalPrice": {
+          "value": 488.71,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 488.71,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_0"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IXC-FOS-00700-STD-1",
+                        "travelSegmentIDRef": "LS_1_0_TS_0",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IXC-FOS-00700-STD-1",
+                        "travelSegmentIDRef": "LS_1_0_TS_1",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "FIRST",
+            "fareClass": "FIRST",
+            "openReturn": false,
+            "refundable": true,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CPPdJRCz3yUYASIaCKaIhwMQpoDhBhjz3SUgzt4lKgZYQzIwODciGgimgOEGEKaAoQYY294lILPfJSoGWEM0MDI3KgIIHioCCA4yEgoHQU5ZVElNRRABGgVGaXJzdDgBQAA="
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CPPdJRCz3yUYASIaCKaIhwMQpoDhBhjz3SUgzt4lKgZYQzIwODciGgimgOEGEKaAoQYY294lILPfJSoGWEM0MDI3KgIIHioCCA4yEgoHQU5ZVElNRRABGgVGaXJzdDgBQAA="
+      },
+      {
+        "totalPrice": {
+          "value": 187.65,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 187.65,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_0"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IXC-SVS-00700-STD-1",
+                        "travelSegmentIDRef": "LS_1_0_TS_0",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "OFFPEAK_DAY",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IXC-SVS-00700-STD-1",
+                        "travelSegmentIDRef": "LS_1_0_TS_1",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "OFFPEAK_DAY",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "THIRD",
+            "fareClass": "THIRD",
+            "openReturn": false,
+            "refundable": true,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CPPdJRCz3yUYAyIaCKaIhwMQpoDhBhjz3SUgzt4lKgZYQzIwODciGgimgOEGEKaAoQYY294lILPfJSoGWEM0MDI3KgIIHioCCA4yGQoLT0ZGUEVBS19EQVkQAxoIU3RhbmRhcmQ4AUAA"
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CPPdJRCz3yUYAyIaCKaIhwMQpoDhBhjz3SUgzt4lKgZYQzIwODciGgimgOEGEKaAoQYY294lILPfJSoGWEM0MDI3KgIIHioCCA4yGQoLT0ZGUEVBS19EQVkQAxoIU3RhbmRhcmQ4AUAA"
+      },
+      {
+        "totalPrice": {
+          "value": 131.31,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 131.31,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_0"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IXC-MCF-00024-STD-1",
+                        "travelSegmentIDRef": "LS_1_0_TS_0",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IXC-MCF-00024-STD-1",
+                        "travelSegmentIDRef": "LS_1_0_TS_1",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "FIRST",
+            "fareClass": "FIRST",
+            "openReturn": false,
+            "refundable": false,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CPPdJRCz3yUYASIaCKaIhwMQpoDhBhjz3SUgzt4lKgZYQzIwODciGgimgOEGEKaAoQYY294lILPfJSoGWEM0MDI3KgIIHioCCA4yEgoHQURWQU5DRRABGgVGaXJzdDgAQAA="
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CPPdJRCz3yUYASIaCKaIhwMQpoDhBhjz3SUgzt4lKgZYQzIwODciGgimgOEGEKaAoQYY294lILPfJSoGWEM0MDI3KgIIHioCCA4yEgoHQURWQU5DRRABGgVGaXJzdDgAQAA="
+      },
+      {
+        "totalPrice": {
+          "value": 58.28,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 58.28,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_0"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IXC-MCS-00024-STD-1",
+                        "travelSegmentIDRef": "LS_1_0_TS_0",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IXC-MCS-00024-STD-1",
+                        "travelSegmentIDRef": "LS_1_0_TS_1",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "THIRD",
+            "fareClass": "THIRD",
+            "openReturn": false,
+            "refundable": false,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CPPdJRCz3yUYAyIaCKaIhwMQpoDhBhjz3SUgzt4lKgZYQzIwODciGgimgOEGEKaAoQYY294lILPfJSoGWEM0MDI3KgIIHioCCA4yFQoHQURWQU5DRRADGghTdGFuZGFyZDgAQAA="
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CPPdJRCz3yUYAyIaCKaIhwMQpoDhBhjz3SUgzt4lKgZYQzIwODciGgimgOEGEKaAoQYY294lILPfJSoGWEM0MDI3KgIIHioCCA4yFQoHQURWQU5DRRADGghTdGFuZGFyZDgAQAA="
+      },
+      {
+        "totalPrice": {
+          "value": 471.54,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 471.54,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_1"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IWC-SOS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_1_TS_1",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-SOS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_1_TS_0",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-SOS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_1_TS_2",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "THIRD",
+            "fareClass": "THIRD",
+            "openReturn": false,
+            "refundable": true,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CPXdJRC73yUYAyIaCKaIhwMQpoDhBxj13SUgkN4lKgZHVzQyMjciFAimgOEHEKaAoQoYkN4lILveJSoAIhoIpoChChCmgKEGGLzeJSC73yUqBlZUNzA3NyoCCB4qAggOMhUKB0FOWVRJTUUQAxoIU3RhbmRhcmQ4AUAA"
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CPXdJRC73yUYAyIaCKaIhwMQpoDhBxj13SUgkN4lKgZHVzQyMjciFAimgOEHEKaAoQoYkN4lILveJSoAIhoIpoChChCmgKEGGLzeJSC73yUqBlZUNzA3NyoCCB4qAggOMhUKB0FOWVRJTUUQAxoIU3RhbmRhcmQ4AUAA"
+      },
+      {
+        "totalPrice": {
+          "value": 657.74,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 657.74,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_1"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IWC-FOS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_1_TS_1",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-FOS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_1_TS_0",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-FOS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_1_TS_2",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "FIRST",
+            "fareClass": "FIRST",
+            "openReturn": false,
+            "refundable": true,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CPXdJRC73yUYASIaCKaIhwMQpoDhBxj13SUgkN4lKgZHVzQyMjciFAimgOEHEKaAoQoYkN4lILveJSoAIhoIpoChChCmgKEGGLzeJSC73yUqBlZUNzA3NyoCCB4qAggOMhIKB0FOWVRJTUUQARoFRmlyc3Q4AUAA"
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CPXdJRC73yUYASIaCKaIhwMQpoDhBxj13SUgkN4lKgZHVzQyMjciFAimgOEHEKaAoQoYkN4lILveJSoAIhoIpoChChCmgKEGGLzeJSC73yUqBlZUNzA3NyoCCB4qAggOMhIKB0FOWVRJTUUQARoFRmlyc3Q4AUAA"
+      },
+      {
+        "totalPrice": {
+          "value": 226.1,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 226.1,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_1"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IWC-SVS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_1_TS_1",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "OFFPEAK_DAY",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-SVS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_1_TS_0",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "OFFPEAK_DAY",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-SVS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_1_TS_2",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "OFFPEAK_DAY",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "THIRD",
+            "fareClass": "THIRD",
+            "openReturn": false,
+            "refundable": true,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CPXdJRC73yUYAyIaCKaIhwMQpoDhBxj13SUgkN4lKgZHVzQyMjciFAimgOEHEKaAoQoYkN4lILveJSoAIhoIpoChChCmgKEGGLzeJSC73yUqBlZUNzA3NyoCCB4qAggOMhkKC09GRlBFQUtfREFZEAMaCFN0YW5kYXJkOAFAAA=="
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CPXdJRC73yUYAyIaCKaIhwMQpoDhBxj13SUgkN4lKgZHVzQyMjciFAimgOEHEKaAoQoYkN4lILveJSoAIhoIpoChChCmgKEGGLzeJSC73yUqBlZUNzA3NyoCCB4qAggOMhkKC09GRlBFQUtfREFZEAMaCFN0YW5kYXJkOAFAAA=="
+      },
+      {
+        "totalPrice": {
+          "value": 79.8,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 79.8,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_1"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IWC-VCS-00452-STD-1",
+                        "travelSegmentIDRef": "LS_1_1_TS_0",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-VCS-00452-STD-1",
+                        "travelSegmentIDRef": "LS_1_1_TS_2",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-VCS-00452-STD-1",
+                        "travelSegmentIDRef": "LS_1_1_TS_1",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "THIRD",
+            "fareClass": "THIRD",
+            "openReturn": false,
+            "refundable": false,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CPXdJRC73yUYAyIaCKaIhwMQpoDhBxj13SUgkN4lKgZHVzQyMjciFAimgOEHEKaAoQoYkN4lILveJSoAIhoIpoChChCmgKEGGLzeJSC73yUqBlZUNzA3NyoCCB4qAggOMhUKB0FEVkFOQ0UQAxoIU3RhbmRhcmQ4AEAA"
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CPXdJRC73yUYAyIaCKaIhwMQpoDhBxj13SUgkN4lKgZHVzQyMjciFAimgOEHEKaAoQoYkN4lILveJSoAIhoIpoChChCmgKEGGLzeJSC73yUqBlZUNzA3NyoCCB4qAggOMhUKB0FEVkFOQ0UQAxoIU3RhbmRhcmQ4AEAA"
+      },
+      {
+        "totalPrice": {
+          "value": 72.78,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 72.78,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_2"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IXC-MBS-00024-STD-1",
+                        "travelSegmentIDRef": "LS_1_2_TS_0",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "THIRD",
+            "fareClass": "THIRD",
+            "openReturn": false,
+            "refundable": false,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CI_eJRDX3yUYAyIaCKaIhwMQpoChBhiP3iUg198lKgZYQzMwODcqAggeKgIIDjIVCgdBRFZBTkNFEAMaCFN0YW5kYXJkOABAAA=="
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CI_eJRDX3yUYAyIaCKaIhwMQpoChBhiP3iUg198lKgZYQzMwODcqAggeKgIIDjIVCgdBRFZBTkNFEAMaCFN0YW5kYXJkOABAAA=="
+      },
+      {
+        "totalPrice": {
+          "value": 131.31,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 131.31,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_2"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IXC-MCF-00024-STD-1",
+                        "travelSegmentIDRef": "LS_1_2_TS_0",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "FIRST",
+            "fareClass": "FIRST",
+            "openReturn": false,
+            "refundable": false,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CI_eJRDX3yUYASIaCKaIhwMQpoChBhiP3iUg198lKgZYQzMwODcqAggeKgIIDjISCgdBRFZBTkNFEAEaBUZpcnN0OABAAA=="
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CI_eJRDX3yUYASIaCKaIhwMQpoChBhiP3iUg198lKgZYQzMwODcqAggeKgIIDjISCgdBRFZBTkNFEAEaBUZpcnN0OABAAA=="
+      },
+      {
+        "totalPrice": {
+          "value": 211.83,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 211.83,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_2"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IXC-SOS-00700-STD-1",
+                        "travelSegmentIDRef": "LS_1_2_TS_0",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "THIRD",
+            "fareClass": "THIRD",
+            "openReturn": false,
+            "refundable": true,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CI_eJRDX3yUYAyIaCKaIhwMQpoChBhiP3iUg198lKgZYQzMwODcqAggeKgIIDjIVCgdBTllUSU1FEAMaCFN0YW5kYXJkOAFAAA=="
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CI_eJRDX3yUYAyIaCKaIhwMQpoChBhiP3iUg198lKgZYQzMwODcqAggeKgIIDjIVCgdBTllUSU1FEAMaCFN0YW5kYXJkOAFAAA=="
+      },
+      {
+        "totalPrice": {
+          "value": 488.71,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 488.71,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_2"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IXC-FOS-00700-STD-1",
+                        "travelSegmentIDRef": "LS_1_2_TS_0",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "FIRST",
+            "fareClass": "FIRST",
+            "openReturn": false,
+            "refundable": true,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CI_eJRDX3yUYASIaCKaIhwMQpoChBhiP3iUg198lKgZYQzMwODcqAggeKgIIDjISCgdBTllUSU1FEAEaBUZpcnN0OAFAAA=="
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CI_eJRDX3yUYASIaCKaIhwMQpoChBhiP3iUg198lKgZYQzMwODcqAggeKgIIDjISCgdBTllUSU1FEAEaBUZpcnN0OAFAAA=="
+      },
+      {
+        "totalPrice": {
+          "value": 187.65,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 187.65,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_2"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IXC-SVS-00700-STD-1",
+                        "travelSegmentIDRef": "LS_1_2_TS_0",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "OFFPEAK_DAY",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "THIRD",
+            "fareClass": "THIRD",
+            "openReturn": false,
+            "refundable": true,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CI_eJRDX3yUYAyIaCKaIhwMQpoChBhiP3iUg198lKgZYQzMwODcqAggeKgIIDjIZCgtPRkZQRUFLX0RBWRADGghTdGFuZGFyZDgBQAA="
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CI_eJRDX3yUYAyIaCKaIhwMQpoChBhiP3iUg198lKgZYQzMwODcqAggeKgIIDjIZCgtPRkZQRUFLX0RBWRADGghTdGFuZGFyZDgBQAA="
+      },
+      {
+        "totalPrice": {
+          "value": 131.31,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 131.31,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_3"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IXC-MCF-00024-STD-1",
+                        "travelSegmentIDRef": "LS_1_3_TS_0",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IXC-MCF-00024-STD-1",
+                        "travelSegmentIDRef": "LS_1_3_TS_1",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "FIRST",
+            "fareClass": "FIRST",
+            "openReturn": false,
+            "refundable": false,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CK3eJRDv3yUYASIaCKaIhwMQpoDhBhit3iUgit8lKgZYQzIxMDciGgimgOEGEKaAoQYYl98lIO_fJSoGWEM0MDQ3KgIIHioCCA4yEgoHQURWQU5DRRABGgVGaXJzdDgAQAA="
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CK3eJRDv3yUYASIaCKaIhwMQpoDhBhit3iUgit8lKgZYQzIxMDciGgimgOEGEKaAoQYYl98lIO_fJSoGWEM0MDQ3KgIIHioCCA4yEgoHQURWQU5DRRABGgVGaXJzdDgAQAA="
+      },
+      {
+        "totalPrice": {
+          "value": 58.28,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 58.28,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_3"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IXC-MCS-00024-STD-1",
+                        "travelSegmentIDRef": "LS_1_3_TS_0",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IXC-MCS-00024-STD-1",
+                        "travelSegmentIDRef": "LS_1_3_TS_1",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "THIRD",
+            "fareClass": "THIRD",
+            "openReturn": false,
+            "refundable": false,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CK3eJRDv3yUYAyIaCKaIhwMQpoDhBhit3iUgit8lKgZYQzIxMDciGgimgOEGEKaAoQYYl98lIO_fJSoGWEM0MDQ3KgIIHioCCA4yFQoHQURWQU5DRRADGghTdGFuZGFyZDgAQAA="
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CK3eJRDv3yUYAyIaCKaIhwMQpoDhBhit3iUgit8lKgZYQzIxMDciGgimgOEGEKaAoQYYl98lIO_fJSoGWEM0MDQ3KgIIHioCCA4yFQoHQURWQU5DRRADGghTdGFuZGFyZDgAQAA="
+      },
+      {
+        "totalPrice": {
+          "value": 211.83,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 211.83,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_3"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IXC-SOS-00700-STD-1",
+                        "travelSegmentIDRef": "LS_1_3_TS_0",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IXC-SOS-00700-STD-1",
+                        "travelSegmentIDRef": "LS_1_3_TS_1",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "THIRD",
+            "fareClass": "THIRD",
+            "openReturn": false,
+            "refundable": true,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CK3eJRDv3yUYAyIaCKaIhwMQpoDhBhit3iUgit8lKgZYQzIxMDciGgimgOEGEKaAoQYYl98lIO_fJSoGWEM0MDQ3KgIIHioCCA4yFQoHQU5ZVElNRRADGghTdGFuZGFyZDgBQAA="
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CK3eJRDv3yUYAyIaCKaIhwMQpoDhBhit3iUgit8lKgZYQzIxMDciGgimgOEGEKaAoQYYl98lIO_fJSoGWEM0MDQ3KgIIHioCCA4yFQoHQU5ZVElNRRADGghTdGFuZGFyZDgBQAA="
+      },
+      {
+        "totalPrice": {
+          "value": 488.71,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 488.71,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_3"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IXC-FOS-00700-STD-1",
+                        "travelSegmentIDRef": "LS_1_3_TS_0",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IXC-FOS-00700-STD-1",
+                        "travelSegmentIDRef": "LS_1_3_TS_1",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "FIRST",
+            "fareClass": "FIRST",
+            "openReturn": false,
+            "refundable": true,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CK3eJRDv3yUYASIaCKaIhwMQpoDhBhit3iUgit8lKgZYQzIxMDciGgimgOEGEKaAoQYYl98lIO_fJSoGWEM0MDQ3KgIIHioCCA4yEgoHQU5ZVElNRRABGgVGaXJzdDgBQAA="
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CK3eJRDv3yUYASIaCKaIhwMQpoDhBhit3iUgit8lKgZYQzIxMDciGgimgOEGEKaAoQYYl98lIO_fJSoGWEM0MDQ3KgIIHioCCA4yEgoHQU5ZVElNRRABGgVGaXJzdDgBQAA="
+      },
+      {
+        "totalPrice": {
+          "value": 187.65,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 187.65,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_3"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IXC-SVS-00700-STD-1",
+                        "travelSegmentIDRef": "LS_1_3_TS_0",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "OFFPEAK_DAY",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IXC-SVS-00700-STD-1",
+                        "travelSegmentIDRef": "LS_1_3_TS_1",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "OFFPEAK_DAY",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "THIRD",
+            "fareClass": "THIRD",
+            "openReturn": false,
+            "refundable": true,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CK3eJRDv3yUYAyIaCKaIhwMQpoDhBhit3iUgit8lKgZYQzIxMDciGgimgOEGEKaAoQYYl98lIO_fJSoGWEM0MDQ3KgIIHioCCA4yGQoLT0ZGUEVBS19EQVkQAxoIU3RhbmRhcmQ4AUAA"
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CK3eJRDv3yUYAyIaCKaIhwMQpoDhBhit3iUgit8lKgZYQzIxMDciGgimgOEGEKaAoQYYl98lIO_fJSoGWEM0MDQ3KgIIHioCCA4yGQoLT0ZGUEVBS19EQVkQAxoIU3RhbmRhcmQ4AUAA"
+      },
+      {
+        "totalPrice": {
+          "value": 471.54,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 471.54,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_4"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IWC-SOS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_4_TS_1",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-SOS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_4_TS_0",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-SOS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_4_TS_2",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "THIRD",
+            "fareClass": "THIRD",
+            "openReturn": false,
+            "refundable": true,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CLPeJRD33yUYAyIaCKaIhwMQpoDhBxiz3iUgzd4lKgZHVzEyMjAiFAimgOEHEKaAoQoYzd4lIPfeJSoAIhoIpoChChCmgKEGGPjeJSD33yUqBlZUNzEwNyoCCB4qAggOMhUKB0FOWVRJTUUQAxoIU3RhbmRhcmQ4AUAA"
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CLPeJRD33yUYAyIaCKaIhwMQpoDhBxiz3iUgzd4lKgZHVzEyMjAiFAimgOEHEKaAoQoYzd4lIPfeJSoAIhoIpoChChCmgKEGGPjeJSD33yUqBlZUNzEwNyoCCB4qAggOMhUKB0FOWVRJTUUQAxoIU3RhbmRhcmQ4AUAA"
+      },
+      {
+        "totalPrice": {
+          "value": 657.74,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 657.74,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_4"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IWC-FOS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_4_TS_1",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-FOS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_4_TS_0",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-FOS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_4_TS_2",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ANYTIME",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "FIRST",
+            "fareClass": "FIRST",
+            "openReturn": false,
+            "refundable": true,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CLPeJRD33yUYASIaCKaIhwMQpoDhBxiz3iUgzd4lKgZHVzEyMjAiFAimgOEHEKaAoQoYzd4lIPfeJSoAIhoIpoChChCmgKEGGPjeJSD33yUqBlZUNzEwNyoCCB4qAggOMhIKB0FOWVRJTUUQARoFRmlyc3Q4AUAA"
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CLPeJRD33yUYASIaCKaIhwMQpoDhBxiz3iUgzd4lKgZHVzEyMjAiFAimgOEHEKaAoQoYzd4lIPfeJSoAIhoIpoChChCmgKEGGPjeJSD33yUqBlZUNzEwNyoCCB4qAggOMhIKB0FOWVRJTUUQARoFRmlyc3Q4AUAA"
+      },
+      {
+        "totalPrice": {
+          "value": 226.1,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 226.1,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_4"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IWC-SVS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_4_TS_1",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "OFFPEAK_DAY",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-SVS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_4_TS_0",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "OFFPEAK_DAY",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-SVS-00200-STD-1",
+                        "travelSegmentIDRef": "LS_1_4_TS_2",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "OFFPEAK_DAY",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "THIRD",
+            "fareClass": "THIRD",
+            "openReturn": false,
+            "refundable": true,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CLPeJRD33yUYAyIaCKaIhwMQpoDhBxiz3iUgzd4lKgZHVzEyMjAiFAimgOEHEKaAoQoYzd4lIPfeJSoAIhoIpoChChCmgKEGGPjeJSD33yUqBlZUNzEwNyoCCB4qAggOMhkKC09GRlBFQUtfREFZEAMaCFN0YW5kYXJkOAFAAA=="
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CLPeJRD33yUYAyIaCKaIhwMQpoDhBxiz3iUgzd4lKgZHVzEyMjAiFAimgOEHEKaAoQoYzd4lIPfeJSoAIhoIpoChChCmgKEGGPjeJSD33yUqBlZUNzEwNyoCCB4qAggOMhkKC09GRlBFQUtfREFZEAMaCFN0YW5kYXJkOAFAAA=="
+      },
+      {
+        "totalPrice": {
+          "value": 230.94,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 230.94,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_4"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IWC-FBS-00452-STD-1",
+                        "travelSegmentIDRef": "LS_1_4_TS_0",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-FBS-00452-STD-1",
+                        "travelSegmentIDRef": "LS_1_4_TS_2",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-FBS-00452-STD-1",
+                        "travelSegmentIDRef": "LS_1_4_TS_1",
+                        "serviceClassCode": "FIRST",
+                        "carrierCabinClass": "First",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "FIRST",
+            "fareClass": "FIRST",
+            "openReturn": false,
+            "refundable": false,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CLPeJRD33yUYASIaCKaIhwMQpoDhBxiz3iUgzd4lKgZHVzEyMjAiFAimgOEHEKaAoQoYzd4lIPfeJSoAIhoIpoChChCmgKEGGPjeJSD33yUqBlZUNzEwNyoCCB4qAggOMhIKB0FEVkFOQ0UQARoFRmlyc3Q4AEAA"
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CLPeJRD33yUYASIaCKaIhwMQpoDhBxiz3iUgzd4lKgZHVzEyMjAiFAimgOEHEKaAoQoYzd4lIPfeJSoAIhoIpoChChCmgKEGGPjeJSD33yUqBlZUNzEwNyoCCB4qAggOMhIKB0FEVkFOQ0UQARoFRmlyc3Q4AEAA"
+      },
+      {
+        "totalPrice": {
+          "value": 99.15,
+          "currency": "USD",
+          "type": null
+        },
+        "railProductList": [
+          {
+            "totalPrice": {
+              "value": 99.15,
+              "currency": "USD",
+              "type": null
+            },
+            "legOptionReferences": [
+              "LS_1_4"
+            ],
+            "legOptions": [],
+            "fareBreakUpList": [
+              {
+                "totalPrice": null,
+                "prices": [],
+                "fareDestinationDetails": null,
+                "fareOriginDetails": null,
+                "passengerReferences": [
+                  {
+                    "passengerIDRef": "100",
+                    "passengerTypeCode": "A",
+                    "fareCodes": [
+                      {
+                        "fareCodeId": "IWC-VBS-00452-STD-1",
+                        "travelSegmentIDRef": "LS_1_4_TS_0",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-VBS-00452-STD-1",
+                        "travelSegmentIDRef": "LS_1_4_TS_2",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      },
+                      {
+                        "fareCodeId": "IWC-VBS-00452-STD-1",
+                        "travelSegmentIDRef": "LS_1_4_TS_1",
+                        "serviceClassCode": "THIRD",
+                        "carrierCabinClass": "Standard",
+                        "rewardsEligible": null,
+                        "fareClass": "ADVANCE",
+                        "reservable": null,
+                        "amenities": [],
+                        "fareApplicabilities": [],
+                        "fareExpirationDateTime": null
+                      }
+                    ]
+                  }
+                ],
+                "ticketingOptionsAvailable": null,
+                "fareBreakUpId": null
+              }
+            ],
+            "availableAncillaries": null,
+            "selectedAncillaries": null,
+            "passengerReferences": [
+              "",
+              ""
+            ],
+            "passengers": [],
+            "productHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+            "serviceClassCode": "THIRD",
+            "fareClass": "THIRD",
+            "openReturn": false,
+            "refundable": false,
+            "exchangable": false,
+            "additionalBookingOptions": null,
+            "railProductToken": "CLPeJRD33yUYAyIaCKaIhwMQpoDhBxiz3iUgzd4lKgZHVzEyMjAiFAimgOEHEKaAoQoYzd4lIPfeJSoAIhoIpoChChCmgKEGGPjeJSD33yUqBlZUNzEwNyoCCB4qAggOMhUKB0FEVkFOQ0UQAxoIU3RhbmRhcmQ4AEAA"
+          }
+        ],
+        "offerHoldExpirationDateTime": "2016-01-12T23:39:20.000Z",
+        "railOfferToken": "OFFER_CLPeJRD33yUYAyIaCKaIhwMQpoDhBxiz3iUgzd4lKgZHVzEyMjAiFAimgOEHEKaAoQoYzd4lIPfeJSoAIhoIpoChChCmgKEGGPjeJSD33yUqBlZUNzEwNyoCCB4qAggOMhUKB0FEVkFOQ0UQAxoIU3RhbmRhcmQ4AEAA"
+      }
+    ],
+    "rules": [],
+    "railSearchResultId": 0
+  }
+}

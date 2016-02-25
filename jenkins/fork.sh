@@ -14,13 +14,22 @@ internal_artifact() {
 # unistall old apks
 ./tools/uninstall.sh com.expedia.bookings
 
-run() {
-	 # run tests
-	 ./gradlew --no-daemon -D "fork.tablet=true" aED aEDAT forkExpediaDebug -D android.test.classes=$1
+build() {
+./gradlew --no-daemon aED aEDAT
 }
 
-failed_test_classes=""
+run() {
+	 # run tests
+	 ./gradlew --no-daemon forkExpediaDebug -D "fork.tablet=true" -D android.test.classes=$1
+}
 
+build || build
+if [ $? -ne 0 ]; then
+	echo "Build failed"
+	exit 1
+fi
+
+failed_test_classes=""
 for runCount in `seq 3`
 	do
 		echo "run count - $runCount"

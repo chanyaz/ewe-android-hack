@@ -148,4 +148,21 @@ public class DateFormatUtils {
 		DateTimeFormatter formatter = DateTimeFormat.forPattern("MMM dd, yyyy");
 		return context.getString(R.string.calendar_instructions_date_range_TEMPLATE, formatter.print(checkinDateTime), formatter.print(checkoutDateTime));
 	}
+
+	/**
+	 * Convenience method for formatting date range in packages from 2015-10-1 to Tue, Oct 01, 2015
+	 */
+	public static String formatPackageDateRange(Context context, String checkinDate, String checkoutDate) {
+		DateTimeFormatter parser = DateTimeFormat.forPattern("yyyy-MM-dd");
+		String checkinDateTime = getFormattedDateDay(context, parser.parseDateTime(checkinDate));
+		String checkoutDateTime = getFormattedDateDay(context, parser.parseDateTime(checkoutDate));
+
+		return context.getString(R.string.calendar_instructions_date_range_TEMPLATE, checkinDateTime, checkoutDateTime);
+	}
+
+	private static String getFormattedDateDay(Context context, DateTime date) {
+		return JodaUtils.formatDateTime(context, date, DateUtils.FORMAT_SHOW_DATE
+			| DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_YEAR
+			| DateUtils.FORMAT_ABBREV_MONTH);
+	}
 }

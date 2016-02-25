@@ -23,7 +23,7 @@
         android:gravity="center"
         android:layout_centerVertical="true"
         android:paddingRight="7dp"
-        android:text="@string/cars_slider_text"
+        android:text="?attr/sliderText"
         android:textColor="#FFFFFF"
         android:textSize="19sp" />
 

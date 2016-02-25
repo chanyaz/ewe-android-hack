@@ -32,6 +32,7 @@ import com.expedia.bookings.data.TripBucketItemCar;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionBillingInfo;
@@ -55,6 +56,7 @@ public class PaymentWidget extends ExpandableCardView {
 	public static final int REQUEST_CODE_GOOGLE_WALLET_ACTIVITY = 1989;
 
 	private boolean isZipValidationRequired;
+	protected Presenter presenter;
 
 	public PaymentWidget(Context context, AttributeSet attr) {
 		super(context, attr);
@@ -122,7 +124,7 @@ public class PaymentWidget extends ExpandableCardView {
 
 	private boolean isCreditCardRequired = false;
 
-	private LineOfBusiness lineOfBusiness;
+	protected LineOfBusiness lineOfBusiness;
 
 	public void setCreditCardRequired(boolean required) {
 		isCreditCardRequired = required;
@@ -141,13 +143,18 @@ public class PaymentWidget extends ExpandableCardView {
 		}
 
 	}
-	@OnClick(R.id.remove_stored_card_button)
-	public void onStoredCardRemoved() {
+
+	protected void removeStoredCard() {
 		StoredCreditCard currentCC = sectionBillingInfo.getBillingInfo().getStoredCard();
 		BookingInfoUtils.resetPreviousCreditCardSelectState(getContext(), currentCC);
 		Db.getWorkingBillingInfoManager().getWorkingBillingInfo().setStoredCard(null);
 		Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
 		reset();
+	}
+
+	@OnClick(R.id.remove_stored_card_button)
+	public void onStoredCardRemoved() {
+		removeStoredCard();
 		storedCardContainer.setVisibility(GONE);
 		if (User.isLoggedIn(getContext())) {
 			sectionBillingInfo.setVisibility(VISIBLE);
@@ -165,6 +172,11 @@ public class PaymentWidget extends ExpandableCardView {
 	@OnClick(R.id.payment_option_google_wallet)
 	public void googleWalletClicked() {
 		openGoogleWallet();
+	}
+
+	@OnClick(R.id.select_payment_button)
+	public void  onSelectSavedCardButtonClick() {
+		paymentButton.showStoredCards();
 	}
 
 	@Override
@@ -197,10 +209,12 @@ public class PaymentWidget extends ExpandableCardView {
 		});
 		sectionBillingInfo.addChangeListener(mValidFormsOfPaymentListener);
 
+	}
+
+	protected Drawable getCreditCardIcon() {
 		Drawable icon = ContextCompat.getDrawable(getContext(), R.drawable.ic_hotel_credit_card).mutate();
 		icon.setColorFilter(ContextCompat.getColor(getContext(), R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN);
-		paymentOptionCreditDebitCard.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
-
+		return icon;
 	}
 
 	public void setLineOfBusiness(LineOfBusiness lineOfBusiness) {
@@ -284,7 +298,7 @@ public class PaymentWidget extends ExpandableCardView {
 		}
 	}
 
-	private void reset() {
+	protected void reset() {
 		sectionBillingInfo.bind(new BillingInfo());
 		Location location = new Location();
 		sectionBillingInfo.getBillingInfo().setLocation(location);
@@ -319,7 +333,6 @@ public class PaymentWidget extends ExpandableCardView {
 			FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_REGULAR);
 			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
 				cardInfoExpiration.setVisibility(VISIBLE);
-				cardInfoExpiration.setText(getResources().getString(R.string.checkout_hotelsv2_enter_payment_details_line2));
 				FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_MEDIUM);
 			}
 			else {
@@ -350,9 +363,11 @@ public class PaymentWidget extends ExpandableCardView {
 		super.setExpanded(expand, animate);
 
 		if (expand) {
-			if (WalletUtils.isWalletSupported(lineOfBusiness) && !goToPaymentDetails()) {
+			if (!directlyNavigateToPaymentDetails() || ((WalletUtils.isWalletSupported(lineOfBusiness)
+				&& !goToPaymentDetails()))) {
 				cardInfoContainer.setVisibility(GONE);
 				paymentOptionsContainer.setVisibility(VISIBLE);
+				paymentOptionGoogleWallet.setVisibility(WalletUtils.isWalletSupported(lineOfBusiness) ? VISIBLE : GONE);
 				billingInfoContainer.setVisibility(GONE);
 				if (mToolbarListener != null) {
 					mToolbarListener.showRightActionButton(false);
@@ -378,6 +393,10 @@ public class PaymentWidget extends ExpandableCardView {
 		}
 	}
 
+	protected boolean directlyNavigateToPaymentDetails() {
+		return true;
+	}
+
 	private boolean goToPaymentDetails() {
 		boolean isFilled = isFilled();
 		boolean isBillingInfoValid = isFilled && sectionBillingInfo.performValidation();
@@ -392,7 +411,7 @@ public class PaymentWidget extends ExpandableCardView {
 			|| (isFilled && (!isBillingInfoValid || !isPostalCodeValid));
 	}
 
-	private void showPaymentDetails() {
+	protected void showPaymentDetails() {
 		boolean hasStoredCard = hasStoredCard();
 		cardInfoContainer.setVisibility(GONE);
 		paymentOptionsContainer.setVisibility(GONE);
@@ -409,6 +428,14 @@ public class PaymentWidget extends ExpandableCardView {
 		else {
 			creditCardNumber.requestFocus();
 			Ui.showKeyboard(creditCardNumber, null);
+		}
+
+		// Show Debit/Credit Card hint AB test
+		if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+			boolean shouldShowDebitCreditHint = Db.getAbacusResponse()
+					.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCKOCreditDebitTest);
+			// Omniture tracking done below -- trackHotelV2PaymentEdit()
+			creditCardNumber.setHint(shouldShowDebitCreditHint ? R.string.credit_debit_card_hint : R.string.credit_card_hint);
 		}
 
 		bind();
@@ -481,20 +508,29 @@ public class PaymentWidget extends ExpandableCardView {
 		setExpanded(false);
 	}
 
-	private PaymentButton.IPaymentButtonListener paymentButtonListener = new PaymentButton.IPaymentButtonListener() {
-		@Override
-		public void onAddNewCreditCardSelected() {
+	private PaymentButton.IPaymentButtonListener paymentButtonListener = getPaymentButtonListener();
 
-		}
+	protected PaymentButton.IPaymentButtonListener getPaymentButtonListener() {
+		return new PaymentButton.IPaymentButtonListener() {
+			@Override
+			public void onAddNewCreditCardSelected() {
 
-		@Override
-		public void onStoredCreditCardChosen(StoredCreditCard card) {
-			storedCardContainer.setVisibility(VISIBLE);
-			sectionBillingInfo.setVisibility(GONE);
-			sectionBillingInfo.getBillingInfo().setStoredCard(card);
-			setExpanded(false);
-		}
-	};
+			}
+
+			@Override
+			public void onStoredCreditCardChosen(StoredCreditCard card) {
+				storedCardContainer.setVisibility(VISIBLE);
+				sectionBillingInfo.setVisibility(GONE);
+				sectionBillingInfo.getBillingInfo().setStoredCard(card);
+				setExpanded(false);
+			}
+
+			@Override
+			public void onTemporarySavedCreditCardChosen(BillingInfo info) {
+			}
+		};
+	}
+
 
 	public boolean isFilled() {
 		return !creditCardNumber.getText().toString().isEmpty() || !creditCardPostalCode.getText().toString().isEmpty() || !creditCardName.getText().toString().isEmpty() ;
@@ -574,33 +610,51 @@ public class PaymentWidget extends ExpandableCardView {
 		((AppCompatActivity)getContext()).startActivityForResult(i, REQUEST_CODE_GOOGLE_WALLET_ACTIVITY);
 	}
 
-	private boolean hasStoredCard() {
+	protected boolean hasStoredCard() {
 		return sectionBillingInfo.getBillingInfo() != null && sectionBillingInfo.getBillingInfo().hasStoredCard();
 	}
 
-	private boolean shouldShowSaveDialog() {
+	protected boolean shouldShowSaveDialog() {
 		return lineOfBusiness == LineOfBusiness.HOTELSV2 && User.isLoggedIn(getContext()) && !sectionBillingInfo
 			.getBillingInfo().getSaveCardToExpediaAccount() && workingBillingInfoChanged()
 			&& Db.getWorkingBillingInfoManager().getWorkingBillingInfo().getStoredCard() == null;
 	}
 
-	private void showSaveBillingInfoDialog() {
+	protected void showSaveBillingInfoDialog() {
 		AlertDialog dialog = new AlertDialog.Builder(getContext())
 			.setTitle(R.string.save_billing_info)
 			.setCancelable(false)
 			.setMessage(Phrase.from(getContext(), R.string.save_billing_info_message_TEMPLATE).put("brand", BuildConfig.brand).format())
 			.setPositiveButton(R.string.save, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
-					sectionBillingInfo.getBillingInfo().setSaveCardToExpediaAccount(true);
-					setExpanded(false);
+					userChoosesToSaveCard();
 				}
 			}).setNegativeButton(R.string.no_thanks, new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
-					sectionBillingInfo.getBillingInfo().setSaveCardToExpediaAccount(false);
-					setExpanded(false);
+					userChoosesNotToSaveCard();
 				}
 			}).create();
 		dialog.show();
+	}
+
+	protected void userChoosesToSaveCard() {
+		sectionBillingInfo.getBillingInfo().setSaveCardToExpediaAccount(true);
+		if (directlyNavigateToPaymentDetails()) {
+			setExpanded(false);
+		}
+		else {
+			mToolbarListener.onWidgetClosed();
+		}
+	}
+
+	protected void userChoosesNotToSaveCard() {
+		sectionBillingInfo.getBillingInfo().setSaveCardToExpediaAccount(false);
+		if (directlyNavigateToPaymentDetails()) {
+			setExpanded(false);
+		}
+		else {
+			mToolbarListener.onWidgetClosed();
+		}
 	}
 
 	private boolean workingBillingInfoChanged() {
@@ -609,5 +663,9 @@ public class PaymentWidget extends ExpandableCardView {
 				.compareTo(sectionBillingInfo.getBillingInfo()) != 0;
 		}
 		return false;
+	}
+
+	public void setPresenter(Presenter presenter) {
+		this.presenter = presenter;
 	}
 }

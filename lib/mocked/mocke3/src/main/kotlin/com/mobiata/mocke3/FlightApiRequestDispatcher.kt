@@ -16,6 +16,10 @@ public class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispat
             throwUnsupportedRequestException(urlPath)
         }
 
+        if (!FlightApiRequestMatcher.isRequestContainsClientId(params)) {
+            throwUnsupportedRequestException(urlPath)
+        }
+
         return when {
             FlightApiRequestMatcher.isSearchRequest(urlPath) -> getMockResponse(FlightApiMockResponseGenerator.getSearchResponseFilePath(params), params)
 
@@ -64,7 +68,7 @@ class FlightApiMockResponseGenerator() {
             val tealeafTransactionId = params["tealeafTransactionId"] ?: throw RuntimeException("teleafTransactionId required")
 
             if ("tealeafFlight:" + tripId != tealeafTransactionId) {
-                throw RuntimeException("tripId must match tealeafTransactionId got: $tealeafTransactionId")
+                throw RuntimeException("tripId must match tealeafTransactionId ('tealeafFlight:<tripId>') got: $tealeafTransactionId")
             }
 
             val isRequestingAirAttachMockResponse = FlightApiRequestMatcher.doesItMatch("^air_attach_0$", tripId)
@@ -90,6 +94,10 @@ class FlightApiMockResponseGenerator() {
 
 class FlightApiRequestMatcher() {
     companion object {
+        fun isRequestContainsClientId(params: MutableMap<String, String>): Boolean {
+            return params.containsKey("clientid")
+        }
+
         fun isFlightApiRequest(urlPath: String): Boolean {
             return doesItMatch("^/api/flight/.*$", urlPath)
         }

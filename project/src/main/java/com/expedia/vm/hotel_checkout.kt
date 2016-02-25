@@ -10,7 +10,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.cars.ApiError
-import com.expedia.bookings.data.hotels.HotelCheckoutParams
+import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelRate
@@ -33,11 +33,12 @@ import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
+import java.text.NumberFormat
 
 open public class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
 
     // inputs
-    val checkoutParams = PublishSubject.create<HotelCheckoutParams>()
+    val checkoutParams = PublishSubject.create<HotelCheckoutV2Params>()
 
     // outputs
     val errorObservable = PublishSubject.create<ApiError>()
@@ -57,7 +58,7 @@ open public class HotelCheckoutViewModel(val hotelServices: HotelServices, val p
                 if (checkout.hasErrors()) {
                     when (checkout.firstError.errorCode) {
                         ApiError.Code.PRICE_CHANGE -> {
-                            val hotelCreateTripResponse = Db.getTripBucket().hotelV2.updateHotelProducts(checkout.checkoutResponse.jsonPriceChangeResponse)
+                            val hotelCreateTripResponse = Db.getTripBucket().hotelV2.updateAfterCheckoutPriceChange(checkout)
                             priceChangeResponseObservable.onNext(hotelCreateTripResponse)
                             paymentModel.priceChangeDuringCheckoutSubject.onNext(hotelCreateTripResponse)
                         }
@@ -86,7 +87,7 @@ open public class HotelCheckoutViewModel(val hotelServices: HotelServices, val p
                         ApiError.Code.PAYMENT_FAILED -> {
                             errorObservable.onNext(checkout.firstError)
                         }
-                        ApiError.Code.HOTEL_ROOM_UNAVAILABLE-> {
+                        ApiError.Code.HOTEL_ROOM_UNAVAILABLE -> {
                             errorObservable.onNext(checkout.firstError)
                         }
                         else -> {
@@ -126,14 +127,14 @@ open class HotelCreateTripViewModel(val hotelServices: HotelServices, val paymen
     }
 
     open fun getCreateTripResponseObserver(): Observer<HotelCreateTripResponse> {
-        return object: Observer<HotelCreateTripResponse> {
+        return object : Observer<HotelCreateTripResponse> {
             override fun onNext(t: HotelCreateTripResponse) {
                 if (t.hasErrors()) {
                     if (t.firstError.errorInfo.field == "productKey") {
                         errorObservable.onNext(ApiError(ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY))
-                } else if (t.firstError.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE) {
-                    errorObservable.onNext(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
-                } else {
+                    } else if (t.firstError.errorCode == ApiError.Code.HOTEL_ROOM_UNAVAILABLE) {
+                        errorObservable.onNext(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
+                    } else {
                         errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
                     }
                 } else {
@@ -169,22 +170,22 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
     val slideToText = BehaviorSubject.create<String>()
     val resetMenuButton = BehaviorSubject.create<Unit>()
     val totalPriceCharged: Observable<String> =
-            paymentModel.paymentSplits.withLatestFrom(paymentModel.tripResponses, { paymentSplits, tripResponse ->
+            paymentModel.paymentSplitsWithLatestTripResponse.map {
                 object {
-                    val payingWithPoints = paymentSplits.payingWithPoints
-                    val payingWithCards = paymentSplits.payingWithCards
-                    val paymentSplitsType = paymentSplits.paymentSplitsType()
-                    val isExpediaRewardsRedeemable = tripResponse.isExpediaRewardsRedeemable()
-                    val hotelProductResponse = tripResponse.newHotelProductResponse
+                    val payingWithPoints = it.paymentSplits.payingWithPoints
+                    val payingWithCards = it.paymentSplits.payingWithCards
+                    val paymentSplitsType = it.paymentSplits.paymentSplitsType()
+                    val isExpediaRewardsRedeemable = it.tripResponse.isExpediaRewardsRedeemable()
+                    val dueNowAmount = it.tripResponse.getTripTotal()
                 }
-            }).map {
+            }.map {
                 when (it.isExpediaRewardsRedeemable) {
                     true ->
                         when (it.paymentSplitsType) {
-                            PaymentSplitsType.IS_FULL_PAYABLE_WITH_EXPEDIA_POINT ->
+                            PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT ->
                                 Phrase.from(context, R.string.you_are_using_expedia_points_TEMPLATE)
                                         .put("amount", it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
-                                        .put("points", it.payingWithPoints.points.toString())
+                                        .put("points", NumberFormat.getInstance().format(it.payingWithPoints.points))
                                         .format().toString()
 
                             PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD ->
@@ -195,12 +196,12 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                             PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD ->
                                 Phrase.from(context, R.string.payment_through_card_and_pwp_points)
                                         .put("amount", it.payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
-                                        .put("points", it.payingWithPoints.points.toString())
+                                        .put("points", NumberFormat.getInstance().format(it.payingWithPoints.points))
                                         .put("dueamount", it.payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode)
                                         .format().toString()
                         }
                     false -> Phrase.from(context, R.string.your_card_will_be_charged_template)
-                            .put("dueamount", getDueNowAmount(it.hotelProductResponse)).format().toString()
+                            .put("dueamount", it.dueNowAmount.formattedMoney).format().toString()
                 }
             }
 
@@ -333,8 +334,8 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
             extraGuestFees.onNext(rate.extraGuestFees)
 
             // calculate trip total price
-            dueNowAmount.onNext(getDueNowAmount(it))
-            tripTotalPrice.onNext(rate.displayTotalPrice.formattedMoney)
+            dueNowAmount.onNext(it.dueNowAmount.formattedMoney)
+            tripTotalPrice.onNext(rate.displayTotalPrice.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
 
             showFeesPaidAtHotel.onNext(isResortCase.value)
             feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
@@ -346,19 +347,6 @@ class HotelCheckoutSummaryViewModel(val context: Context) {
         guestCountObserver.subscribe {
             numGuests.onNext(StrUtils.formatGuestString(context, it))
         }
-    }
-}
-
-public fun getDueNowAmount(response: HotelCreateTripResponse.HotelProductResponse): String {
-    val room = response.hotelRoomResponse
-    val rate = room.rateInfo.chargeableRateInfo
-    val isPayLater = room.isPayLater
-
-    if (isPayLater) {
-        val depositAmount = rate.depositAmount ?: "0" // yup. For some reason API doesn't return $0 for deposit amounts
-        return Money(BigDecimal(depositAmount), rate.currencyCode).formattedMoney
-    } else {
-        return Money(BigDecimal(rate.total.toDouble()), rate.currencyCode).formattedMoney
     }
 }
 

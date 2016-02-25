@@ -113,6 +113,8 @@
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">Cari Hotel</string>
+    <!-- Label for hotel search v2 toolbar -->
+    <string name="hotel_search_v2_toolbar_title">Hotel</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">Cari Lokasi</string>
     <!-- Label for recent searches -->
@@ -200,9 +202,10 @@
     <string name="successful_checkout_email_label">Itinerary telah dikirim ke</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Petunjuk arah ke %1$s</string>
-
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_credit_debit_label">Kartu Debit/Kredit</string>
+    <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
+    <string name="shortened_checkout_payment_option_credit_debit_label">Masukkan kartu debit/kredit baru</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Rincian Tamu</string>
     <!-- Text for Android pay label -->
@@ -212,9 +215,21 @@
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_hotelsv2_enter_payment_details_line1">Rincian Pembayaran</string>
     <!-- Text for enter payment details line 2 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line2">Pilih Jenis Pembayaran</string>
+    <string name="checkout_hotelsv2_enter_payment_details_line2">Masukkan kartu kredit</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
     <string name="checkout_payment_line2_storedcc">Kartu Kredit Tersimpan</string>
+    <!-- Text for enter payment details line 1 when paying with pwp only -->
+    <string name="checkout_paying_with_points_only_line1">Bayar dengan Poin</string>
+    <!-- Text for enter payment details line 1 when paying with pwp and Card -->
+    <string name="checkout_paying_with_points_and_card_line1">Bayar dengan Poin &amp; {carddescription}</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_tap_to_edit">Klik untuk mengubah</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_payment_options">Kartu kredit, bayar dengan poin</string>
+    <!--Text for selected card -->
+    <string name="checkout_selected_card">{cardtype} …{cardno}</string>
+    <!--Text for selecting user manually stored card -->
+    <string name="temporarily_saved_card_TEMPLATE">Hemat {cardtype} …{cardno}</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Geser untuk memesan</string>
@@ -224,11 +239,11 @@
     <string name="change_dates">Ubah Tanggal</string>
 
     <!-- Car error strings -->
-    <!-- Message for user that pick-up time is too early."  -->
+    <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">Harap sesuaikan waktu pengambilan dan pengembalian Anda.</string>
-    <!-- Message for user  to choose a closer date.""  -->
+    <!-- Message for user  to choose a closer date.  -->
     <string name="drop_off_too_far_error">Harap pilih tanggal yang lebih dekat.</string>
-    <!-- Message for user that date is too far out."  -->
+    <!-- Message for user that date is too far out.  -->
     <string name="date_out_of_range">Harap pilih tanggal yang lebih dekat.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Harap tambahkan durasi penyewaan.</string>
@@ -350,7 +365,7 @@
     <string name="ticket_type_limousine">Limosin</string>
     <string name="ticket_type_towncar">Towncar</string>
     <string name="ticket_type_vehicle_parking_spot">Tempat Parkir</string>
-    <string name="ticket_type_book">Buku</string>
+    <string name="ticket_type_book">Pesan</string>
     <string name="ticket_type_guide">Pemandu</string>
     <string name="ticket_type_travel_card">Kartu Kendaraan</string>
     <string name="ticket_type_boat">Kapal</string>
@@ -735,6 +750,8 @@
     <string name="prices_roundtrip_label">Harga pulang-pergi per orang</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Harga adalah untuk penerbangan pulang-pergi per orang</string>
+    <!-- Label clarifying that the price shown is for a roundtrip flight -->
+    <string name="roundtrip">pulang-pergi</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Harga pulang-pergi, per orang, mulai dari</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -819,7 +836,8 @@
     <string name="infants_in_seats_prompt">Balita yang duduk di kursi memerlukan tiketnya sendiri. Mari cari lagi untuk tiket balita Anda.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">Balita yang dipangku tidak memerlukan tiket terpisah. Kami akan cari lagi untuk jumlah tiket yang baru.</string>
-
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two_TEMPLATE">Bayi di bawah 2 tahun: %s</string>
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Transit</string>
@@ -1024,7 +1042,7 @@
     <!-- Find Itinerary -->
     <string name="find_itinerary">Cari Itinerary</string>
     <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">Tidak dapat menemukan itinerary. Harap pastikan pilihan Negara (di Pengaturan) sama dengan versi negara website pemesanan Anda.</string>
+    <string name="unable_to_find_itinerary">Tidak dapat menemukan itinerary. Harap konfirmasikan pengaturan Negara sama dengan situs negara saat Anda memesan.</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">Cari Itinerary Tanpa Login</string>
     <!-- Enter Itinerary Details -->
@@ -1682,6 +1700,8 @@
     <string name="calendar_instructions_hotels_no_dates_selected">Pilih Tanggal Check-in</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <string name="guests_with_rooms_TEMPLATE">{guests}, 1 kamar</string>
+
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">Sekali-jalan hanya &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1770,6 +1790,7 @@
     <string name="select_payment_callout">Masukkan Rincian</string>
     <!-- Add new card -->
     <string name="add_new_card">Tambahkan Kartu Baru</string>
+    <string name="new_credit_debit_card">Kartu Debit/Kredit Baru</string>
     <!-- Overview button -->
     <string name="overview_btn">Ringkasan</string>
     <!-- Stored Payment label -->
@@ -1804,6 +1825,8 @@
     <string name="your_trip_to_TEMPLATE">Perjalanan ke %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Termasuk pajak dan biaya</string>
+    <!-- Includes taxes, fees, flights+hotels -->
+    <string name="includes_taxes_fees_flights_hotel">Termasuk pajak, biaya, penerbangan + hotel</string>
     <!-- Includes taxes (but not necessarily fees) -->
     <string name="includes_taxes">Termasuk pajak</string>
     <!-- Date and trip from _ to _ -->
@@ -1888,6 +1911,8 @@
     <string name="youll_earn_points_ab_test_3x_TEMPLATE">Dapatkan %1$s poin — 3x lipat jika memesan dari aplikasi!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Anda akan mendapat %1$s poin dari pemesanan ini!</string>
+    <!-- You are a valued member -->
+    <string name="you_are_a_valued_member">Anda member kami!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_points_for_this_trip_TEMPLATE">Anda akan mendapatkan %1$s poin untuk perjalanan ini!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
@@ -2060,6 +2085,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Nomor Kartu Kredit</string>
+    <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
+    <string name="credit_debit_card_hint">Nomor Kartu Debit/Kredit</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Tanggal Kedaluwarsa</string>
     <!-- Set expiration date button -->
@@ -2292,7 +2319,17 @@
     <string name="fare_information">INFORMASI TARIF</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">Biaya Maskapai</string>
-
+    <!-- split ticket rules header -->
+    <string name="split_ticket_important_flight_information_header">Informasi Penerbangan Penting</string>
+    <!-- split ticket rules and restrictions -->
+    <string name="split_ticket_rules_with_link_TEMPLATE">• Penerbangan Anda mencakup 2 tiket sekali-jalan, dengan syarat dan ketentuannya masing-masing.</string>
+    <string name="split_ticket_rules_with_link_TEMPLATE_tablet">Penerbangan Anda mencakup 2 tiket sekali-jalan, dengan syarat dan ketentuannya masing-masing.</string>
+    <!-- split ticket rules - cancellation policy -->
+    <string name="split_ticket_rules_cancellation_policy">• Jika salah satu tiket diubah atau dibatalkan, maka perubahan tidak secara otomatis diberlakukan terhadap tiket lainnya. Perubahan terhadap penerbangan yang lainnya mungkin dikenai biaya.</string>
+    <string name="split_ticket_rules_cancellation_policy_tablet">Jika salah satu tiket diubah atau dibatalkan, maka perubahan tidak secara otomatis diberlakukan terhadap tiket lainnya. Perubahan terhadap penerbangan yang lainnya mungkin dikenai biaya.</string>
+    <!-- split ticket baggage fees -->
+    <string name="split_ticket_baggage_fees">• Penerbangan &lt;a href=\"%1$s\"&gt;berangkat&lt;/a&gt; dan &lt;a href=\"%2$s\"&gt;kembali&lt;/a&gt; memiliki biaya bagasinya sendiri-sendiri</string>
+    <string name="split_ticket_baggage_fees_tablet">Penerbangan &lt;a href=\"%1$s\"&gt;berangkat&lt;/a&gt; dan &lt;a href=\"%2$s\"&gt;kembali&lt;/a&gt; memiliki biaya bagasinya sendiri-sendiri</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">Kode Keamanan Tidak Valid</string>
@@ -2364,6 +2401,7 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
     <string name="zero">0</string>
+    <!-- The verb "book" as in to make a booking for a hotel room -->
     <string name="book">Pesan</string>
 
     <!-- Highlight view stuff -->
@@ -2389,6 +2427,7 @@
     <string name="See_front_of_card">Lihat bagian depan kartu</string>
     <!-- Hint on CVV widget title for where to look for CVV code -->
     <string name="cvv_enter_security_code">Masukkan Kode Keamanan</string>
+    <string name="cvv_enter_security_code_v2">CVV</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -2836,6 +2875,13 @@
         <item quantity="other">Harga rata-rata per malam • %d hasil</item>
     </plurals>
 
+    <!-- Hotel Results Pricing Header - Default -->
+    <plurals name="hotel_results_default_header_TEMPLATE">
+        <item quantity="zero">Tidak Ditemukan Hasil</item>
+        <item quantity="one">1 Hasil</item>
+        <item quantity="other">%d hasil</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
     <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
         <item quantity="zero">Tidak Ditemukan Hasil</item>
@@ -2876,8 +2922,8 @@
     <string name="not_included_in_the_price">Belum termasuk dalam harga</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">Lihat Kamar</string>
-    <!-- Book Room button text -->
-    <string name="book_room_button_text">Buku</string>
+    <!-- Book Room button text; verb; as in book a hotel room -->
+    <string name="book_room_button_text">Pesan</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Bagikan lewat</string>
     <!-- Renovation Notice -->
@@ -3777,6 +3823,7 @@
     <string name="applied_coupon_message">Penggunaan kupon: Anda hemat %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
     <string name="coupon_error_dialog_title">Kupon Tak Bisa Digunakan</string>
+    <string name="coupon_error_remove_dialog_title">Tidak Berhasil Menghapus Kupon</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Terdapat masalah dengan kupon Anda. Harap coba memasukkannya kembali.</string>
 
@@ -3791,8 +3838,14 @@
 
     <!-- Label for package search toolbar -->
     <string name="package_toolbar_title">Hotel + Penerbangan</string>
+    <!-- Label for per person -->
+    <string name="per_person">per orang</string>
     <!-- Label for package search toolbar -->
     <string name="bundle_overview_title">Ringkasan Paket</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Total paket</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Lihat paket Anda</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">Terbang dari</string>
     <!-- Fly to hint -->
@@ -3801,14 +3854,87 @@
     <string name="step_one">Langkah 1: Pilih Hotel</string>
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">Langkah 2: Pilih Penerbangan</string>
+    <!-- Package hotel cell: Price Includes flights -->
+    <string name="package_price_include_flights">Harga mencakup hotel + penerbangan</string>
+    <!-- Package hotel map cell: Price Includes Taxes and Fees -->
+    <string name="package_price_includes_taxes_fees">Harga mencakup pajak, biaya, hotel + penerbangan per orang</string>
+    <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
+    <string name="package_overview_flight_travel_info_TEMPLATE">%1$s pukul %2$s, %3$s</string>
+    <!-- Template for package bundle total savings amount -->
+    <string name="bundle_total_savings_TEMPLATE">Hemat {savings}</string>
+    <!-- Bundle Overview select hotel -->
+    <string name="select_hotel_template">Pilih hotel di %s</string>
+    <!-- Bundle Overview searching flight -->
+    <string name="searching_flight_to">Mencari penerbangan ke %s</string>
 
-    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
-    <string name="flight_duration_template">%1$dh %2$dj %3$dm (transit %4$djam)</string>
+    <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
+    <string name="flight_duration_description_template">%1$s (%2$s)</string>
+    <!-- Flight hour duration template e.g. 12h 42m -->
+    <string name="flight_hour_min_duration_template">%1$dj %2$dm</string>
+    <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_min_duration_template">%1$dm</string>
+    <!-- Flight Nonstop description -->
+    <string name="flight_nonstop_description">Langsung</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dhr</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
-
+    <!-- Select flight to template -->
+    <string name="select_flight_to">Pilih penerbangan ke %1$s</string>
+    <!-- Flight to template -->
+    <string name="flight_to">Penerbangan ke %1$s</string>
+    <!-- Select return flight -->
+    <string name="select_return_flight">Pilih penerbangan kembali</string>
+    <!-- Flight overview - flight to template -->
+    <string name="flight_to_template">Penerbangan ke %1$s</string>
+    <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
+    <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
+    <!-- Toolbar text for hotel results -->
+    <string name="package_hotel_results_toolbar_title_TEMPLATE">Hotel di %s</string>
+    <!-- Description for infant travelers sitting in lap -->
+    <string name="in_lap">Di Pangkuan</string>
+    <!-- Description for infant travelers sitting in seat -->
+    <string name="in_seat">Di Kursi</string>
+    <!-- Label for flights on checkout overview of Packages -->
+    <string name="flight_checkout_overview_TEMPLATE">Penerbangan - {origin} ke {destination}, pulang-pergi</string>
+    <!-- Label for hotel on checkout overview of Packages -->
+    <string name="hotel_checkout_overview_TEMPLATE">Hotel di {city} - {rooms} kamar, {nights} malam</string>
     <!-- Package Trip Overview -->
     <string name="trip_overview">Ringkasan Perjalanan</string>
+    <!-- Slide to book -->
+    <string name="package_slider_text">Geser untuk memesan</string>
+    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
+
+
+    <!-- Pay with points widget -->
+    <string name="paying_with_points">Bayar dengan poin</string>
+    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} poin) tersedia</string>
+    <string name="user_enters_more_than_available_points_TEMPLATE">Nilai poin melebihi jumlah yang saat ini tersedia.\nHarap masukkan {money} ke bawah.</string>
+    <string name="user_enters_more_than_trip">Nilai poin tidak dapat melebihi pembayaran yang dilakukan sekarang.</string>
+    <string name="pwp_calculating_points">Menghitung poin…</string>
+    <string name="pwp_points_applied_TEMPLATE">{points} poin digunakan</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Sisa untuk dibayar: {money}</string>
+    <string name="pwp_total_due_today_TEMPLATE">Total dibayar hari ini: {money}</string>
+
+    <!-- Package Flight Overview -->
+    <string name="package_flight_overview_urgency_message_TEMPLATE">Sisa {seats} kursi</string>
+    <string name="package_flight_overview_select_flight">Pilih Penerbangan Ini</string>
+    <string name="package_flight_overview_bundle_total_label">Total Paket</string>
+    <string name="package_flight_overview_per_person_TEMPLATE">{money}/orang</string>
+    <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
+    <string name="package_flight_overview_layover_in_TEMPLATE">Transit di ({airportcode}) {city}</string>
+    <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
+    <string name="package_flight_overview_total_duration_TEMPLATE">Total durasi: {duration}</string>
+
+    <!--Rail search screen title-->
+    <string name="trains">Kereta</string>
+
+    <string name="pwp_points_conversion_unauthenticated_access">Maaf, kami sedang mengalami masalah server. Silakan coba lagi.</string>
+    <string name="pwp_trip_service_error">Maaf, kami sedang mengalami masalah server. Silakan coba lagi.</string>
+    <string name="pwp_unknown_error">Terjadi kesalahan yang tidak dikenali. Silakan coba lagi.</string>
+
+    <!-- New Hotel Search screen -->
+    <string name="select_traveler_title">Pilih traveler</string>
+    <string name="enter_destination_hint">Masukkan Destinasi</string>
+
 </resources>

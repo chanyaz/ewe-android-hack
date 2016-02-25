@@ -5,20 +5,15 @@
     which our app was designed. Overrides for tablet specific dimensions should go in values-sw600dp
     and overrides for 10" tablet specific dimensions should go in values-sw800dp -->
 
+    <!-- -1px == match_parent for all screen sizes -->
     <dimen name="match_parent">-1px</dimen>
     <!--<dimen name="wrap_content">-2px</dimen>-->
 
-    <!-- Action Bar selected tab underline height -->
     <dimen name="action_bar_selected_tab_underline_height">1dp</dimen>
 
     <!-- Values that L2ImageCache will use for Stack Blur -->
     <fraction name="stack_blur_darken_multiplier">65%</fraction>
     <dimen name="stack_blur_radius">25dp</dimen>
-
-    <!-- Flights -->
-    <dimen name="tablet_filter_white_space">32dp</dimen>
-    <dimen name="tablet_flight_details_horizontal_padding">24dp</dimen>
-    <dimen name="tablet_flight_details_statistic_drawable_spacing">8dp</dimen>
 
     <!-- Launch dimens -->
     <dimen name="launch_header_height">48dp</dimen>
@@ -69,12 +64,92 @@
     <dimen name="itin_map_marker_bottom_padding">12dp</dimen>
     <dimen name="itin_map_bounds_padding">24dp</dimen>
 
-    <!-- Dialog title height -->
-    <dimen name="alert_dialog_title_height">64dip</dimen>
+    <!-- The visible area of the parallaxed map on the Itin details view -->
+    <dimen name="itin_map_visible_size">160dp</dimen>
+    <!-- The total height of the map on the Itin details that can be scrolled to -->
+    <dimen name="itin_map_total_size">320dp</dimen>
 
     <!-- Terminal map legend widths -->
     <dimen name="terminal_map_legend_3cols_width">460dp</dimen>
     <dimen name="terminal_map_legend_4cols_width">607dp</dimen>
+
+    <!-- Login screen -->
+    <dimen name="login_field_text_size">18sp</dimen>
+    <dimen name="login_field_padding">12dp</dimen>
+    <dimen name="login_field_width">400dp</dimen>
+    <dimen name="login_button_width">328dp</dimen>
+    <dimen name="login_button_text_size">16sp</dimen>
+    <dimen name="login_header_text_size">25sp</dimen>
+    <dimen name="login_divider_height">3dp</dimen>
+    <dimen name="login_field_spacing">2dp</dimen>
+
+    <!-- Account / Login button -->
+    <dimen name="account_button_margin_top">12dp</dimen>
+    <dimen name="account_button_text_padding">16dp</dimen>
+    <dimen name="account_button_height">40dp</dimen>
+    <dimen name="account_button_padding">0dp</dimen>
+
+    <!-- Account support dimensions -->
+    <dimen name="account_button_points_text_size">11.5sp</dimen>
+    <dimen name="account_rewards_container_height">20dp</dimen>
+    <dimen name="account_rewards_container_height_for_empty_message">8dp</dimen>
+    <dimen name="card_icon_padding">5dp</dimen>
+
+    <!-- Old Hotels -->
+    <!-- Dimensions for hotel rows -->
+    <!-- This is the height/width of the image in a hotel row. Height determines height of row as well -->
+    <dimen name="hotel_row_thumbnail_width">90dp</dimen>
+    <dimen name="hotel_row_thumbnail_height">90dp</dimen>
+    <dimen name="hotel_row_name_text_size">17sp</dimen>
+    <dimen name="hotel_row_price_text_size">20sp</dimen>
+    <dimen name="hotel_row_price_text_view_max_width">170dp</dimen>
+    <dimen name="hotel_row_proximity_text_size">14sp</dimen>
+    <dimen name="hotel_row_cell_padding">12dp</dimen>
+    <dimen name="percent_off_corner_text_size">11sp</dimen>
+    <dimen name="percent_off_corner_margin_top">3dp</dimen>
+    <dimen name="percent_off_corner_margin_right">2dp</dimen>
+
+    <!-- Text sizes for amenities -->
+    <dimen name="amenity_text_size_large">12sp</dimen>
+    <dimen name="amenity_text_size_small">10sp</dimen>
+    <dimen name="amenity_layout_width">60dp</dimen>
+    <dimen name="single_amenity_margin">3dp</dimen>
+    <dimen name="amenity_icon_size">30dp</dimen>
+
+    <!-- Tablet hotel map popup dimens -->
+    <dimen name="hotel_map_popup_thumbnail_height">126dp</dimen>
+    <dimen name="hotel_map_popup_thumbnail_width">111dp</dimen>
+
+    <!-- The limiting dimension of the gallery (either height or width, depending on orientation) -->
+    <dimen name="gallery_size">200dp</dimen>
+
+    <!-- Dimensions for book now button or any other button in the header -->
+    <dimen name="min_height_rating_bar_small">16dp</dimen>
+    <dimen name="max_height_rating_bar_small">16dp</dimen>
+    <dimen name="padding_top_rooms_rates_ribbon">3dp</dimen>
+    <dimen name="margin_top_sale_ribbon_room_rates">20dp</dimen>
+
+    <!-- User review dimens -->
+    <dimen name="user_review_text_padding_right">0dp</dimen>
+    <dimen name="row_user_review_horizontal_padding">16dp</dimen>
+
+    <!-- Hotel Checkout -->
+    <!-- This is overridden for tablets in landscape -->
+    <dimen name="standard_content_width">@dimen/match_parent</dimen>
+    <dimen name="hotel_checkout_overview_width">@dimen/standard_content_width</dimen>
+    <dimen name="hotel_checkout_overview_image_height">120dp</dimen>
+
+    <!-- Dimensions For hotel traveler edit page -->
+    <dimen name="hotel_traveler_edit_email_disclaimer_text_size">12sp</dimen>
+
+    <!-- textSize for our adult/child number picker (SimpleNumberPicker.java) -->
+    <!-- This gets overridden for small screens (in values-small) -->
+    <dimen name="number_picker_text_size">20sp</dimen>
+
+    <!-- Flights -->
+    <dimen name="tablet_filter_white_space">32dp</dimen>
+    <dimen name="tablet_flight_details_horizontal_padding">24dp</dimen>
+    <dimen name="tablet_flight_details_statistic_drawable_spacing">8dp</dimen>
 
     <!-- Flight search -->
     <dimen name="airport_row_height">56dp</dimen>
@@ -84,8 +159,7 @@
     <dimen name="flight_search_calendar_height">300dp</dimen>
     <dimen name="flight_search_airport_padding_left">12dp</dimen>
 
-    <!-- Plane window view dimens -->
-    <!-- These must always be linked -->
+    <!-- Plane window view dimens, these must always be linked -->
     <dimen name="plane_window_height">350dp</dimen>
     <dimen name="plane_window_text_offset">-35dp</dimen>
 
@@ -125,137 +199,9 @@
     <dimen name="flight_trip_view_stroke_width">2dp</dimen>
     <dimen name="flight_line_min_padding_between_labels">2dp</dimen>
 
-    <!-- Offset so that the price and "mobile exclusive" overlaps the gallery -->
-    <dimen name="promo_banner_height">89dp</dimen>
-    <dimen name="hotel_details_intro_offset">-89dp</dimen>
-    <dimen name="price_promo_banner_height">45dp</dimen>
-
-    <dimen name="phone_search_calendar_height">300dp</dimen>
-
-    <!-- Dimensions for hotel rows -->
-    <!--
-         This is the height/width of the image in a hotel row. Height determines 
-		height of row as well
-    -->
-    <dimen name="hotel_row_thumbnail_width">90dp</dimen>
-    <dimen name="hotel_row_thumbnail_height">90dp</dimen>
-    <dimen name="hotel_row_name_text_size">17sp</dimen>
-    <dimen name="hotel_row_price_text_size">20sp</dimen>
-    <dimen name="hotel_row_price_text_view_max_width">170dp</dimen>
-    <dimen name="hotel_row_proximity_text_size">14sp</dimen>
-    <dimen name="hotel_row_cell_padding">12dp</dimen>
-    <dimen name="percent_off_corner_text_size">11sp</dimen>
-    <dimen name="percent_off_corner_margin_top">3dp</dimen>
-    <dimen name="percent_off_corner_margin_right">2dp</dimen>
-
-    <!-- Text sizes for amenities -->
-    <dimen name="amenity_text_size_large">12sp</dimen>
-    <dimen name="amenity_text_size_small">10sp</dimen>
-    <dimen name="amenity_layout_width">60dp</dimen>
-    <dimen name="single_amenity_margin">3dp</dimen>
-    <dimen name="amenity_icon_size">30dp</dimen>
-
-    <!--
-         The limiting dimension of the gallery (either height or width, depending 
-		on orientation)
-    -->
-    <dimen name="gallery_size">200dp</dimen>
-
-    <!-- The visible area of the map on the Hotel Details screen (when collapsed) -->
-    <dimen name="hotel_details_map_visible_size">150dp</dimen>
-    <!-- The total height of the map on the Hotel Details screen that can be scrolled to -->
-    <dimen name="hotel_details_map_total_size">200dp</dimen>
-
-    <!-- The visible area of the parallaxed map on the Itin details view -->
-    <dimen name="itin_map_visible_size">160dp</dimen>
-    <!-- The total height of the map on the Itin details that can be scrolled to -->
-    <dimen name="itin_map_total_size">320dp</dimen>
-
-    <!-- Dimensions for book now button or any other button in the header -->
-    <dimen name="min_height_rating_bar_small">16dp</dimen>
-    <dimen name="max_height_rating_bar_small">16dp</dimen>
-    <dimen name="padding_top_rooms_rates_ribbon">3dp</dimen>
-    <dimen name="margin_top_sale_ribbon_room_rates">20dp</dimen>
-
-    <!-- Account support dimensions -->
-    <dimen name="account_button_points_text_size">11.5sp</dimen>
-    <dimen name="account_rewards_container_height">20dp</dimen>
-    <dimen name="account_rewards_container_height_for_empty_message">8dp</dimen>
-    <dimen name="card_icon_padding">5dp</dimen>
-
-    <!-- Coupon code dimensions -->
-    <dimen name="one_px_hdpi_two_px_xhdpi">0.75dip</dimen>
-    <dimen name="hotel_row_strikethrough_price_text_size">12dp</dimen>
-    <dimen name="actionbar_refinement_width">50dp</dimen>
-    <dimen name="popup_filter_row_height">50dp</dimen>
-
-    <!-- BookingOverviewActivity -->
-    <dimen name="slide_to_purchase_price_text_size">16dp</dimen>
-
-    <!-- Login screen -->
-    <dimen name="login_field_text_size">18sp</dimen>
-    <dimen name="login_field_padding">12dp</dimen>
-    <dimen name="login_field_width">400dp</dimen>
-    <dimen name="login_button_width">328dp</dimen>
-    <dimen name="login_button_text_size">16sp</dimen>
-    <dimen name="login_header_text_size">25sp</dimen>
-    <dimen name="login_divider_height">3dp</dimen>
-    <dimen name="login_field_spacing">2dp</dimen>
-
-    <!-- Account / Login button -->
-    <dimen name="account_button_margin_top">12dp</dimen>
-    <dimen name="account_button_text_padding">16dp</dimen>
-    <dimen name="account_button_height">40dp</dimen>
-    <dimen name="account_button_padding">0dp</dimen>
-
-    <!-- Breakdown dialog -->
-    <dimen name="breakdown_margin">10dp</dimen>
-    <dimen name="breakdown_indentation">17dp</dimen>
-    <dimen name="breakdown_text_margin">8dp</dimen>
-
-    <!-- Hotel information widget padding-->
-    <dimen name="widget_hotel_info_padding">18dp</dimen>
-
-    <!-- Hotel Checkout -->
-    <!-- -1px == match_parent forall screen sizes -->
-    <!-- This is overridden for tablets in landscape -->
-    <dimen name="standard_content_width">@dimen/match_parent</dimen>
-    <dimen name="hotel_checkout_overview_width">@dimen/standard_content_width</dimen>
-    <dimen name="hotel_checkout_overview_image_height">120dp</dimen>
-
-    <!-- From ABS, Dialog title height -->
-    <dimen name="alert_dialog_window_title_height">64dip</dimen>
-
-    <!-- textSize for our adult/child number picker (SimpleNumberPicker.java) -->
-    <!-- This gets overridden for small screens (in values-small) -->
-    <dimen name="number_picker_text_size">20sp</dimen>
-
-    <!-- Tablet hotel map popup dimens -->
-    <dimen name="hotel_map_popup_thumbnail_height">126dp</dimen>
-    <dimen name="hotel_map_popup_thumbnail_width">111dp</dimen>
-
     <!-- Flight baggage fee stuff -->
     <dimen name="tablet_flight_list_baggage_fee_icon_padding">5dp</dimen>
     <dimen name="flight_details_baggage_fee_text_view_text_size">12dp</dimen>
-
-    <!-- Credit card dimens phone -->
-    <dimen name="credit_card_checkout_width">318dp</dimen>
-    <dimen name="credit_card_checkout_height">219dp</dimen>
-
-    <!-- Checkout -->
-    <dimen name="checkout_data_button_icon_size">48dp</dimen>
-    <dimen name="checkout_data_button_text_size">16sp</dimen>
-    <dimen name="checkout_data_button_sub_text_size">16sp</dimen>
-    <dimen name="stored_credit_card_icon_size">48dp</dimen>
-    <dimen name="stored_credit_card_button_padding">10dp</dimen>
-
-    <!-- User review dimens -->
-    <dimen name="user_review_text_padding_right">0dp</dimen>
-    <dimen name="row_user_review_horizontal_padding">16dp</dimen>
-
-    <!-- CVV Screen -->
-    <dimen name="cvv_text_view_right_margin_amex">20dp</dimen>
-    <dimen name="cvv_text_view_right_margin_other">0dp</dimen>
 
     <!-- LX Dimens -->
     <dimen name="lx_calendar_month_view_max_text_size">12dp</dimen>
@@ -297,24 +243,11 @@
     <dimen name="car_expanded_space_height">350dp</dimen>
     <dimen name="hotel_spinner_height">50dp</dimen>
 
-    <!-- Dimensions for leanplum in app message templates -->
-    <dimen name="leanplum_dialog_image_width">280dp</dimen>
-    <dimen name="leanplum_dialog_image_height">157dp</dimen>
-    <dimen name="gt_leanplum_dialog_height">190dp</dimen>
-
+    <!-- Hotel Dimensions -->
     <!-- Dimensions for Hotel Traveler Table -->
     <dimen name="hotel_traveler_table_margin">14dp</dimen>
     <dimen name="hotel_traveler_padding">28dp</dimen>
     <dimen name="hotel_traveler_plus_minus_size">40dp</dimen>
-
-    <!-- Dimensions For hotel traveler edit page -->
-    <dimen name="hotel_traveler_edit_email_disclaimer_text_size">12sp</dimen>
-
-    <!-- Dimensions For LX Toolbar dropshadow height -->
-    <dimen name="toolbar_dropshadow_height">5dp</dimen>
-
-    <!--Dimension for room rate margin -->
-    <dimen name="hotel_room_list_container_margin">9dp</dimen>
 
     <!-- Dimensions for Hotel Results -->
     <dimen name="hotel_preview_margin_large">14dp</dimen>
@@ -323,73 +256,110 @@
     <dimen name="hotel_marker_padding_width">20dp</dimen>
     <dimen name="hotel_marker_padding_height">14dp</dimen>
     <dimen name="hotel_gallery_description_padding">5dp</dimen>
+    <dimen name="hotel_filter_height">58dp</dimen>
+
+    <!-- Dimensions for hotel details -->
+    <dimen name="widget_hotel_info_padding">18dp</dimen>
+    <dimen name="hotel_detail_gradient_height">120dp</dimen>
+    <!-- The visible area of the map on the Hotel Details screen (when collapsed) -->
+    <dimen name="hotel_details_map_visible_size">150dp</dimen>
+    <!-- The total height of the map on the Hotel Details screen that can be scrolled to -->
+    <dimen name="hotel_details_map_total_size">200dp</dimen>
+
+    <dimen name="hotel_room_list_container_margin">9dp</dimen>
+    <!-- Offset so that the price and "mobile exclusive" overlaps the gallery -->
+    <dimen name="promo_banner_height">89dp</dimen>
+    <dimen name="hotel_details_intro_offset">-89dp</dimen>
+    <dimen name="price_promo_banner_height">45dp</dimen>
 
     <!--Dimensions for hotel review row-->
-    <!--Text size of review title-->
-    <dimen name="hotel_review_title">13dp</dimen>
-    <!--Text size of review date-->
-    <dimen name="hotel_review_date">12dp</dimen>
-    <!--Text size of review content-->
-    <dimen name="hotel_review_body">12dp</dimen>
-    <!--Text size of reviewer-->
-    <dimen name="hotel_reviewer">12dp</dimen>
-    <!--Top padding for one review row-->
+    <dimen name="hotel_review_title_text_size">13dp</dimen>
+    <dimen name="hotel_review_date_text_size">12dp</dimen>
+    <dimen name="hotel_review_body_text_size">12dp</dimen>
+    <dimen name="hotel_reviewer_text_size">12dp</dimen>
     <dimen name="hotel_review_row_padding_top">18dp</dimen>
-    <!--Bottom padding for one review row-->
     <dimen name="hotel_review_row_padding_bottom">@dimen/hotel_review_row_padding_top</dimen>
-    <!--Left padding for hotel reviews-->
     <dimen name="hotel_reviews_padding_left">20dp</dimen>
-    <!--Right padding for hotel reviews-->
     <dimen name="hotel_reviews_padding_right">@dimen/hotel_reviews_padding_left</dimen>
-    <!--Review row divider height-->
     <dimen name="hotel_review_divider_height">1px</dimen>
-    <!--Review content line spacing-->
     <dimen name="hotel_review_content_line_spacing">3dp</dimen>
-    <!--Review padding bottom-->
     <dimen name="hotel_review_padding_bottom">5dp</dimen>
-    <!-- Review corner radius -->
     <dimen name="hotel_review_corner_radius">2dp</dimen>
-    <!-- Review divider width -->
     <dimen name="hotel_review_divider_width">1dp</dimen>
-    <!-- marging for special notice and etp desc -->
-    <dimen name="hotel_special_and_etp_margin">15dp</dimen>
+
     <!--Dimensions for hotel reviews summary-->
-    <!--Review summary rating text size-->
     <dimen name="hotel_reviews_summary_text_size">12dp</dimen>
-    <!--Review summary rating bottom padding size-->
     <dimen name="hotel_reviews_summary_padding_bottom">10dp</dimen>
-    <!--Review summary overall rating left padding-->
     <dimen name="hotel_reviews_rating_padding_left">4dp</dimen>
-    <!--Review summary overall rating right padding-->
     <dimen name="hotel_reviews_rating_padding_right">@dimen/hotel_reviews_rating_padding_left</dimen>
-    <!--Review summary overall rating bottom padding-->
     <dimen name="hotel_reviews_rating_padding_bottom">1dp</dimen>
 
-    <!-- Approx height of car & lx suggestion's row -->
-    <dimen name="suggestion_list_height">60dp</dimen>
-    <!-- gradient height in hotel details -->
-    <dimen name="hotel_detail_gradient_height">120dp</dimen>
-    <!-- hotel Detail divider margin -->
-    <dimen name="hotel_detail_divider_margin">10dp</dimen>
-    <!-- hotel filter toolbar height -->
-    <dimen name="hotel_filter_height">58dp</dimen>
-    <!-- hotel filter neighborhood height -->
+    <!-- Dimensions for hotel filter -->
     <dimen name="hotel_neighborhood_height">40dp</dimen>
 
-    <!-- hotel V2 drawable padding for Free cancellation/ETP -->
-    <dimen name="hotel_free_cancellation_etp_drawable_padding">10dp</dimen>
-
     <!-- hotel V2 Checkout -->
+    <dimen name="hotel_special_and_etp_margin">15dp</dimen>
     <dimen name="hotel_checkout_image_corner_radius">3dp</dimen>
 
     <!--Height of LOB box shadow height-->
     <dimen name="shadow_height">5dp</dimen>
 
+    <!-- Package Results -->
+    <dimen name="layover_bar_padding">4dp</dimen>
+    <dimen name="card_view_container_margin">9dp</dimen>
+
+    <!-- Checkout -->
+    <dimen name="checkout_data_button_icon_size">48dp</dimen>
+    <dimen name="checkout_data_button_text_size">16sp</dimen>
+    <dimen name="checkout_data_button_sub_text_size">16sp</dimen>
+    <dimen name="stored_credit_card_icon_size">48dp</dimen>
+    <dimen name="stored_credit_card_button_padding">10dp</dimen>
+    <!-- Credit card dimens phone -->
+    <dimen name="credit_card_checkout_width">318dp</dimen>
+    <dimen name="credit_card_checkout_height">219dp</dimen>
+    <!-- CVV Screen -->
+    <dimen name="cvv_text_view_right_margin_amex">20dp</dimen>
+    <dimen name="cvv_text_view_right_margin_other">0dp</dimen>
+    <!-- Coupon code dimensions -->
+    <dimen name="one_px_hdpi_two_px_xhdpi">0.75dip</dimen>
+    <dimen name="hotel_row_strikethrough_price_text_size">12dp</dimen>
+    <dimen name="actionbar_refinement_width">50dp</dimen>
+    <dimen name="popup_filter_row_height">50dp</dimen>
+
+    <!-- Common Dimensions, Shared among LOBs -->
+    <dimen name="phone_search_calendar_height">300dp</dimen>
+    <dimen name="location_suggestion_row_height">60dp</dimen>
+    <dimen name="toolbar_dropshadow_height">5dp</dimen>
+
+    <!-- Misc Dimensions -->
+    <dimen name="alert_dialog_title_height">64dip</dimen>
+
     <!-- px equivalents -->
     <dimen name="two_px_allthethings">2dp</dimen>
 
-    <!-- CardView container margin -->
-    <dimen name="card_view_container_margin">9dp</dimen>
+    <!-- BookingOverviewActivity -->
+    <dimen name="slide_to_purchase_price_text_size">16dp</dimen>
+
+    <!-- Dimensions for leanplum in app message templates -->
+    <dimen name="leanplum_dialog_image_width">280dp</dimen>
+    <dimen name="leanplum_dialog_image_height">157dp</dimen>
+    <dimen name="gt_leanplum_dialog_height">190dp</dimen>
+
+    <!-- Breakdown dialog -->
+    <dimen name="breakdown_margin">10dp</dimen>
+    <dimen name="breakdown_indentation">17dp</dimen>
+    <dimen name="breakdown_text_margin">8dp</dimen>
+
+    <!-- From ABS, Dialog title height -->
+    <dimen name="alert_dialog_window_title_height">64dip</dimen>
+
+    <!-- Material search -->
+    <dimen name="material_search_field_height">64dp</dimen>
+    <dimen name="search_form_margin">9dp</dimen>
+    <!-- Recent Search item height -->
+    <dimen name="recent_search_item_height">55dp</dimen>
+    <dimen name="package_bundle_scroll_view_padding">200dp</dimen>
+
 
     <!-- Dimension for left margin on icon of new login button on flight checkout-->
     <dimen name="checkout_icon_right_margin_flight">16dp</dimen>

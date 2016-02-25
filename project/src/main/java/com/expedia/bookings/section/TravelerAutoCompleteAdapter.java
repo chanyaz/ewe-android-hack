@@ -3,6 +3,7 @@ package com.expedia.bookings.section;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -126,7 +127,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 		case ITEM_VIEW_TYPE_ADD_TRAVELER:
 			if (retView == null) {
 				retView = View.inflate(getContext(), R.layout.travelers_popup_header_footer_row, null);
-				retView.setBackground(getContext().getDrawable(R.drawable.bg_checkout_saved_spinner_row));
+				retView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.bg_checkout_saved_spinner_row));
 				vh = new ViewHolder(retView);
 				retView.setTag(vh);
 			}

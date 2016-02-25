@@ -13,6 +13,7 @@ import com.expedia.bookings.data.Phone;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.StoredPointsCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.Traveler.AssistanceType;
 import com.expedia.bookings.data.Traveler.Gender;
@@ -130,7 +131,25 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 						}
 						scc.setDescription(sccJson.optString("description", null));
 						scc.setId(sccJson.optString("paymentsInstrumentsId", null));
+						scc.setNameOnCard(sccJson.optString("nameOnCard", null));
 						user.addStoredCreditCard(scc);
+					}
+				}
+
+				// Parse stored points cards
+				JSONArray pointsCardsArr = response.optJSONArray("storedPointsCards");
+				if (pointsCardsArr != null && pointsCardsArr.length() > 0) {
+					int size = pointsCardsArr.length();
+					for (int a = 0; a < size; a++) {
+						JSONObject spcJson = pointsCardsArr.optJSONObject(a);
+						StoredPointsCard storedPointsCard = new StoredPointsCard();
+						String type = spcJson.optString("creditCardType", null);
+						if (Strings.isNotEmpty(type)) {
+							storedPointsCard.setPaymentType(CurrencyUtils.parsePaymentType(type));
+						}
+						storedPointsCard.setDescription(spcJson.optString("description", null));
+						storedPointsCard.setPaymentsInstrumentId(spcJson.optString("paymentsInstrumentsId", null));
+						user.addStoredPointsCard(storedPointsCard);
 					}
 				}
 
@@ -143,6 +162,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 					}
 				}
 
+				user.setExpediaRewardsMembershipId(response.optString("loyaltyAccountNumber"));
 				signInResponse.setUser(user);
 			}
 		}

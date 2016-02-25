@@ -35,6 +35,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.widget.StarRatingBar;
 import com.mobiata.android.Log;
 import com.mobiata.android.widget.CalendarDatePicker;
 
@@ -45,6 +46,11 @@ public final class ViewActions {
 
 	private ViewActions() {
 		// ignore
+	}
+
+	public static ViewAction swipeDown() {
+		return new GeneralSwipeAction(Swipe.FAST, GeneralLocation.CENTER,
+			GeneralLocation.BOTTOM_CENTER, Press.FINGER);
 	}
 
 	public static ViewAction swipeUp() {
@@ -198,6 +204,26 @@ public final class ViewActions {
 			@Override
 			public void perform(UiController uiController, View view) {
 				value.set(((RatingBar) view).getRating());
+			}
+
+			@Override
+			public String getDescription() {
+				return "get ratings from RatingBar widget";
+			}
+		};
+	}
+
+	public static ViewAction getStarRating(final AtomicReference<Float> value) {
+		return new ViewAction() {
+
+			@Override
+			public Matcher<View> getConstraints() {
+				return Matchers.allOf(isAssignableFrom(StarRatingBar.class));
+			}
+
+			@Override
+			public void perform(UiController uiController, View view) {
+				value.set(((StarRatingBar) view).getRating());
 			}
 
 			@Override

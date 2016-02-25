@@ -11,10 +11,27 @@ public class MoneyTests {
 		Money money = new Money("23.20", "USD");
 		Assert.assertEquals("$23.20", money.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL));
 		Assert.assertEquals("$23.20", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL));
+		Assert.assertEquals("$23.20", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL | Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL));
 
 		money = new Money("23.00", "USD");
 		Assert.assertEquals("$23", money.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL));
 		Assert.assertEquals("$23", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL));
+		Assert.assertEquals("$23", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL | Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL));
+	}
+
+	@Test
+	public void testFlagAlwaysTwoPlacesAfterDecimal() {
+		Money money = new Money("23", "USD");
+		Assert.assertEquals("$23.00", money.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL));
+		Assert.assertEquals("$23.00", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL));
+
+		money = new Money("23.2", "USD");
+		Assert.assertEquals("$23.20", money.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL));
+		Assert.assertEquals("$23.20", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL));
+
+		money = new Money("23.66", "USD");
+		Assert.assertEquals("$23.66", money.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL));
+		Assert.assertEquals("$23.66", money.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL));
 	}
 
 	@Test

@@ -12,9 +12,6 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 
-/**
- * @author doug
- */
 public abstract class TripBucketItem implements JSONable {
 
 	public abstract LineOfBusiness getLineOfBusiness();
@@ -92,7 +89,7 @@ public abstract class TripBucketItem implements JSONable {
 
 	public void addValidPayments(List<ValidPayment> payments) {
 		if (mValidPayments == null) {
-			mValidPayments = new ArrayList<ValidPayment>();
+			mValidPayments = new ArrayList<>();
 		}
 
 		if (payments != null) {

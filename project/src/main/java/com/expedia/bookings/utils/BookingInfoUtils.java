@@ -403,7 +403,7 @@ public class BookingInfoUtils {
 	}
 
 	public static final int getGreyCardIcon(PaymentType type) {
-		CreditCardUtils.assertPaymentTypeIsCard(type);
+		type.assertIsCard();
 		if (CREDIT_CARD_GREY_ICONS.containsKey(type)) {
 			return CREDIT_CARD_GREY_ICONS.get(type);
 		}
@@ -411,7 +411,7 @@ public class BookingInfoUtils {
 	}
 
 	public static final int getBlackCardIcon(PaymentType type) {
-		CreditCardUtils.assertPaymentTypeIsCard(type);
+		type.assertIsCard();
 		if (CREDIT_CARD_BLACK_ICONS.containsKey(type)) {
 			return CREDIT_CARD_BLACK_ICONS.get(type);
 		}
@@ -419,7 +419,7 @@ public class BookingInfoUtils {
 	}
 
 	public static final int getWhiteCardIcon(PaymentType type) {
-		CreditCardUtils.assertPaymentTypeIsCard(type);
+		type.assertIsCard();
 		if (CREDIT_CARD_WHITE_ICONS.containsKey(type)) {
 			return CREDIT_CARD_WHITE_ICONS.get(type);
 		}
@@ -427,7 +427,7 @@ public class BookingInfoUtils {
 	}
 
 	public static final int getTabletCardIcon(PaymentType type) {
-		CreditCardUtils.assertPaymentTypeIsCard(type);
+		type.assertIsCardOrPoints();
 		if (CREDIT_CARD_TABLET_ICONS.containsKey(type)) {
 			return CREDIT_CARD_TABLET_ICONS.get(type);
 		}
@@ -501,6 +501,7 @@ public class BookingInfoUtils {
 			put(PaymentType.CARD_MAESTRO, R.drawable.ic_tablet_checkout_maestro);
 			put(PaymentType.CARD_MASTERCARD, R.drawable.ic_tablet_checkout_mastercard);
 			put(PaymentType.CARD_VISA, R.drawable.ic_tablet_checkout_visa);
+			put(PaymentType.POINTS_EXPEDIA_REWARDS, R.drawable.pwp_icon);
 		}
 	};
 

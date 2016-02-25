@@ -1,7 +1,7 @@
 package com.expedia.bookings.data.payment
 
 data class PointsDetails(
-        val programName: PointsProgramType,
+        val programName: ProgramName,
         val isAllowedToRedeem: Boolean,
         val minimumPointsRequiredToRedeem: Int,
         val totalAvailable: PointsAndCurrency,

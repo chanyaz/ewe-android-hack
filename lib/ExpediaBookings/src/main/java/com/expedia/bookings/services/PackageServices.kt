@@ -4,6 +4,9 @@ import com.expedia.bookings.data.PackageFlightDeserializer
 import com.expedia.bookings.data.PackageHotelDeserializer
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
+import com.expedia.bookings.data.packages.PackageCheckoutResponse
+import com.expedia.bookings.data.packages.PackageCreateTripParams
+import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
@@ -42,7 +45,7 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 	}
 
 	public fun packageSearch(params: PackageSearchParams): Observable<PackageSearchResponse> {
-		return packageApi.packageSearch(params.destination.regionNames.shortName, params.arrival.regionNames.shortName, params.destination.gaiaId, params.arrival.gaiaId, params.destination.hierarchyInfo?.airport?.airportCode, params.arrival.hierarchyInfo?.airport?.airportCode,
+		return packageApi.packageSearch(params.origin.regionNames.shortName, params.destination.regionNames.shortName, params.origin.gaiaId, params.destination.gaiaId, params.origin.hierarchyInfo?.airport?.airportCode, params.destination.hierarchyInfo?.airport?.airportCode,
 				params.checkIn.toString(), params.checkOut.toString(), params.packagePIID, params.searchProduct, params.flightType, params.selectedLegId, Constants.PACKAGE_TRIP_TYPE)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
@@ -52,7 +55,7 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 							offer.hotel == hotel.hotelPid
 						}
 						val lowRateInfo = HotelRate()
-						lowRateInfo.strikethroughPriceToShowUsers = hotel.packageOfferModel.price.packageTotalPrice.amount.toFloat()
+						lowRateInfo.strikethroughPriceToShowUsers = hotel.packageOfferModel.price.sumFlightAndHotel.amount.toFloat()
 						lowRateInfo.priceToShowUsers = hotel.packageOfferModel.price.pricePerPerson.amount.toFloat()
 						lowRateInfo.currencyCode = hotel.packageOfferModel.price.pricePerPerson.currencyCode
 						hotel.lowRateInfo = lowRateInfo
@@ -72,13 +75,25 @@ public class PackageServices(endpoint: String, okHttpClient: OkHttpClient, reque
 	}
 
 	public fun hotelOffer(piid: String, checkInDate: String, checkOutDate: String): Observable<PackageOffersResponse> {
-		return packageApi.hotelOffers(piid, checkInDate, checkOutDate)
+		return packageApi.packageHotelOffers(piid, checkInDate, checkOutDate)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 	}
 
 	public fun hotelInfo(hotelId: String): Observable<HotelOffersResponse> {
 		return packageApi.hotelInfo(hotelId)
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+	}
+
+	public fun createTrip(body: PackageCreateTripParams): Observable<PackageCreateTripResponse> {
+		return packageApi.createTrip(body.toQueryMap())
+				.observeOn(observeOn)
+				.subscribeOn(subscribeOn)
+	}
+
+	public fun checkout(body: Map<String, Any>): Observable<PackageCheckoutResponse> {
+		return packageApi.checkout(body)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 	}

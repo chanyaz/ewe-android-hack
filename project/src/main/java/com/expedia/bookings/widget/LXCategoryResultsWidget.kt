@@ -60,8 +60,6 @@ public class LXCategoryResultsWidget(context: Context, attrs: AttributeSet): Fra
 
     @Subscribe
     public fun onLXSearchError(event: Events.LXShowSearchError) {
-
-        OmnitureTracking.trackAppLXNoSearchResults(event.error)
         recyclerView.setVisibility(View.GONE)
         errorScreen.bind(event.error, event.searchType)
         errorScreen.setVisibility(View.VISIBLE)

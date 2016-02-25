@@ -25,10 +25,11 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.PaymentType;
+import com.expedia.bookings.data.CreateItineraryResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
 import com.expedia.bookings.data.FlightFilter;
+import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelBookingResponse;
@@ -39,6 +40,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.SearchParams;
@@ -62,6 +64,9 @@ import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
+import com.expedia.bookings.data.lx.LXSortType;
+import com.expedia.bookings.data.payment.PaymentSplitsType;
+import com.expedia.bookings.data.payment.ProgramName;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -76,6 +81,7 @@ import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.utils.NumberUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.DebugUtils;
@@ -87,6 +93,7 @@ import com.mobiata.android.util.SettingUtils;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.math.BigDecimal;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
@@ -221,6 +228,12 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_CONFIRMATION_COUPON_FAIL = "App.CKO.Coupon.Fail";
 	private static final String HOTELSV2_CONFIRMATION_COUPON_REMOVE = "App.CKO.Coupon.Remove";
 
+	private static final String EXPEDIA_POINTS_PERCENTAGE = "expedia | %d";
+	private static final String REWARDS_POINTS_UPDATE = "App.Hotels.CKO.Points.Update";
+	private static final String PAY_WITH_POINTS_DISABLED = "App.Hotels.CKO.Points.None";
+	private static final String PAY_WITH_POINTS_REENABLED = "App.Hotels.CKO.Points.Select.Expedia";
+	private static final String PAY_WITH_POINTS_ERROR = "App.Hotels.CKO.Points.Error";
+
 	public static void trackHotelV2SearchBox() {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_SEARCH_BOX + "\" pageLoad...");
 
@@ -315,6 +328,10 @@ public class OmnitureTracking {
 		if (!ExpediaBookingApp.isDeviceShitty()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultMapTest);
 		}
+
+		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsV2SuperlativeReviewsABTest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsMemberDealTest);
 
 		// Send the tracking data
 		s.track();
@@ -711,13 +728,23 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadHotelV2CheckoutInfo(
-		HotelCreateTripResponse.HotelProductResponse hotelProductResponse,
+		HotelCreateTripResponse trip,
 		com.expedia.bookings.data.hotels.HotelSearchParams searchParams) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_CHECKOUT_INFO);
-		s.setEvents("event70");
 
+		StringBuilder events = new StringBuilder("event70");
+		if (trip.isExpediaRewardsRedeemable()) {
+			events.append(",event114");
+			BigDecimal amountPaidWithPoints = trip.getPointDetails(ProgramName.ExpediaRewards).getMaxPayableWithPoints().getAmount().amount;
+			BigDecimal totalAmount = trip.getTripTotal().amount;
+			int percentagePaidWithPoints = NumberUtils.getPercentagePaidWithPointsForOmniture(amountPaidWithPoints,
+				totalAmount);
+			s.setEvar(53, String.format(EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
+		}
+		s.setEvents(events.toString());
 		addHotelV2RegionId(s, searchParams);
 
+		HotelCreateTripResponse.HotelProductResponse hotelProductResponse = trip.newHotelProductResponse;
 		String supplierType = hotelProductResponse.hotelRoomResponse.supplierType;
 		int numOfNights = JodaUtils.daysBetween(searchParams.getCheckIn(), searchParams.getCheckOut());
 		String price = hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.total + "";
@@ -786,17 +813,37 @@ public class OmnitureTracking {
 		if (!PointOfSale.getPointOfSale().requiresHotelPostalCode()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCKOPostalCodeTest);
 		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCKOCreditDebitTest);
 		s.track();
 	}
 
-	public static void trackHotelV2SlideToPurchase(String cardType) {
+	public static void trackHotelV2SlideToPurchase(PaymentType paymentType, PaymentSplitsType paymentSplitsType) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(18, HOTELSV2_CHECKOUT_SLIDE_TO_PURCHASE);
-		s.setEvar(37, cardType);
+		s.setEvar(37, getPaymentTypeOmnitureCode(paymentType, paymentSplitsType));
 		s.track();
 
+	}
+
+	private static String getPaymentTypeOmnitureCode(PaymentType paymentType, PaymentSplitsType paymentSplitsType) {
+		String paymentTypeOmnitureCode = null;
+		switch (paymentSplitsType) {
+		case IS_FULL_PAYABLE_WITH_CARD:
+			paymentTypeOmnitureCode = paymentType.getOmnitureTrackingCode();
+			break;
+		case IS_FULL_PAYABLE_WITH_POINT:
+			paymentTypeOmnitureCode = "Points";
+			break;
+		case IS_PARTIAL_PAYABLE_WITH_CARD:
+			paymentTypeOmnitureCode = paymentType.getOmnitureTrackingCode() + " + Points";
+			break;
+		}
+		if (paymentTypeOmnitureCode == null) {
+			throw new IllegalArgumentException("Payment type omniture string should be initialized");
+		}
+		return paymentTypeOmnitureCode;
 	}
 
 	public static void trackHotelV2CheckoutPaymentCid() {
@@ -821,11 +868,11 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Hotel Checkout", null, null);
 	}
 
-	public static void trackHotelV2PurchaseConfirmation(HotelCheckoutResponse hotelCheckoutResponse) {
+	public static void trackHotelV2PurchaseConfirmation(HotelCheckoutResponse hotelCheckoutResponse, int percentagePaidWithPoints, int totalBurnedAmount) {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_PURCHASE_CONFIRMATION + "\" pageLoad");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELSV2_PURCHASE_CONFIRMATION);
-		s.setEvents("purchase");
+		s.setEvents("purchase,event117=" + totalBurnedAmount);
 
 		// Product details
 		DateTimeFormatter dtf = ISODateTimeFormat.basicDate();
@@ -839,7 +886,10 @@ public class OmnitureTracking {
 		// 14103: Remove timestamp from the purchaseID variable
 		s.setProp(71, hotelCheckoutResponse.checkoutResponse.bookingResponse.travelRecordLocator);
 		s.setProp(72, hotelCheckoutResponse.orderId);
+		s.setProp(2, "hotels");
 		s.setPurchaseID("onum" + hotelCheckoutResponse.orderId);
+
+		s.setEvar(2, "D=c2");
 
 		int numNights = JodaUtils.daysBetween(checkInDate,checkOutDate);
 		String totalCost = hotelCheckoutResponse.totalCharges;
@@ -857,7 +907,9 @@ public class OmnitureTracking {
 		// Currency code
 		s.setCurrencyCode(hotelCheckoutResponse.currencyCode);
 
-			// Send the tracking data
+		String percentageOfAmountPaidWithPoints = percentagePaidWithPoints == 0 ? "no points used" : String.format(Locale.ENGLISH, EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints);
+		s.setEvar(53, percentageOfAmountPaidWithPoints);
+		// Send the tracking data
 		s.track();
 	}
 
@@ -1136,9 +1188,6 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSRPercentRecommend);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelETPSearchResults);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHSRMapIconTest);
-		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsV2SuperlativeReviewsABTest);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsMemberDealTest);
 
 		// Send the tracking data
 		s.track();
@@ -1701,10 +1750,14 @@ public class OmnitureTracking {
 	private static final String FLIGHT_INFANT_ALERT = "App.Flight.Search.LapAlert";
 
 	public static void trackPageLoadFlightCheckoutConfirmation() {
-		Log.d(TAG, "Tracking \"" + FLIGHT_CHECKOUT_CONFIRMATION + "\" pageLoad");
-		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_CHECKOUT_CONFIRMATION);
+		String pageName = FLIGHT_CHECKOUT_CONFIRMATION;
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 
 		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
+		CreateItineraryResponse createItineraryResponse = Db.getTripBucket().getFlight().getItineraryResponse();
+		FlightTrip createTripOffer = createItineraryResponse.getOffer();
+		boolean isSplitTicket = createItineraryResponse.isSplitTicket();
 
 		// Flight: <departure Airport Code>-<Destination Airport Code>:<departure date YYYYMMDD>-<return date YYYYMMDD>:<promo code applied N/Y>
 		FlightSearchParams searchParams = Db.getTripBucket().getFlight().getFlightSearchParams();
@@ -1727,7 +1780,12 @@ public class OmnitureTracking {
 		eVar30 += ":N";
 		s.setEvar(30, eVar30);
 
-		addProducts(s);
+		if (isSplitTicket) {
+			addFlightSplitTicketInfo(s, pageName, createTripOffer, true, true);
+		}
+		else {
+			addProducts(s);
+		}
 
 		s.setCurrencyCode(trip.getTotalFare().getCurrency());
 		s.setEvents("purchase");
@@ -1813,7 +1871,10 @@ public class OmnitureTracking {
 	}
 
 	public static void trackPageLoadFlightCheckoutInfo() {
-		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_CHECKOUT_INFO);
+		String pageName = FLIGHT_CHECKOUT_INFO;
+		FlightTrip searchFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 		s.setEvents("event74");
 		FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
 		s.setEvar(47, getEvar47String(params));
@@ -1828,14 +1889,69 @@ public class OmnitureTracking {
 		addProducts(s);
 		internalSetFlightDateProps(s, params);
 		addStandardFlightFields(s);
+		addFlightSplitTicketInfo(s, pageName, searchFlightTrip, false, false);
 
 		s.track();
 	}
 
+	private static void addFlightSplitTicketInfo(ADMS_Measurement s, String pageName, FlightTrip flightTrip, boolean withTotalRevenue, boolean withPassengerCount) {
+		boolean isSplitTicket = flightTrip.isSplitTicket();
+		if (isSplitTicket) {
+			StringBuilder eventsSB = new StringBuilder();
+			StringBuilder productsSB = new StringBuilder();
 
+			for (FlightLeg flightLeg : flightTrip.getLegs()) {
+				// fetch airline code from flight search response. We don't parse it from createTrip
+				String firstAirlineCodeForLeg = getAirlineCodeForLegId(flightLeg.getLegId());
+
+				productsSB.append("Flight;Agency Flight:");
+				productsSB.append(firstAirlineCodeForLeg)
+					.append(":ST")
+					.append(";");
+
+				if (withPassengerCount) {
+					productsSB.append(flightTrip.getPassengerCount());
+				}
+				productsSB.append(";");
+
+				if (withTotalRevenue) {
+					String totalRevenue = flightLeg.getTotalFare().getAmount().toString();
+					productsSB.append(totalRevenue);
+				}
+				productsSB.append(",");
+
+			}
+
+			// removing last comma
+			if (productsSB.toString().length() > 0) {
+				productsSB.deleteCharAt(productsSB.lastIndexOf(","));
+			}
+
+			eventsSB.append("event5");
+			s.setEvar(18, pageName);
+			s.setProducts(productsSB.toString());
+		}
+	}
+
+	private static String getAirlineCodeForLegId(String legId) {
+		FlightTrip searchRespFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+		for (FlightLeg searchFlightLeg : searchRespFlightTrip.getLegs()) {
+			if (searchFlightLeg.getLegId().equals(legId)) {
+				return searchFlightLeg.getFirstAirlineCode();
+			}
+		}
+		return "";
+	}
 
 	public static void trackPageLoadFlightRateDetailsOverview() {
-		internalTrackPageLoadEventPriceChange(FLIGHT_RATE_DETAILS);
+		String pageName = FLIGHT_RATE_DETAILS;
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		FlightTrip searchFlightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+		ADMS_Measurement s = createTrackPageLoadEventPriceChange(pageName);
+		addFlightSplitTicketInfo(s, pageName, searchFlightTrip, false, false);
+		s.setEvents("event5");
+
+		s.track();
 	}
 
 	public static void trackPageLoadFlightSearchResults(int legPosition) {
@@ -1886,6 +2002,7 @@ public class OmnitureTracking {
 
 		s.setEvar(47, getEvar47String(searchParams));
 
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsRoundtripMessageTest);
 		s.track();
 	}
 
@@ -2130,8 +2247,9 @@ public class OmnitureTracking {
 	public static final String LX_DESTINATION_SEARCH = "App.LX.Dest-Search";
 	public static final String LX_INFOSITE_INFORMATION = "App.LX.Infosite.Information";
 	public static final String LX_CHECKOUT_INFO = "App.LX.Checkout.Info";
+	public static final String LX_SEARCH_FILTER = "App.LX.Search.Filter";
+	public static final String LX_SEARCH_FILTER_CLEAR = "App.LX.Search.Filter.Clear";
 	public static final String LX_CHECKOUT_CONFIRMATION = "App.LX.Checkout.Confirmation";
-
 	public static final String LX_TICKET_SELECT = "App.LX.Ticket.Select";
 	public static final String LX_CHANGE_DATE = "App.LX.Info.DateChange";
 	public static final String LX_INFO = "LX_INFO";
@@ -2143,6 +2261,10 @@ public class OmnitureTracking {
 	private static final String LX_NO_SEARCH_RESULTS = "App.LX.NoResults";
 	private static final String LX_CATEGORY_TEST = "App.LX.Category";
 	private static final String LX_SEARCH_CATEGORIES = "App.LX.Search.Categories";
+	private static final String LX_SORT_PRICE = "Price";
+	private static final String LX_SORT_POPULARITY = "Popularity";
+	private static final String LX_SORT = ".Sort.";
+	private static final String LX_FILTER = ".Filter.";
 
 	public static void trackFirstActivityListingExpanded() {
 		Log.d(TAG, "Tracking \"" + LX_LOB + "\" pageLoad...");
@@ -2245,6 +2367,46 @@ public class OmnitureTracking {
 
 		// Send the tracking data
 		s.track();
+	}
+
+	public static void trackAppLXSortAndFilterOpen() {
+		Log.d(TAG, "Tracking \"" + LX_SEARCH_FILTER + "\" pageLoad...");
+
+		ADMS_Measurement s = internalTrackAppLX(LX_SEARCH_FILTER);
+
+		// Send the tracking data
+		s.track();
+	}
+
+	public static void trackLinkLXSort(LXSortType sortType) {
+		String sort = sortType.equals(LXSortType.PRICE) ? LX_SORT_PRICE : LX_SORT_POPULARITY;
+		StringBuilder sb = new StringBuilder();
+		sb.append(LX_SEARCH);
+		sb.append(LX_SORT);
+		sb.append(sort);
+		trackLinkLXSearch(sb.toString());
+	}
+
+	public static void trackLinkLXFilter(String categoryKey) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(LX_SEARCH);
+		sb.append(LX_FILTER);
+		sb.append(categoryKey);
+		trackLinkLXSearch(sb.toString());
+	}
+
+	public static void trackLinkLXSortAndFilterCleared() {
+		trackLinkLXSearch(LX_SEARCH_FILTER_CLEAR);
+	}
+
+	private static void trackLinkLXSearch(String rffr) {
+		String tpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setProp(7, tpid);
+		s.setEvar(28, rffr);
+		s.setProp(16, rffr);
+		s.setProp(61, tpid);
+		s.trackLink(null, "o", LX_SEARCH, null, null);
 	}
 
 	public static void trackAppLXProductInformation(ActivityDetailsResponse activityDetailsResponse,
@@ -2469,6 +2631,13 @@ public class OmnitureTracking {
 		s.setEvents("event2");
 		s.setEvar(47, getDSREvar47String(params));
 		s.setEvar(48, Html.fromHtml(params.getDestination().getDisplayName()).toString());
+
+		s.track();
+	}
+
+	public static void trackHotelV2ApiSearch() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSearchDomainV2);
 
 		s.track();
 	}
@@ -4409,7 +4578,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 
 		s.setEvar(12,
-				lob == LineOfBusiness.HOTELS ? "CrossSell.Cars.Confirm.Hotels" : "CrossSell.Cars.Confirm.Flights");
+			lob == LineOfBusiness.HOTELS ? "CrossSell.Cars.Confirm.Hotels" : "CrossSell.Cars.Confirm.Flights");
 		s.setEvar(28, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
 		s.setProp(16, CAR_CHECKOUT_CONFIRMATION_CROSS_SELL);
 		s.trackLink(null, "o", "Confirmation Cross Sell", null, null);
@@ -4419,8 +4588,8 @@ public class OmnitureTracking {
 		String duration = Integer
 			.toString(JodaUtils.daysBetween(carOffer.getPickupTime(), carOffer.getDropOffTime()) + 1);
 		s.setProducts(
-				"Car;Agency Car:" + carOffer.vendor.code + ":" + carTrackingData.sippCode + ";" + duration + ";"
-						+ carOffer.detailedFare.grandTotal.amount);
+			"Car;Agency Car:" + carOffer.vendor.code + ":" + carTrackingData.sippCode + ";" + duration + ";"
+				+ carOffer.detailedFare.grandTotal.amount);
 	}
 
 	private static String getEvar47String(CarSearchParams params) {
@@ -4476,5 +4645,48 @@ public class OmnitureTracking {
 		else if (lineOfBusiness.equals(LineOfBusiness.LX)) {
 			trackAppLXCheckoutTraveler();
 		}
+	}
+
+	// Pay with points tracking
+	private static final String PAY_WITH_POINTS_CUSTOM_LINK_NAME = "Pay With Points";
+
+	public static void trackPayWithPointsAmountUpdateSuccess(int percentagePaidWithPoints) {
+		Log.d(TAG, "Tracking \"" + REWARDS_POINTS_UPDATE);
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, REWARDS_POINTS_UPDATE);
+		s.setProp(16, REWARDS_POINTS_UPDATE);
+		s.setEvar(53, String.format(EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
+		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
+	}
+
+	public static void trackPayWithPointsDisabled() {
+		Log.d(TAG, "Tracking \"" + PAY_WITH_POINTS_DISABLED);
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, PAY_WITH_POINTS_DISABLED);
+		s.setProp(16, PAY_WITH_POINTS_DISABLED);
+		s.setEvar(53, "no points used");
+		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
+	}
+
+	public static void trackPayWithPointsReEnabled(int percentagePaidWithPoints) {
+		Log.d(TAG, "Tracking \"" + PAY_WITH_POINTS_REENABLED);
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, PAY_WITH_POINTS_REENABLED);
+		s.setProp(16, PAY_WITH_POINTS_REENABLED);
+		s.setEvar(53, String.format(EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
+		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
+	}
+
+	public static void trackPayWithPointsError(String errorMessage) {
+		Log.d(TAG, "Tracking \"" + PAY_WITH_POINTS_ERROR);
+
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, PAY_WITH_POINTS_ERROR);
+		s.setProp(16, PAY_WITH_POINTS_ERROR);
+		s.setProp(36, errorMessage);
+		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
 	}
 }

@@ -54,7 +54,7 @@ public class SectionFlightLeg extends LinearLayout {
 		// Bind to views
 		FlightLeg leg = tripLeg.getFlightLeg();
 
-		mFlightLegSummary.bind(null, leg);
+		mFlightLegSummary.bind(leg);
 
 		setInfoText(leg);
 	}

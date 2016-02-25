@@ -10,7 +10,7 @@
             android:summary="%s"
             android:key="7373"
             android:layout="@layout/preference"
-            android:title="Hotel Result Rating Test" />
+            android:title="Hotel Result Rating Test - 7373" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -19,7 +19,7 @@
             android:summary="%s"
             android:key="7532"
             android:layout="@layout/preference"
-            android:title="Hotels ETP book now/pay later search results" />
+            android:title="Hotels ETP book now/pay later search results - 7532" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -28,7 +28,7 @@
             android:summary="%s"
             android:key="7535"
             android:layout="@layout/preference"
-            android:title="Hotel Search Sale Pin Green" />
+            android:title="Hotel Search Sale Pin Green - 7535" />
 
         <ListPreference
             android:entries="@array/abacus_hsr_map_choices"
@@ -37,7 +37,7 @@
             android:summary="%s"
             android:key="7772"
             android:layout="@layout/preference"
-            android:title="Hotel HSR Map Icon" />
+            android:title="Hotel HSR Map Icon - 7772" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -46,7 +46,7 @@
             android:summary="%s"
             android:key="7777"
             android:layout="@layout/preference"
-            android:title="Hotel Coupon ETP Test" />
+            android:title="Hotel Coupon ETP Test - 7777" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -55,7 +55,7 @@
             android:summary="%s"
             android:key="7973"
             android:layout="@layout/preference"
-            android:title="Hotel 3x points messaging" />
+            android:title="Hotel 3x points messaging - 7973" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -64,7 +64,7 @@
             android:summary="%s"
             android:key="8126"
             android:layout="@layout/preference"
-            android:title="Hotel collapse amenities, policies, fees" />
+            android:title="Hotel collapse amenities, policies, fees - 8126" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -73,16 +73,7 @@
             android:summary="%s"
             android:key="8624"
             android:layout="@layout/preference"
-            android:title="Hotels AB Test" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_hotel_review_superlatives"
-            android:entryValues="@array/abacus_hotel_review_superlatives_values"
-            android:summary="%s"
-            android:key="8688"
-            android:layout="@layout/preference"
-            android:title="Hotels v2 Superlative reviews" />
+            android:title="Hotels AB Test - 8624" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -91,7 +82,7 @@
             android:summary="%s"
             android:key="8692"
             android:layout="@layout/preference"
-            android:title="Hotels Recent Search AB Test" />
+            android:title="Hotels Recent Search AB Test - 8692" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -99,7 +90,8 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
             android:key="9044"
-            android:title="Hotels Member Deal AB Test" />
+            android:layout="@layout/preference"
+            android:title="Hotels Member Deal AB Test - 9044" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -108,15 +100,7 @@
             android:key="9474"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Hotels Result Map AB Test" />
-
-        <ListPreference
-            android:entries="@array/abacus_hotel_price_breakdown_choices"
-            android:entryValues="@array/abacus_hotel_price_breakdown_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="9477"
-            android:title="Hotel Price BreakDown AB test" />
+            android:title="Hotels Result Map AB Test - 9474" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -124,15 +108,54 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:key="9478"
             android:summary="%s"
-            android:title="Hotels Traveler AB Test" />
+            android:layout="@layout/preference"
+            android:title="Hotels Traveler AB Test - 9478" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="9475"
+            android:key="9634"
             android:summary="%s"
-            android:title="Hotels Checkout Show Example Names" />
+            android:layout="@layout/preference"
+            android:title="Hotel Search Screen AB test - 9634" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="New (Material) Hotels Tests">
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_hotel_review_superlatives"
+            android:entryValues="@array/abacus_hotel_review_superlatives_values"
+            android:summary="%s"
+            android:key="8688"
+            android:layout="@layout/preference"
+            android:title="Hotels v2 Superlative reviews - 8688" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="9707"
+            android:layout="@layout/preference"
+            android:title="ForceV2 Hotel API Search - 9707" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Flight tests">
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="9774"
+            android:layout="@layout/preference"
+            android:title="Flight Split Ticketing Test - 9774" />
 
     </PreferenceCategory>
 
@@ -145,7 +168,7 @@
             android:summary="%s"
             android:key="9165"
             android:layout="@layout/preference"
-            android:title="LX Category Test" />
+            android:title="LX Category Test - 9165" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -153,7 +176,7 @@
             android:summary="%s"
             android:key="9467"
             android:layout="@layout/preference"
-            android:title="LX first activity expanded" />
+            android:title="LX first activity expanded - 9467" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -166,7 +189,7 @@
             android:summary="%s"
             android:key="7774"
             android:layout="@layout/preference"
-            android:title="Car Insurance Included CKO" />
+            android:title="Car Insurance Included CKO - 7774" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -179,7 +202,7 @@
             android:summary="%s"
             android:key="7775"
             android:layout="@layout/preference"
-            android:title="Hotel Checkout Traveler to Payment" />
+            android:title="Hotel Checkout Traveler to Payment - 7775" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -188,7 +211,7 @@
             android:summary="%s"
             android:key="8127"
             android:layout="@layout/preference"
-            android:title="Hotel CKO MER Email Guest opt/in/out" />
+            android:title="Hotel CKO MER Email Guest opt/in/out - 8127" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -196,7 +219,8 @@
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
             android:key="9480"
-            android:title="Hotels CKO Postal Code" />
+            android:layout="@layout/preference"
+            android:title="Hotels CKO Postal Code - 9480" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -205,7 +229,34 @@
             android:summary="%s"
             android:key="8129"
             android:layout="@layout/preference"
-            android:title="Show hotel address and map in receipt" />
+            android:title="Show hotel address and map in receipt - 8129" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="9642"
+            android:summary="%s"
+            android:layout="@layout/preference"
+            android:title="Hotels Checkout Show Debit/Credit Hint - 9642" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="9475"
+            android:summary="%s"
+            android:layout="@layout/preference"
+            android:title="Hotels Checkout Show Example Names - 9475" />
+
+        <ListPreference
+            android:entries="@array/abacus_hotel_price_breakdown_choices"
+            android:entryValues="@array/abacus_hotel_price_breakdown_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="9477"
+            android:layout="@layout/preference"
+            android:title="Hotel Price BreakDown AB test - 9477" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -218,7 +269,7 @@
             android:summary="%s"
             android:key="8706"
             android:layout="@layout/preference"
-            android:title="Integration AA Test" />
+            android:title="Integration AA Test - 8706" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -227,7 +278,16 @@
             android:summary="%s"
             android:key="8369"
             android:layout="@layout/preference"
-            android:title="Split GT and LX Launch" />
+            android:title="Split GT and LX Launch - 8369" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="9636"
+            android:layout="@layout/preference"
+            android:title="Flights Show Roundtrip Message Under Price - 9636" />
 
         <ListPreference
             android:entries="@array/abacus_hotel_sign_in_messaging_choices"
@@ -236,6 +296,6 @@
             android:summary="%s"
             android:key="9476"
             android:layout="@layout/preference"
-            android:title="Sign in Messaging AB test" />
+            android:title="Sign in Messaging AB test - 9476" />
     </PreferenceCategory>
 </PreferenceScreen>

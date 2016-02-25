@@ -43,8 +43,6 @@ import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
 import java.text.SimpleDateFormat
 import java.util.Locale
-import kotlin.text.substring
-import kotlin.text.toUpperCase
 
 public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
@@ -142,12 +140,12 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
             }
         }
 
-        vm.destinationTextObservable.subscribe { text ->
+        vm.originTextObservable.subscribe { text ->
             isFromUser = false;
             flyingFromAutoComplete.locationEditText.setText(text)
         }
 
-        vm.arrivalTextObservable.subscribe { text ->
+        vm.destinationTextObservable.subscribe { text ->
             isFromUser = false;
             flyingToAutoComplete.locationEditText.setText(text)
         }
@@ -184,16 +182,16 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
         }
     }
 
-    private var destinationSuggestionVM: PackageSuggestionAdapterViewModel by notNullAndObservable { vm ->
+    private var originSuggestionVM: PackageSuggestionAdapterViewModel by notNullAndObservable { vm ->
         vm.suggestionSelectedSubject.subscribe { suggestion ->
-            searchViewModel.destinationObserver.onNext(suggestion)
+            searchViewModel.originObserver.onNext(suggestion)
             selectSuggestion()
         }
     }
 
-    private var arrivalSuggestionVM: PackageSuggestionAdapterViewModel by notNullAndObservable { vm ->
+    private var destinationSuggestionVM: PackageSuggestionAdapterViewModel by notNullAndObservable { vm ->
         vm.suggestionSelectedSubject.subscribe { suggestion ->
-            searchViewModel.arrivalObserver.onNext(suggestion)
+            searchViewModel.destinationObserver.onNext(suggestion)
             selectSuggestion()
         }
     }
@@ -246,15 +244,15 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
         }
         toolbar.inflateMenu(R.menu.cars_search_menu)
 
-        traveler.viewmodel = HotelTravelerPickerViewModel(getContext())
+        traveler.viewmodel = HotelTravelerPickerViewModel(getContext(), true)
         searchViewModel = PackageSearchViewModel(context)
-        destinationSuggestionVM = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, CurrentLocationObservable.create(getContext()))
-        arrivalSuggestionVM = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, null)
+        originSuggestionVM = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, CurrentLocationObservable.create(getContext()))
+        destinationSuggestionVM = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, null)
 
-        flyingFromAutoComplete.suggestionViewModel = destinationSuggestionVM
-        flyingToAutoComplete.suggestionViewModel = arrivalSuggestionVM
-        flyingFromAutoComplete.suggestionAdapter = PackageSuggestionAdapter(destinationSuggestionVM)
-        flyingToAutoComplete.suggestionAdapter = PackageSuggestionAdapter(arrivalSuggestionVM)
+        flyingFromAutoComplete.suggestionViewModel = originSuggestionVM
+        flyingToAutoComplete.suggestionViewModel = destinationSuggestionVM
+        flyingFromAutoComplete.suggestionAdapter = PackageSuggestionAdapter(originSuggestionVM)
+        flyingToAutoComplete.suggestionAdapter = PackageSuggestionAdapter(destinationSuggestionVM)
 
         calendar.setYearMonthDisplayedChangedListener {
             calendar.hideToolTip()

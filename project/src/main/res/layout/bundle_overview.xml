@@ -5,7 +5,7 @@
     <ScrollView
         android:id="@+id/bundle_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -13,6 +13,7 @@
             android:orientation="vertical">
 
             <com.expedia.bookings.widget.TextView
+                android:id="@+id/step_one_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -22,7 +23,7 @@
                 app:textStyle="medium" />
 
             <com.expedia.bookings.widget.PackageBundleHotelWidget
-                android:id="@+id/packageBundleWidget"
+                android:id="@+id/package_bundle_hotel_widget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="9dp"
@@ -34,6 +35,7 @@
                 app:cardElevation="1dp" />
 
             <com.expedia.bookings.widget.TextView
+                android:id="@+id/step_two_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -42,151 +44,99 @@
                 android:textSize="16sp"
                 app:textStyle="medium" />
 
-            <android.support.v7.widget.CardView
-                android:id="@+id/flight_departure_card_view"
+            <com.expedia.bookings.widget.PackageBundleFlightWidget
+                android:id="@+id/package_bundle_outbound_flight_widget"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:layout_marginLeft="9dp"
                 android:layout_marginRight="9dp"
+                android:animateLayoutChanges="true"
                 android:foreground="?android:attr/selectableItemBackground"
+                android:minHeight="64dp"
                 app:cardCornerRadius="4dp"
-                app:cardElevation="1dp">
+                app:cardElevation="1dp" />
 
-                <ProgressBar
-                    android:id="@+id/flight_loading_bar"
-                    style="?android:attr/progressBarStyleHorizontal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:indeterminate="true"
-                    android:visibility="gone" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="9dp"
-                        android:src="@drawable/packages_overview_flight1"
-                        android:tint="@color/package_bundle_icon_color" />
-
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/flight_departure_card_view_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:textSize="16sp"
-                        app:textStyle="medium" />
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/flight_arrival_card_view"
+            <com.expedia.bookings.widget.PackageBundleFlightWidget
+                android:id="@+id/package_bundle_inbound_flight_widget"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
                 android:layout_marginLeft="9dp"
                 android:layout_marginRight="9dp"
+                android:animateLayoutChanges="true"
                 android:foreground="?android:attr/selectableItemBackground"
+                android:minHeight="64dp"
                 app:cardCornerRadius="4dp"
-                app:cardElevation="1dp">
+                app:cardElevation="1dp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="12dp">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="9dp"
-                        android:src="@drawable/packages_overview_flight2"
-                        android:tint="@color/package_bundle_icon_color" />
-
-                    <com.expedia.bookings.widget.TextView
-                        android:id="@+id/flight_arrival_card_view_text"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:textSize="16sp"
-                        app:textStyle="medium" />
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
+            <Space
+                android:id="@+id/space_view"
+                android:layout_width="match_parent"
+                android:layout_height="200dp" />
         </LinearLayout>
 
     </ScrollView>
 
-    <Button
-        android:id="@+id/checkout_button"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:text="@string/Checkout" />
+        android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/checkout_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="20dp"
-        android:visibility="gone">
-
-        <android.support.v7.widget.CardView
-            android:id="@+id/handle"
+        <com.expedia.bookings.widget.PackageBundlePriceWidget
+            android:id="@+id/bundle_total"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="wrap_content"
+            android:background="@color/itin_white_text"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:visibility="gone" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:orientation="horizontal">
-
-                <com.expedia.bookings.widget.TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:singleLine="true"
-                    android:text="@string/trip_overview"
-                    android:textSize="16sp"
-                    app:textStyle="medium" />
-
-                <ImageView
-                    android:id="@+id/chevron"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_gravity="start"
-                    android:src="@drawable/ic_chevron_up_black_48dp"
-                    android:tint="@color/package_bundle_icon_color" />
-
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-        <com.expedia.bookings.widget.BaseCheckoutPresenter
-            android:id="@+id/checkout_presenter"
+        <Button
+            android:id="@+id/checkout_button"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="wrap_content"
+            android:text="@string/Checkout"
+            android:visibility="gone" />
     </LinearLayout>
 
-    <com.expedia.bookings.widget.CheckoutToolbar
-        android:id="@+id/checkout_toolbar"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="@color/packages_primary_color"
-        app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
-        app:title="@string/bundle_overview_title"
-        app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+        android:layout_gravity="top">
+
+        <com.expedia.bookings.widget.packages.CheckoutOverviewHeader
+            android:id="@+id/checkout_overview_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <com.expedia.bookings.widget.CheckoutToolbar
+            android:id="@+id/checkout_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="@color/packages_primary_color"
+            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+            app:title="@string/bundle_overview_title"
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+    </FrameLayout>
+
+    <com.expedia.bookings.widget.BaseCheckoutPresenter
+        android:id="@+id/checkout_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:fitsSystemWindows="true"
+        android:padding="20dp"
+        android:visibility="gone" />
+
+    <com.expedia.bookings.widget.CVVEntryWidget
+        android:id="@+id/cvv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#3A424C"
+        android:visibility="gone" />
 
 </merge>

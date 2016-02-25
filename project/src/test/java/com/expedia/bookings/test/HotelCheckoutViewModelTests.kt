@@ -3,9 +3,12 @@ package com.expedia.bookings.test
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.cars.ApiError
-import com.expedia.bookings.data.hotels.HotelCheckoutParams
+import com.expedia.bookings.data.hotels.HotelCheckoutParamsMock
+import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.payment.MiscellaneousParams
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.payment.TripDetails
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.LoyaltyServices
@@ -30,14 +33,14 @@ public class HotelCheckoutViewModelTests {
 
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
     lateinit var sut: HotelCheckoutViewModel
-    lateinit var checkoutParams: HotelCheckoutParams
+    lateinit var checkoutParams: HotelCheckoutV2Params
     lateinit var testSubscriber: TestSubscriber<HotelCheckoutResponse>
     lateinit var happyCreateTripResponse: HotelCreateTripResponse
 
     @Before
     fun setup() {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
-        sut = HotelCheckoutViewModel(mockHotelTestServiceRule.service, paymentModel)
+        sut = HotelCheckoutViewModel(mockHotelTestServiceRule.services!!, paymentModel)
     }
 
     @Test
@@ -134,7 +137,7 @@ public class HotelCheckoutViewModelTests {
     fun newCheckoutParamsTriggersCheckoutCall() {
         givenGoodCheckoutResponse()
         testSubscriber = TestSubscriber<HotelCheckoutResponse>()
-        sut = TestHotelCheckoutViewModel(testSubscriber, mockHotelTestServiceRule.service, paymentModel)
+        sut = TestHotelCheckoutViewModel(testSubscriber, mockHotelTestServiceRule.services!!, paymentModel)
 
         sut.checkoutParams.onNext(checkoutParams)
 
@@ -152,10 +155,14 @@ public class HotelCheckoutViewModelTests {
     }
 
     private fun givenSomeCheckoutParams(tripId: String) {
-        checkoutParams = HotelCheckoutParams()
-        checkoutParams.tripId = tripId
-        checkoutParams.expectedTotalFare = "42.00"
-        checkoutParams.tealeafTransactionId = "tealeafHotel:" + checkoutParams.tripId
+        val tripDetails = TripDetails(tripId, "42.00", "USD", "guid", true)
+        val miscParameters = MiscellaneousParams(true, "tealeafHotel:" + tripId, "expedia.app.android.phone:x.x.x")
+        checkoutParams = HotelCheckoutV2Params.Builder()
+                .tripDetails(tripDetails)
+                .checkoutInfo(HotelCheckoutParamsMock.checkoutInfo())
+                .paymentInfo(HotelCheckoutParamsMock.paymentInfo())
+                .traveler(HotelCheckoutParamsMock.traveler())
+                .misc(miscParameters).build();
     }
 
     private fun givenWeHadAHappyCreateTripResponse() {

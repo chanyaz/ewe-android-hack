@@ -14,7 +14,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripBucketItemHotelV2
 import com.expedia.bookings.data.User
-import com.expedia.bookings.data.hotels.HotelApplyCouponParams
+import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -38,6 +38,7 @@ import com.expedia.vm.HotelCheckoutOverviewViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.expedia.vm.HotelCouponViewModel
 import com.expedia.vm.HotelCreateTripViewModel
+import com.expedia.vm.HotelCheckoutMainViewModel
 import com.squareup.otto.Subscribe
 import rx.Observer
 import rx.subjects.PublishSubject
@@ -45,6 +46,7 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : CheckoutBasePresenter(context, attr) {
+
     val COUPON_VIEW_INDEX = 4
     var slideAllTheWayObservable = PublishSubject.create<Unit>()
     var emailOptInStatus = PublishSubject.create<MerchandiseSpam>()
@@ -71,6 +73,25 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
             alertDialog.show()
             doCreateTrip()
         }
+
+        couponCardView.viewmodel.errorRemoveCouponShowDialogObservable.subscribe {
+            val builder = AlertDialog.Builder(context)
+            builder.setTitle(R.string.coupon_error_remove_dialog_title)
+            builder.setMessage(R.string.coupon_error_fallback)
+            builder.setPositiveButton(context.getString(R.string.cancel), object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                    createTripResponseListener.onNext(createTripViewmodel.tripResponseObservable.value)
+                    dialog.dismiss()
+                }
+            })
+            builder.setNegativeButton(context.getString(R.string.retry), object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface, which: Int) {
+                    couponCardView.viewmodel.removeObservable.onNext(true)
+                }
+            })
+            val alertDialog = builder.create()
+            alertDialog.show()
+        }
     }
 
     var checkoutOverviewViewModel: HotelCheckoutOverviewViewModel by notNullAndObservable {
@@ -87,6 +108,16 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
 
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
+
+    var hotelCheckoutMainViewModel: HotelCheckoutMainViewModel by notNullAndObservable {
+        it.updateEarnedRewards.subscribe { it ->
+            Db.getTripBucket().hotelV2.updateTotalPointsToEarn(it)
+            loginWidget.updateRewardsText(getLineOfBusiness())
+        }
+        it.animateSlideToPurchaseWithPaymentSplits.subscribe {
+            HotelV2Tracking().trackHotelV2SlideToPurchase(paymentInfoCardView.cardType, it)
+        }
+    }
 
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
@@ -110,8 +141,10 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         couponCardView.setToolbarListener(toolbarListener)
 
         couponCardView.viewmodel.removeObservable.subscribe {
-            showProgress(true)
-            showCheckout()
+            if (it) {
+                showProgress(true)
+                showCheckout()
+            }
         }
 
         val params = couponCardView.getLayoutParams() as LinearLayout.LayoutParams
@@ -125,7 +158,7 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         paymentInfoCardView.setCreditCardRequired(true)
         paymentInfoCardView.setExpanded(false)
 
-        if (!hasDiscount && !couponCardView.removingCoupon) {
+        if (!hasDiscount) {
             clearCCNumber()
         }
 
@@ -190,11 +223,27 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         val childAges = hotelSearchParams.children
         val qualifyAirAttach = false
         val createTrip = createTripViewmodel.tripResponseObservable.value
-        val hasCoupon = couponCardView.viewmodel.hasDiscountObservable.value != null && couponCardView.viewmodel.hasDiscountObservable.value
-        if (createTrip != null && !couponCardView.removingCoupon && hasCoupon && createTrip.coupon != null && User.isLoggedIn(context)) {
-            couponCardView.viewmodel.couponParamsObservable.onNext(HotelApplyCouponParams(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId, createTrip.coupon.code, true))
-        } else {
-            createTripViewmodel.tripParams.onNext(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges))
+
+        val tripHasCoupon = createTrip != null && createTrip.coupon != null
+        val isRemoveCoupon = couponCardView.viewmodel.removeObservable.value != null && couponCardView.viewmodel.removeObservable.value
+
+        if (isRemoveCoupon) {
+            couponCardView.viewmodel.couponRemoveObservable.onNext(Db.getTripBucket().hotelV2.mHotelTripResponse.tripId)
+        }
+        else {
+            val shouldTryToApplyCouponAfterLogin = couponCardView.viewmodel.hasDiscountObservable.value != null && couponCardView.viewmodel.hasDiscountObservable.value
+            if (User.isLoggedIn(context) && tripHasCoupon && shouldTryToApplyCouponAfterLogin) {
+                // This is to apply a coupon in case user signs in after applying a coupon. So there is no user preference.
+                var couponParams = HotelApplyCouponParameters.Builder()
+                        .tripId(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId)
+                        .couponCode(createTrip.coupon.code)
+                        .isFromNotSignedInToSignedIn(true)
+                        .userPreferencePointsDetails(emptyList())
+                        .build()
+                couponCardView.viewmodel.couponParamsObservable.onNext(couponParams)
+            } else {
+                createTripViewmodel.tripParams.onNext(HotelCreateTripParams(offer.productKey, qualifyAirAttach, numberOfAdults, childAges))
+            }
         }
     }
 
@@ -209,13 +258,14 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
         couponCardView.viewmodel.hasDiscountObservable.onNext(hasDiscount)
         checkoutOverviewViewModel = HotelCheckoutOverviewViewModel(getContext(), paymentModel)
         checkoutOverviewViewModel.newRateObserver.onNext(trip.newHotelProductResponse)
+        hotelCheckoutMainViewModel = HotelCheckoutMainViewModel(paymentModel)
         bind()
         show(CheckoutBasePresenter.Ready(), Presenter.FLAG_CLEAR_BACKSTACK)
         acceptTermsWidget.vm.resetAcceptedTerms()
-        HotelV2Tracking().trackPageLoadHotelV2CheckoutInfo(trip.newHotelProductResponse, hotelSearchParams)
+        HotelV2Tracking().trackPageLoadHotelV2CheckoutInfo(trip, hotelSearchParams)
 
         if (trip.guestUserPromoEmailOptInStatus != null) {
-            emailOptInStatus.onNext(MerchandiseSpam.valueOf(trip.guestUserPromoEmailOptInStatus))
+            emailOptInStatus.onNext(MerchandiseSpam.valueOf(trip.guestUserPromoEmailOptInStatus!!))
         }
     }
 
@@ -244,4 +294,10 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     @Subscribe fun onLogin(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccessful()
     }
+
+    override fun animateInSlideToPurchase(visible: Boolean) {
+        super.animateInSlideToPurchase(visible)
+        hotelCheckoutMainViewModel.animateInSlideToPurchaseSubject.onNext(Unit)
+    }
+
 }

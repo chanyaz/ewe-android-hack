@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.math.BigDecimal;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -16,7 +14,6 @@ import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -40,13 +37,11 @@ public class HotelRulesFragment extends Fragment {
 		ViewUtils.setAllCaps((TextView) Ui.findView(view, R.id.cancellation_policy_header_text_view));
 
 		String cancellationPolicy = "";
-		Money totalAmountAfterTax = new Money();
 
 		if (lob == LineOfBusiness.HOTELS) {
 			Rate rate = Db.getTripBucket().getHotel().getRate();
 			if (rate != null) {
 				cancellationPolicy = rate.getCancellationPolicy();
-				totalAmountAfterTax = rate.getTotalAmountAfterTax();
 			}
 		}
 		else if (lob == LineOfBusiness.HOTELSV2) {
@@ -54,8 +49,13 @@ public class HotelRulesFragment extends Fragment {
 				.getHotelV2().mHotelTripResponse.newHotelProductResponse.hotelRoomResponse;
 			if (room != null) {
 				cancellationPolicy = room.cancellationPolicy;
-				totalAmountAfterTax = new Money(new BigDecimal(room.rateInfo.chargeableRateInfo.total),
-					room.rateInfo.chargeableRateInfo.currencyCode);
+			}
+		}
+		else if (lob == LineOfBusiness.PACKAGES) {
+			HotelOffersResponse.HotelRoomResponse room = Db.getTripBucket()
+				.getPackage().mPackageTripResponse.packageDetails.hotel.hotelRoomResponse;
+			if (room != null) {
+				cancellationPolicy = room.cancellationPolicy;
 			}
 		}
 

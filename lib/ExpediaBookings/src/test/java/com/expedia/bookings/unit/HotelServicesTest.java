@@ -13,15 +13,22 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.cars.ApiError;
 import com.expedia.bookings.data.hotels.Hotel;
-import com.expedia.bookings.data.hotels.HotelApplyCouponParams;
-import com.expedia.bookings.data.hotels.HotelCheckoutParams;
+import com.expedia.bookings.data.hotels.HotelApplyCouponParameters;
+import com.expedia.bookings.data.hotels.HotelCheckoutParamsMock;
+import com.expedia.bookings.data.hotels.HotelCheckoutV2Params;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.data.hotels.NearbyHotelParams;
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.payment.PointsAndCurrency;
+import com.expedia.bookings.data.payment.PointsType;
+import com.expedia.bookings.data.payment.ProgramName;
+import com.expedia.bookings.data.payment.TripDetails;
+import com.expedia.bookings.data.payment.UserPreferencePointsDetails;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.services.HotelServices;
@@ -36,6 +43,7 @@ import retrofit.RetrofitError;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class HotelServicesTest {
@@ -43,7 +51,7 @@ public class HotelServicesTest {
 	public MockWebServer server = new MockWebServer();
 
 	private HotelServices service;
-	private HotelApplyCouponParams couponParams;
+	private HotelApplyCouponParameters couponParams;
 
 	@Before
 	public void before() {
@@ -134,10 +142,13 @@ public class HotelServicesTest {
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
-		HotelCheckoutParams params = new HotelCheckoutParams();
-		params.tripId = "happypath_0";
-		params.expectedTotalFare = "12123.33";
-		params.tealeafTransactionId = "tealeafHotel:happypath_0";
+
+		String tripId = "happypath_0";
+		TripDetails tripDetails = new TripDetails(tripId, "12123.33", "USD", "guid", true);
+
+		HotelCheckoutV2Params params = new HotelCheckoutV2Params.Builder().tripDetails(tripDetails)
+			.checkoutInfo(HotelCheckoutParamsMock.checkoutInfo()).paymentInfo(HotelCheckoutParamsMock.paymentInfo())
+			.traveler(HotelCheckoutParamsMock.traveler()).misc(HotelCheckoutParamsMock.miscellaneousParams(tripId)).build();
 
 		service.checkout(params, observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
@@ -148,21 +159,61 @@ public class HotelServicesTest {
 	}
 
 	@Test
+	public void testCheckoutWithPriceChangeAndUserPreferences() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
+
+		String tripId = "hotel_price_change_with_user_preferences";
+		TripDetails tripDetails = new TripDetails(tripId, "675.81", "USD", "guid", true);
+
+		HotelCheckoutV2Params params = new HotelCheckoutV2Params.Builder().tripDetails(tripDetails)
+			.checkoutInfo(HotelCheckoutParamsMock.checkoutInfo()).paymentInfo(HotelCheckoutParamsMock.paymentInfo())
+			.traveler(HotelCheckoutParamsMock.traveler()).misc(HotelCheckoutParamsMock.miscellaneousParams(tripId)).build();
+
+		service.checkout(params, observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertNoErrors();
+		observer.assertCompleted();
+		observer.assertValueCount(1);
+		assertNotNull(observer.getOnNextEvents().get(0).pointsDetails);
+		assertNotNull(observer.getOnNextEvents().get(0).userPreferencePoints);
+	}
+
+	@Test
 	public void testCheckoutFailed() throws Throwable {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
-		HotelCheckoutParams params = new HotelCheckoutParams();
-		params.tripId = "happypath_0";
-		params.expectedTotalFare = "12,33";
-		params.tealeafTransactionId = "tealeafHotel:happypath_0";
+
+		String tripId = "happypath_0";
+		TripDetails tripDetails = new TripDetails(tripId, "12,33", "USD", "guid", true);
+
+		HotelCheckoutV2Params params = new HotelCheckoutV2Params.Builder().tripDetails(tripDetails)
+			.checkoutInfo(HotelCheckoutParamsMock.checkoutInfo()).paymentInfo(HotelCheckoutParamsMock.paymentInfo())
+			.traveler(HotelCheckoutParamsMock.traveler()).misc(HotelCheckoutParamsMock.miscellaneousParams(tripId)).build();
 
 		service.checkout(params, observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNotCompleted();
+	}
+
+	@Test
+	public void testCouponRemove() throws Throwable {
+		givenServerUsingMockResponses();
+
+		TestSubscriber<HotelCreateTripResponse> subscriber = new TestSubscriber<>();
+		service.removeCoupon("hotel_coupon_remove_success").subscribe(subscriber);
+		subscriber.awaitTerminalEvent(2, TimeUnit.SECONDS);
+		subscriber.assertCompleted();
+
+		Assert.assertNotNull(subscriber.getOnNextEvents().get(0).newHotelProductResponse);
 	}
 
 	@Test
@@ -186,7 +237,12 @@ public class HotelServicesTest {
 	}
 
 	private void givenCouponParams(String mockFileName) {
-		couponParams = new HotelApplyCouponParams("58b6be8a-d533-4eb0-aaa6-0228e000056c", mockFileName, false);
+		List<UserPreferencePointsDetails> userPreferencePointsDetails = new ArrayList<>();
+		userPreferencePointsDetails.add(new UserPreferencePointsDetails(ProgramName.ExpediaRewards, new PointsAndCurrency(0, PointsType.BURN, new Money())));
+		couponParams = new HotelApplyCouponParameters.Builder().tripId("58b6be8a-d533-4eb0-aaa6-0228e000056c")
+			.couponCode(mockFileName)
+			.userPreferencePointsDetails(userPreferencePointsDetails)
+			.isFromNotSignedInToSignedIn(false).build();
 	}
 
 	@Test

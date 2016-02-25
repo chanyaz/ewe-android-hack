@@ -2,6 +2,8 @@ package com.mobiata.flightlib.utils;
 
 import java.text.SimpleDateFormat;
 
+import org.jetbrains.annotations.NotNull;
+import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 import org.joda.time.Minutes;
 import org.joda.time.ReadableInstant;
@@ -10,6 +12,7 @@ import android.content.Context;
 import android.content.res.Resources;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.JodaUtils;
 
 public class DateTimeUtils {
 	public static final String FLIGHT_STATS_FORMAT = "yyyy-MM-dd'T'HH:mm";
@@ -27,6 +30,7 @@ public class DateTimeUtils {
 
 	/**
 	 * Returns the difference between the two times in minutes
+	 *
 	 * @param cal1 the first date/time
 	 * @param cal2 the second date/time
 	 * @return the difference between them in minutes
@@ -37,6 +41,7 @@ public class DateTimeUtils {
 
 	/**
 	 * Formats the passed duration (given in number of minutes) as a readable String.
+	 *
 	 * @param r
 	 * @param duration number of minutes
 	 * @return the duration, or the empty string if duration <= 0
@@ -59,7 +64,15 @@ public class DateTimeUtils {
 	}
 
 	public static String getDeviceTimeFormat(Context context) {
-		return ((SimpleDateFormat)android.text.format.DateFormat.getTimeFormat(context)).toPattern();
+		return ((SimpleDateFormat) android.text.format.DateFormat.getTimeFormat(context)).toPattern();
 	}
 
+	public static CharSequence formatInterval(@NotNull Context context, @NotNull DateTime start,
+		@NotNull DateTime end) {
+
+		String dateFormat = DateTimeUtils.getDeviceTimeFormat(context);
+		String formattedStart = JodaUtils.format(start, dateFormat);
+		String formattedEnd = JodaUtils.format(end, dateFormat);
+		return context.getString(R.string.date_time_range_TEMPLATE, formattedStart, formattedEnd);
+	}
 }

@@ -18,7 +18,7 @@ public class HotelTravelerPickerTest {
     @Before
     fun before() {
         val context = RuntimeEnvironment.application
-        vm = HotelTravelerPickerViewModel(context)
+        vm = HotelTravelerPickerViewModel(context, false)
     }
 
     @Test

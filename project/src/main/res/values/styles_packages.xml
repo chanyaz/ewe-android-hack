@@ -29,7 +29,15 @@
         <item name="skin_errorWidgetEditButtonStyle">@style/HotelButton</item>
         <item name="skin_rippleDrawable">@drawable/hotel_select_room_ripple</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
-        <item name="paymentWidgetLayout">@layout/payment_widget</item>
+        <item name="paymentWidgetLayout">@layout/package_payment_widget</item>
+        <item name="sliderText">@string/package_slider_text</item>
+        <item name="hotel_promo_background_colors">@color/packages_hotel_promo_background_color</item>
+        <item name="hotel_toggle_text_drawable">@drawable/hotel_package_toggle_text</item>
+        <item name="hotel_toggle_background_selector_drawable">@drawable/hotel_toggle_package_background_selector</item>
+        <item name="vip_info_select_ripple_drawable">@drawable/vip_info_package_select_ripple</item>
+        <item name="hotel_select_room_ripple_drawable">@drawable/hotel_package_select_room_ripple</item>
+        <item name="hotel_map_tooltip_pressed_drawable">@drawable/packages_tooltip_pressed</item>
+        <item name="hotel_map_tooltip_drawable">@drawable/packages_tooltip</item>
     </style>
 
     <!--
@@ -43,4 +51,12 @@
         <item name="traveler_toolbar_text">@string/traveler_information</item>
         <item name="traveler_checkout_circle_drawable">@drawable/hotelsv2_traveler_checkout_circle</item>
     </style>
+
+    <style name="InfantSeatingPreferenceSpinner" parent="@style/Base.Widget.AppCompat.Spinner">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">@dimen/hotel_spinner_height</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:dropDownVerticalOffset">20dp</item>
+    </style>
+
 </resources>

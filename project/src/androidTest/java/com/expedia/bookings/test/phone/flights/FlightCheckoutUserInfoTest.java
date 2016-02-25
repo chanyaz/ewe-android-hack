@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.flights;
 
+import java.util.concurrent.TimeUnit;
+
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.Espresso;
@@ -32,6 +34,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
+import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen.clickCheckoutButton;
 import static com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen.clickLogOutButton;
 import static com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen.logInButton;
@@ -42,7 +46,7 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 
 	HotelsUserData user = new HotelsUserData();
 
-	public void testCheckFlights() throws Throwable {
+	private void goToCheckoutTwoAdults() {
 		FlightsSearchScreen.enterDepartureAirport("SFO");
 		FlightsSearchScreen.enterArrivalAirport("LAS");
 		FlightsSearchScreen.clickSelectDepartureButton();
@@ -54,15 +58,6 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 		FlightsSearchResultsScreen.clickListItem(2);
 		FlightLegScreen.clickSelectFlightButton();
 		clickCheckoutButton();
-
-		// Check
-		verifyNameMustMatchIdWarning();
-		verifyRulesAndRestrictionsButton();
-		verifyMissingTravelerInformationAlerts();
-		verifyNameMustMatchIdWarningWithInfoEntered();
-		verifyNameMustMatchIdWarningSecondTraveler();
-		verifyMissingCardInfoAlerts();
-		verifyLoginButtonNotAppearing();
 	}
 
 	/**
@@ -120,7 +115,9 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 		passportCountryListView.check(ViewAssertions.matches(isDisplayed()));
 	}
 
-	private void verifyNameMustMatchIdWarning() {
+	public void testVerifyNameMustMatchIdWarning() {
+		goToCheckoutTwoAdults();
+
 		// Warning should appear on opening traveler details
 		// and close when the user taps the screen.
 		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(0);
@@ -141,19 +138,9 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 		Espresso.pressBack();
 	}
 
-	private void verifyNameMustMatchIdWarningWithInfoEntered() {
-		// Warning behavior should persist after traveler info has been entered and saved.
-		FlightsTravelerInfoScreen.clickPopulatedTravelerDetails(0);
-		FlightsTravelerInfoScreen.clickEditTravelerInfo();
-		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
-		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
-		FlightsTravelerInfoScreen.nameMustMatchTextView().perform(click());
-		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
-		Espresso.pressBack();
-		Espresso.pressBack();
-	}
+	public void testVerifyNameMustMatchIdWarningSecondTraveler() {
+		goToCheckoutTwoAdults();
 
-	private void verifyNameMustMatchIdWarningSecondTraveler() {
 		// Warning behavior should persist upon entry of additional travelers' info.
 		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(2);
 		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
@@ -172,8 +159,8 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 		FlightsTravelerInfoScreen.enterLastName("Bookings");
 		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.lastNameEditText());
 		FlightsTravelerInfoScreen.clickBirthDateButton();
-		Common.delay(5);
 		try {
+			FlightsTravelerInfoScreen.done().perform(waitForViewToDisplay());
 			FlightsTravelerInfoScreen.clickDoneString();
 		}
 		catch (Exception e) {
@@ -194,17 +181,20 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 		Espresso.pressBack();
 	}
 
-	private void verifyRulesAndRestrictionsButton() {
-		Common.delay(5);
-		CommonCheckoutScreen.flightsLegalTextView().perform(scrollTo(), click());
-		Common.delay(5);
+	public void testVerifyRulesAndRestrictionsButton() {
+		goToCheckoutTwoAdults();
+
+		CommonCheckoutScreen.flightsLegalTextView().perform(waitFor(isDisplayed(), 2, TimeUnit.SECONDS), click());
+
 		EspressoUtils.assertViewWithTextIsDisplayed("Privacy Policy");
 		EspressoUtils.assertViewWithTextIsDisplayed("Terms and Conditions");
 		EspressoUtils.assertViewWithTextIsDisplayed("Rules and Restrictions");
 		Espresso.pressBack();
 	}
 
-	private void verifyMissingTravelerInformationAlerts() {
+	public void testVerifyMissingTravelerInformationAlerts() {
+		goToCheckoutTwoAdults();
+
 		// Starting testing of traveler info screen response when fields are left empty
 		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(0);
 		FlightsTravelerInfoScreen.clickNextButton();
@@ -218,8 +208,8 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 		FlightsTravelerInfoScreen.phoneNumberEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		Common.closeSoftKeyboard(CommonTravelerInformationScreen.firstNameEditText());
 		FlightsTravelerInfoScreen.clickBirthDateButton();
-		Common.delay(5);
 		try {
+			FlightsTravelerInfoScreen.done().perform(waitForViewToDisplay());
 			FlightsTravelerInfoScreen.clickDoneString();
 		}
 		catch (Exception e) {
@@ -276,10 +266,24 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 		FlightsTravelerInfoScreen.redressEditText().check(matches(withText("1234567")));
 		FlightsTravelerInfoScreen.clickDoneButton();
 		logInButton().perform(ViewActions.waitForViewToDisplay());
+
+
+
+		// TODO - WAS SEPARATE METHOD
+		// Warning behavior should persist after traveler info has been entered and saved.
+		FlightsTravelerInfoScreen.clickPopulatedTravelerDetails(0);
+		FlightsTravelerInfoScreen.clickEditTravelerInfo();
+		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.firstNameEditText());
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(isCompletelyDisplayed()));
+		FlightsTravelerInfoScreen.nameMustMatchTextView().perform(click());
+		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
+		Espresso.pressBack();
+		Espresso.pressBack();
 	}
 
-	private void verifyMissingCardInfoAlerts() {
-		Common.delay(3);
+	public void testVerifyMissingCardInfoAlerts() {
+		goToCheckoutTwoAdults();
+
 		onView(withText("Payment")).perform(click());
 		CardInfoScreen.clickNextButton();
 
@@ -432,20 +436,24 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 		// After all card info was added, the test was able to return to the checkout screen
 	}
 
-	private void verifyLoginButtonNotAppearing() throws Exception {
+	public void testVerifyLoginButtonNotAppearing() throws Exception {
+		goToCheckoutTwoAdults();
+
 		Common.pressBack();
 		clickCheckoutButton();
 		logInButton().perform(scrollTo(), click());
-		Common.delay(5);
+
+		LogInScreen.emailAddressEditText().perform(waitFor(isDisplayed(), 2, TimeUnit.SECONDS));
 
 		LogInScreen.typeTextEmailEditText(user.email);
 		LogInScreen.typeTextPasswordEditText(user.password);
 		LogInScreen.clickOnLoginButton();
 		Espresso.pressBack();
 		clickCheckoutButton();
-		Common.delay(5);
 
+		logOutButton().perform(waitFor(isDisplayed(), 2, TimeUnit.SECONDS));
 		logOutButton().perform(scrollTo());
+
 		EspressoUtils.assertViewWithTextIsDisplayed(user.email);
 		clickLogOutButton();
 		onView(withText(mRes.getString(R.string.sign_out))).perform(click());

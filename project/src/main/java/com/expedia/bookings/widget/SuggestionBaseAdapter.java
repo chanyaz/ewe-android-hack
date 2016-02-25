@@ -1,10 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Set;
-
 import javax.inject.Inject;
 
 import org.joda.time.DateTime;
@@ -21,10 +16,16 @@ import android.widget.Filterable;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.SuggestionServices;
+import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.SuggestionV4Utils;
 import com.mobiata.android.LocationServices;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
 import rx.Observer;
 import rx.Subscription;
 
@@ -148,7 +149,7 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 			List<SuggestionV4> combinedSuggestionsList = new ArrayList<>();
 			combinedSuggestionsList.add(getDummySuggestionItem());
 
-			if (Strings.isNotEmpty(query) && query.length() >= 3) {
+			if (Strings.isNotEmpty(query) && query.length() >= SuggestionV4Utils.getMinSuggestQueryLength(context)) {
 				cleanup();
 				suggestSubscription = suggest(suggestionServices, suggestionsObserver, query, ServicesUtil.generateClientId(context));
 				showRecentSearch = false;
@@ -194,12 +195,12 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 		public void onNext(List<SuggestionV4> essSuggestions) {
 			// Cache nearby
 			if (showNearby) {
-				nearbySuggestions.addAll(essSuggestions);
+				addOnlyIfSuggestionsAndRegionsNotNull(nearbySuggestions, essSuggestions);
 			}
 
 			List<SuggestionV4> combinedSuggestionsList = new ArrayList<>();
 			combinedSuggestionsList.add(getDummySuggestionItem());
-			combinedSuggestionsList.addAll(essSuggestions);
+			addOnlyIfSuggestionsAndRegionsNotNull(combinedSuggestionsList, essSuggestions);
 			if (showRecentSearch) {
 				combinedSuggestionsList.addAll(recentHistory);
 			}
@@ -213,6 +214,17 @@ public abstract class SuggestionBaseAdapter extends BaseAdapter implements Filte
 		if (suggestSubscription != null) {
 			suggestSubscription.unsubscribe();
 			suggestSubscription = null;
+		}
+	}
+
+	private static void addOnlyIfSuggestionsAndRegionsNotNull(List<SuggestionV4> suggestionV4List,
+		List<SuggestionV4> essSuggestions) {
+		if (CollectionUtils.isNotEmpty(essSuggestions)) {
+			for (SuggestionV4 suggestionV4 : essSuggestions) {
+				if (suggestionV4 != null && suggestionV4.regionNames != null) {
+					suggestionV4List.add(suggestionV4);
+				}
+			}
 		}
 	}
 }

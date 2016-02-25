@@ -70,6 +70,9 @@ public class CreateItineraryResponseHandler extends JsonResponseHandler<CreateIt
 		}
 		createItinerary.setOffer(offer);
 
+		boolean isSplitTicket = detailsJson.optBoolean("isSplitTicket", false);
+		createItinerary.setIsSplitTicket(isSplitTicket);
+
 		//Rewards points
 		String rewardsPoints = response.optString("rewardsPoints");
 		if (!TextUtils.isEmpty(rewardsPoints)) {

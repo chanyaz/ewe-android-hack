@@ -25,7 +25,7 @@ public class HotelTravelerPickerViewTest {
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         hotelTravelerPicker = android.view.LayoutInflater.from(activity).inflate(R.layout.hotel_traveler_picker_test, null) as HotelTravelerPickerView
-        vm = HotelTravelerPickerViewModel(activity)
+        vm = HotelTravelerPickerViewModel(activity, false)
         hotelTravelerPicker.viewmodel = vm
     }
 

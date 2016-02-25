@@ -10,13 +10,14 @@ import android.widget.TextView
 import android.widget.ToggleButton
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.StarRatingBar
+import com.expedia.util.operators.OperatorDistinctUntilChangedWithComparer
 import com.google.android.gms.maps.GoogleMap
 import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
 
-public fun <T> endlessObserver(body: (T) -> Unit) : Observer<T> {
+public fun <T> endlessObserver(body: (T) -> Unit): Observer<T> {
     return object : Observer<T> {
         override fun onNext(t: T) {
             body(t)
@@ -44,9 +45,15 @@ public fun GoogleMap.subscribeOnClick(observer: Observer<Unit>) {
     }
 }
 
-public fun CompoundButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
+public fun CompoundButton.subscribeOnClick(observer: Observer<Boolean>) {
     this.setOnClickListener {
         observer.onNext(this.isChecked)
+    }
+}
+
+public fun CompoundButton.subscribeOnCheckChanged(observer: Observer<Boolean>) {
+    this.setOnCheckedChangeListener { compoundButton: CompoundButton, isChecked: Boolean ->
+        observer.onNext(isChecked)
     }
 }
 
@@ -64,11 +71,22 @@ public fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView) {
     this.subscribe { textview.text = it }
 }
 
+public fun Observable<Int>.subscribeTextColor(textview: TextView) {
+    this.subscribe { textview.setTextColor(it) }
+}
+
 public fun <T : CharSequence> Observable<T>.subscribeTextAndVisibility(textview: TextView) {
     this.subscribe {
         textview.text = it
     }
     this.map { it.toString().isNotBlank() }.subscribeVisibility(textview)
+}
+
+public fun <T : CharSequence> Observable<T>.subscribeTextAndVisibilityInvisible(textview: TextView) {
+    this.subscribe {
+        textview.text = it
+    }
+    this.map { it.toString().isNotBlank() }.subscribeVisibilityInvisible(textview)
 }
 
 public fun Observable<Drawable>.subscribeImageDrawable(imageView: ImageView) {
@@ -88,7 +106,7 @@ public fun Observable<Float>.subscribeRating(ratingBar: RatingBar) {
 }
 
 public fun Observable<Float>.subscribeRating(ratingBar: StarRatingBar) {
-    this.subscribe { ratingBar.setRating(it)}
+    this.subscribe { ratingBar.setRating(it) }
 }
 
 public fun Observable<Int>.subscribeBackgroundResource(view: View) {
@@ -106,6 +124,12 @@ public fun Observable<CharSequence>.subscribeToggleButton(togglebutton: ToggleBu
 public fun Observable<Boolean>.subscribeVisibility(view: View) {
     this.subscribe { visible ->
         view.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+}
+
+public fun Observable<Boolean>.subscribeVisibilityInvisible(view: View) {
+    this.subscribe { visible ->
+        view.visibility = if (visible) View.VISIBLE else View.INVISIBLE
     }
 }
 
@@ -139,6 +163,22 @@ public fun Observable<Boolean>.subscribeEnabled(view: View) {
     this.subscribe { view.isEnabled = it }
 }
 
-public fun Observable<Boolean>.subscribeChecked(toggleButton: ToggleButton) {
-    this.subscribe { toggleButton.isChecked = it }
+public fun Observable<Boolean>.subscribeChecked(compoundButton: CompoundButton) {
+    this.subscribe { compoundButton.isChecked = it }
+}
+
+public fun Observable<Boolean>.subscribeCursorVisible(textView: TextView) {
+    this.subscribe { textView.isCursorVisible = it }
+}
+
+/**
+ *  Returns an observable sequence that contains only distinct contiguous elements according to the comparer.
+ *
+ *  var obs = observable.distinctUntilChanged{ x, y-> x == y };
+ *
+ * @param {Function} [comparer] Equality comparer for computed key values. If not provided, defaults to an equality comparer function.
+ * @returns {Observable} An observable sequence only containing the distinct contiguous elements, based on a computed key value, from the source sequence.
+ */
+public fun <T> Observable<T>.distinctUntilChanged(comparer: (T?, T?) -> Boolean): Observable<T> {
+    return lift(OperatorDistinctUntilChangedWithComparer(comparer))
 }

@@ -85,7 +85,7 @@ public class CheckoutInfoStatusImageView extends ImageView {
 			Drawable drawable = Strings.isEmpty(travelerName)
 				? res.getDrawable(R.drawable.ic_checkout_generic_traveler)
 				: new BitmapDrawable(res, TravelerIconUtils.generateInitialIcon(context,
-				travelerName, Color.parseColor("#FF373F4A"), false, true));
+				travelerName, Color.parseColor("#FF373F4A"), false, true, 0));
 
 			addState(new int[] { }, drawable);
 		}

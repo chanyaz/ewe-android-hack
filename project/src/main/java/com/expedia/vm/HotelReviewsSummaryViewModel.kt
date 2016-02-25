@@ -32,10 +32,10 @@ public class HotelReviewsSummaryViewModel(val context: Context) {
     private fun getDisplayTextForRating(displayStringId: Int, rating: Float): CharSequence {
         val displayRating = getDisplayRating(rating)
         val ratingString = Phrase.from(context, R.string.hotel_rating_summary_Template)
-                            .put("rating", displayRating)
-                            .put("attribute", context.getResources().getString(displayStringId))
-                            .format()
-                            .toString()
+                .put("rating", displayRating)
+                .put("attribute", context.getResources().getString(displayStringId))
+                .format()
+                .toString()
         val builder = SpannableStringBuilder(ratingString)
         builder.setSpan(TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)), 0, displayRating.length, Spanned.SPAN_INCLUSIVE_EXCLUSIVE)
         return builder

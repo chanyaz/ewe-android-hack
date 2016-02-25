@@ -8,10 +8,10 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.LxTestCase;
+import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.squareup.phrase.Phrase;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -20,12 +20,10 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
-import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
-import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.Is.is;
 
 public class LXCheckoutErrorTest extends LxTestCase {
@@ -117,17 +115,11 @@ public class LXCheckoutErrorTest extends LxTestCase {
 	}
 
 	private void performLXCheckout(String firstName) throws Throwable {
-		if (getLxIdlingResource().isInSearchEditMode()) {
-			onView(allOf(withId(R.id.error_action_button), withText(R.string.edit_search),
-				isDescendantOfA(withId(R.id.lx_search_error_widget))))
-				.perform(click());
-
-			LXScreen.location().perform(typeText("San"));
-			LXScreen.selectLocation("San Francisco, CA");
-			LXScreen.selectDateButton().perform(click());
-			LXScreen.selectDates(LocalDate.now(), null);
-			LXScreen.searchButton().perform(click());
-		}
+		LXScreen.location().perform(typeText("San"));
+		LXScreen.selectLocation("San Francisco, CA");
+		LXScreen.selectDateButton().perform(click());
+		LXScreen.selectDates(LocalDate.now(), null);
+		LXScreen.searchButton().perform(click());
 
 		LXScreen.waitForSearchListDisplayed();
 		LXScreen.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));

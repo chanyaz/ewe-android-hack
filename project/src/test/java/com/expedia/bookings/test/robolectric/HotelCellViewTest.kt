@@ -111,6 +111,24 @@ public class HotelCellViewTest {
         Assert.assertEquals(View.GONE, hotelViewHolder.urgencyIcon.visibility)
     }
 
+    @Test fun testPriceIncludesFlights() {
+        val hotel = makeHotel()
+        hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
+        Assert.assertEquals(View.GONE, hotelViewHolder.priceIncludesFlightsView.visibility)
+
+        hotel.isPackage = true
+        hotel.thumbnailUrl = "https://media.expedia.com"
+        hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
+        Assert.assertEquals(View.VISIBLE, hotelViewHolder.priceIncludesFlightsView.visibility)
+
+    }
+
+    @Test fun testNoPriceIncludesFlights() {
+        val hotel = makeHotel()
+        hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
+        Assert.assertEquals(View.GONE, hotelViewHolder.priceIncludesFlightsView.visibility)
+    }
+
     private fun makeHotel(): Hotel {
         val hotel = Hotel()
         hotel.hotelId = "happy"

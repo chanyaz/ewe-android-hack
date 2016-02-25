@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.packages;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FlightLeg {
@@ -48,6 +49,7 @@ public class FlightLeg {
 	public transient PackageOfferModel packageOfferModel;
 	public transient String flightPid;
 	public transient String departureLeg;
+	public transient List<Airline> airlines = new ArrayList<>();
 
 	public static class AirlineMessageModel {
 		public String airlineFeeLink;
@@ -60,9 +62,27 @@ public class FlightLeg {
 
 	public static class FlightSegment {
 		public String airplaneType;
-		public String arrivalAirportCode;
+		public String flightNumber;
+		public String carrier;
+		public boolean displayOperatedByAirlineName;
+		public String operatedByAirlineName;
+		public String operatingAirlineCode;
+
+		public String departureCity;
+		public String departureAirport;
 		public String departureAirportCode;
+		public String departureTime;
+
+		public String arrivalCity;
+		public String arrivalAirport;
+		public String arrivalAirportCode;
+		public String arrivalTime;
+
+		public int durationHours;
+		public int durationMinutes;
 		public int layoverDurationHours;
 		public int layoverDurationMinutes;
+
+		public String seatClass;
 	}
 }

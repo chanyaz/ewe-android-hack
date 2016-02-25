@@ -1,7 +1,5 @@
 package com.expedia.bookings.test.phone.newhotels;
 
-import java.util.concurrent.TimeUnit;
-
 import org.hamcrest.Matcher;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -21,6 +19,8 @@ import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
 
+import java.util.concurrent.TimeUnit;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
@@ -34,6 +34,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
@@ -45,6 +46,10 @@ public class HotelScreen {
 
 	public static ViewInteraction selectDateButton() {
 		return onView(withId(R.id.select_date));
+	}
+
+	public static ViewInteraction selectTraveler() {
+		return onView(withId(R.id.traveler_label));
 	}
 
 	public static ViewInteraction location() {
@@ -120,7 +125,7 @@ public class HotelScreen {
 	}
 
 	public static void selectLocation(String hotel) throws Throwable {
-		hotelSuggestionList().perform(ViewActions.waitForViewToDisplay());
+		hotelSuggestionList().perform(waitForViewToDisplay());
 		final Matcher<View> viewMatcher = hasDescendant(withText(hotel));
 
 		hotelSuggestionList().perform(ViewActions.waitFor(viewMatcher, 10, TimeUnit.SECONDS));
@@ -137,7 +142,7 @@ public class HotelScreen {
 	}
 
 	public static ViewInteraction searchButton() {
-		onView(withId(R.id.search_container)).perform(ViewActions.waitForViewToDisplay());
+		onView(withId(R.id.search_container)).perform(waitForViewToDisplay());
 		return onView(allOf(withId(R.id.search_btn), isDescendantOfA(hasSibling(withId(R.id.search_container)))));
 	}
 
@@ -175,6 +180,10 @@ public class HotelScreen {
 
 	public static ViewInteraction mapFab() {
 		return onView(withId(R.id.fab));
+	}
+
+	public static ViewInteraction hotelDetailsStarRating() {
+		return onView(withId(R.id.hotel_star_rating_bar));
 	}
 
 	public static ViewInteraction hotelResultsToolbar() {
@@ -223,12 +232,12 @@ public class HotelScreen {
 
 	public static ViewInteraction viewRoom(String roomName) {
 		return onView(
-			allOf(
-				withId(R.id.view_room_button), allOf(withText("View Room")),
+			allOf(withId(R.id.view_room_button), allOf(withText("View Room")),
 				isDescendantOfA(allOf(withId(R.id.collapsed_container),
-					withChild(allOf(withId(R.id.collapsed_bed_type_text_view), withText(roomName))))),
-				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
-		);
+						withChild(allOf(withId(R.id.parent_room_type_and_price_container),
+							withChild(allOf(withId(R.id.room_type_text_view), withText(roomName))))),
+						withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
+				)));
 	}
 
 	public static void clickAddRoom() {
@@ -254,7 +263,7 @@ public class HotelScreen {
 	}
 
 	public static void waitForResultsLoaded() {
-		hotelResultsList().perform(ViewActions.waitForViewToDisplay());
+		hotelResultsList().perform(waitForViewToDisplay());
 		Matcher<View> pshMatcher = hasDescendant(
 			allOf(withId(R.id.pricing_structure_header), not(withText(R.string.progress_searching_hotels_hundreds)),
 				isDisplayed()));
@@ -262,23 +271,23 @@ public class HotelScreen {
 	}
 
 	public static void waitForMapDisplayed() {
-		hotelResultsMap().perform(ViewActions.waitForViewToDisplay());
+		hotelResultsMap().perform(waitForViewToDisplay());
 	}
 
 	public static void waitForDetailsLoaded() {
-		onView(withId(R.id.hotel_detail)).perform(ViewActions.waitForViewToDisplay());
+		onView(withId(R.id.hotel_detail)).perform(waitForViewToDisplay());
 	}
 
 	public static void waitForErrorDisplayed() {
-		onView(withId(R.id.widget_hotel_errors)).perform(ViewActions.waitForViewToDisplay());
+		onView(withId(R.id.widget_hotel_errors)).perform(waitForViewToDisplay());
 	}
 
 	public static void waitForConfirmationDisplayed() {
-		onView(withId(R.id.hotel_confirmation_presenter)).perform(ViewActions.waitForViewToDisplay());
+		onView(withId(R.id.hotel_confirmation_presenter)).perform(waitForViewToDisplay());
 	}
 
 	public static void waitForFilterDisplayed() {
-		onView(withId(R.id.filter_view)).perform(ViewActions.waitForViewToDisplay());
+		onView(withId(R.id.filter_view)).perform(waitForViewToDisplay());
 	}
 
 	public static void assertCalendarShown() {
@@ -364,6 +373,25 @@ public class HotelScreen {
 		CheckoutViewModel.pressClose();
 	}
 
+	public static void checkoutAfterSignIn(boolean walletSupported) throws Throwable {
+		if (walletSupported) {
+			CheckoutViewModel.enterPaymentInfoHotels();
+		}
+		else {
+			CheckoutViewModel.enterPaymentInfo();
+		}
+		CheckoutViewModel.pressClose();
+	}
+
+	public static void checkoutWithPointsOnly() {
+		CheckoutViewModel.enterPaymentInfo(true);
+	}
+
+	public static void checkoutWithPointsAndCard() {
+		CheckoutViewModel.enterPaymentInfo(false);
+		CheckoutViewModel.pressClose();
+	}
+
 	public static void slideToPurchase() throws Throwable {
 		CheckoutViewModel.performSlideToPurchase();
 		CVVEntryScreen.waitForCvvScreen();
@@ -375,9 +403,12 @@ public class HotelScreen {
 	}
 
 
-
 	public static ViewInteraction selectRoomButton() throws Throwable {
 		return onView(withId(R.id.select_room_button));
+	}
+
+	public static void clickSelectRoom() throws Throwable {
+		selectRoomButton().perform(waitForViewToDisplay(), click());
 	}
 
 	public static void clickVIPAccess() {
@@ -397,9 +428,9 @@ public class HotelScreen {
 	}
 
 	public static void signIn() {
-		signIn("user@gmail.com");
+		signIn("qa-ehcc@mobiata.com");
 	}
-	
+
 	public static void signIn(String username) {
 		LogInScreen.typeTextEmailEditText(username);
 		LogInScreen.typeTextPasswordEditText("password");
@@ -409,5 +440,15 @@ public class HotelScreen {
 	public static void enterCVVAndBook() throws Throwable {
 		CVVEntryScreen.enterCVV("123");
 		CVVEntryScreen.clickBookButton();
+	}
+
+	public static void clickRoom(String room) {
+		onView(withText(room)).perform(scrollTo(), click());
+	}
+
+	public static void selectPriceChangeHotel() throws Throwable {
+		doGenericSearch();
+		HotelScreen.selectHotel("hotel_price_change");
+		HotelScreen.clickSelectRoom();
 	}
 }

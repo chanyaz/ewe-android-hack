@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 import android.support.test.espresso.Espresso;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
@@ -19,6 +18,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -64,14 +64,14 @@ public class HotelCouponErrorTest extends PhoneTestCase {
 			HotelsCheckoutScreen.couponButton().perform(waitFor(isEnabled(), 5, TimeUnit.SECONDS), click());
 
 			// Coupon Dialog
-			Common.delay(1);
+			onView(withId(android.R.id.button2)).perform(waitFor(isDisplayed(), 1, TimeUnit.SECONDS));
+
 			onView(withId(android.R.id.button1)).check(matches(not(isEnabled())));
 			onView(withId(R.id.coupon_edit_text)).check(matches(withText(isEmptyOrNullString())));
 			onView(withId(R.id.coupon_edit_text)).perform(typeText(data.coupon));
 			Espresso.closeSoftKeyboard();
-			Common.delay(2);
-			onView(withId(android.R.id.button1)).check(matches(isEnabled()));
-			onView(withId(android.R.id.button1)).perform(click());
+
+			onView(withId(android.R.id.button1)).perform(waitFor(isEnabled(), 2, TimeUnit.SECONDS), click());
 
 			// Error dialog
 			EspressoUtils.assertViewWithTextIsDisplayed(android.R.id.message, data.expected);

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.cars.BaseApiResponse;
 import com.expedia.bookings.data.packages.PackageOffersResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
@@ -46,6 +47,8 @@ public class HotelOffersResponse extends BaseApiResponse {
 	public List<Photos> photos;
 	public HotelText hotelRenovationText;
 
+	public transient boolean isPackage;
+
 	public static class HotelAmenities {
 		public String id;
 		public String description;
@@ -81,6 +84,8 @@ public class HotelOffersResponse extends BaseApiResponse {
 		public boolean isPayLater;
 		public List<String> depositPolicy;
 		public boolean isMemberDeal;
+
+		public transient Money packageHotelDeltaPrice;
 
 		public String depositPolicyAtIndex(int index) {
 			String policy = "";
@@ -129,10 +134,19 @@ public class HotelOffersResponse extends BaseApiResponse {
 		hotelOffer.checkInDate = searchParams.getCheckIn().toString();
 		hotelOffer.checkOutDate = searchParams.getCheckOut().toString();
 		hotelOffer.hotelRoomResponse = new ArrayList<>();
-		for (PackageOffersResponse.PackageHotelOffers offer : packageOffer.packageHotelOffers) {
-			offer.hotelOffer.productKey = offer.packageProductId;
-			hotelOffer.hotelRoomResponse.add(offer.hotelOffer);
+		for (PackageOffersResponse.PackageHotelOffer packageHotelOffer : packageOffer.packageHotelOffers) {
+			packageHotelOffer.hotelOffer.productKey = packageHotelOffer.packageProductId;
+
+			//TODO: use hotel delta price when API is ready
+			packageHotelOffer.hotelOffer.packageHotelDeltaPrice = packageHotelOffer.pricePerPerson;
+			if (packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo == null) {
+				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo = new HotelRate();
+			}
+			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.priceToShowUsers = packageHotelOffer.hotelOffer.packageHotelDeltaPrice.amount.floatValue();
+			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.currencyCode = packageHotelOffer.hotelOffer.packageHotelDeltaPrice.currencyCode;
+			hotelOffer.hotelRoomResponse.add(packageHotelOffer.hotelOffer);
 		}
+		hotelOffer.isPackage = true;
 		return hotelOffer;
 	}
 

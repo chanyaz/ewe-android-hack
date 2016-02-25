@@ -83,6 +83,7 @@
     <color name="flight_free_cancellation_text_color">#FFE980</color>
     <color name="flight_departure_date_color">#343434</color>
     <color name="section_flight_edit_traveler_link_color">#2A4367</color>
+    <color name="flight_result_airline_text_color">#343434</color>
 
     <!-- Hotels colors -->
     <color name="hotel_search_background">#EEEEEE</color>
@@ -109,6 +110,7 @@
     <color name="hotel_detail_divider">#CACACA</color>
     <color name="hotel_filter_background_color">#efefef</color>
     <color name="hotel_promo_background">#00877B</color>
+    <color name="pwp_total_available_points">#969696</color>
 
     <color name="hotel_urgency_message_color">#E2934A</color>
     <color name="hotel_tonight_only_color">#4A90E2</color>
@@ -392,8 +394,11 @@
 
     <!-- Packages colors -->
     <color name="packages_primary_color">#0888BD</color>
+    <color name="packages_ripple_mask_color">#99D5CF</color>
+    <color name="packages_hotel_promo_background_color">#04445e</color>
 
     <!--Rail colors-->
+    <color name="rail_primary_color">#00355f</color>
     <color name="rail_background_color">#eeeeee</color>
 
     <!-- Preferences Activity -->
@@ -402,5 +407,6 @@
     <color name="preferences_divider">#c0c7cd</color>
     <color name="preferences_highlight">#40000000</color>
     <color name="preferences_text">@color/launch_actionbar_bg_color</color>
+    <color name="bundle_price_background_color">#FFFFFF</color>
 
 </resources>

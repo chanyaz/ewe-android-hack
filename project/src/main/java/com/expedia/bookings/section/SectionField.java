@@ -30,11 +30,11 @@ public abstract class SectionField<FieldType extends View, Data extends Object> 
 	}
 
 	public boolean hasBoundData() {
-		return (mData == null) ? false : true;
+		return mData != null;
 	}
 
 	public boolean hasBoundField() {
-		return (mField == null) ? false : true;
+		return mField != null;
 	}
 
 	public FieldType getField() {

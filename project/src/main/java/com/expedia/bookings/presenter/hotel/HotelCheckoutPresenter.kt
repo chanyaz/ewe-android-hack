@@ -5,18 +5,35 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.hotels.HotelCheckoutParams
+import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.hotels.HotelCheckoutInfo
+import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.payment.CardDetails
+import com.expedia.bookings.data.payment.MiscellaneousParams
+import com.expedia.bookings.data.payment.PaymentInfo
+import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.payment.PaymentSplits
+import com.expedia.bookings.data.payment.ProgramName
+import com.expedia.bookings.data.payment.RewardDetails
+import com.expedia.bookings.data.payment.Traveler
+import com.expedia.bookings.data.payment.TripDetails
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.JodaUtils
+import com.expedia.bookings.utils.ServicesUtil
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelCheckoutViewModel
 import org.joda.time.format.ISODateTimeFormat
+import rx.subjects.PublishSubject
+import java.math.BigDecimal
+import java.util.ArrayList
 import java.util.Locale
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -28,14 +45,35 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
     val hotelCheckoutWidget: HotelCheckoutMainViewPresenter by bindView(R.id.checkout)
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
 
+    lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
+        @Inject set
+
+    private val bookedWithCVVSubject = PublishSubject.create<String>()
+    private val bookedWithoutCVVSubject = PublishSubject.create<Unit>()
+
     init {
+        Ui.getApplication(getContext()).hotelComponent().inject(this)
         View.inflate(getContext(), R.layout.widget_hotel_checkout, this)
+        bookedWithCVVSubject.withLatestFrom(paymentModel.paymentSplits,{cvv, paymentSplits->
+            object{
+                val cvv = cvv
+                val paymentSplits = paymentSplits
+            }
+        }).subscribe{
+            onBookV2(it.cvv, it.paymentSplits)
+        }
+
+        bookedWithoutCVVSubject.withLatestFrom(paymentModel.paymentSplits, { unit, paymentSplits -> paymentSplits }).subscribe {
+            onBookV2(null, it)
+        }
     }
 
     override fun onFinishInflate() {
         addTransition(checkoutToCvv)
         addDefaultTransition(defaultCheckoutTransition)
-        hotelCheckoutWidget.slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
+        hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(paymentModel.paymentSplitsWithLatestTripResponse) { unit, paymentSplitsAndLatestTripResponse ->
+            paymentSplitsAndLatestTripResponse.isCardRequired()
+        }.subscribe(checkoutSliderSlidObserver)
         hotelCheckoutWidget.emailOptInStatus.subscribe { status ->
             hotelCheckoutWidget.mainContactInfoCardView.setUPEMailOptCheckBox(status)
         }
@@ -64,9 +102,14 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
         }
     }
 
-    val checkoutSliderSlidObserver = endlessObserver<Unit> {
-        val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.getBillingInfo()
-        if (billingInfo.getStoredCard() != null && billingInfo.getStoredCard().isGoogleWallet()) {
+    val checkoutSliderSlidObserver = endlessObserver<Boolean> {
+        val billingInfo = if (Db.getTemporarilySavedCard() != null && Db.getTemporarilySavedCard().saveCardToExpediaAccount)
+            Db.getTemporarilySavedCard()
+        else hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.billingInfo
+
+        if (!it) {
+            bookedWithoutCVVSubject.onNext(Unit)
+        } else if (billingInfo.getStoredCard() != null && billingInfo.getStoredCard().isGoogleWallet()) {
             onBook(billingInfo.getSecurityCode())
         } else {
             cvv.bind(billingInfo)
@@ -76,42 +119,88 @@ public class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Pre
     }
 
     override fun onBook(cvv: String) {
-        val hotelCheckoutParams = HotelCheckoutParams()
-        val hotelRate = Db.getTripBucket().getHotelV2().mHotelTripResponse.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo
+        bookedWithCVVSubject.onNext(cvv)
+    }
+
+    fun onBookV2(cvv: String?, paymentSplits: PaymentSplits) {
         val dtf = ISODateTimeFormat.date()
 
-        hotelCheckoutParams.tripId = Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId
-        hotelCheckoutParams.expectedTotalFare = java.lang.String.format(Locale.ENGLISH, "%.2f", hotelRate.total)
-        hotelCheckoutParams.expectedFareCurrencyCode = "" + hotelRate.currencyCode
-        val primaryTraveler = hotelCheckoutWidget.mainContactInfoCardView.sectionTravelerInfo.getTraveler()
-        val billingInfo = hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.getBillingInfo()
-        hotelCheckoutParams.firstName = primaryTraveler.getFirstName()
-        hotelCheckoutParams.phone = primaryTraveler.getPhoneNumber()
-        hotelCheckoutParams.phoneCountryCode = primaryTraveler.getPhoneCountryCode()
-        hotelCheckoutParams.email = primaryTraveler.getEmail()
-        hotelCheckoutParams.lastName = primaryTraveler.getLastName()
-        hotelCheckoutParams.sendEmailConfirmation = true
-        hotelCheckoutParams.abacusUserGuid = Db.getAbacusGuid()
-        hotelCheckoutParams.checkInDate = dtf.print(Db.getHotelSearch().getSearchParams().getCheckInDate())
-        hotelCheckoutParams.checkOutDate = dtf.print(Db.getHotelSearch().getSearchParams().getCheckOutDate())
-        hotelCheckoutParams.cvv = cvv
-        hotelCheckoutParams.emailOptIn = hotelCheckoutWidget.mainContactInfoCardView.emailOptIn?.toString() ?: ""
+        val hotelSearchParams = Db.getHotelSearch().searchParams
+        val hotelCheckoutInfo = HotelCheckoutInfo(dtf.print(hotelSearchParams.checkInDate), dtf.print(hotelSearchParams.checkOutDate))
 
-        if (billingInfo.getStoredCard() == null || billingInfo.getStoredCard().isGoogleWallet()) {
-            hotelCheckoutParams.creditCardNumber = billingInfo.getNumber()
-            hotelCheckoutParams.expirationDateYear = JodaUtils.format(billingInfo.getExpirationDate(), "yyyy")
-            hotelCheckoutParams.expirationDateMonth = JodaUtils.format(billingInfo.getExpirationDate(), "MM")
-            hotelCheckoutParams.nameOnCard = billingInfo.getNameOnCard()
-            hotelCheckoutParams.postalCode = billingInfo.getLocation().getPostalCode()
-            hotelCheckoutParams.storeCreditCardInUserProfile = billingInfo.saveCardToExpediaAccount
-        } else {
-            hotelCheckoutParams.storedCreditCardId = billingInfo.getStoredCard().getId()
-            hotelCheckoutParams.nameOnCard = billingInfo.getFirstName() + " " + billingInfo.getLastName()
+        val primaryTraveler = hotelCheckoutWidget.mainContactInfoCardView.sectionTravelerInfo.traveler
+        val traveler = Traveler(primaryTraveler.firstName, primaryTraveler.lastName, primaryTraveler.phoneCountryCode, primaryTraveler.phoneNumber, primaryTraveler.email)
+
+        val hotelCreateTripResponse = Db.getTripBucket().hotelV2.mHotelTripResponse
+        val hotelRate = hotelCreateTripResponse.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo
+        val expectedTotalFare = java.lang.String.format(Locale.ENGLISH, "%.2f", hotelRate.total)
+        val expectedFareCurrencyCode = hotelRate.currencyCode
+        val tripId = hotelCreateTripResponse.tripId
+        val abacusUserGuid = Db.getAbacusGuid()
+        val tripDetails = TripDetails(tripId, expectedTotalFare, expectedFareCurrencyCode, abacusUserGuid, true)
+
+        val tealeafTransactionId = hotelCreateTripResponse.tealeafTransactionId
+        val miscParams = MiscellaneousParams(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_hotel_bookings), tealeafTransactionId, ServicesUtil.generateClientId(context))
+
+        val cardsSelectedForPayment = ArrayList<CardDetails>()
+        val rewardsSelectedForPayment = ArrayList<RewardDetails>()
+
+        val payingWithCardsSplit = paymentSplits.payingWithCards
+        val payingWithPointsSplit = paymentSplits.payingWithPoints
+
+        val expediaRewardsPointsDetails = hotelCreateTripResponse.getPointDetails(ProgramName.ExpediaRewards)
+
+        val billingInfo = if (Db.getTemporarilySavedCard() != null && Db.getTemporarilySavedCard().saveCardToExpediaAccount)
+                            Db.getTemporarilySavedCard()
+                            else hotelCheckoutWidget.paymentInfoCardView.sectionBillingInfo.billingInfo
+
+        // Pay with card if CVV is entered. Pay later can have 0 amount also.
+        if (!cvv.isNullOrBlank()) {
+            val amountOnCard = if (payingWithCardsSplit.amount.amount.equals(BigDecimal.ZERO)) null else payingWithCardsSplit.amount.amount.toString()
+            if (billingInfo.storedCard == null || billingInfo.storedCard.isGoogleWallet) {
+                val creditCardNumber = billingInfo.number
+                val expirationDateYear = JodaUtils.format(billingInfo.expirationDate, "yyyy")
+                val expirationDateMonth = JodaUtils.format(billingInfo.expirationDate, "MM")
+                val nameOnCard = billingInfo.nameOnCard
+                val postalCode = billingInfo.location.postalCode
+                val storeCreditCardInUserProfile = billingInfo.saveCardToExpediaAccount
+
+                val creditCardDetails = CardDetails(
+                        creditCardNumber = creditCardNumber, expirationDateYear = expirationDateYear,
+                        expirationDateMonth = expirationDateMonth, nameOnCard = nameOnCard,
+                        postalCode = postalCode, storeCreditCardInUserProfile = storeCreditCardInUserProfile,
+                        cvv = cvv, amountOnCard = amountOnCard)
+                cardsSelectedForPayment.add(creditCardDetails)
+            } else {
+                val storedCreditCardId = billingInfo.storedCard.id
+                val nameOnCard = billingInfo.storedCard.nameOnCard
+
+                val storedCreditCardDetails = CardDetails(storedCreditCardId = storedCreditCardId, nameOnCard = nameOnCard, amountOnCard = amountOnCard, cvv = cvv)
+                cardsSelectedForPayment.add(storedCreditCardDetails)
+            }
         }
 
-        hotelCheckoutParams.suppressFinalBooking = BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_hotel_bookings)
-        val tealeafTransactionId = Db.getTripBucket().hotelV2.mHotelTripResponse.tealeafTransactionId;
-        hotelCheckoutParams.tealeafTransactionId = tealeafTransactionId
+        if (!payingWithPointsSplit.amount.isZero) {
+            val expediaPointsCard = Db.getUser().getStoredPointsCard(PaymentType.POINTS_EXPEDIA_REWARDS)
+
+            // If the user has already used points before, points card will be returned in the Sign in response.
+            if (expediaPointsCard != null) {
+                val rewardsSelectedDetails = RewardDetails(paymentInstrumentId = expediaPointsCard.paymentsInstrumentId, programName = ProgramName.ExpediaRewards,
+                        amountToChargeInRealCurrency = payingWithPointsSplit.amount.amount.toFloat(), amountToChargeInVirtualCurrency = payingWithPointsSplit.points, rateId = expediaRewardsPointsDetails!!.rateID, currencyCode = payingWithPointsSplit.amount.currencyCode)
+                rewardsSelectedForPayment.add(rewardsSelectedDetails)
+            }
+            else {
+                val rewardsSelectedDetails = RewardDetails(membershipId = Db.getUser().expediaRewardsMembershipId, programName = ProgramName.ExpediaRewards,
+                        amountToChargeInRealCurrency = payingWithPointsSplit.amount.amount.toFloat(), amountToChargeInVirtualCurrency = payingWithPointsSplit.points, rateId = expediaRewardsPointsDetails!!.rateID, currencyCode = payingWithPointsSplit.amount.currencyCode)
+                rewardsSelectedForPayment.add(rewardsSelectedDetails)
+            }
+        }
+
+        val paymentInfo = PaymentInfo(cardsSelectedForPayment, rewardsSelectedForPayment)
+
+        val hotelCheckoutParams = HotelCheckoutV2Params.Builder()
+                                    .checkoutInfo(hotelCheckoutInfo).traveler(traveler).tripDetails(tripDetails)
+                                    .misc(miscParams).paymentInfo(paymentInfo).build()
 
         hotelCheckoutViewModel.checkoutParams.onNext(hotelCheckoutParams)
     }

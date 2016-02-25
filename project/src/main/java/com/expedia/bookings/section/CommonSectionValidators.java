@@ -50,7 +50,7 @@ public class CommonSectionValidators {
 		public int validate(EditText obj) {
 
 			if (mValidator == null) {
-				MultiValidator<CharSequence> mMultiValidator = new MultiValidator<CharSequence>();
+				MultiValidator<CharSequence> mMultiValidator = new MultiValidator<>();
 				mMultiValidator.addValidator(new TelephoneValidator());
 				mMultiValidator.addValidator(new PhoneNumberLengthValidator());
 				mValidator = new TextViewValidator(mMultiValidator);

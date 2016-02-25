@@ -42,4 +42,30 @@ public enum PaymentType {
 				? Strings.capitalizeFirstLetter(mOmnitureTrackingCode)
 				: "no card required";
 	}
+
+	public boolean isCard() {
+		return name().startsWith("CARD_");
+	}
+
+	public boolean isPoints() {
+		return name().startsWith("POINTS_");
+	}
+
+	public void assertIsCard() {
+		if (!isCard()) {
+			throw new UnsupportedOperationException("Can't use payment type " + name());
+		}
+	}
+
+	public void assertIsPoints() {
+		if (!isPoints()) {
+			throw new UnsupportedOperationException("Can't use payment type " + name());
+		}
+	}
+
+	public void assertIsCardOrPoints() {
+		if (!isCard() && !isPoints()) {
+			throw new UnsupportedOperationException("Can't use payment type " + name());
+		}
+	}
 }

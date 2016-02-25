@@ -1,5 +1,8 @@
 package com.expedia.bookings.utils;
 
+import java.util.Arrays;
+import java.util.Date;
+
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -37,13 +40,11 @@ import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.HotelCheckoutResponse;
+import com.mobiata.android.Log;
 import com.mobileapptracker.MATDeeplinkListener;
 import com.mobileapptracker.MATEvent;
 import com.mobileapptracker.MATEventItem;
 import com.mobileapptracker.MobileAppTracker;
-
-import java.util.Arrays;
-import java.util.Date;
 
 public class TuneUtils {
 
@@ -64,15 +65,17 @@ public class TuneUtils {
 		mobileAppTracker.checkForDeferredDeeplink(new MATDeeplinkListener() {
 			@Override
 			public void didReceiveDeeplink(String deepLink) {
-				// Handle the deferred deepLink here
+				Log.d("Deferred deeplink recieved: " + deepLink);
 				if (Strings.isNotEmpty(deepLink)) {
-					context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(deepLink)));
+					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(deepLink));
+					intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+					context.startActivity(intent);
 				}
 			}
 
 			@Override
 			public void didFailDeeplink(String error) {
-				// Error was encountered
+				Log.d("Deferred deeplink error: " + error);
 			}
 		});
 		updatePOS();

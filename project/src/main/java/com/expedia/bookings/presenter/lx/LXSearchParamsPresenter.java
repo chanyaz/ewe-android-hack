@@ -148,7 +148,7 @@ public class LXSearchParamsPresenter extends Presenter
 					searchParamsContainerHeight = searchParamsContainer.getMeasuredHeight();
 
 					// Set the dropdown height to size of 3 suggestions.
-					location.setDropDownHeight(3 * (int) getResources().getDimension(R.dimen.suggestion_list_height));
+					location.setDropDownHeight(3 * (int) getResources().getDimension(R.dimen.location_suggestion_row_height));
 				}
 			});
 

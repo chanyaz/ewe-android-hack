@@ -57,7 +57,6 @@ public class GTPhoneHappyPathTest extends PhoneTestCase {
 	public void testGTPhoneHappyPath() throws Throwable {
 		goToGTSearchResults();
 		Common.delay(2);
-		LXScreen.searchButtonInSRPToolbar().perform(click());
 		screenshot("GT Search");
 		LXScreen.location().perform(typeText("San"));
 		LXScreen.selectLocation("San Francisco, CA");

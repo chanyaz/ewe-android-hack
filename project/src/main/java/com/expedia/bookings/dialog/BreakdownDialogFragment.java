@@ -238,7 +238,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 		boolean resortCase = rateWeCareAbout.getCheckoutPriceType() == CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES;
 		boolean payLaterCase = rateWeCareAbout.isPayLater() && !AndroidUtils.isTablet(context);
 		// #5665: zero deposit for tablet only
-		boolean isZeroDepositCaseTablet = AndroidUtils.isTablet(context) && (rateWeCareAbout.isPayLater() && rateWeCareAbout.depositRequired());
+		boolean isZeroDepositCaseTablet = AndroidUtils.isTablet(context) && rateWeCareAbout.isPayLater();
 
 		// Show amount to be paid today in resort or ETP cases
 		if (resortCase || payLaterCase || isZeroDepositCaseTablet) {

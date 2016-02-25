@@ -69,7 +69,8 @@
         <com.expedia.bookings.widget.TextView
             android:id="@+id/payment_option_credit_debit"
             style="@style/HotelPaymentOption"
-            android:text="@string/checkout_payment_option_credit_debit_label" />
+            android:drawableLeft="@drawable/add_new_credit_card"
+            android:text="@string/shortened_checkout_payment_option_credit_debit_label" />
 
         <View
             android:layout_width="fill_parent"

@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -64,5 +65,16 @@ public object SuggestionV4Utils {
                 Log.e("Unable to delete suggestion history in " + locationFile)
             }
         }
+    }
+
+    /**
+     * Get the minimum number of characters required to provide drop down auto fill results.
+     * This is useful for languages like Japanese where Tokyo is spelt with 2 characters.
+     * Used for languages: Chinese, Korean, and Japanese
+
+     * @return min number of characters to start a query
+     */
+    @JvmStatic public fun getMinSuggestQueryLength(context: Context): Int {
+        return context.getResources().getInteger(R.integer.suggest_min_query_length)
     }
 }

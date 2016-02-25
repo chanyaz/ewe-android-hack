@@ -13,7 +13,6 @@ import android.widget.FrameLayout;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.otto.Subscribe;
@@ -84,7 +83,6 @@ public class LXSearchResultsWidget extends FrameLayout {
 
 	@Subscribe
 	public void onLXSearchError(Events.LXShowSearchError event) {
-		OmnitureTracking.trackAppLXNoSearchResults(event.error);
 		recyclerView.setVisibility(View.GONE);
 		errorScreen.bind(event.error, event.searchType);
 		errorScreen.setVisibility(View.VISIBLE);

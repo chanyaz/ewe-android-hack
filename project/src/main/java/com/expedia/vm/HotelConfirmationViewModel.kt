@@ -11,6 +11,8 @@ import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.services.HotelCheckoutResponse
@@ -19,7 +21,9 @@ import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.NumberUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.Ui
 import com.mobiata.android.SocialUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -27,6 +31,8 @@ import rx.Observable
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
+import java.math.BigDecimal
+import javax.inject.Inject
 
 public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelCheckoutResponse>, context: Context) {
 
@@ -47,13 +53,23 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
     val hotelLocation = BehaviorSubject.create<Location>()
     val showFlightCrossSell = BehaviorSubject.create<Boolean>()
     val showCarCrossSell = BehaviorSubject.create<Boolean>()
+    lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
+        @Inject set
 
     val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
 
     init {
-        checkoutResponseObservable.subscribe({hotelCheckoutResponse ->
-            val product = hotelCheckoutResponse.checkoutResponse.productResponse
-            val itinNumber = hotelCheckoutResponse.checkoutResponse.bookingResponse.itineraryNumber
+        Ui.getApplication(context).hotelComponent().inject(this)
+
+        checkoutResponseObservable.withLatestFrom(paymentModel.paymentSplits, { checkoutResponse, paymentSplits ->
+            object {
+                val hotelCheckoutResponse = checkoutResponse
+                val percentagePaidWithPoints = if (BigDecimal(checkoutResponse.totalCharges).equals(BigDecimal.ZERO)) 0 else NumberUtils.getPercentagePaidWithPointsForOmniture(paymentSplits.payingWithPoints.amount.amount, BigDecimal(checkoutResponse.totalCharges))
+                val totalBurnedAmount = paymentSplits.payingWithPoints.points
+            }
+        } ).subscribe{
+            val product = it.hotelCheckoutResponse.checkoutResponse.productResponse
+            val itinNumber = it.hotelCheckoutResponse.checkoutResponse.bookingResponse.itineraryNumber
             val checkInLocalDate = dtf.parseLocalDate(product.checkInDate)
             val checkOutLocalDate = dtf.parseLocalDate(product.checkOutDate)
             val location = Location()
@@ -73,11 +89,11 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
             hotelCity.onNext(product.hotelCity)
             addCarBtnText.onNext(context.getResources().getString(com.expedia.bookings.R.string.rent_a_car_TEMPLATE, product.hotelCity))
             addFlightBtnText.onNext(context.getResources().getString(com.expedia.bookings.R.string.flights_to_TEMPLATE, product.hotelCity))
-            customerEmail.onNext(hotelCheckoutResponse.checkoutResponse.bookingResponse.email)
+            customerEmail.onNext(it.hotelCheckoutResponse.checkoutResponse.bookingResponse.email)
 
             // Adding the guest trip in itin
-            if(!User.isLoggedIn(context)) {
-                ItineraryManager.getInstance().addGuestTrip(hotelCheckoutResponse.checkoutResponse.bookingResponse.email, itinNumber)
+            if (!User.isLoggedIn(context)) {
+                ItineraryManager.getInstance().addGuestTrip(it.hotelCheckoutResponse.checkoutResponse.bookingResponse.email, itinNumber)
             }
             // disabled for now. See mingle: #5574
 //            val pointOfSale = PointOfSale.getPointOfSale(context)
@@ -92,14 +108,14 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
             location.setStateCode(product.hotelStateProvince)
             location.addStreetAddressLine(product.hotelAddress)
             hotelLocation.onNext(location)
-            AdImpressionTracking.trackAdConversion(context, hotelCheckoutResponse.checkoutResponse.bookingResponse.tripId)
-            HotelV2Tracking().trackHotelV2PurchaseConfirmation(hotelCheckoutResponse)
-        })
+            AdImpressionTracking.trackAdConversion(context, it.hotelCheckoutResponse.checkoutResponse.bookingResponse.tripId)
+            HotelV2Tracking().trackHotelV2PurchaseConfirmation(it.hotelCheckoutResponse, it.percentagePaidWithPoints, it.totalBurnedAmount)
+        }
 
     }
 
     fun getAddFlightBtnObserver(context: Context): Observer<Unit> {
-        return object: Observer<Unit> {
+        return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
                 val flightSearchParams = Db.getFlightSearch().getSearchParams()
                 flightSearchParams.reset()
@@ -123,7 +139,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
     }
 
     fun getAddCarBtnObserver(context: Context): Observer<Unit> {
-        return object: Observer<Unit> {
+        return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
                 val builder = CarSearchParamsBuilder()
                 val dateTimeBuilder = CarSearchParamsBuilder.DateTimeBuilder().startDate(checkInDate.getValue()).endDate(checkOutDate.getValue())
@@ -146,7 +162,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
     }
 
     fun getAddToCalendarBtnObserver(context: Context): Observer<Unit> {
-        return object: Observer<Unit> {
+        return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
                 showAddToCalendarIntent(checkIn = true, context = context)
                 HotelV2Tracking().trackHotelV2ConfirmationCalendar()
@@ -176,7 +192,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
     }
 
     fun getCallSupportBtnObserver(context: Context): Observer<Unit> {
-        return object: Observer<Unit> {
+        return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
                 val phoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser())
                 SocialUtils.call(context, phoneNumber)
@@ -193,7 +209,7 @@ public class HotelConfirmationViewModel(checkoutResponseObservable: Observable<H
     }
 
     fun getDirectionsToHotelBtnObserver(context: Context): Observer<Unit> {
-        return object: Observer<Unit> {
+        return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + hotelLocation.getValue().toLongFormattedString()))
                 context.startActivity(intent)

@@ -1,42 +1,26 @@
 package com.expedia.bookings.test
 
-import com.expedia.bookings.data.hotels.HotelCheckoutParams
+import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
+import com.expedia.bookings.data.hotels.HotelCheckoutParamsMock
+import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.interceptors.MockInterceptor
+import com.expedia.bookings.data.payment.MiscellaneousParams
+import com.expedia.bookings.data.payment.PointsAndCurrency
+import com.expedia.bookings.data.payment.PointsType
+import com.expedia.bookings.data.payment.ProgramName
+import com.expedia.bookings.data.payment.TripDetails
+import com.expedia.bookings.data.payment.UserPreferencePointsDetails
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
-import com.mobiata.mocke3.ExpediaDispatcher
-import com.mobiata.mocke3.FileSystemOpener
-import com.squareup.okhttp.OkHttpClient
-import com.squareup.okhttp.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
-import org.junit.rules.TestRule
-import org.junit.runner.Description
-import org.junit.runners.model.Statement
-import retrofit.RestAdapter
 import rx.observers.TestSubscriber
-import rx.schedulers.Schedulers
-import java.io.File
 
-public class MockHotelServiceTestRule : TestRule {
-
-    val server: MockWebServer = MockWebServer()
-    lateinit var service: HotelServices
-
-    override fun apply(base: Statement?, description: Description?): Statement? {
-        server.setDispatcher(expediaDispatcher())
-        val createHotelService = object: Statement() {
-            override fun evaluate() {
-                service = HotelServices("http://localhost:" + server.port, OkHttpClient(), MockInterceptor(), Schedulers.immediate(), Schedulers.immediate(), RestAdapter.LogLevel.FULL)
-                base?.evaluate()
-            }
-        }
-        return server.apply(createHotelService, description)
-    }
+public class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::class.java) {
 
     fun getPriceChangeDownCreateTripResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("hotel_price_change_down")
@@ -54,6 +38,10 @@ public class MockHotelServiceTestRule : TestRule {
         return getCreateTripResponse("happypath_0")
     }
 
+    fun getLoggedInUserWithRedeemablePointsLessThanTripTotalCreateTripResponse(): HotelCreateTripResponse {
+        return getCreateTripResponse("logged_in_user_with_redeemable_points_less_than_trip_total")
+    }
+
     fun getLoggedInUserWithRedeemablePointsCreateTripResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("logged_in_user_with_redeemable_points")
     }
@@ -61,6 +49,8 @@ public class MockHotelServiceTestRule : TestRule {
     fun getLoggedInUserWithNonRedeemeblePointsCreateTripResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("logged_in_user_with_non_redeemable_points")
     }
+
+
 
     fun getProductKeyExpiredResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("error_expired_product_key_createtrip")
@@ -85,7 +75,7 @@ public class MockHotelServiceTestRule : TestRule {
     private fun getOfferResponse(responseFileName: String): HotelOffersResponse {
         val hotelSearchParams = HotelSearchParams(SuggestionV4(), LocalDate(), LocalDate(), 1, emptyList())
         val observer = TestSubscriber<HotelOffersResponse>()
-        service.offers(hotelSearchParams, responseFileName, observer)
+        services?.offers(hotelSearchParams, responseFileName, observer)
         observer.awaitTerminalEvent()
         observer.assertCompleted()
         return observer.onNextEvents.get(0)
@@ -123,23 +113,48 @@ public class MockHotelServiceTestRule : TestRule {
         return getCheckoutTripResponse("hotel_price_change_checkout")
     }
 
+    fun getPriceChangeWithUserPreferencesCheckoutResponse(): HotelCheckoutResponse {
+        return getCheckoutTripResponse("hotel_price_change_with_user_preferences")
+    }
+
+    fun getApplyCouponResponseWithUserPreference(): HotelCreateTripResponse {
+        return getApplyCouponResponse("hotel_coupon_with_user_points_preference")
+    }
+
     private fun getCreateTripResponse(responseFileName: String): HotelCreateTripResponse {
         val productKey = responseFileName
         val observer = TestSubscriber<HotelCreateTripResponse>()
-        service.createTrip(HotelCreateTripParams(productKey, false, 1, emptyList()), observer)
+        services?.createTrip(HotelCreateTripParams(productKey, false, 1, emptyList()), observer)
         observer.awaitTerminalEvent()
         observer.assertCompleted()
         return observer.onNextEvents.get(0)
     }
 
+    private fun getApplyCouponResponse(responseFileName: String): HotelCreateTripResponse {
+        val observer = TestSubscriber<HotelCreateTripResponse>()
+        val applyCouponParams = HotelApplyCouponParameters.Builder()
+                .couponCode(responseFileName).isFromNotSignedInToSignedIn(false).tripId("tripId").
+                userPreferencePointsDetails(listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, PointsAndCurrency(1000, PointsType.BURN, Money("100", "USD")))))
+                .build()
+
+        services?.applyCoupon(applyCouponParams)!!.subscribe(observer)
+        observer.awaitTerminalEvent()
+        observer.assertCompleted()
+        return observer.onNextEvents[0]
+    }
+
     private fun getCheckoutTripResponse(responseFileName: String): HotelCheckoutResponse {
         val tripId = responseFileName
         val observer = TestSubscriber<HotelCheckoutResponse>()
-        val checkoutParams = HotelCheckoutParams()
-        checkoutParams.tripId = tripId
-        checkoutParams.expectedTotalFare = "42.00"
-        checkoutParams.tealeafTransactionId = "tealeafHotel:" + checkoutParams.tripId
-        service.checkout(checkoutParams, observer)
+        val tripDetails = TripDetails(tripId, "42.00", "USD", "guid", true)
+        val miscParameters = MiscellaneousParams(true, "tealeafHotel:" + tripId, "expedia.app.android.phone:x.x.x")
+        val checkoutParams = HotelCheckoutV2Params.Builder()
+                .tripDetails(tripDetails)
+                .checkoutInfo(HotelCheckoutParamsMock.checkoutInfo())
+                .paymentInfo(HotelCheckoutParamsMock.paymentInfo())
+                .traveler(HotelCheckoutParamsMock.traveler())
+                .misc(miscParameters).build();
+        services?.checkout(checkoutParams, observer)
         observer.awaitTerminalEvent()
         observer.assertCompleted()
         return observer.onNextEvents.get(0)
@@ -165,14 +180,8 @@ public class MockHotelServiceTestRule : TestRule {
         var observer = TestSubscriber<HotelOffersResponse>()
         val hotelSearchParams = HotelSearchParams(SuggestionV4(), LocalDate.now().plusDays(4), LocalDate.now().plusDays(6), 2, listOf(2, 4))
 
-        service.offers(hotelSearchParams, responseFileName, observer)
+        services?.offers(hotelSearchParams, responseFileName, observer)
         observer.awaitTerminalEvent()
         return observer.onNextEvents.get(0)
-    }
-
-    private fun expediaDispatcher(): ExpediaDispatcher {
-        val root = File("../lib/mocked/templates").canonicalPath
-        val opener = FileSystemOpener(root)
-        return ExpediaDispatcher(opener)
     }
 }

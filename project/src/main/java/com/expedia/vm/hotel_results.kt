@@ -4,13 +4,14 @@ import android.content.Context
 import android.content.res.Resources
 import android.location.Location
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.cars.BaseApiResponse
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.services.HotelServices
@@ -29,15 +30,8 @@ import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import kotlin.collections.emptyList
-import kotlin.collections.filter
-import kotlin.collections.first
-import kotlin.collections.firstOrNull
-import kotlin.collections.isNotEmpty
-import kotlin.collections.sortedBy
-import kotlin.collections.sortedByDescending
 
-public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?) {
+public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?, private val lob: LineOfBusiness) {
 
     // Inputs
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
@@ -78,7 +72,8 @@ public class HotelResultsViewModel(private val context: Context, private val hot
     }
 
     private fun doSearch(params: HotelSearchParams) {
-        titleSubject.onNext(params.suggestion.regionNames?.shortName)
+        val isPackages = lob == LineOfBusiness.PACKAGES
+        titleSubject.onNext(if (isPackages) StrUtils.formatCity(params.suggestion) else params.suggestion.regionNames.shortName)
 
         subtitleSubject.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE)
                 .put("startdate", DateUtils.localDateToMMMd(params.checkIn))
@@ -86,7 +81,7 @@ public class HotelResultsViewModel(private val context: Context, private val hot
                 .put("guests", StrUtils.formatGuestString(context, params.guests()))
                 .format())
 
-        hotelServices?.regionSearch(params)?.subscribe(object: Observer<HotelSearchResponse> {
+        hotelServices?.regionSearch(params)?.subscribe(object : Observer<HotelSearchResponse> {
             override fun onNext(it: HotelSearchResponse) {
                 if (it.hasErrors()) {
                     errorObservable.onNext(it.firstError)
@@ -106,12 +101,17 @@ public class HotelResultsViewModel(private val context: Context, private val hot
                 }
             }
 
-            override fun onCompleted() {}
+            override fun onCompleted() {
+            }
 
             override fun onError(e: Throwable?) {
                 if (RetrofitUtils.isNetworkError(e)) {
-                    val retryFun = fun() { doSearch(paramsSubject.value) }
-                    val cancelFun = fun() { showHotelSearchViewObservable.onNext(Unit) }
+                    val retryFun = fun() {
+                        doSearch(paramsSubject.value)
+                    }
+                    val cancelFun = fun() {
+                        showHotelSearchViewObservable.onNext(Unit)
+                    }
                     DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
                 }
             }
@@ -139,7 +139,8 @@ public class HotelResultsPricingStructureHeaderViewModel(private val resources: 
             val header =
                     when (priceType) {
                         HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES -> resources.getQuantityString(R.plurals.hotel_results_pricing_header_total_price_for_stay_TEMPLATE, hotelResultsCount, hotelResultsCount)
-                        else -> resources.getQuantityString(R.plurals.hotel_results_pricing_header_prices_avg_per_night_TEMPLATE, hotelResultsCount, hotelResultsCount)
+                        HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES -> resources.getQuantityString(R.plurals.hotel_results_pricing_header_prices_avg_per_night_TEMPLATE, hotelResultsCount, hotelResultsCount)
+                        else -> resources.getQuantityString(R.plurals.hotel_results_default_header_TEMPLATE, hotelResultsCount, hotelResultsCount)
                     }
 
             pricingStructureHeaderObservable.onNext(header)
@@ -243,7 +244,7 @@ public open class HotelResultsMapViewModel(val context: Context, val currentLoca
         }
     }
 
-    private fun getHotelWithMarker(marker : Marker?) : Hotel {
+    private fun getHotelWithMarker(marker: Marker?): Hotel {
         val hotelId = marker?.title
         val hotel = hotels.filter { it.hotelId == hotelId }.first()
         return hotel
@@ -254,7 +255,7 @@ public open class HotelResultsMapViewModel(val context: Context, val currentLoca
         val searchRegionId = response.searchRegionId
         val currentLocationLatLng = LatLng(currentLocation.latitude, currentLocation.longitude)
 
-        val sortedHotels = sortByLocation(currentLocation , response.hotelList)
+        val sortedHotels = sortByLocation(currentLocation, response.hotelList)
 
         val allHotelsBox: LatLngBounds = boxHotels(response.hotelList)
 
@@ -293,7 +294,7 @@ public open class HotelResultsMapViewModel(val context: Context, val currentLoca
         }
     }
 
-    fun sortByLocation(location: Location, hotels : List<Hotel>) : List<Hotel> {
+    fun sortByLocation(location: Location, hotels: List<Hotel>): List<Hotel> {
         val hotelLocation = Location("other")
         val sortedHotels = hotels.sortedBy { h ->
             hotelLocation.latitude = h.latitude

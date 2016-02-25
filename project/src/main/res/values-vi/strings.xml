@@ -113,6 +113,8 @@
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_toolbar_title">Tìm khách sạn</string>
+    <!-- Label for hotel search v2 toolbar -->
+    <string name="hotel_search_v2_toolbar_title">Khách\nsạn</string>
     <!-- Label for hotel suggestion -->
     <string name="search_location">Tìm địa điểm</string>
     <!-- Label for recent searches -->
@@ -200,9 +202,10 @@
     <string name="successful_checkout_email_label">Lịch trình được gửi đến</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Hướng dẫn đến %1$s</string>
-
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
     <string name="checkout_payment_option_credit_debit_label">Thẻ tín dụng/ghi nợ</string>
+    <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
+    <string name="shortened_checkout_payment_option_credit_debit_label">Nhập Thẻ tín dụng/ghi nợ mới</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Thông tin khách</string>
     <!-- Text for Android pay label -->
@@ -212,9 +215,21 @@
     <!-- Text for enter payment details line 1 -->
     <string name="checkout_hotelsv2_enter_payment_details_line1">Chi tiết thanh toán</string>
     <!-- Text for enter payment details line 2 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line2">Chọn loại thanh toán</string>
+    <string name="checkout_hotelsv2_enter_payment_details_line2">Nhập thẻ tín dụng</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
     <string name="checkout_payment_line2_storedcc">Thẻ tín dụng đã lưu</string>
+    <!-- Text for enter payment details line 1 when paying with pwp only -->
+    <string name="checkout_paying_with_points_only_line1">Thanh toán bằng điểm thưởng</string>
+    <!-- Text for enter payment details line 1 when paying with pwp and Card -->
+    <string name="checkout_paying_with_points_and_card_line1">Thanh toán bằng điểm thưởng &amp; {carddescription}</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_tap_to_edit">Chạm để sửa</string>
+    <!-- Text for enter payment details line 2 for pwp -->
+    <string name="checkout_payment_options">Thẻ tín dụng, thanh toán bằng điểm</string>
+    <!--Text for selected card -->
+    <string name="checkout_selected_card">{cardtype} …{cardno}</string>
+    <!--Text for selecting user manually stored card -->
+    <string name="temporarily_saved_card_TEMPLATE">Đã lưu {cardtype} …{cardno}</string>
 
     <!-- Hotels V2 slide to reserve -->
     <string name="hotelsv2_slide_reserve">Kéo để đặt</string>
@@ -224,11 +239,11 @@
     <string name="change_dates">Thay đổi ngày</string>
 
     <!-- Car error strings -->
-    <!-- Message for user that pick-up time is too early."  -->
+    <!-- Message for user that pick-up time is too early.  -->
     <string name="pick_up_time_error">Vui lòng điều chỉnh giờ nhận xe hoặc trả xe.</string>
-    <!-- Message for user  to choose a closer date.""  -->
+    <!-- Message for user  to choose a closer date.  -->
     <string name="drop_off_too_far_error">Ngày này quá xa trong tương lai, vui lòng chọn ngày gần hơn.</string>
-    <!-- Message for user that date is too far out."  -->
+    <!-- Message for user that date is too far out.  -->
     <string name="date_out_of_range">Ngày này quá xa trong tương lai, vui lòng chọn ngày gần hơn.</string>
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Vui lòng tăng thời gian đặt của quý vị.</string>
@@ -735,6 +750,8 @@
     <string name="prices_roundtrip_label">Giá khứ hồi 1 người</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_oneway_label">Giá 1 chiều 1 người</string>
+    <!-- Label clarifying that the price shown is for a roundtrip flight -->
+    <string name="roundtrip">khứ hồi</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Giá hai chiều, mỗi người, từ</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -819,7 +836,8 @@
     <string name="infants_in_seats_prompt">Cần vé riêng cho trẻ sơ sinh với chỗ ngồi riêng. Cùng tìm thêm vé cho trẻ sơ sinh.</string>
     <!-- A message telling the user that the app needs to do a new search because infant seating preference has changed to in lap-->
     <string name="infants_in_laps_prompt">Không cần vé riêng cho trẻ sơ sinh ngồi trong lòng. Cùng tìm lại với số lượng vé ít hơn.</string>
-
+    <!-- Label for infants under 2 seating preference -->
+    <string name="infants_under_two_TEMPLATE">Trẻ sơ sinh dưới 2 tuổi: %s</string>
     <!-- Tablet flight sort/filter controls -->
     <!-- Header for a flight filter based upon number of stops -->
     <string name="stops">Điểm dừng</string>
@@ -1024,7 +1042,7 @@
     <!-- Find Itinerary -->
     <string name="find_itinerary">Tìm lịch trình</string>
     <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">Không tìm được lịch trìng. Vui lòng kiểm tra Quốc gia (trong phần cài đặt) phải trùng với địa chỉ trang web quốc gia quý vị đặt.</string>
+    <string name="unable_to_find_itinerary">Không tìm được lịch trìng. Vui lòng kiểm tra Quốc gia (trong phần Cài đặt) trùng với trang web quốc gia quý vị đã đặt sản phẩm.</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">Tìm lịch trình của khách</string>
     <!-- Enter Itinerary Details -->
@@ -1682,6 +1700,8 @@
     <string name="calendar_instructions_hotels_no_dates_selected">Chọn ngày nhận phòng</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <string name="guests_with_rooms_TEMPLATE">{guests}, 1 phòng</string>
+
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
     <string name="one_way_price_TEMPLATE">Một chiều giá &lt;b&gt;%s&lt;/b&gt;</string>
@@ -1770,6 +1790,7 @@
     <string name="select_payment_callout">Nhập chi tiết</string>
     <!-- Add new card -->
     <string name="add_new_card">Thêm thẻ mới</string>
+    <string name="new_credit_debit_card">Thẻ tín dụng/ghi nợ mới</string>
     <!-- Overview button -->
     <string name="overview_btn">Tổng quan</string>
     <!-- Stored Payment label -->
@@ -1804,6 +1825,8 @@
     <string name="your_trip_to_TEMPLATE">Chuyến đi đến %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">bao gồm thuế và phí</string>
+    <!-- Includes taxes, fees, flights+hotels -->
+    <string name="includes_taxes_fees_flights_hotel">Bao gồm thuế, phí, chuyến bay + khách sạn</string>
     <!-- Includes taxes (but not necessarily fees) -->
     <string name="includes_taxes">Gồm thuế</string>
     <!-- Date and trip from _ to _ -->
@@ -1888,10 +1911,12 @@
     <string name="youll_earn_points_ab_test_3x_TEMPLATE">Nhận %1$s điểm, tức gấp 3 lần khi đặt từ app!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Quý vị sẽ nhận %1$s điểm với lần đặt này!</string>
+    <!-- You are a valued member -->
+    <string name="you_are_a_valued_member">Quý vị là một thành viên quan trọng!</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
     <string name="x_points_for_this_trip_TEMPLATE">Quý vị sẽ nhận %1$s điểm cho chuyến đi này!</string>
     <!-- Label to show while we are checking for price changes on the checkout receipt -->
-    <string name="calculating_taxes_and_fees">Đang tình thuế và phí…</string>
+    <string name="calculating_taxes_and_fees">Đang tính thuế và phí…</string>
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_raised_the_total_price_TEMPLATE">Rất tiếc, dường như khách sạn vừa nâng tổng giá phòng của kỳ lưu trú này từ %1$s lên %2$s.</string>
     <!-- String to use when a price change alert should be shown to the user -->
@@ -2060,6 +2085,8 @@
     <!-- Section edit credit card info -->
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Số thẻ tín dụng</string>
+    <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
+    <string name="credit_debit_card_hint">Số thẻ ghi nợ/thẻ tín dụng</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Ngày hết hạn</string>
     <!-- Set expiration date button -->
@@ -2292,7 +2319,17 @@
     <string name="fare_information">THÔNG TIN GIÁ VÉ</string>
     <!-- Airline Fee -->
     <string name="Airline_fee">Phí hãng hàng không</string>
-
+    <!-- split ticket rules header -->
+    <string name="split_ticket_important_flight_information_header">Thông tin quan trọng về chuyến bay</string>
+    <!-- split ticket rules and restrictions -->
+    <string name="split_ticket_rules_with_link_TEMPLATE">• Chuyến bay của quý vị kết hợp từ hai vé một chiều, mỗi vé áp dụng điều khoản và giới hạn riêng.</string>
+    <string name="split_ticket_rules_with_link_TEMPLATE_tablet">Chuyến bay của quý vị kết hợp từ hai vé một chiều, mỗi vé áp dụng điều khoản và giới hạn riêng.</string>
+    <!-- split ticket rules - cancellation policy -->
+    <string name="split_ticket_rules_cancellation_policy">• Nếu một chuyến bay có thay đổi hoặc hủy, chuyến bay còn lại sẽ không bị tự động thay đổi theo. Có thể sẽ áp dụng phụ phí nếu thực hiện thay đổi với chuyến bay còn lại.</string>
+    <string name="split_ticket_rules_cancellation_policy_tablet">Nếu một chuyến bay có thay đổi hoặc hủy, chuyến bay còn lại sẽ không được tự động thay đổi theo. Có thể sẽ áp dụng phụ phí nếu thực hiện thay đổi với chuyến bay còn lại.</string>
+    <!-- split ticket baggage fees -->
+    <string name="split_ticket_baggage_fees">• Chuyến bay &lt;a href=\"%1$s\"&gt;Khởi hành&lt;/a&gt; và &lt;a href=\"%2$s\"&gt;Trở về&lt;/a&gt; áp dụng phí hành lý riêng biệt</string>
+    <string name="split_ticket_baggage_fees_tablet">Chuyến bay &lt;a href=\"%1$s\"&gt;Khởi hành&lt;/a&gt; và &lt;a href=\"%2$s\"&gt;Trở về&lt;/a&gt; áp dụng phí hành lý riêng biệt</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">Mã bảo mật không hợp lệ</string>
@@ -2364,6 +2401,7 @@
     <string name="eight">8</string>
     <string name="nine">9</string>
     <string name="zero">0</string>
+    <!-- The verb "book" as in to make a booking for a hotel room -->
     <string name="book">Đặt</string>
 
     <!-- Highlight view stuff -->
@@ -2389,6 +2427,7 @@
     <string name="See_front_of_card">Xem mặt trước thẻ</string>
     <!-- Hint on CVV widget title for where to look for CVV code -->
     <string name="cvv_enter_security_code">Nhập mã bảo mật</string>
+    <string name="cvv_enter_security_code_v2">CVV</string>
 
     <!-- Flight booking sharing -->
     <!-- The first line of the share email (casual introduction) -->
@@ -2836,6 +2875,13 @@
         <item quantity="other">Giá trung bình mỗi đêm • %d kết quả</item>
     </plurals>
 
+    <!-- Hotel Results Pricing Header - Default -->
+    <plurals name="hotel_results_default_header_TEMPLATE">
+        <item quantity="zero">Không có kết quả</item>
+        <item quantity="one">1 kết quả</item>
+        <item quantity="other">%d kết quả</item>
+    </plurals>
+
     <!-- Hotel Results Pricing Header - Total Price For Stay along with the Number of Search Results -->
     <plurals name="hotel_results_pricing_header_total_price_for_stay_TEMPLATE">
         <item quantity="zero">Không có kết quả</item>
@@ -2876,7 +2922,7 @@
     <string name="not_included_in_the_price">Không gồm trong giá</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">Xem phòng</string>
-    <!-- Book Room button text -->
+    <!-- Book Room button text; verb; as in book a hotel room -->
     <string name="book_room_button_text">Đặt</string>
     <!-- Share via when user is shareing hotel listing -->
     <string name="share_via">Chia sẻ qua</string>
@@ -3777,6 +3823,7 @@
     <string name="applied_coupon_message">Áp dụng coupon: Tiết kiệm được %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
     <string name="coupon_error_dialog_title">Không áp dụng được coupon</string>
+    <string name="coupon_error_remove_dialog_title">Không xóa được coupon</string>
     <!-- Hotel V2 coupon failed after sign-in dialog message -->
     <string name="coupon_error_dialog_message">Có trục trặc với coupon của quý vị. Vui lòng nhập lại.</string>
 
@@ -3791,8 +3838,14 @@
 
     <!-- Label for package search toolbar -->
     <string name="package_toolbar_title">Khách sạn + Chuyến bay</string>
+    <!-- Label for per person -->
+    <string name="per_person">/1 người</string>
     <!-- Label for package search toolbar -->
     <string name="bundle_overview_title">Tổng quan</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Tổng gói</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Xem gói của quý vị</string>
     <!-- Fly from hint -->
     <string name="fly_from_hint">Bay từ</string>
     <!-- Fly to hint -->
@@ -3801,14 +3854,87 @@
     <string name="step_one">Bước 1: Chọn Khách sạn</string>
     <!-- Bundle Overview Step 2, select a flight -->
     <string name="step_two">Bước 2: Chọn Chuyến bay</string>
+    <!-- Package hotel cell: Price Includes flights -->
+    <string name="package_price_include_flights">Giá bao gồm khách sạn + chuyến bay</string>
+    <!-- Package hotel map cell: Price Includes Taxes and Fees -->
+    <string name="package_price_includes_taxes_fees">Giá bao gồm thuế, phí, chuyến bay + khách sạn cho một người</string>
+    <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
+    <string name="package_overview_flight_travel_info_TEMPLATE">%1$s lúc %2$s, %3$s</string>
+    <!-- Template for package bundle total savings amount -->
+    <string name="bundle_total_savings_TEMPLATE">Tiết kiệm được {savings}</string>
+    <!-- Bundle Overview select hotel -->
+    <string name="select_hotel_template">Chọn khách sạn tại %s</string>
+    <!-- Bundle Overview searching flight -->
+    <string name="searching_flight_to">Tìm chuyến bay đến %s</string>
 
-    <!-- Flight duration template e.g. 1d 12h 42m (2hr layover) -->
-    <string name="flight_duration_template">%1$dng %2$dg %3$dp (tạm dừng %4$dg)</string>
+    <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
+    <string name="flight_duration_description_template">%1$s (%2$s)</string>
+    <!-- Flight hour duration template e.g. 12h 42m -->
+    <string name="flight_hour_min_duration_template">%1$dg %2$dp</string>
+    <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
+    <string name="flight_min_duration_template">%1$dp</string>
+    <!-- Flight Nonstop description -->
+    <string name="flight_nonstop_description">Bay thẳng</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$dng</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
-
+    <!-- Select flight to template -->
+    <string name="select_flight_to">Chọn chuyến bay đến %1$s</string>
+    <!-- Flight to template -->
+    <string name="flight_to">Bay đến %1$s</string>
+    <!-- Select return flight -->
+    <string name="select_return_flight">Chọn chuyến bay về</string>
+    <!-- Flight overview - flight to template -->
+    <string name="flight_to_template">Bay đến %1$s</string>
+    <!-- Toolbar text flight date template. %1$s = Formatted date, %2$s = num of travelers. E.g. Tue May 12, 2016, 2 Travelers -->
+    <string name="flight_toolbar_date_range_with_guests_TEMPLATE">{date}, {travelers}</string>
+    <!-- Toolbar text for hotel results -->
+    <string name="package_hotel_results_toolbar_title_TEMPLATE">Khách sạn tại %s</string>
+    <!-- Description for infant travelers sitting in lap -->
+    <string name="in_lap">Trong lòng</string>
+    <!-- Description for infant travelers sitting in seat -->
+    <string name="in_seat">Ngồi riêng</string>
+    <!-- Label for flights on checkout overview of Packages -->
+    <string name="flight_checkout_overview_TEMPLATE">Chuyến bay - {origin} đến {destination}, khứ hồi</string>
+    <!-- Label for hotel on checkout overview of Packages -->
+    <string name="hotel_checkout_overview_TEMPLATE">Khách sạn tại {city} - {rooms} phòng, {nights} đêm</string>
     <!-- Package Trip Overview -->
     <string name="trip_overview">Tổng quan về chuyến đi</string>
+    <!-- Slide to book -->
+    <string name="package_slider_text">Trượt để đặt</string>
+    <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
+
+
+    <!-- Pay with points widget -->
+    <string name="paying_with_points">Thanh toán bằng điểm thưởng</string>
+    <string name="pay_with_point_total_available_TEMPLATE">Có {money} ({points} điểm)</string>
+    <string name="user_enters_more_than_available_points_TEMPLATE">Số vừa nhập vượt quá điểm quý vị hiện có.\nVui lòng nhập {money} trở xuống.</string>
+    <string name="user_enters_more_than_trip">Giá trị điểm không thể lớn hơn khoản cần thanh toán hôm nay.</string>
+    <string name="pwp_calculating_points">Đang tính điểm…</string>
+    <string name="pwp_points_applied_TEMPLATE">Áp dụng {points} điểm</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Khoản còn lại cần thanh toán: {money}</string>
+    <string name="pwp_total_due_today_TEMPLATE">Tổng cần thanh toán hôm nay: {money}</string>
+
+    <!-- Package Flight Overview -->
+    <string name="package_flight_overview_urgency_message_TEMPLATE">Còn {seats} chỗ</string>
+    <string name="package_flight_overview_select_flight">Chọn chuyến bay này</string>
+    <string name="package_flight_overview_bundle_total_label">Tổng gói</string>
+    <string name="package_flight_overview_per_person_TEMPLATE">{money}/người</string>
+    <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
+    <string name="package_flight_overview_layover_in_TEMPLATE">Tạm dừng tại ({airportcode}) {city}</string>
+    <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} - {airplanetype}</string>
+    <string name="package_flight_overview_total_duration_TEMPLATE">Tổng thời gian: {duration}</string>
+
+    <!--Rail search screen title-->
+    <string name="trains">Tàu hỏa</string>
+
+    <string name="pwp_points_conversion_unauthenticated_access">Rất tiếc, chúng tôi đang gặp sự cố máy chủ. Vui lòng thử lại.</string>
+    <string name="pwp_trip_service_error">Rất tiếc, chúng tôi đang gặp sự cố máy chủ. Vui lòng thử lại.</string>
+    <string name="pwp_unknown_error">Đã xảy ra lỗi không xác định. Vui lòng thử lại.</string>
+
+    <!-- New Hotel Search screen -->
+    <string name="select_traveler_title">Chọn khách</string>
+    <string name="enter_destination_hint">Nhập điểm đến</string>
+
 </resources>

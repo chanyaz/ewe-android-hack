@@ -39,6 +39,7 @@ public class HotelSearchResponse extends BaseApiResponse {
 	public static HotelSearchResponse convertPackageToSearchResponse(PackageSearchResponse packageSearchResponse) {
 		HotelSearchResponse response = new HotelSearchResponse();
 		response.hotelList = packageSearchResponse.packageResult.hotelsPackage.hotels;
+		response.userPriceType = HotelRate.UserPriceType.PACKAGES;
 		return response;
 	}
 }

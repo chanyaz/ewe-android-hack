@@ -25,9 +25,12 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.interfaces.ToolbarListener;
 import com.expedia.bookings.section.SectionBillingInfo;
+import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpandableCardView;
+import com.expedia.bookings.widget.PaymentButton;
 import com.expedia.bookings.widget.PaymentWidget;
+import com.expedia.bookings.widget.PaymentWidgetV2;
 
 import static org.junit.Assert.assertEquals;
 
@@ -97,6 +100,11 @@ public class PaymentWidgetFlowTest {
 
 			@Override
 			public void showRightActionButton(boolean show) {
+
+			}
+
+			@Override
+			public void setNavArrowBarParameter(ArrowXDrawableUtil.ArrowDrawableType arrowDrawableType) {
 
 			}
 		};
@@ -172,30 +180,21 @@ public class PaymentWidgetFlowTest {
 	public void testStoredCardFlow() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		activity.setTheme(R.style.V2_Theme_Hotels);
-		Ui.getApplication(activity).defaultLXComponents();
-		PaymentWidget paymentWidget =  (PaymentWidget) LayoutInflater.from(activity)
+		Ui.getApplication(activity).defaultHotelComponents();
+		PaymentWidgetV2 paymentWidget =  (PaymentWidgetV2) LayoutInflater.from(activity)
 			.inflate(R.layout.payment_widget_v2, null);
 		paymentWidget.setToolbarListener(listener);
 		paymentWidget.setLineOfBusiness(LineOfBusiness.HOTELSV2);
 		paymentWidget.setCreditCardRequired(true);
 
 		paymentWidget.sectionBillingInfo.bind(info);
-		paymentWidget.setExpanded(true);
 
-		paymentWidget.onStoredCardClicked();
-
-		LinearLayout storedCardContainer = (LinearLayout) paymentWidget.findViewById(R.id.stored_card_container);
 		SectionBillingInfo sectionBillingInfo = (SectionBillingInfo) paymentWidget.findViewById(R.id.section_billing_info);
-
-		//Stored card(wallet) should be visible
-		assertEquals(View.VISIBLE, storedCardContainer.getVisibility());
-		assertEquals(View.GONE, sectionBillingInfo.getVisibility());
-
-		paymentWidget.onStoredCardRemoved();
 		LinearLayout paymentOptions = (LinearLayout) paymentWidget.findViewById(R.id.section_payment_options_container);
+		PaymentButton paymentButton = (PaymentButton) paymentWidget.findViewById(R.id.payment_button_v2);
 
-//      Enable the below assert once we implemented android pay
-//		//Wallet card removed, should return to payment options.
-//		assertEquals(View.VISIBLE, paymentOptions.getVisibility());
+		assertEquals(View.VISIBLE, sectionBillingInfo.getVisibility());
+		assertEquals(View.VISIBLE, paymentOptions.getVisibility());
+		assertEquals(View.VISIBLE, paymentButton.getVisibility());
 	}
 }

@@ -9,6 +9,8 @@ import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -21,13 +23,16 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.LoadingOverlayWidget
+import com.expedia.bookings.widget.PackageBundlePriceWidget
 import com.expedia.util.endlessObserver
+import com.expedia.vm.BundlePriceViewModel
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelResultsViewModel
 import com.google.android.gms.maps.MapView
 import rx.Observable
 import rx.Observer
+import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -37,6 +42,8 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
 
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
+    val bundleOverviewWidget: PackageBundlePriceWidget by bindView(R.id.bundle_total)
+
     val resultsPresenter: PackageHotelResultsPresenter by lazy {
         var viewStub = findViewById(R.id.results_stub) as ViewStub
         var presenter = viewStub.inflate() as PackageHotelResultsPresenter
@@ -46,7 +53,7 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
         presenter.mapView.getMapAsync(presenter)
-        presenter.viewmodel = HotelResultsViewModel(context, null)
+        presenter.viewmodel = HotelResultsViewModel(context, null, LineOfBusiness.PACKAGES)
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
         presenter
     }
@@ -60,6 +67,9 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         presenter.hotelMapView.mapView = detailsMapView
         presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView);
         presenter.hotelDetailView.viewmodel = HotelDetailViewModel(context, null, selectedRoomObserver)
+        presenter.hotelDetailView.viewmodel.hotelDetailsBundleTotalObservable.subscribe { bundle ->
+            bundleOverviewWidget.viewModel.setTextObservable.onNext(bundle)
+        }
         presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut)
         presenter
     }
@@ -69,6 +79,8 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
     init {
         Ui.getApplication(context).packageComponent().inject(this)
         View.inflate(getContext(), R.layout.package_hotel_presenter, this)
+        bundleOverviewWidget.viewModel = BundlePriceViewModel(context)
+
     }
 
     override fun onFinishInflate() {
@@ -91,22 +103,22 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         loadingOverlay.visibility = View.VISIBLE
         loadingOverlay.animate(true)
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay)))
-        val offers = packageServices.hotelOffer(piid, checkIn, checkOut)
+        val packageHotelOffers = packageServices.hotelOffer(piid, checkIn, checkOut)
         val info = packageServices.hotelInfo(hotelId)
-        Observable.zip(offers, info, { offers, info ->
+        Observable.zip(packageHotelOffers, info, { packageHotelOffers, info ->
             println("zip success")
-            val offersResponse = HotelOffersResponse.convertToHotelOffersResponse(info, offers, Db.getPackageParams())
+            val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(info, packageHotelOffers, Db.getPackageParams())
             loadingOverlay.animate(false)
-            detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(offersResponse)
-            detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(offersResponse)
+            detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)
+            detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(hotelOffers)
             show(detailPresenter)
             detailPresenter.showDefault()
         }).subscribe()
-        offers.subscribe(getOfferObserver())
+        packageHotelOffers.subscribe(getOfferObserver())
         info.subscribe(getInfoObserver())
     }
 
-    fun getOfferObserver() :  Observer<PackageOffersResponse> {
+    fun getOfferObserver(): Observer<PackageOffersResponse> {
         return object : Observer<PackageOffersResponse> {
             override fun onNext(response: PackageOffersResponse) {
                 println("offers success, Hotels:" + response.packageHotelOffers.size);
@@ -122,7 +134,7 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         }
     }
 
-    fun getInfoObserver() :  Observer<HotelOffersResponse> {
+    fun getInfoObserver(): Observer<HotelOffersResponse> {
         return object : Observer<HotelOffersResponse> {
             override fun onNext(response: HotelOffersResponse) {
                 println("info success, Hotel:" + response.hotelName);
@@ -155,6 +167,15 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun finalizeTransition(forward: Boolean) {
             super.finalizeTransition(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
+            if (forward) {
+                bundleOverviewWidget.visibility = View.VISIBLE
+                bundleOverviewWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
+                bundleOverviewWidget.viewModel.perPersonTextLabelObservable.onNext(true)
+                bundleOverviewWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(0),
+                        Db.getPackageResponse().packageResult.packageOfferModels[0].price.packageTotalPrice.currencyCode).formattedMoney, ""))
+            } else {
+                bundleOverviewWidget.visibility = View.GONE
+            }
             resultsPresenter.animationFinalize(forward)
         }
     }
@@ -165,8 +186,7 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun startTransition(forward: Boolean) {
             if (!forward) {
                 detailPresenter.hotelDetailView.resetViews()
-            }
-            else {
+            } else {
                 detailPresenter.hotelDetailView.refresh()
             }
             val parentHeight = height
@@ -187,6 +207,7 @@ public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Pres
         override fun finalizeTransition(forward: Boolean) {
             detailPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             resultsPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+            bundleOverviewWidget.visibility = if (forward) View.VISIBLE else View.GONE
             detailPresenter.translationY = 0f
             resultsPresenter.animationFinalize(!forward)
             detailPresenter.animationFinalize()
