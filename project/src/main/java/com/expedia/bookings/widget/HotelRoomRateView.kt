@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget
 
 import android.animation.Animator
-import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -42,10 +41,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelRoomRateViewModel
 import rx.Observable
 import rx.subjects.PublishSubject
-import kotlin.collections.forEach
-import kotlin.collections.isNotEmpty
 import kotlin.properties.Delegates
-import kotlin.text.isNotBlank
 
 public class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(context) {
 
@@ -110,7 +106,7 @@ public class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayo
             roomInfoDescriptionText.visibility = View.GONE
         }
 
-        Observable.combineLatest(vm.roomInfoExpandCollapseObservable, vm.expandedMeasurementsDone) { visibility, unit -> visibility }.subscribe({ visibility ->
+        Observable.combineLatest(vm.roomInfoExpandCollapseObservable, vm.expandedMeasurementsDone) { visibility, unit -> visibility }.subscribe({
             val shouldExpand = roomInfoDescriptionText.visibility == View.GONE
             val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
             val lp = roomInfoChevron.layoutParams as RelativeLayout.LayoutParams

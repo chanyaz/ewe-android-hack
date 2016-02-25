@@ -20,14 +20,13 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.presenter.packages.TravelerPresenter
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.presenter.packages.TravelerPresenter
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-
 import com.expedia.vm.BaseCheckoutViewModel
 import com.expedia.vm.PaymentViewModel
 import com.mobiata.android.Log
@@ -328,6 +327,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 LineOfBusiness.HOTELSV2 -> HotelV2Tracking().trackHotelV2SlideToPurchase(paymentWidget.getCardType(), paymentWidget.viewmodel.splitsType.value)
                 LineOfBusiness.LX -> OmnitureTracking.trackAppLXCheckoutSlideToPurchase(cardType)
                 LineOfBusiness.CARS -> OmnitureTracking.trackAppCarCheckoutSlideToPurchase(cardType)
+                else -> {
+                    //we should never reach here justa dded to remove kotlin warning
+                }
             }
         }
     }

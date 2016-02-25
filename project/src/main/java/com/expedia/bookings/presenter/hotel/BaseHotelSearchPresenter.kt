@@ -13,10 +13,10 @@ public abstract class BaseHotelSearchPresenter(context: Context, attrs: Attribut
     open var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
     }
 
-    open fun animationStart(b: Boolean) {
+    open fun animationStart(forward: Boolean) {
     }
 
-    open fun animationUpdate(f: Float, b: Boolean) {
+    open fun animationUpdate(f: Float, forward: Boolean) {
     }
 
     open fun animationFinalize(forward: Boolean) {

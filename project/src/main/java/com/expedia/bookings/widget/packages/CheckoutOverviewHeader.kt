@@ -61,7 +61,7 @@ public class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : Fr
             var textColor: Int
             if (!mIsFallbackImage) {
                 // only apply gradient treatment to hotels with images #5647
-                val fullColorBuilder = ColorBuilder(resources.getColor(R.color.packages_primary_color))
+                val fullColorBuilder = ColorBuilder(ContextCompat.getColor(context, R.color.packages_primary_color))
                 val gradientColor = fullColorBuilder.setAlpha(154).build()
                 val colorArrayBottom = intArrayOf(gradientColor, gradientColor)
                 drawable.setGradient(colorArrayBottom, floatArrayOf(0f, 1f))

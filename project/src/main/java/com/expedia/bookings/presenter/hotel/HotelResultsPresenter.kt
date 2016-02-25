@@ -35,8 +35,8 @@ public class HotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe {
-            filterBtnWithCountWidget?.visibility = View.VISIBLE
-            filterBtnWithCountWidget?.translationY = 0f
+            filterBtnWithCountWidget.visibility = View.VISIBLE
+            filterBtnWithCountWidget.translationY = 0f
         }
         mapViewModel.mapInitializedObservable.subscribe{
             setMapToInitialState(viewmodel.paramsSubject.value?.suggestion)

@@ -58,9 +58,6 @@ import com.mobiata.android.util.AndroidUtils
 import rx.Observable
 import rx.Observer
 import java.util.ArrayList
-import kotlin.collections.emptyList
-import kotlin.collections.forEach
-import kotlin.collections.forEachIndexed
 import kotlin.properties.Delegates
 
 val DESCRIPTION_ANIMATION = 150L

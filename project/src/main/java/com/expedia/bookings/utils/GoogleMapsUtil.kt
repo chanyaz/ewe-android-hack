@@ -6,11 +6,11 @@ import android.content.pm.PackageManager
 import android.support.v4.content.ContextCompat
 import com.google.android.gms.maps.GoogleMap
 
-public object GoogleMapsUtil {
+object GoogleMapsUtil {
 
-    @JvmStatic public fun setMyLocationEnabled(context: Context, googleMap: GoogleMap, isMyLocationEnabled: Boolean) {
+    @JvmStatic fun setMyLocationEnabled(context: Context, googleMap: GoogleMap, isMyLocationEnabled: Boolean) {
         if (isLocationPermissionGranted(context)) {
-            googleMap?.isMyLocationEnabled = isMyLocationEnabled
+            googleMap.isMyLocationEnabled = isMyLocationEnabled
         }
     }
 

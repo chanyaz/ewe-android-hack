@@ -1,7 +1,6 @@
 package com.expedia.vm
 
 import android.content.res.Resources
-import android.util.Log
 import com.expedia.bookings.R
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.cars.ApiError
@@ -9,7 +8,6 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.tracking.HotelV2Tracking
-import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PayWithPointsErrorTrackingEnum
 import com.expedia.bookings.utils.NumberUtils
 import com.expedia.bookings.utils.Strings
@@ -33,16 +31,20 @@ public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentM
         when (apiError.errorCode) {
             ApiError.Code.POINTS_CONVERSION_UNAUTHENTICATED_ACCESS -> return pointsConversionUnauthenticatedAccess
             ApiError.Code.TRIP_SERVICE_ERROR -> return tripServiceError
+            else -> {
+                return pwpUnknownError
+            }
         }
-        return pwpUnknownError
     }
 
     private fun amountToPointsConversionAPIErrorTracking(apiError: ApiError): PayWithPointsErrorTrackingEnum {
         when (apiError.errorCode) {
             ApiError.Code.POINTS_CONVERSION_UNAUTHENTICATED_ACCESS -> return PayWithPointsErrorTrackingEnum.UNAUTHENTICATED_ACCESS
             ApiError.Code.TRIP_SERVICE_ERROR -> return PayWithPointsErrorTrackingEnum.TRIP_SERVICE_ERROR
+            else -> {
+                return PayWithPointsErrorTrackingEnum.UNKNOWN_ERROR
+            }
         }
-        return PayWithPointsErrorTrackingEnum.UNKNOWN_ERROR
     }
 
     private fun userEntersMoreThanAvailableBurnAmountMessage(amountForMaxPayableByPoints: String) = Phrase.from(resources, R.string.user_enters_more_than_available_points_TEMPLATE)

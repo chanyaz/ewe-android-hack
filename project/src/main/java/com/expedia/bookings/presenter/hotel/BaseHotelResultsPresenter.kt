@@ -1085,15 +1085,15 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         return set
     }
 
-    open fun updateFilterButtonText(forward: Boolean) {
+    open fun updateFilterButtonText(isResults: Boolean) {
         //
     }
 
-    open fun hideBundlePriceOverview(forward: Boolean) {
+    open fun hideBundlePriceOverview(hide: Boolean) {
         //
     }
 
-    open fun showMenuItem(forward: Boolean) {
+    open fun showMenuItem(isResults: Boolean) {
         //
     }
 
