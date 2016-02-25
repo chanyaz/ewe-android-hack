@@ -77,9 +77,9 @@
         <attr name="state_transparent" format="boolean" />
     </declare-styleable>
 
-    <!-- This allows us to pass a layout to the TelephoneSpinner that it can hand to the TelephoneSpinnerAdapter that defines the layout to use for view when it is not expanded -->
     <declare-styleable name="TelephoneSpinner">
         <attr name="text_view_layout" format="reference" />
+        <attr name="drop_down_view" format="reference"/>
     </declare-styleable>
 
     <!-- So that we can define different credit card icons for flights vs hotels -->

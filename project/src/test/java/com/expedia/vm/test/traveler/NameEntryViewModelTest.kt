@@ -132,8 +132,7 @@ class NameEntryViewModelTest {
 
     @Test
     fun validateAllNamesTriggersAllErrors() {
-        val EXPECTED_ERROR_COUNT = 3
-        var errorCount = 0
+        val expectedErrorCount = 3
         var traveler = Traveler()
         traveler.middleName = "@!$%"
         nameVM = NameEntryViewModel(traveler)
@@ -146,7 +145,7 @@ class NameEntryViewModelTest {
         val valid = nameVM.validate()
         assertFalse(valid)
         // All 3 must trigger for proper error states
-        testSubscriber.assertValueCount(3)
+        testSubscriber.assertValueCount(expectedErrorCount)
     }
 
     fun assertNamesEqual(expectedFirst: String, expectedMiddle: String, expectedLast: String) {

@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class NameEntryViewTest {
 	private final String testFirstName = "Oscar";
-	private final String testMiddleName = "The";
+	private final String testMiddleInitial = "T";
 	private final String testLastName = "Grouch";
 	private NameEntryView nameView;
 	@Rule
@@ -30,13 +30,8 @@ public class NameEntryViewTest {
 
 	@Before
 	public void setUp() {
-		nameView = (NameEntryView) LayoutInflater.from(activityTestRule.getActivity()).inflate(R.layout.name_entry_widget,
+		nameView = (NameEntryView) LayoutInflater.from(activityTestRule.getActivity()).inflate(R.layout.name_entry_view,
 			new NameEntryView(activityTestRule.getActivity(), null), true);
-
-		// Espresso will barf otherwise.
-		nameView.getFirstName().setHintAnimationEnabled(false);
-		nameView.getMiddleInitial().setHintAnimationEnabled(false);
-		nameView.getLastName().setHintAnimationEnabled(false);
 	}
 
 	@Test
@@ -44,13 +39,13 @@ public class NameEntryViewTest {
 		NameEntryViewModel testViewModel = new NameEntryViewModel(new Traveler());
 		nameView.setViewModel(testViewModel);
 
-		nameView.getFirstName().getEditText().setText(testFirstName);
+		nameView.getFirstName().setText(testFirstName);
 		assertEquals(testFirstName, testViewModel.getTraveler().getFirstName());
 
-		nameView.getMiddleInitial().getEditText().setText(testMiddleName);
-		assertEquals(testMiddleName, testViewModel.getTraveler().getMiddleName());
+		nameView.getMiddleInitial().setText(testMiddleInitial);
+		assertEquals(testMiddleInitial, testViewModel.getTraveler().getMiddleName());
 
-		nameView.getLastName().getEditText().setText(testLastName);
+		nameView.getLastName().setText(testLastName);
 		assertEquals(testLastName, testViewModel.getTraveler().getLastName());
 	}
 
@@ -58,13 +53,13 @@ public class NameEntryViewTest {
 	public void testTravelerPrePopulated() {
 		Traveler traveler = new Traveler();
 		traveler.setFirstName(testFirstName);
-		traveler.setMiddleName(testMiddleName);
+		traveler.setMiddleName(testMiddleInitial);
 		traveler.setLastName(testLastName);
 		nameView.setViewModel(new NameEntryViewModel(traveler));
 
-		assertEquals(testFirstName, nameView.getFirstName().getEditText().getText().toString());
-		assertEquals(testMiddleName, nameView.getMiddleInitial().getEditText().getText().toString());
-		assertEquals(testLastName, nameView.getLastName().getEditText().getText().toString());
+		assertEquals(testFirstName, nameView.getFirstName().getText().toString());
+		assertEquals(testMiddleInitial, nameView.getMiddleInitial().getText().toString());
+		assertEquals(testLastName, nameView.getLastName().getText().toString());
 	}
 
 	@Test
@@ -73,7 +68,7 @@ public class NameEntryViewTest {
 		nameView.setViewModel(testViewModel);
 
 		testViewModel.getFirstNameSubject().onNext(testFirstName);
-		assertEquals(testFirstName, nameView.getFirstName().getEditText().getText().toString());
+		assertEquals(testFirstName, nameView.getFirstName().getText().toString());
 	}
 
 	@Test
@@ -84,20 +79,33 @@ public class NameEntryViewTest {
 		testViewModel.getFirstNameErrorSubject().onNext(0);
 		testViewModel.getMiddleNameErrorSubject().onNext(0);
 		testViewModel.getLastNameErrorSubject().onNext(0);
-		assertEquals(nameView.getFirstName().getEditText().getCompoundDrawables()[2],
+		assertEquals(nameView.getFirstName().getCompoundDrawables()[2],
 			nameView.getFirstName().getErrorIcon());
-		assertEquals(nameView.getFirstName().getEditText().getCompoundDrawables()[2],
+		assertEquals(nameView.getFirstName().getCompoundDrawables()[2],
 			nameView.getFirstName().getErrorIcon());
-		assertEquals(nameView.getFirstName().getEditText().getCompoundDrawables()[2],
+		assertEquals(nameView.getFirstName().getCompoundDrawables()[2],
 			nameView.getFirstName().getErrorIcon());
 
-		nameView.getFirstName().getEditText().setText(testFirstName);
-		assertEquals(nameView.getFirstName().getEditText().getCompoundDrawables()[2], null);
+		nameView.getFirstName().setText(testFirstName);
+		assertEquals(nameView.getFirstName().getCompoundDrawables()[2], null);
 
-		nameView.getMiddleInitial().getEditText().setText(testMiddleName);
-		assertEquals(nameView.getMiddleInitial().getEditText().getCompoundDrawables()[2], null);
+		nameView.getMiddleInitial().setText(testMiddleInitial);
+		assertEquals(nameView.getMiddleInitial().getCompoundDrawables()[2], null);
 
-		nameView.getLastName().getEditText().setText(testLastName);
-		assertEquals(nameView.getLastName().getEditText().getCompoundDrawables()[2], null);
+		nameView.getLastName().setText(testLastName);
+		assertEquals(nameView.getLastName().getCompoundDrawables()[2], null);
+	}
+
+	@Test
+	public void testMiddleNameOnlyOneLetter() {
+		String invalidMiddleName = "The";
+		String initial = "T";
+		NameEntryViewModel testViewModel = new NameEntryViewModel(new Traveler());
+		nameView.setViewModel(testViewModel);
+
+		nameView.getMiddleInitial().setText(invalidMiddleName);
+		assertEquals("Only One Letter Allowed", initial, testViewModel.getTraveler().getMiddleName());
+
+		assertEquals("Only One LetterAllowed", initial, nameView.getMiddleInitial().getText().toString());
 	}
 }

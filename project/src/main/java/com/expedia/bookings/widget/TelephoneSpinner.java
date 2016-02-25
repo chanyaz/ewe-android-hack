@@ -26,13 +26,13 @@ public class TelephoneSpinner extends Spinner {
 		super(context, attrs);
 
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TelephoneSpinner);
-		int id = a.getResourceId(R.styleable.TelephoneSpinner_text_view_layout, -1);
-		if (id > 0) {
-			setAdapter(new TelephoneSpinnerAdapter(context, id));
-		}
-		else {
-			setAdapter(new TelephoneSpinnerAdapter(context));
-		}
+		int textLayout = a.getResourceId(R.styleable.TelephoneSpinner_text_view_layout,
+			R.layout.simple_spinner_item);
+		int dropDownView = a.getResourceId(R.styleable.TelephoneSpinner_drop_down_view,
+			R.layout.simple_spinner_dropdown_item);
+
+		setAdapter(new TelephoneSpinnerAdapter(context, textLayout, dropDownView));
+
 		a.recycle();
 		selectPOSCountry();
 	}

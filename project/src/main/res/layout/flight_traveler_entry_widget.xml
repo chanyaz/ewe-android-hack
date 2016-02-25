@@ -2,22 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="8dp"
-    android:paddingTop="8dp"
-    android:paddingRight="8dp"
-    android:paddingBottom="16dp"
+    android:padding="16dp"
     android:orientation="vertical"
     android:background="@drawable/card_background">
 
     <com.expedia.bookings.widget.traveler.NameEntryView
         android:id="@+id/name_entry_widget"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/traveler_input_bottom_margin"/>
 
     <com.expedia.bookings.widget.traveler.PhoneEntryView
         android:id="@+id/phone_entry_widget"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/traveler_input_bottom_margin"/>
 
     <com.expedia.bookings.widget.traveler.TSAEntryView
         android:id="@+id/tsa_entry_widget"
