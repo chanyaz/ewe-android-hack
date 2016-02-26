@@ -12,7 +12,7 @@ import kotlin.text.Regex
 import kotlin.text.contains
 
 // Mocks out various mobile Expedia APIs
-public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
+class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
 
     private var lastSignInEmail: String = ""
     private val travelAdRequests = hashMapOf<String, Int>()
@@ -327,7 +327,7 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
         return response
     }
 
-    public fun numOfTravelAdRequests(key: String): Int {
+    fun numOfTravelAdRequests(key: String): Int {
         return travelAdRequests.get(key) ?: 0
     }
 }

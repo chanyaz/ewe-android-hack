@@ -8,7 +8,7 @@ import com.expedia.bookings.data.Money
 import rx.Observable
 import rx.subjects.BehaviorSubject
 
-public class PriceChangeViewModel(context: Context) {
+class PriceChangeViewModel(context: Context) {
     val originalPackagePrice = BehaviorSubject.create<Money>()
     val packagePrice = BehaviorSubject.create<Money>()
 

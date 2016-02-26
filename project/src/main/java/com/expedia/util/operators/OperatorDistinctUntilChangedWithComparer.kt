@@ -3,7 +3,7 @@ package com.expedia.util.operators
 import rx.Observable
 import rx.Subscriber
 
-public class OperatorDistinctUntilChangedWithComparer<T>(val comparer: (T?, T?) -> Boolean) : Observable.Operator<T, T> {
+class OperatorDistinctUntilChangedWithComparer<T>(val comparer: (T?, T?) -> Boolean) : Observable.Operator<T, T> {
     override fun call(child: Subscriber<in T>): Subscriber<in T>? {
         return object : Subscriber<T>(child) {
             var previousKey: T? = null

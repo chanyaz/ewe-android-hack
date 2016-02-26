@@ -4,7 +4,7 @@ import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-public class RailViewModel() {
+class RailViewModel() {
 
     //Inputs
     val legOptionObservable = PublishSubject.create<RailSearchResponse.LegOption>()

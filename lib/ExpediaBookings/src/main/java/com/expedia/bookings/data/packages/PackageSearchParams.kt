@@ -81,44 +81,44 @@ public data class PackageSearchParams(val origin: SuggestionV4, val destination:
             return PackageSearchParams(flightOrigin, flightDestination, checkInDate, checkOutDate, adults, children, infantSeatingInLap)
         }
 
-        public fun areRequiredParamsFilled(): Boolean {
+        fun areRequiredParamsFilled(): Boolean {
             return hasOriginAndDestination() && hasStartAndEndDates()
         }
 
-        public fun hasStartAndEndDates(): Boolean {
+        fun hasStartAndEndDates(): Boolean {
             return checkIn != null && checkOut != null
         }
 
-        public fun hasOriginAndDestination(): Boolean {
+        fun hasOriginAndDestination(): Boolean {
             return hasOrigin() && hasDestination()
         }
 
-        public fun hasOrigin(): Boolean {
+        fun hasOrigin(): Boolean {
             return origin != null
         }
 
-        public fun hasDestination(): Boolean {
+        fun hasDestination(): Boolean {
             return destination != null
         }
 
-        public fun hasValidDates(): Boolean {
+        fun hasValidDates(): Boolean {
             return Days.daysBetween(checkIn, checkOut).days <= maxStay
         }
     }
 
-    public fun guests() : Int {
+    fun guests() : Int {
         return children.size + adults
     }
 
-    public fun isOutboundSearch() : Boolean {
+    fun isOutboundSearch() : Boolean {
         return packagePIID != null && selectedLegId == null
     }
 
-    public fun isChangePackageSearch() : Boolean {
+    fun isChangePackageSearch() : Boolean {
         return pageType == Constants.PACKAGE_CHANGE_HOTEL || pageType == Constants.PACKAGE_CHANGE_FLIGHT
     }
 
-    public fun toQueryMap(): Map<String, Any?> {
+    fun toQueryMap(): Map<String, Any?> {
         val params = HashMap<String, Any?>()
         params.put("pageType", pageType)
         params.put("originId", origin.gaiaId)

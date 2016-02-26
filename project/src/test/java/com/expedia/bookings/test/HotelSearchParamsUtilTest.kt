@@ -12,7 +12,7 @@ import org.robolectric.RuntimeEnvironment
 import java.util.ArrayList
 
 @RunWith(RobolectricRunner::class)
-public class HotelSearchParamsUtilTest {
+class HotelSearchParamsUtilTest {
     val context = RuntimeEnvironment.application
 
     @Test

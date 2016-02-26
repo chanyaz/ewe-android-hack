@@ -6,7 +6,7 @@ import com.expedia.bookings.widget.ExpandableCardView
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-public class CheckoutToolbarViewModel(val context: Context) {
+class CheckoutToolbarViewModel(val context: Context) {
 
     // inputs
     val toolbarTitle = PublishSubject.create<String>()

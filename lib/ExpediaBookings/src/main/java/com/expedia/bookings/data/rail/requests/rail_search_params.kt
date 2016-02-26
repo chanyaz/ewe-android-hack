@@ -51,15 +51,15 @@ public data class RailSearchRequest(val origin: SuggestionV4, val destination: S
             }
         }
 
-        public fun areRequiredParamsFilled(): Boolean {
+        fun areRequiredParamsFilled(): Boolean {
             return hasOriginAndDestination() && hasStartDate()
         }
 
-        public fun hasStartDate(): Boolean {
+        fun hasStartDate(): Boolean {
             return departDate != null
         }
 
-        public fun hasOriginAndDestination(): Boolean {
+        fun hasOriginAndDestination(): Boolean {
             return origin != null && destination != null
         }
     }

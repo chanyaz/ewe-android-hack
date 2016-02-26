@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-public class HotelResultsViewModelTest {
+class HotelResultsViewModelTest {
 
     val context = RuntimeEnvironment.application
     val mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()

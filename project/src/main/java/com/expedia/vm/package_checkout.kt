@@ -25,7 +25,7 @@ import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import kotlin.collections.firstOrNull
 
-public class PackageCreateTripViewModel(val packageServices: PackageServices) {
+class PackageCreateTripViewModel(val packageServices: PackageServices) {
 
     val tripParams = PublishSubject.create<PackageCreateTripParams>()
     val createTrip = PublishSubject.create<Unit>()
@@ -64,7 +64,7 @@ public class PackageCreateTripViewModel(val packageServices: PackageServices) {
     }
 }
 
-public class PackageCheckoutViewModel(val context: Context, val packageServices: PackageServices) {
+class PackageCheckoutViewModel(val context: Context, val packageServices: PackageServices) {
     val builder = PackageCheckoutParams.Builder()
 
     val tripResponseObservable = BehaviorSubject.create<PackageCreateTripResponse>()

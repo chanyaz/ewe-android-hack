@@ -17,7 +17,7 @@ import com.expedia.vm.traveler.NameEntryViewModel
 import com.expedia.vm.traveler.TSAEntryViewModel
 import rx.subjects.PublishSubject
 
-public class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
+class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
 
     var traveler: Traveler? = null
 

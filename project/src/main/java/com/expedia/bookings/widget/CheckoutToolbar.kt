@@ -16,7 +16,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.CheckoutToolbarViewModel
 import kotlin.properties.Delegates
 
-public class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, attrs), ToolbarListener {
+class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, attrs), ToolbarListener {
     var menuItem: MenuItem by Delegates.notNull()
     var currentEditText: EditText? = null
     var toolbarNavIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK);

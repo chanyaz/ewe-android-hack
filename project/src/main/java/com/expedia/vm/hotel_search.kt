@@ -171,7 +171,7 @@ class HotelSearchViewModel(val context: Context) {
 
 public data class HotelTravelerParams(val numberOfAdults: Int, val children: List<Int>)
 
-public class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreference: Boolean) {
+class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreference: Boolean) {
     private val MAX_GUESTS = 6
     private val MIN_ADULTS = 1
     private val MIN_CHILDREN = 0
@@ -258,7 +258,7 @@ public class HotelTravelerPickerViewModel(val context: Context, val showSeatingP
 
 }
 
-public class HotelErrorViewModel(private val context: Context) {
+class HotelErrorViewModel(private val context: Context) {
     // Inputs
     val apiErrorObserver = PublishSubject.create<ApiError>()
     val paramsSubject = PublishSubject.create<HotelSearchParams>()
@@ -455,7 +455,7 @@ public class HotelErrorViewModel(private val context: Context) {
     }
 }
 
-public class HotelDeepLinkHandler(private val context: Context, private val deepLinkSearchObserver: Observer<HotelSearchParams?>, private val suggestionLookupObserver: Observer<Pair<String, Observer<List<SuggestionV4>>>>, private val currentLocationSearchObserver: Observer<HotelSearchParams?>, private val defaultTransitionObserver: Observer<HotelActivity.Screen>, private val searchSuggestionObserver: Observer<SuggestionV4>) {
+class HotelDeepLinkHandler(private val context: Context, private val deepLinkSearchObserver: Observer<HotelSearchParams?>, private val suggestionLookupObserver: Observer<Pair<String, Observer<List<SuggestionV4>>>>, private val currentLocationSearchObserver: Observer<HotelSearchParams?>, private val defaultTransitionObserver: Observer<HotelActivity.Screen>, private val searchSuggestionObserver: Observer<SuggestionV4>) {
     fun handleNavigationViaDeepLink(hotelSearchParams: HotelSearchParams?) {
         if (hotelSearchParams != null) {
             val lat = hotelSearchParams.suggestion.coordinates?.lat ?: 0.0

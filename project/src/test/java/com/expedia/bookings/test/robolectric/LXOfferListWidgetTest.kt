@@ -25,19 +25,19 @@ import java.util.ArrayList
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
-public class LXOfferListWidgetTest {
+class LXOfferListWidgetTest {
     private var widget: LXOffersListWidget by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
 
     @Before
-    public fun before() {
+    fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_LX)
         widget = LayoutInflater.from(activity).inflate(R.layout.widget_lx_offer_list, null) as LXOffersListWidget
     }
 
     @Test
-    public fun testSetOffersBucketedForFirstOfferExpandedABTest() {
+    fun testSetOffersBucketedForFirstOfferExpandedABTest() {
         bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariate.BUCKETED)
         val offersList = setActivityOfferList()
         widget.sortTicketByPriorityAndOfferByPrice(offersList)
@@ -45,14 +45,14 @@ public class LXOfferListWidgetTest {
     }
 
     @Test
-    public fun testSetOffersControlledForFirstOfferExpandedABTest() {
+    fun testSetOffersControlledForFirstOfferExpandedABTest() {
         bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariate.CONTROL)
         val offersList = setActivityOfferList()
         assertFalse(offersList.get(0).isToggled)
     }
 
     @Test
-    public fun testFirstOfferExpandedBucketed() {
+    fun testFirstOfferExpandedBucketed() {
         bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariate.BUCKETED)
         setActivityOfferList()
 
@@ -68,7 +68,7 @@ public class LXOfferListWidgetTest {
     }
 
     @Test
-    public fun testFirstOfferCollapsed() {
+    fun testFirstOfferCollapsed() {
         bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariate.CONTROL)
         setActivityOfferList()
 
@@ -113,7 +113,7 @@ public class LXOfferListWidgetTest {
     }
 
     @Test
-    public fun testOffersSortedByPrice() {
+    fun testOffersSortedByPrice() {
         var offerList = setActivityOfferList()
         var availableOffers = ArrayList<Offer>()
 

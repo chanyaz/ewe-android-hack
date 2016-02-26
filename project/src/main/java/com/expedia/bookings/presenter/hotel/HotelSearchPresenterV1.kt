@@ -61,7 +61,7 @@ import org.joda.time.LocalDate
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-public class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelSearchPresenter(context, attrs) {
+class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelSearchPresenter(context, attrs) {
     val searchLocationTextView: TextView by bindView(R.id.hotel_location)
     val searchLocationEditText: EditText by bindView(R.id.hotel_location_autocomplete)
     val suggestionRecyclerView: RecyclerView by bindView(R.id.drop_down_list)
@@ -150,11 +150,11 @@ public class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : Bas
     }
 
     // Classes for state
-    public class HotelParamsDefault
+    class HotelParamsDefault
 
-    public class HotelParamsCalendar
+    class HotelParamsCalendar
 
-    public class HotelParamsSuggestion
+    class HotelParamsSuggestion
 
     override fun onFinishInflate() {
         addTransition(defaultToCal)

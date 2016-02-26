@@ -27,7 +27,7 @@ import rx.subjects.BehaviorSubject
 import java.util.Locale
 import javax.inject.Inject
 
-public class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     val currencySymbolView: TextView by bindView(R.id.currency_symbol_view)
     val editAmountView: EditText by bindView(R.id.edit_amount_view)
     val payWithPointsMessage: TextView by bindView(R.id.pay_with_points_view)

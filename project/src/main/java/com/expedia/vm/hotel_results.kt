@@ -39,7 +39,7 @@ import kotlin.collections.sortedBy
 import kotlin.collections.sortedByDescending
 import kotlin.properties.Delegates
 
-public class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?, private val lob: LineOfBusiness, private val clientLogBuilder: ClientLog.Builder?) {
+class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?, private val lob: LineOfBusiness, private val clientLogBuilder: ClientLog.Builder?) {
 
     // Inputs
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
@@ -127,7 +127,7 @@ public class HotelResultsViewModel(private val context: Context, private val hot
     }
 }
 
-public class HotelResultsPricingStructureHeaderViewModel(private val resources: Resources) {
+class HotelResultsPricingStructureHeaderViewModel(private val resources: Resources) {
     // Inputs
     val loadingStartedObserver = PublishSubject.create<Unit>()
     val resultsDeliveredObserver = PublishSubject.create<Pair<List<Hotel>, HotelRate.UserPriceType>>()

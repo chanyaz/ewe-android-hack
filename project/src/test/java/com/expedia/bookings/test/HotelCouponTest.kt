@@ -27,7 +27,7 @@ import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
-public class HotelCouponTest {
+class HotelCouponTest {
 
     public var service=ServicesRule<HotelServices>(HotelServices::class.java)
         @Rule get

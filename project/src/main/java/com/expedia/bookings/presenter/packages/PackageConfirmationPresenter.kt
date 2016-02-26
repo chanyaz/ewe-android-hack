@@ -8,7 +8,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 
-public class PackageConfirmationPresenter(context: Context, attributeSet: AttributeSet) : Presenter(context, attributeSet) {
+class PackageConfirmationPresenter(context: Context, attributeSet: AttributeSet) : Presenter(context, attributeSet) {
     val itinNumber: TextView by bindView(R.id.itin_number)
 
     init {

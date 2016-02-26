@@ -12,7 +12,7 @@ import android.view.View
 import android.widget.RatingBar
 import com.expedia.bookings.R
 
-public class BoxRatingBar(context: Context, attrs: AttributeSet) : RatingBar(context, attrs) {
+class BoxRatingBar(context: Context, attrs: AttributeSet) : RatingBar(context, attrs) {
     private val dividerWidth: Float
     private val cornerRadius: Float
     private val enabledPaint = Paint()

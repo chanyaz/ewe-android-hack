@@ -6,7 +6,7 @@ import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.HotelTestCase
 
-public class HotelNonMerchantTest: HotelTestCase() {
+class HotelNonMerchantTest: HotelTestCase() {
 
     fun testNonMerchantHotel() {
         HotelScreen.doGenericSearch()

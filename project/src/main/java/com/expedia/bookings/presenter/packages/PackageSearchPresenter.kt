@@ -43,7 +43,7 @@ import org.joda.time.LocalDate
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(getContext()).packageComponent().suggestionsService()
@@ -358,7 +358,7 @@ public class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Pre
     }
 
     // Classes for state
-    public class PackageParamsDefault
+    class PackageParamsDefault
 
-    public class PackageParamsCalendar
+    class PackageParamsCalendar
 }

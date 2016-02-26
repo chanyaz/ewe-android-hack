@@ -11,7 +11,7 @@ import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import java.lang.reflect.Type
 
-public class LocalDateTypeAdapter(val pattern: String) : JsonSerializer<LocalDate>, JsonDeserializer<LocalDate> {
+class LocalDateTypeAdapter(val pattern: String) : JsonSerializer<LocalDate>, JsonDeserializer<LocalDate> {
 
     val fmt = DateTimeFormat.forPattern(pattern)
 

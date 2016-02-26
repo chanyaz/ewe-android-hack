@@ -34,7 +34,7 @@ import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
-public class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val viewModel: HotelCheckoutSummaryViewModel) : LinearLayout(context, attrs) {
+class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val viewModel: HotelCheckoutSummaryViewModel) : LinearLayout(context, attrs) {
 
     val PICASSO_HOTEL_IMAGE = "HOTEL_CHECKOUT_IMAGE"
 

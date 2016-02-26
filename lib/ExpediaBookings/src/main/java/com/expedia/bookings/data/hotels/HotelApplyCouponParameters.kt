@@ -3,7 +3,7 @@ package com.expedia.bookings.data.hotels
 import com.expedia.bookings.data.payment.UserPreferencePointsDetails
 import java.util.HashMap
 
-public class HotelApplyCouponParameters(val tripId: String, val couponCode: String,
+class HotelApplyCouponParameters(val tripId: String, val couponCode: String,
                                 val isFromNotSignedInToSignedIn: Boolean,
                                 val userPreferencePointsDetails: List<UserPreferencePointsDetails>) {
 

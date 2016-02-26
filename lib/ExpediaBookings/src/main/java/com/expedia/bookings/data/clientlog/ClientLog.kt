@@ -3,7 +3,7 @@ package com.expedia.bookings.data.clientlog
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 
-public class ClientLog(val pageName: String?, val requestTime: String?, val responseTime: String?, val processingTime: String?, val requestToUser: String?) {
+class ClientLog(val pageName: String?, val requestTime: String?, val responseTime: String?, val processingTime: String?, val requestToUser: String?) {
 
     class Builder() {
         val dtf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")

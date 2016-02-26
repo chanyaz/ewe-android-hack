@@ -14,7 +14,7 @@ import rx.Observer
 import rx.observers.TestObserver
 
 @RunWith(RobolectricRunner::class)
-public class HotelDeepLinkHandlerTest {
+class HotelDeepLinkHandlerTest {
 
     lateinit var testDeepLinkSearchObserver: TestObserver<HotelSearchParams?>
     lateinit var testSuggestionLookupObserver: TestObserver<Pair<String, Observer<List<SuggestionV4>>>>

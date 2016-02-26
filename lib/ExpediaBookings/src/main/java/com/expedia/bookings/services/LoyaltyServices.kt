@@ -12,7 +12,7 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
-public class LoyaltyServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
+class LoyaltyServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
     val loyaltyApi: LoyaltyApi by lazy {
         val gson = GsonBuilder().create()

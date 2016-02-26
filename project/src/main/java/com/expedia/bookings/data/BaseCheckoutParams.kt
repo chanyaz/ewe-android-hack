@@ -40,11 +40,11 @@ public data class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers
             return BaseCheckoutParams(billingInfo, travelers, cvv)
         }
 
-        public fun hasValidTravelerAndBillingInfo(): Boolean {
+        fun hasValidTravelerAndBillingInfo(): Boolean {
             return travelers.isNotEmpty() && billingInfo != null
         }
 
-        public fun hasValidParams(): Boolean {
+        fun hasValidParams(): Boolean {
             return travelers.isNotEmpty() &&
                     billingInfo != null &&
                     !cvv.isNullOrEmpty()

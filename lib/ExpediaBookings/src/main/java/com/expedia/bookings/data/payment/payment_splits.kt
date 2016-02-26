@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.payment
 
-public class PaymentSplits(
+class PaymentSplits(
         val payingWithPoints: PointsAndCurrency,
         val payingWithCards: PointsAndCurrency
 ) {

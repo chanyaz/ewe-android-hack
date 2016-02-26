@@ -10,7 +10,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 
-public class VIPAccessInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class VIPAccessInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val container: ViewGroup by bindView(R.id.container)
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }

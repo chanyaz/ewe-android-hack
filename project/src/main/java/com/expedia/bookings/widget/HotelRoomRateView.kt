@@ -43,7 +43,7 @@ import rx.Observable
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-public class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(context) {
+class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(context) {
 
     private val ANIMATION_DURATION = 250L
 

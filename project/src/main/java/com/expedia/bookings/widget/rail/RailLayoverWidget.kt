@@ -13,7 +13,7 @@ public open class RailLayoverWidget(context: Context, attrs: AttributeSet?) : Ba
 
     var railSegmentList: ArrayList<RailSearchResponse.RailSegment> = ArrayList()
 
-    public fun update(railSegments: List<RailSearchResponse.RailSegment>, legDurationHours: Int, legDurationMinutes: Int,
+    fun update(railSegments: List<RailSearchResponse.RailSegment>, legDurationHours: Int, legDurationMinutes: Int,
                       longestLegDuration: Int) {
         if (railSegmentList.isNotEmpty()) {
             railSegmentList.clear()

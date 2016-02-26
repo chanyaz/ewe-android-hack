@@ -18,7 +18,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.BundlePriceViewModel
 import com.expedia.vm.PackageBreakdownViewModel
 
-public class PackageBundlePriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+class PackageBundlePriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     val bundleChevron: ImageView by bindView(R.id.bundle_chevron)
     val bundleTotalPrice: TextView by bindView(R.id.bundle_total_price)

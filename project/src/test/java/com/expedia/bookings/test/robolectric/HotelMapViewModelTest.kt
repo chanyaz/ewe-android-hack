@@ -14,7 +14,7 @@ import rx.subjects.PublishSubject
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-public class HotelMapViewModelTest {
+class HotelMapViewModelTest {
 
     public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get

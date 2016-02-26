@@ -27,7 +27,7 @@ import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import kotlin.properties.Delegates
 
-public class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     val ANIMATION_DURATION = 400
     val toolbar: Toolbar by bindView(R.id.flights_toolbar)

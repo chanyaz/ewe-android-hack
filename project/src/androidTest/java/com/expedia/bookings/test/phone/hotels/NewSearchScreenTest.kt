@@ -18,7 +18,7 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.HotelSearchViewModel
 import org.joda.time.LocalDate
 
-public class NewSearchScreenTest : HotelTestCase() {
+class NewSearchScreenTest : HotelTestCase() {
 
     @Throws(Throwable::class)
     override fun runTest() {

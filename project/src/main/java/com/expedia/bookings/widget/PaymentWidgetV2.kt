@@ -17,7 +17,7 @@ import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel
 import javax.inject.Inject
 
-public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
+class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
     val remainingBalance: TextView by bindView(R.id.remaining_balance)
     val totalDueToday: TextView by bindView(R.id.total_due_today)
 

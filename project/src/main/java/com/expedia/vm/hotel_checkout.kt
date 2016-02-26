@@ -35,7 +35,7 @@ import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.text.NumberFormat
 
-open public class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
+open class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
 
     // inputs
     val checkoutParams = PublishSubject.create<HotelCheckoutV2Params>()

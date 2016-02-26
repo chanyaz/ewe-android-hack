@@ -10,7 +10,7 @@ import com.expedia.util.subscribeRating
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.HotelReviewRowViewModel
 
-public class HotelReviewRowView(context: Context) : LinearLayout(context) {
+class HotelReviewRowView(context: Context) : LinearLayout(context) {
 
     val title: TextView by bindView(R.id.review_title)
     val ratingBar: RatingBar by bindView(R.id.user_rating_bar)

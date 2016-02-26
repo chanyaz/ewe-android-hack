@@ -33,7 +33,7 @@ import rx.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-public class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(context, attrs) {
+class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(context, attrs) {
 
     val unexpanded: TextView by bindView(R.id.unexpanded)
     val expanded: LinearLayout by bindView(R.id.expanded)

@@ -1,6 +1,6 @@
 package com.expedia.bookings.data.hotels
 
-public class HotelReviewsParams(val hotelId: String, val sortBy: String, val pageNumber: Int, val numReviewsPerPage: Int, val languageSort: String) {
+class HotelReviewsParams(val hotelId: String, val sortBy: String, val pageNumber: Int, val numReviewsPerPage: Int, val languageSort: String) {
 
     class Builder {
         private var hotelId: String? = null

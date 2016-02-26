@@ -20,7 +20,7 @@ import com.expedia.vm.HotelReviewsAdapterViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import kotlin.properties.Delegates
 
-public class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     val hotelReviewsToolbar: HotelReviewsToolbar by bindView(R.id.hotel_reviews_toolbar)
     val viewPager: ViewPager by bindView(R.id.viewpager)

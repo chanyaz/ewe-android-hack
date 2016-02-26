@@ -43,7 +43,7 @@ import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-public class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     lateinit var packageServices: PackageServices
         @Inject set
 

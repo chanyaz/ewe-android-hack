@@ -14,7 +14,7 @@ import com.squareup.otto.Subscribe
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
-public class LXCategoryResultsWidget(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) {
+class LXCategoryResultsWidget(context: Context, attrs: AttributeSet): FrameLayout(context, attrs) {
 
     val recyclerView: RecyclerView by bindView(R.id.lx_category_list)
     val errorScreen: LXErrorWidget by bindView(R.id.category_error_widget)
@@ -40,7 +40,7 @@ public class LXCategoryResultsWidget(context: Context, attrs: AttributeSet): Fra
         errorScreen.setToolbarVisibility(View.GONE)
     }
 
-    public fun bind(categories: List<LXCategoryMetadata>, imageCode: String?) {
+    fun bind(categories: List<LXCategoryMetadata>, imageCode: String?) {
         recyclerView.setVisibility(View.VISIBLE)
         recyclerView.layoutManager.scrollToPosition(0)
         errorScreen.setVisibility(View.GONE)
@@ -59,14 +59,14 @@ public class LXCategoryResultsWidget(context: Context, attrs: AttributeSet): Fra
     }
 
     @Subscribe
-    public fun onLXSearchError(event: Events.LXShowSearchError) {
+    fun onLXSearchError(event: Events.LXShowSearchError) {
         recyclerView.setVisibility(View.GONE)
         errorScreen.bind(event.error, event.searchType)
         errorScreen.setVisibility(View.VISIBLE)
     }
 
     @Subscribe
-    public fun onLXShowLoadingAnimation(event: Events.LXShowLoadingAnimation) {
+    fun onLXShowLoadingAnimation(event: Events.LXShowLoadingAnimation) {
         recyclerView.setVisibility(View.VISIBLE)
         errorScreen.setVisibility(View.GONE)
         val elements = createDummyListForAnimation()

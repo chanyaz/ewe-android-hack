@@ -9,7 +9,7 @@ import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.Ui
 
-public class HotelDetailsGalleryImageView(context: Context, attrs: AttributeSet) : ImageView(context, attrs) {
+class HotelDetailsGalleryImageView(context: Context, attrs: AttributeSet) : ImageView(context, attrs) {
 
     private var actualHeight = context.resources.getDimensionPixelSize(R.dimen.car_details_image_size)
 

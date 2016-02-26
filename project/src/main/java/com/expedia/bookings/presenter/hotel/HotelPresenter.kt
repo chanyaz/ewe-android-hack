@@ -64,7 +64,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-public class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     lateinit var hotelServices: HotelServices
         @Inject set

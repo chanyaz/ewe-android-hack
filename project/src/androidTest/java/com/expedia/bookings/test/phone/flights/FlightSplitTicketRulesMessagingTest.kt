@@ -16,7 +16,7 @@ import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsSc
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen
 import org.joda.time.LocalDate
 
-public class FlightSplitTicketRulesTest : FlightTestCase() {
+class FlightSplitTicketRulesTest : FlightTestCase() {
 
     fun testRulesAndRestrictions() {
         FlightsSearchScreen.enterDepartureAirport("SFO")

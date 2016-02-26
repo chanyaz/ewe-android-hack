@@ -17,7 +17,7 @@ import com.expedia.vm.FlightOverviewViewModel
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
 
-public class PackageFlightOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class PackageFlightOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     val bundlePriceTextView: TextView by bindView(R.id.bundle_price)
     val selectFlightButton: Button by bindView(R.id.select_flight_button)

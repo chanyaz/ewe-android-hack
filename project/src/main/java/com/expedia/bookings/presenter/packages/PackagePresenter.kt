@@ -21,7 +21,7 @@ import com.squareup.phrase.Phrase
 import java.math.BigDecimal
 import javax.inject.Inject
 
-public class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     lateinit var packageServices: PackageServices
         @Inject set
 

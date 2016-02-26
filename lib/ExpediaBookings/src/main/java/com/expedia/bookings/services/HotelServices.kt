@@ -25,7 +25,7 @@ import rx.Observer
 import rx.Scheduler
 import rx.Subscription
 
-public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
+class HotelServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
 	val hotelApi: HotelApi by lazy {
 		val gson = GsonBuilder()
@@ -43,7 +43,7 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 		adapter.create(HotelApi::class.java)
 	}
 
-	public fun nearbyHotels(params: NearbyHotelParams, observer: Observer<MutableList<Hotel>>): Subscription {
+	fun nearbyHotels(params: NearbyHotelParams, observer: Observer<MutableList<Hotel>>): Subscription {
 		return hotelApi.nearbyHotelSearch(params.latitude, params.longitude, params.guestCount, params.checkInDate,
 			params.checkOutDate, params.sortOrder, params.filterUnavailable)
 			.observeOn(observeOn)
@@ -52,7 +52,7 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 			.subscribe(observer)
 	}
 
-	public fun regionSearch(params: HotelSearchParams, clientLogBuilder: ClientLog.Builder?): Observable<HotelSearchResponse> {
+	fun regionSearch(params: HotelSearchParams, clientLogBuilder: ClientLog.Builder?): Observable<HotelSearchResponse> {
 		clientLogBuilder?.requestTime(DateTime.now())
 		return hotelApi.search(params.suggestion.gaiaId, params.suggestion.coordinates.lat, params.suggestion.coordinates.lng,
 				params.checkIn.toString(), params.checkOut.toString(), params.guestString)
@@ -85,7 +85,7 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 				}
 	}
 
-    public fun offers(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
+    fun offers(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
         return hotelApi.offers(hotelSearchParams.checkIn.toString(), hotelSearchParams.checkOut.toString(), hotelSearchParams.guestString, hotelId)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
@@ -104,7 +104,7 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
                 .subscribe(observer)
     }
 
-    public fun info(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
+    fun info(hotelSearchParams: HotelSearchParams, hotelId: String, observer: Observer<HotelOffersResponse>): Subscription {
         val yyyyMMddDateTimeFormat = DateTimeFormat.forPattern("yyyy-MM-dd")
 
         return hotelApi.info(hotelId).doOnNext {
@@ -116,7 +116,7 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
                 .subscribe(observer)
     }
 
-	public fun createTrip(body: HotelCreateTripParams, observer: Observer<HotelCreateTripResponse>): Subscription {
+	fun createTrip(body: HotelCreateTripParams, observer: Observer<HotelCreateTripResponse>): Subscription {
 		return hotelApi.createTrip(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
@@ -124,21 +124,21 @@ public class HotelServices(endpoint: String, okHttpClient: OkHttpClient, request
 				.subscribe(observer)
 	}
 
-	public fun applyCoupon(body: HotelApplyCouponParameters): Observable<HotelCreateTripResponse> {
+	fun applyCoupon(body: HotelApplyCouponParameters): Observable<HotelCreateTripResponse> {
 		return hotelApi.applyCoupon(body.toQueryMap())
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.doOnNext { updatePayLaterRateInfo(it) }
 	}
 
-	public fun removeCoupon(tripId: String): Observable<HotelCreateTripResponse> {
+	fun removeCoupon(tripId: String): Observable<HotelCreateTripResponse> {
 		return hotelApi.removeCoupon(tripId)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.doOnNext { updatePayLaterRateInfo(it) }
 	}
 
-	public fun checkout(params: HotelCheckoutV2Params, observer: Observer<HotelCheckoutResponse>): Subscription {
+	fun checkout(params: HotelCheckoutV2Params, observer: Observer<HotelCheckoutResponse>): Subscription {
 		return hotelApi.checkout(params)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)

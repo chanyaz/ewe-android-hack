@@ -14,7 +14,7 @@ import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
-public class HotelSearchTest {
+class HotelSearchTest {
     public var vm: HotelSearchViewModel by Delegates.notNull()
     private var LOTS_MORE: Long = 100
     var activity : Activity by Delegates.notNull()

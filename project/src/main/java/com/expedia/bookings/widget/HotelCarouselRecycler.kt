@@ -9,7 +9,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.mobiata.android.util.AndroidUtils
 import rx.subjects.PublishSubject
 
-public class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
+class HotelCarouselRecycler(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
 
     val mapSubject = PublishSubject.create<Hotel>()
 

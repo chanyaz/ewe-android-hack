@@ -22,7 +22,7 @@ import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.*
 import com.expedia.vm.BundleHotelViewModel
 
-public class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
+class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
 
     val hotelLoadingBar: ImageView by bindView(R.id.hotel_loading_bar)
     val hotelInfoContainer: ViewGroup by bindView(R.id.hotel_info_container)
@@ -122,7 +122,7 @@ public class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : 
         AnimUtils.rotate(hotelDetailsIcon)
     }
 
-    public fun collapseSelectedHotel() {
+    fun collapseSelectedHotel() {
         hotelCity.visibility = Presenter.GONE
         hotelRoomImage.visibility = Presenter.GONE
         hotelRoomInfo.visibility = Presenter.GONE
@@ -133,7 +133,7 @@ public class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : 
         hotelDetailsIcon.clearAnimation()
     }
 
-    public fun backButtonPressed() {
+    fun backButtonPressed() {
         if (hotelRoomImage.visibility == Presenter.VISIBLE) {
             collapseSelectedHotel()
         }

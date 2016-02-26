@@ -27,7 +27,7 @@ import com.expedia.vm.BundleFlightViewModel
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
 
-public class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
+class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
     val flightLoadingBar: ImageView by bindView(R.id.flight_loading_bar)
     val flightInfoContainer: ViewGroup by bindView(R.id.flight_info_container)
     val flightCardText: TextView by bindView(R.id.flight_card_view_text)
@@ -134,7 +134,7 @@ public class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) :
         return flightDetailsContainer.visibility == Presenter.VISIBLE
     }
 
-    public fun backButtonPressed() {
+    fun backButtonPressed() {
         if (isFlightSegmentDetailsExpanded()) {
             collapseFlightDetails()
         }

@@ -13,7 +13,7 @@ import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
 import com.squareup.phrase.Phrase
 
-public class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : ScrollView(context, attrs) {
+class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : ScrollView(context, attrs) {
     val linearLayout: LinearLayout by bindView(R.id.breakdown_container)
 
     var viewmodel: FlightSegmentBreakdownViewModel by notNullAndObservable { vm ->

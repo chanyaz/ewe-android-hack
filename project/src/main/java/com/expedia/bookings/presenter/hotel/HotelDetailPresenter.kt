@@ -20,7 +20,7 @@ import com.expedia.bookings.widget.DepositTermsInfoWidget
 import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.GoogleMap
 
-public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     val hotelDetailView: HotelDetailView by bindView(R.id.hotel_detail)
     val hotelRenovationDesc: SpecialNoticeWidget by bindView(R.id.hotel_detail_desc)
@@ -60,7 +60,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         }
     }
 
-    public fun showDefault() {
+    fun showDefault() {
         show(hotelDetailView)
     }
 
@@ -134,7 +134,7 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         show(hotelVIPAccessInfo)
     }
 
-    public fun animationStart(): Float {
+    fun animationStart(): Float {
         searchTop = hotelDetailView.hotelDetailsToolbar.toolbarTitle.top
         hotelDetailView.hotelDetailsToolbar.visibility = View.VISIBLE
         hotelDetailView.hotelDetailsToolbar.toolbarTitle.translationY = searchTop.toFloat()
@@ -142,13 +142,13 @@ public class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Prese
         return hotelDetailView.hotelDetailsToolbar.alpha
     }
 
-    public fun animationUpdate(f: Float, forward: Boolean) {
+    fun animationUpdate(f: Float, forward: Boolean) {
         val yTrans = if (forward) -(searchTop * -f) else (searchTop * (1 - f))
         hotelDetailView.hotelDetailsToolbar.toolbarTitle.translationY = yTrans
         hotelDetailView.hotelDetailsToolbar.toolBarRating.translationY = yTrans
     }
 
-    public fun animationFinalize() {
+    fun animationFinalize() {
         hotelDetailView.hotelDetailsToolbar.visibility = View.VISIBLE
         hotelDetailView.hotelDetailsToolbar.visibility = View.VISIBLE
         hotelDetailView.hotelDetailsToolbar.toolbarTitle.translationY = 0f

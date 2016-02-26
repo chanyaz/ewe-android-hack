@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import com.expedia.bookings.R
 
-public class DialogFactory {
+class DialogFactory {
 
     companion object {
         fun showNoInternetRetryDialog(context: Context, retryFun:() -> Unit, cancelFun:() -> Unit) {

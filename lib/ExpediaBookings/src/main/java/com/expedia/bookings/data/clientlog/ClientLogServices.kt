@@ -10,11 +10,10 @@ import retrofit.RequestInterceptor
 import retrofit.RestAdapter
 import retrofit.client.OkClient
 import retrofit.converter.GsonConverter
-import rx.Observable
 import rx.Observer
 import rx.Scheduler
 
-public class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
+class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
 	val clientLogApi: ClientLogApi by lazy {
 		val gson = GsonBuilder()
@@ -32,7 +31,7 @@ public class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, req
 		adapter.create(ClientLogApi::class.java)
 	}
 
-	public fun log(clientLog: ClientLog) {
+	fun log(clientLog: ClientLog) {
 		clientLogApi.log(clientLog.pageName, clientLog.requestTime, clientLog.responseTime, clientLog.processingTime, clientLog.requestToUser)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)

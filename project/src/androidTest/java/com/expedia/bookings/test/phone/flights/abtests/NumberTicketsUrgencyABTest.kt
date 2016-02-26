@@ -11,7 +11,7 @@ import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen
 import org.joda.time.LocalDate
 import org.junit.Test
 
-public class NumberTicketsUrgencyABTest : FlightTestCase() {
+class NumberTicketsUrgencyABTest : FlightTestCase() {
 
     override fun runTest() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightsNumberOfTicketsUrgencyTest, AbacusUtils.DefaultVariate.BUCKETED.ordinal)

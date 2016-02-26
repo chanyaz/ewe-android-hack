@@ -23,7 +23,7 @@ import java.io.IOException
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-public class HotelCheckoutViewModelTests {
+class HotelCheckoutViewModelTests {
 
     var mockHotelTestServiceRule = MockHotelServiceTestRule()
         @Rule get

@@ -10,7 +10,7 @@ import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-public class RailResultsViewModel(private val railServices: RailServices?) {
+class RailResultsViewModel(private val railServices: RailServices?) {
     // Inputs
     val paramsSubject = BehaviorSubject.create<RailSearchRequest>()
 

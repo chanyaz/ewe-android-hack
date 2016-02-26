@@ -16,7 +16,7 @@ import rx.Subscription
 import java.util.Collections
 import java.util.Comparator
 
-public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, val requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
+class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, val requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
     val suggestApi: SuggestApi by lazy {
         val gson = GsonBuilder().registerTypeAdapter(SuggestionResponse::class.java, SuggestionResponse()).create()
@@ -34,7 +34,7 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
 
     private val MAX_NEARBY_SUGGESTIONS = 3
 
-    public fun getCarSuggestions(query: String, locale: String, client: String, observer: Observer<MutableList<SuggestionV4>>): Subscription {
+    fun getCarSuggestions(query: String, locale: String, client: String, observer: Observer<MutableList<SuggestionV4>>): Subscription {
         val type = getTypeForCarSuggestions()
         val lob = "CARS";
         val features = "cars_rental"
@@ -43,7 +43,7 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
                 .subscribe(observer);
     }
 
-    public fun getNearbyCarSuggestions(locale: String, latlng: String, siteId: Int, client: String, observer: Observer<MutableList<SuggestionV4>>): Subscription {
+    fun getNearbyCarSuggestions(locale: String, latlng: String, siteId: Int, client: String, observer: Observer<MutableList<SuggestionV4>>): Subscription {
         val type = getTypeForCarSuggestions()
         val sort = "p"
         var lob = "CARS"
@@ -77,7 +77,7 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
         })
     }
 
-    public fun getLxSuggestions(query: String, locale: String, client: String, observer: Observer<MutableList<SuggestionV4>>): Subscription {
+    fun getLxSuggestions(query: String, locale: String, client: String, observer: Observer<MutableList<SuggestionV4>>): Subscription {
         val type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD
         val lob = "ACTIVITIES"
         val features = "ta_hierarchy"
@@ -91,13 +91,13 @@ public class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, va
                 .map { response -> response.suggestions}
     }
 
-    public fun getNearbyLxSuggestions(locale: String, latlng: String, siteId: Int, client: String, observer: Observer<MutableList<SuggestionV4>>): Subscription {
+    fun getNearbyLxSuggestions(locale: String, latlng: String, siteId: Int, client: String, observer: Observer<MutableList<SuggestionV4>>): Subscription {
         return getNearbyLxSuggestions(locale, latlng, siteId, client)
                 .doOnNext { list -> renameFirstResultIdToCurrentLocation(list) }
                 .subscribe(observer)
     }
 
-    public fun getNearbyLxSuggestions(locale: String, latlng: String, siteId: Int, client: String): Observable<MutableList<SuggestionV4>> {
+    fun getNearbyLxSuggestions(locale: String, latlng: String, siteId: Int, client: String): Observable<MutableList<SuggestionV4>> {
         val type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD
         val sort = "d"
         val lob = "ACTIVITIES"

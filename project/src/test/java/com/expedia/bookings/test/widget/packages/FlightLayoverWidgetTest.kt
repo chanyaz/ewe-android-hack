@@ -18,7 +18,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
-public class FlightLayoverWidgetTest {
+class FlightLayoverWidgetTest {
     var testWidget: TestFlightLayoverWidget by Delegates.notNull()
 
     val SEGMENT_DURATION = 5

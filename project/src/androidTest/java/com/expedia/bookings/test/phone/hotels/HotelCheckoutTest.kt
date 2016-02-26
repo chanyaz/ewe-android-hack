@@ -14,7 +14,7 @@ import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
 import org.junit.Assert
 
-public class HotelCheckoutTest: HotelTestCase() {
+class HotelCheckoutTest: HotelTestCase() {
 
     fun testCardNumberClearedAfterCreateTrip() {
         HotelScreen.doGenericSearch()

@@ -8,7 +8,7 @@ import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-public class NameEntryViewModel(var traveler: Traveler): InvalidCharacterHelper.InvalidCharacterListener {
+class NameEntryViewModel(var traveler: Traveler): InvalidCharacterHelper.InvalidCharacterListener {
     val firstNameSubject = BehaviorSubject.create<String>()
     val middleNameSubject = BehaviorSubject.create<String>()
     val lastNameSubject = BehaviorSubject.create<String>()
@@ -33,7 +33,7 @@ public class NameEntryViewModel(var traveler: Traveler): InvalidCharacterHelper.
         lastNameSubject.onNext(if (traveler.lastName.isNullOrEmpty()) "" else traveler.lastName)
     }
 
-    public fun validate(): Boolean {
+    fun validate(): Boolean {
         val firstNameValid = validateName(traveler.firstName, firstNameErrorSubject, true)
         val middleNameValid = validateName(traveler.middleName, middleNameErrorSubject, false)
         val lastNameValid = validateName(traveler.lastName, lastNameErrorSubject, true)

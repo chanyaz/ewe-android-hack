@@ -6,7 +6,7 @@ import com.squareup.okhttp.mockwebserver.RecordedRequest
 import org.joda.time.DateTime
 import java.util.regex.Pattern
 
-public class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
+class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
     override fun dispatch(request: RecordedRequest): MockResponse {
         val urlPath = request.path

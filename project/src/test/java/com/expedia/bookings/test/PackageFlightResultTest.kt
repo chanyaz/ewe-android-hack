@@ -19,7 +19,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-public class PackageFlightResultTest {
+class PackageFlightResultTest {
     var vm: PackageFlightViewModel by Delegates.notNull()
     var flight: FlightLeg by Delegates.notNull()
     val context = RuntimeEnvironment.application

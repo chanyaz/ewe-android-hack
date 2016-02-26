@@ -25,7 +25,7 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricRunner::class)
-public class HotelCheckoutOverviewViewModelTest {
+class HotelCheckoutOverviewViewModelTest {
 
     val mockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get

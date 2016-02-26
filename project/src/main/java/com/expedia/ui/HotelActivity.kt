@@ -20,7 +20,7 @@ import com.expedia.vm.HotelTravelerParams
 import com.google.android.gms.maps.MapView
 import rx.Observer
 
-public class HotelActivity : AbstractAppCompatActivity() {
+class HotelActivity : AbstractAppCompatActivity() {
 
     companion object {
         const val EXTRA_HOTEL_SEARCH_PARAMS = "hotelSearchParams"

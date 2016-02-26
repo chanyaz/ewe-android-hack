@@ -17,7 +17,7 @@ import rx.Observer
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-public class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     lateinit var railServices: RailServices
         @Inject set

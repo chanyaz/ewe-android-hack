@@ -21,7 +21,7 @@ import com.google.android.gms.wallet.WalletConstants
 import java.math.BigDecimal
 import kotlin.properties.Delegates
 
-public class GoogleWalletActivity : AppCompatActivity() {
+class GoogleWalletActivity : AppCompatActivity() {
     public val REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET: Int = 1001
     public val REQUEST_CODE_RESOLVE_LOAD_FULL_WALLET: Int = 1003
     var googleApiClient: GoogleApiClient by Delegates.notNull()

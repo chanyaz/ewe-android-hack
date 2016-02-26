@@ -11,7 +11,7 @@ import com.expedia.vm.PackageCreateTripViewModel
 import com.squareup.otto.Subscribe
 import com.squareup.phrase.Phrase
 
-public class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
+class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
 
     var packageCheckoutViewModel: PackageCheckoutViewModel by notNullAndObservable { vm ->
         viewModel.checkoutInfoCompleted.subscribe(vm.baseParams)

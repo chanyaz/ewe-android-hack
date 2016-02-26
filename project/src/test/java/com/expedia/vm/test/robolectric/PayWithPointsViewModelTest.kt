@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
-public class PayWithPointsViewModelTest {
+class PayWithPointsViewModelTest {
     public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
@@ -75,7 +75,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun testSubscribersAfterCreateTrip() {
+    fun testSubscribersAfterCreateTrip() {
         totalPointsAndAmountAvailableToRedeemTestSubscriber.assertNoErrors()
         totalPointsAndAmountAvailableToRedeemTestSubscriber.assertValue("$100.00 available (1,000 Expedia+ points)")
 
@@ -90,7 +90,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun userEntersBlankEditBoxAndSubmit() {
+    fun userEntersBlankEditBoxAndSubmit() {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("")
 
         pointsAppliedMessageTestSubscriber.assertNoErrors()
@@ -98,7 +98,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun userEntersMoreValueThanTripTotal() {
+    fun userEntersMoreValueThanTripTotal() {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("140")
 
         pointsAppliedMessageTestSubscriber.assertNoErrors()
@@ -106,7 +106,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun userEntersMoreValueThanAvailablePoints() {
+    fun userEntersMoreValueThanAvailablePoints() {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("110")
 
         pointsAppliedMessageTestSubscriber.assertNoErrors()
@@ -114,7 +114,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun userEntersZeroAmount() {
+    fun userEntersZeroAmount() {
         payWithPointsViewModel.userEnteredBurnAmount.onNext("0")
 
         pointsAppliedMessageTestSubscriber.assertNoErrors()
@@ -122,7 +122,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun userEntersAmountLessThanTripTotalAndAvailablePoints() {
+    fun userEntersAmountLessThanTripTotalAndAvailablePoints() {
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiResponse.subscribe { latch.countDown() }
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
@@ -132,7 +132,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun userEntersAmountLessThanTripTotalAndAvailablePointsBeforePreviousAPIResponse() {
+    fun userEntersAmountLessThanTripTotalAndAvailablePointsBeforePreviousAPIResponse() {
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiResponse.subscribe { latch.countDown() }
 
@@ -146,7 +146,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun userTogglePwpSwitch() {
+    fun userTogglePwpSwitch() {
         //Toggle switch off
         payWithPointsViewModel.pwpOpted.onNext(false)
 
@@ -180,7 +180,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun clearButtonClicked() {
+    fun clearButtonClicked() {
         payWithPointsViewModel.clearUserEnteredBurnAmount.onNext(Unit)
 
         pointsAppliedMessageTestSubscriber.assertNoErrors()
@@ -188,7 +188,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun userEntersPointAndAPIErrorThrown() {
+    fun userEntersPointAndAPIErrorThrown() {
         createTripResponse.tripId = "garbage";
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
@@ -199,7 +199,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun pointsNotRedeemable() {
+    fun pointsNotRedeemable() {
         createTripResponse.tripId = "garbage";
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
@@ -210,7 +210,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun pwpCurrencyToPoints_TripServiceError() {
+    fun pwpCurrencyToPoints_TripServiceError() {
         createTripResponse.tripId = "trip_service_error";
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiError.subscribe { latch.countDown() }
@@ -221,7 +221,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun pwpCurrencyToPoints_PointsConversionUnauthenticated() {
+    fun pwpCurrencyToPoints_PointsConversionUnauthenticated() {
         createTripResponse.tripId = "points_conversion_unauthenticated";
 
         val latch = CountDownLatch(1)
@@ -233,7 +233,7 @@ public class PayWithPointsViewModelTest {
     }
 
     @Test
-    public fun testingMixedScenarios() {
+    fun testingMixedScenarios() {
         val expectedMessagesList = ArrayList<Pair<String, Boolean>>()
 
         //Default Splits

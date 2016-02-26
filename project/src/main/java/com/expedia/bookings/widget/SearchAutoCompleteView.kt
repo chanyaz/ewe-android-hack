@@ -22,7 +22,7 @@ import com.mobiata.android.util.AndroidUtils
 import kotlin.properties.Delegates
 import kotlin.text.isNotEmpty
 
-public class SearchAutoCompleteView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs), PopupWindow.OnDismissListener {
+class SearchAutoCompleteView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs), PopupWindow.OnDismissListener {
     val locationEditText: EditText by bindView(R.id.location_edit_text)
     val locationTextView: TextView by bindView(R.id.location_text_view)
     val clearLocationButton: ImageView by bindView(R.id.clear_location_button)

@@ -15,7 +15,7 @@ import com.mobiata.android.time.widget.CalendarPicker
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 
-public class CalendarWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCardView(context, attrs) {
+class CalendarWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCardView(context, attrs) {
     var oldCalendarSelection: Pair<LocalDate, LocalDate>? = null;
     val hotelSearchViewModelSubject = BehaviorSubject.create<HotelSearchViewModel>()
     val calendarDialogView: View by lazy {

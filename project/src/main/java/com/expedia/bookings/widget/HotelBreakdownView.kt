@@ -15,7 +15,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.Breakdown
 import com.expedia.vm.HotelBreakDownViewModel
 
-public class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(context, attrs) {
+class HotelBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(context, attrs) {
     val linearLayout: LinearLayout by bindView(R.id.breakdown_container)
 
     var viewmodel: HotelBreakDownViewModel by notNullAndObservable { vm ->

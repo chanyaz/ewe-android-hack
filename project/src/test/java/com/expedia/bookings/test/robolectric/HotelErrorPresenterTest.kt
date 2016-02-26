@@ -13,7 +13,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 
 @RunWith(RobolectricRunner::class)
-public class HotelErrorPresenterTest {
+class HotelErrorPresenterTest {
     @Test fun testSoldOutErrorScreen() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Hotels)

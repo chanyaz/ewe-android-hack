@@ -12,7 +12,7 @@ import android.view.View
 import com.expedia.bookings.R
 import kotlin.properties.Delegates
 
-public class StarRatingBar(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class StarRatingBar(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private val starSpacing: Float
     private var starSpacingPaint: Paint by Delegates.notNull()
     private var starDrawable: Drawable
@@ -56,24 +56,24 @@ public class StarRatingBar(context: Context, attrs: AttributeSet) : View(context
         canvas.drawRect(left.toFloat(), 0f, left + starSpacing.toFloat(), intrinsicHeight.toFloat(), starSpacingPaint)
     }
 
-    public fun setRating(starRating: Float) {
+    fun setRating(starRating: Float) {
         rating = starRating
         requestLayout()
     }
 
-    public fun getRating(): Float {
+    fun getRating(): Float {
         return rating
     }
 
-    public fun getStarSpacing(): Float {
+    fun getStarSpacing(): Float {
         return starSpacing
     }
 
-    public fun getStarDrawable(): Drawable {
+    fun getStarDrawable(): Drawable {
         return starDrawable
     }
 
-    public fun setStarColor(color: Int) {
+    fun setStarColor(color: Int) {
         if (starColor != color) {
             starColor = color
             starDrawable = starDrawable.mutate()
@@ -82,7 +82,7 @@ public class StarRatingBar(context: Context, attrs: AttributeSet) : View(context
         }
     }
 
-    public fun getStarColor(): Int {
+    fun getStarColor(): Int {
         return starColor
     }
 

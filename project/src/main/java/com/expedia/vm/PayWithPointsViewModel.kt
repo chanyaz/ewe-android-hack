@@ -19,7 +19,7 @@ import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.text.NumberFormat
 
-public class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>, val resources: Resources) : IPayWithPointsViewModel {
+class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>, val resources: Resources) : IPayWithPointsViewModel {
     //ERROR MESSAGING
     private val userEntersMoreThanTripTotalString = resources.getString(R.string.user_enters_more_than_trip)
     private val calculatingPointsString = resources.getString(R.string.pwp_calculating_points)

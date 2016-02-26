@@ -27,7 +27,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-public class HotelValueAddsTest {
+class HotelValueAddsTest {
     public var server: MockWebServer = MockWebServer()
         @Rule get
 

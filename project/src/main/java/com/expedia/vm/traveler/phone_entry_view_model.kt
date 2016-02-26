@@ -8,7 +8,7 @@ import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-public class PhoneEntryViewModel(var traveler: Traveler) {
+class PhoneEntryViewModel(var traveler: Traveler) {
     val phoneSubject = BehaviorSubject.create<Phone>()
     val phoneErrorSubject = PublishSubject.create<Int>()
 
@@ -31,7 +31,7 @@ public class PhoneEntryViewModel(var traveler: Traveler) {
         traveler.phoneNumber = phoneNumber
     }
 
-    public fun validate(): Boolean {
+    fun validate(): Boolean {
         val invalidPhoneError = CommonSectionValidators.TELEPHONE_NUMBER_VALIDATOR_STRING.validate(traveler.phoneNumber)
         if (invalidPhoneError != 0) {
             phoneErrorSubject.onNext(invalidPhoneError)
