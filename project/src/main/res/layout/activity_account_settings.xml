@@ -190,10 +190,13 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_toRightOf="@+id/center"
+                    android:drawablePadding="8dp"
+                    android:gravity="center_vertical"
                     android:textColor="@color/account_toolbar_text_color"
                     android:textSize="@dimen/account_loyalty_value_text_size"
                     android:textStyle="bold"
-                    tools:text="United States" />
+                    tools:drawableLeft="@drawable/ic_flag_us"
+                    tools:text="USA" />
             </RelativeLayout>
 
             <!-- TODO add logged out views -->
