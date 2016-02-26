@@ -94,6 +94,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         searchThisArea.visibility = View.GONE
         searchThisArea.setOnClickListener({ view ->
             fab.isEnabled = false
+            animateMapCarouselVisibility(false)
             clearMarkers()
             hideSearchThisArea()
             doAreaSearch()

@@ -177,12 +177,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         animateMapCarouselVisibility(true)
     }
 
-    private fun animateMapCarouselVisibility(visible: Boolean) {
+    protected fun animateMapCarouselVisibility(visible: Boolean) {
         if (visible) {
             if (mapCarouselContainer.visibility != View.VISIBLE) {
                 mapCarouselContainer.translationX = screenWidth
                 mapCarouselContainer.visibility = View.VISIBLE
-                animateFabAndSearchThisArea(true, mapCarouselContainer.animate().translationX(0f).setInterpolator(DecelerateInterpolator()))
+                animateFabAndSearchThisArea(true, mapCarouselContainer.animate().translationX(0f).setInterpolator(DecelerateInterpolator()).setStartDelay(400))
             } else {
                 animateFabAndSearchThisArea(true)
             }
@@ -348,7 +348,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         mapItems.clear()
         clusterManager.clearItems()
         clusterMarkers()
-        if (mapViewModel.isClusteringEnabled) animateMapCarouselVisibility(false)
+        if (mapViewModel.isClusteringEnabled) mapCarouselContainer.visibility = View.INVISIBLE
         setUpMap()
     }
 
