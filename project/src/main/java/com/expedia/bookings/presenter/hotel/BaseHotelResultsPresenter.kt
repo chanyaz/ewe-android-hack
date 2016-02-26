@@ -21,6 +21,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewPropertyAnimator
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
@@ -39,7 +40,6 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.HotelV2Tracking
-import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.HotelMapClusterAlgorithm
 import com.expedia.bookings.utils.HotelMapClusterRenderer
@@ -178,24 +178,40 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
     }
 
     private fun animateMapCarouselVisibility(visible: Boolean) {
-        val mapCarouselHeight = mapCarouselContainer.height.toFloat()
         if (visible) {
             if (mapCarouselContainer.visibility != View.VISIBLE) {
-                AnimUtils.slideUp(mapCarouselContainer)
+                mapCarouselContainer.translationX = screenWidth
                 mapCarouselContainer.visibility = View.VISIBLE
+                animateFabAndSearchThisArea(true, mapCarouselContainer.animate().translationX(0f).setInterpolator(DecelerateInterpolator()))
+            } else {
+                animateFabAndSearchThisArea(true)
             }
-            fab.animate().translationY(filterHeight - mapCarouselHeight).setInterpolator(DecelerateInterpolator())?.start()
-            searchThisArea?.animate()?.translationY(0f)?.setInterpolator(DecelerateInterpolator())?.start()
         } else {
             if (mapCarouselContainer.visibility != View.INVISIBLE) {
-                AnimUtils.slideDown(mapCarouselContainer)
-                mapCarouselContainer.visibility = View.INVISIBLE
+                mapCarouselContainer.animate().translationX(screenWidth).setInterpolator(DecelerateInterpolator()).withEndAction {
+                    mapCarouselContainer.visibility = View.INVISIBLE
+                    animateFabAndSearchThisArea(false)
+                }.start()
+            } else {
+                animateFabAndSearchThisArea(false)
             }
-            fab.animate().translationY(filterHeight).setInterpolator(DecelerateInterpolator())?.start()
-            searchThisArea?.animate()?.translationY(mapCarouselHeight)?.setInterpolator(DecelerateInterpolator())?.start()
         }
     }
 
+    private fun animateFabAndSearchThisArea(animateUp: Boolean) {
+        animateFabAndSearchThisArea(animateUp, null)
+    }
+
+    private fun animateFabAndSearchThisArea(animateUp: Boolean, endInterpolator: ViewPropertyAnimator?) {
+        val mapCarouselHeight = mapCarouselContainer.height.toFloat()
+        if (animateUp) {
+            fab.animate().translationY(filterHeight - mapCarouselHeight).setInterpolator(DecelerateInterpolator()).withEndAction { endInterpolator?.start() }.start()
+            searchThisArea?.animate()?.translationY(0f)?.setInterpolator(DecelerateInterpolator())?.start()
+        } else {
+            fab.animate().translationY(filterHeight).setInterpolator(DecelerateInterpolator()).withEndAction { endInterpolator?.start() }.start()
+            searchThisArea?.animate()?.translationY(mapCarouselHeight)?.setInterpolator(DecelerateInterpolator())?.start()
+        }
+    }
 
     private fun resetListOffset() {
         val mover = ObjectAnimator.ofFloat(mapView, "translationY", mapView.translationY, -halfway.toFloat());
@@ -332,7 +348,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         mapItems.clear()
         clusterManager.clearItems()
         clusterMarkers()
-        if (mapViewModel.isClusteringEnabled) mapCarouselContainer.visibility = View.INVISIBLE
+        if (mapViewModel.isClusteringEnabled) animateMapCarouselVisibility(false)
         setUpMap()
     }
 
