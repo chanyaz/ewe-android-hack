@@ -396,6 +396,9 @@
     <color name="packages_flight_filter_background_color">#efefef</color>
     <color name="packages_flight_filter_show_more_less">#8B8B8B</color>
     <color name="packages_flight_filter_divider">#D8D8D8</color>
+    <color name="packages_bundle_overview_footer_primary_text">@color/temporary_primary_gray</color>
+    <color name="packages_bundle_overview_footer_secondary_text">@color/temporary_secondary_gray</color>
+    <color name="packages_bundle_overview_footer_secondary_text_savings">@color/temporary_savings</color>
 
     <color name="traveler_drop_down_unchecked_color">#6C6C6C</color>
 

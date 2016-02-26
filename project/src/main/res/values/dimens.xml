@@ -313,6 +313,10 @@
     <dimen name="traveler_input_bottom_margin">4dp</dimen>
     <dimen name="traveler_input_text_size">16sp</dimen>
 
+    <!-- Package Bundle Overview Footer -->
+    <dimen name="packages_bundle_overview_footer_primary_text">@dimen/temporary_font_size_medium</dimen>
+    <dimen name="packages_bundle_overview_footer_secondary_text">@dimen/temporary_font_size_small</dimen>
+
     <!-- Checkout -->
     <dimen name="checkout_data_button_icon_size">48dp</dimen>
     <dimen name="checkout_data_button_text_size">16sp</dimen>
