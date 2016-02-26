@@ -51,6 +51,10 @@ public enum PointOfSaleId {
 
 	LASTMINUTE(70150),
 	LASTMINUTE_NZ(70151),
+
+	ORBITZ(70201),
+
+	CHEAPTICKETS(70301),
 	;
 
 	private int mId;
