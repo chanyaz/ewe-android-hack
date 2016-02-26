@@ -45,6 +45,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHSRMapClusteringTest = 9633;
 	public static final int EBAndroidAppLXMRecommendedActivitiesTest = 9639;
 	public static final int EBAndroidAppFlightsNumberOfTicketsUrgencyTest = 9897;
+	public static final int EBAndroidAppHotelSecureCheckoutMessaging = 9898;
 
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -121,6 +122,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHSRMapClusteringTest);
 		testIDs.add(EBAndroidAppLXMRecommendedActivitiesTest);
 		testIDs.add(EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
+		testIDs.add(EBAndroidAppHotelSecureCheckoutMessaging);
 		return testIDs;
 	}
 

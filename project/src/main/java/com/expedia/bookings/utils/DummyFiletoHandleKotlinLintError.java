@@ -367,6 +367,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.flight_time_traveler_TEMPLATE,
 		R.drawable.ic_create_white_24dp,
 		R.menu.menu_package_checkout,
-		R.color.pwp_total_available_points
+		R.color.pwp_total_available_points,
+		R.string.secure_checkout
 	};
 }

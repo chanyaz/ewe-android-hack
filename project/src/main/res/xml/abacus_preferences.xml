@@ -153,6 +153,14 @@
             android:layout="@layout/preference"
             android:title="ForceV2 Hotel API Search - 9707" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="9898"
+            android:layout="@layout/preference"
+            android:title="Secure Checkout: toolbar title - 9898" />
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -735,6 +735,8 @@ public class OmnitureTracking {
 		com.expedia.bookings.data.hotels.HotelSearchParams searchParams) {
 		ADMS_Measurement s = createTrackPageLoadEventBase(HOTELS_CHECKOUT_INFO);
 
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging);
+
 		StringBuilder events = new StringBuilder("event70");
 		if (trip.isExpediaRewardsRedeemable()) {
 			events.append(",event114");
