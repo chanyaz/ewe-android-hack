@@ -1,14 +1,18 @@
 package com.expedia.bookings.widget
 
+import android.animation.ArgbEvaluator
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -22,9 +26,16 @@ class PackageBundlePriceWidget(context: Context, attrs: AttributeSet?) : LinearL
 
     val bundleChevron: ImageView by bindView(R.id.bundle_chevron)
     val bundleTotalPrice: TextView by bindView(R.id.bundle_total_price)
+    val bundleTotalIncludes: TextView by bindView(R.id.bundle_total_includes_text)
     val bundleSavings: TextView by bindView(R.id.bundle_total_savings)
     val bundleTotalText: TextView by bindView(R.id.bundle_total_text)
     val perPersonText: TextView by bindView(R.id.per_person_text)
+    val bundleTitle: TextView by bindView(R.id.bundle_title)
+    val bundleSubtitle: TextView by bindView(R.id.bundle_subtitle)
+
+    val eval: ArgbEvaluator = ArgbEvaluator()
+    val textFade = TransitionElement(ContextCompat.getColor(context, R.color.package_bundle_icon_color), Color.WHITE)
+    val bgFade = TransitionElement(Color.WHITE, ContextCompat.getColor(context, R.color.packages_primary_color))
 
     var viewModel: BundlePriceViewModel by notNullAndObservable { vm ->
         vm.totalPriceObservable.subscribeText(bundleTotalPrice)
@@ -77,5 +88,27 @@ class PackageBundlePriceWidget(context: Context, attrs: AttributeSet?) : LinearL
             bundleTotalText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
         }
 
+    }
+
+    fun animateBundleWidget(f: Float, forward: Boolean) {
+        val progress = if (forward) f else 1 - f
+        val alpha = if (forward) (1 - f) else f
+        setBackgroundColor(eval.evaluate(progress, bgFade.start, bgFade.end) as Int)
+        val currentToolbarTextColor = eval.evaluate(progress, textFade.start, textFade.end) as Int
+        bundleTotalText.setTextColor(currentToolbarTextColor)
+        bundleTotalIncludes.setTextColor(currentToolbarTextColor)
+        bundleTitle.setTextColor(currentToolbarTextColor)
+        bundleSubtitle.setTextColor(currentToolbarTextColor)
+        bundleChevron.drawable.setColorFilter(currentToolbarTextColor, PorterDuff.Mode.SRC_IN)
+        bundleTotalPrice.alpha = alpha
+        bundleSavings.alpha = alpha
+        perPersonText.alpha = alpha
+        bundleTotalText.alpha = alpha
+        bundleTotalIncludes.alpha = alpha
+        bundleTitle.alpha = progress
+        bundleSubtitle.alpha = progress
+        bundleChevron.pivotX = bundleChevron.width / 2f
+        bundleChevron.pivotY = bundleChevron.height / 2f
+        bundleChevron.rotation = if (forward) f * 180 else (1 - f) * 180
     }
 }

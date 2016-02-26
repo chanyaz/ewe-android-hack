@@ -25,6 +25,7 @@ import android.widget.ImageView
 import android.widget.ScrollView
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
+import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -233,22 +234,8 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
      * end, and allow the transition to do the work for us. Right now it's just a tuple that stores start and end
      * for us, and we run calculatestep on it.
      */
-    data class TransitionElement<T>(val start: T, val end: T)
 
     private val selectionToSuggestionTransition = object : Transition(InputSelectionState::class.java, SuggestionSelectionState::class.java, AccelerateDecelerateInterpolator(), 300) {
-
-    fun calculateStep(start: Float, end: Float, percent: Float, forward: Boolean): Float {
-        if (forward) {
-            return calculateStep(start, end, percent)
-        } else {
-            return calculateStep(end, start, percent)
-        }
-    }
-
-    fun calculateStep(start: Float, end: Float, percent: Float): Float {
-        return (start + (percent * (end - start)))
-    }
-
 
         val bgFade = TransitionElement(0f, 1f)
         // Start with a large dummy value, and adjust it once we have an actual height
@@ -272,13 +259,13 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
 
             // Toolbar color
             toolbar.setBackgroundColor(if (forward) toolbarBgColor.start else toolbarBgColor.end)
-            toolBarTitle.alpha = calculateStep(bgFade.end, bgFade.start, 0f)
+            toolBarTitle.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, 0f)
 
             // Suggestion Fade In
-            suggestionContainer.alpha = calculateStep(bgFade.start, bgFade.end, 0f, forward)
+            suggestionContainer.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, 0f, forward)
 
             // Edit text fade in
-            searchLocationEditText?.alpha = calculateStep(bgFade.start, bgFade.end, 0f, forward)
+            searchLocationEditText?.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, 0f, forward)
 
             // RecyclerView vertical transition
             suggestionRecyclerView.translationY = recyclerY.start;
@@ -312,16 +299,16 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
             navIcon.parameter = 1f - progress
 
             //recycler bg
-            suggestionContainer.alpha = calculateStep(bgFade.start, bgFade.end, progress)
-            searchLocationEditText?.alpha = calculateStep(bgFade.start, bgFade.end, progress)
+            suggestionContainer.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, progress)
+            searchLocationEditText?.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, progress)
 
-            toolBarTitle.alpha = calculateStep(bgFade.end, bgFade.start, progress)
+            toolBarTitle.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, progress)
 
             // recycler movement - only moves during its portion of the animation
             if (forward && f > recyclerStartTime){
-                suggestionRecyclerView.translationY = calculateStep(recyclerY.start, recyclerY.end, decelInterp.getInterpolation(com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, f)))
+                suggestionRecyclerView.translationY = TransitionElement.calculateStep(recyclerY.start, recyclerY.end, decelInterp.getInterpolation(com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, f)))
             } else if (!forward && progress > recyclerStartTime) {
-                suggestionRecyclerView.translationY = calculateStep(recyclerY.start, recyclerY.end, com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, progress))
+                suggestionRecyclerView.translationY = TransitionElement.calculateStep(recyclerY.start, recyclerY.end, com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, progress))
             }
         }
 

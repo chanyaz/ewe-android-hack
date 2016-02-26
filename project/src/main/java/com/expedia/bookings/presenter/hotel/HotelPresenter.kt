@@ -14,6 +14,7 @@ import android.view.ViewStub
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
+import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -402,7 +403,7 @@ class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context,
     }
 
     val searchArgbEvaluator = ArgbEvaluator()
-    val searchBackgroundColor = HotelSearchPresenterV2.TransitionElement(ContextCompat.getColor(context, R.color.hotel_search_background), Color.TRANSPARENT)
+    val searchBackgroundColor = TransitionElement(ContextCompat.getColor(context, R.color.hotel_search_background), Color.TRANSPARENT)
     private val searchToResults = object : Presenter.Transition(SearchTransition::class.java, HotelResultsPresenter::class.java, AccelerateDecelerateInterpolator(), 500) {
 
         override fun startTransition(forward: Boolean) {
