@@ -63,7 +63,7 @@ import kotlin.properties.Delegates
 val DESCRIPTION_ANIMATION = 150L
 val HOTEL_DESC_COLLAPSE_LINES = 2
 
-public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
     var bottomMargin = 0
     val ANIMATION_DURATION = 200L
@@ -603,7 +603,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         promoMessage.alpha = ratio
     }
 
-    public fun showToolbarGradient() {
+    fun showToolbarGradient() {
         if (hotelMessagingContainer.visibility == View.VISIBLE)
             hotelMessagingContainer.getLocationOnScreen(priceContainerLocation)
         else
@@ -615,7 +615,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             hotelDetailsToolbar.toolBarGradient.translationY = 0f
     }
 
-    public fun shouldShowResortView(): Boolean {
+    fun shouldShowResortView(): Boolean {
         roomContainer.getLocationOnScreen(roomContainerPosition)
         val isOutOfView = roomContainerPosition[1] + roomContainer.height < offset
         val isInView = roomContainerPosition[1] < screenSize.y / 2
@@ -625,7 +625,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         return false
     }
 
-    public fun shouldShowStickySelectRoomView() {
+    fun shouldShowStickySelectRoomView() {
         roomContainer.getLocationOnScreen(roomContainerPosition)
         var selectRoomButtonOffset = offset
 
@@ -641,7 +641,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
     }
 
-    public fun shouldShowETPContainer() {
+    fun shouldShowETPContainer() {
         roomContainer.getLocationOnScreen(roomContainerPosition)
         if (roomContainerPosition[1] + roomContainer.height < offset + etpContainer.height) {
             etpContainer.isEnabled = false
@@ -649,7 +649,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
             etpContainer.isEnabled = true
     }
 
-    public fun scrollToRoom(animate: Boolean) {
+    fun scrollToRoom(animate: Boolean) {
         roomContainer.getLocationOnScreen(roomContainerPosition)
 
         var scrollToAmount = roomContainerPosition[1] - offset + detailContainer.scrollY
@@ -711,12 +711,12 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         FontCache.setTypeface(payLaterButton, FontCache.Font.ROBOTO_REGULAR)
     }
 
-    public fun refresh() {
+    fun refresh() {
         detailContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
         resetGallery()
     }
 
-    public fun resetGallery() {
+    fun resetGallery() {
         viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -736,7 +736,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         })
     }
 
-    public fun updateGallery(toFullScreen: Boolean) {
+    fun updateGallery(toFullScreen: Boolean) {
         if (detailContainer.isFlinging) {
             return
         }
@@ -751,7 +751,7 @@ public class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayou
         }
     }
 
-    public fun getArrowRotationRatio(scrollY: Int): Float {
+    fun getArrowRotationRatio(scrollY: Int): Float {
         return scrollY.toFloat() / (initialScrollTop)
     }
 

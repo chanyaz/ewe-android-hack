@@ -10,7 +10,7 @@ import org.junit.Assert
 import org.junit.Test
 import java.util.ArrayList
 
-public class HotelCreateTripResponseTest {
+class HotelCreateTripResponseTest {
 
     @Test
     fun testGetPointDetailsWhenExpediaRewardsNotAvailable() {

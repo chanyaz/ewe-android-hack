@@ -13,7 +13,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
-public class HotelReviewsTest {
+class HotelReviewsTest {
 
     public var reviewServicesRule = ServicesRule(ReviewsServices::class.java)
         @Rule get

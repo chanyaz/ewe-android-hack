@@ -23,7 +23,7 @@ class HotelSuggestionAdapterViewModel(context: Context, suggestionsService: Sugg
     }
 }
 
-public class HotelSuggestionViewModel() {
+class HotelSuggestionViewModel() {
 
     // Outputs
     val titleObservable = BehaviorSubject.create<String>()

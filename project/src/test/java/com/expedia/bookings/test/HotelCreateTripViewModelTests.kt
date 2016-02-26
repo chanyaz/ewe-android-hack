@@ -16,7 +16,7 @@ import rx.observers.TestSubscriber
 import java.io.IOException
 import kotlin.test.assertEquals
 
-public class HotelCreateTripViewModelTests {
+class HotelCreateTripViewModelTests {
 
     val mockHotelServicesTestRule = MockHotelServiceTestRule()
         @Rule get
@@ -88,7 +88,7 @@ public class HotelCreateTripViewModelTests {
         hotelCreateTripParams = HotelCreateTripParams(happyMockProductKey, false, 1, listOf(1))
     }
 
-    public class TestHotelCreateTripViewModel(val testSubscriber: TestSubscriber<HotelCreateTripResponse>, hotelServices: HotelServices, paymentModel: PaymentModel<HotelCreateTripResponse>) : HotelCreateTripViewModel(hotelServices, paymentModel) {
+    class TestHotelCreateTripViewModel(val testSubscriber: TestSubscriber<HotelCreateTripResponse>, hotelServices: HotelServices, paymentModel: PaymentModel<HotelCreateTripResponse>) : HotelCreateTripViewModel(hotelServices, paymentModel) {
 
         override fun getCreateTripResponseObserver(): Observer<HotelCreateTripResponse> {
             return testSubscriber

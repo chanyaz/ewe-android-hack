@@ -7,7 +7,7 @@ import com.squareup.okhttp.mockwebserver.MockWebServer
 
 public object RunMockWebServer {
 	@Throws(Throwable::class)
-	@JvmStatic public fun main(args: Array<String>) {
+	@JvmStatic fun main(args: Array<String>) {
 		val server = MockWebServer()
 
 		val root = File("../templates").canonicalPath

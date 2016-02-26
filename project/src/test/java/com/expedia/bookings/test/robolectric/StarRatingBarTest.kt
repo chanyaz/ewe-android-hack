@@ -14,7 +14,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-public class StarRatingBarTest {
+class StarRatingBarTest {
 
     public var ratingBar: StarRatingBar by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()

@@ -24,7 +24,7 @@ import com.expedia.bookings.utils.AnimUtils
  * and use flag to control whether you want to display dummy items (with your custom loading layout) or real items.
  */
 
-public abstract class LoadingRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class LoadingRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     protected abstract fun loadingLayoutResourceId(): Int
     private var isLoading = false
     private var items: List<T> = ArrayList()
@@ -35,15 +35,15 @@ public abstract class LoadingRecyclerViewAdapter<T> : RecyclerView.Adapter<Recyc
         notifyDataSetChanged()
     }
 
-    public fun setDummyItems(items: List<T>) {
+    fun setDummyItems(items: List<T>) {
         setItems(items, true)
     }
 
-    public fun setItems(items: List<T>) {
+    fun setItems(items: List<T>) {
         setItems(items, false)
     }
 
-    public fun getItems(): List<T> {
+    fun getItems(): List<T> {
        return items
     }
 

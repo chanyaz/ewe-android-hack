@@ -20,7 +20,7 @@ import com.expedia.bookings.services.HotelServices
 import org.joda.time.LocalDate
 import rx.observers.TestSubscriber
 
-public class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::class.java) {
+class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::class.java) {
 
     fun getPriceChangeDownCreateTripResponse(): HotelCreateTripResponse {
         return getCreateTripResponse("hotel_price_change_down")

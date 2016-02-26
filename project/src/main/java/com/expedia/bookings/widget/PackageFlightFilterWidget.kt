@@ -19,7 +19,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.PackageFlightFilterViewModel
 
-public class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class PackageFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val ANIMATION_DURATION = 500L
     val rowHeight = resources.getDimensionPixelSize(R.dimen.airlines_filter_height)
 

@@ -79,7 +79,7 @@ import rx.Observer
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-public abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
+abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
 
     //Views
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
@@ -482,7 +482,7 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
         fabLp.bottomMargin += resources.getDimension(R.dimen.hotel_filter_height).toInt()
     }
 
-    public fun showDefault() {
+    fun showDefault() {
         show(ResultsList())
     }
 
@@ -1114,15 +1114,15 @@ public abstract class BaseHotelResultsPresenter(context: Context, attrs: Attribu
     }
 
     // Classes for state
-    public class ResultsList
+    class ResultsList
 
-    public class ResultsMap {
+    class ResultsMap {
         init {
             HotelV2Tracking().trackHotelV2SearchMap()
         }
     }
 
-    public class ResultsFilter {
+    class ResultsFilter {
         init {
             HotelV2Tracking().trackHotelV2Filter()
         }

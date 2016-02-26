@@ -9,7 +9,7 @@ import com.expedia.bookings.presenter.packages.PackageHotelPresenter
 import com.expedia.bookings.utils.Ui
 import com.google.android.gms.maps.MapView
 
-public class PackageHotelActivity : AbstractAppCompatActivity() {
+class PackageHotelActivity : AbstractAppCompatActivity() {
     val hotelsPresenter: PackageHotelPresenter by lazy {
         findViewById(R.id.package_hotel_presenter) as PackageHotelPresenter
     }

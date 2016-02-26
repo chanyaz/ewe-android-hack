@@ -11,7 +11,7 @@ import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.subjects.PublishSubject
 
-public class PaymentWidgetViewModel<T : TripResponse>(val context: Context, paymentModel: PaymentModel<T>, payWithPointsViewModel: IPayWithPointsViewModel) : IPaymentWidgetViewModel {
+class PaymentWidgetViewModel<T : TripResponse>(val context: Context, paymentModel: PaymentModel<T>, payWithPointsViewModel: IPayWithPointsViewModel) : IPaymentWidgetViewModel {
     private fun totalDueTodayMessage(amount: Money) = Phrase.from(context.resources, R.string.pwp_total_due_today_TEMPLATE)
             .put("money", amount.formattedMoneyFromAmountAndCurrencyCode).format().toString()
 

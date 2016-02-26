@@ -16,7 +16,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-public class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSubject<RailSearchResponse.LegOption>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSubject<RailSearchResponse.LegOption>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val LEG_VIEW = 0
 
     var loading = true
@@ -81,7 +81,7 @@ public class RailResultsAdapter(val context: Context, val legSelectedSubject: Pu
             viewModel = RailViewModel()
         }
 
-        public fun bind(leg: RailSearchResponse.LegOption) {
+        fun bind(leg: RailSearchResponse.LegOption) {
             viewModel.legOptionObservable.onNext(leg)
 
             viewModel.legIdObservable.subscribeText(legId)

@@ -14,7 +14,7 @@ public object SuggestionV4Utils {
     public val RECENT_HOTEL_SUGGESTIONS_FILE = "recent-hotel-suggest-list.dat"
     public val RECENT_PACKAGE_SUGGESTIONS_FILE = "recent-package-suggest-list.dat"
 
-    public fun saveSuggestionHistory(context: Context, suggestion: SuggestionV4, file: String) {
+    fun saveSuggestionHistory(context: Context, suggestion: SuggestionV4, file: String) {
         Thread(object : Runnable {
             override fun run() {
                 val suggest = suggestion.copy()
@@ -40,7 +40,7 @@ public object SuggestionV4Utils {
         }).start()
     }
 
-    public fun loadSuggestionHistory(context: Context, file: String): List<SuggestionV4> {
+    fun loadSuggestionHistory(context: Context, file: String): List<SuggestionV4> {
         var recentSuggestions = emptyList<SuggestionV4>()
         try {
             val str = IoUtils.readStringFromFile(file, context)
@@ -55,7 +55,7 @@ public object SuggestionV4Utils {
         return recentSuggestions.toMutableList()
     }
 
-    @JvmStatic public fun deleteCachedSuggestions(context: Context) {
+    @JvmStatic fun deleteCachedSuggestions(context: Context) {
         val locationFiles = arrayOf(RECENT_HOTEL_SUGGESTIONS_FILE, RECENT_PACKAGE_SUGGESTIONS_FILE)
         for (locationFile in locationFiles) {
             val file = context.getFileStreamPath(locationFile)
@@ -74,7 +74,7 @@ public object SuggestionV4Utils {
 
      * @return min number of characters to start a query
      */
-    @JvmStatic public fun getMinSuggestQueryLength(context: Context): Int {
+    @JvmStatic fun getMinSuggestQueryLength(context: Context): Int {
         return context.getResources().getInteger(R.integer.suggest_min_query_length)
     }
 }

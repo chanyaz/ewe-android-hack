@@ -22,7 +22,7 @@ import com.expedia.util.subscribeText
 import com.expedia.vm.HotelDetailViewModel
 import com.expedia.vm.HotelErrorViewModel
 
-public class HotelErrorPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr) {
+class HotelErrorPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr) {
 
     val root: ViewGroup by bindView(R.id.main_container)
     val errorImage: ImageView by bindView(R.id.error_image)

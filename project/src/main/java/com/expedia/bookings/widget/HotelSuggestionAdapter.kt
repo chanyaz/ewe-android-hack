@@ -15,7 +15,7 @@ import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.HotelSuggestionViewModel
 import kotlin.text.replace
 
-public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
+class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
 
     override fun getItemCount(): Int {
         return viewmodel.suggestions.size
@@ -50,7 +50,7 @@ public class HotelSuggestionAdapter(val viewmodel: HotelSuggestionAdapterViewMod
     }
 }
 
-public class HotelSuggestionViewHolder(val root: ViewGroup, val vm : HotelSuggestionViewModel) : RecyclerView.ViewHolder(root), View.OnClickListener {
+class HotelSuggestionViewHolder(val root: ViewGroup, val vm : HotelSuggestionViewModel) : RecyclerView.ViewHolder(root), View.OnClickListener {
     val title: TextView by root.bindView(R.id.title_textview)
     val icon: ImageView by root.bindView(R.id.icon_imageview)
     val hierarchyIcon: ImageView by root.bindView(R.id.hierarchy_imageview)

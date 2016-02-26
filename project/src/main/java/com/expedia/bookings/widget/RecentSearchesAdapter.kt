@@ -14,7 +14,7 @@ import com.expedia.util.subscribeText
 import com.expedia.vm.RecentSearchViewModel
 import com.expedia.vm.RecentSearchesAdapterViewModel
 
-public class RecentSearchesAdapter(val viewmodel: RecentSearchesAdapterViewModel, val showHeader: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RecentSearchesAdapter(val viewmodel: RecentSearchesAdapterViewModel, val showHeader: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val HEADER_VIEW = 0
     val RECENT_SEARCH_VIEW = 1
     public companion object {
@@ -65,7 +65,7 @@ public class RecentSearchesAdapter(val viewmodel: RecentSearchesAdapterViewModel
 
 }
 
-public class HeaderViewHolder(context: Context, view: ViewGroup) : RecyclerView.ViewHolder(view) {
+class HeaderViewHolder(context: Context, view: ViewGroup) : RecyclerView.ViewHolder(view) {
     val recentSearchesTitle: TextView by view.bindView(R.id.recent_searches_title)
 
     init {
@@ -76,7 +76,7 @@ public class HeaderViewHolder(context: Context, view: ViewGroup) : RecyclerView.
 }
 
 
-public class RecentSearchesViewHolder(val root: ViewGroup, val vm : RecentSearchViewModel) : RecyclerView.ViewHolder(root), View.OnClickListener {
+class RecentSearchesViewHolder(val root: ViewGroup, val vm : RecentSearchViewModel) : RecyclerView.ViewHolder(root), View.OnClickListener {
     val title: TextView by root.bindView(R.id.title_textview)
     val description: TextView by root.bindView(R.id.description)
 

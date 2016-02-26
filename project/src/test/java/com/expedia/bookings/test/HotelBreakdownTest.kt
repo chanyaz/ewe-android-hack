@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertTrue
 
-public class HotelBreakdownTest {
+class HotelBreakdownTest {
     public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 

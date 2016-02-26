@@ -23,7 +23,7 @@ import com.expedia.bookings.utils.bindView
 import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
-public class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
+class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
     val checkoutHeaderImage: ImageView by bindView(R.id.hotel_checkout_room_image)
     val destinationText: TextView by bindView(R.id.destination)
     val checkInOutDates: TextView by bindView(R.id.check_in_out_dates)
@@ -33,7 +33,7 @@ public class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : Fr
         View.inflate(context, R.layout.checkout_overview_header, this)
     }
 
-    public fun update(hotel: HotelCreateTripResponse.HotelProductResponse, size: Int) {
+    fun update(hotel: HotelCreateTripResponse.HotelProductResponse, size: Int) {
         destinationText.text = Phrase.from(context, R.string.hotel_city_country_checkout_header_TEMPLATE)
                 .put("city", hotel.hotelCity)
                 .put("country", Db.getPackageParams().destination.hierarchyInfo?.country?.name)

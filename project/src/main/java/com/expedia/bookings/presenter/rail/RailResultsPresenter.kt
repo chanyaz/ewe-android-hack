@@ -19,7 +19,7 @@ import com.expedia.vm.RailResultsViewModel
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-public class RailResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class RailResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     val legSelectedSubject = PublishSubject.create<RailSearchResponse.LegOption>()
 

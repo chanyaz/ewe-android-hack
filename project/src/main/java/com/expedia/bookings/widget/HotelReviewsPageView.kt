@@ -13,7 +13,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelReviewsPageViewModel
 
-public class HotelReviewsPageView(context: Context) : LinearLayout(context) {
+class HotelReviewsPageView(context: Context) : LinearLayout(context) {
 
     val messageProgressLoading: MessageProgressView by bindView(R.id.message_progress_loading)
     val recyclerView: HotelReviewsRecyclerView by bindView(android.R.id.list)

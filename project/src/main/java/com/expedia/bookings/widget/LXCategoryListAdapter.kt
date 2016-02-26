@@ -24,7 +24,7 @@ import com.squareup.picasso.Picasso
 import rx.subjects.PublishSubject
 
 
-public class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetadata>() {
+class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetadata>() {
     var categoryMetadataSubject: PublishSubject<LXCategoryMetadata> = PublishSubject.create<LXCategoryMetadata>()
     var imageCode: String? = null
 
@@ -49,7 +49,7 @@ public class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetada
         }
     }
 
-    public class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         val categoryImage: ImageView by bindView(R.id.category_image)
         val categoryCount: TextView by bindView(R.id.category_count)
@@ -67,7 +67,7 @@ public class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetada
             categoryMetadataSubject!!.onNext(category)
         }
 
-        public fun bind(category: LXCategoryMetadata, subject: PublishSubject<LXCategoryMetadata>, imageCode: String?) {
+        fun bind(category: LXCategoryMetadata, subject: PublishSubject<LXCategoryMetadata>, imageCode: String?) {
             this.categoryMetadataSubject = subject
             itemView.tag = category
             cardView.preventCornerOverlap = false
@@ -123,12 +123,12 @@ public class LXCategoryListAdapter : LoadingRecyclerViewAdapter<LXCategoryMetada
         }
     }
 
-    public fun setCategories(categories: List<LXCategoryMetadata>, categoryPublishSubject: PublishSubject<LXCategoryMetadata>) {
+    fun setCategories(categories: List<LXCategoryMetadata>, categoryPublishSubject: PublishSubject<LXCategoryMetadata>) {
         categoryMetadataSubject = categoryPublishSubject
         setItems(categories)
     }
 
-    public fun setDestinationImageCode(imageCode: String?) {
+    fun setDestinationImageCode(imageCode: String?) {
         this.imageCode = imageCode
     }
 

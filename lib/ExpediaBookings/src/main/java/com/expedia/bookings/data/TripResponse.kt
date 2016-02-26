@@ -8,10 +8,9 @@ import com.expedia.bookings.data.payment.PointsType
 import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.data.payment.UserPaymentPreferences
 import java.math.BigDecimal
-import kotlin.collections.forEach
 import kotlin.properties.Delegates
 
-public abstract class TripResponse : BaseApiResponse() {
+abstract class TripResponse : BaseApiResponse() {
     lateinit var tripId: String
     var pointsDetails: List<PointsDetails>? = null
     var userPreferencePoints: UserPaymentPreferences? = null

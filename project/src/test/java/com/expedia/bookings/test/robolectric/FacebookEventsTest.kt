@@ -8,10 +8,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(RobolectricRunner::class)
-public class FacebookEventsTest {
+class FacebookEventsTest {
 
     @Test
-    public fun basicNulls() {
+    fun basicNulls() {
         FacebookEvents().trackHotelSearch(HotelSearch())
         FacebookEvents().trackHotelInfoSite(HotelSearch())
         FacebookEvents().trackHotelCheckout(TripBucketItemHotel(), Rate())

@@ -11,7 +11,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.PriceChangeViewModel
 
-public class PriceChangeWidget(context: Context, attr: AttributeSet) : LinearLayout(context, attr) {
+class PriceChangeWidget(context: Context, attr: AttributeSet) : LinearLayout(context, attr) {
     val priceChange: TextView by bindView(R.id.price_change_text)
 
     var viewmodel: PriceChangeViewModel by notNullAndObservable { vm ->

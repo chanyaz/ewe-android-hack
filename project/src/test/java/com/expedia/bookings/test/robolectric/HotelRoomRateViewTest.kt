@@ -16,7 +16,7 @@ import kotlin.test.assertEquals
 
 
 @RunWith(RobolectricRunner::class)
-public class HotelRoomRateViewTest {
+class HotelRoomRateViewTest {
     public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 

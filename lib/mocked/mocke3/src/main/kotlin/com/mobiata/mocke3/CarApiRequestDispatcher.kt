@@ -4,7 +4,7 @@ import com.squareup.okhttp.mockwebserver.MockResponse
 import com.squareup.okhttp.mockwebserver.RecordedRequest
 import java.util.regex.Pattern
 
-public class CarApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
+class CarApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
     override fun dispatch(request: RecordedRequest): MockResponse {
         val path = request.path

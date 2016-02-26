@@ -45,7 +45,7 @@ import com.expedia.vm.HotelTravelerParams
 import com.expedia.vm.RecentSearchesAdapterViewModel
 import org.joda.time.LocalDate
 
-public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelSearchPresenter(context, attrs) {
+class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelSearchPresenter(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.search_v2_toolbar)
     val scrollView : ScrollView by bindView(R.id.scrollView)
     val searchContainer: ViewGroup by bindView(R.id.search_v2_container)
@@ -188,7 +188,7 @@ public class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : Bas
     class InputSelectionState
     class SuggestionSelectionState
 
-    public fun showDefault() {
+    fun showDefault() {
         show(InputSelectionState(), FLAG_CLEAR_BACKSTACK)
     }
 

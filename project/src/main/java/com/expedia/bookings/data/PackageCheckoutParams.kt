@@ -66,7 +66,7 @@ public data class PackageCheckoutParams(val billingInfo: BillingInfo, val travel
             return PackageCheckoutParams(billingInfo, travelers, tripId, expectedTotalFare, expectedFareCurrencyCode, bedType, cvv)
         }
 
-        public fun hasValidParams(): Boolean {
+        fun hasValidParams(): Boolean {
             return travelers.isNotEmpty() &&
                     billingInfo != null &&
                     !cvv.isNullOrEmpty() &&

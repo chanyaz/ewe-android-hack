@@ -27,7 +27,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
-public class HotelDetailViewModelTest {
+class HotelDetailViewModelTest {
 
     // TODO: Improve HotelDetailViewModel test coverage
     //  -- TODO: Use MockHotelServiceTestRule (It provides helper functions to grab hotel responses. We shouldn't be creating mock hotel objects (see: makeHotel())

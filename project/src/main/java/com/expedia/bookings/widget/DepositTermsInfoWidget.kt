@@ -15,7 +15,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.squareup.phrase.Phrase
 
-public class DepositTermsInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class DepositTermsInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val container: ViewGroup by bindView(R.id.container)
     val payLaterCurrencyText: TextView by bindView(R.id.etp_pay_later_currency_text)

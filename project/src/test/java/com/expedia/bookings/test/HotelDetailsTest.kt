@@ -27,7 +27,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
-public class HotelDetailsTest {
+class HotelDetailsTest {
     public var service = ServicesRule(HotelServices::class.java)
         @Rule get
 

@@ -58,29 +58,29 @@ public data class HotelSearchParams(val suggestion: SuggestionV4, val checkIn: L
             return params
         }
 
-        public fun areRequiredParamsFilled(): Boolean {
+        fun areRequiredParamsFilled(): Boolean {
             return hasOrigin() && hasStartAndEndDates()
         }
 
-        public fun hasStartAndEndDates(): Boolean {
+        fun hasStartAndEndDates(): Boolean {
             return checkIn != null && checkOut != null
         }
 
-        public fun hasOrigin(): Boolean {
+        fun hasOrigin(): Boolean {
             return suggestion != null
         }
 
-        public fun hasValidDates(): Boolean {
+        fun hasValidDates(): Boolean {
             return Days.daysBetween(checkIn, checkOut).days <= maxStay
         }
     }
 
-    public fun guests() : Int {
+    fun guests() : Int {
         return children.size + adults
     }
 }
 
-public fun convertPackageToSearchParams(packageParams: PackageSearchParams, maxStay: Int): HotelSearchParams {
+fun convertPackageToSearchParams(packageParams: PackageSearchParams, maxStay: Int): HotelSearchParams {
     val builder = HotelSearchParams.Builder(maxStay).suggestion(packageParams.destination)
             .checkIn(packageParams.checkIn).checkOut(packageParams.checkOut).adults(packageParams.adults)
             .children(packageParams.children).forPackage(true)

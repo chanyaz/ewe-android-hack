@@ -14,7 +14,7 @@ import java.util.ArrayList
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-public class HotelFilterViewModelTest {
+class HotelFilterViewModelTest {
     public var vm: HotelFilterViewModel by Delegates.notNull()
 
     @Before

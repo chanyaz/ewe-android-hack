@@ -6,7 +6,7 @@ import com.expedia.bookings.data.payment.PaymentSplitsType
 import rx.Observable
 import rx.subjects.PublishSubject
 
-public class HotelCheckoutMainViewModel(paymentModel: PaymentModel<HotelCreateTripResponse>) {
+class HotelCheckoutMainViewModel(paymentModel: PaymentModel<HotelCreateTripResponse>) {
     val animateInSlideToPurchaseSubject = PublishSubject.create<Unit>()
 
     //OUTLETS

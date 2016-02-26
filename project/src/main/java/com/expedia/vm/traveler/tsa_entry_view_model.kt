@@ -14,7 +14,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.Calendar
 
-public class TSAEntryViewModel(val context: Context, var traveler: Traveler) {
+class TSAEntryViewModel(val context: Context, var traveler: Traveler) {
     val defaultDateSubject = BehaviorSubject.create<LocalDate>(LocalDate(1970, 1, 1))
 
     val formattedDateSubject = BehaviorSubject.create<String>()
@@ -43,7 +43,7 @@ public class TSAEntryViewModel(val context: Context, var traveler: Traveler) {
         traveler.gender = gender
     }
 
-    public fun validate(): Boolean {
+    fun validate(): Boolean {
         val searchParams = Db.getPackageParams()
 
         if (traveler.birthDate != null) {

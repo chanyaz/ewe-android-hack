@@ -23,7 +23,7 @@ class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: Su
     }
 }
 
-public class PackageSuggestionViewModel() {
+class PackageSuggestionViewModel() {
 
     // Outputs
     val titleObservable = BehaviorSubject.create<String>()

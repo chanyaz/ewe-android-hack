@@ -8,7 +8,7 @@ import android.view.View
 import com.expedia.bookings.R
 import kotlin.properties.Delegates
 
-public class MessageProgressView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
+class MessageProgressView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     val linesPaint: Paint = Paint()
     //In case the view isn't a perfect rectangle, maintain both x and y values
     var verticalPaddingGap: Int by Delegates.notNull()

@@ -15,7 +15,7 @@ import com.expedia.vm.HotelFilterViewModel
 import rx.Observer
 import kotlin.properties.Delegates
 
-public class HotelAmenityFilter(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class HotelAmenityFilter(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     val amenityTextView: TextView by bindView(R.id.amenity_label)
     val amenityIconView: ImageView by bindView(R.id.amenity_icon)
@@ -26,7 +26,7 @@ public class HotelAmenityFilter(context: Context, attrs: AttributeSet) : LinearL
     var viewModel: HotelFilterViewModel by Delegates.notNull()
 
 
-    public fun bind(amenity: FilterAmenity, id:Int, vm: HotelFilterViewModel) {
+    fun bind(amenity: FilterAmenity, id:Int, vm: HotelFilterViewModel) {
         this.viewModel = vm
         this.amenity = amenity
         this.amenityId = id

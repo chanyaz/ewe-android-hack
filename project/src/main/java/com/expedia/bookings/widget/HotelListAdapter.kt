@@ -52,7 +52,7 @@ import kotlin.collections.indexOfFirst
 import kotlin.collections.listOf
 import kotlin.properties.Delegates
 
-public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW = 0
     val PRICING_STRUCTURE_HEADER_VIEW = 1
     val HOTEL_VIEW = 2
@@ -215,7 +215,7 @@ public class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, v
             ratingBar.visibility = View.VISIBLE
         }
 
-        public fun bind(viewModel: HotelViewModel) {
+        fun bind(viewModel: HotelViewModel) {
             hotelId = viewModel.hotelId
             hotelListItemsMetadata.add(HotelListItemMetadata(viewModel.hotelId, viewModel.soldOut))
 

@@ -9,7 +9,7 @@ public inline fun <T : Any> notNullAndObservable(crossinline onChange: (newValue
     }
 }
 
-public abstract class NotNullObservableProperty<T : Any>() : ReadWriteProperty<Any?, T> {
+abstract class NotNullObservableProperty<T : Any>() : ReadWriteProperty<Any?, T> {
     private var value: T? = null
 
     protected open fun afterChange(newValue: T): Unit {

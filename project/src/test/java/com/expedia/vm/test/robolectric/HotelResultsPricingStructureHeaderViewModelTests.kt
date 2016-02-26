@@ -15,7 +15,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-public class HotelResultsPricingStructureHeaderViewModelTests {
+class HotelResultsPricingStructureHeaderViewModelTests {
 
     var sut: HotelResultsPricingStructureHeaderViewModel by Delegates.notNull()
 

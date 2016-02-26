@@ -16,7 +16,7 @@ import kotlin.test.assertTrue
 
 
 @RunWith(RobolectricRunner::class)
-public class HotelTravelerPickerViewTest {
+class HotelTravelerPickerViewTest {
     public var vm: HotelTravelerPickerViewModel by Delegates.notNull()
     public var hotelTravelerPicker: HotelTravelerPickerView by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()

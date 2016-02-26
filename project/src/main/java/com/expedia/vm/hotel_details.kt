@@ -447,7 +447,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
     }
 
-    public fun addViewsAfterTransition() {
+    fun addViewsAfterTransition() {
 
         if (hotelOffersResponse.hotelRoomResponse != null && hotelOffersResponse.hotelRoomResponse.isNotEmpty()) {
             uniqueValueAddForRooms = getValueAdd(hotelOffersResponse.hotelRoomResponse)
@@ -542,7 +542,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
     //get list of unique amenity for hotel room offers
     //we display this unique amenity offered in the expanded room view
-    public fun getValueAdd(hotelRooms: List<HotelOffersResponse.HotelRoomResponse>?): List<String> {
+    fun getValueAdd(hotelRooms: List<HotelOffersResponse.HotelRoomResponse>?): List<String> {
         if (CollectionUtils.isEmpty(hotelRooms)) {
             return emptyList()
         }
@@ -604,7 +604,7 @@ class HotelDetailViewModel(val context: Context, val hotelServices: HotelService
 
 val ROOMS_LEFT_CUTOFF = 5
 
-public class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, var amenity: String, var rowIndex: Int, var rowExpanding: PublishSubject<Int>, var selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>, val hasETP: Boolean) {
+class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, var amenity: String, var rowIndex: Int, var rowExpanding: PublishSubject<Int>, var selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>, val hasETP: Boolean) {
 
     var lastRoomSelectedSubscription: Subscription? = null
 

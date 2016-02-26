@@ -20,7 +20,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-public class HotelRecentSearchTest {
+class HotelRecentSearchTest {
     public var vm: HotelSearchViewModel by Delegates.notNull()
     var activity: Activity by Delegates.notNull()
 

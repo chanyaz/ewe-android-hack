@@ -8,7 +8,7 @@ import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelTravelerParams
 import org.joda.time.LocalDate
 
-public abstract class BaseHotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+abstract class BaseHotelSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     open var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
     }

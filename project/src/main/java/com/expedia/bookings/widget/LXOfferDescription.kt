@@ -13,7 +13,7 @@ import com.expedia.bookings.utils.Ui
 import com.squareup.otto.Subscribe
 import kotlin.properties.Delegates
 
-public class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs), View.OnClickListener {
+class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs), View.OnClickListener {
 
     val offerDescription: TextView by lazy {
         findViewById(R.id.description) as TextView

@@ -21,7 +21,7 @@ import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-public class PaymentViewModel(val context: Context) {
+class PaymentViewModel(val context: Context) {
     val resources = context.resources
 
     // inputs

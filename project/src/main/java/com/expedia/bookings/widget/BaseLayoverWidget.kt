@@ -12,7 +12,7 @@ import android.view.View
 import com.expedia.bookings.R
 import java.util.ArrayList
 
-public abstract class BaseLayoverWidget(context: Context, attrs: AttributeSet?) : View(context, attrs) {
+abstract class BaseLayoverWidget(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     val OFF_BY_ONE_BUFFER = 2
 
     var layoverDrawable = ContextCompat.getDrawable(context, R.drawable.flight_layover_pattern_bg) as BitmapDrawable

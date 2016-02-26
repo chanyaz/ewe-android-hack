@@ -15,7 +15,7 @@ import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 
 @RunWith(RobolectricRunner::class)
-public class HotelCreateTripViewModelTest {
+class HotelCreateTripViewModelTest {
 
     val mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get

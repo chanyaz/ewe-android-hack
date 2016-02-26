@@ -11,7 +11,7 @@ import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.PhoneTestCase
 
-public class NewHotelDeepLinkTest: PhoneTestCase() {
+class NewHotelDeepLinkTest: PhoneTestCase() {
 
     @Throws(Throwable::class)
     override fun runTest() {

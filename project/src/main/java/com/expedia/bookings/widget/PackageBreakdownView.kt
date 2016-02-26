@@ -15,7 +15,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.PackageBreakdown
 import com.expedia.vm.PackageBreakdownViewModel
 
-public class PackageBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(context, attrs) {
+class PackageBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(context, attrs) {
     val linearLayout: LinearLayout by bindView(R.id.breakdown_container)
 
     var viewmodel: PackageBreakdownViewModel by notNullAndObservable { vm ->

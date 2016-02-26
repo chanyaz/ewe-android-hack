@@ -19,7 +19,7 @@ import rx.subjects.BehaviorSubject
 import kotlin.collections.firstOrNull
 import kotlin.collections.listOf
 
-public class HotelViewModel(private val context: Context, private val hotel: Hotel) {
+class HotelViewModel(private val context: Context, private val hotel: Hotel) {
     val resources = context.resources
 
     val ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY = 5
@@ -114,7 +114,7 @@ public class HotelViewModel(private val context: Context, private val hotel: Hot
 
     data class UrgencyMessage(val iconDrawableId: Int?, val backgroundColorId: Int, val message: String)
 
-    public fun setImpressionTracked(tracked: Boolean) {
+    fun setImpressionTracked(tracked: Boolean) {
         hotel.hasShownImpression = tracked
     }
 }

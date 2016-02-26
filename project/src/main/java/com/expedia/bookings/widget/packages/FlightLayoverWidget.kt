@@ -15,7 +15,7 @@ public open class FlightLayoverWidget(context: Context, attrs: AttributeSet?) : 
 
     var flightSegmentList: ArrayList<FlightLeg.FlightSegment> = ArrayList()
 
-    public fun update(flightSegments: List<FlightLeg.FlightSegment>, legDurationHours: Int, legDurationMinutes: Int,
+    fun update(flightSegments: List<FlightLeg.FlightSegment>, legDurationHours: Int, legDurationMinutes: Int,
                       longestLegDuration: Int) {
         if (flightSegmentList.isNotEmpty()) {
             flightSegmentList.clear()

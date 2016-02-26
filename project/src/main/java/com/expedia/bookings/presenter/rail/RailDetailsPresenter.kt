@@ -7,7 +7,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.Ui
 
-public class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     init {
         Ui.getApplication(getContext()).railComponent().inject(this)

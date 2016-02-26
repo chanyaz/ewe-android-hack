@@ -15,7 +15,7 @@ public object HotelSearchParamsUtil {
     public val RECENT_HOTEL_SEARCHES_FILE = "recent-hotel-search-list.dat"
     public val PATTERN = "yyyy-MM-dd"
 
-    public fun saveSearchHistory(context: Context, searchParams: HotelSearchParams) {
+    fun saveSearchHistory(context: Context, searchParams: HotelSearchParams) {
         Thread(object : Runnable {
             override fun run() {
 
@@ -45,7 +45,7 @@ public object HotelSearchParamsUtil {
         }).start()
     }
 
-    public fun loadSearchHistory(context: Context): ArrayList<HotelSearchParams> {
+    fun loadSearchHistory(context: Context): ArrayList<HotelSearchParams> {
         try {
             val str = IoUtils.readStringFromFile(RECENT_HOTEL_SEARCHES_FILE, context)
             val type = object : TypeToken<List<HotelSearchParams>>() {}.type
@@ -60,7 +60,7 @@ public object HotelSearchParamsUtil {
         return emptyList<HotelSearchParams>().toCollection(ArrayList())
     }
 
-    @JvmStatic public fun deleteCachedSearches(context: Context) {
+    @JvmStatic fun deleteCachedSearches(context: Context) {
         val locationFiles = arrayOf(RECENT_HOTEL_SEARCHES_FILE)
         for (locationFile in locationFiles) {
             val file = context.getFileStreamPath(locationFile)

@@ -11,7 +11,7 @@ import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.util.endlessObserver
 import rx.subjects.BehaviorSubject
 
-public class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val travelerEntryEntryWidget: FlightTravelerEntryWidget by bindView(R.id.traveler_entry_widget)
     val travelersCompleteSubject = BehaviorSubject.create<Traveler>()
 

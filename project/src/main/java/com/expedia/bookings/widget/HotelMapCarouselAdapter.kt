@@ -32,7 +32,7 @@ import kotlin.collections.firstOrNull
 import kotlin.collections.indexOfFirst
 import kotlin.properties.Delegates
 
-public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: PublishSubject<Hotel>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     val hotelSoldOut = endlessObserver<String> { soldOutHotelId ->
         hotels.firstOrNull { it.hotelId == soldOutHotelId }?.isSoldOut = true
@@ -46,7 +46,7 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
         return hotels.size
     }
 
-    public fun setItems(newHotels: List<Hotel>) {
+    fun setItems(newHotels: List<Hotel>) {
         hotels = newHotels
         notifyDataSetChanged()
     }
@@ -102,7 +102,7 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
             hotelPreviewRating.visibility = View.VISIBLE
         }
 
-        public fun bind(viewModel: HotelViewModel) {
+        fun bind(viewModel: HotelViewModel) {
             hotelId = viewModel.hotelId
             hotelListItemsMetadata.add(HotelListItemMetadata(viewModel.hotelId, viewModel.soldOut))
 
@@ -138,7 +138,7 @@ public class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: 
     }
 }
 
-public fun priceFormatter(resources: Resources, rate: HotelRate?, strikeThrough: Boolean): CharSequence {
+fun priceFormatter(resources: Resources, rate: HotelRate?, strikeThrough: Boolean): CharSequence {
     if (rate == null) return ""
     var hotelPrice = HotelRate.getDisplayMoney(rate, strikeThrough).getFormattedMoney(Money.F_NO_DECIMAL)
 

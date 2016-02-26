@@ -10,7 +10,7 @@ import java.util.LinkedHashMap
 import java.util.regex.Pattern
 import kotlin.text.isNullOrBlank
 
-public class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
+class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
 
     private var createTripRequestCount = 0
 

@@ -26,7 +26,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelConfirmationViewModel
 import com.squareup.phrase.Phrase
 
-public class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
 
     val hotelNameTextView: TextView by bindView(R.id.hotel_name_view)
     val checkInOutDateTextView: TextView by bindView(R.id.check_in_out_dates)

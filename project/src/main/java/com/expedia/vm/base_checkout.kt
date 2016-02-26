@@ -8,7 +8,7 @@ import com.expedia.bookings.data.packages.BaseCheckoutParams
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-public class BaseCheckoutViewModel(val context: Context) {
+class BaseCheckoutViewModel(val context: Context) {
     val builder = BaseCheckoutParams.Builder()
 
     // Inputs

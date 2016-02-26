@@ -14,7 +14,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-public class PhoneEntryViewModelTest {
+class PhoneEntryViewModelTest {
     val TEST_CODE = 355
     val TEST_CODE_STRING = "355"
     val TEST_NAME = "Albania"

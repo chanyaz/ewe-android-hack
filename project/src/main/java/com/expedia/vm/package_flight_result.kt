@@ -9,7 +9,7 @@ import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.StrUtils
 import rx.subjects.BehaviorSubject
 
-public class FlightResultsViewModel() {
+class FlightResultsViewModel() {
     val flightResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
 
     init {
@@ -18,7 +18,7 @@ public class FlightResultsViewModel() {
     }
 }
 
-public class FlightToolbarViewModel(private val context: Context) {
+class FlightToolbarViewModel(private val context: Context) {
     //input
     val refreshToolBar = BehaviorSubject.create<Boolean>()
 

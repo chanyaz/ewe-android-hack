@@ -15,7 +15,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelResultsViewModel
 import kotlin.properties.Delegates
 
-public class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
+class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
     val filterButton: LinearLayout by bindView(R.id.filter_button)
     var mapFilterPlaceholderImageView: ImageView by Delegates.notNull()
     var filterButtonText: TextView by Delegates.notNull()

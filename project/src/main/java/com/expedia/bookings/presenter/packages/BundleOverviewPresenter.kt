@@ -132,7 +132,7 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
         })
     }
 
-    public fun hideCheckoutHeaderImage() {
+    fun hideCheckoutHeaderImage() {
         toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
         statusBar?.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
 
@@ -141,7 +141,7 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
         bundleWidget.bundleContainer.setPadding(0, toolbarHeight, 0, 0)
     }
 
-    public fun showCheckoutHeaderImage() {
+    fun showCheckoutHeaderImage() {
         toolbar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         statusBar?.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         toolbar.viewModel.toolbarTitle.onNext("")

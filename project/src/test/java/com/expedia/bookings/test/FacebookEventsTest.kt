@@ -11,7 +11,7 @@ import com.expedia.bookings.data.FlightTrip
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.tracking.FacebookEvents
 
-public class FacebookEventsTest {
+class FacebookEventsTest {
 
     @Test
     fun testCalculateLowestRateFlightsWithThreeFlights() {

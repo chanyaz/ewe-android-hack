@@ -17,7 +17,7 @@ import rx.subjects.PublishSubject
 import java.util.ArrayList
 import kotlin.collections.emptyList
 
-public class PackageFlightListAdapter(val flightSelectedSubject: PublishSubject<FlightLeg>, val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class PackageFlightListAdapter(val flightSelectedSubject: PublishSubject<FlightLeg>, val context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var flights: List<FlightLeg> = emptyList()
     var maxFlightDuration = 0
     val resultsSubject = BehaviorSubject.create<List<FlightLeg>>()
@@ -69,7 +69,7 @@ public class PackageFlightListAdapter(val flightSelectedSubject: PublishSubject<
             flightSelectedSubject.onNext(flight)
         }
 
-        public fun bind(viewModel: PackageFlightViewModel) {
+        fun bind(viewModel: PackageFlightViewModel) {
             viewModel.flightTimeObserver.subscribeText(flightTimeTextView)
             viewModel.priceObserver.subscribeText(priceTextView)
             viewModel.durationObserver.subscribeText(flightDurationTextView)

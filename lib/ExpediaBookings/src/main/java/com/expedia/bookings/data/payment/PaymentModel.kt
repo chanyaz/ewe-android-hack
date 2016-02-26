@@ -11,7 +11,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 
-public class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
+class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     val discardPendingCurrencyToPointsAPISubscription = PublishSubject.create<Unit>()
 
     class PaymentSplitsAndTripResponse(val tripResponse: TripResponse, val paymentSplits: PaymentSplits) {
