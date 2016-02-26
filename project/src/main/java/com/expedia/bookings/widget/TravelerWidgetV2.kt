@@ -50,9 +50,4 @@ class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
         dialog
     }
 
-    init {
-        this.setOnClickListener {
-            travelerDialog.show()
-        }
-    }
 }
