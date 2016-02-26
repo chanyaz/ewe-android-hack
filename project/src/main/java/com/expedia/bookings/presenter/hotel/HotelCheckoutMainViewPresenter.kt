@@ -98,12 +98,12 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
 
-    var hotelCheckoutMainViewModel: HotelCheckoutMainViewModel by notNullAndObservable {
-        it.updateEarnedRewards.subscribe { it ->
+    var hotelCheckoutMainViewModel: HotelCheckoutMainViewModel by notNullAndObservable { vm ->
+        vm.updateEarnedRewards.subscribe { it ->
             Db.getTripBucket().hotelV2.updateTotalPointsToEarn(it)
             loginWidget.updateRewardsText(lineOfBusiness)
         }
-        it.animateSlideToPurchaseWithPaymentSplits.subscribe {
+        vm.animateSlideToPurchaseWithPaymentSplits.subscribe {
             HotelV2Tracking().trackHotelV2SlideToPurchase(paymentInfoCardView.getCardType(), it)
         }
     }
@@ -231,7 +231,6 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
     val createTripResponseListener: Observer<HotelCreateTripResponse> = endlessObserver { trip ->
         Db.getTripBucket().clearHotelV2()
         Db.getTripBucket().add(TripBucketItemHotelV2(trip))
-
         hotelCheckoutSummaryWidget.viewModel.tripResponseObserver.onNext(trip)
         hotelCheckoutSummaryWidget.viewModel.guestCountObserver.onNext(hotelSearchParams.adults + hotelSearchParams.children.size)
         val couponRate = trip.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.getPriceAdjustments()
@@ -278,7 +277,9 @@ public class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet
 
     override fun animateInSlideToPurchase(visible: Boolean) {
         super.animateInSlideToPurchase(visible)
-        hotelCheckoutMainViewModel.animateInSlideToPurchaseSubject.onNext(Unit)
+        if (visible) {
+            hotelCheckoutMainViewModel.animateInSlideToPurchaseSubject.onNext(Unit)
+        }
     }
 
 }
