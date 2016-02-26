@@ -52,6 +52,10 @@
     <color name="lx_ticket_selector_disabled_color_orbitz">#40003E74</color>
 
     <!--Account Lib Colors -->
+    <color name="btn_sign_in_normal">#C4204B</color>
+    <color name="btn_sign_in_pressed">#9D2D4B</color>
+    <color name="btn_sign_in_focused">#ED164E</color>
+    <color name="btn_sign_in_disabled">#791F37</color>
     <color name="acct__btn_sign_in_text_orbitz">#FFFFFF</color>
     <color name="acct__bg_input_text_error_orbitz">#FFFFFF</color>
     <color name="acct__bg_input_text_good_orbitz">#EEEEEE</color>
