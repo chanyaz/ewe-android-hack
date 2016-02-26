@@ -11,5 +11,6 @@
     <color name="temporary_primary_gray">#494949</color>
     <color name="temporary_secondary_gray">#818181</color>
     <color name="temporary_savings">#4CBD08</color>
+    <color name="temporary_header_gray">#797979</color>
 
 </resources>

@@ -1144,6 +1144,13 @@
         <item name="unselectedDrawable">@color/itin_white_text</item>
     </style>
 
+    <!--Header title text used inside search results or bundle overview stepper-->
+    <style name="ResultsHeadersText">
+        <item name="android:textColor">@color/packages_results_header_text</item>
+        <item name="android:textSize">@dimen/packages_bundle_overview_footer_primary_text</item>
+        <item name="textStyle">medium</item>
+    </style>
+
     <!-- Borderless button for "Enter Itinerary Number" in login screen -->
     <style name="Widget.BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:background">@drawable/bg_btn_borderless_kitkat</item>

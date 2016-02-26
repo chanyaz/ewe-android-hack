@@ -45,19 +45,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:textColor="@color/package_bundle_icon_color"
-                    android:textSize="16sp"
-                    app:textStyle="medium" />
+                    style="@style/BundleOverviewWidgets.PrimaryText"/>
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/hotels_room_guest_info_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:textSize="14sp"
                     android:tint="?attr/primary_color"
                     android:visibility="gone"
-                    app:textStyle="normal" />
+                    style="@style/BundleOverviewWidgets.SecondaryText" />
             </LinearLayout>
 
             <ImageView
