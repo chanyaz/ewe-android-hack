@@ -3764,6 +3764,10 @@ public class OmnitureTracking {
 
 	public static void trackPageLoadLaunchScreen() {
 		ADMS_Measurement s = createTrackPageLoadEventBase(LAUNCH_SCREEN);
+		boolean isFirstAppLaunch = ExpediaBookingApp.isFirstLaunchEver() || ExpediaBookingApp.isFirstLaunchOfAppVersion();
+		if (isFirstAppLaunch && !User.isLoggedIn(sContext)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInOnLaunch);
+		}
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		s.track();
