@@ -26,7 +26,6 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.ISectionEditable
@@ -41,6 +40,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.WalletUtils
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeImageDrawable
 import com.expedia.util.subscribeText
@@ -48,9 +48,6 @@ import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.PaymentViewModel
 import com.squareup.phrase.Phrase
-import kotlin.collections.isNotEmpty
-import kotlin.text.isEmpty
-import kotlin.text.isNullOrBlank
 
 public open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(context, attr), View.OnFocusChangeListener {
     val REQUEST_CODE_GOOGLE_WALLET_ACTIVITY = 1989
@@ -363,7 +360,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
     private val defaultTransition = object : Presenter.DefaultTransition(PaymentDefault::class.java.name) {
         override fun finalizeTransition(forward: Boolean) {
             viewmodel.enableMenu.onNext(false)
-            viewmodel.toolbarTitle.onNext(resources.getString(R.string.Checkout))
+            viewmodel.toolbarTitle.onNext(getCheckoutToolbarTitle(resources))
             cardInfoContainer.visibility = View.VISIBLE
             paymentOptionsContainer.visibility = View.GONE
             billingInfoContainer.visibility = View.GONE
@@ -380,7 +377,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             paymentOptionsContainer.visibility = if (forward) View.VISIBLE else View.GONE
             paymentOptionGoogleWallet.visibility = if (WalletUtils.isWalletSupported(getLineOfBusiness())) View.VISIBLE else View.GONE
             billingInfoContainer.visibility = View.GONE
-            viewmodel.toolbarTitle.onNext(resources.getString(if (forward) R.string.cars_payment_options_text else  R.string.Checkout))
+            viewmodel.toolbarTitle.onNext(if (forward) resources.getString(R.string.cars_payment_options_text) else getCheckoutToolbarTitle(resources))
             paymentButton.bind()
             paymentButton.dismissPopup()
             if (forward) {
@@ -394,7 +391,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             PaymentDetails::class.java) {
         override fun finalizeTransition(forward: Boolean) {
             viewmodel.enableMenu.onNext(forward)
-            viewmodel.toolbarTitle.onNext(resources.getString(if (forward) R.string.new_credit_debit_card else R.string.Checkout))
+            viewmodel.toolbarTitle.onNext(if (forward) resources.getString(R.string.new_credit_debit_card) else getCheckoutToolbarTitle(resources))
             cardInfoContainer.visibility = if (forward) View.GONE else View.VISIBLE
             paymentOptionsContainer.visibility = View.GONE
             billingInfoContainer.visibility =if (forward) View.VISIBLE else View.GONE

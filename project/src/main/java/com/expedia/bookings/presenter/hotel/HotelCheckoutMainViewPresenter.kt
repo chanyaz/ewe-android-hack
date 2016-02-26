@@ -2,7 +2,6 @@ package com.expedia.bookings.presenter.hotel
 
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
@@ -31,6 +30,7 @@ import com.expedia.bookings.widget.CouponWidget
 import com.expedia.bookings.widget.HotelCheckoutSummaryWidget
 import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.util.endlessObserver
+import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
@@ -111,6 +111,10 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
         couponCardView.viewmodel = HotelCouponViewModel(getContext(), hotelServices, paymentModel)
+    }
+
+    override fun getToolbarTitle(): String {
+        return getCheckoutToolbarTitle(resources)
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {

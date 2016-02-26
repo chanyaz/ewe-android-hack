@@ -205,6 +205,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 	}
 
+	protected String getToolbarTitle() {
+		return getContext().getString(R.string.cars_checkout_text);
+	}
+
 	public void setupToolbar() {
 		toolbar.setViewModel(new CheckoutToolbarViewModel(getContext()));
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
@@ -214,7 +218,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}
 		});
 
-		toolbar.setTitle(getContext().getString(R.string.cars_checkout_text));
+		toolbar.setTitle(getToolbarTitle());
 
 		menuDone = toolbar.getMenu().findItem(R.id.menu_done);
 		// Let's start with not showing the menuDone button
@@ -607,8 +611,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				resetMenuButton();
 			}
 			listenToScroll = !forward;
-			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle()
-				: getContext().getString(R.string.cars_checkout_text));
+			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle() : getToolbarTitle());
 
 			toolbar.getToolbarNavIcon().setParameter(
 				(float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()
