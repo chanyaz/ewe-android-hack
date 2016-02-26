@@ -27,40 +27,42 @@ public class PersistentCookieManagerTest {
 	@Rule
 	public TemporaryFolder folder = new TemporaryFolder();
 
-	private static final Map<String, List<String>> NO_COOKIES = new HashMap();
-	private static final Map<String, List<String>> EXPEDIA_COOKIES = new HashMap() {
-		{
-			ArrayList<String> list = new ArrayList<>();
-			list.add("TH=Zq1lI0f9YKT2/TwF8RKlZoltqBiQRIVt6+CeeeShGPbUa7trUEYzeQ94VLqfTlsrIApXJvOb/4o=|VNgEN5B50gAOfASNHIjtpg8Z/ucPcBwzPSZEgxBSozSIhHn3mcz0N21PU9QbNgKX02tk+PhOnZMX16DGvJ+enbPsqDVe33qF|sa5pvCHP8aYf8DKjxjUKO4rW98xwy5y1; Domain=.expedia.com; Expires=Fri, 29-May-2020 15:08:32 GMT; Path=/");
-			list.add("SSID1=BwCKTh3EAAAAAADsbu5U2WcCEOxu7lQBAAAAAAAAAAAA7G7uVAAKihsEAAFEZAAA7G7uVAEACwQAAaFjAADsbu5UAQD1AwABBWMAAOxu7lQBABkEAAE2ZAAA7G7uVAEADgQAAbljAADsbu5UAQAABAABSGMAAOxu7lQBABcEAAEwZAAA7G7uVAEAEgQAARlkAADsbu5UAQD0AwAB-WIAAOxu7lQBAOkDAAFkYQAA7G7uVAEAAwQAAVFjAADsbu5UAQAYBAABMWQAAOxu7lQBAA8EAAHDYwAA7G7uVAEAEAQAAcdjAADsbu5UAQA; path=/; domain=.expedia.com; expires=Fri, 26-Feb-2016 00:55:08 GMT");
-			list.add("SSSC1=1.G6119950903803013081.1|1001.24932:1012.25337:1013.25349:1024.25416:1027.25425:1035.25505:1038.25529:1039.25539:1040.25543:1042.25625:1047.25648:1048.25649:1049.25654:1051.25668; path=/; domain=.expedia.com");
-			list.add("SSRT1=7G7uVAIAAA; path=/; domain=.expedia.com; expires=Fri, 26-Feb-2016 00:55:08 GMT");
-			list.add("SSPV1=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA; path=/; domain=.expedia.com; expires=Fri, 26-Feb-2016 00:55:08 GMT");
-			list.add("SSLB=1; path=/; domain=.expedia.com");
-			list.add("MC1=GUID=4a7e5c02232b479aa4807d32c6b7129c; Domain=.expedia.com; Expires=Fri, 28-Feb-2020 17:48:28 GMT; Path=/");
-			list.add("JSESSION=890e137e-c002-4718-b00f-76c4877bb296; Domain=.expedia.com; Path=/");
-			list.add("tpid=v.1,1; Domain=.expedia.com; Expires=Fri, 28-Feb-2020 17:48:28 GMT; Path=/");
-			list.add("iEAPID=0,; Domain=.expedia.com; Path=/");
-			list.add("linfo=v.4,|0|0|255|1|0||||||||1033|0|0||0|0|0|-1|-1; Domain=.expedia.com; Expires=Fri, 28-Feb-2020 17:48:28 GMT; Path=/");
-			list.add("minfo=v.5,EX015B0EEC4B$0E$81O$3Bq$8C$98$DF$CC$93$DE$A1$ABS$EB$A36$CA$D6$5B$D4g$FF$81$C2a$DD$A6$19$D1$1B0$26$EC$B4$86$C3$27$1D$FB$3F$3A$C6$24$E3$A2$A4$A7X$F7P; Domain=.expedia.com; Expires=Fri, 28-Feb-2020 17:48:28 GMT; Path=/");
-			put("Set-Cookie", list);
-		}
-	};
-	private static final Map<String, List<String>> REVIEWS_EXPEDIA_COOKIES = new HashMap() {
-		{
-			ArrayList<String> list = new ArrayList<>();
-			list.add(
-				"minfo=v.5,EX016141700E$B3$98$D7$34$37$A0J$C2$E9$2Ae$A0$B98$AA$B9$99$93f$E9l$D1$2D$EB$E3$BD$D6L$DB$9A$B33$89w$81$92$FB0$9F$C7D$B1G$CF$83$B5$CE3$B2gu$A7v$B6$9B$89$87$E5$3F$89$DD$89$F5$E8$BBtd$94; Domain=.expedia.com; Expires=Fri, 28-Feb-2020 17:48:28 GMT; Path=/");
-			put("Set-Cookie", list);
-		}
-	};
+	private static final Map<String, List<String>> NO_COOKIES = new HashMap<>();
+	private static final Map<String, List<String>> EXPEDIA_COOKIES = new HashMap<>();
+	private static final Map<String, List<String>> REVIEWS_EXPEDIA_COOKIES = new HashMap<>();
+	private static final Map<String, List<String>> EXPIRED_COOKIES = new HashMap<>();
+
+	static {
+		ArrayList<String> list = new ArrayList<>();
+		list.add("TH=Zq1lI0f9YKT2/TwF8RKlZoltqBiQRIVt6+CeeeShGPbUa7trUEYzeQ94VLqfTlsrIApXJvOb/4o=|VNgEN5B50gAOfASNHIjtpg8Z/ucPcBwzPSZEgxBSozSIhHn3mcz0N21PU9QbNgKX02tk+PhOnZMX16DGvJ+enbPsqDVe33qF|sa5pvCHP8aYf8DKjxjUKO4rW98xwy5y1; Domain=.expedia.com; Path=/");
+		list.add("SSID1=BwCKTh3EAAAAAADsbu5U2WcCEOxu7lQBAAAAAAAAAAAA7G7uVAAKihsEAAFEZAAA7G7uVAEACwQAAaFjAADsbu5UAQD1AwABBWMAAOxu7lQBABkEAAE2ZAAA7G7uVAEADgQAAbljAADsbu5UAQAABAABSGMAAOxu7lQBABcEAAEwZAAA7G7uVAEAEgQAARlkAADsbu5UAQD0AwAB-WIAAOxu7lQBAOkDAAFkYQAA7G7uVAEAAwQAAVFjAADsbu5UAQAYBAABMWQAAOxu7lQBAA8EAAHDYwAA7G7uVAEAEAQAAcdjAADsbu5UAQA; path=/; domain=.expedia.com");
+		list.add("SSSC1=1.G6119950903803013081.1|1001.24932:1012.25337:1013.25349:1024.25416:1027.25425:1035.25505:1038.25529:1039.25539:1040.25543:1042.25625:1047.25648:1048.25649:1049.25654:1051.25668; path=/; domain=.expedia.com");
+		list.add("SSRT1=7G7uVAIAAA; path=/; domain=.expedia.com");
+		list.add("SSPV1=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA; path=/; domain=.expedia.com");
+		list.add("SSLB=1; path=/; domain=.expedia.com");
+		list.add("MC1=GUID=4a7e5c02232b479aa4807d32c6b7129c; Domain=.expedia.com; Path=/");
+		list.add("JSESSION=890e137e-c002-4718-b00f-76c4877bb296; Domain=.expedia.com; Path=/");
+		list.add("tpid=v.1,1; Domain=.expedia.com; Path=/");
+		list.add("iEAPID=0,; Domain=.expedia.com; Path=/");
+		list.add("linfo=v.4,|0|0|255|1|0||||||||1033|0|0||0|0|0|-1|-1; Domain=.expedia.com; Path=/");
+		list.add("minfo=v.5,EX015B0EEC4B$0E$81O$3Bq$8C$98$DF$CC$93$DE$A1$ABS$EB$A36$CA$D6$5B$D4g$FF$81$C2a$DD$A6$19$D1$1B0$26$EC$B4$86$C3$27$1D$FB$3F$3A$C6$24$E3$A2$A4$A7X$F7P; Domain=.expedia.com; Path=/");
+		EXPEDIA_COOKIES.put("Set-Cookie", list);
+
+		list = new ArrayList<>();
+		list.add("minfo=v.5,EX016141700E$B3$98$D7$34$37$A0J$C2$E9$2Ae$A0$B98$AA$B9$99$93f$E9l$D1$2D$EB$E3$BD$D6L$DB$9A$B33$89w$81$92$FB0$9F$C7D$B1G$CF$83$B5$CE3$B2gu$A7v$B6$9B$89$87$E5$3F$89$DD$89$F5$E8$BBtd$94; Domain=.expedia.com; Path=/");
+		REVIEWS_EXPEDIA_COOKIES.put("Set-Cookie", list);
+
+		list = new ArrayList<>();
+		list.add("MC1=GUID=4a7e5c02232b479aa4807d32c6b7129c; Domain=.expedia.com; Path=/; Expires=Fri, 26-Feb-2016 00:08:28 GMT");
+		EXPIRED_COOKIES.put("Set-Cookie", list);
+	}
 
 	private URI expedia;
 	private URI reviews;
 	private File storage;
-	private File oldCookieStorage;
 	private PersistentCookieManager manager;
 
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Before
 	public void before() throws Throwable {
 
@@ -69,7 +71,7 @@ public class PersistentCookieManagerTest {
 		storage = folder.newFile();
 		storage.delete();
 
-		oldCookieStorage = folder.newFile();
+		File oldCookieStorage = folder.newFile();
 		oldCookieStorage.delete();
 		manager = new PersistentCookieManager(storage);
 	}
@@ -100,6 +102,14 @@ public class PersistentCookieManagerTest {
 		expectCookies(12);
 		expectExists(storage);
 		expectCookie(expedia, "MC1", "GUID=4a7e5c02232b479aa4807d32c6b7129c");
+	}
+
+	@Test
+	public void ignoreExpiredCookies() throws Throwable {
+		expectNotExists(storage);
+		manager.put(expedia, EXPIRED_COOKIES);
+		expectCookies(0);
+		expectExists(storage);
 	}
 
 	@Test
