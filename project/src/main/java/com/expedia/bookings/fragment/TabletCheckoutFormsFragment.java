@@ -638,20 +638,25 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	}
 
 	private void updateSplitTicketRulesText() {
-		if (mSplitTicketRulesView != null && Db.getTripBucket().getFlight().getItineraryResponse().isSplitTicket()) {
-			mSplitTicketRulesView.setVisibility(View.VISIBLE);
-			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
-			String baggageFeesUrlLegOne = flightTrip.getLeg(0).getBaggageFeesUrl();
-			String baggageFeesUrlLegTwo = flightTrip.getLeg(1).getBaggageFeesUrl();
+		if (mSplitTicketRulesView != null) {
+			if (Db.getTripBucket().getFlight().getFlightTrip().isSplitTicket()) {
+				mSplitTicketRulesView.setVisibility(View.VISIBLE);
+				FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
+				String baggageFeesUrlLegOne = flightTrip.getLeg(0).getBaggageFeesUrl();
+				String baggageFeesUrlLegTwo = flightTrip.getLeg(1).getBaggageFeesUrl();
 
-			String baggageFeesTextWithLinks =
-				getString(R.string.split_ticket_baggage_fees_tablet, baggageFeesUrlLegOne, baggageFeesUrlLegTwo);
-			int color = com.expedia.bookings.utils.Ui.obtainThemeColor(getContext(),
-				R.attr.skin_tablet_legal_blurb_text_color);
-			SpannableStringBuilder spannableStringBuilder =
-				StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, color, true);
-			mSplitTicketFeeLinks.setText(spannableStringBuilder);
-			mSplitTicketFeeLinks.setMovementMethod(LinkMovementMethod.getInstance());
+				String baggageFeesTextWithLinks =
+					getString(R.string.split_ticket_baggage_fees_tablet, baggageFeesUrlLegOne, baggageFeesUrlLegTwo);
+				int color = com.expedia.bookings.utils.Ui.obtainThemeColor(getContext(),
+					R.attr.skin_tablet_legal_blurb_text_color);
+				SpannableStringBuilder spannableStringBuilder =
+					StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, color, true);
+				mSplitTicketFeeLinks.setText(spannableStringBuilder);
+				mSplitTicketFeeLinks.setMovementMethod(LinkMovementMethod.getInstance());
+			}
+			else {
+				mSplitTicketRulesView.setVisibility(View.GONE);
+			}
 		}
 	}
 
@@ -1099,6 +1104,5 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 		}
 		updateResortFeeText();
 		updateDepositPolicyText();
-		updateSplitTicketRulesText();
 	}
 }
