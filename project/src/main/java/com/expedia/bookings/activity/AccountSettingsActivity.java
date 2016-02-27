@@ -360,7 +360,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	}
 
 	private String getCountryDescription() {
-		PointOfSale info = PointOfSale.getPointOfSale(this);
+		PointOfSale info = PointOfSale.getPointOfSale();
 		final String country = getString(info.getCountryNameResId());
 		final String url = info.getUrl();
 		return country + " - " + url;
@@ -413,7 +413,9 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 						numberFormatter.format(member.getLoyaltyPointsPending())));
 
 				TextView countryTextView = Ui.findView(this, R.id.country);
-				countryTextView.setText(getString(PointOfSale.getPointOfSale(this).getCountryNameResId()));
+				PointOfSale pos = PointOfSale.getPointOfSale();
+				countryTextView.setText(getString(pos.getCountryNameResId()));
+				countryTextView.setCompoundDrawablesWithIntrinsicBounds(pos.getCountryFlagResId(), 0, 0, 0);
 			}
 			else {
 				loyaltySection.setVisibility(View.GONE);
