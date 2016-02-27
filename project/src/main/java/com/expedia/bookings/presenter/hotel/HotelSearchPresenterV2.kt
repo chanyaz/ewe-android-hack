@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -46,6 +47,8 @@ import com.expedia.vm.RecentSearchesAdapterViewModel
 import org.joda.time.LocalDate
 
 class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelSearchPresenter(context, attrs) {
+    val ANIMATION_DURATION = 200L
+    val screenHeight = Ui.getScreenSize(context).y
     val toolbar: Toolbar by bindView(R.id.search_v2_toolbar)
     val scrollView : ScrollView by bindView(R.id.scrollView)
     val searchContainer: ViewGroup by bindView(R.id.search_v2_container)
@@ -61,6 +64,11 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
     val searchButton: Button by bindView(R.id.search_button_v2)
     var searchLocationEditText: SearchView? = null
     val toolBarTitle : TextView by bindView(R.id.title)
+    val recentSearchesV2OutAnimator: ObjectAnimator by  lazy {
+        var animator = ObjectAnimator.ofFloat(recentSearchesV2, "translationY", 0f, (screenHeight - recentSearchesV2.top).toFloat()).setDuration(ANIMATION_DURATION)
+        animator
+    }
+
     override var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.hotelSearchViewModelSubject.onNext(vm)
         travelerWidgetV2.hotelSearchViewModelSubject.onNext(vm)
@@ -97,7 +105,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
         com.mobiata.android.util.Ui.hideKeyboard(this)
         scrollView.scrollTo(0 ,scrollView.top)
         searchButton.setTextColor(ContextCompat.getColor(context, R.color.white_disabled))
-    }
+   }
 
     //TODO select calendar dates from deeplink
     override fun selectDates(startDate: LocalDate?, endDate: LocalDate?) {
@@ -160,7 +168,24 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
         suggestionRecyclerView.addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25f, resources.displayMetrics).toInt(), false))
 
         destinationCardView.setOnClickListener {
+            slideDownRecentSearches()
             show(SuggestionSelectionState())
+        }
+
+        calendarWidgetV2.setOnClickListener {
+            slideDownRecentSearches()
+            calendarWidgetV2.calendarDialog.show()
+        }
+
+        travelerWidgetV2.setOnClickListener {
+            slideDownRecentSearches()
+            travelerWidgetV2.travelerDialog.show()
+        }
+    }
+
+    fun slideDownRecentSearches() {
+        if (recentSearchesV2.translationY == 0f) {
+            recentSearchesV2OutAnimator.start()
         }
     }
 
@@ -347,20 +372,23 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
     }
 
     var toolbarTitleTop = 0
-    val screenHeight = Ui.getScreenSize(context).y
+    var slideDownRecentSearches = false
 
     override fun animationStart(forward: Boolean) {
         super.animationStart(forward)
         searchCardContainer.translationY = (if (forward) 0 else -searchCardContainer.height).toFloat()
         searchButton.translationY = (if (forward) 0 else searchButton.height).toFloat()
         toolbarTitleTop = (toolBarTitle.bottom - toolBarTitle.top) / 3
+        slideDownRecentSearches = if(recentSearchesV2.translationY == 0f) true  else false
     }
 
     override fun animationUpdate(f: Float, forward: Boolean) {
         super.animationUpdate(f, forward)
-        val translationRecentSearches = (screenHeight - recentSearchesV2.top) * if (forward) (1 - f) else f
+        if(slideDownRecentSearches) {
+            val translationRecentSearches = (screenHeight - recentSearchesV2.top) * if (forward) (1 - f) else f
+            recentSearchesV2.translationY = translationRecentSearches
+        }
         val translationSearchesCardContainer = (-searchCardContainer.height) * if (forward) (1 - f) else f
-        recentSearchesV2.translationY = translationRecentSearches
         searchCardContainer.translationY = translationSearchesCardContainer
         searchButton.translationY = (if (forward) searchButton.height * (1 - f) else searchButton.height * f).toFloat()
         val factor: Float = if (forward) f else Math.abs(1 - f)

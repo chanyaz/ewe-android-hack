@@ -90,9 +90,4 @@ class CalendarWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
         dialog
     }
 
-    init {
-        this.setOnClickListener {
-            calendarDialog.show()
-        }
-    }
 }
