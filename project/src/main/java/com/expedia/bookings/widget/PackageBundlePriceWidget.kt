@@ -54,7 +54,7 @@ class PackageBundlePriceWidget(context: Context, attrs: AttributeSet?) : LinearL
         packagebreakdown.viewmodel.iconVisibilityObservable.subscribe { show ->
             toggleBundleTotalCompoundDrawable(show)
         }
-        bundleTotalText.setOnClickListener {
+        this.setOnClickListener {
             // We want to show cost breakdown ONLY in checkout screen. We set the rightDrawable only when createTrip returns. So let's check
             if (bundleTotalText.compoundDrawables[2] != null)
                 dialog.show()

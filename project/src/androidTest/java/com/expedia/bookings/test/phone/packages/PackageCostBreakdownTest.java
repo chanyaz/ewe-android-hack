@@ -82,8 +82,8 @@ public class PackageCostBreakdownTest extends PackageTestCase {
 
 		//Check savings text and color
 		onView(allOf(withText("Total Savings"), hasSibling(withText("$56.50")))).check(matches(isDisplayed()));
-		onView(allOf(withText("Total Savings"))).check(matches(withTextColor("#A4C639")));
-		onView(allOf(withText("$56.50"))).check(matches(withTextColor("#A4C639")));
+		onView(allOf(withText("Total Savings"))).check(matches(withTextColor("#6BCA2C")));
+		onView(allOf(withText("$56.50"))).check(matches(withTextColor("#6BCA2C")));
 
 		onView(allOf(withText("Due to Expedia"), hasSibling(withText("$2,538.62")))).check(matches(isDisplayed()));
 	}
