@@ -17,6 +17,7 @@
         <item name="skin_carsToggleBackgroundSelectorDrawable">@drawable/cars_toggle_background_selector_orbitz</item>
         <item name="skin_loginBrandLogoDrawable">@drawable/orb</item>
         <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe</item>
+        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_orb</item>
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_orbitz</item>
         <item name="skin_checkoutLoginButtonColor">@android:color/white</item>
@@ -33,5 +34,6 @@
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle_orbitz</item>
         <item name="skin_rippleDrawable">@drawable/car_button_ripple</item>
+        <item name="paymentWidgetLayout">@layout/payment_widget</item>
     </style>
 </resources>
