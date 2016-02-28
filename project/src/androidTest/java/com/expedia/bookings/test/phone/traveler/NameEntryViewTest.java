@@ -1,13 +1,13 @@
 package com.expedia.bookings.test.phone.traveler;
 
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.runner.AndroidJUnit4;
-import android.view.LayoutInflater;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
+import android.view.LayoutInflater;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler;
@@ -16,8 +16,6 @@ import com.expedia.ui.HotelActivity;
 import com.expedia.vm.traveler.NameEntryViewModel;
 
 import static org.junit.Assert.assertEquals;
-
-
 
 @RunWith(AndroidJUnit4.class)
 public class NameEntryViewTest {

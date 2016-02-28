@@ -2136,6 +2136,7 @@
     <string name="save_traveler_message_TEMPLATE">Save {name}\'s information under your {brand} account to speed up future purchases?</string>
     <!-- no thanks -->
     <string name="no_thanks">No Thanks</string>
+    <string name="advanced">Advanced</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->

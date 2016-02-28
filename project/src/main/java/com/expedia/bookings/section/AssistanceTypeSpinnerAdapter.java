@@ -16,6 +16,8 @@ import com.mobiata.android.util.Ui;
 
 public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 
+	private final int mTextViewId;
+	private final int mDropdownResourceId;
 	private Context mContext;
 
 	class AssistanceSpinnerHelper {
@@ -48,7 +50,17 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 	private String mFormatString = "%s";
 
 	public AssistanceTypeSpinnerAdapter(Context context) {
+		this(context, R.layout.simple_spinner_traveler_item);
+	}
+
+	public AssistanceTypeSpinnerAdapter(Context context, int textViewId) {
+		this(context, textViewId, R.layout.simple_dropdown_item_2line_dark);
+	}
+
+	public AssistanceTypeSpinnerAdapter(Context context, int textViewId, int dropDownResource) {
 		mContext = context;
+		mTextViewId = textViewId;
+		mDropdownResourceId = dropDownResource;
 		fillAssistanceTypes(context);
 	}
 
@@ -74,7 +86,7 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View retView;
 		if (convertView == null) {
-			retView = Ui.inflate(R.layout.simple_spinner_traveler_item, parent, false);
+			retView = Ui.inflate(mTextViewId, parent, false);
 		}
 		else {
 			retView = convertView;
@@ -88,7 +100,7 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 	public View getDropDownView(int position, View convertView, ViewGroup parent) {
 		View retView;
 		if (convertView == null) {
-			retView = Ui.inflate(R.layout.simple_dropdown_item_2line_dark, parent, false);
+			retView = Ui.inflate(mDropdownResourceId, parent, false);
 		}
 		else {
 			retView = convertView;

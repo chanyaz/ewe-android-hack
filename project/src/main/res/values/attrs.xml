@@ -312,5 +312,6 @@
         <attr name="android:focusableInTouchMode"/>
         <attr name="android:cursorVisible"/>
         <attr name="android:longClickable"/>
+        <attr name="android:maxLength"/>
     </declare-styleable>
 </resources>

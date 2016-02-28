@@ -47,7 +47,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
 
         fragmentActivity = context as FragmentActivity
 
-        val genderAdapter = GenderSpinnerAdapter(context, R.layout.gender_spinner_item, R.layout.spinner_traveler_entry_dropdown_item)
+        val genderAdapter = GenderSpinnerAdapter(context, R.layout.material_spinner_item, R.layout.spinner_traveler_entry_dropdown_item)
         genderSpinner.adapter = genderAdapter
         genderSpinner.onItemSelectedListener = GenderItemSelectedListener()
 

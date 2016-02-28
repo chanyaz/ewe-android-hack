@@ -2,6 +2,7 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.support.design.widget.TextInputLayout
+import android.text.InputFilter
 import android.text.InputType
 import android.util.AttributeSet
 import android.view.View
@@ -24,6 +25,12 @@ public open class MaterialTextInput(context: Context, attrs: AttributeSet?) : Te
             editText?.isFocusableInTouchMode = attrSet.getBoolean(R.styleable.MaterialTextInput_android_focusableInTouchMode, true)
             editText?.isCursorVisible = attrSet.getBoolean(R.styleable.MaterialTextInput_android_cursorVisible, true)
             editText?.isLongClickable = attrSet.getBoolean(R.styleable.MaterialTextInput_android_longClickable, false)
+            val maxLength = attrSet.getInteger(R.styleable.MaterialTextInput_android_maxLength, 0)
+            if (maxLength > 0) {
+                editText?.filters = arrayOf<InputFilter>(android.text.InputFilter.LengthFilter(maxLength))
+            } else {
+                editText?.filters = arrayOfNulls<InputFilter>(0)
+            }
         } finally {
             attrSet.recycle();
         }
