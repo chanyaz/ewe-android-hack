@@ -78,7 +78,8 @@ class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, val reque
     }
 
     fun getLxSuggestions(query: String, locale: String, client: String, observer: Observer<MutableList<SuggestionV4>>): Subscription {
-        val type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD
+        val type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD or
+                SuggestionResultType.POINT_OF_INTEREST
         val lob = "ACTIVITIES"
         val features = "ta_hierarchy"
         return suggestV4(query, type, locale, features, client, lob).subscribe(observer)
