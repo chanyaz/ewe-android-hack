@@ -14,15 +14,11 @@ def main():
 		try:
 			file = open ('outdated_dependecies.txt', 'w')
 			for dependency in outdatedDependencies['dependencies'] :
-				print >> file, "Group : " + dependency['group']
-				print >> file, "Name : " + dependency['name']
-				print >> file, "Current Version : " + dependency['version']
-				print >> file, "Available Version : " + dependency['available']['release']
-				print >> file, "-------------------------------------------"
+				str = "%s: %s - %s -> %s" % (dependency['group'], dependency['name'], dependency['version'], dependency['available']['release'])
+				print >> file, str
 			print "File created successfully."
 		except Exception, e:
 			print "Something went wrong. Check script"
 			sys.exit(1)
-
 main()
 	
