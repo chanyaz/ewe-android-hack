@@ -23,8 +23,8 @@ class PaymentWidgetViewModel<T : TripResponse>(val context: Context, paymentMode
     override val hasPwpEditBoxFocus = PublishSubject.create<Boolean>()
 
     //Outlets
-    override val totalDueToday = paymentModel.tripResponses.map { totalDueTodayMessage(it.getTripTotal()) }
-    override val remainingBalanceDueOnCard = paymentModel.paymentSplits.map { remainingBalanceDueOnCardMessage(it.payingWithCards.amount) }
+    override val totalDueToday = paymentModel.tripResponses.map { it.getTripTotal().formattedMoneyFromAmountAndCurrencyCode }
+    override val remainingBalanceDueOnCard = paymentModel.paymentSplits.map { it.payingWithCards.amount.formattedMoneyFromAmountAndCurrencyCode }
     override val remainingBalanceDueOnCardVisibility = paymentModel.tripResponses.map { it.isExpediaRewardsRedeemable() }
     override val paymentSplitsAndTripResponse = paymentModel.paymentSplitsWithLatestTripResponse
     override val burnAmountApiCallResponsePending = PublishSubject.create<Boolean>()

@@ -10,6 +10,7 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.TripBucketItemCar
 import com.expedia.bookings.data.payment.PaymentSplitsType
@@ -46,10 +47,7 @@ class PaymentViewModel(val context: Context) {
     val cardTitle = PublishSubject.create<String>()
     val cardSubtitle = PublishSubject.create<String>()
     val pwpSmallIcon = PublishSubject.create<Boolean>()
-    val tempTitle = PublishSubject.create<String>()
-
-    val paymentTypeStoredCard = PublishSubject.create<Drawable>()
-    val cardTitleStoredCard = PublishSubject.create<String>()
+    val tempCard = PublishSubject.create<Pair<String, Drawable>>()
     val invalidPayment = PublishSubject.create<String?>()
 
     val enableMenu = PublishSubject.create<Boolean>()
@@ -57,6 +55,7 @@ class PaymentViewModel(val context: Context) {
     val toolbarTitle = PublishSubject.create<String>()
     val doneClicked = PublishSubject.create<Unit>()
     val editText = PublishSubject.create<EditText>()
+    val userHasAtleastOneStoredCard = PublishSubject.create<Boolean>()
 
     init {
         Observable.combineLatest(completeBillingInfo, isRedeemable, splitsType) {
@@ -66,20 +65,18 @@ class PaymentViewModel(val context: Context) {
                 setPaymentTileInfo(PaymentType.POINTS_EXPEDIA_REWARDS,
                         resources.getString(R.string.checkout_paying_with_points_only_line1),
                         resources.getString(R.string.checkout_tap_to_edit), splitsType, ContactDetailsCompletenessStatus.COMPLETE)
-4            } else if (info == null) {
+            } else if (info == null) {
                 return@combineLatest
             } else if (info.isTempCard && info.saveCardToExpediaAccount) {
                 var title = temporarilySavedCardLabel(info.paymentType, info.number)
-                tempTitle.onNext("")
-                cardTitleStoredCard.onNext(title)
-                paymentTypeStoredCard.onNext(getCardIcon(info.paymentType))
+                tempCard.onNext(Pair("",getCardIcon(info.paymentType)))
                 setPaymentTileInfo(info.paymentType, title, resources.getString(R.string.checkout_tap_to_edit), splitsType, ContactDetailsCompletenessStatus.COMPLETE)
+                Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(info)
             } else if (info.hasStoredCard()) {
                 val card = info.storedCard
-                var title = card.description
-                tempTitle.onNext("")
-                cardTitleStoredCard.onNext(title)
-                paymentTypeStoredCard.onNext(getCardIcon(card.type))
+                var title = Phrase.from(context, R.string.stored_card_TEMPLATE)
+                        .put("cardtype", card.description).format().toString()
+                tempCard.onNext(Pair("",getCardIcon(card.type)))
                 setPaymentTileInfo(card.type, title, resources.getString(R.string.checkout_tap_to_edit), splitsType, ContactDetailsCompletenessStatus.COMPLETE)
             } else {
                 val cardNumber = info.number
@@ -88,7 +85,7 @@ class PaymentViewModel(val context: Context) {
                         .put("cardno", cardNumber.drop(cardNumber.length - 4))
                         .format().toString()
                 if (info.isTempCard && !info.saveCardToExpediaAccount) {
-                    tempTitle.onNext(title)
+                    tempCard.onNext(Pair(title,getCardIcon(info.paymentType)))
                 }
                 setPaymentTileInfo(info.paymentType, title, resources.getString(R.string.checkout_tap_to_edit), splitsType, ContactDetailsCompletenessStatus.COMPLETE)
                 Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(info)
@@ -99,8 +96,6 @@ class PaymentViewModel(val context: Context) {
         storedCardRemoved.subscribe { card ->
             val icon = ContextCompat.getDrawable(context, R.drawable.ic_hotel_credit_card).mutate()
             icon.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
-            paymentTypeStoredCard.onNext(icon)
-            cardTitleStoredCard.onNext(context.getString(R.string.select_saved_cards))
             emptyBillingInfo.onNext(Unit)
             BookingInfoUtils.resetPreviousCreditCardSelectState(context, card)
             Db.getWorkingBillingInfoManager().workingBillingInfo.storedCard = null
@@ -111,7 +106,7 @@ class PaymentViewModel(val context: Context) {
             val title = resources.getString(R.string.checkout_hotelsv2_enter_payment_details_line1)
             val subTitle = resources.getString(
                     if (isRedeemable.value) R.string.checkout_payment_options else R.string.checkout_hotelsv2_enter_payment_details_line2)
-            tempTitle.onNext("")
+            tempCard.onNext(Pair("",getCardIcon(null)))
             setPaymentTileInfo(null, title, subTitle, splitsType.value, ContactDetailsCompletenessStatus.INCOMPLETE)
         }
 
@@ -119,7 +114,8 @@ class PaymentViewModel(val context: Context) {
             val title = resources.getString(R.string.checkout_hotelsv2_enter_payment_details_line1)
             val subTitle = resources.getString(
                     if (isRedeemable.value) R.string.checkout_payment_options else R.string.checkout_hotelsv2_enter_payment_details_line2)
-            tempTitle.onNext("")
+            tempCard.onNext(Pair("",getCardIcon(null)))
+
             setPaymentTileInfo(null, title, subTitle, splitsType.value, ContactDetailsCompletenessStatus.DEFAULT)
         }
 
@@ -127,6 +123,10 @@ class PaymentViewModel(val context: Context) {
             if (!isLoggedIn) {
                 storedCardRemoved.onNext(null)
             }
+        }
+
+        expandObserver.subscribe{
+            userHasAtleastOneStoredCard.onNext(User.isLoggedIn(context) && Db.getUser().storedCreditCards.isNotEmpty())
         }
 
         cardType.subscribe { cardType ->

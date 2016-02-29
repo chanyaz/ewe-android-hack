@@ -3,6 +3,7 @@ package com.expedia.bookings.test.phone.pagemodels.common;
 import java.util.concurrent.TimeUnit;
 
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
@@ -22,6 +23,7 @@ import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -132,16 +134,12 @@ public class CheckoutViewModel {
 
 	public static void clickStoredCardButton(boolean isHotelsPath) {
 		Espresso.closeSoftKeyboard();
-		onView(allOf(withParent(withId(R.id.payment_button_v2)), withId(R.id.select_payment_button)))
-			.perform(click());
 	}
 
 	public static void selectStoredCard(String cardname) throws Throwable {
 		Espresso.closeSoftKeyboard();
-		onView(withText(cardname))
-			.inRoot(withDecorView(
-				not(is(SpoonScreenshotUtils.getCurrentActivity().getWindow().getDecorView()))))
-			.perform(click());
+		onView(Matchers.allOf(withId(R.id.text1), withText(cardname),
+			isDescendantOfA(withId(R.id.stored_card_list)))).perform(click());
 	}
 
 	public static ViewInteraction performSlideToPurchase() {
@@ -232,8 +230,7 @@ public class CheckoutViewModel {
 
 	public static void selectStoredCard(boolean isHotelsPath) throws Throwable {
 		clickPaymentInfo();
-		clickStoredCardButton(isHotelsPath);
-		selectStoredCard("AmexTesting");
+		selectStoredCard("Saved AmexTesting");
 	}
 
 	public static void enterPaymentDetails() {

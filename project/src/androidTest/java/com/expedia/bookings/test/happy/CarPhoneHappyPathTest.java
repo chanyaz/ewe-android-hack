@@ -98,8 +98,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		doLogin();
 
 		CheckoutViewModel.clickPaymentInfo();
-		CheckoutViewModel.clickStoredCardButton(false);
-		CheckoutViewModel.selectStoredCard("AmexTesting");
+		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
 		slideToPurchase();
 		enterCVV("6286");
 	}
@@ -116,8 +115,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		CheckoutViewModel.pressClose();
 
 		CheckoutViewModel.clickPaymentInfo();
-		CheckoutViewModel.clickStoredCardButton(false);
-		CheckoutViewModel.selectStoredCard("AmexTesting");
+		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
 		slideToPurchase();
 		enterCVV("6286");
 	}

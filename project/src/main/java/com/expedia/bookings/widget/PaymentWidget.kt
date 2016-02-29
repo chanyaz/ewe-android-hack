@@ -65,7 +65,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
     val cardInfoName: TextView by bindView(R.id.card_info_name)
     val cardInfoExpiration: TextView by bindView(R.id.card_info_expiration)
     val paymentStatusIcon: ContactDetailsCompletenessStatusImageView by bindView(R.id.card_info_status_icon)
-    val paymentButton: PaymentButton by bindView(R.id.payment_button_v2)
+    val storedCreditCardList: StoredCreditCardList by bindView(R.id.stored_creditcard_list)
     val invalidPaymentContainer: ViewGroup by bindView(R.id.invalid_payment_container)
     val invalidPaymentText: TextView by bindView(R.id.invalid_payment_text)
     val sectionCreditCardContainer: ViewGroup by bindView(R.id.section_credit_card_container)
@@ -78,17 +78,13 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
         vm.cardSubtitle.subscribeTextAndVisibility(cardInfoExpiration)
         vm.paymentType.subscribeImageDrawable(cardInfoIcon)
 
-        vm.tempTitle.subscribe { text ->
-            filledInCardDetailsMiniView.text = text
-            filledInCardDetailsMiniView.visibility = if (text.isNullOrBlank()) GONE else VISIBLE
-            spacerAboveFilledInCardDetailsMiniView.visibility = if (text.isNullOrBlank()) GONE else VISIBLE
+        vm.tempCard.subscribe { it ->
+            filledInCardDetailsMiniView.text = it.first
+            filledInCardDetailsMiniView.setCompoundDrawablesWithIntrinsicBounds(it.second, null, null, null)
+            filledInCardDetailsMiniView.visibility = if (it.first.isNullOrBlank()) GONE else VISIBLE
+            spacerAboveFilledInCardDetailsMiniView.visibility = if (it.first.isNullOrBlank()) GONE else VISIBLE
         }
 
-        vm.cardTitleStoredCard.subscribeText(paymentButton.selectPayment)
-        vm.paymentTypeStoredCard.subscribe { drawable ->
-            val icons = paymentButton.selectPayment.compoundDrawables
-            paymentButton.selectPayment.setCompoundDrawablesWithIntrinsicBounds(drawable, icons[1], icons[2], icons[3])
-        }
         vm.pwpSmallIcon.subscribeVisibility(pwpSmallIcon)
 
         vm.isCreditCardRequired.subscribeVisibility(this)
@@ -103,7 +99,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
         vm.lineOfBusiness.subscribe { lob ->
             sectionBillingInfo.setLineOfBusiness(lob)
             sectionLocation.setLineOfBusiness(lob)
-            paymentButton.setLineOfBusiness(lob)
+            storedCreditCardList.setLineOfBusiness(lob)
             if (lob == LineOfBusiness.HOTELSV2) {
                 val shouldShowDebitCreditHint = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCKOCreditDebitTest)
                 creditCardNumber.setHint(if (shouldShowDebitCreditHint) R.string.credit_debit_card_hint else R.string.credit_card_hint)
@@ -133,27 +129,31 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
         vm.emptyBillingInfo.subscribe{
             reset()
         }
+
+        vm.userHasAtleastOneStoredCard.subscribe { hasCard ->
+            if (hasCard) {
+                paymentOptionCreditDebitCard.setTextColor(getResources().getColor(R.color.hotelsv2_checkout_text_color))
+                paymentOptionCreditDebitCard.setCompoundDrawablesRelativeWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.add_new_credit_card), null, null, null)
+            } else {
+                paymentOptionCreditDebitCard.setTextColor(getResources().getColor(R.color.hotels_primary_color))
+                paymentOptionCreditDebitCard.setCompoundDrawablesRelativeWithIntrinsicBounds(getCreditCardIcon(R.drawable.add_new_credit_card), null, getContext().getResources().getDrawable(R.drawable.enter_new_credit_card_arrow), null)
+            }
+        }
     }
 
-    open val paymentButtonListener = object : PaymentButton.IPaymentButtonListener {
-        override fun onAddNewCreditCardSelected() {
-        }
-
+    open val storedCreditCardListener = object : StoredCreditCardList.IStoredCreditCardListener {
         override fun onStoredCreditCardChosen(card: StoredCreditCard) {
             sectionBillingInfo.billingInfo.storedCard = card
             temporarilySavedCardIsSelected(false)
             viewmodel.completeBillingInfo.onNext(sectionBillingInfo.billingInfo)
             viewmodel.enableMenuDone.onNext(isComplete())
-            paymentButton.dismissPopup()
             closePopup()
         }
 
-        override fun onTemporarySavedCreditCardChosen(info: BillingInfo)
-        {
+        override fun onTemporarySavedCreditCardChosen(info: BillingInfo) {
             removeStoredCard()
             temporarilySavedCardIsSelected(true)
             viewmodel.completeBillingInfo.onNext(Db.getTemporarilySavedCard())
-            paymentButton.dismissPopup()
             closePopup()
         }
     }
@@ -173,11 +173,8 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             InvalidCharacterHelper.showInvalidCharacterPopup(activity.supportFragmentManager, mode)
         }
         sectionBillingInfo.addChangeListener(mValidFormsOfPaymentListener)
-
-        paymentButton.selectPayment.setText(R.string.select_saved_cards)
-        paymentButton.selectPayment.setCompoundDrawablesWithIntrinsicBounds(getCreditCardIcon(), null, ContextCompat.getDrawable(context, R.drawable.ic_picker_down), null)
-        filledInCardDetailsMiniView.setCompoundDrawablesWithIntrinsicBounds(getCreditCardIcon(), null, null, null)
-        paymentButton.setPaymentButtonListener(paymentButtonListener)
+        filledInCardDetailsMiniView.setCompoundDrawablesWithIntrinsicBounds(getCreditCardIcon(R.drawable.ic_hotel_credit_card), null, null, null)
+        storedCreditCardList.setStoredCreditCardListener(storedCreditCardListener)
 
         cardInfoContainer.setOnClickListener {
             if (shouldShowPaymentOptions()) {
@@ -204,17 +201,13 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             openGoogleWallet()
         }
 
-        paymentButton.setOnClickListener {
-            onSelectStoredCard()
-        }
-
         FontCache.setTypeface(cardInfoExpiration, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_MEDIUM)
 
     }
 
-    protected fun getCreditCardIcon(): Drawable {
-        val icon = ContextCompat.getDrawable(context, R.drawable.ic_hotel_credit_card).mutate()
+    protected fun getCreditCardIcon(drawableResourceId: Int): Drawable {
+        val icon = ContextCompat.getDrawable(context, drawableResourceId).mutate()
         icon.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
         return icon
     }
@@ -290,10 +283,6 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
         }
     }
 
-    open fun onSelectStoredCard() {
-        paymentButton.showStoredCards()
-    }
-
     fun isCreditCardRequired() : Boolean {
         return viewmodel.isCreditCardRequired.value
     }
@@ -364,7 +353,6 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             cardInfoContainer.visibility = View.VISIBLE
             paymentOptionsContainer.visibility = View.GONE
             billingInfoContainer.visibility = View.GONE
-            paymentButton.dismissPopup()
             validateAndBind()
         }
     }
@@ -378,8 +366,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             paymentOptionGoogleWallet.visibility = if (WalletUtils.isWalletSupported(getLineOfBusiness())) View.VISIBLE else View.GONE
             billingInfoContainer.visibility = View.GONE
             viewmodel.toolbarTitle.onNext(if (forward) resources.getString(R.string.cars_payment_options_text) else getCheckoutToolbarTitle(resources))
-            paymentButton.bind()
-            paymentButton.dismissPopup()
+            storedCreditCardList.bind()
             if (forward) {
                 viewmodel.enableMenuDone.onNext(isComplete())
             }
@@ -395,7 +382,6 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             cardInfoContainer.visibility = if (forward) View.GONE else View.VISIBLE
             paymentOptionsContainer.visibility = View.GONE
             billingInfoContainer.visibility =if (forward) View.VISIBLE else View.GONE
-            paymentButton.dismissPopup()
             trackAnalytics()
             if (!forward) validateAndBind()
         }
@@ -415,8 +401,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
                 temporarilySavedCardIsSelected(false)
             }
             if (forward) Ui.showKeyboard(creditCardNumber, null) else Ui.hideKeyboard(this@PaymentWidget)
-            paymentButton.bind()
-            paymentButton.dismissPopup()
+            storedCreditCardList.bind()
             trackAnalytics()
             if (!forward)  {
                 viewmodel.enableMenuDone.onNext(isComplete())
@@ -426,8 +411,8 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
     }
 
     fun removeStoredCard() {
-        if (hasStoredCard()) {
-            val card = sectionBillingInfo.billingInfo.storedCard
+        if (Db.getBillingInfo().hasStoredCard()) {
+            val card = Db.getBillingInfo().storedCard
             viewmodel.storedCardRemoved.onNext(card)
         }
     }
@@ -468,9 +453,9 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
     fun userChoosesToSaveCard() {
         sectionBillingInfo.billingInfo.saveCardToExpediaAccount = true
         sectionBillingInfo.billingInfo.setIsTempCard(true)
-        Db.setTemporarilySavedCard(sectionBillingInfo.billingInfo)
         temporarilySavedCardIsSelected(true)
-        viewmodel.completeBillingInfo.onNext(Db.getTemporarilySavedCard())
+        Db.setTemporarilySavedCard(BillingInfo(sectionBillingInfo.billingInfo))
+        storedCreditCardListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard())
         close()
     }
 

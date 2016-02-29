@@ -240,6 +240,8 @@
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">Saved {cardtype} …{cardno}</string>
+    <!--Text for stored card -->
+    <string name="stored_card_TEMPLATE">Saved {cardtype}</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -2008,12 +2010,6 @@
     <string name="select_traveler">Select Contact</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">Add New Traveler</string>
-    <!-- Select card from checkout saved credit cards list -->
-    <string name="saved_creditcards">Saved Cards</string>
-    <!-- Select card from checkout saved cards list -->
-    <string name="select_saved_cards">Select saved cards</string>
-    <!-- Add new card, checkout saved credit cards list -->
-    <string name="add_new_creditcard">Add New Card</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Guest details</string>
     <!-- Guest all fields are required -->
@@ -3975,8 +3971,8 @@
         <item quantity="other">{points} points applied</item>
     </plurals>
 
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Remaining balance due: {money}</string>
-    <string name="pwp_total_due_today_TEMPLATE">Total due today: {money}</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Remaining balance due:</string>
+    <string name="pwp_total_due_today_TEMPLATE">Total due today:</string>
 
     <!-- Package Flight Overview -->
     <string name="package_flight_overview_urgency_message_TEMPLATE">{seats} seats left</string>

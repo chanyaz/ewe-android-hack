@@ -80,12 +80,11 @@
             android:background="@drawable/card_background"
             android:orientation="vertical">
 
-            <com.expedia.bookings.widget.PaymentButton
-                android:id="@+id/payment_button_v2"
+            <com.expedia.bookings.widget.StoredCreditCardList
+                android:id="@+id/stored_creditcard_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:payment_button_layout="@layout/checkout_payment_button_v2" />
+                android:orientation="horizontal" />
 
             <View
                 android:id="@+id/spacer_above_filled_in_card_details_mini_view"

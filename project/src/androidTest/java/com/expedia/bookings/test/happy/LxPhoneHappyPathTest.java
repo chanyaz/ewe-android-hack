@@ -111,8 +111,7 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 
 	private void selectStoredCard() throws Throwable {
 		CheckoutViewModel.clickPaymentInfo();
-		CheckoutViewModel.clickStoredCardButton(false);
-		CheckoutViewModel.selectStoredCard("AmexTesting");
+		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
 	}
 
 	private void validateRestHappyFlow() throws Throwable {
