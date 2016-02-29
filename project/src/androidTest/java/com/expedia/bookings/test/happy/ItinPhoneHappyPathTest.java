@@ -179,25 +179,25 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 
 	private boolean checkOutboundFlightArrivalAtStandardOffset() {
 		DateTime startOfTodayEastern = DateTime.now().withZone(DateTimeZone.forID("America/New_York")).withTimeAtStartOfDay();
-		DateTime outboundFlightArrival = startOfTodayEastern.plusDays(14).plusHours(18).plusMinutes(4);
+		DateTime outboundFlightArrival = startOfTodayEastern.plusDays(14).withHourOfDay(18).withMinuteOfHour(4);
 		return DateTimeZone.forID("America/New_York").isStandardOffset(outboundFlightArrival.getMillis());
 	}
 
 	private boolean checkOutboundFlightDepartureAtStandardOffset() {
 		DateTime startOfTodayPacific = DateTime.now().withZone(DateTimeZone.forID("America/Los_Angeles")).withTimeAtStartOfDay();
-		DateTime outboundFlightDeparture = startOfTodayPacific.plusDays(14).plusHours(11).plusMinutes(32);
+		DateTime outboundFlightDeparture = startOfTodayPacific.plusDays(14).withHourOfDay(11).withMinuteOfHour(32);
 		return DateTimeZone.forID("America/Los_Angeles").isStandardOffset(outboundFlightDeparture.getMillis());
 	}
 
 	private boolean checkPackageOutboundFlightArrivalAtStandardOffset() {
 		DateTime startOfTodayPacific = DateTime.now().withZone(DateTimeZone.forID("America/Los_Angeles")).withTimeAtStartOfDay();
-		DateTime outboundFlightArrival = startOfTodayPacific.plusDays(35).plusHours(4);
+		DateTime outboundFlightArrival = startOfTodayPacific.plusDays(35).withHourOfDay(4);
 		return DateTimeZone.forID("America/Los_Angeles").isStandardOffset(outboundFlightArrival.getMillis());
 	}
 
 	private boolean checkPackageOutboundFlightDepartureAtStandardOffset() {
 		DateTime startOfTodayPacific = DateTime.now().withZone(DateTimeZone.forID("America/Los_Angeles")).withTimeAtStartOfDay();
-		DateTime outboundFlightArrival = startOfTodayPacific.plusDays(35).plusHours(6).plusMinutes(4);
+		DateTime outboundFlightArrival = startOfTodayPacific.plusDays(35).withHourOfDay(6).withMinuteOfHour(4);
 		return DateTimeZone.forID("America/Los_Angeles").isStandardOffset(outboundFlightArrival.getMillis());
 	}
 }
