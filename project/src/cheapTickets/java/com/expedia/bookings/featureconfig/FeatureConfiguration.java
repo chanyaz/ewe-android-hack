@@ -152,7 +152,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isWeAreHiringInAboutEnabled() {
-		return true;
+		return false;
 	}
 
 	@Override
