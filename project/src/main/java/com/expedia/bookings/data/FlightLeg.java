@@ -220,15 +220,20 @@ public class FlightLeg implements JSONable, ItinSharable {
 			// 1. FlightCode.mAirlineCode has precedence as this is information given from API
 			// 2. Fallback to use FS.db if we don't have information from the API.
 			FlightCode code = mSegments.get(i).getPrimaryFlightCode();
-			Airline airline = Db.getAirline(code.mAirlineCode);
-			if (Strings.isNotEmpty(code.mAirlineName)) {
-				airlineNames.add(code.mAirlineName);
-			}
-			else if (Strings.isNotEmpty(airline.mAirlineName)) {
-				airlineNames.add(airline.mAirlineName);
+			if (code != null) {
+				Airline airline = Db.getAirline(code.mAirlineCode);
+				if (Strings.isNotEmpty(code.mAirlineName)) {
+					airlineNames.add(code.mAirlineName);
+				}
+				else if (Strings.isNotEmpty(airline.mAirlineName)) {
+					airlineNames.add(airline.mAirlineName);
+				}
+				else {
+					Log.w("FlightLeg", "FlightCode airlineName empty and attempted to retrieve airlineName from DB with bad (likely null) airline code");
+				}
 			}
 			else {
-				Log.w("FlightLeg", "Attempting to retrieve primaryAirlineNamesFormatted with null code");
+				Log.w("FlightLeg", "Attempted to retrieve primaryAirlineNamesFormatted with null primaryFlightCode");
 			}
 		}
 		return Strings.joinWithoutEmpties(", ", airlineNames);
