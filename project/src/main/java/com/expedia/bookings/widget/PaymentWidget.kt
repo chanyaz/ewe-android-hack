@@ -396,6 +396,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             paymentOptionsContainer.visibility = View.GONE
             billingInfoContainer.visibility =if (forward) View.VISIBLE else View.GONE
             paymentButton.dismissPopup()
+            trackAnalytics()
             if (!forward) validateAndBind()
         }
     }
