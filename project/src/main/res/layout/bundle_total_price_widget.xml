@@ -12,26 +12,51 @@
         android:tint="@color/packages_bundle_overview_footer_primary_text"
         android:visibility="gone"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <FrameLayout
+        android:layout_width="0dp"
         android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/bundle_total_text"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/bundle_total_text"
-            style="@style/BundleOverviewFooter.PrimaryText"/>
+            android:orientation="vertical">
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/bundle_total_includes_text"
-            android:layout_width="wrap_content"
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/bundle_title"
+                style="@style/BundleOverviewFooter.PrimaryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/bundle_subtitle"
+                style="@style/BundleOverviewFooter.SecondaryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/includes_taxes_fees_flights_hotel"
-            style="@style/BundleOverviewFooter.SecondaryText"/>
-    </LinearLayout>
+            android:orientation="vertical">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/bundle_total_text"
+                style="@style/BundleOverviewFooter.PrimaryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bundle_total_text" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/bundle_total_includes_text"
+                style="@style/BundleOverviewFooter.SecondaryText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/includes_taxes_fees_flights_hotel" />
+        </LinearLayout>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"

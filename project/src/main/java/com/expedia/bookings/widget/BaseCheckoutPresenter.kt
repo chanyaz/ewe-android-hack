@@ -18,6 +18,7 @@ import com.expedia.bookings.activity.HotelRulesActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.TravelerPresenter

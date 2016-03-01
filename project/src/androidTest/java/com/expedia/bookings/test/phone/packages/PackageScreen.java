@@ -130,10 +130,6 @@ public class PackageScreen {
 		return onView(withId(R.id.checkout_toolbar));
 	}
 
-	public static ViewInteraction bundleHotelToolbar() {
-		return onView(withId(R.id.bundle_toolbar));
-	}
-
 	public static ViewInteraction hotelBundleWidget() {
 		return onView(withId(R.id.bundle_widget));
 	}

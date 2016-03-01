@@ -96,7 +96,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 
 		//Test strings and bundle state
 		PackageScreen.hotelPriceWidget().perform(click());
-		PackageScreen.bundleHotelToolbar().check(matches(hasDescendant(
+		PackageScreen.hotelPriceWidget().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Trip to Detroit, MI")))));
 		PackageScreen.hotelInfo().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Select hotel in Detroit")))));
@@ -106,7 +106,7 @@ public class PackageBundleOverviewPresenterTest extends PackageTestCase {
 			CoreMatchers.allOf(isDisplayed(), withText("Flight to (SFO) San Francisco")))));
 
 		//Test clicking on toolbar returns to results
-		PackageScreen.bundleHotelToolbar().perform(click());
+		PackageScreen.hotelPriceWidget().perform(click());
 		Common.delay(1);
 		PackageScreen.hotelBundleWidget().check(matches(not(isDisplayed())));
 
