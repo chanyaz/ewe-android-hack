@@ -4008,4 +4008,7 @@
     <string name="package_breakdown_taxes_fees">Taxes &amp; Fees</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">Taxes &amp; Fees Included ({taxes})</string>
     <string name="package_breakdown_total_savings">Total Savings</string>
+
+    <!-- Shop with points -->
+    <string name="regular_loyalty_applied_message">Expedia+ Points applied!</string>
 </resources>

@@ -15,9 +15,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#EEEEEE"
-        android:paddingBottom="9dp"
         android:gravity="center"
         android:paddingTop="8dp"
         android:textColor="#8C8C8C" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/loyalty_points_applied_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EEEEEE"
+        android:paddingBottom="9dp"
+        android:gravity="center"
+        android:paddingTop="2dp"
+        android:text="@string/regular_loyalty_applied_message"
+        android:textColor="@color/hotels_primary_color"
+        android:visibility="gone" />
 
 </LinearLayout>

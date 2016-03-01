@@ -39,6 +39,7 @@ import com.expedia.util.subscribeImageDrawable
 import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeStarRating
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelResultsPricingStructureHeaderViewModel
 import com.larvalabs.svgandroid.widget.SVGView
@@ -60,7 +61,7 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
 
     var loading = true
     val loadingSubject = BehaviorSubject.create<Unit>()
-    val resultsSubject = BehaviorSubject.create<Pair<List<Hotel>, HotelRate.UserPriceType>>()
+    val resultsSubject = BehaviorSubject.create<HotelSearchResponse>()
     val hotelSoldOut = endlessObserver<String> { soldOutHotelId ->
         hotels.firstOrNull { it.hotelId == soldOutHotelId }?.isSoldOut = true
         hotelListItemsMetadata.firstOrNull { it.hotelId == soldOutHotelId }?.hotelSoldOut?.onNext(true)
@@ -82,7 +83,7 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
     init {
         resultsSubject.subscribe { response ->
             loading = false
-            hotels = ArrayList(response.first)
+            hotels = ArrayList(response.hotelList)
             hotelListItemsMetadata.clear()
             notifyDataSetChanged()
         }
@@ -221,6 +222,7 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
 
             viewModel.hotelNameObservable.subscribeText(hotelName)
             viewModel.pricePerNightObservable.subscribeText(pricePerNight)
+            viewModel.pricePerNightColorObservable.subscribeTextColor(pricePerNight)
             viewModel.hotelGuestRatingObservable.subscribe { rating ->
                 guestRating.text = rating.toString()
                 guestRating.background = getGuestRatingBackgroundDrawable(rating, itemView.context)
@@ -333,6 +335,7 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
 
     public inner class HotelResultsPricingStructureHeaderViewHolder(val root: ViewGroup, val vm: HotelResultsPricingStructureHeaderViewModel) : RecyclerView.ViewHolder(root) {
         val pricingStructureHeader: TextView by root.bindView(R.id.pricing_structure_header)
+        val loyaltyPointsAppliedHeader: TextView by root.bindView(R.id.loyalty_points_applied_message)
         val shadow: View by root.bindView(R.id.drop_shadow)
 
         init {
@@ -340,6 +343,7 @@ class HotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>, val head
                 shadow.visibility = View.GONE
             }
             vm.pricingStructureHeaderObservable.subscribeText(pricingStructureHeader)
+            vm.loyaltyAvailableObservable.subscribeVisibility(loyaltyPointsAppliedHeader)
         }
     }
 

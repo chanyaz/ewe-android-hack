@@ -133,19 +133,22 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
 class HotelResultsPricingStructureHeaderViewModel(private val resources: Resources) {
     // Inputs
     val loadingStartedObserver = PublishSubject.create<Unit>()
-    val resultsDeliveredObserver = PublishSubject.create<Pair<List<Hotel>, HotelRate.UserPriceType>>()
+    val resultsDeliveredObserver = PublishSubject.create<HotelSearchResponse>()
 
     // Outputs
     val pricingStructureHeaderObservable = BehaviorSubject.create<String>()
+    val loyaltyAvailableObservable = BehaviorSubject.create<Boolean>()
 
     init {
         loadingStartedObserver.subscribe {
             pricingStructureHeaderObservable.onNext(resources.getString(R.string.progress_searching_hotels_hundreds))
+            loyaltyAvailableObservable.onNext(false)
         }
 
         resultsDeliveredObserver.subscribe { response ->
-            val list = response.first
-            val priceType = response.second
+            val list = response.hotelList
+            val priceType = response.userPriceType
+            val doesSearchResultsHaveLoyaltyInformation = response.hasLoyaltyInformation
             val hotelResultsCount = list.size
             val header =
                     when (priceType) {
@@ -155,6 +158,7 @@ class HotelResultsPricingStructureHeaderViewModel(private val resources: Resourc
                     }
 
             pricingStructureHeaderObservable.onNext(header)
+            loyaltyAvailableObservable.onNext(doesSearchResultsHaveLoyaltyInformation)
         }
     }
 }
