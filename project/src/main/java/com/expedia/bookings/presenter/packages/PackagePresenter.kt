@@ -7,10 +7,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.BaseCheckoutViewModel
@@ -36,28 +38,42 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         bundlePresenter.checkoutPresenter.viewModel = BaseCheckoutViewModel(context)
         bundlePresenter.checkoutPresenter.createTripViewModel = PackageCreateTripViewModel(packageServices)
         bundlePresenter.checkoutPresenter.packageCheckoutViewModel = PackageCheckoutViewModel(context, packageServices)
-        bundlePresenter.checkoutPresenter.createTripViewModel.bundleTotalPrice.subscribe(bundlePresenter.bundleWidget.bundleTotalPriceWidget.viewModel.setTextObservable)
+        bundlePresenter.checkoutPresenter.createTripViewModel.bundleTotalPrice.subscribe(bundlePresenter.bundleTotalPriceWidget.viewModel.setTextObservable)
         bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe { trip ->
-            bundlePresenter.bundleWidget.priceChangeWidget.viewmodel.originalPackagePrice.onNext(trip.oldPackageDetails?.pricing?.packageTotal)
-            bundlePresenter.bundleWidget.priceChangeWidget.viewmodel.packagePrice.onNext(trip.packageDetails.pricing.packageTotal)
-            bundlePresenter.bundleWidget.checkoutButton.visibility = VISIBLE
+            bundlePresenter.priceChangeWidget.viewmodel.originalPackagePrice.onNext(trip.oldPackageDetails?.pricing?.packageTotal)
+            bundlePresenter.priceChangeWidget.viewmodel.packagePrice.onNext(trip.packageDetails.pricing.packageTotal)
+            bundlePresenter.checkoutButton.visibility = VISIBLE
             bundlePresenter.toolbar.viewModel.showChangePackageMenuObservable.onNext(true)
             bundlePresenter.bundleWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
             bundlePresenter.bundleWidget.inboundFlightWidget.toggleFlightWidget(1f, true)
             bundlePresenter.bundleWidget.bundleHotelWidget.toggleHotelWidget(1f, true)
             bundlePresenter.bundleWidget.toggleMenuObservable.onNext(true)
-            bundlePresenter.bundleWidget.toggleCheckoutButton(1f, true)
+            bundlePresenter.toggleCheckoutButton(1f, true)
         }
-        bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe( bundlePresenter.checkoutPresenter.packageCheckoutViewModel.tripResponseObservable)
+        bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe { visible ->
+            var packagePrice = Db.getPackageResponse().packageResult.currentSelectedOffer.price
+
+            var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
+                    .put("savings", Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
+                            packagePrice.tripSavings.currencyCode).formattedMoney)
+                    .format().toString()
+            bundlePresenter.bundleTotalPriceWidget.visibility = if (visible) View.VISIBLE else View.GONE
+            bundlePresenter.bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
+                    packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
+        }
+        bundlePresenter.bundleWidget.viewModel.createTripObservable.subscribe(bundlePresenter.bundleTotalPriceWidget.viewModel.createTripObservable)
+        bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe(bundlePresenter.checkoutPresenter.packageCheckoutViewModel.tripResponseObservable)
         bundlePresenter.checkoutPresenter.viewModel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
         bundlePresenter.checkoutPresenter.paymentWidget.viewmodel.completeBillingInfo.subscribe(bundlePresenter.checkoutPresenter.viewModel.paymentCompleted)
         bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe {
-            bundlePresenter.showCheckoutHeaderImage()
+            bundlePresenter.toggleCheckoutHeader(true)
         }
         bundlePresenter.checkoutPresenter.createTripViewModel.createTripBundleTotalObservable.subscribe(bundlePresenter.bundleWidget.viewModel.createTripObservable)
         bundlePresenter.checkoutPresenter.createTripViewModel.createTripBundleTotalObservable.subscribe { trip ->
-            bundlePresenter.checkoutOverviewHeader.update(trip.packageDetails.hotel, width)
-            bundlePresenter.bundleWidget.bundleTotalPriceWidget.packagebreakdown.viewmodel.newDataObservable.onNext(trip.packageDetails)
+            bundlePresenter.bundleTotalPriceWidget.packagebreakdown.viewmodel.newDataObservable.onNext(trip.packageDetails)
+            bundlePresenter.checkoutOverviewFloatingToolbar.update(trip.packageDetails.hotel, bundlePresenter.imageHeader, width)
+            bundlePresenter.checkoutOverviewHeaderToolbar.update(trip.packageDetails.hotel, bundlePresenter.imageHeader, width)
+            bundlePresenter.bundleWidget.setPadding(0, 0, 0, 0)
         }
         bundlePresenter.checkoutPresenter.packageCheckoutViewModel.checkoutResponse.subscribe {
             show(confirmationPresenter)
@@ -89,7 +105,23 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         }
     }
 
-    private val searchToBundle = LeftToRightTransition(this, PackageSearchPresenter::class.java, BundleOverviewPresenter::class.java)
+    private val searchToBundle = object : LeftToRightTransition(this, PackageSearchPresenter::class.java, BundleOverviewPresenter::class.java) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            if (forward) {
+                bundlePresenter.checkoutOverviewHeaderToolbar.visibility = View.GONE
+                bundlePresenter.toggleCheckoutHeader(false)
+                bundlePresenter.checkoutButton.visibility = View.GONE
+                var countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
+                var currencyCode = CurrencyUtils.currencyForLocale(countryCode)
+                bundlePresenter.bundleTotalPriceWidget.visibility = View.VISIBLE
+                bundlePresenter.bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal("0.00"), currencyCode).formattedMoney,
+                        Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
+                                .put("savings", Money(BigDecimal("0.00"), currencyCode).formattedMoney)
+                                .format().toString()))
+            }
+        }
+    }
 
     private val bundleToConfirmation = ScaleTransition(this, BundleOverviewPresenter::class.java, PackageConfirmationPresenter::class.java)
 }

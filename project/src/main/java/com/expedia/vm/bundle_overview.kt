@@ -11,6 +11,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.PackageFlightUtils
@@ -70,6 +71,14 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .put("destination", Db.getPackageParams().destination.hierarchyInfo?.airport?.airportCode)
                     .format().toString()
             stepTwoTextObservable.onNext(stepTwo)
+
+            val toolbarTitle = Phrase.from(context, R.string.hotel_city_country_checkout_header_TEMPLATE)
+                    .put("city", hotel.hotelCity)
+                    .put("country", Db.getPackageParams().destination.hierarchyInfo?.country?.name)
+                    .format().toString()
+            toolbarTitleObservable.onNext(toolbarTitle)
+            val toolbarSubtitle = DateFormatUtils.formatPackageDateRange(context, hotel.checkInDate, hotel.checkOutDate)
+            toolbarSubtitleObservable.onNext(toolbarSubtitle)
 
         }
     }
