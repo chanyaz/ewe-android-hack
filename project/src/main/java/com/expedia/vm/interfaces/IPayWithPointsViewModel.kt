@@ -3,6 +3,7 @@ package com.expedia.vm.interfaces
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.math.BigDecimal
 
 public interface IPayWithPointsViewModel {
     //INLETS
@@ -10,12 +11,12 @@ public interface IPayWithPointsViewModel {
     val pwpOpted: BehaviorSubject<Boolean>
     val hasPwpEditBoxFocus: PublishSubject<Boolean>
     val clearUserEnteredBurnAmount: PublishSubject<Unit>
-    val userSignedIn: PublishSubject<Boolean>
+    val userSignedIn: PublishSubject<Unit>
     val navigatingOutOfPaymentOptions: PublishSubject<Unit>
     val userToggledPwPSwitchWithUserEnteredBurnedAmountSubject: PublishSubject<Pair<Boolean, String>>
 
     //OUTLETS
-    val enablePwPToggle: Observable<Boolean>
+    val enablePwPToggle: Observable<Unit>
     val burnAmountUpdate: Observable<String>
     val pwpWidgetVisibility: Observable<Boolean>
     val totalPointsAndAmountAvailableToRedeem: Observable<String>

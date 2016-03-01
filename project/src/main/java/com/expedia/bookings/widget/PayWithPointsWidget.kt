@@ -61,7 +61,7 @@ class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         clearBtn.subscribeOnClick(pwpViewModel.clearUserEnteredBurnAmount)
         pwpViewModel.burnAmountUpdate.subscribeText(editAmountView)
         pwpSwitchView.subscribeOnCheckChanged(pwpViewModel.pwpOpted)
-        pwpViewModel.enablePwPToggle.doOnNext { if (!pwpSwitchView.isChecked) wasLastEnableProgrammatic.onNext(true) }.subscribeChecked(pwpSwitchView)
+        pwpViewModel.enablePwPToggle.doOnNext { if (!pwpSwitchView.isChecked) wasLastEnableProgrammatic.onNext(true) }.map { true }.subscribeChecked(pwpSwitchView)
         pwpViewModel.navigatingOutOfPaymentOptions.map { false }.subscribeCursorVisible(editAmountView)
 
         subscribeOnClick(endlessObserver {
