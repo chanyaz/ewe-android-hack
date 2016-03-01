@@ -370,6 +370,9 @@ DummyFiletoHandleKotlinLintError {
 		R.drawable.ic_create_white_24dp,
 		R.menu.menu_package_checkout,
 		R.color.pwp_total_available_points,
-		R.string.secure_checkout
+		R.string.secure_checkout,
+		R.layout.widget_baggage_fee_info,
+		R.layout.package_flight_baggage_fee_stub,
+		R.string.package_flight_overview_baggage_fees
 	};
 }

@@ -23,6 +23,13 @@
         android:inflatedId="@+id/flight_filter"
         android:layout="@layout/package_flight_filter_stub" />
 
+    <ViewStub
+        android:id="@+id/baggage_fee_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/flight_baggage_fee_info"
+        android:layout="@layout/package_flight_baggage_fee_stub" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

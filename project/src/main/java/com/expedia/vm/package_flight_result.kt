@@ -21,7 +21,7 @@ class FlightResultsViewModel() {
 class FlightToolbarViewModel(private val context: Context) {
     //input
     val refreshToolBar = BehaviorSubject.create<Boolean>()
-
+    val setTitleOnly = BehaviorSubject.create<String>()
 
     //output
     val titleSubject = BehaviorSubject.create<String>()
@@ -29,6 +29,12 @@ class FlightToolbarViewModel(private val context: Context) {
     val menuVisibilitySubject = BehaviorSubject.create<Boolean>()
 
     init {
+        setTitleOnly.subscribe { title ->
+            titleSubject.onNext(title)
+            subtitleSubject.onNext("")
+            menuVisibilitySubject.onNext(false)
+        }
+
         refreshToolBar.subscribe { isResults ->
             // Flights Toolbar content - 6235
             var isOutboundSearch = Db.getPackageParams().isOutboundSearch()

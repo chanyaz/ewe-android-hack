@@ -19,6 +19,7 @@ class FlightOverviewViewModel(val context: Context) {
     val bundlePriceObserver = BehaviorSubject.create<String>()
     val urgencyMessagingObserver = BehaviorSubject.create<String>()
     val totalDurationObserver = BehaviorSubject.create<String>()
+    val baggageFeeURLObserver = BehaviorSubject.create<String>()
 
     init {
         selectedFlightLeg.subscribe { selectedFlight ->
@@ -28,6 +29,7 @@ class FlightOverviewViewModel(val context: Context) {
                         .put("seats", selectedFlight.packageOfferModel.urgencyMessage.ticketsLeft)
                         .format().toString()
             }
+
             if (urgencyMessage.isNotBlank()) {
                 urgencyMessage += ", "
             }
@@ -45,6 +47,7 @@ class FlightOverviewViewModel(val context: Context) {
                     .put("money", selectedFlight.packageOfferModel.price.packageTotalPriceFormatted)
                     .format().toString()
             bundlePriceObserver.onNext(perPersonPrice)
+            baggageFeeURLObserver.onNext(selectedFlight.baggageFeesUrl)
         }
     }
 
@@ -71,4 +74,8 @@ data class FlightSegmentBreakdown(val segment: FlightLeg.FlightSegment, val hasL
 
 class FlightSegmentBreakdownViewModel(val context: Context) {
     val addSegmentRowsObserver = PublishSubject.create<List<FlightSegmentBreakdown>>()
+}
+
+class BaggageFeeInfoViewModel() {
+    val baggageFeeURLObserver = PublishSubject.create<String>()
 }

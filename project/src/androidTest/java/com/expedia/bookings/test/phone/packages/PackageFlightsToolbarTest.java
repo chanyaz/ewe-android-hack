@@ -44,6 +44,7 @@ public class PackageFlightsToolbarTest extends PackageTestCase {
 		PackageScreen.selectFlight(0);
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(isDisplayed(), withText("Flight to Detroit, MI")))));
 		checkToolBarMenuItemsVisibility(false);
+		checkBaggageFeeToolBarText();
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
 
@@ -56,6 +57,7 @@ public class PackageFlightsToolbarTest extends PackageTestCase {
 		PackageScreen.selectFlight(0);
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(isDisplayed(), withText("Flight to San Francisco, CA")))));
 		checkToolBarMenuItemsVisibility(false);
+		checkBaggageFeeToolBarText();
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
 	}
@@ -71,4 +73,11 @@ public class PackageFlightsToolbarTest extends PackageTestCase {
 		}
 	}
 
+	public void checkBaggageFeeToolBarText() {
+		PackageScreen.baggageFeeInfo().check(matches(isDisplayed()));
+		PackageScreen.baggageFeeInfo().perform(click());
+		PackageScreen.flightsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(isDisplayed(), withText("Baggage Fee Info")))));
+		Common.pressBack();
+		Common.delay(1);
+	}
 }

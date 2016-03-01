@@ -46,6 +46,17 @@
             </FrameLayout>
         </FrameLayout>
 
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/show_baggage_fees"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="@string/package_flight_overview_baggage_fees"
+            android:textAllCaps="true"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/packages_primary_color"
+            android:textStyle="bold" />
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -81,4 +92,5 @@
 
         </RelativeLayout>
     </LinearLayout>
+
 </merge>
