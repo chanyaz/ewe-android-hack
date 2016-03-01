@@ -5,7 +5,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.services.HotelServices
-import com.expedia.bookings.test.ServicesRule
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDetailViewModel
@@ -238,6 +238,6 @@ class HotelDetailViewModelTest {
         var checkIn = LocalDate.now().plusDays(2)
         var checkOut = LocalDate.now().plusDays(5)
         val numAdults = 2
-        return HotelSearchParams(suggestionV4, checkIn, checkOut, numAdults, childList)
+        return HotelSearchParams.Builder(0).suggestion(suggestionV4).checkIn(checkIn).checkOut(checkOut).adults(numAdults).children(childList).build()
     }
 }

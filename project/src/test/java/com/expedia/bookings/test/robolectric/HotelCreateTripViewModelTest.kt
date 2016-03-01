@@ -5,8 +5,8 @@ import com.expedia.bookings.data.hotels.HotelCreateTripParams
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.LoyaltyServices
-import com.expedia.bookings.test.ServicesRule
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelCreateTripViewModel
 import org.junit.Rule
 import org.junit.Test

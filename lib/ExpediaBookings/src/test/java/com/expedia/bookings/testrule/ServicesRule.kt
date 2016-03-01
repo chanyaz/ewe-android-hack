@@ -1,4 +1,4 @@
-package com.expedia.bookings.test
+package com.expedia.bookings.testrule
 
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.mobiata.mocke3.ExpediaDispatcher
@@ -17,7 +17,7 @@ import java.io.IOException
 import java.lang.reflect.InvocationTargetException
 import kotlin.properties.Delegates
 
-open class ServicesRule<T : Any>(val servicesClass: Class<T>) : TestRule {
+open class ServicesRule<T : Any>(val servicesClass: Class<T>, val rootPath: String = "../lib/mocked/templates") : TestRule {
     var server: MockWebServer by Delegates.notNull()
     var services: T? = null
 
@@ -48,7 +48,7 @@ open class ServicesRule<T : Any>(val servicesClass: Class<T>) : TestRule {
     private fun diskExpediaDispatcher(): ExpediaDispatcher {
         val root: String
         try {
-            root = File("../lib/mocked/templates").canonicalPath
+            root = File(rootPath).canonicalPath
         } catch (e: IOException) {
             throw RuntimeException(e)
         }

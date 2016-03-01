@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.payment.LoyaltyInformation;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Strings;
 
@@ -36,6 +37,7 @@ public class HotelRate {
 	public List<NightlyRatesPerRoom> nightlyRatesPerRoom;
 	public String depositAmountToShowUsers;
 	public String depositAmount;
+	public LoyaltyInformation loyaltyInfo;
 
 	public transient float packagePricePerPerson;
 

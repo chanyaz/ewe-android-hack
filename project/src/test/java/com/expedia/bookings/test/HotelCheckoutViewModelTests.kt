@@ -12,6 +12,7 @@ import com.expedia.bookings.data.payment.TripDetails
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelCheckoutViewModel
 import org.junit.Before
 import org.junit.Rule

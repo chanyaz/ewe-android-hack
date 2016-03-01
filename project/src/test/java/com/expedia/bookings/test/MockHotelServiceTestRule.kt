@@ -17,6 +17,7 @@ import com.expedia.bookings.data.payment.TripDetails
 import com.expedia.bookings.data.payment.UserPreferencePointsDetails
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.services.HotelServices
+import com.expedia.bookings.testrule.ServicesRule
 import org.joda.time.LocalDate
 import rx.observers.TestSubscriber
 
@@ -73,7 +74,9 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
     }
 
     private fun getOfferResponse(responseFileName: String): HotelOffersResponse {
-        val hotelSearchParams = HotelSearchParams(SuggestionV4(), LocalDate(), LocalDate(), 1, emptyList())
+        val suggestion = SuggestionV4()
+        suggestion.coordinates = SuggestionV4.LatLng()
+        val hotelSearchParams = HotelSearchParams.Builder(0).suggestion(suggestion).checkIn(LocalDate()).checkOut(LocalDate()).adults(1).children(emptyList()).build()
         val observer = TestSubscriber<HotelOffersResponse>()
         services?.offers(hotelSearchParams, responseFileName, observer)
         observer.awaitTerminalEvent()
@@ -178,7 +181,9 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
 
     private fun getHotelOffersResponse(responseFileName: String): HotelOffersResponse {
         var observer = TestSubscriber<HotelOffersResponse>()
-        val hotelSearchParams = HotelSearchParams(SuggestionV4(), LocalDate.now().plusDays(4), LocalDate.now().plusDays(6), 2, listOf(2, 4))
+        val suggestion = SuggestionV4()
+        suggestion.coordinates = SuggestionV4.LatLng()
+        val hotelSearchParams = HotelSearchParams.Builder(0).suggestion(suggestion).checkIn(LocalDate.now().plusDays(4)).checkOut(LocalDate.now().plusDays(6)).adults(2).children(listOf(2, 4)).build()
 
         services?.offers(hotelSearchParams, responseFileName, observer)
         observer.awaitTerminalEvent()

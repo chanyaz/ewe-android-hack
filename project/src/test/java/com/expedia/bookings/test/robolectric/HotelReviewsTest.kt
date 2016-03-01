@@ -3,6 +3,7 @@ package com.expedia.bookings.test
 import com.expedia.bookings.data.hotels.HotelReviewsResponse.ReviewSummary
 import com.expedia.bookings.data.hotels.ReviewSort
 import com.expedia.bookings.services.ReviewsServices
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelReviewsAdapterViewModel
 import org.junit.Before
 import org.junit.Rule

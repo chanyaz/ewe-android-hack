@@ -47,7 +47,9 @@ class HotelValueAddsTest {
         server.setDispatcher(ExpediaDispatcher(opener))
         val observer = TestSubscriber<HotelOffersResponse>()
         val dtf = DateTimeFormat.forPattern("yyyy-MM-dd")
-        val hotelSearchParams = HotelSearchParams(SuggestionV4(), dtf.parseLocalDate("2015-09-12"), dtf.parseLocalDate("2015-09-16"), 3, emptyList())
+        val suggestion = SuggestionV4()
+        suggestion.coordinates = SuggestionV4.LatLng()
+        val hotelSearchParams = HotelSearchParams.Builder(0).suggestion(suggestion).checkIn(dtf.parseLocalDate("2015-09-12")).checkOut(dtf.parseLocalDate("2015-09-16")).adults(3).children(emptyList()).build()
         vm.paramsSubject.onNext(hotelSearchParams)
         service.offers(hotelSearchParams, "happypath", observer)
         return observer

@@ -313,6 +313,7 @@ android {
 
         test {
             java.srcDir '../lib/ExpediaBookings/src/test/java/com/expedia/bookings/data'
+            java.srcDir '../lib/ExpediaBookings/src/test/java/com/expedia/bookings/testrule'
         }
     }
 

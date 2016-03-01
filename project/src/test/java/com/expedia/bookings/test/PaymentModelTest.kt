@@ -13,6 +13,7 @@ import com.expedia.bookings.data.payment.PointsAndCurrency
 import com.expedia.bookings.data.payment.PointsType
 import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.util.notNullAndObservable
 import org.junit.After
 import org.junit.Assert

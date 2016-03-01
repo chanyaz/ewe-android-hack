@@ -12,6 +12,7 @@ import com.expedia.bookings.data.payment.UserPreferencePointsDetails
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelCouponViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -29,7 +30,7 @@ import kotlin.test.assertNull
 @RunWith(RobolectricRunner::class)
 class HotelCouponTest {
 
-    public var service=ServicesRule<HotelServices>(HotelServices::class.java)
+    public var service= ServicesRule<HotelServices>(HotelServices::class.java)
         @Rule get
 
     public var loyaltyServiceRule = ServicesRule<LoyaltyServices>(LoyaltyServices::class.java)
