@@ -86,7 +86,7 @@ public class CustomMatchers {
 		};
 	}
 
-	private static boolean sameBitmap(Context context, Drawable drawable, @DrawableRes int resId) {
+	public static boolean sameBitmap(Context context, Drawable drawable, @DrawableRes int resId) {
 		Drawable otherDrawable = ContextCompat.getDrawable(context, resId);
 		if (drawable == null || otherDrawable == null) {
 			return false;

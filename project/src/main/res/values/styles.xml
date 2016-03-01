@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" >
+    xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <!-- System -->
 
@@ -1215,6 +1213,18 @@
         <item name="colorControlNormal">#FFFFFF</item>
         <item name="colorControlActivated">#FFFFFF</item>
         <item name="colorControlHighlight">#FFFFFF</item>
+    </style>
+
+    <style name="AccountDashboardLabel">
+        <item name="android:textColor">@color/account_toolbar_text_color</item>
+        <item name="android:textSize">@dimen/account_loyalty_label_text_size</item>
+        <item name="textStyle">light</item>
+    </style>
+
+    <style name="AccountDashboardValue">
+        <item name="android:textColor">@color/account_toolbar_text_color</item>
+        <item name="android:textSize">@dimen/account_loyalty_value_text_size</item>
+        <item name="textStyle">normal</item>
     </style>
 
 </resources>

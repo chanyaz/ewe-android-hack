@@ -33,7 +33,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/toolbar_not_signed_in"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -41,6 +41,7 @@
                     android:text="@string/account_settings_menu_label"
                     android:textColor="@color/account_toolbar_text_color"
                     android:textSize="@dimen/account_toolbar_title_text_size"
+                    app:textStyle="normal"
                     tools:visibility="gone" />
 
                 <LinearLayout
@@ -56,47 +57,40 @@
                         android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <TextView
+                        <com.expedia.bookings.widget.TextView
                             android:id="@+id/toolbar_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/account_toolbar_text_color"
                             android:textSize="@dimen/account_toolbar_title_text_size"
-                            android:textStyle="bold"
+                            app:textStyle="normal"
                             tools:text="Lauren LoPrete" />
 
-                        <TextView
+                        <com.expedia.bookings.widget.TextView
                             android:id="@+id/toolbar_email"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/toolbar_name"
                             android:textColor="@color/account_toolbar_text_color"
                             android:textSize="@dimen/account_toolbar_subtitle_text_size"
+                            app:textStyle="light"
                             tools:text="laurenloprete@gmail.com" />
                     </LinearLayout>
 
-                    <android.support.v7.widget.CardView
-                        android:id="@+id/toolbar_loyalty_tier_box"
+                    <TextView
+                        android:id="@+id/toolbar_loyalty_tier_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="16dp"
                         android:layout_marginRight="16dp"
-                        app:cardBackgroundColor="@color/expedia_plus_silver_text"
-                        app:cardCornerRadius="6dp"
-                        app:cardElevation="0dp">
-
-                        <TextView
-                            android:id="@+id/toolbar_loyalty_tier_text"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="6dp"
-                            android:layout_marginLeft="12dp"
-                            android:layout_marginRight="12dp"
-                            android:layout_marginTop="6dp"
-                            android:textColor="@color/expedia_plus_silver"
-                            tools:text="+silver" />
-                    </android.support.v7.widget.CardView>
+                        android:background="@drawable/bg_loyalty_badge_middle_tier"
+                        android:paddingBottom="6dp"
+                        android:paddingLeft="12dp"
+                        android:paddingRight="12dp"
+                        android:paddingTop="6dp"
+                        tools:text="+silver"
+                        tools:textColor="@color/expedia_plus_silver_text" />
                 </LinearLayout>
             </FrameLayout>
         </LinearLayout>
@@ -131,20 +125,20 @@
                     android:layout_height="1dp"
                     android:background="@color/account_background_color" />
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/available_points_label"
+                    style="@style/AccountDashboardLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="16dp"
                     android:layout_toLeftOf="@id/center"
-                    android:text="@string/available_loyalty_points"
-                    android:textColor="@color/account_toolbar_text_color"
-                    android:textSize="@dimen/account_loyalty_label_text_size" />
+                    android:text="@string/available_loyalty_points" />
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/available_points"
+                    style="@style/AccountDashboardValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -152,12 +146,9 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="4dp"
                     android:layout_toLeftOf="@id/center"
-                    android:textColor="@color/account_toolbar_text_color"
-                    android:textSize="@dimen/account_loyalty_value_text_size"
-                    android:textStyle="bold"
                     tools:text="51,203" />
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/pending_points"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -168,22 +159,23 @@
                     android:layout_toLeftOf="@id/center"
                     android:textColor="@color/account_toolbar_text_color_light"
                     android:textSize="13sp"
+                    app:textStyle="light"
                     tools:text="1,176 pending" />
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/country_label"
+                    style="@style/AccountDashboardLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/available_points_label"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_toRightOf="@+id/center"
-                    android:text="@string/preference_point_of_sale_title"
-                    android:textColor="@color/account_toolbar_text_color"
-                    android:textSize="@dimen/account_loyalty_label_text_size" />
+                    android:text="@string/preference_point_of_sale_title" />
 
-                <TextView
+                <com.expedia.bookings.widget.TextView
                     android:id="@+id/country"
+                    style="@style/AccountDashboardValue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/available_points"
@@ -192,14 +184,15 @@
                     android:layout_toRightOf="@+id/center"
                     android:drawablePadding="8dp"
                     android:gravity="center_vertical"
-                    android:textColor="@color/account_toolbar_text_color"
-                    android:textSize="@dimen/account_loyalty_value_text_size"
-                    android:textStyle="bold"
                     tools:drawableLeft="@drawable/ic_flag_us"
                     tools:text="USA" />
             </RelativeLayout>
 
             <!-- TODO add logged out views -->
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="8dp" />
 
             <FrameLayout
                 android:id="@+id/section_app_settings"
