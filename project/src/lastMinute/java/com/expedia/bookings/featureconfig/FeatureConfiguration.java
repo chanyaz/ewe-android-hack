@@ -329,7 +329,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean isNewHotelEnabled() {
-		return false;
+		return true;
 	}
 
 }
