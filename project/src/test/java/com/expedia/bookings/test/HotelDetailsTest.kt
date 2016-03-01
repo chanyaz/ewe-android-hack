@@ -9,6 +9,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.util.endlessObserver

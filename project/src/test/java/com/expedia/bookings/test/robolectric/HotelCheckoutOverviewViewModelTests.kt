@@ -19,7 +19,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.services.LoyaltyServices
-import com.expedia.bookings.test.ServicesRule
+import com.expedia.bookings.testrule.ServicesRule
 import java.math.BigDecimal
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit

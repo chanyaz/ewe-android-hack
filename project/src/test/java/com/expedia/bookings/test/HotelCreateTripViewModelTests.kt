@@ -6,6 +6,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelCreateTripViewModel
 import org.junit.Before
 import org.junit.Rule

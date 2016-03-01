@@ -8,7 +8,6 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
-import com.expedia.bookings.test.ServicesRule
 import com.expedia.vm.HotelCheckoutMainViewModel
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
@@ -18,6 +17,7 @@ import com.expedia.bookings.utils.Ui
 import org.junit.Before
 import org.junit.Test
 import com.expedia.bookings.data.TripBucketItemHotelV2
+import com.expedia.bookings.testrule.ServicesRule
 import org.junit.Rule
 import java.math.BigDecimal
 import java.util.concurrent.TimeUnit

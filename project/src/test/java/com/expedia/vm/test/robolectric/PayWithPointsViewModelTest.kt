@@ -9,8 +9,8 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
-import com.expedia.bookings.test.ServicesRule
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.PayWithPointsWidget
 import com.expedia.bookings.widget.PaymentWidgetV2

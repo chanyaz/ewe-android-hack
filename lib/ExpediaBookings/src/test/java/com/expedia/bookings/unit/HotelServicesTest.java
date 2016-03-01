@@ -100,8 +100,12 @@ public class HotelServicesTest {
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<HotelOffersResponse> observer = new TestSubscriber<>();
-		HotelSearchParams params = new HotelSearchParams(new SuggestionV4(), LocalDate.now().plusDays(5), LocalDate.now().plusDays(15), 2, new ArrayList<Integer>());
 
+		SuggestionV4 suggestion = new SuggestionV4();
+		suggestion.coordinates = new SuggestionV4.LatLng();
+		HotelSearchParams params = new HotelSearchParams.Builder(0).suggestion(suggestion)
+			.checkIn(LocalDate.now().plusDays(5)).checkOut(LocalDate.now().plusDays(15)).adults(2)
+			.children(new ArrayList<Integer>()).build();
 		service.info(params, "happy", observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
@@ -121,8 +125,12 @@ public class HotelServicesTest {
 		server.setDispatcher(new ExpediaDispatcher(opener));
 
 		TestSubscriber<HotelOffersResponse> observer = new TestSubscriber<>();
-		HotelSearchParams params = new HotelSearchParams(new SuggestionV4(), LocalDate.now().plusDays(5), LocalDate.now().plusDays(15), 2, new ArrayList<Integer>());
 
+		SuggestionV4 suggestion = new SuggestionV4();
+		suggestion.coordinates = new SuggestionV4.LatLng();
+		HotelSearchParams params = new HotelSearchParams.Builder(0).suggestion(suggestion)
+			.checkIn(LocalDate.now().plusDays(5)).checkOut(LocalDate.now().plusDays(15)).adults(2)
+			.children(new ArrayList<Integer>()).build();
 		service.offers(params, "happypath", observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
