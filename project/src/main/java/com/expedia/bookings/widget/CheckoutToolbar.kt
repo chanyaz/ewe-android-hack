@@ -75,13 +75,7 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
     }
 
     val toggleMenuObserver = endlessObserver<Boolean> { visible ->
-        if (!visible) {
-            overflowIcon?.alpha = (255f * 0.25).toInt()
-            menu.setGroupEnabled(R.id.package_change_menu, false)
-        } else {
-            overflowIcon?.alpha = 255
-            menu.setGroupEnabled(R.id.package_change_menu, true)
-        }
+        menu.setGroupVisible(R.id.package_change_menu, visible)
     }
 
     override fun setActionBarTitle(title: String?) {
