@@ -58,6 +58,7 @@ import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.google.android.gms.maps.MapView
 import org.joda.time.DateTime
+import com.mobiata.android.Log
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.PublishSubject
@@ -65,7 +66,8 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+// declared open for mocking purposes in tests (see: HotelDeeplinkHandlerTest)
+open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
 
     lateinit var hotelServices: HotelServices
         @Inject set
@@ -118,6 +120,9 @@ class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context,
         presenter.viewmodel.errorObservable.subscribe(errorPresenter.viewmodel.apiErrorObserver)
         presenter.viewmodel.errorObservable.delay(DELAY_INVOKING_ERROR_OBSERVABLES_DOING_SHOW, TimeUnit.MILLISECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe { show(errorPresenter) }
         presenter.viewmodel.showHotelSearchViewObservable.subscribe { show(SearchTransition(), Presenter.FLAG_CLEAR_TOP) }
+        presenter.viewmodel.hotelResultsObservable.subscribe({ hotelSearchResponse ->
+            HotelV2Tracking().trackHotelsV2Search(hotelSearchParams, hotelSearchResponse)
+        })
         presenter.searchOverlaySubject.subscribe(searchResultsOverlayObserver)
         presenter.showDefault()
         presenter
@@ -260,18 +265,24 @@ class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context,
         clientLogBuilder.pageName(Constants.CLIENT_LOG_MATERIAL_HOTEL_SEARCH)
     }
 
-    val defaultTransitionObserver: Observer<Screen> = endlessObserver {
-        when (it) {
-            Screen.DETAILS -> {
-                addDefaultTransition(defaultDetailsTransition)
-            }
-            Screen.RESULTS -> {
-                addDefaultTransition(defaultResultsTransition)
-            }
-            else -> {
-                addDefaultTransition(defaultSearchTransition)
-                show(SearchTransition())
-            }
+    fun setDefaultTransition(screen: Screen) {
+        val defaultTransition = when (screen) {
+            Screen.DETAILS -> defaultDetailsTransition
+            Screen.RESULTS -> defaultResultsTransition
+            else -> defaultSearchTransition
+        }
+
+        // #6626: protects us from deeplink logic adding different default transition when app is
+        // already running (and has state) in background
+        if (!hasDefaultTransition()) {
+            addDefaultTransition(defaultTransition)
+        }
+        else {
+            Log.w("You can only set defaultTransition once. (default transition:" + getDefaultTransition() + ")")
+        }
+
+        if (screen != Screen.DETAILS && screen != Screen.RESULTS) {
+            show(SearchTransition())
         }
     }
 
@@ -474,7 +485,6 @@ class HotelPresenter(context: Context, attrs: AttributeSet) : Presenter(context,
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             } else {
                 resultsPresenter.recyclerView.adapter.notifyDataSetChanged()
-                HotelV2Tracking().trackHotelsV2Search(hotelSearchParams, resultsPresenter.viewmodel.hotelResultsObservable.value)
             }
         }
     }

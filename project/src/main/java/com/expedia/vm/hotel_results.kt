@@ -46,7 +46,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
     val locationParamsSubject = PublishSubject.create<SuggestionV4>()
 
     // Outputs
-    val hotelResultsObservable = BehaviorSubject.create<HotelSearchResponse>()
+    val hotelResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val mapResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val errorObservable = PublishSubject.create<ApiError>()
     val titleSubject = BehaviorSubject.create<String>()
