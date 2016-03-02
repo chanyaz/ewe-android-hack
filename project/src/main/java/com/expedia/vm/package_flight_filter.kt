@@ -132,12 +132,21 @@ class PackageFlightFilterViewModel() {
     }
 
     val sortObserver = endlessObserver<FlightFilter.Sort> { sort ->
+        // if best Flight is filtered out, sort the whole list
+        // if there is best flight, should always stay on top
+        var bestFlight = filteredList.find { it.isBestFlight }
+        var filteredListToSort = if (bestFlight == null) filteredList else filteredList.subList(1, filteredList.size)
         when (sort) {
-            FlightFilter.Sort.PRICE -> filteredList = filteredList.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount.toInt() }
-            FlightFilter.Sort.DEPARTURE -> Collections.sort(filteredList, departureComparator)
-            FlightFilter.Sort.ARRIVAL -> Collections.sort(filteredList, arrivalComparator)
-            FlightFilter.Sort.DURATION -> filteredList = filteredList.sortedBy { it.durationHour * 60 + it.durationMinute }
+            FlightFilter.Sort.PRICE -> filteredListToSort = filteredListToSort.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount.toInt() }.toMutableList()
+            FlightFilter.Sort.DEPARTURE -> Collections.sort(filteredListToSort, departureComparator)
+            FlightFilter.Sort.ARRIVAL -> Collections.sort(filteredListToSort, arrivalComparator)
+            FlightFilter.Sort.DURATION -> filteredListToSort = filteredListToSort.sortedBy { it.durationHour * 60 + it.durationMinute }.toMutableList()
         }
+        if (bestFlight != null) {
+            filteredListToSort = filteredListToSort.toMutableList()
+            filteredListToSort.add(0, bestFlight)
+        }
+        filteredList = filteredListToSort
     }
 
     init {

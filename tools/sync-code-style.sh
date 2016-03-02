@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ASDIR=~/Library/Preferences/AndroidStudio1.5/codestyles/
+ASDIR=~/Library/Preferences/AndroidStudioPreview2.0/codestyles/
 
 mkdir -p "${ASDIR}"
 

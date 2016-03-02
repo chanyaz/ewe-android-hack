@@ -183,7 +183,8 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction selectFlight(int index) {
-		return flightList().perform(RecyclerViewActions.actionOnItemAtPosition(index, click()));
+		int adjustPosition = 3;
+		return flightList().perform(RecyclerViewActions.actionOnItemAtPosition(index + adjustPosition, click()));
 	}
 
 	public static ViewInteraction selectThisFlight() {

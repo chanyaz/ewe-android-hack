@@ -130,7 +130,6 @@
     <color name="hotel_reviews_summary_background_color">#FFFFFF</color>
 
     <!--Hotel Filter Colors -->
-    <color name="package_bundle_icon_color">#868686</color>
     <color name="hotel_filter_hotel_name_icon">#868686</color>
     <color name="hotel_filter_input_filed">#757575</color>
     <color name="hotel_filter_neighborhood_text">#676767</color>
@@ -386,6 +385,7 @@
     <color name="rating_yellow">#F6AE24</color>
 
     <!-- Packages colors -->
+    <color name="package_bundle_icon_color">#868686</color>
     <color name="packages_primary_color">#0888BD</color>
     <color name="packages_ripple_mask_color">#99D5CF</color>
     <color name="packages_hotel_promo_background_color">#04445e</color>
@@ -404,6 +404,7 @@
     <color name="packages_results_header_text">@color/temporary_header_gray</color>
     <color name="packages_flight_cell_primary_text">@color/temporary_primary_gray</color>
     <color name="packages_flight_cell_duration_text">@color/temporary_flight_duration_gray</color>
+    <color name="packages_result_background">#eaeaea</color>
 
     <color name="traveler_drop_down_unchecked_color">#6C6C6C</color>
 
