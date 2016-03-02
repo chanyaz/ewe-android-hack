@@ -53,7 +53,6 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, requestInterce
 	}
 
 	fun regionSearch(params: HotelSearchParams, clientLogBuilder: ClientLog.Builder?): Observable<HotelSearchResponse> {
-		clientLogBuilder?.requestTime(DateTime.now())
 		return hotelApi.search(params.suggestion.gaiaId, params.suggestion.coordinates.lat, params.suggestion.coordinates.lng,
 				params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints)
 				.observeOn(observeOn)
@@ -81,7 +80,6 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, requestInterce
 					}
 
 					response.hotelList = putSponsoredItemsInCorrectPlaces(response.hotelList)
-					clientLogBuilder?.processingTime(DateTime.now())
 				}
 				.doOnNext { response ->
 					response.hotelList.forEach {

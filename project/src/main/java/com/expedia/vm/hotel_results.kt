@@ -27,6 +27,7 @@ import com.expedia.util.endlessObserver
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.squareup.phrase.Phrase
+import org.joda.time.DateTime
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -89,8 +90,10 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                 .put("guests", StrUtils.formatGuestString(context, params.guests()))
                 .format())
 
+        clientLogBuilder?.logTime(DateTime.now())
         hotelServices?.regionSearch(params, clientLogBuilder)?.subscribe(object : Observer<HotelSearchResponse> {
             override fun onNext(it: HotelSearchResponse) {
+                clientLogBuilder?.processingTime(DateTime.now())
                 if (it.hasErrors()) {
                     errorObservable.onNext(it.firstError)
                 } else if (it.hotelList.isEmpty()) {
