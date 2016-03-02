@@ -380,10 +380,6 @@ public class CarResultsPresenter extends Presenter {
 		}
 
 		@Override
-		public void endTransition(boolean forward) {
-		}
-
-		@Override
 		public void finalizeTransition(boolean forward) {
 		}
 	};
@@ -397,10 +393,6 @@ public class CarResultsPresenter extends Presenter {
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
-		}
-
-		@Override
-		public void endTransition(boolean forward) {
 		}
 
 		@Override
@@ -432,7 +424,8 @@ public class CarResultsPresenter extends Presenter {
 		}
 
 		@Override
-		public void endTransition(boolean forward) {
+		public void finalizeTransition(boolean forward) {
+			super.finalizeTransition(forward);
 			if (forward) {
 				filter.onTransitionToDetails(unfilteredSearch.getFromDisplayLabel(selectedCategorizedCarOffers.carCategoryDisplayLabel));
 			}
@@ -440,11 +433,6 @@ public class CarResultsPresenter extends Presenter {
 				selectedCategorizedCarOffers = null;
 				filter.onTransitionToResults();
 			}
-		}
-
-		@Override
-		public void finalizeTransition(boolean forward) {
-			super.finalizeTransition(forward);
 
 			toolbarBackground.setVisibility(VISIBLE);
 			toolbarBackground.setTranslationX(0);
@@ -508,10 +496,6 @@ public class CarResultsPresenter extends Presenter {
 		}
 
 		@Override
-		public void endTransition(boolean forward) {
-		}
-
-		@Override
 		public void finalizeTransition(boolean forward) {
 			filter.setVisibility(forward ? VISIBLE : GONE);
 			filter.setTranslationY(forward ? 0 : filter.getHeight());
@@ -538,10 +522,6 @@ public class CarResultsPresenter extends Presenter {
 		public void updateTransition(float f, boolean forward) {
 			float translatePercentage = forward ? 1f - f : f;
 			filter.setTranslationY(filter.getHeight() * translatePercentage);
-		}
-
-		@Override
-		public void endTransition(boolean forward) {
 		}
 
 		@Override

@@ -236,10 +236,6 @@ public class Presenter extends FrameLayout {
 			// empty
 		}
 
-		public void endTransition(boolean forward) {
-			// empty
-		}
-
 		public void finalizeTransition(boolean forward) {
 			// empty
 		}
@@ -303,15 +299,6 @@ public class Presenter extends FrameLayout {
 	public static abstract class DefaultTransition extends Transition {
 		public DefaultTransition(String defaultState) {
 			super(null, defaultState);
-		}
-
-		public void startTransition(boolean forward) {
-		}
-
-		public void updateTransition(float f, boolean forward) {
-		}
-
-		public void endTransition(boolean forward) {
 		}
 	}
 
@@ -411,7 +398,6 @@ public class Presenter extends FrameLayout {
 		@Override
 		public void onAnimationEnd(Animator animator) {
 			logAnimStats();
-			transition.endTransition(meta.forward);
 			transition.finalizeTransition(meta.forward);
 			currentState = meta.getDestination();
 			acceptAnimationUpdates = false;

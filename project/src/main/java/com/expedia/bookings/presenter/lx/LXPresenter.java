@@ -109,10 +109,6 @@ public class LXPresenter extends Presenter {
 		}
 
 		@Override
-		public void endTransition(boolean forward) {
-		}
-
-		@Override
 		public void finalizeTransition(boolean forward) {
 			resultsPresenter.setVisibility(forward ? VISIBLE : GONE);
 			searchParamsWidget.setVisibility(forward ? GONE : VISIBLE);
@@ -145,11 +141,6 @@ public class LXPresenter extends Presenter {
 			float pos = forward ? detailsHeight + (-f * detailsHeight) : (f * detailsHeight);
 			detailsPresenter.setTranslationY(pos);
 			detailsPresenter.animationUpdate(f, !forward);
-		}
-
-		@Override
-		public void endTransition(boolean forward) {
-			detailsPresenter.setTranslationY(forward ? 0 : detailsHeight);
 		}
 
 		@Override
@@ -191,11 +182,6 @@ public class LXPresenter extends Presenter {
 		}
 
 		@Override
-		public void endTransition(boolean forward) {
-			recommendationPresenter.setTranslationY(forward ? 0 : detailsHeight);
-		}
-
-		@Override
 		public void finalizeTransition(boolean forward) {
 			recommendationPresenter.setTranslationY(forward ? 0 : detailsHeight);
 			recommendationPresenter.setVisibility(forward ? VISIBLE : GONE);
@@ -224,10 +210,6 @@ public class LXPresenter extends Presenter {
 		public void updateTransition(float f, boolean forward) {
 			resultsPresenter.animationUpdate(f, forward);
 			searchParamsWidget.animationUpdate(f, forward, 1f);
-		}
-
-		@Override
-		public void endTransition(boolean forward) {
 		}
 
 		@Override

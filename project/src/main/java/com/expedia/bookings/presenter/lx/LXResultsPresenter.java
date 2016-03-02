@@ -166,10 +166,6 @@ public class LXResultsPresenter extends Presenter {
 		}
 
 		@Override
-		public void endTransition(boolean forward) {
-		}
-
-		@Override
 		public void finalizeTransition(boolean forward) {
 			if (isUserBucketedAndCategoryAllThingsToDo()) {
 				transparentView.setAlpha(forward ? 0.5f : 0);

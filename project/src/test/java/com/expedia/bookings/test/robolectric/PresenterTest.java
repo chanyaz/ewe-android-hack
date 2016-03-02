@@ -40,10 +40,6 @@ public class PresenterTest {
 			}
 
 			@Override
-			public void endTransition(boolean forward) {
-			}
-
-			@Override
 			public void finalizeTransition(boolean forward) {
 			}
 		};

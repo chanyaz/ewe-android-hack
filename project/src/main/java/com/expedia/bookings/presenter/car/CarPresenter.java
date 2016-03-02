@@ -90,10 +90,6 @@ public class CarPresenter extends Presenter {
 		}
 
 		@Override
-		public void endTransition(boolean forward) {
-		}
-
-		@Override
 		public void finalizeTransition(boolean forward) {
 			carResultsPresenter.setVisibility(VISIBLE);
 			carSearchPresenter.setVisibility(forward ? VISIBLE : GONE);
@@ -116,10 +112,6 @@ public class CarPresenter extends Presenter {
 		public void updateTransition(float f, boolean forward) {
 			carResultsPresenter.animationUpdate(f, !forward);
 			carSearchPresenter.animationUpdate(f, !forward, 1f);
-		}
-
-		@Override
-		public void endTransition(boolean forward) {
 		}
 
 		@Override

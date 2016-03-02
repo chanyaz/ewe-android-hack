@@ -49,11 +49,6 @@ public class LeftToRightTransition extends Presenter.Transition {
 	}
 
 	@Override
-	public void endTransition(boolean forward) {
-		// ignore
-	}
-
-	@Override
 	public void finalizeTransition(boolean forward) {
 		for (int i = 0; i < presenter.getChildCount(); i++) {
 			View child = presenter.getChildAt(i);

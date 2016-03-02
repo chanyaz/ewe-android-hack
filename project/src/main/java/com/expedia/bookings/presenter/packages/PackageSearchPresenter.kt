@@ -316,10 +316,6 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(
             calendar.translationY = pos
         }
 
-        override fun endTransition(forward: Boolean) {
-            calendar.translationY = if (forward) 0f else calendarHeight.toFloat()
-        }
-
         override fun finalizeTransition(forward: Boolean) {
             calendar.translationY = if (forward) 0f else calendarHeight.toFloat()
             if (forward) {

@@ -169,9 +169,6 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(
             filter.translationY = filter.height * translatePercentage
         }
 
-        override fun endTransition(forward: Boolean) {
-        }
-
         override fun finalizeTransition(forward: Boolean) {
             if (forward) {
                 toolbar.visibility = View.GONE
