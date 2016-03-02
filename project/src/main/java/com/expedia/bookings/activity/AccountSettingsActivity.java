@@ -4,15 +4,16 @@ import java.text.NumberFormat;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GestureDetectorCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.GestureDetector.SimpleOnGestureListener;
@@ -376,30 +377,30 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 			TextView memberNameView = Ui.findView(this, R.id.toolbar_name);
 			TextView memberEmailView = Ui.findView(this, R.id.toolbar_email);
 			TextView memberTierView = Ui.findView(this, R.id.toolbar_loyalty_tier_text);
-			CardView memberTierBox = Ui.findView(this, R.id.toolbar_loyalty_tier_box);
 
 			Traveler member = Db.getUser().getPrimaryTraveler();
 
 			memberNameView.setText(member.getFullName());
 			memberEmailView.setText(member.getEmail());
+
 			if (member.getIsLoyaltyMembershipActive()) {
 				loyaltySection.setVisibility(View.VISIBLE);
-				memberTierBox.setVisibility(View.VISIBLE);
-				Resources r = getResources();
+				memberTierView.setVisibility(View.VISIBLE);
+
 				switch (member.getLoyaltyMembershipTier()) {
 				case BLUE:
-					memberTierBox.setCardBackgroundColor(r.getColor(R.color.expedia_plus_blue));
-					memberTierView.setTextColor(r.getColor(R.color.expedia_plus_blue_text));
+					memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_base_tier);
+					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.expedia_plus_blue_text));
 					memberTierView.setText(R.string.plus_blue);
 					break;
 				case SILVER:
-					memberTierBox.setCardBackgroundColor(r.getColor(R.color.expedia_plus_silver_text));
-					memberTierView.setTextColor(r.getColor(R.color.expedia_plus_silver));
+					memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_middle_tier);
+					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.expedia_plus_silver_text));
 					memberTierView.setText(R.string.plus_silver);
 					break;
 				case GOLD:
-					memberTierBox.setCardBackgroundColor(r.getColor(R.color.expedia_plus_gold));
-					memberTierView.setTextColor(r.getColor(R.color.expedia_plus_gold_text));
+					memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_top_tier);
+					memberTierView.setTextColor(ContextCompat.getColor(this, R.color.expedia_plus_gold_text));
 					memberTierView.setText(R.string.plus_gold);
 					break;
 				}
@@ -414,12 +415,16 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 				TextView countryTextView = Ui.findView(this, R.id.country);
 				PointOfSale pos = PointOfSale.getPointOfSale();
-				countryTextView.setText(getString(pos.getCountryNameResId()));
-				countryTextView.setCompoundDrawablesWithIntrinsicBounds(pos.getCountryFlagResId(), 0, 0, 0);
+				countryTextView.setText(pos.getThreeLetterCountryCode());
+				LayerDrawable flag = new LayerDrawable(new Drawable[] {
+						ContextCompat.getDrawable(this, pos.getCountryFlagResId()),
+						ContextCompat.getDrawable(this, R.drawable.fg_flag_circle)
+				});
+				countryTextView.setCompoundDrawablesWithIntrinsicBounds(flag, null, null, null);
 			}
 			else {
 				loyaltySection.setVisibility(View.GONE);
-				memberTierBox.setVisibility(View.GONE);
+				memberTierView.setVisibility(View.GONE);
 			}
 		}
 		else {

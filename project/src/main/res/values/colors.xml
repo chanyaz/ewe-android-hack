@@ -140,11 +140,11 @@
     <!-- Login -->
     <color name="login_text_hotels">#FFFFFF</color>
     <color name="login_text_tablet">#363636</color>
-    <color name="expedia_plus_blue">#0085c9</color>
+    <color name="expedia_plus_blue">#085BA5</color>
     <color name="expedia_plus_blue_text">#ffffff</color>
-    <color name="expedia_plus_silver">#808080</color>
+    <color name="expedia_plus_silver">#668193</color>
     <color name="expedia_plus_silver_text">#ffffff</color>
-    <color name="expedia_plus_gold">#e7b40d</color>
+    <color name="expedia_plus_gold">#FFC300</color>
     <color name="expedia_plus_gold_text">#403f3f</color>
 
     <!-- CVV entry colors -->
@@ -428,7 +428,7 @@
     <color name="about_row_description_text_color">#5000</color>
     <color name="account_background_color">#eee</color>
     <color name="account_toolbar_text_color">#fff</color>
-    <color name="account_toolbar_text_color_light">#7fff</color>
-    <color name="account_sign_out_button_background_color">#c00</color>
+    <color name="account_toolbar_text_color_light">#9fff</color>
+    <color name="account_sign_out_button_background_color">#F25F31</color>
     <color name="account_sign_out_button_text_color">#fff</color>
 </resources>
