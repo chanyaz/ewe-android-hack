@@ -74,6 +74,8 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	// Don't change the actual string, updated identifier for clarity
 	private static final String PREF_FIRST_LAUNCH = "PREF_FIRST_LAUNCH";
 
+	public static final String PREF_LAST_VERSION_OF_APP_LAUNCHED = "PREF_LAST_VERSION_OF_APP_LAUNCHED";
+
 	// For logged in backward compatibility with AccountManager
 	private static final String PREF_UPGRADED_TO_ACCOUNT_MANAGER = "PREF_UPGRADED_TO_ACCOUNT_MANAGER";
 
@@ -88,6 +90,16 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	//64 memory class or lower is a shitty device
 	private static boolean sIsDeviceShitty = false;
 	private static boolean sIsInstrumentation = false;
+	private static boolean sIsFirstLaunchEver = true;
+	private static boolean sIsFirstLaunchOfAppVersion = true;
+
+	public static boolean isFirstLaunchOfAppVersion() {
+		return sIsFirstLaunchOfAppVersion;
+	}
+
+	public static boolean isFirstLaunchEver() {
+		return sIsFirstLaunchEver;
+	}
 
 	public static boolean isAutomation() {
 		return sIsRobolectric || sIsInstrumentation;
@@ -289,11 +301,18 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		}
 		startupTimer.addSplit("Push server unregistered (if needed)");
 
-		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {
-			SettingUtils.save(this, PREF_FIRST_LAUNCH, true);
+		if (SettingUtils.get(this, PREF_FIRST_LAUNCH, true)) {
+			sIsFirstLaunchEver = true;
+			SettingUtils.save(this, PREF_FIRST_LAUNCH, false);
 			AdTracker.trackFirstLaunch();
 			startupTimer.addSplit("AdTracker first launch tracking");
 		}
+		else {
+			sIsFirstLaunchEver = false;
+		}
+
+		sIsFirstLaunchOfAppVersion = isFirstLaunchOfNewAppVersion();
+		SettingUtils.save(ExpediaBookingApp.this, PREF_LAST_VERSION_OF_APP_LAUNCHED, BuildConfig.VERSION_NAME);
 
 		// 2249: We don't need to unregister if this is the user's first launch
 		if (!SettingUtils.get(this, PREF_FIRST_LAUNCH, false)) {
@@ -309,6 +328,11 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		CurrencyUtils.initMap(this);
 		startupTimer.addSplit("Currency Utils init");
 		startupTimer.dumpToLog();
+	}
+
+	private boolean isFirstLaunchOfNewAppVersion() {
+		String lastVersionOfAppLaunched = SettingUtils.get(ExpediaBookingApp.this, PREF_LAST_VERSION_OF_APP_LAUNCHED, "");
+		return !BuildConfig.VERSION_NAME.equals(lastVersionOfAppLaunched);
 	}
 
 	@Override

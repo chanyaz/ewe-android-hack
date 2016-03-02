@@ -1,20 +1,32 @@
 package com.expedia.bookings.activity;
 
 import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
+import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.NavUtils;
-import com.mobiata.android.util.SettingUtils;
+import com.expedia.bookings.utils.Ui;
 import com.facebook.appevents.AppEventsLogger;
+import com.mobiata.android.Log;
+import com.mobiata.android.util.SettingUtils;
+
+import rx.Observer;
 
 /**
  * This is a routing Activity that points users towards either the phone or
@@ -58,13 +70,54 @@ public class RouterActivity extends Activity {
 			ProductFlavorFeatureConfiguration.getInstance().launchAppIntroScreen(this);
 		}
 		else {
-			// On default, go to launch screen
-			NavUtils.goToLaunchScreen(this, false);
+			launchOpeningView();
 		}
 
 		// Finish this Activity after routing
 		finish();
 	}
+
+	private void launchOpeningView() {
+		boolean isUsersFirstLaunchOfApp = ExpediaBookingApp.isFirstLaunchEver();
+		boolean isNewVersionOfApp = ExpediaBookingApp.isFirstLaunchOfAppVersion();
+		boolean userNotLoggedIn = !User.isLoggedIn(RouterActivity.this);
+		boolean loadSignInViewAbTest = (isUsersFirstLaunchOfApp || isNewVersionOfApp) && userNotLoggedIn;
+
+		if (loadSignInViewAbTest) {
+			AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
+			query.addExperiment(AbacusUtils.EBAndroidAppShowSignInOnLaunch);
+			Ui.getApplication(this).appComponent().abacus().downloadBucket(query, showSignInViewABTestSubscriber, 3, TimeUnit.SECONDS);
+		}
+		else {
+			NavUtils.goToLaunchScreen(RouterActivity.this, false);
+		}
+	}
+
+	private Observer<AbacusResponse> showSignInViewABTestSubscriber = new Observer<AbacusResponse>() {
+
+		@Override
+		public void onCompleted() {
+			Log.d("Abacus:showSignInOnLaunchTest - onCompleted");
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			Log.d("Abacus:showSignInOnLaunchTest - onError");
+			NavUtils.goToLaunchScreen(RouterActivity.this, false);
+		}
+
+		@Override
+		public void onNext(AbacusResponse abacusResponse) {
+			Log.d("Abacus:showSignInOnLaunchTest - onNext");
+			AbacusHelperUtils.updateAbacus(abacusResponse, RouterActivity.this);
+			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInOnLaunch)) {
+				NavUtils.goToSignIn(RouterActivity.this);
+			}
+			else {
+				NavUtils.goToLaunchScreen(RouterActivity.this, false);
+			}
+		}
+	};
 
 	/**
 	 * Tell facebook we installed the app every time we launch!
