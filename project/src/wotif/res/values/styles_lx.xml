@@ -43,5 +43,6 @@
         <item name="skin_lxErrorNoResultsText">@string/lx_error_current_location_no_results</item>
         <item name="skin_lxErrorCurrentLocationText">@string/error_lx_current_location_search_message</item>
         <item name="skin_lxErrorWidgetDrawable">@drawable/error_lx</item>
+        <item name="paymentWidgetLayout">@layout/payment_widget</item>
     </style>
 </resources>
