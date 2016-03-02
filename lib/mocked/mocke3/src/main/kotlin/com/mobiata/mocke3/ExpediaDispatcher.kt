@@ -6,6 +6,8 @@ import com.squareup.okhttp.mockwebserver.RecordedRequest
 import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
 import org.joda.time.Days
+import java.util.concurrent.TimeUnit
+import kotlin.collections.listOf
 import kotlin.text.Regex
 import kotlin.text.contains
 
@@ -317,7 +319,12 @@ public class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatche
 
     private fun dispatchCalculatePoints(request: RecordedRequest): MockResponse {
         val params = parseRequest(request)
-        return makeResponse("/m/api/trip/calculatePoints/"+ params["tripId"] +".json")
+        val tripParams = params["tripId"]?.split("|") ?: listOf(params["tripId"])
+        val response = makeResponse("/m/api/trip/calculatePoints/"+ tripParams[0] +".json")
+        if (tripParams.size > 1) {
+            response.setBodyDelay(tripParams[1]?.toLong() ?: 0  , TimeUnit.MILLISECONDS)
+        }
+        return response
     }
 
     public fun numOfTravelAdRequests(key: String): Int {
