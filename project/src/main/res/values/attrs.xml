@@ -291,10 +291,6 @@
         <attr name="layover_background" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="PaymentButton">
-        <attr name="payment_button_layout" format="reference" />
-    </declare-styleable>
-
     <declare-styleable name="SearchInput">
         <attr name="input_icon" format="reference" />
         <attr name="input_icon_tint_color" format="color" />

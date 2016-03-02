@@ -74,7 +74,7 @@ public class PaymentOptionsScreen {
 
 	public static void assertTotalDueAmountMatches(String amount) {
 		onView(withId(R.id.section_payment_options_container))
-			.check(matches(hasDescendant(allOf(withId(R.id.total_due_today), withText(containsString(amount))))));
+			.check(matches(hasDescendant(allOf(withId(R.id.total_due_today_amount), withText(containsString(amount))))));
 	}
 
 	public static void assertTotalPointsAvailableMatches(String points) {
@@ -91,7 +91,7 @@ public class PaymentOptionsScreen {
 
 	public static void assertRemainingDueMatches(String amount) {
 		onView(withId(R.id.section_payment_options_container))
-			.check(matches(hasDescendant(allOf(withId(R.id.remaining_balance), withText(containsString(amount))))));
+			.check(matches(hasDescendant(allOf(withId(R.id.remaining_balance_amount), withText(containsString(amount))))));
 
 	}
 

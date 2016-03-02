@@ -82,12 +82,12 @@ class PaymentWidgetV2Test {
         paymentModel.burnAmountSubject.onNext(BigDecimal(32))
         latch.await(10, TimeUnit.SECONDS)
         setUserWithStoredCard()
-        testPaymentTileInfo("Paying with Points & Visa 4111", "Tap to edit", activity.resources.getDrawable(R.drawable.ic_tablet_checkout_visa), View.VISIBLE)
+        testPaymentTileInfo("Paying with Points & Saved Visa 4111", "Tap to edit", activity.resources.getDrawable(R.drawable.ic_tablet_checkout_visa), View.VISIBLE)
 
         //WithoutPayingWithPoints
         paymentModel.createTripSubject.onNext(getCreateTripResponse(false))
         setUserWithStoredCard()
-        testPaymentTileInfo("Visa 4111", "Tap to edit", activity.resources.getDrawable(R.drawable.ic_tablet_checkout_visa), View.GONE)
+        testPaymentTileInfo("Saved Visa 4111", "Tap to edit", activity.resources.getDrawable(R.drawable.ic_tablet_checkout_visa), View.GONE)
     }
 
     private fun testPaymentTileInfo(paymentInfo: String, paymentOption: String, paymentIcon: Drawable, pwpSmallIconVisibility: Int) {

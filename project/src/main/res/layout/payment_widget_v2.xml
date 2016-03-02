@@ -82,14 +82,32 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.expedia.bookings.widget.TextView
+        <LinearLayout
             android:id="@+id/total_due_today"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:padding="5dp"
-            android:textSize="12sp"
-            app:textStyle="normal" />
+            android:orientation="horizontal">
+
+            <com.expedia.bookings.widget.TextView
+                android:layout_width="0dp"
+                android:layout_weight=".8"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/pwp_total_due_today_TEMPLATE"
+                android:textSize="12sp"
+                app:textStyle="normal" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/total_due_today_amount"
+                android:layout_width="0dp"
+                android:layout_weight=".2"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:padding="5dp"
+                android:textSize="12sp"
+                app:textStyle="normal" />
+        </LinearLayout>
 
         <com.expedia.bookings.widget.PayWithPointsWidget
             android:id="@+id/pwp_widget"
@@ -98,15 +116,32 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" />
 
-        <com.expedia.bookings.widget.TextView
+        <LinearLayout
             android:id="@+id/remaining_balance"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginTop="12dp"
-            android:padding="5dp"
-            android:textSize="12sp"
-            app:textStyle="normal" />
+            android:orientation="horizontal">
+
+            <com.expedia.bookings.widget.TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".8"
+                android:padding="5dp"
+                android:text="@string/pwp_remaining_balance_due_on_card_TEMPLATE"
+                android:textSize="12sp"
+                app:textStyle="normal" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/remaining_balance_amount"
+                android:layout_width="0dp"
+                android:layout_weight=".2"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:gravity="left"
+                android:textSize="12sp"
+                app:textStyle="normal" />
+        </LinearLayout>
 
         <com.expedia.bookings.widget.DisableableLinearLayout
             android:id="@+id/section_credit_card_container"
@@ -115,12 +150,11 @@
             android:background="@drawable/card_background"
             android:orientation="vertical">
 
-            <com.expedia.bookings.widget.PaymentButton
-                android:id="@+id/payment_button_v2"
+            <com.expedia.bookings.widget.StoredCreditCardList
+                android:id="@+id/stored_creditcard_list"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:payment_button_layout="@layout/checkout_payment_button_v2" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
 
             <View
                 android:id="@+id/spacer_above_filled_in_card_details_mini_view"

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.payment.PaymentSplitsType
@@ -17,9 +18,10 @@ import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel
 import javax.inject.Inject
 
-class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
-    val remainingBalance: TextView by bindView(R.id.remaining_balance)
-    val totalDueToday: TextView by bindView(R.id.total_due_today)
+public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
+    val remainingBalance: LinearLayout by bindView(R.id.remaining_balance)
+    val remainingBalanceAmount: TextView by bindView(R.id.remaining_balance_amount)
+    val totalDueTodayAmount: TextView by bindView(R.id.total_due_today_amount)
 
     val pwpWidget: PayWithPointsWidget by bindView(R.id.pwp_widget)
     var paymentSplitsType = PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD
@@ -27,8 +29,8 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     var isFullPayableWithPoints: Boolean = false
 
     var paymentWidgetViewModel by notNullAndObservable<IPaymentWidgetViewModel> { vm ->
-        vm.totalDueToday.subscribeText(totalDueToday)
-        vm.remainingBalanceDueOnCard.subscribeText(remainingBalance)
+        vm.totalDueToday.subscribeText(totalDueTodayAmount)
+        vm.remainingBalanceDueOnCard.subscribeText(remainingBalanceAmount)
         vm.remainingBalanceDueOnCardVisibility.subscribeVisibility(remainingBalance)
         vm.paymentSplitsAndTripResponse.map { it.isCardRequired() }.subscribeEnabled(sectionCreditCardContainer)
         vm.paymentSplitsAndTripResponse.subscribe {
@@ -39,7 +41,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
             isFullPayableWithPoints = !it.isCardRequired()
             vm.burnAmountApiCallResponsePending.onNext(false)
         }
-        vm.enableDoneButton.subscribe{ enable ->
+        vm.enableDoneButton.subscribe { enable ->
             if (paymentOptionsContainer.visibility == View.VISIBLE) {
                 viewmodel.enableMenu.onNext(enable && isComplete())
             }
@@ -63,12 +65,6 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
                 show(PaymentDetails(), FLAG_CLEAR_BACKSTACK)
             }
         }
-    }
-
-
-    override fun onSelectStoredCard() {
-        pwpWidget.refreshPointsForUpdatedBurnAmount()
-        super.onSelectStoredCard()
     }
 
     override fun shouldShowPaymentOptions(): Boolean {
@@ -95,7 +91,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         }
     }
 
-    override fun closePopup() {
+    override  fun closePopup() {
 
     }
 }

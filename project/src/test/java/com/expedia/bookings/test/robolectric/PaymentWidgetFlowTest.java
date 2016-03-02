@@ -30,7 +30,7 @@ import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpandableCardView;
-import com.expedia.bookings.widget.PaymentButton;
+import com.expedia.bookings.widget.StoredCreditCardList;
 import com.expedia.bookings.widget.PaymentWidget;
 import com.expedia.bookings.widget.PaymentWidgetV2;
 import com.expedia.vm.PaymentViewModel;
@@ -198,10 +198,10 @@ public class PaymentWidgetFlowTest {
 
 		SectionBillingInfo sectionBillingInfo = (SectionBillingInfo) paymentWidget.findViewById(R.id.section_billing_info);
 		LinearLayout paymentOptions = (LinearLayout) paymentWidget.findViewById(R.id.section_payment_options_container);
-		PaymentButton paymentButton = (PaymentButton) paymentWidget.findViewById(R.id.payment_button_v2);
+		StoredCreditCardList storedCreditCardList = (StoredCreditCardList) paymentWidget.findViewById(R.id.stored_creditcard_list);
 
 		assertEquals(View.VISIBLE, sectionBillingInfo.getVisibility());
 		assertEquals(View.VISIBLE, paymentOptions.getVisibility());
-		assertEquals(View.VISIBLE, paymentButton.getVisibility());
+		assertEquals(View.VISIBLE, storedCreditCardList.getVisibility());
 	}
 }
