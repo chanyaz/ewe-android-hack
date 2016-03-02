@@ -19,6 +19,7 @@ import android.text.TextUtils;
 
 import com.expedia.account.AccountService;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.RestrictedProfileActivity;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.notification.Notification;
@@ -31,6 +32,7 @@ import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.AndroidUtils;
+import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.TimingLogger;
 
 public class User implements JSONable {
@@ -345,16 +347,30 @@ public class User implements JSONable {
 	public boolean save(Context context) {
 		Log.d("Saving user.");
 
-		// Initialize a cipher
-		FileCipher fileCipher = new FileCipher(PASSWORD);
-
-		if (!fileCipher.isInitialized()) {
-			return false;
-		}
-
 		JSONObject data = toJson();
 
-		return fileCipher.saveSecureData(context.getFileStreamPath(SAVED_INFO_FILENAME), data.toString());
+		boolean isFileSaved;
+
+		File pathToSave =  context.getFileStreamPath(SAVED_INFO_FILENAME);
+		if (!ExpediaBookingApp.isRobolectric()) {
+			// Initialize a cipher
+			FileCipher fileCipher = new FileCipher(PASSWORD);
+
+			if (!fileCipher.isInitialized()) {
+				return false;
+			}
+			isFileSaved = fileCipher.saveSecureData(pathToSave, data.toString());
+		}
+		else {
+			try {
+				IoUtils.writeStringToFile(SAVED_INFO_FILENAME, data.toString(), context);
+				isFileSaved = true;
+			}
+			catch (Exception e) {
+				throw new IllegalStateException("Unable to save temp user.dat file");
+			}
+		}
+		return isFileSaved;
 	}
 
 	public boolean load(Context context) {

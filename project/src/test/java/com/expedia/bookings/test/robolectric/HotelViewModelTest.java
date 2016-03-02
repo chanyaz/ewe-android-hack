@@ -1,24 +1,42 @@
 package com.expedia.bookings.test.robolectric;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.app.Activity;
 import android.app.Application;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
+import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
+import com.expedia.bookings.data.payment.LoyaltyInformation;
+import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB;
+import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.widget.HotelViewModel;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
+import org.robolectric.shadows.ShadowAccountManager;
+
+import static org.robolectric.Shadows.shadowOf;
 
 import rx.observers.TestSubscriber;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricRunner.class)
+@Config(shadows = { ShadowGCM.class, ShadowUserManager.class, ShadowAccountManagerEB.class})
 public class HotelViewModelTest {
 
 	HotelViewModel vm;
@@ -113,6 +131,26 @@ public class HotelViewModelTest {
 				RuntimeEnvironment.application.getResources().getString(R.string.mobile_exclusive)));
 	}
 
+	@Test
+	public void vipMessageWithNoLoyaltyMessage() {
+		givenHotelWithVipAccess();
+		setupUserAndMockLogin();
+		setupSystemUnderTest();
+
+		assertTrue(vm.getVipMessageVisibilityObservable().getValue());
+		assertFalse(vm.getVipLoyaltyMessageVisibilityObservable().getValue());
+	}
+
+	@Test
+	public void vipLoyaltyMessageVisible() {
+		givenHotelWithVipAccess();
+		givenHotelWithShopWithPointsAvailable();
+		setupUserAndMockLogin();
+		setupSystemUnderTest();
+
+		assertTrue(vm.getVipLoyaltyMessageVisibilityObservable().getValue());
+	}
+
 	private void givenSoldOutHotel() {
 		hotel.isSoldOut = true;
 	}
@@ -133,8 +171,37 @@ public class HotelViewModelTest {
 		hotel.proximityDistanceInMiles = distanceInMiles;
 	}
 
+	private void givenHotelWithVipAccess() {
+		hotel.isVipAccess = true;
+	}
+
+	private void givenHotelWithShopWithPointsAvailable() {
+		LoyaltyInformation loyaltyInformation = new LoyaltyInformation(null, new LoyaltyEarnInfo(null, null));
+		hotel.lowRateInfo.loyaltyInfo = loyaltyInformation;
+	}
+
 	private void setupSystemUnderTest() {
 		Application applicationContext = RuntimeEnvironment.application;
 		vm = new HotelViewModel(applicationContext, hotel);
 	}
+
+	private void setupUserAndMockLogin() {
+		User user = new User();
+		Traveler traveler = new Traveler();
+		user.setPrimaryTraveler(traveler);
+		user.getPrimaryTraveler().setLoyaltyMembershipTier(Traveler.LoyaltyMembershipTier.GOLD);
+
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		user.save(activity);
+		Db.setUser(user);
+
+		String accountType = activity.getResources().getString(R.string.expedia_account_type_identifier);
+		AccountManager manager = AccountManager.get(activity);
+		Account account = new Account("test", accountType);
+		ShadowAccountManager shadowAccountManager = shadowOf(manager);
+		shadowAccountManager.addAccount(account);
+
+		User.signIn(activity, null);
+	}
+
 }

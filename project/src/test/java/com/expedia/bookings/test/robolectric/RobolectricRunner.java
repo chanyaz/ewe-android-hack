@@ -7,11 +7,16 @@ import org.robolectric.DefaultTestLifecycle;
 import org.robolectric.TestLifecycle;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.internal.bytecode.InstrumentationConfiguration;
 import org.robolectric.manifest.AndroidManifest;
 import org.robolectric.res.Fs;
 import org.robolectric.res.FsFile;
 
+import android.accounts.AccountManager;
 import android.app.Application;
+import android.os.UserManager;
+
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 public class RobolectricRunner extends RobolectricGradleTestRunner {
 
@@ -29,6 +34,15 @@ public class RobolectricRunner extends RobolectricGradleTestRunner {
 		manifest.setPackageName("com.expedia.bookings");
 
 		return manifest;
+	}
+
+	@Override
+	public InstrumentationConfiguration createClassLoaderConfig() {
+		InstrumentationConfiguration.Builder builder = InstrumentationConfiguration.newBuilder();
+		builder.addInstrumentedClass(GoogleCloudMessaging.class.getName());
+		builder.addInstrumentedClass(UserManager.class.getName());
+		builder.addInstrumentedClass(AccountManager.class.getName());
+		return builder.build();
 	}
 
 	@Override
