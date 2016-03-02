@@ -17,13 +17,19 @@ import java.io.IOException
 import java.lang.reflect.InvocationTargetException
 import kotlin.properties.Delegates
 
-open class ServicesRule<T : Any>(val servicesClass: Class<T>, val rootPath: String = "../lib/mocked/templates") : TestRule {
+open class ServicesRule<T : Any>(val servicesClass: Class<T>, val rootPath: String = "../lib/mocked/templates", val setExpediaDispatcher: Boolean = true) : TestRule {
     var server: MockWebServer by Delegates.notNull()
     var services: T? = null
 
+    public fun setDefaultExpediaDispatcher(){
+        server.setDispatcher(diskExpediaDispatcher())
+    }
+
     override fun apply(base: Statement, description: Description): Statement {
         server = MockWebServer()
-        server.setDispatcher(diskExpediaDispatcher())
+        if(setExpediaDispatcher) {
+            server.setDispatcher(diskExpediaDispatcher())
+        }
 
         val createService = object : Statement() {
             @Throws(Throwable::class)

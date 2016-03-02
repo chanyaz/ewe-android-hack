@@ -35,7 +35,7 @@ import java.util.Collections
 import java.util.Comparator
 import java.util.LinkedHashSet
 
-class LXServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor,
+class LxServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor,
                         val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
 
     private var cachedLXSearchResponse = LXSearchResponse()

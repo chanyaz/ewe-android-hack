@@ -1,11 +1,5 @@
 package com.expedia.bookings.unit;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
@@ -29,18 +23,16 @@ import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.RecommendedActivitiesResponse;
 import com.expedia.bookings.data.lx.Ticket;
-import com.expedia.bookings.interceptors.MockInterceptor;
-import com.expedia.bookings.services.LXServices;
-import com.mobiata.mocke3.ExpediaDispatcher;
-import com.mobiata.mocke3.FileSystemOpener;
-import com.squareup.okhttp.OkHttpClient;
+import com.expedia.bookings.services.LxServices;
+import com.expedia.bookings.testrule.ServicesRule;
 import com.squareup.okhttp.mockwebserver.MockResponse;
-import com.squareup.okhttp.mockwebserver.MockWebServer;
 
-import retrofit.RestAdapter;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import retrofit.RetrofitError;
 import rx.observers.TestSubscriber;
-import rx.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -49,17 +41,13 @@ import static org.junit.Assert.assertTrue;
 
 public class LXServicesTest {
 	@Rule
-	public MockWebServer server = new MockWebServer();
 
-	private LXServices service;
+	public ServicesRule<LxServices> serviceRule = new ServicesRule<>(LxServices.class, "../mocked/templates", false);
 	private LXCheckoutParams checkoutParams;
 	private LXCreateTripParams createTripParams;
 
 	@Before
 	public void before() {
-		service = new LXServices("http://localhost:" + server.getPort(), new OkHttpClient(), new MockInterceptor(), Schedulers.immediate(),
-			Schedulers.immediate(), RestAdapter.LogLevel.FULL);
-
 		checkoutParams = new LXCheckoutParams();
 		checkoutParams.firstName = "FirstName";
 		checkoutParams.lastName = "LastName";
@@ -79,20 +67,20 @@ public class LXServicesTest {
 	@After
 	public void tearDown() {
 		createTripParams = null;
-		service = null;
 		checkoutParams = null;
 	}
 
 	@Test
 	public void lxSearchResponse() throws Throwable {
-		givenServerUsingMockResponses();
+		serviceRule.setDefaultExpediaDispatcher();
 
 		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
 		LXSearchParams searchParams = new LXSearchParams();
 		searchParams.location = "happy";
 		searchParams.startDate = LocalDate.now();
 		searchParams.endDate = LocalDate.now().plusDays(1);
-		service.lxSearch(searchParams, observer);
+		serviceRule.getServices().lxSearch(searchParams, observer);
+
 		observer.awaitTerminalEvent();
 
 		observer.assertNoErrors();
@@ -103,11 +91,11 @@ public class LXServicesTest {
 
 	@Test
 	public void emptySearchResponse() throws Throwable {
-		server.enqueue(new MockResponse().setBody("{regionId:1,\"activities\": []}"));
+		serviceRule.getServer().enqueue(new MockResponse().setBody("{regionId:1,\"activities\": []}"));
 		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
 		LXSearchParams searchParams = new LXSearchParams();
 
-		service.lxSearch(searchParams, observer);
+		serviceRule.getServices().lxSearch(searchParams, observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertCompleted();
@@ -118,11 +106,11 @@ public class LXServicesTest {
 
 	@Test
 	public void unexpectedSearchResponseThrowsError() throws Throwable {
-		server.enqueue(new MockResponse().setBody("{Unexpected}"));
+		serviceRule.getServer().enqueue(new MockResponse().setBody("{Unexpected}"));
 		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
 		LXSearchParams searchParams = new LXSearchParams();
 
-		service.lxSearch(searchParams, observer);
+		serviceRule.getServices().lxSearch(searchParams, observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
@@ -131,11 +119,11 @@ public class LXServicesTest {
 
 	@Test
 	public void searchFailure() throws Throwable {
-		server.enqueue(new MockResponse().setBody("{regionId:1, searchFailure: true}"));
+		serviceRule.getServer().enqueue(new MockResponse().setBody("{regionId:1, searchFailure: true}"));
 		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
 		LXSearchParams searchParams = new LXSearchParams();
 
-		service.lxSearch(searchParams, observer);
+		serviceRule.getServices().lxSearch(searchParams, observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
@@ -148,12 +136,12 @@ public class LXServicesTest {
 
 	@Test
 	public void detailsResponse() throws Throwable {
-		givenServerUsingMockResponses();
+		serviceRule.setDefaultExpediaDispatcher();
 
 		TestSubscriber<ActivityDetailsResponse> observer = new TestSubscriber<>();
 		LXActivity lxActivity = new LXActivity();
 		lxActivity.id = "183615";
-		service.lxDetails(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1), observer);
+		serviceRule.getServices().lxDetails(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1), observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoErrors();
@@ -167,12 +155,13 @@ public class LXServicesTest {
 
 	@Test
 	public void recommendedResponse() throws Throwable {
-		givenServerUsingMockResponses();
+		serviceRule.setDefaultExpediaDispatcher();
 
 		TestSubscriber<RecommendedActivitiesResponse> observer = new TestSubscriber<>();
 		LXActivity lxActivity = new LXActivity();
 		lxActivity.id = "happy_recommend";
-		service.lxRecommendedSearch(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1), observer);
+		serviceRule.getServices().lxRecommendedSearch(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1),
+			observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoErrors();
@@ -185,12 +174,13 @@ public class LXServicesTest {
 
 	@Test
 	public void emptyDetailsResponse() throws Throwable {
-		server.enqueue(new MockResponse().setBody("{\"id\": \"183615\", \"offersDetail\": { \"offers\": [] }}"));
+		serviceRule.getServer().enqueue(
+			new MockResponse().setBody("{\"id\": \"183615\", \"offersDetail\": { \"offers\": [] }}"));
 		TestSubscriber<ActivityDetailsResponse> observer = new TestSubscriber<>();
 
 		LXActivity lxActivity = new LXActivity();
 		lxActivity.id = "183615";
-		service.lxDetails(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1), observer);
+		serviceRule.getServices().lxDetails(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1), observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertCompleted();
@@ -200,11 +190,11 @@ public class LXServicesTest {
 
 	@Test
 	public void createTripResponse() throws IOException {
-		givenServerUsingMockResponses();
+		serviceRule.setDefaultExpediaDispatcher();
 		givenCreateTripParamsHasOneOffer("happy");
 		TestSubscriber<LXCreateTripResponse> observer = new TestSubscriber<>();
 
-		service.createTrip(createTripParams, new Money(), observer);
+		serviceRule.getServices().createTrip(createTripParams, new Money(), observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoErrors();
@@ -215,11 +205,11 @@ public class LXServicesTest {
 
 	@Test
 	public void createTripGenericErrorResponse() throws IOException {
-		givenServerUsingMockResponses();
+		serviceRule.setDefaultExpediaDispatcher();
 		givenCreateTripParamsHasOneOffer("error_create_trip");
 		TestSubscriber<LXCreateTripResponse> observer = new TestSubscriber<>();
 
-		service.createTrip(createTripParams, new Money(), observer);
+		serviceRule.getServices().createTrip(createTripParams, new Money(), observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
@@ -230,11 +220,11 @@ public class LXServicesTest {
 
 	@Test
 	public void createTripInvalidInputErrorResponse() throws IOException {
-		givenServerUsingMockResponses();
+		serviceRule.setDefaultExpediaDispatcher();
 		givenCreateTripParamsHasOneOffer("error_invalid_input_create_trip");
 		TestSubscriber<LXCreateTripResponse> observer = new TestSubscriber<>();
 
-		service.createTrip(createTripParams, new Money(), observer);
+		serviceRule.getServices().createTrip(createTripParams, new Money(), observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
@@ -245,11 +235,11 @@ public class LXServicesTest {
 
 	@Test
 	public void createTripPriceChangeResponse() throws IOException {
-		givenServerUsingMockResponses();
+		serviceRule.setDefaultExpediaDispatcher();
 		givenCreateTripParamsHasOneOffer("price_change");
 		TestSubscriber<LXCreateTripResponse> observer = new TestSubscriber<>();
 
-		service.createTrip(createTripParams, new Money(), observer);
+		serviceRule.getServices().createTrip(createTripParams, new Money(), observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoErrors();
@@ -261,10 +251,10 @@ public class LXServicesTest {
 
 	@Test
 	public void unexpectedDetailsResponseThrowsError() throws Throwable {
-		server.enqueue(new MockResponse().setBody("{Unexpected}"));
+		serviceRule.getServer().enqueue(new MockResponse().setBody("{Unexpected}"));
 		TestSubscriber<ActivityDetailsResponse> observer = new TestSubscriber<>();
 
-		service.lxDetails(new LXActivity().id, null, null, null, observer);
+		serviceRule.getServices().lxDetails(new LXActivity().id, null, null, null, observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
@@ -273,10 +263,10 @@ public class LXServicesTest {
 
 	@Test
 	public void lxCheckoutResponse() throws Throwable {
-		givenServerUsingMockResponses();
+		serviceRule.setDefaultExpediaDispatcher();
 
 		TestSubscriber<LXCheckoutResponse> observer = new TestSubscriber<>();
-		service.lxCheckout(checkoutParams, observer);
+		serviceRule.getServices().lxCheckout(checkoutParams, observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoErrors();
@@ -290,10 +280,10 @@ public class LXServicesTest {
 
 	@Test
 	public void unexpectedCheckoutResponseThrowsError() throws Throwable {
-		server.enqueue(new MockResponse().setBody("{Unexpected}"));
+		serviceRule.getServer().enqueue(new MockResponse().setBody("{Unexpected}"));
 		TestSubscriber<LXCheckoutResponse> observer = new TestSubscriber<>();
 
-		service.lxCheckout(checkoutParams, observer);
+		serviceRule.getServices().lxCheckout(checkoutParams, observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
@@ -302,12 +292,12 @@ public class LXServicesTest {
 
 	@Test
 	public void checkoutWithInvalidInput() throws Throwable {
-		givenServerUsingMockResponses();
+		serviceRule.setDefaultExpediaDispatcher();
 
 		TestSubscriber<LXCheckoutResponse> observer = new TestSubscriber<>();
 		// Invalid credit card number
 		checkoutParams.tripId = "invalid_credit_card_number_trip_id";
-		service.lxCheckout(checkoutParams, observer);
+		serviceRule.getServices().lxCheckout(checkoutParams, observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
@@ -320,11 +310,11 @@ public class LXServicesTest {
 
 	@Test
 	public void checkoutPaymentFailure() throws Throwable {
-		givenServerUsingMockResponses();
+		serviceRule.setDefaultExpediaDispatcher();
 
 		TestSubscriber<LXCheckoutResponse> observer = new TestSubscriber<>();
 		checkoutParams.tripId = "payment_failed_trip_id";
-		service.lxCheckout(checkoutParams, observer);
+		serviceRule.getServices().lxCheckout(checkoutParams, observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
@@ -338,11 +328,11 @@ public class LXServicesTest {
 
 	@Test
 	public void checkoutPriceChange() throws IOException {
-		givenServerUsingMockResponses();
+		serviceRule.setDefaultExpediaDispatcher();
 
 		TestSubscriber<LXCheckoutResponse> observer = new TestSubscriber<>();
 		checkoutParams.tripId = "price_change";
-		service.lxCheckout(checkoutParams, observer);
+		serviceRule.getServices().lxCheckout(checkoutParams, observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoErrors();
@@ -354,14 +344,14 @@ public class LXServicesTest {
 
 	@Test
 	public void lxCategorySearchResponse() throws Throwable {
-		givenServerUsingMockResponses();
+		serviceRule.setDefaultExpediaDispatcher();
 
 		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
 		LXSearchParams searchParams = new LXSearchParams();
 		searchParams.location = "happy";
 		searchParams.startDate = LocalDate.now();
 		searchParams.endDate = LocalDate.now().plusDays(1);
-		service.lxCategorySearch(searchParams, observer);
+		serviceRule.getServices().lxCategorySearch(searchParams, observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoErrors();
@@ -378,12 +368,6 @@ public class LXServicesTest {
 			observer.getOnNextEvents().get(0).filterCategories.get("Attractions").sortOrder);
 		assertEquals(LXCategorySortOrder.PrivateTransfers,
 			observer.getOnNextEvents().get(0).filterCategories.get("Private Transfers").sortOrder);
-	}
-
-	private void givenServerUsingMockResponses() throws IOException {
-		String root = new File("../mocked/templates").getCanonicalPath();
-		FileSystemOpener opener = new FileSystemOpener(root);
-		server.setDispatcher(new ExpediaDispatcher(opener));
 	}
 
 	private void givenCreateTripParamsHasOneOffer(String activityId) {
