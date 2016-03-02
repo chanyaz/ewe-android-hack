@@ -135,6 +135,8 @@ public class PayWithPointsViewModelTest {
     public fun userEntersAmountLessThanTripTotalAndAvailablePointsBeforePreviousAPIResponse() {
         val latch = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiResponse.subscribe { latch.countDown() }
+
+        createTripResponse.tripId = "happy|500"
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
         createTripResponse.tripId = "happy_avaliable_points_less_than_trip"
         payWithPointsViewModel.userEnteredBurnAmount.onNext("30")
@@ -159,6 +161,7 @@ public class PayWithPointsViewModelTest {
         pointsAppliedMessageTestSubscriber.assertValues(Pair("1,000 points applied", true), Pair("0 points applied", true), Pair("Calculating points…", true), Pair("14,005 points applied", true))
 
         //New value entered and before calculation API response, PwP toggle off (call gets ignored)
+        createTripResponse.tripId = "happy|500"
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
         payWithPointsViewModel.pwpOpted.onNext(false)
 
@@ -166,6 +169,7 @@ public class PayWithPointsViewModelTest {
                 Pair("14,005 points applied", true), Pair("Calculating points…", true), Pair("0 points applied", true))
 
         //Toggle switch on, last entered value in pwp edit box is used to make API call
+        createTripResponse.tripId = "happy"
         val latch3 = CountDownLatch(1)
         paymentModel.burnAmountToPointsApiResponse.subscribe { latch3.countDown() }
         payWithPointsViewModel.pwpOpted.onNext(true)

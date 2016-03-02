@@ -267,7 +267,7 @@ android {
 
             def major = 1
             def minor = 2
-            def patch = 0
+            def patch = 1
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
