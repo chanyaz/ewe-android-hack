@@ -33,7 +33,7 @@ class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, interce
     fun getHotelSuggestionsV4(query: String, clientId: String, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
         val type = SuggestionResultType.HOTEL or SuggestionResultType.AIRPORT or SuggestionResultType.CITY or
                 SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.REGION
-        return suggestApi.suggestV4(query, locale, type, "ta_hierarchy", clientId, "HOTELS")
+        return suggestApi.suggestV4(query, locale, type, false, "ta_hierarchy", clientId, "HOTELS")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }
@@ -54,8 +54,12 @@ class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, interce
                 .map { response -> response.suggestions.take(2).toMutableList() }
     }
 
-    fun suggestPackagesV4(query: String, clientId: String, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
-        return suggestApi.suggestV4(query, locale, SuggestionResultType.AIRPORT, "ta_hierarchy", clientId, "PACKAGES")
+    fun suggestPackagesV4(query: String, clientId: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
+        var suggestType = SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.MULTI_CITY or SuggestionResultType.CITY
+        if (isDest) {
+            suggestType = suggestType or SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE
+        }
+        return suggestApi.suggestV4(query, locale, suggestType, isDest, "ta_hierarchy", clientId, "PACKAGES")
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions ?: emptyList() }

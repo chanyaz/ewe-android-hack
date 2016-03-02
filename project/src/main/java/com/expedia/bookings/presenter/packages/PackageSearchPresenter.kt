@@ -242,8 +242,8 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(
 
         traveler.viewmodel = HotelTravelerPickerViewModel(getContext(), true)
         searchViewModel = PackageSearchViewModel(context)
-        originSuggestionVM = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, CurrentLocationObservable.create(getContext()))
-        destinationSuggestionVM = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, null)
+        originSuggestionVM = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
+        destinationSuggestionVM = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, true, null)
 
         flyingFromAutoComplete.suggestionViewModel = originSuggestionVM
         flyingToAutoComplete.suggestionViewModel = destinationSuggestionVM
