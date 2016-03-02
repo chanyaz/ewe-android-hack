@@ -39,6 +39,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
+import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightFilter;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
@@ -1904,8 +1905,12 @@ public class OmnitureTracking {
 	private static FlightTrip getNewestFlightOffer() {
 		TripBucketItemFlight tripBucketItemFlight = Db.getTripBucket().getFlight();
 		FlightTrip createTripRespOffer = tripBucketItemFlight.getItineraryResponse().getOffer();
-		FlightTrip checkoutResponseOffer = tripBucketItemFlight.getCheckoutResponse().getNewOffer();
-		return (checkoutResponseOffer != null) ? checkoutResponseOffer : createTripRespOffer;
+		FlightCheckoutResponse checkoutResponse = tripBucketItemFlight.getCheckoutResponse();
+		FlightTrip checkoutRespOffer = null;
+		if (checkoutResponse != null) {
+			checkoutRespOffer = checkoutResponse.getNewOffer();
+		}
+		return (checkoutRespOffer != null) ? checkoutRespOffer : createTripRespOffer;
 	}
 
 	private static void addFlightSplitTicketInfo(ADMS_Measurement s, String pageName, FlightTrip flightTrip, boolean withTotalRevenue, boolean withPassengerCount) {
