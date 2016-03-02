@@ -15,6 +15,7 @@
         <!-- Skins added for whitelabel -->
         <item name="skin_loginBrandLogoDrawable">@drawable/orb</item>
         <item name="skin_costSummaryAlertDrawable">@drawable/dialog_breakdown_stripe</item>
+        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_orb</item>
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_orbitz</item>
         <item name="skin_checkoutLoginButtonColor">@android:color/white</item>
@@ -40,5 +41,6 @@
         <item name="skin_lxErrorNoResultsText">@string/lx_error_current_location_no_results</item>
         <item name="skin_lxErrorCurrentLocationText">@string/error_lx_current_location_search_message</item>
         <item name="skin_lxErrorWidgetDrawable">@drawable/error_lx</item>
+        <item name="paymentWidgetLayout">@layout/payment_widget</item>
     </style>
 </resources>
