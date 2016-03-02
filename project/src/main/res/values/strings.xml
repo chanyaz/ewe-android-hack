@@ -84,10 +84,6 @@
     <string name="cars_view_details_text">View Details</string>
     <!-- Text for driver details toolbar-->
     <string name="cars_driver_details_text">Driver details</string>
-    <!-- Text for payment details toolbar-->
-    <string name="cars_payment_details_text">Payment details</string>
-    <!-- Text for payment options toolbar-->
-    <string name="cars_payment_options_text">Payment options</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Enter driver details</string>
     <!-- Text for select saved contacts-->
@@ -223,7 +219,7 @@
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Enter your information</string>
     <!-- Text for enter payment details line 1 -->
-    <string name="checkout_hotelsv2_enter_payment_details_line1">Payment Details</string>
+    <string name="checkout_enter_payment_details">Payment Method</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Enter credit card</string>
     <!-- Label to indicate that the user has selected a stored credit card -->
@@ -1797,10 +1793,6 @@
     <string name="or_select_new_paymet_method">Select a Payment Method</string>
     <!-- Select Payment -->
     <string name="select_payment">Select Payment</string>
-    <!-- Select payment sentence case -->
-    <string name="select_payment_sentence_case">Payment details</string>
-    <!-- Select payment sentence case AB Test variate2 -->
-    <string name="select_payment_sentence_case_variate2">Payment</string>
     <!-- Select payment callout AB Test variate2 -->
     <string name="select_payment_callout">Enter Details</string>
     <!-- Add new card -->

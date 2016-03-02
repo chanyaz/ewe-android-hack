@@ -365,7 +365,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             paymentOptionsContainer.visibility = if (forward) View.VISIBLE else View.GONE
             paymentOptionGoogleWallet.visibility = if (WalletUtils.isWalletSupported(getLineOfBusiness())) View.VISIBLE else View.GONE
             billingInfoContainer.visibility = View.GONE
-            viewmodel.toolbarTitle.onNext(if (forward) resources.getString(R.string.cars_payment_options_text) else getCheckoutToolbarTitle(resources))
+            viewmodel.toolbarTitle.onNext(if (forward) resources.getString(R.string.checkout_enter_payment_details) else getCheckoutToolbarTitle(resources))
             storedCreditCardList.bind()
             if (forward) {
                 viewmodel.enableMenuDone.onNext(isComplete())
@@ -391,7 +391,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             PaymentDetails::class.java) {
         override fun finalizeTransition(forward: Boolean) {
             viewmodel.enableMenu.onNext(forward)
-            viewmodel.toolbarTitle.onNext(resources.getString(if (forward) R.string.new_credit_debit_card else R.string.cars_payment_options_text))
+            viewmodel.toolbarTitle.onNext(resources.getString(if (forward) R.string.new_credit_debit_card else R.string.checkout_enter_payment_details))
             cardInfoContainer.visibility = View.GONE
             paymentOptionsContainer.visibility = if (forward) View.GONE else View.VISIBLE
             billingInfoContainer.visibility = if (forward) View.VISIBLE else View.GONE
