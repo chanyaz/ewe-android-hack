@@ -1,24 +1,25 @@
 package com.expedia.bookings.test.phone.packages;
 
+import org.joda.time.LocalDate;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.utils.DateUtils;
-import org.joda.time.LocalDate;
+
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
+import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.CoreMatchers.allOf;
-import static android.support.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
+import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.not;
 
 public class PackageChangeHotelFlightTest extends PackageTestCase {
@@ -150,10 +151,9 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 
 	private void assertDisabledMenu() {
 		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-		onView(withText("Change hotel")).check(matches(not(isClickable())));
-		onView(withText("Change hotel room")).check(matches(not(isClickable())));
-		onView(withText("Change flights")).check(matches(not(isClickable())));
-		pressBack();
+		onView(withText("Change hotel")).check(doesNotExist());
+		onView(withText("Change hotel room")).check(doesNotExist());
+		onView(withText("Change flights")).check(doesNotExist());
 	}
 
 }

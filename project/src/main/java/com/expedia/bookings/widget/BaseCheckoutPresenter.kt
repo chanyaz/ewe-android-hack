@@ -190,7 +190,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     private fun rotateChevron(distance: Float): Boolean {
         val distanceGoal = 300f
         if (distance > distanceGoal) {
-            (context as AppCompatActivity).onBackPressed()
+            (context as AppCompatActivity).onBackPressed() 
             return true
         } else {
             translationY = distance

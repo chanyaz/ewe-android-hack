@@ -342,7 +342,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         bundlePriceWidget.setOnClickListener {
             show(bundleOverViewWidget)
         }
-        bundleOverViewWidget.bundleContainer.setPadding(0, Ui.getToolbarSize(context), 0, 0)
+        bundleOverViewWidget.setPadding(0, Ui.getToolbarSize(context), 0, 0)
         val icon = ContextCompat.getDrawable(context, R.drawable.read_more).mutate()
         icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
     }

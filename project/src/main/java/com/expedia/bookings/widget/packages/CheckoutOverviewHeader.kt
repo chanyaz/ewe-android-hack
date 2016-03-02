@@ -7,7 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
-import android.widget.FrameLayout
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
@@ -23,17 +23,19 @@ import com.expedia.bookings.utils.bindView
 import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
-class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
-    val checkoutHeaderImage: ImageView by bindView(R.id.hotel_checkout_room_image)
+class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+    var checkoutHeaderImage: ImageView? = null
     val destinationText: TextView by bindView(R.id.destination)
     val checkInOutDates: TextView by bindView(R.id.check_in_out_dates)
     val travelers: TextView by bindView(R.id.travelers)
 
     init {
         View.inflate(context, R.layout.checkout_overview_header, this)
+        orientation = VERTICAL
     }
 
-    fun update(hotel: HotelCreateTripResponse.HotelProductResponse, size: Int) {
+    fun update(hotel: HotelCreateTripResponse.HotelProductResponse, imageView: ImageView, size: Int) {
+        checkoutHeaderImage = imageView
         destinationText.text = Phrase.from(context, R.string.hotel_city_country_checkout_header_TEMPLATE)
                 .put("city", hotel.hotelCity)
                 .put("country", Db.getPackageParams().destination.hierarchyInfo?.country?.name)
@@ -71,7 +73,7 @@ class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : FrameLayo
             }
             destinationText.setTextColor(textColor)
             checkInOutDates.setTextColor(textColor)
-            checkoutHeaderImage.setImageDrawable(drawable)
+            checkoutHeaderImage?.setImageDrawable(drawable)
         }
 
         override fun onBitmapFailed(errorDrawable: Drawable?) {
@@ -82,7 +84,7 @@ class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : FrameLayo
             super.onPrepareLoad(placeHolderDrawable)
 
             if (placeHolderDrawable != null) {
-                checkoutHeaderImage.setImageDrawable(placeHolderDrawable)
+                checkoutHeaderImage?.setImageDrawable(placeHolderDrawable)
 
                 val textColor = ContextCompat.getColor(context, R.color.text_black)
                 destinationText.setTextColor(textColor)

@@ -26,7 +26,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         }
     }
 
-
     var createTripViewModel: PackageCreateTripViewModel by notNullAndObservable { vm ->
         vm.tripParams.subscribe {
             createTripDialog.show()
