@@ -85,6 +85,24 @@
     <style name="BundleOverviewFooter.SecondaryText.Savings">
         <item name="android:textColor">@color/packages_bundle_overview_footer_secondary_text_savings</item>
     </style>
+    <!--Material Flights Results Cell-->
+    <style name="PackagesFlightCell" />
+
+    <style name="PackagesFlightCell.PrimaryText">
+        <item name="android:textColor">@color/packages_flight_cell_primary_text</item>
+        <item name="android:textSize">@dimen/packages_flight_cell_primary_text</item>
+        <item name="textStyle">medium</item>
+    </style>
+    <style name="PackagesFlightCell.PrimaryText.CarrierText">
+        <item name="android:textSize">@dimen/packages_flight_cell_duration_text</item>
+        <item name="textStyle">normal</item>
+    </style>
+    <style name="PackagesFlightCell.DurationText">
+        <item name="android:textColor">@color/packages_flight_cell_duration_text</item>
+        <item name="android:textSize">@dimen/packages_flight_cell_duration_text</item>
+        <item name="textStyle">normal</item>
+    </style>
+
 
     <!--Bundle Overview Hotel and Flight Widgets-->
     <style name="BundleOverviewWidgets" />
