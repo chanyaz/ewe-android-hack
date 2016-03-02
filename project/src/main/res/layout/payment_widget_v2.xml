@@ -4,8 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="12dp">
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:id="@+id/card_info_container"
@@ -86,27 +85,26 @@
             android:id="@+id/total_due_today"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
             <com.expedia.bookings.widget.TextView
                 android:layout_width="0dp"
-                android:layout_weight=".8"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
+                android:layout_weight="1"
                 android:text="@string/pwp_total_due_today_TEMPLATE"
-                android:textSize="12sp"
-                app:textStyle="normal" />
+                android:textSize="14sp"
+                app:textStyle="medium" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/total_due_today_amount"
-                android:layout_width="0dp"
-                android:layout_weight=".2"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="left"
-                android:padding="5dp"
-                android:textSize="12sp"
-                app:textStyle="normal" />
+                android:gravity="right"
+                android:textSize="14sp"
+                app:textStyle="medium" />
         </LinearLayout>
 
         <com.expedia.bookings.widget.PayWithPointsWidget
@@ -120,27 +118,27 @@
             android:id="@+id/remaining_balance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="12dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp">
 
             <com.expedia.bookings.widget.TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight=".8"
-                android:padding="5dp"
+                android:layout_weight="1"
                 android:text="@string/pwp_remaining_balance_due_on_card_TEMPLATE"
-                android:textSize="12sp"
-                app:textStyle="normal" />
+                android:textSize="14sp"
+                app:textStyle="medium" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/remaining_balance_amount"
-                android:layout_width="0dp"
-                android:layout_weight=".2"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:gravity="left"
-                android:textSize="12sp"
-                app:textStyle="normal" />
+                android:gravity="right"
+                android:textSize="14sp"
+                app:textStyle="medium" />
         </LinearLayout>
 
         <com.expedia.bookings.widget.DisableableLinearLayout
@@ -166,7 +164,7 @@
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/payment_option_credit_debit"
                 style="@style/HotelPaymentOption"
-                android:drawableLeft="@drawable/add_new_credit_card"
+                android:drawableLeft="@drawable/add_new_credit_card_icon_with_padding"
                 android:text="@string/shortened_checkout_payment_option_credit_debit_label" />
 
             <View

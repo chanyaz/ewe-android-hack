@@ -49,6 +49,7 @@ import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.PaymentViewModel
 import com.squareup.phrase.Phrase
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 
 public open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(context, attr), View.OnFocusChangeListener {
     val REQUEST_CODE_GOOGLE_WALLET_ACTIVITY = 1989
@@ -145,10 +146,10 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
         vm.userHasAtleastOneStoredCard.subscribe { hasCard ->
             if (hasCard) {
                 paymentOptionCreditDebitCard.setTextColor(getResources().getColor(R.color.hotelsv2_checkout_text_color))
-                paymentOptionCreditDebitCard.setCompoundDrawablesRelativeWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.add_new_credit_card), null, null, null)
+                paymentOptionCreditDebitCard.setCompoundDrawablesWithIntrinsicBounds(getContext().getResources().getDrawable(R.drawable.add_new_credit_card_icon_with_padding), null, null, null)
             } else {
                 paymentOptionCreditDebitCard.setTextColor(getResources().getColor(R.color.hotels_primary_color))
-                paymentOptionCreditDebitCard.setCompoundDrawablesRelativeWithIntrinsicBounds(getCreditCardIcon(R.drawable.add_new_credit_card), null, getContext().getResources().getDrawable(R.drawable.enter_new_credit_card_arrow), null)
+                paymentOptionCreditDebitCard.setCompoundDrawablesWithIntrinsicBounds(getCreditCardIcon(R.drawable.add_new_credit_card_icon_with_padding), null, getContext().getResources().getDrawable(R.drawable.enter_new_credit_card_arrow), null)
             }
         }
     }
@@ -426,6 +427,8 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
                 validateAndBind()
             }
             updateToolbarMenu(!forward)
+            viewmodel.toolbarNavIcon.onNext(if(!forward) ArrowXDrawableUtil.ArrowDrawableType.BACK
+            else  ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
         }
     }
 

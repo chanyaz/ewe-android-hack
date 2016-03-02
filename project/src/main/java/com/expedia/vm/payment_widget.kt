@@ -14,6 +14,7 @@ import com.expedia.bookings.data.User
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.TripBucketItemCar
 import com.expedia.bookings.data.payment.PaymentSplitsType
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
@@ -54,6 +55,7 @@ class PaymentViewModel(val context: Context) {
     val menuVisibility = PublishSubject.create<Boolean>()
     val visibleMenuWithTitleDone = PublishSubject.create<Unit>()
     val toolbarTitle = PublishSubject.create<String>()
+    val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
     val doneClicked = PublishSubject.create<Unit>()
     val editText = PublishSubject.create<EditText>()
     val userHasAtleastOneStoredCard = PublishSubject.create<Boolean>()
@@ -71,22 +73,18 @@ class PaymentViewModel(val context: Context) {
             } else if (info == null) {
                 return@combineLatest
             } else if (info.isTempCard && info.saveCardToExpediaAccount) {
-                var title = temporarilySavedCardLabel(info.paymentType, info.number)
+                var title = manuallyEnteredCard(info.paymentType, info.number)
                 tempCard.onNext(Pair("",getCardIcon(info.paymentType)))
                 setPaymentTileInfo(info.paymentType, title, resources.getString(R.string.checkout_tap_to_edit), splitsType, ContactDetailsCompletenessStatus.COMPLETE)
                 Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(info)
             } else if (info.hasStoredCard()) {
                 val card = info.storedCard
-                var title = Phrase.from(context, R.string.stored_card_TEMPLATE)
-                        .put("cardtype", card.description).format().toString()
+                var title = card.description
                 tempCard.onNext(Pair("",getCardIcon(card.type)))
                 setPaymentTileInfo(card.type, title, resources.getString(R.string.checkout_tap_to_edit), splitsType, ContactDetailsCompletenessStatus.COMPLETE)
             } else {
                 val cardNumber = info.number
-                var title = Phrase.from(context, R.string.checkout_selected_card)
-                        .put("cardtype", CreditCardUtils.getHumanReadableCardTypeName(context, info.paymentType))
-                        .put("cardno", cardNumber.drop(cardNumber.length - 4))
-                        .format().toString()
+                var title = manuallyEnteredCard(info.paymentType,cardNumber)
                 if (info.isTempCard && !info.saveCardToExpediaAccount) {
                     tempCard.onNext(Pair(title,getCardIcon(info.paymentType)))
                 }
@@ -181,8 +179,8 @@ class PaymentViewModel(val context: Context) {
         }
     }
 
-    private fun temporarilySavedCardLabel(paymentType: PaymentType?, cardNumber: String): String {
-        return Phrase.from(context, R.string.temporarily_saved_card_TEMPLATE)
+    private fun manuallyEnteredCard(paymentType: PaymentType?, cardNumber: String): String {
+        return Phrase.from(context, R.string.checkout_selected_card)
                 .put("cardtype", CreditCardUtils.getHumanReadableCardTypeName(context, paymentType))
                 .put("cardno", cardNumber.drop(cardNumber.length - 4))
                 .format().toString()

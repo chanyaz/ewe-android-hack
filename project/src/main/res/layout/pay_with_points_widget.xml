@@ -46,7 +46,8 @@
     <RelativeLayout
         android:id="@+id/pwp_edit_box_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingRight="9dp">
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/currency_symbol_view"
@@ -62,7 +63,6 @@
             android:cursorVisible="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
             android:layout_toRightOf="@id/currency_symbol_view"
             android:inputType="numberDecimal"
             android:singleLine="true"
@@ -75,9 +75,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingBottom="7dp"
             android:layout_centerVertical="true"
-            android:paddingBottom="5dp"
             android:src="@drawable/widget_close" />
     </RelativeLayout>
 
