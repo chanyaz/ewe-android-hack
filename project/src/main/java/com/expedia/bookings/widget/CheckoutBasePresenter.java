@@ -493,7 +493,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	private DefaultTransition defaultTransition = new DefaultTransition(CheckoutDefault.class.getName()) {
 		@Override
-		public void finalizeTransition(boolean forward) {
+		public void endTransition(boolean forward) {
 			showProgress(true);
 			menuDone.setVisible(false);
 			for (int i = 0; i < checkoutContent.getChildCount(); i++) {
@@ -533,8 +533,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 
 		@Override
-		public void finalizeTransition(boolean forward) {
-			super.finalizeTransition(forward);
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
 			showProgress(!forward);
 			if (forward) {
 				resetMenuButton();
@@ -585,8 +585,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	private Transition defaultToCheckoutFailed = new Transition(CheckoutDefault.class, CheckoutFailed.class) {
 		@Override
-		public void finalizeTransition(boolean forward) {
-			super.finalizeTransition(forward);
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
 			showProgress(false);
 		}
 	};
@@ -636,7 +636,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 
 		@Override
-		public void finalizeTransition(boolean forward) {
+		public void endTransition(boolean forward) {
 			if (forward) {
 				slideToContainer.setVisibility(INVISIBLE);
 				acceptTermsWidget.setVisibility(INVISIBLE);
@@ -695,7 +695,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 
 		@Override
-		public void finalizeTransition(boolean forward) {
+		public void endTransition(boolean forward) {
 			if (forward) {
 				slideToContainer.setVisibility(INVISIBLE);
 				acceptTermsWidget.setVisibility(INVISIBLE);
@@ -754,7 +754,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 
 		@Override
-		public void finalizeTransition(boolean forward) {
+		public void endTransition(boolean forward) {
 			if (forward) {
 				slideToContainer.setVisibility(INVISIBLE);
 				acceptTermsWidget.setVisibility(INVISIBLE);

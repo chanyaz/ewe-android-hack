@@ -166,7 +166,7 @@ public class LXResultsPresenter extends Presenter {
 		}
 
 		@Override
-		public void finalizeTransition(boolean forward) {
+		public void endTransition(boolean forward) {
 			if (isUserBucketedAndCategoryAllThingsToDo()) {
 				transparentView.setAlpha(forward ? 0.5f : 0);
 				transparentView.setVisibility(forward ? VISIBLE : GONE);

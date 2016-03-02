@@ -135,7 +135,7 @@ public class Presenter extends FrameLayout {
 		if (currentState == null) {
 			// If we have a default transition added, execute it.
 			if (toDefaultTransition != null && newState.getClass().getName().equals(toDefaultTransition.state2)) {
-				toDefaultTransition.finalizeTransition(true);
+				toDefaultTransition.endTransition(true);
 			}
 			currentState = newState.getClass().getName();
 			getBackStack().push(newState);
@@ -236,7 +236,7 @@ public class Presenter extends FrameLayout {
 			// empty
 		}
 
-		public void finalizeTransition(boolean forward) {
+		public void endTransition(boolean forward) {
 			// empty
 		}
 	}
@@ -398,7 +398,7 @@ public class Presenter extends FrameLayout {
 		@Override
 		public void onAnimationEnd(Animator animator) {
 			logAnimStats();
-			transition.finalizeTransition(meta.forward);
+			transition.endTransition(meta.forward);
 			currentState = meta.getDestination();
 			acceptAnimationUpdates = false;
 		}

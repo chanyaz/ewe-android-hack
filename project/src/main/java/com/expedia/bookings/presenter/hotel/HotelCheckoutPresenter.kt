@@ -87,15 +87,15 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
     }
 
     private val defaultCheckoutTransition = object : Presenter.DefaultTransition(HotelCheckoutMainViewPresenter::class.java.name) {
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             hotelCheckoutWidget.visibility = View.VISIBLE
             cvv.visibility = View.GONE
         }
     }
 
     private val checkoutToCvv = object : VisibilityTransition(this, HotelCheckoutMainViewPresenter::class.java, CVVEntryWidget::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             if (!forward) {
                 hotelCheckoutWidget.slideWidget.resetSlider()
                 hotelCheckoutWidget.checkoutFormWasUpdated()

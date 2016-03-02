@@ -40,7 +40,7 @@ public class PresenterTest {
 			}
 
 			@Override
-			public void finalizeTransition(boolean forward) {
+			public void endTransition(boolean forward) {
 			}
 		};
 	}
@@ -177,15 +177,7 @@ public class PresenterTest {
 	public void testOneDefaultTransitionAllowed() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		Presenter root = new Presenter(activity, null);
-		root.addDefaultTransition(new Presenter.DefaultTransition("FOO") {
-			@Override
-			public void finalizeTransition(boolean forward) {
-			}
-		});
-		root.addDefaultTransition(new Presenter.DefaultTransition("BAR") {
-			@Override
-			public void finalizeTransition(boolean forward) {
-			}
-		});
+		root.addDefaultTransition(new Presenter.DefaultTransition("FOO") { });
+		root.addDefaultTransition(new Presenter.DefaultTransition("BAR") { });
 	}
 }

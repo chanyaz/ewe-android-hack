@@ -149,7 +149,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             loginWidget.bind(false, Db.getUser() != null, Db.getUser(), LineOfBusiness.PACKAGES)
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
         }

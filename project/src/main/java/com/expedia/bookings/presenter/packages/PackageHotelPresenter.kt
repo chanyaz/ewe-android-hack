@@ -180,8 +180,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             resultsPresenter.animationUpdate(f, !forward)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             bundlePriceWidget.visibility = View.VISIBLE
             bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
@@ -216,7 +216,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             detailPresenter.animationUpdate(f, !forward)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             detailPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             resultsPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             bundlePriceWidget.visibility = View.VISIBLE
@@ -242,7 +242,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             updateBundleTransition(f, forward)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             finalizeBundleTransition(forward)
         }
     }
@@ -257,7 +257,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             updateBundleTransition(f, forward)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             finalizeBundleTransition(forward)
         }
     }
@@ -363,8 +363,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     private val defaultDetailsTransition = object : Presenter.DefaultTransition(HotelDetailPresenter::class.java.name) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             loadingOverlay.visibility = View.GONE
             detailPresenter.visibility = View.VISIBLE
             if (forward) {

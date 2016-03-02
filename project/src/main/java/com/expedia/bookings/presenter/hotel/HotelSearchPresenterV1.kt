@@ -453,7 +453,7 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
             calendar.translationY = pos
         }
 
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             calendar.translationY = (if (forward) 0 else calendarHeight).toFloat()
             if (forward) {
                 searchLocationEditText.clearFocus()
@@ -489,7 +489,7 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
             calendar.translationY = pos
         }
 
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             calendar.translationY = (if (forward) 0 else calendarHeight).toFloat()
             if (forward) {
                 com.mobiata.android.util.Ui.hideKeyboard(this@HotelSearchPresenterV1)

@@ -380,7 +380,7 @@ public class CarResultsPresenter extends Presenter {
 		}
 
 		@Override
-		public void finalizeTransition(boolean forward) {
+		public void endTransition(boolean forward) {
 		}
 	};
 
@@ -396,7 +396,7 @@ public class CarResultsPresenter extends Presenter {
 		}
 
 		@Override
-		public void finalizeTransition(boolean forward) {
+		public void endTransition(boolean forward) {
 		}
 	};
 
@@ -424,8 +424,8 @@ public class CarResultsPresenter extends Presenter {
 		}
 
 		@Override
-		public void finalizeTransition(boolean forward) {
-			super.finalizeTransition(forward);
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
 			if (forward) {
 				filter.onTransitionToDetails(unfilteredSearch.getFromDisplayLabel(selectedCategorizedCarOffers.carCategoryDisplayLabel));
 			}
@@ -467,7 +467,7 @@ public class CarResultsPresenter extends Presenter {
 
 	DefaultTransition setUpLoading = new DefaultTransition(CarCategoryListWidget.class.getName()) {
 		@Override
-		public void finalizeTransition(boolean forward) {
+		public void endTransition(boolean forward) {
 			lastState = CarCategoryListWidget.class.getName();
 			categories.setVisibility(View.VISIBLE);
 			details.setVisibility(View.GONE);
@@ -496,7 +496,7 @@ public class CarResultsPresenter extends Presenter {
 		}
 
 		@Override
-		public void finalizeTransition(boolean forward) {
+		public void endTransition(boolean forward) {
 			filter.setVisibility(forward ? VISIBLE : GONE);
 			filter.setTranslationY(forward ? 0 : filter.getHeight());
 
@@ -525,7 +525,7 @@ public class CarResultsPresenter extends Presenter {
 		}
 
 		@Override
-		public void finalizeTransition(boolean forward) {
+		public void endTransition(boolean forward) {
 			filter.setVisibility(forward ? VISIBLE : GONE);
 			filter.setTranslationY(forward ? 0 : filter.getHeight());
 			if (forward) {
