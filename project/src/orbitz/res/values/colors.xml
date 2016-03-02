@@ -44,12 +44,12 @@
 
     <!-- Cars and LX-->
     <color name="cars_primary_color_orbitz">#004D7C</color>
-    <color name="cars_unchecked_toggle_text_color_orbitz">#B3FFFFFF</color>
+    <color name="cars_unchecked_toggle_text_color_orbitz">#dfe9f0</color>
     <color name="lx_primary_color_orbitz">#004D7C</color>
-    <color name="lx_ripple_color_orbitz">#53a0d3</color>
-    <color name="lx_secondary_color_disabled_orbitz">#032E4D</color>
-    <color name="lx_unchecked_toggle_text_color_orbitz">@android:color/white</color>
-    <color name="lx_ticket_selector_disabled_color_orbitz">#40003E74</color>
+    <color name="lx_ripple_color_orbitz">#004D7C</color>
+    <color name="lx_secondary_color_disabled_orbitz">#00B1FF</color>
+    <color name="lx_unchecked_toggle_text_color_orbitz">#dfe9f0</color>
+    <color name="lx_ticket_selector_disabled_color_orbitz">#dde5ec</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#C4204B</color>

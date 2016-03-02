@@ -45,13 +45,13 @@
     <color name="launch_tonight_only">#990033</color>
 
     <!-- Cars and LX-->
-    <color name="cars_primary_color">#003e74</color>
-    <color name="cars_unchecked_toggle_text_color">#B3FFFFFF</color>
-    <color name="lx_primary_color">#003E74</color>
-    <color name="lx_ripple_color">#53a0d3</color>
-    <color name="lx_secondary_color_disabled">#032E4D</color>
-    <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
-    <color name="lx_ticket_selector_disabled_color">#40003E74</color>
+    <color name="cars_primary_color">#116FAA</color>
+    <color name="cars_unchecked_toggle_text_color">#dfe9f0</color>
+    <color name="lx_primary_color">#116FAA</color>
+    <color name="lx_ripple_color">#054A75</color>
+    <color name="lx_secondary_color_disabled">#0E7DC4</color>
+    <color name="lx_unchecked_toggle_text_color">#dfe9f0</color>
+    <color name="lx_ticket_selector_disabled_color">#dfe9f0</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">@color/actionbar_text_ctx</color>
