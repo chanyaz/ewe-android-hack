@@ -52,6 +52,8 @@
     <!-- Hotels colors -->
     <color name="hotels_primary_color">#116FAA</color>
     <color name="hotel_promo_background">#D00000</color>
+    <color name="hotel_review_actionbar_tab_text_selected">#FFFFFF</color>
+    <color name="hotel_review_actionbar_tab_text_unselected">#8CFFFFFF</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#116FAA</color>

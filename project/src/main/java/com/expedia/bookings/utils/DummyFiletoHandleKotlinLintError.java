@@ -317,6 +317,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.flight_segment_layover_row,
 		R.layout.flight_segment_row,
 		R.string.guests_with_rooms_TEMPLATE,
-		R.color.pwp_total_available_points
+		R.color.pwp_total_available_points,
+		R.layout.hotel_review_actionbar_tab_bg
 	};
 }

@@ -21,7 +21,7 @@ public class HotelReviewsToolbar(context: Context, attrs: AttributeSet) : Toolba
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        slidingTabLayout.setCustomTabView(R.layout.actionbar_tab_bg, R.id.tab_text)
+        slidingTabLayout.setCustomTabView(R.layout.hotel_review_actionbar_tab_bg, R.id.tab_text)
         slidingTabLayout.setSelectedIndicatorColors(ContextCompat.getColor(context, R.color.action_bar_text_yellow))
         slidingTabLayout.setDistributeEvenly(true)
         slidingTabLayout.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
