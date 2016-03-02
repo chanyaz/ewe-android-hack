@@ -15,6 +15,5 @@ public interface IPaymentWidgetViewModel {
     val remainingBalanceDueOnCardVisibility: Observable<Boolean>
     val paymentSplitsAndTripResponse: Observable<PaymentModel.PaymentSplitsAndTripResponse>
     val burnAmountApiCallResponsePending: PublishSubject<Boolean>
-    val onStoredCardChosen: PublishSubject<Unit>
-    val enableDoneButton: PublishSubject<Boolean>
+    val isPwpDirty: Observable<Boolean>
 }
