@@ -138,6 +138,27 @@ public class PackageScreen {
 		return onView(withId(R.id.package_bundle_hotel_widget));
 	}
 
+	public static ViewInteraction hotelGuestRoomInfo() {
+		return onView(withId(R.id.hotels_room_guest_info_text));
+	}
+
+	public static ViewInteraction outboundFlightCardInfo() {
+		return outboundFlightDescendant(withId(R.id.travel_info_view_text));
+	}
+
+	private static ViewInteraction outboundFlightDescendant(Matcher<View> descendantViewMatcher) {
+		return onView(
+			allOf(descendantViewMatcher, isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget))));
+	}
+
+	public static ViewInteraction inboundFlightCardInfo() {
+		return inboundFlightDescendant(withId(R.id.travel_info_view_text));
+	}
+
+	private static ViewInteraction inboundFlightDescendant(Matcher<View> descendantViewMatcher) {
+		return onView(allOf(descendantViewMatcher, isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget))));
+	}
+
 	public static ViewInteraction flightsToolbar() {
 		return onView(withId(R.id.flights_toolbar));
 	}
@@ -159,6 +180,11 @@ public class PackageScreen {
 			withId(R.id.hotel_info_container)));
 	}
 
+	public static ViewInteraction hotelDetailsIcon() {
+		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_hotel_widget)),
+			withId(R.id.package_hotel_details_icon)));
+	}
+
 	public static ViewInteraction outboundFlightInfo() {
 		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
 			withId(R.id.flight_info_container)));
@@ -173,11 +199,14 @@ public class PackageScreen {
 		return onView(withId(R.id.package_bundle_inbound_flight_widget));
 	}
 
-	public static ViewInteraction outboundFlightDetails() {
-		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)),
-			withId(R.id.package_flight_details_icon)));
+	public static ViewInteraction outboundFlightDetailsIcon() {
+		return outboundFlightDescendant(withId(R.id.package_flight_details_icon));
 	}
-	
+
+	public static ViewInteraction outboundFlightDetailsContainer() {
+		return outboundFlightDescendant(withId(R.id.flight_details_container));
+	}
+
 	public static ViewInteraction flightList() {
 		return onView(withId(R.id.list_view));
 	}
