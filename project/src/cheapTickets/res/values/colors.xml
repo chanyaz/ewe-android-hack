@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="action_bar_bg_color">#00253C</color>
+    <color name="action_bar_bg_color">#FFFFFF</color>
     <color name="actionbar_button_background_pressed">#004888</color>
     <color name="actionbar_text_ctx">#D00000</color>
+    <color name="action_bar_flight_cancel_text_color">@color/actionbar_text_ctx</color>
+    <color name="action_bar_flight_result_separator_color">#d9d9d9</color>
 
-    <color name="lob_btn_color">#004D7C</color>
+    <color name="lob_btn_color">#116FAA</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
     <color name="flights_lob_btn">@color/lob_btn_color</color>
     <color name="cars_lob_btn">@color/lob_btn_color</color>
     <color name="lx_lob_btn">@color/lob_btn_color</color>
 
     <color name="launch_tab_indicator">@color/action_bar_text_blue</color>
+    <color name="action_bar_selected_tab_underline_color">@color/launch_tab_indicator</color>
     <color name="launch_actionbar_color">@color/action_bar_bg_color</color>
-    <color name="action_bar_text_blue">#7baed4</color>
+    <color name="actionbar_tab_text_selected">#D00000</color>
+    <color name="actionbar_tab_text_unselected">#CACDCF</color>
+    <color name="action_bar_text_blue">#D00000</color>
     <color name="bg_btn_color">#7bae00</color>
     <color name="bg_btn_pressed_color">#295600</color>
     <color name="itin_flight_line_color">#7da426</color>
@@ -32,12 +37,21 @@
     <color name="tablet_results_search_blue">#608405</color>
     <color name="launch_pin_detail_button_text">#D1EAFF</color>
     <color name="action_bar_flight_text_color">@color/actionbar_text_ctx</color>
+    <color name="action_menu_text_color">#FFFFFF</color>
+    <color name="action_bar_text_yellow">@color/launch_tab_indicator</color>
+
+    <!-- Calendar text colors -->
+    <color name="calendar_cell_selected_date_text">#FFFFFF</color>
 
     <color name="launch_card_back_container_color">#393939</color>
     <color name="launch_card_explore_now_background_color">#4791C0</color>
     <color name="destination_list_launch_card_title_text_color">#003E6F</color>
     <color name="destination_list_launch_card_country_text_color">#57A3CC</color>
     <color name="destination_list_detail_container_background">#ff070f24</color>
+
+    <!-- Hotels colors -->
+    <color name="hotels_primary_color">#116FAA</color>
+    <color name="hotel_promo_background">#D00000</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#116FAA</color>
