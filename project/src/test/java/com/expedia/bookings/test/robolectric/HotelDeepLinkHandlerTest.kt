@@ -2,6 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.presenter.hotel.HotelPresenter
 import com.expedia.ui.HotelActivity
 import com.expedia.vm.HotelDeepLinkHandler
 import org.joda.time.LocalDate
@@ -9,6 +10,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import rx.Observer
 import rx.observers.TestObserver
@@ -19,19 +21,18 @@ class HotelDeepLinkHandlerTest {
     lateinit var testDeepLinkSearchObserver: TestObserver<HotelSearchParams?>
     lateinit var testSuggestionLookupObserver: TestObserver<Pair<String, Observer<List<SuggestionV4>>>>
     lateinit var testCurrentLocationSearchObserver: TestObserver<HotelSearchParams?>
-    lateinit var testDefaultTransitionObserver: TestObserver<HotelActivity.Screen>
     lateinit var testSearchSuggestionObserver: TestObserver<SuggestionV4>
+    val hotelPresenter = Mockito.mock(HotelPresenter::class.java)
 
     @Before fun setup() {
         testDeepLinkSearchObserver = TestObserver<HotelSearchParams?>()
         testSuggestionLookupObserver = TestObserver<Pair<String, Observer<List<SuggestionV4>>>>()
         testCurrentLocationSearchObserver = TestObserver<HotelSearchParams?>()
-        testDefaultTransitionObserver = TestObserver<HotelActivity.Screen>()
         testSearchSuggestionObserver = TestObserver<SuggestionV4>()
     }
 
     @Test fun handleCurrentLocationDeepLink() {
-        val handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testDeepLinkSearchObserver, testSuggestionLookupObserver, testCurrentLocationSearchObserver, testDefaultTransitionObserver, testSearchSuggestionObserver)
+        val handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testDeepLinkSearchObserver, testSuggestionLookupObserver, testCurrentLocationSearchObserver, hotelPresenter, testSearchSuggestionObserver)
 
         // 1) create suggestionv4 with type MY_LOCATION, lat/lon populated to something other than 0/0
         val suggestion = SuggestionV4()
@@ -50,12 +51,11 @@ class HotelDeepLinkHandlerTest {
         testCurrentLocationSearchObserver.assertReceivedOnNext(listOf(hotelSearchParams))
         Assert.assertEquals(0, testSuggestionLookupObserver.onNextEvents.size)
         Assert.assertEquals(0, testDeepLinkSearchObserver.onNextEvents.size)
-        Assert.assertEquals(0, testDefaultTransitionObserver.onNextEvents.size)
         Assert.assertEquals(0, testSearchSuggestionObserver.onNextEvents.size)
     }
 
 	@Test fun handleSpecificHotelDeepLink() {
-        val handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testDeepLinkSearchObserver, testSuggestionLookupObserver, testCurrentLocationSearchObserver, testDefaultTransitionObserver, testSearchSuggestionObserver)
+        val handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testDeepLinkSearchObserver, testSuggestionLookupObserver, testCurrentLocationSearchObserver, hotelPresenter, testSearchSuggestionObserver)
 
         // 1) create suggestionv4 with specific hotel
         val suggestion = SuggestionV4()
@@ -73,15 +73,15 @@ class HotelDeepLinkHandlerTest {
         handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams)
 
         // 4) verify
+        Mockito.verify(hotelPresenter).setDefaultTransition(HotelActivity.Screen.SEARCH)
         Assert.assertEquals(0, testCurrentLocationSearchObserver.onNextEvents.size)
         Assert.assertEquals(0, testSuggestionLookupObserver.onNextEvents.size)
         testDeepLinkSearchObserver.assertReceivedOnNext(listOf(hotelSearchParams))
-        testDefaultTransitionObserver.assertReceivedOnNext(listOf(HotelActivity.Screen.DETAILS))
         testSearchSuggestionObserver.assertReceivedOnNext(listOf(hotelSearchParams.suggestion))
 	}
 
 	@Test fun handleLocationDeepLink() {
-        val handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testDeepLinkSearchObserver, testSuggestionLookupObserver, testCurrentLocationSearchObserver, testDefaultTransitionObserver, testSearchSuggestionObserver)
+        val handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testDeepLinkSearchObserver, testSuggestionLookupObserver, testCurrentLocationSearchObserver, hotelPresenter, testSearchSuggestionObserver)
 
         // 1) create suggestionv4 with regionName
         val suggestion = SuggestionV4()
@@ -104,12 +104,11 @@ class HotelDeepLinkHandlerTest {
         Assert.assertEquals(1, testSuggestionLookupObserver.onNextEvents.size)
         Assert.assertEquals("Portland, ME", testSuggestionLookupObserver.onNextEvents.get(0).first)
         Assert.assertEquals(0, testDeepLinkSearchObserver.onNextEvents.size)
-        Assert.assertEquals(0, testDefaultTransitionObserver.onNextEvents.size)
         testSearchSuggestionObserver.assertReceivedOnNext(listOf(hotelSearchParams.suggestion))
 	}
 
 	@Test fun handleLatLonDeepLink() {
-        val handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testDeepLinkSearchObserver, testSuggestionLookupObserver, testCurrentLocationSearchObserver, testDefaultTransitionObserver, testSearchSuggestionObserver)
+        val handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testDeepLinkSearchObserver, testSuggestionLookupObserver, testCurrentLocationSearchObserver, hotelPresenter, testSearchSuggestionObserver)
 
         // 1) create suggestionv4 with regionName
         val suggestion = SuggestionV4()
@@ -128,15 +127,15 @@ class HotelDeepLinkHandlerTest {
         handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams)
 
         // 4) verify
+        Mockito.verify(hotelPresenter).setDefaultTransition(HotelActivity.Screen.SEARCH)
         Assert.assertEquals(0, testCurrentLocationSearchObserver.onNextEvents.size)
         Assert.assertEquals(0, testSuggestionLookupObserver.onNextEvents.size)
         testDeepLinkSearchObserver.assertReceivedOnNext(listOf(hotelSearchParams))
-        testDefaultTransitionObserver.assertReceivedOnNext(listOf(HotelActivity.Screen.RESULTS))
         testSearchSuggestionObserver.assertReceivedOnNext(listOf(hotelSearchParams.suggestion))
 	}
 
 	@Test fun handleAirAttachDeepLink() {
-        val handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testDeepLinkSearchObserver, testSuggestionLookupObserver, testCurrentLocationSearchObserver, testDefaultTransitionObserver, testSearchSuggestionObserver)
+        val handlerUnderTest = HotelDeepLinkHandler(RuntimeEnvironment.application, testDeepLinkSearchObserver, testSuggestionLookupObserver, testCurrentLocationSearchObserver, hotelPresenter, testSearchSuggestionObserver)
 
         // 1) create suggestionv4 with regionName and gaiaId
         val suggestion = SuggestionV4()
@@ -153,10 +152,10 @@ class HotelDeepLinkHandlerTest {
         handlerUnderTest.handleNavigationViaDeepLink(hotelSearchParams)
 
         // 4) verify
+        Mockito.verify(hotelPresenter).setDefaultTransition(HotelActivity.Screen.SEARCH)
         Assert.assertEquals(0, testCurrentLocationSearchObserver.onNextEvents.size)
         Assert.assertEquals(0, testSuggestionLookupObserver.onNextEvents.size)
         testDeepLinkSearchObserver.assertReceivedOnNext(listOf(hotelSearchParams))
-        testDefaultTransitionObserver.assertReceivedOnNext(listOf(HotelActivity.Screen.RESULTS))
         testSearchSuggestionObserver.assertReceivedOnNext(listOf(hotelSearchParams.suggestion))
 	}
 

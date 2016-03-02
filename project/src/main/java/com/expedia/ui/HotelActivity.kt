@@ -52,7 +52,7 @@ class HotelActivity : AbstractAppCompatActivity() {
         if (intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
             handleDeeplink(intent)
         } else {
-            hotelPresenter.defaultTransitionObserver.onNext(Screen.SEARCH)
+            hotelPresenter.setDefaultTransition(Screen.SEARCH)
         }
     }
 
@@ -62,7 +62,7 @@ class HotelActivity : AbstractAppCompatActivity() {
                 deepLinkSearchObserver,
                 suggestionLookupObserver,
                 currentLocationSearchObserver,
-                hotelPresenter.defaultTransitionObserver,
+                hotelPresenter,
                 hotelPresenter.searchPresenter.searchViewModel.suggestionObserver)
                 .handleNavigationViaDeepLink(hotelSearchParams)
     }
@@ -145,7 +145,7 @@ class HotelActivity : AbstractAppCompatActivity() {
     }
 
     private fun startCurrentLocationSearch(hotelSearchParams: HotelSearchParams?) {
-        hotelPresenter.defaultTransitionObserver.onNext(Screen.RESULTS)
+        hotelPresenter.setDefaultTransition(Screen.RESULTS)
         hotelPresenter.searchPresenter.searchViewModel.suggestionObserver.onNext(hotelSearchParams?.suggestion)
         hotelPresenter.searchObserver.onNext(hotelSearchParams)
         setupDeepLinkSearch(hotelSearchParams, false)

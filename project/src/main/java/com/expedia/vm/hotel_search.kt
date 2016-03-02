@@ -14,6 +14,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.location.CurrentLocationObservable
+import com.expedia.bookings.presenter.hotel.HotelPresenter
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.HotelSearchParamsUtil
@@ -455,7 +456,7 @@ class HotelErrorViewModel(private val context: Context) {
     }
 }
 
-class HotelDeepLinkHandler(private val context: Context, private val deepLinkSearchObserver: Observer<HotelSearchParams?>, private val suggestionLookupObserver: Observer<Pair<String, Observer<List<SuggestionV4>>>>, private val currentLocationSearchObserver: Observer<HotelSearchParams?>, private val defaultTransitionObserver: Observer<HotelActivity.Screen>, private val searchSuggestionObserver: Observer<SuggestionV4>) {
+class HotelDeepLinkHandler(private val context: Context, private val deepLinkSearchObserver: Observer<HotelSearchParams?>, private val suggestionLookupObserver: Observer<Pair<String, Observer<List<SuggestionV4>>>>, private val currentLocationSearchObserver: Observer<HotelSearchParams?>, private val hotelPresenter: HotelPresenter, private val searchSuggestionObserver: Observer<SuggestionV4>) {
     fun handleNavigationViaDeepLink(hotelSearchParams: HotelSearchParams?) {
         if (hotelSearchParams != null) {
             val lat = hotelSearchParams.suggestion.coordinates?.lat ?: 0.0
@@ -476,10 +477,10 @@ class HotelDeepLinkHandler(private val context: Context, private val deepLinkSea
                 if (hotelSearchParams.suggestion.hotelId != null) {
                     // go to specific hotel requested
                     deepLinkSearchObserver.onNext(hotelSearchParams)
-                    defaultTransitionObserver.onNext(HotelActivity.Screen.DETAILS)
+                    hotelPresenter.setDefaultTransition(HotelActivity.Screen.DETAILS)
                 } else if (hotelSearchParams.suggestion.gaiaId != null || lat != 0.0 || lon != 0.0) {
                     // search specified region or lat/lon
-                    defaultTransitionObserver.onNext(HotelActivity.Screen.RESULTS)
+                    hotelPresenter.setDefaultTransition(HotelActivity.Screen.RESULTS)
                     deepLinkSearchObserver.onNext(hotelSearchParams)
                 } else {
                     val displayName = hotelSearchParams.suggestion.regionNames?.displayName ?: ""
@@ -488,7 +489,7 @@ class HotelDeepLinkHandler(private val context: Context, private val deepLinkSea
                         suggestionLookupObserver.onNext(Pair(displayName, generateSuggestionServiceCallback(hotelSearchParams)))
                     } else {
                         // this should not happen unless something has gone very wrong, so just send user to search screen
-                        defaultTransitionObserver.onNext(HotelActivity.Screen.SEARCH)
+                        hotelPresenter.setDefaultTransition(HotelActivity.Screen.SEARCH)
                     }
                 }
             }
@@ -511,7 +512,7 @@ class HotelDeepLinkHandler(private val context: Context, private val deepLinkSea
             }
 
             override fun onError(e: Throwable?) {
-                defaultTransitionObserver.onNext(HotelActivity.Screen.SEARCH)
+                hotelPresenter.setDefaultTransition(HotelActivity.Screen.SEARCH)
             }
         }
     }
@@ -519,7 +520,7 @@ class HotelDeepLinkHandler(private val context: Context, private val deepLinkSea
     private fun generateSuggestionServiceCallback(hotelSearchParams: HotelSearchParams): Observer<List<SuggestionV4>> {
         return object : Observer<List<SuggestionV4>> {
             override fun onNext(essSuggestions: List<SuggestionV4>) {
-                defaultTransitionObserver.onNext(HotelActivity.Screen.RESULTS)
+                hotelPresenter.setDefaultTransition(HotelActivity.Screen.RESULTS)
                 hotelSearchParams.suggestion.gaiaId = essSuggestions.first().gaiaId
                 deepLinkSearchObserver.onNext(hotelSearchParams)
             }
@@ -528,7 +529,7 @@ class HotelDeepLinkHandler(private val context: Context, private val deepLinkSea
             }
 
             override fun onError(e: Throwable?) {
-                defaultTransitionObserver.onNext(HotelActivity.Screen.SEARCH)
+                hotelPresenter.setDefaultTransition(HotelActivity.Screen.SEARCH)
                 Log.e("Hotel Suggestions Error", e)
             }
         }
