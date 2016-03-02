@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="ic_orb_logo" type="drawable">@drawable/ic_action_bar_orb_logo_small</item>
+    <item name="ic_orb_traveller_logo" type="drawable">@drawable/ic_action_bar_orb_logo_small</item>
+    <item name="brand_phone_checkout_login_logo_drawable" type="drawable">@drawable/brand_logo_white</item>
+    <item name="orb" type="drawable">@drawable/brand_phone_checkout_logo_drawable</item>
+</resources>

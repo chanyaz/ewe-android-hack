@@ -128,7 +128,7 @@
         <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg</item>
         <item name="skin_hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/ic_tablet_checkout_logo</item>
-        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/expedia</item>
+        <item name="skin_phoneCheckoutLoginLogoDrawable">@drawable/brand_phone_checkout_logo_drawable</item>
         <item name="skin_phoneCheckoutLoginButtonDrawable">@drawable/card_background</item>
         <item name="skin_phoneCheckoutLoginButtonTextColor">@color/cars_lx_checkout_button_text_color</item>
         <item name="skin_tabletCheckoutLoginButtonTextColor">@color/login_text_tablet</item>
