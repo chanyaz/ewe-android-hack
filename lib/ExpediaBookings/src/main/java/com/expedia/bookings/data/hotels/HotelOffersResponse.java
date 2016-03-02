@@ -88,6 +88,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 		public boolean isMemberDeal;
 		public String ratePlanCode;
 		public String roomTypeCode;
+		public String promoDescription;
 
 		public transient Money packageHotelDeltaPrice;
 

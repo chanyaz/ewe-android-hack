@@ -126,6 +126,7 @@ class BundleHotelViewModel(val context: Context) {
     val hotelAddressObservable = BehaviorSubject.create<String>()
     val hotelCityObservable = BehaviorSubject.create<String>()
     val hotelFreeCancellationObservable = BehaviorSubject.create<String>()
+    val hotelPromoTextObservable = BehaviorSubject.create<String>()
     val hotelDetailsIconObservable = BehaviorSubject.create<Boolean>()
     val hotelSelectIconObservable = BehaviorSubject.create<Boolean>()
     val hotelIconImageObservable = BehaviorSubject.create<Int>()
@@ -158,9 +159,12 @@ class BundleHotelViewModel(val context: Context) {
                 hotelRoomImageUrlObservable.onNext(Images.getMediaHost() + selectHotelRoom.roomThumbnailUrl)
             }
             hotelRoomInfoObservable.onNext(selectHotelRoom.roomTypeDescription)
+            //TODO use the correct room type from the API
             hotelRoomTypeObservable.onNext(selectHotelRoom.roomTypeDescription)
             hotelAddressObservable.onNext(selectedHotel.address)
-            hotelFreeCancellationObservable.onNext(selectHotelRoom.freeCancellationWindowDate)
+            //TODO use the correct free cancellation window from the API
+            hotelFreeCancellationObservable.onNext(selectHotelRoom.roomTypeDescription)
+            hotelPromoTextObservable.onNext(selectHotelRoom.promoDescription)
             hotelCityObservable.onNext(selectedHotel.stateProvinceCode + " , " + selectedHotel.countryCode)
         }
     }
