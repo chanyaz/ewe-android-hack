@@ -21,7 +21,7 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
-import com.expedia.bookings.services.LXServices;
+import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
@@ -44,7 +44,7 @@ public class LXCheckoutPresenter extends Presenter {
 	}
 
 	@Inject
-	LXServices lxServices;
+	LxServices lxServices;
 
 	@InjectView(R.id.checkout)
 	LXCheckoutWidget checkout;

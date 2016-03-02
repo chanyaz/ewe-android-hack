@@ -3,7 +3,7 @@ package com.expedia.bookings.dagger;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.dagger.tags.LXScope;
 import com.expedia.bookings.server.EndpointProvider;
-import com.expedia.bookings.services.LXServices;
+import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.services.SuggestionServices;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -18,9 +18,9 @@ import rx.schedulers.Schedulers;
 public class LXModule {
 	@Provides
 	@LXScope
-	LXServices provideLXServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
+	LxServices provideLXServices(EndpointProvider endpointProvider, OkHttpClient client, RequestInterceptor interceptor, RestAdapter.LogLevel logLevel) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new LXServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
+		return new LxServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io(), logLevel);
 	}
 
 	@Provides

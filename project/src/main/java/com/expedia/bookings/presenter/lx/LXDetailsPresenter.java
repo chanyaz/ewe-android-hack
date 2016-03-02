@@ -25,7 +25,7 @@ import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
-import com.expedia.bookings.services.LXServices;
+import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
@@ -79,7 +79,7 @@ public class LXDetailsPresenter extends Presenter {
 	private int searchTop;
 
 	@Inject
-	LXServices lxServices;
+	LxServices lxServices;
 
 	@Override
 	protected void onFinishInflate() {

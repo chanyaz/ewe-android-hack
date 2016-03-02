@@ -22,7 +22,7 @@ import com.expedia.bookings.data.lx.LXCheckoutParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
-import com.expedia.bookings.services.LXServices;
+import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
@@ -54,7 +54,7 @@ public class LXCheckoutWidget extends CheckoutBasePresenter implements CVVEntryW
 	String tripId;
 
 	@Inject
-	LXServices lxServices;
+	LxServices lxServices;
 
 	protected LineOfBusiness getLineOfBusiness() {
 		return LineOfBusiness.LX;
