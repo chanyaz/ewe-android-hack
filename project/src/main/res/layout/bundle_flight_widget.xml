@@ -45,17 +45,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:textSize="16sp"
-                    app:textStyle="medium"
-                    android:textColor="@color/package_bundle_icon_color"/>
+                    style="@style/BundleOverviewWidgets.PrimaryText"/>
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/travel_info_view_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:textSize="14sp"
-                    app:textStyle="normal" />
+                    style="@style/BundleOverviewWidgets.SecondaryText" />
             </LinearLayout>
 
             <ImageView

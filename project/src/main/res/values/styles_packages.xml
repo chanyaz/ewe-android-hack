@@ -86,4 +86,20 @@
         <item name="android:textColor">@color/packages_bundle_overview_footer_secondary_text_savings</item>
     </style>
 
+    <!--Bundle Overview Hotel and Flight Widgets-->
+    <style name="BundleOverviewWidgets" />
+
+    <style name="BundleOverviewWidgets.PrimaryText">
+        <item name="android:textColor">@color/packages_bundle_overview_widgets_primary_text</item>
+        <item name="android:textSize">@dimen/packages_bundle_overview_footer_primary_text</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="BundleOverviewWidgets.SecondaryText">
+        <item name="android:textColor">@color/packages_bundle_overview_widgets_primary_text</item>
+        <item name="android:textSize">@dimen/packages_bundle_overview_footer_secondary_text</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+
 </resources>
