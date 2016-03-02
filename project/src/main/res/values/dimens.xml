@@ -305,7 +305,7 @@
     <dimen name="hotel_checkout_image_corner_radius">3dp</dimen>
 
     <!-- Package Results -->
-    <dimen name="layover_bar_text_size">14sp</dimen>
+    <dimen name="layover_bar_text_size">@dimen/temporary_font_size_small</dimen>
     <dimen name="layover_bar_padding">4dp</dimen>
     <dimen name="card_view_container_margin">9dp</dimen>
 
@@ -316,6 +316,10 @@
     <!-- Package Bundle Overview Footer -->
     <dimen name="packages_bundle_overview_footer_primary_text">@dimen/temporary_font_size_medium</dimen>
     <dimen name="packages_bundle_overview_footer_secondary_text">@dimen/temporary_font_size_small</dimen>
+
+    <!-- Package Flight Cell -->
+    <dimen name="packages_flight_cell_primary_text">@dimen/temporary_font_size_large</dimen>
+    <dimen name="packages_flight_cell_duration_text">@dimen/temporary_font_size_small</dimen>
 
     <!-- Checkout -->
     <dimen name="checkout_data_button_icon_size">48dp</dimen>
@@ -371,7 +375,6 @@
     <!-- Recent Search item height -->
     <dimen name="recent_search_item_height">55dp</dimen>
     <dimen name="package_bundle_scroll_view_padding">200dp</dimen>
-
 
 
     <!-- Standard paddings -->

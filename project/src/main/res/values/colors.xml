@@ -401,6 +401,8 @@
     <color name="packages_bundle_overview_footer_secondary_text_savings">@color/temporary_savings</color>
     <color name="packages_bundle_overview_widgets_primary_text">#676767</color>
     <color name="packages_results_header_text">@color/temporary_header_gray</color>
+    <color name="packages_flight_cell_primary_text">@color/temporary_primary_gray</color>
+    <color name="packages_flight_cell_duration_text">@color/temporary_flight_duration_gray</color>
 
     <color name="traveler_drop_down_unchecked_color">#6C6C6C</color>
 
