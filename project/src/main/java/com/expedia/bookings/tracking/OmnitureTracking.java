@@ -2304,6 +2304,13 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	public static void trackAppLXRTRABTest() {
+		Log.d(TAG, "Tracking \"" + LX_SEARCH + "\" category...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXRTROnSearchAndDetails);
+		s.track();
+	}
+
 	public static void trackAppLXSearch(LXSearchParams lxSearchParams,
 		LXSearchResponse lxSearchResponse) {
 		// Start actually tracking the search result change

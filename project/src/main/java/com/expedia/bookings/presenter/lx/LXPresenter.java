@@ -358,6 +358,11 @@ public class LXPresenter extends Presenter {
 	public void setUserBucketedForCategoriesTest(boolean isUserBucketedForTest) {
 		resultsPresenter.setUserBucketedForCategoriesTest(isUserBucketedForTest);
 	}
+	public void setUserBucketedForRTRTest(boolean userBucketedForRTRTest) {
+		recommendationPresenter.details.setUserBucketedForRTRTest(userBucketedForRTRTest);
+		detailsPresenter.details.setUserBucketedForRTRTest(userBucketedForRTRTest);
+		resultsPresenter.searchResultsWidget.setUserBucketedForRTRTest(userBucketedForRTRTest);
+	}
 
 	public void setUserBucketedForRecommendationTest(boolean isUserBucketedForTest) {
 		recommendationPresenter.setUserBucketedForRecommendationTest(isUserBucketedForTest);

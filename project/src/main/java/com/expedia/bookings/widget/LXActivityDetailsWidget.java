@@ -96,6 +96,15 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	@InjectView(R.id.recommendations)
 	LinearLayout recommendations;
 
+	@InjectView(R.id.recommendation_percentage_container)
+	LinearLayout recommendPercentageLayout;
+
+	@InjectView(R.id.recommended_percentage)
+	TextView recommendedPercentage;
+
+	@InjectView(R.id.recommended_divider)
+	View recommendedDivider;
+
 	@Inject
 	LXState lxState;
 
@@ -114,6 +123,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	@Inject
 	LxServices lxServices;
 	private boolean isUserBucketedForRecommendationTest;
+	private boolean userBucketedForRTRTest;
 
 	public LXActivityDetailsWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -175,9 +185,22 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 					lxState.searchParams.startDate, lxState.searchParams.endDate, recommendedObserver);
 		}
 
+		buildRecommendationPecentage(activityDetails.recommendationScore);
 		buildGallery(activityDetails);
 		buildSections(activityDetails);
 		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.startDate);
+	}
+
+	private void buildRecommendationPecentage(int recommendationScore) {
+
+		if (recommendationScore > 0 && userBucketedForRTRTest) {
+			recommendPercentageLayout.setVisibility(VISIBLE);
+			recommendedPercentage.setText(LXDataUtils.getUserRecommendPercentString(getContext(), recommendationScore));
+		}
+		else {
+			recommendPercentageLayout.setVisibility(GONE);
+			recommendedDivider.setVisibility(GONE);
+		}
 	}
 
 	@Subscribe
@@ -511,5 +534,8 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		return recommendedObserver;
 	}
 
+	public void setUserBucketedForRTRTest(boolean userBucketedForRTRTest) {
+		this.userBucketedForRTRTest = userBucketedForRTRTest;
+	}
 }
 
