@@ -31,7 +31,7 @@
         <item name="skin_hotelCheckoutLogoutLogoDrawable">@drawable/orb</item>
         <item name="skin_tabletCheckoutLoginLogoDrawable">@drawable/orb</item>
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_cars_orbitz</item>
-        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle_orbitz</item>
         <item name="skin_rippleDrawable">@drawable/car_button_ripple</item>
         <item name="paymentWidgetLayout">@layout/payment_widget</item>
