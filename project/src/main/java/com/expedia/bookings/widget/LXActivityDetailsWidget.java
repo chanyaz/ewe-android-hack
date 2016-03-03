@@ -175,6 +175,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	}
 
 	public void onShowActivityDetails(ActivityDetailsResponse activityDetails) {
+		recommendations.setVisibility(GONE);
 		//  Track Product Information on load of this Local Expert Information screen.
 		OmnitureTracking.trackAppLXProductInformation(activityDetails, lxState.searchParams);
 		this.activityDetails = activityDetails;

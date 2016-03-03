@@ -9,12 +9,6 @@
         layout="@layout/lx_result_presenter"
         android:visibility="gone" />
 
-    <com.expedia.bookings.widget.LoadingOverlayWidget
-        android:id="@+id/details_loading_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone" />
-
     <include
         android:id="@+id/activity_recommended_details_presenter"
         layout="@layout/lx_recommended_details_presenter"
@@ -23,6 +17,12 @@
     <include
         android:id="@+id/activity_details_presenter"
         layout="@layout/lx_details_presenter"
+        android:visibility="gone" />
+
+    <com.expedia.bookings.widget.LoadingOverlayWidget
+        android:id="@+id/details_loading_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:visibility="gone" />
 
     <com.expedia.bookings.presenter.lx.LXSearchParamsPresenter
