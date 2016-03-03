@@ -287,7 +287,7 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP
 			| ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_USE_LOGO);
-		String titleStr = getString(R.string.payment_method);
+		String titleStr = getString(R.string.checkout_enter_payment_details);
 		if (mPos != null) {
 			switch (mPos) {
 			case ADDRESS:
@@ -302,7 +302,7 @@ public class FlightPaymentOptionsActivity extends FragmentActivity implements Fl
 			case SAVE:
 			case OPTIONS:
 			default:
-				titleStr = getString(R.string.payment_method);
+				titleStr = getString(R.string.checkout_enter_payment_details);
 				actionBar.setTitle(titleStr);
 			}
 		}

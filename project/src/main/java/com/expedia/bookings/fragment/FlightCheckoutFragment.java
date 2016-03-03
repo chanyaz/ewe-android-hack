@@ -509,7 +509,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 		else {
 			mStoredCreditCard.setVisibility(View.GONE);
-			mSelectPaymentSentenceText.setText(R.string.select_payment_sentence_case_variate2);
+			mSelectPaymentSentenceText.setText(R.string.checkout_enter_payment_details);
 			mSelectPaymentCalloutText.setVisibility(View.VISIBLE);
 
 			mPaymentButton.setVisibility(View.VISIBLE);

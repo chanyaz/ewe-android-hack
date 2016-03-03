@@ -188,7 +188,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
-                                    android:text="@string/select_payment_sentence_case"
+                                    android:text="@string/checkout_enter_payment_details"
                                     android:textColor="#464646"
                                     android:textSize="16sp" />
                             </LinearLayout>

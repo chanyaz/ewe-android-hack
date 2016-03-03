@@ -103,7 +103,7 @@ class PaymentViewModel(val context: Context) {
         }
 
         incompleteBillingInfo.subscribe {
-            val title = resources.getString(R.string.checkout_hotelsv2_enter_payment_details_line1)
+            val title = resources.getString(R.string.checkout_enter_payment_details)
             val subTitle = resources.getString(
                     if (isRedeemable.value) R.string.checkout_payment_options else R.string.checkout_hotelsv2_enter_payment_details_line2)
             tempCard.onNext(Pair("",getCardIcon(null)))
@@ -111,7 +111,7 @@ class PaymentViewModel(val context: Context) {
         }
 
         emptyBillingInfo.subscribe {
-            val title = resources.getString(R.string.checkout_hotelsv2_enter_payment_details_line1)
+            val title = resources.getString(R.string.checkout_enter_payment_details)
             val subTitle = resources.getString(
                     if (isRedeemable.value) R.string.checkout_payment_options else R.string.checkout_hotelsv2_enter_payment_details_line2)
             tempCard.onNext(Pair("",getCardIcon(null)))

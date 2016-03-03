@@ -29,7 +29,7 @@ class HotelCheckoutTest: HotelTestCase() {
         // assert that credit card number is empty
         Common.delay(1)
         CheckoutViewModel.paymentInfo().perform(scrollTo())
-        EspressoUtils.assertViewWithTextIsDisplayed(R.id.card_info_name, "Payment Details")
+        EspressoUtils.assertViewWithTextIsDisplayed(R.id.card_info_name, "Payment Method")
         CheckoutViewModel.clickPaymentInfo()
         Common.delay(1)
         EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_number, "")

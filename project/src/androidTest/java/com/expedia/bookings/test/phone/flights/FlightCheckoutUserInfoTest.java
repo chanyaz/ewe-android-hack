@@ -284,7 +284,7 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 	public void testVerifyMissingCardInfoAlerts() {
 		goToCheckoutTwoAdults();
 
-		onView(withText("Payment")).perform(click());
+		onView(withText("Payment Method")).perform(click());
 		CardInfoScreen.clickNextButton();
 
 		BillingAddressScreen.addressLineOneEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
