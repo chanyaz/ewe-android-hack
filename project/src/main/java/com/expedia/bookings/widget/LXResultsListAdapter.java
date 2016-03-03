@@ -28,13 +28,23 @@ import java.util.List;
 public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 
 	private static final String ROW_PICASSO_TAG = "lx_row";
+	private static boolean userBucketedForRTRTest;
 
 	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 		RecyclerView.ViewHolder itemViewHolder = super.onCreateViewHolder(parent, viewType);
 		if (itemViewHolder == null) {
-			View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.section_lx_search_row, parent, false);
-			itemViewHolder = new ViewHolder(itemView);
+			View itemView;
+			if (userBucketedForRTRTest) {
+				itemView = LayoutInflater.from(parent.getContext())
+					.inflate(R.layout.section_lx_search_row_recommended_ab_test, parent, false);
+				itemViewHolder = new RecommendedViewHolder(itemView);
+			}
+			else {
+				itemView = LayoutInflater.from(parent.getContext())
+					.inflate(R.layout.section_lx_search_row, parent, false);
+				itemViewHolder = new ViewHolder(itemView);
+			}
 		}
 		return itemViewHolder;
 	}
@@ -49,7 +59,40 @@ public class LXResultsListAdapter extends LoadingRecyclerViewAdapter {
 		super.onBindViewHolder(holder, position);
 		if (holder.getItemViewType() == getDATA_VIEW()) {
 			LXActivity activity = (LXActivity) getItems().get(position);
+			if (userBucketedForRTRTest) {
+				((RecommendedViewHolder) holder).bindRecommendationScore(activity.recommendationScore);
+			}
 			((ViewHolder) holder).bind(activity);
+		}
+	}
+
+	public void setUserBucketedForRTRTest(boolean userBucketedForRTRTest) {
+		this.userBucketedForRTRTest = userBucketedForRTRTest;
+	}
+
+	public static class RecommendedViewHolder extends ViewHolder implements View.OnClickListener {
+
+		@InjectView(R.id.recommended_percentage)
+		TextView recommendedScore;
+
+		@InjectView(R.id.recommended_score_text)
+		TextView recommendedScoreText;
+
+		public RecommendedViewHolder(View itemView) {
+			super(itemView);
+		}
+
+		public void bindRecommendationScore(int recommendationScore) {
+			if (recommendationScore > 0) {
+				recommendedScore.setVisibility(View.VISIBLE);
+				recommendedScore.setText(LXDataUtils
+					.getUserRecommendPercentString(itemView.getContext(), recommendationScore));
+				recommendedScoreText.setText(itemView.getResources().getString(R.string.lx_customers_recommend));
+			}
+			else {
+				recommendedScore.setVisibility(View.GONE);
+				recommendedScoreText.setText(itemView.getResources().getString(R.string.lx_not_yet_recommended));
+			}
 		}
 	}
 

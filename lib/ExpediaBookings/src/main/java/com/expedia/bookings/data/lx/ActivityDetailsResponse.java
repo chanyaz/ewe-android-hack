@@ -26,4 +26,5 @@ public class ActivityDetailsResponse {
 	public String bags;
 	public String destination;
 	public LXRedemptionType redemptionType;
+	public int recommendationScore;
 }

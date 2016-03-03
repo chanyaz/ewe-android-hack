@@ -375,4 +375,8 @@ public class LXDataUtils {
 		}
 	}
 
+	public static String getUserRecommendPercentString(Context context, int recommendationScore) {
+		return Phrase.from(context.getResources(), R.string.lx_recommend_percent_Template)
+			.put("recommend", recommendationScore).format().toString();
+	}
 }

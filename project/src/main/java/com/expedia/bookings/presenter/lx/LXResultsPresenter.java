@@ -312,6 +312,7 @@ public class LXResultsPresenter extends Presenter {
 		public void onNext(LXSearchResponse lxSearchResponse) {
 			searchResponse = lxSearchResponse;
 			// Search Results Omniture Tracking on load of search screen.
+			OmnitureTracking.trackAppLXRTRABTest();
 			OmnitureTracking.trackAppLXSearch(lxState.searchParams, lxSearchResponse);
 			AdTracker.trackLXSearch(lxState.searchParams);
 			Events.post(new Events.LXSearchResultsAvailable(lxSearchResponse));
