@@ -373,6 +373,11 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.package_flight_baggage_fee_stub,
 		R.string.package_flight_overview_baggage_fees,
 		R.string.stored_card_TEMPLATE,
-		R.drawable.enter_new_credit_card_arrow
+		R.drawable.enter_new_credit_card_arrow,
+		R.layout.all_flights_header_cell,
+		R.layout.flight_results_pricing_structure_header_cell,
+		R.string.all_flights_label,
+		R.string.best_flight_description,
+		R.string.best_flight_title
 	};
 }

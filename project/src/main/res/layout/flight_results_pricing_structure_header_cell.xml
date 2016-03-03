@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/packages_result_background">
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center_horizontal"
+        android:text="@string/prices_roundtrip_label"
+        android:textColor="@color/package_bundle_icon_color"
+        android:textSize="14sp" />
+</LinearLayout>
+

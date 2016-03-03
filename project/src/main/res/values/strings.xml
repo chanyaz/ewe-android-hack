@@ -3904,6 +3904,12 @@
     <!-- Bundle Overview searching flight -->
     <string name="searching_flight_to">Searching flight to %s</string>
 
+    <!-- Package All Flight label -->
+    <string name="all_flights_label">All Flights</string>
+    <!-- Package Best Flight title -->
+    <string name="best_flight_title">Best Flight</string>
+    <!-- Package Best Flight description -->
+    <string name="best_flight_description">cheap • short • popular departure</string>
     <!-- Flight duration template e.g. 1d 12h 42m (Nonstop) -->
     <string name="flight_duration_description_template">%1$s (%2$s)</string>
     <!-- Flight hour duration template e.g. 12h 42m -->

@@ -45,7 +45,7 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(isDisplayed(), withText("Select flight to Detroit, MI")))));
 		checkToolBarMenuItemsVisibility(true);
 
-		PackageScreen.selectFlight(2);
+		PackageScreen.selectFlight(1);
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(CoreMatchers.allOf(isDisplayed(), withText("Flight to Detroit, MI")))));
 		checkToolBarMenuItemsVisibility(false);
 		assertSegmentData();

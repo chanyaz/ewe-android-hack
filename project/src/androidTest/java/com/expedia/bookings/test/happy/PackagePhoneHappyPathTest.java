@@ -102,7 +102,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.inboundFLight().perform(click());
 		Common.delay(1);
 
-		assertFlightInOutbound();
+		assertFlightInbound();
 		PackageScreen.selectFlight(0);
 		assertBundlePriceInFlight("$4,212");
 		PackageScreen.selectThisFlight().perform(click());
@@ -160,18 +160,18 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 	}
 
 	private void assertFlightOutbound() {
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 0, R.id.flight_time_detail_text_view,
+		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.flight_time_detail_text_view,
 			"9:00 am - 11:12 am");
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 0, R.id.flight_duration_text_view, "5h 12m (Nonstop)");
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 0, R.id.price_text_view, "+$0");
-		assertViewWithIdIsDisplayedAtPosition(PackageScreen.flightList(), 0, R.id.custom_flight_layover_widget);
+		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.flight_duration_text_view, "5h 12m (Nonstop)");
+		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.price_text_view, "+$0");
+		assertViewWithIdIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.custom_flight_layover_widget);
 	}
 
-	private void assertFlightInOutbound() {
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 0, R.id.flight_time_detail_text_view, "1:45 pm - 10:00 pm");
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 0, R.id.flight_duration_text_view, "5h 15m (Nonstop)");
-		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 0, R.id.price_text_view, "+$0");
-		assertViewWithIdIsDisplayedAtPosition(PackageScreen.flightList(), 0, R.id.custom_flight_layover_widget);
+	private void assertFlightInbound() {
+		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.flight_time_detail_text_view, "1:45 pm - 10:00 pm");
+		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.flight_duration_text_view, "5h 15m (Nonstop)");
+		assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.price_text_view, "+$0");
+		assertViewWithIdIsDisplayedAtPosition(PackageScreen.flightList(), 3, R.id.custom_flight_layover_widget);
 	}
 
 	private void assertCheckoutOverview() {

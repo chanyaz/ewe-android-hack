@@ -91,7 +91,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     hotelResultsObservable.onNext(Unit)
                     val currentFlights = arrayOf(response.packageResult.flightsPackage.flights[0].legId, response.packageResult.flightsPackage.flights[1].legId)
                     Db.getPackageParams().currentFlights = currentFlights
-                    Db.getPackageParams().defaultFlights = currentFlights
+                    Db.getPackageParams().defaultFlights = currentFlights.copyOf()
                 } else {
                     flightResultsObservable.onNext(type)
                 }

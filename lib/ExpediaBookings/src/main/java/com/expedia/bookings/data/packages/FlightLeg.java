@@ -50,6 +50,7 @@ public class FlightLeg {
 	public transient String flightPid;
 	public transient String departureLeg;
 	public transient List<Airline> airlines = new ArrayList<>();
+	public transient boolean isBestFlight;
 
 	public static class AirlineMessageModel {
 		public String airlineFeeLink;

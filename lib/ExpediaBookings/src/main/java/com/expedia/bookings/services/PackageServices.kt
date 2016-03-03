@@ -63,11 +63,15 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, requestInter
 						}
 					}
 
-					val currentFlight = response.packageResult.flightsPackage.flights.find {
+					//get anchor flights (outbound and inbound) from currentSelectedOffer,
+					//which will show as "Best Flight" in flight list
+					val bestFlights = response.packageResult.flightsPackage.flights.filter {
 						it.flightPid == response.packageResult.currentSelectedOffer?.flight
 					}
-
-					currentFlight?.packageOfferModel = response.packageResult.currentSelectedOffer
+					bestFlights.forEach {
+						it.isBestFlight = true
+						it.packageOfferModel = response.packageResult.currentSelectedOffer
+					}
 				}
 	}
 

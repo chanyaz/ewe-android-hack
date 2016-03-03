@@ -14,7 +14,15 @@ class FlightResultsViewModel() {
 
     init {
         val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch() ?: false
-        flightResultsObservable.onNext(Db.getPackageResponse().packageResult.flightsPackage.flights.filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount })
+
+        val bestPlusAllFlights = Db.getPackageResponse().packageResult.flightsPackage.flights.filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }
+
+        // move bestFlight to the first place of the list
+        val bestFlight = bestPlusAllFlights.find { it.isBestFlight }
+        var allFlights = bestPlusAllFlights.filterNot { it.isBestFlight }.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount }.toMutableList()
+
+        allFlights.add(0, bestFlight)
+        flightResultsObservable.onNext(allFlights)
     }
 }
 

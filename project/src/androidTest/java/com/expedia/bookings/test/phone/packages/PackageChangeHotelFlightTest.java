@@ -82,13 +82,13 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 		PackageScreen.outboundFlight().perform(click());
 		Common.delay(1);
 
-		PackageScreen.selectFlight(0);
+		PackageScreen.selectFlight(-3);
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
 
 		PackageScreen.inboundFLight().perform(click());
 		Common.delay(1);
-		PackageScreen.selectFlight(0);
+		PackageScreen.selectFlight(-3);
 		PackageScreen.selectThisFlight().perform(click());
 		Common.delay(1);
 		assertAfterChange();

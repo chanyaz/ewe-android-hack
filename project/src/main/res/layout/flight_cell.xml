@@ -5,7 +5,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#eaeaea">
+    android:background="@color/packages_result_background">
 
     <android.support.v7.widget.CardView
         android:id="@+id/card_view"
@@ -17,6 +17,42 @@
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="4dp"
         app:cardElevation="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/package_best_flight"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/packages_primary_color"
+            android:visibility="gone">
+
+            <com.expedia.bookings.widget.TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:height="35dp"
+                android:paddingLeft="10dp"
+                android:text="@string/best_flight_title"
+                android:textColor="#FFF"
+                app:textStyle="medium"
+                android:textSize="14sp" />
+
+            <com.expedia.bookings.widget.TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical|right"
+                android:height="35dp"
+                android:paddingRight="10dp"
+                android:text="@string/best_flight_description"
+                android:textColor="#FFF"
+                android:textSize="12sp"
+                android:alpha="0.8"/>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -68,6 +104,7 @@
                 app:duration_bar_color="@color/packages_primary_color"
                 app:duration_bar_padding="@dimen/layover_bar_padding"
                 app:layover_background="@drawable/flight_layover_pattern_bg"/>
+        </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
