@@ -44,9 +44,6 @@
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_vsc</item>
         <item name="skin_hotelWebViewActionBarLogo">@drawable/ic_logo_hotels</item>
 		<item name="skin_cvvEntryTitleText">@string/cvv_explanation_vsc</item>
-        <item name="skin_aboutInfoUrlString">@string/app_vsc_info_url</item>
-        <item name="skin_aboutAppNameString">@string/vsc_full_app_name</item>
-        <item name="skin_aboutAppLogoDrawable">@drawable/ic_voyages_sncf</item>
         <item name="skin_userRatingBarDrawable">@drawable/ratingbar_userreview_vsc_purple_flat</item>
         <item name="skin_cvvDivDrawable">@drawable/div_cvv_vsc</item>
         <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error_vsc</item>
@@ -122,7 +119,6 @@
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
         <item name="skin_launchTabIndicatorColor">@color/launch_tab_indicator</item>
-        <item name="skin_launchActionBarBackgroundColor">@color/cars_launch_actionbar_color</item>
         <item name="skin_tripsTabText">@string/Your_Trips</item>
     </style>
 

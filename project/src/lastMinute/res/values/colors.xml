@@ -72,6 +72,9 @@
     <color name="lx_secondary_color_disabled">#A1266C</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
 
+    <!-- Launch screen colors -->
+    <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
+
     <!--Account Lib Colors -->
     <color name="acct__btn_sign_in_text_lm">#FFFFFF</color>
     <color name="acct__bg_input_text_error_lm">#FFFFFF</color>

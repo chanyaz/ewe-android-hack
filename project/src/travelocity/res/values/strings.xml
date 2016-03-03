@@ -9,7 +9,7 @@
     <string name="cd_checkout_log_in_with_travelocity">Press to log in to your Travelocity account</string>
 
     <string name="contact_travelocity">Contact Travelocity</string>
-    <string name="travelocity_info_url">http://www.travelocity.com/</string>
+    <string name="app_copyright_logo_url">http://www.travelocity.com/</string>
 
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation_travelocity">Are you sure you want to log out of your Travelocity account?</string>

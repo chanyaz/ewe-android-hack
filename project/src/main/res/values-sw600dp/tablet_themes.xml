@@ -56,12 +56,6 @@
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
-
-        <!-- -->
-        <item name="skin_aboutInfoUrlString">@string/app_mobiata_info_url</item>
-        <item name="skin_aboutAppNameString">@string/launcher_name</item>
-        <item name="skin_aboutAppLogoDrawable">@drawable/mobiata</item>
-        <item name="skin_launchActionBarBackgroundColor">@color/cars_launch_actionbar_color</item>
     </style>
 
 

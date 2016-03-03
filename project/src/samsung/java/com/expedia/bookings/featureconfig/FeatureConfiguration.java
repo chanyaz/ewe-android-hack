@@ -165,7 +165,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	public String getCopyrightLogoUrl(Context context) {
-		return context.getString(Ui.obtainThemeResID(context, R.attr.skin_aboutInfoUrlString));
+		return context.getString(R.string.app_copyright_logo_url);
 	}
 
 	public boolean areSocialMediaMenuItemsInAboutEnabled() {
