@@ -27,8 +27,10 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
     }
 
     var createTripViewModel: PackageCreateTripViewModel by notNullAndObservable { vm ->
-        vm.tripParams.subscribe {
+        vm.showCreateTripDialogObservable.subscribe {
             createTripDialog.show()
+        }
+        vm.tripParams.subscribe {
             userAccountRefresher.ensureAccountIsRefreshed()
         }
         vm.tripResponseObservable.subscribe {
@@ -47,7 +49,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
     }
 
     override fun doCreateTrip() {
-        createTripViewModel.createTrip.onNext(Unit)
+        createTripViewModel.performCreateTrip.onNext(Unit)
     }
 
     init {
