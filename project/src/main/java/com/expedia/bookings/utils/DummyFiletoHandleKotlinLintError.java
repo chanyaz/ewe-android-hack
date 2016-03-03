@@ -378,6 +378,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.flight_results_pricing_structure_header_cell,
 		R.string.all_flights_label,
 		R.string.best_flight_description,
-		R.string.best_flight_title
+		R.string.best_flight_title,
+		R.string.prefers_seat_colored_TEMPLATE2
 	};
 }
