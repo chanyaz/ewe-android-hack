@@ -103,6 +103,17 @@
         <item name="textStyle">normal</item>
     </style>
 
+    <!--Material Hotel Map Price Includes string-->
+    <style name="PackagesHotelMapMessage">
+        <item name="android:textColor">@color/packages_hotel_map_message</item>
+        <item name="android:textSize">@dimen/packages_hotel_map_message</item>
+        <item name="textStyle">normal</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:background">#F8F8F8</item>
+    </style>
 
     <!--Bundle Overview Hotel and Flight Widgets-->
     <style name="BundleOverviewWidgets" />

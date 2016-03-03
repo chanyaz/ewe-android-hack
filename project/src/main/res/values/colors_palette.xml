@@ -13,5 +13,6 @@
     <color name="temporary_savings">#4CBD08</color>
     <color name="temporary_header_gray">#797979</color>
     <color name="temporary_flight_duration_gray">#898989</color>
+    <color name="temporary_map_message_gray">#696969</color>
 
 </resources>
