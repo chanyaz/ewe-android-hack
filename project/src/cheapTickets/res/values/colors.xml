@@ -66,6 +66,7 @@
     <color name="lx_secondary_color_disabled">#0E7DC4</color>
     <color name="lx_unchecked_toggle_text_color">#dfe9f0</color>
     <color name="lx_ticket_selector_disabled_color">#dfe9f0</color>
+    <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">@color/actionbar_text_ctx</color>
