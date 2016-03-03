@@ -183,7 +183,9 @@ class PackageFlightFilterViewModel() {
     fun handleFiltering() {
         filteredList = originalList.orEmpty().filter { isAllowed(it) }
         val filterCount = userFilterChoices.filterCount()
-        val dynamicFeedbackWidgetCount = if (filterCount > 0) filteredList.size else -1
+        // not to include best flight in the count
+        val allFlightsListSize = if (filteredList.isNotEmpty() && filteredList[0]?.isBestFlight) filteredList.size - 1 else filteredList.size
+        val dynamicFeedbackWidgetCount = if (filterCount > 0) allFlightsListSize else -1
         updateDynamicFeedbackWidget.onNext(dynamicFeedbackWidgetCount)
         doneButtonEnableObservable.onNext(filteredList.size > 0)
         filterCountObservable.onNext(filterCount)

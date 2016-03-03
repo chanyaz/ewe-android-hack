@@ -26,13 +26,21 @@ class PackageFlightListAdapter(val flightSelectedSubject: PublishSubject<FlightL
     val ALL_FLIGHTS_HEADER_VIEW = 2
     val ALL_FLIGHTS_VIEW = 3
     var shouldShowBestFlight = false
+    var isChangePackageSearch = false
 
     init {
-        var isChangePackageSearch = Db.getPackageParams().isChangePackageSearch()
+        isChangePackageSearch = Db.getPackageParams().isChangePackageSearch()
         resultsSubject.subscribe {
             flights = ArrayList(it)
+
             //best flight could be filtered out
             shouldShowBestFlight = !isChangePackageSearch && flights[0].isBestFlight
+
+            //remove best flight view if there is only 1 flight
+            if (shouldShowBestFlight && flights?.size == 2) {
+                shouldShowBestFlight = false
+                flights.removeAt(0)
+            }
 
             for (flightLeg in flights) {
                 if (flightLeg.durationHour * 60 + flightLeg.durationMinute > maxFlightDuration) {
@@ -144,6 +152,6 @@ class PackageFlightListAdapter(val flightSelectedSubject: PublishSubject<FlightL
     }
 
     private fun adjustPosition(): Int {
-        return if (shouldShowBestFlight) 2 else 0
+        return if (shouldShowBestFlight) 2 else (if (isChangePackageSearch) -1 else 0)
     }
 }
