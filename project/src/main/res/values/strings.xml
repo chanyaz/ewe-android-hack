@@ -2132,6 +2132,7 @@
     <string name="save_traveler_message_TEMPLATE">Save {name}\'s information under your {brand} account to speed up future purchases?</string>
     <!-- no thanks -->
     <string name="no_thanks">No Thanks</string>
+    <!-- Advanced flight traveler options (seat pref, accessibility and redress number) button label -->
     <string name="advanced">Advanced</string>
 
     <!-- Overwrite traveler dialog -->
@@ -2151,8 +2152,8 @@
     <string name="first_name">First Name</string>
     <!-- Middle name label -->
     <string name="middle_name">Middle Name</string>
-    <!--A hint for the user to enter their name's initial letter-->
-    <string name="initial_name">Initial</string>
+    <!--A hint for the customer to enter their middle name's initial -->
+    <string name="initial_middle_name">Initial</string>
     <!-- Last name label -->
     <string name="last_name">Last Name</string>
     <!-- date of birth label -->
