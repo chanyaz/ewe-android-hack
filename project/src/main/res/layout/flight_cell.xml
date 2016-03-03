@@ -15,7 +15,7 @@
         android:layout_marginLeft="@dimen/card_view_container_margin"
         android:layout_marginRight="@dimen/card_view_container_margin"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="4dp"
+        app:cardCornerRadius="3dp"
         app:cardElevation="1dp">
 
         <LinearLayout
