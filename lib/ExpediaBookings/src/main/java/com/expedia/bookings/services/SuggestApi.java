@@ -14,6 +14,7 @@ public interface SuggestApi {
 		@Path("query") String query,
 		@Query("locale") String locale,
 		@Query("regiontype") int suggestionResultType,
+		@Query("dest") boolean isDest,
 		@Query("features") String features,
 		@Query("client") String client,
 		@Query("lob") String lineOfBusiness);

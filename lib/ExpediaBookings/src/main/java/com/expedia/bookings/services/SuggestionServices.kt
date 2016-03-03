@@ -86,7 +86,7 @@ class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, val reque
     }
 
     private fun suggestV4(query: String, regiontype: Int, locale: String, features: String, client: String, lob: String?): Observable<MutableList<SuggestionV4>> {
-        return suggestApi.suggestV4(query, locale, regiontype, features, client, lob)
+        return suggestApi.suggestV4(query, locale, regiontype, false, features, client, lob)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions}
