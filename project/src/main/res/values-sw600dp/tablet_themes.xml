@@ -71,6 +71,7 @@
         <item name="android:displayOptions">showHome|useLogo|homeAsUp|showTitle</item>
         <item name="android:background">@drawable/bg_action_bar_flight_top</item>
         <item name="android:titleTextStyle">@style/FlightActionBarTextAppearance</item>
+        <item name="android:logo">@drawable/ic_action_bar_logo_dark</item>
     </style>
 
     <!-- FrameLayout styling -->

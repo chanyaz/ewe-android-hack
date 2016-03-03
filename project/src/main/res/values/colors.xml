@@ -7,6 +7,7 @@
     <color name="actionbar_suggestion_text_color">@color/actionbar_text</color>
     <color name="action_bar_flight_cancel_text_color">#E9E9E9</color>
     <color name="action_bar_flight_result_separator_color">#5FFF</color>
+    <color name="actionbar_terminal_text_ctx">#F3F3F3</color>
 
     <!-- Tablet colors -->
     <color name="results_cal_trav_bg">#eaeaea</color>
