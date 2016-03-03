@@ -35,12 +35,14 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
             loginWidget.updateRewardsText(getLineOfBusiness())
             createTripDialog.hide()
         }
-        createTripViewModel.createTripBundleTotalObservable.subscribe { response ->
-            var packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                    .put("savings", response.packageDetails.pricing.savings.formattedPrice)
-                    .format().toString()
-            vm.bundleTotalPrice.onNext(Pair(response.packageDetails.pricing.packageTotal.formattedWholePrice,
-                    packageSavings))
+        vm.createTripBundleTotalObservable.subscribe { response ->
+            priceChangeWidget.viewmodel.originalPackagePrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
+            priceChangeWidget.viewmodel.packagePrice.onNext(response.packageDetails.pricing.packageTotal)
+            toggleCheckoutButton(true)
+        }
+        vm.tripResponseObservable.subscribe(totalPriceWidget.viewModel.createTripObservable)
+        vm.createTripBundleTotalObservable.subscribe { trip ->
+            totalPriceWidget.packagebreakdown.viewmodel.newDataObservable.onNext(trip.packageDetails)
         }
     }
 

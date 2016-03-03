@@ -22,7 +22,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.BundlePriceViewModel
 import com.expedia.vm.PackageBreakdownViewModel
 
-class PackageBundlePriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     val bundleChevron: ImageView by bindView(R.id.bundle_chevron)
     val bundleTotalPrice: TextView by bindView(R.id.bundle_total_price)
@@ -59,6 +59,7 @@ class PackageBundlePriceWidget(context: Context, attrs: AttributeSet?) : LinearL
 
     init {
         View.inflate(getContext(), R.layout.bundle_total_price_widget, this)
+        orientation = HORIZONTAL
         rotateChevron(true)
 
         packagebreakdown.viewmodel = PackageBreakdownViewModel(context)

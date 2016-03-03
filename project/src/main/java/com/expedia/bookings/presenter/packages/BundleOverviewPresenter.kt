@@ -12,7 +12,6 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
@@ -27,25 +26,18 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.bookings.widget.CheckoutToolbar
-import com.expedia.bookings.widget.PackageBundlePriceWidget
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.bookings.widget.PackagePaymentWidget
-import com.expedia.bookings.widget.PriceChangeWidget
 import com.expedia.bookings.widget.packages.CheckoutOverviewHeader
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.endlessObserver
-import com.expedia.vm.BundlePriceViewModel
 import com.expedia.vm.CheckoutToolbarViewModel
-import com.expedia.vm.PriceChangeViewModel
 
 class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener, AppBarLayout.OnOffsetChangedListener {
     val ANIMATION_DURATION = 450L
 
-    var statusBar: View? = null
     val toolbar: CheckoutToolbar by bindView(R.id.checkout_toolbar)
-
     val collapsingToolbarLayout: CollapsingToolbarLayout by bindView(R.id.collapsing_toolbar)
-
     val coordinatorLayout: CoordinatorLayout by bindView(R.id.coordinator_layout)
     val appBarLayout: AppBarLayout by bindView(R.id.app_bar)
     val imageHeader: ImageView by bindView(R.id.overview_image)
@@ -53,9 +45,7 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
     val checkoutOverviewFloatingToolbar: CheckoutOverviewHeader by bindView(R.id.checkout_overview_floating_toolbar)
     val bundleWidget: BundleWidget by bindView(R.id.bundle_widget)
     val checkoutPresenter: PackageCheckoutPresenter by bindView(R.id.checkout_presenter)
-    val priceChangeWidget: PriceChangeWidget by bindView(R.id.price_change)
-    val bundleTotalPriceWidget: PackageBundlePriceWidget by bindView(R.id.bundle_total)
-    val checkoutButton: Button by bindView(R.id.checkout_button)
+
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
     var isHideToolbarView = false;
 
@@ -67,8 +57,7 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
 
     init {
         View.inflate(context, R.layout.bundle_overview, this)
-        priceChangeWidget.viewmodel = PriceChangeViewModel(context)
-        bundleTotalPriceWidget.viewModel = BundlePriceViewModel(context)
+
         toolbar.viewModel = CheckoutToolbarViewModel(context)
 
         toolbar.inflateMenu(R.menu.menu_package_checkout)
@@ -78,7 +67,7 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
             toolbar.menu.setGroupVisible(R.id.package_change_menu, visible)
         }
 
-        checkoutButton.setOnClickListener {
+        checkoutPresenter.checkoutButton.setOnClickListener {
             show(checkoutPresenter)
             checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         }
@@ -94,43 +83,17 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
             }
         }
 
-        checkoutButton.setOnClickListener {
+        checkoutPresenter.checkoutButton.setOnClickListener {
             show(checkoutPresenter)
             checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         }
 
         bundleWidget.toggleMenuObservable.subscribe(toolbar.toggleMenuObserver)
         bundleWidget.toggleMenuObservable.subscribe {
-            toggleCheckoutButton(0.25f, false)
+            checkoutPresenter.toggleCheckoutButton(false)
         }
 
-        //we need to set this empty space inorder to remove the title string
-        collapsingToolbarLayout.title = " ";
-        collapsingToolbarLayout.setContentScrimColor(resources.getColor(R.color.packages_primary_color))
-        collapsingToolbarLayout.setStatusBarScrimColor(resources.getColor(R.color.packages_primary_color))
-        checkoutOverviewHeaderToolbar.travelers.visibility = View.GONE
-        appBarLayout.addOnOffsetChangedListener(this);
-        val floatingToolbarLayoutParams = checkoutOverviewFloatingToolbar.destinationText.layoutParams as LinearLayout.LayoutParams
-        floatingToolbarLayoutParams.gravity = Gravity.CENTER
-        toggleCheckoutHeader(false)
-    }
-
-    fun swapViews(show: Boolean) {
-        var parent = bundleWidget.parent
-        (parent as ViewGroup).removeView(bundleWidget)
-        if (show) {
-            removeView(bundleWidget)
-            coordinatorLayout.addView(bundleWidget, 2)
-            val bundleWidgetLayoutParams = bundleWidget.layoutParams as CoordinatorLayout.LayoutParams
-            bundleWidgetLayoutParams.behavior = AppBarLayout.ScrollingViewBehavior();
-            bundleWidgetLayoutParams.gravity = Gravity.FILL_VERTICAL
-            bundleWidget.setPadding(0, 0, 0, 0)
-            bundleWidget.isFillViewport = true
-        } else {
-            coordinatorLayout.removeView(bundleWidget)
-            addView(bundleWidget)
-            bundleWidget.setPadding(0, toolbarHeight, 0, 0)
-        }
+        setUpCollapsingToolbar()
     }
 
     override fun onFinishInflate() {
@@ -145,7 +108,7 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
         toolbar.setSubtitleTextAppearance(context, R.style.ToolbarSubtitleTextAppearance)
 
         changeHotel.setOnMenuItemClickListener({
-            toggleCheckoutHeader(false)
+            toggleOverviewHeader(false)
             bundleWidget.collapseBundleWidgets()
             val params = Db.getPackageParams()
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
@@ -155,7 +118,7 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
         })
 
         changeHotelRoom.setOnMenuItemClickListener({
-            toggleCheckoutHeader(false)
+            toggleOverviewHeader(false)
             bundleWidget.collapseBundleWidgets()
             val params = Db.getPackageParams()
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
@@ -166,7 +129,7 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
         })
 
         changeFlight.setOnMenuItemClickListener({
-            toggleCheckoutHeader(false)
+            toggleOverviewHeader(false)
             bundleWidget.collapseBundleWidgets()
             val params = Db.getPackageParams()
             params.pageType = Constants.PACKAGE_CHANGE_FLIGHT
@@ -178,59 +141,123 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
 
         val checkoutPresenterLayoutParams = checkoutPresenter.layoutParams as ViewGroup.MarginLayoutParams
         checkoutPresenterLayoutParams.setMargins(0, toolbarHeight, 0, 0)
+        checkoutPresenter.mainContent.visibility = View.GONE
     }
 
-    fun toggleCheckoutHeader(show: Boolean, swap: Boolean) {
-        toolbar.setBackgroundColor(ContextCompat.getColor(context, if (show) android.R.color.transparent else R.color.packages_primary_color))
-        statusBar?.setBackgroundColor(ContextCompat.getColor(context, if (show) android.R.color.transparent else R.color.packages_primary_color))
-        checkoutOverviewFloatingToolbar.visibility = if (show) View.VISIBLE else View.GONE
-        appBarLayout.setExpanded(show)
-        appBarLayout.isActivated = show
-        bundleWidget.isNestedScrollingEnabled = show
-        collapsingToolbarLayout.isTitleEnabled = show
-        if (swap) {
-            swapViews(show)
+    /** Collapsing Toolbar **/
+    fun setUpCollapsingToolbar() {
+        //we need to set this empty space inorder to remove the title string
+        collapsingToolbarLayout.title = " ";
+        collapsingToolbarLayout.setContentScrimColor(resources.getColor(R.color.packages_primary_color))
+        collapsingToolbarLayout.setStatusBarScrimColor(resources.getColor(R.color.packages_primary_color))
+        checkoutOverviewHeaderToolbar.travelers.visibility = View.GONE
+        appBarLayout.addOnOffsetChangedListener(this);
+        val floatingToolbarLayoutParams = checkoutOverviewFloatingToolbar.destinationText.layoutParams as LinearLayout.LayoutParams
+        floatingToolbarLayoutParams.gravity = Gravity.CENTER
+        toggleOverviewHeader(false)
+        checkoutPresenter.checkoutTranslationObserver.subscribe { y ->
+            val distance = -appBarLayout.totalScrollRange + (y / checkoutPresenter.height * appBarLayout.totalScrollRange).toInt()
+            val params = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+            val behavior = params.behavior as AppBarLayout.Behavior
+            val enable = y != 0f
+            toggleCollapsingToolBar(enable)
+            behavior.topAndBottomOffset = distance
         }
     }
 
-    fun toggleCheckoutHeader(show: Boolean) {
-        toggleCheckoutHeader(show, true)
+    fun toggleOverviewHeader(show: Boolean) {
+        toolbar.setBackgroundColor(ContextCompat.getColor(context, if (show) android.R.color.transparent else R.color.packages_primary_color))
+        appBarLayout.setExpanded(show)
+        toggleCollapsingToolBar(show)
+        swapViews(show)
+    }
+
+    fun toggleCollapsingToolBar(enable: Boolean) {
+        checkoutOverviewFloatingToolbar.visibility = if (enable) View.VISIBLE else View.GONE
+        appBarLayout.isActivated = enable
+        bundleWidget.isNestedScrollingEnabled = enable
+        collapsingToolbarLayout.isTitleEnabled = enable
+    }
+
+    /** Swaps the bundle widget out of the coordinator
+     * layout into the main layout to address scrolling/animation bugs**/
+    fun swapViews(toCoordinatorLayout: Boolean) {
+        var parent = bundleWidget.parent
+        (parent as ViewGroup).removeView(bundleWidget)
+        if (toCoordinatorLayout) {
+            removeView(bundleWidget)
+            coordinatorLayout.addView(bundleWidget, 2)
+            val bundleWidgetLayoutParams = bundleWidget.layoutParams as CoordinatorLayout.LayoutParams
+            bundleWidgetLayoutParams.behavior = AppBarLayout.ScrollingViewBehavior();
+            bundleWidgetLayoutParams.gravity = Gravity.FILL_VERTICAL
+            bundleWidget.setPadding(0, 0, 0, 0)
+            bundleWidget.isFillViewport = true
+        } else {
+            coordinatorLayout.removeView(bundleWidget)
+            addView(bundleWidget, 1)
+            bundleWidget.setPadding(0, toolbarHeight, 0, 0)
+        }
     }
 
     val defaultTransition = object : Presenter.DefaultTransition(BundleDefault::class.java.name) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             toolbar.menu.setGroupVisible(R.id.package_change_menu, false)
+            toggleCollapsingToolBar(!forward)
         }
     }
 
     val checkoutTransition = object : Presenter.Transition(BundleDefault::class.java, PackageCheckoutPresenter::class.java) {
+        var translationDistance = 0f
+
         override fun startTransition(forward: Boolean) {
-            checkoutPresenter.visibility = View.VISIBLE
-            checkoutOverviewHeaderToolbar.visibility = View.GONE
-            if (forward) {
-                toggleCheckoutHeader(false, false)
-                toolbar.menu.setGroupVisible(R.id.package_change_menu, false)
-                checkoutButton.visibility = View.GONE
-            } else {
-                toggleCheckoutHeader(true)
-                swapViews(true)
-                toolbar.menu.setGroupVisible(R.id.package_change_menu, true)
-                checkoutButton.visibility = View.VISIBLE
-            }
+            toggleCollapsingToolBar(true)
+            translationDistance = checkoutPresenter.mainContent.translationY
+            checkoutPresenter.checkoutButton.translationY = if (forward) 0f else checkoutPresenter.checkoutButton.height.toFloat()
+            checkoutPresenter.chevron.rotation = 0f
+            toolbar.menu.setGroupVisible(R.id.package_change_menu, !forward)
             toolbar.alpha = if (forward) 0f else 1f
+            checkoutPresenter.mainContent.visibility = View.VISIBLE
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
-            bundleWidget.translationY = if (forward) f * -bundleWidget.height.toFloat() else (1 - f) * bundleWidget.height.toFloat()
-            checkoutPresenter.translationY = if (forward) (f - 1) * -checkoutPresenter.height.toFloat() else f * checkoutPresenter.height.toFloat()
+            translateHeader(f, forward)
+            translateCheckout(f, forward)
+            translateBottomContainer(f, forward)
             toolbar.alpha = 1f * if (forward) f else (1 - f)
         }
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            checkoutOverviewHeaderToolbar.visibility = View.GONE
+            toggleCollapsingToolBar(!forward)
+            checkoutPresenter.checkoutButton.translationY = if (forward) checkoutPresenter.checkoutButton.height.toFloat() else 0f
+            checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE
+            checkoutPresenter.mainContent.translationY = 0f
             toolbar.alpha = 1f
+        }
+
+        private fun translateHeader(f: Float, forward: Boolean) {
+            val params = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+            val behavior = params.behavior as AppBarLayout.Behavior
+
+            val scrollY = if (forward) f * -appBarLayout.totalScrollRange else (f - 1) * appBarLayout.totalScrollRange
+            behavior.topAndBottomOffset = scrollY.toInt()
+        }
+
+        private fun translateCheckout(f: Float, forward: Boolean) {
+            var distance = height - translationDistance - Ui.getStatusBarHeight(context)
+            checkoutPresenter.mainContent.translationY = if (forward) translationDistance + ((1 - f) * distance) else translationDistance + (f * distance)
+        }
+
+        private fun translateBottomContainer(f: Float, forward: Boolean) {
+            val hasCompleteInfo = checkoutPresenter.viewModel.infoCompleted.value
+            val bottomDistance = checkoutPresenter.sliderHeight - checkoutPresenter.checkoutButtonHeight
+            var slideIn = if (hasCompleteInfo) bottomDistance - (f * (bottomDistance))
+            else checkoutPresenter.sliderHeight - ((1 - f) * checkoutPresenter.checkoutButtonHeight)
+            var slideOut = if (hasCompleteInfo) f * (bottomDistance)
+            else checkoutPresenter.sliderHeight - (f * checkoutPresenter.checkoutButtonHeight)
+            checkoutPresenter.bottomContainer.translationY = if (forward) slideIn else slideOut
+            checkoutPresenter.checkoutButton.translationY = if (forward) f * checkoutPresenter.checkoutButtonHeight else (1 - f) * checkoutPresenter.checkoutButtonHeight
         }
     }
 
@@ -269,15 +296,13 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
                 if (!Strings.equals(currentState, PackageCheckoutPresenter::class.java.name)) {
                     checkoutOverviewHeaderToolbar.visibility = View.VISIBLE;
                 }
-                val lp1 = checkoutOverviewHeaderToolbar.destinationText.layoutParams as LinearLayout.LayoutParams
-                lp1.gravity = Gravity.LEFT
-                val lp2 = checkoutOverviewHeaderToolbar.checkInOutDates.layoutParams as LinearLayout.LayoutParams
-                lp2.gravity = Gravity.LEFT
-                val distance = checkoutOverviewFloatingToolbar.destinationText.height * .3f
+                (checkoutOverviewHeaderToolbar.destinationText.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.LEFT
+                (checkoutOverviewHeaderToolbar.checkInOutDates.layoutParams as LinearLayout.LayoutParams).gravity = Gravity.LEFT
+                val distance = checkoutOverviewFloatingToolbar.destinationText.height * .1f
                 checkoutOverviewHeaderToolbar.destinationText.pivotX = 0f
                 checkoutOverviewHeaderToolbar.destinationText.pivotY = 0f
-                checkoutOverviewHeaderToolbar.destinationText.scaleX = .7f
-                checkoutOverviewHeaderToolbar.destinationText.scaleY = .7f
+                checkoutOverviewHeaderToolbar.destinationText.scaleX = .9f
+                checkoutOverviewHeaderToolbar.destinationText.scaleY = .9f
                 checkoutOverviewHeaderToolbar.checkInOutDates.alpha = 0f
                 checkoutOverviewHeaderToolbar.checkInOutDates.translationY = -distance
                 val animator = ObjectAnimator.ofFloat(checkoutOverviewHeaderToolbar.checkInOutDates, "alpha", 0f, 1f)
@@ -290,11 +315,6 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
                 isHideToolbarView = !isHideToolbarView;
             }
         }
-    }
-
-    fun toggleCheckoutButton(alpha: Float, isEnabled: Boolean) {
-        checkoutButton.isEnabled = isEnabled
-        checkoutButton.setTextColor(checkoutButton.textColors.withAlpha((alpha * 255f).toInt()))
     }
 
     class BundleDefault

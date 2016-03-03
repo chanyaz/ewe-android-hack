@@ -32,7 +32,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.LoadingOverlayWidget
-import com.expedia.bookings.widget.PackageBundlePriceWidget
+import com.expedia.bookings.widget.TotalPriceWidget
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeText
@@ -54,7 +54,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     val resultsMapView: MapView by bindView(R.id.map_view)
     val detailsMapView: MapView by bindView(R.id.details_map_view)
-    val bundlePriceWidget: PackageBundlePriceWidget by bindView(R.id.bundle_price_widget)
+    val bundlePriceWidget: TotalPriceWidget by bindView(R.id.bundle_price_widget)
     val bundleOverViewWidget: BundleWidget by bindView(R.id.bundle_widget)
 
     val resultsPresenter: PackageHotelResultsPresenter by lazy {

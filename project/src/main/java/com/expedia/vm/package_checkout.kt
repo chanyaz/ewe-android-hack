@@ -32,8 +32,6 @@ class PackageCreateTripViewModel(val packageServices: PackageServices) {
     val tripResponseObservable = BehaviorSubject.create<PackageCreateTripResponse>()
     val createTripBundleTotalObservable = BehaviorSubject.create<PackageCreateTripResponse>()
 
-    val bundleTotalPrice = BehaviorSubject.create<Pair<String, String>>()
-
     init {
         Observable.zip(tripParams, createTrip, { params, createTrip ->
             packageServices.createTrip(params).subscribe(makeCreateTripResponseObserver())

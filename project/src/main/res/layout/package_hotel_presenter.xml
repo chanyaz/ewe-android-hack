@@ -41,13 +41,12 @@
             android:background="#EEEEEE"
             android:visibility="gone" />
 
-        <com.expedia.bookings.widget.PackageBundlePriceWidget
+        <com.expedia.bookings.widget.TotalPriceWidget
             android:id="@+id/bundle_price_widget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/bundle_price_background_color"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal"
             android:clickable="true"
             android:padding="12dp" />
 
