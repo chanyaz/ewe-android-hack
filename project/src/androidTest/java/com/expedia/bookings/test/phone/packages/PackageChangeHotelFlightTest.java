@@ -150,10 +150,7 @@ public class PackageChangeHotelFlightTest extends PackageTestCase {
 	}
 
 	private void assertDisabledMenu() {
-		openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
-		onView(withText("Change hotel")).check(doesNotExist());
-		onView(withText("Change hotel room")).check(doesNotExist());
-		onView(withText("Change flights")).check(doesNotExist());
+		onView(withId(R.id.package_change_menu)).check(doesNotExist());
 	}
 
 }
