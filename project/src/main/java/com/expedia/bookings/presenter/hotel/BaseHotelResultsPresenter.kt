@@ -151,7 +151,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             updateMarkers()
         }
 
-        vm.soldOutHotel.subscribe { hotel->
+        vm.soldOutHotel.subscribe { hotel ->
             mapItems.filter { it.hotel.hotelId == hotel.hotelId }.first().hotel.isSoldOut = true
             clusterMarkers()
         }
@@ -161,7 +161,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
     }
 
-    private fun selectMarker(mapItem: MapItem, shouldZoom: Boolean = false) {
+    private fun selectMarker(mapItem: MapItem, shouldZoom: Boolean = false, animateCarousel: Boolean = true) {
         //To prevent caching, we have to clear items and add again. TODO- Try with a custom decorator which doesnt cache anything at any zoom level.
         clusterManager.clearItems()
         clusterManager.addItems(mapItems)
@@ -174,7 +174,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(mapItem.position, googleMap?.cameraPosition?.zoom!!))
         }
         mapViewModel.mapPinSelectSubject.onNext(mapItem)
-        animateMapCarouselVisibility(true)
+        if (animateCarousel) {
+            animateMapCarouselVisibility(true)
+        }
     }
 
     protected fun animateMapCarouselVisibility(visible: Boolean) {
@@ -282,6 +284,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             resetListOffset()
         } else {
             show(ResultsMap(), Presenter.FLAG_CLEAR_TOP)
+            if (mapViewModel.isClusteringEnabled) {
+                animateMapCarouselVisibility(false)
+            }
         }
 
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(response.hotelList)
@@ -326,7 +331,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
 
         mapViewModel.newBoundsObservable.subscribe {
-            if(isMapReady) {
+            if (isMapReady) {
                 val center = it.center
                 val latLng = LatLng(center.latitude, center.longitude)
                 mapViewModel.mapBoundsSubject.onNext(latLng)
@@ -368,7 +373,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
         clusterMarkers()
         if (!mapViewModel.isClusteringEnabled) {
-            selectMarker(mapItems.first())
+            selectMarker(mapItems.first(), true, false)
         }
 
     }
@@ -502,7 +507,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             uiSettings.isMyLocationButtonEnabled = false
             uiSettings.isIndoorLevelPickerEnabled = false
         }
-        
+
         googleMap?.setInfoWindowAdapter(object : GoogleMap.InfoWindowAdapter {
 
             override fun getInfoWindow(marker: Marker): View? {
@@ -744,10 +749,14 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             var toolbarTextGoal: Float = 0f
             var filterViewOrigin: Float = 0f
             var filterViewGoal: Float = 0f
+            var startingFabTranslation: Float = 0f
+            var finalFabTranslation: Float = 0f
 
             override fun startTransition(forward: Boolean) {
                 super.startTransition(forward)
                 toolbarTextOrigin = toolbarTitle.translationY
+                //Map pin will always be selected for non-clustering behavior eventually
+                val isMapPinSelected = !(mapViewModel.isClusteringEnabled && mapItems.filter { it.isSelected }.isEmpty())
 
                 if (forward) {
                     toolbarTextGoal = 0f //
@@ -780,11 +789,21 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     } else {
                         //Since we're not moving it manually, let's jump it to where it belongs,
                         // and let's get it showing the right thing
-                        fab.translationY = -(mapCarouselContainer.height.toFloat() - resources.getDimension(R.dimen.hotel_filter_height).toInt())
+                        if (isMapPinSelected) {
+                            fab.translationY = -(mapCarouselContainer.height - filterHeight)
+                        } else {
+                            fab.translationY = filterHeight
+                        }
                         (fab.drawable as? TransitionDrawable)?.startTransition(0)
                         fab.visibility = View.VISIBLE
                         getFabAnimIn().start()
                     }
+                }
+                startingFabTranslation = fab.translationY
+                if (forward) {
+                    finalFabTranslation = 0f
+                } else {
+                    finalFabTranslation = if (isMapPinSelected) -(mapCarouselContainer.height - filterHeight) else filterHeight
                 }
                 hideBundlePriceOverview(!forward)
                 toolbarTitle.translationY = 0f
@@ -806,8 +825,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 }
 
                 if (fabShouldVisiblyMove) {
-                    val fabDistance = if (forward) -(1 - f) * mapCarouselContainer.height else -f * (mapCarouselContainer.height - resources.getDimension(R.dimen.hotel_filter_height).toInt())
-                    fab.translationY = fabDistance
+                    fab.translationY = startingFabTranslation - f * (startingFabTranslation - finalFabTranslation)
                 }
                 //Title transition
                 val toolbarYTransStep = toolbarTextOrigin + (f * (toolbarTextGoal - toolbarTextOrigin))
@@ -854,7 +872,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                         lazyLoadMapAndMarkers()
                     }
                 } else {
-                    fab.translationY = -(mapCarouselContainer.height.toFloat() - resources.getDimension(R.dimen.hotel_filter_height).toInt())
                     mapView.translationY = 0f
                     recyclerView.translationY = screenHeight.toFloat()
                     googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height)
@@ -864,6 +881,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                         createMarkers()
                     }
                 }
+                fab.translationY = finalFabTranslation
             }
         }
 
@@ -1061,7 +1079,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     fun animationUpdate(f: Float, forward: Boolean) {
         setupToolbarMeasurements()
         var factor = if (forward) f else Math.abs(1 - f)
-        if(!isUserBucketedSearchScreenTest) {
+        if (!isUserBucketedSearchScreenTest) {
             recyclerView.translationY = factor * yTranslationRecyclerView
         }
         navIcon.parameter = factor
