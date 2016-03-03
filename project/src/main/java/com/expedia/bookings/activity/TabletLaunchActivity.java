@@ -182,6 +182,11 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 			startActivity(ItineraryActivity.createIntent(this));
 			return true;
 		}
+		case R.id.menu_account: {
+			Intent intent = new Intent(this, AccountSettingsActivity.class);
+			startActivityForResult(intent, REQUEST_SETTINGS);
+			return true;
+		}
 		case R.id.menu_settings: {
 			Intent intent = new Intent(this, TabletPreferenceActivity.class);
 			startActivityForResult(intent, REQUEST_SETTINGS);

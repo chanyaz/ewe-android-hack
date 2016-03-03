@@ -291,15 +291,17 @@
     <color name="cars_confirmation_action_text_color">#F3F3F3</color>
     <color name="cars_confirmation_email_text_color">#C8C8C8</color>
     <color name="cars_confirmation_action_background">#3A424C</color>
-    <color name="cars_launch_actionbar_color">#495863</color>
     <color name="cars_selected_tab_color">#5F717F</color>
-    <color name="launch_tab_indicator">#FFED18</color>
     <color name="cars_unchecked_toggle_text_color">#ECC3DC</color>
 
     <color name="bg_checkout_saved_traveler_cc_row">#f0f0f0</color>
     <color name="bg_checkout_saved_traveler_cc_row_pressed">#dcdcdc</color>
     <color name="checkout_traveler_birth_color">#919191</color>
     <color name="checkout_card_brand_color">#38597D</color>
+
+    <!-- Launch colors -->
+    <color name="launch_toolbar_background_color">#495863</color>
+    <color name="launch_tab_indicator">#FFED18</color>
 
     <!-- LX colors -->
     <color name="lx_primary_color">#E88534</color>
@@ -417,7 +419,7 @@
     <color name="preferences_category_bg">#c0c7cd</color>
     <color name="preferences_divider">#c0c7cd</color>
     <color name="preferences_highlight">#40000000</color>
-    <color name="preferences_text">@color/cars_launch_actionbar_color</color>
+    <color name="preferences_text">@color/launch_toolbar_background_color</color>
     <color name="bundle_price_background_color">#FFFFFF</color>
 
     <!-- New Search Screen -->
@@ -430,6 +432,7 @@
 
     <!-- Account Screen -->
     <color name="about_row_description_text_color">#5000</color>
+    <color name="account_toolbar_background_color">@color/launch_toolbar_background_color</color>
     <color name="account_background_color">#eee</color>
     <color name="account_toolbar_text_color">#fff</color>
     <color name="account_toolbar_text_color_light">#9fff</color>

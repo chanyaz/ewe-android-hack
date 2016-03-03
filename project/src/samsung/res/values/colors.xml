@@ -42,5 +42,6 @@
     <!-- Flight colors -->
     <color name="flight_free_cancellation_text_color_samsung">#7baed4</color>
 
-    <color name="launch_actionbar_bg_color_samsung">#2B2E33</color>
+    <!-- Launch colors -->
+    <color name="launch_toolbar_background_color">#2B2E33</color>
 </resources>

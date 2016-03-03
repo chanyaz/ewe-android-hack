@@ -9,7 +9,6 @@
     <string name="cd_checkout_log_in_with_travelocity">Appuyez pour ouvrir une session à votre compte Travelocity</string>
 
     <string name="contact_travelocity">Communiquer avec Travelocity</string>
-    <string name="travelocity_info_url">http://www.travelocity.com/</string>
 
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation_travelocity">Voulez-vous vraiment vous déconnecter de votre compte Travelocity?</string>

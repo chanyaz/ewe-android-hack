@@ -141,9 +141,9 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		CopyrightFragment copyrightFragment = Ui.findSupportFragment(this, TAG_COPYRIGHT);
 		if (copyrightFragment == null) {
 			CopyrightFragment.Builder copyBuilder = new CopyrightFragment.Builder();
-			copyBuilder.setAppName(Ui.obtainThemeResID(this, R.attr.skin_aboutAppNameString));
+			copyBuilder.setAppName(R.string.app_copyright_name);
 			copyBuilder.setCopyright(getCopyrightString());
-			copyBuilder.setLogo(Ui.obtainThemeResID(this, R.attr.skin_aboutAppLogoDrawable));
+			copyBuilder.setLogo(R.drawable.app_copyright_logo);
 			copyBuilder.setLogoUrl(ProductFlavorFeatureConfiguration.getInstance().getCopyrightLogoUrl(this));
 
 			copyrightFragment = copyBuilder.build();

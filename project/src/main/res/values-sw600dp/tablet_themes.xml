@@ -45,6 +45,20 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+    <style name="AccountSettingsTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:actionBarStyle">@style/LaunchActionBar</item>
+        <item name="actionBarStyle">@style/LaunchActionBar</item>
+        <item name="android:colorPrimaryDark">#3A464F</item>
+        <item name="android:colorPrimary">@color/launch_screen_primary</item>
+        <item name="android:actionOverflowButtonStyle">@style/LaunchOverflowStyle</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <!-- PopupMenu -->
+        <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
+    </style>
+
+
     <!-- Action bar styling; directly linked to themes so not moving too far away -->
 
     <style name="V2.Widget" />
