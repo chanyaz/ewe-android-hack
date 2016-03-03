@@ -7,14 +7,14 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/search_form_margin"
+        android:layout_marginRight="@dimen/search_form_margin"
         android:fillViewport="true">
 
         <LinearLayout
             android:id="@+id/search_v2_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/search_form_margin"
-            android:layout_marginRight="@dimen/search_form_margin"
             android:layout_marginTop="@dimen/search_form_top_margin"
             android:clipToPadding="false"
             android:orientation="vertical">
