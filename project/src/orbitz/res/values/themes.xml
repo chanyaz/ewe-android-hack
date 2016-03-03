@@ -203,4 +203,15 @@
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
     </style>
 
+    <style name="TerminalMapThemeSpinnerDropDownItemStyle" parent="@style/Widget.AppCompat.DropDownItem.Spinner">
+        <item name="android:background">@color/action_bar_bg_color</item>
+        <item name="background">@color/action_bar_bg_color</item>
+    </style>
+
+    <style name="TerminalMapThemeDropDownListView" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
+        <item name="android:background">@color/action_bar_bg_color</item>
+        <item name="background">@color/action_bar_bg_color</item>
+
+    </style>
+
 </resources>

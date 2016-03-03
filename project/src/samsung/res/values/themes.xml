@@ -78,7 +78,7 @@
 
 
     <style name="LaunchTheme" parent="Theme.AppCompat">
-        <item name="android:logo">@drawable/ic_ab_expedia_logo</item>
+        <item name="android:logo">@drawable/ic_ab_logo</item>
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow</item>
@@ -113,7 +113,7 @@
     </style>
 
     <style name="ItineraryTheme" parent="Theme.Samsung">
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_expedia_logo</item>
+        <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_logo</item>
         <item name="android:actionBarStyle" tools:targetApi="11">@style/Dark.ActionBar.Samsung</item>
 
         <!-- PopupMenu -->
@@ -140,7 +140,7 @@
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_expedia_logo</item>
+        <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_logo</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowActionBarOverlay">true</item>
     </style>

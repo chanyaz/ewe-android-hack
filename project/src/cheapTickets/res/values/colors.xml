@@ -6,6 +6,7 @@
     <color name="actionbar_text_ctx">#D00000</color>
     <color name="action_bar_flight_cancel_text_color">@color/actionbar_text_ctx</color>
     <color name="action_bar_flight_result_separator_color">#d9d9d9</color>
+    <color name="actionbar_terminal_text_ctx">#D00000</color>
 
     <color name="lob_btn_color">#116FAA</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
