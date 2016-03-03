@@ -90,6 +90,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         var presenter = searchStubV1.inflate() as HotelSearchPresenterV1
         presenter.searchViewModel = HotelSearchViewModel(context)
         presenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
+        presenter.searchViewModel.searchParamsObservable.subscribe {
+            clientLogBuilder?.requestTime(DateTime.now())
+        }
         presenter
     }
 
@@ -98,6 +101,9 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         var presenter = searchStubV2.inflate() as HotelSearchPresenterV2
         presenter.searchViewModel = HotelSearchViewModel(context)
         presenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
+        presenter.searchViewModel.searchParamsObservable.subscribe {
+            clientLogBuilder?.requestTime(DateTime.now())
+        }
         presenter
     }
 
@@ -263,6 +269,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         checkoutDialog.setCancelable(false)
         checkoutDialog.isIndeterminate = true
         clientLogBuilder.pageName(Constants.CLIENT_LOG_MATERIAL_HOTEL_SEARCH)
+        clientLogBuilder.deviceName(android.os.Build.MODEL)
     }
 
     fun setDefaultTransition(screen: Screen) {

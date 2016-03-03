@@ -3,11 +3,13 @@ package com.expedia.bookings.data.clientlog
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 
-class ClientLog(val pageName: String?, val requestTime: String?, val responseTime: String?, val processingTime: String?, val requestToUser: String?) {
+class ClientLog(val pageName: String?, val deviceName: String?, val logTime: String?, val requestTime: Long, val responseTime: Long, val processingTime: Long, val requestToUser: Long) {
 
     class Builder() {
-        val dtf = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss")
+        val dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss:SSS'Z'")
         var pageName: String? = null
+        var deviceName: String? = null
+        var logTime: DateTime? = null
         var requestTime: DateTime? = null
         var responseTime: DateTime? = null
         var processingTime: DateTime? = null
@@ -15,6 +17,16 @@ class ClientLog(val pageName: String?, val requestTime: String?, val responseTim
 
         fun pageName(event: String?): ClientLog.Builder {
             pageName = event
+            return this
+        }
+
+        fun deviceName(device: String?): ClientLog.Builder {
+            deviceName = device
+            return this
+        }
+
+        fun logTime(time: DateTime?): ClientLog.Builder {
+            logTime = time
             return this
         }
 
@@ -39,7 +51,15 @@ class ClientLog(val pageName: String?, val requestTime: String?, val responseTim
         }
 
         fun build(): ClientLog {
-            return ClientLog(pageName, requestTime?.toString(dtf), responseTime?.toString(dtf), processingTime?.toString(dtf), requestToUser?.toString(dtf))
+            return ClientLog(pageName, deviceName, logTime?.toString(dtf), 0L, calculateTimeDiff(responseTime), calculateTimeDiff(processingTime), calculateTimeDiff(requestToUser))
+        }
+
+        private fun calculateTimeDiff(time: DateTime?) : Long {
+            val startTime = requestTime
+            if (time == null || startTime == null) {
+                return 0
+            }
+            return time.millis - startTime.millis
         }
     }
 }

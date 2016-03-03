@@ -9,8 +9,10 @@ public interface ClientLogApi {
 	@GET("/cl/1x1.gif")
 	Observable<EmptyResponse> log(
 		@Query("pageName") String clientID,
-		@Query("requestTime") String requestTime,
-		@Query("responseTime") String responseTime,
-		@Query("processingTime") String processingTime,
-		@Query("requestToUser") String requestToUser);
+		@Query("device") String deviceName,
+		@Query("logTime") String logTime,
+		@Query("requestTime") long requestTime,
+		@Query("responseTime") long responseTime,
+		@Query("processingTime") long processingTime,
+		@Query("requestToUser") long requestToUser);
 }

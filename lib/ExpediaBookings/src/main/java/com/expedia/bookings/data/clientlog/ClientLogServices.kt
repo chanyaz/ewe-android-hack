@@ -17,7 +17,6 @@ class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, requestInt
 
 	val clientLogApi: ClientLogApi by lazy {
 		val gson = GsonBuilder()
-				.registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
 				.create()
 
 		val adapter = RestAdapter.Builder()
@@ -32,7 +31,7 @@ class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, requestInt
 	}
 
 	fun log(clientLog: ClientLog) {
-		clientLogApi.log(clientLog.pageName, clientLog.requestTime, clientLog.responseTime, clientLog.processingTime, clientLog.requestToUser)
+		clientLogApi.log(clientLog.pageName, clientLog.deviceName, clientLog.logTime, clientLog.requestTime, clientLog.responseTime, clientLog.processingTime, clientLog.requestToUser)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.subscribe(makeEmptyObserver())
