@@ -43,7 +43,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFlightsRoundtripMessageTest = 9636;
 	public static final int EBAndroidAppHotelSearchDomainV2 = 9707;
 	public static final int EBAndroidAppHSRMapClusteringTest = 9633;
-	public static final int EBAndroidAppLXMRecommendedActivitiesTest = 9639;
+	public static final int EBAndroidAppLXRecommendedActivitiesTest = 9639;
 	public static final int EBAndroidAppFlightsNumberOfTicketsUrgencyTest = 9897;
 	public static final int EBAndroidAppHotelSecureCheckoutMessaging = 9898;
 	public static final int EBAndroidAppShowSignInOnLaunch = 8687;
@@ -121,7 +121,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsRoundtripMessageTest);
 		testIDs.add(EBAndroidAppHotelSearchDomainV2);
 		testIDs.add(EBAndroidAppHSRMapClusteringTest);
-		testIDs.add(EBAndroidAppLXMRecommendedActivitiesTest);
+		testIDs.add(EBAndroidAppLXRecommendedActivitiesTest);
 		testIDs.add(EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
 		testIDs.add(EBAndroidAppHotelSecureCheckoutMessaging);
 		testIDs.add(EBAndroidAppShowSignInOnLaunch);

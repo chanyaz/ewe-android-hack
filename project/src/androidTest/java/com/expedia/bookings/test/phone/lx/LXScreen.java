@@ -140,28 +140,35 @@ public class LXScreen {
 
 	public static void waitForDetailsDisplayed() {
 		Common.delay(1);
-		onView(withId(R.id.offers)).perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
+		onView(allOf(withId(R.id.offers), isDescendantOfA(withId(R.id.activity_recommended_details_presenter))))
+			.perform(
+				waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
 	}
 
 	public static ViewInteraction detailsWidget() {
-		return onView(withId(R.id.activity_details));
+		return onView(
+			allOf(withId(R.id.activity_details), isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
 	}
 
 	public static ViewInteraction withOfferText(String offerText) {
-		return onView(allOf(withId(R.id.offer_row), withChild(withChild(withText(startsWith(offerText))))));
+		return onView(allOf(withId(R.id.offer_row), withChild(withChild(withText(startsWith(offerText)))),
+			isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
 	}
 
 	public static ViewInteraction selectTicketsButton(String offerText) {
-		return onView(allOf(withId(R.id.select_tickets), hasSibling(withChild(withText(startsWith(offerText))))));
+		return onView(allOf(withId(R.id.select_tickets), hasSibling(withChild(withText(startsWith(offerText)))),
+			isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
 	}
 
 	public static ViewInteraction ticketPicker(String offerText) {
 		return onView(allOf(withId(R.id.offer_tickets_picker),
-			hasSibling(withChild(withChild(withText(startsWith(offerText)))))));
+			hasSibling(withChild(withChild(withText(startsWith(offerText))))),
+			isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
 	}
 
 	public static ViewInteraction showMore() {
-		return onView(withId(R.id.show_more_widget));
+		return onView(
+			allOf(withId(R.id.show_more_widget), isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
 	}
 
 	public static ViewInteraction srpErrorToolbar() {

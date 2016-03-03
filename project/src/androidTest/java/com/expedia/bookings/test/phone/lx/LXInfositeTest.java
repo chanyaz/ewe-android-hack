@@ -102,7 +102,7 @@ public class LXInfositeTest extends LxTestCase {
 		LXInfositeScreen.detailsDateContainer().check(matches(withOneEnabled()));
 		screenshot("LX validated offers strip");
 
-		onView(withId(R.id.offers)).check(matches(withAtLeastChildCount(1)));
+		LXInfositeScreen.offersWidgetContainer().check(matches(withAtLeastChildCount(1)));
 
 		TicketSummaryDataModel ticketSummary = new TicketSummaryDataModel();
 		LXInfositeScreen.offersWidgetContainer().perform(scrollTo());

@@ -701,6 +701,9 @@
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">All Things To Do</string>
 
+    <!-- Category Title "All Things To Do" -->
+    <string name="lx_you_might_also_like">You might also like</string>
+
     <!-- Tablet Results strings -->
     <!-- Sort & Filter label -->
     <string name="Sort_and_Filter">Sort &amp; Filter</string>

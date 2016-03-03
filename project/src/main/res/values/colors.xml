@@ -334,6 +334,7 @@
     <color name="gt_unchecked_toggle_text_color">#E98DA7</color>
     <color name="lx_primary_disabled_color">#40E88534</color>
     <color name="gt_primary_disabled_color">#40B93F62</color>
+    <color name="lx_more_like_this">#FAFAFA</color>
 
     <color name="search_dropdown_disabled_stroke">#C3C3C3</color>
     <color name="lx_sort_filter_pressed">#D9D9D9</color>
