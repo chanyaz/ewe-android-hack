@@ -29,7 +29,7 @@
             android:animateLayoutChanges="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:minHeight="64dp"
-            app:cardCornerRadius="3dp"
+            app:cardCornerRadius="@dimen/cardview_border_radius"
             app:cardElevation="1dp" />
 
         <com.expedia.bookings.widget.TextView
@@ -54,7 +54,7 @@
             android:animateLayoutChanges="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:minHeight="64dp"
-            app:cardCornerRadius="3dp"
+            app:cardCornerRadius="@dimen/cardview_border_radius"
             app:cardElevation="1dp" />
 
         <com.expedia.bookings.widget.PackageBundleFlightWidget
@@ -67,7 +67,7 @@
             android:animateLayoutChanges="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:minHeight="64dp"
-            app:cardCornerRadius="3dp"
+            app:cardCornerRadius="@dimen/cardview_border_radius"
             app:cardElevation="1dp" />
 
         <Space
