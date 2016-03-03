@@ -36,6 +36,7 @@ import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
+import com.squareup.phrase.Phrase;
 
 /**
  * Note: This is somewhat overloaded to be able to represent either an entire
@@ -256,7 +257,9 @@ public class FlightLegSummarySection extends RelativeLayout {
 			boolean showNumberSeatsRemaining =
 				trip != null && (trip.getSeatsRemaining() > 0 && trip.getSeatsRemaining() < NUMB_SEATS_REMAINING_SHOW_MSG_THRESHOLD);
 			if (showNumberSeatsRemaining && isUserBucketedForTest) {
-				mNumberTicketsLeftView.setText(getContext().getString(R.string.number_tickets_left, trip.getSeatsRemaining()));
+				String numbTicketsTemplate = getResources().getQuantityString(R.plurals.number_tickets_left_TEMPLATE, trip.getSeatsRemaining());
+				CharSequence numberTicketsLeft = Phrase.from(numbTicketsTemplate).put("number_tickets_left", trip.getSeatsRemaining()).format();
+				mNumberTicketsLeftView.setText(numberTicketsLeft);
 				mNumberTicketsLeftView.setVisibility(View.VISIBLE);
 			}
 			else {
