@@ -56,6 +56,7 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 				mStoredCard.fromJson(base.getStoredCard().toJson());
 			}
 			mSaveCardToExpediaAccount = base.getSaveCardToExpediaAccount();
+			mIsTempCard = base.mIsTempCard;
 		}
 	}
 

@@ -157,7 +157,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         slideToContainer.visibility = View.INVISIBLE
         legalInformationText.setOnClickListener({ context.startActivity(HotelRulesActivity.createIntent(context, LineOfBusiness.HOTELSV2)) })
         if (User.isLoggedIn(context)) {
-            if (!hasSomeManuallyEnteredData(paymentInfoCardView.sectionBillingInfo.billingInfo) && Db.getUser().storedCreditCards.size == 1) {
+            if (!hasSomeManuallyEnteredData(paymentInfoCardView.sectionBillingInfo.billingInfo) && Db.getUser().storedCreditCards.size == 1 && Db.getTemporarilySavedCard() == null) {
                 paymentInfoCardView.sectionBillingInfo.bind(Db.getBillingInfo())
                 paymentInfoCardView.selectFirstAvailableCard()
             }

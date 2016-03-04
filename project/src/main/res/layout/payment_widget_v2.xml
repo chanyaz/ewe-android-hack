@@ -156,17 +156,7 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal" />
 
-            <View
-                android:id="@+id/spacer_above_filled_in_card_details_mini_view"
-                android:layout_width="fill_parent"
-                android:layout_height="1px"
-                android:background="#E0E0E0" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/filled_in_card_details_mini_view"
-                style="@style/HotelPaymentOption"
-                android:visibility="gone"
-                app:textStyle="bold" />
+            <include layout="@layout/widget_filled_in_card_details_mini_view" />
 
             <View
                 android:layout_width="fill_parent"
