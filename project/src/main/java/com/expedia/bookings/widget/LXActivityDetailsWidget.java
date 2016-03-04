@@ -500,12 +500,10 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		recommendedActivitiesListAdapter.setActivities(recommendedActivitiesResponse.getActivities());
 		moreLikeThis.removeAllViews();
 
-		int scaledPadding = getResources().getDimensionPixelSize(R.dimen.lx_recommendation_padding);
 
 		for (int position = 0; position < Math.min(recommendedListInitialMaxCount,
 			recommendedActivitiesResponse.getActivities().size()); position++) {
-			View offerRow = recommendedActivitiesListAdapter.getView(position, null, this);
-			offerRow.setPadding(0, scaledPadding, 0, scaledPadding);
+			View offerRow = recommendedActivitiesListAdapter.getView(position, null, moreLikeThis);
 			moreLikeThis.addView(offerRow);
 		}
 		recommendations.setVisibility(VISIBLE);

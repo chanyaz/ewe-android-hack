@@ -218,7 +218,6 @@
     <dimen name="lx_results_bottom_padding">58dp</dimen>
     <dimen name="gt_results_bottom_padding">0dp</dimen>
     <dimen name="lx_category_image_width">300dp</dimen>
-    <dimen name="lx_recommendation_padding">12dp</dimen>
 
     <!-- Car Search  -->
     <dimen name="car_calendar_month_view_max_text_size">12dp</dimen>
