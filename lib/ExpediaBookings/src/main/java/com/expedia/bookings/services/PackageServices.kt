@@ -19,6 +19,9 @@ import retrofit.client.OkClient
 import retrofit.converter.GsonConverter
 import rx.Observable
 import rx.Scheduler
+import java.text.NumberFormat
+import java.text.ParseException
+import java.util.Currency
 import kotlin.collections.filter
 import kotlin.collections.find
 import kotlin.collections.forEach
@@ -52,9 +55,21 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, requestInter
 							offer.hotel == hotel.hotelPid
 						}
 						val lowRateInfo = HotelRate()
-						lowRateInfo.strikethroughPriceToShowUsers = hotel.packageOfferModel.price.sumFlightAndHotel?.amount?.toFloat() ?: 0f
+						val currencyCode = hotel.packageOfferModel.price.pricePerPerson.currencyCode
+						val currency = Currency.getInstance(currencyCode)
+						val nf = NumberFormat.getCurrencyInstance()
+						if (currency != null) {
+							nf.currency = currency
+						}
+						var strikeThroughPrice = 0f
+						try {
+							strikeThroughPrice = nf.parse(hotel.packageOfferModel.price.flightPlusHotelPricePerPersonFormatted).toFloat();
+						} catch (ex: ParseException) {
+							ex.printStackTrace()
+						}
+						lowRateInfo.strikethroughPriceToShowUsers = strikeThroughPrice
 						lowRateInfo.priceToShowUsers = hotel.packageOfferModel.price.pricePerPerson.amount.toFloat()
-						lowRateInfo.currencyCode = hotel.packageOfferModel.price.pricePerPerson.currencyCode
+						lowRateInfo.currencyCode = currencyCode
 						hotel.lowRateInfo = lowRateInfo
 					}
 					response.packageResult.flightsPackage.flights.forEach { flight ->

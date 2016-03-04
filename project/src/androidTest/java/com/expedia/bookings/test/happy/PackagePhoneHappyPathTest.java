@@ -136,7 +136,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 			CoreMatchers.allOf(isDisplayed(), withText("Hotels in Detroit, MI")))));
 		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.hotel_name_text_view,
 			"Package Happy Path");
-		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.strike_through_price, "$1,076");
+		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.strike_through_price, "$538");
 		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.price_per_night, "$526");
 	}
 
@@ -155,7 +155,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	private void assertHotelMap() {
 		onView(allOf(withId(R.id.package_map_price_messaging), withText("Price includes taxes, fees, flights + hotel per person"))).check(matches(isDisplayed()));
-		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelCarousel(), 0, R.id.hotel_strike_through_price, "$1,142");
+		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelCarousel(), 0, R.id.hotel_strike_through_price, "$571");
 		assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelCarousel(), 0, R.id.hotel_price_per_night, "$562");
 	}
 
