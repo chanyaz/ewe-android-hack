@@ -16,7 +16,7 @@
         android:layout_marginLeft="@dimen/car_search_list_image_container_margin"
         android:layout_marginRight="@dimen/car_search_list_image_container_margin"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="4dp"
+        app:cardCornerRadius="@dimen/cardview_border_radius"
         app:cardElevation="1dp">
 
         <LinearLayout

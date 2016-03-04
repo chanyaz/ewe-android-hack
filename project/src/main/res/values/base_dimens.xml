@@ -11,5 +11,6 @@
     <dimen name="temporary_font_size_large">16sp</dimen>
     <dimen name="temporary_font_size_medium">14sp</dimen>
     <dimen name="temporary_font_size_small">12sp</dimen>
+    <dimen name="cardview_border_radius">3dp</dimen>
 
 </resources>
