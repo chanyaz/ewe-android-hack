@@ -66,12 +66,18 @@ class HotelResultsPricingStructureHeaderViewModelTests {
         assertExpectedText(HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES, 3, "Prices average per night • 3 Results")
     }
 
-    private fun assertExpectedText(userPriceType: HotelRate.UserPriceType, hotelResultCount: Int, expectedString: String) {
+    @Test
+    fun loyaltyPointsAppliedHeaderVisible() {
+        assertExpectedText(HotelRate.UserPriceType.PER_NIGHT_RATE_NO_TAXES, 3, "Prices average per night • 3 Results", true)
+    }
+
+    private fun assertExpectedText(userPriceType: HotelRate.UserPriceType, hotelResultCount: Int, expectedString: String, expectedLoyaltyHeaderVisibility: Boolean = false) {
         givenUserPriceType(userPriceType)
         givenHotelsResultsCount(hotelResultCount)
-        setupResultsDeliveredObserver()
+        setupResultsDeliveredObserver(expectedLoyaltyHeaderVisibility)
 
         assertEquals(expectedString, sut.pricingStructureHeaderObservable.value)
+        assertEquals(expectedLoyaltyHeaderVisibility, sut.loyaltyAvailableObservable.value)
     }
 
     private fun givenLoading() {
@@ -86,15 +92,18 @@ class HotelResultsPricingStructureHeaderViewModelTests {
         this.hotelResultsCount = hotelResultsCount
     }
 
-    private fun setupResultsDeliveredObserver() {
+    private fun setupResultsDeliveredObserver(loyaltyInformationAvailable: Boolean) {
         val hotelSearchResponse = HotelSearchResponse()
         hotelSearchResponse.userPriceType = this.priceType
         hotelSearchResponse.hotelList = ArrayList<Hotel>()
+        if (loyaltyInformationAvailable) {
+            hotelSearchResponse.hasLoyaltyInformation = true
+        }
         while (this.hotelResultsCount > 0) {
             hotelSearchResponse.hotelList.add(Hotel())
             this.hotelResultsCount--
         }
-        sut.resultsDeliveredObserver.onNext(Pair(hotelSearchResponse.hotelList, hotelSearchResponse.userPriceType))
+        sut.resultsDeliveredObserver.onNext(hotelSearchResponse)
     }
 
     private fun getContext(): Context {

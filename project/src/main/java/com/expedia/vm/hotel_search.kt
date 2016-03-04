@@ -48,6 +48,7 @@ class HotelSearchViewModel(val context: Context) {
     val errorMaxDatesObservable = PublishSubject.create<Unit>()
     val enableDateObservable = PublishSubject.create<Boolean>()
     val enableTravelerObservable = PublishSubject.create<Boolean>()
+    val shopWithPointsObservable = PublishSubject.create<Boolean>()
 
     val enableDateObserver = endlessObserver<Unit> {
         enableDateObservable.onNext(paramsBuilder.hasOrigin())
@@ -94,6 +95,11 @@ class HotelSearchViewModel(val context: Context) {
     val suggestionTextChangedObserver = endlessObserver<Unit> {
         paramsBuilder.suggestion(null)
         requiredSearchParamsObserver.onNext(Unit)
+    }
+
+    val shopWithPointsObserver = endlessObserver<Boolean> {
+        paramsBuilder.shopWithPoints(it)
+        shopWithPointsObservable.onNext(it)
     }
 
     val searchObserver = endlessObserver<Unit> {

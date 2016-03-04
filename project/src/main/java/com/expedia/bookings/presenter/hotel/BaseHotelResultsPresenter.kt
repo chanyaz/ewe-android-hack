@@ -248,7 +248,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         filterView.viewmodel.setHotelList(it)
         loadingOverlay?.animate(false)
         loadingOverlay?.visibility = View.GONE
-        adapter.resultsSubject.onNext(Pair(it.hotelList, it.userPriceType))
+        adapter.resultsSubject.onNext(it)
 
         // show fab button always in case of AB test or shitty device
         if (ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap) {
@@ -290,7 +290,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
 
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setItems(response.hotelList)
-        adapter.resultsSubject.onNext(Pair(response.hotelList, response.userPriceType))
+        adapter.resultsSubject.onNext(response)
         mapViewModel.hotelResultsSubject.onNext(response)
         if ((ExpediaBookingApp.isDeviceShitty() || isBucketedForResultMap) && response.hotelList.size <= 3 && previousWasList) {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, R.color.hotel_result_background))

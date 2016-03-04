@@ -3,12 +3,12 @@ package com.expedia.bookings.data.payment
 import com.expedia.bookings.data.Money
 
 data class LoyaltyInformation(
-        val burn: LoyaltyBurnInfo, val earn: LoyaltyEarnInfo
+        val burn: LoyaltyBurnInfo?, val earn: LoyaltyEarnInfo
 )
 
 data class LoyaltyBurnInfo(val type: LoyaltyType, val amount: Money)
 
-data class LoyaltyEarnInfo(val points: PointsEarnInfo, val price: PriceEarnInfo)
+data class LoyaltyEarnInfo(val points: PointsEarnInfo?, val price: PriceEarnInfo?)
 
 // Earn information for Expedia is in points.
 data class PointsEarnInfo(val base: Int, val bonus: Int, val total: Int)
