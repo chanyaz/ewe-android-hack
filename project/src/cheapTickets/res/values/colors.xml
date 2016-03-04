@@ -3,8 +3,8 @@
 
     <color name="action_bar_bg_color">#FFFFFF</color>
     <color name="actionbar_button_background_pressed">#004888</color>
-    <color name="actionbar_text_ctx">#D00000</color>
-    <color name="action_bar_flight_cancel_text_color">@color/actionbar_text_ctx</color>
+    <color name="actionbar_text">#D00000</color>
+    <color name="action_bar_flight_cancel_text_color">@color/actionbar_text</color>
     <color name="action_bar_flight_result_separator_color">#d9d9d9</color>
     <color name="actionbar_terminal_text_ctx">#D00000</color>
 
@@ -37,7 +37,7 @@
     <color name="tablet_search_result_error_button_pressed">#D1EAFF</color>
     <color name="tablet_results_search_blue">#608405</color>
     <color name="launch_pin_detail_button_text">#D1EAFF</color>
-    <color name="action_bar_flight_text_color">@color/actionbar_text_ctx</color>
+    <color name="action_bar_flight_text_color">@color/actionbar_text</color>
     <color name="action_menu_text_color">#FFFFFF</color>
     <color name="action_bar_text_yellow">@color/launch_tab_indicator</color>
 
@@ -72,7 +72,7 @@
     <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
 
     <!--Account Lib Colors -->
-    <color name="btn_sign_in_normal">@color/actionbar_text_ctx</color>
+    <color name="btn_sign_in_normal">@color/actionbar_text</color>
     <color name="btn_sign_in_pressed">#990033</color>
     <color name="btn_sign_in_focused">#FC4545</color>
     <color name="btn_sign_in_disabled">#7F002A</color>
