@@ -30,7 +30,7 @@
     </style>
 
     <style name="ActionBarTitle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
-        <item name="android:textColor">@color/actionbar_text_ctx</item>
+        <item name="android:textColor">@color/actionbar_text</item>
     </style>
 
     <style name="DestinationTileUpperTextAppearance">
