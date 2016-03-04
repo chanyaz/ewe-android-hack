@@ -47,7 +47,7 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		openFlightFilter();
 
 		tickCheckboxWithText("Nonstop");
-		checkFilteredFlights("3 Results");
+		checkFilteredFlights("2 Results");
 		resetFilters();
 
 		tickCheckboxWithText("1 Stop");
@@ -56,7 +56,7 @@ public class PackageFlightFilterTest extends PackageTestCase {
 
 		tickCheckboxWithText("Nonstop");
 		tickCheckboxWithText("1 Stop");
-		checkFilteredFlights("4 Results");
+		checkFilteredFlights("3 Results");
 		resetFilters();
 
 		tickCheckboxWithText("Hawaiian Airlines");
@@ -64,17 +64,17 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		resetFilters();
 
 		tickCheckboxWithText("United");
-		checkFilteredFlights("2 Results");
+		checkFilteredFlights("1 Result");
 		resetFilters();
 
 		tickCheckboxWithText("Virgin America");
 		checkFilteredFlights("1 Result");
 		resetFilters();
 
-		tickCheckboxWithText("Hawaiian Airlines");
 		tickCheckboxWithText("United");
+		tickCheckboxWithText("Hawaiian Airlines");
 		tickCheckboxWithText("Virgin America");
-		checkFilteredFlights("4 Results");
+		checkFilteredFlights("3 Results");
 	}
 
 	public void testDurationSorting() throws Throwable {
