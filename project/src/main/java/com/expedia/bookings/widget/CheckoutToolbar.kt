@@ -31,18 +31,22 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
         vm.menuTitle.subscribe {
             menuItem.setTitle(it)
         }
-        vm.enableMenu.subscribe {
+        vm.menuVisibility.subscribe {
             menuItem.setVisible(it)
+            getChildAt(0).alpha = 1f
         }
-
+        vm.enableMenuItem.subscribe { enable ->
+            getChildAt(0).alpha = if (enable) 1f else 0.15f
+            menuItem.setVisible(true)
+            menuItem.setEnabled(enable)
+        }
         vm.nextClicked.subscribe {
             setNextFocus()
         }
-        vm.enableMenuDone.subscribe { enable ->
-            if (enable) {
-                menuItem.setVisible(true)
-                menuItem.setTitle(context.getString(R.string.done))
-            }
+        vm.visibleMenuWithTitleDone.subscribe {
+            menuItem.setVisible(true)
+            getChildAt(0).alpha = 1f
+            menuItem.setTitle(context.getString(R.string.done))
         }
 
         vm.editText.subscribe {
@@ -91,7 +95,7 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
     }
 
     override fun onEditingComplete() {
-        viewModel.enableMenu.onNext(true)
+        viewModel.menuVisibility.onNext(true)
     }
 
     override fun setMenuLabel(title: String?) {
@@ -99,7 +103,7 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
     }
 
     override fun showRightActionButton(enabled: Boolean) {
-        viewModel.enableMenu.onNext(enabled)
+        viewModel.menuVisibility.onNext(enabled)
     }
 
     override fun setNavArrowBarParameter(arrowDrawableType: ArrowXDrawableUtil.ArrowDrawableType) {

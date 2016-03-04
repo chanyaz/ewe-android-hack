@@ -14,6 +14,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.interfaces.IPayWithPointsViewModel
 import com.expedia.vm.interfaces.IPaymentWidgetViewModel
 import javax.inject.Inject
@@ -41,20 +42,30 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
             isFullPayableWithPoints = !it.isCardRequired()
             vm.burnAmountApiCallResponsePending.onNext(false)
         }
-        vm.enableDoneButton.subscribe { enable ->
+        viewmodel.enableToolbarMenuButton.subscribe{ enable ->
             if (paymentOptionsContainer.visibility == View.VISIBLE) {
-                viewmodel.enableMenu.onNext(enable && isComplete())
+                viewmodel.enableMenuItem.onNext(enable && isComplete())
             }
         }
+        vm.isPwpDirty.map { !it }.subscribe(viewmodel.enableToolbarMenuButton)
+
+        viewmodel.onStoredCardChosen.withLatestFrom(vm.isPwpDirty, { x, y -> y })
+                .filter { !it }
+                .map { true }
+                .subscribe(viewmodel.enableToolbarMenuButton)
     }
         @Inject set
 
     lateinit var payWithPointsViewModel: IPayWithPointsViewModel
         @Inject set
 
+    override fun init(vm: PaymentViewModel) {
+        super.init(vm)
+        Ui.getApplication(context).hotelComponent().inject(this)
+    }
+
     override fun onFinishInflate() {
         super.onFinishInflate()
-        Ui.getApplication(context).hotelComponent().inject(this)
         Db.setTemporarilySavedCard(null)
 
         paymentOptionCreditDebitCard.setOnClickListener {
@@ -93,5 +104,10 @@ public class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidg
 
     override  fun closePopup() {
 
+    }
+
+    override fun updateToolbarMenu(forward: Boolean) {
+        super.updateToolbarMenu(forward)
+        payWithPointsViewModel.hasPwpEditBoxFocus.onNext(false)
     }
 }

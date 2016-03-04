@@ -73,7 +73,11 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
     val spacerAboveFilledInCardDetailsMiniView: View by bindView(R.id.spacer_above_filled_in_card_details_mini_view)
     val pwpSmallIcon: ImageView? by bindOptionalView(R.id.pwp_small_icon)
 
-    var viewmodel: PaymentViewModel by notNullAndObservable { vm->
+    var viewmodel: PaymentViewModel by notNullAndObservable { vm ->
+        init(vm)
+    }
+
+    open protected fun init(vm: PaymentViewModel){
         vm.cardTitle.subscribeText(cardInfoName)
         vm.cardSubtitle.subscribeTextAndVisibility(cardInfoExpiration)
         vm.paymentType.subscribeImageDrawable(cardInfoIcon)
@@ -146,7 +150,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             sectionBillingInfo.billingInfo.storedCard = card
             temporarilySavedCardIsSelected(false)
             viewmodel.completeBillingInfo.onNext(sectionBillingInfo.billingInfo)
-            viewmodel.enableMenuDone.onNext(isComplete())
+            viewmodel.onStoredCardChosen.onNext(Unit)
             closePopup()
         }
 
@@ -348,7 +352,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
 
     private val defaultTransition = object : Presenter.DefaultTransition(PaymentDefault::class.java.name) {
         override fun endTransition(forward: Boolean) {
-            viewmodel.enableMenu.onNext(false)
+            viewmodel.menuVisibility.onNext(false)
             viewmodel.toolbarTitle.onNext(getCheckoutToolbarTitle(resources))
             cardInfoContainer.visibility = View.VISIBLE
             paymentOptionsContainer.visibility = View.GONE
@@ -360,24 +364,29 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
     private val defaultToOptions = object : Presenter.Transition(PaymentDefault::class.java,
             PaymentOption::class.java) {
         override fun startTransition(forward: Boolean) {
-            viewmodel.enableMenu.onNext(false)
+            viewmodel.menuVisibility.onNext(false)
             cardInfoContainer.visibility = if (forward) View.GONE else View.VISIBLE
             paymentOptionsContainer.visibility = if (forward) View.VISIBLE else View.GONE
             paymentOptionGoogleWallet.visibility = if (WalletUtils.isWalletSupported(getLineOfBusiness())) View.VISIBLE else View.GONE
             billingInfoContainer.visibility = View.GONE
             viewmodel.toolbarTitle.onNext(if (forward) resources.getString(R.string.checkout_enter_payment_details) else getCheckoutToolbarTitle(resources))
             storedCreditCardList.bind()
-            if (forward) {
-                viewmodel.enableMenuDone.onNext(isComplete())
-            }
+            updateToolbarMenu(forward)
             if (!forward) validateAndBind()
+        }
+    }
+
+    protected open fun updateToolbarMenu(forward: Boolean) {
+        if (forward) {
+            viewmodel.visibleMenuWithTitleDone.onNext(Unit)
+            viewmodel.enableToolbarMenuButton.onNext(true)
         }
     }
 
     private val defaultToDetails = object : Presenter.Transition(PaymentDefault::class.java,
             PaymentDetails::class.java) {
         override fun endTransition(forward: Boolean) {
-            viewmodel.enableMenu.onNext(forward)
+            viewmodel.menuVisibility.onNext(forward)
             viewmodel.toolbarTitle.onNext(if (forward) resources.getString(R.string.new_credit_debit_card) else getCheckoutToolbarTitle(resources))
             cardInfoContainer.visibility = if (forward) View.GONE else View.VISIBLE
             paymentOptionsContainer.visibility = View.GONE
@@ -390,7 +399,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
     private val optionsToDetails = object : Presenter.Transition(PaymentOption::class.java,
             PaymentDetails::class.java) {
         override fun endTransition(forward: Boolean) {
-            viewmodel.enableMenu.onNext(forward)
+            viewmodel.menuVisibility.onNext(forward)
             viewmodel.toolbarTitle.onNext(resources.getString(if (forward) R.string.new_credit_debit_card else R.string.checkout_enter_payment_details))
             cardInfoContainer.visibility = View.GONE
             paymentOptionsContainer.visibility = if (forward) View.GONE else View.VISIBLE
@@ -404,7 +413,8 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             storedCreditCardList.bind()
             trackAnalytics()
             if (!forward)  {
-                viewmodel.enableMenuDone.onNext(isComplete())
+                viewmodel.visibleMenuWithTitleDone.onNext(Unit)
+                viewmodel.enableToolbarMenuButton.onNext(true)
                 validateAndBind()
             }
         }

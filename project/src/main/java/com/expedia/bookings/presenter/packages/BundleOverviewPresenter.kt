@@ -85,8 +85,9 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
 
         checkoutPresenter.paymentWidget.viewmodel.toolbarTitle.subscribe(toolbar.viewModel.toolbarTitle)
         checkoutPresenter.paymentWidget.viewmodel.editText.subscribe(toolbar.viewModel.editText)
-        checkoutPresenter.paymentWidget.viewmodel.enableMenu.subscribe(toolbar.viewModel.enableMenu)
-        checkoutPresenter.paymentWidget.viewmodel.enableMenuDone.subscribe(toolbar.viewModel.enableMenuDone)
+        checkoutPresenter.paymentWidget.viewmodel.menuVisibility.subscribe(toolbar.viewModel.menuVisibility)
+        checkoutPresenter.paymentWidget.viewmodel.enableMenuItem.subscribe(toolbar.viewModel.enableMenuItem)
+        checkoutPresenter.paymentWidget.viewmodel.visibleMenuWithTitleDone.subscribe(toolbar.viewModel.visibleMenuWithTitleDone)
         toolbar.viewModel.doneClicked.subscribe {
             if (checkoutPresenter.currentState == PackagePaymentWidget::class.java.name) {
                 checkoutPresenter.paymentWidget.viewmodel.doneClicked.onNext(Unit)
