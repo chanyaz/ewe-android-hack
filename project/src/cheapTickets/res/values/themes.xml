@@ -171,7 +171,7 @@
     </style>
 
     <style name="Theme.Phone.WebView">
-        <item name="android:logo" tools:targetApi="11">@drawable/icon_home</item>
+        <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_logo</item>
     </style>
 
     <style name="Theme.AccountLib" parent="Theme.Base.AccountLib">
