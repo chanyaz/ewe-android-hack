@@ -1406,6 +1406,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			if (hasBoundField()) {
 				SeatPreferenceSpinnerAdapter adapter = new SeatPreferenceSpinnerAdapter(mContext);
 				adapter.setFormatString(mContext.getString(R.string.prefers_seat_colored_TEMPLATE));
+				adapter.setSpanColor(R.color.checkout_traveler_birth_color);
 				getField().setAdapter(adapter);
 			}
 		}

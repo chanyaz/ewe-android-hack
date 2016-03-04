@@ -2202,6 +2202,7 @@
     <string name="prefers_seat_TEMPLATE">Prefers %1$s Seat</string>
     <!-- prefers seat template -->
     <string name="prefers_seat_colored_TEMPLATE">Prefers %1$s Seat</string>
+    <string name="prefers_seat_colored_TEMPLATE2">Prefers: %1$s Seat</string>
     <!-- loading traveler info -->
     <string name="loading_traveler_info">Loading traveler information…</string>
     <!-- Passport -->

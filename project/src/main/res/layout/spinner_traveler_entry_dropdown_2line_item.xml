@@ -17,12 +17,12 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
 
-        <TextView
+        <CheckedTextView
             android:id="@android:id/text1"
             style="@style/TravelerEntrySpinner"
             android:textSize="@dimen/traveler_input_text_size" />
 
-        <TextView
+        <CheckedTextView
             android:id="@android:id/text2"
             style="@style/TravelerEntrySpinner"
             android:layout_alignLeft="@android:id/text1"

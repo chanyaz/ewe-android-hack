@@ -42,7 +42,7 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
         orientation = VERTICAL
 
         val seatPreferenceAdapter = SeatPreferenceSpinnerAdapter(context, R.layout.material_spinner_item, R.layout.spinner_traveler_entry_dropdown_item)
-        seatPreferenceAdapter.setFormatString(context.getString(R.string.prefers_seat_colored_TEMPLATE))
+        seatPreferenceAdapter.setFormatString(context.getString(R.string.prefers_seat_colored_TEMPLATE2))
         seatPreferenceSpinner.adapter = seatPreferenceAdapter
         seatPreferenceSpinner.onItemSelectedListener = SeatPreferenceItemSelectedListener()
 
@@ -67,7 +67,9 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
         }
 
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+
             val adapter = assistancePreferenceSpinner.adapter as AssistanceTypeSpinnerAdapter
+            adapter.setSelectedIndex(position);
             viewModel.assistancePreferenceObserver.onNext(adapter.getAssistanceType(position))
         }
     }

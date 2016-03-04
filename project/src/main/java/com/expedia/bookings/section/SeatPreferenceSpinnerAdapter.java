@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.view.View;
@@ -16,7 +17,7 @@ import com.expedia.bookings.data.Traveler.SeatPreference;
 import com.mobiata.android.util.Ui;
 
 public class SeatPreferenceSpinnerAdapter extends ArrayAdapter<CharSequence> {
-	int color;
+	Integer color;
 
 	class SeatPreferenceSpinnerHelper {
 		SeatPreference mSeatPreference;
@@ -60,11 +61,14 @@ public class SeatPreferenceSpinnerAdapter extends ArrayAdapter<CharSequence> {
 		super(context, textViewId);
 		setDropDownViewResource(dropDownResource);
 		fillSeatPreferences(context);
-		color = getContext().getResources().getColor(R.color.checkout_traveler_birth_color);
 	}
 
 	public void setFormatString(String formatString) {
 		mFormatString = formatString;
+	}
+
+	public void setSpanColor(int colorId) {
+		this.color = ContextCompat.getColor(getContext(), colorId);
 	}
 
 	@Override
@@ -83,8 +87,10 @@ public class SeatPreferenceSpinnerAdapter extends ArrayAdapter<CharSequence> {
 		TextView tv = Ui.findView(retView, android.R.id.text1);
 		CharSequence item = getItem(position);
 		Spannable stringToSpan = new SpannableString(String.format(mFormatString, item));
-		com.expedia.bookings.utils.Ui.setTextStyleNormalText(stringToSpan, color, 0,
-			stringToSpan.toString().indexOf(item.toString()));
+		if (color != null) {
+			com.expedia.bookings.utils.Ui.setTextStyleNormalText(stringToSpan, color, 0,
+				stringToSpan.toString().indexOf(item.toString()));
+		}
 		tv.setText(stringToSpan);
 		return retView;
 	}
