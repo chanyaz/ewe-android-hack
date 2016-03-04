@@ -34,6 +34,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.CalendarShortDateRenderer
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.SuggestionV4Utils
@@ -70,13 +71,10 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
     val selectDate: ToggleButton by bindView(R.id.select_date)
     val selectTraveler: ToggleButton by bindView(R.id.select_traveler)
     val recentSearches: RecentSearchesWidget by bindView(R.id.recent_searches)
-    val calendar: CalendarPicker by bindView(R.id.calendar)
-    val monthView: MonthView by bindView(R.id.month)
     val monthSelectionView by lazy {
         findViewById(R.id.previous_month).getParent() as LinearLayout
     }
     val traveler: HotelTravelerPickerView by bindView(R.id.traveler_view)
-    val dayOfWeek: DaysOfWeekView by bindView(R.id.days_of_week)
     var navIcon: ArrowXDrawable
     var searchParamsContainerHeight: Int = 0
 
@@ -397,20 +395,6 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
         }
         toolbar.inflateMenu(R.menu.cars_search_menu)
 
-        monthView.setTextEqualDatesColor(Color.WHITE)
-        monthView.setMaxTextSize(resources.getDimension(R.dimen.car_calendar_month_view_max_text_size))
-
-        dayOfWeek.setDayOfWeekRenderer { dayOfWeek: LocalDate.Property ->
-            if (Build.VERSION.SDK_INT >= 18) {
-                val sdf = SimpleDateFormat("EEEEE", Locale.getDefault())
-                sdf.format(dayOfWeek.localDate.toDate())
-            } else if (Locale.getDefault().language == "en") {
-                dayOfWeek.asShortText.toUpperCase(Locale.getDefault()).substring(0, 1)
-            } else {
-                DaysOfWeekView.DayOfWeekRenderer.DEFAULT.renderDayOfWeek(dayOfWeek)
-            }
-        }
-
         searchContainer.getViewTreeObserver().addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 searchContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -420,10 +404,7 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
 
         selectDate.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
         selectTraveler.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
-        calendar.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
-        dayOfWeek.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
-        monthView.setDaysTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT))
-        monthView.setTodayTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM))
+        styleCalendar()
     }
 
     private fun showSuggestions() {

@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget;
 
-import java.text.SimpleDateFormat;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import org.joda.time.DateTime;
@@ -11,11 +9,9 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.drawable.NinePatchDrawable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -31,7 +27,7 @@ import android.widget.SeekBar;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.presenter.BaseSearchPresenter;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.time.widget.CalendarPicker;
 import com.mobiata.android.time.widget.DaysOfWeekView;
@@ -43,14 +39,10 @@ import butterknife.InjectView;
 public class CarDateTimeWidget extends RelativeLayout implements
 		CalendarPicker.DateSelectionChangedListener,
 		CalendarPicker.YearMonthDisplayedChangedListener,
-		SeekBar.OnSeekBarChangeListener,
-		DaysOfWeekView.DayOfWeekRenderer {
+		SeekBar.OnSeekBarChangeListener {
 
 	ICarDateTimeListener listener;
 	CarSearchParamsBuilder.DateTimeBuilder dateTimeBuilder = new CarSearchParamsBuilder.DateTimeBuilder();
-
-	private LocalDate lastStart;
-	private LocalDate lastEnd;
 
 	//2 hours in millis
 	private static final long PICKUP_DROPOFF_MINIMUM_TIME_DIFFERENCE = TimeUnit.MILLISECONDS.convert(2, TimeUnit.HOURS);
@@ -113,10 +105,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		calendar.setDateChangedListener(this);
 		calendar.setYearMonthDisplayedChangedListener(this);
 
-		daysOfWeekView.setDayOfWeekRenderer(this);
 		daysOfWeekView.setMaxTextSize(getResources().getDimension(R.dimen.car_calendar_month_view_max_text_size));
-		monthView.setMaxTextSize(getResources().getDimension(R.dimen.car_calendar_month_view_max_text_size));
-		monthView.setTextEqualDatesColor(Color.WHITE);
 
 		NinePatchDrawable drawablePopUp = (NinePatchDrawable) getResources().getDrawable(R.drawable.toolbar_bg).mutate();
 		drawablePopUp.setColorFilter(
@@ -130,10 +119,7 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		dropoffTimeSeekBar.setProgress(new DateTime().withHourOfDay(18).withMinuteOfHour(0));
 		dropoffTimeSeekBar.addOnSeekBarChangeListener(this);
 
-		calendar.setMonthHeaderTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
-		daysOfWeekView.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR));
-		monthView.setDaysTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT));
-		monthView.setTodayTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM));
+		BaseSearchPresenter.styleCalendar(getContext(), calendar, monthView, daysOfWeekView);
 	}
 
 	@Override
@@ -147,19 +133,6 @@ public class CarDateTimeWidget extends RelativeLayout implements
 		Events.unregister(this);
 		calendar.setDateChangedListener(null);
 		super.onDetachedFromWindow();
-	}
-
-
-	@Override
-	public String renderDayOfWeek(LocalDate.Property dayOfWeek) {
-		if (Build.VERSION.SDK_INT >= 18) {
-			SimpleDateFormat sdf = new SimpleDateFormat("EEEEE", Locale.getDefault());
-			return sdf.format(dayOfWeek.getLocalDate().toDate());
-		}
-		else if (Locale.getDefault().getLanguage().equals("en")) {
-			return dayOfWeek.getAsShortText().toUpperCase(Locale.getDefault()).substring(0, 1);
-		}
-		return DaysOfWeekView.DayOfWeekRenderer.DEFAULT.renderDayOfWeek(dayOfWeek);
 	}
 
 	/**

@@ -51,7 +51,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
     val ANIMATION_DURATION = 200L
     val screenHeight = Ui.getScreenSize(context).y
     val toolbar: Toolbar by bindView(R.id.search_v2_toolbar)
-    val scrollView : ScrollView by bindView(R.id.scrollView)
+    val scrollView: ScrollView by bindView(R.id.scrollView)
     val searchContainer: ViewGroup by bindView(R.id.search_v2_container)
     val searchCardContainer: ViewGroup by bindView(R.id.search_cards_container)
 
@@ -74,7 +74,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
         calendarWidgetV2.hotelSearchViewModelSubject.onNext(vm)
         travelerWidgetV2.hotelSearchViewModelSubject.onNext(vm)
         vm.searchButtonObservable.subscribe { enable ->
-            searchButton.setTextColor(  if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
+            searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
         }
 
         vm.locationTextObservable.subscribe {
@@ -86,7 +86,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
             searchViewModel.searchParamsObservable.onNext(it)
             vm.suggestionObserver.onNext(it.suggestion)
             travelerWidgetV2.traveler.viewmodel.travelerParamsObservable.onNext(HotelTravelerParams(it.adults, it.children))
-            for (index in 0..it.children.size -1) {
+            for (index in 0..it.children.size - 1) {
                 val spinner = travelerWidgetV2.traveler.childSpinners[index]
                 spinner.setSelection(it.children[index])
             }
@@ -95,7 +95,6 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
         }
 
         searchButton.subscribeOnClick(vm.searchObserver)
-
     }
 
     override fun onFinishInflate() {
@@ -104,7 +103,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
         addDefaultTransition(defaultTransition)
         showDefault()
         com.mobiata.android.util.Ui.hideKeyboard(this)
-        scrollView.scrollTo(0 ,scrollView.top)
+        scrollView.scrollTo(0, scrollView.top)
         searchButton.setTextColor(ContextCompat.getColor(context, R.color.white_disabled))
    }
 
@@ -270,7 +269,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
             // RecyclerView vertical transition
             suggestionRecyclerView.translationY = recyclerY.start;
 
-            if(forward) {
+            if (forward) {
                 applyAdapter()
             }
 

@@ -17,7 +17,9 @@
         that attr should be removed from AppTheme.Base.Hotels and
         must be added in all Whitelabel.HotelTheme.Base for all whitelabels
     -->
+
     <style name="Whitelabel.HotelTheme.Base" parent="AppTheme.Base.Hotels">
+
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:colorPrimaryDark">#0b514b</item>

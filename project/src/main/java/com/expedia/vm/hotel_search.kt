@@ -40,6 +40,7 @@ class HotelSearchViewModel(val context: Context) {
     val userBucketedObservable = BehaviorSubject.create<Boolean>()
     val externalSearchParamsObservable = BehaviorSubject.create<Boolean>()
     val dateTextObservable = PublishSubject.create<CharSequence>()
+    val dateInstructionObservable = BehaviorSubject.create<CharSequence>()
     val calendarTooltipTextObservable = PublishSubject.create<Pair<String, String>>()
     val locationTextObservable = PublishSubject.create<String>()
     val searchButtonObservable = PublishSubject.create<Boolean>()
@@ -70,6 +71,7 @@ class HotelSearchViewModel(val context: Context) {
         }
 
         dateTextObservable.onNext(HotelSearchViewModel.computeDateText(context, start, end))
+        dateInstructionObservable.onNext(HotelSearchViewModel.computeDateInstructionText(context, start, end))
 
         calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
 
@@ -149,7 +151,25 @@ class HotelSearchViewModel(val context: Context) {
     }
 
     companion object {
-        fun computeDateText(context : Context, start: LocalDate?, end: LocalDate?): CharSequence {
+        fun computeDateInstructionText(context: Context, start: LocalDate?, end: LocalDate?): CharSequence {
+            if (start == null && end == null) {
+                return context.getString(R.string.select_checkin_date);
+            }
+
+            val dateRangeText = computeDateRangeText(context, start, end)
+            val sb = SpannableBuilder()
+            sb.append(dateRangeText)
+
+            if (start != null && end != null) {
+                val nightCount = JodaUtils.daysBetween(start, end)
+                val nightsString = context.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
+                sb.append(" ");
+                sb.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
+            }
+            return sb.build()
+        }
+
+        fun computeDateText(context: Context, start: LocalDate?, end: LocalDate?): CharSequence {
             val dateRangeText = computeDateRangeText(context, start, end)
             val sb = SpannableBuilder()
             sb.append(dateRangeText)
@@ -176,7 +196,7 @@ class HotelSearchViewModel(val context: Context) {
     }
 }
 
-public data class HotelTravelerParams(val numberOfAdults: Int, val children: List<Int>)
+data class HotelTravelerParams(val numberOfAdults: Int, val children: List<Int>)
 
 class HotelTravelerPickerViewModel(val context: Context, val showSeatingPreference: Boolean) {
     private val MAX_GUESTS = 6

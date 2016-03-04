@@ -163,7 +163,7 @@ class HotelActivity : AbstractAppCompatActivity() {
     }
 
     // Showing different presenter based on deeplink
-    public enum class Screen {
+    enum class Screen {
         SEARCH,
         DETAILS,
         RESULTS

@@ -10,10 +10,7 @@
     <com.mobiata.android.time.widget.CalendarPicker
         android:id="@+id/calendar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_alignBottom="@+id/slider_shadow"
-        android:layout_weight="1"
-        android:paddingBottom="8dp"
+        android:layout_height="350dp"
         app:calendarBaseColor="@color/cars_valid_days_calendar"
         app:calendarDaySelectionFillColor="@android:color/white"
         app:calendarDaysOfWeekColor="@color/hotels_primary_color"
@@ -26,6 +23,7 @@
         app:calendarSecondaryColor="@color/cars_valid_days_calendar"
         app:calendarTodayColor="@color/hotels_primary_color"
         app:calendarToolTipBackground="@drawable/toolbar_bg"
+        app:calendarHeaderShowInstructions="true"
         app:calendarToolTipEnabled="true"
         app:calendarToolTipTailDrawable="@drawable/toolbar_arrow"
         app:calendarWeekSelectionColor="@color/hotels_primary_color" />

@@ -3,6 +3,7 @@
 
     <!-- Hotels -->
     <!-- Hotels Calendar Strings -->
+    <string name="select_checkin_date">Select check in date</string>
     <!-- Hotels calendar tooltip bottom line after a single date is selected -->
     <string name="hotel_calendar_tooltip_bottom">Next: Select check out date</string>
     <!-- When user hasn't picked check out date, we show something like: "Jan 21 - Select check out date" -->

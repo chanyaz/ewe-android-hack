@@ -204,7 +204,6 @@
     <dimen name="flight_details_baggage_fee_text_view_text_size">12dp</dimen>
 
     <!-- LX Dimens -->
-    <dimen name="lx_calendar_month_view_max_text_size">12dp</dimen>
     <dimen name="gallery_height">240dp</dimen>
     <dimen name="lx_search_list_image_container_height">144dp</dimen>
     <dimen name="lx_search_details_container_height">36dp</dimen>
