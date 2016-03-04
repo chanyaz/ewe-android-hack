@@ -2,6 +2,9 @@ package com.expedia.bookings.test.phone.profile;
 
 import java.util.List;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -10,14 +13,18 @@ import org.junit.runner.RunWith;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.test.espresso.intent.Intents;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.expedia.account.Config;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutWebViewActivity;
+import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.AccountSettingsActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -32,12 +39,15 @@ import com.squareup.phrase.Phrase;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.intent.Intents.intended;
 import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.anyIntent;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertIntentFiredToStartActivityWithExtra;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertIntentFiredToViewUri;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
+import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class ProfileScreenTest {
@@ -116,6 +126,18 @@ public class ProfileScreenTest {
 	}
 
 	@Test
+	public void signInButtons() {
+		ProfileScreen.clickSignInButton();
+		assertIntentFiredToStartSignInWithInitialState(Config.InitialState.SignIn);
+
+		ProfileScreen.clickFacebookSignInButton();
+		assertIntentFiredToStartSignInWithInitialState(Config.InitialState.FacebookSignIn);
+
+		ProfileScreen.clickCreateAccountButton();
+		assertIntentFiredToStartSignInWithInitialState(Config.InitialState.CreateAccount);
+	}
+
+	@Test
 	public void changeCountry() {
 		Context context = intentRule.getActivity();
 
@@ -167,5 +189,28 @@ public class ProfileScreenTest {
 
 	private static void assertIntentFiredToStartWebViewWithRawHtml(String html) {
 		assertIntentFiredToStartActivityWithExtra(WebViewActivity.class, "ARG_HTML_DATA", html);
+	}
+
+	private static void assertIntentFiredToStartSignInWithInitialState(Config.InitialState initialState) {
+		intended(allOf(
+				hasComponent(AccountLibActivity.class.getName()),
+				hasInitialState(initialState)
+		));
+
+	}
+
+	private static Matcher<Intent> hasInitialState(final Config.InitialState initialState) {
+		return new TypeSafeMatcher<Intent>() {
+			@Override
+			protected boolean matchesSafely(Intent intent) {
+				Bundle bundle = intent.getBundleExtra("ARG_BUNDLE");
+				return bundle != null && initialState.name().equals(bundle.getString("ARG_INITIAL_STATE"));
+			}
+
+			@Override
+			public void describeTo(Description description) {
+				description.appendText("has initialState: " + initialState.name());
+			}
+		};
 	}
 }

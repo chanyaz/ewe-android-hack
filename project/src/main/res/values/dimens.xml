@@ -393,5 +393,5 @@
     <dimen name="account_toolbar_subtitle_text_size">12sp</dimen>
     <dimen name="account_loyalty_label_text_size">13sp</dimen>
     <dimen name="account_loyalty_value_text_size">20sp</dimen>
-    <dimen name="about_section_margin">4dp</dimen>
+    <dimen name="about_section_margin">6dp</dimen>
 </resources>
