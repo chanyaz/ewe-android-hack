@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.Orbitz.Tablet" parent="Theme.Orbitz">
-        <item name="skin_action_bar_logo_tablet">@drawable/ic_orb_logo</item>
+        <item name="skin_action_bar_logo_tablet">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_actionbarTabletTitleColor">@color/actionbarTabletTitleColor</item>
         <item name="skin_collection_overlay_static_color">@color/collection_overlay_color</item>
         <item name="skin_tablet_book_button_text_color">@color/tablet_book_button_text_color_orbitz</item>
         <item name="skin_tablet_trip_bucket_arrow">@drawable/ic_book_bucket_arrow_orb</item>
         <item name="skin_collection_placeholder">@drawable/bg_itin_placeholder_orb</item>
-        <item name="skin_tablet_hotel_room_rate_select_button">@drawable/tablet_hotel_room_select_button_orbitz</item>
-        <item name="skin_tablet_addToTrip_button">@drawable/tablet_hotel_room_add_button_orbitz</item>
+        <item name="skin_tablet_hotel_room_rate_select_button">@drawable/tablet_hotel_room_select_button</item>
+        <item name="skin_tablet_addToTrip_button">@drawable/tablet_hotel_room_add_button</item>
 
         <item name="skin_hotelPriceStandardColor">#ffffff</item>
         <item name="skin_hotelPriceSaleColor">#ffffff</item>
@@ -21,16 +21,16 @@
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
 
         <item name="skin_tablet_bucket_item_counter">@drawable/bg_tablet_portrait_trip_bucket_item_counter_orb</item>
-        <item name="skin_tablet_bucket_text_color">@color/tablet_trip_bucket_text_color_orbitz</item>
+        <item name="skin_tablet_bucket_text_color">@color/tablet_trip_bucket_text_color</item>
 
         <!-- Flight Map -->
         <item name="skin_tablet_flight_map_arrival_pin">@drawable/tablet_flight_map_arrival_orb</item>
 
-        <item name="skin_tablet_search_result_error_button_drawable">@drawable/bg_tablet_search_result_error_action_button_orbtiz</item>
+        <item name="skin_tablet_search_result_error_button_drawable">@drawable/bg_tablet_search_result_error_action_button</item>
         <item name="skin_tablet_search_result_error_button_text_color">@color/tablet_search_error_text_color_orbitz</item>
-        <item name="skin_tablet_dates_popup_done_color">@color/tablet_results_search_blue_orbitz</item>
+        <item name="skin_tablet_dates_popup_done_color">@color/lob_btn_color</item>
         <item name="android:homeAsUpIndicator" >@drawable/ic_action_bar_back_arrow_white_orb</item>
-        <item name="skin_skin_tablet_dates_popup_done_drawable">@drawable/ic_tablet_search_results_popup_done_check_orb</item>
+        <item name="skin_skin_tablet_dates_popup_done_drawable">@drawable/ic_tablet_search_results_popup_done_check</item>
         <item name="skin_tablet_hotel_details_background_drawable">@drawable/ic_hotel_details_background_layer_list_orbitz</item>
         <item name="skin_tabletHotelDetailsStarRatingStyle">@style/RatingBar.Star.HotelDetails.Orbitz</item>
         <item name="skin_tabletHotelDetailsCircleRatingStyle">@style/RatingBar.Star.HotelDetails.Orbitz</item>
@@ -46,10 +46,12 @@
 
         <item name="skin_tabletCalenderResultsSearchBlue">@color/tablet_results_search_blue</item>
         <item name="skin_sectionFlightEditTravelerLinkColor">@color/section_flight_edit_traveler_link_color</item>
-
+        <item name="skin_tablet_price_expanded_bucket_text_color">@color/lob_btn_color</item>
         <item name="skin_roomRateRefundableCancellationTextColor">@color/room_rate_refundable_cancellation_text_color</item>
         <item name="skin_icRenovationTabletDrawable">@drawable/ic_renovation_tablet</item>
         <item name="skin_icFeesTabletDrawable">@drawable/ic_fees_tablet</item>
+        <item name="android:actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow.White</item>
+        <item name="actionOverflowButtonStyle">@style/Widget.ActionBar.ActionButton.Overflow.White</item>
     </style>
 
     <style name="V2.Theme" parent="Theme.Orbitz.Tablet" />

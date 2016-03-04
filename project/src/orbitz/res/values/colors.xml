@@ -22,13 +22,7 @@
     <color name="coupon_success_message_color_orbitz">#7baed4</color>
     <color name="collection_overlay_color">#56a1d5</color>
     <color name="tablet_book_button_text_color_orbitz">#57B3FF</color>
-    <color name="hotel_room_rate_select_room_button_orbitz">#53A0D3</color>
-    <color name="hotel_room_rate_select_room_button_pressed_orbitz">#004E93</color>
-    <color name="hotel_room_rate_add_room_button_orbitz">#608405</color>
-    <color name="hotel_room_rate_add_room_button_pressed_orbitz">#2F5806</color>
-    <color name="tablet_trip_bucket_text_color_orbitz">#FFFFFF</color>
-    <color name="tablet_search_result_error_button_orbitz">#004E93</color>
-    <color name="tablet_search_result_error_button_pressed_orbitz">#D1EAFF</color>
+    <color name="tablet_trip_bucket_text_color">#FFFFFF</color>
     <color name="tablet_results_search_blue_orbitz">#608405</color>
     <color name="launch_pin_detail_button_text_orbitz">#D1EAFF</color>
     <color name="calendar_cell_selected_date_text">#ffffff</color>
