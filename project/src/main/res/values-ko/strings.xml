@@ -26,6 +26,16 @@
     <!-- Hotels rating hotel condition string -->
     <string name="hotel_rating_hotel_condition">호텔 상태</string>
 
+    <!-- Hotels v2 -->
+    <!-- slide to reserve -->
+    <string name="hotelsv2_slide_reserve">밀어서 예약하기</string>
+    <!-- slide to purchase -->
+    <string name="hotelsv2_slide_purchase">밀어서 구매하기</string>
+    <!-- Change Dates in case of Sold Out -->
+    <string name="change_dates">날짜 변경</string>
+    <!-- checkout view toolbar title -->
+    <string name="secure_checkout">안전한 보안 결제</string>
+
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
@@ -203,9 +213,9 @@
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">%1$s까지의 길 안내</string>
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_credit_debit_label">신용카드/직불카드</string>
+    <string name="checkout_payment_option_credit_debit_label">신용카드</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
-    <string name="shortened_checkout_payment_option_credit_debit_label">새 직불/신용 카드 입력</string>
+    <string name="shortened_checkout_payment_option_credit_debit_label">새 카드 입력</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">숙박객 정보</string>
     <!-- Text for Android pay label -->
@@ -230,13 +240,6 @@
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">{cardtype} …{cardno} 저장됨</string>
-
-    <!-- Hotels V2 slide to reserve -->
-    <string name="hotelsv2_slide_reserve">밀어서 예약하기</string>
-    <!-- Hotels V2 slide to purchase -->
-    <string name="hotelsv2_slide_purchase">밀어서 구매하기</string>
-    <!-- Hotels V2 Change Dates in case of Sold Out -->
-    <string name="change_dates">날짜 변경</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1653,6 +1656,8 @@
     <string name="edit_search">검색 수정</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">날짜 선택</string>
+    <!-- Action mode asking users to select location -->
+    <string name="search_destination">여행지 검색</string>
     <!-- Number of adults template -->
     <plurals name="number_of_adults_TEMPLATE">
         <item quantity="zero">어른 %1$d명</item>
@@ -1700,7 +1705,7 @@
     <string name="calendar_instructions_hotels_no_dates_selected">체크인 날짜 선택</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
-    <string name="guests_with_rooms_TEMPLATE">{guests}, 객실 1개</string>
+    <string name="room_with_guests_TEMPLATE">객실 1개, {guests}명</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -1774,6 +1779,8 @@
     <string name="baggage_fees">수하물 요금</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">결제 처리 요금</string>
+    <!-- Label indicating number of tickets left for given flight -->
+    <string name="number_tickets_left">%d개 좌석 남음, 요금:</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -1790,7 +1797,7 @@
     <string name="select_payment_callout">세부 정보 입력</string>
     <!-- Add new card -->
     <string name="add_new_card">새 카드 추가</string>
-    <string name="new_credit_debit_card">새 직불/신용 카드</string>
+    <string name="new_credit_debit_card">새 카드</string>
     <!-- Overview button -->
     <string name="overview_btn">요약</string>
     <!-- Stored Payment label -->
@@ -2054,6 +2061,8 @@
     <string name="cardholder_name_hint">카드 소유자 이름</string>
     <!-- email hint -->
     <string name="email_address_hint">이메일 주소</string>
+    <!-- email hint for packages billing info screen, used to send the confirmation email -->
+    <string name="email_address_hint_confirmation">이메일 주소(확인용)</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">전화번호</string>
     <!-- phone number -->
@@ -2088,7 +2097,7 @@
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">신용카드 번호</string>
     <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
-    <string name="credit_debit_card_hint">직불카드/신용카드 번호</string>
+    <string name="credit_debit_card_hint">새 카드 입력</string>
     <!-- Expiration date label -->
     <string name="expiration_date">유효기간</string>
     <!-- Set expiration date button -->
@@ -2127,6 +2136,7 @@
     <string name="save_traveler_message_TEMPLATE">나중에 간편하게 결제하시도록 {name} 님의 정보를 고객님의 {brand} 계정에 저장할까요?</string>
     <!-- no thanks -->
     <string name="no_thanks">나중에 하기</string>
+    <string name="advanced">고급 옵션</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -2145,6 +2155,8 @@
     <string name="first_name">이름(영문)</string>
     <!-- Middle name label -->
     <string name="middle_name">중간 이름(영문)</string>
+    <!--A hint for the user to enter their name's initial letter-->
+    <string name="initial_name">이니셜</string>
     <!-- Last name label -->
     <string name="last_name">성(영문)</string>
     <!-- date of birth label -->
@@ -2998,6 +3010,8 @@
     <string name="triple_point_messaging">Expedia+ 포인트를 3배로 적립하세요!</string>
     <!-- Label for messaging on sign in Variate 3 -->
     <string name="trip_alert_messaging">중요한 여행 관련 알림을 받으세요!</string>
+    <!-- Label for menu item to open account settings screen -->
+    <string name="account_settings_menu_label">계정</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">로그인</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3008,10 +3022,16 @@
     <string name="sign_out_confirmation_TEMPLATE">{brand} 계정에서 로그아웃하시겠어요?</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia +blue</string>
+    <!-- Label for Expedia +blue rewards tier without brand name -->
+    <string name="plus_blue">+blue</string>
     <!-- Label for Expedia +silver rewards program name -->
     <string name="Expedia_plus_silver">Expedia +silver</string>
+    <!-- Label for Expedia +silver rewards tier without brand name-->
+    <string name="plus_silver">+silver</string>
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
+    <!-- Label for Expedia +gold rewards tier without brand name -->
+    <string name="plus_gold">+gold</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">{brand} 계정 가져오는 중</string>
     <!-- Label for coupon code area of booking form -->
@@ -3106,6 +3126,14 @@
     <string name="website_TEMPLATE">{brand} 웹사이트</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">앱 기술 지원</string>
+    <!-- Section label for app settings functionality -->
+    <string name="about_section_app_settings">앱 설정</string>
+    <!-- Section label for user support functionality -->
+    <string name="about_section_support">고객 지원</string>
+    <!-- Section label for communication options that are not related to user support -->
+    <string name="about_section_communicate">커뮤니케이션</string>
+    <!-- Label for button that takes the user to screen to rate the app on the app store -->
+    <string name="rate_our_app">저희 앱을 평가해 주세요!</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">이용약관</string>
     <!-- Label for link to terms of use -->
@@ -3132,6 +3160,10 @@
     <string name="open_source_software_licenses">오픈 소스 소프트웨어 라이센스</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">이 앱에는 다음의 오픈 소스 라이브러리가 사용되었습니다:</string>
+    <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia+) -->
+    <string name="available_loyalty_points">사용 가능한 포인트</string>
+    <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia+); parameter is the number of points (e.g. "7,253 pending") -->
+    <string name="loyalty_points_pending">%1$s 적립 대기 중</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -3847,8 +3879,6 @@
     <string name="package_toolbar_title">호텔+항공</string>
     <!-- Label for per person -->
     <string name="per_person">1인당</string>
-    <!-- Label for package search toolbar -->
-    <string name="bundle_overview_title">패키지 정보</string>
     <!-- Label for package bundle price on overview-->
     <string name="bundle_total_text">패키지 총액</string>
     <!-- Label for package bundle price on search-->
@@ -3865,6 +3895,8 @@
     <string name="package_price_include_flights">요금에 호텔+항공편이 포함됩니다.</string>
     <!-- Package hotel map cell: Price Includes Taxes and Fees -->
     <string name="package_price_includes_taxes_fees">요금에 1인당 항공편+호텔, 세금 및 수수료가 포함됩니다.</string>
+    <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
+    <string name="flight_time_traveler_TEMPLATE">%1$s, %2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
@@ -3905,7 +3937,11 @@
     <!-- Label for flights on checkout overview of Packages -->
     <string name="flight_checkout_overview_TEMPLATE">항공편 - {origin} ~ {destination}, 왕복</string>
     <!-- Label for hotel on checkout overview of Packages -->
-    <string name="hotel_checkout_overview_TEMPLATE">{city} 호텔 - 객실 {rooms}개, {nights}박</string>
+    <plurals name="hotel_checkout_overview_TEMPLATE">
+        <item quantity="one">{city} 호텔 - 객실 1개, {number}박</item>
+        <item quantity="other">{city} 호텔 - 객실 1개, {number}박</item>
+    </plurals>
+
     <!-- Package Trip Overview -->
     <string name="trip_overview">여행 정보</string>
     <!-- Slide to book -->
@@ -3920,18 +3956,31 @@
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">도착 시간대</string>
 
+    <!-- Package Change hotel description -->
+    <string name="package_change_hotel">호텔 변경</string>
+    <!-- Package Change hotel room description -->
+    <string name="package_change_hotel_room">호텔 객실 변경</string>
+    <!-- Package Change flight description -->
+    <string name="package_change_flight">항공편 변경</string>
+
     <!-- Pay with points widget -->
-    <string name="paying_with_points">포인트로 결제 중</string>
-    <string name="pay_with_point_total_available_TEMPLATE">{money}({points}포인트) 이용 가능</string>
+    <string name="paying_with_expedia_points">Expedia+ 포인트로 결제 중</string>
+    <string name="pay_with_expedia_points">Expedia+ 포인트로 결제</string>
+    <string name="pay_with_point_total_available_TEMPLATE">{money} 사용 가능(Expedia+ {points}포인트)</string>
     <string name="user_enters_more_than_available_points_TEMPLATE">포인트 금액이 이용 가능한 포인트를 초과합니다.\n{money} 이하로 입력해 주세요.</string>
     <string name="user_enters_more_than_trip">포인트 금액은 오늘 결제할 금액을 초과할 수 없습니다.</string>
     <string name="pwp_calculating_points">포인트 계산 중…</string>
-    <string name="pwp_points_applied_TEMPLATE">{points}포인트 적용됨</string>
+    <plurals name="pwp_points_applied_TEMPLATE">
+        <item quantity="one">{points}포인트 적용됨</item>
+        <item quantity="other">{points}포인트 적용됨</item>
+    </plurals>
+
     <string name="pwp_remaining_balance_due_on_card_TEMPLATE">남은 결제 금액: {money}</string>
     <string name="pwp_total_due_today_TEMPLATE">오늘 결제할 총액: {money}</string>
 
     <!-- Package Flight Overview -->
     <string name="package_flight_overview_urgency_message_TEMPLATE">{seats}개 좌석 남음</string>
+    <string name="package_flight_overview_baggage_fees">수하물 요금 정보</string>
     <string name="package_flight_overview_select_flight">이 항공편 선택</string>
     <string name="package_flight_overview_bundle_total_label">패키지 총액</string>
     <string name="package_flight_overview_per_person_TEMPLATE">1인당 {money}</string>
@@ -3948,7 +3997,11 @@
     <string name="pwp_unknown_error">알 수 없는 오류가 발생했습니다. 다시 시도해 주세요.</string>
 
     <!-- New Hotel Search screen -->
-    <string name="select_traveler_title">여행객 선택</string>
     <string name="enter_destination_hint">목적지 입력</string>
 
+    <!-- Package breakdown dialog -->
+    <string name="package_breakdown_hotel_flight_summary">호텔+항공</string>
+    <string name="package_breakdown_taxes_fees">세금 및 수수료</string>
+    <string name="package_breakdown_taxes_fees_included_TEMPLATE">세금 및 수수료 포함({taxes})</string>
+    <string name="package_breakdown_total_savings">총 할인</string>
 </resources>

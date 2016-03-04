@@ -323,7 +323,7 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.flight_segment_breakdown,
 		R.layout.flight_segment_layover_row,
 		R.layout.flight_segment_row,
-		R.string.guests_with_rooms_TEMPLATE,
+		R.string.room_with_guests_TEMPLATE,
 		R.string.enter_payment_details,
 		R.string.checkout_enter_payment_details,
 		R.string.checkout_hotelsv2_enter_payment_details_line2,

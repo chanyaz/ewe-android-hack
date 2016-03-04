@@ -26,6 +26,16 @@
     <!-- Hotels rating hotel condition string -->
     <string name="hotel_rating_hotel_condition">สภาพของโรงแรม</string>
 
+    <!-- Hotels v2 -->
+    <!-- slide to reserve -->
+    <string name="hotelsv2_slide_reserve">เลื่อนเพื่อจอง</string>
+    <!-- slide to purchase -->
+    <string name="hotelsv2_slide_purchase">เลื่อนเพื่อซื้อ</string>
+    <!-- Change Dates in case of Sold Out -->
+    <string name="change_dates">เปลี่ยนวันที่</string>
+    <!-- checkout view toolbar title -->
+    <string name="secure_checkout">การชำระเงินอย่างปลอดภัย</string>
+
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
@@ -230,13 +240,6 @@
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">บันทึก {cardtype} …{cardno}</string>
-
-    <!-- Hotels V2 slide to reserve -->
-    <string name="hotelsv2_slide_reserve">เลื่อนเพื่อจอง</string>
-    <!-- Hotels V2 slide to purchase -->
-    <string name="hotelsv2_slide_purchase">เลื่อนเพื่อซื้อ</string>
-    <!-- Hotels V2 Change Dates in case of Sold Out -->
-    <string name="change_dates">เปลี่ยนวันที่</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1655,6 +1658,8 @@
     <string name="edit_search">แก้ไขการค้นหา</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">เลือกวันที่</string>
+    <!-- Action mode asking users to select location -->
+    <string name="search_destination">ค้นหาจุดหมายปลายทาง</string>
     <!-- Number of adults template -->
     <plurals name="number_of_adults_TEMPLATE">
         <item quantity="zero">ผู้ใหญ่ %1$d คน</item>
@@ -1702,7 +1707,7 @@
     <string name="calendar_instructions_hotels_no_dates_selected">เลือกวันเช็คอิน</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
-    <string name="guests_with_rooms_TEMPLATE">{guests}, 1 ห้อง</string>
+    <string name="room_with_guests_TEMPLATE">1 ห้อง, {guests}</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -1776,6 +1781,8 @@
     <string name="baggage_fees">ค่าสัมภาระ</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">ค่าธรรมเนียมการชำระเงิน</string>
+    <!-- Label indicating number of tickets left for given flight -->
+    <string name="number_tickets_left">เหลือ %d ที่นั่งในราคา</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -2056,6 +2063,8 @@
     <string name="cardholder_name_hint">ชื่อเจ้าของบัตร</string>
     <!-- email hint -->
     <string name="email_address_hint">อีเมล</string>
+    <!-- email hint for packages billing info screen, used to send the confirmation email -->
+    <string name="email_address_hint_confirmation">อีเมล (สำหรับยืนยัน)</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">หมายเลขโทรศัพท์</string>
     <!-- phone number -->
@@ -2090,7 +2099,7 @@
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">หมายเลขบัตรเครดิต</string>
     <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
-    <string name="credit_debit_card_hint">หมายเลขบัตรเดบิต/เครดิต</string>
+    <string name="credit_debit_card_hint">ป้อนบัตรเครดิต/เดบิตใบใหม่</string>
     <!-- Expiration date label -->
     <string name="expiration_date">วันหมดอายุ</string>
     <!-- Set expiration date button -->
@@ -2129,6 +2138,7 @@
     <string name="save_traveler_message_TEMPLATE">บันทึกข้อมูลของ {name} ไว้ในบัญชี {brand} ของคุณเพื่อให้จองได้รวดเร็วขึ้นในครั้งถัดไป?</string>
     <!-- no thanks -->
     <string name="no_thanks">ไม่ ขอบคุณ</string>
+    <string name="advanced">ตัวเลือกขั้นสูง</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -2147,6 +2157,8 @@
     <string name="first_name">ชื่อ</string>
     <!-- Middle name label -->
     <string name="middle_name">ชื่อกลาง</string>
+    <!--A hint for the user to enter their name's initial letter-->
+    <string name="initial_name">อักษรตัวแรก</string>
     <!-- Last name label -->
     <string name="last_name">นามสกุล</string>
     <!-- date of birth label -->
@@ -3000,6 +3012,8 @@
     <string name="triple_point_messaging">รับคะแนน Expedia+ สามเท่า</string>
     <!-- Label for messaging on sign in Variate 3 -->
     <string name="trip_alert_messaging">รับการแจ้งเตือนสำคัญเกี่ยวกับทริปของคุณ</string>
+    <!-- Label for menu item to open account settings screen -->
+    <string name="account_settings_menu_label">บัญชี</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">เข้าสู่ระบบ</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3010,10 +3024,16 @@
     <string name="sign_out_confirmation_TEMPLATE">คุณแน่ใจว่าต้องการออกจากบัญชี {brand}?</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia +blue</string>
+    <!-- Label for Expedia +blue rewards tier without brand name -->
+    <string name="plus_blue">+blue</string>
     <!-- Label for Expedia +silver rewards program name -->
     <string name="Expedia_plus_silver">Expedia +silver</string>
+    <!-- Label for Expedia +silver rewards tier without brand name-->
+    <string name="plus_silver">+silver</string>
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
+    <!-- Label for Expedia +gold rewards tier without brand name -->
+    <string name="plus_gold">+gold</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">กำลังโหลดบัญชี {brand}</string>
     <!-- Label for coupon code area of booking form -->
@@ -3108,6 +3128,14 @@
     <string name="website_TEMPLATE">เว็บไซต์ {brand}</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">ฝ่ายสนับสนุนแอพ</string>
+    <!-- Section label for app settings functionality -->
+    <string name="about_section_app_settings">การตั้งค่าแอพ</string>
+    <!-- Section label for user support functionality -->
+    <string name="about_section_support">ความช่วยเหลือ</string>
+    <!-- Section label for communication options that are not related to user support -->
+    <string name="about_section_communicate">ติดต่อสื่อสาร</string>
+    <!-- Label for button that takes the user to screen to rate the app on the app store -->
+    <string name="rate_our_app">ให้คะแนนแอพของเรา!</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">ข้อตกลงและเงื่อนไข</string>
     <!-- Label for link to terms of use -->
@@ -3134,6 +3162,10 @@
     <string name="open_source_software_licenses">ใบอนุญาตซอฟต์แวร์โอเพนซอร์ซ</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">แอพนี้ใช้งานไลบรารีโอเพนซอร์สดังนี้:</string>
+    <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia+) -->
+    <string name="available_loyalty_points">คะแนนที่พร้อมใช้งาน</string>
+    <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia+); parameter is the number of points (e.g. "7,253 pending") -->
+    <string name="loyalty_points_pending">%1$s คะแนน รอดำเนินการ</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -3849,8 +3881,6 @@
     <string name="package_toolbar_title">โรงแรม + เที่ยวบิน</string>
     <!-- Label for per person -->
     <string name="per_person">ต่อคน</string>
-    <!-- Label for package search toolbar -->
-    <string name="bundle_overview_title">ภาพรวมแพ็คเกจ</string>
     <!-- Label for package bundle price on overview-->
     <string name="bundle_total_text">ยอดรวมแพ็คเกจ</string>
     <!-- Label for package bundle price on search-->
@@ -3867,6 +3897,8 @@
     <string name="package_price_include_flights">ราคารวมโรงแรม + เที่ยวบิน</string>
     <!-- Package hotel map cell: Price Includes Taxes and Fees -->
     <string name="package_price_includes_taxes_fees">ราคารวมภาษี, ค่าธรรมเนียม, เที่ยวบิน + โรงแรม ต่อคน</string>
+    <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
+    <string name="flight_time_traveler_TEMPLATE">%1$s, %2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s เวลา %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
@@ -3907,7 +3939,11 @@
     <!-- Label for flights on checkout overview of Packages -->
     <string name="flight_checkout_overview_TEMPLATE">เที่ยวบิน - {origin} ไปยัง {destination}, ไป-กลับ</string>
     <!-- Label for hotel on checkout overview of Packages -->
-    <string name="hotel_checkout_overview_TEMPLATE">โรงแรมใน{city} - {rooms} ห้อง, {nights} คืน</string>
+    <plurals name="hotel_checkout_overview_TEMPLATE">
+        <item quantity="one">โรงแรมใน{city} - 1 ห้อง, {number} คืน</item>
+        <item quantity="other">โรงแรมใน{city} - 1 ห้อง, {number} คืน</item>
+    </plurals>
+
     <!-- Package Trip Overview -->
     <string name="trip_overview">ข้อมูลสรุปการเดินทาง</string>
     <!-- Slide to book -->
@@ -3922,18 +3958,31 @@
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">ช่วงเวลาที่จะเดินทางมาถึง</string>
 
+    <!-- Package Change hotel description -->
+    <string name="package_change_hotel">เปลี่ยนโรงแรม</string>
+    <!-- Package Change hotel room description -->
+    <string name="package_change_hotel_room">เปลี่ยนห้องพัก</string>
+    <!-- Package Change flight description -->
+    <string name="package_change_flight">เปลี่ยนเที่ยวบิน</string>
+
     <!-- Pay with points widget -->
-    <string name="paying_with_points">จ่ายด้วยคะแนน</string>
-    <string name="pay_with_point_total_available_TEMPLATE">มีอยู่ {money} ({points} คะแนน)</string>
+    <string name="paying_with_expedia_points">จ่ายด้วยคะแนน Expedia+</string>
+    <string name="pay_with_expedia_points">จ่ายด้วยคะแนน Expedia+</string>
+    <string name="pay_with_point_total_available_TEMPLATE">มีอยู่ {money} (คะแนน Expedia+ {points} คะแนน)</string>
     <string name="user_enters_more_than_available_points_TEMPLATE">มูลค่าคะแนนเกินยอดคะแนนที่คุณมีอยู่\nโปรดใส่ {money} หรือน้อยกว่านั้น</string>
     <string name="user_enters_more_than_trip">มูลค่าคะแนนไม่สามารถเกินยอดที่ต้องชำระวันนี้ได้</string>
     <string name="pwp_calculating_points">กำลังคำนวณคะแนน…</string>
-    <string name="pwp_points_applied_TEMPLATE">ใช้ไป {points} คะแนน</string>
+    <plurals name="pwp_points_applied_TEMPLATE">
+        <item quantity="one">ใช้ไป {points} คะแนน</item>
+        <item quantity="other">ใช้ไป {points} คะแนน</item>
+    </plurals>
+
     <string name="pwp_remaining_balance_due_on_card_TEMPLATE">ยอดเงินคงเหลือที่ต้องชำระ: {money}</string>
     <string name="pwp_total_due_today_TEMPLATE">ยอดทั้งหมดที่ต้องชำระวันนี้: {money}</string>
 
     <!-- Package Flight Overview -->
     <string name="package_flight_overview_urgency_message_TEMPLATE">เหลือ {seats} ที่นั่ง</string>
+    <string name="package_flight_overview_baggage_fees">ข้อมูลค่าธรรมเนียมสัมภาระ</string>
     <string name="package_flight_overview_select_flight">เลือกเที่ยวบินนี้</string>
     <string name="package_flight_overview_bundle_total_label">ยอดรวมแพ็คเกจ</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/คน</string>
@@ -3950,7 +3999,11 @@
     <string name="pwp_unknown_error">เกิดข้อผิดพลาด โปรดลองอีกครั้ง</string>
 
     <!-- New Hotel Search screen -->
-    <string name="select_traveler_title">เลือกผู้เดินทาง</string>
     <string name="enter_destination_hint">ป้อนจุดหมายปลายทาง</string>
 
+    <!-- Package breakdown dialog -->
+    <string name="package_breakdown_hotel_flight_summary">โรงแรม + เที่ยวบิน</string>
+    <string name="package_breakdown_taxes_fees">ภาษีและค่าธรรมเนียม</string>
+    <string name="package_breakdown_taxes_fees_included_TEMPLATE">รวมภาษีและค่าธรรมเนียม ({taxes})</string>
+    <string name="package_breakdown_total_savings">ส่วนลดทั้งหมด</string>
 </resources>
