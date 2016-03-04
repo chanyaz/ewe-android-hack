@@ -380,14 +380,14 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     private val defaultSearchTransition = object : Presenter.DefaultTransition(SearchTransition::class.java.name) {
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
         }
     }
 
     private val defaultDetailsTransition = object : Presenter.DefaultTransition(HotelDetailPresenter::class.java.name) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             loadingOverlay.visibility = View.GONE
             detailPresenter.visibility = View.VISIBLE
             if (forward) {
@@ -412,8 +412,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             resultsPresenter.animationUpdate(f, !forward)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             resultsPresenter.animationFinalize(forward)
             backStack.push(SearchTransition())
@@ -445,8 +445,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             resultsPresenter.animationUpdate(f, !forward)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             searchPresenter.setBackgroundColor(if (forward) searchBackgroundColor.end else searchBackgroundColor.start)
             searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
@@ -481,7 +481,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             detailPresenter.animationUpdate(f, !forward)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             detailPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             resultsPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             detailPresenter.translationY = 0f
@@ -509,8 +509,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             errorPresenter.animationUpdate(f, !forward)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             checkoutPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             errorPresenter.animationFinalize()
@@ -534,8 +534,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             errorPresenter.animationUpdate(f, !forward)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             searchPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             searchPresenter.animationFinalize(forward)
@@ -557,8 +557,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             searchPresenter.animationUpdate(f, !forward)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             if (forward) {
                 detailPresenter.hotelDetailView.refresh()
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
@@ -577,8 +577,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             checkoutDialog.hide()
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             if (!forward) {
                 trackHotelDetail()
             }
@@ -587,8 +587,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     private val detailsToError = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelErrorPresenter::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             if (!forward) {
                 trackHotelDetail()
             }
@@ -597,8 +597,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     private val checkoutToConfirmation = ScaleTransition(this, HotelCheckoutPresenter::class.java, HotelConfirmationPresenter::class.java)
     private val detailsToReview = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             if (forward) {
                 reviewsView.transitionFinished()
             } else {

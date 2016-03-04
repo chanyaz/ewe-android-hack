@@ -11,7 +11,7 @@ public class VisibilityTransition extends Presenter.Transition {
 	}
 
 	@Override
-	public void finalizeTransition(boolean forward) {
+	public void endTransition(boolean forward) {
 		String destinationState = forward ? state2 : state1;
 		String currentState = forward ? state1 : state2;
 

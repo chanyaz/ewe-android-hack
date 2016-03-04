@@ -135,7 +135,7 @@ public class Presenter extends FrameLayout {
 		if (currentState == null) {
 			// If we have a default transition added, execute it.
 			if (toDefaultTransition != null && newState.getClass().getName().equals(toDefaultTransition.state2)) {
-				toDefaultTransition.finalizeTransition(true);
+				toDefaultTransition.endTransition(true);
 			}
 			currentState = newState.getClass().getName();
 			getBackStack().push(newState);
@@ -239,10 +239,6 @@ public class Presenter extends FrameLayout {
 		public void endTransition(boolean forward) {
 			// empty
 		}
-
-		public void finalizeTransition(boolean forward) {
-			// empty
-		}
 	}
 
 	public static class TransitionWrapper {
@@ -303,15 +299,6 @@ public class Presenter extends FrameLayout {
 	public static abstract class DefaultTransition extends Transition {
 		public DefaultTransition(String defaultState) {
 			super(null, defaultState);
-		}
-
-		public void startTransition(boolean forward) {
-		}
-
-		public void updateTransition(float f, boolean forward) {
-		}
-
-		public void endTransition(boolean forward) {
 		}
 	}
 
@@ -412,7 +399,6 @@ public class Presenter extends FrameLayout {
 		public void onAnimationEnd(Animator animator) {
 			logAnimStats();
 			transition.endTransition(meta.forward);
-			transition.finalizeTransition(meta.forward);
 			currentState = meta.getDestination();
 			acceptAnimationUpdates = false;
 		}

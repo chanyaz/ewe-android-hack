@@ -318,10 +318,6 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(
 
         override fun endTransition(forward: Boolean) {
             calendar.translationY = if (forward) 0f else calendarHeight.toFloat()
-        }
-
-        override fun finalizeTransition(forward: Boolean) {
-            calendar.translationY = if (forward) 0f else calendarHeight.toFloat()
             if (forward) {
                 flyingFromAutoComplete.locationEditText.clearFocus()
                 flyingToAutoComplete.locationEditText.clearFocus()
@@ -332,7 +328,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : Presenter(
     }
 
     private val default = object : Presenter.DefaultTransition(PackageParamsDefault::class.java.name) {
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             calendar.visibility =  View.INVISIBLE
             traveler.visibility =  View.GONE
         }

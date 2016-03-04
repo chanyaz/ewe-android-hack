@@ -699,7 +699,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             navIcon.parameter = if (forward) Math.abs(1 - f) else f
         }
 
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.BACK.type.toFloat()
             recyclerView.translationY = 0f
             mapView.translationY = -halfway.toFloat()
@@ -837,7 +837,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 filterBtnWithCountWidget?.translationY = filterViewOrigin + (f * (filterViewGoal - filterViewOrigin))
             }
 
-            override fun finalizeTransition(forward: Boolean) {
+            override fun endTransition(forward: Boolean) {
                 navIcon.parameter = (if (forward) ArrowXDrawableUtil.ArrowDrawableType.BACK else ArrowXDrawableUtil.ArrowDrawableType.CLOSE).type.toFloat()
 
                 //When we are about to show the menu filter item, ensure that it is of sufficient height
@@ -908,7 +908,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 mapCarouselContainer.translationX = (if (forward) f else 1 - f) * screenWidth
             }
 
-            override fun finalizeTransition(forward: Boolean) {
+            override fun endTransition(forward: Boolean) {
                 if (forward) {
                     mapCarouselContainer.translationX = screenWidth
                     mapCarouselContainer.visibility = View.INVISIBLE
@@ -946,7 +946,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 } else {
                     if (currentTransition == 0) {
                         currentTransition = 1
-                        carouselTransition.finalizeTransition(forward)
+                        carouselTransition.endTransition(forward)
                         listTransition.startTransition(forward)
                     }
                     listTransition.updateTransition(listTransition.interpolator.getInterpolation((f - secondTransitionStartTime) / (1 - secondTransitionStartTime)), forward)
@@ -957,7 +957,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 } else {
                     if (currentTransition == 0) {
                         currentTransition = 1
-                        listTransition.finalizeTransition(forward)
+                        listTransition.endTransition(forward)
                         carouselTransition.startTransition(forward)
                     }
                     carouselTransition.updateTransition(carouselTransition.interpolator.getInterpolation((f - secondTransitionStartTime) / (1 - secondTransitionStartTime)), forward)
@@ -965,13 +965,13 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
 
             if (forward) {
-                listTransition.finalizeTransition(forward)
+                listTransition.endTransition(forward)
             } else {
-                carouselTransition.finalizeTransition(forward)
+                carouselTransition.endTransition(forward)
             }
             mapTransitionRunning = false
         }
@@ -998,8 +998,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             filterView.translationY = filterView.height * translatePercentage
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             filterView.visibility = if (forward) View.VISIBLE else View.GONE
             filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
             if (!forward && !fabShouldBeHiddenOnList()) {
@@ -1025,8 +1025,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             filterView.translationY = filterView.height * translatePercentage
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             filterView.visibility = if (forward) View.VISIBLE else View.GONE
             filterView.translationY = (if (forward) 0 else filterView.height).toFloat()
             if (!forward) {

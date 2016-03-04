@@ -446,11 +446,6 @@ public class LXSearchParamsPresenter extends Presenter
 		@Override
 		public void endTransition(boolean forward) {
 			calendarContainer.setTranslationY(forward ? 0 : calendarHeight);
-		}
-
-		@Override
-		public void finalizeTransition(boolean forward) {
-			calendarContainer.setTranslationY(forward ? 0 : calendarHeight);
 			if (forward) {
 				Ui.hideKeyboard(LXSearchParamsPresenter.this);
 				location.clearFocus();

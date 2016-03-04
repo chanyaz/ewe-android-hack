@@ -129,8 +129,8 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(PackageFlightResultsPresenter::class.java.name) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             toolbarViewModel.refreshToolBar.onNext(forward)
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             overViewPresenter.visibility = if (forward) View.GONE else View.VISIBLE
@@ -138,8 +138,8 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(
     }
 
     private val overviewTransition = object : Presenter.Transition(PackageFlightOverviewPresenter::class.java, PackageFlightResultsPresenter::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             toolbarViewModel.refreshToolBar.onNext(forward)
             overViewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
             resultsPresenter.visibility = if (!forward) View.GONE else View.VISIBLE
@@ -147,8 +147,8 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(
     }
 
     private val baggageFeeTransition = object : Presenter.Transition(PackageFlightOverviewPresenter::class.java, BaggageFeeInfoWidget::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             if (forward) {
                 toolbarViewModel.setTitleOnly.onNext(context.getString(R.string.package_flight_overview_baggage_fees))
             }
@@ -170,9 +170,6 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : Presenter(
         }
 
         override fun endTransition(forward: Boolean) {
-        }
-
-        override fun finalizeTransition(forward: Boolean) {
             if (forward) {
                 toolbar.visibility = View.GONE
                 filter.visibility = View.VISIBLE

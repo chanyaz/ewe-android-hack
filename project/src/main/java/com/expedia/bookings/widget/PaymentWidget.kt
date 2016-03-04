@@ -347,7 +347,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
     class PaymentDetails
 
     private val defaultTransition = object : Presenter.DefaultTransition(PaymentDefault::class.java.name) {
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             viewmodel.enableMenu.onNext(false)
             viewmodel.toolbarTitle.onNext(getCheckoutToolbarTitle(resources))
             cardInfoContainer.visibility = View.VISIBLE
@@ -376,7 +376,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
 
     private val defaultToDetails = object : Presenter.Transition(PaymentDefault::class.java,
             PaymentDetails::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             viewmodel.enableMenu.onNext(forward)
             viewmodel.toolbarTitle.onNext(if (forward) resources.getString(R.string.new_credit_debit_card) else getCheckoutToolbarTitle(resources))
             cardInfoContainer.visibility = if (forward) View.GONE else View.VISIBLE
@@ -389,7 +389,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
 
     private val optionsToDetails = object : Presenter.Transition(PaymentOption::class.java,
             PaymentDetails::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             viewmodel.enableMenu.onNext(forward)
             viewmodel.toolbarTitle.onNext(resources.getString(if (forward) R.string.new_credit_debit_card else R.string.checkout_enter_payment_details))
             cardInfoContainer.visibility = View.GONE

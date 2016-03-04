@@ -197,8 +197,8 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
     }
 
     val defaultTransition = object : Presenter.DefaultTransition(BundleDefault::class.java.name) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             toolbar.menu.setGroupVisible(R.id.package_change_menu, false)
         }
     }
@@ -226,16 +226,16 @@ class BundleOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter
             toolbar.alpha = 1f * if (forward) f else (1 - f)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             checkoutOverviewHeaderToolbar.visibility = View.GONE
             toolbar.alpha = 1f
         }
     }
 
     private val checkoutToCvv = object : VisibilityTransition(this, PackageCheckoutPresenter::class.java, CVVEntryWidget::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             if (!forward) {
                 checkoutPresenter.slideToPurchase.resetSlider()
             } else {

@@ -36,10 +36,6 @@ open class ScaleTransition(val presenter: Presenter, val left: Class<*>, val rig
     }
 
     override fun endTransition(forward: Boolean) {
-        // do nothing
-    }
-
-    override fun finalizeTransition(forward: Boolean) {
         leftView.visibility = (if (forward) View.GONE else View.VISIBLE)
 
         rightView.alpha = 1f

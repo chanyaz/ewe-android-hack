@@ -50,8 +50,8 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     }
 
     val default = object : Presenter.DefaultTransition(HotelDetailView::class.java.getName()) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             hotelRenovationDesc.visibility = View.GONE
             hotelPayLaterInfo.visibility = View.GONE
             hotelVIPAccessInfo.visibility = View.GONE
@@ -65,8 +65,8 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     }
 
     private val detailToMap = object: ScaleTransition(this, HotelDetailView::class.java, HotelMapView::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             hotelMapView.viewmodel.resetCameraPosition.onNext(Unit)
             if (forward) {
                 hotelMapView.googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
@@ -77,8 +77,8 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     }
 
     val detailToDescription = object : ScaleTransition(this, HotelDetailView::class.java, SpecialNoticeWidget::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             hotelRenovationDesc.visibility = if (forward) View.VISIBLE else View.GONE
             hotelDetailView.visibility = if (forward) View.GONE else View.VISIBLE
         }
@@ -90,8 +90,8 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     }
 
     val detailToVIPAccessInfo = object : ScaleTransition(this, HotelDetailView::class.java, VIPAccessInfoWidget::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             hotelVIPAccessInfo.visibility = if (forward) View.VISIBLE else View.GONE
             hotelDetailView.visibility = if (forward) View.GONE else View.VISIBLE
             if (!forward) {
@@ -107,8 +107,8 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     }
 
     val detailToPayLaterInfo = object : ScaleTransition(this, HotelDetailView::class.java, PayLaterInfoWidget::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             hotelPayLaterInfo.visibility = if (forward) View.VISIBLE else View.GONE
             hotelDetailView.visibility = if (forward) View.GONE else View.VISIBLE
             if (!forward) {
@@ -118,8 +118,8 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     }
 
     val detailToDepositInfo = object : ScaleTransition(this, HotelDetailView::class.java, DepositTermsInfoWidget::class.java) {
-        override fun finalizeTransition(forward: Boolean) {
-            super.finalizeTransition(forward)
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             hotelDepositInfo.visibility = if (forward) View.VISIBLE else View.GONE
             hotelDetailView.visibility = if (forward) View.GONE else View.VISIBLE
         }

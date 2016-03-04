@@ -149,7 +149,7 @@ public class LXCheckoutPresenter extends Presenter {
 
 	private DefaultTransition defaultCheckoutTransition = new DefaultTransition(LXCheckoutWidget.class.getName()) {
 		@Override
-		public void finalizeTransition(boolean forward) {
+		public void endTransition(boolean forward) {
 			checkout.setVisibility(View.VISIBLE);
 			cvv.setVisibility(View.GONE);
 			errorScreen.setVisibility(View.GONE);
@@ -164,8 +164,8 @@ public class LXCheckoutPresenter extends Presenter {
 
 	private Transition checkoutToError = new VisibilityTransition(this, LXCheckoutWidget.class, LXErrorWidget.class) {
 		@Override
-		public void finalizeTransition(boolean forward) {
-			super.finalizeTransition(forward);
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
 			if (!forward) {
 				checkout.slideWidget.resetSlider();
 				checkout.checkoutFormWasUpdated();

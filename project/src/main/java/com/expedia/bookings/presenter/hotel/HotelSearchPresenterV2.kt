@@ -224,7 +224,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
             super.updateTransition(f, forward)
         }
 
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             searchContainer.visibility = VISIBLE
         }
     }
@@ -312,7 +312,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
             }
         }
 
-        override fun finalizeTransition(forward: Boolean) {
+        override fun endTransition(forward: Boolean) {
             // Toolbar bg color
             toolbar.setBackgroundColor(if (forward) toolbarBgColor.end else toolbarBgColor.start)
             suggestionContainer.alpha = if (forward) bgFade.end else bgFade.start
