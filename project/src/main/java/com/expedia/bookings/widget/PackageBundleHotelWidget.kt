@@ -19,7 +19,11 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.ui.PackageHotelActivity
-import com.expedia.util.*
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeInverseVisibility
+import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.BundleHotelViewModel
 
 class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {

@@ -8,14 +8,14 @@ import com.expedia.vm.HotelFilterViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import kotlin.properties.Delegates
-import kotlin.test.assertTrue
 import java.util.ArrayList
+import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelFilterViewModelTest {
-    public var vm: HotelFilterViewModel by Delegates.notNull()
+    var vm: HotelFilterViewModel by Delegates.notNull()
 
     @Before
     fun before() {

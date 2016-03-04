@@ -1,14 +1,10 @@
 package com.expedia.bookings.widget
 
-import java.util.ArrayList
-
-import android.animation.ValueAnimator
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-
 import com.expedia.bookings.utils.AnimUtils
+import java.util.ArrayList
 
 /**
  * This adapter handle list loading animation with RecyclerView - This is to be used when we have to do a dummy
@@ -78,7 +74,7 @@ abstract class LoadingRecyclerViewAdapter<T> : RecyclerView.Adapter<RecyclerView
     }
 
     companion object {
-        @JvmStatic public val LOADING_VIEW: Int = 0
-        @JvmStatic public val DATA_VIEW: Int = 1
+        @JvmStatic val LOADING_VIEW: Int = 0
+        @JvmStatic val DATA_VIEW: Int = 1
     }
 }

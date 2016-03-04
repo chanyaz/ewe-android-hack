@@ -14,11 +14,10 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-
 @RunWith(RobolectricRunner::class)
 class HotelTravelerPickerViewTest {
-    public var vm: HotelTravelerPickerViewModel by Delegates.notNull()
-    public var hotelTravelerPicker: HotelTravelerPickerView by Delegates.notNull()
+    var vm: HotelTravelerPickerViewModel by Delegates.notNull()
+    var hotelTravelerPicker: HotelTravelerPickerView by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
 
     @Before
@@ -107,11 +106,11 @@ class HotelTravelerPickerViewTest {
     }
 
     fun isAdultIncrementButtonEnabled() : Boolean {
-        return hotelTravelerPicker.adultPlus.isEnabled()
+        return hotelTravelerPicker.adultPlus.isEnabled
     }
 
     fun isAdultDecrementButtonEnabled() : Boolean {
-        return hotelTravelerPicker.adultMinus.isEnabled()
+        return hotelTravelerPicker.adultMinus.isEnabled
     }
 
     fun incrementChild() {
@@ -123,26 +122,26 @@ class HotelTravelerPickerViewTest {
     }
 
     fun isChildIncrementButtonEnabled() : Boolean {
-        return hotelTravelerPicker.childPlus.isEnabled()
+        return hotelTravelerPicker.childPlus.isEnabled
     }
 
     fun isChildDecrementButtonEnabled() : Boolean {
-        return hotelTravelerPicker.childMinus.isEnabled()
+        return hotelTravelerPicker.childMinus.isEnabled
     }
 
     fun getAdultText() : CharSequence {
-        return hotelTravelerPicker.adultText.getText()
+        return hotelTravelerPicker.adultText.text
     }
 
     fun getChildText() : CharSequence {
-        return hotelTravelerPicker.childText.getText()
+        return hotelTravelerPicker.childText.text
     }
 
     fun expectedAdultText(count: Int) : String {
-        return activity.getResources().getQuantityString(R.plurals.number_of_adults, count, count)
+        return activity.resources.getQuantityString(R.plurals.number_of_adults, count, count)
     }
 
     fun expectedChildText(count: Int) : String {
-        return activity.getResources().getQuantityString(R.plurals.number_of_children, count, count)
+        return activity.resources.getQuantityString(R.plurals.number_of_children, count, count)
     }
 }

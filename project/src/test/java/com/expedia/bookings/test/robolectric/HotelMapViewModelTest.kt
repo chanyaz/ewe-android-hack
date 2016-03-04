@@ -9,14 +9,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class HotelMapViewModelTest {
 
-    public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
+    var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
     lateinit private var hotelOffersResponse: HotelOffersResponse

@@ -3,7 +3,6 @@ package com.expedia.bookings.widget
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.support.v7.widget.CardView
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,24 +12,20 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.lx.LXActivity
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.LXDataUtils
-import com.expedia.bookings.utils.Strings
-import com.mobiata.android.text.StrikethroughTagHandler
 import com.mobiata.android.util.AndroidUtils
 import com.squareup.picasso.Picasso
-import java.math.BigDecimal
 import java.util.ArrayList
 
-public class LXRecommendedActivitiesListAdapter : BaseAdapter() {
+class LXRecommendedActivitiesListAdapter : BaseAdapter() {
 
     private var activities: List<LXActivity> = ArrayList()
 
-    public fun setActivities(activities: List<LXActivity>) {
+    fun setActivities(activities: List<LXActivity>) {
         this.activities = activities
     }
 
@@ -62,12 +57,12 @@ public class LXRecommendedActivitiesListAdapter : BaseAdapter() {
     protected fun initializeViewHolder(parent: ViewGroup): View {
         val convertView = LayoutInflater.from(parent.context).inflate(R.layout.section_lx_search_row, parent, false)
         val viewHolder = ViewHolder(convertView)
-        convertView.setTag(viewHolder)
+        convertView.tag = viewHolder
 
         return convertView
     }
 
-    public inner class ViewHolder(private val itemView: View) : View.OnClickListener {
+    inner class ViewHolder(private val itemView: View) : View.OnClickListener {
 
         private var activity: LXActivity? = null
 
@@ -89,7 +84,7 @@ public class LXRecommendedActivitiesListAdapter : BaseAdapter() {
             Events.post(Events.LXActivitySelected(activity))
         }
 
-        public fun bind(activity: LXActivity) {
+        fun bind(activity: LXActivity) {
 
             this.activity = activity
             activityTitle.text = activity.title

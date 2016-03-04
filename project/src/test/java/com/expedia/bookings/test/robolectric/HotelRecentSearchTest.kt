@@ -21,7 +21,7 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class HotelRecentSearchTest {
-    public var vm: HotelSearchViewModel by Delegates.notNull()
+    var vm: HotelSearchViewModel by Delegates.notNull()
     var activity: Activity by Delegates.notNull()
 
     @Before

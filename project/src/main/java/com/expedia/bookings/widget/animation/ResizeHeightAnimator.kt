@@ -14,7 +14,7 @@ class ResizeHeightAnimator(animationDuration: Long) : ValueAnimator(), ValueAnim
         }
     }
 
-    private data class ResizeSpec(public val view: View, val startHeight: Int, val targetHeight: Int)
+    private data class ResizeSpec(val view: View, val startHeight: Int, val targetHeight: Int)
 
     private var resizeSpecList = ArrayList<ResizeSpec>()
 
@@ -25,7 +25,7 @@ class ResizeHeightAnimator(animationDuration: Long) : ValueAnimator(), ValueAnim
     init {
         setFloatValues(0f, 1f)
         interpolator = AccelerateDecelerateInterpolator()
-        setDuration(animationDuration)
+        duration = animationDuration
         addUpdateListener(this)
     }
 }

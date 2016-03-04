@@ -14,10 +14,9 @@ import org.robolectric.RuntimeEnvironment
 import rx.subjects.PublishSubject
 import kotlin.test.assertEquals
 
-
 @RunWith(RobolectricRunner::class)
 class HotelRoomRateViewTest {
-    public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
+    var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
     lateinit private var hotelOffersResponse: HotelOffersResponse

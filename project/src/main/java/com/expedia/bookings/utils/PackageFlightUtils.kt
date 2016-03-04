@@ -6,7 +6,7 @@ import com.expedia.bookings.data.packages.Airline
 import com.expedia.bookings.data.packages.FlightLeg
 import com.squareup.phrase.Phrase
 
-public object PackageFlightUtils {
+object PackageFlightUtils {
 
     @JvmStatic fun getAllAirports(flight: FlightLeg): String {
         var airports : String = ""
@@ -35,29 +35,29 @@ public object PackageFlightUtils {
 
     private fun getDurationString(context: Context, durationHour: Int, durationMinute: Int): String {
         if (durationHour > 0) {
-            return context.getResources().getString(R.string.flight_hour_min_duration_template, durationHour, durationMinute)
+            return context.resources.getString(R.string.flight_hour_min_duration_template, durationHour, durationMinute)
         }
-        return context.getResources().getString(R.string.flight_min_duration_template, durationMinute)
+        return context.resources.getString(R.string.flight_min_duration_template, durationMinute)
     }
 
     @JvmStatic fun getFlightStopString(context: Context, flight: FlightLeg): String {
         val numOfStops = flight.stopCount
         if (numOfStops == 0) {
-            return context.getResources().getString(R.string.flight_nonstop_description)
+            return context.resources.getString(R.string.flight_nonstop_description)
         } else {
-            return context.getResources().getQuantityString(R.plurals.x_Stops_TEMPLATE, numOfStops, numOfStops)
+            return context.resources.getQuantityString(R.plurals.x_Stops_TEMPLATE, numOfStops, numOfStops)
         }
     }
 
     @JvmStatic fun getFlightDepartureArivalTimeAndDays(context: Context, flight: FlightLeg): String {
         if (flight.elapsedDays > 0) {
-            return context.getResources().getString(R.string.flight_departure_arrival_time_multi_day_template, DateUtils.formatTimeShort(flight.departureDateTimeISO), DateUtils.formatTimeShort(flight.arrivalDateTimeISO), flight.elapsedDays)
+            return context.resources.getString(R.string.flight_departure_arrival_time_multi_day_template, DateUtils.formatTimeShort(flight.departureDateTimeISO), DateUtils.formatTimeShort(flight.arrivalDateTimeISO), flight.elapsedDays)
         }
         return getFlightDepartureArivalTime(context, DateUtils.formatTimeShort(flight.departureDateTimeISO), DateUtils.formatTimeShort(flight.arrivalDateTimeISO))
     }
 
     @JvmStatic fun getFlightDepartureArivalTime(context: Context, departureTime: String, arrivalTime: String): String {
-        return context.getResources().getString(R.string.flight_departure_arrival_time_template, departureTime, arrivalTime)
+        return context.resources.getString(R.string.flight_departure_arrival_time_template, departureTime, arrivalTime)
     }
 
     @JvmStatic fun getFlightDepartureArivalCityAirport(context: Context, flightSegment: FlightLeg.FlightSegment): String {

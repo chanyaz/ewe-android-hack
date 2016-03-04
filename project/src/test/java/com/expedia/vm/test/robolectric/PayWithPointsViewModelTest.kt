@@ -32,10 +32,10 @@ import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
 class PayWithPointsViewModelTest {
-    public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
+    var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
-    public var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
+    var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
     private var createTripResponse: HotelCreateTripResponse by Delegates.notNull()

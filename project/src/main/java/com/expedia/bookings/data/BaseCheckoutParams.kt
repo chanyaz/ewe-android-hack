@@ -1,31 +1,27 @@
-package com.expedia.bookings.data.packages
+package com.expedia.bookings.data
 
-import com.expedia.bookings.data.BillingInfo
-import com.expedia.bookings.data.Traveler
 import java.util.ArrayList
-import kotlin.collections.isNotEmpty
-import kotlin.text.isNullOrEmpty
 
-public data class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: ArrayList<Traveler>, val cvv: String) {
+data class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: ArrayList<Traveler>, val cvv: String) {
 
     class Builder() {
         private var billingInfo: BillingInfo? = null
         private var travelers: ArrayList<Traveler> = ArrayList()
         private var cvv: String? = null
 
-        fun billingInfo(billingInfo: BillingInfo?): BaseCheckoutParams.Builder {
+        fun billingInfo(billingInfo: BillingInfo?): Builder {
             this.billingInfo = billingInfo
             return this
         }
 
-        fun travelers(traveler: Traveler?): BaseCheckoutParams.Builder {
+        fun travelers(traveler: Traveler?): Builder {
             if (traveler != null) {
                 this.travelers.add(traveler)
             }
             return this
         }
 
-        fun cvv(cvv: String?): BaseCheckoutParams.Builder {
+        fun cvv(cvv: String?): Builder {
             this.cvv = cvv
             return this
         }

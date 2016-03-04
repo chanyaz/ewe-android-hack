@@ -4,10 +4,8 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Traveler
 import java.util.ArrayList
 import java.util.HashMap
-import kotlin.collections.isNotEmpty
-import kotlin.text.isNullOrEmpty
 
-public data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: ArrayList<Traveler>, val tripId: String, val expectedTotalFare: String, val expectedFareCurrencyCode: String, val bedType: String, val cvv: String) {
+data class PackageCheckoutParams(val billingInfo: BillingInfo, val travelers: ArrayList<Traveler>, val tripId: String, val expectedTotalFare: String, val expectedFareCurrencyCode: String, val bedType: String, val cvv: String) {
 
     class Builder() {
         private var billingInfo: BillingInfo? = null

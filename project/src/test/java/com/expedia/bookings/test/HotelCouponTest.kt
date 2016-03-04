@@ -30,10 +30,10 @@ import kotlin.test.assertNull
 @RunWith(RobolectricRunner::class)
 class HotelCouponTest {
 
-    public var service= ServicesRule<HotelServices>(HotelServices::class.java)
+    var service= ServicesRule(HotelServices::class.java)
         @Rule get
 
-    public var loyaltyServiceRule = ServicesRule<LoyaltyServices>(LoyaltyServices::class.java)
+    var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
     private var vm: HotelCouponViewModel by Delegates.notNull()
