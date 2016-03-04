@@ -122,9 +122,9 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 		if (extras.getBoolean(ARG_ITIN_CHECKIN)) {
 			Intent resultIntent = new Intent();
 			String airlineCode = extras.getString(Constants.ITIN_CHECK_IN_CODE, "");
-			String confirmationCode = extras.getString(Constants.ITIN_CHECK_CONFIRMATION_CODE, "");
+			String confirmationCode = extras.getString(Constants.ITIN_CHECK_IN_CONFIRMATION_CODE, "");
 			resultIntent.putExtra(Constants.ITIN_CHECK_IN_CODE, airlineCode);
-			resultIntent.putExtra(Constants.ITIN_CHECK_CONFIRMATION_CODE, confirmationCode);
+			resultIntent.putExtra(Constants.ITIN_CHECK_IN_CONFIRMATION_CODE, confirmationCode);
 			setResult(RESULT_OK, resultIntent);
 		}
 		// Title

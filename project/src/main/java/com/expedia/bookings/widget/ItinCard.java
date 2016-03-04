@@ -36,6 +36,7 @@ import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.ResizeAnimator;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
@@ -401,6 +402,14 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			mCheckInLayout.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View view) {
+					if (((TripFlight) itinCardData.getTripComponent()).isUserCheckedIn()) {
+						OmnitureTracking.trackItinFlightVisitSite();
+					}
+					else {
+						FlightTrip flightTrip = ((TripFlight) itinCardData.getTripComponent()).getFlightTrip();
+						OmnitureTracking
+							.trackItinFlightCheckIn(getAirlineCode(itinCardData),flightTrip.isSplitTicket(), flightTrip.getLegCount());
+					}
 					((TripFlight) itinCardData.getTripComponent()).setUserCheckedIn(true);
 					showCheckInWebView(itinCardData);
 					onCheckInLinkVisited(itinCardData);
@@ -451,25 +460,28 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		builder.setInjectExpediaCookies(true);
 		builder.setAllowMobileRedirects(false);
 		builder.setAttemptForceMobileSite(true);
-		String firstAirlineCode = ((TripFlight) itinCardData.getTripComponent()).getFlightTrip()
-			.getLeg(0)
-			.getPrimaryAirlineNamesFormatted();
-		builder.getIntent().putExtra(Constants.ITIN_CHECK_IN_CODE, firstAirlineCode);
-
-		builder.getIntent().putExtra(Constants.ITIN_CHECK_CONFIRMATION_CODE,
+		TripFlight tripComponent = (TripFlight) itinCardData.getTripComponent();
+		builder.getIntent().putExtra(Constants.ITIN_CHECK_IN_CODE, getAirlineCode(itinCardData));
+		builder.getIntent().putExtra(Constants.ITIN_IS_SPLIT_TICKET, tripComponent.getFlightTrip().isSplitTicket());
+		builder.getIntent().putExtra(Constants.ITIN_FLIGHT_TRIP_LEGS, tripComponent.getFlightTrip().getLegCount());
+		builder.getIntent().putExtra(Constants.ITIN_CHECK_IN_CONFIRMATION_CODE,
 			mItinContentGenerator.getSummaryRightButton().getText());
 		((Activity) getContext())
 			.startActivityForResult(builder.getIntent(), Constants.ITIN_CHECK_IN_WEBPAGE_CODE);
 	}
 
 	private void onCheckInLinkVisited(T itinCardData) {
-		String firstAirlineCode = ((TripFlight) itinCardData.getTripComponent()).getFlightTrip()
-			.getLeg(0)
-			.getPrimaryAirlineNamesFormatted();
+		String firstAirlineCode = getAirlineCode(itinCardData);
 		mCheckInTextView.setBackgroundColor(Color.TRANSPARENT);
 		mCheckInTextView
 			.setText(
 				getContext().getString(R.string.itin_card_flight_checkin_details, firstAirlineCode));
+	}
+
+	private String getAirlineCode(T itinCardData) {
+		return ((TripFlight) itinCardData.getTripComponent()).getFlightTrip()
+			.getLeg(0)
+			.getPrimaryAirlineNamesFormatted();
 	}
 
 

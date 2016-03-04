@@ -3216,6 +3216,10 @@ public class OmnitureTracking {
 	private static final String ITIN_HOTEL_INFO = "App.Itinerary.Hotel.Info.Additional";
 	private static final String ITIN_HOTEL_SHARE_PREFIX = "App.Itinerary.Hotel.Info.Share.";
 	private static final String ITIN_FLIGHT = "App.Itinerary.Flight";
+	private static final String ITIN_FLIGHT_CHECKIN = "App.Itinerary.Flight.CheckInNow";
+	private static final String ITIN_FLIGHT_CHECKIN_SUCCESS = "App.Itinerary.Flight.CheckIn.Yes";
+	private static final String ITIN_FLIGHT_CHECKIN_FAILURE = "App.Itinerary.Flight.CheckIn.No";
+	private static final String ITIN_FLIGHT_CHECKIN_VISIT = "App.Itinerary.Flight.VisitAirline";
 	private static final String ITIN_FLIGHT_DIRECTIONS = "App.Itinerary.Flight.Airport.Directions";
 	private static final String ITIN_FLIGHT_TERMINAL_MAPS = "App.Itinerary.Flight.Airport.TerminalMaps";
 	private static final String ITIN_FLIGHT_INFO = "App.Itinerary.Flight.Info.Additional";
@@ -3438,6 +3442,44 @@ public class OmnitureTracking {
 		addEvent15And16Maybe(context, s);
 		s.track();
 	}
+
+	public static void trackItinFlightCheckIn(String airlineCode, boolean isSplitTicket, int tripLegs) {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHECKIN);
+		s.setEvents("event95");
+		s.setProducts(getFlightCheckInProductString(airlineCode, isSplitTicket, tripLegs));
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	private static String getFlightCheckInProductString(String airlineCode, boolean isSplitTicket, int tripLegs) {
+		String tripType;
+		if (!isSplitTicket) {
+			tripType = getOmnitureStringCodeRepresentingTripTypeByNumLegs(tripLegs);
+		}
+		else {
+			tripType = "ST";
+		}
+		return "Flight;Agency Flight:" + airlineCode + ":" + tripType + ";;";
+	}
+
+	public static void trackItinFlightVisitSite() {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHECKIN_VISIT);
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackItinFlightCheckInSuccess(String airlineCode, boolean isSplitTicket, int flightLegs) {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHECKIN_SUCCESS);
+		s.setEvents("event96");
+		s.setProducts(getFlightCheckInProductString(airlineCode, isSplitTicket, flightLegs));
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
+	public static void trackItinFlightCheckInFailure(String airlineCode, boolean isSplitTicket, int flightLegs) {
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_FLIGHT_CHECKIN_FAILURE);
+		s.setEvents("event97");
+		s.setProducts(getFlightCheckInProductString(airlineCode, isSplitTicket, flightLegs));
+		s.trackLink(null, "o", "Itinerary Action", null, null);
+	}
+
 
 	public static void trackItinFlightDirections() {
 		internalTrackLink(ITIN_FLIGHT_DIRECTIONS);

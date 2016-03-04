@@ -1,5 +1,7 @@
 package com.expedia.bookings.activity;
 
+import java.util.List;
+
 import org.joda.time.DateTime;
 
 import android.animation.Animator;
@@ -53,7 +55,6 @@ import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import java.util.List;
 
 public class PhoneLaunchActivity extends ActionBarActivity implements ItinListView.OnListModeChangedListener,
 	ItinItemListFragmentListener, IPhoneLaunchFragmentListener, DoLogoutListener {
@@ -254,9 +255,12 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	}
 
 	private void showFlightItinCheckinDialog(Intent data) {
-		final String airlineCode = data.getExtras().getString(Constants.ITIN_CHECK_IN_CODE, "");
-		final String confirmationCode = data.getExtras().getString(Constants.ITIN_CHECK_CONFIRMATION_CODE, "");
-		final AlertDialog alertDialog = new FlightCheckInDialog(this, airlineCode, confirmationCode).onCreateDialog();
+		String airlineCode = data.getExtras().getString(Constants.ITIN_CHECK_IN_CODE, "");
+		String confirmationCode = data.getExtras().getString(Constants.ITIN_CHECK_IN_CONFIRMATION_CODE, "");
+		boolean isSplitTicket = data.getExtras().getBoolean(Constants.ITIN_IS_SPLIT_TICKET, false);
+		int flightLegs = data.getExtras().getInt(Constants.ITIN_FLIGHT_TRIP_LEGS, 0);
+		AlertDialog alertDialog = new FlightCheckInDialog(this, airlineCode, confirmationCode, isSplitTicket,
+			flightLegs).onCreateDialog();
 		alertDialog.show();
 	}
 

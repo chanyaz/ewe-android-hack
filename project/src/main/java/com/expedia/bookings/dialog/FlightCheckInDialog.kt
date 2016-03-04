@@ -8,10 +8,11 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ClipboardUtils
 import com.expedia.bookings.widget.TextView
 
-class FlightCheckInDialog(val ctx: Context, val airlineCode: String, val confirmationCode: String) : AlertDialog(ctx) {
+class FlightCheckInDialog(val ctx: Context, val airlineCode: String, val confirmationCode: String, val isSplitTicket: Boolean, val flightLegs: Int) : AlertDialog(ctx) {
 
     fun onCreateDialog(): AlertDialog {
         val dialogLayout = (ctx as Activity).layoutInflater.inflate(R.layout.itin_check_in_dialog, null)
@@ -29,10 +30,13 @@ class FlightCheckInDialog(val ctx: Context, val airlineCode: String, val confirm
         yesText.setOnClickListener {
             if (dialogTitle.text.toString().equals(context.getString(R.string.itin_checkin_failure_dialog_title), ignoreCase = true)) {
                 ClipboardUtils.setText(context, confirmationCode)
+            } else {
+                OmnitureTracking.trackItinFlightCheckInSuccess(airlineCode, isSplitTicket, flightLegs);
             }
             alertDialog.dismiss()
         }
         noText.setOnClickListener {
+            OmnitureTracking.trackItinFlightCheckInFailure(airlineCode, isSplitTicket, flightLegs);
             val fadeOutAnim = ObjectAnimator.ofFloat(dialogBody, "alpha", 1.0f, 0.0f)
             val fadeInAnim = ObjectAnimator.ofFloat(dialogBody, "alpha", 0.0f, 1.0f)
 
