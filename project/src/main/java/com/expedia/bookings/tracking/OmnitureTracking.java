@@ -745,7 +745,7 @@ public class OmnitureTracking {
 			BigDecimal totalAmount = trip.getTripTotal().amount;
 			int percentagePaidWithPoints = NumberUtils.getPercentagePaidWithPointsForOmniture(amountPaidWithPoints,
 				totalAmount);
-			s.setEvar(53, String.format(EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
+			s.setEvar(53, String.format(Locale.getDefault(), EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
 		}
 		s.setEvents(events.toString());
 		addHotelV2RegionId(s, searchParams);
@@ -4701,7 +4701,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, REWARDS_POINTS_UPDATE);
 		s.setProp(16, REWARDS_POINTS_UPDATE);
-		s.setEvar(53, String.format(EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
+		s.setEvar(53, String.format(Locale.getDefault(), EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
 		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
 	}
 
@@ -4721,7 +4721,7 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setEvar(28, PAY_WITH_POINTS_REENABLED);
 		s.setProp(16, PAY_WITH_POINTS_REENABLED);
-		s.setEvar(53, String.format(EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
+		s.setEvar(53, String.format(Locale.getDefault(), EXPEDIA_POINTS_PERCENTAGE, percentagePaidWithPoints));
 		s.trackLink(null, "o", PAY_WITH_POINTS_CUSTOM_LINK_NAME, null, null);
 	}
 
