@@ -407,6 +407,8 @@
     <color name="packages_flight_cell_primary_text">@color/temporary_primary_gray</color>
     <color name="packages_flight_cell_duration_text">@color/temporary_flight_duration_gray</color>
     <color name="packages_result_background">#eaeaea</color>
+    <color name="packages_hotel_map_message">#696969</color>
+    <color name="packages_map_message_bg_gray">#F8F8F8</color>
 
     <color name="traveler_drop_down_unchecked_color">#6C6C6C</color>
 
