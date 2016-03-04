@@ -4011,4 +4011,5 @@
 
     <!-- Shop with points -->
     <string name="regular_loyalty_applied_message">Expedia+ Points applied!</string>
+    <string name="vip_loyalty_applied_message">2x points applied!</string>
 </resources>

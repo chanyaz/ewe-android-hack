@@ -60,6 +60,7 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
     val urgencyIconVisibilityObservable = highestPriorityUrgencyMessageObservable.map { it != null && it.iconDrawableId != null }
 
     val vipMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
+    val vipLoyaltyMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
     val airAttachVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isShowAirAttached())
     val topAmenityTitleObservable = BehaviorSubject.create(getTopAmenityTitle(hotel, resources))
     val topAmenityVisibilityObservable = topAmenityTitleObservable.map { (it != "") }
@@ -78,8 +79,10 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
         }
 
         val isVipAvailable = hotel.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess() && User.isLoggedIn(context)
-        val isGoldOrSivler = Db.getUser() != null && (Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.SILVER || Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.GOLD)
-        vipMessageVisibilityObservable.onNext(isVipAvailable && isGoldOrSivler)
+        val isGoldOrSilver = Db.getUser() != null && (Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.SILVER || Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.GOLD)
+        vipMessageVisibilityObservable.onNext(isVipAvailable && isGoldOrSilver)
+        val isVipLoyaltyAvailable = isVipAvailable && isGoldOrSilver && hotel.lowRateInfo.loyaltyInfo != null
+        vipLoyaltyMessageVisibilityObservable.onNext(isVipLoyaltyAvailable)
 
         // NOTE: Any changes to this logic should also be made in HotelDetailViewModel.getPromoText()
         val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)

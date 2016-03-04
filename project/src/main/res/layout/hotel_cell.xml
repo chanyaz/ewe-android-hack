@@ -64,17 +64,33 @@
                         android:textSize="10sp"/>
                 </LinearLayout>
 
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/vip_message"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|left"
-                    android:paddingLeft="12dp"
                     android:paddingTop="12dp"
-                    android:text="@string/vip"
-                    android:textColor="#ffffff"
-                    android:textSize="9sp"
-                    app:textStyle="medium"/>
+                    android:paddingLeft="12dp"
+                    android:orientation="horizontal">
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/vip_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/vip"
+                        android:textColor="#ffffff"
+                        android:textSize="13sp"
+                        app:textStyle="medium" />
+
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/vip_loyalty_message"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="2dp"
+                        android:text="@string/vip_loyalty_applied_message"
+                        android:textColor="#ffffff"
+                        android:textSize="10sp"
+                        app:textStyle="normal" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
