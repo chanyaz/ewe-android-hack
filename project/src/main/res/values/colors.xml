@@ -95,7 +95,7 @@
     <color name="hotels_cc_text_color_secondary">#868a8f</color>
     <color name="hotelsv2_discount_green">#6BCA2C</color>
     <color name="hotel_price_breakdown_discount_green">#218b22</color>
-    <color name="hotel_result_background">#eaeaea</color>
+    <color name="hotel_result_background">@color/search_results_list_bg_gray</color>
     <color name="actionbar_text_disabled">#505c69</color>
     <color name="amenity_text_color_large">#79848f</color>
     <color name="amenity_icon_color">#717880</color>
@@ -318,7 +318,7 @@
     <color name="lx_details_text_color">#525252</color>
     <color name="lx_details_heading_text_color">#3C3C3C</color>
     <color name="lx_details_content_text_color">#585858</color>
-    <color name="lx_details_background_color">#eaeaea</color>
+    <color name="lx_details_background_color">@color/search_results_list_bg_gray</color>
     <color name="lx_ticket_summary_color">#676767</color>
     <color name="lx_ticket_title_color">#3C3C3C</color>
     <color name="lx_select_ticket_button_color">#7C7C7C</color>
@@ -410,10 +410,8 @@
     <color name="packages_results_header_text">@color/temporary_header_gray</color>
     <color name="packages_flight_cell_primary_text">@color/temporary_primary_gray</color>
     <color name="packages_flight_cell_duration_text">@color/temporary_flight_duration_gray</color>
-    <color name="packages_result_background">#eaeaea</color>
     <color name="packages_hotel_map_message">#696969</color>
-    <color name="packages_map_message_bg_gray">#F8F8F8</color>
-
+    <color name="packages_result_background">@color/search_results_list_bg_gray</color>
     <color name="traveler_drop_down_unchecked_color">#6C6C6C</color>
 
     <!--Rail colors-->

@@ -24,14 +24,14 @@
             android:id="@+id/hotel_carousel"
             android:layout_width="match_parent"
             android:layout_height="90dp"
-            android:background="#eaeaea" />
+            android:background="@color/search_results_list_bg_gray" />
     </LinearLayout>
 
     <View
         android:id="@+id/recycler_view_temp_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#eaeaea" />
+        android:background="@color/search_results_list_bg_gray" />
 
     <com.expedia.bookings.widget.HotelListRecyclerView
         android:id="@+id/list_view"

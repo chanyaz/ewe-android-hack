@@ -36,7 +36,7 @@
         android:id="@+id/lx_checkout_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#EEEEEE"
+        android:background="@color/search_results_list_bg_gray"
         android:visibility="gone" />
 
     <com.expedia.bookings.widget.LXConfirmationWidget
