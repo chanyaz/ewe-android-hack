@@ -2,9 +2,11 @@ package com.expedia.bookings.presenter.hotel
 
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.graphics.Rect
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -16,6 +18,7 @@ import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.view.inputmethod.InputMethodManager
@@ -65,6 +68,9 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
     val searchButton: Button by bindView(R.id.search_button_v2)
     var searchLocationEditText: SearchView? = null
     val toolBarTitle : TextView by bindView(R.id.title)
+    val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
+    val mRootWindow by lazy { (context as Activity).window }
+    val mRootView by lazy { mRootWindow.decorView.findViewById(android.R.id.content) }
     val recentSearchesV2OutAnimator: ObjectAnimator by  lazy {
         var animator = ObjectAnimator.ofFloat(recentSearchesV2, "translationY", 0f, (screenHeight - recentSearchesV2.top).toFloat()).setDuration(ANIMATION_DURATION)
         animator
@@ -105,7 +111,21 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
         com.mobiata.android.util.Ui.hideKeyboard(this)
         scrollView.scrollTo(0, scrollView.top)
         searchButton.setTextColor(ContextCompat.getColor(context, R.color.white_disabled))
-   }
+    }
+
+    val globalLayoutListener = (ViewTreeObserver.OnGlobalLayoutListener {
+        val decorView = mRootWindow.decorView
+        val windowVisibleDisplayFrameRect = Rect()
+        decorView.getWindowVisibleDisplayFrame(windowVisibleDisplayFrameRect)
+        var location = IntArray(2)
+        searchLocationEditText?.getLocationOnScreen(location)
+        val lp = suggestionRecyclerView.layoutParams
+        val newHeight = windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top + statusBarHeight
+        if (lp.height != newHeight) {
+            lp.height = newHeight
+            suggestionRecyclerView.layoutParams = lp
+        }
+    })
 
     //TODO select calendar dates from deeplink
     override fun selectDates(startDate: LocalDate?, endDate: LocalDate?) {
@@ -322,8 +342,10 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
             searchContainer.visibility = if (forward) GONE else VISIBLE
             if (!forward) {
                 searchLocationEditText?.visibility = GONE
+                mRootView.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
             } else {
                 searchLocationEditText?.visibility = VISIBLE
+                mRootView.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
             }
 
             toolBarTitle.visibility = if (forward) GONE else VISIBLE
