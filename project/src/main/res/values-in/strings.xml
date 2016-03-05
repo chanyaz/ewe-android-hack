@@ -26,6 +26,16 @@
     <!-- Hotels rating hotel condition string -->
     <string name="hotel_rating_hotel_condition">Kondisi hotel</string>
 
+    <!-- Hotels v2 -->
+    <!-- slide to reserve -->
+    <string name="hotelsv2_slide_reserve">Geser untuk memesan</string>
+    <!-- slide to purchase -->
+    <string name="hotelsv2_slide_purchase">Geser untuk membeli</string>
+    <!-- Change Dates in case of Sold Out -->
+    <string name="change_dates">Ubah Tanggal</string>
+    <!-- checkout view toolbar title -->
+    <string name="secure_checkout">Pembayaran Aman</string>
+
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
@@ -230,13 +240,6 @@
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">Hemat {cardtype} …{cardno}</string>
-
-    <!-- Hotels V2 slide to reserve -->
-    <string name="hotelsv2_slide_reserve">Geser untuk memesan</string>
-    <!-- Hotels V2 slide to purchase -->
-    <string name="hotelsv2_slide_purchase">Geser untuk membeli</string>
-    <!-- Hotels V2 Change Dates in case of Sold Out -->
-    <string name="change_dates">Ubah Tanggal</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1653,6 +1656,8 @@
     <string name="edit_search">Ubah Pencarian</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">Pilih Tanggal</string>
+    <!-- Action mode asking users to select location -->
+    <string name="search_destination">Cari Destinasi</string>
     <!-- Number of adults template -->
     <plurals name="number_of_adults_TEMPLATE">
         <item quantity="zero">%1$d Dewasa</item>
@@ -1700,7 +1705,7 @@
     <string name="calendar_instructions_hotels_no_dates_selected">Pilih Tanggal Check-in</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
-    <string name="guests_with_rooms_TEMPLATE">{guests}, 1 kamar</string>
+    <string name="room_with_guests_TEMPLATE">1 Kamar, {guests}</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -1715,12 +1720,12 @@
     <string name="book_now_price_min_TEMPLATE">Pesan sekarang, mulai dari &lt;b&gt;%s&lt;/b&gt; per orang</string>
     <!-- Book now info label, when there are only a few seats left.  %1$s is the number of seats, %2$s is the price - e.g., "3 left at $500" -->
     <plurals name="urgency_book_TEMPLATE">
-        <item quantity="zero">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="one">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="two">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="few">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="many">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
-        <item quantity="other">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="zero">Sisa %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="one">Sisa %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="two">Sisa %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="few">Sisa %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="many">Sisa %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
+        <item quantity="other">Sisa %1$s seharga &lt;b&gt;%2$s&lt;/b&gt;</item>
     </plurals>
     <!-- Book now info label, when there are only a few seats left. Variant for Australian
          compliance rules (d/5810) -->
@@ -1774,6 +1779,8 @@
     <string name="baggage_fees">Biaya Bagasi</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Biaya Pemrosesan Pembayaran</string>
+    <!-- Label indicating number of tickets left for given flight -->
+    <string name="number_tickets_left">Sisa %d seharga</string>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -2054,6 +2061,8 @@
     <string name="cardholder_name_hint">Nama pemegang kartu</string>
     <!-- email hint -->
     <string name="email_address_hint">Alamat Email</string>
+    <!-- email hint for packages billing info screen, used to send the confirmation email -->
+    <string name="email_address_hint_confirmation">Alamat Email (untuk menerima konfirmasi)</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">Nomor Telepon</string>
     <!-- phone number -->
@@ -2088,7 +2097,7 @@
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Nomor Kartu Kredit</string>
     <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
-    <string name="credit_debit_card_hint">Nomor Kartu Debit/Kredit</string>
+    <string name="credit_debit_card_hint">Masukkan kartu debit/kredit baru</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Tanggal Kedaluwarsa</string>
     <!-- Set expiration date button -->
@@ -2127,6 +2136,7 @@
     <string name="save_traveler_message_TEMPLATE">Simpan informasi {name} di akun {brand} Anda untuk pemesanan berikutnya?</string>
     <!-- no thanks -->
     <string name="no_thanks">Tidak, Terima Kasih</string>
+    <string name="advanced">Lanjutan</string>
 
     <!-- Overwrite traveler dialog -->
     <!-- Can't Save Traveler -->
@@ -2145,6 +2155,8 @@
     <string name="first_name">Nama Depan</string>
     <!-- Middle name label -->
     <string name="middle_name">Nama Tengah</string>
+    <!--A hint for the user to enter their name's initial letter-->
+    <string name="initial_name">Inisial</string>
     <!-- Last name label -->
     <string name="last_name">Nama Belakang</string>
     <!-- date of birth label -->
@@ -2998,6 +3010,8 @@
     <string name="triple_point_messaging">Dapatkan 3x lipat poin Expedia+</string>
     <!-- Label for messaging on sign in Variate 3 -->
     <string name="trip_alert_messaging">Terima notifikasi terkait perjalanan</string>
+    <!-- Label for menu item to open account settings screen -->
+    <string name="account_settings_menu_label">Akun</string>
     <!-- Label for menu item to sign into account -->
     <string name="sign_in">Masuk</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
@@ -3008,10 +3022,16 @@
     <string name="sign_out_confirmation_TEMPLATE">Yakin mau logout dari akun {brand} Anda?</string>
     <!-- Label for Expedia +blue rewards program name -->
     <string name="Expedia_plus_blue">Expedia +blue</string>
+    <!-- Label for Expedia +blue rewards tier without brand name -->
+    <string name="plus_blue">+blue</string>
     <!-- Label for Expedia +silver rewards program name -->
     <string name="Expedia_plus_silver">Expedia +silver</string>
+    <!-- Label for Expedia +silver rewards tier without brand name-->
+    <string name="plus_silver">+silver</string>
     <!-- Label for Expedia +gold rewards program name -->
     <string name="Expedia_plus_gold">Expedia +gold</string>
+    <!-- Label for Expedia +gold rewards tier without brand name -->
+    <string name="plus_gold">+gold</string>
     <!-- Label for loading user profile from Expedia -->
     <string name="loading_brand_account_TEMPLATE">Memuat Akun {brand}</string>
     <!-- Label for coupon code area of booking form -->
@@ -3106,6 +3126,14 @@
     <string name="website_TEMPLATE">Website {brand}</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">Dukungan Aplikasi</string>
+    <!-- Section label for app settings functionality -->
+    <string name="about_section_app_settings">Pengaturan Aplikasi</string>
+    <!-- Section label for user support functionality -->
+    <string name="about_section_support">Dukungan</string>
+    <!-- Section label for communication options that are not related to user support -->
+    <string name="about_section_communicate">Komunikasi</string>
+    <!-- Label for button that takes the user to screen to rate the app on the app store -->
+    <string name="rate_our_app">Nilai aplikasi kami!</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Syarat dan Ketentuan</string>
     <!-- Label for link to terms of use -->
@@ -3132,6 +3160,10 @@
     <string name="open_source_software_licenses">Lisensi Perangkat Lunak Open Source</string>
     <!-- String for acrediting the open source libraries we use -->
     <string name="this_app_makes_use_of_the_following">Aplikasi ini menggunakan pustaka open-source berikut ini:</string>
+    <!-- Label for a field containing the number of points that the user has accrued under the loyalty program (e.g. Expedia+) -->
+    <string name="available_loyalty_points">Poin tersedia</string>
+    <!-- String for showing the number of pending points that the user will accrue under the loyalty program (e.g. Expedia+); parameter is the number of points (e.g. "7,253 pending") -->
+    <string name="loyalty_points_pending">%1$s pending</string>
 
     <!-- App support WebView -->
     <!-- menu -->
@@ -3847,8 +3879,6 @@
     <string name="package_toolbar_title">Hotel + Penerbangan</string>
     <!-- Label for per person -->
     <string name="per_person">per orang</string>
-    <!-- Label for package search toolbar -->
-    <string name="bundle_overview_title">Ringkasan Paket</string>
     <!-- Label for package bundle price on overview-->
     <string name="bundle_total_text">Total paket</string>
     <!-- Label for package bundle price on search-->
@@ -3865,6 +3895,8 @@
     <string name="package_price_include_flights">Harga mencakup hotel + penerbangan</string>
     <!-- Package hotel map cell: Price Includes Taxes and Fees -->
     <string name="package_price_includes_taxes_fees">Harga mencakup pajak, biaya, hotel + penerbangan per orang</string>
+    <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
+    <string name="flight_time_traveler_TEMPLATE">%1$s, %2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s pukul %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
@@ -3905,7 +3937,11 @@
     <!-- Label for flights on checkout overview of Packages -->
     <string name="flight_checkout_overview_TEMPLATE">Penerbangan - {origin} ke {destination}, pulang-pergi</string>
     <!-- Label for hotel on checkout overview of Packages -->
-    <string name="hotel_checkout_overview_TEMPLATE">Hotel di {city} - {rooms} kamar, {nights} malam</string>
+    <plurals name="hotel_checkout_overview_TEMPLATE">
+        <item quantity="one">Hotel di {city} - 1 kamar, {number} malam</item>
+        <item quantity="other">Hotel di {city} - 1 kamar, {number} malam</item>
+    </plurals>
+
     <!-- Package Trip Overview -->
     <string name="trip_overview">Ringkasan Perjalanan</string>
     <!-- Slide to book -->
@@ -3920,18 +3956,31 @@
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">Kisaran Waktu Tiba</string>
 
+    <!-- Package Change hotel description -->
+    <string name="package_change_hotel">Ubah hotel</string>
+    <!-- Package Change hotel room description -->
+    <string name="package_change_hotel_room">Ubah kamar</string>
+    <!-- Package Change flight description -->
+    <string name="package_change_flight">Ubah penerbangan</string>
+
     <!-- Pay with points widget -->
-    <string name="paying_with_points">Bayar dengan poin</string>
-    <string name="pay_with_point_total_available_TEMPLATE">{money} ({points} poin) tersedia</string>
+    <string name="paying_with_expedia_points">Pembayaran dengan poin Expedia+</string>
+    <string name="pay_with_expedia_points">Bayar dengan poin Expedia+</string>
+    <string name="pay_with_point_total_available_TEMPLATE">{money} tersedia ({points} poin Expedia+)</string>
     <string name="user_enters_more_than_available_points_TEMPLATE">Nilai poin melebihi jumlah yang saat ini tersedia.\nHarap masukkan {money} ke bawah.</string>
     <string name="user_enters_more_than_trip">Nilai poin tidak dapat melebihi pembayaran yang dilakukan sekarang.</string>
     <string name="pwp_calculating_points">Menghitung poin…</string>
-    <string name="pwp_points_applied_TEMPLATE">{points} poin digunakan</string>
+    <plurals name="pwp_points_applied_TEMPLATE">
+        <item quantity="one">{points} poin digunakan</item>
+        <item quantity="other">{points} poin digunakan</item>
+    </plurals>
+
     <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Sisa untuk dibayar: {money}</string>
     <string name="pwp_total_due_today_TEMPLATE">Total dibayar hari ini: {money}</string>
 
     <!-- Package Flight Overview -->
     <string name="package_flight_overview_urgency_message_TEMPLATE">Sisa {seats} kursi</string>
+    <string name="package_flight_overview_baggage_fees">Info Biaya Bagasi</string>
     <string name="package_flight_overview_select_flight">Pilih Penerbangan Ini</string>
     <string name="package_flight_overview_bundle_total_label">Total Paket</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/orang</string>
@@ -3948,7 +3997,11 @@
     <string name="pwp_unknown_error">Terjadi kesalahan yang tidak dikenali. Silakan coba lagi.</string>
 
     <!-- New Hotel Search screen -->
-    <string name="select_traveler_title">Pilih traveler</string>
     <string name="enter_destination_hint">Masukkan Destinasi</string>
 
+    <!-- Package breakdown dialog -->
+    <string name="package_breakdown_hotel_flight_summary">Hotel + Penerbangan</string>
+    <string name="package_breakdown_taxes_fees">Pajak &amp; Biaya</string>
+    <string name="package_breakdown_taxes_fees_included_TEMPLATE">Pajak &amp; Biaya Termasuk {taxes}</string>
+    <string name="package_breakdown_total_savings">Total Penghematan</string>
 </resources>
