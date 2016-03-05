@@ -38,17 +38,13 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         bundlePresenter.checkoutPresenter.viewModel = BaseCheckoutViewModel(context)
         bundlePresenter.checkoutPresenter.createTripViewModel = PackageCreateTripViewModel(packageServices)
         bundlePresenter.checkoutPresenter.packageCheckoutViewModel = PackageCheckoutViewModel(context, packageServices)
-        bundlePresenter.checkoutPresenter.createTripViewModel.bundleTotalPrice.subscribe(bundlePresenter.bundleTotalPriceWidget.viewModel.setTextObservable)
         bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe { trip ->
-            bundlePresenter.priceChangeWidget.viewmodel.originalPackagePrice.onNext(trip.oldPackageDetails?.pricing?.packageTotal)
-            bundlePresenter.priceChangeWidget.viewmodel.packagePrice.onNext(trip.packageDetails.pricing.packageTotal)
-            bundlePresenter.checkoutButton.visibility = VISIBLE
             bundlePresenter.toolbar.viewModel.showChangePackageMenuObservable.onNext(true)
             bundlePresenter.bundleWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
             bundlePresenter.bundleWidget.inboundFlightWidget.toggleFlightWidget(1f, true)
             bundlePresenter.bundleWidget.bundleHotelWidget.toggleHotelWidget(1f, true)
             bundlePresenter.bundleWidget.toggleMenuObservable.onNext(true)
-            bundlePresenter.toggleCheckoutButton(1f, true)
+            bundlePresenter.checkoutPresenter.toggleCheckoutButton(true)
         }
         bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe { visible ->
             var packagePrice = Db.getPackageResponse().packageResult.currentSelectedOffer.price
@@ -57,20 +53,18 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
                     .put("savings", Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
                             packagePrice.tripSavings.currencyCode).formattedMoney)
                     .format().toString()
-            bundlePresenter.bundleTotalPriceWidget.visibility = if (visible) View.VISIBLE else View.GONE
-            bundlePresenter.bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
+            bundlePresenter.checkoutPresenter.totalPriceWidget.visibility = if (visible) View.VISIBLE else View.GONE
+            bundlePresenter.checkoutPresenter.totalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal(packagePrice.packageTotalPrice.amount.toDouble()),
                     packagePrice.packageTotalPrice.currencyCode).formattedMoney, packageSavings))
         }
-        bundlePresenter.bundleWidget.viewModel.createTripObservable.subscribe(bundlePresenter.bundleTotalPriceWidget.viewModel.createTripObservable)
         bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe(bundlePresenter.checkoutPresenter.packageCheckoutViewModel.tripResponseObservable)
         bundlePresenter.checkoutPresenter.viewModel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
         bundlePresenter.checkoutPresenter.paymentWidget.viewmodel.completeBillingInfo.subscribe(bundlePresenter.checkoutPresenter.viewModel.paymentCompleted)
         bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe {
-            bundlePresenter.toggleCheckoutHeader(true)
+            bundlePresenter.toggleOverviewHeader(true)
         }
         bundlePresenter.checkoutPresenter.createTripViewModel.createTripBundleTotalObservable.subscribe(bundlePresenter.bundleWidget.viewModel.createTripObservable)
         bundlePresenter.checkoutPresenter.createTripViewModel.createTripBundleTotalObservable.subscribe { trip ->
-            bundlePresenter.bundleTotalPriceWidget.packagebreakdown.viewmodel.newDataObservable.onNext(trip.packageDetails)
             bundlePresenter.checkoutOverviewFloatingToolbar.update(trip.packageDetails.hotel, bundlePresenter.imageHeader, width)
             bundlePresenter.checkoutOverviewHeaderToolbar.update(trip.packageDetails.hotel, bundlePresenter.imageHeader, width)
             bundlePresenter.bundleWidget.setPadding(0, 0, 0, 0)
@@ -110,12 +104,12 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
             super.startTransition(forward)
             if (forward) {
                 bundlePresenter.checkoutOverviewHeaderToolbar.visibility = View.GONE
-                bundlePresenter.toggleCheckoutHeader(false)
-                bundlePresenter.checkoutButton.visibility = View.GONE
+                bundlePresenter.toggleOverviewHeader(false)
+                bundlePresenter.checkoutPresenter.toggleCheckoutButton(false)
                 var countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
                 var currencyCode = CurrencyUtils.currencyForLocale(countryCode)
-                bundlePresenter.bundleTotalPriceWidget.visibility = View.VISIBLE
-                bundlePresenter.bundleTotalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal("0.00"), currencyCode).formattedMoney,
+                bundlePresenter.checkoutPresenter.totalPriceWidget.visibility = View.VISIBLE
+                bundlePresenter.checkoutPresenter.totalPriceWidget.viewModel.setTextObservable.onNext(Pair(Money(BigDecimal("0.00"), currencyCode).formattedMoney,
                         Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
                                 .put("savings", Money(BigDecimal("0.00"), currencyCode).formattedMoney)
                                 .format().toString()))

@@ -68,43 +68,13 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:orientation="vertical">
-
-        <com.expedia.bookings.widget.PriceChangeWidget
-            android:id="@+id/price_change"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:visibility="gone" />
-
-        <com.expedia.bookings.widget.PackageBundlePriceWidget
-            android:id="@+id/bundle_total"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/itin_white_text"
-            android:orientation="horizontal"
-            android:padding="12dp"
-            android:visibility="gone" />
-
-        <Button
-            android:id="@+id/checkout_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/Checkout"
-            android:visibility="gone" />
-    </LinearLayout>
-
     <com.expedia.bookings.widget.PackageCheckoutPresenter
         android:id="@+id/checkout_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
-        android:fitsSystemWindows="true"
-        android:background="@color/itin_white_text"
-        android:visibility="gone" />
+        android:layout_gravity="bottom"
+        android:fitsSystemWindows="true" />
 
     <com.expedia.bookings.widget.CVVEntryWidget
         android:id="@+id/cvv"

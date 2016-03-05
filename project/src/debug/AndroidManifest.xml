@@ -9,8 +9,7 @@
             android:name="com.expedia.bookings.activity.PlaygroundActivity"
             android:label="Playground"
             android:taskAffinity="com.expedia.bookings.activity.PlaygroundActivity"
-            android:theme="@style/V2.Theme.Cars"></activity>
-
+            android:theme="@style/V2.Theme.Cars" />
         <activity
             android:name="com.expedia.ui.PackageActivity"
             android:label="Packages"
@@ -28,16 +27,11 @@
             android:name="com.expedia.ui.PackageHotelActivity"
             android:configChanges="screenSize|orientation|keyboardHidden"
             android:launchMode="singleTop"
-            android:theme="@style/V2.Theme.Packages" />
+            android:theme="@style/V2.Theme.Packages"
+            android:windowSoftInputMode="adjustPan" />
 
         <activity
             android:name="com.expedia.ui.FlightPackageActivity"
-            android:configChanges="screenSize|orientation|keyboardHidden"
-            android:launchMode="singleTop"
-            android:theme="@style/V2.Theme.Hotels" />
-
-        <activity
-            android:name="com.expedia.ui.CheckoutActivity"
             android:configChanges="screenSize|orientation|keyboardHidden"
             android:launchMode="singleTop"
             android:theme="@style/V2.Theme.Hotels" />

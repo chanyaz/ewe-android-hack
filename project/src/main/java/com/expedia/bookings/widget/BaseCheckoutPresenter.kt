@@ -1,15 +1,18 @@
 package com.expedia.bookings.widget
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewStub
+import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
@@ -18,27 +21,25 @@ import com.expedia.bookings.activity.HotelRulesActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.User
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.TravelerPresenter
-import com.expedia.bookings.tracking.HotelV2Tracking
-import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.UserAccountRefresher
-import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseCheckoutViewModel
+import com.expedia.vm.BundlePriceViewModel
 import com.expedia.vm.PaymentViewModel
+import com.expedia.vm.PriceChangeViewModel
 import com.mobiata.android.Log
-import rx.Observer
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
-        UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener, ExpandableCardView.IExpandedListener {
+        UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
 
-    val toolbar: CheckoutToolbar? by bindOptionalView(R.id.checkout_toolbar)
+    val handle: FrameLayout by bindView(R.id.handle)
+    val chevron: View by bindView(R.id.chevron)
+    val mainContent: LinearLayout by bindView(R.id.main_content)
     val scrollView: ScrollView by bindView(R.id.scrollView)
     val loginWidget: AccountButton by bindView(R.id.login_widget)
     var paymentWidget: PaymentWidget by Delegates.notNull()
@@ -51,25 +52,25 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val hintContainer: LinearLayout by bindView(R.id.hint_container)
     val depositPolicyText: TextView by bindView(R.id.disclaimer_text)
-    val acceptTermsWidget: AcceptTermsWidget by bindView(R.id.layout_confirm_tos)
-    val slideContainer: LinearLayout by bindView(R.id.slide_to_purchase_layout)
+
+    val bottomContainer: LinearLayout by bindView(R.id.bottom_container)
+    val priceChangeWidget: PriceChangeWidget by bindView(R.id.price_change)
+    val totalPriceWidget: TotalPriceWidget by bindView(R.id.total_price_widget)
+    val slideToPurchaseLayout: LinearLayout by bindView(R.id.slide_to_purchase_layout)
     val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
     val slideTotalText: TextView by bindView(R.id.purchase_total_text_view)
-    val handle: CardView by bindView(R.id.handle)
-    val chevron: View by bindView(R.id.chevron)
+    val checkoutButton: Button by bindView(R.id.checkout_button)
 
     val checkoutDialog = ProgressDialog(context)
     val createTripDialog = ProgressDialog(context)
 
     var slideAllTheWayObservable = PublishSubject.create<Unit>()
+    var checkoutTranslationObserver = PublishSubject.create<Float>()
     var userAccountRefresher: UserAccountRefresher by Delegates.notNull()
 
+    var sliderHeight = 0f
+    var checkoutButtonHeight = 0f
     var viewModel: BaseCheckoutViewModel by notNullAndObservable { vm ->
-        vm.infoCompleted.subscribe { completed ->
-            if (completed) {
-                showAcceptTerms()
-            }
-        }
         vm.lineOfBusiness.subscribe { lob ->
             paymentWidget.viewmodel.lineOfBusiness.onNext(lob)
             userAccountRefresher = UserAccountRefresher(context, lob, this)
@@ -85,40 +86,40 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         View.inflate(context, R.layout.widget_base_checkout, this)
         paymentWidget = paymentViewStub.inflate() as PaymentWidget
         paymentWidget.viewmodel = PaymentViewModel(context)
+        priceChangeWidget.viewmodel = PriceChangeViewModel(context)
+        totalPriceWidget.viewModel = BundlePriceViewModel(context)
         loginWidget.setListener(this)
         slideToPurchase.addSlideToListener(this)
 
         loginWidget.bind(false, Db.getUser() != null, Db.getUser(), LineOfBusiness.PACKAGES)
 
         travelersButton.setOnClickListener { showTravelerPresenter() }
-
+        paymentWidget.viewmodel.expandObserver.subscribe { showPaymentPresenter() }
         legalInformationText.setOnClickListener {
             context.startActivity(HotelRulesActivity.createIntent(context, LineOfBusiness.PACKAGES))
         }
-        paymentWidget.viewmodel.expandObserver.subscribe { expand ->
-            show(paymentWidget)
-        }
-        //calculates the difference for rotating the chevron and translating the checkout presenter
+
         handle.setOnTouchListener(object : View.OnTouchListener {
             internal var originY: Float = 0.toFloat()
-            internal var doneForNow: Boolean = false
             override fun onTouch(v: View, event: MotionEvent): Boolean {
                 when (event.action) {
                     (MotionEvent.ACTION_DOWN) -> {
-                        // this could probs break it cause multitouch
-                        doneForNow = false
                         originY = event.rawY
                     }
                     (MotionEvent.ACTION_UP) -> {
-                        originY = 0f
-                        doneForNow = false
-                    }
-                    (MotionEvent.ACTION_MOVE) -> if (!doneForNow) {
                         val diff = event.rawY - originY
-                        if (rotateChevron(Math.max(diff, 0f))) {
-                            doneForNow = true
-
+                        val distance = Math.max(diff, 0f)
+                        val distanceGoal = height / 3f
+                        if (distance > distanceGoal) {
+                            (context as AppCompatActivity).onBackPressed()
+                        } else {
+                            animCheckoutToTop()
                         }
+                        originY = 0f
+                    }
+                    (MotionEvent.ACTION_MOVE) -> {
+                        val diff = event.rawY - originY
+                        rotateChevron(Math.max(diff, 0f))
                     }
                 }
                 return true
@@ -137,15 +138,30 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     override fun onFinishInflate() {
         super.onFinishInflate()
         addDefaultTransition(defaultTransition)
-        slideToPurchase.addSlideToListener(this)
-
         addTransition(defaultToTraveler)
         addTransition(defaultToPayment)
-        paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
-
+        slideToPurchase.addSlideToListener(this)
         travelerPresenter.travelersCompleteSubject.subscribe {
-                show(CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
+            show(CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         }
+        slideToPurchaseLayout.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                sliderHeight = slideToPurchaseLayout.height.toFloat()
+                if (sliderHeight != 0f) {
+                    slideToPurchaseLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    bottomContainer.translationY = sliderHeight
+                }
+            }
+        })
+        checkoutButton.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                checkoutButtonHeight = checkoutButton.height.toFloat()
+                if (sliderHeight != 0f) {
+                    checkoutButton.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    checkoutButton.translationY = checkoutButtonHeight
+                }
+            }
+        })
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
@@ -163,10 +179,15 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             paymentWidget.visibility = if (forward) View.GONE else (if (paymentWidget.isCreditCardRequired()) View.VISIBLE else View.GONE)
             legalInformationText.setVisibility(forward)
             depositPolicyText.setVisibility(forward)
-            slideContainer.visibility = View.GONE
+            bottomContainer.setVisibility(forward)
+            travelersButton.setVisibility(forward)
+            travelerPresenter.setVisibility(!forward)
+        }
 
-            travelersButton.visibility = if (!forward) View.VISIBLE else View.GONE
-            travelerPresenter.visibility = if (forward) View.VISIBLE else View.GONE
+        override fun endTransition(forward: Boolean) {
+            if (!forward) {
+                animateInSlideToPurchase(true)
+            }
         }
     }
 
@@ -176,27 +197,45 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             handle.setVisibility(forward)
             loginWidget.setVisibility(forward)
             hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
-            travelersButton.visibility = if (!forward) View.VISIBLE else View.GONE
+            travelersButton.setVisibility(forward)
             legalInformationText.setVisibility(forward)
             depositPolicyText.setVisibility(forward)
-            slideContainer.visibility = View.GONE
+            bottomContainer.setVisibility(forward)
             if (!forward) {
                 paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
+                animateInSlideToPurchase(true)
+            }
+        }
+
+        override fun endTransition(forward: Boolean) {
+            if (!forward) {
+                animateInSlideToPurchase(true)
             }
         }
     }
 
     //Either shows the bundle overview or the checkout presenter based on distance/rotation
-    private fun rotateChevron(distance: Float): Boolean {
-        val distanceGoal = 300f
-        if (distance > distanceGoal) {
-            (context as AppCompatActivity).onBackPressed() 
-            return true
-        } else {
-            translationY = distance
-            chevron.rotation = distance / distanceGoal * (-90)
-            return false
-        }
+    private fun rotateChevron(distance: Float) {
+        val distanceGoal = height / 3f
+        mainContent.translationY = distance
+        chevron.rotation = Math.min(1f, distance / distanceGoal) * (180)
+        checkoutTranslationObserver.onNext(distance)
+    }
+
+    private fun animCheckoutToTop() {
+        val distanceGoal = height / 3f
+        val animator = ObjectAnimator.ofFloat(mainContent, "translationY", mainContent.translationY, 0f)
+        animator.duration = 400L
+        animator.addUpdateListener(ValueAnimator.AnimatorUpdateListener { anim ->
+            chevron.rotation = Math.min(1f, mainContent.translationY / distanceGoal) * (180)
+            checkoutTranslationObserver.onNext(mainContent.translationY)
+        })
+        animator.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) {
+                checkoutTranslationObserver.onNext(mainContent.translationY)
+            }
+        })
+        animator.start()
     }
 
     //Abstract methods
@@ -236,20 +275,15 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         //travelerWidget.onLogout()
         paymentWidget.viewmodel.userLogin.onNext(false)
         hintContainer.visibility = View.VISIBLE
-        acceptTermsWidget.visibility = View.INVISIBLE
         doCreateTrip()
-    }
-
-    override fun collapsed(view: ExpandableCardView?) {
-        show(CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
-    }
-
-    override fun expanded(view: ExpandableCardView?) {
-        //show(travelerWidget)
     }
 
     private fun showTravelerPresenter() {
         show(travelerPresenter)
+    }
+
+    private fun showPaymentPresenter() {
+        show(paymentWidget)
     }
 
     class CheckoutDefault
@@ -279,60 +313,21 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         doCreateTrip()
     }
 
-    fun showAcceptTerms() {
-        if (viewModel.infoCompleted.value) {
-            if (PointOfSale.getPointOfSale(context).requiresRulesRestrictionsCheckbox() && !acceptTermsWidget.vm.acceptedTermsObservable.value) {
-                acceptTermsWidget.vm.acceptedTermsObservable.subscribe(object : Observer<Boolean> {
-                    override fun onCompleted() {
-                    }
-
-                    override fun onError(e: Throwable) {
-                    }
-
-                    override fun onNext(b: Boolean?) {
-                        animateInSlideToPurchase(true)
-                    }
-                })
-                acceptTermsWidget.visibility = View.VISIBLE
-            } else {
-                animateInSlideToPurchase(true)
-            }
-        } else {
-            acceptTermsWidget.visibility = View.INVISIBLE
-            animateInSlideToPurchase(false)
-        }
-    }
-
     fun animateInSlideToPurchase(visible: Boolean) {
-        // If its already in position, don't do it again
-        if (slideContainer.visibility == (if (visible) View.VISIBLE else View.INVISIBLE)) {
+        var visible = visible && viewModel.infoCompleted.value
+        var distance = if (!visible) slideToPurchaseLayout.height.toFloat() else 0f
+        if (bottomContainer.translationY == distance) {
             return
         }
-
-        val acceptTermsRequired = PointOfSale.getPointOfSale(context).requiresRulesRestrictionsCheckbox()
-        val acceptedTerms = acceptTermsWidget.vm.acceptedTermsObservable.value
-        if (acceptTermsRequired && !acceptedTerms) {
-            return  // don't show if terms have not ben accepted yet
-        }
-
-        slideContainer.translationY = (if (visible) slideContainer.height else 0).toFloat()
-        slideContainer.visibility = View.VISIBLE
-        val animator = ObjectAnimator.ofFloat(slideContainer, "translationY", if (visible) 0f else slideContainer.height.toFloat())
-        animator.setDuration(300)
+        val animator = ObjectAnimator.ofFloat(bottomContainer, "translationY", distance)
+        animator.duration = 300
         animator.start()
+    }
 
-        if (visible) {
-            scrollView.postDelayed({ scrollView.fullScroll(ScrollView.FOCUS_DOWN) }, 100)
-            val cardType = paymentWidget.getCardType().omnitureTrackingCode
-            when (getLineOfBusiness()) {
-                LineOfBusiness.HOTELSV2 -> HotelV2Tracking().trackHotelV2SlideToPurchase(paymentWidget.getCardType(), paymentWidget.viewmodel.splitsType.value)
-                LineOfBusiness.LX -> OmnitureTracking.trackAppLXCheckoutSlideToPurchase(cardType)
-                LineOfBusiness.CARS -> OmnitureTracking.trackAppCarCheckoutSlideToPurchase(cardType)
-                else -> {
-                    //we should never reach here justa dded to remove kotlin warning
-                }
-            }
-        }
+    fun toggleCheckoutButton(isEnabled: Boolean) {
+        checkoutButton.translationY = if (isEnabled) 0f else checkoutButtonHeight
+        bottomContainer.translationY = if (isEnabled) sliderHeight - checkoutButtonHeight else sliderHeight
+        checkoutButton.isEnabled = isEnabled
     }
 
     private fun View.setVisibility(forward: Boolean) {

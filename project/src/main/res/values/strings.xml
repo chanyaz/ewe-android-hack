@@ -3948,8 +3948,8 @@
         <item quantity="other">Hotel in {city} - 1 room, {number} nights</item>
     </plurals>
 
-    <!-- Package Trip Overview -->
-    <string name="trip_overview">Trip Overview</string>
+    <!-- Text indicating that the user can drag this button to view their trip -->
+    <string name="trip_overview">View Trip Details</string>
     <!-- Slide to book -->
     <string name="package_slider_text">Slide to book</string>
     <string name="hotel_city_country_checkout_header_TEMPLATE">{city}, {country}</string>
