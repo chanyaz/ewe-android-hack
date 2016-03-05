@@ -163,19 +163,21 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     private fun selectMarker(mapItem: MapItem, shouldZoom: Boolean = false, animateCarousel: Boolean = true) {
         //To prevent caching, we have to clear items and add again. TODO- Try with a custom decorator which doesnt cache anything at any zoom level.
-        clusterManager.clearItems()
-        clusterManager.addItems(mapItems)
-        clearPreviousMarker()
-        mapItem.isSelected = true
-        val selectedMarker = hotelMapClusterRenderer.getMarker(mapItem)
-        selectedMarker?.setIcon(mapItem.selectedIcon)
-        selectedMarker?.showInfoWindow()
-        if (shouldZoom) {
-            googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(mapItem.position, googleMap?.cameraPosition?.zoom!!))
-        }
-        mapViewModel.mapPinSelectSubject.onNext(mapItem)
-        if (animateCarousel) {
-            animateMapCarouselVisibility(true)
+        if (!mapItem.hotel.isSoldOut) {
+            clusterManager.clearItems()
+            clusterManager.addItems(mapItems)
+            clearPreviousMarker()
+            mapItem.isSelected = true
+            val selectedMarker = hotelMapClusterRenderer.getMarker(mapItem)
+            selectedMarker?.setIcon(mapItem.selectedIcon)
+            selectedMarker?.showInfoWindow()
+            if (shouldZoom) {
+                googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(mapItem.position, googleMap?.cameraPosition?.zoom!!))
+            }
+            mapViewModel.mapPinSelectSubject.onNext(mapItem)
+            if (animateCarousel) {
+                animateMapCarouselVisibility(true)
+            }
         }
     }
 
@@ -367,7 +369,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             hotel ->
             val bitmap = createHotelMarkerIcon(context, iconFactory, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut)
             val selectedBitmap = createHotelMarkerIcon(context, iconFactory, hotel, true, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut)
-            val mapItem = MapItem(LatLng(hotel.latitude, hotel.longitude), hotel.hotelId, bitmap, selectedBitmap, hotel.lowRateInfo, hotel)
+            val soldOutBitmap = createHotelMarkerIcon(context, iconFactory, hotel, false, hotel.lowRateInfo.isShowAirAttached(), true)
+            val mapItem = MapItem(LatLng(hotel.latitude, hotel.longitude), hotel.hotelId, bitmap, selectedBitmap, soldOutBitmap, hotel.lowRateInfo, hotel)
             mapItems.add(mapItem)
             clusterManager.addItem(mapItem)
         }
@@ -587,7 +590,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         val prevMapItem = mapViewModel.mapPinSelectSubject.value
         if (prevMapItem != null) {
             prevMapItem.isSelected = false
-            hotelMapClusterRenderer.getMarker(prevMapItem)?.setIcon(prevMapItem.icon)
+            if (!prevMapItem.hotel.isSoldOut) {
+                hotelMapClusterRenderer.getMarker(prevMapItem)?.setIcon(prevMapItem.icon)
+            }
         }
     }
 
