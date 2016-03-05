@@ -36,10 +36,10 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class PaymentWidgetV2Test {
-    public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
+    var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
-    public var loyaltyServiceRule = ServicesRule<LoyaltyServices>(LoyaltyServices::class.java)
+    var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
     private var paymentModel: PaymentModel<HotelCreateTripResponse> by Delegates.notNull()

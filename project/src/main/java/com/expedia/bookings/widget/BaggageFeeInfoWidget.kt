@@ -13,7 +13,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaggageFeeInfoViewModel
 
-public class BaggageFeeInfoWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class BaggageFeeInfoWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val webView: WebView by bindView(R.id.web_view)
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }

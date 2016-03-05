@@ -30,7 +30,7 @@ class HotelCheckoutOverviewViewModelTest {
     val mockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
-    public var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
+    var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
     lateinit var context: Context

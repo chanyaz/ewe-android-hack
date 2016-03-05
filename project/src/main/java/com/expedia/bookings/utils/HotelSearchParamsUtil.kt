@@ -11,9 +11,9 @@ import org.joda.time.LocalDate
 import java.io.IOException
 import java.util.ArrayList
 
-public object HotelSearchParamsUtil {
-    public val RECENT_HOTEL_SEARCHES_FILE = "recent-hotel-search-list.dat"
-    public val PATTERN = "yyyy-MM-dd"
+object HotelSearchParamsUtil {
+    val RECENT_HOTEL_SEARCHES_FILE = "recent-hotel-search-list.dat"
+    val PATTERN = "yyyy-MM-dd"
 
     fun saveSearchHistory(context: Context, searchParams: HotelSearchParams) {
         Thread(object : Runnable {

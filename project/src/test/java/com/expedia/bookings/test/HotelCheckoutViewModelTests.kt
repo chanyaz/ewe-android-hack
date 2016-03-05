@@ -29,7 +29,7 @@ class HotelCheckoutViewModelTests {
     var mockHotelTestServiceRule = MockHotelServiceTestRule()
         @Rule get
 
-    public var loyaltyServiceRule = ServicesRule<LoyaltyServices>(LoyaltyServices::class.java)
+    var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>

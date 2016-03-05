@@ -3,10 +3,10 @@ package com.expedia.bookings.test
 import android.app.Activity
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
@@ -29,7 +29,7 @@ import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 class HotelDetailsTest {
-    public var service = ServicesRule(HotelServices::class.java)
+    var service = ServicesRule(HotelServices::class.java)
         @Rule get
 
     private var vm: HotelDetailViewModel by Delegates.notNull()
@@ -60,7 +60,6 @@ class HotelDetailsTest {
         offers.hotelStarRating = 5.0
         offers.deskTopOverrideNumber = false
         offers.telesalesNumber = "1-800-766-6658"
-
     }
 
     @Test
@@ -85,13 +84,13 @@ class HotelDetailsTest {
 
         vm.hotelOffersSubject.onNext(offers)
 
-        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.getVisibility())
-        val expectedDiscountMessage = Phrase.from(activity.getResources(), R.string.hotel_discount_percent_Template).put("discount", -20).format().toString()
-        assertEquals(expectedDiscountMessage, hotelDetailView.discountPercentage.getText())
-        assertEquals(View.VISIBLE, hotelDetailView.discountPercentage.getVisibility())
-        assertEquals(View.VISIBLE, hotelDetailView.vipAccessMessage.getVisibility())
-        assertEquals(View.VISIBLE, hotelDetailView.promoMessage.getVisibility())
-        assertEquals(activity.getResources().getString(R.string.tonight_only), hotelDetailView.promoMessage.getText())
+        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.visibility)
+        val expectedDiscountMessage = Phrase.from(activity.resources, R.string.hotel_discount_percent_Template).put("discount", -20).format().toString()
+        assertEquals(expectedDiscountMessage, hotelDetailView.discountPercentage.text)
+        assertEquals(View.VISIBLE, hotelDetailView.discountPercentage.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.vipAccessMessage.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.promoMessage.visibility)
+        assertEquals(activity.resources.getString(R.string.tonight_only), hotelDetailView.promoMessage.text)
     }
 
     @Test
@@ -123,9 +122,9 @@ class HotelDetailsTest {
                 .format()
                 .toString()
 
-        assertEquals("$300", hotelDetailView.price.getText())
+        assertEquals("$300", hotelDetailView.price.text)
 
-        assertEquals(string, hotelDetailView.searchInfo.getText())
+        assertEquals(string, hotelDetailView.searchInfo.text)
     }
 
     @Test
@@ -150,12 +149,12 @@ class HotelDetailsTest {
 
         vm.hotelOffersSubject.onNext(offers)
 
-        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.getVisibility())
-        val expectedDiscountMessage = Phrase.from(activity.getResources(), R.string.hotel_discount_percent_Template).put("discount", -20).format().toString()
-        assertEquals(expectedDiscountMessage, hotelDetailView.discountPercentage.getText())
-        assertEquals(View.VISIBLE, hotelDetailView.discountPercentage.getVisibility())
-        assertEquals(View.GONE, hotelDetailView.vipAccessMessage.getVisibility())
-        assertEquals("", hotelDetailView.promoMessage.getText())
+        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.visibility)
+        val expectedDiscountMessage = Phrase.from(activity.resources, R.string.hotel_discount_percent_Template).put("discount", -20).format().toString()
+        assertEquals(expectedDiscountMessage, hotelDetailView.discountPercentage.text)
+        assertEquals(View.VISIBLE, hotelDetailView.discountPercentage.visibility)
+        assertEquals(View.GONE, hotelDetailView.vipAccessMessage.visibility)
+        assertEquals("", hotelDetailView.promoMessage.text)
     }
 
     @Test
@@ -180,10 +179,10 @@ class HotelDetailsTest {
 
         vm.hotelOffersSubject.onNext(offers)
 
-        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.getVisibility())
-        assertEquals(View.GONE, hotelDetailView.discountPercentage.getVisibility())
-        assertEquals(View.VISIBLE, hotelDetailView.vipAccessMessage.getVisibility())
-        assertEquals("", hotelDetailView.promoMessage.getText())
+        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.visibility)
+        assertEquals(View.GONE, hotelDetailView.discountPercentage.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.vipAccessMessage.visibility)
+        assertEquals("", hotelDetailView.promoMessage.text)
     }
 
     @Test
@@ -209,11 +208,11 @@ class HotelDetailsTest {
 
         vm.hotelOffersSubject.onNext(offers)
 
-        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.getVisibility())
-        assertEquals(View.GONE, hotelDetailView.discountPercentage.getVisibility())
-        assertEquals(View.GONE, hotelDetailView.vipAccessMessage.getVisibility())
-        assertEquals(View.VISIBLE, hotelDetailView.promoMessage.getVisibility())
-        assertEquals(activity.getResources().getString(R.string.mobile_exclusive), hotelDetailView.promoMessage.getText())
+        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.visibility)
+        assertEquals(View.GONE, hotelDetailView.discountPercentage.visibility)
+        assertEquals(View.GONE, hotelDetailView.vipAccessMessage.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.promoMessage.visibility)
+        assertEquals(activity.resources.getString(R.string.mobile_exclusive), hotelDetailView.promoMessage.text)
     }
 
     @Test
@@ -239,12 +238,12 @@ class HotelDetailsTest {
         vm.hotelOffersSubject.onNext(offers)
 
         var roomsLeft = hotel.currentAllotment.toInt()
-        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.getVisibility())
-        assertEquals(View.GONE, hotelDetailView.discountPercentage.getVisibility())
-        assertEquals(View.GONE, hotelDetailView.vipAccessMessage.getVisibility())
-        assertEquals(View.VISIBLE, hotelDetailView.promoMessage.getVisibility())
-        assertEquals(activity.getResources().getQuantityString(R.plurals.num_rooms_left, roomsLeft,
-                roomsLeft), hotelDetailView.promoMessage.getText())
+        assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.visibility)
+        assertEquals(View.GONE, hotelDetailView.discountPercentage.visibility)
+        assertEquals(View.GONE, hotelDetailView.vipAccessMessage.visibility)
+        assertEquals(View.VISIBLE, hotelDetailView.promoMessage.visibility)
+        assertEquals(activity.resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft,
+                roomsLeft), hotelDetailView.promoMessage.text)
     }
 
     @Test
@@ -270,7 +269,7 @@ class HotelDetailsTest {
 
         vm.hotelOffersSubject.onNext(offers)
 
-        assertEquals(View.VISIBLE, hotelDetailView.strikeThroughPrice.getVisibility())
+        assertEquals(View.VISIBLE, hotelDetailView.strikeThroughPrice.visibility)
         assertEquals("$100", hotelDetailView.strikeThroughPrice.text.toString())
     }
 
@@ -296,7 +295,7 @@ class HotelDetailsTest {
 
         vm.hotelOffersSubject.onNext(offers)
 
-        assertEquals(View.GONE, hotelDetailView.strikeThroughPrice.getVisibility())
+        assertEquals(View.GONE, hotelDetailView.strikeThroughPrice.visibility)
     }
 
     @Test
@@ -467,35 +466,35 @@ class HotelDetailsTest {
 
         vm.hotelSoldOut.onNext(true)
 
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.changeDatesButton.getVisibility())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.detailsSoldOut.getVisibility())
-        Assert.assertEquals(activity.getResources().getColor(android.R.color.white), hotelDetailView.hotelDetailsToolbar.toolBarRating.getStarColor())
-        Assert.assertEquals(View.GONE, hotelDetailView.selectRoomButton.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.roomContainer.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.price.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.strikeThroughPrice.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.payByPhoneContainer.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.hotelMessagingContainer.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.etpContainer.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.etpAndFreeCancellationMessagingContainer.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.stickySelectRoomContainer.getVisibility())
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.changeDatesButton.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.detailsSoldOut.visibility)
+        Assert.assertEquals(activity.resources.getColor(android.R.color.white), hotelDetailView.hotelDetailsToolbar.toolBarRating.getStarColor())
+        Assert.assertEquals(View.GONE, hotelDetailView.selectRoomButton.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.roomContainer.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.price.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.strikeThroughPrice.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.payByPhoneContainer.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.hotelMessagingContainer.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.etpContainer.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.etpAndFreeCancellationMessagingContainer.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.stickySelectRoomContainer.visibility)
 
     }
 
     private fun testDefaultDetailView() {
-        Assert.assertEquals(View.GONE, hotelDetailView.changeDatesButton.getVisibility())
-        Assert.assertEquals(View.GONE, hotelDetailView.detailsSoldOut.getVisibility())
-        Assert.assertEquals(activity.getResources().getColor(R.color.hotelsv2_detail_star_color), hotelDetailView.hotelDetailsToolbar.toolBarRating.getStarColor())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.selectRoomButton.getVisibility())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.roomContainer.getVisibility())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.price.getVisibility())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.stickySelectRoomContainer.getVisibility())
+        Assert.assertEquals(View.GONE, hotelDetailView.changeDatesButton.visibility)
+        Assert.assertEquals(View.GONE, hotelDetailView.detailsSoldOut.visibility)
+        Assert.assertEquals(activity.resources.getColor(R.color.hotelsv2_detail_star_color), hotelDetailView.hotelDetailsToolbar.toolBarRating.getStarColor())
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.selectRoomButton.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.roomContainer.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.price.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.stickySelectRoomContainer.visibility)
 
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.strikeThroughPrice.getVisibility())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.payByPhoneContainer.getVisibility())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.getVisibility())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.etpContainer.getVisibility())
-        Assert.assertEquals(View.VISIBLE, hotelDetailView.etpAndFreeCancellationMessagingContainer.getVisibility())
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.strikeThroughPrice.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.payByPhoneContainer.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.hotelMessagingContainer.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.etpContainer.visibility)
+        Assert.assertEquals(View.VISIBLE, hotelDetailView.etpAndFreeCancellationMessagingContainer.visibility)
 
     }
 

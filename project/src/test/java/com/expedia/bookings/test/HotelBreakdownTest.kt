@@ -18,7 +18,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertTrue
 
 class HotelBreakdownTest {
-    public var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
+    var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
     private var vm: HotelBreakDownViewModel by Delegates.notNull()

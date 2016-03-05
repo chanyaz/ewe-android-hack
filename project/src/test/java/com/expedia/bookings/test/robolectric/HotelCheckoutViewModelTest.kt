@@ -2,12 +2,12 @@ package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.cars.ApiError
 import com.expedia.bookings.data.hotels.HotelCheckoutParamsMock
-import com.expedia.bookings.data.hotels.HotelCreateTripResponse
-import com.expedia.bookings.data.payment.PaymentModel
-import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
+import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.MiscellaneousParams
+import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.TripDetails
+import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelCheckoutViewModel
@@ -23,7 +23,7 @@ class HotelCheckoutViewModelTest {
     val mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
-    public var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
+    var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
     @Test

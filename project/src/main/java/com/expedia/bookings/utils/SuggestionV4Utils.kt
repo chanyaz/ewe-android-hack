@@ -9,10 +9,10 @@ import com.mobiata.android.Log
 import com.mobiata.android.util.IoUtils
 import java.io.IOException
 
-public object SuggestionV4Utils {
+object SuggestionV4Utils {
 
-    public val RECENT_HOTEL_SUGGESTIONS_FILE = "recent-hotel-suggest-list.dat"
-    public val RECENT_PACKAGE_SUGGESTIONS_FILE = "recent-package-suggest-list.dat"
+    val RECENT_HOTEL_SUGGESTIONS_FILE = "recent-hotel-suggest-list.dat"
+    val RECENT_PACKAGE_SUGGESTIONS_FILE = "recent-package-suggest-list.dat"
 
     fun saveSuggestionHistory(context: Context, suggestion: SuggestionV4, file: String) {
         Thread(object : Runnable {
@@ -75,6 +75,6 @@ public object SuggestionV4Utils {
      * @return min number of characters to start a query
      */
     @JvmStatic fun getMinSuggestQueryLength(context: Context): Int {
-        return context.getResources().getInteger(R.integer.suggest_min_query_length)
+        return context.resources.getInteger(R.integer.suggest_min_query_length)
     }
 }

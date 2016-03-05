@@ -32,7 +32,7 @@ class HotelDetailViewModelTest {
     // TODO: Improve HotelDetailViewModel test coverage
     //  -- TODO: Use MockHotelServiceTestRule (It provides helper functions to grab hotel responses. We shouldn't be creating mock hotel objects (see: makeHotel())
 
-    public var service = ServicesRule(HotelServices::class.java)
+    var service = ServicesRule(HotelServices::class.java)
         @Rule get
 
     private var vm: HotelDetailViewModel by Delegates.notNull()

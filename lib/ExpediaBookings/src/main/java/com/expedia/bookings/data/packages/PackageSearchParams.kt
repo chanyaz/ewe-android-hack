@@ -5,12 +5,9 @@ import com.expedia.bookings.utils.Constants
 import org.joda.time.Days
 import org.joda.time.LocalDate
 import java.util.HashMap
-import java.util.ArrayList
-import kotlin.collections.emptyList
-import kotlin.collections.joinToString
 import kotlin.properties.Delegates
 
-public data class PackageSearchParams(val origin: SuggestionV4, val destination: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>, val infantSeatingInLap: Boolean) {
+data class PackageSearchParams(val origin: SuggestionV4, val destination: SuggestionV4, val checkIn: LocalDate, val checkOut: LocalDate, val adults: Int, val children: List<Int>, val infantSeatingInLap: Boolean) {
 
     var pageType: String? = null
     var searchProduct: String? = null

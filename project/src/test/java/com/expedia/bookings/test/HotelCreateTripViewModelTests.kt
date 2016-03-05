@@ -22,7 +22,7 @@ class HotelCreateTripViewModelTests {
     val mockHotelServicesTestRule = MockHotelServiceTestRule()
         @Rule get
 
-    public var loyaltyServiceRule = ServicesRule<LoyaltyServices>(LoyaltyServices::class.java)
+    var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
         @Rule get
 
     private val happyMockProductKey = "happypath_0"

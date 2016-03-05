@@ -11,7 +11,7 @@ import com.expedia.bookings.data.hotels.HotelReviewsResponse
 import com.expedia.vm.HotelReviewRowViewModel
 import com.expedia.vm.HotelReviewsSummaryViewModel
 import rx.subjects.BehaviorSubject
-import java.util.*
+import java.util.ArrayList
 
 class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : RecyclerView(context, attrs) {
 

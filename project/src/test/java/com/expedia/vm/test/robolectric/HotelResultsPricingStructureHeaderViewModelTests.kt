@@ -10,7 +10,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import java.util.*
+import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 

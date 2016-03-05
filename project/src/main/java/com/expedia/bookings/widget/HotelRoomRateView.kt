@@ -48,7 +48,7 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
     private val ANIMATION_DURATION = 250L
 
     //views for room row
-    public val row: ViewGroup by bindView(R.id.root)
+    val row: ViewGroup by bindView(R.id.root)
 
     private val roomType: TextView by bindView(R.id.room_type_text_view)
     private val collapsedBedType: TextView by bindView(R.id.collapsed_bed_type_text_view)
@@ -58,27 +58,27 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
     private val dailyPricePerNight: TextView by bindView(R.id.daily_price_per_night)
     private val perNight: TextView by bindView(R.id.per_night)
     val viewRoom: ToggleButton by bindView(R.id.view_room_button)
-    public val roomHeaderImageContainer: FrameLayout by bindView(R.id.room_header_image_container)
-    public val roomHeaderImage: ImageView by bindView(R.id.room_header_image)
+    val roomHeaderImageContainer: FrameLayout by bindView(R.id.room_header_image_container)
+    val roomHeaderImage: ImageView by bindView(R.id.room_header_image)
     private val roomDiscountPercentage: TextView by bindView(R.id.discount_percentage)
     private val roomInfoDescriptionText: TextView by bindView(R.id.room_info_description_text)
-    public val roomInfoChevron: ImageView by bindView(R.id.room_info_chevron)
+    val roomInfoChevron: ImageView by bindView(R.id.room_info_chevron)
     private val roomInfoContainer: RelativeLayout by bindView(R.id.room_info_container)
     private val expandedAmenity: TextView by bindView(R.id.expanded_amenity_text_view)
     private val freeCancellation: TextView by bindView(R.id.expanded_free_cancellation_text_view)
-    public val roomInfoHeader: TextView by bindView(R.id.room_info_header_text)
-    public val roomInfoDivider: View by bindView(R.id.room_info_divider)
+    val roomInfoHeader: TextView by bindView(R.id.room_info_header_text)
+    val roomInfoDivider: View by bindView(R.id.room_info_divider)
     private val roomDivider: View by bindView(R.id.row_divider)
-    public val spaceAboveRoomInfo: View by bindView(R.id.space_above_room_info)
+    val spaceAboveRoomInfo: View by bindView(R.id.space_above_room_info)
     private val collapsedContainer: RelativeLayout by bindView(R.id.collapsed_container)
     private val depositTermsButton: TextView by bindView(R.id.deposit_terms_buttons)
 
-    public var roomInfoHeaderTextHeight = -1
-    public var roomHeaderImageHeight = -1
-    public var roomInfoDividerHeight = -1
-    public var roomInfoDescriptionTextHeight = -1
-    public var roomInfoChevronHeight = -1
-    public var spaceAboveRoomInfoHeight = -1
+    var roomInfoHeaderTextHeight = -1
+    var roomHeaderImageHeight = -1
+    var roomInfoDividerHeight = -1
+    var roomInfoDescriptionTextHeight = -1
+    var roomInfoChevronHeight = -1
+    var spaceAboveRoomInfoHeight = -1
     private var toggleCollapsed = 0
     private var toggleExpanded = 0
     private var roomContainerTopBottomPadding = 0

@@ -12,7 +12,7 @@ import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
 class HotelTravelerPickerTest {
-    public var vm: HotelTravelerPickerViewModel by Delegates.notNull()
+    var vm: HotelTravelerPickerViewModel by Delegates.notNull()
     private var LOTS_MORE: Long = 100
 
     @Before

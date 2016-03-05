@@ -344,7 +344,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
         HotelSuggestionAdapter(suggestionViewModel)
     }
 
-    public var suggestionViewModel: HotelSuggestionAdapterViewModel by notNullAndObservable { vm ->
+    var suggestionViewModel: HotelSuggestionAdapterViewModel by notNullAndObservable { vm ->
         searchLocationEditText?.setOnQueryTextListener(listener)
         vm.suggestionSelectedSubject.subscribe { suggestion ->
             com.mobiata.android.util.Ui.hideKeyboard(this)
