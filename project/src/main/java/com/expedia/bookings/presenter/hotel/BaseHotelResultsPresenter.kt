@@ -474,12 +474,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
         }
 
-        filterBtnWithCountWidget?.setOnClickListener {
-            show(ResultsFilter())
-            filterView.viewmodel.sortContainerObservable.onNext(true)
-            filterView.toolbar.title = resources.getString(R.string.Sort_and_Filter)
-        }
-
         searchMenuItem.setOnMenuItemClickListener({
             searchOverlaySubject.onNext(Unit)
             true
@@ -616,7 +610,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
 
             // Filter button translation
-            if (!mapTransitionRunning && newState == RecyclerView.SCROLL_STATE_IDLE && !Strings.equals(ResultsMap::class.java.name, getCurrentState())) {
+            if (filterBtnWithCountWidget != null && !mapTransitionRunning && newState == RecyclerView.SCROLL_STATE_IDLE && !Strings.equals(ResultsMap::class.java.name, getCurrentState())) {
                 if (topOffset == halfway) {
                     filterBtnWithCountWidget?.animate()?.translationY(0f)?.setInterpolator(DecelerateInterpolator())?.start()
                 } else if (scrolledDistance > heightOfButton / 2) {
@@ -672,7 +666,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 }
 
                 // Filter button translation
-                if (currentState != RecyclerView.SCROLL_STATE_SETTLING && currentState != RecyclerView.SCROLL_STATE_IDLE) {
+                if (filterBtnWithCountWidget != null && currentState != RecyclerView.SCROLL_STATE_SETTLING && currentState != RecyclerView.SCROLL_STATE_IDLE) {
                     if (topOffset > halfway) {
                         filterBtnWithCountWidget?.translationY = 0f
                         fab.translationY = 0f
@@ -684,7 +678,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                         fab.translationY = Math.min(scrolledDistance, 0).toFloat()
                     }
                 }
-
+ 
             }
         }
 
@@ -806,7 +800,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 }
                 startingFabTranslation = fab.translationY
                 if (forward) {
-                    finalFabTranslation = 0f
+                    finalFabTranslation = if (filterBtnWithCountWidget != null) 0f  else filterHeight
                 } else {
                     finalFabTranslation = if (isMapPinSelected) -(mapCarouselContainer.height - filterHeight) else filterHeight
                 }

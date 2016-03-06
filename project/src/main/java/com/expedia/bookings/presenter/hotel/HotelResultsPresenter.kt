@@ -111,6 +111,12 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             filterView.viewmodel.sortContainerObservable.onNext(false)
             filterView.toolbar.title = resources.getString(R.string.filter)
         }
+
+        filterBtnWithCountWidget?.setOnClickListener {
+            show(ResultsFilter())
+            filterView.viewmodel.sortContainerObservable.onNext(true)
+            filterView.toolbar.title = resources.getString(R.string.Sort_and_Filter)
+        }
     }
 
     private fun inflateAndSetupToolbarMenu() {
