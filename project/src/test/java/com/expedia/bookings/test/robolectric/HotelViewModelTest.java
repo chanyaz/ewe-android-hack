@@ -176,7 +176,7 @@ public class HotelViewModelTest {
 	}
 
 	private void givenHotelWithShopWithPointsAvailable() {
-		LoyaltyInformation loyaltyInformation = new LoyaltyInformation(null, new LoyaltyEarnInfo(null, null));
+		LoyaltyInformation loyaltyInformation = new LoyaltyInformation(null, new LoyaltyEarnInfo(null, null), true);
 		hotel.lowRateInfo.loyaltyInfo = loyaltyInformation;
 	}
 
