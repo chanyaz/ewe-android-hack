@@ -15,6 +15,6 @@ public class HotelDetailVipTest extends HotelTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed(getActivity().getString(R.string.vip_access_message));
 		Common.pressBack();
 		HotelScreen.waitForDetailsLoaded();
-		EspressoUtils.assertViewIsDisplayed(R.id.vip_access_message);
+		EspressoUtils.assertViewIsDisplayed(R.id.vip_access_message_container);
 	}
 }

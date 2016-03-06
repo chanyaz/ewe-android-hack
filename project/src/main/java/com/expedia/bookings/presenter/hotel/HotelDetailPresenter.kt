@@ -95,7 +95,7 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
             hotelVIPAccessInfo.visibility = if (forward) View.VISIBLE else View.GONE
             hotelDetailView.visibility = if (forward) View.GONE else View.VISIBLE
             if (!forward) {
-                ViewCompat.jumpDrawablesToCurrentState(hotelDetailView.vipAccessMessage)
+                ViewCompat.jumpDrawablesToCurrentState(hotelDetailView.vipAccessMessageContainer)
             }
 
         }
