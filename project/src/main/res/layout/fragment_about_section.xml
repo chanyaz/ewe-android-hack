@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
     android:orientation="vertical">
 
     <TextView
@@ -17,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
+        app:cardBackgroundColor="@color/about_section_card_background_color"
         app:cardCornerRadius="@dimen/cardview_border_radius"
         app:cardElevation="1dp">
 

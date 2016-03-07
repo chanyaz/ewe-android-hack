@@ -116,4 +116,16 @@ public class ProfileScreen {
 	public static ViewInteraction tierBadge() {
 		return onView(withId(R.id.toolbar_loyalty_tier_text));
 	}
+
+	public static void clickSignInButton() {
+		onView(withId(R.id.sign_in_button)).perform(click());
+	}
+
+	public static void clickFacebookSignInButton() {
+		onView(withId(R.id.sign_in_with_facebook_button)).perform(click());
+	}
+
+	public static void clickCreateAccountButton() {
+		onView(withId(R.id.create_account_button)).perform(click());
+	}
 }

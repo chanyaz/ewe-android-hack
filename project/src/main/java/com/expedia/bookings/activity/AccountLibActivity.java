@@ -35,9 +35,10 @@ import butterknife.InjectView;
 
 public class AccountLibActivity extends AppCompatActivity
 	implements UserAccountRefresher.IUserAccountRefreshListener, LoginExtenderListener {
-	public static final String ARG_BUNDLE = "ARG_BUNDLE";
-	public static final String ARG_PATH_MODE = "ARG_PATH_MODE";
-	public static final String ARG_LOGIN_FRAGMENT_EXTENDER = "ARG_LOGIN_FRAGMENT_EXTENDER";
+	private static final String ARG_BUNDLE = "ARG_BUNDLE";
+	private static final String ARG_PATH_MODE = "ARG_PATH_MODE";
+	private static final String ARG_LOGIN_FRAGMENT_EXTENDER = "ARG_LOGIN_FRAGMENT_EXTENDER";
+	private static final String ARG_INITIAL_STATE = "ARG_INITIAL_STATE";
 
 	@InjectView(R.id.parallax_view)
 	public PanningImageView background;
@@ -71,8 +72,13 @@ public class AccountLibActivity extends AppCompatActivity
 	}
 
 	public static Bundle createArgumentsBundle(LineOfBusiness pathMode, LoginExtender extender) {
+		return createArgumentsBundle(pathMode, Config.InitialState.SignIn, extender);
+	}
+
+	public static Bundle createArgumentsBundle(LineOfBusiness pathMode, Config.InitialState startState, LoginExtender extender) {
 		Bundle bundle = new Bundle();
-		bundle.putString(AccountLibActivity.ARG_PATH_MODE, pathMode.name());
+		bundle.putString(ARG_PATH_MODE, pathMode.name());
+		bundle.putString(ARG_INITIAL_STATE, startState.name());
 		if (extender != null) {
 			bundle.putBundle(ARG_LOGIN_FRAGMENT_EXTENDER, extender.buildStateBundle());
 		}
@@ -97,11 +103,16 @@ public class AccountLibActivity extends AppCompatActivity
 			AdTracker.trackSignInUpStarted();
 		}
 
+		Config.InitialState startState = Config.InitialState.SignIn;
+
 		Intent intent = getIntent();
 		if (intent.hasExtra(ARG_BUNDLE)) {
 			Bundle args = intent.getBundleExtra(ARG_BUNDLE);
 			if (args.containsKey(ARG_PATH_MODE)) {
 				lob = LineOfBusiness.valueOf(args.getString(ARG_PATH_MODE));
+			}
+			if (args.containsKey(ARG_INITIAL_STATE)) {
+				startState = Config.InitialState.valueOf(args.getString(ARG_INITIAL_STATE));
 			}
 			if (args.containsKey(ARG_LOGIN_FRAGMENT_EXTENDER)) {
 				loginExtender = LoginExtender.buildLoginExtenderFromState(args.getBundle(ARG_LOGIN_FRAGMENT_EXTENDER));
@@ -149,6 +160,7 @@ public class AccountLibActivity extends AppCompatActivity
 				.setMarketingText(PointOfSale.getPointOfSale().getMarketingText())
 				.setAnalyticsListener(analyticsListener)
 				.setFacebookAppId(getString(R.string.facebook_app_id))
+				.setInitialState(startState)
 		);
 
 		userAccountRefresher = new UserAccountRefresher(this, lob, this);

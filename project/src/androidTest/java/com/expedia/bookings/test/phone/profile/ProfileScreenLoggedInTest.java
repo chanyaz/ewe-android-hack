@@ -2,19 +2,22 @@ package com.expedia.bookings.test.phone.profile;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
-import android.support.test.espresso.Espresso;
 import android.support.test.espresso.matcher.BoundedMatcher;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.PhoneTestCase;
-import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
+import com.expedia.bookings.activity.AccountSettingsActivity;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.ProfileScreen;
 
@@ -25,15 +28,16 @@ import static com.expedia.bookings.test.espresso.CustomMatchers.sameBitmap;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsGone;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 
-public class ProfileScreenLoggedInTest extends PhoneTestCase {
+@RunWith(AndroidJUnit4.class)
+public class ProfileScreenLoggedInTest {
 
-	public void testNotRewardsMember() {
-		LaunchScreen.launchSignIn(getActivity());
-		LogInScreen.typeTextEmailEditText("qa-ehcc@mobiata.com");
-		LogInScreen.typeTextPasswordEditText("password");
-		LogInScreen.clickOnLoginButton();
+	@Rule
+	public ActivityTestRule<AccountSettingsActivity> activityRule = new ActivityTestRule<>(AccountSettingsActivity.class, true);
 
-		LaunchScreen.launchProfileScreen(getActivity());
+	@Test
+	public void notRewardsMember() {
+		signInAsUser("qa-ehcc@mobiata.com");
+
 		assertViewWithTextIsDisplayed(R.id.toolbar_name, "Mock Web Server");
 		assertViewWithTextIsDisplayed(R.id.toolbar_email, "qa-ehcc@mobiata.com");
 		assertViewIsGone(R.id.toolbar_loyalty_tier_text);
@@ -42,13 +46,10 @@ public class ProfileScreenLoggedInTest extends PhoneTestCase {
 		assertViewIsGone(R.id.country);
 	}
 
-	public void testBlueStatus() {
-		LaunchScreen.launchSignIn(getActivity());
-		LogInScreen.typeTextEmailEditText("singlecard@mobiata.com");
-		LogInScreen.typeTextPasswordEditText("password");
-		LogInScreen.clickOnLoginButton();
+	@Test
+	public void blueStatus() {
+		signInAsUser("singlecard@mobiata.com");
 
-		LaunchScreen.launchProfileScreen(getActivity());
 		assertViewWithTextIsDisplayed(R.id.toolbar_name, "single card");
 		assertViewWithTextIsDisplayed(R.id.toolbar_email, "singlecard@mobiata.com");
 		assertViewWithTextIsDisplayed(R.id.toolbar_loyalty_tier_text, R.string.plus_blue);
@@ -58,13 +59,10 @@ public class ProfileScreenLoggedInTest extends PhoneTestCase {
 		assertTextViewHasCompoundDrawableFlag(R.id.country, R.drawable.ic_flag_us);
 	}
 
-	public void testSilverStatus() {
-		LaunchScreen.launchSignIn(getActivity());
-		LogInScreen.typeTextEmailEditText("silverstatus@mobiata.com");
-		LogInScreen.typeTextPasswordEditText("password");
-		LogInScreen.clickOnLoginButton();
+	@Test
+	public void silverStatus() {
+		signInAsUser("silverstatus@mobiata.com");
 
-		LaunchScreen.launchProfileScreen(getActivity());
 		assertViewWithTextIsDisplayed(R.id.toolbar_name, "Silver Status");
 		assertViewWithTextIsDisplayed(R.id.toolbar_email, "silverstatus@mobiata.com");
 		assertViewWithTextIsDisplayed(R.id.toolbar_loyalty_tier_text, R.string.plus_silver);
@@ -74,13 +72,10 @@ public class ProfileScreenLoggedInTest extends PhoneTestCase {
 		assertTextViewHasCompoundDrawableFlag(R.id.country, R.drawable.ic_flag_us);
 	}
 
-	public void testGoldStatus() {
-		LaunchScreen.launchSignIn(getActivity());
-		LogInScreen.typeTextEmailEditText("goldstatus@mobiata.com");
-		LogInScreen.typeTextPasswordEditText("password");
-		LogInScreen.clickOnLoginButton();
+	@Test
+	public void goldStatus() {
+		signInAsUser("goldstatus@mobiata.com");
 
-		LaunchScreen.launchProfileScreen(getActivity());
 		assertViewWithTextIsDisplayed(R.id.toolbar_name, "Gold Status");
 		assertViewWithTextIsDisplayed(R.id.toolbar_email, "goldstatus@mobiata.com");
 		assertViewWithTextIsDisplayed(R.id.toolbar_loyalty_tier_text, R.string.plus_gold);
@@ -92,41 +87,47 @@ public class ProfileScreenLoggedInTest extends PhoneTestCase {
 
 	// only spot checking a few countries as OOM issues are preventing testing all
 
-	public void testArgentina() {
+	@Test
+	public void argentina() {
 		doCountryTest("Argentina", "ARG", R.drawable.ic_flag_ar);
 	}
 
-	public void testCanada() {
+	@Test
+	public void canada() {
 		doCountryTest("Canada", "CAN", R.drawable.ic_flag_ca);
 	}
 
-	public void testHongKong() {
+	@Test
+	public void hongKong() {
 		doCountryTest("Hong Kong", "HKG", R.drawable.ic_flag_hk);
 	}
 
-	public void testKorea() {
+	@Test
+	public void korea() {
 		doCountryTest("Korea", "KOR", R.drawable.ic_flag_kr);
 	}
 
-	public void testUnitedKingdom() {
+	@Test
+	public void unitedKingdom() {
 		doCountryTest("United Kingdom", "GBR", R.drawable.ic_flag_gb);
 	}
 
 	private void doCountryTest(String countryName, String country3LetterCode, @DrawableRes int flagResId) {
-		LaunchScreen.launchProfileScreen(getActivity());
 		ProfileScreen.clickCountry();
 		ProfileScreen.clickCountryInList(countryName);
 		ProfileScreen.clickOK();
-		Espresso.pressBack();
 
-		LaunchScreen.launchSignIn(getActivity());
-		LogInScreen.typeTextEmailEditText("goldstatus@mobiata.com");
-		LogInScreen.typeTextPasswordEditText("password");
-		LogInScreen.clickOnLoginButton();
+		signInAsUser("goldstatus@mobiata.com");
 
-		LaunchScreen.launchProfileScreen(getActivity());
 		assertViewWithTextIsDisplayed(R.id.country, country3LetterCode);
 		assertTextViewHasCompoundDrawableFlag(R.id.country, flagResId);
+	}
+
+	private void signInAsUser(String email) {
+		ProfileScreen.clickSignInButton();
+		LogInScreen.typeTextEmailEditText(email);
+		LogInScreen.typeTextPasswordEditText("password");
+		LogInScreen.clickOnLoginButton();
 	}
 
 	private static void assertTextViewHasCompoundDrawableFlag(@IdRes int viewId, @DrawableRes int drawableId) {

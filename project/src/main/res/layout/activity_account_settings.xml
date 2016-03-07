@@ -188,7 +188,75 @@
                     tools:text="USA" />
             </RelativeLayout>
 
-            <!-- TODO add logged out views -->
+            <LinearLayout
+                android:id="@+id/section_sign_in"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/sign_in_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_margin="@dimen/about_section_margin"
+                    android:text="@string/sign_in"
+                    android:textColor="@color/account_sign_in_button_text_color"
+                    app:backgroundTint="@color/account_sign_in_button_background_color" />
+
+                <Button
+                    android:id="@+id/sign_in_with_facebook_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_margin="@dimen/about_section_margin"
+                    android:text="@string/acct__Sign_In_with_Facebook"
+                    android:textColor="@color/account_sign_in_facebook_button_text_color"
+                    app:backgroundTint="@color/account_sign_in_facebook_button_background_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="1dp"
+                        android:layout_weight="1"
+                        android:background="@color/account_sign_in_button_separator_color" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:text="@string/or"
+                        android:textColor="@color/account_sign_in_button_separator_color" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="1dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="1dp"
+                        android:layout_weight="1"
+                        android:background="@color/account_sign_in_button_separator_color" />
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/create_account_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_margin="@dimen/about_section_margin"
+                    android:text="@string/acct__Create_Account"
+                    android:textColor="@color/account_create_button_text_color"
+                    app:backgroundTint="@color/account_create_button_background_color" />
+
+            </LinearLayout>
 
             <View
                 android:layout_width="0dp"

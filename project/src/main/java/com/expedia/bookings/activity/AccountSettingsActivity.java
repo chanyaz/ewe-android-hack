@@ -20,13 +20,16 @@ import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.expedia.account.Config;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -116,8 +119,6 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 		AboutSectionFragment.Builder builder;
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-		adjustLoggedInViews();
 
 		// App Settings
 		appSettingsFragment = Ui.findSupportFragment(this, TAG_APP_SETTINGS);
@@ -247,6 +248,12 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	}
 
 	@Override
+	protected void onResume() {
+		super.onResume();
+		adjustLoggedInViews();
+	}
+
+	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
@@ -371,6 +378,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		if (User.isLoggedIn(this)) {
 			Ui.findView(this, R.id.toolbar_signed_in).setVisibility(View.VISIBLE);
 			Ui.findView(this, R.id.toolbar_not_signed_in).setVisibility(View.GONE);
+			Ui.findView(this, R.id.section_sign_in).setVisibility(View.GONE);
 			Ui.findView(this, R.id.sign_out_button).setVisibility(View.VISIBLE);
 
 			ViewGroup loyaltySection = Ui.findView(this, R.id.section_loyalty_info);
@@ -431,7 +439,22 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 			Ui.findView(this, R.id.toolbar_signed_in).setVisibility(View.GONE);
 			Ui.findView(this, R.id.toolbar_not_signed_in).setVisibility(View.VISIBLE);
 			Ui.findView(this, R.id.section_loyalty_info).setVisibility(View.GONE);
+			Ui.findView(this, R.id.section_sign_in).setVisibility(View.VISIBLE);
 			Ui.findView(this, R.id.sign_out_button).setVisibility(View.GONE);
+
+			View facebookButton = Ui.findView(this, R.id.sign_in_with_facebook_button);
+			if (ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled()) {
+				facebookButton.setVisibility(View.VISIBLE);
+			}
+			else {
+				facebookButton.setVisibility(View.GONE);
+			}
+
+			Button createAccountButton = Ui.findView(this, R.id.create_account_button);
+			createAccountButton.setText(
+					Phrase.from(this, R.string.acct__Create_a_new_brand_account)
+							.put("brand", BuildConfig.brand)
+							.format());
 		}
 	}
 
@@ -457,6 +480,27 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		appSettingsFragment.notifyOnRowDataChanged(ROW_COUNTRY);
 		legalFragment.setRowVisibility(ROW_ATOL_INFO, PointOfSale.getPointOfSale().showAtolInfo() ? View.VISIBLE : View.GONE);
 		Toast.makeText(this, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();
+	}
+
+	//////////////////////
+	// Sign In Buttons
+
+	@OnClick(R.id.sign_in_button)
+	public void onSignInButtonClick() {
+		Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.SignIn, null);
+		User.signIn(this, args);
+	}
+
+	@OnClick(R.id.sign_in_with_facebook_button)
+	public void onSignInFacebookButtonClick() {
+		Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.FacebookSignIn, null);
+		User.signIn(this, args);
+	}
+
+	@OnClick(R.id.create_account_button)
+	public void onCreateAccountButtonClick() {
+		Bundle args = AccountLibActivity.createArgumentsBundle(LineOfBusiness.PROFILE, Config.InitialState.CreateAccount, null);
+		User.signIn(this, args);
 	}
 
 

@@ -433,6 +433,7 @@
     <color name="search_suggestion_hint_v2">#458a8a8a</color>
 
     <!-- Account Screen -->
+    <color name="about_section_card_background_color">#fdfdfd</color>
     <color name="about_row_description_text_color">#5000</color>
     <color name="account_toolbar_background_color">@color/launch_toolbar_background_color</color>
     <color name="account_background_color">#eee</color>
@@ -440,4 +441,11 @@
     <color name="account_toolbar_text_color_light">#9fff</color>
     <color name="account_sign_out_button_background_color">#F25F31</color>
     <color name="account_sign_out_button_text_color">#fff</color>
+    <color name="account_sign_in_button_background_color">#0688bd</color>
+    <color name="account_sign_in_button_text_color">#fff</color>
+    <color name="account_sign_in_facebook_button_background_color">#4667a3</color>
+    <color name="account_sign_in_facebook_button_text_color">#fff</color>
+    <color name="account_create_button_background_color">@color/about_section_card_background_color</color>
+    <color name="account_create_button_text_color">#0688bd</color>
+    <color name="account_sign_in_button_separator_color">#b3b3b3</color>
 </resources>
