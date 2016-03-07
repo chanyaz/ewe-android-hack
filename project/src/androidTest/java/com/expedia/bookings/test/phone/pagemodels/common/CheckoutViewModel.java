@@ -228,6 +228,16 @@ public class CheckoutViewModel {
 		Common.delay(1);
 	}
 
+	public static ViewInteraction dialogOkayButton() {
+		Common.delay(1);
+		return onView(withId(android.R.id.button1));
+	}
+
+	public static ViewInteraction dialogCancelButton() {
+		Common.delay(1);
+		return onView(withId(android.R.id.button2));
+	}
+
 	public static void selectStoredCard(boolean isHotelsPath) throws Throwable {
 		clickPaymentInfo();
 		selectStoredCard("Saved AmexTesting");
