@@ -29,6 +29,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
@@ -212,12 +213,18 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction selectFlight(int index) {
+		flightList().perform(waitForViewToDisplay());
 		int adjustPosition = 3;
 		return flightList().perform(RecyclerViewActions.actionOnItemAtPosition(index + adjustPosition, click()));
 	}
 
 	public static ViewInteraction selectThisFlight() {
 		return onView(withId(R.id.select_flight_button));
+	}
+
+	public static void clickHotelBundle() {
+		PackageScreen.hotelBundle().perform(waitForViewToDisplay());
+		PackageScreen.hotelBundle().perform(click());
 	}
 
 	public static ViewInteraction baggageFeeInfo() {
@@ -238,6 +245,10 @@ public class PackageScreen {
 
 	public static ViewInteraction hotelPriceWidget() {
 		return onView(withId(R.id.bundle_price_widget));
+	}
+
+	public static ViewInteraction hotelRoomImageView() {
+		return onView(withId(R.id.selected_hotel_room_image));
 	}
 
 	public static void enterTravelerInfo() {
@@ -292,6 +303,10 @@ public class PackageScreen {
 
 	private static void clickTravelerAdvanced() {
 		onView(withId(R.id.advanced_options_button)).perform(click());
+	}
+
+	public static void clickHotelBundleContainer() {
+		onView(withId(R.id.row_container)).perform(click());
 	}
 
 	public static void enterPaymentInfo() {
