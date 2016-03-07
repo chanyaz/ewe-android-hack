@@ -1,7 +1,10 @@
 package com.expedia.bookings.presenter.hotel
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.util.AttributeSet
+import com.expedia.bookings.R
 import com.expedia.bookings.presenter.BaseSearchPresenter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelSearchViewModel
@@ -24,5 +27,18 @@ abstract class BaseHotelSearchPresenter(context: Context, attrs: AttributeSet) :
 
     abstract fun selectTravelers(hotelTravelerParams: HotelTravelerParams)
     abstract fun selectDates(startDate: LocalDate?, endDate: LocalDate?)
+
+    val maxHotelStay = context.resources.getInteger(R.integer.calendar_max_days_hotel_stay)
+    val maxHotelStayDialog: AlertDialog by lazy {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(R.string.search_error)
+        builder.setMessage(context.getString(R.string.hotel_search_range_error_TEMPLATE, maxHotelStay))
+        builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface, which: Int) {
+                dialog.dismiss()
+            }
+        })
+        builder.create()
+    }
 
 }
