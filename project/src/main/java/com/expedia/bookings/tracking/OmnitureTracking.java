@@ -3679,6 +3679,21 @@ public class OmnitureTracking {
 	private static final String LOGIN_MARKETING_OPT_IN = "App.Account.Terms.Email.Opt-In";
 	private static final String LOGIN_MARKETING_OPT_OUT = "App.Account.Terms.Email.Opt-Out";
 	private static final String LOGIN_ACCOUNT_CREATE_SUCCESS = "App.Account.Create.Success";
+	private static final String ACCOUNT_SCREEN = "App.Account.MyAccount";
+	private static final String ACCOUNT_COUNTRY_SETTING = "App.Account.Settings.Country";
+	private static final String ACCOUNT_SUPPORT_WEBSITE = "App.Account.Support.Website";
+	private static final String ACCOUNT_SUPPORT_BOOKING = "App.Account.Support.Booking";
+	private static final String ACCOUNT_SUPPORT_APP = "App.Account.Support.App";
+	private static final String ACCOUNT_COMMUNICATE_RATE = "App.Account.Communicate.Rate";
+	private static final String ACCOUNT_COMMUNICATE_HIRING = "App.Account.Communicate.WereHiring";
+	private static final String ACCOUNT_LEGAL_CLEAR_DATA = "App.Account.Legal.ClearData";
+	private static final String ACCOUNT_LEGAL_TERMS = "App.Account.Legal.Terms";
+	private static final String ACCOUNT_LEGAL_PRIVACY = "App.Account.Legal.Privacy";
+	private static final String ACCOUNT_LEGAL_ATOL = "App.Account.Legal.ATOL";
+	private static final String ACCOUNT_LEGAL_LICENSES = "App.Account.Legal.OpenSourceLicenses";
+	private static final String ACCOUNT_APP_DOWNLOAD = "App.Account.Download";
+	private static final String ACCOUNT_SIGN_OUT = "App.Account.Logout";
+
 
 	public static void trackLoginSuccess() {
 		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
@@ -3817,6 +3832,83 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppSplitGTandActivities);
 		s.track();
 	}
+
+	public static void trackAccountPageLoad() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		// set the pageName
+		s.setAppState(ACCOUNT_SCREEN);
+		s.setEvar(18, "D=" + ACCOUNT_SCREEN);
+		s.track();
+	}
+
+	public static void trackClickCountrySetting() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_COUNTRY_SETTING);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickSupportWebsite() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_SUPPORT_WEBSITE);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickSupportBooking() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_SUPPORT_BOOKING);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickSupportApp() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_SUPPORT_APP);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickRateApp() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_COMMUNICATE_RATE);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickWereHiring() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_COMMUNICATE_HIRING);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickClearPrivateData() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_LEGAL_CLEAR_DATA);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickTermsAndConditions() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_LEGAL_TERMS);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickPrivacyPolicy() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_LEGAL_PRIVACY);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickAtolInformation() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_LEGAL_ATOL);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickOpenSourceLicenses() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_LEGAL_LICENSES);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickDownloadAppLink(String appName) {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_APP_DOWNLOAD);
+		s.setEvents("event10");
+		s.setEvar(32, appName);
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public static void trackClickSignOut() {
+		ADMS_Measurement s = createTrackLinkEvent(ACCOUNT_SIGN_OUT);
+		s.setEvents("event29");
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
 
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Tracking events for new launch screen

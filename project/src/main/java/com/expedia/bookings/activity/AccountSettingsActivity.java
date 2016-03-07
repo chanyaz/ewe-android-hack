@@ -2,7 +2,6 @@ package com.expedia.bookings.activity;
 
 import java.text.NumberFormat;
 
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -37,6 +36,7 @@ import com.expedia.bookings.dialog.ClearPrivateDataDialog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment;
 import com.expedia.bookings.tracking.AdTracker;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.Ui;
@@ -217,7 +217,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 		// Tracking
 		if (savedInstanceState == null) {
-			aboutUtils.trackAboutActivityPageLoad();
+			OmnitureTracking.trackAccountPageLoad();
 		}
 	}
 
@@ -242,7 +242,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	protected void onStart() {
 		super.onStart();
 		if (wasStopped) {
-			aboutUtils.trackAboutActivityPageLoad();
+			OmnitureTracking.trackAccountPageLoad();
 			wasStopped = false;
 		}
 	}
@@ -253,15 +253,6 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		adjustLoggedInViews();
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (requestCode == AboutUtils.REQUEST_CODE_FEEDBACK && resultCode == RESULT_OK) {
-			aboutUtils.trackFeedbackSubmitted();
-		}
-	}
-
 	private boolean shouldBail() {
 		return !ExpediaBookingApp.useTabletInterface(this) && !getResources().getBoolean(R.bool.portrait);
 	}
@@ -270,11 +261,13 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	public boolean onAboutRowClicked(int id) {
 		switch (id) {
 		case ROW_COUNTRY: {
+			OmnitureTracking.trackClickCountrySetting();
 			DialogFragment selectCountryDialog = aboutUtils.createCountrySelectDialog();
 			selectCountryDialog.show(getSupportFragmentManager(), "selectCountryDialog");
 			return true;
 		}
 		case ROW_BOOKING_SUPPORT: {
+			OmnitureTracking.trackClickSupportBooking();
 			DialogFragment contactExpediaDialog = aboutUtils.createContactExpediaDialog();
 			contactExpediaDialog.show(getSupportFragmentManager(), "contactExpediaDialog");
 			return true;
@@ -306,6 +299,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 			return true;
 		}
 		case ROW_ATOL_INFO: {
+			OmnitureTracking.trackClickAtolInformation();
+
 			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(this);
 
 			String message = getString(R.string.lawyer_label_atol_long_message);
@@ -323,6 +318,8 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 			return true;
 		}
 		case ROW_OPEN_SOURCE_LICENSES: {
+			OmnitureTracking.trackClickOpenSourceLicenses();
+
 			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(this);
 
 			String license = GoogleApiAvailability.getInstance().getOpenSourceSoftwareLicenseInfo(this);
@@ -336,11 +333,11 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		}
 
 		case AboutSectionFragment.ROW_FLIGHT_TRACK: {
-			aboutUtils.trackFlightTrackLink();
+			OmnitureTracking.trackClickDownloadAppLink("FlightTrack");
 			return false;
 		}
 		case AboutSectionFragment.ROW_FLIGHT_BOARD: {
-			aboutUtils.trackFlightBoardLink();
+			OmnitureTracking.trackClickDownloadAppLink("FlightBoard");
 			return false;
 		}
 
@@ -349,6 +346,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 			return true;
 		}
 		case ROW_CLEAR_PRIVATE_DATA: {
+			OmnitureTracking.trackClickClearPrivateData();
 			ClearPrivateDataDialog dialog = new ClearPrivateDataDialog();
 			dialog.show(getSupportFragmentManager(), "clearPrivateDataDialog");
 			return true;
@@ -509,6 +507,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 	@OnClick(R.id.sign_out_button)
 	public void onSignOutButtonClick() {
+		OmnitureTracking.trackClickSignOut();
 		new LoginConfirmLogoutDialogFragment().show(getSupportFragmentManager(), LoginConfirmLogoutDialogFragment.TAG);
 	}
 
