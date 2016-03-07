@@ -63,7 +63,7 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, requestInter
 						}
 						var strikeThroughPrice = 0f
 						try {
-							strikeThroughPrice = nf.parse(hotel.packageOfferModel.price.flightPlusHotelPricePerPersonFormatted).toFloat();
+							strikeThroughPrice = nf.parse(hotel.packageOfferModel.price.flightPlusHotelPricePerPersonFormatted)?.toFloat() ?: 0f;
 						} catch (ex: ParseException) {
 							ex.printStackTrace()
 						}
