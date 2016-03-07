@@ -110,30 +110,6 @@
         <item name="android:textColor">@color/text_color_dark</item>
     </style>
 
-    <!-- App -->
-    <style name="TabletSectionHeader">
-        <item name="android:textColor">#545454</item>
-        <item name="android:shadowColor">@android:color/white</item>
-        <item name="android:shadowRadius">.1</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">1</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">20sp</item>
-    </style>
-
-    <style name="TabletSectionHeader.Details" parent="@style/TabletSectionHeader">
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:layout_marginBottom">2dp</item>
-        <item name="android:layout_marginLeft">8dp</item>
-    </style>
-
-    <style name="PhoneSectionHeader.Details" parent="@style/TabletSectionHeader.Details">
-        <item name="android:textSize">14sp</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textColor">#3c608c</item>
-        <item name="android:paddingLeft">5dp</item>
-    </style>
-
     <!-- TODO: get rid of all RatingBarSmall >>>>>>> -->
     <!-- Partial import from @android:style/Widget.RatingBar.Small. -->
     <style name="RatingBarSmall">
@@ -250,7 +226,7 @@
 
     <style name="Widget.Button" parent="@android:style/Widget.Button">
         <item name="android:background">@drawable/btn_default</item>
-        <item name="android:textColor">#FF000000</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="Widget.SegmentedControlGroup" parent="@android:style/Widget" />
@@ -260,48 +236,6 @@
         <item name="leftButton">@drawable/btn_user_review_segmented_control_left</item>
         <item name="rightButton">@drawable/btn_user_review_segmented_control_right</item>
         <item name="textColor">@color/segmented_button_user_review_text</item>
-    </style>
-
-    <style name="Widget.Button.Yellow" parent="@android:style/Widget.Button">
-        <item name="android:background">@drawable/btn_yellow</item>
-        <item name="android:textColor">@color/btn_yellow_text_color</item>
-        <item name="android:shadowColor">#a5ffffff</item>
-        <item name="android:shadowRadius">0.1</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">1</item>
-    </style>
-
-    <style name="Widget.Button.White" parent="@style/Widget.Button.Yellow">
-        <item name="android:background">@drawable/btn_white</item>
-        <item name="android:textColor">#232323</item>
-        <item name="android:shadowColor">#a5ffffff</item>
-        <item name="android:shadowRadius">0.1</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">1</item>
-    </style>
-
-    <style name="Widget.Button.ChildAges" parent="@android:style/Widget.Button">
-        <item name="android:background">@drawable/btn_child_ages</item>
-        <item name="android:textColor">#FF000000</item>
-    </style>
-
-    <style name="ConfirmationButtonText">
-        <item name="android:textColor">#232323</item>
-        <item name="android:shadowColor">#a5ffffff</item>
-        <item name="android:shadowRadius">0.1</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">1</item>
-        <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="Widget.Button.Yellow.Search">
-        <item name="android:background">@drawable/btn_search_hotels</item>
-    </style>
-
-    <style name="Widget.Button.Yellow.Confirmation">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Widget.Spinner" parent="@android:style/Widget.Spinner">
@@ -354,32 +288,9 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="BottomBarText">
-        <item name="android:textColor">#3d4552</item>
-        <item name="android:shadowColor">#ffffff</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">1</item>
-        <item name="android:shadowRadius">0.1</item>
-    </style>
-
-    <style name="BookingSection">
-        <item name="android:padding">8dp</item>
-        <item name="android:background">@drawable/bg_checkout_information_single</item>
-    </style>
-
     <style name="Animation.Popup" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/sort_popup_fade_in</item>
         <item name="android:windowExitAnimation">@anim/fade_out</item>
-    </style>
-
-    <style name="HotelNameTitle_Tablet">
-        <item name="android:textColor">#394552</item>
-        <item name="android:shadowColor">#ffffff</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">22sp</item>
-        <item name="android:shadowRadius">0.1</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">1</item>
     </style>
 
     <style name="InstructionText">
@@ -389,29 +300,6 @@
         <item name="android:paddingLeft">5dp</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">19dp</item>
-    </style>
-
-    <style name="BalloonText">
-        <item name="android:textColor">#3D4552</item>
-        <item name="android:shadowColor">#ffffff</item>
-        <item name="android:shadowRadius">0.1</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">1</item>
-    </style>
-
-    <style name="DropShadowText">
-        <item name="android:shadowColor">@color/text_shadow_color</item>
-        <item name="android:shadowRadius">.1</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">1</item>
-    </style>
-
-    <style name="WhiteLabelGlowText">
-        <item name="android:shadowColor">#a5000000</item>
-        <item name="android:shadowRadius">1</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">0</item>
-        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="ExpediaLoginDialog" parent="@android:style/Theme.Dialog">
@@ -976,28 +864,6 @@
         <item name="android:layout_marginLeft">3dp</item>
     </style>
 
-    <style name="HorizontalOnTablet">
-        <item name="android:orientation">vertical</item>
-    </style>
-
-    <style name="LoginButtonTopTextStyle">
-        <item name="android:layout_marginTop">4dp</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textColor">@color/text_dark</item>
-    </style>
-
-    <style name="LoginButtonBottomTextStyle">
-        <item name="android:layout_marginTop">-2dp</item>
-        <item name="android:layout_marginBottom">1dp</item>
-        <item name="android:textSize">15sp</item>
-        <item name="android:textColor">@color/text_dark</item>
-    </style>
-
-    <style name="LoginButtonLogoutImageStyle">
-        <item name="android:padding">8dp</item>
-        <item name="android:layout_marginRight">8dp</item>
-    </style>
-
     <!-- Tablet Hotel Details related styles -->
     <style name="TabletRoomRateNoticeFeesText">
         <item name="android:layout_height">wrap_content</item>
@@ -1021,11 +887,6 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:textStyle">bold</item>
         <item name="android:background">@drawable/bg_tablet_room_rate_more_info</item>
-    </style>
-
-    <!-- For Trip bucket, hotel /night text -->
-    <style name="TripBucketHotelPerNight">
-        <item name="android:textSize">15sp</item>
     </style>
 
     <!-- Style of line-item receipt extras -->
@@ -1194,7 +1055,7 @@
     </style>
 
     <style name="MarkerTextAppearance">
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">13sp</item>
     </style>
 
@@ -1202,17 +1063,17 @@
         <item name="android:layout_height">50dp</item>
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textColorHint">#FFFFFF</item>
-        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textColorHint">@color/white</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:textSize">15sp</item>
         <item name="android:background">@drawable/autocomplete_background</item>
         <item name="android:theme">@style/SearchAutocompleteTheme</item>
     </style>
 
     <style name="SearchAutocompleteTheme">
-        <item name="colorControlNormal">#FFFFFF</item>
-        <item name="colorControlActivated">#FFFFFF</item>
-        <item name="colorControlHighlight">#FFFFFF</item>
+        <item name="colorControlNormal">@color/white</item>
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
     </style>
 
     <style name="AccountDashboardLabel">

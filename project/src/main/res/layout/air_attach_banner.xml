@@ -42,7 +42,7 @@
                     android:id="@+id/air_attach_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/white"
                     android:textSize="13dp"
                     app:textStyle="bold" />
 
@@ -50,7 +50,7 @@
                     android:id="@+id/air_attach_savings_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/white"
                     android:textSize="11dp" />
 
             </LinearLayout>

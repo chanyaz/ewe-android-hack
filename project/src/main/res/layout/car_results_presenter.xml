@@ -133,6 +133,6 @@
         android:id="@+id/search_error_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF" />
+        android:background="@color/white" />
 
 </com.expedia.bookings.presenter.car.CarResultsPresenter>

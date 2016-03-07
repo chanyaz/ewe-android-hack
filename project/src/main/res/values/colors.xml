@@ -14,7 +14,7 @@
     <color name="tablet_legal_blurb_text_color">#A7DAFF</color>
     <color name="tablet_confirmation_color">#374F6E</color>
     <color name="tablet_confirmation_action_color">#2970CC</color>
-    <color name="action_bar_text_selected">#FFFFFF</color>
+    <color name="action_bar_text_selected">@color/white</color>
     <color name="action_bar_text_unselected">#8CFFFFFF</color>
 
     <!-- Launch screen colors -->
@@ -35,8 +35,8 @@
 
     <color name="launch_list_bg">#ECEFF1</color>
     <color name="launch_screen_primary">#495863</color>
-    <color name="launch_lob_bg">#FFFFFF</color>
-    <color name="launch_list_txt">#FFFFFF</color>
+    <color name="launch_lob_bg">@color/white</color>
+    <color name="launch_list_txt">@color/white</color>
     <color name="launch_list_strikethrough_txt">#B2FFFFFF</color>
 
     <!-- Itinerary colors -->
@@ -82,7 +82,7 @@
     <color name="flight_results_row_bg_pressed">#4572AD</color>
     <color name="flight_results_row_return_leg_bg">#3D6D7A</color>
     <color name="flight_results_row_return_leg_bg_pressed">#408CA1</color>
-    <color name="spinner_airport">#FFFFFF</color>
+    <color name="spinner_airport">@color/white</color>
     <color name="spinner_airport_details">#777777</color>
     <color name="flight_free_cancellation_text_color">#FFE980</color>
     <color name="flight_departure_date_color">#343434</color>
@@ -91,7 +91,7 @@
 
     <!-- Hotels colors -->
     <color name="hotel_search_background">#EEEEEE</color>
-    <color name="hotels_primary_color">#009688</color>
+    <color name="hotels_primary_color">@color/expedia_hotels_color</color>
     <color name="hotels_cc_text_color_secondary">#868a8f</color>
     <color name="hotelsv2_discount_green">#6BCA2C</color>
     <color name="hotel_price_breakdown_discount_green">#218b22</color>
@@ -100,7 +100,7 @@
     <color name="amenity_text_color_large">#79848f</color>
     <color name="amenity_icon_color">#717880</color>
     <color name="new_amenity_icon_color">#7E7E7E</color>
-    <color name="hotel_filter_spinner_dropdown_color">#FFFFFF</color>
+    <color name="hotel_filter_spinner_dropdown_color">@color/white</color>
     <color name="hotel_filter_spinner_dropdown_color_selected">#878F94</color>
     <color name="hotel_filter_spinner_color">#DFE0E2</color>>
     <color name="hotel_filter_spinner_color_selected">#CDCED0</color>
@@ -131,7 +131,7 @@
     <color name="hotel_review_body_color">#686868</color>
     <color name="hotel_review_reviewer_color">#A5A5A5</color>
     <color name="hotel_reviews_row_divider_color">#E2E2E2</color>
-    <color name="hotel_reviews_summary_background_color">#FFFFFF</color>
+    <color name="hotel_reviews_summary_background_color">@color/white</color>
 
     <!--Hotel Filter Colors -->
     <color name="hotel_filter_hotel_name_icon">#868686</color>
@@ -141,17 +141,17 @@
     <color name="hotel_filter_text">#5c5c5c</color>
 
     <!-- Login -->
-    <color name="login_text_hotels">#FFFFFF</color>
+    <color name="login_text_hotels">@color/white</color>
     <color name="login_text_tablet">#363636</color>
     <color name="expedia_plus_blue">#085BA5</color>
-    <color name="expedia_plus_blue_text">#ffffff</color>
+    <color name="expedia_plus_blue_text">@color/white</color>
     <color name="expedia_plus_silver">#668193</color>
-    <color name="expedia_plus_silver_text">#ffffff</color>
+    <color name="expedia_plus_silver_text">@color/white</color>
     <color name="expedia_plus_gold">#FFC300</color>
     <color name="expedia_plus_gold_text">#403f3f</color>
 
     <!-- CVV entry colors -->
-    <color name="cvv_normal">#FFFFFF</color>
+    <color name="cvv_normal">@color/white</color>
     <color name="cvv_error">#D4472B</color>
 
     <!-- These colors are ripped from the iOS version, and are not finalized -->
@@ -183,7 +183,7 @@
     <color name="hotel_price_sale_text_color">#00b277</color>
     <color name="hotel_price_air_attach_text_color">#fd8126</color>
     <color name="bg_hotel_details_mini_gallery">#262626</color>
-    <color name="bg_row_state_default">#ffffff</color>
+    <color name="bg_row_state_default">@color/white</color>
     <color name="bg_row_state_pressed">#f0f0f0</color>
     <color name="bg_tablet_button_state_pressed">#cccccc</color>
     <color name="bg_payment_row_state_pressed">#33000000</color>
@@ -197,7 +197,7 @@
     <color name="bg_signin_dialog_button_focused">#18000000</color>
     <color name="bg_signin_dialog_button_pressed">#30000000</color>
     <color name="bg_signin_dialog_button_disabled">@android:color/transparent</color>
-    <color name="row_background_review">#ffffff</color>
+    <color name="row_background_review">@color/white</color>
     <color name="hotel_details_separator">#d1d1d1</color>
     <color name="legal_info_blue">#235285</color>
     <color name="row_background_fade">#00f1f1f1</color>
@@ -207,7 +207,7 @@
     <color name="flight_checkout_opaque_white">#BBE8E8E8</color>
     <color name="flight_checkout_opaque_grey">#D9D9D9</color>
     <color name="nav_dropdown_dividers">#26ffffff</color>
-    <color name="price_promo_banner_text_color">#fff</color>
+    <color name="price_promo_banner_text_color">@color/white</color>
     <color name="price_promo_banner_strikethrough_text_color">#aaa</color>
     <color name="bg_sub_header">#cccccc</color>
     <color name="text_sub_header">#3d4453</color>
@@ -228,7 +228,7 @@
 
     <!-- A light Holo shade of blue -->
     <color name="holo_blue_light">#ff33b5e5</color>
-    <color name="background_holo_dark">#ff000000</color>
+    <color name="background_holo_dark">@color/black</color>
     <color name="bright_foreground_holo_light">@color/background_holo_dark</color>
     <color name="dim_foreground_holo_light">#323232</color>
     <color name="dim_foreground_disabled_holo_light">#80323232</color>
@@ -238,10 +238,10 @@
 
     <color name="coupon_success_message_color">#FFE115</color>
     <!-- Price pins on map -->
-    <color name="map_price_pin_text_color">#ffffff</color>
+    <color name="map_price_pin_text_color">@color/white</color>
 
     <!-- Ripped out of ABS -->
-    <color name="abs__background_holo_dark">#ff000000</color>
+    <color name="abs__background_holo_dark">@color/black</color>
     <color name="abs__background_holo_light">#fff3f3f3</color>
     <color name="abs__bright_foreground_holo_dark">@color/abs__background_holo_light</color>
     <color name="abs__bright_foreground_holo_light">@color/abs__background_holo_dark</color>
@@ -265,7 +265,7 @@
     <color name="AboutSectionTextSelectedStateColor">#d79100</color>
 
     <!-- Price change colors -->
-    <color name="price_change_default">#FFFFFF</color>
+    <color name="price_change_default">@color/white</color>
     <color name="price_change_air_attach">#fd8126</color>
 
     <color name="air_attach_expiration_text_color">#9e9d9d</color>
@@ -325,7 +325,7 @@
     <color name="lx_date_disabled_background_color">@android:color/white</color>
     <color name="lx_actionbar_text_color">#5C5C5C</color>
     <color name="lx_date_unselected_color">#5C5C5C</color>
-    <color name="lx_date_selected_color">#FFFFFF</color>
+    <color name="lx_date_selected_color">@color/white</color>
     <color name="lx_confirmation_gradient">#80000000</color>
     <color name="lx_confirmation_background">#1A1D20</color>
     <color name="lx_confirmation_action_text_color">#F3F3F3</color>
@@ -353,13 +353,13 @@
     <color name="btn_sign_in_pressed">#fae58b</color>
     <color name="btn_sign_in_focused">#f9e179</color>
     <color name="btn_sign_in_disabled">#80f9e06e</color>
-    <color name="acct__btn_sign_in_text">#000000</color>
+    <color name="acct__btn_sign_in_text">@color/black</color>
     <color name="acct__bg_input_text_default">#80ffffff</color>
     <color name="acct__bg_input_text_error">#db4437</color>
     <color name="acct__bg_input_text_good">#4a90e2</color>
-    <color name="acct__flavor_text">#ffffff</color>
-    <color name="acct__user_info_text_color">#ffffff</color>
-    <color name="toolbar_icon">#ffffff</color>
+    <color name="acct__flavor_text">@color/white</color>
+    <color name="acct__user_info_text_color">@color/white</color>
+    <color name="toolbar_icon">@color/white</color>
 
     <!-- MER Email Opt checkbox color -->
     <color name="mer_email_checkbox_unchecked_color">#F7F8FA</color>
@@ -426,12 +426,12 @@
     <color name="preferences_divider">#c0c7cd</color>
     <color name="preferences_highlight">#40000000</color>
     <color name="preferences_text">@color/launch_toolbar_background_color</color>
-    <color name="bundle_price_background_color">#FFFFFF</color>
+    <color name="bundle_price_background_color">@color/white</color>
 
     <!-- New Search Screen -->
     <color name="search_screen_icon_color_v2">#7b7b7b</color>
     <color name="white_disabled">#30FFFFFF</color>
-    <color name="search_dialog_background_v2">#FFFFFFFF</color>
+    <color name="search_dialog_background_v2">@color/white</color>
     <color name="search_suggestion_background_v2">#FAFAFA</color>
     <color name="search_suggestion_v2">#8a8a8a</color>
     <color name="search_suggestion_hint_v2">#458a8a8a</color>
@@ -441,14 +441,14 @@
     <color name="about_row_description_text_color">#5000</color>
     <color name="account_toolbar_background_color">@color/launch_toolbar_background_color</color>
     <color name="account_background_color">#eee</color>
-    <color name="account_toolbar_text_color">#fff</color>
+    <color name="account_toolbar_text_color">@color/white</color>
     <color name="account_toolbar_text_color_light">#9fff</color>
     <color name="account_sign_out_button_background_color">#F25F31</color>
-    <color name="account_sign_out_button_text_color">#fff</color>
+    <color name="account_sign_out_button_text_color">@color/white</color>
     <color name="account_sign_in_button_background_color">#0688bd</color>
-    <color name="account_sign_in_button_text_color">#fff</color>
+    <color name="account_sign_in_button_text_color">@color/white</color>
     <color name="account_sign_in_facebook_button_background_color">#4667a3</color>
-    <color name="account_sign_in_facebook_button_text_color">#fff</color>
+    <color name="account_sign_in_facebook_button_text_color">@color/white</color>
     <color name="account_create_button_background_color">@color/about_section_card_background_color</color>
     <color name="account_create_button_text_color">#0688bd</color>
     <color name="account_sign_in_button_separator_color">#b3b3b3</color>
