@@ -98,9 +98,9 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : CardVie
             }
         }
         viewModel.selectedHotelObservable.subscribe {
-            hotelsText.setTextColor(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
+            hotelsText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_primary_text))
             hotelLuggageIcon.setColorFilter(0)
-            hotelsRoomGuestInfoText.setTextColor(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
+            hotelsRoomGuestInfoText.setTextColor(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_secondary_text))
             rowContainer.setOnClickListener {
                 if (mainContainer.visibility == Presenter.GONE) {
                     expandSelectedHotel()

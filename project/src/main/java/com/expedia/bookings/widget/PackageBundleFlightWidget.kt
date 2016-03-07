@@ -45,7 +45,7 @@ class PackageBundleFlightWidget(context: Context, attrs: AttributeSet?) : CardVi
 
         vm.flightTextObservable.subscribeText(flightCardText)
         vm.flightTextColorObservable.subscribeTextColor(flightCardText)
-        vm.flightTextColorObservable.subscribeTextColor(travelInfoText)
+        vm.flightTravelInfoColorObservable.subscribeTextColor(travelInfoText)
         vm.travelInfoTextObservable.subscribeTextAndVisibility(travelInfoText)
         vm.flightDetailsIconObservable.subscribeVisibility(flightDetailsIcon)
         vm.showLoadingStateObservable.subscribeVisibility(flightLoadingBar)
