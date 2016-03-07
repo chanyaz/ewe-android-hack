@@ -1,13 +1,10 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Rect
-import android.os.Build
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -34,7 +31,6 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.CalendarShortDateRenderer
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.SuggestionV4Utils
@@ -55,12 +51,7 @@ import com.expedia.vm.HotelTravelerParams
 import com.expedia.vm.HotelTravelerPickerViewModel
 import com.expedia.vm.RecentSearchesAdapterViewModel
 import com.mobiata.android.time.util.JodaUtils
-import com.mobiata.android.time.widget.CalendarPicker
-import com.mobiata.android.time.widget.DaysOfWeekView
-import com.mobiata.android.time.widget.MonthView
 import org.joda.time.LocalDate
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelSearchPresenter(context, attrs) {
     val searchLocationTextView: TextView by bindView(R.id.hotel_location)
@@ -80,19 +71,6 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
 
     val searchContainer: ViewGroup by bindView(R.id.search_container)
     val searchParamsContainer: ViewGroup by bindView(R.id.search_params_container)
-
-    val maxHotelStay = context.resources.getInteger(R.integer.calendar_max_days_hotel_stay)
-    val dialog: AlertDialog by lazy {
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(R.string.search_error)
-        builder.setMessage(context.getString(R.string.hotel_search_range_error_TEMPLATE, maxHotelStay))
-        builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface, which: Int) {
-                dialog.dismiss()
-            }
-        })
-        builder.create()
-    }
 
     val toolbar: Toolbar by bindView(R.id.toolbar)
     val toolbarTitle by lazy { toolbar.getChildAt(0) }
@@ -340,7 +318,7 @@ class HotelSearchPresenterV1(context: Context, attrs: AttributeSet) : BaseHotelS
             }
         }
         vm.errorMaxDatesObservable.subscribe {
-            dialog.show()
+            maxHotelStayDialog.show()
         }
         vm.searchParamsObservable.subscribe {
             calendar.hideToolTip()

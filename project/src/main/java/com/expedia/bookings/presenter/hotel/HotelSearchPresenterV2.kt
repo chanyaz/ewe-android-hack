@@ -100,6 +100,10 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
             vm.datesObserver.onNext(Pair(it.checkIn, it.checkOut))
         }
 
+        vm.errorMaxDatesObservable.subscribe {
+            maxHotelStayDialog.show()
+        }
+
         searchButton.subscribeOnClick(vm.searchObserver)
     }
 
