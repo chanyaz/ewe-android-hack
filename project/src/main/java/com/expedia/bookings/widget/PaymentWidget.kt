@@ -384,11 +384,11 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
         }
     }
 
-    protected open fun updateToolbarMenu(forward: Boolean) {
-        if (forward) {
+    protected open fun updateToolbarMenu(showDoneButton: Boolean) {
+        if (showDoneButton) {
             viewmodel.visibleMenuWithTitleDone.onNext(Unit)
-            viewmodel.enableToolbarMenuButton.onNext(true)
         }
+        viewmodel.enableToolbarMenuButton.onNext(true)
     }
 
     private val defaultToDetails = object : Presenter.Transition(PaymentDefault::class.java,
