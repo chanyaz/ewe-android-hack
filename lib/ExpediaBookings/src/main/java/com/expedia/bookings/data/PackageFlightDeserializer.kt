@@ -23,8 +23,7 @@ class PackageFlightDeserializer : JsonDeserializer<PackageSearchResponse.FlightP
                 flightLeg.flightPid = entry.key
                 flightLeg.departureLeg = jsonObject.getAsJsonPrimitive("departureLeg").asString
                 for (flightSegment in flightLeg.flightSegments) {
-                    //TODO: Waiting for API to return airline Logo for each segment, right now just use the same logo
-                    flightLeg.airlines.add(Airline(flightSegment.carrier, flightLeg.airlineLogoURL))
+                    flightLeg.airlines.add(Airline(flightSegment.carrier, flightSegment.airlineLogoURL))
                 }
             }
             flightPackage.flights.addAll(flightLegs)

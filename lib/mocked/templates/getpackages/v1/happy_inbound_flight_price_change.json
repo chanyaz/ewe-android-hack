@@ -531,6 +531,7 @@
                 "flightNumber": "51",
                 "departureAirportCode": "SFO",
                 "arrivalAirportCode": "HNL",
+                "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smVX.gif",
                 "carrier": "Virgin America",
                 "operatedByAirlineName": "",
                 "operatingAirlineCode": "",
@@ -569,7 +570,6 @@
               "airlineName": "",
               "airlineFeeLink": ""
             },
-            "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smVX.gif",
             "promoCampaignLogoURI": "",
             "freeFlightPromotion": false
           },
@@ -611,6 +611,7 @@
                 "flightNumber": "12",
                 "departureAirportCode": "HNL",
                 "arrivalAirportCode": "SFO",
+                "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smHA.gif",
                 "carrier": "Hawaiian Airlines",
                 "operatedByAirlineName": "",
                 "operatingAirlineCode": "",
@@ -649,7 +650,6 @@
               "airlineName": "",
               "airlineFeeLink": ""
             },
-            "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smHA.gif",
             "promoCampaignLogoURI": "",
             "freeFlightPromotion": false
           }
@@ -713,6 +713,7 @@
                 "flightNumber": "51",
                 "departureAirportCode": "SFO",
                 "arrivalAirportCode": "HNL",
+                "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smVX.gif",
                 "carrier": "Virgin America",
                 "operatedByAirlineName": "",
                 "operatingAirlineCode": "",
@@ -751,7 +752,6 @@
               "airlineName": "",
               "airlineFeeLink": ""
             },
-            "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smVX.gif",
             "promoCampaignLogoURI": "",
             "freeFlightPromotion": false
           },
@@ -793,6 +793,7 @@
                 "flightNumber": "12",
                 "departureAirportCode": "HNL",
                 "arrivalAirportCode": "SFO",
+                "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smHA.gif",
                 "carrier": "Hawaiian Airlines",
                 "operatedByAirlineName": "",
                 "operatingAirlineCode": "",
@@ -831,7 +832,6 @@
               "airlineName": "",
               "airlineFeeLink": ""
             },
-            "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smHA.gif",
             "promoCampaignLogoURI": "",
             "freeFlightPromotion": false
           }
@@ -895,6 +895,7 @@
                 "flightNumber": "51",
                 "departureAirportCode": "SFO",
                 "arrivalAirportCode": "HNL",
+                "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smVX.gif",
                 "carrier": "Virgin America",
                 "operatedByAirlineName": "",
                 "operatingAirlineCode": "",
@@ -933,7 +934,6 @@
               "airlineName": "",
               "airlineFeeLink": ""
             },
-            "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smVX.gif",
             "promoCampaignLogoURI": "",
             "freeFlightPromotion": false
           },
@@ -975,6 +975,7 @@
                 "flightNumber": "50",
                 "departureAirportCode": "HNL",
                 "arrivalAirportCode": "SFO",
+                "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smVX.gif",
                 "carrier": "Virgin America",
                 "operatedByAirlineName": "",
                 "operatingAirlineCode": "",
@@ -1013,7 +1014,6 @@
               "airlineName": "",
               "airlineFeeLink": ""
             },
-            "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smVX.gif",
             "promoCampaignLogoURI": "",
             "freeFlightPromotion": false
           }
