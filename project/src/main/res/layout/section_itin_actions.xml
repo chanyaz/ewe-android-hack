@@ -10,7 +10,7 @@
         android:layout_height="1dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:background="#4D555D" />
+        android:background="@color/itin_summary_divider_color" />
 
     <com.expedia.bookings.widget.NoPressLinearLayout
         android:layout_width="match_parent"

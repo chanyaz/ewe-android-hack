@@ -63,6 +63,7 @@
     <dimen name="itin_card_flight_vertical_offset">-48dp</dimen>
     <dimen name="itin_map_marker_bottom_padding">12dp</dimen>
     <dimen name="itin_map_bounds_padding">24dp</dimen>
+    <dimen name="itin_card_alert_dialog">258dp</dimen>
 
     <!-- The visible area of the parallaxed map on the Itin details view -->
     <dimen name="itin_map_visible_size">160dp</dimen>
