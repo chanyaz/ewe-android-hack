@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:drawablePadding="23dp"
+    android:background="?attr/selectableItemBackground"
     android:gravity="center_vertical"
     android:textColor="@color/hotelsv2_checkout_text_color"
     android:maxLines="1"

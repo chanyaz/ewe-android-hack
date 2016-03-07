@@ -31,6 +31,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
@@ -98,6 +99,13 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
             }
             selectDates(it.checkIn, it.checkOut)
             vm.datesObserver.onNext(Pair(it.checkIn, it.checkOut))
+        }
+        vm.errorNoOriginObservable.subscribe {
+            AnimUtils.doTheHarlemShake(destinationCardView)
+        }
+
+        vm.errorNoDatesObservable.subscribe {
+            AnimUtils.doTheHarlemShake(calendarWidgetV2)
         }
 
         vm.errorMaxDatesObservable.subscribe {
