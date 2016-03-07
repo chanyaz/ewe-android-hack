@@ -32,6 +32,7 @@ import com.expedia.bookings.section.ISectionEditable
 import com.expedia.bookings.section.InvalidCharacterHelper
 import com.expedia.bookings.section.SectionBillingInfo
 import com.expedia.bookings.section.SectionLocation
+import android.widget.LinearLayout
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.BookingInfoUtils
@@ -69,7 +70,9 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
     val invalidPaymentContainer: ViewGroup by bindView(R.id.invalid_payment_container)
     val invalidPaymentText: TextView by bindView(R.id.invalid_payment_text)
     val sectionCreditCardContainer: ViewGroup by bindView(R.id.section_credit_card_container)
+    val filledInCardDetailsMiniContainer: LinearLayout by bindView(R.id.filled_in_card_details_mini_container)
     val filledInCardDetailsMiniView: TextView by bindView(R.id.filled_in_card_details_mini_view)
+    val filledInCardStatus: ContactDetailsCompletenessStatusImageView by bindView(R.id.filled_in_card_status)
     val spacerAboveFilledInCardDetailsMiniView: View by bindView(R.id.spacer_above_filled_in_card_details_mini_view)
     val pwpSmallIcon: ImageView? by bindOptionalView(R.id.pwp_small_icon)
 
@@ -85,7 +88,8 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
         vm.tempCard.subscribe { it ->
             filledInCardDetailsMiniView.text = it.first
             filledInCardDetailsMiniView.setCompoundDrawablesWithIntrinsicBounds(it.second, null, null, null)
-            filledInCardDetailsMiniView.visibility = if (it.first.isNullOrBlank()) GONE else VISIBLE
+            filledInCardStatus.status = ContactDetailsCompletenessStatus.COMPLETE
+            filledInCardDetailsMiniContainer.visibility = if (it.first.isNullOrBlank()) GONE else VISIBLE
             spacerAboveFilledInCardDetailsMiniView.visibility = if (it.first.isNullOrBlank()) GONE else VISIBLE
         }
 
@@ -124,7 +128,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
         }
 
         vm.userLogin.subscribe { isLoggedIn ->
-            if (isLoggedIn && !isFilled() && Db.getUser()?.storedCreditCards?.size == 1) {
+            if (isLoggedIn && !isFilled() && Db.getUser()?.storedCreditCards?.size == 1 && Db.getTemporarilySavedCard() == null) {
                 sectionBillingInfo.bind(Db.getBillingInfo())
                 selectFirstAvailableCard()
             }
@@ -207,7 +211,6 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
 
         FontCache.setTypeface(cardInfoExpiration, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_MEDIUM)
-
     }
 
     protected fun getCreditCardIcon(drawableResourceId: Int): Drawable {
@@ -463,9 +466,9 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
     fun userChoosesToSaveCard() {
         sectionBillingInfo.billingInfo.saveCardToExpediaAccount = true
         sectionBillingInfo.billingInfo.setIsTempCard(true)
-        temporarilySavedCardIsSelected(true)
         Db.setTemporarilySavedCard(BillingInfo(sectionBillingInfo.billingInfo))
         storedCreditCardListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard())
+        reset()
         close()
     }
 
