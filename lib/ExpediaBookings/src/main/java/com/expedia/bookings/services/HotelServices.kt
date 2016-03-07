@@ -83,8 +83,7 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, requestInterce
 				}
 				.doOnNext { response ->
 					response.hotelList.forEach {
-						// TODO API is going to return a flag like isAllowedToShopWithPoints inside loyaltyInfo. Change this when its available.
-						if (it.lowRateInfo.loyaltyInfo != null) {
+						if (it.lowRateInfo?.loyaltyInfo?.isShopWithPoints ?: false) {
 							response.hasLoyaltyInformation = true
 							return@doOnNext
 						}
@@ -111,7 +110,7 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, requestInterce
 				}
 				.doOnNext { hotelOffersResponse ->
 					hotelOffersResponse.hotelRoomResponse?.forEach {
-						if (it.rateInfo.chargeableRateInfo.loyaltyInfo != null) {
+						if (it.rateInfo?.chargeableRateInfo?.loyaltyInfo?.isShopWithPoints ?: false) {
 							hotelOffersResponse.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
 							return@doOnNext
 						}

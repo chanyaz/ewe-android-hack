@@ -110,7 +110,8 @@
                                 "bonus": 200,
                                 "total": 300
                             }
-                        }
+                        },
+                        "isShopWithPoints": true
                     }
                 },
                 "priceBreakdown": true,

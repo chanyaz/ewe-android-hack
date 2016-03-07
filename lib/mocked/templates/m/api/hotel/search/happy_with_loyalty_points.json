@@ -138,7 +138,8 @@
                             "bonus": 200,
                             "total": 300
                         }
-                    }
+                    },
+                    "isShopWithPoints": true
                 },
                 "averageBaseRate": "1029.00",
                 "averageRate": "1029.00",

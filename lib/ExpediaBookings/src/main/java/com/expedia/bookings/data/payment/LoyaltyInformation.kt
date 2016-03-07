@@ -3,7 +3,7 @@ package com.expedia.bookings.data.payment
 import com.expedia.bookings.data.Money
 
 data class LoyaltyInformation(
-        val burn: LoyaltyBurnInfo?, val earn: LoyaltyEarnInfo
+        val burn: LoyaltyBurnInfo?, val earn: LoyaltyEarnInfo, val isShopWithPoints: Boolean
 )
 
 data class LoyaltyBurnInfo(val type: LoyaltyType, val amount: Money)

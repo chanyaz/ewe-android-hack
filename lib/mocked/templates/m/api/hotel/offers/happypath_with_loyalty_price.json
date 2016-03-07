@@ -125,7 +125,8 @@
                                     "currencyCode": "USD"
                                 }
                             }
-                        }
+                        },
+                        "isShopWithPoints": true
                     }
                 },
                 "priceBreakdown": true,

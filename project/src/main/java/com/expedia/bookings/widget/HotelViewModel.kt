@@ -40,7 +40,7 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
     val hotelPreviewRating = BehaviorSubject.create<Float>(hotel.hotelStarRating)
     val hotelPreviewRatingVisibility = BehaviorSubject.create<Float>(hotel.hotelStarRating).map { it >= 0.5f }
     val pricePerNightObservable = BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false))
-    val pricePerNightColorObservable = BehaviorSubject.create(ContextCompat.getColor(context, if (hotel.lowRateInfo.loyaltyInfo != null) R.color.hotels_primary_color else R.color.hotel_cell_gray_text))
+    val pricePerNightColorObservable = BehaviorSubject.create(ContextCompat.getColor(context, if (hotel.lowRateInfo?.loyaltyInfo?.isShopWithPoints ?: false) R.color.hotels_primary_color else R.color.hotel_cell_gray_text))
 
     val fewRoomsLeftUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
     val tonightOnlyUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
@@ -81,7 +81,7 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
         val isVipAvailable = hotel.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess() && User.isLoggedIn(context)
         val isGoldOrSilver = Db.getUser() != null && (Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.SILVER || Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.GOLD)
         vipMessageVisibilityObservable.onNext(isVipAvailable && isGoldOrSilver)
-        val isVipLoyaltyAvailable = isVipAvailable && isGoldOrSilver && hotel.lowRateInfo.loyaltyInfo != null
+        val isVipLoyaltyAvailable = isVipAvailable && isGoldOrSilver && hotel.lowRateInfo?.loyaltyInfo?.isShopWithPoints ?: false
         vipLoyaltyMessageVisibilityObservable.onNext(isVipLoyaltyAvailable)
 
         // NOTE: Any changes to this logic should also be made in HotelDetailViewModel.getPromoText()
