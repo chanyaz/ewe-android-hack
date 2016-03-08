@@ -41,8 +41,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textColor="@color/text_dark"
+                android:paddingBottom="4dp"
+                android:textColor="@color/calendar_instruction_text_color"
                 android:visibility="gone"
+                android:textSize="12sp"
                 tools:text="Sep 25 - Select return date"
                 tools:visibility="visible" />
         </LinearLayout>

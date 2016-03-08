@@ -161,6 +161,7 @@
     <color name="dark_blue">#1C3061</color>
     <color name="dismiss">#72000000</color>
     <color name="calendar_header">#FFF3F3F3</color>
+    <color name="calendar_instruction_text_color">#717171</color>
     <color name="bg_expedia_list">#f5f5f5</color>
 
     <!-- BookingOverviewFragment -->
