@@ -14,4 +14,9 @@
     <color name="temporary_header_gray">#797979</color>
     <color name="temporary_flight_duration_gray">#898989</color>
 
+    <color name="expedia_hotels_color">#009688</color>
+
+    <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+
 </resources>

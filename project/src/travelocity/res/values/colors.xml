@@ -9,8 +9,8 @@
     <color name="bg_btn_color_travelocity">#7bae00</color>
     <color name="bg_btn_pressed_color_travelocity">#295600</color>
     <color name="itin_flight_line_color_tvly">#7da426</color>
-    <color name="login_text_hotels">#FFFFFF</color>
-    <color name="login_text_flight">#FFFFFF</color>
+    <color name="login_text_hotels">@color/white</color>
+    <color name="login_text_flight">@color/white</color>
     <color name="coupon_success_message_color_tvly">#7baed4</color>
     <color name="collection_overlay_color">#56a1d5</color>
     <color name="tablet_book_button_text_color_travelocity">#57B3FF</color>
@@ -18,7 +18,7 @@
     <color name="hotel_room_rate_select_room_button_pressed_tvly">#004E93</color>
     <color name="hotel_room_rate_add_room_button_tvly">#608405</color>
     <color name="hotel_room_rate_add_room_button_pressed_tvly">#2F5806</color>
-    <color name="tablet_trip_bucket_text_color_tvly">#FFFFFF</color>
+    <color name="tablet_trip_bucket_text_color_tvly">@color/white</color>
     <color name="tablet_search_result_error_button_tvly">#004E93</color>
     <color name="tablet_search_result_error_button_pressed_tvly">#D1EAFF</color>
     <color name="tablet_results_search_blue_tvly">#608405</color>
@@ -40,7 +40,7 @@
     <color name="lx_ticket_selector_disabled_color_tvly">#40003E74</color>
 
     <!--Account Lib Colors -->
-    <color name="acct__btn_sign_in_text_tvly">#FFFFFF</color>
-    <color name="acct__bg_input_text_error_tvly">#FFFFFF</color>
+    <color name="acct__btn_sign_in_text_tvly">@color/white</color>
+    <color name="acct__bg_input_text_error_tvly">@color/white</color>
     <color name="acct__bg_input_text_good_tvly">#EEEEEE</color>
 </resources>

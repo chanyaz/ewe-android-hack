@@ -22,15 +22,15 @@
     <color name="bg_btn_color_wotif">#7bae00</color>
     <color name="bg_btn_pressed_color_wotif">#295600</color>
     <color name="itin_flight_line_color_wotif">#7da426</color>
-    <color name="login_text_hotels">#FFFFFF</color>
-    <color name="login_text_flight">#FFFFFF</color>
+    <color name="login_text_hotels">@color/white</color>
+    <color name="login_text_flight">@color/white</color>
     <color name="coupon_success_message_color_wotif">#7baed4</color>
     <color name="collection_overlay_color">#56a1d5</color>
     <color name="hotel_room_rate_select_room_button_wotif">#53A0D3</color>
     <color name="hotel_room_rate_select_room_button_pressed_wotif">#004E93</color>
     <color name="hotel_room_rate_add_room_button_wotif">#7AC231</color>
     <color name="hotel_room_rate_add_room_button_pressed_wotif">#2F5806</color>
-    <color name="launch_pin_detail_button_text_wotif">#FFFFFF</color>
+    <color name="launch_pin_detail_button_text_wotif">@color/white</color>
 
     <color name="hotel_price_text_color">#1972B2</color>
     <color name="hotel_price_sale_text_color">#599027</color>
@@ -49,7 +49,7 @@
     <color name="action_bar_flight_result_separator_color">#999999</color>
 
     <color name="tablet_book_button_text_color_wotif">#57B3FF</color>
-    <color name="tablet_trip_bucket_text_color_wotif">#FFFFFF</color>
+    <color name="tablet_trip_bucket_text_color_wotif">@color/white</color>
     <color name="tablet_search_result_error_button_pressed_wotif">#D1EAFF</color>
     <color name="tablet_search_result_error_button_wotif">#1F8EDE</color>
     <color name="tablet_results_search_blue_wotif">#608405</color>
@@ -79,9 +79,9 @@
     <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
 
     <!--Account Lib Colors -->
-    <color name="acct__btn_sign_in_text_wotif">#FFFFFF</color>
-    <color name="acct__bg_input_text_error_wotif">#FFFFFF</color>
+    <color name="acct__btn_sign_in_text_wotif">@color/white</color>
+    <color name="acct__bg_input_text_error_wotif">@color/white</color>
     <color name="acct__bg_input_text_good_wotif">#EEEEEE</color>
-    <color name="acct__welcome_text_color">#FFFFFF</color>
+    <color name="acct__welcome_text_color">@color/white</color>
 
 </resources>
