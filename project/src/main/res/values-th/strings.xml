@@ -240,6 +240,8 @@
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">บันทึก {cardtype} …{cardno}</string>
+    <!--Text for stored card -->
+    <string name="stored_card_TEMPLATE">บันทึก {cardtype}</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1781,8 +1783,11 @@
     <string name="baggage_fees">ค่าสัมภาระ</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">ค่าธรรมเนียมการชำระเงิน</string>
-    <!-- Label indicating number of tickets left for given flight -->
-    <string name="number_tickets_left">เหลือ %d ที่นั่งในราคา</string>
+    <!-- Label indicating number of tickets left for given flight (min: 1) -->
+    <plurals name="number_tickets_left_TEMPLATE">
+        <item quantity="one">เหลือ {number_tickets_left} ที่นั่งในราคา</item>
+        <item quantity="other">เหลือ {number_tickets_left} ที่นั่งในราคา</item>
+    </plurals>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -2010,12 +2015,6 @@
     <string name="select_traveler">เลือกผู้ติดต่อ</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">เพิ่มผู้เดินทางใหม่</string>
-    <!-- Select card from checkout saved credit cards list -->
-    <string name="saved_creditcards">บัตรเครดิตที่บันทึกไว้</string>
-    <!-- Select card from checkout saved cards list -->
-    <string name="select_saved_cards">เลือกบัตรที่บันทึกไว้</string>
-    <!-- Add new card, checkout saved credit cards list -->
-    <string name="add_new_creditcard">เพิ่มบัตรใหม่</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">รายละเอียดผู้เข้าพัก</string>
     <!-- Guest all fields are required -->
@@ -3977,8 +3976,8 @@
         <item quantity="other">ใช้ไป {points} คะแนน</item>
     </plurals>
 
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">ยอดเงินคงเหลือที่ต้องชำระ: {money}</string>
-    <string name="pwp_total_due_today_TEMPLATE">ยอดทั้งหมดที่ต้องชำระวันนี้: {money}</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">ยอดเงินคงเหลือที่ต้องชำระ:</string>
+    <string name="pwp_total_due_today_TEMPLATE">ยอดทั้งหมดที่ต้องชำระวันนี้:</string>
 
     <!-- Package Flight Overview -->
     <string name="package_flight_overview_urgency_message_TEMPLATE">เหลือ {seats} ที่นั่ง</string>

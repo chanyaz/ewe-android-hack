@@ -240,6 +240,8 @@
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">Guardado {cardtype} …{cardno}</string>
+    <!--Text for stored card -->
+    <string name="stored_card_TEMPLATE">{cardtype} guardada</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1779,8 +1781,11 @@
     <string name="baggage_fees">Tasas de equipaje</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Tasas de tramitación</string>
-    <!-- Label indicating number of tickets left for given flight -->
-    <string name="number_tickets_left">Ya solo hay %d por</string>
+    <!-- Label indicating number of tickets left for given flight (min: 1) -->
+    <plurals name="number_tickets_left_TEMPLATE">
+        <item quantity="one">Queda {number_tickets_left} por</item>
+        <item quantity="other">Quedan {number_tickets_left} por</item>
+    </plurals>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -2008,12 +2013,6 @@
     <string name="select_traveler">Seleccionar contacto</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">Añadir nuevo viajero</string>
-    <!-- Select card from checkout saved credit cards list -->
-    <string name="saved_creditcards">Tarjetas guardadas</string>
-    <!-- Select card from checkout saved cards list -->
-    <string name="select_saved_cards">Seleccionar una tarjeta guardada</string>
-    <!-- Add new card, checkout saved credit cards list -->
-    <string name="add_new_creditcard">Añadir nueva tarjeta</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Datos del huésped</string>
     <!-- Guest all fields are required -->
@@ -3134,7 +3133,7 @@
     <!-- Section label for communication options that are not related to user support -->
     <string name="about_section_communicate">Comunicación</string>
     <!-- Label for button that takes the user to screen to rate the app on the app store -->
-    <string name="rate_our_app">¡Puntúa nuestra aplicación!</string>
+    <string name="rate_our_app">¡Puntúa nuestra app!</string>
     <!-- Label for link to terms and conditions -->
     <string name="info_label_terms_conditions">Términos y condiciones</string>
     <!-- Label for link to terms of use -->
@@ -3939,8 +3938,8 @@
     <string name="flight_checkout_overview_TEMPLATE">Vuelos: {origin} a {destination}, ida y vuelta</string>
     <!-- Label for hotel on checkout overview of Packages -->
     <plurals name="hotel_checkout_overview_TEMPLATE">
-        <item quantity="one">Hotel en {city} - 1 habitación, {number} noche</item>
-        <item quantity="other">Hotel en {city} - 1 habitación, {number} noches</item>
+        <item quantity="one">Hotel en {city}: 1 habitación, {number} noches</item>
+        <item quantity="other">Hotel en {city}: 1 habitación, {number} noches</item>
     </plurals>
 
     <!-- Package Trip Overview -->
@@ -3976,12 +3975,13 @@
         <item quantity="other">Se han aplicado {points} puntos</item>
     </plurals>
 
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Saldo restante a pagar: {money}</string>
-    <string name="pwp_total_due_today_TEMPLATE">Total a pagar hoy: {money}</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Saldo restante a pagar:</string>
+    <string name="pwp_total_due_today_TEMPLATE">Total a pagar hoy:</string>
 
     <!-- Package Flight Overview -->
     <string name="package_flight_overview_urgency_message_TEMPLATE">Solo quedan {seats} asientos</string>
-    <string name="package_flight_overview_baggage_fees">Información sobre tasas de equipaje</string>
+    <string name="package_flight_overview_baggage_fees">Información sobre tasas de equipaje
+</string>
     <string name="package_flight_overview_select_flight">Seleccionar este vuelo</string>
     <string name="package_flight_overview_bundle_total_label">Total del paquete</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/persona</string>
@@ -4002,7 +4002,7 @@
 
     <!-- Package breakdown dialog -->
     <string name="package_breakdown_hotel_flight_summary">Hotel + vuelo</string>
-    <string name="package_breakdown_taxes_fees">Cargos y tasas</string>
+    <string name="package_breakdown_taxes_fees">Tasas e impuestos</string>
     <string name="package_breakdown_taxes_fees_included_TEMPLATE">Tasas e impuestos incluidos ({taxes})</string>
     <string name="package_breakdown_total_savings">Ahorro total</string>
 </resources>

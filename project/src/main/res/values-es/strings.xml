@@ -240,6 +240,8 @@
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">{cardtype} …{cardno} guardada</string>
+    <!--Text for stored card -->
+    <string name="stored_card_TEMPLATE">{cardtype} guardada</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1779,8 +1781,11 @@
     <string name="baggage_fees">Cargos por equipaje</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Cargos por procesamiento de pago</string>
-    <!-- Label indicating number of tickets left for given flight -->
-    <string name="number_tickets_left">Queda(n) %d a</string>
+    <!-- Label indicating number of tickets left for given flight (min: 1) -->
+    <plurals name="number_tickets_left_TEMPLATE">
+        <item quantity="one">Queda {number_tickets_left} a</item>
+        <item quantity="other">Quedan {number_tickets_left} a</item>
+    </plurals>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -2008,12 +2013,6 @@
     <string name="select_traveler">Seleccionar contacto</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">Agregar un nuevo pasajero</string>
-    <!-- Select card from checkout saved credit cards list -->
-    <string name="saved_creditcards">Tarjetas guardadas</string>
-    <!-- Select card from checkout saved cards list -->
-    <string name="select_saved_cards">Selecciona las tarjetas guardadas</string>
-    <!-- Add new card, checkout saved credit cards list -->
-    <string name="add_new_creditcard">Ingresar una tarjeta nueva</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Información del huésped</string>
     <!-- Guest all fields are required -->
@@ -3975,8 +3974,8 @@
         <item quantity="other">{points} puntos aplicados</item>
     </plurals>
 
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Saldo pendiente de pago: {money}</string>
-    <string name="pwp_total_due_today_TEMPLATE">Total a pagar el día de hoy: {money}</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Saldo pendiente de pago:</string>
+    <string name="pwp_total_due_today_TEMPLATE">Total a pagar el día de hoy:</string>
 
     <!-- Package Flight Overview -->
     <string name="package_flight_overview_urgency_message_TEMPLATE">Quedan {seats} lugares</string>

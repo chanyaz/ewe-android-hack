@@ -240,6 +240,8 @@
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">Gemt {cardtype} …{cardno}</string>
+    <!--Text for stored card -->
+    <string name="stored_card_TEMPLATE">Gemt {cardtype}</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1779,8 +1781,11 @@
     <string name="baggage_fees">Bagagegebyr</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Gebyr for betalingsadministration</string>
-    <!-- Label indicating number of tickets left for given flight -->
-    <string name="number_tickets_left">%d tilbage til</string>
+    <!-- Label indicating number of tickets left for given flight (min: 1) -->
+    <plurals name="number_tickets_left_TEMPLATE">
+        <item quantity="one">{number_tickets_left} tilbage til</item>
+        <item quantity="other">{number_tickets_left} tilbage til</item>
+    </plurals>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -2008,12 +2013,6 @@
     <string name="select_traveler">Vælg kontakt</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">Tilføj ny rejsende</string>
-    <!-- Select card from checkout saved credit cards list -->
-    <string name="saved_creditcards">Gemte kort</string>
-    <!-- Select card from checkout saved cards list -->
-    <string name="select_saved_cards">Vælg gemte kort</string>
-    <!-- Add new card, checkout saved credit cards list -->
-    <string name="add_new_creditcard">Tilføj nyt kort</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Oplysninger om gæst</string>
     <!-- Guest all fields are required -->
@@ -3975,8 +3974,8 @@
         <item quantity="other">{points} point indløst</item>
     </plurals>
 
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Resterende beløb til betaling: {money}</string>
-    <string name="pwp_total_due_today_TEMPLATE">Samlet beløb til betaling i dag: {money}</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Resterende beløb til betaling:</string>
+    <string name="pwp_total_due_today_TEMPLATE">Samlet beløb til betaling i dag:</string>
 
     <!-- Package Flight Overview -->
     <string name="package_flight_overview_urgency_message_TEMPLATE">{seats} sæder tilbage</string>

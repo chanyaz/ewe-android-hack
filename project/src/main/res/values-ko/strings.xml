@@ -240,6 +240,8 @@
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">{cardtype} …{cardno} 저장됨</string>
+    <!--Text for stored card -->
+    <string name="stored_card_TEMPLATE">{cardtype} 저장됨</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1779,8 +1781,11 @@
     <string name="baggage_fees">수하물 요금</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">결제 처리 요금</string>
-    <!-- Label indicating number of tickets left for given flight -->
-    <string name="number_tickets_left">%d개 좌석 남음, 요금:</string>
+    <!-- Label indicating number of tickets left for given flight (min: 1) -->
+    <plurals name="number_tickets_left_TEMPLATE">
+        <item quantity="one">{number_tickets_left}장 남음, 요금:</item>
+        <item quantity="other">{number_tickets_left}장 남음, 요금:</item>
+    </plurals>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -2008,12 +2013,6 @@
     <string name="select_traveler">연락할 여행객 선택</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">새 여행객 추가</string>
-    <!-- Select card from checkout saved credit cards list -->
-    <string name="saved_creditcards">저장된 카드</string>
-    <!-- Select card from checkout saved cards list -->
-    <string name="select_saved_cards">저장된 카드 선택</string>
-    <!-- Add new card, checkout saved credit cards list -->
-    <string name="add_new_creditcard">새 카드 추가</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">숙박객 정보</string>
     <!-- Guest all fields are required -->
@@ -3975,8 +3974,8 @@
         <item quantity="other">{points}포인트 적용됨</item>
     </plurals>
 
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">남은 결제 금액: {money}</string>
-    <string name="pwp_total_due_today_TEMPLATE">오늘 결제할 총액: {money}</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">남은 결제 금액:</string>
+    <string name="pwp_total_due_today_TEMPLATE">오늘 결제할 총 금액:</string>
 
     <!-- Package Flight Overview -->
     <string name="package_flight_overview_urgency_message_TEMPLATE">{seats}개 좌석 남음</string>

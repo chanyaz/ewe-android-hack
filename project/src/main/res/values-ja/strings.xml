@@ -240,6 +240,8 @@
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">保存済み{cardtype} (カード番号 {cardno})</string>
+    <!--Text for stored card -->
+    <string name="stored_card_TEMPLATE">保存済みの {cardtype}</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1779,8 +1781,11 @@
     <string name="baggage_fees">手荷物料金</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">お支払い処理料金</string>
-    <!-- Label indicating number of tickets left for given flight -->
-    <string name="number_tickets_left">残り %d 席 - 料金</string>
+    <!-- Label indicating number of tickets left for given flight (min: 1) -->
+    <plurals name="number_tickets_left_TEMPLATE">
+        <item quantity="one">残り {number_tickets_left} 席 - 料金</item>
+        <item quantity="other">残り {number_tickets_left} 席 - 料金</item>
+    </plurals>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -2008,12 +2013,6 @@
     <string name="select_traveler">代表者を選択</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">新しい旅行者情報を追加</string>
-    <!-- Select card from checkout saved credit cards list -->
-    <string name="saved_creditcards">保存済みのカード</string>
-    <!-- Select card from checkout saved cards list -->
-    <string name="select_saved_cards">保存済みのカードから選択</string>
-    <!-- Add new card, checkout saved credit cards list -->
-    <string name="add_new_creditcard">新しいカードを追加</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">ゲストの詳細</string>
     <!-- Guest all fields are required -->
@@ -3975,8 +3974,8 @@
         <item quantity="other">{points} ポイント適用済み</item>
     </plurals>
 
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">残高 : {money}</string>
-    <string name="pwp_total_due_today_TEMPLATE">本日お支払いの合計金額 : {money}</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">残高 :</string>
+    <string name="pwp_total_due_today_TEMPLATE">本日お支払いの合計金額 :</string>
 
     <!-- Package Flight Overview -->
     <string name="package_flight_overview_urgency_message_TEMPLATE">残り {seats} 席</string>
