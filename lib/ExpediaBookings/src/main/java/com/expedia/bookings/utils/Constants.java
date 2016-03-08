@@ -20,6 +20,8 @@ public class Constants {
 
 	// itin airline code for check in
 	public static final String ITIN_CHECK_IN_CODE = "ITIN_CHECK_IN_CODE";
-	public static final String ITIN_CHECK_CONFIRMATION_CODE = "ITIN_CHECK_CONFIRMATION_CODE";
+	public static final String ITIN_CHECK_IN_CONFIRMATION_CODE = "ITIN_CHECK_IN_CONFIRMATION_CODE";
 	public static final int ITIN_CHECK_IN_WEBPAGE_CODE = 21;
+	public static final String ITIN_FLIGHT_TRIP_LEGS = "ITIN_FLIGHT_TRIP_LEGS";
+	public static final String ITIN_IS_SPLIT_TICKET = "ITIN_IS_SPLIT_TICKET";
 }
