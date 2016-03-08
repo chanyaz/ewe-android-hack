@@ -210,6 +210,7 @@ class BundleFlightViewModel(val context: Context) {
     val flightSelectIconObservable = BehaviorSubject.create<Boolean>()
     val flightIconImageObservable = BehaviorSubject.create<Pair<Int, Int>>()
     val flightTextColorObservable = BehaviorSubject.create<Int>()
+    val flightTravelInfoColorObservable = BehaviorSubject.create<Int>()
     val flightInfoContainerObservable = BehaviorSubject.create<Boolean>()
     val selectedFlightLegObservable = BehaviorSubject.create<FlightLeg>()
     val totalDurationObserver = BehaviorSubject.create<String>()
@@ -237,6 +238,7 @@ class BundleFlightViewModel(val context: Context) {
             flightDetailsIconObservable.onNext(false)
             flightSelectIconObservable.onNext(false)
             flightTextColorObservable.onNext(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
+            flightTravelInfoColorObservable.onNext(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
         }
 
         showLoadingStateObservable.subscribe { isShowing ->
@@ -247,6 +249,7 @@ class BundleFlightViewModel(val context: Context) {
             } else {
                 flightSelectIconObservable.onNext(true)
                 flightTextColorObservable.onNext(Ui.obtainThemeColor(context, R.attr.primary_color))
+                flightTravelInfoColorObservable.onNext(Ui.obtainThemeColor(context, R.attr.primary_color))
             }
         }
 
@@ -257,7 +260,8 @@ class BundleFlightViewModel(val context: Context) {
 
             flightSelectIconObservable.onNext(false)
             flightDetailsIconObservable.onNext(true)
-            flightTextColorObservable.onNext(ContextCompat.getColor(context, R.color.package_bundle_icon_color))
+            flightTextColorObservable.onNext(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_primary_text))
+            flightTravelInfoColorObservable.onNext(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_secondary_text))
             travelInfoTextObservable.onNext(context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, DateUtils.localDateToMMMd(localDate),
                     DateUtils.formatTimeShort(selectedFlight.departureDateTimeISO), StrUtils.formatTravelerString(context, Db.getPackageParams().guests())))
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
