@@ -3,7 +3,6 @@ package com.expedia.bookings.activity;
 import java.util.Calendar;
 
 import android.app.ActionBar;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -161,11 +160,6 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 		sb.append(getString(R.string.stack_blur_credit));
 		TextView openSourceCredits = Ui.findView(this, R.id.open_source_credits_textview);
 		openSourceCredits.setText(sb.toString());
-
-		// Tracking
-		if (savedInstanceState == null) {
-			mAboutUtils.trackAboutActivityPageLoad();
-		}
 	}
 
 	private String getCopyrightString() {
@@ -183,17 +177,7 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 	protected void onStart() {
 		super.onStart();
 		if (mWasStopped) {
-			mAboutUtils.trackAboutActivityPageLoad();
 			mWasStopped = false;
-		}
-	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-
-		if (requestCode == AboutUtils.REQUEST_CODE_FEEDBACK && resultCode == RESULT_OK) {
-			mAboutUtils.trackFeedbackSubmitted();
 		}
 	}
 
@@ -287,15 +271,6 @@ public class AboutActivity extends FragmentActivity implements AboutSectionFragm
 			startActivity(builder.getIntent());
 
 			return true;
-		}
-
-		case AboutSectionFragment.ROW_FLIGHT_TRACK: {
-			mAboutUtils.trackFlightTrackLink();
-			return false;
-		}
-		case AboutSectionFragment.ROW_FLIGHT_BOARD: {
-			mAboutUtils.trackFlightBoardLink();
-			return false;
 		}
 
 		case ROW_VSC_VOYAGES: {

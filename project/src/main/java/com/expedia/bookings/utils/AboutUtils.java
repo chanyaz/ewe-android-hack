@@ -33,8 +33,6 @@ import com.squareup.phrase.Phrase;
 // Methods that tie together TabletAboutActivity and AboutActivity
 public class AboutUtils {
 
-	public static final int REQUEST_CODE_FEEDBACK = 1;
-
 	private Activity mActivity;
 
 	public AboutUtils(Activity activity) {
@@ -63,30 +61,36 @@ public class AboutUtils {
 	}
 
 	public void openExpediaWebsite() {
+		OmnitureTracking.trackClickSupportWebsite();
 		openWebsite(mActivity, PointOfSale.getPointOfSale().getWebsiteUrl(), true);
 	}
 
 	public void openAppSupport() {
+		OmnitureTracking.trackClickSupportApp();
 		openWebsite(mActivity, ProductFlavorFeatureConfiguration.getInstance().getAppSupportUrl(mActivity), false,
 			true);
 	}
 
 	public void openCareers() {
 		openWebsite(mActivity, "http://www.mobiata.com/careers", false);
-		trackHiringLink();
+		OmnitureTracking.trackClickWereHiring();
 	}
 
 	public void openTermsAndConditions() {
+		OmnitureTracking.trackClickTermsAndConditions();
 		PointOfSale posInfo = PointOfSale.getPointOfSale();
 		openWebsite(mActivity, posInfo.getTermsAndConditionsUrl(), false);
 	}
 
 	public void openPrivacyPolicy() {
+		OmnitureTracking.trackClickPrivacyPolicy();
 		PointOfSale posInfo = PointOfSale.getPointOfSale();
 		openWebsite(mActivity, posInfo.getPrivacyPolicyUrl(), false);
 	}
 
 	public void rateApp() {
+		OmnitureTracking.trackClickRateApp();
+
 		Uri uri = Uri.parse("market://details?id=" + mActivity.getPackageName());
 		Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
 
@@ -122,38 +126,9 @@ public class AboutUtils {
 		}
 	}
 
-	//////////////////////////////////////////////////////////////////////////
-	// Omniture tracking events
-
-	public void trackAboutActivityPageLoad() {
-		Log.d("Tracking \"App.Hotel.Support\" pageLoad");
-		OmnitureTracking.trackSimpleEvent("App.Hotel.Support", null, null);
-	}
-
-	public void trackFlightTrackLink() {
-		Log.d("Tracking \"flighttrack\" onClick");
-		OmnitureTracking.trackSimpleEvent(null, null, "App.Link.FlightTrack");
-	}
-
-	public void trackFlightBoardLink() {
-		Log.d("Tracking \"flightboard\" onClick");
-		OmnitureTracking.trackSimpleEvent(null, null, "App.Link.FlightBoard");
-	}
-
-	public void trackHiringLink() {
-		Log.d("Tracking \"hiring\" onClick");
-		OmnitureTracking.trackSimpleEvent(null, null, "App.Link.Mobiata.Jobs");
-	}
-
-	public void trackFeedbackSubmitted() {
-		Log.d("Tracking \"app feedback\" onClick");
-
-		// TODO: referrerId should display the # of stars the user gave us, however we cannot get
-		// that information from OpinionLab yet.
-		OmnitureTracking.trackSimpleEvent(null, "event37", null);
-	}
 
 	public static class ContactExpediaDialog extends DialogFragment {
+		@NonNull
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			AlertDialog.Builder builder = new Builder(getActivity(), R.style.LightDialog);
@@ -216,6 +191,7 @@ public class AboutUtils {
 
 	public static class CountrySelectDialog extends DialogFragment {
 
+		@NonNull
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
