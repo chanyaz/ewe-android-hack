@@ -9,8 +9,6 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -37,6 +35,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -790,7 +789,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 
 			CharSequence[] freeformLocations = StrUtils.formatAddresses(mAddresses);
 
-			AlertDialog.Builder builder = new Builder(this);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle(R.string.ChooseLocation);
 			builder.setItems(freeformLocations, new Dialog.OnClickListener() {
 				@Override
@@ -827,7 +826,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			return builder.create();
 		}
 		case DIALOG_CLIENT_DEPRECATED: {
-			AlertDialog.Builder builder = new Builder(this);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			final ServerError error = Db.getHotelSearch().getSearchResponse().getErrors().get(0);
 			builder.setMessage(error.getExtra("message"));
 			builder.setPositiveButton(R.string.upgrade, new OnClickListener() {
@@ -840,7 +839,7 @@ public class HotelSearchActivity extends FragmentActivity implements OnDrawStart
 			return builder.create();
 		}
 		case DIALOG_ENABLE_LOCATIONS: {
-			AlertDialog.Builder builder = new Builder(this);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setMessage(R.string.EnableLocationSettings);
 			builder.setPositiveButton(R.string.ok, new Dialog.OnClickListener() {
 				@Override
