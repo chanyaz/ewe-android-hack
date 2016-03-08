@@ -29,8 +29,7 @@ class PaymentViewModel(val context: Context) {
     // inputs
     val splitsType = BehaviorSubject.create<PaymentSplitsType>(PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD)
     val isRedeemable = BehaviorSubject.create<Boolean>(false)
-    val completeBillingInfo = BehaviorSubject.create<BillingInfo>()
-    val incompleteBillingInfo = PublishSubject.create<Unit>()
+    val billingInfoAndStatusUpdate = BehaviorSubject.create<Pair<BillingInfo?,ContactDetailsCompletenessStatus>>()
     val emptyBillingInfo = PublishSubject.create<Unit>()
     val storedCardRemoved = PublishSubject.create<StoredCreditCard?>()
 
@@ -63,71 +62,61 @@ class PaymentViewModel(val context: Context) {
     val onStoredCardChosen = PublishSubject.create<Unit>()
 
     init {
-        Observable.combineLatest(completeBillingInfo, isRedeemable, splitsType) {
-            info, isRedeemable, splitsType ->
-
-            if (isRedeemable && splitsType == PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT) {
+        Observable.combineLatest(billingInfoAndStatusUpdate, isRedeemable, splitsType) {
+            infoAndStatus, isRedeemable, splitsType ->
+            object {
+                val info = infoAndStatus.first
+                val status = infoAndStatus.second
+                val isRedeemable = isRedeemable
+                val splitsType = splitsType
+            }
+        }.subscribe {
+            if (it.isRedeemable && it.splitsType == PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT) {
                 setPaymentTileInfo(PaymentType.POINTS_EXPEDIA_REWARDS,
                         resources.getString(R.string.checkout_paying_with_points_only_line1),
-                        resources.getString(R.string.checkout_tap_to_edit), splitsType, ContactDetailsCompletenessStatus.COMPLETE)
-            } else if (info == null) {
-                return@combineLatest
-            } else if (info.isTempCard && info.saveCardToExpediaAccount) {
-                var title = manuallyEnteredCard(info.paymentType, info.number)
-                tempCard.onNext(Pair("",getCardIcon(info.paymentType)))
-                setPaymentTileInfo(info.paymentType, title, resources.getString(R.string.checkout_tap_to_edit), splitsType, ContactDetailsCompletenessStatus.COMPLETE)
-                Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(info)
-            } else if (info.hasStoredCard()) {
-                val card = info.storedCard
+                        resources.getString(R.string.checkout_tap_to_edit), it.splitsType, ContactDetailsCompletenessStatus.COMPLETE)
+            } else if (it.info == null) {
+                val title = resources.getString(R.string.checkout_enter_payment_details)
+                val subTitle = resources.getString(
+                        if (it.isRedeemable) R.string.checkout_payment_options else R.string.checkout_hotelsv2_enter_payment_details_line2)
+                tempCard.onNext(Pair("", getCardIcon(null)))
+                setPaymentTileInfo(null, title, subTitle, it.splitsType, it.status)
+            } else if (it.info.isTempCard && it.info.saveCardToExpediaAccount) {
+                var title = manuallyEnteredCard(it.info.paymentType, it.info.number)
+                tempCard.onNext(Pair("", getCardIcon(it.info.paymentType)))
+                setPaymentTileInfo(it.info.paymentType, title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
+                Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(it.info)
+            } else if (it.info.hasStoredCard()) {
+                val card = it.info.storedCard
                 var title = card.description
-                tempCard.onNext(Pair("",getCardIcon(card.type)))
-                setPaymentTileInfo(card.type, title, resources.getString(R.string.checkout_tap_to_edit), splitsType, ContactDetailsCompletenessStatus.COMPLETE)
+                tempCard.onNext(Pair("", getCardIcon(card.type)))
+                setPaymentTileInfo(card.type, title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
             } else {
-                val cardNumber = info.number
-                var title = manuallyEnteredCard(info.paymentType,cardNumber)
-                if (info.isTempCard && !info.saveCardToExpediaAccount) {
-                    tempCard.onNext(Pair(title,getCardIcon(info.paymentType)))
+                val cardNumber = it.info.number
+                var title = manuallyEnteredCard(it.info.paymentType, cardNumber)
+                if (it.info.isTempCard && !it.info.saveCardToExpediaAccount) {
+                    tempCard.onNext(Pair(title, getCardIcon(it.info.paymentType)))
                 }
-                setPaymentTileInfo(info.paymentType, title, resources.getString(R.string.checkout_tap_to_edit), splitsType, ContactDetailsCompletenessStatus.COMPLETE)
-                Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(info)
+                setPaymentTileInfo(it.info.paymentType, title, resources.getString(R.string.checkout_tap_to_edit), it.splitsType, it.status)
+                Db.getWorkingBillingInfoManager().setWorkingBillingInfoAndBase(it.info)
             }
             Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB();
-        }.subscribe()
+        }
 
         storedCardRemoved.subscribe { card ->
             val icon = ContextCompat.getDrawable(context, R.drawable.ic_hotel_credit_card).mutate()
             icon.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
+            billingInfoAndStatusUpdate.onNext(Pair(null, ContactDetailsCompletenessStatus.DEFAULT))
             emptyBillingInfo.onNext(Unit)
             BookingInfoUtils.resetPreviousCreditCardSelectState(context, card)
             Db.getWorkingBillingInfoManager().workingBillingInfo.storedCard = null
             Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
         }
 
-        incompleteBillingInfo.subscribe {
-            val title = resources.getString(R.string.checkout_enter_payment_details)
-            val subTitle = resources.getString(
-                    if (isRedeemable.value) R.string.checkout_payment_options else R.string.checkout_hotelsv2_enter_payment_details_line2)
-            tempCard.onNext(Pair("",getCardIcon(null)))
-            setPaymentTileInfo(null, title, subTitle, splitsType.value, ContactDetailsCompletenessStatus.INCOMPLETE)
-        }
-
-        emptyBillingInfo.subscribe {
-            val title = resources.getString(R.string.checkout_enter_payment_details)
-            val subTitle = resources.getString(
-                    if (isRedeemable.value) R.string.checkout_payment_options else R.string.checkout_hotelsv2_enter_payment_details_line2)
-            tempCard.onNext(Pair("",getCardIcon(null)))
-
-            setPaymentTileInfo(null, title, subTitle, splitsType.value, ContactDetailsCompletenessStatus.DEFAULT)
-        }
-
         userLogin.subscribe { isLoggedIn ->
             if (!isLoggedIn) {
                 storedCardRemoved.onNext(null)
             }
-        }
-
-        expandObserver.subscribe{
-            userHasAtleastOneStoredCard.onNext(User.isLoggedIn(context) && Db.getUser().storedCreditCards.isNotEmpty())
         }
 
         cardType.subscribe { cardType ->
@@ -155,7 +144,7 @@ class PaymentViewModel(val context: Context) {
 
     fun setPaymentTileInfo(type: PaymentType?, title: String, subTitle: String, splitsType: PaymentSplitsType, completeStatus: ContactDetailsCompletenessStatus) {
         var paymentTitle = title
-        if (isRedeemable.value && splitsType == PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD) {
+        if (type != null && isRedeemable.value && splitsType == PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD) {
             paymentTitle = Phrase.from(context, R.string.checkout_paying_with_points_and_card_line1)
                     .put("carddescription", title)
                     .format().toString()

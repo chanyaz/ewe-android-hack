@@ -15,6 +15,7 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.vm.BaseCheckoutViewModel
 import com.expedia.vm.BundleOverviewViewModel
 import com.expedia.vm.PackageCheckoutViewModel
@@ -59,7 +60,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : Presenter(contex
         }
         bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe(bundlePresenter.checkoutPresenter.packageCheckoutViewModel.tripResponseObservable)
         bundlePresenter.checkoutPresenter.viewModel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
-        bundlePresenter.checkoutPresenter.paymentWidget.viewmodel.completeBillingInfo.subscribe(bundlePresenter.checkoutPresenter.viewModel.paymentCompleted)
+        bundlePresenter.checkoutPresenter.paymentWidget.viewmodel.billingInfoAndStatusUpdate.map{it.first}.subscribe(bundlePresenter.checkoutPresenter.viewModel.paymentCompleted)
         bundlePresenter.checkoutPresenter.createTripViewModel.tripResponseObservable.subscribe {
             bundlePresenter.toggleOverviewHeader(true)
         }
