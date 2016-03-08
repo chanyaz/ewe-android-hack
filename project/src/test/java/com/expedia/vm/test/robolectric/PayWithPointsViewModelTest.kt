@@ -137,7 +137,7 @@ class PayWithPointsViewModelTest {
         val latch = CountDownLatch(3)
         payWithPointsViewModel.pointsAppliedMessage.subscribe { latch.countDown() }
 
-        createTripResponse.tripId = "happy|500"
+        createTripResponse.tripId = "happy|5000"
         payWithPointsViewModel.userEnteredBurnAmount.onNext("32")
         createTripResponse.tripId = "happy_avaliable_points_less_than_trip"
         payWithPointsViewModel.userEnteredBurnAmount.onNext("30")
