@@ -1008,6 +1008,10 @@
         <item name="android:textColor">@color/packages_results_header_text</item>
         <item name="android:textSize">@dimen/packages_bundle_overview_footer_primary_text</item>
         <item name="textStyle">medium</item>
+        <item name="android:layout_marginBottom">11dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginTop">11dp</item>
     </style>
 
     <!-- Borderless button for "Enter Itinerary Number" in login screen -->

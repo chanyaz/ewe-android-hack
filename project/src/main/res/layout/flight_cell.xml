@@ -29,14 +29,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:background="@color/packages_primary_color"
+            android:paddingRight="13dp"
+            android:paddingLeft="13dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="7dp"
             android:visibility="gone">
 
             <com.expedia.bookings.widget.TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:height="35dp"
-                android:paddingLeft="10dp"
                 android:text="@string/best_flight_title"
                 android:textColor="#FFF"
                 app:textStyle="medium"
@@ -46,10 +48,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical|right"
-                android:height="35dp"
-                android:paddingRight="10dp"
                 android:text="@string/best_flight_description"
                 android:textColor="#FFF"
+                android:textStyle="normal"
                 android:textSize="12sp"
                 android:alpha="0.8"/>
         </LinearLayout>
