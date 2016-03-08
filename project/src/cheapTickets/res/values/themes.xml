@@ -24,11 +24,11 @@
         <item name="skin_loginButtonColor">@android:color/white</item>
         <item name="skin_hotelBookButtonColor">@android:color/white</item>
         <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
-        <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
+        <item name="skin_webViewPreferencesActionBarLogo">@drawable/ic_action_bar_ctx_logo</item>
         <item name="skin_aboutInfoUrlString">@string/cheapTickets_info_url</item>
         <item name="skin_aboutAppNameString">@string/launcher_name</item>
         <item name="skin_aboutAppLogoDrawable">@drawable/ic_launcher</item>
-        <item name="skin_webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_ctx_logo</item>
+        <item name="skin_webViewPreferencesActionBarLogoWithTitle">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_white_logo_small</item>

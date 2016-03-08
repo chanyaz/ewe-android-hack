@@ -4,7 +4,7 @@
     <item android:drawable="@drawable/bg_tablet_hotel_details" android:bottom="@dimen/hotel_details_pin_padding">
     </item>
     <item >
-        <bitmap android:src="@drawable/ic_tablet_hotel_details_yellow_map_pin"  android:gravity="bottom"/>
+        <bitmap android:src="@drawable/ic_tablet_hotel_details_map_pin"  android:gravity="bottom"/>
     </item>
 
 </layer-list>
