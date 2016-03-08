@@ -368,9 +368,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         hotels.forEach {
             hotel ->
             val bitmap = createHotelMarkerIcon(context, iconFactory, hotel, false, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut)
-            val selectedBitmap = createHotelMarkerIcon(context, iconFactory, hotel, true, hotel.lowRateInfo.isShowAirAttached(), hotel.isSoldOut)
-            val soldOutBitmap = createHotelMarkerIcon(context, iconFactory, hotel, false, hotel.lowRateInfo.isShowAirAttached(), true)
-            val mapItem = MapItem(LatLng(hotel.latitude, hotel.longitude), hotel.hotelId, bitmap, selectedBitmap, soldOutBitmap, hotel.lowRateInfo, hotel)
+            val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel.hotelId, bitmap, iconFactory, hotel.lowRateInfo, hotel)
             mapItems.add(mapItem)
             clusterManager.addItem(mapItem)
         }
