@@ -10,11 +10,13 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -32,13 +34,17 @@ import android.widget.TextView;
 
 import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
+import com.expedia.bookings.utils.Constants;
+import com.expedia.bookings.utils.ItinUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
@@ -103,6 +109,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private ViewGroup mHeaderLayout;
 	private ViewGroup mHeaderTextLayout;
 	private ViewGroup mSummarySectionLayout;
+	private ViewGroup mCheckInLayout;
 	private ViewGroup mSummaryLayout;
 	private ImageView mChevronImageView;
 	private ViewGroup mDetailsLayout;
@@ -117,6 +124,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private ImageView mHeaderOverlayImageView;
 	private TextView mHeaderTextView;
 	private TextView mHeaderTextDateView;
+	private TextView mCheckInTextView;
 	private View mSelectedView;
 	private View mHeaderShadeView;
 	private View mSummaryDividerView;
@@ -162,6 +170,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mHeaderTextLayout = Ui.findView(this, R.id.header_text_layout);
 		mSummarySectionLayout = Ui.findView(this, R.id.summary_section_layout);
 		mSummaryLayout = Ui.findView(this, R.id.summary_layout);
+		mCheckInLayout = Ui.findView(this, R.id.checkin_layout);
+		mCheckInTextView = Ui.findView(this, R.id.checkin_text_view);
 		mChevronImageView = Ui.findView(this, R.id.chevron_image_view);
 		mDetailsLayout = Ui.findView(this, R.id.details_layout);
 		mActionButtonLayout = Ui.findView(this, R.id.action_button_layout);
@@ -223,6 +233,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			? R.dimen.itin_card_summary_collapsed_height
 			: R.dimen.itin_card_collapsed_height);
 
+		if (mCheckInLayout.getVisibility() == VISIBLE) {
+			height += mCheckInLayout.getHeight();
+		}
+
 		height += (mTopExtraPaddingView.getVisibility() == VISIBLE ? mItinCardExtraTopPadding : 0)
 			+ (mBottomExtraPaddingView.getVisibility() == VISIBLE ? mItinCardExtraBottomPadding : 0);
 
@@ -247,20 +261,29 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	 * @return true if touch would effect the itin card summary buttons
 	 */
 	public boolean isTouchOnSummaryButtons(MotionEvent event) {
-		if (mActionButtonLayout != null && mActionButtonLayout.getVisibility() == View.VISIBLE && event != null) {
+		return isEventOnView(event, mActionButtonLayout);
+	}
+
+	public boolean isTouchOnCheckInButton(MotionEvent childEvent) {
+		return isEventOnView(childEvent, mCheckInLayout);
+	}
+
+	private boolean isEventOnView(MotionEvent event, ViewGroup viewGroup) {
+		boolean containsPoint = false;
+		if (viewGroup != null && viewGroup.getVisibility() == View.VISIBLE && event != null) {
 			int ex = (int) event.getX();
 			int ey = (int) event.getY();
 
-			int ax1 = mActionButtonLayout.getLeft();
-			int ax2 = mActionButtonLayout.getRight();
-			int ay1 = mActionButtonLayout.getTop();
-			int ay2 = mActionButtonLayout.getBottom();
+			int x1 = viewGroup.getLeft();
+			int x2 = viewGroup.getRight();
+			int y1 = viewGroup.getTop();
+			int y2 = viewGroup.getBottom();
 
-			if (ax1 <= ex && ax2 >= ex && ay1 <= ey && ay2 >= ey) {
-				return true;
+			if (x1 <= ex && x2 >= ex && y1 <= ey && y2 >= ey) {
+				containsPoint = true;
 			}
 		}
-		return false;
+		return containsPoint;
 	}
 
 	/**
@@ -368,6 +391,23 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mHeaderTextView.setText(mItinContentGenerator.getHeaderText());
 		mHeaderTextDateView.setText(mItinContentGenerator.getHeaderTextDate());
 
+		boolean shouldShowCheckInLink = shouldShowCheckInLink(itinCardData);
+		if (shouldShowCheckInLink) {
+			if (((TripFlight) itinCardData.getTripComponent()).isUserCheckedIn()) {
+				onCheckInLinkVisited(itinCardData);
+			}
+			mCheckInLayout.setVisibility(VISIBLE);
+			setShowSummary(true);
+			mCheckInLayout.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					((TripFlight) itinCardData.getTripComponent()).setUserCheckedIn(true);
+					showCheckInWebView(itinCardData);
+					onCheckInLinkVisited(itinCardData);
+				}
+			});
+		}
+
 		// Summary text
 		wasNull = mSummaryView == null;
 		if (wasNull && mSummaryLayout.getChildCount() > 0) {
@@ -401,6 +441,43 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			mHeaderShadeView.setVisibility(View.GONE);
 		}
 	}
+
+	private void showCheckInWebView(T itinCardData) {
+		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
+		builder.setUrl(mItinContentGenerator.getCheckInLink());
+		builder.setTitle(R.string.itin_card_flight_checkin_title);
+		builder.setTheme(R.style.ItineraryTheme);
+		builder.setCheckInLink(true);
+		builder.setInjectExpediaCookies(true);
+		builder.setAllowMobileRedirects(false);
+		builder.setAttemptForceMobileSite(true);
+		String firstAirlineCode = ((TripFlight) itinCardData.getTripComponent()).getFlightTrip()
+			.getLeg(0)
+			.getPrimaryAirlineNamesFormatted();
+		builder.getIntent().putExtra(Constants.ITIN_CHECK_IN_CODE, firstAirlineCode);
+
+		builder.getIntent().putExtra(Constants.ITIN_CHECK_CONFIRMATION_CODE,
+			mItinContentGenerator.getSummaryRightButton().getText());
+		((Activity) getContext())
+			.startActivityForResult(builder.getIntent(), Constants.ITIN_CHECK_IN_WEBPAGE_CODE);
+	}
+
+	private void onCheckInLinkVisited(T itinCardData) {
+		String firstAirlineCode = ((TripFlight) itinCardData.getTripComponent()).getFlightTrip()
+			.getLeg(0)
+			.getPrimaryAirlineNamesFormatted();
+		mCheckInTextView.setBackgroundColor(Color.TRANSPARENT);
+		mCheckInTextView
+			.setText(
+				getContext().getString(R.string.itin_card_flight_checkin_details, firstAirlineCode));
+	}
+
+
+	private boolean shouldShowCheckInLink(T itinCardData) {
+		return ItinUtils.shouldShowCheckInLink(getContext(), getType(), itinCardData.getStartDate(),
+			mItinContentGenerator.getCheckInLink());
+	}
+
 
 	/**
 	 * This method re-binds the ItinCard with the provided data, under the assumption that

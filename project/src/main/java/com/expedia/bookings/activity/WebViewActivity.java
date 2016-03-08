@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.WebViewFragment;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
@@ -25,6 +26,7 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 	private static final String ARG_INJECT_EXPEDIA_COOKIES = "ARG_INJECT_EXPEDIA_COOKIES";
 	private static final String ARG_TRACKING_NAME = "ARG_TRACKING_NAME";
 	private static final String ARG_HTML_DATA = "ARG_HTML_DATA";
+	private static final String ARG_ITIN_CHECKIN = "ARG_ITIN_CHECKIN";
 	private static final String ARG_ALLOW_MOBILE_REDIRECTS = "ARG_ALLOW_MOBILE_REDIRECTS";
 	private static final String ARG_ATTEMPT_FORCE_MOBILE_SITE = "ARG_ATTEMPT_FORCE_MOBILE_SITE";
 
@@ -61,6 +63,11 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 
 		public IntentBuilder setTitle(int titleResId) {
 			mIntent.putExtra(ARG_TITLE, mContext.getString(titleResId));
+			return this;
+		}
+
+		public IntentBuilder setCheckInLink(Boolean checkInLink) {
+			mIntent.putExtra(ARG_ITIN_CHECKIN, checkInLink);
 			return this;
 		}
 
@@ -112,6 +119,14 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 
 		setTheme(extras.getInt(ARG_STYLE_RES_ID, R.style.Theme_Phone_WebView));
 
+		if (extras.getBoolean(ARG_ITIN_CHECKIN)) {
+			Intent resultIntent = new Intent();
+			String airlineCode = extras.getString(Constants.ITIN_CHECK_IN_CODE, "");
+			String confirmationCode = extras.getString(Constants.ITIN_CHECK_CONFIRMATION_CODE, "");
+			resultIntent.putExtra(Constants.ITIN_CHECK_IN_CODE, airlineCode);
+			resultIntent.putExtra(Constants.ITIN_CHECK_CONFIRMATION_CODE, confirmationCode);
+			setResult(RESULT_OK, resultIntent);
+		}
 		// Title
 		String title = null;
 		if (intent.hasExtra(ARG_TITLE)) {

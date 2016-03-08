@@ -22,6 +22,18 @@ public class TripFlight extends TripComponent {
 
 	private String mDestinationRegionId;
 
+	private String mCheckInLink;
+
+	private boolean mUserCheckedIn = false;
+
+	public void setUserCheckedIn(boolean mUserCheckedIn) {
+		this.mUserCheckedIn = mUserCheckedIn;
+	}
+
+	public boolean isUserCheckedIn() {
+		return mUserCheckedIn;
+	}
+
 	public TripFlight() {
 		super(Type.FLIGHT);
 	}
@@ -74,6 +86,14 @@ public class TripFlight extends TripComponent {
 		mDestinationRegionId = destinationRegionId;
 	}
 
+	public String getCheckInLink() {
+		return mCheckInLink;
+	}
+
+	public void setCheckInLink(String mCheckInLink) {
+		this.mCheckInLink = mCheckInLink;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -89,6 +109,8 @@ public class TripFlight extends TripComponent {
 			JSONUtils.putJSONableList(obj, "travelers", mTravelers);
 			JSONUtils.putJSONableList(obj, "confirmationNumbers", mConfirmations);
 			obj.put("destinationRegionId", mDestinationRegionId);
+			obj.put("checkInLink", mCheckInLink);
+			obj.put("userCheckedIn", mUserCheckedIn);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -103,6 +125,8 @@ public class TripFlight extends TripComponent {
 		mTravelers = JSONUtils.getJSONableList(obj, "travelers", Traveler.class);
 		mConfirmations = JSONUtils.getJSONableList(obj, "confirmationNumbers", FlightConfirmation.class);
 		mDestinationRegionId = obj.optString("destinationRegionId", "");
+		mCheckInLink = obj.optString("checkInLink", "");
+		mUserCheckedIn = obj.optBoolean("userCheckedIn", false);
 		return true;
 	}
 }

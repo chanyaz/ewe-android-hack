@@ -1,7 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.util.List;
-
 import org.joda.time.DateTime;
 
 import android.animation.Animator;
@@ -29,6 +27,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.dialog.FlightCheckInDialog;
 import com.expedia.bookings.dialog.GooglePlayServicesDialog;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.ItinItemListFragment;
@@ -42,6 +41,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
@@ -53,6 +53,7 @@ import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import java.util.List;
 
 public class PhoneLaunchActivity extends ActionBarActivity implements ItinListView.OnListModeChangedListener,
 	ItinItemListFragmentListener, IPhoneLaunchFragmentListener, DoLogoutListener {
@@ -246,6 +247,17 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 			}
 			mToolbar.updateActionBarLogo();
 		}
+		else if (requestCode == Constants.ITIN_CHECK_IN_WEBPAGE_CODE) {
+			showFlightItinCheckinDialog(data);
+
+		}
+	}
+
+	private void showFlightItinCheckinDialog(Intent data) {
+		final String airlineCode = data.getExtras().getString(Constants.ITIN_CHECK_IN_CODE, "");
+		final String confirmationCode = data.getExtras().getString(Constants.ITIN_CHECK_CONFIRMATION_CODE, "");
+		final AlertDialog alertDialog = new FlightCheckInDialog(this, airlineCode, confirmationCode).onCreateDialog();
+		alertDialog.show();
 	}
 
 	@Override
