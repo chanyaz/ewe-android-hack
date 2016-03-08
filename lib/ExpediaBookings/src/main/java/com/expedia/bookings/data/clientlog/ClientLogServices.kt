@@ -12,10 +12,13 @@ import retrofit.client.OkClient
 import retrofit.converter.GsonConverter
 import rx.Observer
 import rx.Scheduler
+import java.net.URL
 
 class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, requestInterceptor: RequestInterceptor, val observeOn: Scheduler, val subscribeOn: Scheduler, logLevel: RestAdapter.LogLevel) {
-
+	var domain: String? = null
 	val clientLogApi: ClientLogApi by lazy {
+		domain = URL(endpoint).host
+
 		val gson = GsonBuilder()
 				.create()
 
@@ -31,7 +34,7 @@ class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, requestInt
 	}
 
 	fun log(clientLog: ClientLog) {
-		clientLogApi.log(clientLog.pageName, clientLog.deviceName, clientLog.logTime, clientLog.requestTime, clientLog.responseTime, clientLog.processingTime, clientLog.requestToUser)
+		clientLogApi.log(clientLog.pageName, domain, clientLog.deviceName, clientLog.logTime, clientLog.requestTime, clientLog.responseTime, clientLog.processingTime, clientLog.requestToUser)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.subscribe(makeEmptyObserver())
