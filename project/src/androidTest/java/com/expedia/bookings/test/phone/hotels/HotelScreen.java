@@ -472,7 +472,7 @@ public class HotelScreen {
 	}
 
 	public static void clickVIPAccess() {
-		onView(withId(R.id.vip_access_message)).perform(click());
+		onView(withId(R.id.vip_access_message_container)).perform(click());
 	}
 
 	public static void clickDetailsMiniMap() {

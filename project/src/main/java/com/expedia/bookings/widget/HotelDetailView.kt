@@ -110,7 +110,9 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     val hotelMessagingContainer: RelativeLayout by bindView(R.id.promo_messaging_container)
     val discountPercentage: TextView by bindView(R.id.discount_percentage)
-    val vipAccessMessage: TextView by bindView(R.id.vip_access_message)
+    val vipAccessMessageContainer: LinearLayout by bindView(R.id.vip_access_message_container)
+    val vipLoyaltyMessage: TextView by bindView(R.id.vip_loyalty_message_details)
+    val regularLoyaltyMessage: TextView by bindView(R.id.regular_loyalty_applied)
     val promoMessage: TextView by bindView(R.id.promo_text)
 
     val payLaterButtonContainer: FrameLayout by bindView(R.id.radius_pay_later_container)
@@ -268,8 +270,10 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         vm.discountPercentageObservable.subscribeText(discountPercentage)
         vm.discountPercentageBackgroundObservable.subscribeBackgroundResource(discountPercentage)
         vm.hasDiscountPercentageObservable.subscribeVisibility(discountPercentage)
-        vipAccessMessage.subscribeOnClick(vm.vipAccessInfoObservable)
-        vm.hasVipAccessObservable.subscribeVisibility(vipAccessMessage)
+        vipAccessMessageContainer.subscribeOnClick(vm.vipAccessInfoObservable)
+        vm.hasVipAccessObservable.subscribeVisibility(vipAccessMessageContainer)
+        vm.hasVipAccessLoyaltyObservable.subscribeVisibility(vipLoyaltyMessage)
+        vm.hasRegularLoyaltyPointsAppliedObservable.subscribeVisibility(regularLoyaltyMessage)
         vm.promoMessageObservable.subscribeText(promoMessage)
 
         vm.hotelMessagingContainerVisibility.subscribeVisibility(hotelMessagingContainer)
@@ -599,7 +603,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     fun urgencyViewAlpha(ratio: Float) {
         discountPercentage.alpha = ratio
-        vipAccessMessage.alpha = ratio
+        vipAccessMessageContainer.alpha = ratio
         promoMessage.alpha = ratio
     }
 
