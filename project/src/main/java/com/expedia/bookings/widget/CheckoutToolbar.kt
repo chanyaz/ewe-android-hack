@@ -33,7 +33,6 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
         }
         vm.menuVisibility.subscribe {
             menuItem.setVisible(it)
-            getChildAt(0).alpha = 1f
         }
         vm.enableMenuItem.subscribe { enable ->
             getChildAt(0).alpha = if (enable) 1f else 0.15f
@@ -45,7 +44,6 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
         }
         vm.visibleMenuWithTitleDone.subscribe {
             menuItem.setVisible(true)
-            getChildAt(0).alpha = 1f
             menuItem.setTitle(context.getString(R.string.done))
         }
 

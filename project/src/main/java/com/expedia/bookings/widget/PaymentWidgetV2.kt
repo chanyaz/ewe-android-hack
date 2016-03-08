@@ -102,12 +102,25 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         }
     }
 
-    override  fun closePopup() {
+    override fun closePopup() {
 
     }
 
     override fun updateToolbarMenu(forward: Boolean) {
         super.updateToolbarMenu(forward)
-        payWithPointsViewModel.hasPwpEditBoxFocus.onNext(false)
+        if (forward) {
+            payWithPointsViewModel.hasPwpEditBoxFocus.onNext(false)
+            viewmodel.enableMenuItem.onNext(isComplete())
+        } else {
+            paymentWidgetViewModel.navigatingOutOfPaymentOptions.onNext(Unit)
+            viewmodel.enableMenuItem.onNext(true)
+        }
+    }
+
+    override fun back(): Boolean {
+        if (currentState == PaymentOption::class.java.name) {
+            paymentWidgetViewModel.navigatingOutOfPaymentOptions.onNext(Unit)
+        }
+        return super.back()
     }
 }

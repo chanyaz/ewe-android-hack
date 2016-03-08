@@ -42,9 +42,11 @@ class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         pwpViewModel.currencySymbol.subscribeText(currencySymbolView)
         pwpViewModel.totalPointsAndAmountAvailableToRedeem.subscribeText(totalPointsAvailableView)
 
-        editAmountView.setOnClickListener {
-            editAmountView.isCursorVisible = true
-            pwpViewModel.hasPwpEditBoxFocus.onNext(true)
+        editAmountView.setOnFocusChangeListener { view, hasFocus ->
+            if (view == editAmountView) {
+                editAmountView.isCursorVisible = hasFocus
+                pwpViewModel.hasPwpEditBoxFocus.onNext(hasFocus)
+            }
         }
 
         editAmountView.setOnEditorActionListener { textView: android.widget.TextView, actionId: Int, event: KeyEvent? ->
@@ -71,6 +73,7 @@ class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         pwpViewModel.pwpOpted.filter { it }.subscribe {
             pwpViewModel.userEnteredBurnAmount.onNext(editAmountView.text.toString())
             editAmountView.isCursorVisible = false
+            editAmountView.clearFocus()
         }
 
         // Send Omniture tracking for PWP toggle only in case of user doing it.
@@ -91,6 +94,7 @@ class PayWithPointsWidget(context: Context, attrs: AttributeSet) : LinearLayout(
     fun refreshPointsForUpdatedBurnAmount() {
         if (this.visibility == VISIBLE && pwpSwitchView.isChecked) {
             editAmountView.isCursorVisible = false
+            editAmountView.clearFocus()
             Ui.hideKeyboard(editAmountView)
             payWithPointsViewModel.hasPwpEditBoxFocus.onNext(false)
             payWithPointsViewModel.userEnteredBurnAmount.onNext(editAmountView.text.toString())

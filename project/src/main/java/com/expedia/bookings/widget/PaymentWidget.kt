@@ -115,15 +115,19 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
         }
 
         vm.doneClicked.subscribe {
-            val hasStoredCard = hasStoredCard()
-            val billingIsValid = !hasStoredCard && sectionBillingInfo.performValidation()
-            val postalIsValid = !hasStoredCard && sectionLocation.performValidation()
-            if (hasStoredCard || (billingIsValid && postalIsValid)) {
-                if (shouldShowSaveDialog()) {
-                    showSaveBillingInfoDialog()
-                } else {
-                    close()
+            if (currentState == PaymentDetails::class.java.name) {
+                val hasStoredCard = hasStoredCard()
+                val billingIsValid = !hasStoredCard && sectionBillingInfo.performValidation()
+                val postalIsValid = !hasStoredCard && sectionLocation.performValidation()
+                if (hasStoredCard || (billingIsValid && postalIsValid)) {
+                    if (shouldShowSaveDialog()) {
+                        showSaveBillingInfoDialog()
+                    } else {
+                        close()
+                    }
                 }
+            } else {
+                close()
             }
         }
 
@@ -162,6 +166,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             removeStoredCard()
             temporarilySavedCardIsSelected(true)
             viewmodel.completeBillingInfo.onNext(Db.getTemporarilySavedCard())
+            viewmodel.onStoredCardChosen.onNext(Unit)
             closePopup()
         }
     }
@@ -379,11 +384,11 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
         }
     }
 
-    protected open fun updateToolbarMenu(forward: Boolean) {
-        if (forward) {
+    protected open fun updateToolbarMenu(showDoneButton: Boolean) {
+        if (showDoneButton) {
             viewmodel.visibleMenuWithTitleDone.onNext(Unit)
-            viewmodel.enableToolbarMenuButton.onNext(true)
         }
+        viewmodel.enableToolbarMenuButton.onNext(true)
     }
 
     private val defaultToDetails = object : Presenter.Transition(PaymentDefault::class.java,
@@ -408,6 +413,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             paymentOptionsContainer.visibility = if (forward) View.GONE else View.VISIBLE
             billingInfoContainer.visibility = if (forward) View.VISIBLE else View.GONE
             creditCardNumber.requestFocus()
+            onFocusChange(creditCardNumber, true)
             if (forward) {
                 removeStoredCard()
                 temporarilySavedCardIsSelected(false)
@@ -416,10 +422,9 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
             storedCreditCardList.bind()
             trackAnalytics()
             if (!forward)  {
-                viewmodel.visibleMenuWithTitleDone.onNext(Unit)
-                viewmodel.enableToolbarMenuButton.onNext(true)
                 validateAndBind()
             }
+            updateToolbarMenu(!forward)
         }
     }
 

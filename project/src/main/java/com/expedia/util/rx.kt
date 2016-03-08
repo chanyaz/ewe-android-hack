@@ -4,6 +4,7 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.CompoundButton
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
@@ -168,8 +169,13 @@ fun Observable<Boolean>.subscribeChecked(compoundButton: CompoundButton) {
     this.subscribe { compoundButton.isChecked = it }
 }
 
-fun Observable<Boolean>.subscribeCursorVisible(textView: TextView) {
-    this.subscribe { textView.isCursorVisible = it }
+fun Observable<Boolean>.subscribeCursorVisible(editText: EditText) {
+    this.subscribe {
+        editText.isCursorVisible = it
+        if (!it) {
+            editText.clearFocus()
+        }
+    }
 }
 
 /**
