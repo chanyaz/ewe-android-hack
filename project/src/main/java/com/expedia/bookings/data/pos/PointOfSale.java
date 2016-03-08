@@ -180,8 +180,6 @@ public class PointOfSale {
 
 	private boolean isPwPEnabledForHotels;
 
-	private boolean isRTREnabledForLX;
-
 	private static class CountryResources {
 		@StringRes
 		int countryNameResId;
@@ -796,10 +794,6 @@ public class PointOfSale {
 		return isPwPEnabledForHotels;
 	}
 
-	public boolean isRTREnabledForLX() {
-		return isRTREnabledForLX;
-	}
-
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
 	 *
@@ -1174,7 +1168,6 @@ public class PointOfSale {
 
 		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
 		pos.isPwPEnabledForHotels = data.optBoolean("pwpEnabled:hotels", false);
-		pos.isRTREnabledForLX = data.optBoolean("realTimeReviewLXEnabled", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
