@@ -438,7 +438,8 @@
 
     <!-- Account Screen -->
     <color name="about_section_card_background_color">#fdfdfd</color>
-    <color name="about_row_description_text_color">#5000</color>
+    <color name="about_row_primary_text_color">#676767</color>
+    <color name="about_row_secondary_text_color">#969696</color>
     <color name="account_toolbar_background_color">@color/launch_toolbar_background_color</color>
     <color name="account_background_color">#eee</color>
     <color name="account_toolbar_text_color">@color/white</color>
