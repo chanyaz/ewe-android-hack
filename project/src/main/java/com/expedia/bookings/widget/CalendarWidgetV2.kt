@@ -77,7 +77,7 @@ class CalendarWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
         calendarPickerView
     }
 
-    val calendarDialog: AlertDialog by lazy {
+    private val calendarDialog: AlertDialog by lazy {
         var userTappedDone = false
         val builder = AlertDialog.Builder(context)
         calendar
@@ -116,6 +116,10 @@ class CalendarWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
         // only phones, only portrait (looks bad on tablets)
  
         dialog
+    }
+
+    fun showCalendarDialog() {
+        calendarDialog.show()
     }
 
 }

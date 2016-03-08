@@ -1,7 +1,6 @@
 package com.expedia.bookings.presenter.hotel
 
 import android.animation.ArgbEvaluator
-import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Context
 import android.graphics.Color
@@ -38,7 +37,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CalendarWidgetV2
 import com.expedia.bookings.widget.HotelSuggestionAdapter
-import com.expedia.bookings.widget.RecentSearchesWidgetV2
 import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.bookings.widget.SearchInputCardView
 import com.expedia.bookings.widget.TextView
@@ -48,16 +46,13 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.HotelTravelerParams
-import com.expedia.vm.RecentSearchesAdapterViewModel
 import org.joda.time.LocalDate
 
 class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelSearchPresenter(context, attrs) {
     val ANIMATION_DURATION = 200L
-    val screenHeight = Ui.getScreenSize(context).y
     val toolbar: Toolbar by bindView(R.id.search_v2_toolbar)
     val scrollView: ScrollView by bindView(R.id.scrollView)
     val searchContainer: ViewGroup by bindView(R.id.search_v2_container)
-    val searchCardContainer: ViewGroup by bindView(R.id.search_cards_container)
 
     val suggestionContainer: View by bindView(R.id.suggestions_container)
     val suggestionRecyclerView: RecyclerView by bindView(R.id.suggestion_list)
@@ -65,17 +60,13 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
     val destinationCardView: SearchInputCardView by bindView(R.id.destination_card)
     val calendarWidgetV2: CalendarWidgetV2 by bindView(R.id.calendar_card)
     val travelerWidgetV2: TravelerWidgetV2 by bindView(R.id.traveler_card)
-    val recentSearchesV2: RecentSearchesWidgetV2 by bindView(R.id.recent_search_widget)
     val searchButton: Button by bindView(R.id.search_button_v2)
     var searchLocationEditText: SearchView? = null
     val toolBarTitle : TextView by bindView(R.id.title)
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
     val mRootWindow by lazy { (context as Activity).window }
     val mRootView by lazy { mRootWindow.decorView.findViewById(android.R.id.content) }
-    val recentSearchesV2OutAnimator: ObjectAnimator by  lazy {
-        var animator = ObjectAnimator.ofFloat(recentSearchesV2, "translationY", 0f, (screenHeight - recentSearchesV2.top).toFloat()).setDuration(ANIMATION_DURATION)
-        animator
-    }
+    var firstLaunch = true
 
     override var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.hotelSearchViewModelSubject.onNext(vm)
@@ -85,20 +76,12 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
         }
 
         vm.locationTextObservable.subscribe {
+            firstLaunch = false
             val text = if (it.equals(context.getString(R.string.current_location))) "" else it
             destinationCardView.setText(text)
-        }
-
-        recentSearchesV2.recentSearchesAdapterViewModel.recentSearchSelectedSubject.subscribe {
-            searchViewModel.searchParamsObservable.onNext(it)
-            vm.suggestionObserver.onNext(it.suggestion)
-            travelerWidgetV2.traveler.viewmodel.travelerParamsObservable.onNext(HotelTravelerParams(it.adults, it.children))
-            for (index in 0..it.children.size - 1) {
-                val spinner = travelerWidgetV2.traveler.childSpinners[index]
-                spinner.setSelection(it.children[index])
+            if (calendarWidgetV2.calendar.startDate == null) {
+                calendarWidgetV2.showCalendarDialog()
             }
-            selectDates(it.checkIn, it.checkOut)
-            vm.datesObserver.onNext(Pair(it.checkIn, it.checkOut))
         }
         vm.errorNoOriginObservable.subscribe {
             AnimUtils.doTheHarlemShake(destinationCardView)
@@ -120,6 +103,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
         addTransition(selectionToSuggestionTransition)
         addDefaultTransition(defaultTransition)
         showDefault()
+        show(SuggestionSelectionState())
         com.mobiata.android.util.Ui.hideKeyboard(this)
         scrollView.scrollTo(0, scrollView.top)
         searchButton.setTextColor(ContextCompat.getColor(context, R.color.white_disabled))
@@ -172,16 +156,12 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
         val totalTopPadding = suggestionRecyclerView.paddingTop + statusBarHeight
         suggestionRecyclerView.setPadding(0, totalTopPadding, 0, 0)
 
-        recentSearchesV2.recentSearchesAdapterViewModel = RecentSearchesAdapterViewModel(getContext())
-        recentSearchesV2.recentSearchesAdapterViewModel.recentSearchesObservable.subscribe { searchList ->
-            recentSearchesV2.visibility = if (searchList.isEmpty()) GONE else VISIBLE
-        }
-        recentSearchesV2.recentSearchesAdapterViewModel.recentSearchesObserver.onNext(Unit)
-        navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
-        navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
+        navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
+        navIcon.setColorFilter(ContextCompat.getColor(context, R.color.search_suggestion_v2), PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
         toolbar.setNavigationOnClickListener {
             if (navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.BACK.type) {
+                firstLaunch = false
                 com.mobiata.android.util.Ui.hideKeyboard(this@HotelSearchPresenterV2)
                 super.back()
             } else {
@@ -200,24 +180,15 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
         suggestionRecyclerView.addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 25f, resources.displayMetrics).toInt(), false))
 
         destinationCardView.setOnClickListener {
-            slideDownRecentSearches()
             show(SuggestionSelectionState())
         }
 
         calendarWidgetV2.setOnClickListener {
-            slideDownRecentSearches()
-            calendarWidgetV2.calendarDialog.show()
+            calendarWidgetV2.showCalendarDialog()
         }
 
         travelerWidgetV2.setOnClickListener {
-            slideDownRecentSearches()
             travelerWidgetV2.travelerDialog.show()
-        }
-    }
-
-    fun slideDownRecentSearches() {
-        if (recentSearchesV2.translationY == 0f) {
-            recentSearchesV2OutAnimator.start()
         }
     }
 
@@ -256,7 +227,6 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
         }
 
         override fun endTransition(forward: Boolean) {
-            searchContainer.visibility = VISIBLE
         }
     }
 
@@ -306,9 +276,11 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
             }
 
             searchButton.visibility = if (forward) GONE else VISIBLE
-            searchContainer.visibility = if (forward) VISIBLE else GONE
+            if (!firstLaunch) {
+                searchContainer.visibility = if (forward) VISIBLE else GONE
+            }
 
-            if (forward) {
+            if (!firstLaunch && forward) {
                 navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
                 navIcon.setColorFilter(toolbarTextColor.start, PorterDuff.Mode.SRC_IN)
             } else {
@@ -316,30 +288,38 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
                 navIcon.setColorFilter(toolbarTextColor.end, PorterDuff.Mode.SRC_IN)
             }
             toolbar.navigationIcon = navIcon
+
+            if (firstLaunch) {
+                endTransition(forward)
+            }
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
-            val progress = if (forward) f else 1f - f
-            super.updateTransition(f, forward)
-            // toolbar fading
-            val currentToolbarTextColor = eval.evaluate(progress, toolbarTextColor.start, toolbarTextColor.end) as Int
-            toolbar.setBackgroundColor(eval.evaluate(progress, toolbarBgColor.start, toolbarBgColor.end) as Int)
+            if (!firstLaunch) {
+                super.updateTransition(f, forward)
+                val progress = if (forward) f else 1f - f
+                val currentToolbarTextColor = eval.evaluate(progress, toolbarTextColor.start, toolbarTextColor.end) as Int
+                navIcon.setColorFilter(currentToolbarTextColor, PorterDuff.Mode.SRC_IN)
 
-            //NavIcon
-            navIcon.setColorFilter(currentToolbarTextColor, PorterDuff.Mode.SRC_IN)
-            navIcon.parameter = 1f - progress
+                // toolbar fading
+                toolbar.setBackgroundColor(eval.evaluate(progress, toolbarBgColor.start, toolbarBgColor.end) as Int)
 
-            //recycler bg
-            suggestionContainer.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, progress)
-            searchLocationEditText?.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, progress)
+                //NavIcon
+                navIcon.setColorFilter(currentToolbarTextColor, PorterDuff.Mode.SRC_IN)
+                navIcon.parameter = 1f - progress
 
-            toolBarTitle.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, progress)
+                //recycler bg
+                suggestionContainer.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, progress)
+                searchLocationEditText?.alpha = TransitionElement.calculateStep(bgFade.start, bgFade.end, progress)
 
-            // recycler movement - only moves during its portion of the animation
-            if (forward && f > recyclerStartTime){
-                suggestionRecyclerView.translationY = TransitionElement.calculateStep(recyclerY.start, recyclerY.end, decelInterp.getInterpolation(com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, f)))
-            } else if (!forward && progress > recyclerStartTime) {
-                suggestionRecyclerView.translationY = TransitionElement.calculateStep(recyclerY.start, recyclerY.end, com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, progress))
+                toolBarTitle.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, progress)
+
+                // recycler movement - only moves during its portion of the animation
+                if (forward && f > recyclerStartTime) {
+                    suggestionRecyclerView.translationY = TransitionElement.calculateStep(recyclerY.start, recyclerY.end, decelInterp.getInterpolation(com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, f)))
+                } else if (!forward && progress > recyclerStartTime) {
+                    suggestionRecyclerView.translationY = TransitionElement.calculateStep(recyclerY.start, recyclerY.end, com.expedia.util.scaleValueToRange(recyclerStartTime, 1f, 0f, 1f, progress))
+                }
             }
         }
 
@@ -392,24 +372,18 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
     }
 
     var toolbarTitleTop = 0
-    var slideDownRecentSearches = false
 
     override fun animationStart(forward: Boolean) {
         super.animationStart(forward)
-        searchCardContainer.translationY = (if (forward) 0 else -searchCardContainer.height).toFloat()
+        searchContainer.translationY = (if (forward) 0 else -searchContainer.height).toFloat()
         searchButton.translationY = (if (forward) 0 else searchButton.height).toFloat()
         toolbarTitleTop = (toolBarTitle.bottom - toolBarTitle.top) / 3
-        slideDownRecentSearches = if(recentSearchesV2.translationY == 0f) true  else false
     }
 
     override fun animationUpdate(f: Float, forward: Boolean) {
         super.animationUpdate(f, forward)
-        if(slideDownRecentSearches) {
-            val translationRecentSearches = (screenHeight - recentSearchesV2.top) * if (forward) (1 - f) else f
-            recentSearchesV2.translationY = translationRecentSearches
-        }
-        val translationSearchesCardContainer = (-searchCardContainer.height) * if (forward) (1 - f) else f
-        searchCardContainer.translationY = translationSearchesCardContainer
+        val translationSearchesCardContainer = (-searchContainer.height) * if (forward) (1 - f) else f
+        searchContainer.translationY = translationSearchesCardContainer
         searchButton.translationY = (if (forward) searchButton.height * (1 - f) else searchButton.height * f).toFloat()
         val factor: Float = if (forward) f else Math.abs(1 - f)
         toolBarTitle.alpha = factor
@@ -421,7 +395,6 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
     override fun animationFinalize(forward: Boolean) {
         super.animationFinalize(forward)
         if (forward) {
-            recentSearchesV2.visibility = View.GONE
             searchViewModel.enableTravelerObservable.onNext(true)
             searchViewModel.enableDateObservable.onNext(true)
         }
@@ -430,6 +403,7 @@ class HotelSearchPresenterV2(context: Context, attrs: AttributeSet) : BaseHotelS
 
     override fun back(): Boolean {
         if (SuggestionSelectionState().javaClass.name == currentState) {
+            firstLaunch = false
             return super.back()
         }
         return false

@@ -23,7 +23,7 @@ class RecentSearchesWidget(context: Context, attrs: AttributeSet) : LinearLayout
     }
 
     var recentSearchesAdapterViewModel: RecentSearchesAdapterViewModel by notNullAndObservable { vm ->
-        recentSearchesAdapter.adapter = RecentSearchesAdapter(vm, true)
+        recentSearchesAdapter.adapter = RecentSearchesAdapter(vm)
     }
 }
 
