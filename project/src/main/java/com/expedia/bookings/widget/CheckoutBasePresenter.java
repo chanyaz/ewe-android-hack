@@ -252,9 +252,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				if (getLineOfBusiness() == LineOfBusiness.HOTELSV2 && listenToScroll) {
 					scrollToEnterDetails();
 				}
-				else if (currentExpandedCard != null) {
-					currentExpandedCard.setNextFocus();
-				}
 			}
 		});
 
