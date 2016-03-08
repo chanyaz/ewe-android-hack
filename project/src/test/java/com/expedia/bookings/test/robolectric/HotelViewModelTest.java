@@ -7,6 +7,7 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.app.Application;
+import android.text.Html;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler;
@@ -173,6 +174,27 @@ public class HotelViewModelTest {
 		setupSystemUnderTest();
 
 		assertTrue(vm.getVipLoyaltyMessageVisibilityObservable().getValue());
+	}
+
+	@Test
+	public void vipLoyaltyMessageDisplayedOnMaps() {
+		givenHotelWithVipAccess();
+		givenHotelWithShopWithPointsAvailable();
+		UserLoginTestUtil.Companion.setupUserAndMockLogin(getUser());
+		setupSystemUnderTest();
+
+		assertTrue(vm.getMapLoyaltyMessageVisibilityObservable().getValue());
+		assertEquals(Html.fromHtml(RuntimeEnvironment.application.getString(R.string.vip_loyalty_applied_map_message)), vm.getMapLoyaltyMessageTextObservable().getValue());
+	}
+
+	@Test
+	public void regularLoyaltyMessageDisplayedOnMaps() {
+		givenHotelWithShopWithPointsAvailable();
+		UserLoginTestUtil.Companion.setupUserAndMockLogin(getUser());
+		setupSystemUnderTest();
+
+		assertTrue(vm.getMapLoyaltyMessageVisibilityObservable().getValue());
+		assertEquals(RuntimeEnvironment.application.getString(R.string.regular_loyalty_applied_message), vm.getMapLoyaltyMessageTextObservable().getValue().toString());
 	}
 
 	private void givenSoldOutHotel() {

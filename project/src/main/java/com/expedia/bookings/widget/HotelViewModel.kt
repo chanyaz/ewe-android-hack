@@ -3,6 +3,8 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.content.res.Resources
 import android.support.v4.content.ContextCompat
+import android.text.Html
+import android.text.Spanned
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
@@ -61,6 +63,8 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
 
     val vipMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
     val vipLoyaltyMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
+    val mapLoyaltyMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
+    val mapLoyaltyMessageTextObservable = BehaviorSubject.create<Spanned>()
     val airAttachVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo.isShowAirAttached())
     val topAmenityTitleObservable = BehaviorSubject.create(getTopAmenityTitle(hotel, resources))
     val topAmenityVisibilityObservable = topAmenityTitleObservable.map { (it != "") }
@@ -83,8 +87,13 @@ class HotelViewModel(private val context: Context, private val hotel: Hotel) {
         val isVipAvailable = hotel.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess() && User.isLoggedIn(context)
         val isGoldOrSilver = Db.getUser() != null && (Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.SILVER || Db.getUser().primaryTraveler.loyaltyMembershipTier == Traveler.LoyaltyMembershipTier.GOLD)
         vipMessageVisibilityObservable.onNext(isVipAvailable && isGoldOrSilver)
-        val isVipLoyaltyAvailable = isVipAvailable && isGoldOrSilver && hotel.lowRateInfo?.loyaltyInfo?.isShopWithPoints ?: false
-        vipLoyaltyMessageVisibilityObservable.onNext(isVipLoyaltyAvailable)
+        val isLoyaltyApplied = hotel.lowRateInfo?.loyaltyInfo?.isShopWithPoints ?: false
+        val isVipLoyaltyApplied = isVipAvailable && isGoldOrSilver && isLoyaltyApplied
+        vipLoyaltyMessageVisibilityObservable.onNext(isVipLoyaltyApplied)
+
+        mapLoyaltyMessageVisibilityObservable.onNext(isLoyaltyApplied)
+        val mapLoyaltyMessageString = if (isVipLoyaltyApplied) resources.getString(R.string.vip_loyalty_applied_map_message) else resources.getString(R.string.regular_loyalty_applied_message)
+        mapLoyaltyMessageTextObservable.onNext(Html.fromHtml(mapLoyaltyMessageString))
 
         // NOTE: Any changes to this logic should also be made in HotelDetailViewModel.getPromoText()
         val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)

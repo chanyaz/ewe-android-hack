@@ -99,6 +99,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     var isMapReady = false
     val isBucketedForResultMap = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultMapTest)
     val isUserBucketedSearchScreenTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsSearchScreenTest)
+    val mapLoyaltyHeaderHeight = context.resources.getDimension(R.dimen.hotel_map_loyalty_header_height).toInt()
 
     var clusterManager: ClusterManager<MapItem> by Delegates.notNull()
 
@@ -209,7 +210,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     private fun animateFabAndSearchThisArea(animateUp: Boolean, endInterpolator: ViewPropertyAnimator?) {
-        val mapCarouselHeight = mapCarouselContainer.height.toFloat()
+        val mapCarouselHeight = mapCarouselContainer.height.toFloat() - mapLoyaltyHeaderHeight
         if (animateUp) {
             fab.animate().translationY(filterHeight - mapCarouselHeight).setInterpolator(DecelerateInterpolator()).withEndAction { endInterpolator?.start() }.start()
             searchThisArea?.animate()?.translationY(0f)?.setInterpolator(DecelerateInterpolator())?.start()
@@ -789,7 +790,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                         //Since we're not moving it manually, let's jump it to where it belongs,
                         // and let's get it showing the right thing
                         if (isMapPinSelected) {
-                            fab.translationY = -(mapCarouselContainer.height - filterHeight)
+                            fab.translationY = -(mapCarouselContainer.height - mapLoyaltyHeaderHeight - filterHeight)
                         } else {
                             fab.translationY = filterHeight
                         }
@@ -802,7 +803,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 if (forward) {
                     finalFabTranslation = if (filterBtnWithCountWidget != null) 0f  else filterHeight
                 } else {
-                    finalFabTranslation = if (isMapPinSelected) -(mapCarouselContainer.height - filterHeight) else filterHeight
+                    finalFabTranslation = if (isMapPinSelected) -(mapCarouselContainer.height - mapLoyaltyHeaderHeight - filterHeight) else filterHeight
                 }
                 hideBundlePriceOverview(!forward)
                 toolbarTitle.translationY = 0f
@@ -873,7 +874,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 } else {
                     mapView.translationY = 0f
                     recyclerView.translationY = screenHeight.toFloat()
-                    googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height)
+                    googleMap?.setPadding(0, toolbar.height, 0, mapCarouselContainer.height - mapLoyaltyHeaderHeight)
                     filterBtnWithCountWidget?.translationY = resources.getDimension(R.dimen.hotel_filter_height)
                     if (isBucketedForResultMap || ExpediaBookingApp.isDeviceShitty()) {
                         googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL

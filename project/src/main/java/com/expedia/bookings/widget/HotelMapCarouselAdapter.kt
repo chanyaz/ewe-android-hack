@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.data.Money
@@ -23,6 +24,7 @@ import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeRating
 import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
 import com.mobiata.android.text.StrikethroughTagHandler
 import rx.subjects.BehaviorSubject
@@ -95,7 +97,10 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
         val hotelGuestRating: TextView by bindView(R.id.hotel_guest_rating)
         val hotelGuestRecommend: TextView by bindView(R.id.hotel_guest_recommend)
         val hotelNoGuestRating: TextView by bindView(R.id.no_guest_rating)
+        val loyaltyMessageContainer: LinearLayout by bindView(R.id.map_loyalty_message_container)
+        val loyaltyMessage: TextView by bindView(R.id.map_loyalty_applied_message)
         var hotelPreviewRating: StarRatingBar by Delegates.notNull()
+        val extraView: View by  bindView(R.id.extra_view)
 
         init {
             hotelPreviewRating = root.findViewById(if (shouldShowCircleForRatings()) R.id.hotel_preview_circle_rating else R.id.hotel_preview_star_rating) as StarRatingBar
@@ -120,10 +125,13 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
             viewModel.imageColorFilter.subscribeColorFilter(hotelPreviewImage)
             viewModel.hotelStrikeThroughPriceVisibility.subscribeVisibility(hotelStrikeThroughPrice)
             viewModel.hotelPriceFormatted.subscribeText(hotelPricePerNight)
+            viewModel.pricePerNightColorObservable.subscribeTextColor(hotelPricePerNight)
             viewModel.hotelStrikeThroughPriceFormatted.subscribeText(hotelStrikeThroughPrice)
             viewModel.hotelGuestRatingObservable.subscribe { hotelGuestRating.text = it.toString() }
             viewModel.soldOut.subscribeVisibility(hotelSoldOut)
             viewModel.soldOut.subscribeInverseVisibility(hotelPricePerNight)
+            viewModel.mapLoyaltyMessageVisibilityObservable.subscribeVisibility(loyaltyMessageContainer)
+            viewModel.mapLoyaltyMessageTextObservable.subscribeText(loyaltyMessage)
 
             viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(hotelGuestRating)
             viewModel.isHotelGuestRatingAvailableObservable.subscribeVisibility(hotelGuestRecommend)
@@ -134,6 +142,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
             hotelStrikeThroughPrice.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
             hotelGuestRating.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)
             hotelGuestRecommend.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR)
+            viewModel.mapLoyaltyMessageVisibilityObservable.map{!it}.subscribeVisibility(extraView)
         }
     }
 }
