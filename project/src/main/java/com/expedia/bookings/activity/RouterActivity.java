@@ -63,18 +63,17 @@ public class RouterActivity extends Activity {
 
 		if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
 			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
+			finish();
 		}
 		// Show app introduction if available and not already shown.
 		else if (ProductFlavorFeatureConfiguration.getInstance().isAppIntroEnabled() && !SettingUtils
 			.get(this, R.string.preference_app_intro_shown_once, false)) {
 			ProductFlavorFeatureConfiguration.getInstance().launchAppIntroScreen(this);
+			finish();
 		}
 		else {
 			launchOpeningView();
 		}
-
-		// Finish this Activity after routing
-		finish();
 	}
 
 	private void launchOpeningView() {
@@ -90,6 +89,8 @@ public class RouterActivity extends Activity {
 		}
 		else {
 			NavUtils.goToLaunchScreen(RouterActivity.this, false);
+			// Finish this Activity after routing
+			finish();
 		}
 	}
 
@@ -103,7 +104,9 @@ public class RouterActivity extends Activity {
 		@Override
 		public void onError(Throwable e) {
 			Log.d("Abacus:showSignInOnLaunchTest - onError");
+			// Finish this Activity after routing
 			NavUtils.goToLaunchScreen(RouterActivity.this, false);
+			finish();
 		}
 
 		@Override
@@ -116,6 +119,7 @@ public class RouterActivity extends Activity {
 			else {
 				NavUtils.goToLaunchScreen(RouterActivity.this, false);
 			}
+			finish();
 		}
 	};
 
