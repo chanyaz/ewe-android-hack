@@ -1013,6 +1013,13 @@
         <item name="android:layout_marginRight">16dp</item>
         <item name="android:layout_marginTop">11dp</item>
     </style>
+    <!--Header title text used inside search results for things like "50 Results" or "Prices roundtrip per person"-->
+    <style name="ResultsDescriptionText">
+        <item name="android:textColor">@color/search_results_list_header_gray</item>
+        <item name="android:textSize">@dimen/temporary_font_size_medium</item>
+        <item name="textStyle">normal</item>
+        <item name="android:gravity">center</item>
+    </style>
 
     <!-- Borderless button for "Enter Itinerary Number" in login screen -->
     <style name="Widget.BorderlessButton" parent="Widget.AppCompat.Button.Borderless">

@@ -12,20 +12,19 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/pricing_structure_header"
+        style="@style/ResultsDescriptionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/search_results_list_bg_gray"
-        android:gravity="center"
-        android:paddingTop="8dp"
-        android:textColor="#8C8C8C" />
+        android:paddingTop="8dp" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/loyalty_points_applied_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/search_results_list_bg_gray"
-        android:paddingBottom="9dp"
         android:gravity="center"
+        android:paddingBottom="9dp"
         android:paddingTop="2dp"
         android:text="@string/regular_loyalty_applied_message"
         android:textColor="@color/hotels_primary_color"

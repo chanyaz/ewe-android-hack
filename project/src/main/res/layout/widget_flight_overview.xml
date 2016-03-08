@@ -9,10 +9,11 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/flight_overview_urgency_messaging"
+            style="@style/ResultsDescriptionText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@android:color/black" />
+            android:paddingBottom="9dp"
+            android:paddingTop="8dp" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -50,10 +51,10 @@
             android:id="@+id/show_baggage_fees"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:padding="10dp"
             android:text="@string/package_flight_overview_baggage_fees"
             android:textAllCaps="true"
-            android:layout_gravity="center_horizontal"
             android:textColor="@color/packages_primary_color"
             android:textStyle="bold" />
 

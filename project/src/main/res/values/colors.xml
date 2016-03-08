@@ -409,7 +409,7 @@
     <color name="packages_bundle_overview_footer_secondary_text_savings">@color/temporary_savings</color>
     <color name="packages_bundle_overview_widgets_primary_text">#676767</color>
     <color name="packages_bundle_overview_widgets_secondary_text">#969696</color>
-    <color name="packages_results_header_text">@color/temporary_header_gray</color>
+    <color name="packages_results_header_text">@color/search_results_list_header_gray</color>
     <color name="packages_flight_cell_primary_text">@color/temporary_primary_gray</color>
     <color name="packages_flight_cell_duration_text">@color/temporary_flight_duration_gray</color>
     <color name="packages_hotel_map_message">#696969</color>

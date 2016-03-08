@@ -5,9 +5,9 @@
     android:layout_height="wrap_content">
 
     <com.expedia.bookings.widget.TextView
+        style="@style/ResultsHeadersText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal|left"
-        android:text="@string/all_flights_label"
-        style="@style/ResultsHeadersText"/>
+        android:text="@string/all_flights_label" />
 </LinearLayout>
