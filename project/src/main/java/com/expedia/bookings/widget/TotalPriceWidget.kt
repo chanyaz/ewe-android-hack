@@ -49,11 +49,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         val builder = AlertDialog.Builder(context)
         builder.setView(packagebreakdown)
         builder.setTitle(R.string.cost_summary)
-        builder.setPositiveButton(context.getString(R.string.DONE), object : DialogInterface.OnClickListener {
-            override fun onClick(dialog: DialogInterface, which: Int) {
-                dialog.dismiss()
-            }
-        })
+        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which -> dialog.dismiss()})
         builder.create()
     }
 

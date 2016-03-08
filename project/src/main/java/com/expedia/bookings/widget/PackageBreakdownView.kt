@@ -64,8 +64,8 @@ class PackageBreakDownView(context: Context, attrs: AttributeSet?) : ScrollView(
         val row = createRow(breakdown)
         val priceDescription = row.findViewById(R.id.price_type_text_view) as TextView
         val priceValue = row.findViewById(R.id.price_text_view) as TextView
-        priceDescription.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD)
-        priceValue.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD)
+        priceDescription.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)
+        priceValue.typeface = FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM)
         return row
     }
 
