@@ -112,7 +112,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="#eeeeee"
+            android:background="@color/search_results_list_bg_gray"
             android:orientation="horizontal" >
 
             <com.expedia.bookings.widget.SimpleNumberPicker

@@ -13,6 +13,8 @@
     <color name="temporary_savings">#4CBD08</color>
     <color name="temporary_header_gray">#797979</color>
     <color name="temporary_flight_duration_gray">#898989</color>
+    <!-- This color should be used everywhere on search results list's gray background.  -->
+    <color name="search_results_list_bg_gray">#EEEEEE</color>
 
     <color name="expedia_hotels_color">#009688</color>
 

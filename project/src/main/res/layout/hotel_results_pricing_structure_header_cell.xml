@@ -14,7 +14,7 @@
         android:id="@+id/pricing_structure_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#EEEEEE"
+        android:background="@color/search_results_list_bg_gray"
         android:gravity="center"
         android:paddingTop="8dp"
         android:textColor="#8C8C8C" />
@@ -23,7 +23,7 @@
         android:id="@+id/loyalty_points_applied_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#EEEEEE"
+        android:background="@color/search_results_list_bg_gray"
         android:paddingBottom="9dp"
         android:gravity="center"
         android:paddingTop="2dp"
