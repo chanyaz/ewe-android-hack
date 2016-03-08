@@ -24,21 +24,20 @@
         android:gravity="center_vertical"
         android:orientation="vertical">
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/row_title"
+            style="@style/AccountPrimaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:duplicateParentState="true"
-            android:textSize="@dimen/about_row_title_text_size" />
+            android:duplicateParentState="true" />
 
         <com.expedia.bookings.widget.TextView
+            style="@style/AccountSecondaryText"
             android:id="@+id/row_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:duplicateParentState="true"
-            android:textColor="@color/about_row_description_text_color"
-            android:textSize="@dimen/about_row_description_text_size"
-            app:textStyle="light" />
+ />
     </LinearLayout>
 
 </LinearLayout>

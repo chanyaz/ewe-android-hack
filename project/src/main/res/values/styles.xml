@@ -1088,4 +1088,22 @@
         <item name="textStyle">normal</item>
     </style>
 
+    <style name="AccountSectionLabel">
+        <item name="android:textColor">@color/about_row_primary_text_color</item>
+        <item name="android:textSize">@dimen/about_row_title_text_size</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="AccountPrimaryText">
+        <item name="android:textColor">@color/about_row_primary_text_color</item>
+        <item name="android:textSize">@dimen/about_row_title_text_size</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="AccountSecondaryText">
+        <item name="android:textColor">@color/about_row_secondary_text_color</item>
+        <item name="android:textSize">@dimen/about_row_description_text_size</item>
+        <item name="textStyle">normal</item>
+    </style>
+
 </resources>

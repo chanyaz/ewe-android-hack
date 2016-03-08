@@ -388,8 +388,8 @@
     <dimen name="sort_filter_padding_large">24dp</dimen>
 
     <!-- Account Screen -->
-    <dimen name="about_row_title_text_size">16sp</dimen>
-    <dimen name="about_row_description_text_size">14sp</dimen>
+    <dimen name="about_row_title_text_size">14sp</dimen>
+    <dimen name="about_row_description_text_size">12sp</dimen>
     <dimen name="account_toolbar_title_text_size">17sp</dimen>
     <dimen name="account_toolbar_subtitle_text_size">12sp</dimen>
     <dimen name="account_loyalty_label_text_size">13sp</dimen>
