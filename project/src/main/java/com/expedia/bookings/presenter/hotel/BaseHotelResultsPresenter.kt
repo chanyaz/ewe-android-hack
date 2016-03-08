@@ -175,7 +175,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 googleMap?.animateCamera(CameraUpdateFactory.newLatLngZoom(mapItem.position, googleMap?.cameraPosition?.zoom!!))
             }
             mapViewModel.mapPinSelectSubject.onNext(mapItem)
-            if (animateCarousel) {
+            if (animateCarousel && currentState == ResultsMap().javaClass.name) {
                 animateMapCarouselVisibility(true)
             }
         }
@@ -359,7 +359,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         setUpMap()
     }
 
-    fun createMarkers() {
+    fun createMarkers(animateCarousel: Boolean = true) {
         clearMarkers()
         if (hotels.isEmpty()) {
             return
@@ -376,7 +376,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
         clusterMarkers()
         if (!mapViewModel.isClusteringEnabled) {
-            selectMarker(mapItems.first(), true, false)
+            selectMarker(mapItems.first(), true, animateCarousel)
         }
 
     }
@@ -877,7 +877,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     filterBtnWithCountWidget?.translationY = resources.getDimension(R.dimen.hotel_filter_height)
                     if (isBucketedForResultMap || ExpediaBookingApp.isDeviceShitty()) {
                         googleMap?.mapType = GoogleMap.MAP_TYPE_NORMAL
-                        createMarkers()
+                        createMarkers(false)
                     }
                 }
                 fab.translationY = finalFabTranslation
