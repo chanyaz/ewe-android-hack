@@ -85,6 +85,9 @@ class CalendarWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputCard
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
             oldCalendarSelection = null
             calendar.hideToolTip()
+            if(calendar.startDate != null && calendar.endDate == null) {
+                calendar.setSelectedDates(calendar.startDate, calendar.startDate.plusDays(1))
+            }
             userTappedDone = true
             dialog.dismiss()
         })
