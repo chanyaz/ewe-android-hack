@@ -240,6 +240,8 @@
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">{cardtype} …{cardno} opgeslagen</string>
+    <!--Text for stored card -->
+    <string name="stored_card_TEMPLATE">{cardtype} opgeslagen</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1779,8 +1781,11 @@
     <string name="baggage_fees">Bagagekosten</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Transactiekosten</string>
-    <!-- Label indicating number of tickets left for given flight -->
-    <string name="number_tickets_left">%d over voor</string>
+    <!-- Label indicating number of tickets left for given flight (min: 1) -->
+    <plurals name="number_tickets_left_TEMPLATE">
+        <item quantity="one">{number_tickets_left} over voor</item>
+        <item quantity="other">{number_tickets_left} over voor</item>
+    </plurals>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -2008,12 +2013,6 @@
     <string name="select_traveler">Contact selecteren</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">Nieuwe reiziger toevoegen</string>
-    <!-- Select card from checkout saved credit cards list -->
-    <string name="saved_creditcards">Opgeslagen creditcards</string>
-    <!-- Select card from checkout saved cards list -->
-    <string name="select_saved_cards">Opgeslagen kaarten selecteren</string>
-    <!-- Add new card, checkout saved credit cards list -->
-    <string name="add_new_creditcard">Nieuwe creditcard toevoegen</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Reizigersinfo</string>
     <!-- Guest all fields are required -->
@@ -3975,8 +3974,8 @@
         <item quantity="other">{points} punten toegepast</item>
     </plurals>
 
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Te betalen restbedrag: {money}</string>
-    <string name="pwp_total_due_today_TEMPLATE">Totaal nu te betalen: {money}</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Te betalen restbedrag:</string>
+    <string name="pwp_total_due_today_TEMPLATE">Totaal nu te betalen:</string>
 
     <!-- Package Flight Overview -->
     <string name="package_flight_overview_urgency_message_TEMPLATE">{seats} stoelen over</string>

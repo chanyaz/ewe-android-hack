@@ -240,6 +240,8 @@
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">已保存 {cardtype} …{cardno}</string>
+    <!--Text for stored card -->
+    <string name="stored_card_TEMPLATE">保存的 {cardtype}</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1779,8 +1781,11 @@
     <string name="baggage_fees">行李费用</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">帐款处理费用</string>
-    <!-- Label indicating number of tickets left for given flight -->
-    <string name="number_tickets_left">还有 %d 张票，价格</string>
+    <!-- Label indicating number of tickets left for given flight (min: 1) -->
+    <plurals name="number_tickets_left_TEMPLATE">
+        <item quantity="one">剩 {number_tickets_left} 张票</item>
+        <item quantity="other">剩 {number_tickets_left} 张票</item>
+    </plurals>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -2008,12 +2013,6 @@
     <string name="select_traveler">选择联系人</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">添加新旅客</string>
-    <!-- Select card from checkout saved credit cards list -->
-    <string name="saved_creditcards">保存的卡</string>
-    <!-- Select card from checkout saved cards list -->
-    <string name="select_saved_cards">选择保存的卡</string>
-    <!-- Add new card, checkout saved credit cards list -->
-    <string name="add_new_creditcard">添加新卡</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">住客详细信息</string>
     <!-- Guest all fields are required -->
@@ -3975,8 +3974,8 @@
         <item quantity="other">使用了 {points} 分</item>
     </plurals>
 
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">应付余额：{money}</string>
-    <string name="pwp_total_due_today_TEMPLATE">今天应付总额：{money}</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">应付余额：</string>
+    <string name="pwp_total_due_today_TEMPLATE">今天应付总额：</string>
 
     <!-- Package Flight Overview -->
     <string name="package_flight_overview_urgency_message_TEMPLATE">还剩 {seats} 个座位！</string>

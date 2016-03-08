@@ -240,6 +240,8 @@
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">Đã lưu {cardtype} …{cardno}</string>
+    <!--Text for stored card -->
+    <string name="stored_card_TEMPLATE">{cardtype} đã lưu</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1779,8 +1781,11 @@
     <string name="baggage_fees">Phí hành lý</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Phụ phí quy trình thanh toán</string>
-    <!-- Label indicating number of tickets left for given flight -->
-    <string name="number_tickets_left">Còn %d chỗ</string>
+    <!-- Label indicating number of tickets left for given flight (min: 1) -->
+    <plurals name="number_tickets_left_TEMPLATE">
+        <item quantity="one">Còn {number_tickets_left} chỗ</item>
+        <item quantity="other">Còn {number_tickets_left} chỗ</item>
+    </plurals>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -2008,12 +2013,6 @@
     <string name="select_traveler">Chọn khách</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">Thêm khách mới</string>
-    <!-- Select card from checkout saved credit cards list -->
-    <string name="saved_creditcards">Thẻ đã lưu</string>
-    <!-- Select card from checkout saved cards list -->
-    <string name="select_saved_cards">Chọn thẻ đã lưu</string>
-    <!-- Add new card, checkout saved credit cards list -->
-    <string name="add_new_creditcard">Thêm thẻ mới</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Chi tiết khách</string>
     <!-- Guest all fields are required -->
@@ -3975,8 +3974,8 @@
         <item quantity="other">Áp dụng {points} điểm</item>
     </plurals>
 
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Khoản còn lại cần thanh toán: {money}</string>
-    <string name="pwp_total_due_today_TEMPLATE">Tổng cần thanh toán hôm nay: {money}</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Khoản còn lại cần thanh toán:</string>
+    <string name="pwp_total_due_today_TEMPLATE">Tổng cần thanh toán hôm nay:</string>
 
     <!-- Package Flight Overview -->
     <string name="package_flight_overview_urgency_message_TEMPLATE">Còn {seats} chỗ</string>

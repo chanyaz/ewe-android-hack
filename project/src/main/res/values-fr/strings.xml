@@ -240,6 +240,8 @@
     <string name="checkout_selected_card">{cardtype} …{cardno}</string>
     <!--Text for selecting user manually stored card -->
     <string name="temporarily_saved_card_TEMPLATE">{cardtype} …{cardno} sauvegardée</string>
+    <!--Text for stored card -->
+    <string name="stored_card_TEMPLATE">{cardtype} enregistrée</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1779,8 +1781,11 @@
     <string name="baggage_fees">Frais de bagages</string>
     <!-- Label to view payment processing fees information -->
     <string name="payment_processing_fees">Frais de réservation</string>
-    <!-- Label indicating number of tickets left for given flight -->
-    <string name="number_tickets_left">Plus que %d sur notre site à</string>
+    <!-- Label indicating number of tickets left for given flight (min: 1) -->
+    <plurals name="number_tickets_left_TEMPLATE">
+        <item quantity="one">Plus que {number_tickets_left} sur notre site à</item>
+        <item quantity="other">Plus que {number_tickets_left} sur notre site à</item>
+    </plurals>
 
     <!-- Flight payment overview Activity -->
     <!-- Edit current payment -->
@@ -2008,12 +2013,6 @@
     <string name="select_traveler">Sélectionner un contact</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">Ajouter un nouveau voyageur</string>
-    <!-- Select card from checkout saved credit cards list -->
-    <string name="saved_creditcards">Cartes sauvegardées</string>
-    <!-- Select card from checkout saved cards list -->
-    <string name="select_saved_cards">Sélectionner une carte enregistrée</string>
-    <!-- Add new card, checkout saved credit cards list -->
-    <string name="add_new_creditcard">Ajouter une nouvelle carte</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Informations du client</string>
     <!-- Guest all fields are required -->
@@ -3975,8 +3974,8 @@
         <item quantity="other">{points} points appliqués</item>
     </plurals>
 
-    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Solde restant à payer : {money}</string>
-    <string name="pwp_total_due_today_TEMPLATE">Total dû aujourd\&apos;hui : {money}</string>
+    <string name="pwp_remaining_balance_due_on_card_TEMPLATE">Solde restant à payer :</string>
+    <string name="pwp_total_due_today_TEMPLATE">Total dû aujourd\&apos;hui :</string>
 
     <!-- Package Flight Overview -->
     <string name="package_flight_overview_urgency_message_TEMPLATE">Plus que {seats} places sur notre appli</string>
