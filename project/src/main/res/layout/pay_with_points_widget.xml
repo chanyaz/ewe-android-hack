@@ -65,8 +65,6 @@
             android:layout_marginLeft="3dp"
             android:layout_toRightOf="@id/currency_symbol_view"
             android:inputType="numberDecimal"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             android:singleLine="true"
             android:textSize="16sp"
             android:textColor="@color/hotelsv2_checkout_text_color"
