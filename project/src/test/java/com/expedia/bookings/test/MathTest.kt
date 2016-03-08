@@ -1,8 +1,6 @@
 package com.expedia.bookings.test
 
 import org.junit.Test
-import kotlin.test.assertEquals
-import org.junit.Assert
 
 class ScaleToRangeTest {
     @Test fun scaleRange() {
