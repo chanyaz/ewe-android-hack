@@ -10,6 +10,7 @@ import com.expedia.bookings.data.hotels.HotelCheckoutInfo
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.CardDetails
 import com.expedia.bookings.data.payment.MiscellaneousParams
 import com.expedia.bookings.data.payment.PaymentInfo
@@ -49,6 +50,8 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
 
+    var hotelSearchParams: HotelSearchParams by Delegates.notNull()
+
     private val bookedWithCVVSubject = PublishSubject.create<String>()
     private val bookedWithoutCVVSubject = PublishSubject.create<Unit>()
 
@@ -67,6 +70,10 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
         bookedWithoutCVVSubject.withLatestFrom(paymentModel.paymentSplits, { unit, paymentSplits -> paymentSplits }).subscribe {
             onBookV2(null, it)
         }
+    }
+
+    fun setSearchParams(params: HotelSearchParams) {
+        hotelSearchParams = params
     }
 
     override fun onFinishInflate() {
@@ -126,8 +133,7 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
     fun onBookV2(cvv: String?, paymentSplits: PaymentSplits) {
         val dtf = ISODateTimeFormat.date()
 
-        val hotelSearchParams = Db.getHotelSearch().searchParams
-        val hotelCheckoutInfo = HotelCheckoutInfo(dtf.print(hotelSearchParams.checkInDate), dtf.print(hotelSearchParams.checkOutDate))
+        val hotelCheckoutInfo = HotelCheckoutInfo(dtf.print(hotelSearchParams.checkIn), dtf.print(hotelSearchParams.checkOut))
 
         val primaryTraveler = hotelCheckoutWidget.mainContactInfoCardView.sectionTravelerInfo.traveler
         val traveler = Traveler(primaryTraveler.firstName, primaryTraveler.lastName, primaryTraveler.phoneCountryCode, primaryTraveler.phoneNumber, primaryTraveler.email)

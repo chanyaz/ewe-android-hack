@@ -219,6 +219,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             show(presenter, Presenter.FLAG_CLEAR_TOP)
             presenter.show(presenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
         })
+        presenter.setSearchParams(hotelSearchParams)
         presenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
         presenter
     }
@@ -236,6 +237,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
         hotelDetailViewModel = HotelDetailViewModel(context, hotelServices, endlessObserver<HotelOffersResponse.HotelRoomResponse> {
             checkoutPresenter.hotelCheckoutWidget.couponCardView.viewmodel.hasDiscountObservable.onNext(false)
+            checkoutPresenter.setSearchParams(hotelSearchParams)
             checkoutPresenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
             checkoutPresenter.showCheckout(it)
             show(checkoutPresenter)
