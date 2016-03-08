@@ -120,6 +120,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
     override fun back(): Boolean {
         if (currentState == PaymentOption::class.java.name) {
             paymentWidgetViewModel.navigatingOutOfPaymentOptions.onNext(Unit)
+            viewmodel.enableMenuItem.onNext(true)
         }
         return super.back()
     }
