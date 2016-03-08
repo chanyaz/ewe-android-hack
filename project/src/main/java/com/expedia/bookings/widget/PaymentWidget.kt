@@ -163,6 +163,7 @@ public open class PaymentWidget(context: Context, attr: AttributeSet) : Presente
         }
 
         override fun onTemporarySavedCreditCardChosen(info: BillingInfo) {
+            reset()
             removeStoredCard()
             temporarilySavedCardIsSelected(true)
             viewmodel.completeBillingInfo.onNext(Db.getTemporarilySavedCard())
