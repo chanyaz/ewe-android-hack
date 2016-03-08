@@ -16,7 +16,6 @@ import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.location.LXCurrentLocationSuggestionObserver;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.lx.LXPresenter;
@@ -63,9 +62,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 		lxPresenter.setIsGroundTransport(isGroundTransport);
 		lxPresenter.setUserBucketedForCategoriesTest(isUserBucketedForTest);
 		lxPresenter.setUserBucketedForRecommendationTest(isUserBucketedForRecommendationTest && !isGroundTransport);
-		lxPresenter
-			.setUserBucketedForRTRTest(
-				isUserBucketedForRTRTest && PointOfSale.getPointOfSale().isRTREnabledForLX() && !isGroundTransport);
+		lxPresenter.setUserBucketedForRTRTest(isUserBucketedForRTRTest && !isGroundTransport);
 
 		Ui.showTransparentStatusBar(this);
 		handleNavigationViaDeepLink();
