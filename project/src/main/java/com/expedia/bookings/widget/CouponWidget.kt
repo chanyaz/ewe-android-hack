@@ -16,6 +16,7 @@ import android.widget.ProgressBar
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -89,9 +90,9 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
 
     init {
         com.expedia.bookings.utils.Ui.getApplication(getContext()).hotelComponent().inject(this)
-        onCouponSubmitClicked.withLatestFrom(paymentModel.paymentSplits, { x,y -> y}).subscribe{
-            submitCoupon(it)
-        }
+        onCouponSubmitClicked
+                .withLatestFrom(paymentModel.paymentSplitsWithLatestTripResponse, { unit, paymentSplitsAndTripResponse -> paymentSplitsAndTripResponse})
+                .subscribe { submitCoupon(it.paymentSplits, it.tripResponse) }
 
         View.inflate(getContext(), R.layout.coupon_widget, this)
         //Tests hates progress bars
@@ -168,9 +169,10 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
         onCouponSubmitClicked.onNext(Unit)
     }
 
-    private fun submitCoupon(paymentSplits: PaymentSplits) {
+    private fun submitCoupon(paymentSplits: PaymentSplits, tripResponse: TripResponse) {
         var userPointsPreference: List<UserPreferencePointsDetails> = emptyList()
-        if (User.isLoggedIn(context)) {
+        //Send 'User Preference Points' only in case Trip is Redeemable
+        if (User.isLoggedIn(context) && tripResponse.isExpediaRewardsRedeemable()) {
             val payingWithPointsSplit = paymentSplits.payingWithPoints
             userPointsPreference = listOf(UserPreferencePointsDetails(ProgramName.ExpediaRewards, payingWithPointsSplit))
         }
