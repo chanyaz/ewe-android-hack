@@ -86,8 +86,6 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 	private int secretCount = 0;
 
-	private boolean wasStopped;
-
 	private AboutSectionFragment appSettingsFragment;
 	private AboutSectionFragment legalFragment;
 
@@ -248,23 +246,9 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	}
 
 	@Override
-	protected void onStop() {
-		super.onStop();
-		wasStopped = true;
-	}
-
-	@Override
-	protected void onStart() {
-		super.onStart();
-		if (wasStopped) {
-			OmnitureTracking.trackAccountPageLoad();
-			wasStopped = false;
-		}
-	}
-
-	@Override
 	protected void onResume() {
 		super.onResume();
+		OmnitureTracking.trackAccountPageLoad();
 		adjustLoggedInViews();
 	}
 
