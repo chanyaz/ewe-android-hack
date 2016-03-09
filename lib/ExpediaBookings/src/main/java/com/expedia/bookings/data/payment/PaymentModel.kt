@@ -82,7 +82,8 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
     //If PwP is enabled, simply take the Payment-Splits-For-Price-Change which have all fallbacks in place
     val priceChangeResponsePaymentSplits = PublishSubject.create<PaymentSplits>()
 
-    val paymentSplitsSuggestionUpdates = PublishSubject.create<PaymentSplits>()
+    //Boolean in the Pair indicates whether the Suggestion Updates are from Create-Trip (true) or from Price-Change (false)
+    val paymentSplitsSuggestionUpdates = PublishSubject.create<Pair<PaymentSplits, Boolean>>()
 
     //Payment Splits (amount payable by points and by card) to be consumed by clients.
     val paymentSplits: Observable<PaymentSplits> = Observable.merge(
@@ -112,24 +113,19 @@ class PaymentModel<T : TripResponse>(loyaltyServices: LoyaltyServices) {
         return burnAmount.compareTo(BigDecimal.ZERO) == 0 || burnAmount.compareTo(amountForMaxPayableWithPoints) == 1
     }
 
-    val enablePwPToggleOnRedeemableNewTrip = PublishSubject.create<Unit>()
-
     init {
         createTripSubject.subscribe {
             //Explicitly ensuring that tripResponses has the latest Trip Response onloaded to it before a Payment-Split is onloaded to paymentSplits (via createTripResponsePaymentSplits)
-            if (it.isExpediaRewardsRedeemable()) {
-                enablePwPToggleOnRedeemableNewTrip.onNext(Unit)
-            }
             tripResponses.onNext(it)
             createTripResponsePaymentSplits.onNext(it.newTripPaymentSplits())
-            paymentSplitsSuggestionUpdates.onNext(it.newTripPaymentSplits())
+            paymentSplitsSuggestionUpdates.onNext(Pair(it.newTripPaymentSplits(), true))
         }
 
         Observable.merge(priceChangeDuringCheckoutSubject, couponChangeSubject).withLatestFrom(pwpOpted, { priceChangeResponse, pwpOpted -> Pair(priceChangeResponse, pwpOpted) }).subscribe {
             //Explicitly ensuring that tripResponses has the latest Trip Response onloaded to it before a Payment-Split is onloaded to paymentSplits (via priceChangeResponsePaymentSplits)
             tripResponses.onNext(it.first)
             priceChangeResponsePaymentSplits.onNext(it.first.paymentSplitsForPriceChange(it.second))
-            paymentSplitsSuggestionUpdates.onNext(it.first.paymentSplitsSuggestions(it.second))
+            paymentSplitsSuggestionUpdates.onNext(Pair(it.first.paymentSplitsSuggestions(it.second), false))
         }
 
         burnAmountAndLatestTripResponse
